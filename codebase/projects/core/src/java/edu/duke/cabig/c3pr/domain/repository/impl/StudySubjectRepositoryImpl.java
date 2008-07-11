@@ -17,15 +17,12 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
@@ -69,10 +66,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     public boolean isEpochAccrualCeilingReached(int epochId) {
         Epoch epoch = epochDao.getById(epochId);
         if (epoch.isReserving()) {
-            ScheduledEpoch scheduledEpoch = new ScheduledNonTreatmentEpoch(true);
+            ScheduledEpoch scheduledEpoch = new ScheduledEpoch(true);
             scheduledEpoch.setEpoch(epoch);
             List<StudySubject> list = studySubjectDao.searchByScheduledEpoch(scheduledEpoch);
-            NonTreatmentEpoch nEpoch = (NonTreatmentEpoch) epoch;
+            Epoch nEpoch =  epoch;
             if (nEpoch.getAccrualCeiling() != null
                             && list.size() >= nEpoch.getAccrualCeiling().intValue()) {
                 return true;
@@ -99,7 +96,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
     private void doBookRandomization(StudySubject studySubject) throws C3PRBaseException {
         ScheduledArm sa = new ScheduledArm();
-        ScheduledTreatmentEpoch ste = (ScheduledTreatmentEpoch) studySubject.getScheduledEpoch();
+        ScheduledEpoch ste = studySubject.getScheduledEpoch();
         if (studySubject.getStudySite().getStudy().getStratificationIndicator()){
 	        	sa.setArm(studySubject.getStratumGroup().getNextArm());
 	        if (sa.getArm() != null) {
@@ -127,7 +124,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
                 throw exceptionHelper.getException(
                                 getCode("C3PR.EXCEPTION.REGISTRATION.RANDOMIZATION.CODE"), e);
             }
-            if (((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch()).getScheduledArm() == null) {
+            if ((studySubject.getScheduledEpoch()).getScheduledArm() == null) {
                 scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
                throw exceptionHelper
                                 .getException(getCode("C3PR.EXCEPTION.REGISTRATION.CANNOT_ASSIGN_ARM.CODE"));
@@ -174,7 +171,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		    }
 		}
 		if (studySubject.getScheduledEpoch().getEpoch().getRequiresArm()) {
-			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject
+			ScheduledEpoch scheduledTreatmentEpoch = studySubject
 					.getScheduledEpoch();
 			if (scheduledTreatmentEpoch.getScheduledArm() == null
 					|| scheduledTreatmentEpoch.getScheduledArm().getArm() == null
@@ -208,16 +205,16 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     @Transient
     public Arm getNextArmForUnstratifiedStudy(StudySubject studySubject) throws C3PRBaseException {
 	  Arm arm = null;
-	  	if (studySubject.getScheduledEpoch() instanceof ScheduledTreatmentEpoch){
-	  		if (((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getTreatmentEpoch().hasBookRandomizationEntry()){
-	  			Iterator<BookRandomizationEntry> iter = ((BookRandomization)((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getTreatmentEpoch().getRandomization()).getBookRandomizationEntry().iterator();
+	  	if (studySubject.getScheduledEpoch() instanceof ScheduledEpoch){
+	  		if ((studySubject.getScheduledEpoch()).getEpoch().hasBookRandomizationEntry()){
+	  			Iterator<BookRandomizationEntry> iter = ((BookRandomization)(studySubject.getScheduledEpoch()).getEpoch().getRandomization()).getBookRandomizationEntry().iterator();
 	  			BookRandomizationEntry breTemp;
 		        
 		        while (iter.hasNext()) {
 		            breTemp = iter.next();
-		            if (breTemp.getPosition().equals(((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getCurrentPosition())) {
+		            if (breTemp.getPosition().equals((studySubject.getScheduledEpoch()).getCurrentPosition())) {
 		                synchronized (this) {
-		                	((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).setCurrentPosition(breTemp.getPosition()+1);
+		                	(studySubject.getScheduledEpoch()).setCurrentPosition(breTemp.getPosition()+1);
 		                    arm = breTemp.getArm();
 		                    break;
 		                }
@@ -304,12 +301,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             studySubject.disapprove(disapprovalReason);
         }else{
             if (studySubject.getScheduledEpoch().getRequiresRandomization()) {
-                if (((ScheduledTreatmentEpoch) referencedStudySubject.getScheduledEpoch()).getScheduledArm() == null) {
+                if ((referencedStudySubject.getScheduledEpoch()).getScheduledArm() == null) {
                     studySubject.disapprove("Registration was approved by co-ordinating center. However no arm was assigned.");
                 }
                 else {
-                    ScheduledArm assignedScheduledArm=((ScheduledTreatmentEpoch)referencedStudySubject.getScheduledEpoch()).getScheduledArm();
-                    ((ScheduledTreatmentEpoch)scheduledEpoch).getScheduledArms().add(0,assignedScheduledArm);
+                    ScheduledArm assignedScheduledArm=(referencedStudySubject.getScheduledEpoch()).getScheduledArm();
+                    (scheduledEpoch).getScheduledArms().add(0,assignedScheduledArm);
                     scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
                 }
             }
