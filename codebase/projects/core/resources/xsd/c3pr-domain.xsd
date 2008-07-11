@@ -24,15 +24,6 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    
-    <!--for import-->
-    <xs:element name="registrations">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="registration" type="Registration" minOccurs="1" maxOccurs="unbounded"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
 
     <xs:element name="eligibilityCriteria" type="EligibilityCriteriaType"/>
     <xs:element name="exclusionCriteria" substitutionGroup="eligibilityCriteria"
