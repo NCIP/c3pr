@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.domain;
+/*package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +48,11 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
     }
 
     @Transient
-    public TreatmentEpoch getTreatmentEpoch() {
-        return (TreatmentEpoch) getEpoch();
+    public Epoch getTreatmentEpoch() {
+        return  getEpoch();
     }
 
-    public void setTreatmentEpoch(TreatmentEpoch treatmentEpoch) {
+    public void setTreatmentEpoch(Epoch treatmentEpoch) {
         setEpoch(treatmentEpoch);
     }
 
@@ -222,3 +222,4 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
 		this.currentPosition = currentPosition;
 	}
 }
+*/

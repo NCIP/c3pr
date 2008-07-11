@@ -88,12 +88,12 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
     public StudySubject() {
         lazyListHelper = new LazyListHelper();
-        lazyListHelper.add(ScheduledTreatmentEpoch.class,
-                        new InstantiateFactory<ScheduledTreatmentEpoch>(
-                                        ScheduledTreatmentEpoch.class));
-        lazyListHelper.add(ScheduledNonTreatmentEpoch.class,
-                        new InstantiateFactory<ScheduledNonTreatmentEpoch>(
-                                        ScheduledNonTreatmentEpoch.class));
+        lazyListHelper.add(ScheduledEpoch.class,
+                        new InstantiateFactory<ScheduledEpoch>(
+                                        ScheduledEpoch.class));
+        lazyListHelper.add(ScheduledEpoch.class,
+                        new InstantiateFactory<ScheduledEpoch>(
+                                        ScheduledEpoch.class));
         this.startDate = new Date();
         this.primaryIdentifier = "SysGen";
         this.regDataEntryStatus = RegistrationDataEntryStatus.INCOMPLETE;
@@ -111,12 +111,12 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     // / BEAN PROPERTIES
     public StudySubject(boolean forExample) {
         lazyListHelper = new LazyListHelper();
-        lazyListHelper.add(ScheduledTreatmentEpoch.class,
-                        new InstantiateFactory<ScheduledTreatmentEpoch>(
-                                        ScheduledTreatmentEpoch.class));
-        lazyListHelper.add(ScheduledNonTreatmentEpoch.class,
-                        new InstantiateFactory<ScheduledNonTreatmentEpoch>(
-                                        ScheduledNonTreatmentEpoch.class));
+        lazyListHelper.add(ScheduledEpoch.class,
+                        new InstantiateFactory<ScheduledEpoch>(
+                                        ScheduledEpoch.class));
+        lazyListHelper.add(ScheduledEpoch.class,
+                        new InstantiateFactory<ScheduledEpoch>(
+                                        ScheduledEpoch.class));
         lazyListHelper.add(OrganizationAssignedIdentifier.class,
                         new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(
                                         OrganizationAssignedIdentifier.class));
@@ -139,28 +139,12 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
     private void setScheduledEpochs(List<ScheduledEpoch> scheduledEpochs) {
         this.scheduledEpochs = scheduledEpochs;
-        lazyListHelper.setInternalList(ScheduledTreatmentEpoch.class,
-                        new ProjectedList<ScheduledTreatmentEpoch>(this.scheduledEpochs,
-                                        ScheduledTreatmentEpoch.class));
-        lazyListHelper.setInternalList(ScheduledNonTreatmentEpoch.class,
-                        new ProjectedList<ScheduledNonTreatmentEpoch>(this.scheduledEpochs,
-                                        ScheduledNonTreatmentEpoch.class));
-    }
-
-    @Transient
-    public List<ScheduledTreatmentEpoch> getScheduledTreatmentEpochs() {
-        return lazyListHelper.getLazyList(ScheduledTreatmentEpoch.class);
-    }
-
-    public void setScheduledTreatmentEpochs(List<ScheduledEpoch> scheduledEpochs) {
-    }
-
-    @Transient
-    public List<ScheduledNonTreatmentEpoch> getScheduledNonTreatmentEpochs() {
-        return lazyListHelper.getLazyList(ScheduledNonTreatmentEpoch.class);
-    }
-
-    public void setScheduledNonTreatmentEpochs(List<ScheduledNonTreatmentEpoch> scheduledEpochs) {
+        lazyListHelper.setInternalList(ScheduledEpoch.class,
+                        new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,
+                                        ScheduledEpoch.class));
+        lazyListHelper.setInternalList(ScheduledEpoch.class,
+                        new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,
+                                        ScheduledEpoch.class));
     }
 
     public void addScheduledEpoch(ScheduledEpoch scheduledEpoch) {
@@ -186,14 +170,6 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
     public void setCurrentScheduledEpoch(ScheduledEpoch scheduledEpoch) {
 
-    }
-
-    @Transient
-    public boolean getIfTreatmentScheduledEpoch() {
-        if (getScheduledEpoch() instanceof ScheduledTreatmentEpoch) {
-            return true;
-        }
-        return false;
     }
 
     @Transient
@@ -449,11 +425,11 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     public StratumGroup getStratumGroup() throws C3PRBaseException {
         StratumGroup stratumGroup = null;
         if (this.stratumGroupNumber != null) {
-            stratumGroup = ((ScheduledTreatmentEpoch) getScheduledEpoch()).getTreatmentEpoch()
+            stratumGroup = ((ScheduledEpoch) getScheduledEpoch()).getEpoch()
                             .getStratumGroupByNumber(this.stratumGroupNumber);
         }
         else {
-            List<SubjectStratificationAnswer> ssaList = ((ScheduledTreatmentEpoch) getScheduledEpoch())
+            List<SubjectStratificationAnswer> ssaList = ((ScheduledEpoch) getScheduledEpoch())
                             .getSubjectStratificationAnswers();
             if (ssaList != null) {
                 Iterator iter = ssaList.iterator();
@@ -462,7 +438,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
                     scacList.add(new StratificationCriterionAnswerCombination(
                                     (SubjectStratificationAnswer) iter.next()));
                 }
-                stratumGroup = ((ScheduledTreatmentEpoch) getScheduledEpoch()).getTreatmentEpoch()
+                stratumGroup = (getScheduledEpoch()).getEpoch()
                                 .getStratumGroupForAnsCombination(scacList);
             }
         }

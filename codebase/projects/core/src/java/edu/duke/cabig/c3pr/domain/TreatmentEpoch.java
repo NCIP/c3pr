@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.domain;
+/*package edu.duke.cabig.c3pr.domain;
 
 import java.util.Iterator;
 import java.util.List;
@@ -85,9 +85,9 @@ public class TreatmentEpoch extends Epoch {
 
     @Override
     @Transient
-    /*
+    
      * settting the retired_indicator for every child object to true
-     */
+     
     public void setRetiredIndicatorAsTrue() {
         // setting the indicator for epoch
         super.setRetiredIndicatorAsTrue();
@@ -320,11 +320,11 @@ public class TreatmentEpoch extends Epoch {
     }
 
     @Transient
-    /*
+    
      * This method iterates thru the stratum groups for the treatmentEpoch and finds the one that
      * has the same stratificationCriAnsCombination as the one passed in and returns it. returns
      * null if no matching stratum group is found
-     */
+     
     public StratumGroup getStratumGroupForAnsCombination(
                     List<StratificationCriterionAnswerCombination> scacList) {
         StratumGroup sg = new StratumGroup();
@@ -344,11 +344,11 @@ public class TreatmentEpoch extends Epoch {
     }
 
     @Transient
-    /*
+    
      * This method iterates thru the stratum groups for the treatmentEpoch and finds the one that
      * has the same stratum group number as the one passed in and returns it. returns null if no
      * matching stratum group is found
-     */
+     
     public StratumGroup getStratumGroupByNumber(Integer number) {
         StratumGroup sg = new StratumGroup();
         for (StratumGroup sgCurr : this.getStratumGroups()) {
@@ -565,4 +565,4 @@ public class TreatmentEpoch extends Epoch {
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
 	}
-}
+}*/

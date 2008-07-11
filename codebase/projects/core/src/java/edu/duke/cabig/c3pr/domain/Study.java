@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -88,8 +89,6 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	private Integer targetAccrualNumber;
 
-	private List<Epoch> epochs;
-
 	private RandomizationType randomizationType;
 
 	private StudyDataEntryStatus dataEntryStatus;
@@ -146,17 +145,6 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 						StudyCoordinatingCenter.class,
 						new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(
 								StudyCoordinatingCenter.class, this));
-
-		lazyListHelper
-				.add(
-						TreatmentEpoch.class,
-						new ParameterizedBiDirectionalInstantiateFactory<TreatmentEpoch>(
-								TreatmentEpoch.class, this));
-		lazyListHelper
-				.add(
-						NonTreatmentEpoch.class,
-						new ParameterizedBiDirectionalInstantiateFactory<NonTreatmentEpoch>(
-								NonTreatmentEpoch.class, this));
 		lazyListHelper.add(SystemAssignedIdentifier.class,
 				new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
 						SystemAssignedIdentifier.class));
@@ -169,9 +157,13 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 				new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
 		lazyListHelper.add(Notification.class,
 				new InstantiateFactory<Notification>(Notification.class));
+		lazyListHelper
+		.add(
+				Epoch.class,
+				new ParameterizedBiDirectionalInstantiateFactory<Epoch>(
+						Epoch.class, this));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
-		setEpochs(new ArrayList<Epoch>());
 		setIdentifiers(new ArrayList<Identifier>());
 
 	}
@@ -192,17 +184,11 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 						StudyCoordinatingCenter.class,
 						new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(
 								StudyCoordinatingCenter.class, this));
-
 		lazyListHelper
-				.add(
-						TreatmentEpoch.class,
-						new ParameterizedBiDirectionalInstantiateFactory<TreatmentEpoch>(
-								TreatmentEpoch.class, this));
-		lazyListHelper
-				.add(
-						NonTreatmentEpoch.class,
-						new ParameterizedBiDirectionalInstantiateFactory<NonTreatmentEpoch>(
-								NonTreatmentEpoch.class, this));
+		.add(
+				Epoch.class,
+				new ParameterizedBiDirectionalInstantiateFactory<Epoch>(
+						Epoch.class, this));
 		lazyListHelper.add(SystemAssignedIdentifier.class,
 				new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
 						SystemAssignedIdentifier.class));
@@ -217,7 +203,6 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 				new InstantiateFactory<Notification>(Notification.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
-		setEpochs(new ArrayList<Epoch>());
 		setIdentifiers(new ArrayList<Identifier>());
 		if (!forSearchByExample) {
 			blindedIndicator = false;
@@ -454,8 +439,17 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("epochOrder")
-	public List<Epoch> getEpochs() {
-		return epochs;
+	public List<Epoch> getEpochsInternal() {
+		return lazyListHelper.getInternalList(Epoch.class);
+	}
+	
+	@Transient
+	public List<Epoch> getEpochs(){
+		return lazyListHelper.getLazyList(Epoch.class);
+	}
+
+	public void setEpochs(List<Epoch> epochs) {
+		setEpochsInternal(epochs);
 	}
 
 	public void addAmendment(final StudyAmendment amendment) {
@@ -525,32 +519,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public void setNotifications(final List<Notification> notifications) {
 	}
 
-	public void setEpochs(List<Epoch> epochs) {
-		this.epochs = epochs;
-		lazyListHelper.setInternalList(TreatmentEpoch.class,
-				new ProjectedList<TreatmentEpoch>(this.epochs,
-						TreatmentEpoch.class));
-		lazyListHelper.setInternalList(NonTreatmentEpoch.class,
-				new ProjectedList<NonTreatmentEpoch>(this.epochs,
-						NonTreatmentEpoch.class));
-	}
-
-	@Transient
-	public List<TreatmentEpoch> getTreatmentEpochs() {
-		return lazyListHelper.getLazyList(TreatmentEpoch.class);
-	}
-
-	public void setTreatmentEpochs(List<TreatmentEpoch> treatmentEpochs) {
-		// do nothing
-	}
-
-	@Transient
-	public List<NonTreatmentEpoch> getNonTreatmentEpochs() {
-		return lazyListHelper.getLazyList(NonTreatmentEpoch.class);
-	}
-
-	public void setNonTreatmentEpochs(List<NonTreatmentEpoch> nonTreatmentEpochs) {
-		// do nothing
+	public void setEpochsInternal(final List<Epoch> epochs) {
+		lazyListHelper.setInternalList(Epoch.class, epochs);
 	}
 
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
@@ -749,71 +719,57 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	@Transient
 	public boolean hasEnrollingNonTreatmentEpoch() {
-
-		if (this.getNonTreatmentEpochs() != null) {
-			NonTreatmentEpoch nonTreatmentEpoch;
-			Iterator<NonTreatmentEpoch> nonTreatmentEpochIter = this
-					.getNonTreatmentEpochs().iterator();
-			while (nonTreatmentEpochIter.hasNext()) {
-				nonTreatmentEpoch = nonTreatmentEpochIter.next();
-				if ((nonTreatmentEpoch.getEnrollmentIndicator() != null)
-						&& (nonTreatmentEpoch.getEnrollmentIndicator()))
+		
+		
+		for(Epoch epoch:this.getEpochs()){
+			
+			if(epoch.getDisplayRole().equalsIgnoreCase("NonTreatment"))
+			{
+				if (epoch.getEnrollmentIndicator())
 					return true;
 			}
+			
+			
 		}
 		return false;
 	}
 
 	@Transient
 	public boolean hasElligibility() {
-
-		if (this.getTreatmentEpochs().size() > 0) {
-			TreatmentEpoch treatmentEpoch;
-			Iterator<TreatmentEpoch> treatmentEpochIter = this
-					.getTreatmentEpochs().iterator();
-			while (treatmentEpochIter.hasNext()) {
-				treatmentEpoch = treatmentEpochIter.next();
-				if (treatmentEpoch.getEligibilityCriteria().size() > 0)
-					return true;
-			}
+		
+		for(Epoch epoch:this.getEpochs()){
+			if(epoch.hasEligibility())
+				return true;
 		}
 		return false;
 	}
 
 	@Transient
 	public boolean hasStratification() {
-
-		if (this.getTreatmentEpochs().size() > 0) {
-			TreatmentEpoch treatmentEpoch;
-			Iterator<TreatmentEpoch> treatmentEpochIter = this
-					.getTreatmentEpochs().iterator();
-			while (treatmentEpochIter.hasNext()) {
-				treatmentEpoch = treatmentEpochIter.next();
-				if (treatmentEpoch.getStratificationCriteria().size() > 0)
-					return true;
-			}
+			
+		for(Epoch epoch:this.getEpochs()){
+			if(epoch.hasStratification())
+				return true;
 		}
 		return false;
 	}
 
 	@Transient
 	public boolean hasRandomizedEpoch() {
-		if (this.getTreatmentEpochs().size() > 0) {
-			TreatmentEpoch treatmentEpoch;
-			Iterator<TreatmentEpoch> treatmentEpochIter = this
-					.getTreatmentEpochs().iterator();
-			while (treatmentEpochIter.hasNext()) {
-				treatmentEpoch = treatmentEpochIter.next();
-				if (treatmentEpoch.getRandomizedIndicator())
-					return true;
-			}
+		for(Epoch epoch:this.getEpochs()){
+			if(epoch.getRandomizedIndicator())
+				return true;
 		}
 		return false;
 	}
 
 	@Transient
 	public boolean hasEnrollingEpoch() {
-		return(this.getTreatmentEpochs().size() > 0 || (this.hasEnrollingNonTreatmentEpoch()));
+		for(Epoch epoch:this.getEpochs()){
+			if(epoch.getEnrollmentIndicator() || epoch.getRandomizedIndicator())
+				return true;
+		}
+		return false;
 	}
 
 	@Transient
@@ -889,17 +845,15 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	}
 
 	@Transient
-	public TreatmentEpoch getTreatmentEpochByName(String name) {
+	public Epoch getEpochByName(String name) {
 		List<Epoch> epochList = getEpochs();
 		Epoch epoch = null;
 		Iterator eIter = epochList.iterator();
 		while (eIter.hasNext()) {
 			epoch = (Epoch) eIter.next();
-			if (epoch instanceof TreatmentEpoch) {
 				if (epoch.getName().equalsIgnoreCase(name)) {
-					return (TreatmentEpoch) epoch;
+					return epoch;
 				}
-			}
 		}
 		return null;
 	}
@@ -996,15 +950,15 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		}
 		
     	if(this.getRandomizedIndicator()||(this.getStratificationIndicator())){
-    		 if (!(this.getTreatmentEpochs().size() > 0)){
+    		 if (!(this.getEpochs().size() > 0)){
     			 throw getC3PRExceptionHelper()
 					.getException(
 							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.TREATMENT_EPOCH.CODE"));
     		 }
     	}
 		
-		if (this.getTreatmentEpochs().size() > 0) {
-			if (!evaluateTreatmentEpochDataEntryStatus())
+		if (this.getEpochs().size() > 0) {
+			if (!evaluateEpochDataEntryStatus())
 				return StudyDataEntryStatus.INCOMPLETE;
 		}
 
@@ -1159,13 +1113,11 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
         }
     }
     
-    public boolean evaluateTreatmentEpochDataEntryStatus()
+    public boolean evaluateEpochDataEntryStatus()
                     throws C3PRCodedException {
-        if (this.getTreatmentEpochs().size() > 0) {
-            for (TreatmentEpoch treatmentEpoch : this.getTreatmentEpochs()) {
-           if (!treatmentEpoch.evaluateStatus())
+            for (Epoch epoch : this.getEpochs()) {
+            	if (!epoch.evaluateStatus())
            return false;
-            }
         }
         return true;
     }

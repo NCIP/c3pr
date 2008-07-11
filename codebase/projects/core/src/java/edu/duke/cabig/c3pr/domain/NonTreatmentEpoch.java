@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.domain;
+/*package edu.duke.cabig.c3pr.domain;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -60,3 +60,4 @@ public class NonTreatmentEpoch extends Epoch {
         return false;
     }
 }
+*/

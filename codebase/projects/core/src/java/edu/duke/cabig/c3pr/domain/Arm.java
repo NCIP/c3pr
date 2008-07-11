@@ -17,7 +17,7 @@ import org.hibernate.annotations.Parameter;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "ARMS_ID_SEQ") })
 public class Arm extends AbstractMutableDeletableDomainObject implements Comparable<Arm> {
 
-    private TreatmentEpoch treatmentEpoch;
+    private Epoch epoch;
 
     private String name;
 
@@ -36,8 +36,8 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
     @Transient
     public String getQualifiedName() {
         StringBuilder sb = new StringBuilder();
-        sb.append(treatmentEpoch.getName());
-        if (treatmentEpoch.isMultipleArms()) {
+        sb.append(epoch.getName());
+        if (epoch.isMultipleArms()) {
             sb.append(": ").append(getName());
         }
         return sb.toString();
@@ -65,12 +65,12 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
     // will work with the bidirectional mapping
     @ManyToOne
     @JoinColumn(name = "eph_id")
-    public TreatmentEpoch getTreatmentEpoch() {
-        return treatmentEpoch;
+    public Epoch getEpoch() {
+        return epoch;
     }
 
-    public void setTreatmentEpoch(TreatmentEpoch epoch) {
-        this.treatmentEpoch = epoch;
+    public void setEpoch(Epoch epoch) {
+        this.epoch = epoch;
     }
 
     public void setTargetAccrualNumber(Integer targetAccrualNumber) {

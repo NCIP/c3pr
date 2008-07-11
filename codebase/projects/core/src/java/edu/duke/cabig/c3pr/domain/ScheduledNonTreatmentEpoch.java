@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.domain;
+/*package edu.duke.cabig.c3pr.domain;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -17,11 +17,11 @@ public class ScheduledNonTreatmentEpoch extends ScheduledEpoch {
     }
 
     @Transient
-    public NonTreatmentEpoch getNonTreatmentEpoch() {
-        return (NonTreatmentEpoch) getEpoch();
+    public Epoch getNonTreatmentEpoch() {
+        return getEpoch();
     }
 
-    public void setNonTreatmentEpoch(NonTreatmentEpoch nonTeatmentEpoch) {
+    public void setNonTreatmentEpoch(Epoch nonTeatmentEpoch) {
         setEpoch(nonTeatmentEpoch);
     }
 
@@ -32,3 +32,4 @@ public class ScheduledNonTreatmentEpoch extends ScheduledEpoch {
     }
 
 }
+*/
