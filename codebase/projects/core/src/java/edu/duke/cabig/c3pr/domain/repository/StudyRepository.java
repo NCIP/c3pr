@@ -8,6 +8,8 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
 
 public interface StudyRepository {
+	
+	int i =0;
 
 	public void buildAndSave(Study study) throws C3PRCodedException;
 	
