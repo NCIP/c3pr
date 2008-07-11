@@ -59,8 +59,8 @@
 <!--BOOK RANDOMIZATION SECTION-->
 <c:if test="${command.randomizationType.name == 'BOOK'}">	
 
-	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
-		<c:if test="${epoch.randomizedIndicator}">
+	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
+		<c:if test="${epoch.randomizedIndicator && epoch.displayRole != 'NonTreatment'}">
 		<div id="book_container_${epochCount.index}" class="test">
 		<chrome:box title="${epoch.name}" id="book_${epochCount.index}" cssClass="paired"> 
 		<br/>
@@ -132,7 +132,7 @@
 
 <!--CALLOUT RANDOMIZATION SECTION-->
 <c:if test="${command.randomizationType.name == 'CALL_OUT'}">
-	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
+	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
 	<c:if test="${epoch.randomizedIndicator}">
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 		<br/>
@@ -140,7 +140,7 @@
              <tr>
                 <td><b>Call-Out URL:</b></td>
 				<td>
-				<form:input path="treatmentEpochs[${epochCount.index}].randomization.calloutUrl" size="30" /> e.g. http://www.callout-url.com
+				<form:input path="epochs[${epochCount.index}].randomization.calloutUrl" size="30" /> e.g. http://www.callout-url.com
 				</td>				
              </tr>
 	     </table>
@@ -153,14 +153,14 @@
 
 <!--PHONECALL RANDOMIZATION SECTION-->
 <c:if test="${command.randomizationType.name == 'PHONE_CALL'}">
-	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
+	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
 	<c:if test="${epoch.randomizedIndicator}">
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 		<br/>
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
              <tr>
                 <td><b>Phone Number:</b></td>
-				<td><form:input path="treatmentEpochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/> e.g. 7035600296 or 703-560-0296
+				<td><form:input path="epochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/> e.g. 7035600296 or 703-560-0296
 				</td>				
              </tr>
 	     </table>

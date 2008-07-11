@@ -195,7 +195,8 @@
             <tr>
                 <td class="alt">${epoch.name}</td>
                 <td>
-                    <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                   <c:if
+                    test="${epoch.displayRole!='NonTreatment'}">
                         <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                             <tr>
                                 <th><b>Name</b></th>
@@ -222,7 +223,8 @@
             <th scope="col" align="left"><b>Permissible Answers</b></th>
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-            <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+           <c:if
+                    test="${epoch.displayRole!='NonTreatment'}">
                 <c:forEach items="${epoch.stratificationCriteria}" var="strat">
                     <tr>
                         <td class="alt">${strat.questionText}</td>
@@ -256,7 +258,8 @@
 
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-            <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+            <c:if
+                    test="${epoch.displayRole!='NonTreatment'}">
                 <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
                     <tr>
                         <td class="alt">${stratGrp.stratumGroupNumber}</td>

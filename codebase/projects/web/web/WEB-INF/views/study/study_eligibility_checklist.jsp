@@ -8,7 +8,7 @@
 
 <html>
 <head>
-    <%--<tags:includeScriptaculous />--%>
+    <%--<tags:includeScriptaculous />
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 
     <title>${tab.longTitle}</title>
@@ -67,13 +67,13 @@
 			<form:form method="post" id="eligibilityForm_${epochCount.index}" enctype="multipart/form-data">	
 			<table border="0" width="50%" id="table0" cellspacing="5">
            		<tr><td width="35%" align="right" class="required-indicator">
-				          <b>Select Treatment Epoch:</b>	
+				          <b>Select Epoch:</b>	
 				     </td>
 				     <td width="65%">		                
 	                    <select name="name" class="validate-notEmpty">
 	                    	<option value="">Please Select</option>
 	                     	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
-		                      	<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+		                      	<c:if test="${epoch.displayRole!='NonTreatment'}">
 							  		<option value="${epoch.name}">${epoch.name}</option>
 							  	</c:if>	
 						 	</c:forEach>
@@ -95,7 +95,7 @@
     <form:form method="post" name="form">
     <tags:tabFields tab="${tab}"/>
     <c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
-        <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
+        <c:if test="${epoch.displayRole != 'NonTreatment' }">
             <script>
                 var instanceInclusionRow_${epochCount.index} = {
                     add_row_division_id: "addInclusionRowTable-${epochCount.index}",

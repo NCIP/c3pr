@@ -92,11 +92,11 @@ document.getElementById("command").submit();
             <th><b>Arms</b>
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
+        <c:if
+                    test="${epoch.displayRole!='NonTreatment'}">
             <tr>
                 <td>${epoch.name}</td>
                 <td>
-                    <c:if
-                            test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
                         <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                             <tr>
                                 <th><b>Name</b></th>
@@ -110,9 +110,10 @@ document.getElementById("command").submit();
                             </tr>
                             </c:forEach>
                         </table>
-                    </c:if>
                 </td>
             </tr>
+            
+            </c:if>
         </c:forEach>
     </table>
 </chrome:division>
@@ -126,7 +127,7 @@ document.getElementById("command").submit();
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
             <c:if
-                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                    test="${epoch.displayRole!='NonTreatment'}">
                 <c:forEach items="${epoch.stratificationCriteria}" var="strat">
                     <tr>
                         <td class="alt">${strat.questionText}</td>
@@ -154,8 +155,8 @@ document.getElementById("command").submit();
 
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-            <c:if
-                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+           <c:if
+                    test="${epoch.displayRole!='NonTreatment'}">
                 <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
                     <tr>
                         <td class="alt">${stratGrp.stratumGroupNumber}</td>
