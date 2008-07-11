@@ -12,7 +12,6 @@ import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
@@ -50,18 +49,18 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C> {
         map.put("requiresArm", new Boolean(false));
         map.put("acrrualCeilingReached", new Boolean(studySubjectRepository
                         .isEpochAccrualCeilingReached(id)));
-        if (epoch instanceof TreatmentEpoch) {
+        if (epoch.getDisplayRole().equalsIgnoreCase("treatment")) {
             map.put("epochType", "Treatment");
-            if (((TreatmentEpoch) epoch).getEligibilityCriteria().size() > 0) {
+            if (epoch.getEligibilityCriteria().size() > 0) {
                 map.put("requiresEligibility", new Boolean(true));
             }
-            if (((TreatmentEpoch) epoch).getStratificationCriteria().size() > 0) {
+            if (epoch.getStratificationCriteria().size() > 0) {
                 map.put("requiresStratification", new Boolean(true));
             }
-            if (epoch.getRequiresRandomization()) {
+            if (epoch.getRandomizedIndicator()) {
                 map.put("requiresRandomization", new Boolean(true));
             }
-            if (((TreatmentEpoch) epoch).getArms().size() > 0) {
+            if (epoch.getArms().size() > 0) {
                 map.put("requiresArm", new Boolean(true));
             }
         }

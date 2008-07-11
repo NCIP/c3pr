@@ -18,14 +18,11 @@ import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.Lov;
 
@@ -86,12 +83,12 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
                 ScheduledEpoch scheduledEpoch;
                 Integer id = Integer.parseInt(request.getParameter("epoch"));
                 Epoch epoch = epochDao.getById(id);
-                if (epoch instanceof TreatmentEpoch) {
-                    ((TreatmentEpoch) epoch).getArms().size();
-                    scheduledEpoch = new ScheduledTreatmentEpoch();
+                if (epoch.getDisplayRole().equalsIgnoreCase("treatment")) {
+                    (epoch).getArms().size();
+                    scheduledEpoch = new ScheduledEpoch();
                 }
                 else {
-                    scheduledEpoch = new ScheduledNonTreatmentEpoch();
+                    scheduledEpoch = new ScheduledEpoch();
                 }
                 scheduledEpoch.setEpoch(epoch);
                 command.addScheduledEpoch(scheduledEpoch);
@@ -121,12 +118,12 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
         }
         Epoch epoch = epochDao.getById(id);
         ScheduledEpoch scheduledEpoch;
-        if (epoch instanceof TreatmentEpoch) {
-            ((TreatmentEpoch) epoch).getArms().size();
-            scheduledEpoch = new ScheduledTreatmentEpoch();
+        if (epoch.getDisplayRole().equalsIgnoreCase("treatment")) {
+            (epoch).getArms().size();
+            scheduledEpoch = new ScheduledEpoch();
         }
         else {
-            scheduledEpoch = new ScheduledNonTreatmentEpoch();
+            scheduledEpoch = new ScheduledEpoch();
         }
         scheduledEpoch.setEpoch(epoch);
         if (command.getScheduledEpochs().size() == 0) command.getScheduledEpochs().add(0,
@@ -138,37 +135,37 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
     }
 
     private void buildCommandObject(StudySubject studySubject) {
-        if (studySubject.getIfTreatmentScheduledEpoch()) {
-            ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject
+        if (studySubject.getScheduledEpoch()!=null) {
+            ScheduledEpoch scheduledEpoch = studySubject
                             .getScheduledEpoch();
-            List criterias = scheduledTreatmentEpoch.getTreatmentEpoch()
+            List criterias = scheduledEpoch.getEpoch()
                             .getInclusionEligibilityCriteria();
             for (int i = 0; i < criterias.size(); i++) {
                 SubjectEligibilityAnswer subjectEligibilityAnswer = new SubjectEligibilityAnswer();
                 subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria) criterias
                                 .get(i));
-                scheduledTreatmentEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+                scheduledEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
             }
-            criterias = scheduledTreatmentEpoch.getTreatmentEpoch()
+            criterias = scheduledEpoch.getEpoch()
                             .getExclusionEligibilityCriteria();
             for (int i = 0; i < criterias.size(); i++) {
                 SubjectEligibilityAnswer subjectEligibilityAnswer = new SubjectEligibilityAnswer();
                 subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria) criterias
                                 .get(i));
-                scheduledTreatmentEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+                scheduledEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
             }
-            List<StratificationCriterion> stratifications = scheduledTreatmentEpoch
-                            .getTreatmentEpoch().getStratificationCriteria();
+            List<StratificationCriterion> stratifications = scheduledEpoch
+                            .getEpoch().getStratificationCriteria();
             for (StratificationCriterion stratificationCriterion : stratifications) {
                 stratificationCriterion.getPermissibleAnswers().size();
                 SubjectStratificationAnswer subjectStratificationAnswer = new SubjectStratificationAnswer();
                 subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
-                scheduledTreatmentEpoch
+                scheduledEpoch
                                 .addSubjectStratificationAnswers(subjectStratificationAnswer);
             }
-            scheduledTreatmentEpoch.getScheduledArms().size();
-            scheduledTreatmentEpoch.getTreatmentEpoch().getStratumGroups().size();
-            Iterator<StratumGroup> iter = scheduledTreatmentEpoch.getTreatmentEpoch()
+            scheduledEpoch.getScheduledArms().size();
+            scheduledEpoch.getEpoch().getStratumGroups().size();
+            Iterator<StratumGroup> iter = scheduledEpoch.getEpoch()
                             .getStratumGroups().iterator();
             while (iter.hasNext()) {
                 StratumGroup stratumGroup = iter.next();

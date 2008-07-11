@@ -12,7 +12,7 @@ import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
@@ -46,12 +46,12 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         String actionLabel = "";
         String armAssigned = "";
         String armAssignedLabel = "";
-        if (studySubject.getIfTreatmentScheduledEpoch()
-                        && ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch())
+        if (studySubject.getScheduledEpoch()!=null
+                        && (studySubject.getScheduledEpoch())
                                         .getScheduledArm() != null
-                        && ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch())
+                        && (studySubject.getScheduledEpoch())
                                         .getScheduledArm().getArm() != null) {
-            armAssigned = ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch())
+            armAssigned = (studySubject.getScheduledEpoch())
                             .getScheduledArm().getArm().getName();
             armAssignedLabel = "Arm Assigned";
         }

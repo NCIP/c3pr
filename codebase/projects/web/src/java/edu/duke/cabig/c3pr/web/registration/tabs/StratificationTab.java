@@ -6,10 +6,9 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 
 /**
@@ -31,7 +30,7 @@ public class StratificationTab extends RegistrationTab<StudySubject> {
     public Map<String, Object> referenceData(StudySubject command) {
         Map ref = new HashMap();
         boolean requiresStratification = false;
-        if (command.getIfTreatmentScheduledEpoch()) if (((TreatmentEpoch) command
+        if (command.getScheduledEpoch()!=null) if ((command
                         .getScheduledEpoch().getEpoch()).getStratificationCriteria().size() > 0) requiresStratification = true;
         ref.put("requiresStratification", requiresStratification);
         return ref;
@@ -40,8 +39,8 @@ public class StratificationTab extends RegistrationTab<StudySubject> {
     @Override
     public void validate(StudySubject ss, Errors errors) {
         super.validate(ss, errors);
-        if (ss.getIfTreatmentScheduledEpoch()) {
-            ScheduledTreatmentEpoch ste = (ScheduledTreatmentEpoch) ss.getScheduledEpoch();
+        if (ss.getScheduledEpoch()!=null) {
+            ScheduledEpoch ste = ss.getScheduledEpoch();
             if (ste.getSubjectStratificationAnswers().size() > 0) {
                 // ensuring an answer has been selected for every qs before calling getGroups.
                 for (SubjectStratificationAnswer ssa : ste.getSubjectStratificationAnswers()) {
