@@ -23,11 +23,11 @@ import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 public class BookRandomizationAjaxFacade {
@@ -75,13 +75,13 @@ public class BookRandomizationAjaxFacade {
             }
         }
         TableModel model = new TableModelImpl(context);
-        TreatmentEpoch tEpoch = null;
+        Epoch tEpoch = null;
         if (study != null && study.getRandomizationType() != null
                         && study.getRandomizationType().equals(RandomizationType.BOOK)) {
             String bookRandomizations;
             int selectedEpoch = StringUtils.getBlankIfNull(epochIndexString).equals("") ? -1
                             : Integer.parseInt(epochIndexString);
-            tEpoch = study.getTreatmentEpochs().get(selectedEpoch);
+            tEpoch = study.getEpochs().get(selectedEpoch);
             bookRandomizations = StringUtils.getBlankIfNull(content);
             if (!StringUtils.isEmpty(bookRandomizations)) {
                 if (tEpoch != null) {
@@ -178,7 +178,7 @@ public class BookRandomizationAjaxFacade {
      * randomization and populated the domain object with the corresponding data. the format is
      * "Stratum Group, Position, Arm Assignment" e.g: 0, 0, A 0, 1, C 1, 0, A 2, 1, B
      */
-    private void parseBookRandomization(String bookRandomizations, TreatmentEpoch tEpoch)
+    private void parseBookRandomization(String bookRandomizations, Epoch tEpoch)
                     throws Exception {
 
         try {
@@ -249,7 +249,7 @@ public class BookRandomizationAjaxFacade {
         }
     }
     
-    private void parseBookRandomizationWithoutStratification(String bookRandomizations, TreatmentEpoch tEpoch)
+    private void parseBookRandomizationWithoutStratification(String bookRandomizations, Epoch tEpoch)
     throws Exception {
 
 		try {
@@ -324,7 +324,7 @@ public class BookRandomizationAjaxFacade {
      * Takes the treatementEpoch and arm.name and returns the arm (from that epoch)which has that
      * name. returns null if no arm is found
      */
-    public Arm getArmByName(TreatmentEpoch tEpoch, String armName) {
+    public Arm getArmByName(Epoch tEpoch, String armName) {
         Arm selectedArm = null;
         if (tEpoch != null) {
             List<Arm> armList = tEpoch.getArms();
@@ -341,7 +341,7 @@ public class BookRandomizationAjaxFacade {
      * Takes the treatementEpoch and groupNumber and returns the Stratum Group(from that epoch)which
      * has that group number. returns null if no Group is found
      */
-    public StratumGroup getStratumGroupByNumber(TreatmentEpoch tEpoch, String sgPos) {
+    public StratumGroup getStratumGroupByNumber(Epoch tEpoch, String sgPos) {
         StratumGroup selectedStratumGroup = new StratumGroup();
         // returning a negetive group number if entered num is illegal(e.g: a, & etc) or
         // invalid(1008 etc)
