@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
@@ -14,8 +15,6 @@ import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -87,7 +86,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         study.setMultiInstitutionIndicator(Boolean.TRUE);
         site.setStudy(study);
         studySubject.setStudySite(site);
-        studySubject.addScheduledEpoch(new ScheduledNonTreatmentEpoch());
+        studySubject.addScheduledEpoch(new ScheduledEpoch());
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
                         ScheduledEpochDataEntryStatus.INCOMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
@@ -107,7 +106,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
      */
     public void testRegisterCase1() throws Exception {
         
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
                         ScheduledEpochDataEntryStatus.COMPLETE);
@@ -133,7 +132,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         study.setMultiInstitutionIndicator(Boolean.FALSE);
         site.setStudy(study);
         studySubject.setStudySite(site);
-        studySubject.addScheduledEpoch(new ScheduledNonTreatmentEpoch());
+        studySubject.addScheduledEpoch(new ScheduledEpoch());
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
                         ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
@@ -169,7 +168,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         study.setMultiInstitutionIndicator(Boolean.TRUE);
         site.setStudy(study);
         studySubject.setStudySite(site);
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
@@ -211,7 +210,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         study.setMultiInstitutionIndicator(Boolean.TRUE);
         site.setStudy(study);
         studySubject.setStudySite(site);
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
@@ -243,7 +242,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         study.setMultiInstitutionIndicator(Boolean.FALSE);
         site.setStudy(study);
         studySubject.setStudySite(site);
-        studySubject.addScheduledEpoch(new ScheduledNonTreatmentEpoch());
+        studySubject.addScheduledEpoch(new ScheduledEpoch());
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
                         ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
@@ -259,7 +258,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
     
     public void testProcessAffiliateSiteRequestRegDataEntryIncomplete() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(false, false, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         EasyMock.expect(studySubjectFactory.buildStudySubject(studySubject)).andReturn(studySubject);
         jmsAffiliateSiteBroadcaster.broadcast("Some xml");
         EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.REGISTRATION.DATA_ENTRY_INCOMPLETE.CODE", null, null)).andReturn("1");
@@ -275,9 +274,12 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
     
     public void testProcessAffiliateSiteRequestSchDataEntryIncomplete() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(false, false, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubjectCreatorHelper.addEnrollmentDetails(studySubject);
-        studySubject.addScheduledEpoch(new ScheduledTreatmentEpoch());
+        Epoch epoch = new Epoch();
+        ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+        scheduledEpoch.setEpoch(epoch);
+        studySubject.addScheduledEpoch(scheduledEpoch);
         EasyMock.expect(studySubjectFactory.buildStudySubject(studySubject)).andReturn(studySubject);
         jmsAffiliateSiteBroadcaster.broadcast("Some xml");
         EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE", null, null)).andReturn("1");
@@ -293,7 +295,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
     
     public void testProcessAffiliateSiteRequestPhoneRandomization() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.PHONE_CALL, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
@@ -310,7 +312,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
     
     public void testProcessAffiliateSiteRequestBookRandomization() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.BOOK, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
@@ -320,7 +322,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         StudySubject studySubject1=new StudySubject();
         studySubject1.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.BOOK, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject1);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject1);
         studySubject1.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject1.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject1.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);

@@ -10,9 +10,9 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
@@ -70,7 +70,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         persistedStudySubjectCreator.forceAssignArm(studySubject);
@@ -95,12 +95,10 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 1, loaded
-                            .getScheduledTreatmentEpochs().size());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded
-                            .getScheduledNonTreatmentEpochs().size());
-            assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded
-                            .getIfTreatmentScheduledEpoch());
-            ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) loaded
+                            .getScheduledEpochs().size());
+            ScheduledEpoch scheduledTreatmentEpoch = loaded
                             .getScheduledEpoch();
             assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch
                             .getEligibilityIndicator().booleanValue());
@@ -125,7 +123,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
@@ -162,7 +160,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator.getMultiSiteNonRandomizedStudySubject(false, false, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         String xml = xmlUtility.toXML(studySubject);
@@ -189,11 +187,9 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 0, loaded
-                            .getScheduledTreatmentEpochs().size());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded
-                            .getScheduledNonTreatmentEpochs().size());
-            assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", false, loaded
-                            .getIfTreatmentScheduledEpoch());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong registration data entry status",
                             RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
@@ -214,7 +210,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         persistedStudySubjectCreator.forceAssignArm(studySubject);
@@ -241,12 +237,10 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 1, loaded
-                            .getScheduledTreatmentEpochs().size());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded
-                            .getScheduledNonTreatmentEpochs().size());
-            assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded
-                            .getIfTreatmentScheduledEpoch());
-            ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) loaded
+                            .getScheduledEpochs().size());
+            ScheduledEpoch scheduledTreatmentEpoch = loaded
                             .getScheduledEpoch();
             assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch
                             .getEligibilityIndicator().booleanValue());
@@ -269,12 +263,12 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Arm arm=new Arm();
         arm.setName("Not matching");
-        ((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm().setArm(arm);
+        (studySubject.getScheduledEpoch()).getScheduledArm().setArm(arm);
         String xml = xmlUtility.toXML(studySubject);
         try {
             studySubjectXMLImporterService.importStudySubject(xml);
@@ -304,7 +298,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(true, false, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         String xml = xmlUtility.toXML(studySubject);
@@ -330,11 +324,9 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 0, loaded
-                            .getScheduledTreatmentEpochs().size());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded
-                            .getScheduledNonTreatmentEpochs().size());
-            assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", false, loaded
-                            .getIfTreatmentScheduledEpoch());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong registration data entry status",
                             RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
@@ -355,7 +347,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, true, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer savedId;
@@ -381,11 +373,9 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 0, loaded
-                            .getScheduledTreatmentEpochs().size());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded
-                            .getScheduledNonTreatmentEpochs().size());
-            assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", false, loaded
-                            .getIfTreatmentScheduledEpoch());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong registration data entry status",
                             RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
@@ -407,7 +397,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, false, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer savedId;
@@ -433,11 +423,9 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 0, loaded
-                            .getScheduledTreatmentEpochs().size());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded
-                            .getScheduledNonTreatmentEpochs().size());
-            assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", false, loaded
-                            .getIfTreatmentScheduledEpoch());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong registration data entry status",
                             RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
@@ -459,7 +447,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, true);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         persistedStudySubjectCreator.forceAssignArm(studySubject);
@@ -486,12 +474,10 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 1, loaded
-                            .getScheduledTreatmentEpochs().size());
+                            .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded
-                            .getScheduledNonTreatmentEpochs().size());
-            assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded
-                            .getIfTreatmentScheduledEpoch());
-            ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) loaded
+                            .getScheduledEpochs().size());
+            ScheduledEpoch scheduledTreatmentEpoch = loaded
                             .getScheduledEpoch();
             assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch
                             .getEligibilityIndicator().booleanValue());

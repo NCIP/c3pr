@@ -37,7 +37,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
      */
     public void testRegisterIncompleteDataEntry() throws Exception {
         studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
@@ -52,7 +52,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
   //---------------------Local study Registration Tests-----------------------------
     public void testRegisterLocalRegistrationNonRandomizedNonTreatmentReservingStudy() throws Exception{
         studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(true, false, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
@@ -65,7 +65,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationNonRandomizedNonTreatmentEnrollingStudy() throws Exception{
         studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, true, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
@@ -78,7 +78,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationNonRandomizedNonTreatmentStudy() throws Exception{
         studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, false, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
@@ -91,7 +91,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationNonRandomizedTreatmentStudyWithArm() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
@@ -105,7 +105,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationNonRandomizedTreatmentStudyWithArmNotAssignd() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
@@ -121,7 +121,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationNonRandomizedTreatmentStudyWithoutArm() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithoutArmStudySubject(false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
@@ -135,7 +135,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationRandomizedStudyArmNotAssigned() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
@@ -154,7 +154,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationRandomizedStudyArmAssignedPhoneCall() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
@@ -168,7 +168,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationRandomizedStudyBookStratumGroupAbsent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
@@ -187,7 +187,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationRandomizedStudyBookStratumGroupPresent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
@@ -201,7 +201,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
     public void testRegisterLocalRegistrationRandomizedStudyBookStratumGroupNumberPresent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         studySubject.setStratumGroupNumber(0);
@@ -219,7 +219,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterMultiSiteRegistrationNonRandomizedNonTreatmentStudy() throws Exception{
         studySubjectService.setHostedMode(false);
         studySubject = persistedStudySubjectCreator.getMultiSiteNonRandomizedStudySubject(false, true, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
@@ -233,7 +233,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterMultiSitestrationNonRandomizedTreatmentStudyWithArm() throws Exception{
         studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteNonRandomizedWithArmStudySubject(false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
@@ -248,7 +248,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterMultiSiteRegistrationRandomizedStudyArmNotAssigned() throws Exception{
         studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
@@ -265,7 +265,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterMultiSiteRegistrationRandomizedStudyArmAssignedPhoneCall() throws Exception{
         studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         studySubjectDao.save(studySubject);
@@ -281,7 +281,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterMultiSiteRegistrationRandomizedStudyBookStratumGroupAbsent() throws Exception{
         studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
@@ -298,7 +298,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterMultiSiteRegistrationRandomizedStudyBookStratumGroupPresent() throws Exception{
         studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
@@ -313,7 +313,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterMultiSiteRegistrationRandomizedStudyBookStratumGroupNumberPresent() throws Exception{
         studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         studySubject.setStratumGroupNumber(0);
@@ -331,7 +331,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
         Configuration configuration=EasyMock.createMock(Configuration.class);
         ((StudySubjectServiceImpl)studySubjectService).setConfiguration(configuration);
         studySubject = persistedStudySubjectCreator.getMultiSiteNonRandomizedStudySubject(false, true, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("DUKE NCI");
         EasyMock.expect(configuration.get(Configuration.ESB_ENABLE)).andReturn("false");
