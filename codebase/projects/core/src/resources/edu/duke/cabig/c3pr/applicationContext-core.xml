@@ -74,8 +74,6 @@
             <list>
                 <value>edu.duke.cabig.c3pr.domain.Study</value>
                 <value>edu.duke.cabig.c3pr.domain.Epoch</value>
-                <value>edu.duke.cabig.c3pr.domain.NonTreatmentEpoch</value>
-                <value>edu.duke.cabig.c3pr.domain.TreatmentEpoch</value>
                 <value>edu.duke.cabig.c3pr.domain.Arm</value>
                 <value>edu.duke.cabig.c3pr.domain.StudySite</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter</value>
@@ -109,8 +107,6 @@
                 <value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>
                 <value>edu.duke.cabig.c3pr.domain.ContactMechanism</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledEpoch</value>
-                <value>edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch</value>
-                <value>edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch</value>
                 <value>edu.duke.cabig.c3pr.domain.StratumGroup</value>
                 <value>edu.duke.cabig.c3pr.domain.BookRandomizationEntry</value>
                 <value>edu.duke.cabig.c3pr.domain.Randomization</value>
@@ -209,6 +205,7 @@
     										
 
     <!-- auditing beans definition end here -->
+
     <bean id="gridIdentifierInterceptor" class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
           autowire="byName"/>
           
