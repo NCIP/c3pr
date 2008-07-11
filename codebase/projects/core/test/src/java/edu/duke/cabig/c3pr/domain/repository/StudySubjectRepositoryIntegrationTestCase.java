@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.domain.repository;
 import java.util.Date;
 
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -46,7 +45,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     public void testIsEpochAccrualCeilingReachedNonReserving(){
         studySubject=persistedStudySubjectCreator.getPersistedLocalNonRandomizedStudySubject(false, true, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubjectDao.save(studySubject);
         interruptSession();
         assertEquals("Wrong accrual ceiling reached indicator", false, studySubjectRepository.isEpochAccrualCeilingReached(studySubject.getScheduledEpoch().getEpoch().getId()));
@@ -60,8 +59,8 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
      */
     public void testIsEpochAccrualCeilingReachedReservingCase0(){
         studySubject=persistedStudySubjectCreator.getPersistedLocalNonRandomizedStudySubject(true, true, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        ((NonTreatmentEpoch)studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(1);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
+        (studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(1);
         studySubjectDao.save(studySubject);
         interruptSession();
         assertEquals("Wrong accrual ceiling reached indicator", true, studySubjectRepository.isEpochAccrualCeilingReached(studySubject.getScheduledEpoch().getEpoch().getId()));
@@ -74,8 +73,8 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
      */
     public void testIsEpochAccrualCeilingReachedReservingCase1(){
         studySubject=persistedStudySubjectCreator.getPersistedLocalNonRandomizedStudySubject(true, true, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        ((NonTreatmentEpoch)studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(22);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
+        (studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(22);
         studySubjectDao.save(studySubject);
         interruptSession();
         assertEquals("Wrong accrual ceiling reached indicator", false, studySubjectRepository.isEpochAccrualCeilingReached(studySubject.getScheduledEpoch().getEpoch().getId()));
@@ -96,7 +95,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         studySubject=new StudySubject();
         studySubject.setStudySite(persistedStudySubjectCreator.getLocalNonRandomizedStudySite(false, true, false));
         persistedStudySubjectCreator.prepareToPersistNewStudySubject(studySubject);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         Integer id=studySubjectRepository.save(studySubject).getId();
@@ -108,7 +107,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     public void testDoLocalRegistrationNonRandomizedNonTreatmentStudy() throws Exception{
         studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(true, true, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         studySubjectRepository.doLocalRegistration(studySubject);
@@ -117,7 +116,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     public void testDoLocalRegistrationNonRandomizedTreatmentStudyWithArm() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         persistedStudySubjectCreator.buildCommandObject(studySubject);
@@ -130,7 +129,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     public void testDoLocalRegistrationRandomizedStudyArmNotAssigned() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         persistedStudySubjectCreator.buildCommandObject(studySubject);
@@ -150,7 +149,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     public void testDoLocalRegistrationRandomizedStudyArmAssignedPhoneCall() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         persistedStudySubjectCreator.buildCommandObject(studySubject);
@@ -171,7 +170,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     public void testDoLocalRegistrationRandomizedStudyBookStratumGroupAbsent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         persistedStudySubjectCreator.buildCommandObject(studySubject);
@@ -191,7 +190,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     public void testDoLocalRegistrationRandomizedStudyBookStratumGroupPresent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         persistedStudySubjectCreator.buildCommandObject(studySubject);
@@ -210,7 +209,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     public void testDoLocalRegistrationRandomizedStudyBookStratumGroupNumberPresent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         persistedStudySubjectCreator.buildCommandObject(studySubject);

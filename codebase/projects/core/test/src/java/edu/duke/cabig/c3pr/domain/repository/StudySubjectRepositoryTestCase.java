@@ -15,8 +15,8 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
@@ -25,14 +25,12 @@ import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -118,7 +116,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testIsEpochAccrualCeilingReachedNonReserving(){
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(false, true, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().getEpoch().setId(1);
         EasyMock.expect(epochDao.getById(1)).andReturn(studySubject.getScheduledEpoch().getEpoch());
         replayMocks();
@@ -128,53 +126,53 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     
     /**
-     * Non Treatment Reserving Epoch
+     * Non Reserving Epoch
      * Accrual count 22
      * registrations 0
      */
     public void testIsEpochAccrualCeilingReachedReservingCase0(){
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(true, true, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().getEpoch().setId(1);
-        ((NonTreatmentEpoch)studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(22);
+        (studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(22);
         EasyMock.expect(epochDao.getById(1)).andReturn(studySubject.getScheduledEpoch().getEpoch());
-        EasyMock.expect(studySubjectDao.searchByScheduledEpoch(EasyMock.isA(ScheduledNonTreatmentEpoch.class))).andReturn(new ArrayList<StudySubject>());
+        EasyMock.expect(studySubjectDao.searchByScheduledEpoch(EasyMock.isA(ScheduledEpoch.class))).andReturn(new ArrayList<StudySubject>());
         replayMocks();
         assertEquals("Wrong accrual ceiling reached indicator", false, studySubjectRepository.isEpochAccrualCeilingReached(1));
         verifyMocks();
     }
     
     /**
-     * Non Treatment Reserving Epoch
+     * Reserving Epoch
      * Accrual count 22
      * registrations 22
      */
     public void testIsEpochAccrualCeilingReachedReservingCase1(){
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(true, true, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().getEpoch().setId(1);
-        ((NonTreatmentEpoch)studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(22);
+        (studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(22);
         StudySubject[] subs=new StudySubject[22];
         EasyMock.expect(epochDao.getById(1)).andReturn(studySubject.getScheduledEpoch().getEpoch());
-        EasyMock.expect(studySubjectDao.searchByScheduledEpoch(EasyMock.isA(ScheduledNonTreatmentEpoch.class))).andReturn(Arrays.asList(subs));
+        EasyMock.expect(studySubjectDao.searchByScheduledEpoch(EasyMock.isA(ScheduledEpoch.class))).andReturn(Arrays.asList(subs));
         replayMocks();
         assertEquals("Wrong accrual ceiling reached indicator", true, studySubjectRepository.isEpochAccrualCeilingReached(1));
         verifyMocks();
     }
     
     /**
-     * Non Treatment Reserving Epoch
+     * Reserving Epoch
      * Accrual count 22
      * registrations >22
      */
     public void testIsEpochAccrualCeilingReachedReservingCase2(){
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(true, true, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().getEpoch().setId(1);
-        ((NonTreatmentEpoch)studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(22);
+        (studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(22);
         StudySubject[] subs=new StudySubject[40];
         EasyMock.expect(epochDao.getById(1)).andReturn(studySubject.getScheduledEpoch().getEpoch());
-        EasyMock.expect(studySubjectDao.searchByScheduledEpoch(EasyMock.isA(ScheduledNonTreatmentEpoch.class))).andReturn(Arrays.asList(subs));
+        EasyMock.expect(studySubjectDao.searchByScheduledEpoch(EasyMock.isA(ScheduledEpoch.class))).andReturn(Arrays.asList(subs));
         replayMocks();
         assertEquals("Wrong accrual ceiling reached indicator", true, studySubjectRepository.isEpochAccrualCeilingReached(1));
         verifyMocks();
@@ -182,7 +180,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     
     public void testSaveWithID() throws Exception{
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
@@ -198,7 +196,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     }
     
     public void testSaveWithoutID() throws Exception{
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
@@ -215,7 +213,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     public void testDoLocalRegistrationDataIncompleteCase0() throws Exception{
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.INCOMPLETE);
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(true, true, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
         replayMocks();
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.UNAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -225,7 +223,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     public void testDoLocalRegistrationDataIncompleteCase1() throws Exception{
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.INCOMPLETE);
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(true, true, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         replayMocks();
         studySubjectRepository.doLocalRegistration(studySubject);
@@ -235,11 +233,12 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testDoLocalRegistrationNonRndomizedNonTreatmentStudy() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(true, true, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
+        studySubject.getScheduledEpoch().setEligibilityIndicator(true);
         studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.doLocalRegistration(studySubject);
@@ -249,7 +248,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testDoLocalRegistrationNonRndomizedTreatmentStudyWithArm() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
@@ -258,7 +257,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectCreatorHelper.bindStratification(studySubject);
         ScheduledArm scheduledArm = new ScheduledArm();
         scheduledArm.setArm(new Arm());
-        ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch()).addScheduledArm(scheduledArm);
+        ((ScheduledEpoch) studySubject.getScheduledEpoch()).addScheduledArm(scheduledArm);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubjectDao.save(studySubject);
         replayMocks();
@@ -269,7 +268,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testDoLocalRegistrationRndomizedStudyArmNotAssigned() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.PHONE_CALL, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
@@ -296,7 +295,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testDoLocalRegistrationRndomizedStudyArmAssignedPhoneCall() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.PHONE_CALL, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
@@ -322,7 +321,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testDoLocalRegistrationRndomizedStudyBookStratumGroupAbsent() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.BOOK, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
@@ -349,7 +348,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testDoLocalRegistrationRndomizedStudyBookStratumGroupPresent() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.BOOK, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
@@ -375,7 +374,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testDoLocalRegistrationRndomizedStudyBookStratumGroupNumberPresent() throws Exception{
         studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.BOOK, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
@@ -404,7 +403,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     	StudySubject deserializedStudySubject = new StudySubject();    	
     	deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
     	deserializedStudySubject.setParticipant(buildParticipant());
-    	deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+    	deserializedStudySubject.getScheduledEpochs().add(buildScheduledEpoch());
     	deserializedStudySubject.setInformedConsentSignedDate(new Date());
     	deserializedStudySubject.setInformedConsentVersion("ver-001");
     	deserializedStudySubject.setStratumGroupNumber(10);
@@ -431,7 +430,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     	StudySubject deserializedStudySubject = new StudySubject();    	
     	deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
     	deserializedStudySubject.setParticipant(buildParticipant());
-    	deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+    	deserializedStudySubject.getScheduledEpochs().add(buildScheduledEpoch());
     	deserializedStudySubject.setInformedConsentSignedDate(new Date());
     	deserializedStudySubject.setInformedConsentVersion("ver-001");
     	deserializedStudySubject.setStratumGroupNumber(11);
@@ -456,7 +455,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         StudySubject deserializedStudySubject = new StudySubject();     
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
         deserializedStudySubject.setParticipant(buildParticipant());
-        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledEpoch());
         System.out.println("Calling...");
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
@@ -480,7 +479,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
-        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledEpoch());
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
@@ -507,7 +506,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
-        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledEpoch());
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
@@ -537,7 +536,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
-        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledEpoch());
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andThrow(new C3PRCodedException(0,"Error"));
         } catch(C3PRCodedException cce){
@@ -560,7 +559,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
-        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledEpoch());
         deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
@@ -587,14 +586,14 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testUpdateLocalRegistrationUnapprovedSchEpoch() {
         StudySubject deserializedStudySubject = new StudySubject();
-        deserializedStudySubject.addScheduledEpoch(new ScheduledTreatmentEpoch());
+        deserializedStudySubject.addScheduledEpoch(new ScheduledEpoch());
         deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
         studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
         studySubject.setParticipant(buildParticipant());
         studySubject.getParticipant().setId(0);
-        studySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        studySubject.getScheduledEpochs().add(buildScheduledEpoch());
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
@@ -618,7 +617,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testUpdateLocalRegistrationUnapprovedSchEpochErrorProvided() {
         StudySubject deserializedStudySubject = new StudySubject();
-        deserializedStudySubject.addScheduledEpoch(new ScheduledTreatmentEpoch());
+        deserializedStudySubject.addScheduledEpoch(new ScheduledEpoch());
         deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
@@ -626,7 +625,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
         studySubject.setParticipant(buildParticipant());
         studySubject.getParticipant().setId(0);
-        studySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        studySubject.getScheduledEpochs().add(buildScheduledEpoch());
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
@@ -650,14 +649,14 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     public void testUpdateLocalRegistrationUnapprovedSchEpochErrorNotProvided() {
         StudySubject deserializedStudySubject = new StudySubject();
-        deserializedStudySubject.addScheduledEpoch(new ScheduledTreatmentEpoch());
+        deserializedStudySubject.addScheduledEpoch(new ScheduledEpoch());
         deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
         studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
         studySubject.setParticipant(buildParticipant());
         studySubject.getParticipant().setId(0);
-        studySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        studySubject.getScheduledEpochs().add(buildScheduledEpoch());
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
@@ -682,14 +681,14 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     public void testUpdateLocalRegistrationApprovedRandomizedArmNotProvided() throws Exception{
         StudySubject deserializedStudySubject = new StudySubject();
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.BOOK, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(deserializedStudySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(deserializedStudySubject);
         deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
         studySubject.setParticipant(buildParticipant());
         studySubject.getParticipant().setId(0);
         studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.BOOK, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
@@ -714,7 +713,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     public void testUpdateLocalRegistrationApprovedRandomizedArmAssigned() throws Exception{
         StudySubject deserializedStudySubject = new StudySubject();
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.PHONE_CALL, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(deserializedStudySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(deserializedStudySubject);
         deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
@@ -722,7 +721,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubject.setParticipant(buildParticipant());
         studySubject.getParticipant().setId(0);
         studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.BOOK, false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
@@ -745,14 +744,14 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     public void testUpdateLocalRegistrationApprovedNonRandomized() throws Exception{
         StudySubject deserializedStudySubject = new StudySubject();
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(deserializedStudySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(deserializedStudySubject);
         deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
         studySubject.setParticipant(buildParticipant());
         studySubject.getParticipant().setId(0);
         studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(false));
-        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubjectCreatorHelper.bindArm(studySubject);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
@@ -773,14 +772,14 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         verifyMocks();
     }
     
-    public ScheduledEpoch buildScheduledTreatmentEpoch(){
-    	ScheduledTreatmentEpoch scheduledTreatmentEpoch = new ScheduledTreatmentEpoch();
+    public ScheduledEpoch buildScheduledEpoch(){
+    	ScheduledEpoch scheduledTreatmentEpoch = new ScheduledEpoch();
     	ScheduledArm scheduledArm = new ScheduledArm();
-    	TreatmentEpoch treatmentEpoch = new TreatmentEpoch();
+    	Epoch treatmentEpoch = new Epoch();
     	treatmentEpoch.setName("Treatmen Epoch 1");
     	Arm arm = new Arm();
     	arm.setId(001);
-    	arm.setTreatmentEpoch(treatmentEpoch);
+    	arm.setEpoch(treatmentEpoch);
     	scheduledArm.setArm(arm);
     	
     	scheduledTreatmentEpoch.getScheduledArms().add(scheduledArm);
