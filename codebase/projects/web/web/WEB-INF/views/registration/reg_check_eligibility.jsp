@@ -18,7 +18,7 @@ function navRollOver(obj, state) {
 <body>
 
 <c:choose>
-	<c:when test="${!command.ifTreatmentScheduledEpoch || fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
+	<c:when test="${fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></div><br><br>
 			</tags:formPanelBox>
 	</c:when>
@@ -35,7 +35,7 @@ function navRollOver(obj, state) {
 							<th align="left"><b>Answer</b></th>
 						</tr>
 						<c:set var="index" value="0"/>
-						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.inclusionEligibilityCriteria}">
+						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.epoch.inclusionEligibilityCriteria}">
 							<tr>
 								<td width="85%">
 									${criteria.questionText}
@@ -64,7 +64,7 @@ function navRollOver(obj, state) {
 							<th align="left"><b>Question</b></th>
 							<th align="left"><b>Answer</b></th>
 						</tr>
-						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.exclusionEligibilityCriteria}">
+						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.epoch.exclusionEligibilityCriteria}">
 							<tr>
 								<td width="85%">
 									${criteria.questionText}

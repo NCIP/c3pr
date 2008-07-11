@@ -138,11 +138,11 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	</tr>
 	<tr>
 		<td align="left"><b>Type</b></td>
-		<td>${command.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}</td>
+		<td>${command.scheduledEpoch.epoch.displayRole}</td>
 	</tr>
 	<tr>
 		<td align="left"><b>Enrolling</b></td>
-		<td>${!command.ifTreatmentScheduledEpoch?command.scheduledEpoch.epoch.enrollmentIndicator:'Yes'}</td>
+		<td>${command.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</td>
 	</tr>
 	<tr>
 		<td align="left"><b>Epoch Status</b></td>
@@ -183,7 +183,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	
 	</table>
 	</chrome:division>
-	<c:if test="${command.ifTreatmentScheduledEpoch}">
+	<c:if test="${command.scheduledEpoch.epoch.displayRole != 'NonTreatment'}">
 		<chrome:division id="Eligibility" title="Eligibility">
 		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 			<tr>

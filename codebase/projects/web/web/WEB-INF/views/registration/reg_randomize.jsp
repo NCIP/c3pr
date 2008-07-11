@@ -27,7 +27,7 @@
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		<c:choose>
-		<c:when test="${!command.ifTreatmentScheduledEpoch}">
+		<c:when test="${command.scheduledEpoch.epoch.displayRole == 'NonTreatment'}">
 			<tr>
 				<td> The selected epoch does not involve Assigning Arm.</td>
 			</tr>
@@ -39,7 +39,7 @@
 					<td>
 						<select name ="scheduledEpoch.scheduledArms[0].arm">
 							<option value="" selected>--Please Select--</option>
-							<c:forEach items="${command.scheduledEpoch.treatmentEpoch.arms}" var="arm">
+							<c:forEach items="${command.scheduledEpoch.epoch.arms}" var="arm">
 								<option value="${arm.id }" <c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm && arm.id== command.scheduledEpoch.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
 							</c:forEach>
 						</select>
@@ -75,7 +75,7 @@
 				<td>
 					<select name ="scheduledEpoch.scheduledArms[0].arm">
 						<option value="" selected>--Please Select--</option>
-						<c:forEach items="${command.scheduledEpoch.treatmentEpoch.arms}" var="arm">
+						<c:forEach items="${command.scheduledEpoch.epoch.arms}" var="arm">
 							<option value="${arm.id }" <c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm && arm.id== command.scheduledEpoch.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
 						</c:forEach>
 					</select>
@@ -91,7 +91,7 @@
 		</c:choose>
 	</table>
 	
-	<c:if test="${command.ifTreatmentScheduledEpoch && command.studySite.study.randomizedIndicator == 'true'}">
+	<c:if test="${command.scheduledEpoch.epoch.displayRole != 'NonTreatment' && command.studySite.study.randomizedIndicator == 'true'}">
 		<div id="randomizationMessage">
 		</div>
 		<br/><input class='ibutton' type='button' onclick="randomize()" value='Randomize' title='Randomize'/>		
