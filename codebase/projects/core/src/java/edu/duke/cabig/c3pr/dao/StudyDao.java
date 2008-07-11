@@ -26,7 +26,6 @@ import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -50,7 +49,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
         this.healthcareSiteDao = healthcareSiteDao;
     }
-
+    
     public void detach(Study study) {
         getHibernateTemplate().evict(study);
     }
@@ -111,25 +110,23 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public void initialize(Study study) throws DataAccessException {
         getHibernateTemplate().initialize(study.getEpochs());
         for (Epoch epoch : study.getEpochs()) {
-            if (epoch instanceof TreatmentEpoch) {
-                TreatmentEpoch treatmentEpoch = (TreatmentEpoch) epoch;
-                if (treatmentEpoch != null) {
-                    getHibernateTemplate().initialize(treatmentEpoch.getArmsInternal());
+                if (epoch != null) {
+                    getHibernateTemplate().initialize(epoch.getArmsInternal());
                     getHibernateTemplate().initialize(
-                                    treatmentEpoch.getExclusionEligibilityCriteriaInternal());
+                    		epoch.getExclusionEligibilityCriteriaInternal());
                     getHibernateTemplate().initialize(
-                                    treatmentEpoch.getInclusionEligibilityCriteriaInternal());
+                    		epoch.getInclusionEligibilityCriteriaInternal());
                     getHibernateTemplate().initialize(
-                                    treatmentEpoch.getStratificationCriteriaInternal());
-                    for (StratificationCriterion stratficationCriterion : treatmentEpoch
+                    		epoch.getStratificationCriteriaInternal());
+                    for (StratificationCriterion stratficationCriterion : epoch
                                     .getStratificationCriteriaInternal()) {
                         if (stratficationCriterion != null) {
                             getHibernateTemplate().initialize(
                                             stratficationCriterion.getPermissibleAnswersInternal());
                         }
                     }
-                    getHibernateTemplate().initialize(treatmentEpoch.getStratumGroupsInternal());
-                    for (StratumGroup stratumGroup : treatmentEpoch.getStratumGroupsInternal()) {
+                    getHibernateTemplate().initialize(epoch.getStratumGroupsInternal());
+                    for (StratumGroup stratumGroup : epoch.getStratumGroupsInternal()) {
 
                         if (stratumGroup != null) {
                             getHibernateTemplate().initialize(
@@ -137,7 +134,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                         }
                     }
                 }
-            }
         }
         getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
         getHibernateTemplate().initialize(study.getStudyDiseases());
