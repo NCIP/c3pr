@@ -15,7 +15,7 @@
 
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
 
-    <EPOCHS id="1100" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1100" type="TREATMENT"/>
+    <EPOCHS id="1100" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1100" display_role="generic"/>
     
     <ARMS id="1100" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1100" />
         
