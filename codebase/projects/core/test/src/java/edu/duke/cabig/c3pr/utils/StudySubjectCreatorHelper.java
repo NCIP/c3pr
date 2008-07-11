@@ -17,8 +17,6 @@ import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
@@ -28,7 +26,6 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 
 public class StudySubjectCreatorHelper {
     
@@ -130,41 +127,38 @@ public class StudySubjectCreatorHelper {
     }
     
     public void buildCommandObject(StudySubject studySubject) {
-        if (studySubject.getIfTreatmentScheduledEpoch()) {
-            ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject
+        	ScheduledEpoch scheduledEpoch = studySubject
                             .getScheduledEpoch();
-            List criterias = scheduledTreatmentEpoch.getTreatmentEpoch()
+            List criterias = scheduledEpoch.getEpoch()
                             .getInclusionEligibilityCriteria();
             for (int i = 0; i < criterias.size(); i++) {
                 SubjectEligibilityAnswer subjectEligibilityAnswer = new SubjectEligibilityAnswer();
                 subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria) criterias
                                 .get(i));
-                scheduledTreatmentEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+                scheduledEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
             }
-            criterias = scheduledTreatmentEpoch.getTreatmentEpoch()
+            criterias = scheduledEpoch.getEpoch()
                             .getExclusionEligibilityCriteria();
             for (int i = 0; i < criterias.size(); i++) {
                 SubjectEligibilityAnswer subjectEligibilityAnswer = new SubjectEligibilityAnswer();
                 subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria) criterias
                                 .get(i));
-                scheduledTreatmentEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+                scheduledEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
             }
-            List<StratificationCriterion> stratifications = scheduledTreatmentEpoch
-                            .getTreatmentEpoch().getStratificationCriteria();
+            List<StratificationCriterion> stratifications = scheduledEpoch
+                            .getEpoch().getStratificationCriteria();
             for (StratificationCriterion stratificationCriterion : stratifications) {
                 stratificationCriterion.getPermissibleAnswers().size();
                 SubjectStratificationAnswer subjectStratificationAnswer = new SubjectStratificationAnswer();
                 subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
-                scheduledTreatmentEpoch
+                scheduledEpoch
                                 .addSubjectStratificationAnswers(subjectStratificationAnswer);
             }
-        }
     }
 
     public void bindEligibility(Object command) {
         StudySubject studySubject = (StudySubject) command;
-        if(!studySubject.getIfTreatmentScheduledEpoch()) return;
-        List<SubjectEligibilityAnswer> subList = ((ScheduledTreatmentEpoch) studySubject
+        List<SubjectEligibilityAnswer> subList = (studySubject
                         .getScheduledEpoch()).getSubjectEligibilityAnswers();
         for (SubjectEligibilityAnswer subjectEligibilityAnswer : subList) {
             if (subjectEligibilityAnswer.getEligibilityCriteria() instanceof InclusionEligibilityCriteria) {
@@ -174,14 +168,13 @@ public class StudySubjectCreatorHelper {
                 subjectEligibilityAnswer.setAnswerText("no");
             }
         }
-        ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch())
+        (studySubject.getScheduledEpoch())
                         .setEligibilityIndicator(evaluateEligibilityIndicator(studySubject));
     }
 
     public void bindStratification(Object command) {
         StudySubject studySubject = (StudySubject) command;
-        if(!studySubject.getIfTreatmentScheduledEpoch()) return;
-        List<SubjectStratificationAnswer> subList1 = ((ScheduledTreatmentEpoch) studySubject
+        List<SubjectStratificationAnswer> subList1 = (studySubject
                         .getScheduledEpoch()).getSubjectStratificationAnswers();
         for (SubjectStratificationAnswer subjectStratificationAnswer : subList1) {
             subjectStratificationAnswer
@@ -193,8 +186,7 @@ public class StudySubjectCreatorHelper {
 
     public void bindStratificationInvalid(Object command) {
         StudySubject studySubject = (StudySubject) command;
-        if(!studySubject.getIfTreatmentScheduledEpoch()) return;
-        List<SubjectStratificationAnswer> subList1 = ((ScheduledTreatmentEpoch) studySubject
+        List<SubjectStratificationAnswer> subList1 = (studySubject
                         .getScheduledEpoch()).getSubjectStratificationAnswers();
         for (SubjectStratificationAnswer subjectStratificationAnswer : subList1) {
             subjectStratificationAnswer
@@ -213,11 +205,11 @@ public class StudySubjectCreatorHelper {
         StudySubject studySubject = (StudySubject) command;
         RandomizationType randomizationType=studySubject.getStudySite().getStudy().getRandomizationType();
         if (randomizationType == RandomizationType.PHONE_CALL) {
-            ScheduledTreatmentEpoch scheduledEpoch = ((ScheduledTreatmentEpoch) studySubject
+        	ScheduledEpoch scheduledEpoch = (studySubject
                             .getScheduledEpoch());
             scheduledEpoch.addScheduledArm(new ScheduledArm());
             ScheduledArm scheduledArm = scheduledEpoch.getScheduledArm();
-            scheduledArm.setArm(((TreatmentEpoch) scheduledEpoch.getTreatmentEpoch()).getArms()
+            scheduledArm.setArm(( scheduledEpoch.getEpoch()).getArms()
                             .get(0));
         }
     }
@@ -226,12 +218,12 @@ public class StudySubjectCreatorHelper {
         if(!studySubject.getScheduledEpoch().getRequiresArm())
             return;
         ScheduledArm scheduledArm = new ScheduledArm();
-        scheduledArm.setArm(((TreatmentEpoch)studySubject.getScheduledEpoch().getEpoch()).getArms().get(0));
-        ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch()).addScheduledArm(scheduledArm);
+        scheduledArm.setArm((studySubject.getScheduledEpoch().getEpoch()).getArms().get(0));
+        (studySubject.getScheduledEpoch()).addScheduledArm(scheduledArm);
     }
     public boolean evaluateEligibilityIndicator(StudySubject studySubject) {
         boolean flag = true;
-        List<SubjectEligibilityAnswer> answers = ((ScheduledTreatmentEpoch) studySubject
+        List<SubjectEligibilityAnswer> answers = (studySubject
                         .getScheduledEpoch()).getInclusionEligibilityAnswers();
         for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
             String answerText = subjectEligibilityAnswer.getAnswerText();
@@ -244,7 +236,7 @@ public class StudySubjectCreatorHelper {
             }
         }
         if (flag) {
-            answers = ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch())
+            answers = (studySubject.getScheduledEpoch())
                             .getExclusionEligibilityAnswers();
             for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
                 String answerText = subjectEligibilityAnswer.getAnswerText();
@@ -261,7 +253,8 @@ public class StudySubjectCreatorHelper {
     }
 
     public Epoch createTestTreatmentEpoch(boolean randomized) {
-        TreatmentEpoch epoch = new TreatmentEpoch();
+        Epoch epoch = new Epoch();
+        epoch.setEnrollmentIndicator(true);
         epoch.addEligibilityCriterion(new InclusionEligibilityCriteria());
         epoch.addEligibilityCriterion(new ExclusionEligibilityCriteria());
         StratificationCriterion stratificationCriterion = new StratificationCriterion();
@@ -276,16 +269,21 @@ public class StudySubjectCreatorHelper {
         return epoch;
     }
 
-    public void addScheduledEpochFromStudyEpochs(StudySubject studySubject) {
-        boolean isTreatment=studySubject.getStudySite().getStudy().getEpochs().get(0) instanceof TreatmentEpoch?true:false;
-        ScheduledEpoch scheduledEpoch = isTreatment ? new ScheduledTreatmentEpoch()
-                        : new ScheduledNonTreatmentEpoch();
+    public void addScheduledNonEnrollingEpochFromStudyEpochs(StudySubject studySubject) {
+    	ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
         scheduledEpoch.setEpoch(studySubject.getStudySite().getStudy().getEpochs().get(0));
         studySubject.addScheduledEpoch(scheduledEpoch);
     }
     
+    public void addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(StudySubject studySubject) {
+     	ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+     	scheduledEpoch.setEligibilityIndicator(true);
+         scheduledEpoch.setEpoch(studySubject.getStudySite().getStudy().getEpochs().get(0));
+         studySubject.addScheduledEpoch(scheduledEpoch);
+     }
+    
     public void addDummyScheduledEpoch(StudySubject studySubject, boolean isTreatment){
-        ScheduledEpoch scheduledEpoch=isTreatment?new ScheduledTreatmentEpoch():new ScheduledNonTreatmentEpoch();
+        ScheduledEpoch scheduledEpoch=isTreatment?new ScheduledEpoch():new ScheduledEpoch();
         studySubject.addScheduledEpoch(scheduledEpoch);
     }
 
@@ -353,11 +351,11 @@ public class StudySubjectCreatorHelper {
     }
     
     public void forceAssignArm(StudySubject studySubject) {
-        ScheduledTreatmentEpoch scheduledEpoch = ((ScheduledTreatmentEpoch) studySubject
+    	ScheduledEpoch scheduledEpoch = (studySubject
                         .getScheduledEpoch());
         scheduledEpoch.addScheduledArm(new ScheduledArm());
         ScheduledArm scheduledArm = scheduledEpoch.getScheduledArm();
-        scheduledArm.setArm(((TreatmentEpoch) scheduledEpoch.getTreatmentEpoch()).getArms().get(0));
+        scheduledArm.setArm(( scheduledEpoch.getEpoch()).getArms().get(0));
     }
     
     public void addIdentifierToStudy(Study study){
