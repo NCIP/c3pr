@@ -19,7 +19,6 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
@@ -47,10 +46,10 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-            TreatmentEpoch epoch1 = new TreatmentEpoch();
+            Epoch epoch1 = new Epoch();
             Arm armA = new Arm();
             armA.setName("A");
-            armA.setTreatmentEpoch(epoch1);
+            armA.setEpoch(epoch1);
             armA.setName("Arm name");
             ArrayList<Arm> aList = new ArrayList<Arm>();
             aList.add(armA);
@@ -87,11 +86,11 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             excCrit.setQuestionNumber(1);
             epoch1.getExclusionEligibilityCriteria().add(excCrit);
 
-            study.getTreatmentEpochs().add(epoch1);
-            study.getTreatmentEpochs().get(0).setRetiredIndicatorAsTrue();
+            study.getEpochs().add(epoch1);
+            study.getEpochs().get(0).setRetiredIndicatorAsTrue();
             // intentionally undoing the retired flag of the epoch so that it may be retrieved.
             // for the test to clear...the retrieved study must not contain its children
-            study.getTreatmentEpochs().get(0).setRetiredIndicatorAsFalse();
+            study.getEpochs().get(0).setRetiredIndicatorAsFalse();
             studyDao.save(study);
             savedId = study.getId();
         }
@@ -99,8 +98,8 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         interruptSession();
         {
             Study loadedStudy = studyDao.getById(savedId);
-            TreatmentEpoch te = loadedStudy.getTreatmentEpochs().get(0);
-            assertEquals(1, loadedStudy.getTreatmentEpochs().size());
+            Epoch te = loadedStudy.getEpochs().get(0);
+            assertEquals(1, loadedStudy.getEpochs().size());
             assertEquals(0, te.getArms().size());
             assertEquals(0, te.getInclusionEligibilityCriteria().size());
             assertEquals(0, te.getEligibilityCriteria().size());
@@ -109,7 +108,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         }
     }
 
-    public void addStratumGroupToEpoch(TreatmentEpoch epoch1) {
+    public void addStratumGroupToEpoch(Epoch epoch1) {
         StratificationCriterion sc = new StratificationCriterion();
         sc.setQuestionText("will I work?");
         StratificationCriterionPermissibleAnswer scpa = new StratificationCriterionPermissibleAnswer();
@@ -150,7 +149,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
-            TreatmentEpoch epoch = new TreatmentEpoch();
+            Epoch epoch = new Epoch();
             InclusionEligibilityCriteria incCrit = new InclusionEligibilityCriteria();
             incCrit.setQuestionText("questionText");
             incCrit.setQuestionNumber(1);
@@ -165,7 +164,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         {
 
             Study loadedStudy = studyDao.getById(savedId);
-            TreatmentEpoch loadedEpoch = (TreatmentEpoch) loadedStudy.getEpochs().get(0);
+            Epoch loadedEpoch = loadedStudy.getEpochs().get(0);
             assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
             assertEquals("Wrong question text:", "questionText", loadedEpoch
                             .getInclusionEligibilityCriteria().get(0).getQuestionText());
@@ -180,7 +179,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
      * @testType unit
      */
     public void testGetByIdForTreatmentEpoch() throws Exception {
-        TreatmentEpoch loaded = (TreatmentEpoch) getDao().getById(1000);
+        Epoch loaded =  getDao().getById(1000);
         assertEquals("Wrong name", "Treatment", loaded.getName());
         assertEquals("Wrong number of arms", 2, loaded.getArms().size());
     }
@@ -206,7 +205,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
      * @throws Exception
      */
     public void testGetArmsForTreatmentEpoch() throws Exception {
-        TreatmentEpoch epoch = (TreatmentEpoch) getDao().getById(1000);
+        Epoch epoch = getDao().getById(1000);
         List<Arm> arms = epoch.getArms();
         assertEquals("Wrong number of Arms", 2, arms.size());
         List<Integer> ids = collectIds(arms);
@@ -221,7 +220,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
      * @throws Exception
      */
     public void testGetEligibilityCriteriaForTreatmentEpoch() throws Exception {
-        TreatmentEpoch epoch = (TreatmentEpoch) getDao().getById(1000);
+        Epoch epoch = getDao().getById(1000);
         List<EligibilityCriteria> crit = epoch.getEligibilityCriteria();
         assertEquals("Wrong number of criterion", 3, crit.size());
         List<Integer> ids = collectIds(crit);
@@ -232,14 +231,14 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
     }
 
     public void testGetInclusionEligibilityCriteriaForTreatmentEpoch() throws Exception {
-        TreatmentEpoch epoch = (TreatmentEpoch) getDao().getById(1000);
+        Epoch epoch =  getDao().getById(1000);
         List<InclusionEligibilityCriteria> crit = epoch.getInclusionEligibilityCriteria();
         assertEquals("Wrong number of inclusion criterion", 2, crit.size());
 
     }
 
     public void testGetExclusionEligibilityCriteriaForTreatmentEpoch() throws Exception {
-        TreatmentEpoch epoch = (TreatmentEpoch) getDao().getById(1000);
+        Epoch epoch = getDao().getById(1000);
         List<ExclusionEligibilityCriteria> crit = epoch.getExclusionEligibilityCriteria();
         assertEquals("Wrong number of exclusion criterion", 1, crit.size());
 
@@ -249,7 +248,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         Integer savedId;
         {
             Study loadedStudy = studyDao.getById(1000);
-            TreatmentEpoch epoch = new TreatmentEpoch();
+            Epoch epoch = new Epoch();
 
             epoch.setName("Anoter Treatment Epoch");
             epoch.setStudy(loadedStudy);
@@ -279,7 +278,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
-            TreatmentEpoch epoch = new TreatmentEpoch();
+            Epoch epoch = new Epoch();
             StratificationCriterion stratCrit = new StratificationCriterion();
             stratCrit.setQuestionText("Stratificaiton question text");
             stratCrit.setQuestionNumber(2);
@@ -294,7 +293,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         {
 
             Study loadedStudy = studyDao.getById(savedId);
-            TreatmentEpoch loadedEpoch = (TreatmentEpoch) loadedStudy.getTreatmentEpochs().get(0);
+            Epoch loadedEpoch = loadedStudy.getEpochs().get(0);
             assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
 
             assertEquals("Wrong question number:", 2, loadedEpoch.getStratificationCriteria()
@@ -319,14 +318,14 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-            TreatmentEpoch epoch = new TreatmentEpoch();
+            Epoch epoch = new Epoch();
             epoch.setName("epoch Name");
             epoch.setStudy(study);
             StratificationCriterion stratCrit = new StratificationCriterion();
             stratCrit.setQuestionText("Stratification question");
             stratCrit.setQuestionNumber(2);
             epoch.getStratificationCriteria().add(stratCrit);
-            study.getTreatmentEpochs().add(epoch);
+            study.getEpochs().add(epoch);
 
             studyDao.save(study);
             savedId = study.getId();
@@ -337,7 +336,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         {
             Study updatedStudy = studyDao.getById(savedId);
 
-            TreatmentEpoch loadedEpoch = (TreatmentEpoch) (updatedStudy.getTreatmentEpochs().get(0));
+            Epoch loadedEpoch = (updatedStudy.getEpochs().get(0));
             assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
             assertEquals("Wrong question text:", "Stratification question", loadedEpoch
                             .getStratificationCriteria().get(0).getQuestionText());
@@ -348,7 +347,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
     }
 
     public void testFailureAddingArmsWithSameNameToTreatmentEpoch() {
-        TreatmentEpoch loadedEpoch = (TreatmentEpoch) getDao().getById(1000);
+        Epoch loadedEpoch = getDao().getById(1000);
         Arm arm = new Arm();
         arm.setName("Arm 1001");
         try {
@@ -364,7 +363,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         {
 
             Study loadedStudy = studyDao.getById(1000);
-            TreatmentEpoch epoch = new TreatmentEpoch();
+            Epoch epoch = new Epoch();
 
             epoch.setName("Treatment");
             epoch.setDescriptionText("descriptionText");

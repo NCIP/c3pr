@@ -37,7 +37,6 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Randomization;
@@ -57,7 +56,6 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
@@ -100,7 +98,7 @@ public class StudyDaoTest extends DaoTestCase {
                         "ccts-study-castorMapping"));
     }
 
-    public void testForReport() {
+   /* public void testForReport() {
 
         try {
             String outputFileName = "TestReportStudy.txt";
@@ -146,14 +144,14 @@ public class StudyDaoTest extends DaoTestCase {
             e.printStackTrace();
         }
     }
-
+*/
     /*
      * Test the where retired indicator clause for inclusionCriteria.
      */
     public void testWhereAndWhere() throws Exception {
 
         Study loadedStudy = dao.getById(1000);
-        List list = loadedStudy.getTreatmentEpochs().get(0)
+        List list = loadedStudy.getEpochs().get(0)
                         .getInclusionEligibilityCriteriaInternal();
         assertTrue(list.size() > 0);
     }
@@ -168,7 +166,6 @@ public class StudyDaoTest extends DaoTestCase {
         assertNotNull("Study 1000 not found", study);
         assertEquals("Wrong name", "precis_text", study.getPrecisText());
     }
-
     /**
      * Test for loading all Studies
      * 
@@ -259,7 +256,7 @@ public class StudyDaoTest extends DaoTestCase {
         return sgList;
     }
 
-    public void addStratumGroupToEpoch(TreatmentEpoch epoch1) {
+    public void addStratumGroupToEpoch(Epoch epoch1) {
         StratificationCriterion sc = new StratificationCriterion();
         sc.setQuestionText("will I work?");
         StratificationCriterionPermissibleAnswer scpa = new StratificationCriterionPermissibleAnswer();
@@ -308,8 +305,8 @@ public class StudyDaoTest extends DaoTestCase {
             Arm armA = new Arm();
             armA.setName("A");
 
-            TreatmentEpoch epoch1 = new TreatmentEpoch();
-            armA.setTreatmentEpoch(epoch1);
+            Epoch epoch1 = new Epoch();
+            armA.setEpoch(epoch1);
             ArrayList<Arm> aList = new ArrayList<Arm>();
             aList.add(armA);
             epoch1.getArms().addAll(aList);
@@ -326,7 +323,7 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
         {
             Study loaded = dao.getById(savedId);
-            CalloutRandomization cr = (CalloutRandomization) loaded.getTreatmentEpochs().get(0)
+            CalloutRandomization cr = (CalloutRandomization) loaded.getEpochs().get(0)
                             .getRandomization();
             String i = cr.getCalloutUrl();
             assertEquals(i, "trialUrl.com");
@@ -340,8 +337,8 @@ public class StudyDaoTest extends DaoTestCase {
             Arm armA = new Arm();
             armA.setName("A");
 
-            TreatmentEpoch epoch1 = new TreatmentEpoch();
-            armA.setTreatmentEpoch(epoch1);
+            Epoch epoch1 = new Epoch();
+            armA.setEpoch(epoch1);
             armA.setName("Arm name");
             ArrayList<Arm> aList = new ArrayList<Arm>();
             aList.add(armA);
@@ -422,12 +419,12 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
         {
             Study loaded = dao.getById(savedId);
-            StratumGroup sg1 = ((TreatmentEpoch) loaded.getEpochs().get(0)).getStratumGroups().get(
+            StratumGroup sg1 = (loaded.getEpochs().get(0)).getStratumGroups().get(
                             0);
-            StratumGroup sg2 = ((TreatmentEpoch) loaded.getEpochs().get(0)).getStratumGroups().get(
+            StratumGroup sg2 = (loaded.getEpochs().get(0)).getStratumGroups().get(
                             1);
 
-            assertEquals(((TreatmentEpoch) loaded.getEpochs().get(0)).getStratumGroups().size(), 2);
+            assertEquals((loaded.getEpochs().get(0)).getStratumGroups().size(), 2);
             assertNotNull(sg1.getStratificationCriterionAnswerCombination());
             assertEquals(2, sg1.getStratificationCriterionAnswerCombination().size());
 
@@ -459,8 +456,8 @@ public class StudyDaoTest extends DaoTestCase {
             Arm armA = new Arm();
             armA.setName("A");
 
-            TreatmentEpoch epoch1 = new TreatmentEpoch();
-            armA.setTreatmentEpoch(epoch1);
+            Epoch epoch1 = new Epoch();
+            armA.setEpoch(epoch1);
             armA.setName("Arm name");
             ArrayList<Arm> aList = new ArrayList<Arm>();
             aList.add(armA);
@@ -494,7 +491,7 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
         {
             Study loaded = dao.getById(savedId);
-            BookRandomization br = (BookRandomization) loaded.getTreatmentEpochs().get(0)
+            BookRandomization br = (BookRandomization) loaded.getEpochs().get(0)
                             .getRandomization();
             int i = br.getBookRandomizationEntry().get(0).getStratumGroup().getCurrentPosition();
             assertEquals(i, 1);
@@ -504,7 +501,7 @@ public class StudyDaoTest extends DaoTestCase {
     public void testComboGenerator() {
 
         ArrayList<StratificationCriterion> scList = new ArrayList<StratificationCriterion>();
-        TreatmentEpoch te = new TreatmentEpoch();
+        Epoch te = new Epoch();
         StratificationCriterion sc = new StratificationCriterion();
         ArrayList<StratificationCriterionPermissibleAnswer> scpaList = new ArrayList<StratificationCriterionPermissibleAnswer>();
         StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
@@ -553,7 +550,7 @@ public class StudyDaoTest extends DaoTestCase {
         System.out.println("");
     }
 
-    public ArrayList<StratumGroup> comboGenerator(TreatmentEpoch te,
+    public ArrayList<StratumGroup> comboGenerator(Epoch te,
                     StratificationCriterionPermissibleAnswer[][] myArr, int intRecurseLevel,
                     ArrayList<StratumGroup> sgList,
                     ArrayList<StratificationCriterionAnswerCombination> strLine) {
@@ -716,9 +713,9 @@ public class StudyDaoTest extends DaoTestCase {
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-            study.addEpoch(Epoch.create("Screening"));
-            study.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
-            study.addEpoch(Epoch.create("Follow up"));
+            study.addEpoch(Epoch.createEpoch("Screening"));
+            study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
+            study.addEpoch(Epoch.createEpoch("Follow up"));
 
             // Identifiers
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
@@ -794,16 +791,14 @@ public class StudyDaoTest extends DaoTestCase {
         assertContains("Missing expected Epoch", ids, 1001);
     }
 
-    public void testGetTreatmentEpochs() throws Exception {
+    public void testGetEpochsAgain() throws Exception {
 
         Study study = dao.getById(1000);
-        List<Epoch> el = study.getEpochs();
 
-        TreatmentEpoch te = new TreatmentEpoch();
+        Epoch te = new Epoch();
         te.setName("test");
         te.setStudy(study);
-        el.add(te);
-        study.setEpochs(el);
+        study.addEpoch(te);
 
         dao.save(study);
 
@@ -867,9 +862,9 @@ public class StudyDaoTest extends DaoTestCase {
 
         investigatorDao.save(inv);
 
-        study.addEpoch(Epoch.create("Screening"));
-        study.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
-        study.addEpoch(Epoch.create("Follow up"));
+        study.addEpoch(Epoch.createEpoch("Screening"));
+        study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
+        study.addEpoch(Epoch.createEpoch("Follow up"));
 
         // healthcare site
         HealthcareSite healthcaresite = new HealthcareSite();
@@ -957,7 +952,7 @@ public class StudyDaoTest extends DaoTestCase {
         return healthcareSitedao.getAll();
     }
 
-    public void testSaveNewStudyWithTreatmentEpochs() throws Exception {
+    public void testSaveNewStudyWithEpochAndArms() throws Exception {
         Integer savedId;
         {
             Study study = new Study();
@@ -970,9 +965,9 @@ public class StudyDaoTest extends DaoTestCase {
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-            study.addEpoch(Epoch.createTreatmentEpoch("TestTreatmentEpoch1", "Arm A", "Arm B",
+            study.addEpoch(Epoch.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
                             "Arm C"));
-            study.addEpoch(Epoch.createTreatmentEpoch("TestTreatmentEpoch2"));
+            study.addEpoch(Epoch.createEpoch("TestTreatmentEpoch2"));
 
             dao.save(study);
 
@@ -984,19 +979,16 @@ public class StudyDaoTest extends DaoTestCase {
         {
             Study loaded = dao.getById(savedId);
             assertNotNull("Could not reload study with id " + 1000, loaded);
-            List<TreatmentEpoch> newTreatmentEpochs = loaded.getTreatmentEpochs();
-            assertEquals("Wrong number of Treatment Epochs are retreived", 2, newTreatmentEpochs
+            Epoch newEpoch1 = loaded.getEpochs().get(0);
+            Epoch newEpoch2 = loaded.getEpochs().get(1);
+            assertEquals("Wrong number of Arms are retreived", 3, newEpoch1.getArms()
                             .size());
-            for (Epoch newEpoch : newTreatmentEpochs) {
-                assertEquals("Expected to get TreatmentEpoch: ",
-                                "edu.duke.cabig.c3pr.domain.TreatmentEpoch", newEpoch.getClass()
-                                                .getName());
-            }
-
+            assertEquals("Wrong name of epoch retrieved", "TestTreatmentEpoch2", newEpoch2.getName()
+                    );
         }
     }
 
-    public void testSaveNewStudyWithNonTreatmentEpochs() throws Exception {
+    public void testSaveNewStudyWithEpochs() throws Exception {
         Integer savedId;
         {
 
@@ -1010,9 +1002,9 @@ public class StudyDaoTest extends DaoTestCase {
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-            study.addEpoch(Epoch.createNonTreatmentEpoch("TestTreatmentEpoch"));
+            study.addEpoch(Epoch.createEpoch("TestNonTreatmentEpoch"));
 
-            NonTreatmentEpoch newEpoch = new NonTreatmentEpoch();
+            Epoch newEpoch = new Epoch();
             newEpoch.setName("Test Non Treatment Epoch");
             newEpoch.setAccrualCeiling(10);
             newEpoch.setAccrualIndicator(Boolean.TRUE);
@@ -1030,27 +1022,26 @@ public class StudyDaoTest extends DaoTestCase {
         {
             Study loaded = dao.getById(savedId);
             assertNotNull("Could not reload study with id " + savedId, loaded);
-            List<NonTreatmentEpoch> newNonTreatmentEpochs = loaded.getNonTreatmentEpochs();
-            assertEquals("Wrong number of NonTreatment Epochs are retreived", 2,
-                            newNonTreatmentEpochs.size());
-            for (Epoch newEpoch : newNonTreatmentEpochs) {
-                assertEquals("Expected to get NonTreatmentEpoch: ",
-                                "edu.duke.cabig.c3pr.domain.NonTreatmentEpoch", newEpoch.getClass()
-                                                .getName());
+            List<Epoch> totalEpochs = loaded.getEpochs();
+            assertEquals("Wrong number of Epochs are retreived", 2,
+                            totalEpochs.size());
+            for (Epoch newEpoch : totalEpochs) {
+                assertEquals("Wrong display role: ",
+                                "Generic", newEpoch.getDisplayRole());
             }
             assertEquals("Wrong epoch name", "Test Non Treatment Epoch",
-                            ((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
+                            (totalEpochs.get(1))
                                             .getName());
             assertEquals("Wrong enrollment indicator", Boolean.FALSE,
-                            ((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
+                            (totalEpochs.get(1))
                                             .getEnrollmentIndicator());
             assertEquals("Wrong accrual indicator", Boolean.TRUE,
-                            ((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
+                            (totalEpochs.get(1))
                                             .getAccrualIndicator());
             assertEquals("Wrong reservation indicator", Boolean.TRUE,
-                            ((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
+                            (totalEpochs.get(1))
                                             .getReservationIndicator());
-            assertEquals("Wrong accrual ceiling", 10, ((NonTreatmentEpoch) newNonTreatmentEpochs
+            assertEquals("Wrong accrual ceiling", 10, (totalEpochs
                             .get(1)).getAccrualCeiling().intValue());
 
         }
@@ -1069,9 +1060,9 @@ public class StudyDaoTest extends DaoTestCase {
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-            study.addEpoch(Epoch.createTreatmentEpoch("TestTreatmentEpoch1", "Arm A", "Arm B",
+            study.addEpoch(Epoch.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
                             "Arm C"));
-            TreatmentEpoch epoch = new TreatmentEpoch();
+            Epoch epoch = new Epoch();
             epoch.setName("TestTreatmentEpoch2");
             Arm arm = new Arm();
             arm.setName("Test Arm");
@@ -1087,15 +1078,9 @@ public class StudyDaoTest extends DaoTestCase {
         {
             Study loaded = dao.getById(savedId);
             assertNotNull("Could not reload study with id " + 1000, loaded);
-            List<TreatmentEpoch> newTreatmentEpochs = loaded.getTreatmentEpochs();
+            List<Epoch> newTreatmentEpochs = loaded.getEpochs();
             assertEquals("Wrong number of Treatment Epochs are retreived", 2, newTreatmentEpochs
                             .size());
-            for (TreatmentEpoch newEpoch : newTreatmentEpochs) {
-                assertEquals("Expected to get TreatmentEpoch: ",
-                                "edu.duke.cabig.c3pr.domain.TreatmentEpoch", newEpoch.getClass()
-                                                .getName());
-            }
-
             assertEquals("Expected to get 3 Arms: ", 3, newTreatmentEpochs.get(0).getArms().size());
             assertEquals("Expected to get 1 Arm: ", 1, newTreatmentEpochs.get(1).getArms().size());
             assertEquals("Expected to get Arm with name, Arm A: ", "Arm A", newTreatmentEpochs.get(
@@ -1294,7 +1279,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     public void testFailureTwoEpochsWithSameNameInStudy() throws Exception {
         Study loadedStudy = dao.getById(1000);
-        Epoch epoch = new TreatmentEpoch();
+        Epoch epoch = new Epoch();
         epoch.setName("Treatment1003");
         try {
             loadedStudy.addEpoch(epoch);

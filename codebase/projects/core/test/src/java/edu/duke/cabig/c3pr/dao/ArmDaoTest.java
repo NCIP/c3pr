@@ -5,7 +5,7 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
@@ -50,7 +50,7 @@ public class ArmDaoTest extends ContextDaoTestCase<ArmDao> {
 
     public void testFailureSavingTwoArmsWithSameNameInOneEpoch() throws Exception {
 
-        TreatmentEpoch loadedEpoch = (TreatmentEpoch) epochDao.getById(1000);
+        Epoch loadedEpoch = epochDao.getById(1000);
         Arm arm = new Arm();
         arm.setName("Arm 1000");
         try {
