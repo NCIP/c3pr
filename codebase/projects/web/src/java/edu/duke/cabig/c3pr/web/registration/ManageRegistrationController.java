@@ -11,7 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.registration.tabs.ManageEpochTab;
@@ -94,7 +94,7 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
         Map map = new HashMap();
         Integer id = Integer.parseInt(request.getParameter("epoch"));
         Epoch epoch = epochDao.getById(id);
-        ScheduledNonTreatmentEpoch scheduledEpoch = new ScheduledNonTreatmentEpoch();
+        ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
         scheduledEpoch.setEpoch(epoch);
         command.addScheduledEpoch(scheduledEpoch);
         return command;

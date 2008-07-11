@@ -20,7 +20,6 @@ import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
@@ -138,17 +137,16 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
         boolean newRegistration = true;
         String armAssigned = "";
         String armAssignedLabel = "";
-        if (studySubject.getIfTreatmentScheduledEpoch()
-                        && ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch())
+        if ((studySubject.getScheduledEpoch())
                                         .getScheduledArm() != null) {
             if (studySubject.getStudySite().getStudy().getBlindedIndicator()) {
-                armAssigned = ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch())
+                armAssigned = (studySubject.getScheduledEpoch())
                                 .getScheduledArm().getKitNumber();
                 armAssignedLabel = "Kit Assigned";
             }
-            else if (((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch()).getScheduledArm()
+            else if ((studySubject.getScheduledEpoch()).getScheduledArm()
                             .getArm() != null) {
-                armAssigned = ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch())
+                armAssigned = (studySubject.getScheduledEpoch())
                                 .getScheduledArm().getArm().getName();
                 armAssignedLabel = "Arm Assigned";
             }
