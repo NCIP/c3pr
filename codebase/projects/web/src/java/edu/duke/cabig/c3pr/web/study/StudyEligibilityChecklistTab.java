@@ -189,10 +189,10 @@ class StudyEligibilityChecklistTab extends StudyTab {
                 }// end of exclusion if
 
             }// end if while loop that iterates over the entire file.
-            if (study.getTreatmentEpochByName(name) != null) {
-                study.getTreatmentEpochByName(name).getInclusionEligibilityCriteria().addAll(
+            if (study.getEpochByName(name) != null) {
+                study.getEpochByName(name).getInclusionEligibilityCriteria().addAll(
                                 incList);
-                study.getTreatmentEpochByName(name).getExclusionEligibilityCriteria().addAll(
+                study.getEpochByName(name).getExclusionEligibilityCriteria().addAll(
                                 excList);
             }
 

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
@@ -17,6 +18,8 @@ import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 class StudyDetailsTab extends StudyTab {
 
     private StudyValidator studyValidator;
+    
+    private StudyDao studyDao;
 
     public StudyDetailsTab() {
         super("Details", "Details", "study/study_details");
@@ -98,6 +101,9 @@ class StudyDetailsTab extends StudyTab {
 
         }
         updateRandomization(study);
+        /*if (study.getFundingSponsorAssignedIdentifier()!= null){
+        	studyDao.refreshFundingSposorIdentifier(study);
+        }*/
     }
 
     @Override
@@ -116,4 +122,7 @@ class StudyDetailsTab extends StudyTab {
         this.studyValidator = studyValidator;
     }
 
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
 }

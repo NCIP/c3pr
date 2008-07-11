@@ -15,12 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 
 /**
@@ -69,7 +69,7 @@ public class StudyStratificationTab extends StudyTab {
         String[] serStrArr = serializedString.split("&");
         int indexOfEpochNumber = new Integer(String.valueOf(serStrArr[0].charAt(serStrArr[0]
                         .indexOf("_") + 1))).intValue();
-        TreatmentEpoch tEpoch = study.getTreatmentEpochs().get(indexOfEpochNumber);
+        Epoch tEpoch = study.getEpochs().get(indexOfEpochNumber);
 
         List<Integer> positionList = new ArrayList<Integer>();
         for (int i = 0; i < serStrArr.length; i++) {
@@ -110,11 +110,11 @@ public class StudyStratificationTab extends StudyTab {
      */
     public void finalizeReoderedGroups(Study study, boolean isCreate) {
         List<StratumGroup> sgList;
-        TreatmentEpoch tEpoch;
+        Epoch tEpoch;
         StratumGroup sg = null;
         List<StratumGroup> sgListTemp = new ArrayList<StratumGroup>();
         for (int i = 0; i < tEpochsListForReorderedGroups.size(); i++) {
-            tEpoch = study.getTreatmentEpochs().get(i);
+            tEpoch = study.getEpochs().get(i);
             sgList = tEpochsListForReorderedGroups.get(i);
             for (int j = 0; j < sgList.size(); j++) {
                 // get the group and update its number as per the for loop iter
@@ -138,7 +138,7 @@ public class StudyStratificationTab extends StudyTab {
         String message = "";
         Study study = (Study) commandObj;
         int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
-        TreatmentEpoch te = study.getTreatmentEpochs().get(epochCountIndex);
+        Epoch te = study.getEpochs().get(epochCountIndex);
         if (!te.getStratumGroups().isEmpty()) {
             // clearing the bre's
             Randomization randomization = te.getRandomization();
@@ -179,7 +179,7 @@ public class StudyStratificationTab extends StudyTab {
         // run this piece of code only if str Qs or Ans are being deleted.
 
         listPath = listPath.substring(0, listPath.indexOf("."));
-        TreatmentEpoch te = (TreatmentEpoch) new DefaultObjectPropertyReader(command, listPath)
+        Epoch te = (Epoch) new DefaultObjectPropertyReader(command, listPath)
                         .getPropertyValueFromPath();
 
         // Clearing the book entries from Randomization object.
@@ -233,8 +233,8 @@ public class StudyStratificationTab extends StudyTab {
         finalizeReoderedGroups(study, isCreate);
 
         // just renumber the groups as something may have been deleted.
-        List<TreatmentEpoch> teList = study.getTreatmentEpochs();
-        for (TreatmentEpoch te : teList) {
+        List<Epoch> teList = study.getEpochs();
+        for (Epoch te : teList) {
             List<StratumGroup> sgList = te.getStratumGroups();
             for (int i = 0; i < sgList.size(); i++) {
                 sgList.get(i).setStratumGroupNumber(new Integer(i));
@@ -246,14 +246,14 @@ public class StudyStratificationTab extends StudyTab {
     public void generateStratumGroups(HttpServletRequest request, Object commandObj, Errors error,
                     int epochCountIndex) {
         int scSize;
-        TreatmentEpoch te;
+        Epoch te;
         ArrayList<StratumGroup> sgList;
         Study study = (Study) commandObj;
         // int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
         request.setAttribute("epochCountIndex", epochCountIndex);
 
         // creating groups from the questions & answers for the selected treatemtn epoch
-        te = study.getTreatmentEpochs().get(epochCountIndex);
+        te = study.getEpochs().get(epochCountIndex);
 
         // clear the existing groups first.(incase the user cilcks on generate twice)
         te.getStratumGroups().clear();
@@ -289,7 +289,7 @@ public class StudyStratificationTab extends StudyTab {
 
     // recursive method which computes all possible combinations
     // of sc and scpa and creates a list of stratum Groups for the same.
-    public ArrayList<StratumGroup> comboGenerator(TreatmentEpoch te,
+    public ArrayList<StratumGroup> comboGenerator(Epoch te,
                     StratificationCriterionPermissibleAnswer[][] myArr, int intRecurseLevel,
                     ArrayList<StratumGroup> sgList,
                     ArrayList<StratificationCriterionAnswerCombination> strLine) {
@@ -330,7 +330,7 @@ public class StudyStratificationTab extends StudyTab {
         return sgList;
     }
 
-    public boolean hasBlankQuestionOrAnswer(TreatmentEpoch te) {
+    public boolean hasBlankQuestionOrAnswer(Epoch te) {
         List<StratificationCriterion> scList = te.getStratificationCriteria();
         List<StratificationCriterionPermissibleAnswer> scpaList;
         Iterator scIter = scList.iterator();

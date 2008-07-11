@@ -12,7 +12,7 @@ import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.validator.EpochValidator;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
@@ -65,7 +65,7 @@ public class StudyDesignTab extends StudyTab {
         // If treatementEpochs are deleted we directly call the super.deleteRow()
         if (listPath.indexOf(".") > 0) {
             listPath = listPath.substring(0, listPath.indexOf("."));
-            TreatmentEpoch te = (TreatmentEpoch) new DefaultObjectPropertyReader(command, listPath)
+            Epoch te = (Epoch) new DefaultObjectPropertyReader(command, listPath)
                             .getPropertyValueFromPath();
 
             Randomization randomization = te.getRandomization();
@@ -92,7 +92,7 @@ public class StudyDesignTab extends StudyTab {
     public void validate(Study study, Errors errors) {
         super.validate(study, errors);
         this.studyValidator.validateStudyDesign(study, errors);
-        this.studyValidator.validateTreatmentEpochs(study, errors);
+        this.studyValidator.validateEpochs(study, errors);
     }
 
     public EpochValidator getEpochValidator() {

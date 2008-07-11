@@ -16,15 +16,16 @@ import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
+import edu.duke.cabig.c3pr.web.report.StudyReportCommand;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 14, 2007 Time: 12:43:28 PM To change this
@@ -87,11 +88,11 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
         }
         // Instantiating the appropriate randomization class and setting it in the epoch.
         if (study.getEpochs() instanceof List) {
-            List epochList = study.getTreatmentEpochs();
-            TreatmentEpoch tEpoch;
+            List epochList = study.getEpochs();
+            Epoch tEpoch;
             Iterator iter = epochList.iterator();
             while (iter.hasNext()) {
-                tEpoch = (TreatmentEpoch) iter.next();
+                tEpoch = (Epoch) iter.next();
                 if (study.getRandomizedIndicator() && study.getRandomizationType() != null
                                 && tEpoch.getRandomizedIndicator() != null
                                 && tEpoch.getRandomizedIndicator()) {
@@ -181,7 +182,6 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 	        }
         }
 
-       
         return new Boolean(false);
     }
 

@@ -47,8 +47,8 @@ public class StudyRandomizationTab extends StudyTab {
         if (study.getRandomizedIndicator()
                         && study.getRandomizationType() == RandomizationType.BOOK) {
             Map<String, List> dummyMap = new HashMap<String, List>();
-            String[] bookRandomizationEntries = new String[study.getTreatmentEpochs().size()];
-            for (int i = 0; i < study.getTreatmentEpochs().size(); i++) {
+            String[] bookRandomizationEntries = new String[study.getEpochs().size()];
+            for (int i = 0; i < study.getEpochs().size(); i++) {
                 bookRandomizationEntries[i] = bookRandomizationAjaxFacade.getTable(dummyMap, "", i
                                 + "", request, flowType);
             }

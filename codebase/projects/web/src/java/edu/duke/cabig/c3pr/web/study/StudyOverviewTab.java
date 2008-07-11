@@ -165,20 +165,6 @@ public class StudyOverviewTab extends StudyTab {
         return new ModelAndView("", map);
     }
 
-    public Boolean isAdmin() {
-
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication auth = context.getAuthentication();
-        GrantedAuthority[] groups = auth.getAuthorities();
-        Boolean isAdmin = new Boolean(false);
-        for (GrantedAuthority ga : groups) {
-            if (ga.getAuthority().endsWith("admin")) {
-                isAdmin = Boolean.TRUE;
-            }
-        }
-        return isAdmin;
-    }
-
     @Override
     public void validate(Study study, Errors errors) {
         super.validate(study, errors);
