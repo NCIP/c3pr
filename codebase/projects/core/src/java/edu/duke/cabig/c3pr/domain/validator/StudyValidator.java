@@ -25,7 +25,6 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 
 public class StudyValidator implements Validator {
     private StudySiteValidator studySiteValidator;
@@ -209,7 +208,7 @@ public class StudyValidator implements Validator {
         Study study = (Study) target;
         List<Epoch> allEpochs = study.getEpochs();
         try {
-            Set<Epoch> uniqueEpochs = new TreeSet<Epoch>();
+            Set<Epoch> uniqueEpochs = new HashSet<Epoch>();
             uniqueEpochs.addAll(allEpochs);
             if (allEpochs.size() > uniqueEpochs.size()) {
                 errors.rejectValue("epochs", new Integer(
@@ -224,13 +223,13 @@ public class StudyValidator implements Validator {
         }
     }
 
-    public void validateTreatmentEpochs(Object target, Errors errors) {
+    public void validateEpochs(Object target, Errors errors) {
         Study study = (Study) target;
-        List<TreatmentEpoch> allTreatmentEpochs = study.getTreatmentEpochs();
+        List<Epoch> allEpochs = study.getEpochs();
         try {
-            for (int epochIndex = 0; epochIndex < allTreatmentEpochs.size(); epochIndex++) {
-                errors.pushNestedPath("treatmentEpochs[" + epochIndex + "]");
-                ValidationUtils.invokeValidator(this.epochValidator, allTreatmentEpochs
+            for (int epochIndex = 0; epochIndex < allEpochs.size(); epochIndex++) {
+                errors.pushNestedPath("epochs[" + epochIndex + "]");
+                ValidationUtils.invokeValidator(this.epochValidator, allEpochs
                                 .get(epochIndex), errors);
                 errors.popNestedPath();
             }

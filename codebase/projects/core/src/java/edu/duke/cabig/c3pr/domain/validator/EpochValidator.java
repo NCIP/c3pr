@@ -11,7 +11,6 @@ import org.springframework.validation.Validator;
 
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 
 public class EpochValidator implements Validator {
     private ArmValidator armValidator;
@@ -33,8 +32,8 @@ public class EpochValidator implements Validator {
     }
 
     public void validateArms(Object target, Errors errors) {
-        TreatmentEpoch epoch = (TreatmentEpoch) target;
-        List<Arm> allArms = ((TreatmentEpoch) epoch).getArms();
+        Epoch epoch = (Epoch) target;
+        List<Arm> allArms = epoch.getArms();
 
         try {
 
