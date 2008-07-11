@@ -5,7 +5,7 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 19, 2007 Time: 3:29:25 PM To change this template
@@ -16,9 +16,9 @@ public class ScheduledArmFieldHandler implements FieldHandler {
     Logger log = Logger.getLogger(ScheduledArmFieldHandler.class);
 
     public Object getValue(Object object) throws IllegalStateException {
-        ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) object;
+        ScheduledEpoch ScheduledEpoch = (ScheduledEpoch) object;
         try {
-            return scheduledTreatmentEpoch.getScheduledArm();
+            return ScheduledEpoch.getScheduledArm();
         }
         catch (Exception e) {
             log.warn(e);
@@ -28,9 +28,9 @@ public class ScheduledArmFieldHandler implements FieldHandler {
 
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
-        ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) object;
+        ScheduledEpoch scheduledEpoch = (ScheduledEpoch) object;
         ScheduledArm scheduledArm = (ScheduledArm) value;
-        scheduledTreatmentEpoch.addScheduledArm(scheduledArm);
+        scheduledEpoch.addScheduledArm(scheduledArm);
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
