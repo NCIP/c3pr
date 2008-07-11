@@ -6,7 +6,7 @@ import java.io.StringReader;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -72,7 +72,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
         patient.setRaceCode(strValue);
         patient.setIdentifiers(getIdentifiers());
 
-        ScheduledTreatmentEpoch epoch = new ScheduledTreatmentEpoch();
+        ScheduledEpoch epoch = new ScheduledEpoch();
         registration.addScheduledEpoch(epoch);
         registration.setParticipant(patient);
 

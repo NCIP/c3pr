@@ -144,9 +144,9 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         studyObject.addIdentifier(identifierObject);
         studyObject.addStudySite(studySiteObject);
 
-        studyObject.addEpoch(Epoch.create("Screening"));
-        studyObject.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
-        studyObject.addEpoch(Epoch.create("Follow up"));
+        studyObject.addEpoch(Epoch.createEpoch("Screening"));
+        studyObject.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
+        studyObject.addEpoch(Epoch.createEpoch("Follow up"));
 
         // healthcare site
         HealthcareSite healthcaresite = new HealthcareSite();
