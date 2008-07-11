@@ -12,7 +12,6 @@ import org.jdom.output.XMLOutputter;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -40,8 +39,8 @@ public class XMLUtils {
         rootElement.addContent(new Element("studyParticipantIdentifier", "p1", ns)
                         .setText(StringUtils.getBlankIfNull(studySubject.getGridId())));
         ScheduledEpoch current = studySubject.getScheduledEpoch();
-        if (current instanceof ScheduledTreatmentEpoch) {
-            ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current;
+        if (current instanceof ScheduledEpoch) {
+            ScheduledEpoch scheduledTreatmentEpoch = current;
             rootElement.addContent(new Element("eligibilityIndicator", "p1", ns)
                             .setText(StringUtils.getBlankIfNull(scheduledTreatmentEpoch
                                             .getEligibilityIndicator())));
