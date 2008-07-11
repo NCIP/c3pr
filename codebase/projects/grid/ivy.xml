@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="1.4">
+		
+    	<info organisation="edu.duke.cabig.c3pr"
+          	module="c3pr-grid"
+          	status="integration" revision="${c3pr.version}"/>
+        
+        <configurations>
+        	<conf name="default" visibility="public" extends="publish,runtime" 
+        		description="Dependencies needed for default setting"  />
+        	<conf name="build" visibility="public" 
+        		description="Dependencies required for build time, all classpath should have this"/>
+        	<conf name="publish" visibility="public" 
+        		description="Dependencies along with this module is published in repository" />
+        	<conf name="distGrid" visibility="public"  extends="publish"
+        		description="Dependencies that are required in grid distribution of this module" />
+        	<conf name="dist" visibility="public"  extends="publish"
+        		description="Dependencies needed for standalone distribution" />
+        	<conf name="runtime" visibility="public"
+        		description="The dependencies that are needed for runtime" extends="build" />
+        	<conf name="test" visibility="public" 
+        		description="Dependencies needed for testing purposes"/>
+        </configurations>
+        
+        <!--  Items to be published  -->
+         <publications>
+    		<artifact name="${ivy.module}" conf="publish" type="jar" ext="jar"/>
+    		<artifact name="${ivy.module}-tests" conf="test" type="jar" ext="jar"/>
+  		</publications>
+       
+       
+        <dependencies  defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default);distGrid->master(*),runtime(default)"  >
+			<exclude conf="*" name="cglib" />
+			<exclude conf="*" name="asm-attrs" />
+			<exclude conf="*" org="org.apache.xmlgraphics" name="fop" rev="0.93"/>
+			
+			<!-- c3pr module dependencies -->
+			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
+				conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
+
+			<dependency org="ant" name="ant-contrib" rev="1.6.5"/>
+			<dependency org="ant" name="antlr" rev="1.6.5"/>
+			<dependency org="org.springframework" name="spring" rev="2.0.7" force="true"/>
+        	<dependency org="org.springframework" name="spring-aspects" rev="2.0.7" force="true" />
+        	<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" />
+        	<dependency org="commons-logging" name="commons-logging" rev="1.1" />
+        	<dependency org="dom4j" name="dom4j" rev="1.6.1" />
+        	<dependency org="handle" name="handlerservice" rev="1.5.0" />
+        	<dependency org="xerces" name="xerces" rev="2.6.2" />
+        	<dependency org="xerces" name="xercesImpl" rev="2.6.2" />
+        	
+			
+			<!-- Test/Runtime dependencies -->
+			<dependency org="dbunit" name="dbunit" rev="2.1" conf="build->default;test->default"/>
+						
+			<!-- Test only dependencies -->
+			<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" conf="test->default" />        	
+        	<dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default" />
+        	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
+        	<dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
+			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
+			<dependency org="commons-configuration" name="commons-configuration" rev="1.5" conf="test->default"/>
+			<dependency org="asm" name="asm-commons" rev="2.2.3" conf="test->default"/>
+			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
+				conf="test"/>
+
+        </dependencies>
+</ivy-module>

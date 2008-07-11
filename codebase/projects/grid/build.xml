@@ -10,11 +10,6 @@
 
     <property name="lib.dir" value="${basedir}/lib"/>
 
-    <property name="ext.dir" value="${basedir}/ext"/>
-    <property name="ext.lib.dir" value="${ext.dir}/lib"/>
-    <property name="ext.test.dir" value="${ext.dir}/test"/>
-    <property name="ext.test.lib.dir" value="${ext.test.dir}/lib"/>
-
     <property name="test.dir" value="${basedir}/test"/>
     <property name="test.logs.dir" value="${test.dir}/logs"/>
 
@@ -22,7 +17,11 @@
     <property name="build.dir" value="${basedir}/build"/>
     <property name="zip.filename" value="${project.name}.zip"/>
 
-    <import file="${antfiles.dir}/build-test.xml" />
+	<property name="ext.dir" value="${build.dir}"/>
+    <property name="ext.lib.dir" value="${ext.dir}/lib"/>
+    <property name="ext.test.lib.dir" value="${ext.dir}/testlib"/>
+
+	<import file="${antfiles.dir}/build-test.xml" />
     <import file="${antfiles.dir}/artifacts.xml" />
 
 
@@ -41,9 +40,6 @@
 
 
     <path id="compile.cp">
-        <fileset dir="${ext.dir}/compile">
-            <include name="**/*.jar"/>
-        </fileset>
         <fileset dir="${ext.lib.dir}" id="ext.lib.jars">
             <include name="*.jar"/>
             <exclude name="ant-contrib.jar"/>

@@ -135,6 +135,6 @@
         <delete dir="${test.build.dir}"/>
     </target>
 
-    <target name="all" depends="jar,jarTests" description="Builds the project"/>
+    <target name="all" depends="jar" description="Builds the project"/>
 
 </project>
