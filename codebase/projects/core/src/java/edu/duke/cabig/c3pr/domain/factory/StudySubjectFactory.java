@@ -14,14 +14,10 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -246,20 +242,20 @@ public class StudySubjectFactory {
     private ScheduledEpoch buildScheduledEpoch(ScheduledEpoch source, Epoch epoch)
                     throws C3PRCodedException {
         ScheduledEpoch scheduledEpoch = null;
-        if (epoch instanceof TreatmentEpoch) {
-            ScheduledTreatmentEpoch scheduledTreatmentEpochSource = (ScheduledTreatmentEpoch) source;
-            scheduledEpoch = new ScheduledTreatmentEpoch();
-            ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) scheduledEpoch;
+        if (epoch.getDisplayRole().equalsIgnoreCase("treatment")) {
+            ScheduledEpoch scheduledEpochSource = source;
+            scheduledEpoch = new ScheduledEpoch();
+            ScheduledEpoch scheduledTreatmentEpoch = scheduledEpoch;
             scheduledTreatmentEpoch.setEligibilityIndicator(true);
             if (epoch.getRequiresArm()) {
-                if (scheduledTreatmentEpochSource.getScheduledArm() != null
-                                && scheduledTreatmentEpochSource.getScheduledArm().getArm() != null
-                                && scheduledTreatmentEpochSource.getScheduledArm().getArm()
+                if (scheduledEpochSource.getScheduledArm() != null
+                                && scheduledEpochSource.getScheduledArm().getArm() != null
+                                && scheduledEpochSource.getScheduledArm().getArm()
                                                 .getName() != null) {
                     Arm arm = null;
-                    for (Arm a : ((TreatmentEpoch) epoch).getArms()) {
+                    for (Arm a : (epoch).getArms()) {
                         if (a.getName().equals(
-                                        scheduledTreatmentEpochSource.getScheduledArm().getArm()
+                        		scheduledEpochSource.getScheduledArm().getArm()
                                                         .getName())) {
                             arm = a;
                         }
@@ -269,10 +265,10 @@ public class StudySubjectFactory {
                                         .getException(
                                                         getCode("C3PR.EXCEPTION.REGISTRATION.NOTFOUND.ARM_NAME.CODE"),
                                                         new String[] {
-                                                                scheduledTreatmentEpochSource
+                                                        	scheduledEpochSource
                                                                                 .getScheduledArm()
                                                                                 .getArm().getName(),
-                                                                scheduledTreatmentEpochSource
+                                                                                scheduledEpochSource
                                                                                 .getEpoch()
                                                                                 .getName() });
                     }
@@ -282,7 +278,7 @@ public class StudySubjectFactory {
             }
         }
         else {
-            scheduledEpoch = new ScheduledNonTreatmentEpoch();
+            scheduledEpoch = new ScheduledEpoch();
         }
         scheduledEpoch.setEpoch(epoch);
         scheduledEpoch.setScEpochWorkflowStatus(source.getScEpochWorkflowStatus());
