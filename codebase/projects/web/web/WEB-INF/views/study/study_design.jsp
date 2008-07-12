@@ -95,7 +95,7 @@
             </script>
             
             <td>
-      <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-${treatmentEpochCount.index}" title="Generic: ${command.epochs[treatmentEpochCount.index].name}" onclick="RowManager.deleteRow(genericEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
+      <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-${treatmentEpochCount.index}" title="${command.epochs[treatmentEpochCount.index].displayRole}: ${command.epochs[treatmentEpochCount.index].name}" onclick="RowManager.deleteRow(genericEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
 <!-- GENERIC START-->
 
 <script language="JavaScript1.2">
@@ -214,14 +214,26 @@
           <th>Accrual Ceiling<tags:hoverHint id="study.arm.targetAccrualNumber-${treatmentEpochCount.index}" keyProp="study.arm.targetAccrualNumber"/></th>
           <th><input id="addArm" type="button" value="Add Arm" onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" /></th>
       </tr>
+      
+       <c:forEach items="${treatmentEpoch.arms}" var="arm" varStatus="statusArms">
+        <tr id="arm-${statusArms.index}"><td valign="top"><form:input path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name"  size="43"
+                    cssClass="validate-notEmpty" /></td>
+            <td valign="top"><form:textarea path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].descriptionText"
+			 rows="5" cols="40" /></td>
+            <td valign="top" align="center"><form:input path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber"
+                    size="6" maxlength="6" cssClass="validate-numeric&&nonzero_numeric" /></td>
+            <td valign="top" align="center">
+            	<a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },'${arm.id==null?'HC#':'ID#'}${arm.id==null?arm.hashCode:arm.id}');">
+            	<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+            </td>
+        </tr>
+	 </c:forEach>
   </table>
   </td>
 </tr>
 </c:if>
 
 </table>
-
-<input type="hidden" name="epochs[${treatmentEpochCount.index}].displayRole" value="Generic"/>
 
 
 <!-- GENERIC END-->
@@ -322,7 +334,8 @@
 
 </table>
 
-<input type="hidden" name="epochs[PAGE.ROW.INDEX].displayRole" value="NonTreatment"/>
+<input type="hidden" name="epochs[PAGE.ROW.INDEX].displayRole" value="Treatment"/>
+<input type="hidden" name="epochs[PAGE.ROW.INDEX].enrollmentIndicator" value="True"/>
 
 
 <!-- GENERIC END-->
