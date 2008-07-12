@@ -5,8 +5,8 @@ class RenameEpochsTypeAndDropScheduledEpochsDtype extends edu.northwestern.bioin
 	}
 
 	void down(){
-	renameColumn('epochs', 'type', 'display_role');
-	addColumn('scheduled_epochs','TYPE',"string");
+		renameColumn('epochs', 'type', 'display_role');
+		addColumn('scheduled_epochs','TYPE',"string");
 
 	}
 }
