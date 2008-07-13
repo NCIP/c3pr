@@ -18,7 +18,7 @@
                 <tr>
                     <td align="right" valign="bottom">
                         <c:if test="${userObject != null}">
-                            <div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /></b> [Role name]</div>
+                            <div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /></b><!-- [Role name]--></div>
                        </c:if>
                     <td rowspan="2" align="right" width="1px"><img src="${siteName}" height="45px">
                 </tr>
