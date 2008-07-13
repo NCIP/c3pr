@@ -9,8 +9,13 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/c3pr/public/css/tables1" />
     <script type="text/javascript">
-    
-    
+
+      function updateName(divID, stringValue) {
+          if ($(divID)) {
+              $(divID).innerHTML = stringValue;
+          }
+      }
+
     function onAddTreatmentEpoch(){
 	    $('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps);
 	 //   alert('accrualCeiling-'+0);
@@ -80,10 +85,9 @@
         type="hidden" name="_selectedEpoch" value=""> <input type="hidden"
                                                              name="_selectedArm" value=""></div>
 
-
-<table id="genericEpoch" width="100%">
-    <c:forEach items="${command.epochs}" var="treatmentEpoch"
-               varStatus="treatmentEpochCount">
+<!-- BIG TABLE START -->
+<table id="genericEpoch" width="100%" border="0">
+    <c:forEach items="${command.epochs}" var="treatmentEpoch" varStatus="treatmentEpochCount">
 		
         <tr id="genericEpoch-${treatmentEpochCount.index}">
             <script>
@@ -93,14 +97,6 @@
             <td>
       <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-${treatmentEpochCount.index}" title="${command.epochs[treatmentEpochCount.index].displayRole}: ${command.epochs[treatmentEpochCount.index].name}" onclick="RowManager.deleteRow(genericEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
 <!-- GENERIC START-->
-
-<script language="JavaScript1.2">
-  function updateName(string) {
-      if ($("genericTitle")) {
-          $("genericTitle").innerHTML = string;
-      }
-  }
-</script>
 
 <table width="100%">
 <tr>
@@ -216,6 +212,7 @@ DELETED TD
       </table>
   </td>
 </tr>
+
 <c:if test="${command.epochs[treatmentEpochCount.index].displayRole!='NonTreatment'}">
 <tr>
   <td colspan="3" align="left">
@@ -228,7 +225,7 @@ DELETED TD
           <th>Accrual Ceiling<tags:hoverHint id="study.arm.targetAccrualNumber-${treatmentEpochCount.index}" keyProp="study.arm.targetAccrualNumber"/></th>
           <th><input id="addArm" type="button" value="Add Arm" onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" /></th>
       </tr>
-      
+
        <c:forEach items="${treatmentEpoch.arms}" var="arm" varStatus="statusArms">
         <tr id="arm-${statusArms.index}"><td valign="top"><form:input path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name"  size="43" />
                                                 <tr id="arm-${statusArms.index}">
@@ -247,6 +244,8 @@ DELETED TD
 
   </td>
 </tr>
+  </td>
+</tr>
 </c:if>
 
 </table>
@@ -254,11 +253,14 @@ DELETED TD
 
 <!-- GENERIC END-->
       </chrome:deletableDivision>
+
   </td>
         </tr>
     </c:forEach>
 </table>
-<div align="right">
+<!-- BIG TABLE END -->
+
+    <div align="right">
 	
 	<input id="addEpoch" type="button" value="Add Generic Epoch"
            onclick="$('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)" />
@@ -275,6 +277,9 @@ DELETED TD
 </jsp:attribute>
 </tags:tabForm>
 
+
+<!-- DUMMY SECIION START -->
+
 <div id="dummy-genericEpoch" style="display:none"></div>
 
 <div id="treatmentHtml" style="display:none">
@@ -283,14 +288,6 @@ DELETED TD
   <td>
       <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-PAGE.ROW.INDEX" title="Treatment: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
 <!-- GENERIC START-->
-
-<script language="JavaScript1.2">
-  function updateName(string) {
-      if ($("treatmentTitle")) {
-          $("treatmentTitle").innerHTML = string;
-      }
-  }
-</script>
 
 <table style="border: 0px red dotted;" width="100%">
 <tr>
@@ -496,14 +493,6 @@ DELETED TD
       <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-PAGE.ROW.INDEX" title="Generic: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
 <!-- GENERIC START-->
 
-<script language="JavaScript1.2">
-  function updateName(string) {
-      if ($("genericTitle")) {
-          $("genericTitle").innerHTML = string;
-      }
-  }
-</script>
-
 <table style="border: 0px red dotted;" width="100%">
 <tr>
   <td valign="top">
@@ -611,6 +600,8 @@ DELETED TD
 </tr>
 </table>
 </div>
+
+<!-- DUMMY SECIION END -->
 
 </body>
 </html>
