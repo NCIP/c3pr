@@ -98,7 +98,7 @@
       <chrome:deletableDivision divTitle="genericTitle-${treatmentEpochCount.index}" id="genericEpochBox-${treatmentEpochCount.index}" title="${command.epochs[treatmentEpochCount.index].displayRole}: ${command.epochs[treatmentEpochCount.index].name}" onclick="RowManager.deleteRow(genericEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
 <!-- GENERIC START-->
 
-<table width="100%" border="10">
+<table width="100%" border="0">
 <tr>
   <td valign="top" width="50%">
 
@@ -289,7 +289,7 @@ DELETED TD
 <table width="100%">
 <tr valign="top">
   <td>
-      <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-PAGE.ROW.INDEX" title="Treatment: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
+      <chrome:deletableDivision divTitle="divTEpochBox-PAGE.ROW.INDEX" id="tEpochBox-PAGE.ROW.INDEX" title="Treatment: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
 <!-- GENERIC START-->
 
 <table style="border: 0px red dotted;" width="100%">
@@ -299,7 +299,7 @@ DELETED TD
       <table width="100%" border="0" cellspacing="2">
       <tr>
           <td align="right"><b>Name:</b></td>
-          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName(this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
+          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName('divTEpochBox-PAGE.ROW.INDEX', 'Treatment: ' + this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
       </tr>
 
       <tr>
@@ -384,7 +384,7 @@ DELETED TD
 <table width="100%">
 <tr valign="top">
   <td>
-      <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-PAGE.ROW.INDEX" title="NonTreatment: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
+      <chrome:deletableDivision divTitle="divGenericNTEpochBox-PAGE.ROW.INDEX" id="genericNTEpochBox-PAGE.ROW.INDEX" title="NonTreatment: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
 <!-- GENERIC START-->
 
 <table style="border: 0px red dotted;" width="100%">
@@ -394,7 +394,7 @@ DELETED TD
       <table width="100%" border="0" cellspacing="2">
       <tr>
           <td align="right"><b>Name:</b></td>
-          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName(this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
+          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName('divGenericNTEpochBox-PAGE.ROW.INDEX', 'NonTreatment: ' + this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
       </tr>
 
       <tr>
@@ -485,7 +485,7 @@ DELETED TD
 <table width="100%">
 <tr valign="top">
   <td>
-      <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-PAGE.ROW.INDEX" title="Generic: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
+      <chrome:deletableDivision divTitle="divGenericEpochBox-PAGE.ROW.INDEX" id="genericEpochBox-PAGE.ROW.INDEX" title="Generic: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
 <!-- GENERIC START-->
 
 <table style="border: 0px red dotted;" width="100%">
@@ -495,7 +495,7 @@ DELETED TD
       <table width="100%" border="0" cellspacing="2">
       <tr>
           <td align="right"><b>Name:</b></td>
-          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName(this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
+          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName('divGenericEpochBox-PAGE.ROW.INDEX', 'Generic: ' + this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
       </tr>
 
       <tr>
