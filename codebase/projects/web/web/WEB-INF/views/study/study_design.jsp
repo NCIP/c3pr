@@ -81,11 +81,7 @@
                                                              name="_selectedArm" value=""></div>
 
 
-<table border="0" cellspacing="0" cellpadding="0" id="genericEpoch"
-       width="100%">
-    <tr>
-        <td></td>
-    </tr>
+<table id="genericEpoch" width="100%">
     <c:forEach items="${command.epochs}" var="treatmentEpoch"
                varStatus="treatmentEpochCount">
 		
@@ -106,9 +102,9 @@
   }
 </script>
 
-<table style="border: 0px red dotted;" width="100%">
+<table width="100%">
 <tr>
-  <td valign="top">
+  <td valign="top" width="50%">
 
       <table width="100%" border="0" cellspacing="5">
       <tr>
@@ -157,36 +153,33 @@
 
   </td>
 
-  <td valign="bottom">
-    <c:if test="${command.epochs[treatmentEpochCount.index].enrollmentIndicator &&  command.epochs[treatmentEpochCount.index].displayRole!='Treatment'}">
-          <table width="100%" border="0">
-          <tr>
-              <td align="right"><div id="reservationIndicatorLabel-${treatmentEpochCount.index} <c:if test="${command.epochs[treatmentEpochCount.index].enrollmentIndicator==true}">style="display:none;"</c:if>">
-              <b>Reserving:</b>
-              </div></td>
-              <td align="left">
-                 <div id ="reservationIndicator-${treatmentEpochCount.index}" <c:if test="${command.epochs[treatmentEpochCount.index].enrollmentIndicator==true}">style="display:none;"</c:if>>
-			                       					<form:select
-			                                        	path="epochs[${treatmentEpochCount.index}].reservationIndicator"
-			                                        	cssClass="validate-notEmpty">
-			                                    		<option value="">Please Select</option>
-			                                     		<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-			                                		</form:select>
-				                       				<tags:hoverHint id="study.nonTreatmentEpoch.reservationIndicator-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.reservationIndicator"/>
-				                       			</div>
-              </td>
-          </tr>
-          </table>
-    </c:if> 
-  </td>
+
+    <style>
+        .descTextarea {
+            width:380px;
+        }
+    </style>
+
+  <!--[if IE]>
+    <style>
+        .descTextarea {
+            width:384px;
+        }
+    </style>
+
+  <![endif]-->
+
+<%--
+DELETED TD
+--%>
 
   <td valign="top">
       <table width="100%" border="0">
       <tr>
           <td align="right"><b>Description:</b></td>
-          <td align="left"><form:textarea
+          <td align="left" colspan="3"><form:textarea
                                             path="epochs[${treatmentEpochCount.index}].descriptionText"
-                                            rows="5" cols="40" />
+                                            rows="5" cssClass="descTextarea" />
                                         <tags:hoverHint id="study.treatmentEpoch.description-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.description"/></td>
       </tr>
       
@@ -198,7 +191,27 @@
 	                                                          maxlength="5" cssClass="validate-numeric&&nonzero_numeric" />
 	                                		<tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.accrualCeiling"/>
           </td>
-      </tr>
+      <!--</tr>-->
+<!---->
+        <c:if test="${!command.epochs[treatmentEpochCount.index].enrollmentIndicator}">          
+        <!--<tr>-->
+                        <td align="right"><div id="reservationIndicatorLabel-${treatmentEpochCount.index} <c:if test="${command.epochs[treatmentEpochCount.index].enrollmentIndicator==true}">style="display:none;"</c:if>">
+                        <b>Reserving:</b>
+                        </div></td>
+                        <td align="left">
+                           <div id ="reservationIndicator-${treatmentEpochCount.index}" >
+                                                                 <form:select
+                                                                  path="epochs[${treatmentEpochCount.index}].reservationIndicator"
+                                                                  cssClass="validate-notEmpty">
+                                                                  <option value="">Please Select</option>
+                                                                   <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+                                                              </form:select>
+                                                                 <tags:hoverHint id="study.nonTreatmentEpoch.reservationIndicator-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.reservationIndicator"/>
+                                                             </div>
+                        </td>
+        </tr>
+        </c:if>
+<!---->
       </c:if>
       </table>
   </td>
@@ -207,7 +220,8 @@
 <tr>
   <td colspan="3" align="left">
       <hr noshade size="1" width="100%">
-  <table id="arm" class="tablecontent">
+
+      <table id="arm" class="tablecontent" border="0">
       <tr>
           <th><span class="required-indicator">Arm</span><tags:hoverHint id="study.arm.name-${treatmentEpochCount.index}" keyProp="study.arm.name"/></th>
           <th>Description<tags:hoverHint id="study.arm.description-${treatmentEpochCount.index}" keyProp="study.arm.description"/></th>
@@ -216,19 +230,21 @@
       </tr>
       
        <c:forEach items="${treatmentEpoch.arms}" var="arm" varStatus="statusArms">
-        <tr id="arm-${statusArms.index}"><td valign="top"><form:input path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name"  size="43"
+        <tr id="arm-${statusArms.index}"><td valign="top"><form:input path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name"  size="43" />
+                                                <tr id="arm-${statusArms.index}">
+                                                    <td valign="top"><form:input
+                                                            path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name"  size="43"
                     cssClass="validate-notEmpty" /></td>
-            <td valign="top"><form:textarea path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].descriptionText"
-			 rows="5" cols="40" /></td>
-            <td valign="top" align="center"><form:input path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber"
-                    size="6" maxlength="6" cssClass="validate-numeric&&nonzero_numeric" /></td>
+            <td valign="top"><form:textarea path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].descriptionText" rows="5" cols="40" /></td>
+            <td valign="top" align="center"><form:input path="epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber" size="6" maxlength="6" cssClass="validate-numeric&&nonzero_numeric" /></td>
             <td valign="top" align="center">
             	<a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },'${arm.id==null?'HC#':'ID#'}${arm.id==null?arm.hashCode:arm.id}');">
             	<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
             </td>
         </tr>
 	 </c:forEach>
-  </table>
+      </table>
+
   </td>
 </tr>
 </c:if>
@@ -280,7 +296,7 @@
 <tr>
   <td valign="top">
 
-      <table width="100%" border="0" cellspacing="5">
+      <table width="100%" border="0" cellspacing="2">
       <tr>
           <td align="right"><b>Name:</b></td>
           <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName(this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
@@ -383,7 +399,7 @@
 <tr>
   <td valign="top">
 
-      <table width="100%" border="0" cellspacing="5">
+      <table width="100%" border="0" cellspacing="2">
       <tr>
           <td align="right"><b>Name:</b></td>
           <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName(this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
@@ -492,7 +508,7 @@
 <tr>
   <td valign="top">
 
-      <table width="100%" border="0" cellspacing="5">
+      <table width="100%" border="0" cellspacing="2">
       <tr>
           <td align="right"><b>Name:</b></td>
           <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName(this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
