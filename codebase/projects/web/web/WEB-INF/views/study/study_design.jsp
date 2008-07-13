@@ -95,36 +95,40 @@
             </script>
             
             <td>
-      <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-${treatmentEpochCount.index}" title="${command.epochs[treatmentEpochCount.index].displayRole}: ${command.epochs[treatmentEpochCount.index].name}" onclick="RowManager.deleteRow(genericEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
+      <chrome:deletableDivision divTitle="genericTitle-${treatmentEpochCount.index}" id="genericEpochBox-${treatmentEpochCount.index}" title="${command.epochs[treatmentEpochCount.index].displayRole}: ${command.epochs[treatmentEpochCount.index].name}" onclick="RowManager.deleteRow(genericEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
 <!-- GENERIC START-->
 
-<table width="100%">
+<table width="100%" border="10">
 <tr>
   <td valign="top" width="50%">
 
       <table width="100%" border="0" cellspacing="5">
       <tr>
           <td align="right"><b>Name:</b></td>
-          <td align="left" valign="top"><form:input path="epochs[${treatmentEpochCount.index}].name" size="43" cssClass="validate-notEmpty" />
-			                                        <tags:hoverHint id="study.treatmentEpoch.name-	" keyProp="study.treatmentEpoch.name"/></td>
+          <td align="left" valign="top">
+              <form:input path="epochs[${treatmentEpochCount.index}].name" size="43" cssClass="validate-notEmpty" onkeyup="updateName('genericTitle-${treatmentEpochCount.index}', '${command.epochs[treatmentEpochCount.index].displayRole}: ' + this.value);"/>
+			  <tags:hoverHint id="study.treatmentEpoch.name-	" keyProp="study.treatmentEpoch.name"/>
+          </td>
       </tr>
 
       <tr>
           <td align="right"> <span class="required-indicator"><b>Order:</b></span></td>
-          <td><form:input path="epochs[${treatmentEpochCount.index}].epochOrder" size="5" maxlength="1"
-			                                               cssClass="validate-notEmpty&&numeric" />
-			                                        <tags:hoverHint id="study.treatmentEpoch.epochorder-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.epochOrder"/></td>
+          <td>
+              <form:input path="epochs[${treatmentEpochCount.index}].epochOrder" size="5" maxlength="1" cssClass="validate-notEmpty&&numeric" />
+              <tags:hoverHint id="study.treatmentEpoch.epochorder-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.epochOrder"/>
+          </td>
       </tr>
 
   <c:if test="${command.randomizedIndicator== true && command.epochs[treatmentEpochCount.index].displayRole != 'NonTreatment'}">
       <tr>
               <td align="right"><span class="required-indicator"><b>Randomized:</b></span></td>
-              <td><form:select
-				                                        path="epochs[${treatmentEpochCount.index}].randomizedIndicator"
-				                                        cssClass="validate-notEmpty">
-				                                   <option value="">Please Select</option>
-				                                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-				                                </form:select><tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.randomizedIndicator"/></td>
+              <td>
+                  <form:select path="epochs[${treatmentEpochCount.index}].randomizedIndicator" cssClass="validate-notEmpty">
+                    <option value="">Please Select</option>
+                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code"/>
+                  </form:select>
+                  <tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.randomizedIndicator"/>
+              </td>
       </tr>
   </c:if>
   
@@ -382,14 +386,6 @@ DELETED TD
   <td>
       <chrome:deletableDivision divTitle="genericTitle" id="genericEpochBox-PAGE.ROW.INDEX" title="NonTreatment: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
 <!-- GENERIC START-->
-
-<script language="JavaScript1.2">
-  function updateName(string) {
-      if ($("genericTitle")) {
-          $("genericTitle").innerHTML = string;
-      }
-  }
-</script>
 
 <table style="border: 0px red dotted;" width="100%">
 <tr>
