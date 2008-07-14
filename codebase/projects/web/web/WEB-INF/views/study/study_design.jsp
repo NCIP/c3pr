@@ -37,7 +37,7 @@
             if (box.value == 'false') {
                 		//document.getElementById('reservationIndicator').style.display='show';
            //   Form.reset('reservationIndicator-'+index);
-           		alert('reservationIndicator-'+index);
+           //		alert('reservationIndicator-'+index);
                 Effect.OpenUp('reservationIndicator-'+index);
                 Effect.OpenUp('reservationIndicatorLabel-'+index);
             }
@@ -193,9 +193,8 @@ DELETED TD
           </td>
       <!--</tr>-->
 <!---->
-        <c:if test="${!command.epochs[treatmentEpochCount.index].enrollmentIndicator}">          
         <!--<tr>-->
-                        <td align="right"><div id="reservationIndicatorLabel-${treatmentEpochCount.index} <c:if test="${command.epochs[treatmentEpochCount.index].enrollmentIndicator==true}">style="display:none;"</c:if>">
+                        <td align="right"><div id="reservationIndicatorLabel-${treatmentEpochCount.index}" ">
                         <b>Reserving:</b>
                         </div></td>
                         <td align="left">
@@ -210,7 +209,6 @@ DELETED TD
                                                              </div>
                         </td>
         </tr>
-        </c:if>
 <!---->
       </c:if>
       </table>
@@ -298,7 +296,7 @@ DELETED TD
 
 <table style="border: 0px red dotted;" width="100%">
 <tr>
-  <td valign="top">
+  <td valign="top" width="50%">
 
       <table width="100%" border="0" cellspacing="2">
       <tr>
@@ -327,12 +325,31 @@ DELETED TD
       </table>
 
   </td>
+  
+   <style>
+        .descTextarea {
+            width:380px;
+        }
+    </style>
+
+  <!--[if IE]>
+    <style>
+        .descTextarea {
+            width:384px;
+        }
+    </style>
+
+  <![endif]-->
+
+<%--
+DELETED TD
+--%>
 
   <td valign="top">
       <table width="100%" border="0">
       <tr>
           <td align="right"><b>Description:</b></td>
-          <td align="left"><textarea name="epochs[PAGE.ROW.INDEX].descriptionText" rows="5" cols="40"></textarea><tags:hoverHint id="study.treatmentEpoch.description-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.description"/></td>
+          <td align="left"><textarea name="epochs[PAGE.ROW.INDEX].descriptionText" rows="5" class="descTextarea"></textarea><tags:hoverHint id="study.treatmentEpoch.description-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.description"/></td>
       </tr>
       </table>
   </td>
@@ -395,7 +412,7 @@ DELETED TD
 
 <table style="border: 0px red dotted;" width="100%">
 <tr>
-  <td valign="top">
+  <td valign="top" width="50%">
 
       <table width="100%" border="0" cellspacing="2">
       <tr>
@@ -438,37 +455,47 @@ DELETED TD
 
   </td>
 
-  <td valign="bottom">
-    <c:if test="${command.epochs[PAGE.ROW.INDEX].enrollmentIndicator}">
-          <table width="100%" border="0">
-          <tr>
-              <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><b>Reserving:</b></div></td>
-              <td align="left">
-                  <div id ="reservationIndicator-PAGE.ROW.INDEX">
-                      <select id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
-                           <option value="">Please Select</option>
-                           <option value="true">Yes</option>
-                           <option value="false" selected="selected">No</option>
-                       </select>
-                      <tags:hoverHint id="study.nonTreatmentEpoch.reservationIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.reservationIndicator"/>
-                  </div>
-              </td>
-          </tr>
-          </table>
-    </c:if> 
-  </td>
+    <style>
+        .descTextarea {
+            width:380px;
+        }
+    </style>
+
+  <!--[if IE]>
+    <style>
+        .descTextarea {
+            width:384px;
+        }
+    </style>
+
+  <![endif]-->
+
+<%--
+DELETED TD
+--%>
 
   <td valign="top">
       <table width="100%" border="0">
       <tr>
           <td align="right"><b>Description:</b></td>
-          <td align="left"><textarea name="epochs[PAGE.ROW.INDEX].descriptionText" rows="5" cols="40"></textarea><tags:hoverHint id="study.treatmentEpoch.description-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.description"/></td>
+          <td align="left" colspan="3"><textarea name="epochs[PAGE.ROW.INDEX].descriptionText" rows="5" class="descTextarea"></textarea><tags:hoverHint id="study.treatmentEpoch.description-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.description"/></td>
       </tr>
       <tr>
           <td align="right"><b>Accrual Ceiling:</b> </td>
           <td align="left">
               <input type="text" id="epochs[PAGE.ROW.INDEX].accrualCeiling" name="epochs[PAGE.ROW.INDEX].accrualCeiling" size="12" maxlength="5" class="validate-numeric&&nonzero_numeric" />
               <tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.accrualCeiling"/>
+          </td>
+          <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><b>Reserving:</b></div></td>
+          <td align="left">
+              <div id ="reservationIndicator-PAGE.ROW.INDEX">
+                  <select id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
+                       <option value="">Please Select</option>
+                       <option value="true">Yes</option>
+                       <option value="false" selected="selected">No</option>
+                   </select>
+                  <tags:hoverHint id="study.nonTreatmentEpoch.reservationIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.reservationIndicator"/>
+              </div>
           </td>
       </tr>
       </table>
@@ -496,7 +523,7 @@ DELETED TD
 
 <table style="border: 0px red dotted;" width="100%">
 <tr>
-  <td valign="top">
+  <td valign="top" width="50%">
 
       <table width="100%" border="0" cellspacing="2">
       <tr>
@@ -538,38 +565,50 @@ DELETED TD
       </table>
 
   </td>
+  
+  
+    <style>
+        .descTextarea {
+            width:380px;
+        }
+    </style>
 
-  <td valign="bottom">
-    <c:if test="${command.epochs[PAGE.ROW.INDEX].enrollmentIndicator}">
-          <table width="100%" border="0">
-          <tr>
-              <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><b>Reserving:</b></div></td>
-              <td align="left">
-                  <div id ="reservationIndicator-PAGE.ROW.INDEX">
-                      <select id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
-                           <option value="">Please Select</option>
-                           <option value="true">Yes</option>
-                           <option value="false" selected="selected">No</option>
-                       </select>
-                      <tags:hoverHint id="study.nonTreatmentEpoch.reservationIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.reservationIndicator"/>
-                  </div>
-              </td>
-          </tr>
-          </table>
-    </c:if> 
-  </td>
+  <!--[if IE]>
+    <style>
+        .descTextarea {
+            width:384px;
+        }
+    </style>
+
+  <![endif]-->
+
+<%--
+DELETED TD
+--%>
 
   <td valign="top">
       <table width="100%" border="0">
       <tr>
           <td align="right"><b>Description:</b></td>
-          <td align="left"><textarea name="epochs[PAGE.ROW.INDEX].descriptionText" rows="5" cols="40"></textarea><tags:hoverHint id="study.treatmentEpoch.description-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.description"/></td>
+          <td align="left" colspan="3"><textarea name="epochs[PAGE.ROW.INDEX].descriptionText" rows="5" class="descTextarea"></textarea><tags:hoverHint id="study.treatmentEpoch.description-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.description"/></td>
       </tr>
       <tr>
           <td align="right"><b>Accrual Ceiling:</b> </td>
           <td align="left">
               <input type="text" id="epochs[PAGE.ROW.INDEX].accrualCeiling" name="epochs[PAGE.ROW.INDEX].accrualCeiling" size="12" maxlength="5" class="validate-numeric&&nonzero_numeric" />
               <tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.accrualCeiling"/>
+          </td>
+          
+          <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><b>Reserving:</b></div></td>
+          <td align="left">
+              <div id ="reservationIndicator-PAGE.ROW.INDEX">
+                  <select id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
+                       <option value="">Please Select</option>
+                       <option value="true">Yes</option>
+                       <option value="false" selected="selected">No</option>
+                   </select>
+                  <tags:hoverHint id="study.nonTreatmentEpoch.reservationIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.reservationIndicator"/>
+              </div>
           </td>
       </tr>
       </table>
