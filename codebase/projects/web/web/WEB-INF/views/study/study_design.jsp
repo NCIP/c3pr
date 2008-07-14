@@ -87,6 +87,9 @@
 
 <!-- BIG TABLE START -->
 <table id="genericEpoch" width="100%" border="0">
+	<tr>
+        <td></td>
+    </tr>
     <c:forEach items="${command.epochs}" var="treatmentEpoch" varStatus="treatmentEpochCount">
 		
         <tr id="genericEpoch-${treatmentEpochCount.index}">
