@@ -218,19 +218,23 @@ DELETED TD
 </tr>
 
 <c:if test="${command.epochs[treatmentEpochCount.index].displayRole!='NonTreatment'}">
-<tr>
+<tr bgcolor="eeffee">
   <td colspan="3" align="left">
       <hr noshade size="1" width="100%">
 
+      <input id="addArm" type="button" value="Add Arm" onclick="$('h-${treatmentEpochCount.index}').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" />
+      <br />
       <!--ARMS TABLE-->
+
       <table id="arm" class="tablecontent" border="0">
-      <tr>
+<%----%>
+          
+      <tr id="h-${treatmentEpochCount.index}" <c:if test="${fn:length(treatmentEpoch.arms) == 0}">style="display:none;"</c:if>>
           <th><span class="required-indicator">Arm</span><tags:hoverHint id="study.arm.name-${treatmentEpochCount.index}" keyProp="study.arm.name"/></th>
           <th>Description<tags:hoverHint id="study.arm.description-${treatmentEpochCount.index}" keyProp="study.arm.description"/></th>
           <th>Accrual Ceiling<tags:hoverHint id="study.arm.targetAccrualNumber-${treatmentEpochCount.index}" keyProp="study.arm.targetAccrualNumber"/></th>
-          <th><input id="addArm" type="button" value="Add Arm" onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" /></th>
+          <th></th>
       </tr>
-
           <!--ARMS START -->
             <c:forEach items="${treatmentEpoch.arms}" var="arm" varStatus="statusArms">
             <tr id="arm-${statusArms.index}">
@@ -337,12 +341,14 @@ DELETED TD
 <tr>
   <td colspan="3" align="left">
       <hr noshade size="1" width="100%">
+      <input id="addArm" type="button" value="Add Arm" onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" />
+      <br />
   <table id="arm" class="tablecontent">
-      <tr>
+      <tr id="h-PAGE.ROW.INDEX" style="display:none;">
           <th><span class="required-indicator">Arm</span><tags:hoverHint id="study.arm.name-PAGE.ROW.INDEX" keyProp="study.arm.name"/></th>
           <th>Description<tags:hoverHint id="study.arm.description-PAGE.ROW.INDEX" keyProp="study.arm.description"/></th>
           <th>Accrual Ceiling<tags:hoverHint id="study.arm.targetAccrualNumber-PAGE.ROW.INDEX" keyProp="study.arm.targetAccrualNumber"/></th>
-          <th><input id="addArm" type="button" value="Add Arm" onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" /></th>
+          <th></th>
       </tr>
   </table>
   </td>
@@ -573,12 +579,16 @@ DELETED TD
 <tr>
   <td colspan="3" align="left">
       <hr noshade size="1" width="100%">
+
+      <input id="addArm" type="button" value="Add Arm" onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" />
+      <br />
+
   <table id="arm" class="tablecontent">
-      <tr>
+      <tr id="h-PAGE.ROW.INDEX" style="display:none;">
           <th><span class="required-indicator">Arm</span><tags:hoverHint id="study.arm.name-PAGE.ROW.INDEX" keyProp="study.arm.name"/></th>
           <th>Description<tags:hoverHint id="study.arm.description-PAGE.ROW.INDEX" keyProp="study.arm.description"/></th>
           <th>Accrual Ceiling<tags:hoverHint id="study.arm.targetAccrualNumber-PAGE.ROW.INDEX" keyProp="study.arm.targetAccrualNumber"/></th>
-          <th><input id="addArm" type="button" value="Add Arm" onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" /></th>
+          <th></th>
       </tr>
   </table>
   </td>
