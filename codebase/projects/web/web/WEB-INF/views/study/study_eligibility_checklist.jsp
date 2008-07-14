@@ -8,7 +8,7 @@
 
 <html>
 <head>
-    <%--<tags:includeScriptaculous />
+    <%--<tags:includeScriptaculous /> --%>
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 
     <title>${tab.longTitle}</title>
@@ -73,9 +73,7 @@
 	                    <select name="name" class="validate-notEmpty">
 	                    	<option value="">Please Select</option>
 	                     	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
-		                      	<c:if test="${epoch.displayRole!='NonTreatment'}">
 							  		<option value="${epoch.name}">${epoch.name}</option>
-							  	</c:if>	
 						 	</c:forEach>
 						</select>				            
 					 </td>
@@ -95,7 +93,6 @@
     <form:form method="post" name="form">
     <tags:tabFields tab="${tab}"/>
     <c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
-        <c:if test="${epoch.displayRole != 'NonTreatment' }">
             <script>
                 var instanceInclusionRow_${epochCount.index} = {
                     add_row_division_id: "addInclusionRowTable-${epochCount.index}",
@@ -194,7 +191,6 @@
                     	<span id="instructions">&nbsp;&nbsp;*N/A - Allow not applicable answer.</span>
                 
             </tags:minimizablePanelBox>
-        </c:if>
     </c:forEach>
     <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 	</form:form>
@@ -202,7 +198,6 @@
 
    
 <c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
-    <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
         <div id="dummy-inclusionRow-${epochCount.index}" style="display:none">
             <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                 <tr>
@@ -239,7 +234,6 @@
                 </tr>
             </table>
         </div>
-    </c:if>
 </c:forEach>
 
 	
