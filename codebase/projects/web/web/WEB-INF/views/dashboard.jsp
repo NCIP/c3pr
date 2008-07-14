@@ -14,8 +14,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Dashboard</title>
-
     <c:set var="bgcolorSelected" value="#cccccc"/>
     <c:set var="bgcolorAlternate" value="#eeeeee"/>
     <c:set var="bgcolor" value="#ffffff"/>
