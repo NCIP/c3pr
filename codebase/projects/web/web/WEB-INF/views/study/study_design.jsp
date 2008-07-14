@@ -33,20 +33,19 @@
             }
         }
         
-         function manageEnrollingIndicatorSelectBox(box,index) {
-            if (box.value == 'false') {
-                		//document.getElementById('reservationIndicator').style.display='show';
-           //   Form.reset('reservationIndicator-'+index);
-           //		alert('reservationIndicator-'+index);
-                Effect.OpenUp('reservationIndicator-'+index);
-                Effect.OpenUp('reservationIndicatorLabel-'+index);
-            }
-            if (box.value == 'true') {
-             	//document.getElementById('reservationIndicator').style.display='none';
-                Effect.CloseDown('reservationIndicator-'+index);
-                Effect.CloseDown('reservationIndicatorLabel-'+index);
-           //  $('epochs['+index+'].reservationIndicator').value=false;
-            }
+         function manageEnrollingIndicatorSelectBox(box, index) {
+
+             if (isNaN(index)) return;
+
+             try {
+                 if (box.value == 'false') {
+                     $('epochs[' + index + '].reservationIndicator').disabled = false;
+                 } else {
+                     $('epochs[' + index + '].reservationIndicator').disabled = true;
+                     $('epochs[' + index + '].reservationIndicator').value = false;
+                 }
+             } catch(ex) {
+             }
         }
         
         var armInserterProps= {
@@ -197,19 +196,19 @@ DELETED TD
       <!--</tr>-->
 <!---->
         <!--<tr>-->
-                        <td align="right"><div id="reservationIndicatorLabel-${treatmentEpochCount.index}" ">
-                        <b>Reserving:</b>
-                        </div></td>
+                        <td align="right"><div id="reservationIndicatorLabel-${treatmentEpochCount.index}"><b>Reserving:</b></div></td>
                         <td align="left">
                            <div id ="reservationIndicator-${treatmentEpochCount.index}" >
-                                                                 <form:select
-                                                                  path="epochs[${treatmentEpochCount.index}].reservationIndicator"
-                                                                  cssClass="validate-notEmpty">
-                                                                  <option value="">Please Select</option>
-                                                                   <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                                                              </form:select>
-                                                                 <tags:hoverHint id="study.nonTreatmentEpoch.reservationIndicator-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.reservationIndicator"/>
-                                                             </div>
+                               <c:set var="_disabled" value="false" />
+                               <c:if test="${command.epochs[treatmentEpochCount.index].enrollmentIndicator}">
+                                    <c:set var="_disabled" value="true" />
+                               </c:if>
+                               <form:select disabled="${_disabled}" path="epochs[${treatmentEpochCount.index}].reservationIndicator" cssClass="validate-notEmpty">
+                                   <option value="">Please Select</option>
+                                   <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+                              </form:select>
+                               <tags:hoverHint id="study.nonTreatmentEpoch.reservationIndicator-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.reservationIndicator"/>
+                           </div>
                         </td>
         </tr>
 <!---->
@@ -492,7 +491,7 @@ DELETED TD
           <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><b>Reserving:</b></div></td>
           <td align="left">
               <div id ="reservationIndicator-PAGE.ROW.INDEX">
-                  <select id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
+                  <select disabled="true" id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
                        <option value="">Please Select</option>
                        <option value="true">Yes</option>
                        <option value="false" selected="selected">No</option>
@@ -605,7 +604,7 @@ DELETED TD
           <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><b>Reserving:</b></div></td>
           <td align="left">
               <div id ="reservationIndicator-PAGE.ROW.INDEX">
-                  <select id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
+                  <select disabled="true" id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
                        <option value="">Please Select</option>
                        <option value="true">Yes</option>
                        <option value="false" selected="selected">No</option>
@@ -620,10 +619,10 @@ DELETED TD
 
 <tr>
   <td colspan="3" align="left">
-      <hr noshade size="1" width="100%">
-
       <input id="addArm" type="button" value="Add Arm" onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" />
       <br />
+      <hr noshade size="1" width="50%" style="border-top:1px black dotted;" align="left">
+
 
   <table id="arm" class="tablecontent">
       <tr id="h-PAGE.ROW.INDEX" style="display:none;">
