@@ -153,7 +153,10 @@ public class ViewParticipantController<C extends Participant> extends
 	                		request.setAttribute("noParticipant", "noParticipant");
 	                		return new Participant();
 	                	} else {return participants.get(0);}
-	        		}
+	        		}else {
+	            		request.setAttribute("assignedByValueRequired", "assignedByValueRequired");
+	            		return new Participant();
+	            	}
         		}
         	}else {
         		request.setAttribute("assignedByRequired", "assignedByRequired");
@@ -171,6 +174,9 @@ public class ViewParticipantController<C extends Participant> extends
     	}
     	if((request.getAttribute("assignedByRequired"))!=null){
     		errors.reject("tempProperty","Assigned By is required");
+    	}
+    	if((request.getAttribute("assignedByValueRequired"))!=null){
+    		errors.reject("tempProperty","Assigned By has to be system or organization");
     	}
     	if((request.getAttribute("systemOrOrganizationRequired"))!=null){
     		errors.reject("tempProperty","System Name or Organization Nci Id are required");
