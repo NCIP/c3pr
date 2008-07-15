@@ -30,6 +30,7 @@ function updateTargetPage(target){
 <body>
 <form:form>
 	<tags:tabFields tab="${tab}" />
+	<tags:errors path="*"/> 
 
 	<chrome:box title="Subject Summary">
 		<div><input type="hidden" name="_finish" value="true" /> <input type="hidden" name="_action" value=""></div>
@@ -37,7 +38,7 @@ function updateTargetPage(target){
 		<chrome:division id="subject-details" title="Basic Details">
 			<table class="tablecontent" width="60%">
 				<tr>
-					<td width="35%" class="alt" align="left"><b>First Name</b></td>
+					<td width="35%" class="alt" align="left"><b>First Name1</b></td>
 					<td class="alt" align="left">${command.firstName}</td>
 				</tr>
 				<tr>
