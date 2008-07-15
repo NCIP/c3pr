@@ -129,30 +129,34 @@ public class ViewParticipantController<C extends Participant> extends
         	if(request.getParameter("assignedBy")!=null ){
         		String assignedBy = request.getParameter("assignedBy"); 
         		if(request.getParameter("identifierType")!=null && request.getParameter("identifier")!=null) {
-	        		if(assignedBy.equals("system") && request.getParameter("systemName")!=null ){
-	        			SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();   
-	        			sysIdentifier.setSystemName(name);
-	        			sysIdentifier.setType(type);
-	        			sysIdentifier.setValue(value);
-	        			
-	                	participants = participantDao.searchBySystemAssignedIdentifier(sysIdentifier);
-	                	if(participants.size()<1){
-	                		request.setAttribute("noParticipant", "noParticipant");
-	                		return new Participant();
-	                	} else {return participants.get(0);}
+	        		if(assignedBy.equals("system")){
+		        			if(request.getParameter("systemName")!=null ) {
+		        			SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();   
+		        			sysIdentifier.setSystemName(name);
+		        			sysIdentifier.setType(type);
+		        			sysIdentifier.setValue(value);
+		        			
+		                	participants = participantDao.searchBySystemAssignedIdentifier(sysIdentifier);
+		                	if(participants.size()<1){
+		                		request.setAttribute("noParticipant", "noParticipant");
+		                		return new Participant();
+		                	} else {return participants.get(0);}
+		        		}
 	        			
 	        		}else if(assignedBy.equals("organization")){
-	        			OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier(); 
-	        			HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(name);
-	        			orgIdentifier.setHealthcareSite(healthcareSite);
-	        			orgIdentifier.setType(type);
-	        			orgIdentifier.setValue(value);
-	        			
-	        			participants = participantDao.searchByOrgIdentifier(orgIdentifier);
-	                	if(participants.size()<1){
-	                		request.setAttribute("noParticipant", "noParticipant");
-	                		return new Participant();
-	                	} else {return participants.get(0);}
+		        			if(request.getParameter("organizationNciId")!=null ) {
+		        			OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier(); 
+		        			HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(name);
+		        			orgIdentifier.setHealthcareSite(healthcareSite);
+		        			orgIdentifier.setType(type);
+		        			orgIdentifier.setValue(value);
+		        			
+		        			participants = participantDao.searchByOrgIdentifier(orgIdentifier);
+		                	if(participants.size()<1){
+		                		request.setAttribute("noParticipant", "noParticipant");
+		                		return new Participant();
+		                	} else {return participants.get(0);}
+	        			}
 	        		}else {
 	            		request.setAttribute("assignedByValueRequired", "assignedByValueRequired");
 	            		return new Participant();
