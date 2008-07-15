@@ -66,7 +66,7 @@ public class ViewParticipantController<C extends Participant> extends
     protected ParticipantDao getDao() {
         return participantDao;
     }
-
+    
     @Override
     protected Participant getPrimaryDomainObject(C command) {
         return command;
@@ -95,6 +95,7 @@ public class ViewParticipantController<C extends Participant> extends
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         Participant participant = null;
+        List<Participant> participants = new ArrayList<Participant>();
 
         if (request.getParameter("participantId") != null) {
             participant = participantDao.getById(Integer.parseInt(request
@@ -102,53 +103,94 @@ public class ViewParticipantController<C extends Participant> extends
             log.debug(" Participant's ID is:" + participant.getId());
         }else {
         	
-        	List<Participant> participants = new ArrayList<Participant>();
         	String name = null;
         	if(request.getParameter("systemName")!=null){
         		name = request.getParameter("systemName");
         	} else if(request.getParameter("organizationNciId")!=null){
         		name = request.getParameter("organizationNciId");
+        	}else {
+        		request.setAttribute("systemOrOrganizationRequired", "systemOrOrganizationRequired");
         	}
         	
         	String type = null;
         	if (request.getParameter("identifierType")!=null){
         		 type = request.getParameter("identifierType");
+        	} else {
+        		request.setAttribute("identifierTypeRequired", "identifierTypeRequired");
         	}
         	
         	String value = null;
         	if(request.getParameter("identifier")!=null){
         		value = request.getParameter("identifier");
+        	}else {
+        		request.setAttribute("identifierRequired", "identifierRequired");
         	}
         	
-        	if(request.getParameter("assignedBy")!=null){
-        		String assignedBy = request.getParameter("assignedBy");
-        		if(assignedBy.equals("system")){
-        			SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();   
-        			sysIdentifier.setSystemName(name);
-        			sysIdentifier.setType(type);
-        			sysIdentifier.setValue(value);
-        			
-                	participants = participantDao.searchBySystemAssignedIdentifier(sysIdentifier);
-        			
-        		}else if(assignedBy.equals("organization")){
-        			OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier(); 
-        			HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(name);
-        			orgIdentifier.setHealthcareSite(healthcareSite);
-        			orgIdentifier.setType(type);
-        			orgIdentifier.setValue(value);
-        			participants = participantDao.searchByOrgIdentifier(orgIdentifier);
+        	if(request.getParameter("assignedBy")!=null ){
+        		String assignedBy = request.getParameter("assignedBy"); 
+        		if(request.getParameter("identifierType")!=null && request.getParameter("identifier")!=null) {
+	        		if(assignedBy.equals("system") && request.getParameter("systemName")!=null ){
+	        			SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();   
+	        			sysIdentifier.setSystemName(name);
+	        			sysIdentifier.setType(type);
+	        			sysIdentifier.setValue(value);
+	        			
+	                	participants = participantDao.searchBySystemAssignedIdentifier(sysIdentifier);
+	                	if(participants.size()<1){
+	                		request.setAttribute("noParticipant", "noParticipant");
+	                		return new Participant();
+	                	} else {return participants.get(0);}
+	        			
+	        		}else if(assignedBy.equals("organization")){
+	        			OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier(); 
+	        			HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(name);
+	        			orgIdentifier.setHealthcareSite(healthcareSite);
+	        			orgIdentifier.setType(type);
+	        			orgIdentifier.setValue(value);
+	        			
+	        			participants = participantDao.searchByOrgIdentifier(orgIdentifier);
+	                	if(participants.size()<1){
+	                		request.setAttribute("noParticipant", "noParticipant");
+	                		return new Participant();
+	                	} else {return participants.get(0);}
+	        		}
         		}
-        	}
-        	
-        	if (participants.size()> 0){
-        		participant = participants.get(0);
-        		log.debug(" Participant's ID is:" + participant.getId());
+        	}else {
+        		request.setAttribute("assignedByRequired", "assignedByRequired");
         	}
         }
-
-        return participant;
+        return (participant==null? new Participant():participant);
     }
-
+    
+    @Override
+    protected ModelAndView showForm(HttpServletRequest request,
+    		HttpServletResponse response, BindException errors)
+    		throws Exception {
+    	if((request.getAttribute("noParticipant"))!=null){
+    		errors.reject("tempProperty","Sorry no subjects were found");
+    	}
+    	if((request.getAttribute("assignedByRequired"))!=null){
+    		errors.reject("tempProperty","Assigned By is required");
+    	}
+    	if((request.getAttribute("systemOrOrganizationRequired"))!=null){
+    		errors.reject("tempProperty","System Name or Organization Nci Id are required");
+    	}
+    	if((request.getAttribute("identifierTypeRequired"))!=null){
+    		errors.reject("tempProperty","Identifier type is required");
+    	}
+    	if((request.getAttribute("identifierRequired"))!=null){
+    		errors.reject("tempProperty","Identifier is required");
+    	}
+    	
+    	return super.showForm(request, response, errors);
+    }
+    
+    @Override
+    protected ModelAndView handleRequestInternal(HttpServletRequest arg0,
+    		HttpServletResponse arg1) throws Exception {
+    	// TODO Auto-generated method stub
+    	return super.handleRequestInternal(arg0, arg1);
+    }
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
                     throws Exception {
         super.initBinder(req, binder);
