@@ -313,7 +313,9 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
         }
 
         // set strGrps and Randomizations
-        this.getRandomization().setRetiredIndicatorAsTrue();
+        if(this.getRandomization()!=null){
+        	this.getRandomization().setRetiredIndicatorAsTrue();
+        }
         // set strCri
         List<StratificationCriterion> scList = this.getStratificationCriteria();
         StratificationCriterion sc;
