@@ -104,7 +104,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                                         new Object[] { id.getHealthcareSite().getId(),
                                                 id.getValue(), id.getType() });
     	} 
-    	return null;
+    	return new ArrayList<Participant>();
     
     }
     
@@ -122,7 +122,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                                         new Object[] { id.getSystemName(),
                                                 id.getValue(), id.getType() });
     	} 
-    	return null;
+    	return new ArrayList<Participant>();
     }
 
     /**
