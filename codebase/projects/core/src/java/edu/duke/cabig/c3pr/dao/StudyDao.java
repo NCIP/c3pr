@@ -131,6 +131,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                         if (stratumGroup != null) {
                             getHibernateTemplate().initialize(
                                             stratumGroup.getBookRandomizationEntryInternal());
+                            getHibernateTemplate().initialize(
+                                    stratumGroup.getStratificationCriterionAnswerCombinationInternal());
                         }
                     }
                 }
