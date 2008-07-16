@@ -108,10 +108,7 @@ public class ViewParticipantController<C extends Participant> extends
         		name = request.getParameter("systemName");
         	} else if(request.getParameter("organizationNciId")!=null){
         		name = request.getParameter("organizationNciId");
-        	}else {
-        		request.setAttribute("systemOrOrganizationRequired", "systemOrOrganizationRequired");
-        	}
-        	
+        	}        	
         	String type = null;
         	if (request.getParameter("identifierType")!=null){
         		 type = request.getParameter("identifierType");
@@ -141,6 +138,8 @@ public class ViewParticipantController<C extends Participant> extends
 		                		request.setAttribute("noParticipant", "noParticipant");
 		                		return new Participant();
 		                	} else {return participants.get(0);}
+		        		} else {
+		        			request.setAttribute("systemNameRequired", "systemNameRequired");
 		        		}
 	        			
 	        		}else if(assignedBy.equals("organization")){
@@ -156,6 +155,8 @@ public class ViewParticipantController<C extends Participant> extends
 		                		request.setAttribute("noParticipant", "noParticipant");
 		                		return new Participant();
 		                	} else {return participants.get(0);}
+	        			}else{
+	        				request.setAttribute("organizationNciIdRequired", "organizationNciIdRequired");
 	        			}
 	        		}else {
 	            		request.setAttribute("assignedByValueRequired", "assignedByValueRequired");
@@ -182,11 +183,14 @@ public class ViewParticipantController<C extends Participant> extends
     	if((request.getAttribute("assignedByValueRequired"))!=null){
     		errors.reject("tempProperty","Assigned By has to be system or organization");
     	}
-    	if((request.getAttribute("systemOrOrganizationRequired"))!=null){
-    		errors.reject("tempProperty","System Name or Organization Nci Id are required");
+    	if((request.getAttribute("systemNameRequired"))!=null){
+    		errors.reject("tempProperty","System Name is required");
+    	}
+    	if((request.getAttribute("organizationNciIdRequired"))!=null){
+    		errors.reject("tempProperty","Organization Nci Id is required");
     	}
     	if((request.getAttribute("identifierTypeRequired"))!=null){
-    		errors.reject("tempProperty","Identifier type is required");
+    		errors.reject("tempProperty","Identifier Type is required");
     	}
     	if((request.getAttribute("identifierRequired"))!=null){
     		errors.reject("tempProperty","Identifier is required");
