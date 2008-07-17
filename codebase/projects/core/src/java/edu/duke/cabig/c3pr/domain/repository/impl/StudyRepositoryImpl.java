@@ -87,8 +87,8 @@ public class StudyRepositoryImpl implements StudyRepository {
             // load Investigators from DB
             for (StudyInvestigator sInv : organization.getStudyInvestigators()) {
                 Investigator inv = sInv.getHealthcareSiteInvestigator().getInvestigator();
-                Investigator loadedInv = investigatorDao.getByNciInstituteCode(inv
-                                .getNciIdentifier());
+                Investigator loadedInv = investigatorDao.getInvestigatorsByNciInstituteCode(inv
+                                .getNciIdentifier()).get(0);
                 if (loadedInv == null) {
                      	throw getC3PRExceptionHelper()
          				.getException(
