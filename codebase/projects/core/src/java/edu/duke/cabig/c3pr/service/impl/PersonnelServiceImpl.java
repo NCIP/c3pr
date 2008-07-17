@@ -8,6 +8,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
 
+import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
@@ -32,7 +33,9 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 
 public class PersonnelServiceImpl implements PersonnelService {
 
-    private ResearchStaffDao dao;
+    private ResearchStaffDao researchStaffDao;
+    
+    private InvestigatorDao investigatorDao;
 
     private UserProvisioningManager userProvisioningManager;
 
@@ -55,7 +58,7 @@ public class PersonnelServiceImpl implements PersonnelService {
             }
 
             log.debug("Saving c3pr user");
-            dao.save(c3prUser);
+            researchStaffDao.save(c3prUser);
             c3prUser.setLoginId(csmUser.getUserId().toString());
 
             assignUsersToGroup(csmUser, c3prUser.getGroups());
@@ -67,7 +70,7 @@ public class PersonnelServiceImpl implements PersonnelService {
 
     public void save(Investigator inv) throws C3PRBaseException {
         log.debug("Saving Investigator");
-        dao.save(inv);
+        investigatorDao.save(inv);
     }
 
     public void save(ResearchStaff staff) throws C3PRBaseException {
@@ -85,8 +88,8 @@ public class PersonnelServiceImpl implements PersonnelService {
         }
     }
 
-    public void merge(Investigator user) throws C3PRBaseException {
-        dao.save((C3PRUser) user);
+    public Investigator merge(Investigator user) throws C3PRBaseException {
+        return investigatorDao.merge(user);
     }
 
     public void merge(ResearchStaff staff) throws C3PRBaseException {
@@ -205,15 +208,23 @@ public class PersonnelServiceImpl implements PersonnelService {
         this.userProvisioningManager = userProvisioningManager;
     }
 
-    public ResearchStaffDao getDao() {
-        return dao;
-    }
+    public ResearchStaffDao getResearchStaffDao() {
+		return researchStaffDao;
+	}
 
-    public void setDao(ResearchStaffDao dao) {
-        this.dao = dao;
-    }
+	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
+		this.researchStaffDao = researchStaffDao;
+	}
 
-    public CSMObjectIdGenerator getSiteObjectIdGenerator() {
+	public InvestigatorDao getInvestigatorDao() {
+		return investigatorDao;
+	}
+
+	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
+		this.investigatorDao = investigatorDao;
+	}
+
+	public CSMObjectIdGenerator getSiteObjectIdGenerator() {
         return siteObjectIdGenerator;
     }
 
