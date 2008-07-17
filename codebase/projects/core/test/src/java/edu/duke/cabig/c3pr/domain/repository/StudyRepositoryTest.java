@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain.repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.easymock.classextension.EasyMock;
 
@@ -50,6 +51,8 @@ public class StudyRepositoryTest extends AbstractTestCase {
     	HealthcareSite healthcareSite = buildHealthcareSite();
     	
     	Investigator investigator = buildInvestigator();
+    	List<Investigator> investigators = new ArrayList<Investigator>();
+    	investigators.add(investigator);
     	HealthcareSiteInvestigator healthcareSiteInvestigator =  buildHealthcareSiteInvestigator(investigator, healthcareSite);    	
     	StudyInvestigator sInv = buildStudyInvestigator(healthcareSiteInvestigator);
     	ArrayList <StudyInvestigator>sInvList = new ArrayList<StudyInvestigator>();
@@ -66,7 +69,7 @@ public class StudyRepositoryTest extends AbstractTestCase {
     	
     	//list of mocks
         EasyMock.expect(healthcareSiteDao.getByNciInstituteCode("hcs-001")).andReturn(healthcareSite);
-        EasyMock.expect(investigatorDao.getByNciInstituteCode("inv-001")).andReturn(investigator);
+        EasyMock.expect(investigatorDao.getInvestigatorsByNciInstituteCode("inv-001")).andReturn(investigators);
         EasyMock.expect(healthcareSiteInvestigatorDao.getSiteInvestigator(healthcareSite, investigator)).andReturn(healthcareSiteInvestigator);
         EasyMock.expect(healthcareSiteDao.getByNciInstituteCode("hcs-001")).andReturn(healthcareSite); 
         studyDao.save(study);
