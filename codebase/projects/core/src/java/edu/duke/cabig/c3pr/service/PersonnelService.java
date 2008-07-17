@@ -34,7 +34,7 @@ public interface PersonnelService {
      * @param user
      * @throws C3PRBaseException
      */
-    public void merge(Investigator user) throws C3PRBaseException;
+    public Investigator merge(Investigator user) throws C3PRBaseException;
 
     /**
      * Used to update ResearchStaff domain object
