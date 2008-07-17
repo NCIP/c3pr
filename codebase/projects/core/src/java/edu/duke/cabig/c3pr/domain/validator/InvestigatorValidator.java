@@ -33,7 +33,7 @@ public class InvestigatorValidator implements Validator {
                 "Investigator already exists");
     		}
     	}else  if(investigators.size()==1){
-    			if(inv.getNciIdentifier().equals(investigators.get(0).getNciIdentifier()) && inv.getId()!= investigators.get(0).getId()){
+    			if(inv.getNciIdentifier().equals(investigators.get(0).getNciIdentifier()) && !inv.getId().equals(investigators.get(0).getId())){
     				errors.reject("tempProperty","Investigator already exists");
     			}
     		}
