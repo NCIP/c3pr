@@ -125,7 +125,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
                     }
                 }
 
-                personnelService.merge(inv);
+                inv = personnelService.merge(inv);
             }
 
         }
@@ -136,7 +136,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
         catch (C3PRBaseRuntimeException e) {
             if (e.getRootCause().getMessage().contains("MailException")) {
                 // no problem
-                log.info("Error saving Research staff.Probably failed to send email", e);
+                log.info("Error saving Investigator.Probably failed to send email", e);
             }
         }
         Map map = errors.getModel();
