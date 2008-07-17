@@ -17,6 +17,7 @@ public class AmendCompanionStudyController extends AmendStudyController {
      *            flow the Flow object
      */
     protected void layoutTabs(Flow flow) {
+    	boolean editMode = false;
         flow.addTab(new StudyDetailsTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
