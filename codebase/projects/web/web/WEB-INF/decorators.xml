@@ -12,6 +12,9 @@
     </decorator>
     <decorator name="tabbedflow" page="tabbedflow.jsp">
         <pattern>/pages/study/createStudy</pattern>
+        <pattern>/pages/study/createCompanionStudy</pattern>
+        <pattern>/pages/study/editCompanionStudy</pattern>
+        <pattern>/pages/study/amendCompanionStudy</pattern>
         <pattern>/pages/study/editStudy</pattern>
         <pattern>/pages/study/viewStudy</pattern>
         <pattern>/pages/study/amendStudy</pattern>
@@ -32,7 +35,8 @@
         <pattern>/pages/admin/searchResearchStaff</pattern> 
         <pattern>/pages/admin/createInvestigatorGroups</pattern>
     </decorator>
-    <decorator name="nullDecorator" page="nullDecorator.jsp">
+    <decorator name="nullDecorator" page="nullDecorator.jsp"/>
+    <decorator name="noheaderDecorator" page="noheaderDecorator.jsp">
     </decorator>
     <excludes>
         <pattern>/*/image/*</pattern>

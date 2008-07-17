@@ -21,7 +21,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
  * @author Priyatam
  */
 public class CreateStudyController<C extends Study> extends StudyController<C> {
-
+	
     public CreateStudyController() {
         super("Create Study");
         setBindOnNewForm(true);
@@ -58,6 +58,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
+       	flow.addTab(new CompanionStudyTab());	
         flow.addTab(new StudyOverviewTab("Overview", "Overview", "study/study_summary_create"));
     }
 
@@ -97,11 +98,8 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
         Study study = (Study) command;
-        studyRepository.merge(study);
-        response.sendRedirect("confirm?trimmedShortTitleText=" + study.getTrimmedShortTitleText()
-                        + "&primaryIdentifier=" + study.getPrimaryIdentifier()
-                        + "&coordinatingCenterStudyStatusCode="
-                        + study.getCoordinatingCenterStudyStatus().getCode() + "&type=confirm");
+        study = studyRepository.merge(study);
+        response.sendRedirect("confirm?studyId="+study.getId());
         return null;
 
     }
@@ -109,5 +107,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 	public void setStudyRepository(StudyRepository studyRepository) {
 		this.studyRepository = studyRepository;
 	}
+	
+	
 
 }

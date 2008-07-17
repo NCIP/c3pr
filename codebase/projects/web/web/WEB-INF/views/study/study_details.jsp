@@ -31,6 +31,7 @@
     		rType.value="";
     		rType.disabled = false;
     	}
+    	
     }
 
         Effect.OpenUp = function(element) {
@@ -84,6 +85,10 @@
                 document.getElementById("randomizationType").className="validate-notEmpty";
             }
         }
+        
+        function embedCompanionStudy(){
+			parent.createCompanion($('_shortTitle').value);
+		}
         
         var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
@@ -179,7 +184,7 @@
             <div class="label required-indicator">
                 Short Title:</div>
             <div class="value"><form:input path="shortTitleText" size="43"
-                                           maxlength="30" cssClass="validate-notEmpty" />
+                                           maxlength="30" cssClass="validate-notEmpty" id="_shortTitle"/>
             <tags:hoverHint keyProp="study.shortTitleText"/>
             </div>
         </div>
@@ -288,7 +293,15 @@
              <tags:dateInput path="consentVersion" validateDate="false"/><em> (mm/dd/yyyy)</em>
              <tags:hoverHint keyProp="study.consentVersion"/></div>
          </div>
-        
+        <div class="row" <c:if test="${ (empty command.companionIndicator) || command.companionIndicator=='false' ||((!empty param.embeddedStudy) && command.companionIndicator=='true' && param.embeddedStudy=='true')}">style="display:none;"</c:if>>
+	        <div class="label required-indicator">Standalone Study:</div>
+	        <div class="value">
+	        	<form:select path="standaloneIndicator" cssClass="validate-notEmpty" >
+	            	<option value="">Please Select</option>
+	            	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+	        	</form:select>
+	        	<tags:hoverHint keyProp="study.standaloneIndicator"/>
+	        </div>
     </div>
 </chrome:division>
 
@@ -478,9 +491,17 @@
     </div>
 </chrome:division>
 --%>
-
-<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
-
+<div <c:if test="${(!empty param.embeddedStudy)}">style="display:none;"</c:if>>
+	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
+</div>
+<div <c:if test="${empty param.embeddedStudy}">style="display:none;"</c:if>>
+	<div class="content buttons autoclear">
+	<div class="flow-buttons"><span class="next"> 
+		<input type="button" value="Embed Study" id="embedCompanionStudyDiv" onclick="embedCompanionStudy();return false;"/>
+		<input type="button" value="Close" onClick="parent.closePopup();"/>
+		</span></div>
+	</div>
+</div>
 </chrome:box>
 </form:form>
 

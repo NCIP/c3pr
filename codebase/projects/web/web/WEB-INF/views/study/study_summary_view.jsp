@@ -442,6 +442,27 @@
     </table>
 </chrome:division>
 
+<div <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
+<chrome:division title="Companion Studies">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+            <th width="25%" scope="col" align="left"><b>Status</b></th>
+            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
+        </tr>
+        <c:forEach items="${command.companionStudyAssociations}" var="companionStudyAssociation">
+            <tr>
+                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
+                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+                <td class="alt">
+                	<input type="button" id="editCompanionStudy" value="Edit" onclick="javascript:document.location='<c:url value='/pages/study/editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
+                </td>
+   	        </tr>	           
+        </c:forEach>
+    </table>
+</chrome:division>
+</div>
 <chrome:division title="Amendments">
     <table class="tablecontent" width="60%">
         <tr>
@@ -488,24 +509,32 @@
 <%--Optionally display edit mode buttons--%>
 <c:if test="${not empty editAuthorizationTask}">
     <div class="content buttons autoclear">
-        <div class="flow-buttons"><span class="next">
+        <div class="flow-buttons" <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
+        <span class="next">
             <!--export study-->
                 <input type="button"
                        value="Export Study" onclick="doExportAction();"/>
-                <csmauthz:accesscontrol
-                        domainObject="${editAuthorizationTask}"
-                        authorizationCheckName="taskAuthorizationCheck">
-                    <input type="button" value="Edit Study"
-                           onclick="document.location='../study/editStudy?studyId=${command.id}'"/>
-
-
-                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"
-                           <c:if test="${command.coordinatingCenterStudyStatus != 'ACTIVE' &&
-  							command.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none"
-                    </c:if>
-                           onclick="document.location='../study/amendStudy?studyId=${command.id}'"/>
-
-                </csmauthz:accesscontrol> </span></div>
+                <csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
+	                    <input type="button" value="Edit Study" onclick="document.location='../study/editStudy?studyId=${command.id}'"/>
+	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"  <c:if test="${command.coordinatingCenterStudyStatus != 'ACTIVE' &&
+	  							command.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
+	                           onclick="document.location='../study/amendStudy?studyId=${command.id}'"/>
+                </csmauthz:accesscontrol> 
+        </span>
+        </div>
+        <div class="flow-buttons" <c:if test="${command.companionIndicator=='false'}">style="display:none;"</c:if>>
+        <span class="next">
+            <!--export study-->
+                <input type="button"
+                       value="Export Study" onclick="doExportAction();"/>
+                <csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
+	                    <input type="button" value="Edit Study" onclick="document.location='../study/editCompanionStudy?studyId=${command.id}'"/>
+	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"  <c:if test="${command.coordinatingCenterStudyStatus != 'ACTIVE' &&
+	  							command.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
+	                           onclick="document.location='../study/amendCompanionStudy?studyId=${command.id}'"/>
+                </csmauthz:accesscontrol> 
+        </span>
+        </div>
     </div>
 
 </c:if>

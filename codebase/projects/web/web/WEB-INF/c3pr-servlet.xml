@@ -158,16 +158,36 @@
 
     <bean name="/study/createStudy" id="createStudyController"
           class="edu.duke.cabig.c3pr.web.study.CreateStudyController"
-          autowire="byName"/>
+          autowire="byName">
+          <property name="companionIndicator" value="false" />
+    </bean>
+    
+    <bean name="/study/createCompanionStudy" id="createCompanionStudyController"
+          class="edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController"
+          autowire="byName">
+    	<property name="companionIndicator" value="true" />
+    </bean>
+          
     <bean name="/study/confirm" id="confirmStudyController"
-          autowire="byType"
-          class="edu.duke.cabig.c3pr.web.study.ConfirmStudyController"/>
+          autowire="byName"
+          class="edu.duke.cabig.c3pr.web.study.ConfirmStudyController">
+          <property name="studyDao" ref="studyDao" />
+    </bean>
     <bean name="/study/editStudy" id="editStudyController"
-          class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName"/>
+          class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName">
+	</bean>          
+    <bean name="/study/editCompanionStudy" id="editCompanionStudyController"
+          class="edu.duke.cabig.c3pr.web.study.EditCompanionStudyController"
+          autowire="byName">
+    </bean>
     <bean name="/study/amendStudy" id="amendStudyController"
-          class="edu.duke.cabig.c3pr.web.study.AmendStudyController" autowire="byName"/>
-
-
+          class="edu.duke.cabig.c3pr.web.study.AmendStudyController" autowire="byName">
+    </bean>
+	<bean name="/study/amendCompanionStudy" id="amendCompanionStudyController"
+          class="edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController"
+          autowire="byName">
+    </bean>
+    
     <bean name="/study/viewStudy" id="viewStudyController"
           class="edu.duke.cabig.c3pr.web.study.ViewStudyController" autowire="byName">
         <property name="editTask">
@@ -398,6 +418,10 @@
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Create Study"
                                     p:linkName="createStudyController"/>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Create Companion Study"
+                                    p:linkName="createCompanionStudyController"/>
                         </list>
                     </property>
                 </bean>

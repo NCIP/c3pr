@@ -13,11 +13,13 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.multipart.support.StringMultipartFileEditor;
 
+import edu.duke.cabig.c3pr.dao.CompanionStudyAssociationDao;
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
@@ -57,7 +59,10 @@ public abstract class StudyController<C extends Study> extends
     private DiseaseTermDao diseaseTermDao;
 
     protected StudyValidator studyValidator;
+    
+    protected Boolean companionIndicator;
 
+    protected CompanionStudyAssociationDao companionStudyAssociationDao;
     protected static List<HealthcareSite> healthcareSites;
 
     public StudyController(String title) {
@@ -109,6 +114,8 @@ public abstract class StudyController<C extends Study> extends
         binder.registerCustomEditor(String.class, "file", new StringMultipartFileEditor());
         binder.registerCustomEditor(byte[].class, "criteriaFile",
                         new ByteArrayMultipartFileEditor());
+        binder.registerCustomEditor(studyDao.domainClass(),new CustomDaoEditor(
+        		studyDao));
     }
 
     @Override
@@ -126,7 +133,14 @@ public abstract class StudyController<C extends Study> extends
     }
 
     protected Study createDefaultStudyWithDesign() {
-        return new Study();
+    	Study study = new Study();
+    	study.setCompanionIndicator(companionIndicator);
+    	if(!companionIndicator){
+    		study.setStandaloneIndicator(true);
+    	}else{
+    		study.setStandaloneIndicator(false);
+    	}
+        return study;
     }
 
     public StudyService getStudyService() {
@@ -193,4 +207,13 @@ public abstract class StudyController<C extends Study> extends
     public static void setHealthcareSites(List<HealthcareSite> healthcareSites) {
         StudyController.healthcareSites = healthcareSites;
     }
+
+	public void setCompanionStudyAssociationDao(
+			CompanionStudyAssociationDao companionStudyAssociationDao) {
+		this.companionStudyAssociationDao = companionStudyAssociationDao;
+	}
+	
+	public void setCompanionIndicator(Boolean companionIndicator) {
+		this.companionIndicator = companionIndicator;
+	}
 }

@@ -60,6 +60,8 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     public static final String DISABLE_FORM_IDENTIFIERS = "DISABLE_FORM_IDENTIFIERS";
 
     public static final String DISABLE_FORM_NOTIFICATION = "DISABLE_FORM_NOTIFICATION";
+    
+    public static final String DISABLE_FORM_COMPANION = "DISABLE_FORM_COMPANION";
 
     // public static final String DISABLE_FORM_INVESTIGATORS = "DISABLE_FORM_INVESTIGATORS";
     // public static final String DISABLE_FORM_PERSONNEL = "DISABLE_FORM_PERSONNEL";
@@ -157,6 +159,7 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
         request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(true));
         request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(true));
         request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(true));
+        request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(true));
     }
 
     public void enableAll(HttpServletRequest request) {
@@ -168,6 +171,7 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
         request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(false));
         request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(false));
         request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(false));
+        request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(false));
     }
 
     public Boolean isAdmin() {

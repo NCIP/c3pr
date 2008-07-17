@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
@@ -76,6 +77,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     private HealthcareSiteDao healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
                     .getBean("healthcareSiteDao");
+    
 
     private HealthcareSiteInvestigatorDao hcsidao = (HealthcareSiteInvestigatorDao) getApplicationContext()
                     .getBean("healthcareSiteInvestigatorDao");
@@ -985,8 +987,8 @@ public class StudyDaoTest extends DaoTestCase {
                             .size());
             assertEquals("Wrong name of epoch retrieved", "TestTreatmentEpoch2", newEpoch2.getName()
                     );
+            }
         }
-    }
 
     public void testSaveNewStudyWithEpochs() throws Exception {
         Integer savedId;
@@ -1349,5 +1351,55 @@ public class StudyDaoTest extends DaoTestCase {
         assertEquals("Wrong Epoch order", "NonTreatment1005", study.getEpochs().get(3).getName());
         assertEquals("Wrong Epoch order", "Treatment1001", study.getEpochs().get(4).getName());
         assertEquals("Wrong Epoch order", "Treatment1002", study.getEpochs().get(5).getName());
+    }
+    
+ public void testCompanionStudy(){
+    	
+    	HealthcareSite sponsor = healthcareSitedao.getById(1001);
+        HealthcareSite site = healthcareSitedao.getById(1000);
+        HealthcareSite center = healthcareSitedao.getById(1002);
+
+        Study study = new Study();
+        study.setShortTitleText("ShortTitleText");
+        study.setLongTitleText("LongTitleText");
+        study.setPhaseCode("PhaseCode");
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+        study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+        study.setTargetAccrualNumber(150);
+        study.setType("Type");
+        study.setMultiInstitutionIndicator(Boolean.TRUE);
+
+        // Study Site
+        StudySite studySite = new StudySite();
+        studySite.setHealthcareSite(site);
+        studySite.setRoleCode("role");
+        studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+
+        study.addStudySite(studySite);
+
+        // Study funding sponsor
+        StudyFundingSponsor fundingSponsor = new StudyFundingSponsor();
+        fundingSponsor.setHealthcareSite(sponsor);
+        study.addStudyOrganization(fundingSponsor);
+
+        // Study coordinating center
+        StudyCoordinatingCenter coCenter = new StudyCoordinatingCenter();
+        coCenter.setHealthcareSite(center);
+        study.addStudyOrganization(coCenter);
+        
+        CompanionStudyAssociation csa = new CompanionStudyAssociation();
+        csa.setCompanionStudy(dao.getById(1001));
+        csa.setParentStudy(study);
+        csa.setMandatoryIndicator(true);
+        study.getCompanionStudyAssociations().add(csa);
+
+        dao.save(study);
+        int savedId = study.getId();
+        assertNotNull("The saved study didn't get an id", savedId);
+        
+    	interruptSession();
+    	
+    	assertNotNull("Companion Association exists",  dao.getById(savedId));
+    	assertNotNull("Companion Association has Parent Study",  dao.getById(savedId).getCompanionStudyAssociations());
     }
 }

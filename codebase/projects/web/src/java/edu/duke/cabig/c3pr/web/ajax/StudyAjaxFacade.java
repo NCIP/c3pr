@@ -45,6 +45,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 
@@ -71,7 +72,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     private InvestigatorGroupDao investigatorGroupDao;
 
     private InvestigatorDao investigatorDao;
-
+    
     private PersonnelService personnelSerivice;
 
     private static Log log = LogFactory.getLog(StudyAjaxFacade.class);
@@ -395,8 +396,34 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         return reducedHealthcareSites;
 
     }
+    
+    public List<Study> matchComapanionStudies(String text, HttpServletRequest request) throws Exception {
+    	
+    	Study parentStudy = (Study) getCommandOnly(request);
+    	System.out.println("parent " + parentStudy);
+        List<Study> companionStudies = studyDao.getBySubnames(extractSubnames(text));
 
-    private final Object getCommandOnly(HttpServletRequest request) throws Exception {
+        List<Study> reducedCompanionStudies = new ArrayList<Study>(companionStudies.size());
+        for (Study companionStudy : companionStudies) {
+        	if(companionStudy.getCompanionIndicator() /* && hasSameStudySiteAsMainStudy(companionStudy, parentStudy)*/){
+        		reducedCompanionStudies.add(buildReduced(companionStudy, Arrays.asList("id", "shortTitleText")));
+        	}
+        }
+        return reducedCompanionStudies ;
+
+    }
+    
+    private boolean hasSameStudySiteAsMainStudy(Study companionStudy, Study parentStudy) {
+    	List<StudySite> companionStudySites = companionStudy.getStudySites();
+    	List<StudySite> parentStudySites = parentStudy.getStudySites();
+    	if(parentStudySites.contains(companionStudySites)){
+    		return true ;
+    	}else{
+    		return false ;
+    	}
+    }
+
+	private final Object getCommandOnly(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(false);
         if (session == null) {
             throw new HttpSessionRequiredException(

@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -63,6 +62,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	private Boolean randomizedIndicator;
 	
+	private Boolean companionIndicator;
+	
 	private Boolean stratificationIndicator;
 
 	private String shortTitleText;
@@ -116,7 +117,9 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
     @Transient
     private int acrrualsWithinLastWeek;  
-
+    
+    private Boolean standaloneIndicator;
+    
     public Study() {
 		
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -165,12 +168,23 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
+		lazyListHelper
+		.add(
+				CompanionStudyAssociation.class,
+				new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(
+						CompanionStudyAssociation.class, this, "ParentStudy"));
 
 	}
 
 	public Study(boolean forSearchByExample) {
 
 		lazyListHelper = new LazyListHelper();
+		lazyListHelper
+		.add(
+				CompanionStudyAssociation.class,
+				new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(
+						CompanionStudyAssociation.class, this, "ParentStudy"));
+
 		lazyListHelper.add(StudySite.class,
 				new ParameterizedBiDirectionalInstantiateFactory<StudySite>(
 						StudySite.class, this));
@@ -185,7 +199,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 						new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(
 								StudyCoordinatingCenter.class, this));
 		lazyListHelper
-		.add(
+				.add(
 				Epoch.class,
 				new ParameterizedBiDirectionalInstantiateFactory<Epoch>(
 						Epoch.class, this));
@@ -444,7 +458,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	}
 	
 	@Transient
-	public List<Epoch> getEpochs(){
+	public List<Epoch> getEpochs() {
 		return lazyListHelper.getLazyList(Epoch.class);
 	}
 
@@ -719,7 +733,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	@Transient
 	public boolean hasEnrollingNonTreatmentEpoch() {
-		
+
 		
 		for(Epoch epoch:this.getEpochs()){
 			
@@ -736,21 +750,21 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	@Transient
 	public boolean hasElligibility() {
-		
+
 		for(Epoch epoch:this.getEpochs()){
 			if(epoch.hasEligibility())
-				return true;
-		}
+					return true;
+			}
 		return false;
 	}
 
 	@Transient
 	public boolean hasStratification() {
-			
+
 		for(Epoch epoch:this.getEpochs()){
 			if(epoch.hasStratification())
-				return true;
-		}
+					return true;
+			}
 		return false;
 	}
 
@@ -758,8 +772,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public boolean hasRandomizedEpoch() {
 		for(Epoch epoch:this.getEpochs()){
 			if(epoch.getRandomizedIndicator())
-				return true;
-		}
+					return true;
+			}
 		return false;
 	}
 
@@ -768,7 +782,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		for(Epoch epoch:this.getEpochs()){
 			if(epoch.getEnrollmentIndicator() || epoch.getRandomizedIndicator())
 				return true;
-		}
+	}
 		return false;
 	}
 
@@ -854,7 +868,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 				if (epoch.getName().equalsIgnoreCase(name)) {
 					return epoch;
 				}
-		}
+			}
 		return null;
 	}
 
@@ -956,7 +970,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.TREATMENT_EPOCH.CODE"));
     		 }
     	}
-		
+				
 		if (this.getEpochs().size() > 0) {
 			if (!evaluateEpochDataEntryStatus())
 				return StudyDataEntryStatus.INCOMPLETE;
@@ -1118,7 +1132,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
             for (Epoch epoch : this.getEpochs()) {
             	if (!epoch.evaluateStatus())
            return false;
-        }
+            }
         return true;
     }
     @Transient
@@ -1158,4 +1172,37 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
     public void setAcrrualsWithinLastWeek(int acrrualsWithinLastWeek) {
         this.acrrualsWithinLastWeek = acrrualsWithinLastWeek;
     }
+
+	public Boolean getStandaloneIndicator() {
+		return standaloneIndicator;
+	}
+
+	public void setStandaloneIndicator(Boolean standaloneIndicator) {
+		this.standaloneIndicator = standaloneIndicator;
+	}
+	
+	@OneToMany(mappedBy = "parentStudy", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<CompanionStudyAssociation> getCompanionStudyAssociationsInternal() {
+		return lazyListHelper.getInternalList(CompanionStudyAssociation.class);
+	}
+	
+	@Transient
+	public List<CompanionStudyAssociation> getCompanionStudyAssociations() {
+		return lazyListHelper.getLazyList(CompanionStudyAssociation.class);
+	}
+
+	public void setCompanionStudyAssociationsInternal( List<CompanionStudyAssociation> companionStudyAssociations) {
+		lazyListHelper.setInternalList(CompanionStudyAssociation.class, companionStudyAssociations);
+	}
+
+	public Boolean getCompanionIndicator() {
+		return companionIndicator;
+	}
+
+	public void setCompanionIndicator(Boolean companionIndicator) {
+		this.companionIndicator = companionIndicator;
+	}
+	
 }

@@ -123,6 +123,7 @@
              	<value>edu.duke.cabig.c3pr.domain.InvestigatorGroup</value>
                 <value>edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation</value>
                 <value>edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy</value>
+                <value>edu.duke.cabig.c3pr.domain.CompanionStudyAssociation</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -253,6 +254,7 @@
     <bean id="passwordPolicyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.passwordpolicy.PasswordPolicyDao" autowire="byName">
     </bean>
     <bean id="userDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.UserDao"/>
+    <bean id="companionStudyAssociationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.CompanionStudyAssociationDao"/>
     <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao">
     </bean>
     <bean id="studySubjectDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectDao" autowire="byName"/>
@@ -340,7 +342,7 @@
         <property name="cctsXmlUtility">
             <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
                 <property name="mappingFile" ref="multisite-registration-castorMapping"/>
-            </bean>
+    </bean>
         </property>
     </bean>
     <bean id="studyXMLImporterService" lazy-init="true"
@@ -423,9 +425,9 @@
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
     	<property name="host" value="smtp.gmail.com" /> 
     	<property name="port" value="465" /> 
+    	<property name="protocol" value="smtps" /> 
     	<property name="username" value="c3prproject@gmail.com" /> 
     	<property name="password" value="semanticbits" /> 
-    	<property name="protocol" value="smtps" /> 
     	<property name="javaMailProperties"> 
     	<props> 
     		<prop key="mail.smtps.auth">true</prop> 

@@ -155,7 +155,7 @@ document.getElementById("command").submit();
 
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-           <c:if
+            <c:if
                     test="${epoch.displayRole!='NonTreatment'}">
                 <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
                     <tr>
@@ -304,6 +304,24 @@ document.getElementById("command").submit();
         </c:forEach>
     </table>
 </chrome:division>
+<div <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
+<chrome:division title="Companion Studies">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+            <th width="25%" scope="col" align="left"><b>Status</b></th>
+            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
+        </tr>
+        <c:forEach items="${command.companionStudyAssociations}" var="companionStudyAssociation">
+            <tr>
+                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
+                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+   	        </tr>	           
+        </c:forEach>
+    </table>
+</chrome:division>
+</div>
 </div>
 			<div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> 

@@ -63,6 +63,12 @@ public class BaseStudyAjaxFacade {
         columnStatus.setTitle("Status");
         columnStatus.setProperty("coordinatingCenterStudyStatus.code");
         model.addColumn(columnStatus);
+        
+        Column columnCompanion = model.getColumnInstance();
+        columnCompanion.setTitle("Companion Indicator");
+        columnCompanion.setCell((StudyLinkDisplayCell.class).getName());
+        columnCompanion.setProperty("companionIndicator");
+        model.addColumn(columnCompanion);
 
         return model.assemble();
     }
