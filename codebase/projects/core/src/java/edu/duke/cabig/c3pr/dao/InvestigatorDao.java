@@ -18,7 +18,6 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.emory.mathcs.backport.java.util.Collections;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
 
 /**
  * @author Priyatam
@@ -90,9 +89,13 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
         return result;
     }
 
-    public Investigator getByNciInstituteCode(String nciIdentifier) {
-        return CollectionUtils.firstElement((List<Investigator>) getHibernateTemplate().find(
+    public List<Investigator> getInvestigatorsByNciInstituteCode(String nciIdentifier) {
+        return ((List<Investigator>) getHibernateTemplate().find(
                         "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
+    }
+    
+    public Investigator merge(Investigator investigator) {
+        return (Investigator) getHibernateTemplate().merge(investigator);
     }
 
 }
