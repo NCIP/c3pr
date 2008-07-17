@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 <script>		           
@@ -62,6 +63,15 @@
 </head>
 
 <body>
+
+<c:choose>
+
+<c:when test="${command.stratificationIndicator =='false' }">
+
+			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>
+			</tags:formPanelBox>
+	</c:when>
+<c:otherwise>
 <form:form method="post" name="form">
 	<tags:tabFields tab="${tab}" />
 	<div><input type="hidden" id="_action" name="_action" value=""> 
@@ -330,5 +340,7 @@
 	</div>
 	</c:if>
 </c:forEach>
+</c:otherwise>
+</c:choose>
 </body>
 </html>
