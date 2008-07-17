@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 <style type="text/css">
@@ -55,6 +56,14 @@
 </head>
 
 <body>
+
+<c:choose>
+
+<c:when test="${command.randomizedIndicator =='false' }">
+			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_RANDOMIZATION"/></div><br><br>
+			</tags:formPanelBox>
+	</c:when>
+<c:otherwise>
 
 <!--BOOK RANDOMIZATION SECTION-->
 <c:if test="${command.randomizationType.name == 'BOOK'}">	
@@ -173,6 +182,9 @@
 
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
+
+</c:otherwise>
+</c:choose>
 	     
 </body>
 </html>
