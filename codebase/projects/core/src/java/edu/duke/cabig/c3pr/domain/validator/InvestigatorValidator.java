@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.domain.validator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -19,11 +22,21 @@ public class InvestigatorValidator implements Validator {
     
     public void isExistingInvestigator(Object target, Errors errors) {
     	Investigator inv = (Investigator)target;
-    	Investigator searchResult = investigatorDao.getByNciInstituteCode(inv.getNciIdentifier());
-    	if(searchResult != null){
+    	List<Investigator> investigators = new ArrayList<Investigator>();
+    	investigators =  investigatorDao.getInvestigatorsByNciInstituteCode(inv.getNciIdentifier());
+    	if (investigators.size()>1){
     		errors.reject("tempProperty",
                             "Investigator already exists");
-    	}
+    	} else if(inv.getId()==null){
+    		if(investigators.size()>0){
+    			errors.reject("tempProperty",
+                "Investigator already exists");
+    		}
+    	}else  if(investigators.size()==1){
+    			if(inv.getNciIdentifier().equals(investigators.get(0).getNciIdentifier()) && inv.getId()!= investigators.get(0).getId()){
+    				errors.reject("tempProperty","Investigator already exists");
+    			}
+    		}
     }
 
 	public InvestigatorDao getInvestigatorDao() {
