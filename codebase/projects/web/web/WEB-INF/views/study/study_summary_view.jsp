@@ -508,8 +508,8 @@
 
 <%--Optionally display edit mode buttons--%>
 <c:if test="${not empty editAuthorizationTask}">
-    <div class="content buttons autoclear">
-        <div class="flow-buttons" <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
+    <div class="content buttons autoclear" <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
+        <div class="flow-buttons">
         <span class="next">
             <!--export study-->
                 <input type="button"
@@ -522,7 +522,9 @@
                 </csmauthz:accesscontrol> 
         </span>
         </div>
-        <div class="flow-buttons" <c:if test="${command.companionIndicator=='false'}">style="display:none;"</c:if>>
+        </div>
+        <div class="content buttons autoclear"  <c:if test="${command.companionIndicator=='false'}">style="display:none;"</c:if>> 
+        <div class="flow-buttons">
         <span class="next">
             <!--export study-->
                 <input type="button"
