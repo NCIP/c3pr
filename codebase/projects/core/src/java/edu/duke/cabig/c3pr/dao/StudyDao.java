@@ -142,6 +142,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         getHibernateTemplate().initialize(study.getStudyOrganizations());
         getHibernateTemplate().initialize(study.getIdentifiers());
         getHibernateTemplate().initialize(study.getNotificationsInternal());
+        getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
         for (Notification notification : study.getNotificationsInternal()) {
             if (notification != null) {
                 getHibernateTemplate().initialize(notification.getEmailBasedRecipientInternal());
