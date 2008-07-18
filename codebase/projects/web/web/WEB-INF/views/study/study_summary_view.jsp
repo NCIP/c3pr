@@ -1,12 +1,8 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
-
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
+    <title><studyTags:htmlTitle study="${command}" /></title>
     <script language="JavaScript" type="text/JavaScript">
         function doExportAction() {
             document.viewDetails._action.value = "export";

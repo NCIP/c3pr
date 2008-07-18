@@ -1,8 +1,7 @@
 <%-- This is the standard tabbedFlow decorator for respective C3PR pages --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
-           prefix="decorator" %>
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs" %>
 <%@ taglib prefix="layout" tagdir="/WEB-INF/tags/layout" %>
@@ -13,7 +12,7 @@
 
 <html>
 <head>
-    <title><layout:title /></title>
+    <title><decorator:title /></title>
     <link rel="shortcut icon" href="<tags:imageUrl name="favicon.ico"/>" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 

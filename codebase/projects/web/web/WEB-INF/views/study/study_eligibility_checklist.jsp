@@ -1,17 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
-    <%--<tags:includeScriptaculous /> --%>
+    <title><studyTags:htmlTitle study="${command}" /></title>
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
-
-    <title>${tab.longTitle}</title>
     <style type="text/css">
         .label {
             width: 12em;

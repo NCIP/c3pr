@@ -17,7 +17,6 @@
     <link rel="shortcut icon" href="<tags:imageUrl name="favicon.ico"/>" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-    <title>C3PR - DASHBOARD</title>
     <tags:include/>
 
     <decorator:head/>

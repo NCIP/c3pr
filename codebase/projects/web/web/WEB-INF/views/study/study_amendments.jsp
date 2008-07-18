@@ -1,14 +1,8 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"	prefix="decorator"%>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
+    <title><studyTags:htmlTitle study="${command}" /></title>
 <jwr:script src="/js/tabbedflow.js" />
 
 <script>

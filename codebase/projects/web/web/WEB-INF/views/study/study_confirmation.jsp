@@ -1,11 +1,8 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@ include file="taglibs.jsp"%>
 
 <html>
 	<head>
-	<!--empty head-->
+    <title><studyTags:htmlTitle study="${param}" /></title>   
 	</head>
 	<body>
 	

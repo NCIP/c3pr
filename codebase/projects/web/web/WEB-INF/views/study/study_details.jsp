@@ -1,13 +1,9 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
-	<c:set var="sponIndex" value="${command.fundingSponsorIdentifierIndex==-1?fn:length(command.organizationAssignedIdentifiers):command.fundingSponsorIdentifierIndex}"></c:set>
+    <title><studyTags:htmlTitle study="${command}" /></title>
+    <c:set var="sponIndex" value="${command.fundingSponsorIdentifierIndex==-1?fn:length(command.organizationAssignedIdentifiers):command.fundingSponsorIdentifierIndex}"></c:set>
     <jwr:script src="/js/tabbedflow.js" />
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
     <script type="text/javascript">

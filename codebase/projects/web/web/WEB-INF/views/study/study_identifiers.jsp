@@ -1,14 +1,9 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
-	prefix="decorator"%>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
-<%--<tags:includeScriptaculous />--%>
+    <title><studyTags:htmlTitle study="${command}" /></title>
+
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 var healthcareSiteAutocompleterProps = {

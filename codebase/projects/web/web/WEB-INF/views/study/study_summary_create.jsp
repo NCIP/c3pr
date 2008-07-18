@@ -1,11 +1,9 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
+    <title><studyTags:htmlTitle study="${command}" /></title>
+    
 <script>
 
 function activateAndSaveStudy(){

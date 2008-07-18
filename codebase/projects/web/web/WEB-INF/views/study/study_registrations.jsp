@@ -2,8 +2,10 @@
 <%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 
 <html>
+    <title><studyTags:htmlTitle study="${command}" /></title>
 
 <!-- MAIN BODY STARTS HERE -->
 <body>

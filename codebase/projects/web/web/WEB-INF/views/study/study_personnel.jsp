@@ -1,15 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
-
+<%@ include file="taglibs.jsp"%>
 
 <html>
+    <title><studyTags:htmlTitle study="${command}" /></title>
+
 <c:set var="selected_site" value="0"/>
 <c:if test="${not empty selectedSite}">
 	<c:set var="selected_site" value="${selectedSite}"/>
