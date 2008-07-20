@@ -1,12 +1,8 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-
+<%@ include file="taglibs.jsp"%>
 <html>
 <head>
-   <tags:dwrJavascriptLink objects="SearchResearchStaffAjaxFacade"/>
+    <title>Search Research Staff</title>
+    <tags:dwrJavascriptLink objects="SearchResearchStaffAjaxFacade"/>
     <tags:dwrJavascriptLink objects="OrganizationAjaxFacade"/>
    <style type="text/css">
         div.content {

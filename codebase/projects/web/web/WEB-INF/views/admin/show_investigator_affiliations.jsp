@@ -1,11 +1,13 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="taglibs.jsp"%>
+
 <html>
 <head>
- <style type="text/css">
+    <title>${invGroupAffiliation.healthcareSiteInvestigator.investigator.fullName}</title>
+    <style type="text/css">
         div.content {
             padding: 5px 15px;
         }
- </style>
+    </style>
 
 </head>
 <table>

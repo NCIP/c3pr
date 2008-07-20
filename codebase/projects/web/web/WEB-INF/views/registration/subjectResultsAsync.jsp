@@ -1,5 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="taglibs.jsp"%>
 
 <!-- SUBJECT SEARCH RESULTS START HERE -->
 <div class="eXtremeTable" >

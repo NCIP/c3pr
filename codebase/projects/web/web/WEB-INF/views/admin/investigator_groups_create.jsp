@@ -1,16 +1,9 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ include file="taglibs.jsp"%>
 
 <html>
+    <title>Investigator groups</title>
 <c:set var="selected_site" value="0"/>
-<c:if test="${not empty selectedSite}">
-	<c:set var="selected_site" value="${selectedSite}"/>
-</c:if>
+<c:if test="${not empty selectedSite}"><c:set var="selected_site" value="${selectedSite}"/></c:if>
 <head>
 <style type="text/css">
         div.content {

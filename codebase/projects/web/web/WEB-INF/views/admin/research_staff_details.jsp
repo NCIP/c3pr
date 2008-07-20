@@ -1,14 +1,14 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-<%@ page import="edu.duke.cabig.c3pr.domain.C3PRUserGroupType" %>
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
-<%--<tags:includeScriptaculous />--%>
+    <title>
+        <c:choose>
+            <c:when test="${command.id > 0}"><c:out value="Research Staff: ${command.firstName} ${command.lastName} - ${command.nciIdentifier}@${command.healthcareSite.name}" /></c:when>
+            <c:otherwise>Create Research Staff</c:otherwise>
+        </c:choose>
+    </title>
+
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 	ValidationManager.submitPostProcess= function(formElement, continurSubmission){

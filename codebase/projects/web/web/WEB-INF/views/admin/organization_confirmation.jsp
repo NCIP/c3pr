@@ -1,9 +1,8 @@
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
+    <title>Organization: ${command.name}:${command.nciInstituteCode}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <title>Confirmation</title>
 </head>

@@ -1,15 +1,9 @@
-<%@taglib uri="http://www.opensymphony.com/sitemesh/decorator"
-	prefix="decorator"%>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
+    <title><registrationTags:htmlTitle registration="${command}"></title>
+
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';

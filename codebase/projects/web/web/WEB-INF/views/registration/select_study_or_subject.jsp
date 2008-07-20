@@ -1,13 +1,8 @@
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration" %>
-<%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
+    <title><registrationTags:htmlTitle registration="${command}"></title>
     <jwr:style src="/css/subtabbedflow.css" />
 <script>						    
 	function navRollOver(obj, state) {

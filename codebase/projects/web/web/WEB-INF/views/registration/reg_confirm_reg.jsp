@@ -1,19 +1,11 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
-	prefix="decorator"%>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
-<html>
+<%@ include file="taglibs.jsp"%>
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
+    <title><registrationTags:htmlTitle registration="${command}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link href="resources/styles.css" rel="stylesheet" type="text/css">
+    <link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
 function accessApp(url,targetWindow){
 	$('hotlinksForm').target=targetWindow;

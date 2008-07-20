@@ -1,6 +1,9 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="taglibs.jsp"%>
+
 <html>
 <head>
+    <title>Group: ${groupId}</title>
+    
  <style type="text/css">
         div.content {
             padding: 5px 15px;

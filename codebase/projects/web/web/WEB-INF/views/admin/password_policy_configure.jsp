@@ -1,8 +1,4 @@
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-
+<%@ include file="taglibs.jsp"%>
 <html>
 <head>
   <title>Configure Password Policy</title>

@@ -1,11 +1,8 @@
-<%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ include file="taglibs.jsp"%>
+
 <html>
 <head>
+    <title><registrationTags:htmlTitle registration="${command}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <script>
