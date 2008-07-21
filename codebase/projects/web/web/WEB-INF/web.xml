@@ -31,6 +31,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath*:edu/duke/cabig/c3pr/applicationContext*.xml
+            classpath*:edu/duke/cabig/c3pr/rules/config/spring/applicationContext-rules-services.xml
             /WEB-INF/applicationContext-acegi-security.xml
         </param-value>
     </context-param>
@@ -38,8 +39,8 @@
     <context-param>
         <param-name>log4jConfigLocation</param-name>
         <param-value>/WEB-INF/log4j.properties</param-value>
-    </context-param>
-
+    </context-param>    
+    
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>

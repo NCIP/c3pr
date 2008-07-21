@@ -140,6 +140,24 @@
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/admin/organization_search"/>
     </bean>
+    
+    <!-- mapping for NOTIFICATIONS task 
+    <bean name="/admin/notification" id="createNotificationsController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateNotificationsController"
+          autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand"/>
+        <property name="formView" value="/admin/notification"/>
+        <property name="successView" value="/admin/notification"/>
+    </bean>-->
+    <bean name="/admin/notification" id="createNotificationController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/notification"/>
+    </bean>
+    <bean name="/admin/notification_emailDetails" id="createNotificationEmailDetails"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/notification_emailDetails"/>
+    </bean>
+    
 
     <bean name="/admin/createOrganization" id="createOrganizationController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
