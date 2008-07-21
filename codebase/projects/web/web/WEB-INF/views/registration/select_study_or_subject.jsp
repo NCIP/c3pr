@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}"></title>
+    <title><registrationTags:htmlTitle registration="${command}" /></title>
     <jwr:style src="/css/subtabbedflow.css" />
 <script>						    
 	function navRollOver(obj, state) {

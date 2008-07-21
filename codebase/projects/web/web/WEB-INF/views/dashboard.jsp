@@ -42,7 +42,7 @@
             _CONTENT_
         </chrome:box>
         <chrome:box title="C3PR Development Notes">
-            _CONTENT_
+            <div id="build-name">Build Number: ${buildInfo.buildName}</div>
         </chrome:box>
     </td>
     <td valign="top">

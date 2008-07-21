@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}"></title>
+    <title><registrationTags:htmlTitle registration="${command}" /></title>
     
 <%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />

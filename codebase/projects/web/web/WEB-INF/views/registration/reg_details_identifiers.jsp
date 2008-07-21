@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<title><registrationTags:htmlTitle registration="${command}"></title>
+<title><registrationTags:htmlTitle registration="${command}" /></title>
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';

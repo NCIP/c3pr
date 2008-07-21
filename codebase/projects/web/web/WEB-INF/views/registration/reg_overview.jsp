@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}"></title>
+    <title><registrationTags:htmlTitle registration="${command}" /></title>
 
     <style type="text/css">
         .labelR {

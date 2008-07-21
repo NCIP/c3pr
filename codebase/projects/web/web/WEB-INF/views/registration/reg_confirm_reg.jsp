@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}"></title>
+    <title><registrationTags:htmlTitle registration="${command}" /></title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <link href="resources/styles.css" rel="stylesheet" type="text/css">
     <link href="resources/search.css" rel="stylesheet" type="text/css">
