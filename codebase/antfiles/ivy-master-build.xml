@@ -20,6 +20,7 @@
     		<fileset file="${basedir}/ivy-build.xml" />
       		<fileset file="${projects.dir}/esb-client/ivy-build.xml" />
     		<fileset file="${projects.dir}/core/ivy-build.xml" />
+			<fileset file="${projects.dir}/rules/ivy-build.xml" />
     		<fileset file="${projects.dir}/web/ivy-build.xml" />
     	</ivy:buildlist>
   		<property name="buildlist.done" value="true" />
@@ -125,7 +126,7 @@
     </target>
 
 	 <!--Does a local build. For Developers use only -->
-    <target name="deploy-webapp-local" depends="build-core"
+    <target name="deploy-webapp-local" depends="build-core, build-rules"
             description="Builds all c3pr modules and deploys webapp on your web/web local">
     	<ant target="deployLocal" antfile="${projects.dir}/web/ivy-build.xml" dir="${projects.dir}/web" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
@@ -133,7 +134,7 @@
     	</ant>
     </target>
 	
-    <target name="deploy-webapp" depends="build-core"
+    <target name="deploy-webapp" depends="build-core, build-rules"
             description="Builds all c3pr modules and deploys webapp on your web/web local">
     	<ant target="deploy" antfile="${projects.dir}/web/ivy-build.xml" dir="${projects.dir}/web" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
@@ -161,7 +162,13 @@
     	</ant>
 		<ant target="publish-local" antfile="${projects.dir}/core/ivy-build.xml" dir="${projects.dir}/core" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
-    	</ant>
+    	</ant>		
+    </target>
+	
+	<target name="build-rules" depends="clean-repo, build-core" description="Builds rules">
+		<ant target="publish-local" antfile="${projects.dir}/rules/ivy-build.xml" dir="${projects.dir}/rules" inheritall="false">
+		    		<property name="env.skip.test" value="true"></property>
+	    </ant>
     </target>
 	
 	<!-- =============================================================== -->
@@ -224,7 +231,8 @@
             <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
             <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
             <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
-            <!--<zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
+			<zipfileset dir="${projects.dir}/rules" prefix="projects/rules"/>
+	<!--    <zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
             <zipfileset dir="${projects.dir}/../share" prefix="share"/>-->
         </zip>
         <zip destfile="${projects.dir}/installer/installpack/ivy2.zip">

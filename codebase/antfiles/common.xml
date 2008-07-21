@@ -343,16 +343,16 @@
 	===================================================================================================-->
 	<target name="generate-jaxb" description="This target will generate the java objects using XSD available in ${main.src.resources}/schema">
 		<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
-	    	<classpath>
-	        	<fileset dir="lib" includes="**/*.jar" excludes="ant.jar"/>
-	        </classpath>	        		
+			<classpath>
+				<path refid="main.classpath" />
+			</classpath>	        		
 	    </taskdef>
 		
 		<mkdir dir="${generated.src.dir}"/>
 	    <xjc destdir="${generated.src.dir}" extension="true" >
 	    	<arg line="-npa
 	    			   -Xcollection-setter-injector"/>
-	    	<schema dir="${main.src.resources}/schema">
+	    	<schema dir="${main.src.resources}/rules/schema">
 	        	<include name="*.xsd"/>
 	        </schema>
 	        <produces dir="${generated.src.dir}" includes="**/schema/**/*.java"/>
