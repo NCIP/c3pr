@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><participanttags:htmlTitle subject="${param}" /></title>
+    <title>Subject Created</title>
 <!--empty head-->
 </head>
 <body>
