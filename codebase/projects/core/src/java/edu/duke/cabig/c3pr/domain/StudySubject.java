@@ -13,7 +13,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -86,9 +88,9 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     
     private String disapprovalReasonText;
     
-//    private CompanionStudyAssociation companionAssociation ;
-//    
-//    private StudySubject parentStudySubject ;
+    private List<StudySubject> childStudySubjects ;
+    
+    private StudySubject parentStudySubject ;
     
 	public StudySubject() {
         lazyListHelper = new LazyListHelper();
@@ -613,6 +615,30 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
             return true;
         return false;
     }
+    
+    @OneToMany(mappedBy = "parentStudySubject" )
+	public List<StudySubject> getChildStudySubjects() {
+		return childStudySubjects;
+	}
+
+	public void setChildStudySubjects(List<StudySubject> childStudySubjects) {
+		this.childStudySubjects = childStudySubjects;
+	}
+
+	
+	@ManyToOne
+	@Cascade(value = { CascadeType.LOCK})
+    @JoinTable(name="stu_sub_associations",
+        joinColumns = @JoinColumn(name="child_stu_sub_id"),
+        inverseJoinColumns = @JoinColumn(name="parent_stu_sub_id")
+    )	
+	public StudySubject getParentStudySubject() {
+		return parentStudySubject;
+	}
+	
+	public void setParentStudySubject(StudySubject parentStudySubject) {
+		this.parentStudySubject = parentStudySubject;
+	}
     
 //	@ManyToOne
 //    @Cascade( { CascadeType.ALL})

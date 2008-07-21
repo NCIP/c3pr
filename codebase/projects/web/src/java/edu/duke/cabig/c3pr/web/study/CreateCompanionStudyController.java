@@ -1,10 +1,14 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
@@ -44,9 +48,19 @@ public class CreateCompanionStudyController<C extends Study> extends CreateStudy
         	Study companionStudy =  new Study() ;//parentStudy.getCompanionStudyAssociations().get(Integer.parseInt(row)).getCompanionStudy();
         	companionStudy.setShortTitleText(parentStudy.getShortTitleText());
         	companionStudy.setLongTitleText(parentStudy.getLongTitleText());
-        	companionStudy.setStudySites(parentStudy.getStudySites());
-        	companionStudy.setStudyCoordinatingCenters(parentStudy.getStudyCoordinatingCenters());
-        	companionStudy.setOrganizationAssignedIdentifiers(parentStudy.getOrganizationAssignedIdentifiers());
+        	
+        	List<StudySite> parentStudySite = parentStudy.getStudySites();
+        	List<StudySite> companionStudySite = companionStudy.getStudySites();
+        	companionStudySite.addAll(parentStudySite);
+        	
+        	List<StudyCoordinatingCenter> parentStudyCoordinatingCenter = parentStudy.getStudyCoordinatingCenters();
+        	List <StudyCoordinatingCenter> companionStudyCoordinatingCenter = companionStudy.getStudyCoordinatingCenters();
+        	companionStudyCoordinatingCenter.addAll(parentStudyCoordinatingCenter);
+        	
+        	List<OrganizationAssignedIdentifier> parentOrganizationAssignedIdentifier = parentStudy.getOrganizationAssignedIdentifiers();
+        	List <OrganizationAssignedIdentifier> companionOrganizationAssignedIdentifier = companionStudy.getOrganizationAssignedIdentifiers();
+        	companionOrganizationAssignedIdentifier.addAll(parentOrganizationAssignedIdentifier);
+        	
         	companionStudy.setCompanionIndicator(companionIndicator);
         	if(!companionIndicator){
         		companionStudy.setStandaloneIndicator(true);
