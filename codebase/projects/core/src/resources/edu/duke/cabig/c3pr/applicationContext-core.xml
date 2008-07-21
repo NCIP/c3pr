@@ -441,6 +441,8 @@
           autowire="byType"/>
     <bean id="notificationEmailer" class="edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail"
           autowire="byType"/>
+    <bean id="notificationEmailService" class="edu.duke.cabig.c3pr.utils.NotificationEmailService"
+          autowire="byType"/>
 
     <!-- this is a template message that we can pre-load with default state -->
     <bean id="accountCreatedTemplateMessage" class="org.springframework.mail.SimpleMailMessage">

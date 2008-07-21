@@ -50,6 +50,7 @@
         	<dependency org="org.springframework" name="spring" rev="2.0.7" force="true"/>
         	<dependency org="org.springframework" name="spring-aspects" rev="2.0.7" force="true" />
         	<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" />
+        	<dependency org="org.springmodules" name="spring-modules-jcr" rev="0.6" transitive="false" />
         	
         	<dependency org="commons-collections" name="commons-collections" rev="3.2" />
         	<dependency org="commons-lang" name="commons-lang" rev="2.3" />
@@ -133,6 +134,47 @@
 			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
 			<dependency org="commons-configuration" name="commons-configuration" rev="1.5" conf="test->default"/>
 			<dependency org="asm" name="asm-commons" rev="2.2.3" conf="test->default"/>
+			
+						<!-- DROOLS -->
+        	<dependency org="ant" name="ant" rev="1.6.5" conf="build"/>
+			
+			<!-- JSRs -->
+			<dependency org="jsr94" name="jsr94" rev="1.1" />
+			<dependency org="javax.xml.bind" name="jaxb-api" rev="2.1">
+				<exclude org="jsr173" name="javax.xml"/>
+			</dependency>
+			<dependency org="javax.xml.bind" name="jsr173_api" rev="1.0" />
+			
+			<!-- XML related API -->
+			<dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.1.3" />
+			<dependency org="javax.xml.ws" name="jaxws-api" rev="2.1" />
+			<dependency org="jdom" name="jdom" rev="1.0" />
+			<dependency org="xalan" name="xalan" rev="2.7.0" />
+			<dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.1.3" />
+			<dependency org="jaxb" name="jaxb-xjc" rev="2.0-SNAPSHOT"/>
+			
+			<dependency org="xjc-plugin" name="collection-setter-injector" rev="1.0"/>
+			
+			<!--  Rules Compiler -->
+			<dependency org="org.eclipse.jdt" name="core" rev="3.2.0.666" conf="runtime,dist,distGrid->default(*)"/>
 
+			<!--  JBoss  Drools -->
+			<dependency org="org.drools" name="drools-core" rev="4.0.6" />
+			<dependency org="org.drools" name="drools-compiler" rev="4.0.6"/>
+			<dependency org="org.drools" name="drools-jsr94" rev="4.0.6" />
+			<dependency org="org.drools" name="drools-decisiontables" rev="4.0.6"/>
+			<dependency org="org.drools" name="drools-repository" rev="4.0.6"/>
+			
+			<!-- mvel -->
+			<dependency name="mvel" org="org.mvel" rev="1.2.22-java1.5" force="true"/>
+			
+			<!--  Jackrabbit -->
+			<dependency org="javax.jcr" name="jcr" rev="1.0" />
+			<dependency name="jackrabbit-api" org="org.apache.jackrabbit" rev="1.2.1" />
+			<dependency name="jackrabbit-core" org="org.apache.jackrabbit" rev="1.2.1" />
+			<dependency name="jackrabbit-jcr-commons" org="org.apache.jackrabbit" rev="1.2.1" />
+			<dependency name="jackrabbit-jcr-rmi" org="org.apache.jackrabbit" rev="1.2.1" />
+			<dependency name="jackrabbit-jcr-server" org="org.apache.jackrabbit" rev="1.2.1" />		
+			<!-- DROOLS -->
         </dependencies>
 </ivy-module>
