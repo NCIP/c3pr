@@ -31,7 +31,7 @@
     </bean>
 
     <bean id="csmAuthorizationDao"
-          class="gov.nih.nci.security.dao.DIAuthorizationDao"
+          class="edu.duke.cabig.c3pr.dao.C3PRAuthorizationDao"
           init-method="init">
         <property name="sessionFactory">
             <bean

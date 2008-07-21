@@ -193,7 +193,7 @@ public class PersonnelServiceImpl implements PersonnelService {
 
         for (ContactMechanism cm : c3prUser.getContactMechanisms()) {
             if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-                csmUser.setLoginName(cm.getValue());
+                csmUser.setLoginName(cm.getValue().toLowerCase());
                 csmUser.setEmailId(cm.getValue());
             }
         }
