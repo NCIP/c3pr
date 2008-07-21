@@ -38,10 +38,23 @@ public class CreateCompanionStudyController<C extends Study> extends CreateStudy
     
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         String embedded = request.getParameter("embeddedStudy");
-        if(embedded == null ){
-        	return createDefaultStudyWithDesign();
+//        String row  = request.getParameter("row");	
+        if(embedded != null){
+        	Study parentStudy = (Study) request.getSession().getAttribute("studyObj");
+        	Study companionStudy =  new Study() ;//parentStudy.getCompanionStudyAssociations().get(Integer.parseInt(row)).getCompanionStudy();
+        	companionStudy.setShortTitleText(parentStudy.getShortTitleText());
+        	companionStudy.setLongTitleText(parentStudy.getLongTitleText());
+        	companionStudy.setStudySites(parentStudy.getStudySites());
+        	companionStudy.setStudyCoordinatingCenters(parentStudy.getStudyCoordinatingCenters());
+        	companionStudy.setOrganizationAssignedIdentifiers(parentStudy.getOrganizationAssignedIdentifiers());
+        	companionStudy.setCompanionIndicator(companionIndicator);
+        	if(!companionIndicator){
+        		companionStudy.setStandaloneIndicator(true);
+        	}else{
+        		companionStudy.setStandaloneIndicator(false);
+        	}
+        	return companionStudy;
         }else{
-        	Study parentStudy = (Study) request.getSession().getAttribute("parentStudy");
         	return createDefaultStudyWithDesign();
         }
         

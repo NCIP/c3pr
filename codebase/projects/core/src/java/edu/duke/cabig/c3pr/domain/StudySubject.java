@@ -86,9 +86,9 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     
     private String disapprovalReasonText;
     
-    private CompanionStudyAssociation companionAssociation ;
-    
-    private StudySubject parentStudySubject ;
+//    private CompanionStudyAssociation companionAssociation ;
+//    
+//    private StudySubject parentStudySubject ;
     
 	public StudySubject() {
         lazyListHelper = new LazyListHelper();
@@ -613,28 +613,16 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
             return true;
         return false;
     }
-
-    @ManyToOne
-    @Cascade( { CascadeType.ALL})
-    @JoinColumn(name = "comp_assoc_id", nullable = false)
-    public CompanionStudyAssociation getCompanionAssociation() {
-		return companionAssociation;
-	}
-
-	public void setCompanionAssociation(
-			CompanionStudyAssociation companionAssociation) {
-		this.companionAssociation = companionAssociation;
-	}
-
-	@ManyToOne
-    @Cascade( { CascadeType.ALL})
-    @JoinColumn(name = "parent_stu_sub_id", nullable = false)
-	public StudySubject getParentStudySubject() {
-		return parentStudySubject;
-	}
-
-	public void setParentStudySubject(StudySubject parentStudySubject) {
-		this.parentStudySubject = parentStudySubject;
-	}
+    
+//	@ManyToOne
+//    @Cascade( { CascadeType.ALL})
+//    @JoinColumn(name = "parent_stu_sub_id", nullable = false)
+//	public StudySubject getParentStudySubject() {
+//		return parentStudySubject;
+//	}
+//
+//	public void setParentStudySubject(StudySubject parentStudySubject) {
+//		this.parentStudySubject = parentStudySubject;
+//	}
 
 }

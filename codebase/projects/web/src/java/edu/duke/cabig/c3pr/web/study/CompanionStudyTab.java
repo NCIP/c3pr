@@ -16,6 +16,7 @@ public class CompanionStudyTab extends StudyTab{
 	
 	@Override
     public Map referenceData(HttpServletRequest request, Study study) {
+		request.getSession().setAttribute("studyObj", study);
         Map<String, Object> refdata = super.referenceData(study);
         addConfigMapToRefdata(refdata, "yesNo");
         boolean isAdmin = isAdmin();
@@ -34,9 +35,15 @@ public class CompanionStudyTab extends StudyTab{
     }
 	
 	@Override
+	public Map<String, Object> referenceData(Study command) {
+		return super.referenceData(command);
+	}
+	
+	@Override
     public void postProcessOnValidation(HttpServletRequest req, Study study, Errors errors) {
         super.postProcessOnValidation(req, study, errors);
    
 	}
+	
 
 }

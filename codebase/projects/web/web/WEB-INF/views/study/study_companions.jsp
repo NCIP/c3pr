@@ -57,7 +57,7 @@ Event.observe(window, "load", function() {
 
     $('createCompanion').observe('click', function(event) {
             Lightview.show({
-              href: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true' />",
+              href: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true'/>",
               rel: 'iframe',
               title: ':: Companion Study::',
               options: {
@@ -89,8 +89,6 @@ function postSubmitSkinForm() {
     var value = getSelectedValue();
 
     var url = action + "?conf['skinPath'].value=" + value;
-//    alert(url);
-//    return;
     
     new Ajax.Request(url, {
       method: 'post',
