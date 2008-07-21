@@ -60,7 +60,7 @@
                         <c:if test="${status.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
 
                         <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
-                            <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/participant/viewParticipant?participantId=${registration.id}" />"><c:out value="${registration.participant.firstName} ${registration.participant.lastName}" /></a></chrome:td>
+                            <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/registration/manageRegistration?registrationId=${registration.id}" />"><c:out value="${registration.participant.firstName} ${registration.participant.lastName}" /></a></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${registration.studySite.study.shortTitleText}" /></chrome:td>
                             <chrome:td bgcolor="${bg}">placeHolder 1</chrome:td>
                         </chrome:tr>
