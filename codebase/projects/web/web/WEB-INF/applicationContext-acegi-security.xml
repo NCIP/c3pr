@@ -135,8 +135,14 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
     </bean>
 
+    <util:map id="urlObjectPrivilegeMap">
+        <entry key="/pages/skin" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
+    </util:map>
+
     <util:map id="filterObjectPrivilegeMap"
               map-class="java.util.LinkedHashMap">
+        <entry key="/pages/skin" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
+        
         <!-- TODO: set up correct default -->
         <entry key="/pages/participant/create.*"
                value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
@@ -216,6 +222,21 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
           class="edu.duke.cabig.c3pr.web.security.FilterInvocationPrivilegeAndObjectIdGenerator">
         <property name="objectPrivilegeMap"
                   ref="filterObjectPrivilegeMap"/>
+    </bean>
+
+    <bean id="urlPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.web.security.UrlPrivilegeAndObjectIdGenerator">
+        <property name="objectPrivilegeMap" ref="urlObjectPrivilegeMap"/>
+    </bean>
+
+    <bean id="urlAuthorizationCheck" autowire="byType" class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+        <property name="csmAuthorizationCheck">
+            <bean class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
+                <property name="csmUserProvisioningManager" ref="csmUserProvisioningManager"/>
+                <property name="authorizationSwitch" ref="authorizationSwitch"/>
+            </bean>
+        </property>
+        <property name="objectIdGenerator" ref="urlPrivilegeAndObjectIdGenerator"/>
+        <property name="privilegeGenerator" ref="urlPrivilegeAndObjectIdGenerator"/>
     </bean>
 
     <bean id="filterAuthorizationCheck" autowire="byType"

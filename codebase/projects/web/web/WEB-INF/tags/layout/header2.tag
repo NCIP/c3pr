@@ -25,7 +25,7 @@
                 <tr>
                     <td align="right" valign="top">
                         <div id="login-action">
-                            <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="loginAuthorizationCheck"><a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<a>|</a>&nbsp;<a id="changeSkin" style="cursor:pointer;">Change skin</a>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a></csmauthz:accesscontrol>
+                            <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="loginAuthorizationCheck"><a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<csmauthz:accesscontrol domainObject="/pages/skin" authorizationCheckName="urlAuthorizationCheck"><a>|</a>&nbsp;<a id="changeSkin" style="cursor:pointer;">Change skin</a></csmauthz:accesscontrol>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a></csmauthz:accesscontrol>
                             <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="logoutAuthorizationCheck"><a href="<c:url value="/public/login"/>">Log in</a></csmauthz:accesscontrol>
                         </div>
                     </td>
@@ -48,9 +48,8 @@
         </ul>
 --%>
 
-    <style>
-
 <%--
+    <style>
         <c:set var="i" value="-2" />
         <c:forEach items="${sections}" var="section">
                         <c:set var="i" value="${i + 1}" />
@@ -67,9 +66,9 @@
                                 </c:forEach>
                         </c:forEach>
         </c:forEach>
+    </style>
 --%>
 
-    </style>
 
     <script language="JavaScript">
             var MENU_ITEMS = [
