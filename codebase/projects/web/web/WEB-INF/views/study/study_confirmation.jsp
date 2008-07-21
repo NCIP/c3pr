@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-    <title><studyTags:htmlTitle study="${command}" /></title>   
+        <title><studyTags:htmlTitle study="${command}" /></title>   
 	</head>
 	<body>
 	
@@ -15,15 +15,15 @@
 	                 <div class="row" >
 	                 	<table class="tablecontent" width="60%">
 							<tr>
-								<td width="35%" class="alt" align="left"><b>Short Title<b></td>
+								<td width="35%" class="alt" align="left"><b>Short Title</b></td>
 								<td class="alt" align="left">${command.trimmedShortTitleText}</td>
 							</tr>
 							<tr>
-								<td width="35%" class="alt" align="left"><b>Coordinating Center Study Identifier<b></td>
+								<td width="35%" class="alt" align="left"><b>Coordinating Center Study Identifier</b></td>
 								<td class="alt" align="left">${command.primaryIdentifier}</td>
 							</tr>
 							<tr>
-								<td width="35%" class="alt" align="left"><b>Study Status<b></td>
+								<td width="35%" class="alt" align="left"><b>Study Status</b></td>
 								<td class="alt" align="left">${command.coordinatingCenterStudyStatus.code}</td>
 							</tr>
 						</table>
