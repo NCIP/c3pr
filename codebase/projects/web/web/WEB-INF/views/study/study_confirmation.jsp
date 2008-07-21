@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-    <title><studyTags:htmlTitle study="${param}" /></title>   
+    <title><studyTags:htmlTitle study="${command}" /></title>   
 	</head>
 	<body>
 	
