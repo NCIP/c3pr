@@ -135,7 +135,7 @@
 			<dependency org="commons-configuration" name="commons-configuration" rev="1.5" conf="test->default"/>
 			<dependency org="asm" name="asm-commons" rev="2.2.3" conf="test->default"/>
 			
-						<!-- DROOLS -->
+			<!-- DROOLS -->
         	<dependency org="ant" name="ant" rev="1.6.5" conf="build"/>
 			
 			<!-- JSRs -->
@@ -150,7 +150,6 @@
 			<dependency org="javax.xml.ws" name="jaxws-api" rev="2.1" />
 			<dependency org="jdom" name="jdom" rev="1.0" />
 			<dependency org="xalan" name="xalan" rev="2.7.0" />
-			<dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.1.3" />
 			<dependency org="jaxb" name="jaxb-xjc" rev="2.0-SNAPSHOT"/>
 			
 			<dependency org="xjc-plugin" name="collection-setter-injector" rev="1.0"/>
