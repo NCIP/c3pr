@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="edu.duke.cabig.c3pr.rules.deploy.study_status_rules"
+	xmlns="http://drools.org/drools-4.0" xmlns:drools="http://drools.org/drools-4.0" 
+	xmlns:rules="http://drools.org/drools-4.0" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" 
+	xs:schemaLocation="http://drools.org/drools-4.0 drools-4.0.xsd">
+	
+	<global type="edu.duke.cabig.c3pr.rules.runtime.RuleContext" identifier="ruleContext"/>
+	<global type="edu.duke.cabig.c3pr.rules.runtime.action.ActionDispatcher" identifier="actionDispatcher"/>
+	
+	<import name="edu.duke.cabig.c3pr.domain.*"/>
+	<import name="edu.duke.cabig.c3pr.service.impl.*"/>
+	
+    <rule name="Study_Changed_Rule">
+        <lhs>
+        	<pattern identifier="study" object-type="edu.duke.cabig.c3pr.domain.Study"/>
+        	<pattern identifier="notificationEmailService" object-type="edu.duke.cabig.c3pr.utils.NotificationEmailService"/>
+        	
+        	<eval>study.returnTrue() == "true"</eval>
+        </lhs>
+        <rhs>
+        	System.out.println( "Status has Changed" );
+            notificationEmailService.sendEmail(study);
+        </rhs>        
+    </rule>
+
+
+</package>	
