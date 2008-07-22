@@ -1,4 +1,4 @@
-c
+<%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
