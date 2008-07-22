@@ -36,7 +36,11 @@
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
 				conf="build->default;runtime->default;dist->dist;distGrid->distGrid">
 				<exclude conf="*" name="poi" />
-				
+			</dependency>
+			
+			<dependency org="edu.duke.cabig.c3pr" name="c3pr-rules" rev="latest.integration" 
+				conf="build->default;runtime->default;dist->dist;distGrid->distGrid">
+				<exclude conf="*" name="poi" />
 			</dependency>
 				
 			<dependency org="asm" name="asm-commons" rev="2.2.3" force="true"/>
