@@ -16,10 +16,9 @@
         	<pattern identifier="study" object-type="edu.duke.cabig.c3pr.domain.Study"/>
         	<pattern identifier="notificationEmailService" object-type="edu.duke.cabig.c3pr.utils.NotificationEmailService"/>
         	
-        	<eval>study.returnTrue() == "true"</eval>
+        	<eval>"true" == "true"</eval>
         </lhs>
         <rhs>
-        	System.out.println( "Status has Changed" );
             notificationEmailService.sendEmail(study);
         </rhs>        
     </rule>
