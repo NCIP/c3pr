@@ -175,11 +175,14 @@
         </property>
     </bean>
     
+    <!-- InterceptorNotifier overrides the list of interceptors defined under chainedInterceptor 
+    	See the InterceptorNotifier.java for details -->
+    <bean id="interceptorNotifier" class="edu.duke.cabig.c3pr.infrastructure.InterceptorNotifier" autowire="byName" />     
+    
     <bean id="chainedInterceptor" class="gov.nih.nci.cabig.ctms.audit.ChainedInterceptor" >
 		<property name="interceptors">
 			<list>
 				<ref local="gridIdentifierInterceptor"/>
-				<ref local="notificationInterceptor"/>
 				<!--<ref local="auditInterceptor"/> -->
 			</list>
 		</property>
