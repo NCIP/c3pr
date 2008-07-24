@@ -18,6 +18,7 @@ public class AmendCompanionStudyController extends AmendStudyController {
      */
     protected void layoutTabs(Flow flow) {
     	boolean editMode = false;
+    	flow.addTab(new StudyAmendmentTab());
         flow.addTab(new StudyDetailsTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
@@ -29,7 +30,7 @@ public class AmendCompanionStudyController extends AmendStudyController {
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
-        flow.addTab(new StudyOverviewTab("Overview", "Overview", "study/study_summary_create"));
+        flow.addTab(new StudyOverviewTab("Overview", "Overview", "study/study_summary_view"));
     }
    
 }

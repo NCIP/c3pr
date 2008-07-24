@@ -35,6 +35,9 @@ public class StudyDetailsTab extends StudyTab {
 		CompanionStudyAssociation companionStudyAssociation=parentStudy.getCompanionStudyAssociations().get(parentStudy.getCompanionStudyAssociations().size());
     	companionStudyAssociation.setCompanionStudy((Study)commandObj);
 		map.put(getFreeTextModelName(), "");
+		if(companionStudyAssociation.getParentStudy().getId() != null ){
+			studyDao.merge(parentStudy);	
+		}
 		return new ModelAndView("",map);
 	}
     
