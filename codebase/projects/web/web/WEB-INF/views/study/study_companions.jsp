@@ -77,6 +77,8 @@ Event.observe(window, "load", function() {
 function createCompanion(shortTitle){
 	RowManager.addRow(instanceRowInserterProps);
 	$('companionStudy' + currentRow + '-input').value = shortTitle;
+	$('companionStudy' + currentRow + '-hidden').name = "some_dummy_name";
+	$('companionStudy' + currentRow + '-input').disabled=true;
 	closePopup();
 }
 
@@ -102,7 +104,7 @@ function postSubmitSkinForm() {
 
 --></script>
         
-<tags:errors path="companionStudyAssociations" />
+<tags:errors path="*" />
 
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -126,10 +128,14 @@ function postSubmitSkinForm() {
                         			name="companionStudyAssociations[${status.index}].companionStudy"
                       				 value="${command.companionStudyAssociations[status.index].companionStudy.id}"/>
                 			<input class="autocomplete validate-notEmpty" type="text" id="companionStudy${status.index}-input"
-                       				size="40"
-                      				 value="${command.companionStudyAssociations[status.index].companionStudy.shortTitleText}"/>
-                				<input type="button" id="companionStudy${status.index}-clear"
-                       				 value="Clear"/>
+                       				size="40"  value="${command.companionStudyAssociations[status.index].companionStudy.shortTitleText}"/>
+                			<input type="button" id="companionStudy${status.index}-clear" value="Clear"/>
+                       		<c:if test="${empty command.companionStudyAssociations[status.index].companionStudy.id}">
+                      			<script>
+                      			$('companionStudy${status.index}-hidden').name="some_dummy_value";
+                      			$('companionStudy${status.index}-input').disabled=true;
+                      			</script>
+                      		</c:if>
                   		 	<tags:indicator id="companionStudy${status.index}-indicator"/>
                   			<div id="companionStudy${status.index}-choices" class="autocomplete"></div>
            			 </td>

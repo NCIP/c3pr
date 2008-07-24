@@ -1402,4 +1402,180 @@ public class StudyDaoTest extends DaoTestCase {
     	assertNotNull("Companion Association exists",  dao.getById(savedId));
     	assertNotNull("Companion Association has Parent Study",  dao.getById(savedId).getCompanionStudyAssociations());
     }
+
+public void testCompanionStudyAssociationWithExistingStudy(){
+	
+	HealthcareSite sponsor = healthcareSitedao.getById(1001);
+    HealthcareSite site = healthcareSitedao.getById(1000);
+    HealthcareSite center = healthcareSitedao.getById(1002);
+    
+    Study parentStudy = dao.getById(1001) ;
+
+    Study study = new Study();
+    study.setShortTitleText("ShortTitleText");
+    study.setLongTitleText("LongTitleText");
+    study.setPhaseCode("PhaseCode");
+    study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+    study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+    study.setTargetAccrualNumber(150);
+    study.setType("Type");
+    study.setMultiInstitutionIndicator(Boolean.TRUE);
+
+    // Study Site
+    StudySite studySite = new StudySite();
+    studySite.setHealthcareSite(site);
+    studySite.setRoleCode("role");
+    studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+
+    study.addStudySite(studySite);
+
+    // Study funding sponsor
+    StudyFundingSponsor fundingSponsor = new StudyFundingSponsor();
+    fundingSponsor.setHealthcareSite(sponsor);
+    study.addStudyOrganization(fundingSponsor);
+
+    // Study coordinating center
+    StudyCoordinatingCenter coCenter = new StudyCoordinatingCenter();
+    coCenter.setHealthcareSite(center);
+    study.addStudyOrganization(coCenter);
+    
+    parentStudy.getCompanionStudyAssociations().get(0).setCompanionStudy(study);
+    
+	List<SystemAssignedIdentifier> parentSystemAssignedIdentifiers = parentStudy.getSystemAssignedIdentifiers();
+	int index1 = 0 ;
+	for (SystemAssignedIdentifier systemIdentifier : parentSystemAssignedIdentifiers ) {
+		SystemAssignedIdentifier id = study.getSystemAssignedIdentifiers().get(index1);
+		id.setSystemName(systemIdentifier.getSystemName());
+		id.setType(systemIdentifier.getType());
+		id.setValue(systemIdentifier.getValue());
+		index1++ ;
+	}
+
+	int index2 = 0 ;
+	List<OrganizationAssignedIdentifier> parentOrganizationAssignedIdentifiers = parentStudy.getOrganizationAssignedIdentifiers();
+	for (OrganizationAssignedIdentifier orgIdentifier : parentOrganizationAssignedIdentifiers ) {
+		OrganizationAssignedIdentifier id = study.getOrganizationAssignedIdentifiers().get(index2);
+		id.setHealthcareSite(orgIdentifier.getHealthcareSite());
+		id.setType(orgIdentifier.getType());
+		id.setValue(orgIdentifier.getValue());
+		index2++ ;
+	}
+        	
+    dao.save(parentStudy);
+    int savedId = study.getId();
+    assertNotNull("The saved study didn't get an id", savedId);
+    
+	interruptSession();
+	
+	assertNotNull("Companion Association exists",  dao.getById(savedId));
+	assertNotNull("Companion Association has Parent Study",  dao.getById(savedId).getCompanionStudyAssociations());
+}
+
+
+public void testCompanionStudyAssociationWithNewStudy(){
+	
+	HealthcareSite sponsor = healthcareSitedao.getById(1001);
+    HealthcareSite site = healthcareSitedao.getById(1000);
+    HealthcareSite center = healthcareSitedao.getById(1002);
+    
+    
+    Study parentStudy = new Study();
+    parentStudy.setShortTitleText("ShortTitleText");
+    parentStudy.setLongTitleText("LongTitleText");
+    parentStudy.setPhaseCode("PhaseCode");
+    parentStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+    parentStudy.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+    parentStudy.setTargetAccrualNumber(150);
+    parentStudy.setType("Type");
+    parentStudy.setMultiInstitutionIndicator(Boolean.TRUE);
+
+    // Study Site
+    StudySite studySite = new StudySite();
+    studySite.setHealthcareSite(site);
+    studySite.setRoleCode("role");
+    studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+
+    parentStudy.addStudySite(studySite);
+
+    // Study funding sponsor
+    StudyFundingSponsor fundingSponsor = new StudyFundingSponsor();
+    fundingSponsor.setHealthcareSite(sponsor);
+    parentStudy.addStudyOrganization(fundingSponsor);
+
+    // Study coordinating center
+    StudyCoordinatingCenter coCenter = new StudyCoordinatingCenter();
+    coCenter.setHealthcareSite(center);
+    parentStudy.addStudyOrganization(coCenter);
+    
+    List<SystemAssignedIdentifier> lsid = parentStudy.getSystemAssignedIdentifiers();
+    SystemAssignedIdentifier sid = new SystemAssignedIdentifier();
+    sid.setSystemName("nci");
+    sid.setType("SAI");
+    sid.setValue("cni");
+    lsid.add(sid) ;
+    
+    List<OrganizationAssignedIdentifier> loid = parentStudy.getOrganizationAssignedIdentifiers();
+    OrganizationAssignedIdentifier oid = new OrganizationAssignedIdentifier();
+    oid.setHealthcareSite(center);
+    oid.setType("OAI");
+    oid.setValue("nci");
+    loid.add(oid) ;
+    
+    Study study = new Study();
+    study.setShortTitleText("ShortTitleText");
+    study.setLongTitleText("LongTitleText");
+    study.setPhaseCode("PhaseCode");
+    study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+    study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+    study.setTargetAccrualNumber(150);
+    study.setType("Type");
+    study.setMultiInstitutionIndicator(Boolean.TRUE);
+
+    // Study Site
+    StudySite pStudySite = new StudySite();
+    pStudySite.setHealthcareSite(site);
+    pStudySite.setRoleCode("role");
+    pStudySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+
+    study.addStudySite(pStudySite);
+
+    // Study funding sponsor
+    StudyFundingSponsor fundingSponsor1 = new StudyFundingSponsor();
+    fundingSponsor1.setHealthcareSite(sponsor);
+    study.addStudyOrganization(fundingSponsor1);
+
+    // Study coordinating center
+    StudyCoordinatingCenter coCenter1 = new StudyCoordinatingCenter();
+    coCenter1.setHealthcareSite(center);
+    study.addStudyOrganization(coCenter1);
+    
+	List<SystemAssignedIdentifier> parentSystemAssignedIdentifiers = parentStudy.getSystemAssignedIdentifiers();
+	int index1 = 0 ;
+	for (SystemAssignedIdentifier systemIdentifier : parentSystemAssignedIdentifiers ) {
+		SystemAssignedIdentifier id = study.getSystemAssignedIdentifiers().get(index1);
+		id.setSystemName(systemIdentifier.getSystemName());
+		id.setType(systemIdentifier.getType());
+		id.setValue(systemIdentifier.getValue());
+		index1++ ;
+	}
+
+	int index2 = 0 ;
+	List<OrganizationAssignedIdentifier> parentOrganizationAssignedIdentifiers = parentStudy.getOrganizationAssignedIdentifiers();
+	for (OrganizationAssignedIdentifier orgIdentifier : parentOrganizationAssignedIdentifiers ) {
+		OrganizationAssignedIdentifier id = study.getOrganizationAssignedIdentifiers().get(index2);
+		id.setHealthcareSite(orgIdentifier.getHealthcareSite());
+		id.setType(orgIdentifier.getType());
+		id.setValue(orgIdentifier.getValue());
+		index2++ ;
+	}
+	parentStudy.getCompanionStudyAssociations().get(0).setCompanionStudy(study);
+    dao.save(parentStudy);
+    int savedId = study.getId();
+    assertNotNull("The saved study didn't get an id", savedId);
+    
+	interruptSession();
+	
+	assertNotNull("Companion Association exists",  dao.getById(savedId));
+	assertNotNull("Companion Association has Parent Study",  dao.getById(savedId).getCompanionStudyAssociations());
+}
 }

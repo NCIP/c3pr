@@ -1,4 +1,4 @@
-<%@ include file="taglibs.jsp"%>
+ <%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
@@ -42,7 +42,7 @@
         }
 
         ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-           if(formElement.id="command"){
+           if((formElement.id=="command" || formElement.id=="embedStudyForm" )&&continueSubmission){
                  box1=document.getElementById('healthcareSite-hidden');
                	if(document.getElementById('randomizedIndicator').value =='false'){
                	new Element.update('randomizationTypeDiv','');
@@ -61,7 +61,12 @@
 	                   document.getElementById('deletedSponsorIdentifier').value="delete";
 	             }
 	             }
+	             if(formElement.id=="embedStudyForm"){
+           			embedCompanionStudy();
+           			return false;
+           		}
              }
+             
              return continueSubmission;
          } 
 
@@ -83,9 +88,12 @@
         }
         
         function embedCompanionStudy(){
-			parent.createCompanion($('_shortTitle').value);
+			<tags:tabMethod method="embedCompanion" onComplete="copyToParent" divElement="'emptyDivCompanion'" formName="'embedStudyForm'"/>
 		}
         
+        function copyToParent(){
+        	parent.createCompanion($('_shortTitle').value);
+        }
         var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
             populator: function(autocompleter, text) {
@@ -164,8 +172,9 @@
     </script>
 </head>
 <body>
+<div id="emptyDivCompanion" style="display: none;"></div>
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
-<form:form method="post" name="studyDetails" cssClass="standard">
+<form:form id="${!empty param.embeddedStudy?'embedStudyForm':'command'}" method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
 
 <input type="hidden" name="deletedSponsor" id="deletedSponsor" value=""/>
@@ -493,7 +502,7 @@
 <div <c:if test="${empty param.embeddedStudy}">style="display:none;"</c:if>>
 	<div class="content buttons autoclear">
 	<div class="flow-buttons"><span class="next"> 
-		<input type="button" value="Embed Study" id="embedCompanionStudyDiv" onclick="embedCompanionStudy();return false;"/>
+		<input type="submit" value="Embed Study" id="embedCompanionStudyDiv"/>
 		<input type="button" value="Close" onClick="parent.closePopup();"/>
 		</span></div>
 	</div>

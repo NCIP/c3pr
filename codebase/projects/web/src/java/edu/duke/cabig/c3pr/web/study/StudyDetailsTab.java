@@ -1,12 +1,15 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
@@ -15,7 +18,7 @@ import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
  * Created by IntelliJ IDEA. User: kherm Date: Jun 13, 2007 Time: 7:27:09 PM To change this template
  * use File | Settings | File Templates.
  */
-class StudyDetailsTab extends StudyTab {
+public class StudyDetailsTab extends StudyTab {
 
     private StudyValidator studyValidator;
     
@@ -25,6 +28,16 @@ class StudyDetailsTab extends StudyTab {
         super("Details", "Details", "study/study_details");
     }
 
+    public ModelAndView embedCompanion(HttpServletRequest request, Object commandObj,
+            Errors error) {
+    	Study parentStudy = (Study) request.getSession().getAttribute("studyObj");
+		Map map=new HashMap();
+		CompanionStudyAssociation companionStudyAssociation=parentStudy.getCompanionStudyAssociations().get(parentStudy.getCompanionStudyAssociations().size());
+    	companionStudyAssociation.setCompanionStudy((Study)commandObj);
+		map.put(getFreeTextModelName(), "");
+		return new ModelAndView("",map);
+	}
+    
     @Override
     public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
         Map<String, Object> refdata = super.referenceData();

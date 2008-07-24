@@ -5,10 +5,15 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
+import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
@@ -42,24 +47,62 @@ public class CreateCompanionStudyController<C extends Study> extends CreateStudy
     
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         String embedded = request.getParameter("embeddedStudy");
-//        String row  = request.getParameter("row");	
         if(embedded != null){
         	Study parentStudy = (Study) request.getSession().getAttribute("studyObj");
+
         	Study companionStudy =  new Study() ;//parentStudy.getCompanionStudyAssociations().get(Integer.parseInt(row)).getCompanionStudy();
         	companionStudy.setShortTitleText(parentStudy.getShortTitleText());
         	companionStudy.setLongTitleText(parentStudy.getLongTitleText());
         	
+        	List<StudyFundingSponsor> parentSFS = parentStudy.getStudyFundingSponsors();
+        	int studyFSIndex = 0 ;
+        	for (StudyFundingSponsor studyFS : parentSFS) {
+        		StudyFundingSponsor sfs = companionStudy.getStudyFundingSponsors().get(studyFSIndex);
+        		sfs.setHealthcareSite(studyFS.getHealthcareSite());
+        		studyFSIndex++ ;
+    		}
+        	
         	List<StudySite> parentStudySite = parentStudy.getStudySites();
-        	List<StudySite> companionStudySite = companionStudy.getStudySites();
-        	companionStudySite.addAll(parentStudySite);
+        	int studySiteIndex = 0 ;
+        	for (StudySite studySite : parentStudySite) {
+        		StudySite ss = companionStudy.getStudySites().get(studySiteIndex);
+        		ss.setHealthcareSite(studySite.getHealthcareSite());
+        		ss.setIrbApprovalDate(studySite.getIrbApprovalDate());
+	        	ss.setStartDate(studySite.getStartDate());
+        		studySiteIndex++ ;
+    		}
         	
         	List<StudyCoordinatingCenter> parentStudyCoordinatingCenter = parentStudy.getStudyCoordinatingCenters();
-        	List <StudyCoordinatingCenter> companionStudyCoordinatingCenter = companionStudy.getStudyCoordinatingCenters();
-        	companionStudyCoordinatingCenter.addAll(parentStudyCoordinatingCenter);
+        	int cSiteIndex = 0 ;
+        	for (StudyCoordinatingCenter studyCoordinatingCenter : parentStudyCoordinatingCenter) {
+        		StudyCoordinatingCenter scc = companionStudy.getStudyCoordinatingCenters().get(cSiteIndex);
+        		scc.setHealthcareSite(studyCoordinatingCenter.getHealthcareSite());
+        		HealthcareSiteInvestigator hsci = parentStudy.getPrincipalInvestigator();
+        		StudyInvestigator siteInvestigator = scc.getStudyInvestigators().get(0) ;
+        		siteInvestigator.setHealthcareSiteInvestigator(hsci);
+        		scc.addStudyInvestigator(siteInvestigator);
+        		cSiteIndex++ ;
+    		}
+        	        	
+        	List<SystemAssignedIdentifier> parentSystemAssignedIdentifiers = parentStudy.getSystemAssignedIdentifiers();
+        	int index1 = 0 ;
+        	for (SystemAssignedIdentifier systemIdentifier : parentSystemAssignedIdentifiers ) {
+        		SystemAssignedIdentifier id = companionStudy.getSystemAssignedIdentifiers().get(index1);
+        		id.setSystemName(systemIdentifier.getSystemName());
+        		id.setType(systemIdentifier.getType());
+        		id.setValue(systemIdentifier.getValue() + "comp");
+        		index1++ ;
+    		}
         	
-        	List<OrganizationAssignedIdentifier> parentOrganizationAssignedIdentifier = parentStudy.getOrganizationAssignedIdentifiers();
-        	List <OrganizationAssignedIdentifier> companionOrganizationAssignedIdentifier = companionStudy.getOrganizationAssignedIdentifiers();
-        	companionOrganizationAssignedIdentifier.addAll(parentOrganizationAssignedIdentifier);
+        	int index2 = 0 ;
+        	List<OrganizationAssignedIdentifier> parentOrganizationAssignedIdentifiers = parentStudy.getOrganizationAssignedIdentifiers();
+        	for (OrganizationAssignedIdentifier orgIdentifier : parentOrganizationAssignedIdentifiers ) {
+        		OrganizationAssignedIdentifier id = companionStudy.getOrganizationAssignedIdentifiers().get(index2);
+        		id.setHealthcareSite(orgIdentifier.getHealthcareSite());
+        		id.setType(orgIdentifier.getType());
+        		id.setValue(orgIdentifier.getValue() + "comp");
+        		index2++ ;
+    		}
         	
         	companionStudy.setCompanionIndicator(companionIndicator);
         	if(!companionIndicator){
@@ -67,6 +110,7 @@ public class CreateCompanionStudyController<C extends Study> extends CreateStudy
         	}else{
         		companionStudy.setStandaloneIndicator(false);
         	}
+        	
         	return companionStudy;
         }else{
         	return createDefaultStudyWithDesign();

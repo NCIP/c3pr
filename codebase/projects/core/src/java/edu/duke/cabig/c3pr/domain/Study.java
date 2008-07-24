@@ -378,6 +378,21 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		}
 		return null;
 	}
+	
+	@Transient
+	public HealthcareSiteInvestigator getPrincipalInvestigator() {
+		for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
+			for (StudyInvestigator studyInvestigator : studyOrganization
+					.getStudyInvestigators()) {
+				if (studyInvestigator.getRoleCode().equals(
+						"Principal Investigator")) {
+					return studyInvestigator.getHealthcareSiteInvestigator();
+				}
+			}
+		}
+		return null;
+	}
+	
 
 	@Transient
 	public StudyOrganization getPrincipalInvestigatorStudyOrganization() {

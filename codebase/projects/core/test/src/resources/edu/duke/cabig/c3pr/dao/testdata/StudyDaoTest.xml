@@ -63,6 +63,8 @@
                  
                   <IDENTIFIERS id="1002" version="1" value="nci" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1001" 
                  retired_indicator="false"/>
+                 <IDENTIFIERS id="10021" version="1" value="nci" type="TEST" system_name="nci" dtype="SAI" stu_id="1001" 
+                 retired_indicator="false"/>
                  
                   <IDENTIFIERS id="1003" version="1" value="nci" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1002" 
                  retired_indicator="false"/>

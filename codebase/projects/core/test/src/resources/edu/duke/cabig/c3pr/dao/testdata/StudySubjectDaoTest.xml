@@ -102,7 +102,10 @@
 
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1000" retired_indicator = "false" />
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1001" retired_indicator = "false" />
-
+	
+	<stu_sub_associations parent_stu_sub_id="1000" child_stu_sub_id="1001" />
+    
+    
     <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000"  eph_id="1000" sc_epoch_workflow_status="APPROVED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
     <SCHEDULED_EPOCHS id="1001" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000"  eph_id="1005" sc_epoch_workflow_status="APPROVED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
 
