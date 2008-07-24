@@ -104,7 +104,7 @@ function postSubmitSkinForm() {
 
 --></script>
         
-<tags:errors path="*" />
+<tags:errors path="companionStudyAssociations" />
 
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>
