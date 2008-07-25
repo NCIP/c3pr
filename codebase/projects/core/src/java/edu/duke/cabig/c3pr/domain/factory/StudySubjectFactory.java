@@ -242,7 +242,7 @@ public class StudySubjectFactory {
     private ScheduledEpoch buildScheduledEpoch(ScheduledEpoch source, Epoch epoch)
                     throws C3PRCodedException {
         ScheduledEpoch scheduledEpoch = null;
-        if (epoch.getDisplayRole().equalsIgnoreCase("treatment")) {
+        if (epoch.getTreatmentIndicator()) {
             ScheduledEpoch scheduledEpochSource = source;
             scheduledEpoch = new ScheduledEpoch();
             ScheduledEpoch scheduledTreatmentEpoch = scheduledEpoch;
