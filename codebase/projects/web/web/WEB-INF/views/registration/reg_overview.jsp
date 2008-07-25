@@ -199,10 +199,6 @@
             <td>${command.scheduledEpoch.epoch.name}</td>
         </tr>
         <tr>
-            <td class="label">Type</td>
-            <td>${command.scheduledEpoch.epoch.displayRole}</td>
-        </tr>
-        <tr>
             <td class="label">Enrolling</td>
             <td>${command.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</td>
         </tr>
@@ -352,7 +348,6 @@
         </c:forEach>
     </table>
 </chrome:division>
-<c:if test="${command.scheduledEpoch.epoch.displayRole != 'NonTreatment'}">
     <chrome:division id="Eligibility" title="Eligibility">
         <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
             <tr>
@@ -441,7 +436,6 @@
             </table>
         </chrome:division>
     </c:if>
-</c:if>
 </div>
 <c:if test="${command.regWorkflowStatus=='REGISTERED' && hotlinkEnable}">
     <chrome:division title="CCTS Workflow">
