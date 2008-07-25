@@ -234,7 +234,7 @@ DELETED TD
 
 <tr bgcolor="eeffee">
   <td colspan="3" align="left">
-      <hr noshade size="1" width="100%">
+      <hr noshade size="1" width="100%" style="border-top:1px black dotted;" align="left">
 
       <input id="addArm" type="button" value="Add Arm" onclick="$('h-${treatmentEpochCount.index}').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" />
       <br />
