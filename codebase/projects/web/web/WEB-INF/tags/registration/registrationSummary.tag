@@ -16,7 +16,6 @@
 	<tags:tdNameValue name="Gender" value="${studySubject.participant.administrativeGenderCode }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Short Title" value="${studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Current Epoch" value="${studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
-	<tags:tdNameValue name="Current Epoch Type" value="${studySubject.scheduledEpoch.epoch.displayRole}" columnAttrName="class='labelR'"/>	
 	<tags:tdNameValue name="Enrolling Epoch" value="${studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Current Epoch Status" value="${studySubject.scheduledEpoch.scEpochWorkflowStatus.code}" columnAttrName="class='labelR'"/>				
 	<tags:tdNameValue name="Study Status" value="${studySubject.studySite.study.coordinatingCenterStudyStatus.code }" columnAttrName="class='labelR'"/>
@@ -28,7 +27,7 @@
 	<tags:tdNameValue name="Treating Physician" value="${studySubject.treatingPhysicianFullName }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Disease" value="${studySubject.diseaseHistory.primaryDiseaseStr }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Disease Site" value="${studySubject.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
-	<c:if test="${studySubject.scheduledEpoch.epoch.displayRole != 'NonTreatment'}"><tags:tdNameValue name="Eligibility Indicator" value="${studySubject.scheduledEpoch.eligibilityIndicator?'Yes':'No' }" columnAttrName="class='labelR'"/></c:if>
+	<tags:tdNameValue name="Eligibility Indicator" value="${studySubject.scheduledEpoch.eligibilityIndicator?'Yes':'No' }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Data Entry Status" value="${studySubject.dataEntryStatusString }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Registration Status" value="${studySubject.regWorkflowStatus.code }" columnAttrName="class='labelR'"/>
 	<tr>
