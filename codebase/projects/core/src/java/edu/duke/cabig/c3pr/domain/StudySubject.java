@@ -639,16 +639,4 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 	public void setParentStudySubject(StudySubject parentStudySubject) {
 		this.parentStudySubject = parentStudySubject;
 	}
-    
-//	@ManyToOne
-//    @Cascade( { CascadeType.ALL})
-//    @JoinColumn(name = "parent_stu_sub_id", nullable = false)
-//	public StudySubject getParentStudySubject() {
-//		return parentStudySubject;
-//	}
-//
-//	public void setParentStudySubject(StudySubject parentStudySubject) {
-//		this.parentStudySubject = parentStudySubject;
-//	}
-
 }
