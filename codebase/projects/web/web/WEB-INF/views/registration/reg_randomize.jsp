@@ -1,9 +1,8 @@
 <%@ include file="taglibs.jsp"%>
-
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
-    
+<title><registrationTags:htmlTitle registration="${command}" /></title>
+
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <script>
@@ -24,7 +23,7 @@
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		<c:choose>
-		<c:when test="${command.scheduledEpoch.epoch.displayRole == 'NonTreatment'}">
+		<c:when test="${command.scheduledEpoch.epoch.enrollmentIndicator == 'false'}">
 			<tr>
 				<td> The selected epoch does not involve Assigning Arm.</td>
 			</tr>
@@ -88,7 +87,7 @@
 		</c:choose>
 	</table>
 	
-	<c:if test="${command.scheduledEpoch.epoch.displayRole != 'NonTreatment' && command.studySite.study.randomizedIndicator == 'true'}">
+	<c:if test="${command.studySite.study.randomizedIndicator == 'true'}">
 		<div id="randomizationMessage">
 		</div>
 		<br/><input class='ibutton' type='button' onclick="randomize()" value='Randomize' title='Randomize'/>		

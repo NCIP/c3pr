@@ -1,8 +1,7 @@
 <%@ include file="taglibs.jsp"%>
-
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+	 <title><registrationTags:htmlTitle registration="${command}" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
 function navRollOver(obj, state) {
@@ -15,7 +14,7 @@ function navRollOver(obj, state) {
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 
 	<c:choose>
-	<c:when test="${command.scheduledEpoch.epoch.displayRole == 'NonTreatment' || fn:length(command.scheduledEpoch.subjectStratificationAnswers)==0}">
+	<c:when test="${command.scheduledEpoch.epoch.stratificationIndicator == 'true' || fn:length(command.scheduledEpoch.subjectStratificationAnswers)==0}">
 		<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_STRATIFICATION"/></div><br><br>
 	</c:when>
 	<c:otherwise>
