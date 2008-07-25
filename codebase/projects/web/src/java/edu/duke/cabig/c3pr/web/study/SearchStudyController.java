@@ -61,6 +61,9 @@ public class SearchStudyController extends SimpleFormController {
             if (request.getParameter("activeOnly").toString().equalsIgnoreCase("true")) {
                 study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
             }
+            if (request.getParameter("standaloneOnly").toString().equalsIgnoreCase("true")) {
+                study.setStandaloneIndicator(true);
+            }
         }
         List<Study> studies = null;
         if ("status".equals(type)) {

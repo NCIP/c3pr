@@ -98,6 +98,7 @@
                 </div>
                 <div class="value">
                 	<input type="hidden" id="activeOnly" name="activeOnly" value="true"/>
+                	<input type="hidden" id="standaloneOnly" name="standaloneOnly" value="true"/>
                 	<input id="searchText" name="searchText" type="text" value="" size="25"/>
                 	<input type="button" value="Search" onclick="searchStudy();"/>
                 	<img id="searchStudyInd" src="<tags:imageUrl name="indicator.white.gif"/>"
