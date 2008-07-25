@@ -2,35 +2,17 @@
 
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
+	<title><studyTags:htmlTitle study="${command}" /></title>
     <script language="JavaScript" type="text/JavaScript">
         function doExportAction() {
             document.viewDetails._action.value = "export";
             document.viewDetails.submit();
             document.viewDetails._action.value = "";
         }
-
-
-
-
-
-
-
-
-
-
         function getBroadcastStatus() {
 
             $('viewDetails').disable('broadcastBtn');
             $('viewDetails').disable('broadcastStatusBtn');
-
-
-
-
-
-
-
-
 
         <tags:tabMethod method="getMessageBroadcastStatus" onComplete="onBroadcastComplete"
             viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
@@ -51,14 +33,6 @@
 
         function onBroadcastComplete() {
             $('viewDetails').enable('broadcastBtn');
-
-
-
-
-
-
-
-            
             $('viewDetails').enable('broadcastStatusBtn');
         }
 
@@ -191,8 +165,6 @@
             <tr>
                 <td class="alt">${epoch.name}</td>
                 <td>
-                   <c:if
-                    test="${epoch.displayRole!='NonTreatment'}">
                         <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                             <tr>
                                 <th><b>Name</b></th>
@@ -206,7 +178,6 @@
                             </tr>
                             </c:forEach>
                         </tr></table>
-                    </c:if>
                 </td>
 
             </tr>
@@ -219,20 +190,10 @@
             <th scope="col" align="left"><b>Permissible Answers</b></th>
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-           <c:if
-                    test="${epoch.displayRole!='NonTreatment'}">
                 <c:forEach items="${epoch.stratificationCriteria}" var="strat">
                     <tr>
                         <td class="alt">${strat.questionText}</td>
                         <td class="alt">
-
-
-
-
-
-
-
-                        
                             <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                                 <c:forEach items="${strat.permissibleAnswers}" var="ans">
                                     <tr>
@@ -243,7 +204,6 @@
                         </td>
                     </tr>
                 </c:forEach>
-            </c:if>
         </c:forEach>
     </table>
 </chrome:division><chrome:division title="Stratum Groups">
@@ -254,15 +214,12 @@
 
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-            <c:if
-                    test="${epoch.displayRole!='NonTreatment'}">
                 <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
                     <tr>
                         <td class="alt">${stratGrp.stratumGroupNumber}</td>
                         <td class="alt">${stratGrp.answerCombinations}</td>
                     </tr>
                 </c:forEach>
-            </c:if>
         </c:forEach>
     </table>
 </chrome:division><chrome:division title="Diseases">

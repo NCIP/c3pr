@@ -1,9 +1,7 @@
 <%@ include file="taglibs.jsp"%>
-
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
-    
+<title><studyTags:htmlTitle study="${command}" /></title>
 <script>		           
 
 	function preProcessGenerateGroups(epochCountIndex){
@@ -81,7 +79,7 @@
 	<c:if test="${command.stratificationIndicator}">
 	<c:forEach items="${command.epochs}" var="epoch"
 		varStatus="epochCount">
-		<c:if test="${epoch.displayRole != 'NonTreatment' }">
+		<c:if test="${epoch.stratificationIndicator == 'true' }">
 		<script>
             var startAnsRowInserterProps_${epochCount.index}= {
                 add_row_division_id: "table1",
@@ -142,7 +140,7 @@
 				<c:forEach
 					items="${command.epochs[epochCount.index].stratificationCriteria}"
 					var="strat" varStatus="status">
-					<c:if test="${epoch.displayRole != 'NonTreatment' }">
+					<c:if test="${epoch.stratificationIndicator == 'true' }">
 					<script>
                         RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}).updateIndex(${fn:length(command.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers)});
                     </script>
@@ -161,7 +159,7 @@
 								</tr>
 								<c:forEach var="answer" varStatus="statusAns"
 									items="${command.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers}">
-									<c:if test="${epoch.displayRole != 'NonTreatment' }">
+									<c:if test="${epoch.stratificationIndicator == 'true' }">
 									<tr id="table1-${statusAns.index }">
 										<td class="alt"><form:input
 											path="epochs[${epochCount.index }].stratificationCriteria[${status.index}].permissibleAnswers[${statusAns.index}].permissibleAnswer"
@@ -231,7 +229,7 @@
 						
 						<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
 							items="${command.epochs[epochCount.index].stratumGroups}">	
-							<c:if test="${epoch.displayRole != 'NonTreatment' }">					
+							<c:if test="${epoch.stratificationIndicator == 'true' }">					
 							<tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index}" style="cursor:move">
 								<td width="25%">${stratumGroup.stratumGroupNumber}</td>					
 								<td width="70%">${stratumGroup.answerCombinations}</td>
@@ -270,7 +268,7 @@
 
 <c:forEach items="${command.epochs}" var="epoch"
 	varStatus="epochCount">
-	<c:if test="${epoch.displayRole != 'NonTreatment' }">
+	<c:if test="${epoch.stratificationIndicator == 'true' }">
 	<div id="dummy-strat-${epochCount.index }" style="display:none">
 	<table>
 		<tr>

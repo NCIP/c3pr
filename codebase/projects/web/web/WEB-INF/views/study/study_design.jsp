@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
+	<title><studyTags:htmlTitle study="${command}" /></title>
     <link rel="stylesheet" type="text/css" href="/c3pr/public/css/tables1" />
     <script type="text/javascript">
 
@@ -93,7 +93,7 @@
             </script>
             
             <td>
-      <chrome:deletableDivision divTitle="genericTitle-${treatmentEpochCount.index}" id="genericEpochBox-${treatmentEpochCount.index}" title="${command.epochs[treatmentEpochCount.index].displayRole}: ${command.epochs[treatmentEpochCount.index].name}" onclick="RowManager.deleteRow(genericEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
+      <chrome:deletableDivision divTitle="genericTitle-${treatmentEpochCount.index}" id="genericEpochBox-${treatmentEpochCount.index}" title="Epoch: ${command.epochs[treatmentEpochCount.index].name}" onclick="RowManager.deleteRow(genericEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
 <!-- GENERIC START-->
 
 <table width="100%" border="0">
@@ -104,7 +104,7 @@
       <tr>
           <td align="right"><b>Name:</b></td>
           <td align="left" valign="top">
-              <form:input path="epochs[${treatmentEpochCount.index}].name" size="43" cssClass="validate-notEmpty" onkeyup="updateName('genericTitle-${treatmentEpochCount.index}', '${command.epochs[treatmentEpochCount.index].displayRole}: ' + this.value);"/>
+              <form:input path="epochs[${treatmentEpochCount.index}].name" size="43" cssClass="validate-notEmpty" onkeyup="updateName('genericTitle-${treatmentEpochCount.index}', 'Epoch: ' + this.value);"/>
 			  <tags:hoverHint id="study.treatmentEpoch.name-	" keyProp="study.treatmentEpoch.name"/>
           </td>
       </tr>
@@ -116,22 +116,18 @@
               <tags:hoverHint id="study.treatmentEpoch.epochorder-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.epochOrder"/>
           </td>
       </tr>
-
-  <c:if test="${command.randomizedIndicator== true && command.epochs[treatmentEpochCount.index].displayRole != 'NonTreatment'}">
+      
       <tr>
-              <td align="right"><span class="required-indicator"><b>Randomized:</b></span></td>
+              <td align="right"><span class="required-indicator"><b>Treating:</b></span></td>
               <td>
-                  <form:select path="epochs[${treatmentEpochCount.index}].randomizedIndicator" cssClass="validate-notEmpty">
+                  <form:select path="epochs[${treatmentEpochCount.index}].treatmentIndicator" cssClass="validate-notEmpty">
                     <option value="">Please Select</option>
                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code"/>
                   </form:select>
-                  <tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.randomizedIndicator"/>
+                  <tags:hoverHint id="study.treatmentEpoch.treatmentIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.treatmentIndicator"/>
               </td>
       </tr>
-  </c:if>
-  
-  
-  <c:if test="${command.epochs[treatmentEpochCount.index].displayRole!='Treatment'}">
+
       <tr>
           <td align="right"><b>Enrolling:</b></td>
           <td align="left">
@@ -145,7 +141,19 @@
 		                               		 <tags:hoverHint id="study.nonTreatmentEpoch.enrollmentIndicator-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.enrollmentIndicator"/>
           </td>
       </tr>
-    </c:if>
+      
+      <c:if test="${command.randomizedIndicator== true }">
+      <tr>
+              <td align="right"><span class="required-indicator"><b>Randomized:</b></span></td>
+              <td>
+                  <form:select path="epochs[${treatmentEpochCount.index}].randomizedIndicator" cssClass="validate-notEmpty">
+                    <option value="">Please Select</option>
+                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code"/>
+                  </form:select>
+                  <tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.randomizedIndicator"/>
+              </td>
+      </tr>
+  	</c:if>
 
       </table>
 
@@ -181,7 +189,6 @@ DELETED TD
                                         <tags:hoverHint id="study.treatmentEpoch.description-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.description"/></td>
       </tr>
       
-      <c:if test="${command.epochs[treatmentEpochCount.index].displayRole!='Treatment'}">
       <tr>
           <td align="right"><b>Accrual Ceiling:</b> </td>
           <td align="left">
@@ -207,13 +214,24 @@ DELETED TD
                            </div>
                         </td>
         </tr>
+        
+    <c:if test="${command.stratificationIndicator== true }">
+      <tr>
+              <td align="right"><span class="required-indicator"><b>Stratified:</b></span></td>
+              <td>
+                  <form:select path="epochs[${treatmentEpochCount.index}].stratificationIndicator" cssClass="validate-notEmpty">
+                    <option value="">Please Select</option>
+                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code"/>
+                  </form:select>
+                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.stratificationIndicator"/>
+              </td>
+      </tr>
+  	</c:if>
 <!---->
-      </c:if>
       </table>
   </td>
 </tr>
 
-<c:if test="${command.epochs[treatmentEpochCount.index].displayRole!='NonTreatment'}">
 <tr bgcolor="eeffee">
   <td colspan="3" align="left">
       <hr noshade size="1" width="100%">
@@ -223,6 +241,7 @@ DELETED TD
       <!--ARMS TABLE-->
 
       <table id="arm" class="tablecontent" border="0">
+      <tags:errors path="epochs[${treatmentEpochCount.index}].arms"/>
 <%----%>
           
       <tr id="h-${treatmentEpochCount.index}" <c:if test="${fn:length(treatmentEpoch.arms) == 0}">style="display:none;"</c:if>>
@@ -249,7 +268,6 @@ DELETED TD
 
   </td>
 </tr>
-</c:if>
 
 </table>
 
@@ -265,14 +283,8 @@ DELETED TD
 
     <div align="right">
 	
-	<input id="addEpoch" type="button" value="Add Generic Epoch"
+	<input id="addEpoch" type="button" value="Add Epoch"
            onclick="$('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)" />
-
-   <input id="addEpoch" type="button" value="Add Treatment Epoch"
-   		onclick="$('dummy-genericEpoch').innerHTML=$('treatmentHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)" />
-    
-    <input id="addEpoch" type="button" value="Add Non-Treatment Epoch"
-           onclick="$('dummy-genericEpoch').innerHTML=$('non-treatmentHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)" />
     <br>
     
     </div>
@@ -284,103 +296,6 @@ DELETED TD
 <!-- DUMMY SECIION START -->
 
 <div id="dummy-genericEpoch" style="display:none"></div>
-
-<div id="treatmentHtml" style="display:none">
-<table width="100%">
-<tr valign="top">
-  <td>
-      <chrome:deletableDivision divTitle="divTEpochBox-PAGE.ROW.INDEX" id="tEpochBox-PAGE.ROW.INDEX" title="Treatment: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
-<!-- GENERIC START-->
-
-<table style="border: 0px red dotted;" width="100%">
-<tr>
-  <td valign="top" width="50%">
-
-      <table width="100%" border="0" cellspacing="2">
-      <tr>
-          <td align="right"><b>Name:</b></td>
-          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName('divTEpochBox-PAGE.ROW.INDEX', 'Treatment: ' + this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
-      </tr>
-
-      <tr>
-          <td align="right"> <span class="required-indicator"><b>Order:</b></span></td>
-          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].epochOrder" size="5" maxlength="1" class="validate-notEmpty&&numeric" /><tags:hoverHint id="study.treatmentEpoch.epochOrder-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.epochOrder"/></td>
-      </tr>
-
-  <c:if test="${command.randomizedIndicator == true}">
-      <tr>
-              <td align="right"><span class="required-indicator"><b>Randomized:</b></span></td>
-              <td align="left">
-                  <select name="epochs[PAGE.ROW.INDEX].randomizedIndicator" class="validate-notEmpty">
-                      <option value="">Please Select</option>
-                      <option value="true" selected="selected">Yes</option>
-                      <option value="false">No</option>
-                  </select>
-                  <tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.randomizedIndicator"/>
-              </td>
-      </tr>
-  </c:if>
-      </table>
-
-  </td>
-  
-   <style>
-        .descTextarea {
-            width:380px;
-        }
-    </style>
-
-  <!--[if IE]>
-    <style>
-        .descTextarea {
-            width:384px;
-        }
-    </style>
-
-  <![endif]-->
-
-<%--
-DELETED TD
---%>
-
-  <td valign="top">
-      <table width="100%" border="0">
-      <tr>
-          <td align="right"><b>Description:</b></td>
-          <td align="left"><textarea name="epochs[PAGE.ROW.INDEX].descriptionText" rows="5" class="descTextarea"></textarea><tags:hoverHint id="study.treatmentEpoch.description-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.description"/></td>
-      </tr>
-      </table>
-  </td>
-</tr>
-
-<tr>
-  <td colspan="3" align="left">
-      <hr noshade size="1" width="100%">
-      <input id="addArm" type="button" value="Add Arm" onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" />
-      <br />
-  <table id="arm" class="tablecontent">
-      <tr id="h-PAGE.ROW.INDEX" style="display:none;">
-          <th><span class="required-indicator">Arm</span><tags:hoverHint id="study.arm.name-PAGE.ROW.INDEX" keyProp="study.arm.name"/></th>
-          <th>Description<tags:hoverHint id="study.arm.description-PAGE.ROW.INDEX" keyProp="study.arm.description"/></th>
-          <th>Accrual Ceiling<tags:hoverHint id="study.arm.targetAccrualNumber-PAGE.ROW.INDEX" keyProp="study.arm.targetAccrualNumber"/></th>
-          <th></th>
-      </tr>
-  </table>
-  </td>
-</tr>
-
-</table>
-
-<input type="hidden" name="epochs[PAGE.ROW.INDEX].displayRole" value="Treatment"/>
-<input type="hidden" name="epochs[PAGE.ROW.INDEX].enrollmentIndicator" value="True"/>
-
-
-<!-- GENERIC END-->
-      </chrome:deletableDivision>
-  </td>
-</tr>
-</table>
-</div>
 
 <div id="dummy-arm" style="display:none">
     <table id="arm" class="tablecontent" width="50%">
@@ -401,122 +316,11 @@ DELETED TD
     </table>
 </div>
 
-<div id="non-treatmentHtml" style="display:none">
-<table width="100%">
-<tr valign="top">
-  <td>
-      <chrome:deletableDivision divTitle="divGenericNTEpochBox-PAGE.ROW.INDEX" id="genericNTEpochBox-PAGE.ROW.INDEX" title="NonTreatment: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
-<!-- GENERIC START-->
-
-<table style="border: 0px red dotted;" width="100%">
-<tr>
-  <td valign="top" width="50%">
-
-      <table width="100%" border="0" cellspacing="2">
-      <tr>
-          <td align="right"><b>Name:</b></td>
-          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName('divGenericNTEpochBox-PAGE.ROW.INDEX', 'NonTreatment: ' + this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
-      </tr>
-
-      <tr>
-          <td align="right"> <span class="required-indicator"><b>Order:</b></span></td>
-          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].epochOrder" size="5" maxlength="1" class="validate-notEmpty&&numeric" /><tags:hoverHint id="study.treatmentEpoch.epochOrder-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.epochOrder"/></td>
-      </tr>
-
-  <c:if test="${command.randomizedIndicator == true}">
-      <tr>
-              <td align="right"><span class="required-indicator"><b>Randomized:</b></span></td>
-              <td align="left">
-                  <select name="epochs[PAGE.ROW.INDEX].randomizedIndicator" class="validate-notEmpty">
-                      <option value="">Please Select</option>
-                      <option value="true" selected="selected">Yes</option>
-                      <option value="false">No</option>
-                  </select>
-                  <tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.randomizedIndicator"/>
-              </td>
-      </tr>
-  </c:if>
-
-      <tr>
-          <td align="right"><b>Enrolling:</b></td>
-          <td align="left">
-              <select id="epochs[PAGE.ROW.INDEX].enrollmentIndicator" name="epochs[PAGE.ROW.INDEX].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);" class="validate-notEmpty">
-                  <option value="">Please Select</option>
-                  <option value="true" selected="selected">Yes</option>
-                  <option value="false">No</option>
-              </select>
-              <tags:hoverHint id="study.nonTreatmentEpoch.enrollmentIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.enrollmentIndicator"/>
-          </td>
-      </tr>
-
-      </table>
-
-  </td>
-
-    <style>
-        .descTextarea {
-            width:380px;
-        }
-    </style>
-
-  <!--[if IE]>
-    <style>
-        .descTextarea {
-            width:384px;
-        }
-    </style>
-
-  <![endif]-->
-
-<%--
-DELETED TD
---%>
-
-  <td valign="top">
-      <table width="100%" border="0">
-      <tr>
-          <td align="right"><b>Description:</b></td>
-          <td align="left" colspan="3"><textarea name="epochs[PAGE.ROW.INDEX].descriptionText" rows="5" class="descTextarea"></textarea><tags:hoverHint id="study.treatmentEpoch.description-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.description"/></td>
-      </tr>
-      <tr>
-          <td align="right"><b>Accrual Ceiling:</b> </td>
-          <td align="left">
-              <input type="text" id="epochs[PAGE.ROW.INDEX].accrualCeiling" name="epochs[PAGE.ROW.INDEX].accrualCeiling" size="12" maxlength="5" class="validate-numeric&&nonzero_numeric" />
-              <tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.accrualCeiling"/>
-          </td>
-          <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><b>Reserving:</b></div></td>
-          <td align="left">
-              <div id ="reservationIndicator-PAGE.ROW.INDEX">
-                  <select disabled="true" id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
-                       <option value="">Please Select</option>
-                       <option value="true">Yes</option>
-                       <option value="false" selected="selected">No</option>
-                   </select>
-                  <tags:hoverHint id="study.nonTreatmentEpoch.reservationIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.reservationIndicator"/>
-              </div>
-          </td>
-      </tr>
-      </table>
-  </td>
-</tr>
-
-</table>
-
-<input type="hidden" name="epochs[PAGE.ROW.INDEX].displayRole" value="NonTreatment"/>
-
-
-<!-- GENERIC END-->
-      </chrome:deletableDivision>
-  </td>
-</tr>
-</table>
-</div>
-
 <div id="genericHtml" style="display:none">
 <table width="100%">
 <tr valign="top">
   <td>
-      <chrome:deletableDivision divTitle="divGenericEpochBox-PAGE.ROW.INDEX" id="genericEpochBox-PAGE.ROW.INDEX" title="Generic: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
+      <chrome:deletableDivision divTitle="divGenericEpochBox-PAGE.ROW.INDEX" id="genericEpochBox-PAGE.ROW.INDEX" title="Epoch: " onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
 <!-- GENERIC START-->
 
 <table style="border: 0px red dotted;" width="100%">
@@ -526,12 +330,36 @@ DELETED TD
       <table width="100%" border="0" cellspacing="2">
       <tr>
           <td align="right"><b>Name:</b></td>
-          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName('divGenericEpochBox-PAGE.ROW.INDEX', 'Generic: ' + this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
+          <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName('divGenericEpochBox-PAGE.ROW.INDEX', 'Epoch: ' + this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
       </tr>
 
       <tr>
           <td align="right"> <span class="required-indicator"><b>Order:</b></span></td>
           <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].epochOrder" size="5" maxlength="1" class="validate-notEmpty&&numeric" /><tags:hoverHint id="study.treatmentEpoch.epochOrder-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.epochOrder"/></td>
+      </tr>
+      
+      <tr>
+          <td align="right"><b>Treating:</b></td>
+          <td align="left">
+              <select id="epochs[PAGE.ROW.INDEX].treatmentIndicator" name="epochs[PAGE.ROW.INDEX].treatmentIndicator" class="validate-notEmpty">
+                  <option value="">Please Select</option>
+                  <option value="true" selected="selected">Yes</option>
+                  <option value="false">No</option>
+              </select>
+              <tags:hoverHint id="study.nonTreatmentEpoch.treatmentIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.treatmentIndicator"/>
+          </td>
+      </tr>
+      
+       <tr>
+          <td align="right"><b>Enrolling:</b></td>
+          <td align="left">
+              <select id="epochs[PAGE.ROW.INDEX].enrollmentIndicator" name="epochs[PAGE.ROW.INDEX].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);" class="validate-notEmpty">
+                  <option value="">Please Select</option>
+                  <option value="true" selected="selected">Yes</option>
+                  <option value="false">No</option>
+              </select>
+              <tags:hoverHint id="study.nonTreatmentEpoch.enrollmentIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.enrollmentIndicator"/>
+          </td>
       </tr>
 
   <c:if test="${command.randomizedIndicator == true}">
@@ -548,17 +376,6 @@ DELETED TD
       </tr>
   </c:if>
 
-      <tr>
-          <td align="right"><b>Enrolling:</b></td>
-          <td align="left">
-              <select id="epochs[PAGE.ROW.INDEX].enrollmentIndicator" name="epochs[PAGE.ROW.INDEX].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);" class="validate-notEmpty">
-                  <option value="">Please Select</option>
-                  <option value="true" selected="selected">Yes</option>
-                  <option value="false">No</option>
-              </select>
-              <tags:hoverHint id="study.nonTreatmentEpoch.enrollmentIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.enrollmentIndicator"/>
-          </td>
-      </tr>
 
       </table>
 
@@ -609,15 +426,29 @@ DELETED TD
               </div>
           </td>
       </tr>
+       <c:if test="${command.stratificationIndicator == true}">
+      <tr>
+              <td align="right"><span class="required-indicator"><b>Stratified:</b></span></td>
+              <td align="left">
+                  <select name="epochs[PAGE.ROW.INDEX].stratificationIndicator" class="validate-notEmpty">
+                      <option value="">Please Select</option>
+                      <option value="true" selected="selected">Yes</option>
+                      <option value="false">No</option>
+                  </select>
+                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.stratificationIndicator"/>
+              </td>
+      </tr>
+  </c:if>
       </table>
   </td>
 </tr>
 
 <tr>
   <td colspan="3" align="left">
+  <hr noshade size="1" width="100%" style="border-top:1px black dotted;" align="left">
       <input id="addArm" type="button" value="Add Arm" onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" />
       <br />
-      <hr noshade size="1" width="50%" style="border-top:1px black dotted;" align="left">
+      
 
 
   <table id="arm" class="tablecontent">
@@ -632,9 +463,6 @@ DELETED TD
 </tr>
 
 </table>
-
-<input type="hidden" name="epochs[PAGE.ROW.INDEX].displayRole" value="Generic"/>
-
 
 <!-- GENERIC END-->
       </chrome:deletableDivision>

@@ -1,9 +1,7 @@
 <%@ include file="taglibs.jsp"%>
-
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
-    
+ <title><studyTags:htmlTitle study="${command}" /></title>
 <style type="text/css">
         .test { width: 100%;}
 </style>
@@ -67,7 +65,7 @@
 <c:if test="${command.randomizationType.name == 'BOOK'}">	
 
 	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
-		<c:if test="${epoch.randomizedIndicator && epoch.displayRole != 'NonTreatment'}">
+		<c:if test="${epoch.randomizedIndicator}">
 		<div id="book_container_${epochCount.index}" class="test">
 		<chrome:box title="${epoch.name}" id="book_${epochCount.index}" cssClass="paired"> 
 		<br/>

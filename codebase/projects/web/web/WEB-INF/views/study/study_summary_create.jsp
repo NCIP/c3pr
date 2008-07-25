@@ -1,9 +1,9 @@
 <%@ include file="taglibs.jsp"%>
 
+
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
-    
+<title><studyTags:htmlTitle study="${command}" /></title>
 <script>
 
 function activateAndSaveStudy(){
@@ -90,8 +90,6 @@ document.getElementById("command").submit();
             <th><b>Arms</b>
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-        <c:if
-                    test="${epoch.displayRole!='NonTreatment'}">
             <tr>
                 <td>${epoch.name}</td>
                 <td>
@@ -111,7 +109,6 @@ document.getElementById("command").submit();
                 </td>
             </tr>
             
-            </c:if>
         </c:forEach>
     </table>
 </chrome:division>
@@ -124,8 +121,6 @@ document.getElementById("command").submit();
 
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-            <c:if
-                    test="${epoch.displayRole!='NonTreatment'}">
                 <c:forEach items="${epoch.stratificationCriteria}" var="strat">
                     <tr>
                         <td class="alt">${strat.questionText}</td>
@@ -140,7 +135,6 @@ document.getElementById("command").submit();
                         </td>
                     </tr>
                 </c:forEach>
-            </c:if>
         </c:forEach>
     </table>
 </chrome:division>
@@ -153,8 +147,6 @@ document.getElementById("command").submit();
 
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-            <c:if
-                    test="${epoch.displayRole!='NonTreatment'}">
                 <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
                     <tr>
                         <td class="alt">${stratGrp.stratumGroupNumber}</td>
@@ -163,22 +155,6 @@ document.getElementById("command").submit();
                         </td>
                     </tr>
                 </c:forEach>
-            </c:if>
-        </c:forEach>
-    </table>
-</chrome:division>
-
-<chrome:division title="Diseases">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b>Disease Term</b></th>
-            <th scope="col" align="left"><b>Primary</b></th>
-        </tr>
-        <c:forEach items="${command.studyDiseases}" var="studyDisease" varStatus="status">
-            <tr class="results">
-                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
-                <td class="alt">${studyDisease.leadDisease=="true"?"Yes":"No"}</td>
-            </tr>
         </c:forEach>
     </table>
 </chrome:division>

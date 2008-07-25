@@ -1,9 +1,13 @@
- <%@ include file="taglibs.jsp"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
 
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
-    <c:set var="sponIndex" value="${command.fundingSponsorIdentifierIndex==-1?fn:length(command.organizationAssignedIdentifiers):command.fundingSponsorIdentifierIndex}"></c:set>
+	<c:set var="sponIndex" value="${command.fundingSponsorIdentifierIndex==-1?fn:length(command.organizationAssignedIdentifiers):command.fundingSponsorIdentifierIndex}"></c:set>
     <jwr:script src="/js/tabbedflow.js" />
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
     <script type="text/javascript">
@@ -42,7 +46,7 @@
         }
 
         ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-           if((formElement.id=="command" || formElement.id=="embedStudyForm" )&&continueSubmission){
+           if(formElement.id="command"){
                  box1=document.getElementById('healthcareSite-hidden');
                	if(document.getElementById('randomizedIndicator').value =='false'){
                	new Element.update('randomizationTypeDiv','');
@@ -61,12 +65,7 @@
 	                   document.getElementById('deletedSponsorIdentifier').value="delete";
 	             }
 	             }
-	             if(formElement.id=="embedStudyForm"){
-           			embedCompanionStudy();
-           			return false;
-           		}
              }
-             
              return continueSubmission;
          } 
 
@@ -88,12 +87,9 @@
         }
         
         function embedCompanionStudy(){
-			<tags:tabMethod method="embedCompanion" onComplete="copyToParent" divElement="'emptyDivCompanion'" formName="'embedStudyForm'"/>
+			parent.createCompanion($('_shortTitle').value);
 		}
         
-        function copyToParent(){
-        	parent.createCompanion($('_shortTitle').value);
-        }
         var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
             populator: function(autocompleter, text) {
@@ -172,9 +168,8 @@
     </script>
 </head>
 <body>
-<div id="emptyDivCompanion" style="display: none;"></div>
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
-<form:form id="${!empty param.embeddedStudy?'embedStudyForm':'command'}" method="post" name="studyDetails" cssClass="standard">
+<form:form method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
 
 <input type="hidden" name="deletedSponsor" id="deletedSponsor" value=""/>
@@ -295,7 +290,7 @@
          <div class="row">
              <div class="label required-indicator">Consent Version/Date:</div>
              <div class="value">
-             <tags:dateInput path="consentVersion" validateDate="false"/><em> (mm/dd/yyyy)</em>
+             <tags:dateInput path="consentVersion" validateDate="false" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
              <tags:hoverHint keyProp="study.consentVersion"/></div>
          </div>
         <div class="row" <c:if test="${ (empty command.companionIndicator) || command.companionIndicator=='false' ||((!empty param.embeddedStudy) && command.companionIndicator=='true' && param.embeddedStudy=='true')}">style="display:none;"</c:if>>
@@ -502,7 +497,7 @@
 <div <c:if test="${empty param.embeddedStudy}">style="display:none;"</c:if>>
 	<div class="content buttons autoclear">
 	<div class="flow-buttons"><span class="next"> 
-		<input type="submit" value="Embed Study" id="embedCompanionStudyDiv"/>
+		<input type="button" value="Embed Study" id="embedCompanionStudyDiv" onclick="embedCompanionStudy();return false;"/>
 		<input type="button" value="Close" onClick="parent.closePopup();"/>
 		</span></div>
 	</div>
