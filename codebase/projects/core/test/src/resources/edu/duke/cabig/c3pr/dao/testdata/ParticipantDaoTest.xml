@@ -28,12 +28,12 @@
     <STUDY_ORGANIZATIONS id="1010" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
     hcs_id="1002" type="SST" retired_indicator = "false" />
         
-    <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1000" display_role="generic" retired_indicator = "false" />
-    <EPOCHS id="1001" version="1" name="Treatment1001" description_text="cancer desc" stu_id="1000" display_role="generic"  retired_indicator = "false" />
-    <EPOCHS id="1002" version="1" name="Treatment1002" description_text="treatement desc" stu_id="1000" display_role="generic"  retired_indicator = "false" />
-    <EPOCHS id="1003" version="1" name="Treatment1003" description_text="cancer desc" stu_id="1000" display_role="generic"  retired_indicator = "false" />
-    <EPOCHS id="1004" version="1" name="NonTreatment1004" description_text="non treatement desc" stu_id="1000" display_role="generic"  retired_indicator = "false" />
-    <EPOCHS id="1005" version="1" name="NonTreatment1005" description_text="non treatment cancer desc" stu_id="1000" display_role="generic"  retired_indicator = "false" />
+    <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1000" treatment_indicator="true" retired_indicator = "false" />
+    <EPOCHS id="1001" version="1" name="Treatment1001" description_text="cancer desc" stu_id="1000" treatment_indicator="true"  retired_indicator = "false" />
+    <EPOCHS id="1002" version="1" name="Treatment1002" description_text="treatement desc" stu_id="1000" treatment_indicator="true"  retired_indicator = "false" />
+    <EPOCHS id="1003" version="1" name="Treatment1003" description_text="cancer desc" stu_id="1000" treatment_indicator="true"  retired_indicator = "false" />
+    <EPOCHS id="1004" version="1" name="NonTreatment1004" description_text="non treatement desc" stu_id="1000" treatment_indicator="true"  retired_indicator = "false" />
+    <EPOCHS id="1005" version="1" name="NonTreatment1005" description_text="non treatment cancer desc" stu_id="1000" treatment_indicator="true"  retired_indicator = "false" />
     
     <ARMS id="1000" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1000"  retired_indicator = "false" />
     <ARMS id="1001" version="1" name="Arm 1001" description_text="Arm 1001 desc" target_accrual_number="1001" eph_id="1000"  retired_indicator = "false" />
