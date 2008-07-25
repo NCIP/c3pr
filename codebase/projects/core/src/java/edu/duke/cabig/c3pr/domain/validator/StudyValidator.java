@@ -208,7 +208,7 @@ public class StudyValidator implements Validator {
         Study study = (Study) target;
         List<Epoch> allEpochs = study.getEpochs();
         try {
-            Set<Epoch> uniqueEpochs = new HashSet<Epoch>();
+            Set<Epoch> uniqueEpochs = new TreeSet<Epoch>();
             uniqueEpochs.addAll(allEpochs);
             if (allEpochs.size() > uniqueEpochs.size()) {
                 errors.rejectValue("epochs", new Integer(
