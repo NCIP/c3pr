@@ -105,7 +105,7 @@ public class StudyTestCase extends AbstractTestCase{
 	}
 	
 	public void testDataEntryStatusIncompleteCase6() throws Exception {
-		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(basicStudy);
+		studyCreationHelper.addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(basicStudy);
 		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
 		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("307");
