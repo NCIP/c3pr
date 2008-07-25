@@ -252,6 +252,7 @@ public class StudyCreationHelper {
      Epoch treatmentEpoch = new Epoch();
      treatmentEpoch.setName("Treatment Epoch1");
      treatmentEpoch.setRandomizedIndicator(new Boolean(true));
+     treatmentEpoch.setEnrollmentIndicator(new Boolean(true));
      study.addEpoch(treatmentEpoch);
      
      return study;
@@ -269,12 +270,13 @@ public class StudyCreationHelper {
      arm2.setName("arm2");
      treatmentEpoch.addArm(arm2);
      treatmentEpoch.setRandomizedIndicator(new Boolean(true));
+     treatmentEpoch.setEnrollmentIndicator(new Boolean(true));
      study.addEpoch(treatmentEpoch);
      
      return study;
  }
  
- public Study addStudySiteRandomizedTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(Study study) {
+ public Study addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(Study study) {
 	 	
      study.addStudySite(new StudySite());
      Epoch treatmentEpoch = new Epoch();
@@ -287,6 +289,7 @@ public class StudyCreationHelper {
      treatmentEpoch.addArm(arm2);
      addStratumGroupToEpoch(treatmentEpoch);
      treatmentEpoch.setRandomizedIndicator(new Boolean(true));
+     treatmentEpoch.setEnrollmentIndicator(new Boolean(true));
      study.addEpoch(treatmentEpoch);
      
      return study;
@@ -294,7 +297,7 @@ public class StudyCreationHelper {
  
  public Study addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(Study study){
 	 
-	addStudySiteRandomizedTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(study);
+	 addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(study);
 	 addPhoneCallRandomization(study.getEpochs().get(0));
      return study;
  }
