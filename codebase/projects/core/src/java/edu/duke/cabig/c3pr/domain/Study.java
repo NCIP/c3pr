@@ -747,37 +747,10 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	}
 
 	@Transient
-	public boolean hasEnrollingNonTreatmentEpoch() {
-
-		
-		for(Epoch epoch:this.getEpochs()){
-			
-			if(epoch.getDisplayRole().equalsIgnoreCase("NonTreatment"))
-			{
-				if (epoch.getEnrollmentIndicator())
-					return true;
-			}
-			
-			
-		}
-		return false;
-	}
-
-	@Transient
 	public boolean hasElligibility() {
 
 		for(Epoch epoch:this.getEpochs()){
 			if(epoch.hasEligibility())
-					return true;
-			}
-		return false;
-	}
-
-	@Transient
-	public boolean hasStratification() {
-
-		for(Epoch epoch:this.getEpochs()){
-			if(epoch.hasStratification())
 					return true;
 			}
 		return false;
@@ -791,11 +764,20 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 			}
 		return false;
 	}
+	
+	@Transient
+	public boolean hasStratifiedEpoch() {
+		for(Epoch epoch:this.getEpochs()){
+			if(epoch.getStratificationIndicator())
+					return true;
+			}
+		return false;
+	}
 
 	@Transient
 	public boolean hasEnrollingEpoch() {
 		for(Epoch epoch:this.getEpochs()){
-			if(epoch.getEnrollmentIndicator() || epoch.getRandomizedIndicator())
+			if(epoch.getEnrollmentIndicator())
 				return true;
 	}
 		return false;
@@ -964,31 +946,33 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public StudyDataEntryStatus evaluateDataEntryStatus()
 			throws C3PRCodedException {
 
-		if ((this.getStudySites().size() == 0) || (!this.hasEnrollingEpoch())) {
-			if ((this.getStudySites().size() == 0)) {
+		if ((this.getStudySites().size() == 0)) {
 				throw getC3PRExceptionHelper()
 						.getException(
 								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STUDY_SITE.CODE"));
-			}
-			if ((!this.hasEnrollingEpoch())) {
+		}
+				else if ((!this.hasEnrollingEpoch())) {
 				throw getC3PRExceptionHelper()
 						.getException(
 								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE"));
 			}
-			return StudyDataEntryStatus.INCOMPLETE;
-		}
 		
-    	if(this.getRandomizedIndicator()||(this.getStratificationIndicator())){
-    		 if (!(this.getEpochs().size() > 0)){
-    			 throw getC3PRExceptionHelper()
-					.getException(
-							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.TREATMENT_EPOCH.CODE"));
+    	if(this.getRandomizedIndicator()){
+    		 if (!(this.hasRandomizedEpoch())){
+    				 throw getC3PRExceptionHelper()
+ 					.getException(
+ 							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZED_EPOCH_FOR_RANDOMIZED_STUDY.CODE"));
     		 }
     	}
-				
-		if (this.getEpochs().size() > 0) {
-			if (!evaluateEpochDataEntryStatus())
-				return StudyDataEntryStatus.INCOMPLETE;
+    	if(this.getStratificationIndicator()){
+   		  if (!(this.hasStratifiedEpoch())){
+   				 throw getC3PRExceptionHelper()
+					.getException(
+							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZED_EPOCH_FOR_RANDOMIZED_STUDY.CODE"));
+   		 }
+    	}
+		if (!evaluateEpochsDataEntryStatus()){
+			return StudyDataEntryStatus.INCOMPLETE;
 		}
 
 		return StudyDataEntryStatus.COMPLETE;
@@ -1142,7 +1126,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
         }
     }
     
-    public boolean evaluateEpochDataEntryStatus()
+    public boolean evaluateEpochsDataEntryStatus()
                     throws C3PRCodedException {
             for (Epoch epoch : this.getEpochs()) {
             	if (!epoch.evaluateStatus())
