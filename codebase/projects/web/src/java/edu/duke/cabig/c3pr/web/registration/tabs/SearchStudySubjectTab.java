@@ -83,7 +83,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
                 ScheduledEpoch scheduledEpoch;
                 Integer id = Integer.parseInt(request.getParameter("epoch"));
                 Epoch epoch = epochDao.getById(id);
-                if (epoch.getDisplayRole().equalsIgnoreCase("treatment")) {
+                if (epoch.getTreatmentIndicator()) {
                     (epoch).getArms().size();
                     scheduledEpoch = new ScheduledEpoch();
                 }
@@ -118,7 +118,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
         }
         Epoch epoch = epochDao.getById(id);
         ScheduledEpoch scheduledEpoch;
-        if (epoch.getDisplayRole().equalsIgnoreCase("treatment")) {
+        if (epoch.getTreatmentIndicator()) {
             (epoch).getArms().size();
             scheduledEpoch = new ScheduledEpoch();
         }

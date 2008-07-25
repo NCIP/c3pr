@@ -49,7 +49,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C> {
         map.put("requiresArm", new Boolean(false));
         map.put("acrrualCeilingReached", new Boolean(studySubjectRepository
                         .isEpochAccrualCeilingReached(id)));
-        if (epoch.getDisplayRole().equalsIgnoreCase("treatment")) {
+        if (epoch.getTreatmentIndicator()) {
             map.put("epochType", "Treatment");
             if (epoch.getEligibilityCriteria().size() > 0) {
                 map.put("requiresEligibility", new Boolean(true));
