@@ -40,6 +40,9 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 
     @Override
     protected boolean isFormSubmission(HttpServletRequest request) {
+    	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
+    		return false;
+    	}
         if (WebUtils.hasSubmitParameter(request, "registrationId")) {
             if (request.getSession(false).getAttribute(getFormSessionAttributeName()) == null) {
                 try {
@@ -54,7 +57,18 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
         }
         return super.isFormSubmission(request);
     }
-
+    
+    @Override
+    protected Object formBackingObject(HttpServletRequest request) throws Exception {
+    	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
+    		StudySubject studySubject = new StudySubject();
+    		studySubject.setParentStudySubject(studySubjectDao.getById(Integer.parseInt(request.getParameter("parentRegistrationId")), true));
+    		return studySubject ;	
+    	}else{
+    		return super.formBackingObject(request);
+    	}
+    }
+    
     @Override
     protected void intializeFlows(Flow flow) {
         flow.addTab(new SearchStudySubjectTab());

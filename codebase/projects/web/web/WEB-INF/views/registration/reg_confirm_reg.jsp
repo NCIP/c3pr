@@ -17,9 +17,24 @@ function submitLocalForm(formName, regId ,schEphId){
 	$(registrationElement).value=regId;
 	$(formName).submit();
 }
+function createReg(studySite, participant, parentRegistrationId){
+	$('create_studySite').value=studySite;
+	$('create_participant').value=participant;
+	$('create_parent_id').value=parentRegistrationId;
+	$('create').submit();
+}
 </script>
 </head>
 <body>
+<form action="../registration/createRegistration" method="post" id="create">
+	<input type="hidden" name="_page" id="_page0" value="0"/>
+	<input type="hidden" name="_target1" id="_target1" value="1"/>
+	<input type="hidden" name="studySite" id="create_studySite" value=""/>
+	<input type="hidden" name="participant" id="create_participant" value=""/>
+	<input type="hidden" name=parentRegistrationId id="create_parent_id" value=""/>
+	<input type="hidden" name="create_companion" value=""/>
+	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
+</form>
 <c:choose>
 <c:when test="${not empty registrationException}">
 <tags:panelBox title="Error Registering" boxId="ConfMessage">
@@ -139,13 +154,71 @@ function submitLocalForm(formName, regId ,schEphId){
 	</table>
 	<br>
 	</div>
+<div <c:if test="${empty command.studySite.study.companionStudyAssociations}">style="display:none;"</c:if>>
+<chrome:division title="Companion Studies">
+    <table class="tablecontent" width="50%">
+        <tr>
+            <th width="75%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+            <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
+            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
+        </tr>
+        <c:forEach items="${command.studySite.study.companionStudyAssociations}" var="companionStudyAssociation">
+            <c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
+				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
+					<c:set var="tempStudySiteId" value="${vStudySite.id}">
+					</c:set>
+				</c:if>
+			</c:forEach>
+			<c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
+				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
+					<c:forEach items="${vStudySite.studySubjects}" var="vStudySubject">
+						<c:if test="${vStudySubject.participant.id == command.participant.id}">
+							<c:set var="tempRegId" value="${vStudySubject.id}">
+							</c:set>
+						</c:if>
+					</c:forEach>
+				</c:if>
+			</c:forEach>
+            <tr>
+                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+                <td></td>
+                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+                <td class="alt">
+                	
+                	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${tempStudySiteId}','${command.participant.id}','${command.id}');"/>
+					<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${tempRegId}' />'"/>
+                </td>
+   	        </tr>	   
+   	        <c:set var="tempStudySiteId" value="" ></c:set>      
+   	        <c:set var="tempRegId" value="" ></c:set>          
+        </c:forEach>
+    </table>
+</chrome:division>
+</div>
+
+<div <c:if test="${empty command.parentStudySubject}">style="display:none;"</c:if>>
+<chrome:division title="Parent Study">
+    <table class="tablecontent" width="50%">
+        <tr>
+            <th width="75%" scope="col" align="left"><b>Parent Study Short Title</b></th>
+        </tr>
+            <tr>
+                <td class="alt">${command.parentStudySubject.studySite.study.shortTitleText}</td>
+                <td class="alt">
+                	<input type="button" id="manageParentRegistration" value="Go Back" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.parentStudySubject.id}' />'"/>
+                </td>
+   	        </tr>	           
+    </table>
+</chrome:division>
+</div>
+	
 	<c:if test="${hotlinkEnable}">
 	<table width="60%">
 		<c:if test="${!empty caaersBaseUrl}">
 		<tr>
 			<td align="left"><a
 				href="javascript:accessApp('${caaersBaseUrl }','_caaers');">
-			<b>Adverse Event Reporting</a> </b></td>
+			<b>Adverse Event Reporting</b></a> </td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -158,7 +231,7 @@ function submitLocalForm(formName, regId ,schEphId){
 		<tr>
 			<td align="left"><a
 				href="javascript:accessApp('${pscBaseUrl }','_psc');">
-			<b>Study Calendar</a></b></td>
+			<b>Study Calendar</b></a></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -171,7 +244,7 @@ function submitLocalForm(formName, regId ,schEphId){
 		<tr>
 			<td align="left"><a
 				href="javascript:accessApp('${c3dBaseUrl }','_c3d');">
-			<b>Clinical Database</a></b></td>
+			<b>Clinical Database</b></a></td>
 		</tr>
 		</c:if>
 	</table>

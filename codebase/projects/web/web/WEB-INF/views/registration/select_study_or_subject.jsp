@@ -69,10 +69,18 @@
 </div>
 <c:if test="${command.studySite.id!=null && command.participant.id!=null}">
 	<script>
-		new Element.show('Epoch');
-		minimizeEpochBox();
-		displayEpochMessage("Selected epoch: ${command.scheduledEpoch.epoch.name}",true);
-		minimizeStudyBox("Selected study: ${command.studySite.study.shortTitleText} (${command.studySite.study.coordinatingCenterAssignedIdentifier.value}) at ${command.studySite.healthcareSite.name}");
+		<c:choose> 
+			<c:when test="${!empty command.scheduledEpoch}"> 
+				new Element.show('Epoch'); 
+				minimizeEpochBox(); 
+				displayEpochMessage("Selected epoch: ${command.scheduledEpoch.epoch.name}",true); 
+			</c:when> 
+			<c:otherwise> 
+				var url1 = "../registration/searchEpoch?studySiteId="+${command.studySite.id}; 
+				new Ajax.Updater('epochResults',url1, {onSuccess:callbackEpoch, onFailure:callbackEpochFail}); 
+			</c:otherwise> 
+		</c:choose> 
+		minimizeStudyBox("Selected study: ${command.studySite.study.shortTitleText} (${command.studySite.study.coordinatingCenterAssignedIdentifier.value}) at ${command.studySite.healthcareSite.name}"); 
 		minimizeSubjectBox("Selected subject: ${command.participant.fullName} ");
 	</script>
 </c:if>

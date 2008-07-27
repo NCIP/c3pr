@@ -43,7 +43,6 @@
         formName="'viewDetails'"/>
         }
 
-
       function doSendMessageToESB() {
           $('broadcastResponse').innerHTML = 'Sending Message...';
 
@@ -208,6 +207,69 @@
         </tr>
     </table>
 </chrome:division>
+<chrome:division title="Companion Studies">
+    <table class="tablecontent" width="50%">
+        <tr>
+            <th width="75%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+            <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
+            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
+        </tr>
+        <c:forEach items="${command.studySite.study.companionStudyAssociations}" var="companionStudyAssociation">
+            <c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
+				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
+					<c:set var="tempStudySiteId" value="${vStudySite.id}">
+					</c:set>
+				</c:if>
+			</c:forEach>
+			<c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
+				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
+					<c:forEach items="${vStudySite.studySubjects}" var="vStudySubject">
+						<c:if test="${vStudySubject.participant.id == command.participant.id}">
+							<c:set var="tempRegId" value="${vStudySubject.id}">
+							</c:set>
+						</c:if>
+					</c:forEach>
+				</c:if>
+			</c:forEach>
+            <tr>
+                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+                <td></td>
+                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+                <td class="alt">
+			        <c:choose> 
+						<c:when test="${!empty tempRegId}"> 
+							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${tempRegId}' />'"/> 
+						</c:when>
+						<c:otherwise> 
+				        	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${tempStudySiteId}','${command.participant.id}','${command.id}');"/> 
+						</c:otherwise> 
+					</c:choose>
+                </td>
+   	        </tr>	   
+   	        <c:set var="tempStudySiteId" value="" ></c:set>      
+   	        <c:set var="tempRegId" value="" ></c:set>          
+        </c:forEach>
+    </table>
+</chrome:division>
+</div>
+
+<div <c:if test="${empty command.parentStudySubject}">style="display:none;"</c:if>>
+<chrome:division title="Parent Study">
+    <table class="tablecontent" width="50%">
+        <tr>
+            <th width="75%" scope="col" align="left"><b>Parent Study Short Title</b></th>
+        </tr>
+            <tr>
+                <td class="alt">${command.parentStudySubject.studySite.study.shortTitleText}</td>
+                <td class="alt">
+                	<input type="button" id="manageParentRegistration" value="Go Back" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.parentStudySubject.id}' />'"/>
+                </td>
+   	        </tr>	           
+    </table>
+</chrome:division>
+</div>
+
+
 <chrome:division id="enrollment" title="Enrollment Details">
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
