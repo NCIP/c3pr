@@ -295,7 +295,7 @@
          <div class="row">
              <div class="label required-indicator">Consent Version/Date:</div>
              <div class="value">
-             <tags:dateInput path="consentVersion" validateDate="false"/><em> (mm/dd/yyyy)</em>
+             <tags:dateInput path="consentVersion" validateDate="false" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
              <tags:hoverHint keyProp="study.consentVersion"/></div>
          </div>
         <div class="row" <c:if test="${ (empty command.companionIndicator) || command.companionIndicator=='false' ||((!empty param.embeddedStudy) && command.companionIndicator=='true' && param.embeddedStudy=='true')}">style="display:none;"</c:if>>
