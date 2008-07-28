@@ -14,7 +14,6 @@
 
     function onAddTreatmentEpoch(){
 	    $('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps);
-	 //   alert('accrualCeiling-'+0);
 	     Effect.Fold($('genericEpoch-'+0));
     }
      
@@ -39,6 +38,25 @@
                  } else {
                      $('epochs[' + index + '].reservationIndicator').disabled = true;
                      $('epochs[' + index + '].reservationIndicator').value = false;
+                 }
+             } catch(ex) {
+             }
+        }
+        
+          function manageReservingIndicatorSelectBox(box, index) {
+             if (isNaN(index)) return;
+
+             try {
+                 if (box.value == 'false') {
+                     $('epochs[' + index + '].enrollmentIndicator').disabled = false;
+                     $('epochs[' + index + '].treatmentIndicator').disabled = false;
+                      Effect.OpenUp('addArm-' + index);
+                 } else {
+                     $('epochs[' + index + '].enrollmentIndicator').disabled = true;
+                      $('epochs[' + index + '].enrollmentIndicator').value = false;
+                     $('epochs[' + index + '].treatmentIndicator').disabled = true;
+                     $('epochs[' + index + '].treatmentIndicator').value = false;
+                      Effect.CloseDown('addArm-' + index);
                  }
              } catch(ex) {
              }
@@ -100,7 +118,7 @@
 <tr>
   <td valign="top" width="50%">
 
-      <table width="100%" border="0" cellspacing="5">
+      <table width="100%" border="0" cellspacing="4" cellpadding="2">
       <tr>
           <td align="right"><b>Name:</b></td>
           <td align="left" valign="top">
@@ -131,7 +149,8 @@
       <tr>
           <td align="right"><b>Enrolling:</b></td>
           <td align="left">
-              <form:select  id="epochs[${treatmentEpochCount.index}].enrollmentIndicator"
+           <div id ="enrollingIndicator-${treatmentEpochCount.index}" >
+              <form:select  disabled="${_disabled}" id="epochs[${treatmentEpochCount.index}].enrollmentIndicator"
 	                                        path="epochs[${treatmentEpochCount.index}].enrollmentIndicator"
 	                                        onchange="manageEnrollingIndicatorSelectBox(this,${treatmentEpochCount.index});"
 	                                        cssClass="validate-notEmpty">
@@ -139,6 +158,7 @@
 	                                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 	                                	</form:select>
 		                               		 <tags:hoverHint id="study.nonTreatmentEpoch.enrollmentIndicator-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.enrollmentIndicator"/>
+           <div id ="enrollingIndicator-${treatmentEpochCount.index}" >
           </td>
       </tr>
       
@@ -162,7 +182,7 @@
 
     <style>
         .descTextarea {
-            width:380px;
+            width:385px;
         }
     </style>
 
@@ -192,7 +212,7 @@ DELETED TD
       <tr>
           <td align="right"><b>Accrual Ceiling:</b> </td>
           <td align="left">
-              <form:input path="epochs[${treatmentEpochCount.index}].accrualCeiling" size="12"
+              <form:input path="epochs[${treatmentEpochCount.index}].accrualCeiling" size="14"
 	                                                          maxlength="5" cssClass="validate-numeric&&nonzero_numeric" />
 	                                		<tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.accrualCeiling"/>
           </td>
@@ -206,7 +226,7 @@ DELETED TD
                                <c:if test="${command.epochs[treatmentEpochCount.index].enrollmentIndicator}">
                                     <c:set var="_disabled" value="true" />
                                </c:if>
-                               <form:select disabled="${_disabled}" path="epochs[${treatmentEpochCount.index}].reservationIndicator" cssClass="validate-notEmpty">
+                               <form:select disabled="${_disabled}" path="epochs[${treatmentEpochCount.index}].reservationIndicator" onchange="manageReservingIndicatorSelectBox(this,${treatmentEpochCount.index});" cssClass="validate-notEmpty">
                                    <option value="">Please Select</option>
                                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                               </form:select>
@@ -232,17 +252,19 @@ DELETED TD
   </td>
 </tr>
 
-<tr bgcolor="eeffee">
+<tr bgcolor="eeffee"><
   <td colspan="3" align="left">
       <hr noshade size="1" width="100%" style="border-top:1px black dotted;" align="left">
 
-      <input id="addArm" type="button" value="Add Arm" onclick="$('h-${treatmentEpochCount.index}').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" />
+      <input id="addArm-${treatmentEpochCount.index}" type="button" value="Add Arm" onclick="$('h-${treatmentEpochCount.index}').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" />
       <br />
       <!--ARMS TABLE-->
 
       <table id="arm" class="tablecontent" border="0">
       <tags:errors path="epochs[${treatmentEpochCount.index}].arms"/>
 <%----%>
+
+	<br>
           
       <tr id="h-${treatmentEpochCount.index}" <c:if test="${fn:length(treatmentEpoch.arms) == 0}">style="display:none;"</c:if>>
           <th><span class="required-indicator">Arm</span><tags:hoverHint id="study.arm.name-${treatmentEpochCount.index}" keyProp="study.arm.name"/></th>
@@ -327,7 +349,7 @@ DELETED TD
 <tr>
   <td valign="top" width="50%">
 
-      <table width="100%" border="0" cellspacing="2">
+      <table width="100%" border="0" cellspacing="4" cellpadding="2">
       <tr>
           <td align="right"><b>Name:</b></td>
           <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName('divGenericEpochBox-PAGE.ROW.INDEX', 'Epoch: ' + this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
@@ -341,9 +363,9 @@ DELETED TD
       <tr>
           <td align="right"><b>Treating:</b></td>
           <td align="left">
-              <select id="epochs[PAGE.ROW.INDEX].treatmentIndicator" name="epochs[PAGE.ROW.INDEX].treatmentIndicator" class="validate-notEmpty">
+              <select id="epochs[PAGE.ROW.INDEX].treatmentIndicator" name="epochs[PAGE.ROW.INDEX].treatmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);" class="validate-notEmpty">
                   <option value="">Please Select</option>
-                  <option value="true" selected="selected">Yes</option>
+                  <option value="true">Yes</option>
                   <option value="false">No</option>
               </select>
               <tags:hoverHint id="study.nonTreatmentEpoch.treatmentIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.treatmentIndicator"/>
@@ -384,7 +406,7 @@ DELETED TD
   
     <style>
         .descTextarea {
-            width:380px;
+            width:388px;
         }
     </style>
 
@@ -410,14 +432,14 @@ DELETED TD
       <tr>
           <td align="right"><b>Accrual Ceiling:</b> </td>
           <td align="left">
-              <input type="text" id="epochs[PAGE.ROW.INDEX].accrualCeiling" name="epochs[PAGE.ROW.INDEX].accrualCeiling" size="12" maxlength="5" class="validate-numeric&&nonzero_numeric" />
+              <input type="text" id="epochs[PAGE.ROW.INDEX].accrualCeiling" name="epochs[PAGE.ROW.INDEX].accrualCeiling" size="14" maxlength="5" class="validate-numeric&&nonzero_numeric" />
               <tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.accrualCeiling"/>
           </td>
           
           <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><b>Reserving:</b></div></td>
           <td align="left">
               <div id ="reservationIndicator-PAGE.ROW.INDEX">
-                  <select disabled="true" id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" class="validate-notEmpty">
+                  <select disabled="true" id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" onchange="manageReservingIndicatorSelectBox(this,PAGE.ROW.INDEX);" class="validate-notEmpty">
                        <option value="">Please Select</option>
                        <option value="true">Yes</option>
                        <option value="false" selected="selected">No</option>
@@ -446,7 +468,9 @@ DELETED TD
 <tr>
   <td colspan="3" align="left">
   <hr noshade size="1" width="100%" style="border-top:1px black dotted;" align="left">
+  <div id="addArm-PAGE.ROW.INDEX"
       <input id="addArm" type="button" value="Add Arm" onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" />
+  </div>
       <br />
       
 
