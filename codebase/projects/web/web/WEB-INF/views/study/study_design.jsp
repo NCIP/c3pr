@@ -50,12 +50,15 @@
                  if (box.value == 'false') {
                      $('epochs[' + index + '].enrollmentIndicator').disabled = false;
                      $('epochs[' + index + '].treatmentIndicator').disabled = false;
+                     $('epochs[' + index + '].randomizedIndicator').disabled = false;
                       Effect.OpenUp('addArm-' + index);
                  } else {
                      $('epochs[' + index + '].enrollmentIndicator').disabled = true;
                       $('epochs[' + index + '].enrollmentIndicator').value = false;
                      $('epochs[' + index + '].treatmentIndicator').disabled = true;
                      $('epochs[' + index + '].treatmentIndicator').value = false;
+                     $('epochs[' + index + '].randomizedIndicator').disabled = true;
+                     $('epochs[' + index + '].randomizedIndicator').value = false;
                       Effect.CloseDown('addArm-' + index);
                  }
              } catch(ex) {
@@ -149,8 +152,7 @@
       <tr>
           <td align="right"><b>Enrolling:</b></td>
           <td align="left">
-           <div id ="enrollingIndicator-${treatmentEpochCount.index}" >
-              <form:select  disabled="${_disabled}" id="epochs[${treatmentEpochCount.index}].enrollmentIndicator"
+              <form:select  id="epochs[${treatmentEpochCount.index}].enrollmentIndicator"
 	                                        path="epochs[${treatmentEpochCount.index}].enrollmentIndicator"
 	                                        onchange="manageEnrollingIndicatorSelectBox(this,${treatmentEpochCount.index});"
 	                                        cssClass="validate-notEmpty">
@@ -158,7 +160,6 @@
 	                                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 	                                	</form:select>
 		                               		 <tags:hoverHint id="study.nonTreatmentEpoch.enrollmentIndicator-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.enrollmentIndicator"/>
-           <div id ="enrollingIndicator-${treatmentEpochCount.index}" >
           </td>
       </tr>
       
@@ -252,7 +253,7 @@ DELETED TD
   </td>
 </tr>
 
-<tr bgcolor="eeffee"><
+<tr bgcolor="eeffee">
   <td colspan="3" align="left">
       <hr noshade size="1" width="100%" style="border-top:1px black dotted;" align="left">
 
@@ -388,7 +389,7 @@ DELETED TD
       <tr>
               <td align="right"><span class="required-indicator"><b>Randomized:</b></span></td>
               <td align="left">
-                  <select name="epochs[PAGE.ROW.INDEX].randomizedIndicator" class="validate-notEmpty">
+                  <select id="epochs[PAGE.ROW.INDEX].randomizedIndicator" name="epochs[PAGE.ROW.INDEX].randomizedIndicator" class="validate-notEmpty">
                       <option value="">Please Select</option>
                       <option value="true" selected="selected">Yes</option>
                       <option value="false">No</option>
