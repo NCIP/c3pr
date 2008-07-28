@@ -184,9 +184,14 @@ function createReg(studySite, participant, parentRegistrationId){
                 <td></td>
                 <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
                 <td class="alt">
-                	
-                	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${tempStudySiteId}','${command.participant.id}','${command.id}');"/>
-					<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${tempRegId}' />'"/>
+			        <c:choose> 
+						<c:when test="${!empty tempRegId}"> 
+							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${tempRegId}' />'"/> 
+						</c:when>
+						<c:otherwise> 
+				        	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${tempStudySiteId}','${command.participant.id}','${command.id}');"/> 
+						</c:otherwise> 
+					</c:choose>
                 </td>
    	        </tr>	   
    	        <c:set var="tempStudySiteId" value="" ></c:set>      
@@ -200,12 +205,14 @@ function createReg(studySite, participant, parentRegistrationId){
 <chrome:division title="Parent Study">
     <table class="tablecontent" width="50%">
         <tr>
-            <th width="75%" scope="col" align="left"><b>Parent Study Short Title</b></th>
+            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
+			<th width="75%" scope="col" align="left"><b>Primary Identifier</b></th>
         </tr>
             <tr>
                 <td class="alt">${command.parentStudySubject.studySite.study.shortTitleText}</td>
+				<td class="alt">${command.parentStudySubject.studySite.study.primaryIdentifier}</td>
                 <td class="alt">
-                	<input type="button" id="manageParentRegistration" value="Go Back" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.parentStudySubject.id}' />'"/>
+                	<input type="button" id="manageParentRegistration" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.parentStudySubject.id}' />'"/>
                 </td>
    	        </tr>	           
     </table>
