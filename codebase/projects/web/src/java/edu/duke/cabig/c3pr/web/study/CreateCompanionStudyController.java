@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -53,6 +52,7 @@ public class CreateCompanionStudyController<C extends Study> extends CreateStudy
         	Study companionStudy =  new Study() ;//parentStudy.getCompanionStudyAssociations().get(Integer.parseInt(row)).getCompanionStudy();
         	companionStudy.setShortTitleText(parentStudy.getShortTitleText());
         	companionStudy.setLongTitleText(parentStudy.getLongTitleText());
+        	companionStudy.setMultiInstitutionIndicator(parentStudy.getMultiInstitutionIndicator());
         	
         	List<StudyFundingSponsor> parentSFS = parentStudy.getStudyFundingSponsors();
         	int studyFSIndex = 0 ;
