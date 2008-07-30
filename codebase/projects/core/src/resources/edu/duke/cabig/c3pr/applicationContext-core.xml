@@ -188,18 +188,18 @@
 		</property>
 	</bean>
 
-    <bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl">
-        <property name="dataAuditRepository" ref="dataAuditRepository"></property>
-        <!--<property name="auditableEntities">
+   <!--  <bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl">
+        <property name="dataAuditRepository" ref="dataAuditRepository"></property> 
+        <property name="auditableEntities">
               <list>
                    <value>edu.duke.cabig.c3pr.domain.Study</value>
                   <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
               </list>
-          </property> -->
+        </property>
         <property name="auditAll">
             <value>true</value>
         </property>
-    </bean>
+    </bean> -->
 
     <bean name="dataAuditRepository" class="gov.nih.nci.cabig.ctms.audit.dao.DataAuditRepository">
         <property name="sessionFactory">
@@ -213,9 +213,6 @@
     <bean id="gridIdentifierInterceptor" class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
           autowire="byName"/>
           
-    <bean id="notificationInterceptor" class="edu.duke.cabig.c3pr.infrastructure.interceptor.NotificationInterceptor" 
-    	autowire="byName"/>
-
     <bean id="hibernateTemplate"
           class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="checkWriteOperations" value="true"/>
@@ -386,8 +383,6 @@
     
     <bean id="passwordManagerService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordManagerServiceImpl" autowire="byName"/>
 	<bean id="passwordPolicyService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordPolicyServiceImpl" autowire="byName"/>
-	
-	<bean id="rulesDelegationService" class="edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl" autowire="byName"/>
 	
     <!-- Repositories -->
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
