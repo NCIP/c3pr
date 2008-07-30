@@ -1053,8 +1053,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		// For a new study, the coordingating center status should be set to
 		// Pending.
 		if (this.getId() == null) {
-			this
-					.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+			this.setCoordinatingCenterStudyStatus(targetStatus);
 		} else {
 			if (statusSettable(this, targetStatus)) {
 				this.setCoordinatingCenterStudyStatus(targetStatus);
