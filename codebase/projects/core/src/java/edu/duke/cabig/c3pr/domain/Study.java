@@ -893,8 +893,13 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 				return CoordinatingCenterStudyStatus.AMENDMENT_PENDING;
 			}
 		}
-
-		return CoordinatingCenterStudyStatus.ACTIVE;
+		
+		if(this.getCompanionIndicator() && !this.standaloneIndicator){
+			return CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION;
+		}else{
+			return CoordinatingCenterStudyStatus.ACTIVE;
+		}
+		
 	}
 
 	public boolean evaluateAmendmentStatus()
