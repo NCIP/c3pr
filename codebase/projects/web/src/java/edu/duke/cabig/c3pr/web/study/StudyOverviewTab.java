@@ -4,17 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -132,9 +130,8 @@ public class StudyOverviewTab extends StudyTab {
                 command.setStatuses(statusObject);
                 // adding a callback incase the status change is successful
                 // this callback is used to dynamically display/hide the amend study button
-                retValue = "<script>statusChangeCallback('"
-                                + command.getCoordinatingCenterStudyStatus().getCode()
-                                + "')</script>";
+                retValue = "<script>statusChangeCallback('"+ command.getCoordinatingCenterStudyStatus().getCode()+ "');reloadCompanion();" +
+                		"</script>";
             }
             catch (C3PRCodedException e) {
                 // case when the user has an admin role and he/she can change the study status to
@@ -194,4 +191,8 @@ public class StudyOverviewTab extends StudyTab {
     public void setStudyService(StudyService studyService) {
         this.studyService = studyService;
     }
+    
+    public ModelAndView reloadCompanion(HttpServletRequest request, Object command , Errors error) {
+		return new ModelAndView(getAjaxViewName(request));
+	}
 }

@@ -66,7 +66,7 @@ Event.observe(window, "load", function() {
               height:600,
               ajax: {
                     onComplete: function() {
-                        $('submitAJAXForm').observe('click', postSubmitSkinForm);
+                       
                     }
                 }
               }
@@ -85,22 +85,6 @@ function createCompanion(shortTitle){
 function closePopup() {
 	Lightview.hide();
 }
-
-function postSubmitSkinForm() {
-    var action = document.forms[0].action;
-    var value = getSelectedValue();
-
-    var url = action + "?conf['skinPath'].value=" + value;
-    
-    new Ajax.Request(url, {
-      method: 'post',
-      onSuccess: function(transport) {
-          Lightview.hide();
-          setTimeout('reloadPage()', 500);
-      }
-    });
-}
-
 
 --></script>
         

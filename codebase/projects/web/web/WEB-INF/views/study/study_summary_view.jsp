@@ -51,6 +51,10 @@
                 elmt.style.display = "none";
             }
         }
+
+      	function reloadCompanion(){
+   			<tags:tabMethod method="reloadCompanion" divElement="'companionAssociationsDiv'" formName="'tabMethodForm'" viewName="/study/companionSection"/>
+   		}
     </script>
 </head>
 
@@ -410,7 +414,7 @@
     </table>
 </chrome:division>
 
-<div <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
+<div id="companionAssociationsDiv" <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
 <chrome:division title="Companion Studies">
     <table class="tablecontent" width="60%">
         <tr>
