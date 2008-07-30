@@ -168,7 +168,7 @@ public class StudyOverviewTab extends StudyTab {
         try {
             study.setDataEntryStatus(true);
             if (study.getId() == null) {
-                study.setCoordinatingCenterStudyStatus(study.evaluateCoordinatingCenterStudyStatus());
+                study.setStatuses(study.evaluateCoordinatingCenterStudyStatus());
             }
         }
         catch (Exception e) {
