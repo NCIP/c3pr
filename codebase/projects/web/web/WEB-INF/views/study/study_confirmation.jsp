@@ -34,7 +34,7 @@
 	    <chrome:box title="Companion Studies" autopad="true">
 		    <table class="tablecontent" width="60%">
 		        <tr>
-		            <th width="50%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+		            <th width="50%" scope="col" align="left"><b>Short Title</b></th>
 		            <th width="25%" scope="col" align="left"><b>Status</b></th>
 		            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
 		        </tr>
@@ -45,6 +45,26 @@
 		                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
 		                <td class="alt">
 		                <input type="button" id="editCompanionStudy" value="Edit" onclick="javascript:document.location='<c:url value='/pages/study/editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
+		                </td>
+
+		   	        </tr>	           
+		        </c:forEach>
+		    </table>
+	    </chrome:box>
+	    </div>
+		<div <c:if test="${command.companionIndicator=='false' || (command.companionIndicator=='true' && command.standaloneIndicator=='true')}">style="display:none;"</c:if>>
+	    <chrome:box title="Parent Study" autopad="true">
+		    <table class="tablecontent" width="60%">
+		        <tr>
+		            <th width="50%" scope="col" align="left"><b>Short Title</b></th>
+		            <th width="25%" scope="col" align="left"><b>Status</b></th>
+		        </tr>
+		        <c:forEach items="${command.parentStudyAssociations}" var="parentStudyAssociation">
+		            <tr>
+		                <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
+		                <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
+		                <td class="alt">
+		                <input type="button" id="manageParentStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${parentStudyAssociation.parentStudy.id}' />'"/>
 		                </td>
 
 		   	        </tr>	           

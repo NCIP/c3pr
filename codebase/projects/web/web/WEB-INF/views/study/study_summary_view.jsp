@@ -98,12 +98,27 @@
                    value="[['Active','Active'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
+						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]">
+			</c:set>
+			<c:set var="commanSepOptValForEmbeded"
+                   value="[['Ready For Activation','Ready For Activation'],
+						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
+						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
             <td>
+				<c:choose> 
+					<c:when test="${command.companionIndicator == true && command.standaloneIndicator == false}"> 
+						<c:set var="tempSelectOpts" value="${commanSepOptValForEmbeded}"></c:set> 
+					</c:when> 
+					<c:otherwise> 
+						<c:set var="tempSelectOpts" value="${commanSepOptVal}"></c:set>
+					</c:otherwise> 
+				</c:choose> 
                 <tags:inPlaceSelect
                         value="${command.coordinatingCenterStudyStatus.code}"
                         path="changedCoordinatingCenterStudyStatus"
-                        commanSepOptVal="${commanSepOptVal}"/>
+                        commanSepOptVal="${tempSelectOpts}">
+				</tags:inPlaceSelect>
                 <csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
                                         authorizationCheckName="domainObjectAuthorizationCheck">
                     &nbsp; <input type="button" value="Change Status"
@@ -415,6 +430,26 @@
         </c:forEach>
     </table>
 </chrome:division>
+</div>
+<div <c:if test="${command.companionIndicator=='false' || (command.companionIndicator=='true' && command.standaloneIndicator=='true')}">style="display:none;"</c:if>>
+   <chrome:division title="Parent Study" >
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><b>Short Title</b></th>
+            <th width="25%" scope="col" align="left"><b>Status</b></th>
+        </tr>
+        <c:forEach items="${command.parentStudyAssociations}" var="parentStudyAssociation">
+            <tr>
+                <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
+                <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
+                <td class="alt">
+                <input type="button" id="manageParentStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${parentStudyAssociation.parentStudy.id}' />'"/>
+                </td>
+
+   	        </tr>	           
+        </c:forEach>
+    </table>
+   </chrome:division>
 </div>
 <chrome:division title="Amendments">
     <table class="tablecontent" width="60%">

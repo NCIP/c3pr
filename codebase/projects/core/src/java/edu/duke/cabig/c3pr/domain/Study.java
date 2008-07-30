@@ -120,7 +120,9 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
     
     private Boolean standaloneIndicator;
     
-    public Study() {
+    private List<CompanionStudyAssociation> parentStudyAssociations ;
+    
+	public Study() {
 		
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 		resourceBundleMessageSource.setBasename("error_messages_multisite");
@@ -971,6 +973,14 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFIED_EPOCH_FOR_RANDOMIZED_STUDY.CODE"));
    		 }
     	}
+    	
+    	for(CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()){
+			 if(compStudyAssoc.getMandatoryIndicator() 
+					&& !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
+					|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)){
+				throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
+			}
+		}
 		if (!evaluateEpochsDataEntryStatus()){
 			return StudyDataEntryStatus.INCOMPLETE;
 		}
@@ -1043,6 +1053,19 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		} else {
 			if (statusSettable(this, targetStatus)) {
 				this.setCoordinatingCenterStudyStatus(targetStatus);
+				// check to make companion study as active in one shot along with parent study
+				if(targetStatus == CoordinatingCenterStudyStatus.ACTIVE && this.getCompanionStudyAssociations().size() > 0 ){
+					for(CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()){
+						if(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
+								|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE){
+							compStudyAssoc.getCompanionStudy().setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+						}else if(compStudyAssoc.getMandatoryIndicator() 
+								&& !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
+								|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)){
+							throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
+						}
+					}
+				}
 			} else {
 				this.setCoordinatingCenterStudyStatus(oldStatus);
 			}
@@ -1203,5 +1226,17 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public void setCompanionIndicator(Boolean companionIndicator) {
 		this.companionIndicator = companionIndicator;
 	}
+	
+	@OneToMany(mappedBy = "companionStudy")
+	@Cascade(value = { CascadeType.LOCK })
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<CompanionStudyAssociation> getParentStudyAssociations() {
+		return parentStudyAssociations;
+	}
+	
+	private void setParentStudyAssociations(
+			List<CompanionStudyAssociation> parentStudyAssociations) {
+		this.parentStudyAssociations = parentStudyAssociations;
+	}	
 	
 }

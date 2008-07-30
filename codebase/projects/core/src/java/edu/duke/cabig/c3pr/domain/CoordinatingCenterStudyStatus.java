@@ -9,7 +9,7 @@ public enum CoordinatingCenterStudyStatus implements CodedEnum<String> {
     ACTIVE("Active"), PENDING("Pending"), AMENDMENT_PENDING("Amendment Pending"), CLOSED_TO_ACCRUAL_AND_TREATMENT(
                     "Closed To Accrual And Treatment"), CLOSED_TO_ACCRUAL("Closed To Accrual"), TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT(
                     "Temporarily Closed To Accrual And Treatment"), TEMPORARILY_CLOSED_TO_ACCRUAL(
-                    "Temporarily Closed To Accrual");
+                    "Temporarily Closed To Accrual"), READY_FOR_ACTIVATION("Ready For Activation");
 
     private String code;
 
