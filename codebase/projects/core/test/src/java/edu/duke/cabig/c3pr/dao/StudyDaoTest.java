@@ -9,19 +9,10 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_STUDY;
 import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -33,13 +24,12 @@ import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
-import edu.duke.cabig.c3pr.domain.EmailBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
@@ -57,10 +47,10 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * JUnit Tests for StudyDao
@@ -643,16 +633,16 @@ public class StudyDaoTest extends DaoTestCase {
             createDefaultStudyWithDesign(study);
 
             // notification specific code.
-            EmailBasedRecipient ebr = new EmailBasedRecipient();
-            ebr.setEmailAddress("vinay.gangoli@semanticbits.com");
+            UserBasedRecipient ebr = new UserBasedRecipient();
+//            ebr.setEmailAddress("vinay.gangoli@semanticbits.com");
             RoleBasedRecipient rbr = new RoleBasedRecipient();
             rbr.setRole("admin");
 
-            Notification notification = new Notification();
+            PlannedNotification notification = new PlannedNotification();
             notification.setThreshold(90);
-            notification.getEmailBasedRecipient().add(ebr);
+            notification.getUserBasedRecipient().add(ebr);
             notification.getRoleBasedRecipient().add(rbr);
-            study.getNotifications().add(notification);
+            study.getPlannedNotifications().add(notification);
             dao.save(study);
             savedId = study.getId();
             assertNotNull("The saved study didn't get an id", savedId);
@@ -661,13 +651,13 @@ public class StudyDaoTest extends DaoTestCase {
         {
             Study loaded = dao.getById(savedId);
             assertNotNull("Could not reload study with id " + savedId, loaded);
-            assertEquals("Wrong Threshold", 90, loaded.getNotifications().get(0).getThreshold()
+            assertEquals("Wrong Threshold", 90, loaded.getPlannedNotifications().get(0).getThreshold()
                             .intValue());
-            assertEquals("Wrong role", "admin", loaded.getNotifications().get(0)
+            assertEquals("Wrong role", "admin", loaded.getPlannedNotifications().get(0)
                             .getRoleBasedRecipient().get(0).getRole());
-            assertEquals("Wrong emailAddress", "vinay.gangoli@semanticbits.com", loaded
+            /*assertEquals("Wrong emailAddress", "vinay.gangoli@semanticbits.com", loaded
                             .getNotifications().get(0).getEmailBasedRecipient().get(0)
-                            .getEmailAddress());
+                            .getEmailAddress());*/
         }
     }
 
