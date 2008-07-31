@@ -87,7 +87,7 @@
 <form:form method="post">
     <tags:tabFields tab="${tab}"/>
 </form:form>
-<c:if test="${actionRequired}">
+<c:if test="${registerableWithCompanions}">
     <registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
                                requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
@@ -211,7 +211,7 @@
 <chrome:division title="Companion Studies">
     <table class="tablecontent" width="50%">
         <tr>
-            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
+            <th width="75%" scope="col" align="left"><b>Companion Study Short Title</b></th>
             <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
             <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
         </tr>
@@ -226,6 +226,8 @@
 				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
 					<c:forEach items="${vStudySite.studySubjects}" var="vStudySubject">
 						<c:if test="${vStudySubject.participant.id == command.participant.id}">
+							<c:set var="tempReg" value="${vStudySubject}">
+							</c:set>
 							<c:set var="tempRegId" value="${vStudySubject.id}">
 							</c:set>
 						</c:if>
@@ -234,6 +236,7 @@
 			</c:forEach>
             <tr>
                 <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+                <td class="alt">${empty tempReg?"UNREGISTERED":tempReg.regWorkflowStatus}</td>
                 <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
                 <td class="alt">
 			        <c:choose> 
@@ -245,7 +248,8 @@
 						</c:otherwise> 
 					</c:choose>
                 </td>
-   	        </tr>	   
+   	        </tr>	
+   	        <c:set var="tempReg" value="" ></c:set>    
    	        <c:set var="tempStudySiteId" value="" ></c:set>      
    	        <c:set var="tempRegId" value="" ></c:set>          
         </c:forEach>

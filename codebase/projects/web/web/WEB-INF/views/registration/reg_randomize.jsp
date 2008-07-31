@@ -23,7 +23,7 @@
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		<c:choose>
-		<c:when test="${command.scheduledEpoch.epoch.enrollmentIndicator == 'false'}">
+		<c:when test="${not empty command.scheduledEpoch.epoch.arms}">
 			<tr>
 				<td> The selected epoch does not involve Assigning Arm.</td>
 			</tr>

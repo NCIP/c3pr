@@ -49,7 +49,7 @@ function createReg(studySite, participant, parentRegistrationId){
 
 <br/>
 
-	<!-- newRegistration: ${newRegistration}<br>
+<!--	newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
 	reg_pending:${reg_pending }<br>
@@ -62,11 +62,18 @@ function createReg(studySite, participant, parentRegistrationId){
 	epoch_pending:${epoch_pending }<br>
 	epoch_disapproved:${ epoch_disapproved}<br>
 	epoch_unapproved:${epoch_unapproved }<br>
-	epoch_unrandomized:${ epoch_unrandomized}<br>-->
-	
+	hasParent:${hasParent }<br>
+	hasCompanions:${ hasCompanions}<br>
+	isDataEntryComplete:${isDataEntryComplete }<br>
+	epoch_unrandomized:${ epoch_unrandomized}<br>
+	actionRequired :${actionRequired}
+	registerableWithCompanions :${registerableWithCompanions}  -->
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
+		<c:when test="${reg_registered && hasCompanions}">
+			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
+			and save this confirmation in the subject study records </strong></font></c:when>
 		<c:when test="${reg_registered}">
 			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.SUCCESS"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
@@ -79,8 +86,14 @@ function createReg(studySite, participant, parentRegistrationId){
 			and save this confirmation in the subject study records </strong></font></c:when>
 		<c:when test="${reg_nonenrolled }">
 			<font color='<fmt:message key="REGISTRATION.NONENROLLED.COLOR"/>'><strong><fmt:message key="REGISTRATION.NONENROLLED"/></strong></font></c:when>			
+		<c:when test="${reg_unregistered && hasCompanions && !registerableWithCompanions}">
+			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></strong></font></c:when>
+		<c:when test="${reg_unregistered && hasCompanions && registerableWithCompanions}">
+			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></strong></font></c:when>
+		<c:when test="${isDataEntryComplete && hasParent}">
+			<font color='<fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></strong></font></c:when>	
 		<c:when test="${reg_unrandomized}">
-			<font color='<fmt:message key="REGISTRATION.UNRANDOMIZED.COLOR"/>'><strong><fmt:message key="REGISTRATION.UNRANDOMIZED"/></strong></font></c:when>			
+			<font color='<fmt:message key="REGISTRATION.UNRANDOMIZED.COLOR"/>'><strong><fmt:message key="REGISTRATION.UNRANDOMIZED"/></strong></font></c:when>
 		<c:otherwise>
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:otherwise>
 		</c:choose>
@@ -154,70 +167,7 @@ function createReg(studySite, participant, parentRegistrationId){
 	</table>
 	<br>
 	</div>
-<div <c:if test="${empty command.studySite.study.companionStudyAssociations}">style="display:none;"</c:if>>
-<chrome:division title="Companion Studies">
-    <table class="tablecontent" width="50%">
-        <tr>
-            <th width="75%" scope="col" align="left"><b>Companion Study Short Title</b></th>
-            <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
-            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
-        </tr>
-        <c:forEach items="${command.studySite.study.companionStudyAssociations}" var="companionStudyAssociation">
-            <c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
-				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
-					<c:set var="tempStudySiteId" value="${vStudySite.id}">
-					</c:set>
-				</c:if>
-			</c:forEach>
-			<c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
-				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
-					<c:forEach items="${vStudySite.studySubjects}" var="vStudySubject">
-						<c:if test="${vStudySubject.participant.id == command.participant.id}">
-							<c:set var="tempRegId" value="${vStudySubject.id}">
-							</c:set>
-						</c:if>
-					</c:forEach>
-				</c:if>
-			</c:forEach>
-            <tr>
-                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-                <td></td>
-                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
-                <td class="alt">
-			        <c:choose> 
-						<c:when test="${!empty tempRegId}"> 
-							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${tempRegId}' />'"/> 
-						</c:when>
-						<c:otherwise> 
-				        	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${tempStudySiteId}','${command.participant.id}','${command.id}');"/> 
-						</c:otherwise> 
-					</c:choose>
-                </td>
-   	        </tr>	   
-   	        <c:set var="tempStudySiteId" value="" ></c:set>      
-   	        <c:set var="tempRegId" value="" ></c:set>          
-        </c:forEach>
-    </table>
-</chrome:division>
-</div>
 
-<div <c:if test="${empty command.parentStudySubject}">style="display:none;"</c:if>>
-<chrome:division title="Parent Study">
-    <table class="tablecontent" width="50%">
-        <tr>
-            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
-			<th width="75%" scope="col" align="left"><b>Primary Identifier</b></th>
-        </tr>
-            <tr>
-                <td class="alt">${command.parentStudySubject.studySite.study.shortTitleText}</td>
-				<td class="alt">${command.parentStudySubject.studySite.study.primaryIdentifier}</td>
-                <td class="alt">
-                	<input type="button" id="manageParentRegistration" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.parentStudySubject.id}' />'"/>
-                </td>
-   	        </tr>	           
-    </table>
-</chrome:division>
-</div>
 	
 	<c:if test="${hotlinkEnable}">
 	<table width="60%">
@@ -264,12 +214,82 @@ function createReg(studySite, participant, parentRegistrationId){
 			</form>
 		</div>
 	</c:if>
+	<c:if test="${hasCompanions && command.dataEntryStatusString=='Complete' && command.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
+<chrome:division title="Companion Studies">
+    <table class="tablecontent" width="50%">
+        <tr>
+            <th width="75%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+            <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
+            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
+        </tr>
+        <c:forEach items="${command.studySite.study.companionStudyAssociations}" var="companionStudyAssociation">
+            <c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
+				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
+					<c:set var="tempStudySiteId" value="${vStudySite.id}">
+					</c:set>
+				</c:if>
+			</c:forEach>
+			<c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
+				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
+					<c:forEach items="${vStudySite.studySubjects}" var="vStudySubject">
+						<c:if test="${vStudySubject.participant.id == command.participant.id}">
+							<c:set var="tempReg" value="${vStudySubject}">
+							</c:set>
+							<c:set var="tempRegId" value="${vStudySubject.id}">
+							</c:set>
+						</c:if>
+					</c:forEach>
+				</c:if>
+			</c:forEach>
+            <tr>
+                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+                <td class="alt">${empty tempReg?"UNREGISTERED":tempReg.regWorkflowStatus}</td>
+                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+                <td class="alt">
+			        <c:choose> 
+						<c:when test="${!empty tempRegId}"> 
+							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${tempRegId}' />'"/> 
+						</c:when>
+						<c:otherwise> 
+				        	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${tempStudySiteId}','${command.participant.id}','${command.id}');"/> 
+						</c:otherwise> 
+					</c:choose>
+                </td>
+   	        </tr>	
+   	        <c:set var="tempReg" value="" ></c:set>    
+   	        <c:set var="tempStudySiteId" value="" ></c:set>      
+   	        <c:set var="tempRegId" value="" ></c:set>          
+        </c:forEach>
+    </table>
+</chrome:division>
+</c:if>
+
+<c:if test="${!empty command.parentStudySubject}">
+<chrome:division title="Parent Study">
+    <table class="tablecontent" width="50%">
+        <tr>
+            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
+			<th width="75%" scope="col" align="left"><b>Primary Identifier</b></th>
+        </tr>
+            <tr>
+                <td class="alt">${command.parentStudySubject.studySite.study.shortTitleText}</td>
+				<td class="alt">${command.parentStudySubject.studySite.study.primaryIdentifier}</td>
+                <td class="alt">
+                	<input type="button" id="manageParentRegistration" value="Continue registering from parent" onclick="javascript:document.location='<c:url value='/pages/registration/confirm?registrationId=${command.parentStudySubject.id}' />'"/>
+                </td>
+   	        </tr>	           
+    </table>
+</chrome:division>
+</c:if>
 </tags:panelBox>
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.gridId }"/>
 </form>
-<c:if test="${actionRequired}">
+
+<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions)}">
+<tags:panelBox>
 	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
+</tags:panelBox>
 </c:if>
 </body>
 </html>
