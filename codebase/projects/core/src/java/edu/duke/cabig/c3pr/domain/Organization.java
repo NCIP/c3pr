@@ -10,10 +10,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections15.functors.InstantiateFactory;
+import org.apache.commons.collections15.list.LazyList;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
  * @author Ram Chilukuri Kulasekaran
@@ -33,9 +36,14 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
     private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 
     private List<OrganizationAssignedIdentifier> identifiers = new ArrayList<OrganizationAssignedIdentifier>();
-
+    
+    private LazyListHelper lazyListHelper;
+    
     public Organization() {
         address = new Address();
+        lazyListHelper = new LazyListHelper();
+        lazyListHelper.add(PlannedNotification.class, new InstantiateFactory<PlannedNotification>(
+        		PlannedNotification.class));
     }
 
     public Organization(boolean initialise) {
@@ -118,6 +126,25 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         }
         else if (!name.equals(other.name)) return false;
         return true;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizations_id")
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+ 	public List<PlannedNotification> getPlannedNotificationsInternal() {
+        return lazyListHelper.getInternalList(PlannedNotification.class);
+    }
+
+    public void setPlannedNotificationsInternal(List<PlannedNotification> plannedNotifications) {
+        lazyListHelper.setInternalList(PlannedNotification.class, plannedNotifications);
+    }
+
+    @Transient
+    public List<PlannedNotification> getPlannedNotifications() {
+        return lazyListHelper.getLazyList(PlannedNotification.class);
+    }
+
+    public void setPlannedNotifications(List<PlannedNotification> plannedNotifications) {
     }
 
 }
