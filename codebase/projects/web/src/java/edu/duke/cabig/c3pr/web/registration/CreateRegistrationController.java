@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
@@ -34,7 +33,13 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
      */
     private static final Logger logger = Logger.getLogger(CreateRegistrationController.class);
 
-    public CreateRegistrationController() {
+    private RegistrationControllerUtils registrationControllerUtils;
+    public void setRegistrationControllerUtils(
+			RegistrationControllerUtils registrationControllerUtils) {
+		this.registrationControllerUtils = registrationControllerUtils;
+	}
+
+	public CreateRegistrationController() {
         super("Create Registration");
     }
 
@@ -98,7 +103,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
         // an LOV this will be
         // replaced with LOVDao to get the static data from individual tables
         Map<String, Object> refdata = new HashMap<String, Object>();
-        Map<String, List<Lov>> configMap = configurationProperty.getMap();
+        Map configMap = configurationProperty.getMap();
         refdata.put("paymentMethods", configMap.get("paymentMethods"));
         return refdata;
     }
@@ -107,10 +112,12 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
         StudySubject studySubject = (StudySubject) command;
-        if(isRegisterableOnPage(studySubject))
+        if(registrationControllerUtils.isRegisterableOnPage(studySubject))
             studySubjectService.register(studySubject);
-        else
+        else{
+        	registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
             studySubjectRepository.save(studySubject);
+        }
         if (logger.isDebugEnabled()) {
             logger
                             .debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
@@ -118,9 +125,4 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
         return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());
     }
     
-    private boolean isRegisterableOnPage(StudySubject studySubject) {
-        return studySubject.isDataEntryComplete()
-                        && !studySubject.getScheduledEpoch().getRequiresRandomization()
-                        && !studySubjectService.requiresExternalApprovalForRegistration(studySubject);
-    }
 }
