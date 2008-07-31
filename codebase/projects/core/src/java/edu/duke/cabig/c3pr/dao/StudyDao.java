@@ -2,14 +2,19 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.criterion.*;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -141,12 +146,12 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         getHibernateTemplate().initialize(study.getStudyDiseases());
         getHibernateTemplate().initialize(study.getStudyOrganizations());
         getHibernateTemplate().initialize(study.getIdentifiers());
-        getHibernateTemplate().initialize(study.getNotificationsInternal());
+        getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
         getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
-        for (Notification notification : study.getNotificationsInternal()) {
-            if (notification != null) {
-                getHibernateTemplate().initialize(notification.getEmailBasedRecipientInternal());
-                getHibernateTemplate().initialize(notification.getRoleBasedRecipientInternal());
+        for (PlannedNotification plannedNotification : study.getPlannedNotificationsInternal()) {
+            if (plannedNotification != null) {
+                getHibernateTemplate().initialize(plannedNotification.getUserBasedRecipientInternal());
+                getHibernateTemplate().initialize(plannedNotification.getRoleBasedRecipientInternal());
             }
         }
 
