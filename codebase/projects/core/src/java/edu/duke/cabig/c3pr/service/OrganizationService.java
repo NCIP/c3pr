@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 
@@ -29,5 +30,7 @@ public interface OrganizationService {
     public OrganizationDao getOrganizationDao();
 
     public String getSiteNameByNciIdentifier(String nciId);
+    
+    public void saveNotification(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException;
 
 }
