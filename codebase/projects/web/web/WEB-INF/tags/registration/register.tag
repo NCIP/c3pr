@@ -27,8 +27,9 @@ function submitRandomization(){
 	$('randomization').submit();
 }
 </script>
-<tags:panelBox title="Randomize" boxId="RegHere">
 	<form id="randomization" action="confirm?registrationId=${registration.id}" method="post">
+	<c:choose>
+	<c:when test="${actionRequired}">
 		<c:choose>
 		<c:when test="${requiresMultiSite}">
 			<strong>Subject ${newRegistration?"registration":"transfer"} requires co-ordinationg 
@@ -47,7 +48,7 @@ function submitRandomization(){
                 <tr><td align="left" colspan="2"></td></tr>
 				<tr><td class="labelR" width="150">Phone Number:</td><td >${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
 				<tr>
-				<c:if test="${registration.studySite.study.stratificationIndicator}">
+				<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
 				<td class="labelR">Stratum Group:</td><td> ${registration.stratumGroup}</td>
 				</c:if>
 				<tr>
@@ -77,8 +78,13 @@ function submitRandomization(){
 		</c:otherwise>
 		</c:choose>
 		</strong>
-		<div align="right"><input type="button" value="${actionLabel}" onClick="submitRandomization();"/></div>
+		
+	</c:when>
+	<c:otherwise>
+		<br> Please click on the button to register the subject on the study and the companion studies. </br>
+	</c:otherwise>
+	</c:choose>
+	<div align="right"><input type="button" value="${actionLabel}" onClick="submitRandomization();"/></div>
 		<br>
 		
 	</form>
-</tags:panelBox>
