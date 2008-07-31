@@ -20,6 +20,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -297,6 +298,40 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         }
 
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    }
+    
+    public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults){
+    	List<StudySubject> result = new ArrayList<StudySubject>();
+    	try{
+    		Criteria studySubjectCriteria = getSession().createCriteria(StudySubject.class);
+    		studySubjectCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+    		studySubjectCriteria.addOrder(Order.desc("id"));
+    		Example example = Example.create(registration).excludeZeroes().ignoreCase();
+    		example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
+    		studySubjectCriteria.add(example);
+
+    		studySubjectCriteria.add( Restrictions.disjunction()
+    				.add(Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.DISAPPROVED ) )
+		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.INVALID ) )
+		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.PENDING ) )
+		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.RESERVED ) ));
+
+    		if (maxResults > 0) {
+    			studySubjectCriteria.setMaxResults(maxResults);
+    		}
+    		result = studySubjectCriteria.add(example).list();
+    	}
+    	catch (DataAccessResourceFailureException e) {
+    		log.error(e.getMessage());
+    	}
+    	catch (IllegalStateException e) {
+    		e.printStackTrace(); 
+    	}
+    	catch (HibernateException e) {
+    		log.error(e.getMessage());
+    	}
+    	return result;
+
     }
 
     public void reassociate(StudySubject spa) {

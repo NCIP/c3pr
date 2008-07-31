@@ -223,4 +223,7 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
         return studySubjectDao.searchByExample(ss, maxResults);
     }
     
+    public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults) {
+        return studySubjectDao.getIncompleteRegistrations(registration, maxResults);
+    }
 }

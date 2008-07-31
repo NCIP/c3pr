@@ -31,4 +31,8 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     public int countAcrrualsByDate(Study study, Date startDate, Date endDate) {
         return studyDao.countAcrrualsByDate(study, startDate, endDate);
     }
+    
+    public List<Study> searchByExample(Study study, boolean isWildCard, int maxResults, String order, String orderBy) {
+        return studyDao.searchByExample(study, isWildCard, maxResults, order, orderBy);
+    }
 }

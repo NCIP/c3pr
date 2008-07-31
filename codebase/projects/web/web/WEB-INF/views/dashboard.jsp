@@ -42,6 +42,8 @@
             _CONTENT_
         </chrome:box>
         <chrome:box title="C3PR Development Notes">
+			<div id="c3pr-wiki"><a href="https://wiki.nci.nih.gov/display/CTMS/Cancer+Central+Clinical+Participant+Registry+%28C3PR%29" target="_blank"><b>C3PR Wiki</b></a></div>
+			<div id="c3pr-userguide"><a href="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide" target="_blank"><b>C3PR User Guide</b></a></div>
             <div id="build-name">Build Number: ${buildInfo.buildName}</div>
         </chrome:box>
     </td>
@@ -52,7 +54,6 @@
                     <tr bgcolor="${bgcolorAlternate}">
                         <td width="40%"><b>Subject Name</b></td>
                         <td width="35%"><b>Study Short Title</b></td>
-                        <td width="25%"><b>Last Updated by</b></td>
                     </tr>
                     <c:forEach var="registration" items="${uRegistrations}" varStatus="status">
 
@@ -62,7 +63,6 @@
                         <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
                             <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/registration/manageRegistration?registrationId=${registration.id}" />"><c:out value="${registration.participant.firstName} ${registration.participant.lastName}" /></a></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${registration.studySite.study.shortTitleText}" /></chrome:td>
-                            <chrome:td bgcolor="${bg}">placeHolder 1</chrome:td>
                         </chrome:tr>
 
                     </c:forEach>
@@ -74,9 +74,10 @@
             <%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
                 <table width="100%" cellspacing="1" cellpadding="2">
                     <tr bgcolor="${bgcolorAlternate}">
-                        <td width="40%"><b>Short Title</b></td>
-                        <td width="35%"><b>Coordinating Center</b></td>
-                        <td width="25%"><b>Last Updated by</b></td>
+                        <td width="25%"><b>Short Title</b></td>
+						<td width="25%"><b>Primary Identifier</b></td>
+                        <td width="30%"><b>Coordinating Center</b></td>
+						<td width="20%"><b>Phase</b></td>
                     </tr>
                     <c:forEach var="study" items="${pStudies}" varStatus="status">
 
@@ -85,8 +86,9 @@
 
                         <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
                             <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/study/viewStudy?studyId=${study.id}" />"><c:out value="${study.shortTitleText}" /></a></chrome:td>
+                            <chrome:td bgcolor="${bg}"><c:out value="${study.coordinatingCenterAssignedIdentifier.value}" /></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${study.studyCoordinatingCenters[0].healthcareSite.name}" /></chrome:td>
-                            <chrome:td bgcolor="${bg}">placeHolder 2</chrome:td>
+							<chrome:td bgcolor="${bg}"><c:out value="${study.phaseCode}" /></chrome:td>
                         </chrome:tr>
 
                     </c:forEach>
@@ -98,9 +100,10 @@
             <%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
                 <table width="100%" cellspacing="1" cellpadding="2">
                     <tr bgcolor="${bgcolorAlternate}">
-                        <td width="40%"><b>Short Title</b></td>
-                        <td width="35%"><b>Coordinating Center</b></td>
-                        <td width="25%"><b>Accrual w/in Last Week</b></td>
+                        <td width="25%"><b>Short Title</b></td>
+						<td width="25%"><b>Primary Identifier</b></td>                        
+						<td width="30%"><b>Coordinating Center</b></td>
+                        <td width="20%"><b>Accrual w/in Last Week</b></td>
                     </tr>
                     <c:forEach var="study" items="${aStudies}" varStatus="status">
 
@@ -109,6 +112,7 @@
 
                         <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
                             <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/study/viewStudy?studyId=${study.id}" />"><c:out value="${study.shortTitleText}" /></a></chrome:td>
+                            <chrome:td bgcolor="${bg}"><c:out value="${study.coordinatingCenterAssignedIdentifier.value}" /></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${study.studyCoordinatingCenters[0].healthcareSite.name}" /></chrome:td>
                             <chrome:td bgcolor="${bg}">${study.acrrualsWithinLastWeek}</chrome:td>
                         </chrome:tr>

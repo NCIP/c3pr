@@ -30,82 +30,93 @@ import java.io.IOException;
 
 public class DashboardController extends ParameterizableViewController {
 
-    protected static final Log log = LogFactory.getLog(DashboardController.class);
-    private Configuration configuration;
-    private String filename;
-    private StudyServiceImpl studyService;
-    private StudySubjectServiceImpl studySubjectService;
+	protected static final Log log = LogFactory.getLog(DashboardController.class);
+	private Configuration configuration;
+	private String filename;
+	private StudyServiceImpl studyService;
+	private StudySubjectServiceImpl studySubjectService;
 
-    public static final int MAX_RESULTS = 5;
+	public static final int MAX_RESULTS = 5;
 
-    CSMUserRepository csmUserRepository;
+	CSMUserRepository csmUserRepository;
 
-    public void setCsmUserRepository(CSMUserRepository csmUserRepository) {
-        this.csmUserRepository = csmUserRepository;
-    }
+	public void setStudyService(StudyServiceImpl studyService) {
+		this.studyService = studyService;
+	}
 
-    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+	public void setStudySubjectService(StudySubjectServiceImpl studySubjectService) {
+		this.studySubjectService = studySubjectService;
+	}
 
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication auth = context.getAuthentication();
-        GrantedAuthority[] groups = auth.getAuthorities();
+	public void setCsmUserRepository(CSMUserRepository csmUserRepository) {
+		this.csmUserRepository = csmUserRepository;
+	}
 
-        filename = "default.links.properties";
+	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        for (GrantedAuthority ga : groups) {
-            if (DashboardController.class.getClassLoader().getResource(ga.getAuthority() + ".links.properties") != null) {
-                filename = ga.getAuthority() + ".links.properties";
-                log.debug("Found rolebased links file: " + filename);
-                break;
-            }
-        }
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		GrantedAuthority[] groups = auth.getAuthorities();
 
-//        filename = "default.links.property";
-        Properties p = new Properties();
-        try {
-            p.load(DashboardController.class.getClassLoader().getResourceAsStream(filename));
-            log.debug("The links file has " + p.keySet().size() + " elements.");
-            httpServletRequest.setAttribute("links", new PropertyWrapper(p));
-        } catch (IOException e) {
-            log.error("Error while trying to read the property file: [" + filename + "]");
-        }
+		filename = "default.links.properties";
 
-        Study study = new Study(true);
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-        List<Study> studies = studyService.searchByExample(study, MAX_RESULTS);
-        log.debug("Pending studies found: " + studies.size());
-        httpServletRequest.setAttribute("pStudies", studies);
+		for (GrantedAuthority ga : groups) {
+			if (DashboardController.class.getClassLoader().getResource(ga.getAuthority() + ".links.properties") != null) {
+				filename = ga.getAuthority() + ".links.properties";
+				log.debug("Found rolebased links file: " + filename);
+				break;
+			}
+		}
 
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-        studies = studyService.searchByExample(study, MAX_RESULTS);
-        log.debug("Active studies found: " + studies.size());
+		Properties p = new Properties();
+		try {
+			p.load(DashboardController.class.getClassLoader().getResourceAsStream(filename));
+			log.debug("The links file has " + p.keySet().size() + " elements.");
+			request.setAttribute("links", new PropertyWrapper(p));
+		} catch (IOException e) {
+			log.error("Error while trying to read the property file: [" + filename + "]");
+		}
 
-        // computing 7 days back
-        Calendar cal = Calendar.getInstance();
-        Date endDate = new Date(System.currentTimeMillis());
-        cal.setTime(endDate);
-        cal.roll(Calendar.DATE, -6);
-        Date startDate = new Date(cal.getTime().getTime());
+		getMostActiveStudies(request);
+		getRecentPendingStudies(request);
+		getRecentPendingRegistrations(request);
 
-        for (Study st: studies) {
-            st.setAcrrualsWithinLastWeek(studyService.countAcrrualsByDate(st, startDate, endDate));
-        }
-        httpServletRequest.setAttribute("aStudies", studies);
+		return super.handleRequestInternal(request, response);
+	}
 
-        StudySubject ss= new StudySubject(true);
-        // ss.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
-        List<StudySubject> registrations = studySubjectService.searchByExample(ss, MAX_RESULTS);
-        log.debug("Unregistred Registrations found: " + registrations.size());
-        httpServletRequest.setAttribute("uRegistrations", registrations);
 
-        return super.handleRequestInternal(httpServletRequest, httpServletResponse);
-    }
 
-    public void setStudyService(StudyServiceImpl studyService) {
-        this.studyService = studyService;
-    }
+	private void getMostActiveStudies(HttpServletRequest request){
+		Study study = new Study(true);
+		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+		List<Study> studies = studyService.searchByExample(study, false, MAX_RESULTS, "descending" , "id");
+		log.debug("Active studies found: " + studies.size());
 
-    public void setStudySubjectService(StudySubjectServiceImpl studySubjectService) {
-        this.studySubjectService = studySubjectService;
-    }
+		Calendar cal = Calendar.getInstance();
+		Date endDate = new Date(System.currentTimeMillis());
+		cal.setTime(endDate);
+		cal.roll(Calendar.DATE, -6);
+		Date startDate = new Date(cal.getTime().getTime());
+
+		for (Study st: studies) {
+			st.setAcrrualsWithinLastWeek(studyService.countAcrrualsByDate(st, startDate, endDate));
+		}
+		request.setAttribute("aStudies", studies);
+	}
+
+	private void getRecentPendingStudies(HttpServletRequest request){
+		Study study = new Study(true);
+		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		List<Study> studies = studyService.searchByExample(study, false, MAX_RESULTS, "descending" , "id");
+		log.debug("Pending studies found: " + studies.size());
+		request.setAttribute("pStudies", studies);
+	}
+
+	private void getRecentPendingRegistrations(HttpServletRequest request){
+		StudySubject registration = new StudySubject();
+		List<StudySubject> registrations = studySubjectService.getIncompleteRegistrations(registration, MAX_RESULTS);
+		log.debug("Unregistred Registrations found: " + registrations.size());
+		Collections.reverse(registrations);
+		request.setAttribute("uRegistrations", registrations);
+	}
 }
