@@ -8,7 +8,7 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 public enum RegistrationWorkFlowStatus implements CodedEnum<String> {
     UNREGISTERED("Unregistered"), PENDING("Pending"), DISAPPROVED("Disapproved"), RESERVED(
                     "Reserved"), REGISTERED("Registered"), OFF_STUDY("Off-Study"), INVALID(
-                    "Invalid");
+                    "Invalid"), READY_FOR_REGISTRATION("Ready for registration");
 
     private String code;
 
