@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.OrganizationService;
@@ -39,7 +40,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     private CSMObjectIdGenerator siteObjectIdGenerator;
 
     private Logger log = Logger.getLogger(OrganizationService.class);
-
+    
+    
+    public void saveNotification(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException {
+        organizationDao.save(organization);
+    }
+    
     public void save(HealthcareSite site) throws C3PRBaseException, C3PRBaseRuntimeException {
         createGroupForOrganization(site);
         organizationDao.save(site);
