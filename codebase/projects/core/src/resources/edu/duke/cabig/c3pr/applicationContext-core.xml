@@ -116,14 +116,17 @@
                 <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
                 <value>gov.nih.nci.cabig.ctms.tools.configuration.DefaultConfigurationEntry</value>
-                <value>edu.duke.cabig.c3pr.domain.Notification</value>
+                <value>edu.duke.cabig.c3pr.domain.PlannedNotification</value>
                 <value>edu.duke.cabig.c3pr.domain.Recipient</value>
-                <value>edu.duke.cabig.c3pr.domain.EmailBasedRecipient</value>
+                <value>edu.duke.cabig.c3pr.domain.UserBasedRecipient</value>
                 <value>edu.duke.cabig.c3pr.domain.RoleBasedRecipient</value>
+                <value>edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient</value>
              	<value>edu.duke.cabig.c3pr.domain.InvestigatorGroup</value>
                 <value>edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation</value>
                 <value>edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy</value>
                 <value>edu.duke.cabig.c3pr.domain.CompanionStudyAssociation</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledNotification</value>
+                <value>edu.duke.cabig.c3pr.domain.RecipientScheduledNotification</value>
             </list>
         </property>
         <property name="entityInterceptor">
