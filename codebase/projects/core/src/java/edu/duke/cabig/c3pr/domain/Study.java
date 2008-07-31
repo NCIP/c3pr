@@ -1054,6 +1054,18 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		// Pending.
 		if (this.getId() == null) {
 			this.setCoordinatingCenterStudyStatus(targetStatus);
+			if(targetStatus == CoordinatingCenterStudyStatus.ACTIVE && this.getCompanionStudyAssociations().size() > 0 ){
+				for(CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()){
+					if(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
+							|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE){
+						compStudyAssoc.getCompanionStudy().setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+					}else if(compStudyAssoc.getMandatoryIndicator() 
+							&& !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
+							|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)){
+						throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
+					}
+				}
+			}
 		} else {
 			if (statusSettable(this, targetStatus)) {
 				this.setCoordinatingCenterStudyStatus(targetStatus);
