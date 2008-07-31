@@ -404,7 +404,7 @@
             <th width="45%" scope="col" align="left"><b>Email</b></th>
             <th width="40%" scope="col" align="left"><b>Role</b></th>
         </tr>
-        <c:forEach items="${command.notifications}" var="notification">
+        <c:forEach items="${command.plannedNotifications}" var="notification">
             <tr>
                 <td class="alt">${notification.threshold}</td>
                 <td class="alt">${notification.emailAddresses}</td>
