@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +30,11 @@ public class ResearchStaff extends User {
     private String fullName;
 
     private HealthcareSite healthcareSite;
-    // / LOGIC ~
-
-
+    
+	public ResearchStaff() {
+		super();
+	}
+	
 	@Transient
     public String getLastFirst() {
         StringBuilder name = new StringBuilder();
