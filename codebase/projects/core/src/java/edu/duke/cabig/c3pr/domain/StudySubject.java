@@ -88,7 +88,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     
     private String disapprovalReasonText;
     
-    private List<StudySubject> childStudySubjects ;
+    private List<StudySubject> childStudySubjects = new ArrayList<StudySubject>();
     
     private StudySubject parentStudySubject ;
     
@@ -617,6 +617,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     }
     
     @OneToMany(mappedBy = "parentStudySubject" )
+    @Cascade(value = { CascadeType.ALL})
 	public List<StudySubject> getChildStudySubjects() {
 		return childStudySubjects;
 	}
@@ -639,4 +640,5 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 	public void setParentStudySubject(StudySubject parentStudySubject) {
 		this.parentStudySubject = parentStudySubject;
 	}
+	
 }
