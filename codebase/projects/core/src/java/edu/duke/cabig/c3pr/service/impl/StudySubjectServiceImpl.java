@@ -91,53 +91,61 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
         if (studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED) {
             return studySubject;
         }
-        ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
-        if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE) {
-            if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.DISAPPROVED) {
-                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
-            }
-            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
-                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
-            }
-            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.APPROVED) {
-                if (scheduledEpoch.isReserving()) {
-                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
-                }
-                else if (scheduledEpoch.getEpoch().isEnrolling()) {
-                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
-                    try {
-                        this.notificationEmailer.sendEmail(studySubject);
-                        broadcastMessage(studySubject);
-                    }
-                    catch (C3PRCodedException e) {
-                        logger.error(e.getMessage());
-                        studySubject
-                                        .setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
-                    }
-                    catch (Exception e) {
-                     // TODO throw a C3PRCodedUncheckedException
-                        throw new RuntimeException(e);
-                    }
-                    try{
-                        if(studySubject.requiresAffiliateSiteResponse()){
-                            sendRegistrationResponse(studySubject);
-                        }
-                    }catch(RuntimeException e){
-                        logger.error(e.getMessage());
-                        studySubject
-                                        .setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_FAILED);
-                    }
-                }
-                else {
-                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
-                }
-            }
-            else {
-                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
-            }
-        }
-        else {
-            studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+        if(!studySubject.getStudySite().getStudy().getStandaloneIndicator() && studySubject.isDataEntryComplete()){
+        	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.READY_FOR_REGISTRATION);
+        }else{
+	        ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
+	        if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE) {
+	            if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.DISAPPROVED) {
+	                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
+	            }
+	            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+	                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+	            }
+	            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.APPROVED) {
+	            	if (scheduledEpoch.isReserving()) {
+	                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
+	                }
+	                else if (scheduledEpoch.getEpoch().isEnrolling()) {
+	                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+	                    for(StudySubject childStudySubject: studySubject.getChildStudySubjects()){
+	                    	this.register(childStudySubject);
+	                    	childStudySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+	                    }
+	                    try {
+	                        this.notificationEmailer.sendEmail(studySubject);
+	                        broadcastMessage(studySubject);
+	                    }
+	                    catch (C3PRCodedException e) {
+	                        logger.error(e.getMessage());
+	                        studySubject
+	                                        .setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
+	                    }
+	                    catch (Exception e) {
+	                     // TODO throw a C3PRCodedUncheckedException
+	                        throw new RuntimeException(e);
+	                    }
+	                    try{
+	                        if(studySubject.requiresAffiliateSiteResponse()){
+	                            sendRegistrationResponse(studySubject);
+	                        }
+	                    }catch(RuntimeException e){
+	                        logger.error(e.getMessage());
+	                        studySubject
+	                                        .setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_FAILED);
+	                    }
+	                }
+	                else {
+	                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+	                }
+	            }
+	            else {
+	                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+	            }
+	        }
+	        else {
+	            studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+	        }
         }
         return studySubjectRepository.save(studySubject);
     }
