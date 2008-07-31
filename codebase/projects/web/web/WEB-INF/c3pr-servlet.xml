@@ -135,20 +135,7 @@
     </bean>
     <!-- mapping for REPORT task -->
 
-    <!-- mapping for create/search ORGANIZATION task -->
-    <bean name="/admin/searchOrganization" id="searchOrganizationController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
-        <property name="viewName" value="/admin/organization_search"/>
-    </bean>
-    
-    <!-- mapping for NOTIFICATIONS task 
-    <bean name="/admin/notification" id="createNotificationsController"
-          lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateNotificationsController"
-          autowire="byName">
-        <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand"/>
-        <property name="formView" value="/admin/notification"/>
-        <property name="successView" value="/admin/notification"/>
-    </bean>-->
+	<!-- mapping for NOTIFICATIONS task 
     <bean name="/admin/notification" id="createNotificationController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/admin/notification"/>
@@ -156,8 +143,28 @@
     <bean name="/admin/notification_emailDetails" id="createNotificationEmailDetails"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/admin/notification_emailDetails"/>
+    </bean> -->
+    <bean name="/admin/searchNotification" id="searchNotificationController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/notification_search"/>
     </bean>
     
+    <bean name="/admin/createNotification" id="createNotificationController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateNotificationController" autowire="byName">
+        <property name="commandName" value="command"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Organization"/>
+        <property name="formView" value="admin/notification_details"/>
+        <property name="successView" value="admin/notification_confirmation"/>
+        <property name="sessionForm" value="true"/>
+    </bean>
+    <!-- mapping for NOTIFICATIONS task -->
+    
+    
+    <!-- mapping for create/search ORGANIZATION task -->
+    <bean name="/admin/searchOrganization" id="searchOrganizationController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/organization_search"/>
+    </bean>
 
     <bean name="/admin/createOrganization" id="createOrganizationController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
@@ -526,6 +533,24 @@
                                                     autowire="byType"
                                                     p:displayName="Create Organization"
                                                     p:linkName="createOrganizationController"/>
+                                    </list>
+                                </property>
+                                
+                            </bean>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Notification"
+                                    p:linkName="searchNotificationController">
+                                <property name="subTasks">
+                                    <list>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Search Notification"
+                                                    p:linkName="searchNotificationController"/>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Create Notification"
+                                                    p:linkName="createNotificationController"/>
                                     </list>
                                 </property>
                                 
