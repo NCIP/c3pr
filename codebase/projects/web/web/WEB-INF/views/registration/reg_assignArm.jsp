@@ -22,7 +22,7 @@
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 	<c:choose>
-	<c:when test="${!command.scheduledEpoch.requiresArm}">
+	<c:when test="${empty command.scheduledEpoch.epoch.arms}">
 			<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_ARM_ASSIGNMENT_INVOLVED"/></div><br><br>
 	</c:when>
 	<c:otherwise>
