@@ -160,8 +160,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 								OrganizationAssignedIdentifier.class));
 		lazyListHelper.add(StudyAmendment.class,
 				new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
-		lazyListHelper.add(Notification.class,
-				new InstantiateFactory<Notification>(Notification.class));
+		lazyListHelper.add(PlannedNotification.class,
+				new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
 		lazyListHelper
 		.add(
 				Epoch.class,
@@ -215,8 +215,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 								OrganizationAssignedIdentifier.class));
 		lazyListHelper.add(StudyAmendment.class,
 				new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
-		lazyListHelper.add(Notification.class,
-				new InstantiateFactory<Notification>(Notification.class));
+		lazyListHelper.add(PlannedNotification.class,
+				new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
@@ -530,24 +530,24 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	}
 
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "stu_id", nullable = false)
+	@JoinColumn(name = "stu_id", nullable = true)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("id")
-	public List<Notification> getNotificationsInternal() {
-		return lazyListHelper.getInternalList(Notification.class);
+	public List<PlannedNotification> getPlannedNotificationsInternal() {
+		return lazyListHelper.getInternalList(PlannedNotification.class);
 	}
 
-	public void setNotificationsInternal(final List<Notification> notifications) {
-		lazyListHelper.setInternalList(Notification.class, notifications);
+	public void setPlannedNotificationsInternal(final List<PlannedNotification> plannedNotifications) {
+		lazyListHelper.setInternalList(PlannedNotification.class, plannedNotifications);
 	}
 
 	@Transient
-	public List<Notification> getNotifications() {
-		return lazyListHelper.getLazyList(Notification.class);
+	public List<PlannedNotification> getPlannedNotifications() {
+		return lazyListHelper.getLazyList(PlannedNotification.class);
 	}
 
-	public void setNotifications(final List<Notification> notifications) {
+	public void setPlannedNotifications(final List<PlannedNotification> plannedNotifications) {
 	}
 
 	public void setEpochsInternal(final List<Epoch> epochs) {
