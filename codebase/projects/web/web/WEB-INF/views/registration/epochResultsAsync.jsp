@@ -27,10 +27,10 @@
 
             <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
-				onClick="postProcessEpochSelection('${epoch.id}','${epoch.name}', '${epoch.enrollmentIndicator}')">					
+				onClick="postProcessEpochSelection('${epoch.id}','${epoch.name}', '${epoch.enrollmentIndicator?'Enrolling':'Non-Enrolling'}')">					
 					<td>${epoch.name}</td>
 					<td>${epoch.descriptionText}</a></td>
-					<td>${epoch.enrollmentIndicator}</td>
+					<td>${epoch.enrollmentIndicator?'Yes':'No'}</td>
 				</tr>
 			</c:forEach>
 			</tbody>
