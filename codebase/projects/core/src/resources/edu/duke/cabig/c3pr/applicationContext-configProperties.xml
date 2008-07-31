@@ -577,8 +577,42 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>
                		</list>
                	</entry>
-               	
-               	
+               	<entry key="notificationEventsRefData">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="NEW_REGISTRATION" />
+                            <property name="desc" value="New Registration" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_STATUS_CHANGED_EVENT" />
+                            <property name="desc" value="Study Status Changes" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SUBJECT_REMOVED_OFF_STUDY" />
+                            <property name="desc" value="Subject Removed Off Study" />
+                        </bean>                     
+               		</list>
+               	</entry>
+               	<entry key="notificationFrequencyRefData">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="ANNUAL" />
+                            <property name="desc" value="Annual" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="MONTHLY" />
+                            <property name="desc" value="Monthly" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="WEEKLY" />
+                            <property name="desc" value="Weekly" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="IMMEDIATE" />
+                            <property name="desc" value="Immediate" />
+                        </bean>                     
+               		</list>
+               	</entry>
                	
             </map>
         </property>                      
