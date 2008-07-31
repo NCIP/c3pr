@@ -13,8 +13,8 @@ import org.springframework.mail.SimpleMailMessage;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
-import edu.duke.cabig.c3pr.domain.EmailBasedRecipient;
-import edu.duke.cabig.c3pr.domain.Notification;
+import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -51,7 +51,7 @@ public class StudyTargetAccrualNotificationEmail {
         int totalAccrual = calculateTotalAccrual(study);
         List<String> emailList = null;
 
-        for (Notification nf : study.getNotifications()) {
+        for (PlannedNotification nf : study.getPlannedNotifications()) {
             if (totalAccrual >= nf.getThreshold()) {
                 emailList = generateEmailList(study, nf);
                 for (String emailAddress : emailList) {
@@ -82,11 +82,11 @@ public class StudyTargetAccrualNotificationEmail {
      * has the role String...the corresponding personnel in that role for that study have to be
      * retrieved and their email addresses have to be addded to the finalList.
      */
-    public List<String> generateEmailList(Study study, Notification nf) {
+    public List<String> generateEmailList(Study study, PlannedNotification nf) {
 
         List<String> finalList = new ArrayList<String>();
 
-        for (EmailBasedRecipient er : nf.getEmailBasedRecipient()) {
+        for (UserBasedRecipient er : nf.getUserBasedRecipient()) {
             finalList.add(er.getEmailAddress());
         }
         for (RoleBasedRecipient rr : nf.getRoleBasedRecipient()) {
