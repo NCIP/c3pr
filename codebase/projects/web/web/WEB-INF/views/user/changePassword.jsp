@@ -7,7 +7,7 @@
   <title>Change Password</title>
   <style type="text/css">
     .box {
-      width: 30em;
+      width: 40em;
       margin: 0 auto;
     }
     .submit {
@@ -30,27 +30,27 @@
       <form:form action="${action}">
 	<p class="errors">${change_pwd_error.message}</p>
 	<div class="row">
-	<div class="label">Username</div>
+	<div class="label">Username &nbsp;&nbsp;</div>
 	<div class="value">
 	  <form:input path="userName"/>
 	</div>
 	</div>
 	<div class="row">
-	  <div class="label">New Password</div>
+	  <div class="label">New Password &nbsp;&nbsp;</div>
 	  <div class="value">
 	    <form:password path="password"/>
 	  </div>
 	</div>
 	<div class="row">
-	  <div class="label">Confirm Password</div>
+	  <div class="label">Confirm Password &nbsp;&nbsp;</div>
 	  <div class="value">
 	    <form:password path="passwordConfirm"/>
 	  </div>
 	</div>
-	<div class="row">
-	  <div class="submit">
+	<div class="row" align="center">
+	  <td class="submit">
 	    <input type="submit" value="Change Password"/>
-	  </div>
+	  </td>
 	</div>
 	<form:hidden path="token"/>
       </form:form>

@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 
@@ -35,14 +36,19 @@ public class ResetPasswordController extends SimpleFormController {
 
     @Override
     protected ModelAndView onSubmit(Object command, BindException errors) throws Exception {
-        UserName userName = (UserName) command;
-        String token = passwordManagerService.requestToken(userName.getUserName());
-        System.out.println("########### URL ############### " + userName.getURL() + "&token=" + token);
-        csmUserRepository.sendUserEmail(userName.getUserName(), "Reset C3PR Password", emailPretext
-                + userName.getURL() + "&token=" + token + emailPosttext);
-        return new ModelAndView("user/emailSent");
+    	UserName userName = (UserName) command;
+    	try{
+    		String token = passwordManagerService.requestToken(userName.getUserName());
+    		csmUserRepository.sendUserEmail(userName.getUserName(), "Reset C3PR Password", emailPretext
+    				+ userName.getURL() + "&token=" + token + emailPosttext);
+    		ModelAndView modelAndView = new ModelAndView("user/emailSent", errors.getModel());
+    		return modelAndView;
+    	}catch (C3PRBaseRuntimeException e) {
+    		ModelAndView modelAndView = new ModelAndView("user/resetPassword", errors.getModel());
+    		return modelAndView.addObject("reset_pwd_error", e.getMessage());
+    	}
     }
-
+    
     private void initEmailText() {
         emailPretext = ""
                 + "Did you forgot your password?\n"

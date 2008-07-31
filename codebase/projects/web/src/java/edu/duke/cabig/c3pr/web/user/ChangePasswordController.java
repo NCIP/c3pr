@@ -8,6 +8,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordPolicyService;
@@ -46,6 +47,8 @@ public class ChangePasswordController extends SimpleFormController {
             return modelAndView.addObject("updated", true);
         } catch (C3PRBaseRuntimeException e) {
             return modelAndView.addObject("change_pwd_error", e);
+        }catch(C3PRBaseException e){
+        	return modelAndView.addObject("change_pwd_error", e);
         }
     }
 

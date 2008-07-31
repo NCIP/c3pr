@@ -7,7 +7,7 @@
 	  <title>Reset Password</title>
 	  <style type="text/css">
 	    .box {
-	     width: 31em;
+	     width: 40em;
 	     margin: 0 auto;
 	    }
 	    .submit {
@@ -20,20 +20,17 @@
 	  <chrome:box title="Please enter your username" autopad="true">
 	  <c:url value="/public/user/resetPassword" var="action"/>
 	    <form:form action="${action}">
-	      <p class="errors">${reset_pwd_error}</p>
+			<p class="errors">${reset_pwd_error}</p>
 	      <div class="row">
-				<div class="label"">
-					Username  &nbsp;&nbsp
-				</div> 
-				<div class="value">
-				  <form:input path="userName"/>
-				</div>
+				<div class="label required-indicator">Username &nbsp;&nbsp;</div> 
+				<td class="label"><form:input cssClass="validate-notEmpty" path="userName"/></td>
 		  </div>
-		  <div class="row">
-			<div class="submit">
+		  <div class="row"  align="center">
+			<td class="submit">
 		  		<input type="submit" value="Reset Password"/>
-			</div>
+			</td>
 	      </div>
+
 	    </form:form>
 	  </chrome:box>
 	</body>
