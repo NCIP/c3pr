@@ -9,5 +9,14 @@
     <INVESTIGATOR_GROUPS id="1000" version="1" name="MD GROUP" description_text="this is md group" hcs_id="1000" retired_indicator = "false" />
     <INVESTIGATOR_GROUPS id="1001" version="1" name="BREAST CANCER GROUP" hcs_id="1001" description_text="this is breast cancer group" retired_indicator = "false" />
     <INVESTIGATOR_GROUPS id="1002" version="1" name="LEUKEMIA GROUP" hcs_id="1000" description_text="this is leukemia group" retired_indicator = "false" />
-        
+    
+    <RESEARCH_STAFF id="1000" version="1" first_name="Research Bill" last_name="Dahr" hcs_id="1000" />
+    
+    <PLANNED_NOTFNS id="1000" version="1" threshold="10"/>
+    
+    <schld_notfns id="1000" version="1"/>
+
+    <RECIPIENTS id="1000" version="1" PLANNED_NOTFNS_id="1000"/> 
+    
+    <contact_mechanisms id="1000" version="1" />
  </dataset>
