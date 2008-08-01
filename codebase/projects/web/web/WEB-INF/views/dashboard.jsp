@@ -62,9 +62,10 @@
 
                         <c:if test="${status.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
                         <c:if test="${status.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
-
-                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
-                            <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/registration/manageRegistration?registrationId=${registration.id}" />"><c:out value="${registration.participant.firstName} ${registration.participant.lastName}" /></a></chrome:td>
+							
+						<c:url var="_url" value="/pages/registration/manageRegistration?registrationId=${registration.id}" />
+                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}" _url="${_url}">
+                            <chrome:td bgcolor="${bg}"><c:out value="${registration.participant.firstName} ${registration.participant.lastName}" /></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${registration.participant.MRN.value}" /></chrome:td>
                         	<chrome:td bgcolor="${bg}"><c:out value="${registration.studySite.study.shortTitleText}" /></chrome:td>
 							<chrome:td bgcolor="${bg}"><c:out value="${registration.regWorkflowStatus}" /></chrome:td>
@@ -89,8 +90,9 @@
                         <c:if test="${status.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
                         <c:if test="${status.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
 
-                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
-                            <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/study/viewStudy?studyId=${study.id}" />"><c:out value="${study.shortTitleText}" /></a></chrome:td>
+						<c:url var="_url" value="/pages/study/viewStudy?studyId=${study.id}" />
+                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}" _url="${_url}">
+                            <chrome:td bgcolor="${bg}"><c:out value="${study.shortTitleText}" /></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${study.coordinatingCenterAssignedIdentifier.value}" /></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${study.studyCoordinatingCenters[0].healthcareSite.name}" /></chrome:td>
 							<chrome:td bgcolor="${bg}"><c:out value="${study.phaseCode}" /></chrome:td>
@@ -114,9 +116,10 @@
 
                         <c:if test="${status.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
                         <c:if test="${status.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
-
-                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
-                            <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/study/viewStudy?studyId=${study.id}" />"><c:out value="${study.shortTitleText}" /></a></chrome:td>
+						
+						<c:url var="_url" value="/pages/study/viewStudy?studyId=${study.id}" />
+                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}" _url="${_url}">
+                            <chrome:td bgcolor="${bg}"><c:out value="${study.shortTitleText}" /></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${study.coordinatingCenterAssignedIdentifier.value}" /></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${study.studyCoordinatingCenters[0].healthcareSite.name}" /></chrome:td>
                             <chrome:td bgcolor="${bg}">${study.acrrualsWithinLastWeek}</chrome:td>
