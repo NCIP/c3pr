@@ -306,20 +306,20 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     		Criteria studySubjectCriteria = getSession().createCriteria(StudySubject.class);
     		studySubjectCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
     		studySubjectCriteria.addOrder(Order.desc("id"));
-    		Example example = Example.create(registration).excludeZeroes().ignoreCase();
-    		example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
-    		studySubjectCriteria.add(example);
-
     		studySubjectCriteria.add( Restrictions.disjunction()
     				.add(Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.DISAPPROVED ) )
-		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.INVALID ) )
 		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.PENDING ) )
+		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.UNREGISTERED ) )
 		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.RESERVED ) ));
-
+    	    
     		if (maxResults > 0) {
     			studySubjectCriteria.setMaxResults(maxResults);
     		}
-    		result = studySubjectCriteria.add(example).list();
+
+    		Example example = Example.create(registration).excludeZeroes().ignoreCase();
+    		studySubjectCriteria.add(example);
+
+    		result = studySubjectCriteria.list();
     	}
     	catch (DataAccessResourceFailureException e) {
     		log.error(e.getMessage());

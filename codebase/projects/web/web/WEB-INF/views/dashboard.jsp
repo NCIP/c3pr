@@ -52,8 +52,10 @@
             <c:if test="${uRegistrations != null && fn:length(uRegistrations) > 0}">
                 <table width="100%" cellspacing="1" cellpadding="2">
                     <tr bgcolor="${bgcolorAlternate}">
-                        <td width="40%"><b>Subject Name</b></td>
-                        <td width="35%"><b>Study Short Title</b></td>
+                        <td width="25%"><b>Subject Name</b></td>
+						<td width="25%"><b>Subject Medical Record #</b></td>
+                        <td width="30%"><b>Study Short Title</b></td>
+						<td width="20%"><b>Registration Status</b></td>
                     </tr>
                     <c:forEach var="registration" items="${uRegistrations}" varStatus="status">
 
@@ -62,7 +64,9 @@
 
                         <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
                             <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/registration/manageRegistration?registrationId=${registration.id}" />"><c:out value="${registration.participant.firstName} ${registration.participant.lastName}" /></a></chrome:td>
-                            <chrome:td bgcolor="${bg}"><c:out value="${registration.studySite.study.shortTitleText}" /></chrome:td>
+                            <chrome:td bgcolor="${bg}"><c:out value="${registration.participant.MRN.value}" /></chrome:td>
+                        	<chrome:td bgcolor="${bg}"><c:out value="${registration.studySite.study.shortTitleText}" /></chrome:td>
+							<chrome:td bgcolor="${bg}"><c:out value="${registration.regWorkflowStatus}" /></chrome:td>
                         </chrome:tr>
 
                     </c:forEach>

@@ -113,7 +113,7 @@ public class DashboardController extends ParameterizableViewController {
 	}
 
 	private void getRecentPendingRegistrations(HttpServletRequest request){
-		StudySubject registration = new StudySubject();
+		StudySubject registration = new StudySubject(true);
 		List<StudySubject> registrations = studySubjectService.getIncompleteRegistrations(registration, MAX_RESULTS);
 		log.debug("Unregistred Registrations found: " + registrations.size());
 		Collections.reverse(registrations);
