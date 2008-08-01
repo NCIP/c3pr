@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
@@ -31,6 +32,11 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
 
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
+    }
+
+    private RegistrationControllerUtils registrationControllerUtils;
+    public void setRegistrationControllerUtils(RegistrationControllerUtils registrationControllerUtils) {
+        this.registrationControllerUtils = registrationControllerUtils;
     }
 
     public RegistrationOverviewTab() {
@@ -83,7 +89,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         map.put("requiresMultiSite", studySubjectService
                         .requiresExternalApprovalForRegistration(studySubject));
         map.put("multisiteEnable", new Boolean(this.configuration.get(Configuration.MULTISITE_ENABLE)));
-        addAppUrls(map);
+        registrationControllerUtils.addAppUrls(map);
         return map;
     }
 
@@ -142,31 +148,5 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
 
     public void setStudySubjectService(StudySubjectService studySubjectService) {
         this.studySubjectService = studySubjectService;
-    }
-
-    private void addAppUrls(Map<String, Object> map) {
-        if (this.configuration.get(this.configuration.AUTHENTICATION_MODEL).equals("webSSO")) {
-            map.put("hotlinkEnable", new Boolean(true));
-            if (!StringUtils
-                            .getBlankIfNull(this.configuration.get(this.configuration.PSC_BASE_URL))
-                            .equalsIgnoreCase("")) {
-                map.put("pscBaseUrl", this.configuration.get(this.configuration.PSC_BASE_URL));
-            }
-            if (!StringUtils.getBlankIfNull(
-                            this.configuration.get(this.configuration.CAAERS_BASE_URL))
-                            .equalsIgnoreCase("")) {
-                map
-                                .put("caaersBaseUrl", this.configuration
-                                                .get(this.configuration.CAAERS_BASE_URL));
-            }
-            if (!StringUtils
-                            .getBlankIfNull(this.configuration.get(this.configuration.C3D_BASE_URL))
-                            .equalsIgnoreCase("")) {
-                map.put("c3dBaseUrl", this.configuration.get(this.configuration.C3D_BASE_URL));
-            }
-        }
-        else {
-            map.put("hotlinkEnable", new Boolean(false));
-        }
     }
 }
