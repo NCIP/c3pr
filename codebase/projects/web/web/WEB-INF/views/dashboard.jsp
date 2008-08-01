@@ -42,9 +42,10 @@
             _CONTENT_
         </chrome:box>
         <chrome:box title="C3PR Development Notes">
+			<br>			
 			<div id="c3pr-wiki"><a href="https://wiki.nci.nih.gov/display/CTMS/Cancer+Central+Clinical+Participant+Registry+%28C3PR%29" target="_blank"><b>C3PR Wiki</b></a></div>
 			<div id="c3pr-userguide"><a href="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide" target="_blank"><b>C3PR User Guide</b></a></div>
-            <div id="build-name">Build Number: ${buildInfo.buildName}</div>
+       		<div id="build-name">Build Number: ${buildInfo.buildName}</div>
         </chrome:box>
     </td>
     <td valign="top">
