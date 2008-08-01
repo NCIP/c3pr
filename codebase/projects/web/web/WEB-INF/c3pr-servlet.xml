@@ -305,6 +305,10 @@
         <property name="formView" value="/registration/reg_confirm_reg"/>
         <property name="successView" value="/registration/reg_confirm_reg"/>
     </bean>
+    <bean id="registrationControllerUtils"
+          class="edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils"
+          autowire="byName">
+    </bean>
 
     <bean name="/admin/searchInvestigator" id="searchInvestigatorController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
