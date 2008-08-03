@@ -1,8 +1,10 @@
 package edu.duke.cabig.c3pr.web.admin;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,14 +18,14 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.constants.NotificationEventType;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
-import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 
 /*
  * @author Vinay Gangoli
@@ -32,7 +34,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
  * called from the admin/createNotification flow.
  * Uses the Organization as the mapped hibernate object for persistence.
  */
-public class CreateNotificationController extends SimpleFormController{
+public class CreateNotificationController extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(CreateNotificationController.class);
 
@@ -43,6 +45,8 @@ public class CreateNotificationController extends SimpleFormController{
     private ConfigurationProperty configurationProperty;
     
     private Configuration configuration;
+    
+    private InPlaceEditableTab<Organization> page;
 
     protected Object formBackingObject(HttpServletRequest request) throws Exception {    	
     	String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);    	
@@ -77,23 +81,42 @@ public class CreateNotificationController extends SimpleFormController{
     protected ModelAndView processFormSubmission(HttpServletRequest request,
                     HttpServletResponse response, Object command, BindException errors)
                     throws Exception {
+    	
+    	if (isAjaxRequest(request)) {
+			request.getParameter("_asynchronous");
+			ModelAndView modelAndView = page.postProcessAsynchronous(request,
+					(Organization) command, errors);
+//			if (!errors.hasErrors() && shouldSave(request, (Organization) command)) {
+//				command = save((Organization) command, errors);
+//			}
+//			organizationService.saveNotification((Organization) command);
+			
+			request.setAttribute(getFormSessionAttributeName(), command);
+			if (isAjaxResponseFreeText(modelAndView)) {
+				respondAjaxFreeText(modelAndView, response);
+				return null;
+			}
+			return modelAndView;
+		} else {
+			
+			Organization organization = null;
+	        log.debug("Inside the CreateNotificationController:");
+	        if (command instanceof Organization) {
+	            organization = (Organization) command;
+	        }
+	        else {
+	            log.error("Incorrect Command object passsed into CreateNotificationController.");
+	            return new ModelAndView(getFormView());
+	        }
 
-    	Organization organization = null;
-        log.debug("Inside the CreateNotificationController:");
-        if (command instanceof Organization) {
-            organization = (Organization) command;
-        }
-        else {
-            log.error("Incorrect Command object passsed into CreateNotificationController.");
-            return new ModelAndView(getFormView());
-        }
+	        organizationService.saveNotification(organization);
+	        
+	        Map map = errors.getModel();
+	        map.put("command", organization);
+	        ModelAndView mv = new ModelAndView(getSuccessView(), map);
+	        return mv;
+		}
 
-        organizationService.saveNotification(organization);
-        
-        Map map = errors.getModel();
-        map.put("command", organization);
-        ModelAndView mv = new ModelAndView(getSuccessView(), map);
-        return mv;
     }
 
     public OrganizationService getOrganizationService() {
@@ -112,14 +135,6 @@ public class CreateNotificationController extends SimpleFormController{
         this.organizationDao = organizationDao;
     }
     
-    protected Organization getPrimaryDomainObject(Organization command){
-    	return command;
-    }
-
-    protected C3PRBaseDao getDao() {
-    	return organizationDao;
-    }
-
 	public ConfigurationProperty getConfigurationProperty() {
 		return configurationProperty;
 	}
@@ -136,4 +151,80 @@ public class CreateNotificationController extends SimpleFormController{
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
 	}
+
+	public InPlaceEditableTab<Organization> getPage() {
+		return page;
+	}
+
+	public void setPage(InPlaceEditableTab<Organization> page) {
+		this.page = page;
+	}
+
+	protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
+			HttpServletResponse response, Object command, BindException errors)
+	throws Exception {
+		if (getSuccessView() == null) {
+			throw new ServletException("successView isn't set");
+		}
+		return new ModelAndView(getSuccessView(), errors.getModel());
+	}
+
+	protected boolean isAjaxRequest(HttpServletRequest request) {
+		if ("true".equalsIgnoreCase(request.getParameter(getAjaxRequestParamName()))){
+			return true;
+		}
+		return false;
+	}
+
+	protected void setAjaxModelAndView(HttpServletRequest request, ModelAndView modelAndView) {
+		request.setAttribute(getAjaxModelAndViewAttr(), modelAndView);
+	}
+
+	protected ModelAndView getAjaxModelAndView(HttpServletRequest request) {
+		return (ModelAndView) request.getAttribute(getAjaxModelAndViewAttr());
+	}
+
+	protected boolean isAjaxResponseFreeText(ModelAndView modelAndView) {
+		if (StringUtils.isBlank(modelAndView.getViewName())) {
+			return true;
+		}
+		return false;
+	}
+
+	protected void respondAjaxFreeText(ModelAndView modelAndView, HttpServletResponse response)
+	throws Exception {
+		PrintWriter pr = response.getWriter();
+		pr.println(modelAndView.getModel().get(getFreeTextModelName()));
+		pr.flush();
+	}
+
+	protected String getAjaxRequestParamName() {
+		return "_asynchronous";
+	}
+
+	protected String getAjaxModelAndViewAttr() {
+		return "async_model_and_view";
+	}
+
+	protected String getFreeTextModelName() {
+		return "free_text";
+	}
+
+	protected ModelAndView postProcessAsynchronous(HttpServletRequest request,
+			Organization command, Errors error) throws Exception {
+		return new ModelAndView(getAjaxViewName(request));
+	}
+
+	protected String getAjaxViewName(HttpServletRequest request) {
+		return request.getParameter(getAjaxViewParamName());
+	}
+
+	protected String getAjaxViewParamName() {
+		return "_asyncViewName";
+	}
+
+	protected boolean shouldSave(HttpServletRequest request, Organization command) {
+		return true;
+	}
+
 }
