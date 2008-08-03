@@ -18,7 +18,7 @@
 				<tr>
 					<td width="35%" class="alt" align="left"><b>Events Registered<b></td>
 					<td class="alt" align="left">
-						<table border="5">	
+						<table border="1">	
 							<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
 								<tr>
 								<td class="alt" align="left">${plannedNotification.eventName.displayName}</td>

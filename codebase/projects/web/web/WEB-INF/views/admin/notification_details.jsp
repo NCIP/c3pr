@@ -7,7 +7,8 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 	
 <html>
-	<head>    
+	<head> 
+	<tags:dwrJavascriptLink objects="UserAjaxFacade" />   
 	<style type="text/css">
 		.divider{
 	  			border-left-color: grey;
@@ -16,51 +17,10 @@
 		}
 	</style>
 	<script>
-	        //this contains the liteview js stuff
-	        Event.observe(window, "load", function() {
-	                $('emailBody').observe('click', function(event) {
-	                        Lightview.show({
-	                          href: "<c:url value='/pages/admin/notification_emailDetails' />",
-	                          rel: 'ajax',
-	                          title: ':: C3PR Project::',
-	                          caption: "Enter the message details...",
-	                          options: {
-	                          autosize: false,
-	                          width: 850,
-	                          height:600,
-	                          ajax: {
-	                                onComplete: function() {
-	                                    // alert('QQQ');
-	                                    $('submitAJAXForm').observe('click', postSubmitSkinForm);
-	                                }
-	                            }
-	                          }
-	                        });
-	                });
-	        })	    
-		
-			function postSubmitSkinForm() {
-			    var action = document.forms[0].action;
-			    var value = getSelectedValue();		
-			    var url = action + "?conf['skinPath'].value=" + value;		    
-			    new Ajax.Request(url, {
-			      method: 'post',
-			      onSuccess: function(transport) {
-			          Lightview.hide();
-			          setTimeout('reloadPage()', 500);
-			      }
-			    });
-			}
-			
-			function reloadPage() {
-			    location.reload(true);
-			}
-		    
-			function getSelectedValue() {
-			    if ($('rdBLUE').checked) return ('blue');
-			    if ($('rdGREEN').checked) return ('green');
-			    if ($('rdORANGE').checked) return ('orange');
-			}
+	        var win = new Window({className: "dialog", width:350, height:400, zIndex: 100, resizable: true, title: "CCTS Error Messages", showEffect:Effect.BlindDown, hideEffect: Effect.SwitchOff, draggable:true, wiredDrag: true}); win.getContent().innerHTML= $('built-cctsErrorMessage').innerHTML; win.setStatusBar("Error"); win.showCenter();
+	        
+	        
+	        
 	</script>
 	<script language="JavaScript" type="text/JavaScript">
 			var roleRowInserterProps= {
@@ -79,7 +39,17 @@
 	            softDelete: ${softDelete == 'true'},
 	            isAdmin: ${isAdmin == 'true'},
 	            row_index_indicator: "NESTED.PAGE.ROW.INDEX",
-	            path: "plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient"
+	            path: "plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient",
+	            postProcessRowInsertion: function(object){
+			       clonedRowInserter=Object.clone(userEmailAutocompleterProps);
+				   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+				   AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+			   },
+		       onLoadRowInitialize: function(object, currentRowIndex){
+					clonedRowInserter=Object.clone(userEmailAutocompleterProps);
+					clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+					AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+		       }
 	        };
 	        var notificationRowInserterProps = {
 	                nested_row_inserter: emailRowInserterProps,
@@ -94,6 +64,25 @@
 	        RowManager.addRowInseter(notificationRowInserterProps);
 	        RowManager.registerRowInserters();
 	</script>
+
+	<script>
+		var userEmailAutocompleterProps = {
+            basename: "userEmail",
+            populator: function(autocompleter, text) {
+                UserAjaxFacade.matchNameAndEmail(text,function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+                return (obj.firstName +" " +obj.lastName + " (" +obj.contactMechanisms[0].value+ ")")
+            },
+            afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								//hiddenField=userEmailAutocompleterProps.basename+"-hidden"
+	    							hiddenField=inputElement.id.split("-")[0]+"-hidden";
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+        }         
+	</script>
 	</head>
 	
 	<body>
@@ -105,17 +94,17 @@
 		<br/>
 		
 			<table id="notification" width="100%">
-			<tr><th></th></tr>
+			<tr></tr>
 			<c:forEach items="${command.plannedNotifications}" var="notification" varStatus="nStatus">
 				<script>
 			         RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].userBasedRecipient)});
 			         RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)});
 			  	</script>
-				<tr id="notification-${nStatus.index}">
+				<tr id="notification-${nStatus.index}"><td>
 				<chrome:deletableDivision id="notification-details-${nStatus.index}" title="Notification Details" divTitle="a-${nStatus.index}"
-				onclick="javascript:RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}');">
+				onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}')">
 	
-				<td>
+				
 				<table>
 				<tr>
 					<td width="10%" align="right">Event:</td>
@@ -126,7 +115,9 @@
 		                </form:select>
 					</td>
 					<td></td>			
-					<td align="right" valign="top">Message Details:</td> 
+					<td align="right" valign="top">Message Details:
+					
+					</td> 
 		            <td align="left" rowspan="2"><textarea id="emailBody" rows="3" cols="25"></textarea></td>
 		        </tr>
 		        
@@ -150,13 +141,18 @@
 								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /></td>
 			     </tr>
 			     <tr><td align="center" colspan="2">
-		      		 <table id="table1" class="tablecontent">
+		      		 <table id="table1">
 		      		 	<tr></tr>
 						<c:forEach var="email" varStatus="emailStatus" items="${command.plannedNotifications[nStatus.index].userBasedRecipient}">
 							<tr id="table1-${emailStatus.index}">
 								<td class="alt">
-									Auto-completer.
-									<%-- form:input path="notifications[${nStatus.index }].userBasedRecipient[${emailStatus.index}].emailAddress" size="30" cssClass="validate-notEmpty"  --%> 
+									<input type="hidden" id="userEmail${nStatus.index}-hidden" 
+										name="plannedNotifications[${nStatus.index}].userBasedRecipient[emailStatus.index].emailAddress" 
+										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
+									<input id="plannedNotifications[${nStatus.index}].userBasedRecipient[emailStatus.index].emailAddress-input" size="40" type="text" 
+										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" class="autocomplete validate-notEmpty" />
+									<tags:indicator id="plannedNotifications[${nStatus.index}].userBasedRecipient[emailStatus.index].emailAddress-indicator" />
+									<div id="plannedNotifications[${nStatus.index}].userBasedRecipient[emailStatus.index].emailAddress-choices" class="autocomplete"></div>
 								</td>
 								<td class="alt"><a
 									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${email.id==null?'HC#':'ID#'}${email.id==null?email.hashCode:email.id}');">
@@ -168,7 +164,7 @@
 		      		</td>
 		   
 			      	<td align="center" colspan="2">
-			      		<table id="table2" class="tablecontent" width="50%">
+			      		<table id="table2" width="50%">
 			      			<tr></tr>
 							<c:forEach var="role" varStatus="roleStatus" items="${command.plannedNotifications[nStatus.index].roleBasedRecipient}">
 								<tr id="table2-${roleStatus.index}">
@@ -188,8 +184,8 @@
 		      	</tr>
 		
 		      	<tr><td colspan="5"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer">
-		      	</td>
-		      	</chrome:deletableDivision>
+		      	
+		      	</chrome:deletableDivision></td>
 				</tr>
 				</table>
 				</td>
@@ -211,7 +207,7 @@
 	<div id="dummy-notification" style="display:none">
 		<table> 
 		<tr><td><chrome:deletableDivision id="notification-details-PAGE.ROW.INDEX" title="Notification Details" divTitle="a-PAGE.ROW.INDEX"
-				onclick="javascript:RowManager.deleteRow(notificationRowInserterProps,PAGE.ROW.INDEX,-1);">
+				onclick="RowManager.deleteRow(notificationRowInserterProps,PAGE.ROW.INDEX,-1)">
 		
 		<table>
 			<tr>
@@ -279,9 +275,13 @@
 			<table>
 			<tr>
 				<td class="alt">
-					Auto-completer.
-					<%-- form:input path="notification[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress" size="30" cssClass="validate-notEmpty"  --%> 
-				</td>
+					<input type="hidden" id="userEmail[PAGE.ROW.INDEX]-hidden" 
+							name="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress" 
+							value="${command.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" />
+					<input id="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress-input" size="40" type="text" 
+							value="${command.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" class="autocomplete validate-notEmpty" />
+					<tags:indicator id="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress-indicator" />
+					<div id="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress-choices" class="autocomplete"></div></td>
 				<td class="alt"><a
 					href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX, -1);">
 					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
