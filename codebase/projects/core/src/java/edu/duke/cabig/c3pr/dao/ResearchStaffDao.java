@@ -33,8 +33,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
     private static Log log = LogFactory.getLog(InvestigatorDao.class);
 
-    private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("firstName",
-                    "lastName");
+    private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("firstName","lastName");
+    
+    private static final List<String> SUBNAME_SUBEMAIL_MATCH_PROPERTIES = Arrays.asList("firstName","lastName","contactMechanisms.value");
 
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
@@ -55,6 +56,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     public List<ResearchStaff> getBySubnames(String[] subnames, int healthcareSite) {
         return findBySubname(subnames, "o.healthcareSite.id = '" + healthcareSite + "'",
                         EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    }
+    
+    public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames, String nciInstituteCode) {
+        return findBySubname(subnames, "o.healthcareSite.nciInstituteCode = '" + nciInstituteCode + "'",
+                        EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
     public List<ResearchStaff> searchByExample(ResearchStaff staff, boolean isWildCard) {

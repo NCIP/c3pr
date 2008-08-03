@@ -19,12 +19,14 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
 
     private static Log log = LogFactory.getLog(HealthcareSiteInvestigatorDao.class);
 
-    private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList(
-                    "investigator.firstName", "investigator.lastName");
+    private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("investigator.firstName", "investigator.lastName");
 
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
     private static final List<Object> EXTRA_PARAMS = Collections.emptyList();
+    
+    private static final List<String> SUBNAME_SUBEMAIL_MATCH_PROPERTIES = Arrays.asList("investigator.firstName","investigator.lastName","investigator.contactMechanisms.value");
+    
 
     public Class<HealthcareSiteInvestigator> domainClass() {
         return HealthcareSiteInvestigator.class;
@@ -53,4 +55,13 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
                                                         "from HealthcareSiteInvestigator a where a.healthcareSite = ? and a.investigator = ?",
                                                         new Object[] { site, investigator }));
     }
+    
+    public List<HealthcareSiteInvestigator> getBySubNameAndSubEmail(String[] subnames, String nciInstituteCode) {
+        return findBySubname(subnames, 
+        		"o.healthcareSite.nciInstituteCode = '"+ nciInstituteCode + "'",
+                 EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    }
+    
+    
+    
 }

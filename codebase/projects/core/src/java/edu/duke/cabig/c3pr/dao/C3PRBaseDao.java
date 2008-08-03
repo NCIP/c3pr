@@ -81,6 +81,43 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 	}
 
 	/**
+	 *Overloading the othe findBysubnames by adding the domainname and domainidentities arrays.
+	 *This can be used to query multiple tables when necessary.
+	 *
+	 *This is currently not used by anyone
+	 *
+
+	@SuppressWarnings("unchecked")
+	protected List<T> findBySubname(String[] subnames, String extraConditions,
+			List<Object> extraParameters, List<String> substringMatchProperties,
+			List<String> exactMatchProperties, List<String> domainNames, List<String> domainIdentities) {
+		StringBuilder query = new StringBuilder("from ").append(domainClass().getName()).append(
+		" o ");
+		for(int i=0; i<domainNames.size();i++){
+			query.append(",").append(domainNames.get(i)).append(" ").append(domainIdentities.get(i)).append(" ");
+		}
+		List<Object> params = new LinkedList<Object>();
+		if(extraConditions != null || extraParameters != null || subnames.length > 0){
+			query.append("where ") ;
+			if (extraConditions != null){
+				query.append(extraConditions).append(" and ");
+			}
+			if (extraParameters != null) {
+				params.addAll(extraParameters);
+			}
+
+			for (int i = 0; i < subnames.length; i++) {
+				buildSubnameQuery(subnames[i], query, params, substringMatchProperties, exactMatchProperties);
+				if (i < subnames.length - 1) query.append(" and ");
+			}
+		}
+
+		log.debug("query string = " + query);
+		this.getHibernateTemplate().setMaxResults(30);
+		return (getHibernateTemplate()).find(query.toString(), params.toArray());
+	}	 */
+
+	/**
 	 * A query builder for use by subclass DAOs. It makes it easy to match a fragment of a name or
 	 * identifier against multiple properties. This is intended for use in implementing
 	 * user-friendly dynamic searches; e.g., autocompleters.
@@ -106,7 +143,7 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 		" o ");
 		List<Object> params = new LinkedList<Object>();
 		if(extraConditions != null || extraParameters != null || subnames.length > 0){
-			query.append(" where ") ;
+			query.append("where ") ;
 			if (extraConditions != null){
 				query.append(extraConditions).append(" and ");
 			}
@@ -125,6 +162,7 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 		return (getHibernateTemplate()).find(query.toString(), params.toArray());
 	}
 
+	
 	protected void buildSubnameQuery(String subname, StringBuilder query, List<Object> params,
 			List<String> substringMatchProperties, List<String> exactMatchProperties) {
 		query.append('(');
