@@ -156,6 +156,9 @@
         <property name="formView" value="admin/notification_details"/>
         <property name="successView" value="admin/notification_confirmation"/>
         <property name="sessionForm" value="true"/>
+        <property name="page">
+        	<bean class="edu.duke.cabig.c3pr.web.admin.NotificationTab" autowire="byType" />
+        </property>
     </bean>
     <!-- mapping for NOTIFICATIONS task -->
     
