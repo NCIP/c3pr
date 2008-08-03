@@ -68,6 +68,9 @@
         <create creator="new" javascript="map">
             <param name="class" value="java.util.Map"/>
         </create>
+        <create creator="spring" javascript="UserAjaxFacade">
+            <param name="beanName" value="userAjaxFacade"/>
+        </create>
         <convert converter="bean" match="edu.duke.cabig.c3pr.domain.*"/>
     </allow>
 
