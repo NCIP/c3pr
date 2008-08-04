@@ -32,5 +32,7 @@ public interface OrganizationService {
     public String getSiteNameByNciIdentifier(String nciId);
     
     public void saveNotification(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException;
+    
+    public void mergeNotification(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException;
 
 }
