@@ -1,7 +1,9 @@
 package edu.duke.cabig.c3pr.web.admin;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -18,8 +20,14 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.constants.NotificationEventType;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
+import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Organization;
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -39,6 +47,8 @@ public class CreateNotificationController extends SimpleFormController {
     private static Log log = LogFactory.getLog(CreateNotificationController.class);
 
     private OrganizationDao organizationDao;
+    private ResearchStaffDao researchStaffDao;
+    private InvestigatorDao investigatorDao;
 
     private OrganizationService organizationService;
     
@@ -86,11 +96,6 @@ public class CreateNotificationController extends SimpleFormController {
 			request.getParameter("_asynchronous");
 			ModelAndView modelAndView = page.postProcessAsynchronous(request,
 					(Organization) command, errors);
-//			if (!errors.hasErrors() && shouldSave(request, (Organization) command)) {
-//				command = save((Organization) command, errors);
-//			}
-//			organizationService.saveNotification((Organization) command);
-			
 			request.setAttribute(getFormSessionAttributeName(), command);
 			if (isAjaxResponseFreeText(modelAndView)) {
 				respondAjaxFreeText(modelAndView, response);
@@ -108,8 +113,31 @@ public class CreateNotificationController extends SimpleFormController {
 	            log.error("Incorrect Command object passsed into CreateNotificationController.");
 	            return new ModelAndView(getFormView());
 	        }
-
-	        organizationService.saveNotification(organization);
+	        
+	        //assign the Rs or Inv to the userBasedRe
+	        List<ResearchStaff> rsList = new ArrayList<ResearchStaff>();
+	        List<Investigator> invList = new ArrayList<Investigator>(); 
+	        
+	        for(PlannedNotification pn: organization.getPlannedNotifications()){
+	        	for(UserBasedRecipient ubr: pn.getUserBasedRecipient()){
+	        		if(ubr.getEmailAddress() != null && ubr.getEmailAddress() != ""){
+	        			rsList = researchStaffDao.getByEmailAddress(ubr.getEmailAddress());
+	        			invList = investigatorDao.getByEmailAddress(ubr.getEmailAddress());
+	        		}
+	        		if(rsList.size() > 0){
+	        			ubr.setResearchStaff(rsList.get(0));
+	        		}else if(invList.size() > 0){
+	        			ubr.setInvestigator(invList.get(0));
+	        		}
+	        	}
+	        }
+	        
+	        if(organization.getId() != null){
+	        	organizationService.mergeNotification(organization);	        	
+	        }else {
+	        	organizationService.saveNotification(organization);
+	        }
+	        
 	        
 	        Map map = errors.getModel();
 	        map.put("command", organization);
@@ -225,6 +253,22 @@ public class CreateNotificationController extends SimpleFormController {
 
 	protected boolean shouldSave(HttpServletRequest request, Organization command) {
 		return true;
+	}
+
+	public InvestigatorDao getInvestigatorDao() {
+		return investigatorDao;
+	}
+
+	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
+		this.investigatorDao = investigatorDao;
+	}
+
+	public ResearchStaffDao getResearchStaffDao() {
+		return researchStaffDao;
+	}
+
+	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
+		this.researchStaffDao = researchStaffDao;
 	}
 
 }
