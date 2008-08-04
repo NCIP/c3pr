@@ -28,7 +28,13 @@
 							</tr>
 						</table>
 	                 </div>
-			<br/>
+					<div class="flow-buttons">
+						<span class="next"> 
+							<input type="button" value="Manage Study" id="manageStudy" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.id}' />'" />
+						</span>
+					</div>
+					<br/>
+					<br/>
 	    </chrome:box>
 	    <div <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
 	    <chrome:box title="Companion Studies" autopad="true">
@@ -73,11 +79,6 @@
 	    </chrome:box>
 	    </div>
 	    <div class="content buttons autoclear">
-	<div class="flow-buttons">
-		<span class="next"> 
-			<input type="button" value="Manage Study" id="manageStudy" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.id}' />'" />
-		</span>
-	</div>
 	</div>
 	</body>
 </html>

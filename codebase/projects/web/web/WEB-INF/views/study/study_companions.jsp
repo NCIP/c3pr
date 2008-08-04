@@ -90,62 +90,71 @@ function closePopup() {
         
 <tags:errors path="companionStudyAssociations" />
 
-<table border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0" height="50" width="100%" border="2">
     <tr>
         <td>
             <br>
-            <table id="companionTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <th><b><span class="required-indicator">Companion Study Short Title</span></b>
-                    <tags:hoverHint keyProp="study.companionstudy.name" /></th>
-                    <th><b>Status</b>
-                    <tags:hoverHint keyProp="study.companionstudy.status" /></th>
-                    <th><b>Mandatory</b>
-                    <tags:hoverHint keyProp="study.companionstudy.mandatory" /></th>
-                    <th></th>
-                </tr>
-                   
-                   <c:forEach items="${command.companionStudyAssociations}" varStatus="status" var="companionStudyAssociation">
-                    <tr id="companionTable-${status.index}">
-                     <td>
-               				<input type="hidden" id="companionStudy${status.index}-hidden"
-                        			name="companionStudyAssociations[${status.index}].companionStudy"
-                      				 value="${command.companionStudyAssociations[status.index].companionStudy.id}"/>
-                			<input class="autocomplete validate-notEmpty" type="text" id="companionStudy${status.index}-input"
-                       				size="40"  value="${command.companionStudyAssociations[status.index].companionStudy.shortTitleText}"/>
-                			<input type="button" id="companionStudy${status.index}-clear" value="Clear"/>
-                       		<c:if test="${empty command.companionStudyAssociations[status.index].companionStudy.id}">
-                      			<script>
-                      			$('companionStudy${status.index}-hidden').name="some_dummy_value";
-                      			$('companionStudy${status.index}-input').disabled=true;
-                      			</script>
-                      		</c:if>
-                  		 	<tags:indicator id="companionStudy${status.index}-indicator"/>
-                  			<div id="companionStudy${status.index}-choices" class="autocomplete"></div>
-           			 </td>
-           			 <td class="alt" align="center">${command.companionStudyAssociations[status.index].companionStudy.coordinatingCenterStudyStatus.code}</td>
-                     <td>
-                		<form:select path="companionStudyAssociations[${status.index}].mandatoryIndicator" cssClass="validate-notEmpty">
-                    			<option value="">Please Select</option>
-                    				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                		</form:select>
-            		 </td>
-                     <td><a
-                                href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${companionStudyAssociation.id==null?'HC#':'ID#'}${companionStudyAssociation.id==null?companionStudyAssociation.hashCode:companionStudyAssociation.id}');"><img
-                                src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-
-                    </tr>
-                </c:forEach>
-                 
-                
-            </table>
+			<c:choose>
+				<c:when test="${empty command.studySites || (fn:length(command.studySites) == 1 && (empty command.studySites[0].healthcareSite))}">
+					<tr align="center">
+						<td align="center" height="50">Please add study site to the study, click here to add study site</td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<table id="companionTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
+		                <tr>
+		                    <th><b><span class="required-indicator">Companion Study Short Title</span></b>
+		                    <tags:hoverHint keyProp="study.companionstudy.name" /></th>
+		                    <th><b>Status</b>
+		                    <tags:hoverHint keyProp="study.companionstudy.status" /></th>
+		                    <th><b>Mandatory</b>
+		                    <tags:hoverHint keyProp="study.companionstudy.mandatory" /></th>
+		                    <th></th>
+		                </tr>
+		                   
+		                   <c:forEach items="${command.companionStudyAssociations}" varStatus="status" var="companionStudyAssociation">
+		                    <tr id="companionTable-${status.index}">
+		                     <td>
+		               				<input type="hidden" id="companionStudy${status.index}-hidden"
+		                        			name="companionStudyAssociations[${status.index}].companionStudy"
+		                      				 value="${command.companionStudyAssociations[status.index].companionStudy.id}"/>
+		                			<input class="autocomplete validate-notEmpty" type="text" id="companionStudy${status.index}-input"
+		                       				size="40"  value="${command.companionStudyAssociations[status.index].companionStudy.shortTitleText}"/>
+		                			<input type="button" id="companionStudy${status.index}-clear" value="Clear"/>
+		                       		<c:if test="${empty command.companionStudyAssociations[status.index].companionStudy.id}">
+		                      			<script>
+		                      			$('companionStudy${status.index}-hidden').name="some_dummy_value";
+		                      			$('companionStudy${status.index}-input').disabled=true;
+		                      			</script>
+		                      		</c:if>
+		                  		 	<tags:indicator id="companionStudy${status.index}-indicator"/>
+		                  			<div id="companionStudy${status.index}-choices" class="autocomplete"></div>
+		           			 </td>
+		           			 <td class="alt" align="center">${command.companionStudyAssociations[status.index].companionStudy.coordinatingCenterStudyStatus.code}</td>
+		                     <td>
+		                		<form:select path="companionStudyAssociations[${status.index}].mandatoryIndicator" cssClass="validate-notEmpty">
+		                    			<option value="">Please Select</option>
+		                    				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+		                		</form:select>
+		            		 </td>
+		                     <td><a
+		                                href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${companionStudyAssociation.id==null?'HC#':'ID#'}${companionStudyAssociation.id==null?companionStudyAssociation.hashCode:companionStudyAssociation.id}');"><img
+		                                src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+		
+		                    </tr>
+		                </c:forEach>
+		            </table>
+				</c:otherwise>
+			</c:choose>
+ 	
         </td>
     </tr>
 </table>
-
 <div align="right">
-	<input id="addCompanion" type="button" value="Add Companion Study" onclick="javascript:RowManager.addRow(instanceRowInserterProps);" />
-	<input id="createCompanion" type="button" value="Create Companion Study" />
+	<c:if test="${! (empty command.studySites || (fn:length(command.studySites) == 1 && (empty command.studySites[0].healthcareSite)))}">
+		<input id="addCompanion" type="button" value="Add Companion Study" onclick="javascript:RowManager.addRow(instanceRowInserterProps);" />
+		<input id="createCompanion" type="button" value="Create Companion Study" />
+	</c:if>
 </div>
 
 </jsp:attribute>

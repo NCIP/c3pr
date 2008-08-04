@@ -405,7 +405,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
         List<Study> reducedCompanionStudies = new ArrayList<Study>(companionStudies.size());
         for (Study companionStudy : companionStudies) {
-        	if(companionStudy.getCompanionIndicator() /* && hasSameStudySiteAsMainStudy(companionStudy, parentStudy)*/){
+        	if(companionStudy.getCompanionIndicator() && hasSameStudySiteAsMainStudy(companionStudy, parentStudy)){
         		reducedCompanionStudies.add(buildReduced(companionStudy, Arrays.asList("id", "shortTitleText")));
         	}
         }
@@ -416,11 +416,14 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     private boolean hasSameStudySiteAsMainStudy(Study companionStudy, Study parentStudy) {
     	List<StudySite> companionStudySites = companionStudy.getStudySites();
     	List<StudySite> parentStudySites = parentStudy.getStudySites();
-    	if(parentStudySites.contains(companionStudySites)){
-    		return true ;
-    	}else{
-    		return false ;
+    	for(StudySite companionStudySite : companionStudySites){
+    		for(StudySite parentStudySite : parentStudySites){
+    			if(parentStudySite.getHealthcareSite().equals(companionStudySite.getHealthcareSite())){
+    				return true ;
+    			}
+    		}
     	}
+    	return false ;
     }
 
 	private final Object getCommandOnly(HttpServletRequest request) throws Exception {
