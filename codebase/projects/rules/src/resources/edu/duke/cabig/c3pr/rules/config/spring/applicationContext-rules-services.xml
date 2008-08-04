@@ -40,4 +40,5 @@
     
     <bean id="notificationInterceptor" class="edu.duke.cabig.c3pr.infrastructure.interceptor.NotificationInterceptor" autowire="byName"/>
     
+    <bean id="rulesDelegationService" class="edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl" autowire="byName"/>
 </beans>
