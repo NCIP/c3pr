@@ -46,6 +46,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         organizationDao.save(organization);
     }
     
+    public void mergeNotification(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException {
+        organizationDao.merge(organization);
+    }
+    
     public void save(HealthcareSite site) throws C3PRBaseException, C3PRBaseRuntimeException {
         createGroupForOrganization(site);
         organizationDao.save(site);
