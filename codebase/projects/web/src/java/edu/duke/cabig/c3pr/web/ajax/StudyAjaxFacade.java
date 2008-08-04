@@ -406,7 +406,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         List<Study> reducedCompanionStudies = new ArrayList<Study>(companionStudies.size());
         for (Study companionStudy : companionStudies) {
         	if(companionStudy.getCompanionIndicator() && hasSameStudySiteAsMainStudy(companionStudy, parentStudy)){
-        		reducedCompanionStudies.add(buildReduced(companionStudy, Arrays.asList("id", "shortTitleText")));
+        		reducedCompanionStudies.add(buildReduced(companionStudy, Arrays.asList("id", "shortTitleText", "coordinatingCenterStudyStatus")));
         	}
         }
         return reducedCompanionStudies ;

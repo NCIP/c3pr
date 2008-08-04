@@ -29,6 +29,8 @@
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
 	    							$(hiddenField).value=selectedChoice.id;
+	    							companionStatus=inputElement.id.split("-")[0]+"-companionStudyStatus";
+	    							$(companionStatus).innerHTML=selectedChoice.coordinatingCenterStudyStatus.displayName;
 								}
 }
 	var instanceRowInserterProps = {
@@ -79,6 +81,7 @@ function createCompanion(shortTitle){
 	$('companionStudy' + currentRow + '-input').value = shortTitle;
 	$('companionStudy' + currentRow + '-hidden').name = "some_dummy_name";
 	$('companionStudy' + currentRow + '-input').disabled=true;
+	$('companionStudy' + currentRow+'-companionStudyStatus').innerHTML="Pending";
 	closePopup();
 }
 
@@ -130,7 +133,11 @@ function closePopup() {
 		                  		 	<tags:indicator id="companionStudy${status.index}-indicator"/>
 		                  			<div id="companionStudy${status.index}-choices" class="autocomplete"></div>
 		           			 </td>
-		           			 <td class="alt" align="center">${command.companionStudyAssociations[status.index].companionStudy.coordinatingCenterStudyStatus.displayName}</td>
+		           			 <td class="alt" align="center">
+								<div id="companionStudy${status.index}-companionStudyStatus">
+									${command.companionStudyAssociations[status.index].companionStudy.coordinatingCenterStudyStatus.displayName}
+								</div>								 
+							</td>
 		                     <td>
 		                		<form:select path="companionStudyAssociations[${status.index}].mandatoryIndicator" cssClass="validate-notEmpty">
 		                    			<option value="">Please Select</option>
@@ -176,7 +183,10 @@ function closePopup() {
                    <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
                   <div id="companionStudyPAGE.ROW.INDEX-choices" class="autocomplete"></div>
             </td>
-			<td/>
+			<td >
+				<div id="companionStudyPAGE.ROW.INDEX-companionStudyStatus" >
+				</div>
+			</td>
             <td>
                 <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="validate-notEmpty">
                     <option value="">Please Select</option>
