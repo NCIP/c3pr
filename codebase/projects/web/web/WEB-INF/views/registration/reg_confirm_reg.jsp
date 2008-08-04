@@ -243,7 +243,7 @@ function createReg(studySite, participant, parentRegistrationId){
 			</c:forEach>
             <tr>
                 <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-                <td class="alt">${empty tempReg?"Not Started":tempReg.regWorkflowStatus}</td>
+                <td class="alt">${empty tempReg?"Not Started":tempReg.regWorkflowStatus.displayName}</td>
                 <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
                 <td class="alt">
 			        <c:choose> 

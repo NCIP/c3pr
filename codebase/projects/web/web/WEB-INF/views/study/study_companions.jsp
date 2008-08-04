@@ -59,7 +59,7 @@ Event.observe(window, "load", function() {
             Lightview.show({
               href: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true'/>",
               rel: 'iframe',
-              title: ':: Companion Study::',
+              title: 'Create Companion Study',
               options: {
               autosize: false,
               width: 1400,
@@ -103,7 +103,7 @@ function closePopup() {
 				<c:otherwise>
 					<table id="companionTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 		                <tr>
-		                    <th><b><span class="required-indicator">Companion Study Short Title</span></b>
+		                    <th><b><span class="required-indicator">Short Title</span></b>
 		                    <tags:hoverHint keyProp="study.companionstudy.name" /></th>
 		                    <th><b>Status</b>
 		                    <tags:hoverHint keyProp="study.companionstudy.status" /></th>

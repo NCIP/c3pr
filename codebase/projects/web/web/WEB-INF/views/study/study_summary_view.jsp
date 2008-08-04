@@ -428,7 +428,14 @@
                 <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
                 <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
                 <td class="alt">
-                	<input type="button" id="editCompanionStudy" value="Edit" onclick="javascript:document.location='<c:url value='/pages/study/editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
+					<c:choose>
+						<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.ACTIVE) || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION)}">                	
+							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
+						</c:when>
+						<c:otherwise>                	
+							<input type="button" id="editCompanionStudy" value="Edit" onclick="javascript:document.location='<c:url value='/pages/study/editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
+						</c:otherwise>
+					</c:choose>
                 </td>
    	        </tr>	           
         </c:forEach>

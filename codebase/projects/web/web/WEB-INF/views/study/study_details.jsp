@@ -502,7 +502,7 @@
 <div <c:if test="${empty param.embeddedStudy}">style="display:none;"</c:if>>
 	<div class="content buttons autoclear">
 	<div class="flow-buttons"><span class="next"> 
-		<input type="submit" value="Embed Study" id="embedCompanionStudyDiv"/>
+		<input type="submit" value="Create Companion Study" id="embedCompanionStudyDiv"/>
 		<input type="button" value="Close" onClick="parent.closePopup();"/>
 		</span></div>
 	</div>
