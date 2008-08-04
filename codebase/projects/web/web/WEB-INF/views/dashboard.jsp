@@ -68,7 +68,7 @@
                             <chrome:td bgcolor="${bg}"><c:out value="${registration.participant.firstName} ${registration.participant.lastName}" /></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${registration.participant.MRN.value}" /></chrome:td>
                         	<chrome:td bgcolor="${bg}"><c:out value="${registration.studySite.study.shortTitleText}" /></chrome:td>
-							<chrome:td bgcolor="${bg}"><c:out value="${registration.regWorkflowStatus}" /></chrome:td>
+							<chrome:td bgcolor="${bg}"><c:out value="${registration.regWorkflowStatus.displayName}" /></chrome:td>
                         </chrome:tr>
 
                     </c:forEach>
