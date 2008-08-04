@@ -46,7 +46,7 @@ document.getElementById("command").submit();
         </tr> 
          <tr>
             <td class="alt" align="left"><b>Status</b></td>
-            <td class="alt" align="left">${command.coordinatingCenterStudyStatus.code}</td>
+            <td class="alt" align="left">${command.coordinatingCenterStudyStatus.displayName}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Phase</b></td>
@@ -289,7 +289,7 @@ document.getElementById("command").submit();
         <c:forEach items="${command.companionStudyAssociations}" var="companionStudyAssociation">
             <tr>
                 <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
+                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>
                 <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
    	        </tr>	           
         </c:forEach>

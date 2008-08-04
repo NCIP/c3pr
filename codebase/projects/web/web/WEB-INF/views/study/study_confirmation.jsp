@@ -24,7 +24,7 @@
 							</tr>
 							<tr>
 								<td width="35%" class="alt" align="left"><b>Study Status</b></td>
-								<td class="alt" align="left">${command.coordinatingCenterStudyStatus.code}</td>
+								<td class="alt" align="left">${command.coordinatingCenterStudyStatus.displayName}</td>
 							</tr>
 						</table>
 	                 </div>
@@ -47,7 +47,7 @@
 		        <c:forEach items="${command.companionStudyAssociations}" var="companionStudyAssociation">
 		            <tr>
 		                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-		                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
+		                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>
 		                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
 		                <td class="alt">
 							<c:choose>
@@ -75,7 +75,7 @@
 		        <c:forEach items="${command.parentStudyAssociations}" var="parentStudyAssociation">
 		            <tr>
 		                <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
-		                <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
+		                <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.displayName}</td>
 		                <td class="alt">
 		                <input type="button" id="manageParentStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${parentStudyAssociation.parentStudy.id}' />'"/>
 		                </td>

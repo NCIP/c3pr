@@ -136,7 +136,7 @@
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td class="label">Status</td>
-            <td>${command.studySite.study.coordinatingCenterStudyStatus.code}</td>
+            <td>${command.studySite.study.coordinatingCenterStudyStatus.displayName}</td>
         </tr>
         <tr>
             <td width="35%" class="label">Short Title</td>

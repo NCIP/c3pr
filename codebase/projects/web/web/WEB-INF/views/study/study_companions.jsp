@@ -130,7 +130,7 @@ function closePopup() {
 		                  		 	<tags:indicator id="companionStudy${status.index}-indicator"/>
 		                  			<div id="companionStudy${status.index}-choices" class="autocomplete"></div>
 		           			 </td>
-		           			 <td class="alt" align="center">${command.companionStudyAssociations[status.index].companionStudy.coordinatingCenterStudyStatus.code}</td>
+		           			 <td class="alt" align="center">${command.companionStudyAssociations[status.index].companionStudy.coordinatingCenterStudyStatus.displayName}</td>
 		                     <td>
 		                		<form:select path="companionStudyAssociations[${status.index}].mandatoryIndicator" cssClass="validate-notEmpty">
 		                    			<option value="">Please Select</option>
