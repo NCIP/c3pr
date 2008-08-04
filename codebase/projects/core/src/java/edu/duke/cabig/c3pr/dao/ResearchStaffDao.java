@@ -138,7 +138,13 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
             }
 
         });
-
+    }
+    
+    /*
+     * Created for the notifications use case.
+     */
+    public List<ResearchStaff> getByEmailAddress(String emailAddress) {
+        return getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'");
     }
 
 

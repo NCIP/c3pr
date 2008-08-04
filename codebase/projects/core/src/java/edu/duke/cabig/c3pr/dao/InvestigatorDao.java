@@ -17,6 +17,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
@@ -89,6 +90,13 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
         return result;
     }
 
+    /*
+     * Created for the notifications use case.
+     */
+    public List<Investigator> getByEmailAddress(String emailAddress) {
+        return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
+    }
+    
     public List<Investigator> getInvestigatorsByNciInstituteCode(String nciIdentifier) {
         return ((List<Investigator>) getHibernateTemplate().find(
                         "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
