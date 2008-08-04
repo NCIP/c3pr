@@ -96,6 +96,11 @@ public class CreateNotificationController extends SimpleFormController {
 			request.getParameter("_asynchronous");
 			ModelAndView modelAndView = page.postProcessAsynchronous(request,
 					(Organization) command, errors);
+			if(((Organization)command).getId() != null){
+	        	organizationService.mergeNotification((Organization) command);	        	
+	        }else {
+	        	organizationService.saveNotification((Organization) command);
+	        }
 			request.setAttribute(getFormSessionAttributeName(), command);
 			if (isAjaxResponseFreeText(modelAndView)) {
 				respondAjaxFreeText(modelAndView, response);
