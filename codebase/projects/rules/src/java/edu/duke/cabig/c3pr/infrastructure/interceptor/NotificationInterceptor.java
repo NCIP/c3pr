@@ -9,11 +9,16 @@ import org.hibernate.type.Type;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import edu.duke.cabig.c3pr.constants.NotificationEventType;
+import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.Organization;
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl;
+import edu.duke.cabig.c3pr.tools.Configuration;
 
 public class NotificationInterceptor extends EmptyInterceptor implements ApplicationContextAware {
 
@@ -23,6 +28,10 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	
 	private ApplicationContext applicationContext;
 	
+	private OrganizationDao organizationDao;
+	
+	private Configuration configuration; 
+	
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
@@ -30,6 +39,12 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
+	
+	public Organization getHostingOrganization(){
+		Organization org = organizationDao.getByNciIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0);
+		return org;
+	}
+	
 	
 	/*
 	 *  Return true only if the state is modified in anyway.
@@ -126,9 +141,14 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		if(previousSiteStudyStatus.getCode().equals(currentSiteStudyStatus.getCode())){
 			//no status change...do nothing
 		} else {
-			//there is some status change...hence activate RulesService
-			rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_SITE_STATUS_CHANGE_EVENT, entity,
-					previousSiteStudyStatus.getCode(), currentSiteStudyStatus.getCode());
+			//there is some status change and event is configured in plannedNotifs...activate RulesService
+			for(PlannedNotification pn: getHostingOrganization().getPlannedNotifications()){
+				if(pn.getEventName().equals(NotificationEventType.STUDY_STATUS_CHANGED_EVENT)){
+					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_SITE_STATUS_CHANGE_EVENT, pn,
+							previousSiteStudyStatus.getCode(), currentSiteStudyStatus.getCode());
+					break;
+				}
+			}
 		}		
 	}
 	
@@ -148,9 +168,16 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		if(previousCoordinatingCenterStudyStatus.getCode().equals(currentCoordinatingCenterStudyStatus.getCode())){
 			//no status change...hence do nothing.
 		}else{
-			//There is some status change...hence activate RulesService
-			rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_STATUS_CHANGE_EVENT, entity,
-					previousCoordinatingCenterStudyStatus.getCode(), currentCoordinatingCenterStudyStatus.getCode());				
+			//there is some status change and event is configured in plannedNotifs...activate RulesService
+			for(PlannedNotification pn: getHostingOrganization().getPlannedNotifications()){
+				if(pn.getEventName().equals(NotificationEventType.STUDY_STATUS_CHANGED_EVENT)){
+					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_STATUS_CHANGE_EVENT, pn,
+							previousCoordinatingCenterStudyStatus.getCode(), currentCoordinatingCenterStudyStatus.getCode());
+					break;
+				}
+			}
+			
+							
 		}						
 	}
 
@@ -162,6 +189,22 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	public void setRulesDelegationService(
 			RulesDelegationServiceImpl rulesDelegationService) {
 		this.rulesDelegationService = rulesDelegationService;
+	}
+
+	public OrganizationDao getOrganizationDao() {
+		return organizationDao;
+	}
+
+	public void setOrganizationDao(OrganizationDao organizationDao) {
+		this.organizationDao = organizationDao;
+	}
+
+	public Configuration getConfiguration() {
+		return configuration;
+	}
+
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
 	}
 	
 }

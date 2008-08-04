@@ -13,13 +13,13 @@
 	
     <rule name="Study_Changed_Rule">
         <lhs>
-        	<pattern identifier="study" object-type="edu.duke.cabig.c3pr.domain.Study"/>
+        	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
         	<pattern identifier="notificationEmailService" object-type="edu.duke.cabig.c3pr.utils.NotificationEmailService"/>
         	
         	<eval>"true" == "true"</eval>
         </lhs>
         <rhs>
-            notificationEmailService.sendEmail(study);
+            notificationEmailService.sendEmail(plannedNotification);
         </rhs>        
     </rule>
 

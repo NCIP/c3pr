@@ -24,7 +24,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 	
 	NotificationEmailService notificationEmailService;
 	
-	public void activateRules(String event, Object studyObj, Object oldVal, Object newVal){		
+	public void activateRules(String event, Object obj, Object oldVal, Object newVal){		
 		/*
 		RuleBase ruleBase = null;
 		if(event.equalsIgnoreCase(STUDY_STATUS_CHANGE_EVENT) ){
@@ -43,7 +43,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 		}*/
 		
 		ArrayList objList = new ArrayList();
-		objList.add(studyObj);
+		objList.add(obj);
 		//objList.add(new RulesDelegationServiceImpl());
 		objList.add(notificationEmailService);
 		
