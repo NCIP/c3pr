@@ -17,10 +17,28 @@
 		}
 	</style>
 	<script>
-	        var win = new Window({className: "dialog", width:350, height:400, zIndex: 100, resizable: true, title: "CCTS Error Messages", showEffect:Effect.BlindDown, hideEffect: Effect.SwitchOff, draggable:true, wiredDrag: true}); win.getContent().innerHTML= $('built-cctsErrorMessage').innerHTML; win.setStatusBar("Error"); win.showCenter();
-	        
-	        
-	        
+		var win;
+		var currentMessageIndex;
+	     	
+	     function showMessageBody(index){
+	     	currentMessageIndex = index;
+	     	if(win == null){
+	     		win = new Window({className: "dialog", width:550, height:550, zIndex: 100, resizable: true, title: "Email Message", 
+	        	showEffect:Effect.BlindDown, hideEffect: Effect.BlindUp, draggable:true, wiredDrag: true}); 
+	        	win.setContent('emailMessageDetails', true, true);
+	     	}else {
+			    $('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
+	     		$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
+	     	}
+	     	win.showCenter();
+	     }   
+	     
+	     function updateMessage(index){
+	     	$('plannedNotifications['+currentMessageIndex+'].title').value = $('plannedNotifications.title').value;
+	     	$('plannedNotifications['+currentMessageIndex+'].message').value = $('plannedNotifications.message').value;
+	     	win.close();
+	     	//$('emailMessageDetails-'+index).innerHTML = win.getContent().innerHTML;
+	     }
 	</script>
 	<script language="JavaScript" type="text/JavaScript">
 			var roleRowInserterProps= {
@@ -79,7 +97,7 @@
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								//hiddenField=userEmailAutocompleterProps.basename+"-hidden"
 	    							hiddenField=inputElement.id.split("-")[0]+"-hidden";
-	    							$(hiddenField).value=selectedChoice.id;
+	    							$(hiddenField).value=selectedChoice.contactMechanisms[0].value;
 			 }
         }         
 	</script>
@@ -116,9 +134,18 @@
 					</td>
 					<td></td>			
 					<td align="right" valign="top">Message Details:
-					
+						
+						<!-- liteView popup -->
+						<div id="emailMessageDetails-${nStatus.index}" style="display:none">	
+							<form:input path="plannedNotifications[${nStatus.index}].title" size="100" cssStyle="width:96%;" onfocus="lastElement = this;" />
+							
+						</div>
+						<!-- liteview popup -->
+						
 					</td> 
-		            <td align="left" rowspan="2"><textarea id="emailBody" rows="3" cols="25"></textarea></td>
+		            <td align="left" rowspan="2">
+		            	<form:textarea title="Click to Edit"  rows="3" cols="25" path="plannedNotifications[${nStatus.index}].message" onclick="showMessageBody('${nStatus.index}');"/>
+		            </td>
 		        </tr>
 		        
 		        <tr><td align="right">Frequency:</td>
@@ -146,13 +173,13 @@
 						<c:forEach var="email" varStatus="emailStatus" items="${command.plannedNotifications[nStatus.index].userBasedRecipient}">
 							<tr id="table1-${emailStatus.index}">
 								<td class="alt">
-									<input type="hidden" id="userEmail${nStatus.index}-hidden" 
-										name="plannedNotifications[${nStatus.index}].userBasedRecipient[emailStatus.index].emailAddress" 
+									<input type="hidden" id="userEmail${emailStatus.index}-hidden" 
+										name="plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].emailAddress" 
 										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
-									<input id="plannedNotifications[${nStatus.index}].userBasedRecipient[emailStatus.index].emailAddress-input" size="40" type="text" 
+									<input id="userEmail${emailStatus.index}-input" size="40" type="text" 
 										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" class="autocomplete validate-notEmpty" />
-									<tags:indicator id="plannedNotifications[${nStatus.index}].userBasedRecipient[emailStatus.index].emailAddress-indicator" />
-									<div id="plannedNotifications[${nStatus.index}].userBasedRecipient[emailStatus.index].emailAddress-choices" class="autocomplete"></div>
+									<tags:indicator id="userEmail${emailStatus.index}-indicator" />
+									<div id="userEmail${emailStatus.index}-choices" class="autocomplete"></div>
 								</td>
 								<td class="alt"><a
 									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${email.id==null?'HC#':'ID#'}${email.id==null?email.hashCode:email.id}');">
@@ -183,8 +210,8 @@
 			      	</td>         
 		      	</tr>
 		
-		      	<tr><td colspan="5"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer">
-		      	
+		      	<tr><td colspan="5"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
+		      	</table>
 		      	</chrome:deletableDivision></td>
 				</tr>
 				</table>
@@ -223,8 +250,18 @@
 	                </select>
 				</td>
 				<td></td>
-				<td align="right" valign="top">Message Details:</td> 
-	            <td align="left" rowspan="2"><textarea id="emailBody" rows="3" cols="25"></textarea></td>
+				
+				<td align="right" valign="top">Message Details:
+					<!-- liteView popup -->
+					<div id="emailMessageDetails-PAGE.ROW.INDEX" style="display:none">	
+						<input type="text" id="plannedNotifications[PAGE.ROW.INDEX].title" name="plannedNotifications[PAGE.ROW.INDEX].title" size="100" class="width:96%;" onfocus="lastElement = this;" />
+					</div>
+					<!-- liteview popup -->					
+				</td> 
+	            <td align="left" rowspan="2">
+	            	<textarea title="Click to Edit"  rows="3" cols="25" id="plannedNotifications[PAGE.ROW.INDEX].message"
+	            			name="plannedNotifications[PAGE.ROW.INDEX].message" onclick="showMessageBody('PAGE.ROW.INDEX');"></textarea>
+	            </td>
 	        </tr>
 	        
 	        <tr><td align="right">Frequency:</td>
@@ -275,13 +312,13 @@
 			<table>
 			<tr>
 				<td class="alt">
-					<input type="hidden" id="userEmail[PAGE.ROW.INDEX]-hidden" 
+					<input type="hidden" id="userEmailNESTED.PAGE.ROW.INDEX-hidden" 
 							name="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress" 
 							value="${command.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" />
-					<input id="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress-input" size="40" type="text" 
+					<input id="userEmailNESTED.PAGE.ROW.INDEX-input" size="40" type="text" 
 							value="${command.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" class="autocomplete validate-notEmpty" />
-					<tags:indicator id="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress-indicator" />
-					<div id="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress-choices" class="autocomplete"></div></td>
+					<tags:indicator id="userEmailNESTED.PAGE.ROW.INDEX-indicator" />
+					<div id="userEmailNESTED.PAGE.ROW.INDEX-choices" class="autocomplete"></div></td>
 				<td class="alt"><a
 					href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX, -1);">
 					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
@@ -311,5 +348,36 @@
 			</table>
 		</div>
 	
+		<div id="emailMessageDetails" style="display:none">	
+			<table>
+				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
+				<tr><td width="10%" align="right" style="font-size: 11px;">Subject Line:</td> 								 
+				<td><input type="text" id="plannedNotifications.title" size="100" class="width:96%;" onfocus="lastElement = this;" />
+				</td></tr>
+					<!-- <div class="row">
+					 <div class="label"><label for="subject">Substitution Variables</label></div>
+					 <div class="value">
+						<select id="subVar" name="subVar">
+							<option value="">Please Select</option>
+							<option value="SS" selected="selected">CoordinatingCenter Study Status</option>
+							<option value="ID">Study Id</option>
+							<option value="ST">Study Short Title</option>
+							<option value="IN">Registration status</option>
+						</select>				
+					 </div>
+					</div> -->
+				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
+				<tr><td valign="top" align="right" style="font-size: 11px;">Message:</td>
+					<td>
+						<textarea rows="20" cols="97" id="plannedNotifications.message"></textarea>
+					</td>
+				</tr>
+				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
+				<tr><td colspan="2" align="right">
+						<input type="button" value="Update" onclick="updateMessage('${nStatus.index}');" />
+						<input type="button" value="Cancel" onclick="win.close();" />
+				</td></tr>				
+			</table>
+		</div>
 	</body>
 </html>

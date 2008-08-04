@@ -16,18 +16,21 @@
             <div class="row" >
             <table class="tablecontent" width="60%">
 				<tr>
-					<td width="35%" class="alt" align="left"><b>Events Registered<b></td>
+					<td width="35%" class="alt" align="left"><b>Event Registered<b></td>
 					<td class="alt" align="left">
-						<table border="1">	
-							<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
-								<tr>
-								<td class="alt" align="left">${plannedNotification.eventName.displayName}</td>
-								<td class="alt" align="left">${plannedNotification.frequency.displayName}</td>
-								</tr>
-							</c:forEach>
-						</table>
+						<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
+							${plannedNotification.eventName.displayName}
+						</c:forEach>
 					</td>
-				</tr>						
+				</tr>
+				<tr>
+					<td width="35%" class="alt" align="left"><b>Frequency<b></td>
+					<td class="alt" align="left">
+						<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
+							${plannedNotification.frequency.displayName}
+						</c:forEach>
+					</td>
+				</tr>				
 			</table>
               </div>
 		<br/>
