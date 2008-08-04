@@ -17,6 +17,8 @@ public class UserBasedRecipient extends Recipient {
 
     private ResearchStaff researchStaff;
     private Investigator investigator;
+    
+    private String emailAddress;
 
 	@ManyToOne
     @JoinColumn(name = "investigators_id")
@@ -41,10 +43,11 @@ public class UserBasedRecipient extends Recipient {
 	}
     
     @Transient
-	public String getEmailAddress(){
-		
-		List<ContactMechanism> cmList = null;
-		
+	public String getEmailAddress(){		
+    	if(this.emailAddress != null && this.emailAddress!= "" ){
+    		return this.emailAddress;
+    	}
+		List<ContactMechanism> cmList = null;		
 		if(researchStaff != null){
 			cmList = researchStaff.getContactMechanisms();
 		} else {
@@ -62,6 +65,10 @@ public class UserBasedRecipient extends Recipient {
 		}			
 		return "";
 	}
+    
+    public void setEmailAddress(String emailAddress){
+    	this.emailAddress = emailAddress;
+    }
 	   
     @Override
     @Transient
