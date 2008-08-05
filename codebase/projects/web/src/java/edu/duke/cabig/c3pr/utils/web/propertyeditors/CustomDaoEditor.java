@@ -17,14 +17,14 @@ public class CustomDaoEditor extends PropertyEditorSupport {
         this.dao = dao;
     }
 
-    @Override
+    /*@Override
     public void setValue(Object value) {
         if (value != null && !(dao.domainClass().isAssignableFrom(value.getClass()))) {
             throw new IllegalArgumentException("This editor only handles instances of "
                             + dao.domainClass().getName());
         }
         setValue((DomainObject) value);
-    }
+    }*/
 
     private void setValue(DomainObject value) {
         if (value != null && value.getId() == null) {
