@@ -28,6 +28,8 @@ public class Investigator extends C3PRUser {
     private LazyListHelper lazyListHelper;
 
     private String fullName;
+    
+    private List<UserBasedRecipient> userBasedRecipient;
 
     // business methods
 
@@ -135,5 +137,16 @@ public class Investigator extends C3PRUser {
         else if (!nciIdentifier.equalsIgnoreCase(other.nciIdentifier)) return false;
         return true;
     }
+
+    @OneToMany
+    @Cascade(value = { CascadeType.LOCK})
+    @JoinColumn(name = "investigators_id")
+	public List<UserBasedRecipient> getUserBasedRecipient() {
+		return userBasedRecipient;
+	}
+
+	public void setUserBasedRecipient(List<UserBasedRecipient> userBasedRecipient) {
+		this.userBasedRecipient = userBasedRecipient;
+	}
 
 }

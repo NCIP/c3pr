@@ -19,6 +19,7 @@ public class UserBasedRecipient extends Recipient {
     private Investigator investigator;
     
     private String emailAddress;
+    
 
 	@ManyToOne
     @JoinColumn(name = "investigators_id")
@@ -69,6 +70,20 @@ public class UserBasedRecipient extends Recipient {
     public void setEmailAddress(String emailAddress){
     	this.emailAddress = emailAddress;
     }
+    
+    @Transient
+	public String getFullName(){		
+ 
+		String fullName = "";		
+		if(researchStaff != null){
+			fullName = researchStaff.getFirstName() +" "+ researchStaff.getLastName();
+		} else {
+			if(investigator != null){
+				fullName = investigator.getFirstName() +" "+ investigator.getLastName();
+			}
+		}
+		return fullName;
+	}
 	   
     @Override
     @Transient

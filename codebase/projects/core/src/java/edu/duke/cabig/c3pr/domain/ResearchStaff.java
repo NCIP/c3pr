@@ -31,6 +31,8 @@ public class ResearchStaff extends User {
 
     private HealthcareSite healthcareSite;
     
+    private List<UserBasedRecipient> userBasedRecipient;
+    
 	public ResearchStaff() {
 		super();
 	}
@@ -133,5 +135,16 @@ public class ResearchStaff extends User {
     public void setNciIdentifier(String nciIdentifier) {
         this.nciIdentifier = nciIdentifier;
     }
+
+    @OneToMany
+    @Cascade(value = { CascadeType.LOCK})
+    @JoinColumn(name = "research_staff_id")
+	public List<UserBasedRecipient> getUserBasedRecipient() {
+		return userBasedRecipient;
+	}
+
+	public void setUserBasedRecipient(List<UserBasedRecipient> userBasedRecipient) {
+		this.userBasedRecipient = userBasedRecipient;
+	}
 
 }

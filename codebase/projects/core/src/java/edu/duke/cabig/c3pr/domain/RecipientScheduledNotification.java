@@ -7,6 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -25,9 +26,11 @@ public class RecipientScheduledNotification extends AbstractMutableDeletableDoma
 	
 	private Boolean isRead;
 	
-	private ScheduledEmailNotificationDeliveryStatusEnum deliverystatus;
+	private ScheduledEmailNotificationDeliveryStatusEnum deliveryStatus;
 	
 	private Recipient recipient;
+	
+	private ScheduledNotification scheduledNotification;
 
 	@ManyToOne
     @JoinColumn(name = "recipients_id")
@@ -49,13 +52,13 @@ public class RecipientScheduledNotification extends AbstractMutableDeletableDoma
 	}
 
 	@Enumerated(EnumType.STRING)
-	public ScheduledEmailNotificationDeliveryStatusEnum getDeliverystatus() {
-		return deliverystatus;
+	public ScheduledEmailNotificationDeliveryStatusEnum getDeliveryStatus() {
+		return deliveryStatus;
 	}
 
-	public void setDeliverystatus(
-			ScheduledEmailNotificationDeliveryStatusEnum deliverystatus) {
-		this.deliverystatus = deliverystatus;
+	public void setDeliveryStatus(
+			ScheduledEmailNotificationDeliveryStatusEnum deliveryStatus) {
+		this.deliveryStatus = deliveryStatus;
 	}
 
 	public Boolean getIsRead() {
@@ -64,6 +67,17 @@ public class RecipientScheduledNotification extends AbstractMutableDeletableDoma
 
 	public void setIsRead(Boolean isRead) {
 		this.isRead = isRead;
+	}
+
+    @ManyToOne
+    @Cascade(value = { CascadeType.LOCK})
+    @JoinColumn(name = "schld_notfns_id")
+	public ScheduledNotification getScheduledNotification() {
+		return scheduledNotification;
+	}
+
+	public void setScheduledNotification(ScheduledNotification scheduledNotification) {
+		this.scheduledNotification = scheduledNotification;
 	}
 
 }
