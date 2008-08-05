@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,14 +10,17 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
+import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
+import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
@@ -45,6 +49,8 @@ public class NotificationEmailService {
     
     private Configuration configuration;
     
+    private PlannedNotificationDao plannedNotificationDao;
+    
     /**
      * This method is reponsible for figuring out the email address from notifications and sending
      * out the notification email using Javamail.
@@ -61,7 +67,13 @@ public class NotificationEmailService {
                 msg.setTo(emailAddress);
                 msg.setText(plannedNotification.getMessage());
                 log.debug("Trying to send study status change notification email");
+                
+                //saving the ScheduledNotification
+                addScheduledNotification(plannedNotification);
+                plannedNotificationDao.merge(plannedNotification);
+                
                 this.mailSender.send(msg);
+                
             }
             catch (MailException e) {
                 log.error("Could not send email due to  " + e.getMessage());
@@ -155,6 +167,39 @@ public class NotificationEmailService {
     	return healthcareSiteDao.getByNciInstituteCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
     }
     
+    
+    public void addScheduledNotification(PlannedNotification plannedNotification){
+    	
+    	//List<ScheduledNotification> scList = new ArrayList<ScheduledNotification>();
+    	ScheduledNotification scheduledNotification = new ScheduledNotification();
+    	//scList.add(scheduledNotification);
+    	plannedNotification.getScheduledNotification().add(scheduledNotification);
+    	RecipientScheduledNotification rsn; 
+    	for(RoleBasedRecipient rbr: plannedNotification.getRoleBasedRecipient()){
+    		rsn = new RecipientScheduledNotification();
+    		rsn.setRecipient(rbr);
+    		rsn.setIsRead(Boolean.FALSE);
+    		rsn.setScheduledNotification(scheduledNotification);
+    		scheduledNotification.getRecipientScheduledNotification().add(rsn);
+    		scheduledNotification.setDateSent(new Date());
+    		scheduledNotification.setMessage(plannedNotification.getMessage());
+    		scheduledNotification.setTitle(plannedNotification.getTitle());
+    	}
+    	
+    	for(UserBasedRecipient ubr: plannedNotification.getUserBasedRecipient()){
+    		rsn = new RecipientScheduledNotification();
+    		rsn.setRecipient(ubr);
+    		rsn.setIsRead(Boolean.FALSE);
+    		rsn.setScheduledNotification(scheduledNotification);
+    		scheduledNotification.getRecipientScheduledNotification().add(rsn);
+    		scheduledNotification.setDateSent(new Date());
+    		scheduledNotification.setMessage(plannedNotification.getMessage());
+    		scheduledNotification.setTitle(plannedNotification.getTitle());
+    	}
+    	return;
+    }
+    
+    
     public MailSender getMailSender() {
         return mailSender;
     }
@@ -193,6 +238,15 @@ public class NotificationEmailService {
 
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+	public PlannedNotificationDao getPlannedNotificationDao() {
+		return plannedNotificationDao;
+	}
+
+	public void setPlannedNotificationDao(
+			PlannedNotificationDao plannedNotificationDao) {
+		this.plannedNotificationDao = plannedNotificationDao;
 	}
 
 /*    public PersonnelServiceImpl getPersonnelServiceImpl() {
