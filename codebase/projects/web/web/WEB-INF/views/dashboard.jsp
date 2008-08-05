@@ -4,6 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://jawr.net/tags" prefix="jwr" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 
 <%--
   User: ion
@@ -20,6 +21,14 @@
     <c:set var="bgcolorAlternate" value="#eeeeee"/>
     <c:set var="bgcolor" value="#ffffff"/>
 
+	<script>
+		function showMessageBody(id){
+	     		var win = new Window({className: "dialog", width:710, height:350, zIndex: 100, resizable: true, title:"Email Message", 
+	        	showEffect:Effect.BlindDown, hideEffect: Effect.BlindUp, draggable:true, wiredDrag: true}); 
+	        	win.getContent().innerHTML = $(id).innerHTML;
+		     	win.showCenter();
+	     }   
+	</script>
 </head>
 <body>
 
@@ -39,7 +48,74 @@
 
         </chrome:box>
         <chrome:box title="C3PR Notifications">
-            _CONTENT_
+          <c:choose> 
+           <c:when test="${(empty recipientScheduledNotification || fn:length(recipientScheduledNotification) == 0)
+            			 && (empty scheduledNotifications || fn:length(scheduledNotifications) == 0)} ">
+           		You don't have any notifications.
+           </c:when>
+           <c:otherwise>
+           		<table width="100%" cellspacing="1" cellpadding="2">
+                    <tr bgcolor="${bgcolorAlternate}">
+                        <td width="65%"><b>Title </b></td>
+                        <td width="35%"><b>Date</b></td>
+                    </tr>
+                    <c:forEach var="rsn" items="${recipientScheduledNotification}" varStatus="rsnStatus" end="5">
+                    	<c:if test="${rsnStatus.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
+                        <c:if test="${rsnStatus.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
+                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${rsnStatus.count}">
+                            <chrome:td bgcolor="${bg}"><a href="javascript:showMessageBody('messageDetails-${rsnStatus.index}')">
+                            		<c:out value="${rsn.scheduledNotification.title}" /></a>
+                            </chrome:td>
+                            <chrome:td bgcolor="${bg}"><fmt:formatDate value="${rsn.scheduledNotification.dateSent}" pattern="MM/dd/yyyy"/></chrome:td>
+                        </chrome:tr>
+                        <tr style="display:none;"><td>
+                        	<div id="messageDetails-${rsnStatus.index}">
+                            		<table>
+										<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
+										<tr><td width="10%" align="right" style="font-size: 11px;">Subject Line:</td> 								 
+										<td><input type="text" name="title" value="${rsn.scheduledNotification.title}" size="50" class="width:96%;" onfocus="lastElement = this;" />
+										</td></tr>
+											
+										<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
+										<tr><td valign="top" align="right" style="font-size: 11px;">Message:</td>
+											<td>
+												<textarea rows="10" cols="57" id="message">${rsn.scheduledNotification.message}</textarea>
+											</td>
+										</tr>
+									</table>
+                            	</div>
+                        </td></tr>
+                    </c:forEach>
+                    <c:forEach var="sn" items="${scheduledNotifications}" varStatus="snStatus" end="5">
+                    	<c:if test="${snStatus.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
+                        <c:if test="${snStatus.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
+                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${snStatus.count}">
+                            <chrome:td bgcolor="${bg}"><a href="javascript:showMessageBody('messageDetails-${snStatus.index}')">
+                            		<c:out value="${sn.title}" /></a>
+                            		</chrome:td>
+                            <chrome:td bgcolor="${bg}"><fmt:formatDate value="${sn.dateSent}" pattern="MM/dd/yyyy"/></chrome:td>
+                        </chrome:tr>
+                        <tr style="display:none;"><td>
+                        	<div id="messageDetails-${snStatus.index}">
+                           		<table>
+									<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
+									<tr><td width="10%" align="right" style="font-size: 11px;">Subject Line:</td> 								 
+									<td><input type="text" name="title" value="${sn.title}" size="100" class="width:96%;" onfocus="lastElement = this;" />
+									</td></tr>
+										
+									<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
+									<tr><td valign="top" align="right" style="font-size: 11px;">Message:</td>
+										<td>
+											<textarea rows="20" cols="97" id="message">${sn.message}</textarea>
+										</td>
+									</tr>
+								</table>
+                           	</div>
+	                       </td></tr>
+                    </c:forEach>
+                </table>
+           </c:otherwise>
+         </c:choose>
         </chrome:box>
         <chrome:box title="C3PR Development Notes">
 			<br>			
