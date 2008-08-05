@@ -52,6 +52,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	@Override
 	public boolean onSave(Object entity, Serializable id, Object[] state,
 		String[] propertyNames, Type[] types) {
+		log.debug(this.getClass().getName() + ": Entering onSave()");
 		//SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
 		//Session session  = sessionFactory.openSession();	
 		//Serializable persistedObjectId = getObjectId(entity);
@@ -62,7 +63,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		if(entity instanceof StudySite){
 			handleNewStudySiteSaved((StudySite)entity);
 		}
-		
+		log.debug(this.getClass().getName() + ": Exiting onSave()");
 		return false;
 	}
 
@@ -94,6 +95,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	public boolean onFlushDirty(final Object entity, Serializable id, final Object[] currentState,
 					            final Object[] previousState, String[] propertyNames, Type[] types) {
 		
+		log.debug(this.getClass().getName() + ": Entering onFlushDirty()");
 		//Study related property updates are spotted here for activating the corresponding rules.
 		if(entity instanceof Study){
 			for (int i = 0; i < propertyNames.length; i++) {
@@ -111,18 +113,23 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 				}
 			}
 		}		
+		log.debug(this.getClass().getName() + ": Exiting onFlushDirty()");
 		return false;
 	}
 	
 	
 	public void handleNewStudySaved(Study study){
+		log.debug(this.getClass().getName() + ": Entering handleNewStudySaved()");
 		rulesDelegationService.activateRules(RulesDelegationServiceImpl.NEW_STUDY_SAVED_EVENT, study, 
 				null, study.getCoordinatingCenterStudyStatus().getCode());
+		log.debug(this.getClass().getName() + ": exiting handleNewStudySaved()");
 	}
 	
 	public void handleNewStudySiteSaved(StudySite studySite){
+		log.debug(this.getClass().getName() + ": Entering handleNewStudySiteSaved()");
 		rulesDelegationService.activateRules(RulesDelegationServiceImpl.NEW_STUDY_SITE_SAVED_EVENT, studySite,
 				null, studySite.getSiteStudyStatus().getCode());
+		log.debug(this.getClass().getName() + ": exiting handleNewStudySiteSaved()");
 	}
 	
 	
@@ -155,6 +162,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	
 	public void handleStudyStatusChange(final Object previousState, final Object currentState, final Object entity){
 		
+		log.debug(this.getClass().getName() + ": Entering handleStudyStatusChange()");
 		CoordinatingCenterStudyStatus previousCoordinatingCenterStudyStatus = null;
 		CoordinatingCenterStudyStatus currentCoordinatingCenterStudyStatus = null;
 		
@@ -178,7 +186,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			}
 			
 							
-		}						
+		}	
+		log.debug(this.getClass().getName() + ": exiting handleStudyStatusChange()");
 	}
 
 
