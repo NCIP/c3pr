@@ -177,7 +177,7 @@
 										name="plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].emailAddress" 
 										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
 									<input id="userEmail${emailStatus.index}-input" size="40" type="text" 
-										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" class="autocomplete validate-notEmpty" />
+										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].fullName} (${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress})" class="autocomplete validate-notEmpty" />
 									<tags:indicator id="userEmail${emailStatus.index}-indicator" />
 									<div id="userEmail${emailStatus.index}-choices" class="autocomplete"></div>
 								</td>
