@@ -81,6 +81,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         if (studySubject.getScheduledEpochs().size() == 1) {
             newRegistration = true;
         }
+        map.put("hasCompanions", studySubject.getStudySite().getStudy().getCompanionStudyAssociations().size()>0);
         map.put("actionRequired", actionRequired);
         map.put("actionLabel", actionLabel);
         map.put("newRegistration", newRegistration);
