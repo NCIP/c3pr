@@ -41,7 +41,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 			StatefulSession statefulSession = ruleBase.newStatefulSession();
         	statefulSession.fireAllRules();
 		}*/
-		
+		log.debug(this.getClass().getName() + ": Entering activateRules()");
 		ArrayList objList = new ArrayList();
 		objList.add(obj);
 		//objList.add(new RulesDelegationServiceImpl());
@@ -52,6 +52,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 		}catch(RuleException re){
 			log.error(re.getMessage());
 		}
+		log.debug(this.getClass().getName() + ": Entering activateRules()");
 		
 	}
 	
