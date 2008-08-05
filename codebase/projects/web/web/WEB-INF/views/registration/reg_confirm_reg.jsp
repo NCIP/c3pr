@@ -49,7 +49,7 @@ function createReg(studySite, participant, parentRegistrationId){
 
 <br/>
 
-<!--	newRegistration: ${newRegistration}<br>
+<!--  newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
 	reg_pending:${reg_pending }<br>
@@ -67,7 +67,7 @@ function createReg(studySite, participant, parentRegistrationId){
 	isDataEntryComplete:${isDataEntryComplete }<br>
 	epoch_unrandomized:${ epoch_unrandomized}<br>
 	actionRequired :${actionRequired}
-	registerableWithCompanions :${registerableWithCompanions}  -->
+	registerableWithCompanions :${registerableWithCompanions}  --> 
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
@@ -100,6 +100,15 @@ function createReg(studySite, participant, parentRegistrationId){
 	</c:when>
 	<c:otherwise>
 		<c:choose>
+		<c:when test="${reg_registered && hasCompanions}">
+			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
+			and save this confirmation in the subject study records </strong></font></c:when>
+		<c:when test="${hasCompanions && !registerableWithCompanions}">
+			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></strong></font></c:when>
+		<c:when test="${hasCompanions && registerableWithCompanions}">
+			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></strong></font></c:when>
+		<c:when test="${isDataEntryComplete && hasParent}">
+			<font color='<fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></strong></font></c:when>	
 		<c:when test="${epoch_approved}">
 			<font color='<fmt:message key="TRANSFER.SUCCESS.COLOR"/>'><strong><fmt:message key="TRANSFER.SUCCESS"/></strong></font></c:when>
 		<c:when test="${epoch_pending}">
@@ -218,7 +227,7 @@ function createReg(studySite, participant, parentRegistrationId){
 <chrome:division title="Companion Studies">
     <table class="tablecontent" width="50%">
         <tr>
-            <th width="75%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
             <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
             <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
         </tr>

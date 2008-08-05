@@ -78,9 +78,24 @@
 			$('hotlinksForm').action=url;
 			$('hotlinksForm').submit();
 		}
+		function createReg(studySite, participant, parentRegistrationId){
+			$('create_studySite').value=studySite;
+			$('create_participant').value=participant;
+			$('create_parent_id').value=parentRegistrationId;
+			$('create').submit();
+		}
     </script>
 </head>
 <body>
+<form action="../registration/createRegistration" method="post" id="create">
+	<input type="hidden" name="_page" id="_page0" value="0"/>
+	<input type="hidden" name="_target1" id="_target1" value="1"/>
+	<input type="hidden" name="studySite" id="create_studySite" value=""/>
+	<input type="hidden" name="participant" id="create_participant" value=""/>
+	<input type="hidden" name=parentRegistrationId id="create_parent_id" value=""/>
+	<input type="hidden" name="create_companion" value=""/>
+	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
+</form>
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.gridId }"/>
 </form>
@@ -207,11 +222,12 @@
         </tr>
     </table>
 </chrome:division>
-<div <c:if test="${empty command.childStudySubjects}">style="display:none;"</c:if>>
+
+<c:if test="${hasCompanions && command.dataEntryStatusString=='Complete' && command.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
 <chrome:division title="Companion Studies">
     <table class="tablecontent" width="50%">
         <tr>
-            <th width="75%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
             <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
             <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
         </tr>
@@ -255,7 +271,7 @@
         </c:forEach>
     </table>
 </chrome:division>
-</div>
+</c:if>
 
 <div <c:if test="${empty command.parentStudySubject}">style="display:none;"</c:if>>
 <chrome:division title="Parent Study">
