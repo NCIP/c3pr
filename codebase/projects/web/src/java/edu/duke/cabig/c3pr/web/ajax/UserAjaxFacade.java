@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.ajax;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -94,8 +95,8 @@ public class UserAjaxFacade {
     	//Defaulting to the hosting site...until we provide notifications to external sites.
     	String nciInstituteCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
     	
-        List<ResearchStaff> researchStaffList = researchStaffDao.getBySubNameAndSubEmail(extractSubnames(text), nciInstituteCode);
-        List<HealthcareSiteInvestigator> hcsInvestigatorsList = healthcareSiteInvestigatorDao.getBySubNameAndSubEmail(extractSubnames(text), nciInstituteCode);
+        List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>(new LinkedHashSet<ResearchStaff> (researchStaffDao.getBySubNameAndSubEmail(extractSubnames(text), nciInstituteCode)));
+        List<HealthcareSiteInvestigator> hcsInvestigatorsList = new ArrayList<HealthcareSiteInvestigator>(new LinkedHashSet<HealthcareSiteInvestigator> (healthcareSiteInvestigatorDao.getBySubNameAndSubEmail(extractSubnames(text), nciInstituteCode)));
 
         List<Investigator> investigatorsList = new ArrayList<Investigator>();
         for(HealthcareSiteInvestigator hcsi: hcsInvestigatorsList){
