@@ -74,7 +74,6 @@ public class RegistrationControllerUtils {
 		}
 		int count = 0;
 		for (ScheduledEpoch scheduledEpoch : studySubject.getScheduledEpochs()) {
-			if (scheduledEpoch.getEpoch().isEnrolling())
 				count++;
 		}
 		if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
@@ -83,7 +82,7 @@ public class RegistrationControllerUtils {
 			reg_nonenrolled = true;
 			epoch_nonenrolled = true;
 		}
-		if (count > 0)
+		if (studySubject.getScheduledEpochs().size() > 1)
 			newRegistration = false;
 		if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE
