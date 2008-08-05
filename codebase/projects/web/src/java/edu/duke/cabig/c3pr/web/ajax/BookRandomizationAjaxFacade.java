@@ -55,21 +55,30 @@ public class BookRandomizationAjaxFacade {
         else {
             context = new HttpServletRequestContext(req);
         }
-
+        
+        Study study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command");
         String action = "/pages/study/createStudy";
-        Study study = (Study) req.getSession().getAttribute(
-                        "edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command");
+        
         if (study == null) {
-            if (flowType.equals("AMEND_STUDY")) {
-                study = (Study) req.getSession().getAttribute(
-                                "edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command");
+        	if (flowType.equals("CREATE_STUDY")) {
+        		study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController.FORM.command");
+                action = "/pages/study/createCompanionStudy";	
+        	}else if (flowType.equals("AMEND_STUDY")) {
+                study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command");
                 action = "/pages/study/amendStudy";
-            }
-            else {
-                study = (Study) req.getSession().getAttribute(
-                                "edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command");
+                if(study == null){
+                	study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController.FORM.command");
+                	action = "/pages/study/amendCompanionStudy";
+                }
+            }else {
+                study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command");
                 action = "/pages/study/editStudy";
+                if(study == null){
+                	study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.EditCompanionStudyController.FORM.command");
+                	action = "/pages/study/editCompanionStudy";
+                }
             }
+            
             if (study != null && study instanceof Study) {
                 studyDao.reassociate(study);
             }

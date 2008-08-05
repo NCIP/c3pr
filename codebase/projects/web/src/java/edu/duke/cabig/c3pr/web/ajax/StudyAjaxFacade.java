@@ -440,6 +440,17 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
             if (sessionFormObject == null) {
                 formAttrName = getFormSessionAttributeNameAmend();
                 sessionFormObject = session.getAttribute(formAttrName);
+            }if (sessionFormObject == null) {
+                formAttrName = getFormSessionAttributeNameCreateCompanion();
+                sessionFormObject = session.getAttribute(formAttrName);
+                if (sessionFormObject == null) {
+                    formAttrName = getFormSessionAttributeNameEditCompanion();
+                    sessionFormObject = session.getAttribute(formAttrName);
+                    if (sessionFormObject == null) {
+                        formAttrName = getFormSessionAttributeNameAmendCompanion();
+                        sessionFormObject = session.getAttribute(formAttrName);
+                    }
+                }
             }
             return sessionFormObject;
         }
@@ -457,6 +468,18 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
     private String getFormSessionAttributeNameAgain() {
         return "edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command";
+    }
+    
+    private String getFormSessionAttributeNameAmendCompanion() {
+        return "edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController.FORM.command";
+    }
+
+    private String getFormSessionAttributeNameCreateCompanion() {
+        return "edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController.FORM.command";
+    }
+
+    private String getFormSessionAttributeNameEditCompanion() {
+        return "edu.duke.cabig.c3pr.web.study.EditCompanionStudyController.FORM.command";
     }
 
     private String[] extractSubnames(String text) {
