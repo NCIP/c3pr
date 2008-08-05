@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.PropertyWrapper;
+import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
@@ -35,6 +37,8 @@ public class DashboardController extends ParameterizableViewController {
 	private String filename;
 	private StudyServiceImpl studyService;
 	private StudySubjectServiceImpl studySubjectService;
+    private ResearchStaffDao researchStaffDao;
+    private PlannedNotificationDao plannedNotificationDao;
 
 	public static final int MAX_RESULTS = 5;
 
@@ -81,6 +85,26 @@ public class DashboardController extends ParameterizableViewController {
 		getRecentPendingStudies(request);
 		getRecentPendingRegistrations(request);
 
+		gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User)request.getSession().getAttribute("userObject");
+        List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(user.getEmailId());
+        ResearchStaff rs  = null;
+        List<RecipientScheduledNotification> notificationsList = new ArrayList<RecipientScheduledNotification>();
+        List<ScheduledNotification> scheduledNotificationsList = new ArrayList<ScheduledNotification>();
+        if(rsList.size() == 1){
+        	rs = rsList.get(0);
+        	for(UserBasedRecipient ubr: rs.getUserBasedRecipient()){
+        		notificationsList.addAll(ubr.getRecipientScheduledNotification());
+        	}
+        }else{
+        	//for the admin case
+        	for(PlannedNotification pn: plannedNotificationDao.getAll()){
+        		scheduledNotificationsList.addAll(pn.getScheduledNotification());
+        	}
+        }
+        
+        request.setAttribute("recipientScheduledNotification", notificationsList);
+        request.setAttribute("scheduledNotifications", scheduledNotificationsList);
+        
 		return super.handleRequestInternal(request, response);
 	}
 
@@ -117,5 +141,22 @@ public class DashboardController extends ParameterizableViewController {
 		List<StudySubject> registrations = studySubjectService.getIncompleteRegistrations(registration, MAX_RESULTS);
 		log.debug("Unregistred Registrations found: " + registrations.size());
 		request.setAttribute("uRegistrations", registrations);
+	}
+	
+	public ResearchStaffDao getResearchStaffDao() {
+		return researchStaffDao;
+	}
+
+	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
+		this.researchStaffDao = researchStaffDao;
+	}
+
+	public PlannedNotificationDao getPlannedNotificationDao() {
+		return plannedNotificationDao;
+	}
+
+	public void setPlannedNotificationDao(
+			PlannedNotificationDao plannedNotificationDao) {
+		this.plannedNotificationDao = plannedNotificationDao;
 	}
 }
