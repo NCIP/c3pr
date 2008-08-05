@@ -58,6 +58,7 @@ public class NotificationEmailService {
      * @param study
      */
     public void sendEmail(PlannedNotification plannedNotification) {
+    	log.debug(this.getClass().getName() + ": Entering sendEmail()");
         List<String> emailList = null;
         emailList = generateEmailList(plannedNotification);
         for (String emailAddress : emailList) {
@@ -80,6 +81,7 @@ public class NotificationEmailService {
                 // just log it for now
             }
         }
+        log.debug(this.getClass().getName() + ": Exiting sendEmail()");
     }
 
     /**
@@ -89,16 +91,18 @@ public class NotificationEmailService {
      * retrieved and their email addresses have to be addded to the finalList.
      */
     public List<String> generateEmailList(PlannedNotification plannedNotification) {
+    	log.debug(this.getClass().getName() + ": Entering generateEmailList()");
         List<String> emailList = new ArrayList<String>();
     	emailList.addAll(getEmailsFromRoleBasedRecipient(plannedNotification));
     	emailList.addAll(getEmailsFromUserBasedRecipient(plannedNotification));
 //    	emailList.addAll(getEmailsFromContactMechanismBasedRecipient(plannedNotification));
-    	
+    	log.debug(this.getClass().getName() + ": Exiting generateEmailList()");
     	return emailList;
         
     }
 
     public List<String> getEmailsFromRoleBasedRecipient(PlannedNotification plannedNotification) {
+    	log.debug(this.getClass().getName() + ": Entering getEmailsFromRoleBasedRecipient()");
         List<String> returnList = new ArrayList<String>();
         List<C3PRUserGroupType> groupList = null;
         List<ResearchStaff> rStaffList = null;
@@ -123,6 +127,7 @@ public class NotificationEmailService {
                 }
             }
         }
+        log.debug(this.getClass().getName() + ": exiting getEmailsFromRoleBasedRecipient()");
         return returnList;
     }
 
@@ -149,6 +154,7 @@ public class NotificationEmailService {
 
     
     public List<String> getEmailsFromUserBasedRecipient(PlannedNotification plannedNotification){
+    	log.debug(this.getClass().getName() + ": Entering getEmailsFromUserBasedRecipient()");
     	List<String> returnList = new ArrayList<String>();
     	
     	for(UserBasedRecipient ubr: plannedNotification.getUserBasedRecipient()){
@@ -159,6 +165,7 @@ public class NotificationEmailService {
             	returnList.addAll(getEmailAddressesFromInvestigator(ubr.getInvestigator()));
             }
     	}
+    	log.debug(this.getClass().getName() + ": exiting getEmailsFromUserBasedRecipient()");
     	return returnList;
     }
     
