@@ -291,6 +291,7 @@
     <bean id="stratificationAnswerDao" parent="daoTemplate"
           class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byName"/>
     <bean id="stratumGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratumGroupDao" autowire="byName"/>
+	<bean id="plannedNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.PlannedNotificationDao" autowire="byName"/>
 
 	<!-- Multisite Request Handlers -->
     <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
