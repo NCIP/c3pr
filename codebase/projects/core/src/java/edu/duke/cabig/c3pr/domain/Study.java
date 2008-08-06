@@ -975,7 +975,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
    		  if (!(this.hasStratifiedEpoch())){
    				 throw getC3PRExceptionHelper()
 					.getException(
-							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFIED_EPOCH_FOR_RANDOMIZED_STUDY.CODE"));
+							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFIED_EPOCH_FOR_STRATIFIED_STUDY.CODE"));
    		 }
     	}
     	
