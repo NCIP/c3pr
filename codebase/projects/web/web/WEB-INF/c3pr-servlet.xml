@@ -135,15 +135,7 @@
     </bean>
     <!-- mapping for REPORT task -->
 
-	<!-- mapping for NOTIFICATIONS task 
-    <bean name="/admin/notification" id="createNotificationController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
-        <property name="viewName" value="/admin/notification"/>
-    </bean>
-    <bean name="/admin/notification_emailDetails" id="createNotificationEmailDetails"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
-        <property name="viewName" value="/admin/notification_emailDetails"/>
-    </bean> -->
+	<!-- mapping for NOTIFICATIONS task  -->
     <bean name="/admin/searchNotification" id="searchNotificationController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/admin/notification_search"/>
