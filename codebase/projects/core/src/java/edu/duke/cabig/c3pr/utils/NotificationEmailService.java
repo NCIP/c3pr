@@ -180,6 +180,9 @@ public class NotificationEmailService {
     	ScheduledNotification scheduledNotification = new ScheduledNotification();
     	//scList.add(scheduledNotification);
     	plannedNotification.getScheduledNotification().add(scheduledNotification);
+    	scheduledNotification.setDateSent(new Date());
+		scheduledNotification.setMessage(plannedNotification.getMessage());
+		scheduledNotification.setTitle(plannedNotification.getTitle());
     	RecipientScheduledNotification rsn; 
     	for(RoleBasedRecipient rbr: plannedNotification.getRoleBasedRecipient()){
     		rsn = new RecipientScheduledNotification();
@@ -187,9 +190,6 @@ public class NotificationEmailService {
     		rsn.setIsRead(Boolean.FALSE);
     		rsn.setScheduledNotification(scheduledNotification);
     		scheduledNotification.getRecipientScheduledNotification().add(rsn);
-    		scheduledNotification.setDateSent(new Date());
-    		scheduledNotification.setMessage(plannedNotification.getMessage());
-    		scheduledNotification.setTitle(plannedNotification.getTitle());
     	}
     	
     	for(UserBasedRecipient ubr: plannedNotification.getUserBasedRecipient()){
@@ -198,9 +198,6 @@ public class NotificationEmailService {
     		rsn.setIsRead(Boolean.FALSE);
     		rsn.setScheduledNotification(scheduledNotification);
     		scheduledNotification.getRecipientScheduledNotification().add(rsn);
-    		scheduledNotification.setDateSent(new Date());
-    		scheduledNotification.setMessage(plannedNotification.getMessage());
-    		scheduledNotification.setTitle(plannedNotification.getTitle());
     	}
     	return;
     }
