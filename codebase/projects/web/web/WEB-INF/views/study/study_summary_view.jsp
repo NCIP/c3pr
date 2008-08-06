@@ -433,7 +433,11 @@
 							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
 						</c:when>
 						<c:otherwise>                	
-							<input type="button" id="editCompanionStudy" value="Edit" onclick="javascript:document.location='<c:url value='/pages/study/editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
+						<c:if test="${not empty editAuthorizationTask}">  
+							<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
+								<input type="button" id="editCompanionStudy" value="Edit" onclick="javascript:document.location='<c:url value='/pages/study/editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
+							</csmauthz:accesscontrol>
+						</c:if>
 						</c:otherwise>
 					</c:choose>
                 </td>
@@ -454,8 +458,8 @@
                 <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
                 <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.displayName}</td>
                 <td class="alt">
-                <input type="button" id="manageParentStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${parentStudyAssociation.parentStudy.id}' />'"/>
-                </td>
+					<input type="button" id="manageParentStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${parentStudyAssociation.parentStudy.id}' />'"/>
+				</td>
 
    	        </tr>	           
         </c:forEach>
