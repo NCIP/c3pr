@@ -52,6 +52,15 @@ public interface PersonnelService {
      * @throws C3PRBaseException
      */
     public List<C3PRUserGroupType> getGroups(C3PRUser user) throws C3PRBaseException;
+    
+    /**
+     * Get a list of csm groups for the emailId
+     * Used by the dashboardController
+     * @param user
+     * @return
+     * @throws C3PRBaseException
+     */
+    public List<C3PRUserGroupType> getGroups(String emailId) throws C3PRBaseException;
 
     public User getCSMUserByUsername(String userName);
 

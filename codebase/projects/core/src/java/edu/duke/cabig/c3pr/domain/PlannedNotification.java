@@ -16,6 +16,7 @@ import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
@@ -59,7 +60,7 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     @Transient
     public void setRetiredIndicatorAsTrue() {
         super.setRetiredIndicatorAsTrue();
-        this.setRetiredIndicatorAsTrue();
+        //this.setRetiredIndicatorAsTrue();
         Iterator iter = getUserBasedRecipient().iterator();
         while(iter.hasNext()){
         	((UserBasedRecipient)iter.next()).setRetiredIndicatorAsTrue();
@@ -142,6 +143,7 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "planned_notfns_id", nullable = false)
     @Where(clause = "retired_indicator  = 'false'")
+    @OrderBy(clause="date_sent desc")
     public List<ScheduledNotification> getScheduledNotificationInternal() {
         return lazyListHelper.getInternalList(ScheduledNotification.class);
     }

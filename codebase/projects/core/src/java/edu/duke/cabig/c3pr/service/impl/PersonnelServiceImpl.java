@@ -177,6 +177,23 @@ public class PersonnelServiceImpl implements PersonnelService {
 
     }
 
+    public List<C3PRUserGroupType> getGroups(String emailId) throws C3PRBaseException {
+        List<C3PRUserGroupType> groups = new ArrayList<C3PRUserGroupType>();
+
+        try {
+            Set<Group> csmGroups = userProvisioningManager.getGroups(emailId);
+            for (Group csmGroup : csmGroups) {
+                if (C3PRUserGroupType.getByCode(csmGroup.getGroupName()) != null) {
+                    groups.add(C3PRUserGroupType.getByCode(csmGroup.getGroupName()));
+                }
+            }
+        }
+        catch (Exception e) {
+            log.warn("Error getting groups from CSM for loginId: " + emailId);
+        }
+        return groups;
+    }
+    
     private String getGroupIdByName(String groupName) {
         Group search = new Group();
         search.setGroupName(groupName);
