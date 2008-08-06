@@ -60,6 +60,9 @@ public class NotificationEmailService {
     public void sendEmail(PlannedNotification plannedNotification) {
     	log.debug(this.getClass().getName() + ": Entering sendEmail()");
         List<String> emailList = null;
+      //saving the ScheduledNotification
+        addScheduledNotification(plannedNotification);
+        plannedNotificationDao.merge(plannedNotification);
         emailList = generateEmailList(plannedNotification);
         for (String emailAddress : emailList) {
             try {
@@ -68,10 +71,6 @@ public class NotificationEmailService {
                 msg.setTo(emailAddress);
                 msg.setText(plannedNotification.getMessage());
                 log.debug("Trying to send study status change notification email");
-                
-                //saving the ScheduledNotification
-                addScheduledNotification(plannedNotification);
-                plannedNotificationDao.merge(plannedNotification);
                 
                 this.mailSender.send(msg);
                 
