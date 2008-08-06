@@ -200,6 +200,12 @@
           autowire="byName"
           class="edu.duke.cabig.c3pr.web.study.ConfirmStudyController">
           <property name="studyDao" ref="studyDao" />
+          <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Edit Study"
+                    p:linkName="editStudyController"/>
+       	 </property>
     </bean>
     <bean name="/study/editStudy" id="editStudyController"
           class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName">
