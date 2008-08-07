@@ -1019,7 +1019,7 @@ public class StudyDaoTest extends DaoTestCase {
                             totalEpochs.size());
             for (Epoch newEpoch : totalEpochs) {
                 assertEquals("Wrong Treatment Indicator: ",
-                                false, newEpoch.getTreatmentIndicator());
+                                "false", newEpoch.getTreatmentIndicator().toString());
             }
             assertEquals("Wrong epoch name", "Test Non Treatment Epoch",
                             (totalEpochs.get(1))
