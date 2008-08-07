@@ -45,6 +45,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
     private C3PRExceptionHelper exceptionHelper;
     private XmlMarshaller xmlMarshaller;
     
+    
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -68,6 +69,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         studySubjectServiceImpl.setC3prErrorMessages(c3prErrorMessages);
         studySubjectServiceImpl.setExceptionHelper(exceptionHelper);
         studySubjectServiceImpl.setCctsXmlUtility(xmlMarshaller);
+        studySubjectServiceImpl.setMultisiteXmlUtility(xmlMarshaller);
         studySubjectServiceImpl.setJmsCoOrdinatingCenterBroadcaster(jmsCoBroadcaster);
         studySubjectService=studySubjectServiceImpl;
     }
