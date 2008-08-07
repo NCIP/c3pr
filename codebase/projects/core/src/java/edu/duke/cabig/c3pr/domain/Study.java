@@ -135,6 +135,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		multiInstitutionIndicator = false;
 		stratificationIndicator = true;
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
+		standaloneIndicator = true ;
+		companionIndicator = false ;
 
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(StudySite.class,
