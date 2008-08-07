@@ -64,9 +64,9 @@
 				   AutocompleterManager.registerAutoCompleter(clonedRowInserter);
 			   },
 		       onLoadRowInitialize: function(object, currentRowIndex){
-					clonedRowInserter=Object.clone(userEmailAutocompleterProps);
-					clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-					AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+					clonedRowInserter1=Object.clone(userEmailAutocompleterProps);
+					clonedRowInserter1.basename=clonedRowInserter1.basename+ "[" +object.parent_row_index + "][" +currentRowIndex + "]";
+					AutocompleterManager.registerAutoCompleter(clonedRowInserter1);
 		       }
 	        };
 	        var notificationRowInserterProps = {
@@ -101,6 +101,36 @@
 			 }
         }         
 	</script>
+	
+	<script type="text/javascript">
+		function insertAtCursor() {
+			var myField = document.getElementById('plannedNotifications.message');
+			var myValue = document.getElementById('subVar');
+			//IE support
+			if (document.selection) {
+				myField.focus();
+				//in effect we are creating a text range with zero
+				//length at the cursor location and replacing it
+				//with myValue
+				sel = document.selection.createRange();
+				sel.text = myValue.value;
+			}
+			//Mozilla/Firefox/Netscape 7+ support
+			else if (myField.selectionStart == '0' || myField.selectionStart == '0') {
+				//Here we get the start and end points of the
+				//selection. Then we create substrings up to the
+				//start of the selection and from the end point
+				//of the selection to the end of the field value.
+				//Then we concatenate the first substring, myValue,
+				//and the second substring to get the new value.
+				var startPos = myField.selectionStart;
+				var endPos = myField.selectionEnd;
+				myField.value = myField.value.substring(0, startPos)+ " ${" + myValue.value + "} " + myField.value.substring(endPos, myField.value.length);
+			} else {
+				myField.value += " ${" + myValue.value + "} ";
+			}
+		}
+	</script> 
 	</head>
 	
 	<body>
@@ -123,7 +153,7 @@
 				onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}')">
 	
 				
-				<table>
+				<table width="60%">
 				<tr>
 					<td width="10%" align="right">Event:</td>
 					<td align="left">
@@ -156,7 +186,7 @@
 		                </form:select>
 		        	</td>
 		        	<td></td>  
-		        	<td></td>      	
+		        	<td></td>		        	    	
 		        </tr>
 		        
 		        <tr><td colspan="5"><hr size="1"/></td></tr>
@@ -169,7 +199,7 @@
 			     </tr>
 			     <tr><td align="center" colspan="2">
 		      		 <table id="table1">
-		      		 	<tr></tr>
+		      		 	<tr><td></td><td></td></tr>
 						<c:forEach var="email" varStatus="emailStatus" items="${command.plannedNotifications[nStatus.index].userBasedRecipient}">
 							<tr id="table1-${emailStatus.index}">
 								<td class="alt">
@@ -189,10 +219,9 @@
 						</c:forEach>
 					</table>
 		      		</td>
-		   
 			      	<td align="center" colspan="2">
-			      		<table id="table2" width="50%">
-			      			<tr></tr>
+			      		<table id="table2">
+			      			<tr><td></td><td></td></tr>
 							<c:forEach var="role" varStatus="roleStatus" items="${command.plannedNotifications[nStatus.index].roleBasedRecipient}">
 								<tr id="table2-${roleStatus.index}">
 								<td class="alt">
@@ -214,17 +243,14 @@
 		      	</table>
 		      	</chrome:deletableDivision></td>
 				</tr>
-				</table>
-				</td>
-				</tr>			
+						
 			</c:forEach>
 			</table>
 			
 			<div align="right">
 				<input id="addNotification" type="button" value="Add Notification" onmouseover="this.style.cursor='pointer';" 
 					onclick="RowManager.addRow(notificationRowInserterProps);" />
-			</div>	<br/>
-	</div>
+			</div><br/>
 				
 	<div id="dispButton"><tags:tabControls /></div>
 	</tags:basicFormPanelBox>
@@ -243,10 +269,9 @@
 				<td align="left">
 	                <select id="plannedNotifications[PAGE.ROW.INDEX].eventName" 
 		            		name="plannedNotifications[PAGE.ROW.INDEX].eventName" class="validate-notEmpty">
-	                    <option value="">Please Select</option>
-	                    <option value="NEW_REGISTRATION">New Registration</option>
-	                    <option value="STUDY_STATUS_CHANGED_EVENT">Study Status Change</option>
-	                    <option value="SUBJECT_REMOVED_OFF_STUDY">Subject Moved Off Study</option>
+	                    <c:forEach items="${notificationEventsRefData}" var="event">
+							<option value="${event.code}">${event.desc}</option>
+						</c:forEach>
 	                </select>
 				</td>
 				<td></td>
@@ -265,13 +290,12 @@
 	        </tr>
 	        
 	        <tr><td align="right">Frequency:</td>
-	            <td><select id="plannedNotifications[PAGE.ROW.INDEX].frequency" 
+	            <td>
+		            <select id="plannedNotifications[PAGE.ROW.INDEX].frequency" 
 		            		name="plannedNotifications[PAGE.ROW.INDEX].frequency" class="validate-notEmpty">
-	                    <option value="">Please Select</option>
-	                    <option value="ANNUAL">Annual</option>
-	                    <option value="MONTHLY">Monthly</option>
-	                    <option value="WEEKLY">Weekly</option>
-	                    <option value="IMMEDIATE">Immediate</option>
+	                    <c:forEach items="${notificationFrequencyRefData}" var="frequency">
+							<option value="${frequency.code}">${frequency.desc}</option>
+						</c:forEach>
 	                </select>
 	        	</td>
 	        	<td></td>
@@ -293,7 +317,6 @@
 					<tr></tr>				
 					</table>
 		      	</td>
-	   
 		      	<td align="center" colspan="2">      		
 					<table id="table2">
 					<tr></tr>				
@@ -333,13 +356,11 @@
 				<td class="alt">
 		            <select id="plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" 
 		            		name="plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="validate-notEmpty">
-	                    <option value="">Please Select</option>
-	                    <option value="REGISTRAR">Registrar</option>
-	                    <option value="STUDY_COORDINATOR">Study Coordinator</option>
-	                    <option value="SITE_COORDINATOR">Site Coordinator</option>
-	                    <option value="C3PR_Admin">C3PR Admin</option>
-	                    <option value="SI">Site Investigator</option>
+	                    <c:forEach items="${notificationPersonnelRoleRefData}" var="role">
+							<option value="${role.code}">${role.desc}</option>
+						</c:forEach>
 	                </select>
+	            </td>
 				<td class="alt"><a
 					href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),SECONDARY.NESTED.PAGE.ROW.INDEX,-1);">
 					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
@@ -349,33 +370,39 @@
 		</div>
 	
 		<div id="emailMessageDetails" style="display:none">	
-			<table>
+			<table width="650" style="font-size: 11px;">
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
-				<tr><td width="10%" align="right" style="font-size: 11px;">Subject Line:</td> 								 
-				<td><input type="text" id="plannedNotifications.title" size="100" class="width:96%;" onfocus="lastElement = this;" />
+				<tr><td width="17%" align="right" >Subject Line:</td> 								 
+				<td><input type="text" id="plannedNotifications.title" size="80" class="width:96%;" onfocus="lastElement = this;" />
 				</td></tr>
-					<!-- <div class="row">
-					 <div class="label"><label for="subject">Substitution Variables</label></div>
-					 <div class="value">
-						<select id="subVar" name="subVar">
-							<option value="">Please Select</option>
-							<option value="SS" selected="selected">CoordinatingCenter Study Status</option>
-							<option value="ID">Study Id</option>
-							<option value="ST">Study Short Title</option>
-							<option value="IN">Registration status</option>
-						</select>				
-					 </div>
-					</div> -->
+				
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
-				<tr><td valign="top" align="right" style="font-size: 11px;">Message:</td>
+				
+				<tr>
+					 <td valign="top" align="right">Substitution Variables:</td>
+					 <td>
+						<select id="subVar" name="subVar" onchange="insertAtCursor()">
+							<option value="" selected="selected">Please Select</option>
+							<option value="CoordinatingCenterStudyStatus">Coordinating Center Study Status</option>
+							<option value="StudyId">Study Id</option>
+							<option value="StudyShortTitle">Study Short Title</option>
+							<option value="RegistrationStatus">Registration status</option>
+						</select>	
+					 </td>			
+				</tr>
+					
+				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
+				
+				<tr><td valign="top" align="right">Message:</td>
 					<td>
-						<textarea rows="20" cols="97" id="plannedNotifications.message"></textarea>
+						<textarea rows="20" cols="77" id="plannedNotifications.message"></textarea>
 					</td>
 				</tr>
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
 				<tr><td colspan="2" align="right">
 						<input type="button" value="Update" onclick="updateMessage('${nStatus.index}');" />
 						<input type="button" value="Cancel" onclick="win.close();" />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</td></tr>				
 			</table>
 		</div>
