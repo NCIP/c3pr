@@ -21,16 +21,16 @@
         <primaryIndicator>false</primaryIndicator>
         <systemName>nci</systemName>
     </systemAssignedIdentifier>
-    <nonTreatmentEpoch>
+    <Epoch>
         <name>NonTreatment1004</name>
         <descriptionText>non treatement desc</descriptionText>
         <accrualCeiling>0</accrualCeiling>
-    </nonTreatmentEpoch>
-    <nonTreatmentEpoch>
+    </Epoch>
+    <Epoch>
         <name>NonTreatment1005</name>
         <descriptionText>non treatment cancer desc</descriptionText>
         <accrualCeiling>0</accrualCeiling>
-    </nonTreatmentEpoch>
+    </Epoch>
     <Epoch>
         <name>Treatment1000</name>
         <descriptionText>treatement desc</descriptionText>
