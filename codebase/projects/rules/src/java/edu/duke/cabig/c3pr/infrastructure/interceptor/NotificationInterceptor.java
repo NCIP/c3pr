@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.EmptyInterceptor;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.type.Type;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -41,8 +43,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	}
 	
 	public Organization getHostingOrganization(){
-		Organization org = organizationDao.getByNciIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0);
-		return org;
+		return organizationDao.getByNciIdentifierForInterceptor(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0);
 	}
 	
 	
@@ -99,8 +100,11 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		//Study related property updates are spotted here for activating the corresponding rules.
 		if(entity instanceof Study){
 			for (int i = 0; i < propertyNames.length; i++) {
-				if (propertyNames[i].equals("coordinatingCenterStudyStatus")){					
-					handleStudyStatusChange(previousState[i], currentState[i], entity);										
+				if (propertyNames[i].equals("coordinatingCenterStudyStatus")){		
+					if(previousState != null && currentState != null ){
+						handleStudyStatusChange(previousState[i], currentState[i], entity);
+					}
+															
 				}
 			}
 		}
@@ -109,7 +113,9 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		if(entity instanceof StudySite){
 			for (int i = 0; i < propertyNames.length; i++) {
 				if (propertyNames[i].equals("siteStudyStatus")){
-					handleStudySiteStatusChange(previousState[i], currentState[i], entity);
+					if(previousState != null && currentState != null ){
+						handleStudySiteStatusChange(previousState[i], currentState[i], entity);
+					}
 				}
 			}
 		}		
