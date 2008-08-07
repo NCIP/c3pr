@@ -58,10 +58,6 @@
         <field name="descriptionText" type="string">
             <bind-xml name="descriptionText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="arms" type="edu.duke.cabig.c3pr.domain.Arm"
-               collection="collection" set-method="addArm">
-            <bind-xml name="arm" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
     </class>
 
 
@@ -88,6 +84,25 @@
         </field>
     </class>
 
+
+    <class name="edu.duke.cabig.c3pr.domain.NonTreatmentEpoch" extends="edu.duke.cabig.c3pr.domain.Epoch">
+        <map-to xml="NonTreatmentEpochType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="accrualCeiling" type="int">
+            <bind-xml name="accrualCeiling" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="accrualIndicator" type="boolean">
+            <bind-xml name="accrualIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="reservationIndicator" type="boolean">
+            <bind-xml name="reservationIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="enrollmentIndicator" type="boolean">
+            <bind-xml name="enrollmentIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
 
     <class name="edu.duke.cabig.c3pr.domain.Organization">
         <map-to xml="organization" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -184,6 +199,25 @@
             <bind-xml name="epoch" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="scEpochWorkflowStatus" type="string"
+               handler="edu.duke.cabig.c3pr.xml.ScEpochWorkFlowStatusFieldHandler">
+            <bind-xml name="scEpochWorkflowStatus" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="disapprovalReasonText" type="string">
+            <bind-xml name="disapprovalReasonText" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+
+    <class name="edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch"
+           extends="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
+        <map-to xml="ScheduledNonTreatmentEpochType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+    </class>
+
+    <class name="edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch"
+           extends="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
+        <map-to xml="ScheduledTreatmentEpochType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="scheduledArm" type="edu.duke.cabig.c3pr.domain.ScheduledArm"
                handler="edu.duke.cabig.c3pr.xml.ScheduledArmFieldHandler">
             <bind-xml name="scheduledArm" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -273,6 +307,10 @@
             <bind-xml name="stratumGroup" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="disapprovalReasonText" type="string">
+            <bind-xml name="disapprovalReasonText" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.StudyOrganization">
@@ -334,6 +372,14 @@
                collection="collection">
             <bind-xml name="permissibleAnswer" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+
+    <class name="edu.duke.cabig.c3pr.domain.TreatmentEpoch" extends="edu.duke.cabig.c3pr.domain.Epoch">
+        <map-to xml="TreatmentEpochType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="arms" type="edu.duke.cabig.c3pr.domain.Arm"
+               collection="collection" set-method="addArm">
+            <bind-xml name="arm" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 

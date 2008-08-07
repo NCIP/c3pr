@@ -84,6 +84,15 @@ public class Configuration extends DatabaseBackedConfiguration {
 
     public static final ConfigurationProperty<String> SITE_NAME = PROPERTIES
                     .add(new ConfigurationProperty.Text("siteName"));
+    
+    public static final ConfigurationProperty<String> PSC_WINDOW_NAME = PROPERTIES
+    .add(new ConfigurationProperty.Text("psc_window_name"));
+    
+    public static final ConfigurationProperty<String> CAAERS_WINDOW_NAME = PROPERTIES
+    .add(new ConfigurationProperty.Text("caaers_window_name"));
+    
+    public static final ConfigurationProperty<String> C3D_WINDOW_NAME = PROPERTIES
+    .add(new ConfigurationProperty.Text("c3d_window_name"));
 
     public ConfigurationProperties getProperties() {
         return PROPERTIES;

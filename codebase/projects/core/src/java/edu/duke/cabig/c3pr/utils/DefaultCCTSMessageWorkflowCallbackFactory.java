@@ -1,11 +1,17 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.esb.CCTSApplicationNames;
 import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
+import edu.duke.cabig.c3pr.esb.ResponseErrors;
 
 /**
  * Will track the CCTS message worfklow for a "given" domain object <p/> Uses the factory pattern so
@@ -75,6 +81,23 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
             dao.save(domainObject);
         }
 
+        public void recordError(String objectId, ResponseErrors errors) {
+            log.debug("Recording error for objectId" + objectId);
+            domainObject.setCctsErrorString(buildErrorString(errors));
+            dao.save(domainObject);            
+        }
+        
+        public String buildErrorString(ResponseErrors errors){
+            String error="";
+            Map<CCTSApplicationNames, Object> errorsMap=errors.getErrorsMap();
+            Iterator<CCTSApplicationNames> iterator=errorsMap.keySet().iterator();
+            while (iterator.hasNext()){
+                CCTSApplicationNames cApplicationName=iterator.next();
+                error+="%%%%"+cApplicationName.getDisplayName()+"||||"+errorsMap.get(cApplicationName)+"%%%%";
+            }
+            log.debug("Built Error String to Store : "+error);
+            return error;
+        }
         public C3PRBaseDao getDao() {
             return dao;
         }

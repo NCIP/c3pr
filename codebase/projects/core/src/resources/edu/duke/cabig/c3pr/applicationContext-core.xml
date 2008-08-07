@@ -320,11 +320,16 @@
           abstract="true" autowire="byType">
         <property name="dao" ref="studySubjectDao"/>
         <property name="exceptionHelper" ref="exceptionHelper"/>
+        <property name="multisiteXmlUtility">
+            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <property name="mappingFile" ref="multisite-registration-castorMapping"/>
+    		</bean>
+        </property>
     </bean>
 
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
           autowire="byName" parent="cctsWorkflowService">
-        <property name="xmlUtility">
+        <property name="cctsXmlUtility">
             <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
                 <constructor-arg ref="ccts-study-castorMapping"/>
             </bean>
@@ -338,15 +343,10 @@
         <property name="hostedMode">
 	        <value type="boolean">${hostedMode}</value>
         </property>
-        <property name="xmlUtility">
+        <property name="cctsXmlUtility">
             <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
                 <property name="mappingFile" ref="ccts-registration-castorMapping"/>
             </bean>
-        </property>
-        <property name="cctsXmlUtility">
-            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" ref="multisite-registration-castorMapping"/>
-    </bean>
         </property>
     </bean>
     <bean id="studyXMLImporterService" lazy-init="true"

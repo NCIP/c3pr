@@ -31,9 +31,9 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
 
     private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
 
-    private XmlMarshaller xmlUtility;
+    protected XmlMarshaller cctsXmlUtility;
     
-    private XmlMarshaller cctsXmlUtility;
+    protected XmlMarshaller multisiteXmlUtility;
 
     private DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory;
 
@@ -90,7 +90,7 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
                             .createWorkflowCallback(cctsObject));
             String xml = "";
             try {
-                xml = xmlUtility.toXML(cctsObject);
+                xml = cctsXmlUtility.toXML(cctsObject);
             }
             catch (XMLUtilityException e) {
                 e.printStackTrace();
@@ -135,14 +135,6 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
         this.messageBroadcaster = messageBroadcaster;
     }
 
-    public XmlMarshaller getXmlUtility() {
-        return xmlUtility;
-    }
-
-    public void setXmlUtility(XmlMarshaller xmlUtility) {
-        this.xmlUtility = xmlUtility;
-    }
-
     public DefaultCCTSMessageWorkflowCallbackFactory getCctsMessageWorkflowCallbackFactory() {
         return cctsMessageWorkflowCallbackFactory;
     }
@@ -177,7 +169,7 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
 
     public void sendRegistrationRequest(StudySubject studySubject) {
         try {
-            jmsCoOrdinatingCenterBroadcaster.broadcast(getCctsXmlUtility().toXML(studySubject));
+            jmsCoOrdinatingCenterBroadcaster.broadcast(multisiteXmlUtility.toXML(studySubject));
             studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_CONFIRMED);
         }
         catch (Exception e) {
@@ -189,7 +181,7 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
     public void sendRegistrationResponse(StudySubject studySubject) {
         if (getIsMultiSiteEnable().equalsIgnoreCase("true")) {
             try {
-                jmsAffiliateSiteBroadcaster.broadcast(getCctsXmlUtility().toXML(studySubject));
+                jmsAffiliateSiteBroadcaster.broadcast(multisiteXmlUtility.toXML(studySubject));
                 studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_CONFIRMED);
             }
             catch (Exception e) {
@@ -202,11 +194,12 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
         }
     }
 
-    public XmlMarshaller getCctsXmlUtility() {
-        return cctsXmlUtility;
+    public void setMultisiteXmlUtility(XmlMarshaller multisiteXmlUtility) {
+        this.multisiteXmlUtility = multisiteXmlUtility;
     }
 
     public void setCctsXmlUtility(XmlMarshaller cctsXmlUtility) {
         this.cctsXmlUtility = cctsXmlUtility;
     }
+
 }

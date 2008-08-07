@@ -19,6 +19,16 @@ public class CCTSAbstractMutableDeletableDomainObject extends AbstractMutableDel
     private boolean importErrorFlag;
 
     private String importErrorString;
+    
+    private String cctsErrorString;
+
+    public String getCctsErrorString() {
+        return cctsErrorString;
+    }
+
+    public void setCctsErrorString(String cctsErrorString) {
+        this.cctsErrorString = cctsErrorString;
+    }
 
     @Enumerated(EnumType.STRING)
     public CCTSWorkflowStatusType getCctsWorkflowStatus() {
