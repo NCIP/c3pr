@@ -1,10 +1,20 @@
 package edu.duke.cabig.c3pr.dao;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.ADD_DISEASE;
+import static edu.duke.cabig.c3pr.C3PRUseCase.ADD_STRATIFICATION;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_STUDY_INVESTIGATOR;
+import static edu.duke.cabig.c3pr.C3PRUseCase.SEARCH_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
+import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
