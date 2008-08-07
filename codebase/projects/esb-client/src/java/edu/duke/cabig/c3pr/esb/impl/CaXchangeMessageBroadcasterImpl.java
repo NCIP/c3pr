@@ -25,6 +25,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import edu.duke.cabig.c3pr.esb.BroadcastException;
+import edu.duke.cabig.c3pr.esb.CCTSApplicationNames;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
 import edu.duke.cabig.c3pr.esb.CaXchangeMessageHelper;
 import edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseHandler;
@@ -33,16 +34,19 @@ import edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseNotifier;
 import edu.duke.cabig.c3pr.esb.DelegatedCredential;
 import edu.duke.cabig.c3pr.esb.DelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
+import edu.duke.cabig.c3pr.esb.ResponseErrors;
 import gov.nih.nci.cagrid.caxchange.client.CaXchangeRequestProcessorClient;
 import gov.nih.nci.cagrid.caxchange.context.client.CaXchangeResponseServiceClient;
 import gov.nih.nci.cagrid.caxchange.context.stubs.types.CaXchangeResponseServiceReference;
 import gov.nih.nci.caxchange.Credentials;
 import gov.nih.nci.caxchange.Message;
+import gov.nih.nci.caxchange.MessagePayload;
 import gov.nih.nci.caxchange.MessageTypes;
 import gov.nih.nci.caxchange.Metadata;
 import gov.nih.nci.caxchange.Operations;
 import gov.nih.nci.caxchange.ResponseMessage;
 import gov.nih.nci.caxchange.Statuses;
+import gov.nih.nci.caxchange.TargetResponseMessage;
 
 /**
  * Sends messages to caXchange. Also, will notify of the message status
@@ -250,6 +254,44 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
                     if (response.getResponse().getResponseStatus().equals(Statuses.FAILURE)) {
                         log.debug("Received failure from caXchange");
                         messageWorkflowCallback.messageSendFailed(objectId);
+                        ResponseErrors<CCTSApplicationNames> errors=new ResponseErrors<CCTSApplicationNames>();
+                        log.debug("looking at caXchange error..");
+                        if(response.getResponse().getCaXchangeError()!=null && response.getResponse().getCaXchangeError().getErrorDescription()!=null)
+                            errors.addError(CCTSApplicationNames.CAXCHANGE, response.getResponse().getCaXchangeError().getErrorDescription());
+                        else
+                            log.debug("caXchange Error is null....");
+                        log.debug("looking at aplication level error..");
+                        CCTSApplicationNames cApplicationName=null;
+                        for (TargetResponseMessage tResponse : response.getResponse().getTargetResponse()){
+                            log.debug("looking at aplication "+tResponse.getTargetServiceIdentifier()+"..");
+                            if (tResponse.getTargetServiceIdentifier().indexOf("C3D") > -1) {
+                                log.debug("Found c3d response. Processing...");
+                                cApplicationName=CCTSApplicationNames.C3D;
+                            }else if (tResponse.getTargetServiceIdentifier().indexOf("caAERS") > -1) {
+                                log.debug("Found caAERS response. Processing...");
+                                cApplicationName=CCTSApplicationNames.CAAERS;
+                            }else if (tResponse.getTargetServiceIdentifier().indexOf("LabViewer") > -1) {
+                                log.debug("Found CTODS response. Processing...");
+                                cApplicationName=CCTSApplicationNames.CTODS;
+                            }else if (tResponse.getTargetServiceIdentifier().indexOf("psc") > -1) {
+                                log.debug("Found PSC response. Processing...");
+                                cApplicationName=CCTSApplicationNames.PSC;
+                            }
+                            log.debug("App:"+cApplicationName);
+                            if(tResponse.getTargetError()!=null && tResponse.getTargetError().getErrorDescription()!=null){
+                                log.debug("Error: "+tResponse.getTargetError().getErrorDescription());
+                                if(cApplicationName!=null){
+                                    String errorString=tResponse.getTargetError().getErrorDescription();
+                                    String errorCode=tResponse.getTargetError().getErrorCode();
+                                    errorString=errorCode!=null || !errorCode.equalsIgnoreCase("")?errorCode+" : "+errorString:errorString;
+                                    log.debug("Found error in response : "+errorString);
+                                    errors.addError(cApplicationName, errorString);
+                                }
+                            }else{
+                                log.debug("Error is null");
+                            }
+                        }
+                        messageWorkflowCallback.recordError(objectId, errors);
                     }
                 }
 

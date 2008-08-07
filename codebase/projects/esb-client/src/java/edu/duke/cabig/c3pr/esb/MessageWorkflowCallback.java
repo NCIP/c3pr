@@ -35,4 +35,11 @@ public interface MessageWorkflowCallback {
      * @param objectId id of the domain object (external Identifier)
      */
     public void messageSendConfirmed(String objectId);
+    
+    /**
+     * Records any error if received
+     *
+     * @param objectId id of the domain object (external Identifier)
+     */
+    public void recordError(String objectId, ResponseErrors errors);
 }
