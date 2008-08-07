@@ -11,6 +11,7 @@
                 type="OrganizationAssignedIdentifierType"/>
     <xs:element name="systemAssignedIdentifier" substitutionGroup="identifier"
                 type="SystemAssignedIdentifierType"/>
+     <xs:element name="epoch" type="EpochType"/>
 
 
     <xs:element name="registration" type="Registration"/>
