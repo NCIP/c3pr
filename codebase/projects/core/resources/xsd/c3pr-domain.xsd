@@ -84,7 +84,7 @@
         <xs:sequence>
             <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="arm" type="ArmType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="arms" type="ArmType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="accrualCeiling" type="xs:int" minOccurs="0" maxOccurs="1"/>
             <xs:element name="accrualIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="reservationIndicator" type="xs:string" minOccurs="0"
