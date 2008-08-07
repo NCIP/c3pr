@@ -76,6 +76,7 @@ public class StudyTestCase extends AbstractTestCase{
 		studyCreationHelper.addStudySiteAndRandomizedTreatmentEpochToBasicStudy(basicStudy);
 		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
 		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
+		basicStudy.setStratificationIndicator(false);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("306");
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(306),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(306, "exception message"));
 		replayMocks();	
@@ -94,6 +95,7 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("304");
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(304),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(304, "exception message"));
+		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		replayMocks();	
 		try {
 			basicStudy.evaluateDataEntryStatus();
@@ -108,6 +110,7 @@ public class StudyTestCase extends AbstractTestCase{
 		studyCreationHelper.addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(basicStudy);
 		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
 		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
+		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("307");
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(307),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(307, "exception message"));
 		replayMocks();	
@@ -122,6 +125,7 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testDataEntryStatusCompleteCase1() throws Exception {
 		studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+		basicStudy.setStratificationIndicator(false);
 		replayMocks();
 			assertEquals("Data Entry Status should evaluate to Complete",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus());
 			verifyMocks();
@@ -129,6 +133,7 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testDataEntryStatusCompleteCase2() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
+		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		replayMocks();	
 		assertEquals("Wrong Data Entry Status",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus());
 		verifyMocks();
@@ -143,12 +148,8 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testSiteStudyStatusActiveCase1() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
+		basicStudy.setStratificationIndicator(false);
 		basicStudy.setCoordinatingCenterStudyStatus(basicStudy.evaluateCoordinatingCenterStudyStatus());
-		try {
-			basicStudy.getStudySites().get(0).evaluateSiteStudyStatus();
-		} catch (Exception e) {
-			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
-		}
 		assertEquals("Study status should evaluate to Active",CoordinatingCenterStudyStatus.ACTIVE,basicStudy.getCoordinatingCenterStudyStatus());
 		assertEquals("Site Study status should evaluate to Active",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
 	}
