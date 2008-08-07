@@ -289,6 +289,64 @@ function createReg(studySite, participant, parentRegistrationId){
    	        </tr>	           
     </table>
 </chrome:division>
+</div>
+	
+	<c:if test="${hotlinkEnable}">
+	<%--<table width="60%">
+		<c:if test="${!empty caaersBaseUrl}">
+		<tr>
+			<td align="left"><a
+				href="javascript:accessApp('${caaersBaseUrl }','_caaers');">
+			<b>Adverse Event Reporting</b></a> </td>
+		</tr>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+		</tr>
+		</c:if>
+		<c:if test="${!empty pscBaseUrl}">
+		<tr>
+			<td align="left"><a
+				href="javascript:accessApp('${pscBaseUrl }','_psc');">
+			<b>Study Calendar</b></a></td>
+		</tr>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+		</tr>
+		</c:if>
+		<c:if test="${!empty c3dBaseUrl}">
+		<tr>
+			<td align="left"><a
+				href="javascript:accessApp('${c3dBaseUrl }','_c3d');">
+			<b>Clinical Database</b></a></td>
+		</tr>
+		</c:if>
+	</table>--%>
+	  <ul>
+    	<c:if test="${!empty caaersBaseUrl}">
+	    <li><a href="${caaersBaseUrl }" target="${caaers_window }"><b>Adverse Event Reporting System</a></li>
+	    </c:if>
+		<c:if test="${!empty pscBaseUrl}">
+	    <li><a href="${pscBaseUrl }" target="${psc_window }">Patient Study Calendar</a></li>
+	    </c:if>
+		<c:if test="${!empty c3dBaseUrl}">
+	    <li><a href="${c3dBaseUrl }" target="${c3d_window }">Cancer Central Clinical Database</a></li>
+	    </c:if>
+	  </ul>
+	</c:if>
+	<c:if test="${command.dataEntryStatusString!='Incomplete'}">
+		<div align="right">
+			<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
+				<input type="hidden" name="registrationId" value="${command.id }"/>
+				<input type="submit" value="Manage this registration"/>
+			</form>
+		</div>
+	</c:if>
 </c:if>
 </tags:panelBox>
 <form id="hotlinksForm" action="" method="get">

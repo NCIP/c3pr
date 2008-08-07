@@ -44,6 +44,7 @@
 <body>
     <chrome:box autopad="true">
     <c:url value="/pages/admin/configure" var="action"/>
+    <tags:errors path="*"/>
     <form:form action="${action}" cssClass="standard">
         <c:forEach items="${command.conf}" var="entry" varStatus="status">
 

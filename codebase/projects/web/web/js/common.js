@@ -114,3 +114,34 @@ C3PR.printText=function(str){
 	newwin.document.write('</HTML>\n')
 	newwin.document.close()
 }
+
+C3PR.showCCTSError=function(){
+	$('built-cctsErrorMessage').innerHTML=C3PR.buildCCTSErrorHtml($('cctsErrorMessage').innerHTML)
+	//Lightview.show({ href: 'built-cctsErrorMessage', rel: 'inline', options: { width: 800, height: 500 }})
+	var win = new Window({className: "dialog", width:350, height:400, zIndex: 100, resizable: true, title: "CCTS Error Messages", showEffect:Effect.BlindDown, hideEffect: Effect.SwitchOff, draggable:true, wiredDrag: true});
+	win.getContent().innerHTML= $('built-cctsErrorMessage').innerHTML;
+	win.setStatusBar("Error"); 
+	win.showCenter();
+}
+
+C3PR.buildCCTSErrorHtml=function(error){
+	appFlag=true
+	errorHtml="<table>"
+	appErrors=error.split("%%%%")
+	for (appErrorCount=0 ; appErrorCount<appErrors.length ; appErrorCount++){
+		appError=appErrors[appErrorCount]
+		if(appError.indexOf("||||")!=-1){
+			errorValues=appError.split("||||")
+			appName=errorValues[0]
+			errorString=errorValues[1]
+			errorHtml+="<tr><td><b>"+appName+"<b></td></tr>"
+			errorHtml+="<tr><td>"+errorString+"</td></tr>"
+			errorHtml+="<tr><td>&nbsp;</td></tr>"
+			appFlag=false
+		}
+	}
+	if(appFlag)
+		errorHtml+="<tr><td><b>There are no error messages recorded.</b></td></tr>"
+	errorHtml+="</table>"
+	return errorHtml
+}

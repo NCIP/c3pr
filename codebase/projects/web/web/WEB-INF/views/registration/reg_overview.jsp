@@ -526,24 +526,34 @@
         <form:form id="viewDetails" name="viewDetails">
             <div class="content">
                 <div class="row">
-                    <div class="label">
-                        Broadcast Status:
-                    </div>
-
-                    <div class="value">
-                        <span id="broadcastResponse">
-                                ${command.cctsWorkflowStatus.displayName}
-                        </span>
+                    <table width="50%"><tr>
+                    	<td width="25%" align="right">
+                        <b>Broadcast Status:</b>
+                        </td>
+						<td width="75%" align="left">
+						<div id="broadcastResponse">
+                            ${command.cctsWorkflowStatus.displayName}
+                            <c:if test="${command.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
+                        	<a href="javascript:C3PR.showCCTSError();">Click here to see the error message</a>
+                        	<div id="cctsErrorMessage" style="display: none;">${ command.cctsErrorString}</div>
+                        	</c:if>
+                        </div>
+                        </td>
+                    </tr><tr><td colspan="2">&nbsp;</td></tr><tr>
+                        <td colspan="2" align="center">
                         <input type="button" id="broadcastStatusBtn" value="Refresh"
                                onclick="getBroadcastStatus();"/>
                         <input type="button" id="broadcastBtn" value="Broadcast"
                                onclick="doSendMessageToESB();"/>
-                    </div>
+						
+						</td>
+					</tr></table>
                 </div>
             </div>
         </form:form>
+        <div id="built-cctsErrorMessage" style="display: none;"/>
     </chrome:division>
-    <table width="60%">
+    <%--<table width="60%">
 		<c:if test="${!empty caaersBaseUrl}">
 		<tr>
 			<td align="left"><a
@@ -577,7 +587,18 @@
 			<b>Clinical Database</b></a></td>
 		</tr>
 		</c:if>
-	</table>
+	</table>--%>
+	<ul>
+    	<c:if test="${!empty caaersBaseUrl}">
+	    <li><a href="${caaersBaseUrl }" target="${caaers_window }"><b>Adverse Event Reporting System</a></li>
+	    </c:if>
+		<c:if test="${!empty pscBaseUrl}">
+	    <li><a href="${pscBaseUrl }" target="${psc_window }">Patient Study Calendar</a></li>
+	    </c:if>
+		<c:if test="${!empty c3dBaseUrl}">
+	    <li><a href="${c3dBaseUrl }" target="${c3d_window }">Cancer Central Clinical Database</a></li>
+	    </c:if>
+	  </ul>
 </c:if>
 
 <%--<c:if test='${(command.multisiteWorkflowStatus=="MESSAGE_SEND_FAILED" || command.multisiteWorkflowStatus=="MESSAGE_REPLY_FAILED") && multisiteEnable}'>--%>

@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
 import edu.duke.cabig.c3pr.service.impl.OrganizationServiceImpl;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl;
@@ -65,12 +66,12 @@ public class SkinFilter implements Filter, ApplicationContextAware {
             filterConfig.getServletContext().setAttribute("skinName", configuration.getMap().get("skinPath").toString());
         }
 
-        if (filterConfig.getServletContext().getAttribute("siteName") == null) {
+        if (StringUtils.getBlankIfNull((String)filterConfig.getServletContext().getAttribute("siteName")).equalsIgnoreCase("")) {
             Configuration configuration = (Configuration)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).getBean("configuration");
             filterConfig.getServletContext().setAttribute("siteName", configuration.getMap().get("siteName").toString());            
         }
 
-        if (filterConfig.getServletContext().getAttribute("instName") == null) {
+        if (StringUtils.getBlankIfNull((String)filterConfig.getServletContext().getAttribute("instName")).equalsIgnoreCase("")) {
             OrganizationServiceImpl os = (OrganizationServiceImpl)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).getBean("organizationService");
             Configuration configuration = (Configuration)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).getBean("configuration");
             try {

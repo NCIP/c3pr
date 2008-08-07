@@ -81,7 +81,7 @@
 
                             <c:set var="name" value="${task.displayName}" />
                             <c:if test="${fn:length(task.subTasks) > 0}">
-                                <c:set var="name" value="${task.displayName} » " />
+                                <c:set var="name" value="${task.displayName} ï¿½ " />
                             </c:if>
 
                                        ['<c:out value="${name}" />', '<c:url value="${task.url}"/>', null,
@@ -99,6 +99,7 @@
 
     <script language="JavaScript">
        new menu (MENU_ITEMS, MENU_TPL);
+       CCTS.appShortName = 'c3pr';
     </script>
 
 

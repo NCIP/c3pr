@@ -155,18 +155,21 @@ public class RegistrationControllerUtils {
 					.equalsIgnoreCase("")) {
 				map.put("pscBaseUrl", this.configuration
 						.get(this.configuration.PSC_BASE_URL));
+				map.put("psc_window", this.configuration.get(this.configuration.PSC_WINDOW_NAME));
 			}
 			if (!StringUtils.getBlankIfNull(
 					this.configuration.get(this.configuration.CAAERS_BASE_URL))
 					.equalsIgnoreCase("")) {
 				map.put("caaersBaseUrl", this.configuration
 						.get(this.configuration.CAAERS_BASE_URL));
+				map.put("caaers_window", this.configuration.get(this.configuration.CAAERS_WINDOW_NAME));
 			}
 			if (!StringUtils.getBlankIfNull(
 					this.configuration.get(this.configuration.C3D_BASE_URL))
 					.equalsIgnoreCase("")) {
 				map.put("c3dBaseUrl", this.configuration
 						.get(this.configuration.C3D_BASE_URL));
+				map.put("c3d_window", this.configuration.get(this.configuration.C3D_WINDOW_NAME));
 			}
 		} else {
 			map.put("hotlinkEnable", new Boolean(false));
