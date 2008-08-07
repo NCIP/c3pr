@@ -178,8 +178,13 @@
     <STRAT_CRI_ANS_CMB id="1000" version="1" retired_indicator="false"/>
 
     <STUDY_AMENDMENTS stu_id="1000" retired_indicator="false"/>
+    
+    <PLANNED_NOTFNS id="1000" stu_id="1000" retired_indicator="false" threshold="50" version="1"/>
+    
+    <SCHLD_NOTFNS id="1000" version="1"/>
 
-    <NOTIFICATIONS id="1000" stu_id="1000" retired_indicator="false" threshold="50"/>
-    <RECIPIENTS notifications_id="1000" retired_indicator="false"/>
-
+    <RECIPIENTS id="1000" version="1" planned_notfns_id="1000" retired_indicator="false"/> 
+    
+    <CONTACT_MECHANISMS id="1000" version="1" />
+    
 </dataset>
