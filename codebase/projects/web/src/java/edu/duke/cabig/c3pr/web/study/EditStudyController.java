@@ -20,6 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -32,8 +33,17 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 public class EditStudyController extends StudyController<Study> {
 
     protected static final Log log = LogFactory.getLog(EditStudyController.class);
+    private Task editTask;
 
-    public EditStudyController() {
+    public Task getEditTask() {
+		return editTask;
+	}
+
+	public void setEditTask(Task editTask) {
+		this.editTask = editTask;
+	}
+
+	public EditStudyController() {
         super("Edit Study");
         setBindOnNewForm(true);
     }
@@ -98,6 +108,10 @@ public class EditStudyController extends StudyController<Study> {
         if (((Study) o).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING) {
             softDelete = "true";
         }
+        
+        request.setAttribute("editAuthorizationTask", editTask);
+        
+        
         request.setAttribute("softDelete", softDelete);
         request.setAttribute("isAdmin", isAdmin);
         return super.referenceData(request, o, e, arg1);
