@@ -43,7 +43,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	}
 	
 	public Organization getHostingOrganization(){
-		return organizationDao.getByNciIdentifierForInterceptor(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0);
+		return organizationDao.getByNciIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0);
 	}
 	
 	
