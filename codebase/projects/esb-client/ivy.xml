@@ -143,9 +143,9 @@
 		<!-- CTMS commons dependencies -->
 		<dependency org="gov.nih.nci.cabig.ctms"
 			name="ctms-commons-base" rev="${ctmsi.commons.version}" transitive="false" />
-		<!--<dependency org="gov.nih.nci.cabig.ctms"
+		<dependency org="gov.nih.nci.cabig.ctms"
 			name="ctms-commons-core" rev="${ctmsi.commons.version}" transitive="false" />
-		<dependency org="gov.nih.nci.security.acegi" name="acegi-csm"
+		<!--<dependency org="gov.nih.nci.security.acegi" name="acegi-csm"
 			rev="${ctmsi.commons.version}" transitive="true" />-->
 		<dependency org="gov.nih.nci.security.acegi" name="acegi-grid"
 			rev="${ctmsi.commons.version}" transitive="true" />
@@ -154,6 +154,9 @@
 			name="ctms-commons-lang" rev="${ctmsi.commons.version}" transitive="false" />
 		<dependency org="gov.nih.nci.cabig.ctms"
 			name="ctms-commons-testing-uctrace" rev="${ctmsi.commons.version}" />
+			
+		<dependency org="wsdl4j"
+			name="wsdl4j" rev="1.5" />
 
 		<!-- Test/Runtime dependencies -->
 		<dependency org="dbunit" name="dbunit" rev="2.1"
