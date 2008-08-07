@@ -31,7 +31,7 @@
         <descriptionText>non treatment cancer desc</descriptionText>
         <accrualCeiling>0</accrualCeiling>
     </nonTreatmentEpoch>
-    <treatmentEpoch>
+    <Epoch>
         <name>Treatment1000</name>
         <descriptionText>treatement desc</descriptionText>
         <arm>
@@ -56,8 +56,8 @@
             <questionNumber>3</questionNumber>
             <questionText>exclusion question 1</questionText>
         </exclusionCriteria>
-    </treatmentEpoch>
-    <treatmentEpoch>
+    </Epoch>
+    <Epoch>
         <name>Treatment1001</name>
         <descriptionText>cancer desc</descriptionText>
         <arm>
@@ -70,8 +70,8 @@
             <descriptionText>Arm 1003 desc</descriptionText>
             <targetAccrualNumber>1003</targetAccrualNumber>
         </arm>
-    </treatmentEpoch>
-    <treatmentEpoch>
+    </Epoch>
+    <Epoch>
         <name>Treatment1002</name>
         <descriptionText>treatement desc</descriptionText>
         <arm>
@@ -84,8 +84,8 @@
             <descriptionText>Arm 1005 desc</descriptionText>
             <targetAccrualNumber>1005</targetAccrualNumber>
         </arm>
-    </treatmentEpoch>
-    <treatmentEpoch>
+    </Epoch>
+    <Epoch>
         <name>Treatment1003</name>
         <descriptionText>cancer desc</descriptionText>
         <arm>
@@ -98,7 +98,7 @@
             <descriptionText>Arm 1007 desc</descriptionText>
             <targetAccrualNumber>1007</targetAccrualNumber>
         </arm>
-    </treatmentEpoch>
+    </Epoch>
     <studySite>
         <healthcareSite>
             <name>duke healthcare</name>
