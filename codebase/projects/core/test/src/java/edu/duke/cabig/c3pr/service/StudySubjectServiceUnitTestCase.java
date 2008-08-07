@@ -67,7 +67,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         studySubjectServiceImpl.setJmsAffiliateSiteBroadcaster(jmsAffiliateSiteBroadcaster);
         studySubjectServiceImpl.setC3prErrorMessages(c3prErrorMessages);
         studySubjectServiceImpl.setExceptionHelper(exceptionHelper);
-        studySubjectServiceImpl.setXmlUtility(xmlMarshaller);
+        studySubjectServiceImpl.setCctsXmlUtility(xmlMarshaller);
         studySubjectServiceImpl.setJmsCoOrdinatingCenterBroadcaster(jmsCoBroadcaster);
         studySubjectService=studySubjectServiceImpl;
     }
