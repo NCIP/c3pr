@@ -60,7 +60,7 @@
 	            path: "plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient",
 	            postProcessRowInsertion: function(object){
 			       clonedRowInserter=Object.clone(userEmailAutocompleterProps);
-				   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+				   clonedRowInserter.basename=clonedRowInserter.basename + "[" +object.parent_row_index + "][" +object.localIndex + "]";
 				   AutocompleterManager.registerAutoCompleter(clonedRowInserter);
 			   },
 		       onLoadRowInitialize: function(object, currentRowIndex){
@@ -173,13 +173,13 @@
 						<c:forEach var="email" varStatus="emailStatus" items="${command.plannedNotifications[nStatus.index].userBasedRecipient}">
 							<tr id="table1-${emailStatus.index}">
 								<td class="alt">
-									<input type="hidden" id="userEmail${emailStatus.index}-hidden" 
+									<input type="hidden" id="userEmail[${nStatus.index}][${emailStatus.index}]-hidden" 
 										name="plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].emailAddress" 
 										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
-									<input id="userEmail${emailStatus.index}-input" size="40" type="text" 
+									<input id="userEmail[${nStatus.index}][${emailStatus.index}]-input" size="40" type="text" 
 										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].fullName} (${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress})" class="autocomplete validate-notEmpty" />
-									<tags:indicator id="userEmail${emailStatus.index}-indicator" />
-									<div id="userEmail${emailStatus.index}-choices" class="autocomplete"></div>
+									<tags:indicator id="userEmail[${nStatus.index}][${emailStatus.index}]-indicator" />
+									<div id="userEmail[${nStatus.index}][${emailStatus.index}]-choices" class="autocomplete"></div>
 								</td>
 								<td class="alt"><a
 									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${email.id==null?'HC#':'ID#'}${email.id==null?email.hashCode:email.id}');">
@@ -312,13 +312,13 @@
 			<table>
 			<tr>
 				<td class="alt">
-					<input type="hidden" id="userEmailNESTED.PAGE.ROW.INDEX-hidden" 
+					<input type="hidden" id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-hidden" 
 							name="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress" 
 							value="${command.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" />
-					<input id="userEmailNESTED.PAGE.ROW.INDEX-input" size="40" type="text" 
+					<input id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-input" size="40" type="text" 
 							value="${command.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" class="autocomplete validate-notEmpty" />
-					<tags:indicator id="userEmailNESTED.PAGE.ROW.INDEX-indicator" />
-					<div id="userEmailNESTED.PAGE.ROW.INDEX-choices" class="autocomplete"></div></td>
+					<tags:indicator id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-indicator" />
+					<div id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-choices" class="autocomplete"></div></td>
 				<td class="alt"><a
 					href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX, -1);">
 					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
