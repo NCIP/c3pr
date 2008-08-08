@@ -161,9 +161,9 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         studyObject.addIdentifier(identifierObject);
         studyObject.addStudySite(studySiteObject);
 
-        studyObject.addEpoch(Epoch.createEpoch("Screening"));
+       /* studyObject.addEpoch(Epoch.createEpoch("Screening"));
         studyObject.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
-        studyObject.addEpoch(Epoch.createEpoch("Follow up"));
+        studyObject.addEpoch(Epoch.createEpoch("Follow up"));*/
 
         // healthcare site
         HealthcareSite healthcaresite = new HealthcareSite();
