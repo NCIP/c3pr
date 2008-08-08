@@ -183,22 +183,26 @@
         <c:forEach items="${command.epochs}" var="epoch">
             <tr>
                 <td class="alt">${epoch.name}</td>
-                <td>
-                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-                            <tr>
-                                <th><b>Name</b></th>
-                                <th><b>Target Accrual No</b>
-                            </th></tr>
-                            <tr>
-                                <c:forEach items="${epoch.arms}" var="arm">
-                            <tr>
-                                <td>${arm.name}</td>
-                                <td>${arm.targetAccrualNumber}</td>
-                            </tr>
-                            </c:forEach>
-                        </tr></table>
-                </td>
-
+				<c:if test="${not empty epoch.arms}">
+	                <td>
+	                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+								
+	                            <tr>
+	                                <th><b>Name</b></th>
+	                                <th><b>Target Accrual No</b>
+	                            </th></tr>
+								
+	                            <tr>
+	                                <c:forEach items="${epoch.arms}" var="arm">
+	                            <tr>
+	                                <td>${arm.name}</td>
+	                                <td>${arm.targetAccrualNumber}</td>
+	                            </tr>
+								
+	                            </c:forEach>
+	                        </tr></table>
+	                </td>
+				</c:if>
             </tr>
         </c:forEach>
     </table>
