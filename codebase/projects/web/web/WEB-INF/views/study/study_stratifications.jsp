@@ -129,9 +129,8 @@
 		<br/>
 			<table id="epoch-${epochCount.index }" class="tablecontent">
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
-			<div id="criteriaHeader" 
-			style=<c:if test="${fn:length(command.epochs[epochCount.index].stratificationCriteria) == 0}">"display:none"</c:if>>
-				<tr>					
+			<div id="criteriaHeader">
+				 <tr id="hInclusionEligibility--${epochCount.index}" <c:if test="${fn:length(epoch.stratificationCriteria) == 0}">style="display:none;"</c:if>>					
 					<th><span class="required-indicator">Question</span><tags:hoverHint id="study.treatmentEpochs.stratificationCriteria-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria"/></th>
 					<th><span class="required-indicator">Answer</span><tags:hoverHint id="study.treatmentEpochs.stratificationCriteria.permissibleAnswers-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria.permissibleAnswers"/></th>
 					<th></th>
@@ -189,7 +188,7 @@
 			<br>
 			<div align="right"><input type="button"
 				value="Add Stratification Factor"
-				onclick="if(stratumGroupAlert('${epochCount.index}')){RowManager.addRow(stratRowInserterProps_${epochCount.index});}" />
+				onclick="$('hInclusionEligibility--${epochCount.index}').show();if(stratumGroupAlert('${epochCount.index}')){RowManager.addRow(stratRowInserterProps_${epochCount.index});}" />
 			</div>
 			</chrome:division>
 			<br/>
