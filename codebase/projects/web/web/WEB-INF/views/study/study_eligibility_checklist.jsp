@@ -113,7 +113,7 @@
 	                            <tr><td>
 		                            <table border="0" cellspacing="0" width="95%" cellpadding="0"
 		                                   id="addInclusionRowTable-${epochCount.index}" class="tablecontent">
-		                                <tr>
+		                                 <tr id="hInclusionEligibility--${epochCount.index}" <c:if test="${fn:length(epoch.inclusionEligibilityCriteria) == 0}">style="display:none;"</c:if>>
 		                                    <th><span class="label required-indicator">Question</span>&nbsp;<tags:hoverHint id="study.inclusionEligibilityCriteria.questionText-${epochCount.index}" keyProp="study.inclusionEligibilityCriteria.questionText"/></th>
 		                                    <th>N/A</th>
 		                                    <th></th>
@@ -133,11 +133,11 @@
 		                                </c:forEach>
 		                            </table>
 	                            </td>
-	                            <td valign="bottom">
+	                            <td valign="bottom" align="right">
 		                            <table width="5%">
 			                            <tr><td>	                            
 			                                <input type="button" value="Add Inclusion Criterion"
-			                                       onclick="RowManager.addRow(instanceInclusionRow_${epochCount.index});">	                            
+			                                       onclick="$('hInclusionEligibility--${epochCount.index}').show();RowManager.addRow(instanceInclusionRow_${epochCount.index});">	                            
 			                            </td></tr>
 		                            </table>
 	                            </td></tr>
@@ -148,7 +148,7 @@
                             <div id="exclusionCriteria-${epochCount.index}">
                              <table width="100%"><tr><td>  
                                 <table border="0" width="95%" cellspacing="0" cellpadding="0" class="tablecontent" id="addExclusionRowTable-${epochCount.index}">
-                                    <tr>
+                                    <tr id="hExclusionEligibility-${epochCount.index}" <c:if test="${fn:length(epoch.exclusionEligibilityCriteria) == 0}">style="display:none;"</c:if>>
                                         <th><span class="label required-indicator">Question</span>&nbsp;<tags:hoverHint id="study.exclusionEligibilityCriteria.questionText-${epochCount.index}" keyProp="study.exclusionEligibilityCriteria.questionText"/></th>
                                         <th>N/A</th>
                                         <th></th>
@@ -168,12 +168,16 @@
                                     </c:forEach>
                                 </table>
                                  </td>
-                            <td valign="bottom">
+                            <td valign="bottom" align="right">
 	                            <table width="5%">
 		                            <tr><td>	                            
 		                                <input type="button" value="Add Exclusion Criterion"
-                                           onclick="RowManager.addRow(instanceExclusionRow_${epochCount.index});"/>	                            
+                                           onclick="$('hExclusionEligibility-${epochCount.index}').show();RowManager.addRow(instanceExclusionRow_${epochCount.index});"/>	                            
 		                            </td></tr>
+
+
+
+
 	                            </table>
                             </td></tr>
                             </table>
