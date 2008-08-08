@@ -222,5 +222,9 @@ public class StudyRepositoryImpl implements StudyRepository {
 	public void refresh(Study study) {
 			studyDao.refresh(study);
 	}
+	
+	public void clear() {
+		studyDao.clear();
+}
 
 }
