@@ -24,4 +24,6 @@ public interface StudyRepository {
     public void refresh(Study study);
 
     public void reassociate(Study study);
+    
+    public void clear();
 }
