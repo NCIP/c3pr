@@ -23,11 +23,11 @@ var singleHealthcareSiteAutocompleterProps = {
     populator: function(autocompleter, text) {
 
         StudyAjaxFacade.matchHealthcareSites( text,function(values) {
-            autocompleter.setChoices(values)
+            autocompleter.setChoices(values) 
         })
     },
     valueSelector: function(obj) {
-        return obj.name
+    	 return (obj.name+" ("+obj.nciInstituteCode+")")
     }
 }
 
@@ -69,7 +69,7 @@ Event.observe(window, "load", function() {
 })
 </script>
         <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
-                <tr>
+               <tr>
                     <th><b><span class="required-indicator">Organization</span></b>
                     &nbsp;<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
                     <th><b>Activation Date</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
@@ -85,7 +85,14 @@ Event.observe(window, "load", function() {
                       				 />
                 			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite-input"
                        				size="40"
-                      				 value="${command.studySites[0].healthcareSite.name}"/>
+<c:set var="_codeSite" value="" />
+<c:set var="_nameSite" value="" />
+
+<c:if test="${fn:length(command.studySites)>0}">				
+<c:set var="_codeSite" value="(${command.studySites[0].healthcareSite.nciInstituteCode})" />
+<c:set var="_nameSite" value="${command.studySites[0].healthcareSite.name}" />
+</c:if>
+                      				 value="${_nameSite} ${_codeSite}"/>
                 				<input type="button" id="healthcareSite-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite-indicator"/>
@@ -120,7 +127,7 @@ var healthcareSiteAutocompleterProps = {
         })
     },
     valueSelector: function(obj) {
-        return obj.name
+    	return (obj.name+" ("+obj.nciInstituteCode+")")
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -175,7 +182,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 
             <br>
             <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
-                <tr>
+                 <tr id="h-multiSite" <c:if test="${fn:length(command.studySites) == 0}">style="display:none;"</c:if>>
                     <th><b><span class="required-indicator">Organization</span></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
                     <th><b>Activation Date</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
                     <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
@@ -193,7 +200,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                       				 value="${command.studySites[status.index].healthcareSite.id}"/>
                 			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input"
                        				size="40"
-                      				 value="${command.studySites[status.index].healthcareSite.name}"/>
+                      				 value="${command.studySites[status.index].healthcareSite.name} (${command.studySites[status.index].healthcareSite.nciInstituteCode})"/>
                 				<input type="button" id="healthcareSite${status.index}-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite${status.index}-indicator"/>
@@ -222,7 +229,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <div align="right">
 <input id="addEpoch" type="button"
                value="Add Study Site"
-               onclick="javascript:RowManager.addRow(instanceRowInserterProps);"/>
+               onclick="$('h-multiSite').show();javascript:RowManager.addRow(instanceRowInserterProps);"/>
 </div>
  </c:otherwise>
   </c:choose>
