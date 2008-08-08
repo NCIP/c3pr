@@ -48,18 +48,20 @@
 
              try {
                  if (box.value == 'false') {
+                	 Effect.OpenUp('addArm-' + index);
                      $('epochs[' + index + '].enrollmentIndicator').disabled = false;
                      $('epochs[' + index + '].treatmentIndicator').disabled = false;
                      $('epochs[' + index + '].randomizedIndicator').disabled = false;
-                      Effect.OpenUp('addArm-' + index);
+                      
                  } else {
+                	 Effect.CloseDown('addArm-' + index);
                      $('epochs[' + index + '].enrollmentIndicator').disabled = true;
                       $('epochs[' + index + '].enrollmentIndicator').value = false;
                      $('epochs[' + index + '].treatmentIndicator').disabled = true;
                      $('epochs[' + index + '].treatmentIndicator').value = false;
                      $('epochs[' + index + '].randomizedIndicator').disabled = true;
                      $('epochs[' + index + '].randomizedIndicator').value = false;
-                      Effect.CloseDown('addArm-' + index);
+                     
                  }
              } catch(ex) {
              }
@@ -141,18 +143,18 @@
       <tr>
               <td align="right"><span class="required-indicator"><b>Treating:</b></span></td>
               <td>
-                  <form:select path="epochs[${treatmentEpochCount.index}].treatmentIndicator" cssClass="validate-notEmpty">
+                  <form:select path="epochs[${treatmentEpochCount.index}].treatmentIndicator" disabled="${treatmentEpoch.reservationIndicator}" cssClass="validate-notEmpty">
                     <option value="">Please Select</option>
                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code"/>
                   </form:select>
-                  <tags:hoverHint id="study.treatmentEpoch.treatmentIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.treatmentIndicator"/>
+                  <tags:hoverHint id="study.treatmentEpoch.treatmentIndicator-${treatmentEpochCount.index}" keyProp="study.epoch.treatmentIndicator.hint.text"/>
               </td>
       </tr>
 
       <tr>
           <td align="right"><b>Enrolling:</b></td>
           <td align="left">
-              <form:select  id="epochs[${treatmentEpochCount.index}].enrollmentIndicator"
+              <form:select  id="epochs[${treatmentEpochCount.index}].enrollmentIndicator" disabled="${treatmentEpoch.reservationIndicator}"
 	                                        path="epochs[${treatmentEpochCount.index}].enrollmentIndicator"
 	                                        onchange="manageEnrollingIndicatorSelectBox(this,${treatmentEpochCount.index});"
 	                                        cssClass="validate-notEmpty">
@@ -167,7 +169,7 @@
       <tr>
               <td align="right"><span class="required-indicator"><b>Randomized:</b></span></td>
               <td>
-                  <form:select path="epochs[${treatmentEpochCount.index}].randomizedIndicator" cssClass="validate-notEmpty">
+                  <form:select path="epochs[${treatmentEpochCount.index}].randomizedIndicator" disabled="${treatmentEpoch.reservationIndicator}" cssClass="validate-notEmpty">
                     <option value="">Please Select</option>
                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code"/>
                   </form:select>
@@ -244,7 +246,7 @@ DELETED TD
                     <option value="">Please Select</option>
                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code"/>
                   </form:select>
-                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.stratificationIndicator"/>
+                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-${treatmentEpochCount.index}" keyProp="study.epoch.stratificationIndicator.hint.text"/>
               </td>
       </tr>
   	</c:if>
@@ -369,7 +371,7 @@ DELETED TD
                   <option value="true">Yes</option>
                   <option value="false">No</option>
               </select>
-              <tags:hoverHint id="study.nonTreatmentEpoch.treatmentIndicator-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.treatmentIndicator"/>
+              <tags:hoverHint id="study.nonTreatmentEpoch.treatmentIndicator-PAGE.ROW.INDEX" keyProp="study.epoch.treatmentIndicator.hint.text"/>
           </td>
       </tr>
       
@@ -458,7 +460,7 @@ DELETED TD
                       <option value="true" selected="selected">Yes</option>
                       <option value="false">No</option>
                   </select>
-                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.stratificationIndicator"/>
+                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-PAGE.ROW.INDEX" keyProp="study.epoch.stratificationIndicator.hint.text"/>
               </td>
       </tr>
   </c:if>
@@ -469,9 +471,7 @@ DELETED TD
 <tr>
   <td colspan="3" align="left">
   <hr noshade size="1" width="100%" style="border-top:1px black dotted;" align="left">
-  <div id="addArm-PAGE.ROW.INDEX"
-      <input id="addArm" type="button" value="Add Arm" onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" />
-  </div>
+      <input id="addArm-PAGE.ROW.INDEX" type="button" value="Add Arm" onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" />
       <br />
       
 
