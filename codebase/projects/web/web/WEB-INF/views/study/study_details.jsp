@@ -102,7 +102,7 @@
                 })
             },
             valueSelector: function(obj) {
-                return obj.name
+            	 return (obj.name+" ("+obj.nciInstituteCode+")")
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
@@ -119,7 +119,7 @@
                 })
             },
             valueSelector: function(obj) {
-                return obj.name
+            	 return (obj.name+" ("+obj.nciInstituteCode+")")
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=coCenterAutocompleterProps.basename+"-hidden"
@@ -155,7 +155,7 @@
                 })
             },
             valueSelector: function(obj) {
-                return obj.investigator.fullName
+                return obj.investigator.fullName + ' (' +obj.investigator.nciIdentifier +')' ;
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=principalInvestigatorAutocompleterProps.basename+"-hidden"
@@ -363,15 +363,24 @@
             	<div class="leftpanel">
                 	 <div class="row">
 		                        <div class="label required-indicator">Name:</div>
-		                        <div class="value"><input type="hidden" id="coCenter-hidden"
+		                        <div class="value">
+<c:set var="_codeCoord" value="" />
+<c:set var="_nameCoord" value="" />
+
+<c:if test="${fn:length(command.studyCoordinatingCenters)>0}">				
+<c:set var="_codeCoord" value="(${command.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode})" />
+<c:set var="_nameCoord" value="${command.studyCoordinatingCenters[0].healthcareSite.name}" />
+</c:if>
+
+<input type="hidden" id="coCenter-hidden"
 								name="studyCoordinatingCenters[0].healthcareSite"
 								value="${command.studyCoordinatingCenters[0].healthcareSite.id }" />
 								<input type="hidden" id="coCenter-hidden1"
 									name="organizationAssignedIdentifiers[0].healthcareSite"
 									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-								<input id="coCenter-input" size="50" type="text"
-								name="studyCoordinatingCenters[0].healthcareSite.name"
-								value="${command.studyCoordinatingCenters[0].healthcareSite.name}" class="autocomplete validate-notEmpty" />
+								<input id="coCenter-input" size="50" type="text" name="abcxyz"
+				value="${_nameCoord} ${_codeCoord }"
+				class="autocomplete validate-notEmpty" />
 								<tags:hoverHint keyProp="study.healthcareSite.name"/>
 							<tags:indicator id="coCenter-indicator" />
 							<div id="coCenter-choices" class="autocomplete"></div>
@@ -379,10 +388,19 @@
                     </div>	
                     <div class="row">
 	                       <div class="label required-indicator">Principal Investigator:</div>
-	                       <div class="value"> <form:hidden id="investigator0-hidden"
+	                       <div class="value">
+<c:set var="_codeInv" value="" />
+<c:set var="_nameInv" value="" />
+
+<c:if test="${fn:length(command.studyCoordinatingCenters[0].studyInvestigators)>0}">				
+<c:set var="_codeInv" value="(${command.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.nciIdentifier})" />
+<c:set var="_nameInv" value="${command.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" />
+</c:if>
+
+ <form:hidden id="investigator0-hidden"
                                 path="studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
 		                   		<input type="text" id="investigator0-input" size="30"
-		                          		value="${command.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" class="autocomplete validate-notEmpty"/>
+		                          		value="${_nameInv} ${_codeInv }" class="autocomplete validate-notEmpty"/>
 		                   		<tags:indicator id="investigator0-indicator"/>
 		                   		<div id="investigator0-choices" class="autocomplete"></div>
 		                   		<input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
@@ -424,9 +442,18 @@
         <div class="row">
             <div class="label">Name:</div>
             <div class="value">
+
+<c:set var="_code" value="" />
+<c:set var="_name" value="" />
+
+<c:if test="${fn:length(command.studyFundingSponsors)>0}">				
+<c:set var="_code" value="(${command.studyFundingSponsors[0].healthcareSite.nciInstituteCode})" />
+<c:set var="_name" value="${command.studyFundingSponsors[0].healthcareSite.name}" />
+</c:if>
+
             	<input type="text" id="healthcareSite-input" size="50"
             		name="aaaxxx" 
-            		value="${fn:length(command.studyFundingSponsors)>0?command.studyFundingSponsors[0].healthcareSite.name:''}"
+            		value='<c:out value="${_name} ${_code}" />'
             		class="autocomplete" />
 				<input type="hidden" id="healthcareSite-hidden"
             		name="studyFundingSponsors[0].healthcareSite"
