@@ -260,7 +260,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
                 HealthcareSiteInvestigator temp;
                 temp = buildReduced(hcInv, Arrays.asList("id"));
                 temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays.asList(
-                                "firstName", "lastName", "maidenName")));
+                                "firstName", "lastName", "maidenName","nciIdentifier")));
                 reducedInv.add(temp);
             }
 
