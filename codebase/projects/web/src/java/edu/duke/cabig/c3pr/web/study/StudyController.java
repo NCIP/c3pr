@@ -134,11 +134,13 @@ public abstract class StudyController<C extends Study> extends
 
     protected Study createDefaultStudyWithDesign() {
     	Study study = new Study();
-    	study.setCompanionIndicator(companionIndicator);
-    	if(!companionIndicator){
-    		study.setStandaloneIndicator(true);
-    	}else{
-    		study.setStandaloneIndicator(false);
+    	if(companionIndicator != null){
+    		study.setCompanionIndicator(companionIndicator);
+        	if(!companionIndicator){
+        		study.setStandaloneIndicator(true);
+        	}else{
+        		study.setStandaloneIndicator(false);
+        	}
     	}
         return study;
     }
