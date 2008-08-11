@@ -18,7 +18,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import edu.duke.cabig.c3pr.constants.NotificationEventType;
+import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
@@ -76,8 +76,8 @@ public class CreateNotificationController extends SimpleFormController {
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
     	super.initBinder(request, binder);
-    	binder.registerCustomEditor(NotificationEventType.class, new EnumByNameEditor(
-    			NotificationEventType.class));
+    	binder.registerCustomEditor(NotificationEventTypeEnum.class, new EnumByNameEditor(
+    			NotificationEventTypeEnum.class));
     	binder.registerCustomEditor(NotificationFrequencyEnum.class, new EnumByNameEditor(
     			NotificationFrequencyEnum.class));    	
     }
