@@ -11,7 +11,7 @@ import org.hibernate.type.Type;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import edu.duke.cabig.c3pr.constants.NotificationEventType;
+import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Organization;
@@ -155,13 +155,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//no status change...do nothing
 		} else {
 			//there is some status change and event is configured in plannedNotifs...activate RulesService
-			for(PlannedNotification pn: getHostingOrganization().getPlannedNotifications()){
-				if(pn.getEventName().equals(NotificationEventType.STUDY_STATUS_CHANGED_EVENT)){
+			/*for(PlannedNotification pn: getHostingOrganization().getPlannedNotifications()){
+				if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)){
 					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_SITE_STATUS_CHANGE_EVENT, pn,
 							previousSiteStudyStatus.getCode(), currentSiteStudyStatus.getCode());
 					break;
 				}
-			}
+			}*/
 		}		
 	}
 	
@@ -183,13 +183,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//no status change...hence do nothing.
 		}else{
 			//there is some status change and event is configured in plannedNotifs...activate RulesService
-			for(PlannedNotification pn: getHostingOrganization().getPlannedNotifications()){
-				if(pn.getEventName().equals(NotificationEventType.STUDY_STATUS_CHANGED_EVENT)){
+			/*for(PlannedNotification pn: getHostingOrganization().getPlannedNotifications()){
+				if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)){
 					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_STATUS_CHANGE_EVENT, pn,
 							previousCoordinatingCenterStudyStatus.getCode(), currentCoordinatingCenterStudyStatus.getCode());
 					break;
 				}
-			}
+			}*/
 			
 							
 		}	
