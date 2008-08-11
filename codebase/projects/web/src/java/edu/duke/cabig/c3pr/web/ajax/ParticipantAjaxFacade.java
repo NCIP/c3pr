@@ -58,7 +58,7 @@ public class ParticipantAjaxFacade {
         List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(healthcareSites
                         .size());
         for (HealthcareSite healthcareSite : healthcareSites) {
-            reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name")));
+            reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name","nciInstituteCode")));
         }
         return reducedHealthcareSites;
 
