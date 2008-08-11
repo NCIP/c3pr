@@ -165,7 +165,7 @@ function manageIdentifierRadio(element){
 		<tags:errors path="systemAssignedIdentifiers"/> 	
 		<chrome:division title="System Assigned Identifiers">
 			<table id="systemIdentifier" class="tablecontent">
-				<tr>
+				<tr id="hSystemAssignedIdentifier" <c:if test="${fn:length(command.systemAssignedIdentifiers) == 0}">style="display:none;"</c:if>>
 					<th><span class="required-indicator">System Name</span><tags:hoverHint keyProp="study.systemAssignedIdentifier.systemName"/></th>
 					<th><span class="required-indicator">Identifier Type</span><tags:hoverHint keyProp="study.systemAssignedIdentifier.identifierType"/></th>
 					<th><span class="required-indicator">Identifier</span><tags:hoverHint id="study.systemAssignedIdentifier.identifier" keyProp="study.coordinatingcenter.identifier"/></th>
@@ -202,7 +202,7 @@ function manageIdentifierRadio(element){
 <div align="right">
 			<input id="addSystemIdentifier" type="button"
 				value="Add Another Identifier"
-				onclick="RowManager.addRow(systemIdentifierRowInserterProps);" />
+				onclick="$('hSystemAssignedIdentifier').show(); RowManager.addRow(systemIdentifierRowInserterProps);" />
 				</div>
 
 		</chrome:division>
