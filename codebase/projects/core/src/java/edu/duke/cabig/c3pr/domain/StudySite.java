@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -178,10 +179,6 @@ public class StudySite extends StudyOrganization implements
 		return siteStudyStatus;
 	}
 
-/*	public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus) {
-		this.siteStudyStatus = siteStudyStatus;
-	}*/
-
 	public Integer getTargetAccrualNumber() {
 		return targetAccrualNumber;
 	}
@@ -202,7 +199,7 @@ public class StudySite extends StudyOrganization implements
 	}
 
 	public SiteStudyStatus evaluateSiteStudyStatus()
-			throws C3PRCodedException {
+			throws C3PRCodedException, ParseException {
 
 		if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL) {
 			return SiteStudyStatus.CLOSED_TO_ACCRUAL;
@@ -231,12 +228,8 @@ public class StudySite extends StudyOrganization implements
 			String allowedOldDate = "" ;
 			String todayDate = "" ;
 			
-			try{
 				allowedOldDate  = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
 				todayDate  = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
-			}catch(Exception e){
-				
-			}
 			if (this.getIrbApprovalDate() == null ) {
 				if( this.getId() != null ){
 					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"),
@@ -275,7 +268,7 @@ public class StudySite extends StudyOrganization implements
 		return SiteStudyStatus.PENDING;
 	}
 
-	public Study setWorkFlowSiteStudyStatus(SiteStudyStatus status) throws C3PRCodedException {
+	public Study setWorkFlowSiteStudyStatus(SiteStudyStatus status) throws C3PRCodedException, ParseException {
 		SiteStudyStatus currentSiteStatus = this.getSiteStudyStatus();
 		if ((status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
 				|| (status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
