@@ -16,7 +16,7 @@ var healthcareSiteAutocompleterProps = {
         })
     },
     valueSelector: function(obj) {
-        return obj.name
+    	return (obj.name+" ("+obj.nciInstituteCode+")")
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -62,7 +62,7 @@ function clearField(field) {
                 })
             },
             valueSelector: function(obj) {
-                return obj.name
+            	return (obj.name+" ("+obj.nciInstituteCode+")")
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -190,14 +190,21 @@ function manageIdentifierRadio(element){
     		<div class="leftpanel">
          		<div id="mrnDetails">
                 	 <div class="row">
+								<c:set var="_code" value="" />
+								<c:set var="_name" value="" />
+								<c:if test="${fn:length(command.organizationAssignedIdentifiers)>0}">				
+								<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.nciInstituteCode})" />
+								<c:set var="_name" value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" />
+								</c:if>
 		                        <div class="label required-indicator">Organization:</div>
 		                        <div class="value">
 								<input type="hidden" id="mrnOrganization-hidden"
 									name="organizationAssignedIdentifiers[0].healthcareSite"
 									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
 								<input id="mrnOrganization-input" size="50" type="text"
-								name="organizationAssignedIdentifiers[0].healthcareSite.name"
-								value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="autocomplete validate-notEmpty" />
+								name="xyz"
+								value='<c:out value="${_name} ${_code}" />'
+								class="autocomplete validate-notEmpty" />
 								<tags:hoverHint keyProp="subject.MRN.organization"/>
 								<tags:indicator id="mrnOrganization-indicator" />
 								<div id="mrnOrganization-choices" class="autocomplete"></div>
@@ -221,7 +228,7 @@ function manageIdentifierRadio(element){
 
 				<table id="organizationIdentifiersTable" border="0"
 					cellspacing="0" cellpadding="0" class="tablecontent">
-					<tr>
+					<tr id="hOrganizationAssignedIdentifier" <c:if test="${fn:length(command.organizationAssignedIdentifiers) < 2}">style="display:none;"</c:if>>
 						<th><span
 							class="required-indicator">Assigning Authority</span><tags:hoverHint keyProp="identifier.organization"/></th>
 						<th><span class="required-indicator">Identifier
@@ -234,13 +241,17 @@ function manageIdentifierRadio(element){
 						varStatus="organizationStatus" var="orgId">
 						<tr
 							id="organizationIdentifiersTable-${organizationStatus.index}">
+							<c:set var="_code" value="" />
+							<c:set var="_name" value="" />
+							<c:set var="_code" value="(${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.nciInstituteCode})" />
+							<c:set var="_name" value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
 							<td class="alt"><input type="hidden"
 								id="healthcareSite${organizationStatus.index}-hidden"
 								name="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
 								value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}" />
 							<input class="autocomplete validate-notEmpty" type="text"
 								id="healthcareSite${organizationStatus.index}-input" size="50"
-								value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
+								value='<c:out value="${_name} ${_code}" />'/>
 							<input type="button"
 								id="healthcareSite${organizationStatus.index}-clear"
 								value="Clear" /> <tags:indicator
@@ -270,7 +281,7 @@ function manageIdentifierRadio(element){
 				<br>
 				<div align="right"><input id="addIdentifier" type="button"
 					value="Add Another Identifier"
-					onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" />
+					onclick="$('hOrganizationAssignedIdentifier').show();javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" />
 				</div>
 			</chrome:division></td>
 
@@ -278,7 +289,7 @@ function manageIdentifierRadio(element){
 
 				<table id="systemIdentifiersTable" border="0" cellspacing="0" cellpadding="0"
 					class="tablecontent">
-					<tr>
+					<tr id="hSystemAssignedIdentifier" <c:if test="${fn:length(command.systemAssignedIdentifiers) == 0}">style="display:none;"</c:if>>
 						<th><span
 							class="required-indicator">System Name</span><tags:hoverHint keyProp="identifier.systemName"/></th>
 						<th><span class="required-indicator">Identifier Type</span><tags:hoverHint id="1" keyProp="identifier.type"/></th>
@@ -314,7 +325,7 @@ function manageIdentifierRadio(element){
 				<br>
 				<div align="right"><input id="addIdentifier" type="button"
 					value="Add Another Identifier"
-					onclick="javascript:RowManager.addRow(systemIdentifierRowInserterProps);" />
+					onclick="$('hSystemAssignedIdentifier').show();javascript:RowManager.addRow(systemIdentifierRowInserterProps);" />
 				</div>
 			</chrome:division></td>
 
