@@ -20,8 +20,8 @@ import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
-import edu.duke.cabig.c3pr.constants.DeliveryMechanismType;
-import edu.duke.cabig.c3pr.constants.NotificationEventType;
+import edu.duke.cabig.c3pr.constants.DeliveryMechanismEnum;
+import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
@@ -38,9 +38,9 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     
     private String title;
     
-    private DeliveryMechanismType deliveryMechanism;
+    private DeliveryMechanismEnum deliveryMechanism;
     
-    private NotificationEventType eventName;
+    private NotificationEventTypeEnum eventName;
     
     private LazyListHelper lazyListHelper;
 
@@ -196,20 +196,20 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
 	}
 
 	@Enumerated(EnumType.STRING)
-	public DeliveryMechanismType getDeliveryMechanism() {
+	public DeliveryMechanismEnum getDeliveryMechanism() {
 		return deliveryMechanism;
 	}
 
-	public void setDeliveryMechanism(DeliveryMechanismType deliveryMechanism) {
+	public void setDeliveryMechanism(DeliveryMechanismEnum deliveryMechanism) {
 		this.deliveryMechanism = deliveryMechanism;
 	}
 
 	@Enumerated(EnumType.STRING)
-	public NotificationEventType getEventName() {
+	public NotificationEventTypeEnum getEventName() {
 		return eventName;
 	}
 
-	public void setEventName(NotificationEventType eventName) {
+	public void setEventName(NotificationEventTypeEnum eventName) {
 		this.eventName = eventName;
 	}
 
