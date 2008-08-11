@@ -67,6 +67,7 @@ Event.observe(window, "load", function() {
     updateSelectedDisplay(singleHealthcareSiteAutocompleterProps)
     // Element.update("flow-next", "Continue &raquo;")
 })
+
 </script>
         <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
                <tr>
@@ -78,42 +79,69 @@ Event.observe(window, "load", function() {
                 </tr>
                 
                     <tr>
-                 
                      <td>
-               				<form:hidden id="healthcareSite-hidden"
-                        			path="studySites[0].healthcareSite"
-                      				 />
                 			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite-input"
                        				size="40"
-<c:set var="_codeSite" value="" />
-<c:set var="_nameSite" value="" />
-
-<c:if test="${fn:length(command.studySites)>0}">				
-<c:set var="_codeSite" value="(${command.studySites[0].healthcareSite.nciInstituteCode})" />
-<c:set var="_nameSite" value="${command.studySites[0].healthcareSite.name}" />
-</c:if>
-                      				 value="${_nameSite} ${_codeSite}"/>
+									<c:set var="_codeSite" value="" />
+									<c:set var="_nameSite" value="" />
+									<c:if test="${fn:length(command.studySites)>0}">	
+									<c:set var="_codeSite" value="(${command.studySites[0].healthcareSite.nciInstituteCode})" />
+									<c:set var="_nameSite" value="${command.studySites[0].healthcareSite.name}" />
+									</c:if>
+                      				 value='<c:out value="${_nameSite} ${_codeSite}" />'/>
+								<input type="hidden" id="healthcareSite-hidden"
+                        			name="studySites[0].healthcareSite" value="${command.studySites[0].healthcareSite.id}" />
                 				<input type="button" id="healthcareSite-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite-indicator"/>
                   			<div id="healthcareSite-choices" class="autocomplete"></div>
+							<input type="hidden" name="studySites[0].roleCode" value="Affiliate Site"/>
            			 </td>
-           			 
-                        <td>
-                        <input type="hidden" name="studySites[0].roleCode" value="Affiliate Site"/>
-                            <tags:dateInput path="studySites[0].startDate"/>
-                        </td>
-                        <td>
-                            <tags:dateInput path="studySites[0].irbApprovalDate"/>
-                        </td>
-                        <td>
-                            <form:input id="studySites[0].targetAccrualNumber" path="studySites[0].targetAccrualNumber" maxlength="6"
-                            	cssClass="validate-NUMERIC&&NONZERO_NUMERIC"
-                             />
-                        </td>
-                        
+	                 <td>
+		                <input id="studySites[0].startDate"
+		                       name="studySites[0].startDate"
+							   value="${command.studySites[0].startDateStr}"
+		                       type="text" cssClass="date validate-DATE" />
+		                <a href="#" id="studySites[0].startDate-calbutton">
+		                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
+		                </a>
+		            </td>
+		            <td>
+		                <input id="studySites[0].irbApprovalDate"
+		                       name="studySites[0].irbApprovalDate" value="${command.studySites[0].irbApprovalDateStr}"
+		                       type="text"
+		                       cssClass="date validate-DATE" />
+		                <a href="#" id="studySites[0].irbApprovalDate-calbutton">
+		                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
+		                </a>
+		            </td>
+                     <td>
+                         <input id="studySites[0].targetAccrualNumber" name="studySites[0].targetAccrualNumber" value="${command.studySites[0].targetAccrualNumber}"
+				 				type="text" maxlength="6" cssClass="validate-NUMERIC&&NONZERO_NUMERIC"
+                          />
+                     </td>
                     </tr>
             </table>
+<script>
+	inputDateElementLocal="studySites[0].startDate";
+    inputDateElementLink="studySites[0].startDate-calbutton";
+     Calendar.setup(
+     {
+         inputField  : inputDateElementLocal,         // ID of the input field
+         ifFormat    : "%m/%d/%Y",    // the date format
+         button      : inputDateElementLink       // ID of the button
+     }
+             );
+     inputDateElementLocal="studySites[0].irbApprovalDate";
+     inputDateElementLink="studySites[0].irbApprovalDate-calbutton";
+     Calendar.setup(
+     {
+         inputField  : inputDateElementLocal,         // ID of the input field
+         ifFormat    : "%m/%d/%Y",    // the date format
+         button      : inputDateElementLink       // ID of the button
+     }
+             );
+</script>
     </c:when>
     <c:otherwise>
     
