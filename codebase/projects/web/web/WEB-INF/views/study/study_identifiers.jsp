@@ -15,7 +15,7 @@ var healthcareSiteAutocompleterProps = {
         })
     },
     valueSelector: function(obj) {
-        return obj.name
+    	return (obj.name+" ("+obj.nciInstituteCode+")")
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -106,12 +106,16 @@ function manageIdentifierRadio(element){
 						<c:set var="handleDifferently" value="true"></c:set>
 					</c:if>
 					<tr id="organizationIdentifier-${organizationStatus.index}">
+						<c:set var="_code" value="" />
+							<c:set var="_name" value="" />
+							<c:set var="_code" value="(${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.nciInstituteCode})" />
+							<c:set var="_name" value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
 						<td><form:hidden id="healthcareSite${organizationStatus.index}-hidden"
 							path="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
 							 />
 						<input class="autocomplete validate-notEmpty" type="text"
 							id="healthcareSite${organizationStatus.index}-input" size="50"
-							value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
+							value='<c:out value="${_name} ${_code}" />'/>
 						<input type="button" id="healthcareSite${organizationStatus.index}-clear"
 							value="Clear" /> <tags:indicator
 							id="healthcareSite${organizationStatus.index}-indicator" />
