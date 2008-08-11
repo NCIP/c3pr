@@ -382,11 +382,10 @@
 					 <td valign="top" align="right">Substitution Variables:</td>
 					 <td>
 						<select id="subVar" name="subVar" onchange="insertAtCursor()">
-							<option value="" selected="selected">Please Select</option>
-							<option value="CoordinatingCenterStudyStatus">Coordinating Center Study Status</option>
-							<option value="StudyId">Study Id</option>
-							<option value="StudyShortTitle">Study Short Title</option>
-							<option value="RegistrationStatus">Registration status</option>
+								<option value="" selected="selected">Please Select</option>
+							<c:forEach items="${notificationEmailSubstitutionVariables}" var="subVar">
+								<option value="${subVar.code}">${subVar.desc}</option>
+							</c:forEach>
 						</select>	
 					 </td>			
 				</tr>
