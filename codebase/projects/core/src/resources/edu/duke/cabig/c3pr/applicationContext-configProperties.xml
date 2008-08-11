@@ -614,6 +614,27 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                		</list>
                	</entry>
                	
+               	<entry key="notificationEmailSubstitutionVariables">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="COORDINATING_CENTER_STUDY_STATUS" />
+                            <property name="desc" value="Coordinating Center Study Status" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_ID" />
+                            <property name="desc" value="Study Id" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_SHORT_TITLE" />
+                            <property name="desc" value="Study Short Title" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="REGISTRATION_STATUS" />
+                            <property name="desc" value="Registration Status" />
+                        </bean>                     
+               		</list>
+               	</entry>
+               	
             </map>
         </property>                      
     </bean>
