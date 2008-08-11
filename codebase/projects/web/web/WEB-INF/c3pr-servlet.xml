@@ -470,31 +470,31 @@
                 </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Subjects"
+                        autowire="byType" p:displayName="Personnel Organization"
                         p:mainController="searchParticipantController">
                     <property name="pathMapping"
                               value="/participant/**"/>
                     <property name="tasks">
-                        <list>
+                    	 <list>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Search Subject"
-                                    p:linkName="searchParticipantController"/>
-                            <bean
-                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Create Subject"
-                                    p:linkName="createParticipantController"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean
-                        class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Administration"
-                        p:mainController="searchInvestigatorController">
-                    <property name="pathMapping" value="/admin/**"/>
-                    <property name="tasks">
-                        <list>
-                            <bean
+                                    autowire="byType" p:displayName="Subject"
+                                    p:linkName="searchParticipantController">
+
+                                    <property name="subTasks">
+				                        <list>
+				                            <bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Search Subject"
+				                                    p:linkName="searchParticipantController"/>
+				                            <bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Create Subject"
+				                                    p:linkName="createParticipantController"/>
+				                        </list>
+				                    </property>
+				            </bean>
+				            <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Investigator"
                                     p:linkName="searchInvestigatorController">
@@ -552,8 +552,18 @@
                                                     p:linkName="createOrganizationController"/>
                                     </list>
                                 </property>
-                                
                             </bean>
+				          </list>
+                    </property>
+                </bean>
+                <bean
+                        class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
+                        autowire="byType" p:displayName="Administration"
+                        p:mainController="searchNotificationController">
+                    <property name="pathMapping" value="/admin/**"/>
+                    <property name="tasks">
+                    
+                        <list>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Notification"
