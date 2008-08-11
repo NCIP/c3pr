@@ -88,6 +88,14 @@ public class StudyAmendmentTab extends StudyTab {
                 request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(true));
                 sAmendment.setRandomizationChangedIndicator(false);
             }
+            
+            if (sAmendment.getCompanionChangedIndicator() != null && sAmendment.getCompanionChangedIndicator()) {
+            	request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(false));
+            }
+            else {
+            	request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(true));
+            	sAmendment.setCompanionChangedIndicator(false);
+            }
 
             // Change the status from Active to Pending_amendment.
             try {

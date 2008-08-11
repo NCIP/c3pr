@@ -940,6 +940,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 					|| (latestAmendment.getEaChangedIndicator())
 					|| (latestAmendment.getStratChangedIndicator())
 					|| (latestAmendment.getPiChangedIndicator())
+					|| (latestAmendment.getCompanionChangedIndicator())
 					|| (latestAmendment.getRandomizationChangedIndicator())) {
 				return true;
 			} else {

@@ -36,8 +36,19 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject {
     private Boolean piChangedIndicator = false;
 
     private Boolean randomizationChangedIndicator = false;
+    
+    private Boolean companionChangedIndicator = false;
+    
+    @Column(name = "comp_changed_indicator")
+    public Boolean getCompanionChangedIndicator() {
+		return companionChangedIndicator;
+	}
 
-    // / Mutators
+	public void setCompanionChangedIndicator(Boolean companionChangedIndicator) {
+		this.companionChangedIndicator = companionChangedIndicator;
+	}
+
+	// / Mutators
     public Date getAmendmentDate() {
         return amendmentDate;
     }
