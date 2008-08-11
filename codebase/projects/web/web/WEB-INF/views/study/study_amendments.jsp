@@ -166,8 +166,8 @@
         	<tr>
         		<td><b>Consent :</b></td>
         		<td><form:checkbox path="currentStudyAmendment.consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 1);"/></td>
-        		<td></td>
-        		<td></td>
+        		<td><b>Companion Study :</b></td>
+        		<td><form:checkbox path="currentStudyAmendment.companionChangedIndicator" value="true"/></td>
         	</tr>        	
         </table>
         
@@ -252,10 +252,8 @@
         	<tr>
         		<td><b>Consent :</b></td>
         		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 2);"/></td>
-				<!-- div <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if> -->        		
-					<td><b>Companion Study :</b></td>
-	        		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].compChangedIndicator" value="true"/></td>
-        	</tr>
+				<td><b>Companion Study :</b></td>
+        		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].companionChangedIndicator" value="true"/></td>        	</tr>
         </table> 
 
         <div id="consentVersion2" style="display:none;">
