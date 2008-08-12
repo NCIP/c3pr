@@ -2,7 +2,7 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.Date;
 
-import edu.duke.cabig.c3pr.constants.NotificationEventType;
+import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
@@ -47,7 +47,7 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
         {
         	PlannedNotification plannedNotification  = this.getDao().getById(savedId);
             assertNotNull("Could not reload organization with id " + savedId, plannedNotification);
-            assertEquals("Wrong Event Name", NotificationEventType.STUDY_STATUS_CHANGED_EVENT.getDisplayName(), plannedNotification.getEventName().getDisplayName());
+            assertEquals("Wrong Event Name", NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT.getDisplayName(), plannedNotification.getEventName().getDisplayName());
             assertNotNull("Missing ScheduledNotfn", plannedNotification.getScheduledNotification());
             for(ScheduledNotification sn: plannedNotification.getScheduledNotification()){
             	assertNotNull("Missing RecipientScheduledNotification", sn.getRecipientScheduledNotification());

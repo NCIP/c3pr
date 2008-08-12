@@ -5,8 +5,8 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_ORGANIZATION;
 import java.util.ArrayList;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
-import edu.duke.cabig.c3pr.constants.DeliveryMechanismType;
-import edu.duke.cabig.c3pr.constants.NotificationEventType;
+import edu.duke.cabig.c3pr.constants.DeliveryMechanismEnum;
+import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
@@ -99,8 +99,8 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
         assertEquals("Wrong title", OrganizationDaoTest.TITLE, loadedOrg.getPlannedNotifications().get(0).getTitle());
         assertEquals("Wrong message", OrganizationDaoTest.MESSAGE_BODY, loadedOrg.getPlannedNotifications().get(0).getMessage());
 
-        assertEquals("Wrong Event Name", NotificationEventType.STUDY_STATUS_CHANGED_EVENT, loadedOrg.getPlannedNotifications().get(0).getEventName());
-        assertEquals("Wrong Delivery Mechanism", DeliveryMechanismType.EMAIL, loadedOrg.getPlannedNotifications().get(0).getDeliveryMechanism());
+        assertEquals("Wrong Event Name", NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT, loadedOrg.getPlannedNotifications().get(0).getEventName());
+        assertEquals("Wrong Delivery Mechanism", DeliveryMechanismEnum.EMAIL, loadedOrg.getPlannedNotifications().get(0).getDeliveryMechanism());
         
         assertEquals("Wrong Role", "admin", loadedOrg.getPlannedNotifications().get(0).getRoleBasedRecipient().get(0).getRole());
         assertEquals("Wrong User", "Research Bill", loadedOrg.getPlannedNotifications().get(0).getUserBasedRecipient().get(0).getResearchStaff().getFirstName());
@@ -110,8 +110,8 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
     public PlannedNotification buildNotificationWithRecepientsAndMesssageDetails(){
     	PlannedNotification plannedNotification = new PlannedNotification();
     	
-    	plannedNotification.setDeliveryMechanism(DeliveryMechanismType.EMAIL);
-    	plannedNotification.setEventName(NotificationEventType.STUDY_STATUS_CHANGED_EVENT);
+    	plannedNotification.setDeliveryMechanism(DeliveryMechanismEnum.EMAIL);
+    	plannedNotification.setEventName(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT);
     	plannedNotification.setFrequency(NotificationFrequencyEnum.IMMEDIATE);
     	plannedNotification.setMessage(OrganizationDaoTest.MESSAGE_BODY);
     	plannedNotification.setTitle(OrganizationDaoTest.TITLE);
