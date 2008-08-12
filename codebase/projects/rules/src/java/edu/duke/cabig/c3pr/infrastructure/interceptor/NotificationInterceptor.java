@@ -1,11 +1,13 @@
 package edu.duke.cabig.c3pr.infrastructure.interceptor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.EmptyInterceptor;
-import org.hibernate.Session;
+import org.hibernate.FlushMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.type.Type;
 import org.springframework.context.ApplicationContext;
@@ -14,11 +16,11 @@ import org.springframework.context.ApplicationContextAware;
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
 
@@ -34,6 +36,10 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	
 	private Configuration configuration; 
 	
+	private Study study;
+	
+	private StudySubject studySubject;
+	
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
@@ -42,8 +48,35 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		this.applicationContext = applicationContext;
 	}
 	
-	public Organization getHostingOrganization(){
-		return organizationDao.getByNciIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0);
+	public List<PlannedNotification> getHostingOrganization(){
+		SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
+		sessionFactory.getCurrentSession().setFlushMode(FlushMode.COMMIT);
+		/*Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
+		List<PlannedNotification> result = new ArrayList<PlannedNotification>();
+        PlannedNotification pn = new PlannedNotification();
+        Example example = Example.create(pn).excludeZeroes().ignoreCase();
+        try {
+            Criteria orgCriteria = session.createCriteria(PlannedNotification.class);
+            result = orgCriteria.add(example).list();
+            
+//          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
+//          query.setString(0, configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
+//          result = query.list();
+        }
+        catch (DataAccessResourceFailureException e) {
+            log.error(e.getMessage());
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        catch (HibernateException e) {
+            log.error(e.getMessage());
+        }
+        finally{
+        	session.close();
+        }
+        return result;*/
+		return organizationDao.getByNciIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0).getPlannedNotifications();
 	}
 	
 	
@@ -54,10 +87,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	public boolean onSave(Object entity, Serializable id, Object[] state,
 		String[] propertyNames, Type[] types) {
 		log.debug(this.getClass().getName() + ": Entering onSave()");
-		//SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
-		//Session session  = sessionFactory.openSession();	
-		//Serializable persistedObjectId = getObjectId(entity);
-		//Object preUpdateState = session.get(entity.getClass(),  persistedObjectId);
+
 		if(entity instanceof Study){			
 			handleNewStudySaved((Study)entity);
 		}
@@ -68,25 +98,6 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		return false;
 	}
 
-/*	private Serializable getObjectId(Object obj) {
-        
-        Class objectClass = obj.getClass();
-        Method[] methods = objectClass.getMethods();
-
-        Serializable persistedObjectId = null;
-        for (int ii = 0; ii < methods.length; ii++) {
-            // If the method name equals 'getId' then invoke it to get the id of the object.
-            if (methods[ii].getName().equals("getId")) {
-                try {
-                    persistedObjectId = (Serializable)methods[ii].invoke(obj, null);
-                    break;      
-                } catch (Exception e) {
-                    log.warn("Audit Log Failed - Could not get persisted object id: " + e.getMessage());
-                }
-            }
-        }
-        return persistedObjectId;
-    }*/
 
 	/*
 	 * This call back intercepts all updates to the database.
@@ -125,16 +136,20 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	
 	
 	public void handleNewStudySaved(Study study){
+		List<Object> objects = new ArrayList<Object>();
+		objects.add(study);
+		
 		log.debug(this.getClass().getName() + ": Entering handleNewStudySaved()");
-		rulesDelegationService.activateRules(RulesDelegationServiceImpl.NEW_STUDY_SAVED_EVENT, study, 
-				null, study.getCoordinatingCenterStudyStatus().getCode());
+		rulesDelegationService.activateRules(RulesDelegationServiceImpl.NEW_STUDY_SAVED_EVENT, objects);
 		log.debug(this.getClass().getName() + ": exiting handleNewStudySaved()");
 	}
 	
 	public void handleNewStudySiteSaved(StudySite studySite){
+		List<Object> objects = new ArrayList<Object>();
+		objects.add(studySite);
+		
 		log.debug(this.getClass().getName() + ": Entering handleNewStudySiteSaved()");
-		rulesDelegationService.activateRules(RulesDelegationServiceImpl.NEW_STUDY_SITE_SAVED_EVENT, studySite,
-				null, studySite.getSiteStudyStatus().getCode());
+		rulesDelegationService.activateRules(RulesDelegationServiceImpl.NEW_STUDY_SITE_SAVED_EVENT, objects);
 		log.debug(this.getClass().getName() + ": exiting handleNewStudySiteSaved()");
 	}
 	
@@ -143,6 +158,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		
 		SiteStudyStatus previousSiteStudyStatus = null;
 		SiteStudyStatus currentSiteStudyStatus = null;
+		List<Object> objects = new ArrayList<Object>();
+		objects.add(entity);
 		
 		if(previousState != null && previousState instanceof SiteStudyStatus){
 			previousSiteStudyStatus = (SiteStudyStatus)previousState;
@@ -155,13 +172,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//no status change...do nothing
 		} else {
 			//there is some status change and event is configured in plannedNotifs...activate RulesService
-			/*for(PlannedNotification pn: getHostingOrganization().getPlannedNotifications()){
+			for(PlannedNotification pn: getHostingOrganization()){
 				if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)){
-					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_SITE_STATUS_CHANGE_EVENT, pn,
-							previousSiteStudyStatus.getCode(), currentSiteStudyStatus.getCode());
+					objects.add(pn);
+					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_SITE_STATUS_CHANGE_EVENT, objects);
 					break;
 				}
-			}*/
+			}
 		}		
 	}
 	
@@ -171,6 +188,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		log.debug(this.getClass().getName() + ": Entering handleStudyStatusChange()");
 		CoordinatingCenterStudyStatus previousCoordinatingCenterStudyStatus = null;
 		CoordinatingCenterStudyStatus currentCoordinatingCenterStudyStatus = null;
+		List<Object> objects = new ArrayList<Object>();
+		objects.add(entity);
 		
 		if(previousState != null && previousState instanceof CoordinatingCenterStudyStatus){
 			previousCoordinatingCenterStudyStatus = (CoordinatingCenterStudyStatus)previousState;
@@ -183,15 +202,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//no status change...hence do nothing.
 		}else{
 			//there is some status change and event is configured in plannedNotifs...activate RulesService
-			/*for(PlannedNotification pn: getHostingOrganization().getPlannedNotifications()){
+			for(PlannedNotification pn: getHostingOrganization()){
 				if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)){
-					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_STATUS_CHANGE_EVENT, pn,
-							previousCoordinatingCenterStudyStatus.getCode(), currentCoordinatingCenterStudyStatus.getCode());
+					objects.add(pn);
+					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_STATUS_CHANGE_EVENT, objects);
 					break;
 				}
-			}*/
-			
-							
+			}
 		}	
 		log.debug(this.getClass().getName() + ": exiting handleStudyStatusChange()");
 	}
@@ -220,6 +237,22 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+	public Study getStudy() {
+		return study;
+	}
+
+	public void setStudy(Study study) {
+		this.study = study;
+	}
+
+	public StudySubject getStudySubject() {
+		return studySubject;
+	}
+
+	public void setStudySubject(StudySubject studySubject) {
+		this.studySubject = studySubject;
 	}
 	
 }

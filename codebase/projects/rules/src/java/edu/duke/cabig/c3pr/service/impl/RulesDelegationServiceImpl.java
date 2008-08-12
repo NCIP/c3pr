@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,27 +25,13 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 	
 	NotificationEmailService notificationEmailService;
 	
-	public void activateRules(String event, Object obj, Object oldVal, Object newVal){		
-		/*
-		RuleBase ruleBase = null;
-		if(event.equalsIgnoreCase(STUDY_STATUS_CHANGE_EVENT) ){
-			InputStreamReader r =  null;			
-			try{
-				r = new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("edu/duke/cabig/c3pr/rules/study-status-rules.xml" ));
-				ruleBase = RuleBaseLoader.getInstance().loadFromReader(r);
-			}catch(CheckedDroolsException cde){
-				log.error(cde.getMessage());
-			}catch(IOException ioe){
-				log.error(ioe.getMessage());
-			}
-
-			StatefulSession statefulSession = ruleBase.newStatefulSession();
-        	statefulSession.fireAllRules();
-		}*/
+	
+	public void activateRules(String event, List<Object> objects){		
+		
 		log.debug(this.getClass().getName() + ": Entering activateRules()");
-		ArrayList objList = new ArrayList();
-		objList.add(obj);
-		//objList.add(new RulesDelegationServiceImpl());
+		ArrayList <Object>objList = new ArrayList<Object>();
+		objList.addAll(objects);
+//		objList.add(entity);
 		objList.add(notificationEmailService);
 		
 		try{
@@ -52,13 +39,13 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 		}catch(RuleException re){
 			log.error(re.getMessage());
 		}
-		log.debug(this.getClass().getName() + ": Entering activateRules()");
-		
+		log.debug(this.getClass().getName() + ": Exiting activateRules()");
 	}
+
 	
-	/*public void sendMail(Study study){
-		notificationEmailService.sendEmail(study);
-	}*/
+	public void activateRules(String event, Object obj, Object oldValue, Object newValue){
+		return;
+	}
 
 	public BusinessRulesExecutionService getBusinessRulesExecutionService() {
 		return businessRulesExecutionService;
