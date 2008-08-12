@@ -125,9 +125,9 @@
 				//and the second substring to get the new value.
 				var startPos = myField.selectionStart;
 				var endPos = myField.selectionEnd;
-				myField.value = myField.value.substring(0, startPos)+ " ${" + myValue.value + "} " + myField.value.substring(endPos, myField.value.length);
+				myField.value = myField.value.substring(0, startPos) + "$" + "{" + myValue.value + "}" + myField.value.substring(endPos, myField.value.length);
 			} else {
-				myField.value += " ${" + myValue.value + "} ";
+				myField.value +=  "$" + "{" + myValue.value + "}";
 			}
 		}
 	</script> 
@@ -383,7 +383,7 @@
 					 <td>
 						<select id="subVar" name="subVar" onchange="insertAtCursor()">
 								<option value="" selected="selected">Please Select</option>
-							<c:forEach items="${notificationEmailSubstitutionVariables}" var="subVar">
+							<c:forEach items="${notificationEmailSubstitutionVariablesRefData}" var="subVar">
 								<option value="${subVar.code}">${subVar.desc}</option>
 							</c:forEach>
 						</select>	
