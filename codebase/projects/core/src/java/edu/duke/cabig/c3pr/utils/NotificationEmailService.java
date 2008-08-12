@@ -1,8 +1,12 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
@@ -21,10 +25,13 @@ import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 /**
  * Author: vGangoli Date: Nov 30, 2007
@@ -35,8 +42,6 @@ public class NotificationEmailService {
     private MailSender mailSender;
 
     private SimpleMailMessage accountCreatedTemplateMessage;
-
-//    PersonnelServiceImpl personnelServiceImpl;
 
     private Logger log = Logger.getLogger(StudyTargetAccrualNotificationEmail.class);
 
@@ -54,11 +59,13 @@ public class NotificationEmailService {
      * 
      * @param study
      */
-    public void sendEmail(PlannedNotification plannedNotification) {
+    public void sendEmail(PlannedNotification plannedNotification, Study study) {
     	log.debug(this.getClass().getName() + ": Entering sendEmail()");
         List<String> emailList = null;
-      //saving the ScheduledNotification
-        addScheduledNotification(plannedNotification);
+        //composing the message to be sent out
+        String composedMessage = applyRuntimeReplacementsForStudyStatusEmailMessage(plannedNotification.getMessage(), study);
+        //saving the ScheduledNotification
+        addScheduledNotification(plannedNotification, composedMessage);
         plannedNotificationDao.merge(plannedNotification);
         emailList = generateEmailList(plannedNotification);
         for (String emailAddress : emailList) {
@@ -66,7 +73,7 @@ public class NotificationEmailService {
                 SimpleMailMessage msg = new SimpleMailMessage(this.accountCreatedTemplateMessage);
                 msg.setSubject(plannedNotification.getTitle());
                 msg.setTo(emailAddress);
-                msg.setText(plannedNotification.getMessage());
+                msg.setText(composedMessage);
                 log.debug("Trying to send study status change notification email");
                 
                 this.mailSender.send(msg);
@@ -171,14 +178,12 @@ public class NotificationEmailService {
     }
     
     
-    public void addScheduledNotification(PlannedNotification plannedNotification){
+    public void addScheduledNotification(PlannedNotification plannedNotification, String composedMessage){
     	
-    	//List<ScheduledNotification> scList = new ArrayList<ScheduledNotification>();
     	ScheduledNotification scheduledNotification = new ScheduledNotification();
-    	//scList.add(scheduledNotification);
     	plannedNotification.getScheduledNotification().add(scheduledNotification);
     	scheduledNotification.setDateSent(new Date());
-		scheduledNotification.setMessage(plannedNotification.getMessage());
+		scheduledNotification.setMessage(composedMessage);
 		scheduledNotification.setTitle(plannedNotification.getTitle());
     	RecipientScheduledNotification rsn; 
     	for(RoleBasedRecipient rbr: plannedNotification.getRoleBasedRecipient()){
@@ -198,6 +203,75 @@ public class NotificationEmailService {
     	}
     	return;
     }
+    
+    
+    private String applyRuntimeReplacementsForStudyStatusEmailMessage(String rawText, Study study) {
+        freemarker.template.Configuration cfg = new freemarker.template.Configuration();
+        Map<Object, Object> map = study.buildMapForNotification();
+        try {
+            Template t = new Template("message", new StringReader(rawText), cfg);
+            StringWriter writer = new StringWriter();
+            t.process(map, writer);
+            return writer.toString();
+        } catch (TemplateException e) {
+            log.error("Error while applying freemarker template [PlannedNotificatiton.body]", e);
+        } catch (IOException e) {
+            log.error("Error while applying freemarker template [PlannedNotificatiton.body]", e);
+        }
+        return "";
+    }
+    
+    
+    /*This method generates the final email message by plugging in the right values for the 
+      substitution variables.
+
+      private String composeMessage(String messageWithSubVars, Study study){
+    	StringBuffer generatedMessage = new StringBuffer();
+    	int startIndex = 0;
+    	int dollarIndex = -1;
+    	int endDollarIndex = -1;
+    	String variableValue = "";
+    	
+    	//loops over the messageWithSubVars until it runs out of subvars.
+    	while(true){
+	    	dollarIndex = messageWithSubVars.indexOf("$", startIndex);
+	    	if(dollarIndex == -1){
+	    		//appending the string after the last '$' or the whole string if no '$' is found.
+	    		generatedMessage.append(messageWithSubVars.substring(startIndex));
+	    		//no more subvars hence exit
+	    		break;
+	    	} else {
+		    	
+		    	endDollarIndex = messageWithSubVars.indexOf("}", dollarIndex);
+		    	if(endDollarIndex == -1){
+		    		//this means closing brace wasnt found...hence return msg as is.
+		    		//admin needs to correct the message format.
+		    		return messageWithSubVars;
+		    	}
+		    	variableValue = getVariableValue(messageWithSubVars.substring(dollarIndex + 2, endDollarIndex), study);
+		    	
+		    	generatedMessage.append(messageWithSubVars.substring(startIndex, dollarIndex)+ " " + variableValue + " ");
+		    	startIndex = endDollarIndex + 1;
+	    	}
+    	}
+    	return generatedMessage.toString();
+    }
+    
+    private String getVariableValue(String variable, Study study){
+    	if(variable.equals(NotificationEmailSubstitutionVariablesEnum.COORDINATING_CENTER_STUDY_STATUS.toString())){
+    		return study.getCoordinatingCenterStudyStatus().getDisplayName();
+    	}
+		if(variable.equals(NotificationEmailSubstitutionVariablesEnum.REGISTRATION_STATUS.toString())){
+			return "rs";		
+		}
+		if(variable.equals(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString())){
+			return study.getId().toString();
+		}
+		if(variable.equals(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString())){
+			return study.getShortTitleText();
+		}
+		return "";
+    }*/
     
     
     public MailSender getMailSender() {
@@ -249,11 +323,15 @@ public class NotificationEmailService {
 		this.plannedNotificationDao = plannedNotificationDao;
 	}
 
-/*    public PersonnelServiceImpl getPersonnelServiceImpl() {
-        return personnelServiceImpl;
-    }
-
-    public void setPersonnelServiceImpl(PersonnelServiceImpl personnelServiceImpl) {
-        this.personnelServiceImpl = personnelServiceImpl;
-    }*/
+	/*public static void main(String arsg[]){
+		NotificationEmailService nes = new NotificationEmailService();
+		String messageWithSubVars = "The study ${" +NotificationEmailSubstitutionVariablesEnum.STUDY_ID +"} is now in ${" +
+		NotificationEmailSubstitutionVariablesEnum.COORDINATING_CENTER_STUDY_STATUS + "} status.";
+		Study study = new Study();
+		study.setShortTitleText("shortTitleText");
+		study.setId(10);
+		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+		
+		System.out.println(nes.composeMessage(messageWithSubVars, study));
+	}*/
 }
