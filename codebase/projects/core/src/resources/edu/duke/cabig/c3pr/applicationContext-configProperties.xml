@@ -614,7 +614,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                		</list>
                	</entry>
                	
-               	<entry key="notificationEmailSubstitutionVariables">
+               	<entry key="notificationEmailSubstitutionVariablesRefData">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="COORDINATING_CENTER_STUDY_STATUS" />
