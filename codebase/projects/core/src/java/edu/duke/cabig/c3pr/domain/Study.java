@@ -8,8 +8,10 @@ import java.io.Reader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +33,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
@@ -1259,6 +1262,21 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	private void setParentStudyAssociations(
 			List<CompanionStudyAssociation> parentStudyAssociations) {
 		this.parentStudyAssociations = parentStudyAssociations;
-	}	
+	}
+	
+	@SuppressWarnings("unused")
+	@Transient
+	public Map<Object, Object> buildMapForNotification(){
+		
+		Map<Object, Object>  map = new HashMap<Object, Object>();
+		map.put(NotificationEmailSubstitutionVariablesEnum.COORDINATING_CENTER_STUDY_STATUS.toString(), 
+				getCoordinatingCenterStudyStatus().getDisplayName() == null ? "status" : getCoordinatingCenterStudyStatus().getDisplayName());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(),
+				getId() == null ? "id" : getId().toString());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(),
+				getShortTitleText() == null ? "Short Title":getShortTitleText().toString());
+		
+		return map;
+	}
 	
 }
