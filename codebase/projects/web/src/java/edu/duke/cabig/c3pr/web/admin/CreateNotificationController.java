@@ -70,6 +70,7 @@ public class CreateNotificationController extends SimpleFormController {
         refdata.put("notificationEventsRefData", configMap.get("notificationEventsRefData"));
         refdata.put("notificationFrequencyRefData", configMap.get("notificationFrequencyRefData"));
         refdata.put("notificationPersonnelRoleRefData", configMap.get("notificationPersonnelRoleRefData"));
+        refdata.put("notificationEmailSubstitutionVariablesRefData", configMap.get("notificationEmailSubstitutionVariablesRefData"));
         return refdata;
     }
     
