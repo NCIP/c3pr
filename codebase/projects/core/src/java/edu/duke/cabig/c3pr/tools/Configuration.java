@@ -93,7 +93,14 @@ public class Configuration extends DatabaseBackedConfiguration {
     
     public static final ConfigurationProperty<String> C3D_WINDOW_NAME = PROPERTIES
     .add(new ConfigurationProperty.Text("c3d_window_name"));
+    
+    public static final ConfigurationProperty<String> SMTP_SSL_AUTH= PROPERTIES
+    .add(new ConfigurationProperty.Text("smtpSSLAuth"));
+    
+    public static final ConfigurationProperty<String> SMTP_PROTOCOL= PROPERTIES
+    .add(new ConfigurationProperty.Text("smtpProtocol"));
 
+    
     public ConfigurationProperties getProperties() {
         return PROPERTIES;
     }
