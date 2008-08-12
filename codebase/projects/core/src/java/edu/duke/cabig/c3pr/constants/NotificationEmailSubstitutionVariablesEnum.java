@@ -5,12 +5,15 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.register;
 import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
-public enum DeliveryMechanismType implements CodedEnum<String> {
-    EMAIL("Email"), FAX("Fax"), PAGER("Pager");
+public enum NotificationEmailSubstitutionVariablesEnum implements CodedEnum<String> {
+	COORDINATING_CENTER_STUDY_STATUS("Coordinating Center Study Status"), 
+	STUDY_ID("Study Id"), 
+	STUDY_SHORT_TITLE("Study Short Title"), 
+	REGISTRATION_STATUS ("Registration Status");
 
     private String code;
 
-    private DeliveryMechanismType(String code) {
+    private NotificationEmailSubstitutionVariablesEnum(String code) {
         this.code = code;
         register(this);
     }
@@ -27,7 +30,7 @@ public enum DeliveryMechanismType implements CodedEnum<String> {
         return name();
     }
 
-    public static DeliveryMechanismType getByCode(String code) {
-        return getByClassAndCode(DeliveryMechanismType.class, code);
+    public static NotificationEmailSubstitutionVariablesEnum getByCode(String code) {
+        return getByClassAndCode(NotificationEmailSubstitutionVariablesEnum.class, code);
     }
 }
