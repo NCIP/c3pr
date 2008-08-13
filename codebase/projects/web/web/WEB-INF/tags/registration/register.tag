@@ -70,7 +70,7 @@ function submitRandomization(){
 			</c:if>
 			<c:if test="${registration.studySite.study.randomizationType.name == 'BOOK'}">
 				<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
-				<c:if test="${registration.studySite.study.stratificationIndicator}">
+				<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
 				<tr><td class="labelR">Stratum Group:</td><td>${registration.stratumGroup}</td></tr>
 				</c:if>
 			</c:if>
