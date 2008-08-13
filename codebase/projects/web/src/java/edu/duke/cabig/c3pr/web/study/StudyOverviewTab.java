@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -60,6 +58,16 @@ public class StudyOverviewTab extends StudyTab {
             map.put("responseMessage", e.getMessage());
             return new ModelAndView(getAjaxViewName(request), map);
         }
+    }
+    
+    @Override
+    public Map referenceData(HttpServletRequest request, Study command) {
+    	try {
+    		command.setDataEntryStatus(command.evaluateDataEntryStatus()) ;
+    	}catch (Exception e) {
+    		log.error(e.getMessage());
+    	}
+    	return super.referenceData(request, command);
     }
 
     @SuppressWarnings("finally")
