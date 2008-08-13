@@ -100,7 +100,7 @@ function closePopup() {
 			<c:choose>
 				<c:when test="${empty command.studySites || (fn:length(command.studySites) == 1 && (empty command.studySites[0].healthcareSite))}">
 					<tr align="center">
-						<td align="center" height="50">Please add study site to the study, click here to add study site</td>
+						<td align="center" height="50">Please add study site to the study, click <a href="javascript:document.getElementById('flowredirect-target').name='_target6';document.getElementById('flowredirect').submit();"> Add Sites </a> to add study site</td>
 					</tr>
 				</c:when>
 				<c:otherwise>

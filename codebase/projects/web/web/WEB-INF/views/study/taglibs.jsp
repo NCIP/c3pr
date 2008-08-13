@@ -8,3 +8,4 @@
 <%@taglib uri="http://jawr.net/tags" prefix="jwr" %>
 <%@taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
+<%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
