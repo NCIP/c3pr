@@ -42,6 +42,8 @@ public abstract class StudyOrganization extends AbstractMutableDeletableDomainOb
 
     // TODO move into Command Object
     private String[] studyInvestigatorIds;
+    
+    private String[] studyPersonnelIds;
 
     public StudyOrganization() {
         lazyListHelper = new LazyListHelper();
@@ -165,6 +167,15 @@ public abstract class StudyOrganization extends AbstractMutableDeletableDomainOb
     @Transient
     public String[] getStudyInvestigatorIds() {
         return studyInvestigatorIds;
+    }
+    
+    @Transient
+    public String[] getStudyPersonnelIds() {
+        return studyPersonnelIds;
+    }
+    
+    public void setStudyPersonnelIds(String[] studyPersonnelIds) {
+        this.studyPersonnelIds = studyPersonnelIds;
     }
 
     public void setStudyInvestigatorIds(String[] studyInvestigatorIds) {
