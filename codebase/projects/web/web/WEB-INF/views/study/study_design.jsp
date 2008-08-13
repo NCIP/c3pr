@@ -147,7 +147,7 @@
                     <option value="">Please Select</option>
                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code"/>
                   </form:select>
-                  <tags:hoverHint id="study.treatmentEpoch.treatmentIndicator-${treatmentEpochCount.index}" keyProp="study.epoch.treatmentIndicator.hint.text"/>
+                  <tags:hoverHint id="study.treatmentEpoch.treatmentIndicator-${treatmentEpochCount.index}" keyProp="study.epoch.treatmentIndicator"/>
               </td>
       </tr>
 
@@ -246,7 +246,7 @@ DELETED TD
                     <option value="">Please Select</option>
                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code"/>
                   </form:select>
-                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-${treatmentEpochCount.index}" keyProp="study.epoch.stratificationIndicator.hint.text"/>
+                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-${treatmentEpochCount.index}" keyProp="study.epoch.stratificationIndicator"/>
               </td>
       </tr>
   	</c:if>
@@ -371,7 +371,7 @@ DELETED TD
                   <option value="true">Yes</option>
                   <option value="false">No</option>
               </select>
-              <tags:hoverHint id="study.nonTreatmentEpoch.treatmentIndicator-PAGE.ROW.INDEX" keyProp="study.epoch.treatmentIndicator.hint.text"/>
+              <tags:hoverHint id="study.nonTreatmentEpoch.treatmentIndicator-PAGE.ROW.INDEX" keyProp="study.epoch.treatmentIndicator"/>
           </td>
       </tr>
       
@@ -460,7 +460,7 @@ DELETED TD
                       <option value="true" selected="selected">Yes</option>
                       <option value="false">No</option>
                   </select>
-                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-PAGE.ROW.INDEX" keyProp="study.epoch.stratificationIndicator.hint.text"/>
+                  <tags:hoverHint id="study.treatmentEpoch.stratificationIndicator-PAGE.ROW.INDEX" keyProp="study.epoch.stratificationIndicator"/>
               </td>
       </tr>
   </c:if>
