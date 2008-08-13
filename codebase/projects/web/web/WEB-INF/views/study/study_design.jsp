@@ -125,7 +125,7 @@
 
       <table width="100%" border="0" cellspacing="4" cellpadding="2">
       <tr>
-          <td align="right"><b>Name:</b></td>
+          <td align="right"><span class="required-indicator"><b>Name:</b></td>
           <td align="left" valign="top">
               <form:input path="epochs[${treatmentEpochCount.index}].name" size="43" cssClass="validate-notEmpty" onkeyup="updateName('genericTitle-${treatmentEpochCount.index}', 'Epoch: ' + this.value);"/>
 			  <tags:hoverHint id="study.treatmentEpoch.name-	" keyProp="study.treatmentEpoch.name"/>
@@ -152,7 +152,7 @@
       </tr>
 
       <tr>
-          <td align="right"><b>Enrolling:</b></td>
+          <td align="right"><span class="required-indicator"><b>Enrolling:</b></td>
           <td align="left">
               <form:select  id="epochs[${treatmentEpochCount.index}].enrollmentIndicator" disabled="${treatmentEpoch.reservationIndicator}"
 	                                        path="epochs[${treatmentEpochCount.index}].enrollmentIndicator"
@@ -222,7 +222,7 @@ DELETED TD
       <!--</tr>-->
 <!---->
         <!--<tr>-->
-                        <td align="right"><div id="reservationIndicatorLabel-${treatmentEpochCount.index}"><b>Reserving:</b></div></td>
+                        <td align="right"><div id="reservationIndicatorLabel-${treatmentEpochCount.index}"><span class="required-indicator"><b>Reserving:</b></div></td>
                         <td align="left">
                            <div id ="reservationIndicator-${treatmentEpochCount.index}" >
                                <c:set var="_disabled" value="false" />
@@ -354,7 +354,7 @@ DELETED TD
 
       <table width="100%" border="0" cellspacing="4" cellpadding="2">
       <tr>
-          <td align="right"><b>Name:</b></td>
+          <td align="right"><span class="required-indicator"><b>Name:</b></td>
           <td align="left"><input type="text" name="epochs[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty" onkeyup="updateName('divGenericEpochBox-PAGE.ROW.INDEX', 'Epoch: ' + this.value);" /><tags:hoverHint id="study.treatmentEpoch.name-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.name"/></td>
       </tr>
 
@@ -364,7 +364,7 @@ DELETED TD
       </tr>
       
       <tr>
-          <td align="right"><b>Treating:</b></td>
+          <td align="right"><span class="required-indicator"><b>Treating:</b></td>
           <td align="left">
               <select id="epochs[PAGE.ROW.INDEX].treatmentIndicator" name="epochs[PAGE.ROW.INDEX].treatmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);" class="validate-notEmpty">
                   <option value="">Please Select</option>
@@ -376,7 +376,7 @@ DELETED TD
       </tr>
       
        <tr>
-          <td align="right"><b>Enrolling:</b></td>
+          <td align="right"><span class="required-indicator"><b>Enrolling:</b></td>
           <td align="left">
               <select id="epochs[PAGE.ROW.INDEX].enrollmentIndicator" name="epochs[PAGE.ROW.INDEX].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);" class="validate-notEmpty">
                   <option value="">Please Select</option>
@@ -439,7 +439,7 @@ DELETED TD
               <tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.accrualCeiling"/>
           </td>
           
-          <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><b>Reserving:</b></div></td>
+          <td align="right"><div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><span class="required-indicator"><b>Reserving:</b></div></td>
           <td align="left">
               <div id ="reservationIndicator-PAGE.ROW.INDEX">
                   <select disabled="true" id="epochs[PAGE.ROW.INDEX].reservationIndicator" name="epochs[PAGE.ROW.INDEX].reservationIndicator" onchange="manageReservingIndicatorSelectBox(this,PAGE.ROW.INDEX);" class="validate-notEmpty">
