@@ -9,8 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
@@ -25,8 +29,14 @@ class StudyPersonnelTab extends StudyTab {
     private StudyValidator studyValidator;
 
     private PersonnelService personnelService;
+    
+    private ResearchStaffDao researchStaffDao;
 
-    public void setPersonnelService(PersonnelService personnelService) {
+    public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
+		this.researchStaffDao = researchStaffDao;
+	}
+
+	public void setPersonnelService(PersonnelService personnelService) {
         this.personnelService = personnelService;
     }
 
@@ -86,10 +96,64 @@ class StudyPersonnelTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study,
                     Errors errors) {
-        if ("siteChange".equals(httpServletRequest.getParameter("_action"))) {
-            httpServletRequest.getSession().setAttribute("selectedSite",
-                            httpServletRequest.getParameter("_selectedSite"));
-        }
+    	
+    	 String selected = httpServletRequest.getParameter("_selected");
+         String action = httpServletRequest.getParameter("_actionx");
+         Object selectedSite = httpServletRequest.getParameter("_selectedSite");
+         StudyOrganization so = null;
+         
+
+         // get the StudyOrganization to which we will add/remove research staff.
+         List<StudyOrganization> soList = study.getStudyOrganizations();
+         if (selectedSite != null && !selectedSite.toString().equals("")) {
+             selectedSite = httpServletRequest.getParameter("_selectedSite").toString();
+             so = soList.get(new Integer(selectedSite.toString()).intValue());
+         }
+    	
+         if (!errors.hasErrors()) {
+
+             if ("siteChange".equals(action)) {
+                 httpServletRequest.getSession().setAttribute("_selectedSite", selectedSite);
+                 return;
+             }
+
+             if ("addStudyDisease".equals(action) && so != null) {
+                 String[] rsIds = so.getStudyPersonnelIds();
+                 if (rsIds.length > 0) {
+                     ResearchStaff rs = null;
+                     log
+                                     .debug("Study PersonnelIds Size : "
+                                                     + so.getStudyPersonnelIds().length);
+                     for (String rsId : rsIds) {
+                         log.debug("Research Staff Id : " + rsId);
+                         StudyPersonnel sPersonnel = new StudyPersonnel();
+                         rs = researchStaffDao.getById(new Integer(rsId).intValue());
+                         if (rs != null) {
+                             rs.getStudyPersonnels().add(sPersonnel);
+                             sPersonnel.setResearchStaff(rs);
+                             sPersonnel.setRoleCode("C3pr Admin");
+                             sPersonnel.setStatusCode("Active");
+                             sPersonnel.setStudyOrganization(so);
+                             so.getStudyPersonnel().add(sPersonnel);
+                             studyValidator.validateStudyPersonnel(study, errors);
+                             if (errors.hasErrors()) {
+                                 so.getStudyPersonnel().remove(sPersonnel);
+                             }
+                         }
+                         else {
+                             log
+                                             .error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
+                         }
+                     }
+                 }
+                 return;
+             }
+         }
+
+         if ("removeStudyDisease".equals(action) && so != null) {
+             so.getStudyPersonnel().remove(Integer.parseInt(selected));
+             return;
+         }
     }
 
     public StudyValidator getStudyValidator() {
