@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -113,13 +114,14 @@ public class AmendStudyController extends StudyController<Study> {
     @Override
     protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
                     throws Exception {
-        if (sessionFormObject != null) {
-            getDao().reassociate((Study) sessionFormObject);
-            getDao().refresh((Study) sessionFormObject);
+        if (((Study) sessionFormObject).getId() != null) {
+            Study study = studyDao.getById(((Study) sessionFormObject).getId());
+            studyDao.initialize(study);
+            return study;
         }
-        return sessionFormObject;
-    }
 
+        throw new C3PRCodedException(-1, "Unable to retrieve study");
+    }
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
