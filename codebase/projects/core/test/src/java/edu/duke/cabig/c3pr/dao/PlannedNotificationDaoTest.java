@@ -7,7 +7,9 @@ import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
+import edu.duke.cabig.c3pr.service.impl.SchedulerServiceImpl;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
@@ -22,6 +24,8 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
      * Test for loading a plannedNotification by Id
      * @throws Exception
      */
+	 private StudyDao studyDao = (StudyDao) getApplicationContext().getBean("studyDao");
+	
     public void testGetById() throws Exception {
         PlannedNotification plannedNotification = getDao().getById(1000);
         assertEquals("STUDY_STATUS_CHANGED_EVENT", plannedNotification.getEventName().toString());
@@ -86,4 +90,12 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
     		scheduledNotification.getRecipientScheduledNotification().add(rsn);
     	}
     	return;
-    }}
+    }
+
+    public void testGetInitializedById(){
+    	this.getDao().getInitializedPlannedNotificationById(1000);
+    }
+
+}
+
+
