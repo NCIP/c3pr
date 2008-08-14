@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1003,7 +1002,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	}
 
 	public Study setStatuses(boolean throwException)
-			throws C3PRCodedException, ParseException {
+			throws C3PRCodedException{
 		if (!throwException) {
 			try {
 				this.setDataEntryStatus(evaluateDataEntryStatus());
@@ -1167,7 +1166,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	}
 	
 
-    public void setSiteStudyStatuses() throws C3PRCodedException, ParseException {
+    public void setSiteStudyStatuses() throws C3PRCodedException{
         for (int i = 0; i < this.getStudySites().size(); i++) {
             this.getStudySites().get(i).setSiteStudyStatus(
             		this.getStudySites().get(i).evaluateSiteStudyStatus());
