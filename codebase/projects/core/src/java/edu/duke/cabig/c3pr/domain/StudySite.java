@@ -273,7 +273,7 @@ public class StudySite extends StudyOrganization implements
 		return SiteStudyStatus.PENDING;
 	}
 
-	public Study setWorkFlowSiteStudyStatus(SiteStudyStatus status) throws C3PRCodedException, ParseException {
+	public Study setWorkFlowSiteStudyStatus(SiteStudyStatus status) throws C3PRCodedException{
 		SiteStudyStatus currentSiteStatus = this.getSiteStudyStatus();
 		if ((status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
 				|| (status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
