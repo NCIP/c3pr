@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 
 /**
@@ -24,5 +26,11 @@ public class PlannedNotificationDao extends GridIdentifiableDao<PlannedNotificat
      */
     public List<PlannedNotification> getAll() {
         return getHibernateTemplate().find("from PlannedNotification");
+    }
+    
+
+    public PlannedNotification getInitializedPlannedNotificationById(int id, ApplicationContext applicationContext){
+    	PlannedNotification plannedNotification = getById(id);
+    	return plannedNotification;
     }
 }
