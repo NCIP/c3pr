@@ -199,7 +199,7 @@ public class StudySite extends StudyOrganization implements
 	}
 
 	public SiteStudyStatus evaluateSiteStudyStatus()
-			throws C3PRCodedException, ParseException {
+			throws C3PRCodedException {
 
 		if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL) {
 			return SiteStudyStatus.CLOSED_TO_ACCRUAL;
@@ -228,8 +228,13 @@ public class StudySite extends StudyOrganization implements
 			String allowedOldDate = "" ;
 			String todayDate = "" ;
 			
-				allowedOldDate  = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
-				todayDate  = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
+				try {
+					allowedOldDate  = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
+					todayDate  = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
+				} catch (ParseException e) {
+					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"));
+				}
+				
 			if (this.getIrbApprovalDate() == null ) {
 				if( this.getId() != null ){
 					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"),
