@@ -86,13 +86,9 @@ public class StudyOverviewTab extends StudyTab {
 
                 SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
                 try {
-                    try {
-						command.getStudySites().get(
-						                studySiteIndex).setWorkFlowSiteStudyStatus(statusObject);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-                }
+					command.getStudySites().get(
+					                studySiteIndex).setWorkFlowSiteStudyStatus(statusObject);
+				} 
                 catch (C3PRCodedException e) {
                     if ((command.getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL || command
                                     .getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
