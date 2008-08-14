@@ -29,7 +29,7 @@ public class PlannedNotificationDao extends GridIdentifiableDao<PlannedNotificat
     }
     
 
-    public PlannedNotification getInitializedPlannedNotificationById(int id, ApplicationContext applicationContext){
+    public PlannedNotification getInitializedPlannedNotificationById(int id){
     	PlannedNotification plannedNotification = getById(id);
     	return plannedNotification;
     }
