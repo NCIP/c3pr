@@ -58,5 +58,6 @@
     <bean name="c3prPropertyConfigurerFromFile[datasource.password]"
           class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
 
-
+    <bean name="c3prPropertyConfigurerFromFile[jdbc.quartz.delegateClassName]"
+          class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
 </beans>
