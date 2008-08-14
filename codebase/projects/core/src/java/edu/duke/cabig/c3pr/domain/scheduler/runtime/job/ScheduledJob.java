@@ -66,7 +66,7 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
         	
             JobDataMap jobDataMap = jobDetail.getJobDataMap();
             Integer plannedNotificationId = jobDataMap.getInt("plannedNotificationId");            
-            PlannedNotification plannedNotification = plannedNotificationDao.getInitializedPlannedNotificationById(plannedNotificationId, applicationContext);
+            PlannedNotification plannedNotification = plannedNotificationDao.getInitializedPlannedNotificationById(plannedNotificationId);
             
             if(plannedNotification.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)){
             	try{
