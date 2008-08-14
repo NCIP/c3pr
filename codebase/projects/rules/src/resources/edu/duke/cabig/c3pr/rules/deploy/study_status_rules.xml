@@ -16,11 +16,12 @@
         	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
         	<pattern identifier="notificationEmailService" object-type="edu.duke.cabig.c3pr.utils.NotificationEmailService"/>
         	<pattern identifier="study" object-type="edu.duke.cabig.c3pr.domain.Study"/>
+        	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
         	
         	<eval>"true" == "true"</eval>
         </lhs>
         <rhs>
-            notificationEmailService.sendEmail(plannedNotification, study);
+            schedulerService.scheduleNotification(plannedNotification, study);
         </rhs>        
     </rule>
 

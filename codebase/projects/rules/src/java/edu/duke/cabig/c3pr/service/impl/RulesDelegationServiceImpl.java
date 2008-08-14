@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.duke.cabig.c3pr.rules.exception.RuleException;
 import edu.duke.cabig.c3pr.rules.runtime.BusinessRulesExecutionService;
 import edu.duke.cabig.c3pr.service.RulesDelegationService;
+import edu.duke.cabig.c3pr.service.SchedulerService;
 import edu.duke.cabig.c3pr.utils.NotificationEmailService;
 
 public class RulesDelegationServiceImpl implements RulesDelegationService{
@@ -21,9 +22,11 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 	public static final String STUDY_SITE_STATUS_CHANGE_EVENT = "STUDY_SITE_STATUS_CHANGE_EVENT";	
 	public static final String REGISTRATION_EVENT = "REGISTRATION_EVENT";
 	
-	BusinessRulesExecutionService businessRulesExecutionService;
+	private BusinessRulesExecutionService businessRulesExecutionService;
 	
-	NotificationEmailService notificationEmailService;
+	private NotificationEmailService notificationEmailService;
+	
+	private SchedulerService schedulerService;
 	
 	
 	public void activateRules(String event, List<Object> objects){		
@@ -31,7 +34,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 		log.debug(this.getClass().getName() + ": Entering activateRules()");
 		ArrayList <Object>objList = new ArrayList<Object>();
 		objList.addAll(objects);
-//		objList.add(entity);
+		objList.add(schedulerService);
 		objList.add(notificationEmailService);
 		
 		try{
@@ -63,5 +66,15 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 	public void setNotificationEmailService(
 			NotificationEmailService notificationEmailService) {
 		this.notificationEmailService = notificationEmailService;
+	}
+
+
+	public SchedulerService getSchedulerService() {
+		return schedulerService;
+	}
+
+
+	public void setSchedulerService(SchedulerService schedulerService) {
+		this.schedulerService = schedulerService;
 	}
 }

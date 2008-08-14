@@ -6,12 +6,18 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.FlushMode;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Example;
 import org.hibernate.type.Type;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.dao.DataAccessResourceFailureException;
 
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
@@ -49,19 +55,21 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	}
 	
 	public List<PlannedNotification> getHostingOrganization(){
+		List<PlannedNotification> result;
 		SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
-		sessionFactory.getCurrentSession().setFlushMode(FlushMode.COMMIT);
-		/*Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
-		List<PlannedNotification> result = new ArrayList<PlannedNotification>();
-        PlannedNotification pn = new PlannedNotification();
-        Example example = Example.create(pn).excludeZeroes().ignoreCase();
+		//sessionFactory.getCurrentSession().setFlushMode(FlushMode.COMMIT);
+		Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
+		session.setFlushMode(FlushMode.MANUAL);
+		result = new ArrayList<PlannedNotification>();
+//        PlannedNotification pn = new PlannedNotification();
+//        Example example = Example.create(pn).excludeZeroes().ignoreCase();
         try {
-            Criteria orgCriteria = session.createCriteria(PlannedNotification.class);
-            result = orgCriteria.add(example).list();
+//            Criteria orgCriteria = session.createCriteria(PlannedNotification.class);
+//            result = orgCriteria.add(example).list();
             
-//          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
-//          query.setString(0, configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
-//          result = query.list();
+          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
+          query.setString(0, configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
+          result = query.list();
         }
         catch (DataAccessResourceFailureException e) {
             log.error(e.getMessage());
@@ -75,8 +83,9 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
         finally{
         	session.close();
         }
-        return result;*/
-		return organizationDao.getByNciIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0).getPlannedNotifications();
+        return result;
+		//result = organizationDao.getByNciIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0).getPlannedNotifications();
+		//return result;
 	}
 	
 	
