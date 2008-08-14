@@ -20,6 +20,7 @@ public class ContextTools {
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-csm.xml",
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-config.xml",
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-esb.xml",
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-scheduler-quartz.xml",
 
         });
     }
