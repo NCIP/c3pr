@@ -232,7 +232,7 @@ public class StudySite extends StudyOrganization implements
 					allowedOldDate  = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
 					todayDate  = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
 				} catch (ParseException e) {
-					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"));
+					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"),new String[] { this.getHealthcareSite().getName() });
 				}
 				
 			if (this.getIrbApprovalDate() == null ) {
