@@ -21,6 +21,10 @@ import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
  */
 public class SchedulerServiceImpl implements SchedulerService {
 	
+	public static final String WEEKLY = "0 10 18 ? * THU";
+	public static final String MONTHLY ="0 0 12 L * ?";
+	public static final String ANNUAL ="0 0 12 L DEC ?";
+	
 	private Logger log = Logger.getLogger(StudyTargetAccrualNotificationEmail.class);
 	
 	private Scheduler scheduler;
@@ -90,7 +94,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 		if(frequency.equals(NotificationFrequencyEnum.WEEKLY)){
 	        try{
 	        	//every Friday at 12:00pm
-	        	t = new CronTrigger("CT:PlannedNotificationId:" + strId  + "-" + Math.random(),"CTG:PlannedNotificationId:" + strId  + "-" + Math.random(),"0 10 18 ? * THU");
+	        	t = new CronTrigger("CT:PlannedNotificationId:" + strId  + "-" + Math.random(),"CTG:PlannedNotificationId:" + strId  + "-" + Math.random(), WEEKLY);
 	        }catch(Exception e){
 	        	log.error(e.getMessage());
 	        }
@@ -98,7 +102,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 		if(frequency.equals(NotificationFrequencyEnum.MONTHLY)){
 	        try{
 	        	//every last day of month at 12:00pm
-	        	t = new CronTrigger("CT:PlannedNotificationId:" + strId  + "-" + Math.random(),"CTG:PlannedNotificationId:" + strId  + "-" + Math.random(),"0 0 12 L * ?");
+	        	t = new CronTrigger("CT:PlannedNotificationId:" + strId  + "-" + Math.random(),"CTG:PlannedNotificationId:" + strId  + "-" + Math.random(), MONTHLY);
 	        }catch(Exception e){
 	        	log.error(e.getMessage());
 	        }
@@ -106,7 +110,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 		if(frequency.equals(NotificationFrequencyEnum.ANNUAL)){
 	        try{
 	        	//every last day December at 12:00pm
-	        	t = new CronTrigger("CT:PlannedNotificationId:" + strId  + "-" + Math.random(),"CTG:PlannedNotificationId:" + strId  + "-" + Math.random(),"0 0 12 L DEC ?");
+	        	t = new CronTrigger("CT:PlannedNotificationId:" + strId  + "-" + Math.random(),"CTG:PlannedNotificationId:" + strId  + "-" + Math.random(), ANNUAL);
 	        }catch(Exception e){
 	        	log.error(e.getMessage());
 	        }
