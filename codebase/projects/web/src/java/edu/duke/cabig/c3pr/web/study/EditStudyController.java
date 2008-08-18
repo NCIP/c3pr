@@ -62,6 +62,7 @@ public class EditStudyController extends StudyController<Study> {
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
+        studyDao.initialize(study);
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
@@ -129,17 +130,17 @@ public class EditStudyController extends StudyController<Study> {
         return true;
     }
 
-    @Override
-    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
-                    throws Exception {
-        if (((Study) sessionFormObject).getId() != null) {
-            Study study = studyDao.getById(((Study) sessionFormObject).getId());
-            studyDao.initialize(study);
-            return study;
-        }
-
-        throw new C3PRCodedException(-1, "Unable to retrieve study");
-    }
+//    @Override
+//    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
+//                    throws Exception {
+//        if (((Study) sessionFormObject).getId() != null) {
+//            Study study = studyDao.getById(((Study) sessionFormObject).getId());
+//            studyDao.initialize(study);
+//            return study;
+//        }
+//
+//        throw new C3PRCodedException(-1, "Unable to retrieve study");
+//    }
 
     /*
      * (non-Javadoc)

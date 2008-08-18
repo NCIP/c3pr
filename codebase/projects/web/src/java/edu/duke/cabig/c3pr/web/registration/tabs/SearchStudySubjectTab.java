@@ -14,6 +14,8 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -35,6 +37,10 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
     private static final Logger logger = Logger.getLogger(SearchStudySubjectTab.class);
 
     private EpochDao epochDao;
+    
+    private StudyDao studyDao;
+    
+    private ParticipantDao participantDao;
 
     private StudySubjectService studySubjectService;
 
@@ -83,6 +89,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
                 ScheduledEpoch scheduledEpoch;
                 Integer id = Integer.parseInt(request.getParameter("epoch"));
                 Epoch epoch = epochDao.getById(id);
+                epochDao.initialize(epoch);
                 if (epoch.getTreatmentIndicator()) {
                     (epoch).getArms().size();
                     scheduledEpoch = new ScheduledEpoch();
@@ -96,10 +103,12 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
             }
             return;
         }
+        
         if (command.getParticipant() == null || command.getStudySite() == null) {
             request.setAttribute("alreadyRegistered", new Boolean(true));
             return;
         }
+        
         StudySubject exampleSS = new StudySubject(true);
         exampleSS.setParticipant(command.getParticipant());
         exampleSS.setStudySite(command.getStudySite());
@@ -117,6 +126,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
             return;
         }
         Epoch epoch = epochDao.getById(id);
+        epochDao.initialize(epoch);
         ScheduledEpoch scheduledEpoch;
         if (epoch.getTreatmentIndicator()) {
             (epoch).getArms().size();
@@ -131,6 +141,8 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
         else {
             command.getScheduledEpochs().set(0, scheduledEpoch);
         }
+        studyDao.initialize(command.getStudySite().getStudy());
+        participantDao.initialize(command.getParticipant());
         buildCommandObject(command);
     }
 
@@ -206,5 +218,13 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
 
     public void setStudySubjectService(StudySubjectService studySubjectService) {
         this.studySubjectService = studySubjectService;
+    }
+
+    public void setStudyDao(StudyDao studyDao) {
+        this.studyDao = studyDao;
+    }
+
+    public void setParticipantDao(ParticipantDao participantDao) {
+        this.participantDao = participantDao;
     }
 }

@@ -101,27 +101,27 @@ public abstract class RegistrationController<C extends StudySubject> extends
         intializeFlows(flow);
     }
 
-    @Override
-    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
-                    throws Exception {
-        StudySubject command = (StudySubject) sessionFormObject;
-        if (command != null) {
-            if (command.getId() != null) {
-                return getDao().merge(command);
-            }
-            else if (command.getScheduledEpoch() != null
-                            && command.getScheduledEpoch().getEpoch() != null) {
-                epochDao.reassociate(command.getScheduledEpoch().getEpoch());
-            }
-            if (command.getParticipant() != null) getParticipantDao().reassociate(
-                            command.getParticipant());
-            if (command.getStudySite() != null) {
-                getStudySiteDao().reassociate(command.getStudySite());
-                getStudyDao().reassociate(command.getStudySite().getStudy());
-            }
-        }
-        return command;
-    }
+//    @Override
+//    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
+//                    throws Exception {
+//        StudySubject command = (StudySubject) sessionFormObject;
+//        if (command != null) {
+//            if (command.getId() != null) {
+//                return getDao().merge(command);
+//            }
+//            else if (command.getScheduledEpoch() != null
+//                            && command.getScheduledEpoch().getEpoch() != null) {
+//                epochDao.reassociate(command.getScheduledEpoch().getEpoch());
+//            }
+//            if (command.getParticipant() != null) getParticipantDao().reassociate(
+//                            command.getParticipant());
+//            if (command.getStudySite() != null) {
+//                getStudySiteDao().reassociate(command.getStudySite());
+//                getStudyDao().reassociate(command.getStudySite().getStudy());
+//            }
+//        }
+//        return command;
+//    }
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
@@ -160,6 +160,8 @@ public abstract class RegistrationController<C extends StudySubject> extends
                         && (request.getParameter("registrationId") != "")) {
             studySubject = studySubjectDao.getById(Integer.parseInt(request
                             .getParameter("registrationId")), true);
+            studySubjectDao.initialize(studySubject);
+            
         }
         else {
             studySubject = new StudySubject();

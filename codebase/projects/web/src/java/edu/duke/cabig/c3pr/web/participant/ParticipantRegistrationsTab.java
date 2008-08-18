@@ -17,7 +17,7 @@ public class ParticipantRegistrationsTab extends ParticipantTab {
         Map<String, Object> refdata = super.referenceData(participant);
         refdata.put("participantAssignments", this.getParticipantDao().getById(participant.getId())
                         .getStudySubjects());
-
+        participantDao.initializeStudySubjects(participant);
         return refdata;
     }
 

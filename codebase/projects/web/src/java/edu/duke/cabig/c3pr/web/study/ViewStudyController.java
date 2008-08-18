@@ -46,17 +46,18 @@ public class ViewStudyController extends StudyController<Study> {
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
+        studyDao.initialize(study);
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
         return study;
     }
 
-    @Override
-    protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
-        return false;
-
-    }
+//    @Override
+//    protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
+//        return false;
+//
+//    }
 
     @Override
     protected void layoutTabs(Flow flow) {
@@ -65,25 +66,25 @@ public class ViewStudyController extends StudyController<Study> {
 
     }
 
-    @Override
-    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
-                    throws Exception {
-    	
-    	if (((Study) sessionFormObject).getId() != null) {
-            Study study = studyDao.getById(((Study) sessionFormObject).getId());
-            studyDao.initialize(study);
-            return study;
-        }
-
-        throw new C3PRCodedException(-1, "Unable to retrieve study");
-
-        /*removed during the creation of hibernate interceptor
-         * if (sessionFormObject != null) {
-            getDao().reassociate((Study) sessionFormObject);
-        }
-
-        return sessionFormObject;*/
-    }
+//    @Override
+//    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
+//                    throws Exception {
+//    	
+//    	if (((Study) sessionFormObject).getId() != null) {
+//            Study study = studyDao.getById(((Study) sessionFormObject).getId());
+//            studyDao.initialize(study);
+//            return study;
+//        }
+//
+//        throw new C3PRCodedException(-1, "Unable to retrieve study");
+//
+//        /*removed during the creation of hibernate interceptor
+//         * if (sessionFormObject != null) {
+//            getDao().reassociate((Study) sessionFormObject);
+//        }
+//
+//        return sessionFormObject;*/
+//    }
 
     @Override
     protected boolean isSummaryEnabled() {

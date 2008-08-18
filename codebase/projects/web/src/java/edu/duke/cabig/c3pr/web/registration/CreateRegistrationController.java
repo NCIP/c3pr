@@ -68,6 +68,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
     		StudySubject studySubject = new StudySubject();
     		studySubject.setParentStudySubject(studySubjectDao.getById(Integer.parseInt(request.getParameter("parentRegistrationId")), true));
+    		studySubjectDao.initialize(studySubject.getParentStudySubject());
     		return studySubject ;	
     	}else{
     		return super.formBackingObject(request);
@@ -115,8 +116,8 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
         if(registrationControllerUtils.isRegisterableOnPage(studySubject))
             studySubjectService.register(studySubject);
         else{
-        	registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
-            studySubjectRepository.save(studySubject);
+            registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
+            studySubject=studySubjectRepository.save(studySubject);
         }
         if (logger.isDebugEnabled()) {
             logger

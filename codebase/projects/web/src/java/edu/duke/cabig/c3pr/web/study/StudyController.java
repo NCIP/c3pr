@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.multipart.support.StringMultipartFileEditor;
@@ -145,6 +146,11 @@ public abstract class StudyController<C extends Study> extends
         return study;
     }
 
+    @Override
+    protected C save(C command, Errors errors) {
+        return (C)studyDao.merge(command);
+    }
+    
     public StudyService getStudyService() {
         return studyService;
     }

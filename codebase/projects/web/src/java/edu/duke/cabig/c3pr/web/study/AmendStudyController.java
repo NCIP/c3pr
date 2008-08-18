@@ -92,6 +92,7 @@ public class AmendStudyController extends StudyController<Study> {
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         request.getSession().removeAttribute(getReplacedCommandSessionAttributeName(request));
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
+        studyDao.initialize(study);
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
@@ -111,17 +112,18 @@ public class AmendStudyController extends StudyController<Study> {
         return true;
     }
 
-    @Override
-    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
-                    throws Exception {
-        if (((Study) sessionFormObject).getId() != null) {
-            Study study = studyDao.getById(((Study) sessionFormObject).getId());
-            studyDao.initialize(study);
-            return study;
-        }
-
-        throw new C3PRCodedException(-1, "Unable to retrieve study");
-    }
+//    @Override
+//    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
+//                    throws Exception {
+//        if (((Study) sessionFormObject).getId() != null) {
+//            Study study = studyDao.getById(((Study) sessionFormObject).getId());
+//            studyDao.initialize(study);
+//            return study;
+//        }
+//
+//        throw new C3PRCodedException(-1, "Unable to retrieve study");
+//    }
+    
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {

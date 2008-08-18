@@ -188,10 +188,9 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 
     @Override
     public final void postProcess(HttpServletRequest request, Study study, Errors errors) {
-        // TODO Auto-generated method stub
-        if (errors.hasErrors()) {
-            studyRepository.clear();
-        }
+//        if (errors.hasErrors()) {
+//            studyRepository.clear();
+//        }
         postProcessOnValidation(request, study, errors);
     }
 

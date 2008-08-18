@@ -167,7 +167,11 @@ public class ViewParticipantController<C extends Participant> extends
         		request.setAttribute("assignedByRequired", "assignedByRequired");
         	}
         }
-        return (participant==null? new Participant():participant);
+        if(participant!=null){
+            participantDao.initialize(participant);
+            return participant;
+        }
+        return new Participant();
     }
     
     @Override
@@ -199,12 +203,6 @@ public class ViewParticipantController<C extends Participant> extends
     	return super.showForm(request, response, errors);
     }
     
-    @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest arg0,
-    		HttpServletResponse arg1) throws Exception {
-    	// TODO Auto-generated method stub
-    	return super.handleRequestInternal(arg0, arg1);
-    }
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
                     throws Exception {
         super.initBinder(req, binder);
@@ -215,16 +213,16 @@ public class ViewParticipantController<C extends Participant> extends
                         ContactMechanismType.class));
     }
 
-    @Override
-    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
-                    throws Exception {
-        if (sessionFormObject != null) {
-            Participant participant = (Participant) sessionFormObject;
-            getDao().reassociate((Participant) sessionFormObject);
-        }
-
-        return sessionFormObject;
-    }
+//    @Override
+//    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
+//                    throws Exception {
+//        if (sessionFormObject != null) {
+//            Participant participant = (Participant) sessionFormObject;
+//            getDao().reassociate((Participant) sessionFormObject);
+//        }
+//
+//        return sessionFormObject;
+//    }
 
     @Override
     protected Map referenceData(HttpServletRequest request, int page) throws Exception {
