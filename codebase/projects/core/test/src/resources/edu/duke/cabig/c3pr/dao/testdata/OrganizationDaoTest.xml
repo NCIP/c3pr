@@ -15,8 +15,11 @@
     <PLANNED_NOTFNS id="1000" version="1" threshold="10"/>
     
     <schld_notfns id="1000" version="1"/>
-
+	
     <RECIPIENTS id="1000" version="1" PLANNED_NOTFNS_id="1000"/> 
-    
+
+    <rpt_schld_notfns id="1000" version="1"/>
+
     <contact_mechanisms id="1000" version="1" />
+
  </dataset>
