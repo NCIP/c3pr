@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
@@ -26,6 +28,7 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
         return getHibernateTemplate().find("from StudySite");
     }
 
+    @Transactional(readOnly = false)
     public void reassociate(StudySite ss) {
         getHibernateTemplate().update(ss);
     }

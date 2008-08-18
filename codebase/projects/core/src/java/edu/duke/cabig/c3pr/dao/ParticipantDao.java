@@ -18,6 +18,8 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -25,7 +27,6 @@ import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 /**
  * @author Priyatam, kulasekaran
  */
-@Transactional(readOnly = true)
 public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                 MutableDomainObjectDao<Participant> {
 
@@ -159,7 +160,6 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * @return
      * @throws DataAccessException
      */
-    @Transactional(readOnly = false)
     public List<OrganizationAssignedIdentifier> getSubjectIdentifiersWithMRN(String MRN,
                     HealthcareSite site) throws DataAccessException {
         List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
@@ -222,6 +222,18 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
+    @Transactional(readOnly = false)
+    public void initialize(Participant participant) throws DataAccessException {
+        getHibernateTemplate().initialize(participant.getIdentifiers());
+        getHibernateTemplate().initialize(participant.getContactMechanisms());
+        getHibernateTemplate().initialize(participant.getRaceCodes());
+    }
+    
+    @Transactional(readOnly = false)
+    public void initializeStudySubjects(Participant participant) throws DataAccessException {
+        getHibernateTemplate().initialize(participant.getStudySubjects());
+    }
+    
     @Transactional(readOnly = false)
     public void reassociate(Participant p) {
         getHibernateTemplate().update(p);

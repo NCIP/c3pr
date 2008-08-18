@@ -18,10 +18,17 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratumGroup;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -35,6 +42,11 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
     private static Log log = LogFactory.getLog(StudySubjectDao.class);
+
+    private StudyDao studyDao;
+    public void setStudyDao(StudyDao studyDao) {
+        this.studyDao = studyDao;
+    }
 
     public StudySubjectDao() {
     }
@@ -333,15 +345,39 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     	return result;
 
     }
+    
+    @Transactional(readOnly = false)
+    public void initialize(StudySubject studySubject) throws DataAccessException {
+        studyDao.initialize(studySubject.getStudySite().getStudy());
+        
+        getHibernateTemplate().initialize(studySubject.getStudySite().getStudyInvestigatorsInternal());
+        getHibernateTemplate().initialize(studySubject.getStudySite().getStudyPersonnelInternal());
+        
+        getHibernateTemplate().initialize(studySubject.getParticipant().getIdentifiers());
+        getHibernateTemplate().initialize(studySubject.getParticipant().getRaceCodes());
+        getHibernateTemplate().initialize(studySubject.getParticipant().getContactMechanisms());
+        
+        getHibernateTemplate().initialize(studySubject.getScheduledEpochs());
+        getHibernateTemplate().initialize(studySubject.getIdentifiers());
+        for(ScheduledEpoch scheduledEpoch: studySubject.getScheduledEpochs()){
+            getHibernateTemplate().initialize(scheduledEpoch.getScheduledArmsInternal());
+            getHibernateTemplate().initialize(scheduledEpoch.getSubjectEligibilityAnswersInternal());
+            getHibernateTemplate().initialize(scheduledEpoch.getSubjectStratificationAnswersInternal());
+        }
+    }
 
+
+    @Transactional(readOnly = false)
     public void reassociate(StudySubject spa) {
         getHibernateTemplate().lock(spa, LockMode.NONE);
     }
 
+    @Transactional(readOnly = false)
     public void save(StudySubject obj) {
         getHibernateTemplate().saveOrUpdate(obj);
     }
 
+    @Transactional(readOnly = false)
     public StudySubject merge(StudySubject obj) {
         return (StudySubject) getHibernateTemplate().merge(obj);
     }

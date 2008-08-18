@@ -11,7 +11,6 @@ import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
  * This class implements the Data access related operations for the User domain object.
  * 
  */
-@Transactional(readOnly = true)
 public class UserDao extends GridIdentifiableDao<User> implements MutableDomainObjectDao<User> {
 
     /**

@@ -14,6 +14,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
@@ -102,6 +103,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
                         "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
     }
     
+    @Transactional(readOnly = false)
     public Investigator merge(Investigator investigator) {
         return (Investigator) getHibernateTemplate().merge(investigator);
     }

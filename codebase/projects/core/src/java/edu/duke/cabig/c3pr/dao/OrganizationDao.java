@@ -13,6 +13,7 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
@@ -98,10 +99,12 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
         return result;
     }
 
+    @Transactional(readOnly = false)
     public void reassociate(HealthcareSite p) {
         getHibernateTemplate().lock(p, LockMode.NONE);
     }
 
+    @Transactional(readOnly = false)
     public void save(HealthcareSite obj) {
         getHibernateTemplate().saveOrUpdate(obj);
     }

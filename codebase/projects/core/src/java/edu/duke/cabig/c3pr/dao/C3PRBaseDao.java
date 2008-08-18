@@ -13,6 +13,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Abstract BaseDao implementing BaseDao. Provides convenient methods for saving a base Dao
@@ -52,6 +53,7 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 	/*
 	 * Saves a domain object
 	 */
+	@Transactional(readOnly = false)
 	public void save(DomainObject domainObject) {
 		getHibernateTemplate().saveOrUpdate(domainObject);
 		postProcessSave();
@@ -60,6 +62,7 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 	/*
 	 * Saves a domain object
 	 */
+	@Transactional(readOnly = false)
 	public void merge(DomainObject domainObject) {
 		getHibernateTemplate().merge(domainObject);
 		postProcessSave();
