@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.duke.cabig.c3pr.rules.exception.RuleException;
 import edu.duke.cabig.c3pr.rules.runtime.BusinessRulesExecutionService;
 import edu.duke.cabig.c3pr.service.RulesDelegationService;
+import edu.duke.cabig.c3pr.service.ScheduledNotificationService;
 import edu.duke.cabig.c3pr.service.SchedulerService;
 import edu.duke.cabig.c3pr.utils.NotificationEmailService;
 
@@ -24,7 +25,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 	
 	private BusinessRulesExecutionService businessRulesExecutionService;
 	
-	private NotificationEmailService notificationEmailService;
+	private ScheduledNotificationService scheduledNotificationService;
 	
 	private SchedulerService schedulerService;
 	
@@ -35,7 +36,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 		ArrayList <Object>objList = new ArrayList<Object>();
 		objList.addAll(objects);
 		objList.add(schedulerService);
-		objList.add(notificationEmailService);
+		objList.add(scheduledNotificationService);
 		
 		try{
 			businessRulesExecutionService.fireRules("edu.duke.cabig.c3pr.rules.deploy.study_status_rules", objList);
@@ -59,16 +60,6 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 		this.businessRulesExecutionService = businessRulesExecutionService;
 	}
 
-	public NotificationEmailService getNotificationEmailService() {
-		return notificationEmailService;
-	}
-
-	public void setNotificationEmailService(
-			NotificationEmailService notificationEmailService) {
-		this.notificationEmailService = notificationEmailService;
-	}
-
-
 	public SchedulerService getSchedulerService() {
 		return schedulerService;
 	}
@@ -76,5 +67,16 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 
 	public void setSchedulerService(SchedulerService schedulerService) {
 		this.schedulerService = schedulerService;
+	}
+
+
+	public ScheduledNotificationService getScheduledNotificationService() {
+		return scheduledNotificationService;
+	}
+
+
+	public void setScheduledNotificationService(
+			ScheduledNotificationService scheduledNotificationService) {
+		this.scheduledNotificationService = scheduledNotificationService;
 	}
 }

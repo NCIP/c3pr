@@ -6,14 +6,12 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
 import org.hibernate.type.Type;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -215,6 +213,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 				if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)){
 					objects.add(pn);
 					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_STATUS_CHANGE_EVENT, objects);
+					//objects.remove(pn);
 					break;
 				}
 			}
