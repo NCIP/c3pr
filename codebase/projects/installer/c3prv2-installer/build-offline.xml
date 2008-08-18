@@ -7,7 +7,7 @@
     <property name="installer.properties" value="installer.properties"/>
 
     <property name="c3prv2.install.artifact" value="c3prv2-installpack.zip"/>
-	<property name="ivy2.install.artifact" value="ivy2.zip"/>
+	<property name="web-archive.dir" value="${basedir}/web-archive"/>
     <property name="ext.dir" value="${basedir}/ext"/>
 
     <!--properties from the GUI installer-->
@@ -32,51 +32,11 @@
                overwrite="true">
             <patternset>
                 <include name="${c3prv2.install.artifact}"/>
-            	<include name="${ivy2.install.artifact}"/>
-            	<include name="ant-contrib*.jar"/>
             </patternset>
         </unzip>
 
         <!--delete previous install-->
         <delete dir="${base.codebase.dir}" failonerror="false"/>
-
-        <unzip src="${basedir}/${c3prv2.install.artifact}"
-               dest="${base.codebase.dir}"
-               overwrite="true"/>
-    	
-    	<property file="${base.codebase.dir}/antfiles/c3pr-ivy.properties" />
-    	<mkdir dir="${basedir}/ivy2-files"/>
-    	<unzip src="${basedir}/${ivy2.install.artifact}"
-    		    			    	               dest="${basedir}/ivy2-files"
-    		    			    	               overwrite="true"/>
-    	<taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
-    		<classpath>
-    		   	<fileset dir="${basedir}" includes="ant-contrib*.jar"/>
-    		</classpath>
-    	</taskdef>
-    	<if>
-    		<available file="${ivy.jar.file}" />
-    		<then>
-    			<echo message="ivy already present"/>		
-    		</then>
-    		<else>
-    			<echo message="ivy not present. creating ivy home."/>
-    			<mkdir dir="${ivy.jar.dir}"/>
-    			<copy todir="${ivy.jar.dir}">
-    				<fileset dir="${basedir}/ivy2-files/ivy-jars"></fileset>
-    			</copy>
-    		</else>
-    	</if>
-    	<echo message="copying c3pr-cache...."/>
-    	<mkdir dir="${ivy.cache}"/>
-    	<copy todir="${ivy.cache}" overwrite="false">
-    		<fileset dir="${basedir}/ivy2-files/c3pr-cache"></fileset>
-    	</copy>
-
-        <!--override build.properties with installers-->
-        <copy file="${basedir}/ant.install.properties"
-              tofile="${base.codebase.dir}/antfiles/build.properties"
-                />
 
     </target>
 
@@ -117,30 +77,33 @@
     </target>
 
     <target name="deploy-webapp">
+    	<unzip src="${basedir}/${c3prv2.install.artifact}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+            	<include name="web-archive"/>
+            </patternset>
+        </unzip>
 
-
-        <!--Works for all OS-->
+    	<unzip src="${basedir}/${c3prv2.install.artifact}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="antfiles"/>
+            </patternset>
+        </unzip>
+    	
+    	<!--Works for all OS-->
         <pathconvert targetos="unix" property="tomcat.webapp.dir">
             <path location="${tomcat.home}/webapps"/>
         </pathconvert>
 
-        <!-- Refactoring code for ivy migration 
-        -->
-    	<!--<ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
-             inheritall="false" target="deploy-webapp">
-            <property name="deploy.path" value="${tomcat.webapp.dir}"/>
-            <property name="basedir" value="${base.codebase.dir}"/>
-            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
-            <property name="env.CATALINA_HOME" value="${tomcat.home}"/>
-            <property name="offline.installer" value="true"/>
-        </ant>
-		-->
-    	<!--<subant target="deploy-webapp" buildpath="${base.codebase.dir}/antfiles/ivy-master-build.xml"/>-->
-		<!--<subant buildpath="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="deploy-webapp" inheritall="false"/>-->
-		<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="deploy-webapp" inheritall="false">
-			<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
-		</ant>
-
+    	<property file="${basedir}/antfiles/c3pr-ivy.properties"/>
+    	<property file="${basedir}/antfiles/build.properties"/>
+    	<property name="war.file" value="${application_name}.war"/>
+    	<!--copy c3pr.properties to $CATALINA_HOME/conf-->
+    	<copy file="${web-archive.dir}/${war.file}"
+    	              tofile="${tomcat.home}/webapps/${war.file}"
+    	                />
+    	
         <!--copy c3pr.properties to $CATALINA_HOME/conf-->
         <copy file="${basedir}/ant.install.properties"
               tofile="${tomcat.home}/conf/c3pr/c3pr.properties"
@@ -150,17 +113,18 @@
 
     <!--will only be run if deploy-webapp has been run-->
     <target name="tomcat.security">
-        <!--<ant dir="${c3pr.core.dir}"
-             inheritall="false"
-             target="tomcat.security">
-            <property name="catalina.home" value="${tomcat.home}"/>
-        </ant>-->
-    	<!--<subant target="tomcat.security" buildpath="${c3pr.core.dir}/ivy-build.xml" />-->
+    	<unzip src="${basedir}/${c3prv2.install.artifact}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="conf"/>
+            </patternset>
+        </unzip>
     	<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="tomcat.security">
     		<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
+    		<property name="conf.dir" value="${basedir}/conf"/>
+    		<property name="db" value="c3pr"/>
     	</ant>
     </target>
-
 
     <target name="build-grid">
         <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
