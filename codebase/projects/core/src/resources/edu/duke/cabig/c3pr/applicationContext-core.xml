@@ -233,7 +233,7 @@
           class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor"
           autowire="byName">
         <property name="singleSession" value="true"/>
-        <property name="flushModeName" value="FLUSH_AUTO"/>
+        <property name="flushModeName" value="FLUSH_NEVER"/>
         <property name="sessionFactory">
             <ref bean="sessionFactory"/>
         </property>
@@ -258,7 +258,7 @@
     </bean>
     <bean id="userDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.UserDao"/>
     <bean id="companionStudyAssociationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.CompanionStudyAssociationDao"/>
-    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao">
+    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byName">
     </bean>
     <bean id="studySubjectDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectDao" autowire="byName"/>
     <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byName"/>
@@ -387,17 +387,6 @@
     
     <bean id="passwordManagerService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordManagerServiceImpl" autowire="byName"/>
 	<bean id="passwordPolicyService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordPolicyServiceImpl" autowire="byName"/>
-	
-		<!-- Quartz Scheduler Service Classes-->
-	<bean id="schedulerService" class="edu.duke.cabig.c3pr.service.impl.SchedulerServiceImpl" autowire="byName">
-		<property name="scheduler">
-			<ref bean="schedulerFactory"/>
-		</property>
-	</bean>
-	
-	<!-- Scheduler jobs -->
-	<bean id="scheduledNotificationJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob" autowire="byName" />
-	
 	
     <!-- Repositories -->
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"

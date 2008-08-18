@@ -257,9 +257,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
     public StudySubject save(StudySubject studySubject) {
         studySubject.updateDataEntryStatus();
-        if (studySubject.getId() != null) return studySubjectDao.merge(studySubject);
-        studySubjectDao.save(studySubject);
-        return studySubject;
+//        if (studySubject.getId() != null) return studySubjectDao.merge(studySubject);
+//        studySubjectDao.save(studySubject);
+//        return studySubject;
+        return studySubjectDao.merge(studySubject);
     }
     
     public void setStudySubjectFactory(StudySubjectFactory studySubjectFactory) {

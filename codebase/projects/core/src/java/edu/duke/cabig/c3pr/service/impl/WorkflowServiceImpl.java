@@ -23,7 +23,7 @@ import gov.nih.nci.common.exception.XMLUtilityException;
  * Created by IntelliJ IDEA. User: kherm Date: Dec 6, 2007 Time: 4:01:40 PM To change this template
  * use File | Settings | File Templates.
  */
-public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkflowService {
+public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkflowService {
 
     private Logger log = Logger.getLogger(CCTSWorkflowService.class);
 

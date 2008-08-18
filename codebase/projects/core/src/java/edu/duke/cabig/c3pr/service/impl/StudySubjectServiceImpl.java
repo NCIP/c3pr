@@ -30,7 +30,7 @@ import gov.nih.nci.common.exception.XMLUtilityException;
  * @version 1.0
  * 
  */
-public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements StudySubjectService {
+public class StudySubjectServiceImpl extends WorkflowServiceImpl implements StudySubjectService {
 
     private static final Logger logger = Logger.getLogger(StudySubjectServiceImpl.class);
     private StudySubjectDao studySubjectDao;
