@@ -126,13 +126,13 @@ public class HealthcareSiteInvestigatorDaoTest extends
         loadedHealthcareSite.addHealthcareSiteInvestigator(hcsInv1);
         loadedHealthcareSite.addHealthcareSiteInvestigator(hcsInv2);
 
-        healthcareSiteDao.save(loadedHealthcareSite);
-
-        try{
-        	interruptSessionForceNewSession();
-        	fail("it should fail because of duplicate data entry");
-        }catch(Exception e){
-        	assertTrue(true) ;
+        try {
+            healthcareSiteDao.save(loadedHealthcareSite);
+            interruptSessionForceNewSession();
+            fail("it should fail because of duplicate data entry");
+        }
+        catch (Exception e) {
+            assertTrue(true);
         }
 
     }

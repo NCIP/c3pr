@@ -57,12 +57,13 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         rs2.setNciIdentifier("NCI-123");
         rs2.setHealthcareSite(site);
 
-        getDao().save(rs2);
-        try{
-        	interruptSessionForceNewSession();
-        	fail("it should fail because of duplicate data entry");
-        }catch(Exception e){
-        	assertTrue(true) ;
+        try {
+            getDao().save(rs2);
+            interruptSessionForceNewSession();
+            fail("it should fail because of duplicate data entry");
+        }
+        catch (Exception e) {
+            assertTrue(true);
         }
     }
 

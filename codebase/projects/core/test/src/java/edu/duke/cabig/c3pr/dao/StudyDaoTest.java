@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
@@ -67,7 +68,6 @@ public class StudyDaoTest extends DaoTestCase {
 
     private HealthcareSiteDao healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
                     .getBean("healthcareSiteDao");
-    
 
     private HealthcareSiteInvestigatorDao hcsidao = (HealthcareSiteInvestigatorDao) getApplicationContext()
                     .getBean("healthcareSiteInvestigatorDao");
@@ -90,61 +90,60 @@ public class StudyDaoTest extends DaoTestCase {
                         "ccts-study-castorMapping"));
     }
 
-   /* public void testForReport() {
+    /* public void testForReport() {
 
-        try {
-            String outputFileName = "TestReportStudy.txt";
+         try {
+             String outputFileName = "TestReportStudy.txt";
 
-            // Create FileReader Object
-            FileWriter outputFileReader = new FileWriter(outputFileName);
-            PrintWriter outputStream = new PrintWriter(outputFileReader);
-            outputStream
-                            .println("+---------- Auto generated report based on data retrieved from the c3pr database. ----------+");
-            outputStream.println("");
-            outputStream.println("");
-            outputStream.println("--- Retrieving the details for a Disease Term. ---");
-            List<DiseaseTerm> dTermList = diseaseTermDao
-                            .getByCtepTerm("AIDS-related cervical cancer");
-            // display disease term data and now fetch studies with this disease term
-            outputStream.println("Ctep Term: " + dTermList.get(0).getCtepTerm());
-            outputStream.println("Disease Category Name: "
-                            + dTermList.get(0).getCategory().getName());
-            outputStream.println("Term: " + dTermList.get(0).getTerm());
+             // Create FileReader Object
+             FileWriter outputFileReader = new FileWriter(outputFileName);
+             PrintWriter outputStream = new PrintWriter(outputFileReader);
+             outputStream
+                             .println("+---------- Auto generated report based on data retrieved from the c3pr database. ----------+");
+             outputStream.println("");
+             outputStream.println("");
+             outputStream.println("--- Retrieving the details for a Disease Term. ---");
+             List<DiseaseTerm> dTermList = diseaseTermDao
+                             .getByCtepTerm("AIDS-related cervical cancer");
+             // display disease term data and now fetch studies with this disease term
+             outputStream.println("Ctep Term: " + dTermList.get(0).getCtepTerm());
+             outputStream.println("Disease Category Name: "
+                             + dTermList.get(0).getCategory().getName());
+             outputStream.println("Term: " + dTermList.get(0).getTerm());
 
-            List<StudyDisease> sdList = dao.getByDiseaseTermId(dTermList.get(0).getId());
-            Study study = dao.getById(sdList.get(0).getStudy().getId());
-            outputStream.println("");
-            outputStream.println("--- Retrieving the details for a Study. ---");
+             List<StudyDisease> sdList = dao.getByDiseaseTermId(dTermList.get(0).getId());
+             Study study = dao.getById(sdList.get(0).getStudy().getId());
+             outputStream.println("");
+             outputStream.println("--- Retrieving the details for a Study. ---");
 
-            try {
-                String xml = xmlUtility.toXML(study);
-                String newXml = new XMLOutputter(Format.getPrettyFormat())
-                                .outputString(new SAXBuilder().build(new StringReader(xml)));
-                outputStream.println(newXml);
-            }
-            catch (XMLUtilityException xue) {
-                log.error(xue.getMessage());
-            }
-            catch (JDOMException je) {
-                log.error(je.getMessage());
-            }
+             try {
+                 String xml = xmlUtility.toXML(study);
+                 String newXml = new XMLOutputter(Format.getPrettyFormat())
+                                 .outputString(new SAXBuilder().build(new StringReader(xml)));
+                 outputStream.println(newXml);
+             }
+             catch (XMLUtilityException xue) {
+                 log.error(xue.getMessage());
+             }
+             catch (JDOMException je) {
+                 log.error(je.getMessage());
+             }
 
-            outputStream.close();
-        }
-        catch (IOException e) {
-            System.out.println("IOException:");
-            e.printStackTrace();
-        }
-    }
-*/
+             outputStream.close();
+         }
+         catch (IOException e) {
+             System.out.println("IOException:");
+             e.printStackTrace();
+         }
+     }
+     */
     /*
      * Test the where retired indicator clause for inclusionCriteria.
      */
     public void testWhereAndWhere() throws Exception {
 
         Study loadedStudy = dao.getById(1000);
-        List list = loadedStudy.getEpochs().get(0)
-                        .getInclusionEligibilityCriteriaInternal();
+        List list = loadedStudy.getEpochs().get(0).getInclusionEligibilityCriteriaInternal();
         assertTrue(list.size() > 0);
     }
 
@@ -158,6 +157,7 @@ public class StudyDaoTest extends DaoTestCase {
         assertNotNull("Study 1000 not found", study);
         assertEquals("Wrong name", "precis_text", study.getPrecisText());
     }
+
     /**
      * Test for loading all Studies
      * 
@@ -411,10 +411,8 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
         {
             Study loaded = dao.getById(savedId);
-            StratumGroup sg1 = (loaded.getEpochs().get(0)).getStratumGroups().get(
-                            0);
-            StratumGroup sg2 = (loaded.getEpochs().get(0)).getStratumGroups().get(
-                            1);
+            StratumGroup sg1 = (loaded.getEpochs().get(0)).getStratumGroups().get(0);
+            StratumGroup sg2 = (loaded.getEpochs().get(0)).getStratumGroups().get(1);
 
             assertEquals((loaded.getEpochs().get(0)).getStratumGroups().size(), 2);
             assertNotNull(sg1.getStratificationCriterionAnswerCombination());
@@ -483,8 +481,7 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
         {
             Study loaded = dao.getById(savedId);
-            BookRandomization br = (BookRandomization) loaded.getEpochs().get(0)
-                            .getRandomization();
+            BookRandomization br = (BookRandomization) loaded.getEpochs().get(0).getRandomization();
             int i = br.getBookRandomizationEntry().get(0).getStratumGroup().getCurrentPosition();
             assertEquals(i, 1);
         }
@@ -634,7 +631,7 @@ public class StudyDaoTest extends DaoTestCase {
 
             // notification specific code.
             UserBasedRecipient ebr = new UserBasedRecipient();
-//            ebr.setEmailAddress("vinay.gangoli@semanticbits.com");
+            //            ebr.setEmailAddress("vinay.gangoli@semanticbits.com");
             RoleBasedRecipient rbr = new RoleBasedRecipient();
             rbr.setRole("admin");
 
@@ -651,8 +648,8 @@ public class StudyDaoTest extends DaoTestCase {
         {
             Study loaded = dao.getById(savedId);
             assertNotNull("Could not reload study with id " + savedId, loaded);
-            assertEquals("Wrong Threshold", 90, loaded.getPlannedNotifications().get(0).getThreshold()
-                            .intValue());
+            assertEquals("Wrong Threshold", 90, loaded.getPlannedNotifications().get(0)
+                            .getThreshold().intValue());
             assertEquals("Wrong role", "admin", loaded.getPlannedNotifications().get(0)
                             .getRoleBasedRecipient().get(0).getRole());
             /*assertEquals("Wrong emailAddress", "vinay.gangoli@semanticbits.com", loaded
@@ -848,48 +845,84 @@ public class StudyDaoTest extends DaoTestCase {
     }
 
     private Study createDefaultStudyWithDesign(Study study) {
-        // Investigators
-        Investigator inv = new Investigator();
-        inv.setFirstName("Investigator first name");
+        int disId;
+        int hcsId;
+        int invId;
+        int hcsiId;
+        int term1Id;
+        int term2Id;
+        {
+            DiseaseCategory disCatSaved = new DiseaseCategory();
+            disCatSaved.setName("AIDS-related Human Papillomavirus");
+            diseaseCategoryDao.save(disCatSaved);
+            // Investigators
+            Investigator invSave = new Investigator();
+            invSave.setFirstName("Investigator first name");
+            investigatorDao.save(invSave);
 
-        investigatorDao.save(inv);
+            // healthcare site
+            HealthcareSite healthcaresite = new HealthcareSite();
+            Address address = new Address();
+            address.setCity("Reston");
+            address.setCountryCode("USA");
+            address.setPostalCode("20191");
+            address.setStateCode("VA");
+            address.setStreetAddress("12359 Sunrise Valley Dr");
+            healthcaresite.setAddress(address);
+            healthcaresite.setName("duke healthcare");
+            healthcaresite.setDescriptionText("duke healthcare");
+            healthcaresite.setNciInstituteCode("Nci duke");
+            healthcareSitedao.save(healthcaresite);
+            
+            // HCSI
+            HealthcareSiteInvestigator hcsiSave = new HealthcareSiteInvestigator();
+            invSave.addHealthcareSiteInvestigator(hcsiSave);
+            hcsiSave.setHealthcareSite(healthcaresite);
+            hcsidao.save(hcsiSave);
+            
+            DiseaseTerm term1 = new DiseaseTerm();
+            term1.setTerm("AIDS-related anal cancer");
+            term1.setCtepTerm("AIDS-related anal cancer");
+            term1.setMedraCode(1033333);
+            term1.setCategory(disCatSaved);
+            DiseaseTerm term2 = new DiseaseTerm();
+            term2.setTerm("AIDS-related cervical cancer");
+            term2.setCtepTerm("AIDS-related cervical cancer");
+            term2.setMedraCode(10322);
+            term2.setCategory(disCatSaved);
+            diseaseTermDao.save(term1);
+            System.out.println("disease term1 id ************" + term1.getId());
+            diseaseTermDao.save(term2);
+            System.out.println("disease term2 id ************" + term2.getId());
+            
+            interruptSession();
+            System.out.println("hc site id ************" + healthcaresite.getId());
+            
+            disId=disCatSaved.getId();
+            invId=invSave.getId();
+            hcsId=healthcaresite.getId();
+            hcsiId=hcsiSave.getId();
+            term1Id=term1.getId();
+            term2Id=term2.getId();
+            System.out.println("hcsi id ************" + hcsiId);
+        }
+        
+        DiseaseCategory disCat=diseaseCategoryDao.getById(disId);
+        Investigator inv=investigatorDao.getById(invId);
 
         study.addEpoch(Epoch.createEpoch("Screening"));
         study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
         study.addEpoch(Epoch.createEpoch("Follow up"));
-
-        // healthcare site
-        HealthcareSite healthcaresite = new HealthcareSite();
-        Address address = new Address();
-        address.setCity("Reston");
-        address.setCountryCode("USA");
-        address.setPostalCode("20191");
-        address.setStateCode("VA");
-        address.setStreetAddress("12359 Sunrise Valley Dr");
-        healthcaresite.setAddress(address);
-        healthcaresite.setName("duke healthcare");
-        healthcaresite.setDescriptionText("duke healthcare");
-        healthcaresite.setNciInstituteCode("Nci duke");
-
-        healthcareSitedao.save(healthcaresite);
-        System.out.println("hc site id ************" + healthcaresite.getId());
-
+        
         // Study Site
         StudySite studySite = new StudySite();
         study.addStudySite(studySite);
-        studySite.setHealthcareSite(healthcaresite); //
+        studySite.setHealthcareSite(healthcareSitedao.getById(hcsId)); //
         studySite.setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
         studySite.setRoleCode("role");
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
-
-        // HCSI
-        HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
-        inv.addHealthcareSiteInvestigator(hcsi);
-        healthcaresite.addHealthcareSiteInvestigator(hcsi);
-        hcsidao.save(hcsi);
-        System.out.println("hcsi id ************" + hcsi.getId());
 
         // Study Investigator
         StudyInvestigator studyInvestigator = studySite.getStudyInvestigators().get(
@@ -897,6 +930,7 @@ public class StudyDaoTest extends DaoTestCase {
         studyInvestigator.setRoleCode("role");
         studyInvestigator.setStartDate(new Date());
 
+        HealthcareSiteInvestigator hcsi=hcsidao.getById(hcsiId);
         hcsi.addStudyInvestigator(studyInvestigator);
 
         // Identifiers
@@ -910,29 +944,11 @@ public class StudyDaoTest extends DaoTestCase {
         study.getIdentifiers().addAll(identifiers);
 
         // Diseases
-        DiseaseCategory disCat = new DiseaseCategory();
-        disCat.setName("AIDS-related Human Papillomavirus");
-        diseaseCategoryDao.save(disCat);
         System.out.println("disease disCat id ************" + disCat.getId());
 
-        DiseaseTerm term1 = new DiseaseTerm();
-        term1.setTerm("AIDS-related anal cancer");
-        term1.setCtepTerm("AIDS-related anal cancer");
-        term1.setMedraCode(1033333);
-        term1.setCategory(disCat);
-        DiseaseTerm term2 = new DiseaseTerm();
-        term2.setTerm("AIDS-related cervical cancer");
-        term2.setCtepTerm("AIDS-related cervical cancer");
-        term2.setMedraCode(10322);
-        term2.setCategory(disCat);
-        diseaseTermDao.save(term1);
-        System.out.println("disease term1 id ************" + term1.getId());
-        diseaseTermDao.save(term2);
-        System.out.println("disease term2 id ************" + term2.getId());
-
         StudyDisease studyDisease = new StudyDisease();
-        studyDisease.setDiseaseTerm(term1);
-        studyDisease.setDiseaseTerm(term2);
+        studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));
+        studyDisease.setDiseaseTerm(diseaseTermDao.getById(term2Id));
         studyDisease.setStudy(study);
 
         study.addStudyDisease(studyDisease);
@@ -973,12 +989,11 @@ public class StudyDaoTest extends DaoTestCase {
             assertNotNull("Could not reload study with id " + 1000, loaded);
             Epoch newEpoch1 = loaded.getEpochs().get(0);
             Epoch newEpoch2 = loaded.getEpochs().get(1);
-            assertEquals("Wrong number of Arms are retreived", 3, newEpoch1.getArms()
-                            .size());
-            assertEquals("Wrong name of epoch retrieved", "TestTreatmentEpoch2", newEpoch2.getName()
-                    );
-            }
+            assertEquals("Wrong number of Arms are retreived", 3, newEpoch1.getArms().size());
+            assertEquals("Wrong name of epoch retrieved", "TestTreatmentEpoch2", newEpoch2
+                            .getName());
         }
+    }
 
     public void testSaveNewStudyWithEpochs() throws Exception {
         Integer savedId;
@@ -995,6 +1010,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
             study.addEpoch(Epoch.createEpoch("TestNonTreatmentEpoch"));
+            study.getEpochs().get(0).setEpochOrder(2);
 
             Epoch newEpoch = new Epoch();
             newEpoch.setName("Test Non Treatment Epoch");
@@ -1002,6 +1018,7 @@ public class StudyDaoTest extends DaoTestCase {
             newEpoch.setAccrualIndicator(Boolean.TRUE);
             newEpoch.setReservationIndicator(Boolean.TRUE);
             newEpoch.setEnrollmentIndicator(Boolean.FALSE);
+            newEpoch.setEpochOrder(1);
             study.addEpoch(newEpoch);
 
             dao.save(study);
@@ -1015,26 +1032,21 @@ public class StudyDaoTest extends DaoTestCase {
             Study loaded = dao.getById(savedId);
             assertNotNull("Could not reload study with id " + savedId, loaded);
             List<Epoch> totalEpochs = loaded.getEpochs();
-            assertEquals("Wrong number of Epochs are retreived", 2,
-                            totalEpochs.size());
+            assertEquals("Wrong number of Epochs are retreived", 2, totalEpochs.size());
             for (Epoch newEpoch : totalEpochs) {
-                assertEquals("Wrong Treatment Indicator: ",
-                                "false", newEpoch.getTreatmentIndicator().toString());
+                assertEquals("Wrong Treatment Indicator: ", "false", newEpoch
+                                .getTreatmentIndicator().toString());
             }
-            assertEquals("Wrong epoch name", "Test Non Treatment Epoch",
-                            (totalEpochs.get(1))
-                                            .getName());
-            assertEquals("Wrong enrollment indicator", Boolean.FALSE,
-                            (totalEpochs.get(1))
-                                            .getEnrollmentIndicator());
-            assertEquals("Wrong accrual indicator", Boolean.TRUE,
-                            (totalEpochs.get(1))
-                                            .getAccrualIndicator());
-            assertEquals("Wrong reservation indicator", Boolean.TRUE,
-                            (totalEpochs.get(1))
-                                            .getReservationIndicator());
-            assertEquals("Wrong accrual ceiling", 10, (totalEpochs
-                            .get(1)).getAccrualCeiling().intValue());
+            assertEquals("Wrong epoch name", "Test Non Treatment Epoch", (totalEpochs.get(0))
+                            .getName());
+            assertEquals("Wrong enrollment indicator", Boolean.FALSE, (totalEpochs.get(0))
+                            .getEnrollmentIndicator());
+            assertEquals("Wrong accrual indicator", Boolean.TRUE, (totalEpochs.get(0))
+                            .getAccrualIndicator());
+            assertEquals("Wrong reservation indicator", Boolean.TRUE, (totalEpochs.get(0))
+                            .getReservationIndicator());
+            assertEquals("Wrong accrual ceiling", 10, (totalEpochs.get(0)).getAccrualCeiling()
+                            .intValue());
 
         }
     }
@@ -1342,10 +1354,10 @@ public class StudyDaoTest extends DaoTestCase {
         assertEquals("Wrong Epoch order", "Treatment1001", study.getEpochs().get(4).getName());
         assertEquals("Wrong Epoch order", "Treatment1002", study.getEpochs().get(5).getName());
     }
-    
- public void testCompanionStudy(){
-    	
-    	HealthcareSite sponsor = healthcareSitedao.getById(1001);
+
+    public void testCompanionStudy() {
+
+        HealthcareSite sponsor = healthcareSitedao.getById(1001);
         HealthcareSite site = healthcareSitedao.getById(1000);
         HealthcareSite center = healthcareSitedao.getById(1002);
 
@@ -1376,7 +1388,7 @@ public class StudyDaoTest extends DaoTestCase {
         StudyCoordinatingCenter coCenter = new StudyCoordinatingCenter();
         coCenter.setHealthcareSite(center);
         study.addStudyOrganization(coCenter);
-        
+
         CompanionStudyAssociation csa = new CompanionStudyAssociation();
         csa.setCompanionStudy(dao.getById(1001));
         csa.setParentStudy(study);
@@ -1386,21 +1398,41 @@ public class StudyDaoTest extends DaoTestCase {
         dao.save(study);
         int savedId = study.getId();
         assertNotNull("The saved study didn't get an id", savedId);
-        
-    	interruptSession();
-    	
-    	assertNotNull("Companion Association exists",  dao.getById(savedId));
-    	assertNotNull("Companion Association has Parent Study",  dao.getById(savedId).getCompanionStudyAssociations());
-    }
- 	
- public void testGetParentStudyFromCompanionStudy(){
-	 Study companionStudy = dao.getById(1002);
-	 Study parentStudy = companionStudy.getParentStudyAssociations().get(0).getParentStudy();
-	 assertNotNull("parent study is not null ", parentStudy);
 
-	 int id = parentStudy.getId() ;
-	 assertEquals(1001, id);
-	 
- }
- 
+        interruptSession();
+
+        assertNotNull("Companion Association exists", dao.getById(savedId));
+        assertNotNull("Companion Association has Parent Study", dao.getById(savedId)
+                        .getCompanionStudyAssociations());
+    }
+
+    public void testGetParentStudyFromCompanionStudy() {
+        Study companionStudy = dao.getById(1002);
+        Study parentStudy = companionStudy.getParentStudyAssociations().get(0).getParentStudy();
+        assertNotNull("parent study is not null ", parentStudy);
+
+        int id = parentStudy.getId();
+        assertEquals(1001, id);
+
+    }
+
+    public void testGetByIdentifiersSingleStudy(){
+        //List<Identifier> identifiers=new ArrayList<Identifier>();
+        //Study study=dao.getById(1000);
+        //identifiers.addAll(study.getIdentifiers());
+        //identifiers=dao.getById(1000).getIdentifiers();
+        List<Study> studies=dao.getByIdentifiers(dao.getById(1000).getIdentifiers());
+        assertEquals("Wrong size of list", 1, studies.size());
+        assertEquals("Wrong study", new Integer(1000), studies.get(0).getId());
+    }
+    
+    public void testGetByIdentifiersMultipleStudy(){
+        List<Identifier> identifiers=new ArrayList<Identifier>();
+        for(Study study: dao.getAll())
+            identifiers.addAll(study.getIdentifiers());
+        interruptSession();
+        List<Study> studies=dao.getByIdentifiers(identifiers);
+        assertEquals("Wrong size of list", 3, studies.size());
+    }
+    
 }

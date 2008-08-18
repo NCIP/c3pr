@@ -75,12 +75,12 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
     public void testAddInvestigatorGroupToHealthcareSite() throws Exception {
         {
             HealthcareSite org = getDao().getById(1000);
-            org.getInvestigatorGroups().get(2).setName("Physicians Group");
+            org.getInvestigatorGroups().get(1).setName("Physicians Group");
         }
         interruptSession();
         HealthcareSite loadedOrg = getDao().getById(1000);
 
-        assertEquals("Expected 3 investigator groups", 3, loadedOrg.getInvestigatorGroups().size());
+        assertEquals("Expected 3 investigator groups", 2, loadedOrg.getInvestigatorGroups().size());
     }
     
     public void testSaveNotificationWithMessageDetailsAndRecepients() throws Exception {
