@@ -73,8 +73,8 @@ public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
         }
 
         WebSSOUser user = new WebSSOUser(userDetailsService.loadUserByUsername(attrMap
-                        .get(CCTS_USER_ID_KEY)));
-        user.setGridId(attrMap.get(CCTS_USER_ID_KEY));
+                        .get(getUserIdFromGridIdentity(CAGRID_SSO_GRID_IDENTITY))));
+        user.setGridId(attrMap.get(getUserIdFromGridIdentity(CAGRID_SSO_GRID_IDENTITY)));
         user.setDelegatedEPR(attrMap.get(CAGRID_SSO_DELEGATION_SERVICE_EPR));
         user.setFirstName(attrMap.get(CAGRID_SSO_FIRST_NAME));
         user.setLastName(attrMap.get(CAGRID_SSO_LAST_NAME));
@@ -129,5 +129,10 @@ public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
 
     public void setHostKey(String hostKey) {
         this.hostKey = hostKey;
+    }
+    
+    public String getUserIdFromGridIdentity(String gridIdentity){
+        String[] sections=gridIdentity.split("=");
+        return sections[sections.length-1];
     }
 }
