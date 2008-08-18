@@ -7,6 +7,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
 
 /**
@@ -14,7 +15,7 @@ import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
  * template use File | Settings | File Templates.
  */
 @C3PRUseCases( { CREATE_RESEARCH_STAFF, CREATE_STUDY_INVESTIGATOR })
-public class PersonnelServiceTest extends MasqueradingDaoTestCase<HealthcareSiteInvestigatorDao> {
+public class PersonnelServiceTest extends DaoTestCase {
 
     private PersonnelService service;
 
@@ -39,7 +40,6 @@ public class PersonnelServiceTest extends MasqueradingDaoTestCase<HealthcareSite
 
     @Override
     protected void tearDown() throws Exception {
-    	inv.getContactMechanisms().remove(0);
     	super.tearDown();
     }
     public void testCreateUser() throws Exception {

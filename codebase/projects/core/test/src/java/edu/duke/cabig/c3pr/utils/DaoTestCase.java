@@ -158,7 +158,8 @@ public abstract class DaoTestCase extends DbTestCase {
     	URL url =  ClassLoader.getSystemResource("context/datasource.properties");
     	Properties p = new Properties();
     	try {
-			p.load(new FileInputStream(new File(url.getFile())));
+			//p.load(new FileInputStream(new File(url.getFile())));
+    	    p.load(url.openStream());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

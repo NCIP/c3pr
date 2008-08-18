@@ -58,15 +58,15 @@
     <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" hcs_id="1000"
                  retired_indicator="false"/>
                  
-	 <IDENTIFIERS id="0909" version="1" value="nci" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1000" 
+	 <IDENTIFIERS id="0909" version="1" value="nci1" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1000" 
                  retired_indicator="false"/>
                  
-                  <IDENTIFIERS id="1002" version="1" value="nci" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1001" 
+                  <IDENTIFIERS id="1002" version="1" value="nci2" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1001" 
                  retired_indicator="false"/>
-                 <IDENTIFIERS id="10021" version="1" value="nci" type="TEST" system_name="nci" dtype="SAI" stu_id="1001" 
+                 <IDENTIFIERS id="10021" version="1" value="nci3" type="TEST" system_name="nci" dtype="SAI" stu_id="1001" 
                  retired_indicator="false"/>
                  
-                  <IDENTIFIERS id="1003" version="1" value="nci" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1002" 
+                  <IDENTIFIERS id="1003" version="1" value="nci4" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1002" 
                  retired_indicator="false"/>
 
     <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000"
