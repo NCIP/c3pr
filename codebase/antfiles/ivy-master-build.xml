@@ -3,13 +3,16 @@
     <property file="build.properties" />
 	<property file="c3pr-ivy.properties" />
     <import file="${basedir}/common.xml"/>
-	<import file="${basedir}/build-utilities.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
 	<!-- List of modules that need checkstyle reporting done -->
 	<property name="reportable.projects.list" value="core,web" />
 	<condition property="ivy.available">
 			<available file="${ivy.jar.file}" />
 	</condition>
+	
+	<!--CSM Tomcat dirs-->
+	<property name="conf.dir" value="${projects.dir}/core/conf/"/>
+	<property name="csm.conf.dir" value="${conf.dir}/csm"/>
 	
 	
 	<!-- ==================================================================
@@ -84,14 +87,21 @@
 	</target>
 
 	<!-- ==========================================================
-			target : drop-and-create-existing-database
-			This will drop the existing database and create a new database by deligating call to c3pr-core:drop-and-create-existing-database, this is added
-			as a single job using hudson. 
-		=============================================================-->
-		<target name="drop-and-create-existing-database">
-			<subant target="drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml" />
-		</target>
+		target : drop-and-create-existing-database
+		This will drop the existing database and create a new database by deligating call to c3pr-core:drop-and-create-existing-database, this is added
+		as a single job using hudson. 
+	=============================================================-->
+	<target name="drop-and-create-existing-database">
+		<subant target="drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml" />
+	</target>
 
+	<!-- ==========================================================
+		target : prepare-fresh-database
+		This will drop the existing database and create a new database by deligating call to c3pr-core:drop-and-create-existing-database, this is added
+		as a single job using hudson. It will run migrate target
+	=============================================================-->
+	<target name="prepare-fresh-database" depends="drop-and-create-existing-database, migrate">
+	</target>
 	
 	<!-- ==========================================================
 		target : migrate-test
@@ -146,11 +156,64 @@
 		target : tomcat.security
 		This will delegate the call to c3pr-core:tomcat.security.
 	=============================================================-->
-	<target name="tomcat.security" depends="debug-database-info" >
+	<!--<target name="tomcat.security" depends="debug-database-info" >
 		<ant target="tomcat.security" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
-	</target>
+	</target>-->
+	
+	<target name="tomcat.security" depends="find-datasource"
+	            description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
+	        <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
+	            <condition>
+	                <not>
+	                    <isset property="catalina.home"/>
+	                </not>
+	            </condition>
+	        </fail>
+	    	<property file="${dsFile}"/>
+			<echo message="Datasource File : ${dsFile}" />
+	        <property name="catalina.home" value="PLEASE SET catalina.home EXTERNALLY"/>
+	        <echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
+	        <property name="tomcat.security.dir" value="${catalina.home}/conf/cabig"/>
+
+	        <!-- default UPT dialect to same as SC's, if not already set -->
+	        <property name="datasource.dialect.upt" value="${datasource.dialect}"/>
+	        <mkdir dir="${tomcat.security.dir}"/>
+	        <copy todir="${tomcat.security.dir}" overwrite="true">
+	            <filterset>
+	                <filter token="tomcat.security.dir" value="${tomcat.security.dir}"/>
+	                <filter token="datasource.username" value="${datasource.username}"/>
+	                <filter token="datasource.password" value="${datasource.password}"/>
+	                <filter token="datasource.url" value='${datasource.url}'/>
+	                <filter token="datasource.driver" value="${datasource.driver}"/>
+	                <filter token="datasource.dialect.upt" value="${datasource.dialect}"/>
+	                <filter token="csm.context.name" value="${csm.context.name}"/>
+	            </filterset>
+	            <fileset dir="${csm.conf.dir}">
+	                <include name="ApplicationSecurityConfig.xml"/>
+	                <include name="hibernate.cfg.xml"/>
+	                <include name="csm_jaas.config"/>
+	            </fileset>
+	        </copy>
+
+	        <copy file="${tomcat.security.dir}/hibernate.cfg.xml"
+	              tofile="${tomcat.security.dir}/${csm.context.name}.hibernate.cfg.xml"/>
+	        <delete file="${tomcat.security.dir}/hibernate.cfg.xml"/>
+
+	        <echo taskname="todo">
+	            ===== MANUAL STEPS =====
+	            ========================
+	            The automatic portion of the security setup is complete. If you have not
+	            done so already, please perform the following manual actions.
+
+	            * In ${catalina.home}/conf/catalina.properties, add two lines:
+	            gov.nih.nci.security.configFile=${tomcat.security.dir}/ApplicationSecurityConfig.xml
+	            java.security.auth.login.config=${tomcat.security.dir}/csm_jaas.config
+	            ========= END ==========
+	            ===== MANUAL STEPS =====
+	        </echo>
+	    </target>	
 	
 	<target name="build-core" depends="clean-repo"
             description="Builds all c3pr modules that core depends on and create the core jar">
@@ -171,39 +234,6 @@
 	    </ant>
     </target>
 	
-	<!-- =============================================================== -->
-    <!-- c3pr Protocol Ingestion Grid Service                            -->
-    <!-- =============================================================== -->
-    <target name="build-grid" depends="build-core"
-            description="Builds the c3p3 Registration Consumer grid node">
-        <ant dir="${projects.dir}/grid" inheritAll="false" antfile="ivy-build.xml" target="build-grid"/>
-    </target>
-
-	<target name="deploy-grid-RegistrationConsumer" depends="checkGlobus,checkTomcat"
-            description="Will deploy the RegistrationConsumer grid service">
-        <ant dir="${projects.dir}/grid" antfile="ivy-build.xml" inheritall="false"
-             target="deployTomcat-RegistrationConsumer"/>
-    </target>
-
-    <target name="deploy-grid-StudyConsumer" depends="checkGlobus,checkTomcat"
-            description="Will deploy the RegistrationConsumer grid service">
-        <ant dir="${projects.dir}/grid" antfile="ivy-build.xml" inheritall="false"
-             target="deployTomcat-StudyConsumer"/>
-    </target>
-
-    <target name="deploySkeletonRegistrationGridService" depends="checkGlobus,checkTomcat"
-            description="Will deploy the Skeleton RegistrationConsumer grid service">
-        <ant dir="${projects.dir}/grid" antfile="ivy-build.xml" inheritall="false"
-             target="deploySkeletonRegistrationGridService"/>
-    </target>
-
-    <target name="deploySkeletonStudyGridService" depends="checkGlobus,checkTomcat"
-            description="Will deploy the Skeleton RegistrationConsumer grid service">
-        <ant dir="${projects.dir}/grid" antfile="ivy-build.xml" inheritall="false"
-             target="deploySkeletonStudyGridService"/>
-    </target>
-
-	
 	<!-- ==========================================================
 		target : Installer targets
 	=============================================================-->
@@ -219,25 +249,23 @@
         <subant target="build-offline-installer" buildpath="${projects.dir}/installer/ivy-build.xml"/>
     </target>
 	
+	<target name="build-war" depends="deploy-webapp-local"
+            description="Builds the war for the installer">
+		<ant target="war" antfile="${projects.dir}/web/ivy-build.xml" inheritall="false" dir="${projects.dir}/web">
+			<property name="env.skip.test" value="true"></property>
+		</ant>
+    </target>
 	<!-- =============================================================== -->
     <!-- create target to create a release of Installer  project          -->
     <!-- =============================================================== -->
-    <target name="prepareInstallerForRelease" depends="clean">
+    <target name="prepareInstallerForRelease" depends="clean, build-war">
         <property name="project.archive" value="c3prv2-installpack.zip"/>
     	<delete dir="${projects.dir}/installer/installpack"/>
         <mkdir dir="${projects.dir}/installer/installpack"/>
         <zip destfile="${projects.dir}/installer/installpack/${project.archive}">
-            <zipfileset dir="${basedir}" prefix="antfiles"/>
-            <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
-            <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
-            <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
-			<zipfileset dir="${projects.dir}/rules" prefix="projects/rules"/>
-	<!--    <zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
-            <zipfileset dir="${projects.dir}/../share" prefix="share"/>-->
-        </zip>
-        <zip destfile="${projects.dir}/installer/installpack/ivy2.zip">
-            <zipfileset dir="${ivy.cache}" prefix="c3pr-cache"/>
-        	<zipfileset dir="${ivy.jar.dir}" prefix="ivy-jars"/>
+        	<zipfileset dir="${basedir}" prefix="antfiles"/>
+        	<zipfileset dir="${projects.dir}/core/conf" prefix="conf"/>
+            <zipfileset dir="${projects.dir}/web/build/c3pr" prefix="web-archive"/>
         </zip>
     </target>
 
