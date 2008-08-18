@@ -174,7 +174,7 @@
 						
 					</td> 
 		            <td align="left" rowspan="2">
-		            	<form:textarea title="Click to Edit"  rows="3" cols="25" path="plannedNotifications[${nStatus.index}].message" onclick="showMessageBody('${nStatus.index}');"/>
+		            	<form:textarea title="Click to Edit"  rows="3" cols="33" path="plannedNotifications[${nStatus.index}].message" onclick="showMessageBody('${nStatus.index}');"/>
 		            </td>
 		        </tr>
 		        
