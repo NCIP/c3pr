@@ -22,7 +22,7 @@
         </lhs>
         <rhs>
         	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, study);
-            schedulerService.scheduleNotification(plannedNotification, scheduledNotificationId);
+            schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
         </rhs>        
     </rule>
 
