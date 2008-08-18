@@ -30,6 +30,10 @@ function fireAction(action, selected) {
     }
 }
 
+function closePopup() {
+	Lightview.hide();
+}
+
 function clearField(field) {
     field.value = "";
 }
@@ -164,7 +168,27 @@ Event.observe(window, "load", function() {
     //    showDiseases()
   //  })
   	showDiseases();
-    populateSelectsOnLoad();
+
+    $('createPersonnel').observe('click', function(event) {
+        Lightview.show({
+          href: "<c:url value='/pages/admin/createResearchStaff?decorator=noheaderDecorator&studyflow=true'/>",
+          rel: 'iframe',
+          title: 'Create Research Staff',
+          options: {
+	          autosize: false,
+	          width: 1400,
+	          height:600,
+	          overlay: {                                             // Overlay
+	              close: false                                         // Overlay click closes the view
+	            },
+	          ajax: {
+	                onComplete: function() {
+	                   
+	                }
+	            }
+          }
+        });
+});
 })
 
 </script>
@@ -290,7 +314,11 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		</table>
 
   </c:otherwise>
-</c:choose><br/>
+</c:choose>
+<div align="right">
+		<input id="createPersonnel" type="button" value="Create Research Staff" />
+</div>
+<br/>
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>  
 </form:form>
 

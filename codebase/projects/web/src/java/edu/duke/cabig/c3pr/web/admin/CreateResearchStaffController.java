@@ -150,6 +150,10 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 
         Map map = errors.getModel();
         map.put("command", researchStaff);
+        String studyflow = request.getParameter("studyflow") ; 
+        if(!StringUtils.isBlank(studyflow)){
+        	map.put("studyflow", studyflow);
+        }
         ModelAndView mv = new ModelAndView(getSuccessView(), map);
         return mv;
     }

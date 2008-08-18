@@ -100,7 +100,7 @@ public class CreateCompanionStudyController<C extends Study> extends CreateStudy
         		OrganizationAssignedIdentifier id = companionStudy.getOrganizationAssignedIdentifiers().get(index2);
         		id.setHealthcareSite(orgIdentifier.getHealthcareSite());
         		id.setType(orgIdentifier.getType());
-        		id.setValue(orgIdentifier.getValue() + "comp");
+        		id.setValue(orgIdentifier.getValue() + "<Parent Study Identifier>");
         		index2++ ;
     		}
         	

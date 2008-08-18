@@ -205,8 +205,35 @@ Event.observe(window, "load", function() {
     Event.observe("disease-sub-category", "change", function() {
         showDiseases()
     })
+    
+    $('createInvestigator').observe('click', function(event) {
+        Lightview.show({
+          href: "<c:url value='/pages/admin/createInvestigator?decorator=noheaderDecorator&studyflow=true'/>",
+          rel: 'iframe',
+          title: 'Create Investigator',
+          options: {
+	          autosize: false,
+	          width: 1400,
+	          height:600,
+	          overlay: {                                             // Overlay
+	              close: false                                         // Overlay click closes the view
+	            },
+	          ajax: {
+	                onComplete: function() {
+	                }
+	            }
+          }
+        });
+});
+    
+    
+    
     populateSelectsOnLoad();
 })
+
+function closePopup() {
+	Lightview.hide();
+}
 
 </script>
 </head>
@@ -336,7 +363,11 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		</table>
 
   </c:otherwise>
-</c:choose><br/>
+</c:choose>
+<div align="right">
+		<input id="createInvestigator" type="button" value="Create Investigator" />
+</div>
+<br/>
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>  
 </form:form>
 

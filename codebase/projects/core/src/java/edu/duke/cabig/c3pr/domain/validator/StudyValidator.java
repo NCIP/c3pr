@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -74,7 +73,7 @@ public class StudyValidator implements Validator {
                 errors.popNestedPath();
             }
 
-            Set<OrganizationAssignedIdentifier> uniqueOrgIdentifiers = new TreeSet<OrganizationAssignedIdentifier>();
+            Set<OrganizationAssignedIdentifier> uniqueOrgIdentifiers = new HashSet<OrganizationAssignedIdentifier>();
             uniqueOrgIdentifiers.addAll(allOrganizationAssigedIdentitiers);
             if (allOrganizationAssigedIdentitiers.size() > uniqueOrgIdentifiers.size()) {
                 errors
@@ -99,7 +98,7 @@ public class StudyValidator implements Validator {
                 errors.pushNestedPath("systemAssignedIdentifiers[" + sysIdentifierIndex + "]");
                 errors.popNestedPath();
             }
-            Set<SystemAssignedIdentifier> uniqueSysIdentifiers = new TreeSet<SystemAssignedIdentifier>();
+            Set<SystemAssignedIdentifier> uniqueSysIdentifiers = new HashSet<SystemAssignedIdentifier>();
             uniqueSysIdentifiers.addAll(allSystemAssigedIdentitiers);
             if (allSystemAssigedIdentitiers.size() > uniqueSysIdentifiers.size()) {
                 errors.rejectValue("systemAssignedIdentifiers", new Integer(
@@ -125,7 +124,7 @@ public class StudyValidator implements Validator {
                 // allStudySites.get(studySiteIndex), errors);
                 errors.popNestedPath();
             }
-            Set<StudySite> uniqueStudySites = new TreeSet<StudySite>();
+            Set<StudySite> uniqueStudySites = new HashSet<StudySite>();
             uniqueStudySites.addAll(allStudySites);
             if (allStudySites.size() > uniqueStudySites.size()) {
                 errors.rejectValue("studySites", new Integer(
@@ -147,7 +146,7 @@ public class StudyValidator implements Validator {
             for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
                 allStudyInvestigators.addAll(studyOrganization.getStudyInvestigators());
             }
-            Set<StudyInvestigator> uniqueStudyInvestigators = new TreeSet<StudyInvestigator>();
+            Set<StudyInvestigator> uniqueStudyInvestigators = new HashSet<StudyInvestigator>();
             List<StudyInvestigator> notNullInvestigatorsList = new ArrayList<StudyInvestigator>();
             if (notNullInvestigatorsList.contains(null)) {
                 notNullInvestigatorsList.remove(null);
@@ -178,7 +177,7 @@ public class StudyValidator implements Validator {
             for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
                 allStudyPersonnel.addAll(studyOrganization.getStudyPersonnel());
             }
-            Set<StudyPersonnel> uniqueStudyPersonnel = new TreeSet<StudyPersonnel>();
+            Set<StudyPersonnel> uniqueStudyPersonnel = new HashSet<StudyPersonnel>();
             List<StudyPersonnel> notNullPersonnelList = new ArrayList<StudyPersonnel>();
             if (notNullPersonnelList.contains(null)) {
                 notNullPersonnelList.remove(null);
@@ -208,7 +207,7 @@ public class StudyValidator implements Validator {
         Study study = (Study) target;
         List<Epoch> allEpochs = study.getEpochs();
         try {
-            Set<Epoch> uniqueEpochs = new TreeSet<Epoch>();
+            Set<Epoch> uniqueEpochs = new HashSet<Epoch>();
             uniqueEpochs.addAll(allEpochs);
             if (allEpochs.size() > uniqueEpochs.size()) {
                 errors.rejectValue("epochs", new Integer(

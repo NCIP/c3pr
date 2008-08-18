@@ -141,6 +141,10 @@ public class CreateInvestigatorController<C extends Investigator> extends
         }
         Map map = errors.getModel();
         map.put("command", inv);
+        String studyflow = request.getParameter("studyflow");
+        if(!StringUtils.isBlank(studyflow)){
+        	map.put("studyflow", studyflow);
+        }
         ModelAndView mv = new ModelAndView(getSuccessView(), map);
         return mv;
     }
