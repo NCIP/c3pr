@@ -126,23 +126,6 @@
 	<condition property="local.repo.available">
 		<available file="${local.repo.dir}" /> 
 	</condition>
-	
-	<!-- ========================================================================
-		target: load-datasource
-			Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.caaers/ 
-			if not available there, it will search in /etc/caaers/
-	============================================================================= -->
-	<target name="find-datasource" unless="dsFile.located" description="Loads the datasource properties">
-		<echo message="databaseConfigurationName : ${databaseConfigurationName}" />
-		<property name="dsFileName" value="${databaseConfigurationName}.properties"/>
-		<echo message="databaseConfiguration file name : ${dsFileName}" />
-		<condition property="dsFile" value="${catalina.home}/conf/c3pr/${dsFileName}" 
-				   else="${antfiles.dir}/${dsFileName}">
-			<available file="${catalina.home}/conf/c3pr/${dsFileName}" />
-		</condition>
-		<property name="dsFile.located" value="true"/>
-	</target>
-	
 	<!-- ====================================================
 			target : create-local-repo
 			This target will create local repository if one is not available
