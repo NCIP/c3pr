@@ -269,7 +269,7 @@ public class StudyValidator implements Validator {
                                 .getCoordinatingCenterIdentifiersWithValue(coCenterIdentifier
                                                 .getValue(), coCenterIdentifier.getHealthcareSite());
                 if (coCenterIdentifiers.size() > 0) {
-                    if ((study.getId() == null) || (coCenterIdentifiers.size() > 1)) {
+                    if ((study.getId() == null) || (coCenterIdentifiers.size() > 1) || (coCenterIdentifiers.size() == 1 && study.getId() != studyIdOfExistingRecord(coCenterIdentifiers.get(0)))) {
                         errors
                                         .rejectValue(
                                                         "coordinatingCenterAssignedIdentifier",
@@ -286,6 +286,15 @@ public class StudyValidator implements Validator {
         }
 
     }
+    
+    private int studyIdOfExistingRecord(OrganizationAssignedIdentifier organizationAssignedIdentifier){
+    	List<Study> studies = studyDao.searchByOrgIdentifier(organizationAssignedIdentifier);
+    	if(studies.size() == 1){
+    		return studies.get(0).getId() ;	
+    	}else{
+    		return 0;
+    	}
+    }
 
     public void validateStudyFundingSponsorIdentifier(Object target, Errors errors) {
 
@@ -300,7 +309,7 @@ public class StudyValidator implements Validator {
                                                 funSponIdentifier.getValue(), funSponIdentifier
                                                                 .getHealthcareSite());
                 if (funSponIdentifiers.size() > 0) {
-                    if ((study.getId() == null) || (funSponIdentifiers.size() > 1)) {
+                    if ((study.getId() == null) || (funSponIdentifiers.size() > 1 || (funSponIdentifiers.size() == 1 && study.getId() != studyIdOfExistingRecord(funSponIdentifiers.get(0))))) {
                         errors
                                         .rejectValue(
                                                         "fundingSponsorAssignedIdentifier",
