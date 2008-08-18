@@ -292,7 +292,10 @@
           class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byName"/>
     <bean id="stratumGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratumGroupDao" autowire="byName"/>
 	<bean id="plannedNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.PlannedNotificationDao" autowire="byName"/>
-
+	<bean id="scheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledNotificationDao" autowire="byName"/>
+	<bean id="recipientScheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao" autowire="byName"/>
+	
+	
 	<!-- Multisite Request Handlers -->
     <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
     	<property name="studySubjectService" ref="studySubjectService"></property>
@@ -387,6 +390,19 @@
     
     <bean id="passwordManagerService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordManagerServiceImpl" autowire="byName"/>
 	<bean id="passwordPolicyService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordPolicyServiceImpl" autowire="byName"/>
+	
+	<bean id="scheduledNotificationService" class="edu.duke.cabig.c3pr.service.impl.ScheduledNotificationServiceImpl" autowire="byName"/>
+	
+		<!-- Quartz Scheduler Service Classes-->
+	<bean id="schedulerService" class="edu.duke.cabig.c3pr.service.impl.SchedulerServiceImpl" autowire="byName">
+		<property name="scheduler">
+			<ref bean="schedulerFactory"/>
+		</property>
+	</bean>
+	
+	<!-- Scheduler jobs -->
+	<bean id="scheduledNotificationJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob" autowire="byName" />
+	
 	
     <!-- Repositories -->
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
