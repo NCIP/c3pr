@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
+import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 
 /**
  * Hibernate implementation of ArmDao
@@ -32,5 +33,9 @@ public class PlannedNotificationDao extends GridIdentifiableDao<PlannedNotificat
     public PlannedNotification getInitializedPlannedNotificationById(int id){
     	PlannedNotification plannedNotification = getById(id);
     	return plannedNotification;
+    }
+    
+    public void reassociate(PlannedNotification plannedNotification){
+    	getHibernateTemplate().update(plannedNotification);
     }
 }
