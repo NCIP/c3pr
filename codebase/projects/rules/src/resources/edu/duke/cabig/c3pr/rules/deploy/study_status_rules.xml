@@ -14,14 +14,14 @@
     <rule name="Study_Changed_Rule">
         <lhs>
         	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
-        	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.impl.ScheduledNotificationService"/>
+        	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.ScheduledNotificationService"/>
         	<pattern identifier="study" object-type="edu.duke.cabig.c3pr.domain.Study"/>
         	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
         	
         	<eval>"true" == "true"</eval>
         </lhs>
         <rhs>
-        	int scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, study);
+        	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, study);
             schedulerService.scheduleNotification(plannedNotification, scheduledNotificationId);
         </rhs>        
     </rule>
