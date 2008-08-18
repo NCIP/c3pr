@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.service;
 
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.domain.Study;
 
 /**
  * @author Gangoli, Vinay
@@ -13,6 +12,6 @@ public interface SchedulerService {
     /**
      * Schedule Notifications by using quartz scheduler
      */
-	public void scheduleNotification(PlannedNotification plannedNotification, Study study);
+	public void scheduleStudyNotification(PlannedNotification plannedNotification, Integer scheduledNotificationId);
 
 }

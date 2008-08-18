@@ -5,10 +5,10 @@ import org.apache.commons.logging.LogFactory;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.mail.MailException;
 
-import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
+import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.utils.NotificationEmailService;
 
 /**
@@ -19,8 +19,6 @@ import edu.duke.cabig.c3pr.utils.NotificationEmailService;
 public class ScheduledNotificationJob extends ScheduledJob {
 
     protected static final Log logger = LogFactory.getLog(ScheduledNotificationJob.class);
-
-    private StudyDao studyDao;
     
     private NotificationEmailService notificationEmailService;
 
@@ -29,31 +27,36 @@ public class ScheduledNotificationJob extends ScheduledJob {
     }
 
     /*
-     * @see edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledJob#processJob(org.quartz.JobDataMap, org.springframework.context.ApplicationContext, edu.duke.cabig.c3pr.domain.PlannedNotification)
+     * @see edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledJob#processJob(org.quartz.JobDataMap, org.springframework.context.ApplicationContext,
+     * 									 edu.duke.cabig.c3pr.domain.RecipientScheduledNotification)
      * This is the job for the Study status change notification email delivery. 
      */
     @Override
-    public void processJob(JobDataMap jobDataMap, ApplicationContext applicationContext, PlannedNotification plannedNotification) throws JobExecutionException {
+    public void processJob(JobDataMap jobDataMap, ApplicationContext applicationContext, 
+    						RecipientScheduledNotification recipientScheduledNotification) throws JobExecutionException {
        	logger.debug("Executing ScheduledNotification Job");
        	
     	assert applicationContext != null: "applicationContext cannot be null";
-    	assert jobDataMap != null: "jobDataMap cannot be null";
-    	assert plannedNotification != null: "plannedNotification cannot be null";
+    	assert recipientScheduledNotification != null: "plannedNotification cannot be null";
     	
         try {
             // init the member variables
-            notificationEmailService = (NotificationEmailService) applicationContext.getBean("notificationEmailService");
-            
-            studyDao = (StudyDao) applicationContext.getBean("studyDao");
-            Integer studyId = jobDataMap.getInt("studyId");
-            Study study = studyDao.getById(studyId);
-            
-            notificationEmailService.sendEmail(plannedNotification, study);
-        } catch (Exception e) {
+        	if(recipientScheduledNotification.getDeliveryStatus().equals(EmailNotificationDeliveryStatusEnum.PENDING) ||
+        			recipientScheduledNotification.getDeliveryStatus().equals(EmailNotificationDeliveryStatusEnum.RETRY) ){
+        		notificationEmailService = (NotificationEmailService) applicationContext.getBean("notificationEmailService");
+                notificationEmailService.sendEmail(recipientScheduledNotification);
+                recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.COMPLETE);
+        	}
+        } catch(MailException me){
+        	logger.error("execution of sendMail failed", me);
+        	recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.RETRY);
+        }catch (Exception e){
             logger.error("execution of job failed", e);
+            recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.ERROR);
         }
         logger.debug("Exiting ScheduledNotification Job");
     }
+    
     
 	public NotificationEmailService getNotificationEmailService() {
 		return notificationEmailService;

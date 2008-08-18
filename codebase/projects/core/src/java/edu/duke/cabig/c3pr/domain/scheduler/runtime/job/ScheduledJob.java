@@ -17,8 +17,9 @@ import org.springframework.web.context.request.WebRequest;
 
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
+import edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.utils.NotificationEmailService;
+import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 
 /**
  * This class serves as the Email sending job class scheduled by <code>scheduler</code>
@@ -38,6 +39,8 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
     protected ApplicationContext applicationContext;
     
     private PlannedNotificationDao plannedNotificationDao;
+    
+    private RecipientScheduledNotificationDao recipientScheduledNotificationDao;
 
     public ScheduledJob(){
     	super();
@@ -60,6 +63,7 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
             applicationContext = (ApplicationContext) scheduler.getContext().get("applicationContext");
 
             plannedNotificationDao = (PlannedNotificationDao) applicationContext.getBean("plannedNotificationDao");
+            recipientScheduledNotificationDao = (RecipientScheduledNotificationDao) applicationContext.getBean("recipientScheduledNotificationDao");
             
         	interceptor=(OpenSessionInViewInterceptor)applicationContext.getBean( "openSessionInViewInterceptor");
         	interceptor.preHandle(webRequest);
@@ -68,9 +72,12 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
             Integer plannedNotificationId = jobDataMap.getInt("plannedNotificationId");            
             PlannedNotification plannedNotification = plannedNotificationDao.getInitializedPlannedNotificationById(plannedNotificationId);
             
+            Integer recipientScheduledNotificationId = jobDataMap.getInt("recipientScheduledNotificationId");            
+            RecipientScheduledNotification recipientScheduledNotification = recipientScheduledNotificationDao.getInitializedRecipientScheduledNotificationById(recipientScheduledNotificationId);
+            
             if(plannedNotification.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)){
             	try{
-            		processJob(jobDataMap, applicationContext, plannedNotification);
+            		processJob(jobDataMap, applicationContext, recipientScheduledNotification);
             	}catch(JobExecutionException jee){
             		logger.error(jee.getMessage());
             	}
@@ -93,7 +100,7 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
      * this is the method that must be overridden by the extending jobs.
      * this will contain the job content details.
      */
-    public abstract void processJob(JobDataMap jobDataMap, ApplicationContext applicationcontext, PlannedNotification plannedNotification)  throws JobExecutionException ;
+    public abstract void processJob(JobDataMap jobDataMap, ApplicationContext applicationContext, RecipientScheduledNotification recipientScheduledNotification)  throws JobExecutionException ;
     	
 
 	public Scheduler getScheduler() {

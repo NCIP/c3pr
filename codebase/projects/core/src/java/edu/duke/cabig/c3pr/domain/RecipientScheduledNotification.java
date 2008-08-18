@@ -7,15 +7,15 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Parameter;
 
-import edu.duke.cabig.c3pr.constants.ScheduledEmailNotificationDeliveryStatusEnum;
+import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
 
 @Entity
 @Table(name = "rpt_schld_notfns")
@@ -26,7 +26,7 @@ public class RecipientScheduledNotification extends AbstractMutableDeletableDoma
 	
 	private Boolean isRead;
 	
-	private ScheduledEmailNotificationDeliveryStatusEnum deliveryStatus;
+	private EmailNotificationDeliveryStatusEnum deliveryStatus;
 	
 	private Recipient recipient;
 	
@@ -52,12 +52,12 @@ public class RecipientScheduledNotification extends AbstractMutableDeletableDoma
 	}
 
 	@Enumerated(EnumType.STRING)
-	public ScheduledEmailNotificationDeliveryStatusEnum getDeliveryStatus() {
+	public EmailNotificationDeliveryStatusEnum getDeliveryStatus() {
 		return deliveryStatus;
 	}
 
 	public void setDeliveryStatus(
-			ScheduledEmailNotificationDeliveryStatusEnum deliveryStatus) {
+			EmailNotificationDeliveryStatusEnum deliveryStatus) {
 		this.deliveryStatus = deliveryStatus;
 	}
 
@@ -72,6 +72,7 @@ public class RecipientScheduledNotification extends AbstractMutableDeletableDoma
     @ManyToOne
     @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "schld_notfns_id")
+    @OrderBy(clause="date_sent desc")
 	public ScheduledNotification getScheduledNotification() {
 		return scheduledNotification;
 	}
