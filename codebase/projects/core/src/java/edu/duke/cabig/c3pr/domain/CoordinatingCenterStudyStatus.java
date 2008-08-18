@@ -6,7 +6,7 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum CoordinatingCenterStudyStatus implements CodedEnum<String> {
-    ACTIVE("Active"), PENDING("Pending"), AMENDMENT_PENDING("Amendment Pending"), CLOSED_TO_ACCRUAL_AND_TREATMENT(
+    ACTIVE("Active"), OPEN("Open"), PENDING("Pending"), AMENDMENT_PENDING("Amendment Pending"), CLOSED_TO_ACCRUAL_AND_TREATMENT(
                     "Closed To Accrual And Treatment"), CLOSED_TO_ACCRUAL("Closed To Accrual"), TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT(
                     "Temporarily Closed To Accrual And Treatment"), TEMPORARILY_CLOSED_TO_ACCRUAL(
                     "Temporarily Closed To Accrual"), READY_FOR_ACTIVATION("Ready For Activation");

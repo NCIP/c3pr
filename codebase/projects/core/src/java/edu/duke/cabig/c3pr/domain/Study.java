@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1002,7 +1003,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	}
 
 	public Study setStatuses(boolean throwException)
-			throws C3PRCodedException{
+			throws C3PRCodedException, ParseException {
 		if (!throwException) {
 			try {
 				this.setDataEntryStatus(evaluateDataEntryStatus());
@@ -1166,7 +1167,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	}
 	
 
-    public void setSiteStudyStatuses() throws C3PRCodedException{
+    public void setSiteStudyStatuses() throws C3PRCodedException, ParseException {
         for (int i = 0; i < this.getStudySites().size(); i++) {
             this.getStudySites().get(i).setSiteStudyStatus(
             		this.getStudySites().get(i).evaluateSiteStudyStatus());
@@ -1278,4 +1279,17 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		return map;
 	}
 	
+	public StudySite getStudySiteFromNCICode(String nciInstituteCode){
+            for (StudySite studySite: this.getStudySites()){
+                if(studySite.getHealthcareSite().getNciInstituteCode().equalsIgnoreCase(nciInstituteCode)){
+                    return studySite;
+                }
+            }
+            throw new RuntimeException("cannot find a study site with the given nci institute code");
+        }
+	
+	@Transient
+        public boolean isCreatable(){
+            return this.dataEntryStatus==StudyDataEntryStatus.COMPLETE;
+        }
 }
