@@ -51,18 +51,8 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
 
             if (isWildCard) {
                 example.enableLike(MatchMode.ANYWHERE);
-                orgCriteria.add(example);
-                if (orgCriteria.list().size() > 30) {
-                    result = orgCriteria.list().subList(0, 30);
-                }
-                else {
-                    result = orgCriteria.list();
-                }
             }
-            else {
-                result = orgCriteria.add(example).list();
-            }
-
+            result = orgCriteria.add(example).list();
         }
         catch (DataAccessResourceFailureException e) {
             log.error(e.getMessage());
