@@ -112,37 +112,57 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 
     @Transactional(readOnly = false)
     public void initialize(Study study) throws DataAccessException {
-        getHibernateTemplate().initialize(study.getEpochs());
-        for (Epoch epoch : study.getEpochs()) {
-            if (epoch != null) {
-                epochDao.initialize(epoch);
-            }
-        }
-        getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
-        getHibernateTemplate().initialize(study.getStudyDiseases());
-        getHibernateTemplate().initialize(study.getStudyOrganizations());
-        getHibernateTemplate().initialize(study.getIdentifiers());
-        getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
-        getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
+    	getHibernateTemplate().initialize(study.getEpochs());
+		for (Epoch epoch : study.getEpochs()) {
+			if (epoch != null) {
+				getHibernateTemplate().initialize(epoch.getArmsInternal());
+				getHibernateTemplate().initialize(
+						epoch.getExclusionEligibilityCriteriaInternal());
+				getHibernateTemplate().initialize(
+						epoch.getInclusionEligibilityCriteriaInternal());
+				getHibernateTemplate().initialize(
+						epoch.getStratificationCriteriaInternal());
+				for (StratificationCriterion stratficationCriterion : epoch
+						.getStratificationCriteriaInternal()) {
+					if (stratficationCriterion != null) {
+						getHibernateTemplate().initialize(
+								stratficationCriterion.getPermissibleAnswersInternal());
+					}
+				}
+				getHibernateTemplate().initialize(epoch.getStratumGroupsInternal());
+				for (StratumGroup stratumGroup : epoch.getStratumGroupsInternal()) {
+
+					if (stratumGroup != null) {
+						getHibernateTemplate().initialize(
+								stratumGroup.getBookRandomizationEntryInternal());
+						getHibernateTemplate().initialize(
+								stratumGroup.getStratificationCriterionAnswerCombinationInternal());
+					}
+				}
+			}
+		}
+		getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
+		getHibernateTemplate().initialize(study.getStudyDiseases());
+		getHibernateTemplate().initialize(study.getStudyOrganizations());
+		getHibernateTemplate().initialize(study.getIdentifiers());
+		getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
 		getHibernateTemplate().initialize(study.getParentStudyAssociations());
-        for (PlannedNotification plannedNotification : study.getPlannedNotificationsInternal()) {
-            if (plannedNotification != null) {
-                getHibernateTemplate().initialize(
-                                plannedNotification.getUserBasedRecipientInternal());
-                getHibernateTemplate().initialize(
-                                plannedNotification.getRoleBasedRecipientInternal());
-            }
-        }
+		getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
+		for (PlannedNotification plannedNotification : study.getPlannedNotificationsInternal()) {
+			if (plannedNotification != null) {
+				getHibernateTemplate().initialize(plannedNotification.getUserBasedRecipientInternal());
+				getHibernateTemplate().initialize(plannedNotification.getRoleBasedRecipientInternal());
+			}
+		}
 
-        for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
-            if (studyOrganization != null) {
-                getHibernateTemplate()
-                                .initialize(studyOrganization.getStudyInvestigatorsInternal());
-                getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
-            }
-        }
-    }
-
+		for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
+			if (studyOrganization != null) {
+				getHibernateTemplate()
+				.initialize(studyOrganization.getStudyInvestigatorsInternal());
+				getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
+			}
+		}
+	}
     public List<Study> getBySubnames(String[] subnames) {
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
