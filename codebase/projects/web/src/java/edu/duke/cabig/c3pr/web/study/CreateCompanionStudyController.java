@@ -90,7 +90,7 @@ public class CreateCompanionStudyController<C extends Study> extends CreateStudy
         		SystemAssignedIdentifier id = companionStudy.getSystemAssignedIdentifiers().get(index1);
         		id.setSystemName(systemIdentifier.getSystemName());
         		id.setType(systemIdentifier.getType());
-        		id.setValue(systemIdentifier.getValue() + "comp");
+        		id.setValue(systemIdentifier.getValue() + "<Parent Study Identifier>");
         		index1++ ;
     		}
         	
