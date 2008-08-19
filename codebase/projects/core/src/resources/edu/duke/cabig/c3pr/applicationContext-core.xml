@@ -233,7 +233,7 @@
           class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor"
           autowire="byName">
         <property name="singleSession" value="true"/>
-        <property name="flushModeName" value="FLUSH_NEVER"/>
+        <property name="flushModeName" value="FLUSH_COMMIT"/>
         <property name="sessionFactory">
             <ref bean="sessionFactory"/>
         </property>
