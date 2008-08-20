@@ -114,7 +114,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
                     Object command, BindException errors) throws Exception {
         StudySubject studySubject = (StudySubject) command;
         if(registrationControllerUtils.isRegisterableOnPage(studySubject))
-            studySubjectService.register(studySubject);
+        	studySubject = studySubjectService.register(studySubject);
         else{
             registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
             studySubject=studySubjectRepository.save(studySubject);
