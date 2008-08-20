@@ -198,7 +198,7 @@ var AbstractRowInserterProps = {
 						},						
     generateRowHtml: function() {
     				rowHtml=this.getRowHtml()
-    				rowHtml= this.replaceIndexes(rwoHtml)    
+    				rowHtml= this.replaceIndexes(rowHtml)    
 					rowHtml=this.addDivision(rowHtml)
 					return rowHtml
 				 },
