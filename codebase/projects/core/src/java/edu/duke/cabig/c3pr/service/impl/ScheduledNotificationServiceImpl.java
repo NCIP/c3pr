@@ -7,6 +7,11 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.hibernate.FlushMode;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
@@ -25,12 +30,13 @@ import freemarker.template.TemplateException;
  * Author: vGangoli Date: Nov 30, 2007
  */
 
-public class ScheduledNotificationServiceImpl implements ScheduledNotificationService {
+public class ScheduledNotificationServiceImpl implements ScheduledNotificationService, ApplicationContextAware {
 
     private Logger log = Logger.getLogger(ScheduledNotificationServiceImpl.class);
 
     private PlannedNotificationDao plannedNotificationDao;
     private ScheduledNotificationDao scheduledNotificationDao;
+    ApplicationContext applicationContext;
     
     /**
      * This method is reponsible for figuring out the email address from notifications and sending
@@ -39,17 +45,33 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
      */
     public Integer saveScheduledNotification(PlannedNotification plannedNotification, Study study) {
     	log.debug(this.getClass().getName() + ": Entering saveScheduledNotification()");
-    	plannedNotificationDao.reassociate(plannedNotification); //getHibernateTemplate().update(plannedNotification);
-    	String composedMessage = applyRuntimeReplacementsForStudyStatusEmailMessage(plannedNotification.getMessage(), study);
-    	//generating and saving the ScheduledNotification
-    	ScheduledNotification scheduledNotification = addScheduledNotification(plannedNotification, composedMessage);
-    	plannedNotificationDao.getHibernateTemplate().saveOrUpdate(plannedNotification);
-    	plannedNotificationDao.getHibernateTemplate().flush();
-    	//scheduledNotificationDao.getHibernateTemplate().saveOrUpdate(scheduledNotification);//merge(plannedNotification);
-        //plannedNotificationDao.getHibernateTemplate().refresh(plannedNotification);
-        //scheduledNotificationDao.getHibernateTemplate().refresh(scheduledNotification);
-        log.debug(this.getClass().getName() + ": Exiting saveScheduledNotification()");
-        return scheduledNotification.getId();
+    	ScheduledNotification scheduledNotification = null;
+    	
+    	//Creating a new session to save the scheduled notifications to avoid conflicts with the
+    	//currentSession (whose flush initiated this interceptor call in the first place).
+    	SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
+    	Session session = sessionFactory.openSession();
+		session.setFlushMode(FlushMode.COMMIT);
+    	try{
+    		session.update(plannedNotification);
+        	//plannedNotificationDao.reassociate(plannedNotification); 
+        	String composedMessage = applyRuntimeReplacementsForStudyStatusEmailMessage(plannedNotification.getMessage(), study);
+        	//generating and saving the ScheduledNotification
+        	scheduledNotification = addScheduledNotification(plannedNotification, composedMessage);
+        	session.saveOrUpdate(plannedNotification);
+        	session.flush();
+        	//plannedNotificationDao.saveOrUpdate(plannedNotification);
+    	}catch(Exception e){
+    		log.error(e.getMessage());
+    	}finally{
+    		session.close();
+    	}
+		log.debug(this.getClass().getName() + ": Exiting saveScheduledNotification()");
+		if(scheduledNotification != null){
+		    return scheduledNotification.getId();
+		}else{
+			return 0;
+		}
     }
     
     
@@ -119,6 +141,16 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 	public void setScheduledNotificationDao(
 			ScheduledNotificationDao scheduledNotificationDao) {
 		this.scheduledNotificationDao = scheduledNotificationDao;
+	}
+
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
 	}
 	
     
