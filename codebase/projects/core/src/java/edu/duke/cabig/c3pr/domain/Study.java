@@ -124,7 +124,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
     
     private Boolean standaloneIndicator;
     
-    private List<CompanionStudyAssociation> parentStudyAssociations ;
+    private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
     
 	public Study() {
 		
