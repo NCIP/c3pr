@@ -13,7 +13,7 @@ import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 13, 2007 Time: 7:27:09 PM To change this template
@@ -31,7 +31,13 @@ public class StudyDetailsTab extends StudyTab {
 
     public ModelAndView embedCompanion(HttpServletRequest request, Object commandObj,
             Errors error) {
-    	Study parentStudy = (Study) request.getSession().getAttribute("studyObj");
+    	String commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace" ;
+		if(StringUtils.isBlank(commandObject)){
+			commandObject = (AmendStudyController.class).getName() + ".FORM.command.to-replace" ;
+		}
+    	
+    	Study parentStudy = (Study) request.getSession().getAttribute(commandObject);
+
     	Study companionStudy = (Study)commandObj ;
 		Map map=new HashMap();
 		CompanionStudyAssociation companionStudyAssociation=parentStudy.getCompanionStudyAssociations().get(parentStudy.getCompanionStudyAssociations().size());
@@ -39,7 +45,7 @@ public class StudyDetailsTab extends StudyTab {
 		map.put(getFreeTextModelName(), "");
 		if(companionStudyAssociation.getParentStudy().getId() != null ){
 			companionStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-			studyDao.merge(parentStudy);	
+//			studyDao.merge(parentStudy);	
 		}
 		return new ModelAndView("",map);
 	}
