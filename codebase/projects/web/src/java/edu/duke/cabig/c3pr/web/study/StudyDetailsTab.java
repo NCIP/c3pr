@@ -31,13 +31,7 @@ public class StudyDetailsTab extends StudyTab {
 
     public ModelAndView embedCompanion(HttpServletRequest request, Object commandObj,
             Errors error) {
-    	String commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace" ;
-		if(StringUtils.isBlank(commandObject)){
-			commandObject = (AmendStudyController.class).getName() + ".FORM.command.to-replace" ;
-		}
-    	
-    	Study parentStudy = (Study) request.getSession().getAttribute(commandObject);
-
+    	Study parentStudy = getParentStudy(request);
     	Study companionStudy = (Study)commandObj ;
 		Map map=new HashMap();
 		CompanionStudyAssociation companionStudyAssociation=parentStudy.getCompanionStudyAssociations().get(parentStudy.getCompanionStudyAssociations().size());
@@ -45,12 +39,24 @@ public class StudyDetailsTab extends StudyTab {
 		map.put(getFreeTextModelName(), "");
 		if(companionStudyAssociation.getParentStudy().getId() != null ){
 			companionStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-//			studyDao.merge(parentStudy);	
 		}
 		return new ModelAndView("",map);
 	}
     
-    @Override
+    private Study getParentStudy(HttpServletRequest request) {
+    	String flowType = request.getParameter("flowType");
+    	String commandObject = "" ;
+    	if("CREATE_STUDY".equals(flowType)){
+    		commandObject = (CreateStudyController.class).getName() + ".FORM.command" ;
+    	}else if("EDIT_STUDY".equals(flowType)){
+    		commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace" ;
+    	}else if("AMEND_STUDY".equals(flowType)){
+    		commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace" ;
+    	}
+    	return (Study) request.getSession().getAttribute(commandObject);
+	}
+
+	@Override
     public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
         Map<String, Object> refdata = super.referenceData();
         addConfigMapToRefdata(refdata, "studySearchType");

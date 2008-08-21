@@ -59,7 +59,7 @@ Event.observe(window, "load", function() {
 
     $('createCompanion').observe('click', function(event) {
             Lightview.show({
-              href: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true'/>",
+              href: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true&flowType=${flowType}'/>",
               rel: 'iframe',
               title: 'Create Companion Study',
               options: {
