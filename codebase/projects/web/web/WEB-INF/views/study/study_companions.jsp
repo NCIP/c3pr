@@ -38,7 +38,7 @@
     add_row_division_id: "companionTable", 	        
     skeleton_row_division_id: "dummy-row",
     initialIndex: ${fn:length(command.companionStudyAssociations)},
-    softDelete: ${softDelete == 'true'},
+    softDelete: false,
     isAdmin: ${isAdmin == 'true'},
     path: "companionStudyAssociations",
     postProcessRowInsertion: function(object){
