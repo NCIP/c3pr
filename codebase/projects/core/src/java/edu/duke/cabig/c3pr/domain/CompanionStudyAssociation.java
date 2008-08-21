@@ -38,7 +38,7 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 	
 	@ManyToOne
     @JoinColumn(name = "companion_study_id")
-    @Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @Cascade( { CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.LOCK})
 	public Study getCompanionStudy() {
 		return companionStudy;
 	}
