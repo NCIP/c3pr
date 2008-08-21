@@ -58,8 +58,16 @@ RowManager.addRowInseter(instanceRowInserterProps);
 Event.observe(window, "load", function() {
 
     $('createCompanion').observe('click', function(event) {
+        	var table = document.getElementById("companionTable") ;
+        	var length = table.rows.length;
+			var rowCount = 0;
+        	for(var i=1 ; i < length; i++){
+        		if(table.rows[i].id.indexOf('deleted') == -1){
+        			++ rowCount ;
+    			}
+            }
             Lightview.show({
-              href: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true&flowType=${flowType}'/>",
+              href: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true&flowType=${flowType}&rowCount='/>"+ rowCount,
               rel: 'iframe',
               title: 'Create Companion Study',
               options: {
