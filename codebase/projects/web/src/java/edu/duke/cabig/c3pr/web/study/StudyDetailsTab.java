@@ -52,7 +52,7 @@ public class StudyDetailsTab extends StudyTab {
     	}else if("EDIT_STUDY".equals(flowType)){
     		commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace" ;
     	}else if("AMEND_STUDY".equals(flowType)){
-    		commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace" ;
+    		commandObject = (AmendStudyController.class).getName() + ".FORM.command.to-replace" ;
     	}
     	return (Study) request.getSession().getAttribute(commandObject);
 	}
