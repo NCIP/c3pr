@@ -121,7 +121,7 @@ public class EditParticipantController<C extends Participant> extends
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object oCommand, BindException errors) throws Exception {
         Participant participant = (Participant) oCommand;
-        participantDao.save(participant);
+        participantDao.merge(participant);
         ModelAndView modelAndView = new ModelAndView(new RedirectView("searchparticipant.do"));
         return modelAndView;
     }
