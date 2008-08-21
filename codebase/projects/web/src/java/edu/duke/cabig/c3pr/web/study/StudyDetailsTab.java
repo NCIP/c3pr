@@ -47,14 +47,26 @@ public class StudyDetailsTab extends StudyTab {
     private Study getParentStudy(HttpServletRequest request) {
     	String flowType = request.getParameter("flowType");
     	String commandObject = "" ;
+    	Study study = null;
     	if("CREATE_STUDY".equals(flowType)){
     		commandObject = (CreateStudyController.class).getName() + ".FORM.command" ;
+    		study = (Study) request.getSession().getAttribute(commandObject);
     	}else if("EDIT_STUDY".equals(flowType)){
     		commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace" ;
+    		study = (Study) request.getSession().getAttribute(commandObject);
+    		if(study == null){
+    			commandObject = (EditStudyController.class).getName() + ".FORM.command" ;
+    			study = (Study) request.getSession().getAttribute(commandObject);
+    		}
     	}else if("AMEND_STUDY".equals(flowType)){
     		commandObject = (AmendStudyController.class).getName() + ".FORM.command.to-replace" ;
+    		study = (Study) request.getSession().getAttribute(commandObject);
+    		if(study == null){
+    			commandObject = (AmendStudyController.class).getName() + ".FORM.command" ;
+    			study = (Study) request.getSession().getAttribute(commandObject);
+    		}
     	}
-    	return (Study) request.getSession().getAttribute(commandObject);
+    	return study ;
 	}
 
 	@Override
