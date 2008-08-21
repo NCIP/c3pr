@@ -1415,6 +1415,18 @@ public class StudyDaoTest extends DaoTestCase {
         assertEquals(1001, id);
 
     }
+    
+    public void testDeleteCompanionAssocFromParentStudy() {
+        Study parentStudy = dao.getById(1001);
+        dao.initialize(parentStudy);
+        interruptSession();
+        List<CompanionStudyAssociation> assocList = parentStudy.getCompanionStudyAssociations();
+        assocList.remove(0);
+        dao.merge(parentStudy);
+        assertNotNull("parent study is not null ", parentStudy);
+        assertEquals(parentStudy.getCompanionStudyAssociations().size(), 0);
+
+    }
 
     public void testGetByIdentifiersSingleStudy(){
         //List<Identifier> identifiers=new ArrayList<Identifier>();
