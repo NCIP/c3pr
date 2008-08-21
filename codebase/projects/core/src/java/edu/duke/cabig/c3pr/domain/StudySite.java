@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -20,6 +22,7 @@ import org.hibernate.annotations.CascadeType;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.DateUtil;
@@ -340,4 +343,24 @@ public class StudySite extends StudyOrganization implements
 	 public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus) {
 	        this.siteStudyStatus = siteStudyStatus;
 	 }
+	 
+	@SuppressWarnings("unused")
+	@Transient
+	/*
+	 * Used by the notifications use case to compose the email message by replacing the sub vars. 
+	 */
+	public Map<Object, Object> buildMapForNotification(){
+		
+		Map<Object, Object>  map = new HashMap<Object, Object>();
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_STATUS.toString(), 
+				getSiteStudyStatus().getDisplayName() == null ? "status" : getSiteStudyStatus().getDisplayName());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(),
+				getHealthcareSite().getName() == null ? "site name" : getHealthcareSite().getName().toString());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(),
+				getStudy().getShortTitleText() == null ? "Short Title":getStudy().getShortTitleText().toString());
+		
+		return map;
+	}
+	
 }
+

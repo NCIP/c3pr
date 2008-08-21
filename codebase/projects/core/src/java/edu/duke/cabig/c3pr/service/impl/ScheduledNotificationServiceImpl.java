@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.service.ScheduledNotificationService;
 import freemarker.template.Template;
@@ -38,12 +39,20 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     private ScheduledNotificationDao scheduledNotificationDao;
     ApplicationContext applicationContext;
     
-    /**
-     * This method is reponsible for figuring out the email address from notifications and sending
-     * out the notification email using Javamail.
-     * @param study
-     */
+
     public Integer saveScheduledNotification(PlannedNotification plannedNotification, Study study) {
+    	log.debug(this.getClass().getName() + ": Entering saveScheduledNotification()");
+    	String composedMessage = applyRuntimeReplacementsForStudyStatusEmailMessage(plannedNotification.getMessage(), study);
+    	return saveScheduledNotification(plannedNotification, composedMessage);
+    }
+    
+    public Integer saveScheduledNotification(PlannedNotification plannedNotification, StudySite studySite) {
+    	log.debug(this.getClass().getName() + ": Entering saveScheduledNotification()");
+    	String composedMessage = applyRuntimeReplacementsForStudySiteStatusEmailMessage(plannedNotification.getMessage(), studySite);
+    	return saveScheduledNotification(plannedNotification, composedMessage);
+    }    
+    
+    public Integer saveScheduledNotification(PlannedNotification plannedNotification, String composedMessage){
     	log.debug(this.getClass().getName() + ": Entering saveScheduledNotification()");
     	ScheduledNotification scheduledNotification = null;
     	
@@ -55,7 +64,6 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	try{
     		session.update(plannedNotification);
         	//plannedNotificationDao.reassociate(plannedNotification); 
-        	String composedMessage = applyRuntimeReplacementsForStudyStatusEmailMessage(plannedNotification.getMessage(), study);
         	//generating and saving the ScheduledNotification
         	scheduledNotification = addScheduledNotification(plannedNotification, composedMessage);
         	session.saveOrUpdate(plannedNotification);
@@ -70,10 +78,10 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 		if(scheduledNotification != null){
 		    return scheduledNotification.getId();
 		}else{
+			log.error("ScheduledNotificationServiceImpl.saveScheduledNotification(): ScheduledNotification was not saved successfully");
 			return 0;
 		}
     }
-    
     
     public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String composedMessage){
     	
@@ -115,9 +123,27 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
             t.process(map, writer);
             return writer.toString();
         } catch (TemplateException e) {
-            log.error("Error while applying freemarker template [PlannedNotificatiton.body]", e);
+            log.error("Error while applying freemarker template ", e);
         } catch (IOException e) {
-            log.error("Error while applying freemarker template [PlannedNotificatiton.body]", e);
+            log.error("Error while applying freemarker template ", e);
+        }
+        return "";
+    }
+    
+    /* Using freemarker to compose the email message and replace the substitution vars
+     */
+    private String applyRuntimeReplacementsForStudySiteStatusEmailMessage(String rawText, StudySite studySite) {
+        freemarker.template.Configuration cfg = new freemarker.template.Configuration();
+        Map<Object, Object> map = studySite.buildMapForNotification();
+        try {
+            Template t = new Template("message", new StringReader(rawText), cfg);
+            StringWriter writer = new StringWriter();
+            t.process(map, writer);
+            return writer.toString();
+        } catch (TemplateException e) {
+            log.error("Error while applying freemarker template", e);
+        } catch (IOException e) {
+            log.error("Error while applying freemarker template", e);
         }
         return "";
     }

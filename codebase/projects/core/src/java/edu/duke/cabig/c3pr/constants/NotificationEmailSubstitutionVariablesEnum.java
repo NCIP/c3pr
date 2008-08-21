@@ -6,7 +6,8 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum NotificationEmailSubstitutionVariablesEnum implements CodedEnum<String> {
-	COORDINATING_CENTER_STUDY_STATUS("Coordinating Center Study Status"), 
+	COORDINATING_CENTER_STUDY_STATUS("Coordinating Center Study Status"),
+	STUDY_SITE_STATUS("Study Site Status"),
 	STUDY_ID("Study Id"), 
 	STUDY_SHORT_TITLE("Study Short Title"), 
 	REGISTRATION_STATUS ("Registration Status");

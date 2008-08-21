@@ -6,7 +6,10 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum NotificationEventTypeEnum implements CodedEnum<String> {
+	NEW_STUDY_SAVED_EVENT("NEW_STUDY_SAVED_EVENT"), 
+	NEW_STUDY_SITE_SAVED_EVENT("NEW_STUDY_SITE_SAVED_EVENT"), 
     STUDY_STATUS_CHANGED_EVENT("STUDY_STATUS_CHANGED_EVENT"), 
+    STUDY_SITE_STATUS_CHANGED_EVENT("STUDY_SITE_STATUS_CHANGED_EVENT"), 
     SUBJECT_REMOVED_OFF_STUDY("SUBJECT_REMOVED_OFF_STUDY"), 
     NEW_REGISTRATION("NEW_REGISTRATION");
 

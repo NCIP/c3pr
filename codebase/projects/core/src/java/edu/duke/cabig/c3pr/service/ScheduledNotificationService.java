@@ -1,8 +1,8 @@
 package edu.duke.cabig.c3pr.service;
 
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
  * @author Kulasekaran,Ramakrishna
@@ -24,5 +24,7 @@ public interface ScheduledNotificationService {
 	 * Accepts the changed study so it can compose the message by replacing the sub vars.
 	 */
 	public Integer saveScheduledNotification(PlannedNotification plannedNotification, Study study);
+	
+	public Integer saveScheduledNotification(PlannedNotification plannedNotification, StudySite studySite);
 
 }
