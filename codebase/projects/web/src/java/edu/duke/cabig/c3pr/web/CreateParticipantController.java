@@ -119,7 +119,7 @@ public class CreateParticipantController<C extends Participant> extends
                     Object oCommand, BindException errors) throws Exception {
         Participant command = (Participant) oCommand;
 
-        participantDao.save(command);
+        participantDao.merge(command);
 
         ModelAndView modelAndView = null;
         if (request.getParameter("async") != null) {
