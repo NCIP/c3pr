@@ -6,12 +6,12 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.rules.exception.RuleException;
 import edu.duke.cabig.c3pr.rules.runtime.BusinessRulesExecutionService;
 import edu.duke.cabig.c3pr.service.RulesDelegationService;
 import edu.duke.cabig.c3pr.service.ScheduledNotificationService;
 import edu.duke.cabig.c3pr.service.SchedulerService;
-import edu.duke.cabig.c3pr.utils.NotificationEmailService;
 
 public class RulesDelegationServiceImpl implements RulesDelegationService{
 
@@ -30,7 +30,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 	private SchedulerService schedulerService;
 	
 	
-	public void activateRules(String event, List<Object> objects){		
+	public void activateRules(NotificationEventTypeEnum event, List<Object> objects){		
 		
 		log.debug(this.getClass().getName() + ": Entering activateRules()");
 		ArrayList <Object>objList = new ArrayList<Object>();
@@ -39,16 +39,15 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 		objList.add(scheduledNotificationService);
 		
 		try{
-			businessRulesExecutionService.fireRules("edu.duke.cabig.c3pr.rules.deploy.study_status_rules", objList);
+			if(event.equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT) || 
+					event.equals(NotificationEventTypeEnum.STUDY_SITE_STATUS_CHANGED_EVENT)){
+				businessRulesExecutionService.fireRules("edu.duke.cabig.c3pr.rules.deploy.study_status_rules", objList);
+			}
+			
 		}catch(RuleException re){
 			log.error(re.getMessage());
 		}
 		log.debug(this.getClass().getName() + ": Exiting activateRules()");
-	}
-
-	
-	public void activateRules(String event, Object obj, Object oldValue, Object newValue){
-		return;
 	}
 
 	public BusinessRulesExecutionService getBusinessRulesExecutionService() {

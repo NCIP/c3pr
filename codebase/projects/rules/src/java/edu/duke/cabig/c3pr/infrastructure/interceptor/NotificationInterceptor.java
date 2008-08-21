@@ -2,10 +2,7 @@ package edu.duke.cabig.c3pr.infrastructure.interceptor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,7 +12,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.type.Type;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -25,7 +21,6 @@ import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -50,6 +45,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	private StudySubject studySubject;
 	
 	private String studyId; 
+	private String studySiteId;
 	
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
@@ -138,10 +134,19 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		
 		//Study Site related property updates are spotted here for activating the corresponding rules.
 		if(entity instanceof StudySite){
-			for (int i = 0; i < propertyNames.length; i++) {
-				if (propertyNames[i].equals("siteStudyStatus")){
-					if(previousState != null && currentState != null ){
-						handleStudySiteStatusChange(previousState[i], currentState[i], entity);
+			if(String.valueOf(entity.hashCode()).equals(studySiteId)){
+				//while saving the scheduled notifications, the interceptor is fired again
+				//to prevent an infinite loop..we check to see if the studySite obj involved is the same
+				//if so exit the interceptor immediately else continue processing
+				log.debug("exiting to prevent looping");
+				return false;
+			}else{
+				studySiteId = String.valueOf(entity.hashCode());
+				for (int i = 0; i < propertyNames.length; i++) {
+					if (propertyNames[i].equals("siteStudyStatus")){
+						if(previousState != null && currentState != null ){
+							handleStudySiteStatusChange(previousState[i], currentState[i], entity);
+						}
 					}
 				}
 			}
@@ -156,7 +161,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		objects.add(study);
 		
 		log.debug(this.getClass().getName() + ": Entering handleNewStudySaved()");
-		rulesDelegationService.activateRules(RulesDelegationServiceImpl.NEW_STUDY_SAVED_EVENT, objects);
+		rulesDelegationService.activateRules(NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT, objects);
 		log.debug(this.getClass().getName() + ": exiting handleNewStudySaved()");
 	}
 	
@@ -165,7 +170,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		objects.add(studySite);
 		
 		log.debug(this.getClass().getName() + ": Entering handleNewStudySiteSaved()");
-		rulesDelegationService.activateRules(RulesDelegationServiceImpl.NEW_STUDY_SITE_SAVED_EVENT, objects);
+		rulesDelegationService.activateRules(NotificationEventTypeEnum.NEW_STUDY_SITE_SAVED_EVENT, objects);
 		log.debug(this.getClass().getName() + ": exiting handleNewStudySiteSaved()");
 	}
 	
@@ -189,10 +194,12 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		} else {
 			//there is some status change and event is configured in plannedNotifs...activate RulesService
 			for(PlannedNotification pn: getHostingOrganization()){
-				if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)){
+				if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_SITE_STATUS_CHANGED_EVENT)){
+					objects.add(NotificationEventTypeEnum.STUDY_SITE_STATUS_CHANGED_EVENT);
 					objects.add(pn);
-					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_SITE_STATUS_CHANGE_EVENT, objects);
-					break;
+					rulesDelegationService.activateRules(NotificationEventTypeEnum.STUDY_SITE_STATUS_CHANGED_EVENT, objects);
+					objects.remove(pn);
+					//break;
 				}
 			}
 		}		
@@ -221,8 +228,9 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			for(PlannedNotification pn: getHostingOrganization()){
 				//there is some status change and event is configured in plannedNotifs...activate RulesService
 				if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)){
+					objects.add(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT);
 					objects.add(pn);
-					rulesDelegationService.activateRules(RulesDelegationServiceImpl.STUDY_STATUS_CHANGE_EVENT, objects);
+					rulesDelegationService.activateRules(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT, objects);
 					objects.remove(pn);
 					//break;
 				}
