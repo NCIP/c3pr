@@ -10,6 +10,7 @@
 	
 	<import name="edu.duke.cabig.c3pr.domain.*"/>
 	<import name="edu.duke.cabig.c3pr.service.impl.*"/>
+	<import name="edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum"/>
 	
     <rule name="Study_Changed_Rule">
         <lhs>
@@ -17,11 +18,29 @@
         	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.ScheduledNotificationService"/>
         	<pattern identifier="study" object-type="edu.duke.cabig.c3pr.domain.Study"/>
         	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
+        	<pattern identifier="event" object-type="edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum" />
         	
-        	<eval>"true" == "true"</eval>
+        	<eval>event.equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT)</eval>
+        	<!-- <eval>"true" == "true"</eval>  -->
         </lhs>
         <rhs>
         	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, study);
+            schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
+        </rhs>        
+    </rule>
+    
+    <rule name="Study_Site_Changed_Rule">
+        <lhs>
+        	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
+        	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.ScheduledNotificationService"/>
+        	<pattern identifier="studySite" object-type="edu.duke.cabig.c3pr.domain.StudySite"/>
+        	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
+        	<pattern identifier="event" object-type="edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum" />
+        	
+        	<eval>event.equals(NotificationEventTypeEnum.STUDY_SITE_STATUS_CHANGED_EVENT)</eval>
+        </lhs>
+        <rhs>
+        	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, studySite);
             schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
         </rhs>        
     </rule>
