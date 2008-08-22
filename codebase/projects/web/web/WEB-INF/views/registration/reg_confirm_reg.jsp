@@ -339,14 +339,6 @@ function createReg(studySite, participant, parentRegistrationId){
 	    </c:if>
 	  </ul>
 	</c:if>
-	<c:if test="${command.dataEntryStatusString!='Incomplete'}">
-		<div align="right">
-			<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
-				<input type="hidden" name="registrationId" value="${command.id }"/>
-				<input type="submit" value="Manage this registration"/>
-			</form>
-		</div>
-	</c:if>
 </c:if>
 </tags:panelBox>
 <form id="hotlinksForm" action="" method="get">
