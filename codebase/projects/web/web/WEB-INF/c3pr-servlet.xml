@@ -220,10 +220,22 @@
     </bean>
     <bean name="/study/amendStudy" id="amendStudyController"
           class="edu.duke.cabig.c3pr.web.study.AmendStudyController" autowire="byName">
+          <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Edit Study"
+                    p:linkName="editStudyController"/>
+          </property>
     </bean>
 	<bean name="/study/amendCompanionStudy" id="amendCompanionStudyController"
           class="edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController"
           autowire="byName">
+          <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Edit Study"
+                    p:linkName="editStudyController"/>
+          </property>
     </bean>
     
     <bean name="/study/viewStudy" id="viewStudyController"

@@ -22,8 +22,10 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -40,6 +42,16 @@ public class AmendStudyController extends StudyController<Study> {
         super(s);
         setBindOnNewForm(true);
     }
+    
+    private Task editTask;
+
+    public Task getEditTask() {
+		return editTask;
+	}
+
+	public void setEditTask(Task editTask) {
+		this.editTask = editTask;
+	}
 
     @Override
     protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
@@ -56,6 +68,7 @@ public class AmendStudyController extends StudyController<Study> {
             }
         }
         request.setAttribute("softDelete", "true");
+        request.setAttribute("editAuthorizationTask", editTask);
         request.setAttribute("isAdmin", isAdmin);
         return super.referenceData(request, arg1);
     }
