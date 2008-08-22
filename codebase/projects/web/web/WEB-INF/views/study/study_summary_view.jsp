@@ -441,7 +441,7 @@
 						<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'ACTIVE') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_FOR_ACTIVATION')}">                	
 							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
 						</c:when>
-						<c:otherwise>                	
+						<c:otherwise>    
 						<c:if test="${not empty editAuthorizationTask}">  
 							<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
 								<input type="button" id="editCompanionStudy" value="Edit" onclick="javascript:document.location='<c:url value='/pages/study/editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
@@ -527,7 +527,7 @@
 
 
 <%--Optionally display edit mode buttons--%>
-<c:if test="${not empty editAuthorizationTask}">
+<c:if test="${not empty editAuthorizationTask && empty flowType}">
     <div class="content buttons autoclear" <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
         <div class="flow-buttons">
         <span class="next">
