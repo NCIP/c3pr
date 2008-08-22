@@ -110,14 +110,19 @@
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
             <td>
+				<c:forEach items="${command.parentStudyAssociations}" var="parentStudyAssociation">
+					<c:if test="${!(parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.name == 'ACTIVE')}">
+							<c:set var="noActiveStatusForCompanion" value="true"></c:set>
+					</c:if>
+				</c:forEach>
 				<c:choose> 
-					<c:when test="${command.companionIndicator == true && command.standaloneIndicator == false}"> 
+					<c:when test="${!empty noActiveStatusForCompanion && noActiveStatusForCompanion == 'true' && command.companionIndicator == true && command.standaloneIndicator == false}"> 
 						<c:set var="tempSelectOpts" value="${commanSepOptValForEmbeded}"></c:set> 
-					</c:when> 
+					</c:when>  
 					<c:otherwise> 
 						<c:set var="tempSelectOpts" value="${commanSepOptVal}"></c:set>
 					</c:otherwise> 
-				</c:choose> 
+				</c:choose>
                 <tags:inPlaceSelect
                         value="${command.coordinatingCenterStudyStatus.code}"
                         path="changedCoordinatingCenterStudyStatus"
