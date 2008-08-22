@@ -148,8 +148,10 @@ public abstract class StudyController<C extends Study> extends
     @Override
     protected C save(C command, Errors errors) {
     	Study study = studyDao.merge(command);
-    	studyDao.initialize(study) ;
-        return (C)study;
+    	studyDao.clear();
+    	studyDao.load(command, study.getId());
+    	studyDao.initialize(command) ;
+    	return (C)study;
     }
     
     public StudyService getStudyService() {
