@@ -434,11 +434,11 @@
         <c:forEach items="${command.companionStudyAssociations}" var="companionStudyAssociation">
             <tr>
                 <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>
+                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
                 <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
                 <td class="alt">
 					<c:choose>
-						<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName == 'Active') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName == 'Ready For Activation')}">                	
+						<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'ACTIVE') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_FOR_ACTIVATION')}">                	
 							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
 						</c:when>
 						<c:otherwise>                	
@@ -465,7 +465,7 @@
         <c:forEach items="${command.parentStudyAssociations}" var="parentStudyAssociation">
             <tr>
                 <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
-                <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.displayName}</td>
+                <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
                 <td class="alt">
 					<input type="button" id="manageParentStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${parentStudyAssociation.parentStudy.id}' />'"/>
 				</td>
