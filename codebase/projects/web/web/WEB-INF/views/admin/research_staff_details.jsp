@@ -11,7 +11,7 @@
 
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
-	ValidationManager.submitPostProcess= function(formElement, continurSubmission){
+	ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		var error = document.getElementById("errorMsg1");
 		
 		var groups_0 = document.getElementById("groups_0");
@@ -19,15 +19,19 @@
 		var groups_2 = document.getElementById("groups_2");
 		var groups_3 = document.getElementById("groups_3");
 		
-		if(continurSubmission == true){
+		if(continueSubmission == true){
 			if(groups_0.checked == true || groups_1.checked == true || groups_2.checked == true || groups_3.checked == true){
 				return true;
 			} else {
-			error.style.display = "";
-			return false;
-		}
+				error.style.display = "";
+				return false;
+			}
 		}else {
-			error.style.display = "";
+			if(groups_0.checked == true || groups_1.checked == true || groups_2.checked == true || groups_3.checked == true){
+				error.style.display = "none";
+			}else{
+				error.style.display = "";
+			} 
 			return false;
 		}
 	}
