@@ -109,6 +109,11 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public void save(Study study) {
         getHibernateTemplate().saveOrUpdate(study);
     }
+	
+	@Transactional(readOnly = false)
+    public void load(Study study, int i ) {
+        getHibernateTemplate().load(study, i);
+    }
 
     @Transactional(readOnly = false)
     public void initialize(Study study) throws DataAccessException {
