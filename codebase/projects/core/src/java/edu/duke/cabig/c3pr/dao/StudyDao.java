@@ -118,35 +118,12 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     @Transactional(readOnly = false)
     public void initialize(Study study) throws DataAccessException {
     	getHibernateTemplate().initialize(study.getEpochs());
-		for (Epoch epoch : study.getEpochs()) {
-			if (epoch != null) {
-				getHibernateTemplate().initialize(epoch.getArmsInternal());
-				getHibernateTemplate().initialize(
-						epoch.getExclusionEligibilityCriteriaInternal());
-				getHibernateTemplate().initialize(
-						epoch.getInclusionEligibilityCriteriaInternal());
-				getHibernateTemplate().initialize(
-						epoch.getStratificationCriteriaInternal());
-				for (StratificationCriterion stratficationCriterion : epoch
-						.getStratificationCriteriaInternal()) {
-					if (stratficationCriterion != null) {
-						getHibernateTemplate().initialize(
-								stratficationCriterion.getPermissibleAnswersInternal());
-					}
-				}
-				getHibernateTemplate().initialize(epoch.getStratumGroupsInternal());
-				for (StratumGroup stratumGroup : epoch.getStratumGroupsInternal()) {
-
-					if (stratumGroup != null) {
-						getHibernateTemplate().initialize(
-								stratumGroup.getBookRandomizationEntryInternal());
-						getHibernateTemplate().initialize(
-								stratumGroup.getStratificationCriterionAnswerCombinationInternal());
-					}
-				}
-			}
-		}
-		getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
+    	for (Epoch epoch : study.getEpochs()) {
+            if (epoch != null) {
+                epochDao.initialize(epoch);
+            }
+        }
+    	getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
 		getHibernateTemplate().initialize(study.getStudyDiseases());
 		getHibernateTemplate().initialize(study.getStudyOrganizations());
 		getHibernateTemplate().initialize(study.getIdentifiers());
