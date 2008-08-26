@@ -2,10 +2,9 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 
 /**
  * Hibernate implementation of ArmDao
@@ -37,5 +36,12 @@ public class PlannedNotificationDao extends GridIdentifiableDao<PlannedNotificat
     
     public void reassociate(PlannedNotification plannedNotification){
     	getHibernateTemplate().update(plannedNotification);
+    }
+    
+    @Transactional(readOnly=false)
+    public void saveOrUpdate(PlannedNotification plannedNotification){
+    	//do not remove the flush...imperative for the notifications flow.
+    	getHibernateTemplate().saveOrUpdate(plannedNotification);
+    	getHibernateTemplate().flush();
     }
 }
