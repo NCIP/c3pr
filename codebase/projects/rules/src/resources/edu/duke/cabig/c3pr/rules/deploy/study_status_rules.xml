@@ -29,6 +29,22 @@
         </rhs>        
     </rule>
     
+    <rule name="New_Study_Rule">
+        <lhs>
+        	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
+        	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.ScheduledNotificationService"/>
+        	<pattern identifier="study" object-type="edu.duke.cabig.c3pr.domain.Study"/>
+        	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
+        	<pattern identifier="event" object-type="edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum" />
+        	
+        	<eval>event.equals(NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT)</eval>
+        </lhs>
+        <rhs>
+        	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, study);
+            schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
+        </rhs>        
+    </rule>
+    
     <rule name="Study_Site_Changed_Rule">
         <lhs>
         	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
@@ -44,6 +60,54 @@
             schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
         </rhs>        
     </rule>
-
-
+	
+	 <rule name="New_Registration_Rule">
+        <lhs>
+        	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
+        	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.ScheduledNotificationService"/>
+        	<pattern identifier="studySubject" object-type="edu.duke.cabig.c3pr.domain.StudySubject"/>
+        	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
+        	<pattern identifier="event" object-type="edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum" />
+        	
+        	<eval>event.equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT)</eval>
+        </lhs>
+        <rhs>
+        	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, studySubject);
+            schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
+        </rhs>        
+    </rule>
+    
+    <rule name="Registration_Status_Changed_Rule">
+        <lhs>
+        	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
+        	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.ScheduledNotificationService"/>
+        	<pattern identifier="studySubject" object-type="edu.duke.cabig.c3pr.domain.StudySubject"/>
+        	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
+        	<pattern identifier="event" object-type="edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum" />
+        	
+        	<eval>event.equals(NotificationEventTypeEnum.REGISTATION_STATUS_CHANGE)</eval>
+        </lhs>
+        <rhs>
+        	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, studySubject);
+            schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
+        </rhs>        
+    </rule>
+    
+    <rule name="Subject_Off_Study_Rule">
+        <lhs>
+        	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
+        	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.ScheduledNotificationService"/>
+        	<pattern identifier="studySubject" object-type="edu.duke.cabig.c3pr.domain.StudySubject"/>
+        	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
+        	<pattern identifier="event" object-type="edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum" />
+        	
+        	<eval>event.equals(NotificationEventTypeEnum.SUBJECT_REMOVED_OFF_STUDY) </eval>
+        </lhs>
+        <rhs>
+        	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, studySubject);
+            schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
+        </rhs>        
+    </rule>
+    
+	
 </package>	
