@@ -40,9 +40,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 		objList.add(event);
 		
 		try{
-			if(event.equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT) || 
-					event.equals(NotificationEventTypeEnum.STUDY_SITE_STATUS_CHANGED_EVENT) ||
-					event.equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT)){
+			if(event != null){
 				businessRulesExecutionService.fireRules("edu.duke.cabig.c3pr.rules.deploy.study_status_rules", objList);
 			}
 		}catch(RuleException re){
