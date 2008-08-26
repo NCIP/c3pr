@@ -653,7 +653,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 		Map<Object, Object>  map = new HashMap<Object, Object>();
 		map.put(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN.toString(), 
 				getParticipant().getMRN().getValue() == null ? "MRN" : getParticipant().getMRN().getValue());
-		map.put(NotificationEmailSubstitutionVariablesEnum.REGISTRATION_WORKFLOW_STATUS.toString(),
+		map.put(NotificationEmailSubstitutionVariablesEnum.REGISTRATION_STATUS.toString(),
 				getRegWorkflowStatus().getDisplayName() == null ? "site name" : getRegWorkflowStatus().getDisplayName());
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(),
 				getStudySite().getStudy().getShortTitleText() == null ? "Short Title" : getStudySite().getStudy().getShortTitleText());
