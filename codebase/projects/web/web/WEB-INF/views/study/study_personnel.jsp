@@ -31,7 +31,7 @@ function fireAction(action, selected) {
 }
 
 function closePopup() {
-	Lightview.hide();
+	win.close();
 }
 
 function clearField(field) {
@@ -156,7 +156,7 @@ function removeDiseasesFromCart()
     }
     synchronizeSelects(diseaseSelected, diseaseSelectedHidden)
 }
-
+var win;
 Event.observe(window, "load", function() {
     $('disease-sel').style.display = 'none';
     $('disease-sel-hidden').style.display = 'none';
@@ -170,24 +170,12 @@ Event.observe(window, "load", function() {
   	showDiseases();
 
     $('createPersonnel').observe('click', function(event) {
-        Lightview.show({
-          href: "<c:url value='/pages/admin/createResearchStaff?decorator=noheaderDecorator&studyflow=true'/>",
-          rel: 'iframe',
-          title: 'Create Research Staff',
-          options: {
-	          autosize: false,
-	          width: 1400,
-	          height:600,
-	          overlay: {                                             // Overlay
-	              close: false                                         // Overlay click closes the view
-	            },
-	          ajax: {
-	                onComplete: function() {
-	                   
-	                }
-	            }
-          }
-        });
+    	win = new Window(
+				{title: "Create Research Staff", top:35, left:35, width:1100, height:400, 
+				url: "<c:url value='/pages/admin/createResearchStaff?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
+				) 
+		win.show();
+
 });
 })
 

@@ -54,33 +54,23 @@
     }
 };
 RowManager.addRowInseter(instanceRowInserterProps);
-
+var win
 Event.observe(window, "load", function() {
 
     $('createCompanion').observe('click', function(event) {
-        	var table = document.getElementById("companionTable") ;
-        	var length = table.rows.length;
-			var rowCount = 0;
-        	for(var i=1 ; i < length; i++){
-        		if(table.rows[i].id.indexOf('deleted') == -1){
-        			++ rowCount ;
-    			}
-            }
-            Lightview.show({
-              href: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true&flowType=${flowType}&rowCount='/>"+ rowCount,
-              rel: 'iframe',
-              title: 'Create Companion Study',
-              options: {
-              autosize: false,
-              width: 1400,
-              height:600,
-              ajax: {
-                    onComplete: function() {
-                       
-                    }
-                }
-              }
-            });
+       	var table = document.getElementById("companionTable") ;
+       	var length = table.rows.length;
+		var rowCount = 0;
+       	for(var i=1 ; i < length; i++){
+	  		if(table.rows[i].id.indexOf('deleted') == -1){
+	  			++ rowCount ;
+			}
+         }
+		win = new Window(
+				{title: "Create Companion Study", top:35, left:35, width:1100, height:600, 
+				url: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true&flowType=${flowType}&rowCount='/>"+ rowCount, showEffectOptions: {duration:1.5}}
+				) 
+		win.show();
     });
 })
 
@@ -94,7 +84,7 @@ function createCompanion(shortTitle){
 }
 
 function closePopup() {
-	Lightview.hide();
+	win.close();
 }
 
 --></script>
