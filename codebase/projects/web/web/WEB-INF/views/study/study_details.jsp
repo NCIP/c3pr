@@ -198,7 +198,7 @@
             <div class="label required-indicator">
                 Long Title:</div>
             <div class="value"><form:textarea path="longTitleText" rows="2"
-                                              cols="40" cssClass="validate-notEmpty&&maxlength200" />
+                                              cols="40" cssClass="validate-notEmpty&&maxlength1024" />
             <tags:hoverHint keyProp="study.longTitleText"/>
             </div>
             
