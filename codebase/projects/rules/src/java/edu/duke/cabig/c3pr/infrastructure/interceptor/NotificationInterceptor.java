@@ -164,8 +164,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 				studySubjectId = String.valueOf(entity.hashCode());
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (propertyNames[i].equals("regWorkflowStatus")){
-						if(previousState != null && currentState != null ){
-							handleNewStudySubjectSaved(previousState[i], currentState[i], entity);
+						if( currentState != null ){
+							if(previousState != null){
+								handleNewStudySubjectSaved(previousState[i], currentState[i], entity);
+							} else {
+								handleNewStudySubjectSaved(null, currentState[i], entity);
+							}
+							
 						}
 					}
 				}
@@ -199,9 +204,10 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//if the prev status is null or pendign and current status is registered then its a new registration
 			//else its a reg status change.
 			if(currentRegStatus.equals(RegistrationWorkFlowStatus.REGISTERED) &&
-				(previousRegStatus == null || previousRegStatus.equals(RegistrationWorkFlowStatus.PENDING)) ){
+				(previousRegStatus == null || previousRegStatus.equals(RegistrationWorkFlowStatus.PENDING) ||
+				 previousRegStatus.equals(RegistrationWorkFlowStatus.UNREGISTERED) || previousRegStatus.equals(RegistrationWorkFlowStatus.RESERVED)) ){
 				event = NotificationEventTypeEnum.NEW_REGISTRATION_EVENT;
-			} else if(currentRegStatus.getCode().equals(RegistrationWorkFlowStatus.OFF_STUDY)){
+			} else if(currentRegStatus.equals(RegistrationWorkFlowStatus.OFF_STUDY)){
 				event = NotificationEventTypeEnum.SUBJECT_REMOVED_OFF_STUDY;
 			} else {
 				event = NotificationEventTypeEnum.REGISTATION_STATUS_CHANGE;
