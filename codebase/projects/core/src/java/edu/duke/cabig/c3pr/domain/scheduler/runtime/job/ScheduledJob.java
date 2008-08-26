@@ -15,7 +15,6 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
@@ -48,7 +47,6 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
     /**
      * @author Vinay Gangoli
      * All jobs must extend this class. this handles the hibernate session scope for the jobs.
-     * 
      */
     public void execute(JobExecutionContext context) throws JobExecutionException {
         
@@ -75,8 +73,7 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
             Integer recipientScheduledNotificationId = jobDataMap.getInt("recipientScheduledNotificationId");            
             RecipientScheduledNotification recipientScheduledNotification = recipientScheduledNotificationDao.getInitializedRecipientScheduledNotificationById(recipientScheduledNotificationId);
             
-            if(plannedNotification.getEventName().equals(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT) ||
-            		plannedNotification.getEventName().equals(NotificationEventTypeEnum.STUDY_SITE_STATUS_CHANGED_EVENT)	){
+            if(plannedNotification.getEventName() != null){
             	try{
             		processJob(jobDataMap, applicationContext, recipientScheduledNotification);
             	}catch(JobExecutionException jee){

@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.service;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
  * @author Kulasekaran,Ramakrishna
@@ -26,5 +27,7 @@ public interface ScheduledNotificationService {
 	public Integer saveScheduledNotification(PlannedNotification plannedNotification, Study study);
 	
 	public Integer saveScheduledNotification(PlannedNotification plannedNotification, StudySite studySite);
+	
+	public Integer saveScheduledNotification(PlannedNotification plannedNotification, StudySubject studySubject);
 
 }

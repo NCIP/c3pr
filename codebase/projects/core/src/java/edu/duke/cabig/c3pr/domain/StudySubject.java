@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +17,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -29,6 +30,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
+import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
@@ -639,6 +641,24 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 	
 	public void setParentStudySubject(StudySubject parentStudySubject) {
 		this.parentStudySubject = parentStudySubject;
+	}
+	
+	@SuppressWarnings("unused")
+	@Transient
+	/*
+	 * Used by the notifications use case to compose the email message by replacing the sub vars. 
+	 */
+	public Map<Object, Object> buildMapForNotification(){
+		
+		Map<Object, Object>  map = new HashMap<Object, Object>();
+		map.put(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN.toString(), 
+				getParticipant().getMRN().getValue() == null ? "MRN" : getParticipant().getMRN().getValue());
+		map.put(NotificationEmailSubstitutionVariablesEnum.REGISTRATION_WORKFLOW_STATUS.toString(),
+				getRegWorkflowStatus().getDisplayName() == null ? "site name" : getRegWorkflowStatus().getDisplayName());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(),
+				getStudySite().getStudy().getShortTitleText() == null ? "Short Title" : getStudySite().getStudy().getShortTitleText());
+		
+		return map;
 	}
 	
 }
