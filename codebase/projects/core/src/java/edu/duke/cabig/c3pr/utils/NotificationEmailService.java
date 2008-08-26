@@ -56,7 +56,7 @@ public class NotificationEmailService {
                 msg.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
                 msg.setTo(emailAddress);
                 msg.setText(recipientScheduledNotification.getScheduledNotification().getMessage());
-                log.debug("Trying to send " + recipientScheduledNotification.getScheduledNotification().getTitle()+ "notification email");
+                log.debug("Trying to send " + recipientScheduledNotification.getScheduledNotification().getTitle()+ " notification email");
                 
                 this.mailSender.send(msg);
         }
