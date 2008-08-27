@@ -30,7 +30,7 @@ public class AmendCompanionStudyController extends AmendStudyController {
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
-        flow.addTab(new StudyOverviewTab("Overview", "Overview", "study/study_summary_view"));
+        flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
     }
    
 }
