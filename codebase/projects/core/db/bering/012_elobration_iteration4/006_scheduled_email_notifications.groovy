@@ -2,9 +2,10 @@ class scheduledEmailNotifications extends edu.northwestern.bioinformatics.bering
     void up() {
 
     	if (databaseMatches('oracle')) {
-	    	execute("rename notifications_id_seq to seq_planned_notfns_id")
+	    	execute("rename notifications_id_seq to seq_notifications_id")
 	 	}       
 	 	renameTable('notifications', 'planned_notfns') 
+	 	
         if (databaseMatches('oracle')) {
 	    	execute("rename seq_planned_notfns_id to planned_notfns_ID_SEQ")
 	 	}

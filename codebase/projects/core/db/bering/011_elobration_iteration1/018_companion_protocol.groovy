@@ -1,7 +1,7 @@
 class companionProtocol extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
-    	addColumn("studies", "standalone_indicator", "boolean", defaultValue : true)
-    	addColumn("studies", "companion_indicator", "boolean", defaultValue : false)
+    	addColumn("studies", "standalone_indicator", "boolean")
+    	addColumn("studies", "companion_indicator", "boolean")
     	addColumn("study_subjects", "comp_assoc_id", "integer", nullable : true)
     	addColumn("study_subjects", "parent_stu_sub_id", "integer", nullable : true)
     	

@@ -6,8 +6,8 @@ class convertEpochDisplayRoleToTreatmentIndicator extends edu.northwestern.bioin
 	       execute("update epochs set treatment_indicator='false' where display_role='Non-Treatment' or display_role='NonTreatment'");
        }
         if (databaseMatches('oracle')){
-	       execute("update epochs set treatment_indicator='yes' where display_role='Treatment' or display_role='TREATMENT' or display_role='Generic'");
-	       execute("update epochs set treatment_indicator='no' where display_role='Non-Treatment' or display_role='NonTreatment'");
+	       execute("update epochs set treatment_indicator='1' where display_role='Treatment' or display_role='TREATMENT' or display_role='Generic'");
+	       execute("update epochs set treatment_indicator='0' where display_role='Non-Treatment' or display_role='NonTreatment'");
        }
         dropColumn('epochs','display_role');
     }
@@ -19,8 +19,8 @@ class convertEpochDisplayRoleToTreatmentIndicator extends edu.northwestern.bioin
 	       execute("update epochs set display_role='NON-TREATMENT' where treatment_indicator='false'");
        }
        if (databaseMatches('oracle')){
-	       execute("update epochs set display_role='TREATMENT' where treatment_indicator='yes'");
-	       execute("update epochs set display_role='NON-TREATMENT' where treatment_indicator='no'");
+	       execute("update epochs set display_role='TREATMENT' where treatment_indicator='1'");
+	       execute("update epochs set display_role='NON-TREATMENT' where treatment_indicator='0'");
        }
        dropColumn('epochs','treatment_indicator');
        
