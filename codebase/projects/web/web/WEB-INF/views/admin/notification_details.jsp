@@ -130,6 +130,44 @@
 				myField.value +=  "$" + "{" + myValue.value + "}";
 			}
 		}
+		
+		
+		function displayAccrualField(index){
+			var studyLabel = document.getElementById('studyAccrual[' + index + ']label');
+			var studySiteLabel = document.getElementById('studySiteAccrual[' + index + ']label');
+			var studyValue = document.getElementById('studyAccrual[' + index + ']value');
+			var studySiteValue = document.getElementById('studySiteAccrual[' + index + ']value');
+			
+			var event = document.getElementById('plannedNotifications[' + index + '].eventName');
+			if(event.value == 'STUDY_ACCRUAL_EVENT'){
+				Effect.CloseDown(studySiteLabel.id);
+				Effect.CloseDown(studySiteValue.id);
+				
+				Effect.OpenUp(studyLabel.id);
+				Effect.OpenUp(studyValue.id);
+			} else if(event.value == 'STUDY_SITE_ACCRUAL_EVENT'){
+				Effect.CloseDown(studyLabel.id);
+				Effect.CloseDown(studyValue.id);
+				
+				Effect.OpenUp(studySiteLabel.id);
+				Effect.OpenUp(studySiteValue.id);
+			} else {
+				Effect.CloseDown(studySiteLabel.id);
+				Effect.CloseDown(studySiteValue.id);
+				Effect.CloseDown(studyLabel.id);
+				Effect.CloseDown(studyValue.id);
+			}	
+		}
+		
+		Effect.OpenUp = function(element) {
+            element = $(element);
+            new Effect.BlindDown(element, arguments[1] || {});
+        }
+
+        Effect.CloseDown = function(element) {
+            element = $(element);
+            new Effect.BlindUp(element, arguments[1] || {});
+        }
 	</script> 
 	</head>
 	
@@ -157,7 +195,7 @@
 				<tr>
 					<td width="10%" align="right">Event:</td>
 					<td align="left">
-						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="validate-notEmpty">
+						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="validate-notEmpty" onchange="displayAccrualField('${nStatus.index}')">
 		                    <option value="">Please Select</option>
 		                    <form:options items="${notificationEventsRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
@@ -168,7 +206,6 @@
 						<!-- liteView popup -->
 						<div id="emailMessageDetails-${nStatus.index}" style="display:none">	
 							<form:input path="plannedNotifications[${nStatus.index}].title" size="100" cssStyle="width:96%;" onfocus="lastElement = this;" />
-							
 						</div>
 						<!-- liteview popup -->
 						
@@ -188,6 +225,36 @@
 		        	<td></td>  
 		        	<td></td>		        	    	
 		        </tr>
+		        
+		       
+		        <tr>
+		        	<td align="right"><div id="studyAccrual[${nStatus.index}]label" 
+		        		style="<c:if test="${command.plannedNotifications[nStatus.index].eventName != 'STUDY_ACCRUAL_EVENT'}">display:none</c:if>">Threshold:</div></td>
+		            <td><div id="studyAccrual[${nStatus.index}]value" 
+		            		style="<c:if test="${command.plannedNotifications[nStatus.index].eventName != 'STUDY_ACCRUAL_EVENT'}">display:none</c:if>">
+						<form:select path="plannedNotifications[${nStatus.index}].studyThreshold">
+		                    <option value="">Please Select</option>
+		                    <form:options items="${notificationStudyAccrualRefData}" itemLabel="desc" itemValue="code" />
+		                </form:select>
+		                </div>
+		        	</td>
+		        	<td colspan="3"></td>  
+		        </tr>
+		        
+		        <tr>
+		        	<td align="right"><div id="studySiteAccrual[${nStatus.index}]label"  
+		        		style="<c:if test="${command.plannedNotifications[nStatus.index].eventName != 'STUDY_SITE_ACCRUAL_EVENT'}">display:none</c:if>">Threshold:</div></td>
+		            <td><div id="studySiteAccrual[${nStatus.index}]value" 
+		            		style="<c:if test="${command.plannedNotifications[nStatus.index].eventName != 'STUDY_SITE_ACCRUAL_EVENT'}">display:none</c:if>">
+						<form:select path="plannedNotifications[${nStatus.index}].studySiteThreshold">
+		                    <option value="">Please Select</option>
+		                    <form:options items="${notificationStudySiteAccrualRefData}" itemLabel="desc" itemValue="code" />
+		                </form:select>
+		                </div>
+		        	</td>
+		        	<td colspan="3"></td>  
+		        </tr>
+		        
 		        
 		        <tr><td colspan="5"><hr size="1"/></td></tr>
 		         
@@ -267,7 +334,7 @@
 				<td width="10%" align="right">Event:
 	            </td>
 				<td align="left">
-	                <select id="plannedNotifications[PAGE.ROW.INDEX].eventName" 
+	                <select id="plannedNotifications[PAGE.ROW.INDEX].eventName"  onchange="displayAccrualField('PAGE.ROW.INDEX')"
 		            		name="plannedNotifications[PAGE.ROW.INDEX].eventName" class="validate-notEmpty">
 	                    <c:forEach items="${notificationEventsRefData}" var="event">
 							<option value="${event.code}">${event.desc}</option>
@@ -301,6 +368,38 @@
 	        	<td></td>
 	        	<td></td>
 	        </tr>
+	        
+	        <tr>
+	        	<td align="right"><div id="studyAccrual[PAGE.ROW.INDEX]label" style="display:none">
+	        	Threshold:</div></td>
+	            <td><div id="studyAccrual[PAGE.ROW.INDEX]value" style="display:none">
+						<select id="plannedNotifications[PAGE.ROW.INDEX].studyThreshold" 
+								name="plannedNotifications[PAGE.ROW.INDEX].studyThreshold">
+		                     <option value="" selected>Please Select</option>
+		                     <c:forEach items="${notificationStudyAccrualRefData}" var="studyAcc">
+								<option value="${studyAcc.code}">${studyAcc.desc}</option>
+							</c:forEach>
+		                </select>
+	                </div>
+	        	</td>
+	        	<td colspan="3"></td>  
+	        </tr>
+	        
+	        <tr>
+	        	<td align="right"><div id="studySiteAccrual[PAGE.ROW.INDEX]label" style="display:none">Threshold:</div></td>
+	            <td><div id="studySiteAccrual[PAGE.ROW.INDEX]value" style="display:none">
+					<select id="plannedNotifications[PAGE.ROW.INDEX].studySiteThreshold" 
+							name="plannedNotifications[PAGE.ROW.INDEX].studySiteThreshold">
+	                   		 <option value="" selected>Please Select</option>
+		                     <c:forEach items="${notificationStudySiteAccrualRefData}" var="studySiteAcc">
+								<option value="${studySiteAcc.code}">${studySiteAcc.desc}</option>
+							</c:forEach>
+	                </select>
+	                </div>
+	        	</td>
+	        	<td colspan="3"></td>  
+	        </tr>
+	        
 	        
 	        <tr><td colspan="5"><hr size="1"/></td>
 	        </tr>
