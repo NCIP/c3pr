@@ -1279,6 +1279,22 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		return map;
 	}
 	
+	
+	/*
+	 * Study utility method to return the current accruals for the study
+	 */
+	@Transient
+	public Integer getCurrentAccrualCount(){
+        Integer totalAccrual = 0;
+        Iterator sslIter = getStudySites().iterator();
+        StudySite studySite;
+        while (sslIter.hasNext()) {
+            studySite = (StudySite) sslIter.next();
+            totalAccrual += studySite.getStudySubjects().size();
+        }
+        return totalAccrual;
+	}
+	
 	public StudySite getStudySiteFromNCICode(String nciInstituteCode){
             for (StudySite studySite: this.getStudySites()){
                 if(studySite.getHealthcareSite().getNciInstituteCode().equalsIgnoreCase(nciInstituteCode)){

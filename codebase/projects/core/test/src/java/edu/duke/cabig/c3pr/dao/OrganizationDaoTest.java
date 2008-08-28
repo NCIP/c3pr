@@ -124,7 +124,7 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
     	plannedNotification.setFrequency(NotificationFrequencyEnum.IMMEDIATE);
     	plannedNotification.setMessage(OrganizationDaoTest.MESSAGE_BODY);
     	plannedNotification.setTitle(OrganizationDaoTest.TITLE);
-    	plannedNotification.setThreshold(10);
+    	plannedNotification.setStudyThreshold(10);
 
     	UserBasedRecipient ubr = new UserBasedRecipient();
     	ResearchStaff researchStaff = researchStaffDao.getById(1000);

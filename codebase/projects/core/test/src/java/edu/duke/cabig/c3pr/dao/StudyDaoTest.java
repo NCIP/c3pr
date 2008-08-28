@@ -636,7 +636,7 @@ public class StudyDaoTest extends DaoTestCase {
             rbr.setRole("admin");
 
             PlannedNotification notification = new PlannedNotification();
-            notification.setThreshold(90);
+            notification.setStudyThreshold(90);
             notification.getUserBasedRecipient().add(ebr);
             notification.getRoleBasedRecipient().add(rbr);
             study.getPlannedNotifications().add(notification);
@@ -649,7 +649,7 @@ public class StudyDaoTest extends DaoTestCase {
             Study loaded = dao.getById(savedId);
             assertNotNull("Could not reload study with id " + savedId, loaded);
             assertEquals("Wrong Threshold", 90, loaded.getPlannedNotifications().get(0)
-                            .getThreshold().intValue());
+                            .getStudyThreshold().intValue());
             assertEquals("Wrong role", "admin", loaded.getPlannedNotifications().get(0)
                             .getRoleBasedRecipient().get(0).getRole());
             /*assertEquals("Wrong emailAddress", "vinay.gangoli@semanticbits.com", loaded

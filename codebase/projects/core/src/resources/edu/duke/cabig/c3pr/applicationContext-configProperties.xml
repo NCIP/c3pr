@@ -602,7 +602,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="SUBJECT_REMOVED_OFF_STUDY" />
                             <property name="desc" value="Subject Removed Off Study" />
-                        </bean>                     
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_ACCRUAL_EVENT" />
+                            <property name="desc" value="Study Accrual" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_SITE_ACCRUAL_EVENT" />
+                            <property name="desc" value="Study Site Accrual" />
+                        </bean>                       
                		</list>
                	</entry>
                	<entry key="notificationFrequencyRefData">
@@ -651,10 +659,99 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="PARTICIPANT_MRN" />
                             <property name="desc" value="Participant MRN" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_ACCRUAL_THRESHOLD" />
+                            <property name="desc" value="Study Accrual Threshold" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_SITE_ACCRUAL_THRESHOLD" />
+                            <property name="desc" value="Study Site Accrual Threshold" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_CURRENT_ACCRUAL" />
+                            <property name="desc" value="Study Current Accrual" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_SITE_CURRENT_ACCRUAL" />
+                            <property name="desc" value="Study Site Current Accrual" />
                         </bean>                  
                		</list>
                	</entry>
                	
+               	<entry key="notificationStudyAccrualRefData">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="20" />
+                            <property name="desc" value="20%" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="40" />
+                            <property name="desc" value="40%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="60" />
+                            <property name="desc" value="60%" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="70" />
+                            <property name="desc" value="70%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="80" />
+                            <property name="desc" value="80%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="90" />
+                            <property name="desc" value="90%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="95" />
+                            <property name="desc" value="95%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="100" />
+                            <property name="desc" value="100%" />
+                        </bean>                     
+               		</list>
+               	</entry>
+               	
+               	<entry key="notificationStudySiteAccrualRefData">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="20" />
+                            <property name="desc" value="20%" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="40" />
+                            <property name="desc" value="40%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="60" />
+                            <property name="desc" value="60%" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="70" />
+                            <property name="desc" value="70%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="80" />
+                            <property name="desc" value="80%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="90" />
+                            <property name="desc" value="90%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="95" />
+                            <property name="desc" value="95%" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="100" />
+                            <property name="desc" value="100%" />
+                        </bean>                                    
+               		</list>
+               	</entry>
             </map>
         </property>                      
     </bean>

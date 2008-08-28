@@ -658,6 +658,13 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(),
 				getStudySite().getStudy().getShortTitleText() == null ? "Short Title" : getStudySite().getStudy().getShortTitleText());
 		
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD.toString(),
+				getStudySite().getStudy().getTargetAccrualNumber() == null ? "Study Target Accrual" : getStudySite().getStudy().getTargetAccrualNumber());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_ACCRUAL_THRESHOLD.toString(),
+				getStudySite().getTargetAccrualNumber() == null ? "Site Target Accrual" : getStudySite().getTargetAccrualNumber() );
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_CURRENT_ACCRUAL.toString(),
+				getStudySite().getStudy().getCurrentAccrualCount() == null ? "Study Current Accrual" : getStudySite().getStudy().getCurrentAccrualCount());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL.toString(), getStudySite().getCurrentAccrualCount());
 		return map;
 	}
 	

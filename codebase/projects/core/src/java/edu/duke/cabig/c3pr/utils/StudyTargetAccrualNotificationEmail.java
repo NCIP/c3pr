@@ -52,7 +52,7 @@ public class StudyTargetAccrualNotificationEmail {
         List<String> emailList = null;
 
         for (PlannedNotification nf : study.getPlannedNotifications()) {
-            if (totalAccrual >= nf.getThreshold()) {
+            if (totalAccrual >= nf.getStudyThreshold()) {
                 emailList = generateEmailList(study, nf);
                 for (String emailAddress : emailList) {
                     try {

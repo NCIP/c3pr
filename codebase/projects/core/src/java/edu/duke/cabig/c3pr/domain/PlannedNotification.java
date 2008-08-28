@@ -30,7 +30,9 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "planned_notfns_ID_SEQ") })
 public class PlannedNotification extends AbstractMutableDeletableDomainObject {
 
-    private Integer threshold;
+    private Integer studyThreshold;
+    
+    private Integer studySiteThreshold;
 
     private NotificationFrequencyEnum frequency;
     
@@ -160,14 +162,6 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     public void setScheduledNotification(List<ScheduledNotification> scheduledNotification) {
     }
 
-    public Integer getThreshold() {
-        return threshold;
-    }
-
-    public void setThreshold(Integer threshold) {
-        this.threshold = threshold;
-    }
-
     @Transient
     public String getEmailAddresses() {
         String emailAddresses = "";
@@ -227,6 +221,22 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Integer getStudySiteThreshold() {
+		return studySiteThreshold;
+	}
+
+	public void setStudySiteThreshold(Integer studySiteThreshold) {
+		this.studySiteThreshold = studySiteThreshold;
+	}
+
+	public Integer getStudyThreshold() {
+		return studyThreshold;
+	}
+
+	public void setStudyThreshold(Integer studyThreshold) {
+		this.studyThreshold = studyThreshold;
 	}
 
 }

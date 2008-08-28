@@ -12,9 +12,14 @@ public enum NotificationEmailSubstitutionVariablesEnum implements CodedEnum<Stri
 	STUDY_ID("Primary Study Identifier"), 
 	STUDY_SHORT_TITLE("Study Short Title"), 
 	//Registration related
-	REGISTRATION_WORKFLOW_STATUS("Registration Workflow Status"),
+	//REGISTRATION_WORKFLOW_STATUS("Registration Workflow Status"),
 	PARTICIPANT_MRN("Participant MRN"),
-	REGISTRATION_STATUS ("Registration Status");
+	REGISTRATION_STATUS ("Registration Status"),
+	//accrual related
+	STUDY_ACCRUAL_THRESHOLD("STUDY_ACCRUAL_THRESHOLD"),
+	STUDY_SITE_ACCRUAL_THRESHOLD("STUDY_SITE_ACCRUAL_THRESHOLD"),
+	STUDY_CURRENT_ACCRUAL("STUDY_CURRENT_ACCRUAL"),
+	STUDY_SITE_CURRENT_ACCRUAL("STUDY_SITE_CURRENT_ACCRUAL");
 
     private String code;
 
