@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.infrastructure.interceptor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -23,6 +24,7 @@ import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl;
@@ -207,6 +209,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 				(previousRegStatus == null || previousRegStatus.equals(RegistrationWorkFlowStatus.PENDING) ||
 				 previousRegStatus.equals(RegistrationWorkFlowStatus.UNREGISTERED) || previousRegStatus.equals(RegistrationWorkFlowStatus.RESERVED)) ){
 				event = NotificationEventTypeEnum.NEW_REGISTRATION_EVENT;
+				//run rules seperately for the accruals use case
+				activateRulesForAccruals(studySubject);
 			} else if(currentRegStatus.equals(RegistrationWorkFlowStatus.OFF_STUDY)){
 				event = NotificationEventTypeEnum.SUBJECT_REMOVED_OFF_STUDY;
 			} else {
@@ -224,7 +228,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	}
 	
 	
-	//actives rules for the STUDY_SITE_STATUS_CHANGED_EVENT
+	/* Actives rules for the STUDY_SITE_STATUS_CHANGED_EVENT
+	 */
 	public void handleStudySiteStatusChange(final Object previousState, final Object currentState, final Object entity){
 		
 		SiteStudyStatus previousSiteStudyStatus = null;
@@ -260,7 +265,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		}		
 	}
 	
-	//	activates rules for the NEW_STUDY_SAVED_EVENT & STUDY_STATUS_CHANGED_EVENT
+	/* Activates rules for the NEW_STUDY_SAVED_EVENT & STUDY_STATUS_CHANGED_EVENT
+	 */
 	public void handleStudyStatusChange(final Object previousState, final Object currentState, final Object entity){
 		
 		log.debug(this.getClass().getName() + ": Entering handleStudyStatusChange()");
@@ -304,52 +310,102 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		log.debug(this.getClass().getName() + ": exiting handleStudyStatusChange()");
 	}
 
-	/*  public void handleNewStudySubjectSaved(StudySubject studySubject){
-			log.debug(this.getClass().getName() + ": Entering handleNewStudySubSaved()");
+	
+	/* Called for new registrations only. Checks if accrual notifications are configured.
+	 * fires rules if thresholds are met	 */
+	private void activateRulesForAccruals(Object studySubjectObj){
+		StudySubject studySubject = null;
+		StudyOrganization studyOrg = null;
+		StudySite studySite = null;
+		
+		if(studySubjectObj instanceof StudySubject){
+			studySubject = (StudySubject)studySubjectObj;
+		}else{
+			return;
+		}
+		
+		List<Object> objects = new ArrayList<Object>();
+		objects.add(studySubject);
+		int studyAccruals = 0;
+		int threshold = 0;
+		for(PlannedNotification pn: getPlannedNotifications()){
+			if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_ACCRUAL_EVENT)){
+				Iterator <StudyOrganization>iter = studySubject.getStudySite().getStudy().getStudyOrganizations().iterator();
+				while(iter.hasNext()){
+					studyOrg = iter.next();
+					//ensure that the host org is in the studyOrg list for the study
+					if(studyOrg.getHealthcareSite().getNciInstituteCode().equalsIgnoreCase(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE))){
+						studyAccruals = calculateStudyAccrual(studySubject);
+						threshold = studySubject.getStudySite().getStudy().getTargetAccrualNumber().intValue();
+						//if accruals exceed specified threshold value then send out email
+						if(studyAccruals*100/threshold >= pn.getStudyThreshold()){
+							objects.add(pn);
+							rulesDelegationService.activateRules(NotificationEventTypeEnum.STUDY_ACCRUAL_EVENT, objects);
+						}
+					}
+				}
+			}
+			if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_SITE_ACCRUAL_EVENT)){
+				studySite = studySubject.getStudySite();
+				//ensure that the host org is in the studySite list for the study
+				if(studySite.getHealthcareSite().getNciInstituteCode().equalsIgnoreCase(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE))){
+					studyAccruals = calculateStudySiteAccrual(studySubject);
+					threshold = studySubject.getStudySite().getTargetAccrualNumber().intValue();
+					//if accruals exceed specified threshold value then send out email
+					if((studyAccruals/threshold)*100 >= pn.getStudySiteThreshold()){
+						objects.add(pn);
+						rulesDelegationService.activateRules(NotificationEventTypeEnum.STUDY_SITE_ACCRUAL_EVENT, objects);
+					}
+				}
+			}
+		}
+	}
+	
+	private int calculateStudyAccrual(StudySubject studySubject){
+		return studySubject.getStudySite().getStudy().getCurrentAccrualCount().intValue();
+	}
+	
+	private int calculateStudySiteAccrual(StudySubject studySubject){
+		return studySubject.getStudySite().getCurrentAccrualCount();
+	}
+	
+	/* public void handleNewStudySubjectSaved(StudySubject studySubject){
 			List<Object> objects = new ArrayList<Object>();
 			objects.add(studySubject);
 			
 			for(PlannedNotification pn: getHostingOrganization()){
 				if(pn.getEventName().equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT)){
-					objects.add(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT);
 					objects.add(pn);
 					rulesDelegationService.activateRules(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT, objects);
 					objects.remove(pn);
 				}
 			}
-			log.debug(this.getClass().getName() + ": exiting handleNewStudySubSaved()");
 		}
 		
 		public void handleNewStudySaved(Study study){
-			log.debug(this.getClass().getName() + ": Entering handleNewStudySaved()");
 			List<Object> objects = new ArrayList<Object>();
 			objects.add(study);
 			
 			for(PlannedNotification pn: getHostingOrganization()){
 				if(pn.getEventName().equals(NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT)){
-					objects.add(NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT);
 					objects.add(pn);
 					rulesDelegationService.activateRules(NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT, objects);
 					objects.remove(pn);
 				}
 			}
-			log.debug(this.getClass().getName() + ": exiting handleNewStudySaved()");
 		}
 		
 		public void handleNewStudySiteSaved(StudySite studySite){
-			log.debug(this.getClass().getName() + ": Entering handleNewStudySiteSaved()");
 			List<Object> objects = new ArrayList<Object>();
 			objects.add(studySite);
 			
 			for(PlannedNotification pn: getHostingOrganization()){
 				if(pn.getEventName().equals(NotificationEventTypeEnum.NEW_STUDY_SITE_SAVED_EVENT)){
-					objects.add(NotificationEventTypeEnum.NEW_STUDY_SITE_SAVED_EVENT);
 					objects.add(pn);
 					rulesDelegationService.activateRules(NotificationEventTypeEnum.NEW_STUDY_SITE_SAVED_EVENT, objects);
 					objects.remove(pn);
 				}
 			}
-			log.debug(this.getClass().getName() + ": exiting handleNewStudySiteSaved()");
 		}*/
 
 	public RulesDelegationServiceImpl getRulesDelegationService() {
