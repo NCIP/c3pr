@@ -55,7 +55,9 @@
         	
         	<eval>event.equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT) || 
 	              event.equals(NotificationEventTypeEnum.REGISTATION_STATUS_CHANGE) ||
-	              event.equals(NotificationEventTypeEnum.SUBJECT_REMOVED_OFF_STUDY)</eval>
+	              event.equals(NotificationEventTypeEnum.SUBJECT_REMOVED_OFF_STUDY) ||
+	              event.equals(NotificationEventTypeEnum.STUDY_SITE_ACCRUAL_EVENT) ||
+	              event.equals(NotificationEventTypeEnum.STUDY_ACCRUAL_EVENT)</eval>
         </lhs>
         <rhs>
         	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, studySubject);
