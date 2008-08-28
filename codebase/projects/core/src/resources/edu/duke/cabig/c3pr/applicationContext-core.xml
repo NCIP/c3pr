@@ -186,23 +186,23 @@
 		<property name="interceptors">
 			<list>
 				<ref local="gridIdentifierInterceptor"/>
-				<!--<ref local="auditInterceptor"/> -->
+				<ref local="auditInterceptor"/> 
 			</list>
 		</property>
 	</bean>
 
-   <!--  <bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl">
+    <bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl">
         <property name="dataAuditRepository" ref="dataAuditRepository"></property> 
-        <property name="auditableEntities">
+        <!--  <property name="auditableEntities">
               <list>
                    <value>edu.duke.cabig.c3pr.domain.Study</value>
                   <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
               </list>
-        </property>
+        </property> -->
         <property name="auditAll">
             <value>true</value>
         </property>
-    </bean> -->
+    </bean> 
 
     <bean name="dataAuditRepository" class="gov.nih.nci.cabig.ctms.audit.dao.DataAuditRepository">
         <property name="sessionFactory">

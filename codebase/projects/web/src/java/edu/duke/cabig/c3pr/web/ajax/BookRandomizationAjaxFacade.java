@@ -79,9 +79,9 @@ public class BookRandomizationAjaxFacade {
                 }
             }
             
-            if (study != null && study instanceof Study) {
-                studyDao.reassociate(study);
-            }
+//            if (study != null && study instanceof Study) {
+//                studyDao.reassociate(study);
+//            }
         }
         TableModel model = new TableModelImpl(context);
         Epoch tEpoch = null;

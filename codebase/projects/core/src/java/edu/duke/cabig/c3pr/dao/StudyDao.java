@@ -27,8 +27,6 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.domain.StratificationCriterion;
-import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
@@ -110,19 +108,14 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         getHibernateTemplate().saveOrUpdate(study);
     }
 	
-	@Transactional(readOnly = false)
-    public void load(Study study, int i ) {
-        getHibernateTemplate().load(study, i);
-    }
-
     @Transactional(readOnly = false)
     public void initialize(Study study) throws DataAccessException {
-    	getHibernateTemplate().initialize(study.getEpochs());
-    	for (Epoch epoch : study.getEpochs()) {
-            if (epoch != null) {
-                epochDao.initialize(epoch);
-            }
-        }
+    	getHibernateTemplate().initialize(study.getEpochsInternal());
+		for (Epoch epoch : study.getEpochsInternal()) {
+			if (epoch != null) {
+				epochDao.initialize(epoch);
+			}
+		}
     	getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
 		getHibernateTemplate().initialize(study.getStudyDiseases());
 		getHibernateTemplate().initialize(study.getStudyOrganizations());
@@ -136,11 +129,10 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 				getHibernateTemplate().initialize(plannedNotification.getRoleBasedRecipientInternal());
 			}
 		}
-
+		
 		for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
 			if (studyOrganization != null) {
-				getHibernateTemplate()
-				.initialize(studyOrganization.getStudyInvestigatorsInternal());
+				getHibernateTemplate().initialize(studyOrganization.getStudyInvestigatorsInternal());
 				getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
 			}
 		}
