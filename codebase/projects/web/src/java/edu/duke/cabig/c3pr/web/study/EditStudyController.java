@@ -130,18 +130,6 @@ public class EditStudyController extends StudyController<Study> {
         return true;
     }
 
-//    @Override
-//    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
-//                    throws Exception {
-//        if (((Study) sessionFormObject).getId() != null) {
-//            Study study = studyDao.getById(((Study) sessionFormObject).getId());
-//            studyDao.initialize(study);
-//            return study;
-//        }
-//
-//        throw new C3PRCodedException(-1, "Unable to retrieve study");
-//    }
-
     /*
      * (non-Javadoc)
      * 
