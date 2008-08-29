@@ -1,6 +1,6 @@
 <ivysettings>
 	<settings defaultResolver="c3pr-resolver" validate="false" />
-	<cache basedir="${user.home}/.ivy2/c3pr-cache"/>
+	<cache basedir="${user.home}/.ivy2/${ivy.cache.name}"/>
 	<resolvers>
 		<chain name="c3pr-resolver" returnFirst="true" dual="true">
 		<!--  Local Ivy repository -->
@@ -12,17 +12,17 @@
 		
 		<!-- Local Ivy Cache -->
 		<filesystem name="ivy-cache" local="true" >
-              <ivy pattern="${user.home}/.ivy2/c3pr-cache/[organisation]/[module]/ivy-[revision].xml"/>
-              <artifact pattern="${user.home}/.ivy2/c3pr-cache/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
+			<ivy pattern="${user.home}/.ivy2/${ivy.cache.name}/[organisation]/[module]/ivy-[revision].xml"/>
+			<artifact pattern="${user.home}/.ivy2/${ivy.cache.name}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
         </filesystem>
 
 			<!--  Semanticbits shared repository [using sftp] -->
-		<sftp name="semanticbits-repo" user="caaers" userPassword="caaers" host="10.10.10.2">
+		<!--<sftp name="semanticbits-repo" user="caaers" userPassword="caaers" host="10.10.10.2">
 		  <ivy pattern="/usr/local/tomcats/caaers/demo/tomcat-caaers-demo-8030/webapps/ivy-repo/[organisation]/[module]/[revision]/ivy.xml"/>
 		  <artifact pattern="/usr/local/tomcats/caaers/demo/tomcat-caaers-demo-8030/webapps/ivy-repo/[organisation]/[module]/[revision]/[artifact].[ext]"/>
-		</sftp>
+		</sftp>-->
 				<!--  Northwestern RHLCCC Bioinformatics  -->
-			<ibiblio name="maven2-northwestern" m2compatible="true"
+			<!--  <ibiblio name="maven2-northwestern" m2compatible="true"
 				root="http://download.bioinformatics.northwestern.edu/maven2"
 				changingPattern=".*SNAPSHOT" 
 				/>
@@ -30,9 +30,9 @@
 			<ibiblio name="maven2-http" m2compatible="true"
 				root="http://maven2.mirrors.skynet.be/pub/maven2"
 				changingPattern=".*SNAPSHOT" 
-				/>
+				/>-->
 			<!--  useful at least for javax.transaction.jta -->
-			<ibiblio name="maven2-codehaus-mule" m2compatible="true"
+			<!-- <ibiblio name="maven2-codehaus-mule" m2compatible="true"
 				root="http://dist.codehaus.org/mule/dependencies/maven2"
 				changingPattern=".*SNAPSHOT"
 				 />
@@ -50,7 +50,7 @@
 			<ibiblio name="java.net" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" />
 			
 			<ibiblio name="mvn.repo" root="http://mirrors.ibiblio.org/pub/mirrors/maven2" m2compatible="true" changingPattern=".*SNAPSHOT">
-			</ibiblio>
+			</ibiblio>-->
         </chain>
 		
 	</resolvers>

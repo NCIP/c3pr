@@ -206,17 +206,20 @@
 	<!-- =============================================================== -->
     <!-- create target to create a release of Installer  project          -->
     <!-- =============================================================== -->
-    <target name="prepareInstallerForRelease" depends="clean, build-war">
+    <target name="prepareInstallerForRelease" depends="clean">
         <property name="project.archive" value="c3prv2-installpack.zip"/>
     	<delete dir="${projects.dir}/installer/installpack"/>
         <mkdir dir="${projects.dir}/installer/installpack"/>
         <zip destfile="${projects.dir}/installer/installpack/${project.archive}">
-        	<zipfileset dir="${basedir}" prefix="antfiles"/>
-        	<zipfileset dir="${projects.dir}" prefix="projects">
-        		<include name="core/ivy-build.xml"/>
-        		<include name="core/conf/**/*"/>
-        	</zipfileset>
-            <zipfileset dir="${projects.dir}/web/build/c3pr" prefix="web-archive"/>
+            <zipfileset dir="${basedir}" prefix="antfiles"/>
+            <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
+            <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
+            <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
+			<zipfileset dir="${projects.dir}/rules" prefix="projects/rules"/>
+        </zip>
+        <zip destfile="${projects.dir}/installer/installpack/ivy2.zip">
+            <zipfileset dir="${ivy.cache}" prefix="${ivy.cache.name}"/>
+        	<zipfileset dir="${ivy.jar.dir}" prefix="ivy-jars"/>
         </zip>
     </target>
 
