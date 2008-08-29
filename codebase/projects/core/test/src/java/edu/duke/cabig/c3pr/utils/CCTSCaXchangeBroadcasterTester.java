@@ -35,7 +35,7 @@ public class CCTSCaXchangeBroadcasterTester extends MasqueradingDaoTestCase<Stud
         messageBroadcaster = (CCTSMessageBroadcaster) getApplicationContext().getBean(
                         "messageBroadcaster");
         marshaller = new XmlMarshaller((String) getApplicationContext().getBean(
-                        "c3pr-xml-castorMapping"));
+                        "c3pr-study-xml-castorMapping"));
     }
 
     public void testCaXchangeMessageSender() throws Exception {

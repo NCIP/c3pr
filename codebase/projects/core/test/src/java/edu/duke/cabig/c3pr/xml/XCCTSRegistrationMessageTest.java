@@ -17,7 +17,7 @@ public class XCCTSRegistrationMessageTest extends MasqueradingDaoTestCase<StudyS
                         // Templates.
         marshaller = (XmlMarshaller) getApplicationContext().getBean("xmlUtility");
         marshaller.setMappingFile((String) getApplicationContext().getBean(
-                        "ccts-registration-castorMapping"));
+                        "c3pr-study-xml-castorMapping"));
     }
 
     public void testSerialization() throws Exception {

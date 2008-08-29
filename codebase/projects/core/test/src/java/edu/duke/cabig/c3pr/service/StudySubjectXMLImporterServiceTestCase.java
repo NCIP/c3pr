@@ -31,45 +31,55 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
 
     private StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
 
-    private StudyDao dao = (StudyDao) getApplicationContext().getBean("studyDao");
+    private StudyDao dao;
 
-    private HealthcareSiteDao healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
-                    .getBean("healthcareSiteDao");
+    private HealthcareSiteDao healthcareSitedao;
 
-    private ParticipantDao participantDao = (ParticipantDao) getApplicationContext().getBean(
-                    "participantDao");
+    private ParticipantDao participantDao;
 
-    private StudySubjectDao studySubjectDao = (StudySubjectDao) getApplicationContext().getBean(
-                    "studySubjectDao");
+    private StudySubjectDao studySubjectDao;
 
-    private StudySubjectXMLImporterService studySubjectXMLImporterService = (StudySubjectXMLImporterService) getApplicationContext()
-                    .getBean("studySubjectXMLImporterService");
+    private StudySubjectXMLImporterService studySubjectXMLImporterService;
 
     private XmlMarshaller xmlUtility;
 
-    private MessageSource c3prErrorMessages = (MessageSource) getApplicationContext().getBean(
-                    "c3prErrorMessages");
+    private MessageSource c3prErrorMessages;
 
     private final String identifierTypeValueStr = "Coordinating Center Identifier";
-    
+
     private PersistedStudySubjectCreator persistedStudySubjectCreator;
 
     protected void setUp() throws Exception {
         super.setUp();
+        healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
+                        .getBean("healthcareSiteDao");
+
+        participantDao = (ParticipantDao) getApplicationContext().getBean("participantDao");
+
+        studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
+
+        studySubjectXMLImporterService = (StudySubjectXMLImporterService) getApplicationContext()
+                        .getBean("studySubjectXMLImporterService");
+
+        c3prErrorMessages = (MessageSource) getApplicationContext().getBean("c3prErrorMessages");
+
+        dao = (StudyDao) getApplicationContext().getBean("studyDao");
         studySubjectService = (StudySubjectService) getApplicationContext().getBean(
                         "studySubjectService");
         xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean(
-                        "ccts-registration-castorMapping"));
-        persistedStudySubjectCreator=new PersistedStudySubjectCreator(getApplicationContext());
+                        "c3pr-registration-xml-castor-mapping"));
+        persistedStudySubjectCreator = new PersistedStudySubjectCreator(getApplicationContext());
     }
 
     /*
      * Test Cases for import registration Multi Site Trial Treatment Epoch Book Randomization
      */
     public void testImportRegistrationCase0() throws Exception {
-        StudySubject studySubject = persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
+        StudySubject studySubject = persistedStudySubjectCreator
+                        .getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+                        studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
@@ -98,8 +108,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
                             .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded
                             .getScheduledEpochs().size());
-            ScheduledEpoch scheduledTreatmentEpoch = loaded
-                            .getScheduledEpoch();
+            ScheduledEpoch scheduledTreatmentEpoch = loaded.getScheduledEpoch();
             assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch
                             .getEligibilityIndicator().booleanValue());
             assertEquals("Wrong registration data entry status",
@@ -120,9 +129,11 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
      * No Arm assigned
      */
     public void testImportRegistrationCase1() throws Exception {
-        StudySubject studySubject = persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
+        StudySubject studySubject = persistedStudySubjectCreator
+                        .getMultiSiteRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+                        studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
@@ -157,9 +168,11 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
      * Registering Non Randomized
      */
     public void testImportRegistrationCase2() throws Exception {
-        StudySubject studySubject = persistedStudySubjectCreator.getMultiSiteNonRandomizedStudySubject(false, false, false);
+        StudySubject studySubject = persistedStudySubjectCreator
+                        .getMultiSiteNonRandomizedStudySubject(false, false, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+                        studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
@@ -207,9 +220,11 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
      * Test Cases for import registration Local Trial Treatment Epoch Book Randomization
      */
     public void testImportRegistrationCase3() throws Exception {
-        StudySubject studySubject = persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
+        StudySubject studySubject = persistedStudySubjectCreator.getLocalRandomizedStudySubject(
+                        RandomizationType.BOOK, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+                        studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
@@ -240,8 +255,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
                             .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded
                             .getScheduledEpochs().size());
-            ScheduledEpoch scheduledTreatmentEpoch = loaded
-                            .getScheduledEpoch();
+            ScheduledEpoch scheduledTreatmentEpoch = loaded.getScheduledEpoch();
             assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch
                             .getEligibilityIndicator().booleanValue());
             assertEquals("Wrong registration data entry status",
@@ -260,13 +274,15 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
      * Test Cases for import registration Local Trial Non Randomized Treatment Epoch Wrong Arm Name
      */
     public void testImportRegistrationCase4() throws Exception {
-        StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
+        StudySubject studySubject = persistedStudySubjectCreator
+                        .getLocalNonRandomizedTrestmentWithArmStudySubject(false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+                        studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
-        Arm arm=new Arm();
+        Arm arm = new Arm();
         arm.setName("Not matching");
         (studySubject.getScheduledEpoch()).getScheduledArm().setArm(arm);
         String xml = xmlUtility.toXML(studySubject);
@@ -295,9 +311,11 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
      * Test Cases for import registration Local Trial NonTreatment Epoch Reserving
      */
     public void testImportRegistrationCase5() throws Exception {
-        StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(true, false, false);
+        StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(
+                        true, false, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+                        studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
@@ -344,9 +362,11 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
      * Test Cases for import registration Local Trial NonTreatment Epoch Enrolling Non Randomized
      */
     public void testImportRegistrationCase6() throws Exception {
-        StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, true, false);
+        StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(
+                        false, true, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+                        studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
@@ -394,9 +414,11 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
      * Reserving
      */
     public void testImportRegistrationCase7() throws Exception {
-        StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, false, false);
+        StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(
+                        false, false, false);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+                        studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
@@ -444,9 +466,11 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
      * Site is Co Ordinating Center
      */
     public void testImportRegistrationCase8() throws Exception {
-        StudySubject studySubject = persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, true);
+        StudySubject studySubject = persistedStudySubjectCreator
+                        .getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, true);
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+                        studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
@@ -477,8 +501,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
                             .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded
                             .getScheduledEpochs().size());
-            ScheduledEpoch scheduledTreatmentEpoch = loaded
-                            .getScheduledEpoch();
+            ScheduledEpoch scheduledTreatmentEpoch = loaded.getScheduledEpoch();
             assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch
                             .getEligibilityIndicator().booleanValue());
             assertEquals("Wrong registration data entry status",

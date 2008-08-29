@@ -90,9 +90,9 @@ public class StudySubjectDaoTest extends DaoTestCase {
         healthcareSiteDao = (HealthcareSiteDao) getApplicationContext()
                         .getBean("healthcareSiteDao");
         xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean(
-                        "ccts-registration-castorMapping"));
+                        "c3pr-registration-xml-castor-mapping"));
         xmlUtilityStudy = new XmlMarshaller((String) getApplicationContext().getBean(
-                        "ccts-study-castorMapping"));
+                        "c3pr-study-xml-castor-mapping"));
     }
 
     /*

@@ -28,7 +28,7 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
     protected void setUp() throws Exception {
         super.setUp(); // To change body of overridden methods use File | Settings | File
                         // Templates.
-        marshaller = new XmlMarshaller();
+        marshaller = new XmlMarshaller("ccts-study-castor-mapping.xml");
         studyImporter = (StudyXMLImporterServiceImpl) getApplicationContext().getBean(
                         "studyXMLImporterService");
     }
