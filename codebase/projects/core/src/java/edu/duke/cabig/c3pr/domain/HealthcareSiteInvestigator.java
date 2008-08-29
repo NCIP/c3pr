@@ -53,7 +53,7 @@ public class HealthcareSiteInvestigator extends AbstractMutableDeletableDomainOb
     }
 
     @OneToMany(mappedBy = "healthcareSiteInvestigator", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @Cascade(value = { CascadeType.LOCK })
     public List<StudyInvestigator> getStudyInvestigators() {
         return studyInvestigators;
     }
