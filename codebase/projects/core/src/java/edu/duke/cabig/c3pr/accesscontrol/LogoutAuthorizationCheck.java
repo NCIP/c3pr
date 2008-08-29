@@ -1,13 +1,8 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import gov.nih.nci.security.acegi.csm.web.CSMAccessControlTag;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.Tag;
-
 import org.acegisecurity.Authentication;
-import org.acegisecurity.context.SecurityContextHolder;
 
 /**
  * User: ion
