@@ -58,26 +58,21 @@ class StudyPersonnelTab extends StudyTab {
             for (int j = 0; j < study.getStudyOrganizations().get(i).getStudyPersonnel().size(); j++) {
                 try {
                     List<String> groupRoles = new ArrayList<String>();
-                    Iterator<C3PRUserGroupType> groupIterator = personnelService.getGroups(
-                                    study.getStudyOrganizations().get(i).getStudyPersonnel().get(j)
-                                                    .getResearchStaff()).iterator();
+                    Iterator<C3PRUserGroupType> groupIterator = personnelService.getGroups(study.getStudyOrganizations().get(i).getStudyPersonnel().get(j).getResearchStaff()).iterator();
                     C3PRUserGroupType userGroup;
                     while (groupIterator.hasNext()) {
                         userGroup = groupIterator.next();
                         groupRoles.add(userGroup.getDisplayName());
                     }
-                    refdata.put("studyOrganizations[" + i + "].studyPersonnel[" + j + "].roleData",
-                                    groupRoles);
+                    refdata.put("studyOrganizations[" + i + "].studyPersonnel[" + j + "].roleData",groupRoles);
                 }
                 catch (C3PRBaseException e) {
                     e.printStackTrace();
                 }
             }
         }
-
-        if ((request.getParameter("_selectedSite") == null)
-                        || (request.getParameter("_selectedSite") != null && StringUtils
-                                        .isBlank(request.getParameter("_selectedSite").toString()))) {
+        
+        if (StringUtils.isBlank(request.getParameter("_selectedSite"))) {
             refdata.put("selectedSite", 0);
         }
 
