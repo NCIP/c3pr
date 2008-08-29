@@ -31,7 +31,7 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
     gov.nih.nci.common.util.caCOREUnmarshaller unmarshaller;
 
     // Override the default by calling setMappingFile
-    private String mappingFile = "c3pr-xml-castor-mapping.xml";
+    private String mappingFile = "c3pr-study-xml-castor-mapping.xml";
 
     public XmlMarshaller() {
         marshaller = new caCOREMarshaller();
@@ -117,6 +117,22 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
             org.xml.sax.InputSource mappIS = new org.xml.sax.InputSource(Thread.currentThread()
                             .getContextClassLoader().getResourceAsStream(this.mappingFile));
             log.debug("Using " + mappingFile + " mapping file.");
+            java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(
+                            Thread.currentThread().getContextClassLoader().getResourceAsStream(
+                                            this.mappingFile)));
+            StringBuffer sb = new StringBuffer();
+            try {
+                String newline = System.getProperty("line.separator");
+                String tmp = null;
+                while ((tmp = br.readLine()) != null) {
+                    sb.append(tmp);
+                    sb.append(newline);
+                }
+            }
+            finally {
+                if (br != null) br.close();
+                System.out.println(sb.toString());
+            }
             Mapping localMapping = new Mapping();
             localMapping.setEntityResolver(resolver);
             localMapping.loadMapping(mappIS);
@@ -124,12 +140,12 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
         }
         catch (Exception e) {
             log.error("Error reading default xml mapping file " + e.getMessage()); // To change
-                                                                                    // body of catch
-                                                                                    // statement use
-                                                                                    // File |
-                                                                                    // Settings |
-                                                                                    // File
-                                                                                    // Templates.
+            // body of catch
+            // statement use
+            // File |
+            // Settings |
+            // File
+            // Templates.
             throw new XMLUtilityException("Error reading default xml mapping file "
                             + e.getMessage(), e);
         }

@@ -278,7 +278,14 @@
         </property>
     </bean>
 
-    <bean id="casProxyTicketValidator" class="org.acegisecurity.providers.cas.ticketvalidator.CasProxyTicketValidator">
+    <!--<bean id="casProxyTicketValidator" class="org.acegisecurity.providers.cas.ticketvalidator.CasProxyTicketValidator">
+        <property name="casValidate" value="${ccts.websso.base_url}/proxyValidate"/>
+        <property name="serviceProperties">
+            <ref local="serviceProperties"/>
+        </property>
+        <property name="trustStore" value="${ccts.websso.cert_file}"/>
+        </bean>-->
+    <bean id="casProxyTicketValidator" class="gov.nih.nci.cabig.caaers.web.security.cas.CaaersCasProxyTicketValidator">
         <property name="casValidate" value="${ccts.websso.base_url}/proxyValidate"/>
         <property name="serviceProperties">
             <ref local="serviceProperties"/>

@@ -23,11 +23,7 @@
     <bean id="c3dPatientPositionResponseHandler"
           class="edu.duke.cabig.c3pr.utils.C3DPatientPositionResponseHandler"
           autowire="byType">
-        <property name="marshaller">
-            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" ref="ccts-registration-castorMapping"/>
-            </bean>
-        </property>
+        <property name="marshaller" ref="registrationXmlUtility" />
     </bean>
     
     <util:set id="caXchangeMessageResponseHandlerSet"
