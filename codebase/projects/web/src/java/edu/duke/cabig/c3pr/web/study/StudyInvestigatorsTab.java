@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:02:39 PM To change this template
@@ -57,54 +58,50 @@ class StudyInvestigatorsTab extends StudyTab {
     }
 
     @Override
-    public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study,
+    public void postProcessOnValidation(HttpServletRequest request, Study study,
                     Errors errors) {
 
-        String selected = httpServletRequest.getParameter("_selected");
-        String action = httpServletRequest.getParameter("_actionx");
-        Object selectedSite = httpServletRequest.getParameter("_selectedSite");
-        StudyOrganization so = null;
+        String selected = request.getParameter("_selected");
+        String action = request.getParameter("_actionx");
+        String selectedSite = request.getParameter("_selectedSite");
+        StudyOrganization studyOrg = null;
 
         // get the StudyOrganization to which we will add/remove investigator.
-        List<StudyOrganization> soList = study.getStudyOrganizations();
-        if (selectedSite != null && !selectedSite.toString().equals("")) {
-            selectedSite = httpServletRequest.getParameter("_selectedSite").toString();
-            so = soList.get(new Integer(selectedSite.toString()).intValue());
+        List<StudyOrganization> studyOrgList = study.getStudyOrganizations();
+        if (!StringUtils.isBlank(selectedSite)) {
+            studyOrg = studyOrgList.get(Integer.parseInt(selectedSite));
         }
 
         if (!errors.hasErrors()) {
 
             if ("siteChange".equals(action)) {
-                httpServletRequest.getSession().setAttribute("_selectedSite", selectedSite);
+                request.getSession().setAttribute("_selectedSite", selectedSite);
                 return;
             }
 
-            if ("addStudyDisease".equals(action) && so != null) {
-                String[] invIds = so.getStudyInvestigatorIds();
-                if (invIds.length > 0) {
-                    HealthcareSiteInvestigator inv = null;
-                    log
-                                    .debug("Study InvestigatorIds Size : "
-                                                    + so.getStudyInvestigatorIds().length);
-                    for (String invId : invIds) {
-                        log.debug("Investigator Id : " + invId);
-                        StudyInvestigator sInv = new StudyInvestigator();
-                        inv = healthcareSiteInvestigatorDao.getById(new Integer(invId).intValue());
-                        if (inv != null) {
-                            inv.getStudyInvestigators().add(sInv);
-                            sInv.setHealthcareSiteInvestigator(inv);
-                            sInv.setRoleCode("Site Investigator");
-                            sInv.setStatusCode("Active");
-                            sInv.setStudyOrganization(so);
-                            so.getStudyInvestigators().add(sInv);
+            if ("addStudyDisease".equals(action) && studyOrg != null) {
+                String[] studyInvestigatorIds = studyOrg.getStudyInvestigatorIds();
+                if (studyInvestigatorIds.length > 0) {
+                    HealthcareSiteInvestigator healthcareSiteInvestigator = null;
+                    log.debug("Study InvestigatorIds Size : " + studyOrg.getStudyInvestigatorIds().length);
+                    for (String studyInvestigatorId : studyInvestigatorIds) {
+                        log.debug(" Study Investigator Id : " + studyInvestigatorId);
+                        StudyInvestigator studyInvestigator = new StudyInvestigator();
+                        healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(Integer.parseInt(studyInvestigatorId));
+                        if (healthcareSiteInvestigator != null) {
+                            healthcareSiteInvestigator.getStudyInvestigators().add(studyInvestigator);
+                            studyInvestigator.setHealthcareSiteInvestigator(healthcareSiteInvestigator);
+                            studyInvestigator.setRoleCode("Site Investigator");
+                            studyInvestigator.setStatusCode("Active");
+                            studyInvestigator.setStudyOrganization(studyOrg);
+                            studyOrg.getStudyInvestigators().add(studyInvestigator);
                             studyValidator.validateStudyInvestigators(study, errors);
                             if (errors.hasErrors()) {
-                                so.getStudyInvestigators().remove(sInv);
+                                studyOrg.getStudyInvestigators().remove(studyInvestigator);
                             }
                         }
                         else {
-                            log
-                                            .error("StudyInvestigatorTab - postProcessOnValidation(): healthcareSiteInvestigatorDao.getById() returned null");
+                            log.error("StudyInvestigatorTab - postProcessOnValidation(): healthcareSiteInvestigatorDao.getById() returned null");
                         }
                     }
                 }
@@ -112,8 +109,8 @@ class StudyInvestigatorsTab extends StudyTab {
             }
         }
 
-        if ("removeStudyDisease".equals(action) && so != null) {
-            so.getStudyInvestigators().remove(Integer.parseInt(selected));
+        if ("removeStudyDisease".equals(action) && studyOrg != null) {
+            studyOrg.getStudyInvestigators().remove(Integer.parseInt(selected));
             return;
         }
     }

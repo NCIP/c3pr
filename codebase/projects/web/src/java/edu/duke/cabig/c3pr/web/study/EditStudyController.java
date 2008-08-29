@@ -20,6 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -120,9 +121,7 @@ public class EditStudyController extends StudyController<Study> {
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
-        return super.shouldSave(request, command, tab)
-                        && (request.getParameter("_action") == null || "".equals(request
-                                        .getParameter("_action")));
+        return super.shouldSave(request, command, tab) && StringUtils.isBlank(request.getParameter("_action"));
     }
 
     @Override
