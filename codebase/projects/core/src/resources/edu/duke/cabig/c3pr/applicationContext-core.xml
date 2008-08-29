@@ -11,20 +11,16 @@
 
     <!--Castor mapping files-->
     <!--Todo combine all these into 1 castor mapping-->
-    <bean id="c3pr-xml-castorMapping" class="java.lang.String">
-        <constructor-arg value="c3pr-xml-castor-mapping.xml"/>
+    <bean id="c3pr-study-xml-castorMapping" class="java.lang.String">
+        <constructor-arg value="c3pr-study-xml-castor-mapping.xml"/>
     </bean>
 
-    <bean id="ccts-study-castorMapping" class="java.lang.String">
+	<bean id="c3pr-registration-xml-castor-mapping" class="java.lang.String">
+        <constructor-arg value="c3pr-registration-xml-castor-mapping.xml"/>
+    </bean>
+    
+    <bean id="ccts-study-castor-mapping" class="java.lang.String">
         <constructor-arg value="ccts-study-castor-mapping.xml"/>
-    </bean>
-
-    <bean id="ccts-registration-castorMapping" class="java.lang.String">
-        <constructor-arg value="ccts-registration-castor-mapping.xml"/>
-    </bean>
-
-	<bean id="multisite-registration-castorMapping" class="java.lang.String">
-        <constructor-arg value="multisite-registration-castorMapping.xml"/>
     </bean>
 
     <!--Transaction support-->
@@ -299,73 +295,53 @@
 	<!-- Multisite Request Handlers -->
     <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
     	<property name="studySubjectService" ref="studySubjectService"></property>
-    	<property name="xmlUtility">
-            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" ref="multisite-registration-castorMapping"/>
-            </bean>
-        </property>
+    	<property name="xmlUtility" ref="registrationXmlUtility"/>
         <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
     </bean>
     
     <bean id="coOrdinatingCenterResponseHandler" class="edu.duke.cabig.c3pr.utils.CoOrdinatingCenterResponseHandler">
     	<property name="studySubjectService" ref="studySubjectService">
     	</property>
-		<property name="xmlUtility">
-            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" ref="multisite-registration-castorMapping"/>
-            </bean>
-        </property>
+		<property name="xmlUtility" ref="registrationXmlUtility"/>
         <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
     </bean>
     
     <!-- Services -->
     <bean id="cctsWorkflowService" class="edu.duke.cabig.c3pr.service.impl.CCTSWorkflowServiceImpl"
           abstract="true" autowire="byType">
-        <property name="dao" ref="studySubjectDao"/>
         <property name="exceptionHelper" ref="exceptionHelper"/>
-        <property name="multisiteXmlUtility">
-            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" ref="multisite-registration-castorMapping"/>
-    		</bean>
-        </property>
     </bean>
 
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
           autowire="byName" parent="cctsWorkflowService">
-        <property name="cctsXmlUtility">
-            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <constructor-arg ref="ccts-study-castorMapping"/>
-            </bean>
-        </property>
+        <property name="dao" ref="studyDao"/>
+        <property name="cctsXSLTName" value="ccts-study-transformer.xsl"/>
+        <property name="multisiteXmlUtility" ref="studyXmlUtility"/>
+        <property name="cctsXmlUtility" ref="cctsStudyXmlUtility"/>
     </bean>
     
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
           autowire="byName"/>
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
           autowire="byName" parent="cctsWorkflowService">
+        <property name="cctsXSLTName" value="ccts-registration-transformer.xsl"/>
+        <property name="multisiteXmlUtility" ref="registrationXmlUtility"/>
+        <property name="cctsXmlUtility" ref="registrationXmlUtility"/>
+        <property name="dao" ref="studySubjectDao"/>
         <property name="hostedMode">
 	        <value type="boolean">${hostedMode}</value>
-        </property>
-        <property name="cctsXmlUtility">
-            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" ref="ccts-registration-castorMapping"/>
-            </bean>
         </property>
     </bean>
     <bean id="studyXMLImporterService" lazy-init="true"
           class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl"
           autowire="byName">
-          <property name="marshaller" ref="xmlUtility"/>
+          <property name="marshaller" ref="studyXmlUtility"/>
     </bean>
 
     <bean id="studySubjectXMLImporterService" lazy-init="true"
           class="edu.duke.cabig.c3pr.service.impl.StudySubjectXMLImporterServiceImpl"
           autowire="byName">
-        <property name="marshaller">
-            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" ref="ccts-registration-castorMapping"/>
-            </bean>
-        </property>
+        <property name="marshaller" ref="registrationXmlUtility"/>
     </bean>
 
     <bean id="personnelService" lazy-init="true"
@@ -468,8 +444,16 @@
         <property name="subject" value="Account created in c3pr"/>
     </bean>
 
-    <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-        <constructor-arg ref="c3pr-xml-castorMapping"/>
+    <bean id="studyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="c3pr-study-xml-castorMapping"/>
+    </bean>
+    
+    <bean id="cctsStudyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="ccts-study-castor-mapping"/>
+    </bean>
+    
+    <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="c3pr-registration-xml-castor-mapping"/>
     </bean>
 
     <bean id="xmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
