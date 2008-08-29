@@ -122,12 +122,4 @@ public class StudyServiceImpl extends WorkflowServiceImpl implements StudyServic
         return studies.get(0);
     }
     
-    private boolean isMultisiteBroadcastRequired(Study study){
-        return false;
-    }
-
-    private boolean isCCTSBroadcastRequired(Study study){
-        return false;
-    }
-
 }

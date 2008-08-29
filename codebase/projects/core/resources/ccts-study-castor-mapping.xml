@@ -108,6 +108,40 @@
         <field name="descriptionText" type="string">
             <bind-xml name="descriptionText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="accrualCeiling" type="int">
+            <bind-xml name="accrualCeiling" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="accrualIndicator" type="boolean">
+            <bind-xml name="accrualIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="reservationIndicator" type="boolean">
+            <bind-xml name="reservationIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="treatmentIndicator" type="boolean">
+            <bind-xml name="treatmentIndicator" node="element"
+                xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="enrollmentIndicator" type="boolean">
+            <bind-xml name="enrollmentIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+         <field name="arms" type="edu.duke.cabig.c3pr.domain.Arm"
+               collection="collection" set-method="addArm" get-method="getArms">
+            <bind-xml auto-naming="deriveByClass" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="eligibilityCriteria" type="edu.duke.cabig.c3pr.domain.EligibilityCriteria"
+            collection="collection">
+            <bind-xml name="eligibilityCriteria" node="element"
+                xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="stratificationCriteria" type="edu.duke.cabig.c3pr.domain.StratificationCriterion"
+            collection="collection">
+            <bind-xml name="stratificationCriteria" node="element"
+                xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria"
@@ -162,25 +196,6 @@
     <class name="edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria"
            extends="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
         <map-to xml="InclusionEligibilityCriteriaType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-    </class>
-
-    <class name="edu.duke.cabig.c3pr.domain.NonTreatmentEpoch" extends="edu.duke.cabig.c3pr.domain.Epoch">
-        <map-to xml="NonTreatmentEpochType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="accrualCeiling" type="int">
-            <bind-xml name="accrualCeiling" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="accrualIndicator" type="boolean">
-            <bind-xml name="accrualIndicator" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="reservationIndicator" type="boolean">
-            <bind-xml name="reservationIndicator" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="enrollmentIndicator" type="boolean">
-            <bind-xml name="enrollmentIndicator" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.Organization">
@@ -271,31 +286,6 @@
         </field>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
-        <map-to xml="scheduledEpoch" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="gridId" type="string">
-            <bind-xml name="gridId" node="attribute"/>
-        </field>
-        <field name="startDate" type="string"
-               handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
-            <bind-xml name="startDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="epoch" type="edu.duke.cabig.c3pr.domain.Epoch">
-            <bind-xml name="epoch" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-    </class>
-
-    <class name="edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch"
-           extends="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
-        <map-to xml="ScheduledNonTreatmentEpochType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-    </class>
-
-    <class name="edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch"
-           extends="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
-        <map-to xml="ScheduledTreatmentEpochType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-    </class>
-
     <class name="edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer">
         <map-to xml="permissibleAnswer" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="permissibleAnswer" type="string">
@@ -339,6 +329,9 @@
         </field>
         <field name="phaseCode" type="string">
             <bind-xml name="phaseCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+         <field name="consentVersion" type="string">
+            <bind-xml name="consentVersion" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="dataEntryStatus" type="string"
                handler="edu.duke.cabig.c3pr.xml.StudyDataEntryStatusFieldHandler">
@@ -425,6 +418,10 @@
         <field name="endDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="endDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="siteStudyStatus" type="string"
+               handler="edu.duke.cabig.c3pr.xml.StudySiteStudyStatusHandler">
+            <bind-xml name="siteStudyStatus" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.StudyInvestigator">
@@ -467,24 +464,6 @@
         <field name="permissibleAnswers" type="edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer"
                collection="collection">
             <bind-xml name="permissibleAnswer" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-    </class>
-
-    <class name="edu.duke.cabig.c3pr.domain.TreatmentEpoch" extends="edu.duke.cabig.c3pr.domain.Epoch">
-        <map-to xml="TreatmentEpochType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="arms" type="edu.duke.cabig.c3pr.domain.Arm"
-               collection="collection" set-method="addArm" get-method="getArms">
-            <bind-xml name="arm" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="eligibilityCriteria" type="edu.duke.cabig.c3pr.domain.EligibilityCriteria"
-               collection="collection">
-            <bind-xml name="eligibilityCriteria" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="stratificationCriteria" type="edu.duke.cabig.c3pr.domain.StratificationCriterion"
-               collection="collection">
-            <bind-xml name="stratificationCriteria" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>

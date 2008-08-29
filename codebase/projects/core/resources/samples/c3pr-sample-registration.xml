@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registration xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+    <studySite gridId="e8e74068-5a1e-41be-b23f-c59820535e2d">
+        <healthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
+            <nciInstituteCode>NU healthcare</nciInstituteCode>
+        </healthcareSite>
+        <irbApprovalDate>2008-08-28</irbApprovalDate>
+        <startDate>2008-08-28</startDate>
+    </studySite>
+    <studyRef gridId="ae9c2d44-83aa-482a-9875-93e83893a625">
+        <shortTitleText>ShortTitleText1</shortTitleText>
+        <longTitleText>LongTitleText1</longTitleText>
+        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="test id"
+            xsi:type="OrganizationAssignedIdentifierType">
+            <type>Coordinating Center Identifier</type>
+            <value>test id</value>
+            <primaryIndicator>true</primaryIndicator>
+            <healthcareSite gridId="4bc21edb-04de-4058-8f97-0d89f2164dfd">
+                <nciInstituteCode>DUKE NCI</nciInstituteCode>
+            </healthcareSite>
+        </identifier>
+    </studyRef>
+    <participant>
+        <firstName>firstName</firstName>
+        <lastName>lastName</lastName>
+        <address/>
+        <administrativeGenderCode>M</administrativeGenderCode>
+        <birthDate>2008-08-28</birthDate>
+        <raceCode/>
+        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            type="test id0.30306858374150003" xsi:type="OrganizationAssignedIdentifierType">
+            <type>MRN</type>
+            <value>test id0.30306858374150003</value>
+            <primaryIndicator>true</primaryIndicator>
+            <healthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
+                <nciInstituteCode>NU healthcare</nciInstituteCode>
+            </healthcareSite>
+        </identifier>
+    </participant>
+    <startDate>2008-08-28</startDate>
+    <informedConsentFormSignedDate>2008-08-28</informedConsentFormSignedDate>
+    <informedConsentVersion>1.0</informedConsentVersion>
+    <regDataEntryStatus>INCOMPLETE</regDataEntryStatus>
+    <regWorkflowStatus>UNREGISTERED</regWorkflowStatus>
+    <scheduledEpoch>
+        <startDate>2008-08-28</startDate>
+        <epoch gridId="b4008e6a-d25c-44d0-8929-4cc83bafa602">
+            <name>epoch1</name>
+            <accrualIndicator>false</accrualIndicator>
+            <reservationIndicator>false</reservationIndicator>
+            <treatmentIndicator>true</treatmentIndicator>
+            <enrollmentIndicator>true</enrollmentIndicator>
+            <arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
+                <name>A</name>
+            </arm>
+            <stratificationCriteria>
+                <questionNumber>0</questionNumber>
+                <questionText>will I work?</questionText>
+                <permissibleAnswer hash-code="1939584213">
+                    <permissible-answer xmlns="">lets find out1</permissible-answer>
+                    <trimmed-permissible-answer xmlns="">lets find out1</trimmed-permissible-answer>
+                    <retired-indicator xmlns="">false</retired-indicator>
+                    <grid-id xmlns="">ba8dfbcf-cf4a-4bb4-95bd-351b2879a4fa</grid-id>
+                    <version xmlns="">0</version>
+                    <id xmlns="">33</id>
+                </permissibleAnswer>
+                <permissibleAnswer hash-code="1655139715">
+                    <permissible-answer xmlns="">lets find out2</permissible-answer>
+                    <trimmed-permissible-answer xmlns="">lets find out2</trimmed-permissible-answer>
+                    <retired-indicator xmlns="">false</retired-indicator>
+                    <grid-id xmlns="">cff3f27d-3717-4f73-baca-34174efc94fb</grid-id>
+                    <version xmlns="">0</version>
+                    <id xmlns="">34</id>
+                </permissibleAnswer>
+            </stratificationCriteria>
+        </epoch>
+        <scheduledArm>
+            <arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
+                <name>A</name>
+            </arm>
+        </scheduledArm>
+        <eligibilityIndicator>true</eligibilityIndicator>
+    </scheduledEpoch>
+    <stratumGroup>0:lets find out1</stratumGroup>
+</registration>

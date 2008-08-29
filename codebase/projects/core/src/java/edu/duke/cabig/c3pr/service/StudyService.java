@@ -14,7 +14,7 @@ import java.util.Date;
  * 
  * @author priyatam
  */
-public interface StudyService extends CCTSWorkflowService {
+public interface StudyService {
     public List<Study> searchByExample(Study study, int maxResults);
     
     public int countAcrrualsByDate(Study study, Date startDate, Date endDate);

@@ -121,6 +121,10 @@
             <bind-xml name="reservationIndicator" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="treatmentIndicator" type="boolean">
+            <bind-xml name="treatmentIndicator" node="element"
+                xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
         <field name="enrollmentIndicator" type="boolean">
             <bind-xml name="enrollmentIndicator" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>

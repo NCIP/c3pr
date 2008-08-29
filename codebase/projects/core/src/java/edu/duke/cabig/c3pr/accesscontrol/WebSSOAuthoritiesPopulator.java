@@ -72,9 +72,9 @@ public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
                             attributeKeyValuePair.length()));
         }
 
-        WebSSOUser user = new WebSSOUser(userDetailsService.loadUserByUsername(attrMap
-                        .get(getUserIdFromGridIdentity(CAGRID_SSO_GRID_IDENTITY))));
-        user.setGridId(attrMap.get(getUserIdFromGridIdentity(CAGRID_SSO_GRID_IDENTITY)));
+        WebSSOUser user = new WebSSOUser(userDetailsService.loadUserByUsername(getUserIdFromGridIdentity(attrMap
+                        .get(CAGRID_SSO_GRID_IDENTITY))));
+        user.setGridId(getUserIdFromGridIdentity(attrMap.get(CAGRID_SSO_GRID_IDENTITY)));
         user.setDelegatedEPR(attrMap.get(CAGRID_SSO_DELEGATION_SERVICE_EPR));
         user.setFirstName(attrMap.get(CAGRID_SSO_FIRST_NAME));
         user.setLastName(attrMap.get(CAGRID_SSO_LAST_NAME));

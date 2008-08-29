@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.service.impl;
 
+import java.io.InputStream;
+
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
@@ -16,6 +18,7 @@ import edu.duke.cabig.c3pr.service.CCTSWorkflowService;
 import edu.duke.cabig.c3pr.service.MultiSiteWorkflowService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
+import edu.duke.cabig.c3pr.xml.XMLTransformer;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
@@ -46,6 +49,14 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
     private MessageBroadcastService jmsCoOrdinatingCenterBroadcaster;
     
     private MessageBroadcastService jmsAffiliateSiteBroadcaster;
+    
+    private String cctsXSLTName;
+    
+    private XMLTransformer xmlTransformer; 
+
+    public void setCctsXSLTName(String cctsXSLTName) {
+        this.cctsXSLTName = cctsXSLTName;
+    }
 
     public void setJmsCoOrdinatingCenterBroadcaster(
                     MessageBroadcastService jmsCoOrdinatingCenterBroadcaster) {
@@ -105,7 +116,7 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
             }
             try {
                 // messageBroadcaster.initialize();
-                messageBroadcaster.broadcast(xml, cctsObject.getGridId());
+                messageBroadcaster.broadcast(xmlTransformer.transform(cctsXSLTName,xml), cctsObject.getGridId());
             }
             catch (BroadcastException e) {
                 e.printStackTrace();
@@ -201,5 +212,5 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
     public void setCctsXmlUtility(XmlMarshaller cctsXmlUtility) {
         this.cctsXmlUtility = cctsXmlUtility;
     }
-
+    
 }
