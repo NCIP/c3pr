@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
@@ -147,6 +148,8 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
     }
 
     private void buildCommandObject(StudySubject studySubject) {
+        studyDao.initialize(studySubject.getStudySite().getStudy());
+        participantDao.initialize(studySubject.getParticipant());
         if (studySubject.getScheduledEpoch()!=null) {
             ScheduledEpoch scheduledEpoch = studySubject
                             .getScheduledEpoch();
