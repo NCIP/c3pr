@@ -15,6 +15,9 @@ public class Configuration extends DatabaseBackedConfiguration {
 
     public static final ConfigurationProperty<String> PSC_BASE_URL = PROPERTIES
                     .add(new ConfigurationProperty.Text("pscBaseUrl"));
+    
+    public static final ConfigurationProperty<String> SMOKE_TEST_URL = PROPERTIES
+    .add(new ConfigurationProperty.Text("smokeTestURL"));
 
     public static final ConfigurationProperty<String> CAAERS_BASE_URL = PROPERTIES
                     .add(new ConfigurationProperty.Text("caaersBaseUrl"));
