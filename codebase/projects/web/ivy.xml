@@ -75,7 +75,13 @@
         	<dependency org="freemarker" name="freemarker" rev="2.3.4" />
         	<dependency org="opensymphony" name="quartz-all" rev="1.6.0" />
         	<dependency org="opensymphony" name="sitemesh" rev="2.2.1" />
-        	<!-- TODO: Check if Grid -->
+        	
+        	<dependency org="gov.nih.nci.ccts.grid.smoketest"
+        	name="smokeTestService-common" rev="1.2" />
+        	<dependency org="gov.nih.nci.ccts.grid.smoketest"
+        		name="smokeTestService-stubs" rev="1.2" />
+        	<dependency org="gov.nih.nci.ccts.grid.smoketest"
+        		name="smokeTestService-client" rev="1.2" />
         	<!-- TODO : Check if Grid END-->
         	
         	<dependency org="commons-dbcp" name="commons-dbcp" rev="1.2.1" >
