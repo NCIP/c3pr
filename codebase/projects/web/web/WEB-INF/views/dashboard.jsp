@@ -124,12 +124,11 @@
 			<div id="c3pr-deployment-status"><a href="javascript: Effect.Combo('deployment-modules')"><b>Check Deployment Status</b></a>
 				<div id="deployment-modules" style="display: none">
 					<!--<c:if test="${cctsEnv}">-->
-					<div id ="SmokeTestSerive"/>
+					<div id ="SmokeTestSerive">
 						Authentication : ${authentication }
 					</div>
-					<!--</c:if>--
-				</div>
-					<div id ="SmokeTestSerive"/>
+					<!--</c:if>-->
+					<div id ="SMTPTestSerive">
 						SMTP : Not Implemented
 					</div>
 				</div>
