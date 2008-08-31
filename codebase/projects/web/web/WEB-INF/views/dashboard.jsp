@@ -121,8 +121,8 @@
 			<br>			
 			<div id="c3pr-wiki"><a href="https://wiki.nci.nih.gov/display/CTMS/Cancer+Central+Clinical+Participant+Registry+%28C3PR%29" target="_blank"><b>C3PR Wiki</b></a></div>
 			<div id="c3pr-userguide"><a href="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide" target="_blank"><b>C3PR User Guide</b></a></div>
-			<div id="c3pr-deployment-status"><a href="javascript: new Effect.Combo('depoyment-modules	')" target="_blank"><b>Check Deployment Status</b></a>
-				<div id="depoyment-modules" style="display: none">
+			<div id="c3pr-deployment-status"><a href="javascript: Effect.Combo('deployment-modules')"><b>Check Deployment Status</b></a>
+				<div id="deployment-modules" style="display: none">
 					<!--<c:if test="${cctsEnv}">-->
 					<div id ="SmokeTestSerive"/>
 						Authentication : ${authentication }
