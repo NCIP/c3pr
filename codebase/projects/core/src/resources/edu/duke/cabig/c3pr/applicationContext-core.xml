@@ -398,7 +398,8 @@
     </bean>
           
     <!-- Repositories -->
-
+	
+	<bean id="xmlTransformer" class="edu.duke.cabig.c3pr.xml.XMLTransformer"/>
           
     <!-- Factories -->
     <bean id="studySubjectFactory" class="edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory" autowire="byName"/>
