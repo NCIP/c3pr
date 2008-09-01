@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.service.CCTSWorkflowService;
 import edu.duke.cabig.c3pr.service.MultiSiteWorkflowService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XMLTransformer;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.common.exception.XMLUtilityException;
@@ -116,9 +117,9 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
             }
             try {
                 // messageBroadcaster.initialize();
-                messageBroadcaster.broadcast(xmlTransformer.transform(cctsXSLTName,xml), cctsObject.getGridId());
+                messageBroadcaster.broadcast(xmlTransformer.transform(StringUtils.readFile(cctsXSLTName),xml), cctsObject.getGridId());
             }
-            catch (BroadcastException e) {
+            catch (Exception e) {
                 e.printStackTrace();
                 throw this.exceptionHelper.getException(
                                 getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.SEND_ERROR"), e);

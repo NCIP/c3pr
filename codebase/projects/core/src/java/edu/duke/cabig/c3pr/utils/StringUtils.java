@@ -244,4 +244,23 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
         ByteArrayInputStream iStream = new ByteArrayInputStream(b);
         return iStream;
     }
+    
+    public static String readFile(String filename) throws Exception{
+        java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(
+                        Thread.currentThread().getContextClassLoader().getResourceAsStream(
+                                        filename)));
+        StringBuffer sb = new StringBuffer();
+        try {
+            String newline = System.getProperty("line.separator");
+            String tmp = null;
+            while ((tmp = br.readLine()) != null) {
+                sb.append(tmp);
+                sb.append(newline);
+            }
+        }
+        finally {
+            if (br != null) br.close();
+            return(sb.toString());
+        }
+    }
 }
