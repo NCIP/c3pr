@@ -212,5 +212,9 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
     public void setCctsXmlUtility(XmlMarshaller cctsXmlUtility) {
         this.cctsXmlUtility = cctsXmlUtility;
     }
+
+    public void setXmlTransformer(XMLTransformer xmlTransformer) {
+        this.xmlTransformer = xmlTransformer;
+    }
     
 }
