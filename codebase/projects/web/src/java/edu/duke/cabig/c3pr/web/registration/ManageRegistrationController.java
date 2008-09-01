@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -18,6 +19,7 @@ import edu.duke.cabig.c3pr.web.registration.tabs.ManageEpochTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationOverviewTab;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 public class ManageRegistrationController<C extends StudySubject> extends RegistrationController<C> {
 
@@ -102,8 +104,12 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
 
     @Override
     protected C save(C command, Errors arg1) {
-        getDao().save(getPrimaryDomainObject(command));
+        getDao().merge(getPrimaryDomainObject(command));
         return command;
     }
 
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
+        return WebUtils.hasSubmitParameter(request, "dontSave")?true:super.shouldSave(request, command, tab);
+    }
 }

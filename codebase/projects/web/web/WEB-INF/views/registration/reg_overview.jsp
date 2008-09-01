@@ -40,7 +40,7 @@
 
         <tags:tabMethod method="getMessageBroadcastStatus" onComplete="onBroadcastComplete"
         viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
-        formName="'viewDetails'"/>
+        formName="'viewDetails'" params="dontSave=true"/>
         }
 
       function doSendMessageToESB() {
@@ -51,7 +51,7 @@
 
         <tags:tabMethod method="broadcastRegistration"
        viewName="/ajax/broadcast_res" onComplete="onBroadcastComplete"
-       divElement="'broadcastResponse'" formName="'tabMethodForm'"params="dontSave=true"/>
+       divElement="'broadcastResponse'" formName="'tabMethodForm'" params="dontSave=true"/>
         }
 
         function onBroadcastComplete() {

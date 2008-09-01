@@ -127,7 +127,6 @@
 					<div id ="SmokeTestSerive">
 						Authentication : ${authentication }
 					</div>
-					<!--</c:if>-->
 					<div id ="SMTPTestSerive">
 						SMTP : Not Implemented
 					</div>
