@@ -123,10 +123,11 @@
 			<div id="c3pr-userguide"><a href="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide" target="_blank"><b>C3PR User Guide</b></a></div>
 			<div id="c3pr-deployment-status"><a href="javascript: Effect.Combo('deployment-modules')"><b>Check Deployment Status</b></a>
 				<div id="deployment-modules" style="display: none">
-					<!--<c:if test="${cctsEnv}">-->
+					<c:if test="${cctsEnv}">
 					<div id ="SmokeTestSerive">
 						Authentication : ${authentication }
 					</div>
+					</c:if>
 					<div id ="SMTPTestSerive">
 						SMTP : Not Implemented
 					</div>
