@@ -70,12 +70,17 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
             Integer plannedNotificationId = jobDataMap.getInt("plannedNotificationId");            
             PlannedNotification plannedNotification = plannedNotificationDao.getInitializedPlannedNotificationById(plannedNotificationId);
             
-            Integer recipientScheduledNotificationId = jobDataMap.getInt("recipientScheduledNotificationId");            
-            RecipientScheduledNotification recipientScheduledNotification = recipientScheduledNotificationDao.getInitializedRecipientScheduledNotificationById(recipientScheduledNotificationId);
+            
+            RecipientScheduledNotification recipientScheduledNotification = null;
+            if(jobDataMap.containsKey("recipientScheduledNotificationId")){
+            	Integer recipientScheduledNotificationId = jobDataMap.getInt("recipientScheduledNotificationId");            
+            	recipientScheduledNotification = recipientScheduledNotificationDao.getInitializedRecipientScheduledNotificationById(recipientScheduledNotificationId);
+            }
+            
             
             if(plannedNotification.getEventName() != null){
             	try{
-            		processJob(jobDataMap, applicationContext, recipientScheduledNotification);
+            		processJob(jobDataMap, recipientScheduledNotification, plannedNotification);
             	}catch(JobExecutionException jee){
             		logger.error(jee.getMessage());
             	}
@@ -98,7 +103,8 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
      * this is the method that must be overridden by the extending jobs.
      * this will contain the job content details.
      */
-    public abstract void processJob(JobDataMap jobDataMap, ApplicationContext applicationContext, RecipientScheduledNotification recipientScheduledNotification)  throws JobExecutionException ;
+    public abstract void processJob(JobDataMap jobDataMap, RecipientScheduledNotification recipientScheduledNotification, 
+    					PlannedNotification plannedNotification)  throws JobExecutionException ;
     	
 
 	public Scheduler getScheduler() {

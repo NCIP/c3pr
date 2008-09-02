@@ -39,6 +39,34 @@ public class NotificationEmailService {
     private PersonnelServiceImpl personnelServiceImpl;
     
     private Configuration configuration;
+
+    
+    /**
+     * This method is reponsible for figuring out the email address from notifications and sending
+     * out the notification email using Javamail.
+     * This is only used for REPORT BASED EMAILS
+     * 
+     * @param study
+    
+    public void sendReportEmail(RecipientScheduledNotification recipientScheduledNotification) throws MailException {
+    	log.debug(this.getClass().getName() + ": Entering sendReportEmail()");
+        List<String> emailList = null;
+        //composing the message to be sent out
+        emailList = generateEmailList(recipientScheduledNotification);
+        for (String emailAddress : emailList) {
+                SimpleMailMessage msg = new SimpleMailMessage(this.accountCreatedTemplateMessage);
+                msg.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
+                msg.setTo(emailAddress);
+                msg.setText(recipientScheduledNotification.getScheduledNotification().getMessage());
+                log.debug("Trying to send " + recipientScheduledNotification.getScheduledNotification().getTitle()+ " report email");
+                
+                this.mailSender.send(msg);
+        }
+        log.debug(this.getClass().getName() + ": Exiting sendReportEmail()");
+    } */
+
+
+    
     
     /**
      * This method is reponsible for figuring out the email address from notifications and sending

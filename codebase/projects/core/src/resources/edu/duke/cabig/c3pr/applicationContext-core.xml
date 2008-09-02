@@ -205,6 +205,12 @@
             <ref local="auditSessionFactory"/>
         </property>
     </bean>
+    
+    <bean name="auditHistoryRepository" class="edu.duke.cabig.c3pr.domain.repository.AuditHistoryRepository">
+        <property name="sessionFactory">
+            <ref local="auditSessionFactory"/>
+        </property>
+    </bean>
     										
 
     <!-- auditing beans definition end here -->

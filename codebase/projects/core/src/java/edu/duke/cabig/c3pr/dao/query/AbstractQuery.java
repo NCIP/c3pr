@@ -91,6 +91,7 @@ public class AbstractQuery {
         }
 
         return queryBuffer.toString();
+        //return "select distinct e from DataAuditEvent e left join fetch e.values value WHERE e.reference.className=:className AND e.info.time<=:endDate AND e.info.time>=:startDate AND value.attributeName=:attributeName AND value.currentValue=:currentValue order by e.id desc";
     }
 
     /**

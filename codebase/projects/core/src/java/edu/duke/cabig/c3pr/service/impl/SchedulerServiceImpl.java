@@ -25,7 +25,7 @@ import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
  */
 public class SchedulerServiceImpl implements SchedulerService {
 	
-	public static final String WEEKLY = "0 10 18 ? * THU";
+	public static final String WEEKLY = "0 35 10 ? * FRI";
 	public static final String MONTHLY ="0 0 12 L * ?";
 	public static final String ANNUAL ="0 0 12 L DEC ?";
 	
@@ -38,7 +38,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 	private ScheduledNotificationJob scheduledNotificationJob;
 	private ScheduledNotificationDao scheduledNotificationDao;
 	
-	//called from the rules xml.
+	/* Called from the rules xml for the immediate frequency event based notifications.
+	 */
 	public void scheduleStudyNotification(PlannedNotification plannedNotification, Integer scheduledNotificationId){
 		
         assert scheduledNotificationId != null: "scheduledNotificationId cannot be null";
@@ -107,6 +108,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 		        	//every last day December at 12:00pm
 		        	t = new CronTrigger("TA:scheduledNotificationId:" + recipientScheduledNotificationId , "TGA:PlannedNotificationId:" + recipientScheduledNotificationId , ANNUAL);
 			}
+			//This is the only one that will be used from here...the cron triggers will be created in createNotificationController
+			//at the time of creation of Planned Notifications.
 			if(frequency.equals(NotificationFrequencyEnum.IMMEDIATE) || t == null){
 		        t = TriggerUtils.makeImmediateTrigger("T:recipientScheduledNotificationId:" + recipientScheduledNotificationId,  REPEAT_COUNT, REPEAT_INTERVAL_IN_MILLI_SECONDS);
 		        t.setGroup("TG:scheduledNotificationId:" + recipientScheduledNotificationId);

@@ -8,6 +8,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -45,6 +47,8 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     private NotificationEventTypeEnum eventName;
     
     private LazyListHelper lazyListHelper;
+    
+    private HealthcareSite healthcareSite;
 
     public PlannedNotification() {
         lazyListHelper = new LazyListHelper();
@@ -237,6 +241,18 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
 
 	public void setStudyThreshold(Integer studyThreshold) {
 		this.studyThreshold = studyThreshold;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "organizations_id")
+	@Cascade(value = CascadeType.LOCK)
+    @Where(clause = "retired_indicator  = 'false'")
+	public HealthcareSite getHealthcareSite() {
+		return healthcareSite;
+	}
+
+	public void setHealthcareSite(HealthcareSite healthcareSite) {
+		this.healthcareSite = healthcareSite;
 	}
 
 }

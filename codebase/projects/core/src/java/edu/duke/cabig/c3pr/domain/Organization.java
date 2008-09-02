@@ -128,8 +128,7 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         return true;
     }
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organizations_id")
+    @OneToMany(mappedBy="healthcareSite", fetch = FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
  	public List<PlannedNotification> getPlannedNotificationsInternal() {
         return lazyListHelper.getInternalList(PlannedNotification.class);
