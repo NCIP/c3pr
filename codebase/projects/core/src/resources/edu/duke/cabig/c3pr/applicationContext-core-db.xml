@@ -50,7 +50,7 @@
                 <prop key="hibernate.connection.pool_size">10</prop>
                 <prop key="hibernate.show_sql">${show_sql}</prop>
                 <prop key="hibernate.dialect">
-                    edu.duke.cabig.c3pr.hibernate.ImprovedPostgreSQLDialect
+                    ${audit.dialect}
                 </prop>
                 <prop key="hibernate.query.substitutions">
                     true 1, false 0, yes 'Y', no 'N'
