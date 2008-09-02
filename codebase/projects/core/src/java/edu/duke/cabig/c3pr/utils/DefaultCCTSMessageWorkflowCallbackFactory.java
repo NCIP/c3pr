@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.utils;
 
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -58,12 +58,16 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
          * @param objectId
          */
         public void messageSendSuccessful(String objectId) {
+            gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+                            "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
             log.debug("Recording successful send for objectId" + objectId);
             domainObject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND);
             dao.save(domainObject);
         }
 
         public void messageSendFailed(String objectId) {
+            gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+                            "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
             log.debug("Recording send failed for objectId" + objectId);
             domainObject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
             dao.save(domainObject);
@@ -76,12 +80,16 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
          *                id of the domain object
          */
         public void messageSendConfirmed(String objectId) {
+            gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+                            "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
             log.debug("Recording send confirmed for objectId" + objectId);
             domainObject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_CONFIRMED);
             dao.save(domainObject);
         }
 
         public void recordError(String objectId, ResponseErrors errors) {
+            gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+                            "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
             log.debug("Recording error for objectId" + objectId);
             domainObject.setCctsErrorString(buildErrorString(errors));
             dao.save(domainObject);            
