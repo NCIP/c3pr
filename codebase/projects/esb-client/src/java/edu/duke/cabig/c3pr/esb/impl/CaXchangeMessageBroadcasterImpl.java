@@ -161,7 +161,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         if (messageWorkflowCallback != null || messageResponseHandlers.size() > 0) {
             log.debug("Will track response from caXchange");
             try {
-                FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef),SecurityContextHolder.getContext().getAuthentication());
+                FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef,messageWorkflowCallback, externalId),SecurityContextHolder.getContext().getAuthentication());
                 //ToDo make this like a global service not single thread executor
                 ExecutorService es = Executors.newSingleThreadExecutor();
                 es.submit(asyncTask);
@@ -308,10 +308,14 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     class SynchronousResponseProcessor implements Callable {
 
         CaXchangeResponseServiceClient responseService;
+        String objectId;
+        private MessageWorkflowCallback messageWorkflowCallback;
         private long startTime;
 
-        public SynchronousResponseProcessor(CaXchangeResponseServiceReference responseRef) throws org.apache.axis.types.URI.MalformedURIException, RemoteException {
+        public SynchronousResponseProcessor(CaXchangeResponseServiceReference responseRef, MessageWorkflowCallback messageWorkflowCallback, String objectId) throws org.apache.axis.types.URI.MalformedURIException, RemoteException {
             responseService = new CaXchangeResponseServiceClient(responseRef.getEndpointReference());
+            this.messageWorkflowCallback=messageWorkflowCallback;
+            this.objectId=objectId;
         }
 
 
@@ -323,7 +327,10 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
             log.debug("Elapsed time : " + elapsedTime + " seconds");
             if (elapsedTime > 60) {
-                log.debug("Giving up. caXchange never returned a response for more than 60 seconds.");
+                log.debug("Giving up. caXchange never returned a response for more than 60 seconds. Recording Error.");
+                ResponseErrors<CCTSApplicationNames> errors= new ResponseErrors<CCTSApplicationNames>();
+                errors.addError(CCTSApplicationNames.CAXCHANGE, "Timedout. No response from caXchange.");
+                messageWorkflowCallback.recordError(objectId, errors);
                 return null;
             }
 
