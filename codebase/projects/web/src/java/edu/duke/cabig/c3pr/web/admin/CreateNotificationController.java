@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.admin;
 
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.quartz.CronTrigger;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -20,14 +27,17 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
+import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
+import edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -47,8 +57,10 @@ public class CreateNotificationController extends SimpleFormController {
     private static Log log = LogFactory.getLog(CreateNotificationController.class);
 
     private OrganizationDao organizationDao;
+    private HealthcareSiteDao healthcareSiteDao;
     private ResearchStaffDao researchStaffDao;
     private InvestigatorDao investigatorDao;
+    private PlannedNotificationDao plannedNotificationDao;
 
     private OrganizationService organizationService;
     
@@ -57,6 +69,18 @@ public class CreateNotificationController extends SimpleFormController {
     private Configuration configuration;
     
     private InPlaceEditableTab<Organization> page;
+    
+    //constants for the Cron Triggers
+    public static final String WEEKLY = "0 42 13 ? * TUE";
+	public static final String MONTHLY ="0 0 12 L * ?";
+	public static final String ANNUAL ="0 0 12 L DEC ?";
+	
+	public static final Long REPEAT_INTERVAL_IN_MILLI_SECONDS= 10*60*1000L;
+	public static final Integer REPEAT_COUNT= 3;
+	
+	//job related declarations
+	private Scheduler scheduler;
+	
 
     protected Object formBackingObject(HttpServletRequest request) throws Exception {    	
     	String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);    	
@@ -76,7 +100,7 @@ public class CreateNotificationController extends SimpleFormController {
         return refdata;
     }
     
-    @Override
+	@Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
     	super.initBinder(request, binder);
     	binder.registerCustomEditor(NotificationEventTypeEnum.class, new EnumByNameEditor(
@@ -113,7 +137,6 @@ public class CreateNotificationController extends SimpleFormController {
 		} else {
 			
 			Organization organization = null;
-	        log.debug("Inside the CreateNotificationController:");
 	        if (command instanceof Organization) {
 	            organization = (Organization) command;
 	        }
@@ -122,11 +145,18 @@ public class CreateNotificationController extends SimpleFormController {
 	            return new ModelAndView(getFormView());
 	        }
 	        
-	        //assign the Rs or Inv to the userBasedRe
+	        //assign the Rs or Inv to the userBasedRecpients
 	        List<ResearchStaff> rsList = new ArrayList<ResearchStaff>();
 	        List<Investigator> invList = new ArrayList<Investigator>(); 
+	        Trigger trigger = null;
 	        
-	        for(PlannedNotification pn: organization.getPlannedNotifications()){
+	        PlannedNotification pn = null;
+	        for(int i = 0; i < organization.getPlannedNotifications().size(); i++){
+	        	pn = organization.getPlannedNotifications().get(i);
+	        	if(pn.getHealthcareSite() == null){
+	        		pn.setHealthcareSite(healthcareSiteDao.getByNciInstituteCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)));
+	        		
+	        	}
 	        	for(UserBasedRecipient ubr: pn.getUserBasedRecipient()){
 	        		if(ubr.getEmailAddress() != null && ubr.getEmailAddress() != ""){
 	        			rsList = researchStaffDao.getByEmailAddress(ubr.getEmailAddress());
@@ -138,14 +168,30 @@ public class CreateNotificationController extends SimpleFormController {
 	        			ubr.setInvestigator(invList.get(0));
 	        		}
 	        	}
+	        	
+	        	if(pn.getFrequency() != NotificationFrequencyEnum.IMMEDIATE && pn.getId() == null){
+	        		//generate the cron Triggers and jobs for Report based events if the pn is new.
+	        		
+	        		plannedNotificationDao.saveOrUpdate(pn);
+	        		trigger = generateTriggerForReportBasedEvents(pn);
+	        		scheduleJobsForReportBasedEvents(pn, trigger);
+	        	} else {
+	        		//do not create triggers/jobs if the pn was pre-existing
+	        		plannedNotificationDao.saveOrUpdate(pn);
+	        	}
 	        }
 	        
-	        if(organization.getId() != null){
-	        	organizationService.mergeNotification(organization);	        	
-	        }else {
-	        	organizationService.saveNotification(organization);
-	        }
-	        
+//	        if(organization.getId() != null){
+//	        	organizationService.mergeNotification(organization);    	
+//	        }else {
+//	        	organizationService.saveNotification(organization);
+//	        }
+	       
+//	        for(int i = 0; i < organization.getPlannedNotifications().size(); i++){
+//	        	pn = organization.getPlannedNotifications().get(i);
+//	        	trigger = generateTriggerForReportBasedEvents(pn, i);
+//	        	scheduleJobsForReportBasedEvents(pn, trigger, i);
+//	        }
 	        
 	        Map map = errors.getModel();
 	        map.put("command", organization);
@@ -154,7 +200,57 @@ public class CreateNotificationController extends SimpleFormController {
 		}
 
     }
+    
+    /*	Create the Cron Triggers for (non-event based)report notifications.
+     */
+    private Trigger generateTriggerForReportBasedEvents(PlannedNotification pn){
+    	Trigger t = null;
+    	try {
+			if(pn.getFrequency().equals(NotificationFrequencyEnum.WEEKLY)){
+				//all ids are of the form  "TW:Event-Freq-id:"
+				//every Friday at 12:00pm
+				t = new CronTrigger("TW: " + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString(), 
+									"TGW"  + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString(),
+									"0 18 15 ? * TUE");
+			}
+			if(pn.getFrequency().equals(NotificationFrequencyEnum.MONTHLY)){
+				//every last day of month at 12:00pm
+				t = new CronTrigger("TM" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString(), 
+									"TGM" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString() , 
+									MONTHLY);
+			}
+			if(pn.getFrequency().equals(NotificationFrequencyEnum.ANNUAL)){
+				//every last day December at 12:00pm
+				t = new CronTrigger("TA" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString() , 
+									"TGA" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString() , 
+									ANNUAL);
+			}
+		} catch (ParseException e) {
+			log.error(e.getMessage());
+		}
+		return t;
+    }
 
+    private void scheduleJobsForReportBasedEvents(PlannedNotification pn, Trigger trigger){
+    	 // create job detail and set the map values
+        String jobName = "J:" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString();
+        String jobGroupName = "JG:" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString();
+        JobDetail jobDetail = new JobDetail(jobName, jobGroupName, ScheduledNotificationJob.class);
+                        
+        JobDataMap jobDataMap = jobDetail.getJobDataMap();
+        jobDataMap.put("plannedNotificationId", pn.getId());
+
+        // schedule the jobs
+        log.info("Scheduling the job (jobFullName : " + jobDetail.getFullName() + ")");
+        try {
+			scheduler.scheduleJob(jobDetail, trigger);
+		} catch (SchedulerException e) {
+			log.error(e.getMessage());
+		}	
+    }
+    
+    
+    
     public OrganizationService getOrganizationService() {
         return organizationService;
     }
@@ -277,6 +373,31 @@ public class CreateNotificationController extends SimpleFormController {
 
 	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
 		this.researchStaffDao = researchStaffDao;
+	}
+
+	public PlannedNotificationDao getPlannedNotificationDao() {
+		return plannedNotificationDao;
+	}
+
+	public void setPlannedNotificationDao(
+			PlannedNotificationDao plannedNotificationDao) {
+		this.plannedNotificationDao = plannedNotificationDao;
+	}
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public Scheduler getScheduler() {
+		return scheduler;
+	}
+
+	public void setScheduler(Scheduler scheduler) {
+		this.scheduler = scheduler;
 	}
 
 }

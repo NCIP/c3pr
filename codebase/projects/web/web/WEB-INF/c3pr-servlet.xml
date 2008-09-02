@@ -151,6 +151,9 @@
         <property name="page">
         	<bean class="edu.duke.cabig.c3pr.web.admin.NotificationTab" autowire="byType" />
         </property>
+        <property name="scheduler">
+			<ref bean="schedulerFactory"/>
+		</property>
     </bean>
     <!-- mapping for NOTIFICATIONS task -->
     
