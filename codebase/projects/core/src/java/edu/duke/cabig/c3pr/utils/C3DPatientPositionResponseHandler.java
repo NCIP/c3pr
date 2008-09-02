@@ -20,7 +20,7 @@ import gov.nih.nci.common.exception.XMLUtilityException;
  * Handles c3d patient position <p/> Created by IntelliJ IDEA. User: kherm Date: Nov 27, 2007 Time:
  * 10:11:56 AM To change this template use File | Settings | File Templates.
  */
-public class C3DPatientPositionResponseHandler implements CaXchangeMessageResponseHandler {
+public class C3DPatientPositionResponseHandler extends CaXchangeMessageResponseHandlerImpl {
 
     public static final String C3D_SERVICE_IDENTIFIER = "C3D";
 
@@ -32,7 +32,7 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
 
     private StudySubjectRepository studySubjectRepository;
 
-    public void handleMessageResponse(String string, Response response) {
+    public void processResponse(String objectId, Response response) {
         log.debug("Will look for c3d identifier in response message");
 
         for (TargetResponseMessage tResponse : response.getTargetResponse()) {
