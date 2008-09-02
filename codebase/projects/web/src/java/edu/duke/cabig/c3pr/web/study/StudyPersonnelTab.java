@@ -124,7 +124,6 @@ class StudyPersonnelTab extends StudyTab {
                          StudyPersonnel sPersonnel = new StudyPersonnel();
                          rs = researchStaffDao.getById(new Integer(rsId).intValue());
                          if (rs != null) {
-                             rs.getStudyPersonnels().add(sPersonnel);
                              sPersonnel.setResearchStaff(rs);
                              sPersonnel.setRoleCode("C3pr Admin");
                              sPersonnel.setStatusCode("Active");

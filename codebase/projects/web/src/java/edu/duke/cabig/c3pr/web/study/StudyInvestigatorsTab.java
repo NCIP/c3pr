@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -94,10 +95,15 @@ class StudyInvestigatorsTab extends StudyTab {
                             studyInvestigator.setRoleCode("Site Investigator");
                             studyInvestigator.setStatusCode("Active");
                             studyInvestigator.setStudyOrganization(studyOrg);
-                            studyOrg.getStudyInvestigators().add(studyInvestigator);
-                            studyValidator.validateStudyInvestigators(study, errors);
-                            if (errors.hasErrors()) {
-                                studyOrg.getStudyInvestigators().remove(studyInvestigator);
+                            
+                            HashSet<StudyInvestigator> sStudyInvestigator = new HashSet<StudyInvestigator>() ;
+                            sStudyInvestigator.addAll(studyOrg.getStudyInvestigators());
+                            if(sStudyInvestigator.add(studyInvestigator)){
+                            	studyOrg.getStudyInvestigators().add(studyInvestigator);	
+                            }else{
+                            	errors.rejectValue("studyOrganizations[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
+                                        studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),
+                                        null, null));
                             }
                         }
                         else {
