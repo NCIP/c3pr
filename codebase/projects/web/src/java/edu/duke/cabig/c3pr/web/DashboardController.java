@@ -123,7 +123,7 @@ public class DashboardController extends ParameterizableViewController {
         getRecentPendingRegistrations(request);
 
         getRecentNotifications(request);
-
+        request.setAttribute("cctsEnv", isCCTSEnv());
         if(isCCTSEnv()){
             try {
                 testSmokeTestGridService();
