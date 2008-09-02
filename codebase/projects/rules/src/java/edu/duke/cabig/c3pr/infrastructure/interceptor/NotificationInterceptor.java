@@ -285,11 +285,12 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		}
 		
 		//figure out the event and then fire the rules
-		if(previousCoordinatingCenterStudyStatus != null &&
-				previousCoordinatingCenterStudyStatus.equals(currentCoordinatingCenterStudyStatus)){
-			//no status change...hence do nothing.
-		}else{
-			//if the prev status is null or pendign and current status is active then its a new study
+		if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING) ||
+				(previousCoordinatingCenterStudyStatus != null && previousCoordinatingCenterStudyStatus.equals(currentCoordinatingCenterStudyStatus))){
+			//do nothing if the final status is pending coz this isnt open study nor is it study status change.
+			//also do nothing is there is no status change.
+		} else {
+			//if the prev status is null or pending and current status is active then its a new study
 			//else its a study status change.
 			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.ACTIVE) &&
 				(previousCoordinatingCenterStudyStatus == null || previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING)) ){
