@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.apache.commons.lang.StringUtils;
 
 public class AuditInfoFilter extends
                 gov.nih.nci.cabig.ctms.web.filters.ContextRetainingFilterAdapter {
@@ -20,16 +21,18 @@ public class AuditInfoFilter extends
                     final FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpReq = (HttpServletRequest) request;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null)
-
-        {
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (username != null) {
-                gov.nih.nci.cabig.ctms.audit.DataAuditInfo
-                                .setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
-                                                username, request.getRemoteAddr(), new Date(),
-                                                httpReq.getRequestURI()));
-            }
+        String userName = null;
+        if (authentication != null){
+        	userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        }
+        if(StringUtils.isBlank(userName)){
+        	userName=request.getParameter("userName");
+        }
+        if (!StringUtils.isBlank(userName)) {
+            gov.nih.nci.cabig.ctms.audit.DataAuditInfo
+                            .setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+                            		userName, request.getRemoteAddr(), new Date(),
+                                            httpReq.getRequestURI()));
         }
         chain.doFilter(request, response);
         edu.nwu.bioinformatics.commons.DataAuditInfo.setLocal(null);
