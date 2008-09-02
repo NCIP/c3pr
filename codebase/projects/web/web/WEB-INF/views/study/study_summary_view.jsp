@@ -497,19 +497,19 @@
     <chrome:division title="CCTS Workflow">
         <div class="content">
             <div class="row">
-            	<table width="50%"><tr>
+            	<table width="60%"><tr>
                    	<td width="25%" align="right">
                        <b>Broadcast Status:</b>
                        </td>
 					<td width="75%" align="left">
 					<div id="broadcastResponse">
-                           ${command.cctsWorkflowStatus.displayName}
-                           <c:if test="${command.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
-                       	<a href="javascript:C3PR.showCCTSError();">Click here to see the error message</a>
-                       	<div id="cctsErrorMessage" style="display: none;">${command.cctsErrorString}</div>
-                       	</c:if>
-                       </div>
-                       </td>
+                       ${!empty command.cctsWorkflowStatus.displayName?command.cctsWorkflowStatus.displayName:'The study has not yet been broadcasted. Click on the broadcast button to create study in other CTMS Application'}
+                       <c:if test="${command.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
+                    	<a href="javascript:C3PR.showCCTSError();">Click here to see the error message</a>
+                    	<div id="cctsErrorMessage" style="display: none;">${command.cctsErrorString}</div>
+                    </c:if>
+                   </div>
+                   </td>
                    </tr><tr><td colspan="2">&nbsp;</td></tr><tr>
                        <td colspan="2" align="center">
                        <input type="button" id="broadcastStatusBtn" value="Refresh"
