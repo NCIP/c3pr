@@ -211,7 +211,7 @@ public class CreateNotificationController extends SimpleFormController {
 				//every Friday at 12:00pm
 				t = new CronTrigger("TW: " + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString(), 
 									"TGW"  + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString(),
-									"0 18 15 ? * TUE");
+									WEEKLY);
 			}
 			if(pn.getFrequency().equals(NotificationFrequencyEnum.MONTHLY)){
 				//every last day of month at 12:00pm
