@@ -2,6 +2,17 @@ package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
@@ -46,24 +57,53 @@ public class NotificationEmailService {
      * out the notification email using Javamail.
      * This is only used for REPORT BASED EMAILS
      * 
-     * @param study
+     * @param study*/
     
-    public void sendReportEmail(RecipientScheduledNotification recipientScheduledNotification) throws MailException {
+    public void sendReportEmail(RecipientScheduledNotification recipientScheduledNotification) throws MessagingException {
     	log.debug(this.getClass().getName() + ": Entering sendReportEmail()");
-        List<String> emailList = null;
+    	List<String> emailList = null;
         //composing the message to be sent out
         emailList = generateEmailList(recipientScheduledNotification);
         for (String emailAddress : emailList) {
-                SimpleMailMessage msg = new SimpleMailMessage(this.accountCreatedTemplateMessage);
-                msg.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
-                msg.setTo(emailAddress);
-                msg.setText(recipientScheduledNotification.getScheduledNotification().getMessage());
-                log.debug("Trying to send " + recipientScheduledNotification.getScheduledNotification().getTitle()+ " report email");
-                
-                this.mailSender.send(msg);
+        	
+        	//TO DO: Must move this to be read in from an external file
+        	Properties props = new Properties();
+            props.setProperty("mail.transport.protocol", "smtp");
+            props.setProperty("mail.host", "smtp.gmail.com");
+            props.setProperty("mail.port", "465");
+            props.setProperty("mail.user", "c3prproject@gmail.com");
+            props.setProperty("mail.password", "semanticbits");
+            props.setProperty("mail.smtp.debug", "true");
+            props.setProperty("mail.smtp.auth", "true");
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            //TO DO: Must move this to be read in from an external file
+            
+            Session mailSession = Session.getDefaultInstance(props, null);
+            mailSession.setDebug(true);
+            Transport transport = mailSession.getTransport("smtp");
+
+            MimeMessage message = new MimeMessage(mailSession);
+            
+            message.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
+            message.setFrom(new InternetAddress("c3prproject@gmail.com"));
+            
+            MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            mimeBodyPart.setContent(recipientScheduledNotification.getScheduledNotification().getMessage(), "text/html");
+
+            Multipart multiPart = new MimeMultipart();
+            multiPart.addBodyPart(mimeBodyPart);
+            
+            message.setContent(multiPart);
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddress));
+
+            transport.connect("smtp.gmail.com", "c3prproject@gmail.com", "semanticbits");
+            message.saveChanges();
+            transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            transport.close();
         }
+    	
         log.debug(this.getClass().getName() + ": Exiting sendReportEmail()");
-    } */
+    } 
 
 
     
