@@ -210,7 +210,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
     		default: break;
     	}
     	
-    	msgBody.append("<html><head></head><body><br/>");
+    	msgBody.append("<html><body><br/>");
     	msgBody.append( messageText + messageTerm + "<br/><br/>");
     	msgBody.append("<table border ='1'>");
     	msgBody.append("<tr>");
