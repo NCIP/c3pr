@@ -49,10 +49,12 @@ public class ScheduledNotificationJob extends ScheduledJob {
     
     private ScheduledNotificationDao scheduledNotificationDao;
     
-    public final String spacer = "     ";
-    public final String seperator = " | ";
-    public final String dashedLine = "-----------------------------------------------------------------------------------";
-
+    public final String NEW_REGISTATION_REPORT_MESSAGE = "This is the list of New Registrations from last ";
+    
+    public static final String WEEK = "Week";
+    public static final String MONTH = "Month";
+    public static final String YEAR = "Year";
+    
     public ScheduledNotificationJob(){
     	super();
     }
@@ -83,7 +85,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
         			ScheduledNotification scheduledNotification = handleReportGeneration(plannedNotification);
         			if(scheduledNotification != null){
         				for(RecipientScheduledNotification rsn: scheduledNotification.getRecipientScheduledNotification()){
-        					notificationEmailService.sendEmail(rsn);
+        					notificationEmailService.sendReportEmail(rsn);
         				}
         			} else {
         				logger.error("Error during report generation job: scheduledNotification is null. " +
@@ -102,7 +104,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
         	logger.error("execution of sendMail failed", me);
         	recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.RETRY);
         }catch (Exception e){
-            logger.error("execution of job  failed", e);
+            logger.error("execution of job failed", e);
             recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.ERROR);
         }
         logger.debug("Exiting ScheduledNotification Job");
@@ -180,31 +182,54 @@ public class ScheduledNotificationJob extends ScheduledJob {
     	for(int i = 0; i < idList.size(); i++){
     		ssList.add(studySubjectDao.getById(idList.get(i)));
     	}
-    	return composeReport(ssList); 
+    	return composeReport(ssList, plannedNotification); 
     }
     
     /*
      *  create the message format with the values to be reported
      */
-    private String composeReport(List<StudySubject> ssList){
+    private String composeReport(List<StudySubject> ssList, PlannedNotification plannedNotification){
     	StringBuffer msgBody = new StringBuffer();
-    	msgBody.append("Subject MRN" + this.spacer + this.seperator + "Registration  Status" + this.spacer + this.seperator + "Subject Name");
-    	msgBody.append("\n");
-    	msgBody.append(dashedLine);
-    	msgBody.append("\n");
+    	String messageText = " ";
+    	String messageTerm = " ";
+    	
+    	switch(plannedNotification.getEventName()){
+			case NEW_REGISTRATION_EVENT:    messageText = NEW_REGISTATION_REPORT_MESSAGE;
+						   					break;
+						   					
+			default: 						break;
+		}
+    	
+    	switch(plannedNotification.getFrequency()){
+    		case WEEKLY:   messageTerm = WEEK; 
+    					   break;
+    		case MONTHLY:  messageTerm = MONTH;
+    			 		   break;
+    		case ANNUAL:   messageTerm = YEAR;
+    					   break;
+    		default: break;
+    	}
+    	
+    	msgBody.append("<html><head></head><body><br/>");
+    	msgBody.append( messageText + messageTerm + "<br/><br/>");
+    	msgBody.append("<table border ='1'>");
+    	msgBody.append("<tr>");
+    	msgBody.append("<th bgcolor='green'>" + "Subject MRN" + "</th>");
+    	msgBody.append("<th bgcolor='green'>" + "Registration  Status" + "</th>");
+    	msgBody.append("<th bgcolor='green'>" + "Subject Name" + "</th>");
+    	msgBody.append("</tr>");
     	StudySubject ss = null;
     	Iterator iter = ssList.iterator();
     	while(iter.hasNext()){
     		ss = (StudySubject)iter.next();
-    		msgBody.append(ss.getParticipant().getMRN().getValue());
-    		msgBody.append(spacer + spacer);
-    		msgBody.append(seperator);
-    		msgBody.append(ss.getRegWorkflowStatus().getDisplayName());
-    		msgBody.append(spacer + spacer);
-    		msgBody.append(seperator);
-    		msgBody.append(ss.getParticipant().getFirstName() + " " + ss.getParticipant().getLastName());
-    		msgBody.append("\n");
+    		msgBody.append("<tr>");
+    		msgBody.append("<td>" + ss.getParticipant().getMRN().getValue()+ "</td>");
+    		msgBody.append("<td>" + ss.getRegWorkflowStatus().getDisplayName()+ "</td>");
+    		msgBody.append("<td>" + ss.getParticipant().getFirstName() + " " + ss.getParticipant().getLastName() + "</td>");
+    		msgBody.append("</tr>");
     	}
+    	msgBody.append("</table>");
+    	msgBody.append("</body></html>");
     	
     	return msgBody.toString();
     }
