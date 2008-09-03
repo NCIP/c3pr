@@ -493,15 +493,15 @@
 </chrome:division>
 </div>
 
-<c:if test="${command.dataEntryStatus.code == 'Complete'}">
+<c:if test="${command.coordinatingCenterStudyStatus == 'ACTIVE' }">
     <chrome:division title="CCTS Workflow">
         <div class="content">
             <div class="row">
             	<table width="60%"><tr>
-                   	<td width="25%" align="right">
+                   	<td width="15%" align="right">
                        <b>Broadcast Status:</b>
                        </td>
-					<td width="75%" align="left">
+					<td width="85%" align="left">
 					<div id="broadcastResponse">
                        ${!empty command.cctsWorkflowStatus.displayName?command.cctsWorkflowStatus.displayName:'The study has not yet been broadcasted. Click on the broadcast button to create study in other CTMS Application'}
                        <c:if test="${command.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">

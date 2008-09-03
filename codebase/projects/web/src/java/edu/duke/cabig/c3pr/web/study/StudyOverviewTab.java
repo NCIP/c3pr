@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 
 /**
  * Tab for Study Overview/Summary page <p/> Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007
@@ -24,6 +25,11 @@ import edu.duke.cabig.c3pr.service.StudyService;
  */
 public class StudyOverviewTab extends StudyTab {
     protected StudyService studyService;
+    protected Configuration configuration;
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     public StudyOverviewTab(String longTitle, String shortTitle, String viewName) {
         super(longTitle, shortTitle, viewName);
@@ -62,6 +68,7 @@ public class StudyOverviewTab extends StudyTab {
     
     @Override
     public Map referenceData(HttpServletRequest request, Study command) {
+        request.setAttribute("isCCTSEnv", isCCTSEnv());
     	try {
     		command.setDataEntryStatus(command.evaluateDataEntryStatus()) ;
     	}catch (Exception e) {
@@ -192,6 +199,10 @@ public class StudyOverviewTab extends StudyTab {
         return true;
     }
 
+    private boolean isCCTSEnv(){
+        return this.configuration.get(Configuration.ESB_ENABLE).equalsIgnoreCase("true");
+    }
+    
     public StudyService getStudyService() {
         return studyService;
     }
