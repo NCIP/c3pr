@@ -79,7 +79,7 @@
 										<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
 										<tr><td valign="top" align="right" style="font-size: 11px;">Message:</td>
 											<td>
-												<textarea rows="10" cols="57" id="message">${rsn.scheduledNotification.message}</textarea>
+												${rsn.scheduledNotification.htmlMessage}
 											</td>
 										</tr>
 									</table>
@@ -106,7 +106,7 @@
 									<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
 									<tr><td valign="top" align="right" style="font-size: 11px;">Message:</td>
 										<td>
-											<textarea rows="20" cols="97" id="message">${sn.message}</textarea>
+											${sn.htmlMessage}
 										</td>
 									</tr>
 								</table>
