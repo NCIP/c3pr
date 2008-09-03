@@ -38,6 +38,15 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
         		RecipientScheduledNotification.class));
 	}
 	
+	@Transient
+	public String getHtmlMessage(){
+		if(message.startsWith("<html>")){
+			return message.substring(12, message.length()-14 );
+		} else {
+			return message;
+		}
+	}
+	
 	public String getMessage() {
 		return message;
 	}
