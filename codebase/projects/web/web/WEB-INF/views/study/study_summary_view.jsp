@@ -493,7 +493,7 @@
 </chrome:division>
 </div>
 
-<c:if test="${command.coordinatingCenterStudyStatus == 'ACTIVE' }">
+<c:if test="${command.coordinatingCenterStudyStatus == 'ACTIVE' && isCCTSEnv}">
     <chrome:division title="CCTS Workflow">
         <div class="content">
             <div class="row">
