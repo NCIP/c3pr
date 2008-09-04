@@ -47,7 +47,7 @@
                 </table>
 
         </chrome:box>
-        <chrome:box title="C3PR Notifications">
+        <chrome:box title="C3PR Notifications" htmlContent="">
           <c:choose> 
            <c:when test="${(empty recipientScheduledNotification || fn:length(recipientScheduledNotification) == 0) && 
            						(empty scheduledNotifications || fn:length(scheduledNotifications) == 0)}">
@@ -56,7 +56,7 @@
            <c:otherwise>
            		<table width="100%" cellspacing="1" cellpadding="2">
                     <tr bgcolor="${bgcolorAlternate}">
-                        <td width="65%"><b>Title</b></td>
+                        <td width="65%"><b>Title <a href="<c:url value='/pages/admin/viewInbox'/>">My Inbox</a></b></td>
                         <td width="35%"><b>Date</b></td>
                     </tr>
                     <c:forEach var="rsn" items="${recipientScheduledNotification}" varStatus="rsnStatus" end="5">
