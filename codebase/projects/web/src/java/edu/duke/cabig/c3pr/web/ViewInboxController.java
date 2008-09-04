@@ -55,61 +55,17 @@ public class ViewInboxController extends ParameterizableViewController {
 			rsn.setIsRead(Boolean.TRUE);
 			rsn.setDateRead(new Date());
 			recipientScheduledNotificationDao.save(rsn);
-			getRecentNotifications(request);
+			getNotifications(request);
 		}
-		
 		
 		return super.handleRequestInternal(request, response);
 	}
 
-	
-	private void getRecentNotifications(HttpServletRequest request) {
-        gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
-                        .getSession().getAttribute("userObject");
-        List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(user.getEmailId());
-        ResearchStaff rs = null;
-        List<RecipientScheduledNotification> recipientScheduledNotificationsList = new ArrayList<RecipientScheduledNotification>();
-        List<ScheduledNotification> scheduledNotificationsList = new ArrayList<ScheduledNotification>();
-        if (rsList.size() == 1) {
-            rs = rsList.get(0);
-            // getting notifications set up as userBasedNotifications
-            for (UserBasedRecipient ubr : rs.getUserBasedRecipient()) {
-                recipientScheduledNotificationsList.addAll(ubr.getRecipientScheduledNotification());
-            }
-
-            // getting notifications set up as roleBasedNotifications
-            Iterator<C3PRUserGroupType> groupIterator = null;
-            List<String> groupRoles = new ArrayList<String>();
-            try {
-                groupIterator = personnelService.getGroups(user.getUserId().toString()).iterator();
-            }
-            catch (C3PRBaseException cbe) {
-                log.error(cbe.getMessage());
-            }
-            while (groupIterator.hasNext()) {
-                groupRoles.add(((C3PRUserGroupType) groupIterator.next()).name());
-            }
-            // groupRoles now contains all the roles of the logged in user
-            for (PlannedNotification pn : plannedNotificationDao.getAll()) {
-                for (RoleBasedRecipient rbr : pn.getRoleBasedRecipient()) {
-                    if (groupRoles.contains(rbr.getRole())) {
-                        recipientScheduledNotificationsList.addAll(rbr
-                                        .getRecipientScheduledNotification());
-                    }
-                }
-            }
-
-        }
-        else {
-            // for the admin case
-            for (PlannedNotification pn : plannedNotificationDao.getAll()) {
-                scheduledNotificationsList.addAll(pn.getScheduledNotification());
-            }
-        }
-
-        request.getSession().setAttribute("recipientScheduledNotification", recipientScheduledNotificationsList);
-        request.getSession().setAttribute("scheduledNotifications", scheduledNotificationsList);
+	private void getNotifications(HttpServletRequest request){
+    	List<RecipientScheduledNotification> recipientScheduledNotificationsList = personnelService.getRecentNotifications(request);
+    	request.getSession().setAttribute("recipientScheduledNotification", recipientScheduledNotificationsList);
     }
+
 	
 	public RecipientScheduledNotificationDao getRecipientScheduledNotificationDao() {
 		return recipientScheduledNotificationDao;
