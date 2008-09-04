@@ -2,20 +2,29 @@ package edu.duke.cabig.c3pr.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
 
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
+import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
+import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
+import edu.duke.cabig.c3pr.domain.ScheduledNotification;
+import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import gov.nih.nci.security.UserProvisioningManager;
@@ -40,6 +49,8 @@ public class PersonnelServiceImpl implements PersonnelService {
     private UserProvisioningManager userProvisioningManager;
 
     private CSMObjectIdGenerator siteObjectIdGenerator;
+    
+    private PlannedNotificationDao plannedNotificationDao;
 
     private Logger log = Logger.getLogger(PersonnelServiceImpl.class);
 
@@ -215,6 +226,58 @@ public class PersonnelServiceImpl implements PersonnelService {
             }
         }
     }
+    
+    /*
+     * used exclusively for the dashboard and inbox view of notifications
+     */
+    public List<RecipientScheduledNotification> getRecentNotifications(HttpServletRequest request) {
+        gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
+                        .getSession().getAttribute("userObject");
+        List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(user.getEmailId());
+        ResearchStaff rs = null;
+        List<RecipientScheduledNotification> recipientScheduledNotificationsList = new ArrayList<RecipientScheduledNotification>();
+        List<ScheduledNotification> scheduledNotificationsList = new ArrayList<ScheduledNotification>();
+        if (rsList.size() == 1) {
+            rs = rsList.get(0);
+            // getting notifications set up as userBasedNotifications
+            for (UserBasedRecipient ubr : rs.getUserBasedRecipient()) {
+                recipientScheduledNotificationsList.addAll(ubr.getRecipientScheduledNotification());
+            }
+
+            // getting notifications set up as roleBasedNotifications
+            Iterator<C3PRUserGroupType> groupIterator = null;
+            List<String> groupRoles = new ArrayList<String>();
+            try {
+                groupIterator = getGroups(user.getUserId().toString()).iterator();
+            }
+            catch (C3PRBaseException cbe) {
+                log.error(cbe.getMessage());
+            }
+            while (groupIterator.hasNext()) {
+                groupRoles.add(((C3PRUserGroupType) groupIterator.next()).name());
+            }
+            // groupRoles now contains all the roles of the logged in user
+            for (PlannedNotification pn : plannedNotificationDao.getAll()) {
+                for (RoleBasedRecipient rbr : pn.getRoleBasedRecipient()) {
+                    if (groupRoles.contains(rbr.getRole())) {
+                        recipientScheduledNotificationsList.addAll(rbr
+                                        .getRecipientScheduledNotification());
+                    }
+                }
+            }
+
+        }
+        else {
+            // for the admin case
+            for (PlannedNotification pn : plannedNotificationDao.getAll()) {
+                scheduledNotificationsList.addAll(pn.getScheduledNotification());
+            }
+        }
+
+        return recipientScheduledNotificationsList;
+        
+    }
+    
 
     // spring settters
     public UserProvisioningManager getUserProvisioningManager() {
@@ -248,5 +311,14 @@ public class PersonnelServiceImpl implements PersonnelService {
     public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
         this.siteObjectIdGenerator = siteObjectIdGenerator;
     }
+
+	public PlannedNotificationDao getPlannedNotificationDao() {
+		return plannedNotificationDao;
+	}
+
+	public void setPlannedNotificationDao(
+			PlannedNotificationDao plannedNotificationDao) {
+		this.plannedNotificationDao = plannedNotificationDao;
+	}
 
 }

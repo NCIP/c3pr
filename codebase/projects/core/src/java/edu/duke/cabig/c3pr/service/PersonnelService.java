@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import gov.nih.nci.security.authorization.domainobjects.*;
@@ -61,6 +63,11 @@ public interface PersonnelService {
      * @throws C3PRBaseException
      */
     public List<C3PRUserGroupType> getGroups(String emailId) throws C3PRBaseException;
+    
+    /*
+     * used exclusively for the dashboard and inbox view of notifications
+     */
+    public List<RecipientScheduledNotification> getRecentNotifications(HttpServletRequest request);
 
     public User getCSMUserByUsername(String userName);
 
