@@ -47,7 +47,7 @@
                 </table>
 
         </chrome:box>
-        <chrome:box title="C3PR Notifications" htmlContent="">
+        <chrome:box title="C3PR Notifications" htmlContent="<a href='../pages/admin/viewInbox'>My Inbox</a>">
           <c:choose> 
            <c:when test="${(empty recipientScheduledNotification || fn:length(recipientScheduledNotification) == 0) && 
            						(empty scheduledNotifications || fn:length(scheduledNotifications) == 0)}">
@@ -56,16 +56,15 @@
            <c:otherwise>
            		<table width="100%" cellspacing="1" cellpadding="2">
                     <tr bgcolor="${bgcolorAlternate}">
-                        <td width="65%"><b>Title <a href="<c:url value='/pages/admin/viewInbox'/>">My Inbox</a></b></td>
+                        <td width="65%"><b>Title </b></td>
                         <td width="35%"><b>Date</b></td>
                     </tr>
                     <c:forEach var="rsn" items="${recipientScheduledNotification}" varStatus="rsnStatus" end="5">
                     	<c:if test="${rsnStatus.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
                         <c:if test="${rsnStatus.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
-                        <c:if test="${!empty rsn.scheduledNotification.title || !empty rsn.scheduledNotification.message}">
                         <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${rsnStatus.count}">
                             <chrome:td bgcolor="${bg}"><a href="javascript:showMessageBody('messageDetails-${rsnStatus.index}')">
-                            		<c:out value="${rsn.scheduledNotification.title}" /></a>
+                            		<c:out value="${rsn.scheduledNotification.title}" /></a>&nbsp;
                             </chrome:td>
                             <chrome:td bgcolor="${bg}"><fmt:formatDate value="${rsn.scheduledNotification.dateSent}" pattern="MM/dd/yyyy"/></chrome:td>
                         </chrome:tr>
@@ -86,7 +85,6 @@
 									</table>
                             	</div>
                         </td></tr>
-                        </c:if>
                     </c:forEach>                    
                 </table>
            </c:otherwise>

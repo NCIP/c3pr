@@ -19,7 +19,7 @@
             <tr>
                 <td align="left"><h2>${title}</h2></td>
                 <td style="padding:6px 8px 4px 8px;"></td>
-                <td align="right">${htmlContent}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td align="right"><b>${htmlContent}</b>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
         </table>
     </div></div></div>
