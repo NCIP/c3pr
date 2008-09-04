@@ -49,8 +49,12 @@ public class StudyDetailsTab extends StudyTab {
     	String commandObject = "" ;
     	Study study = null;
     	if("CREATE_STUDY".equals(flowType)){
-    		commandObject = (CreateStudyController.class).getName() + ".FORM.command" ;
+    		commandObject = (CreateStudyController.class).getName() + ".FORM.command.to-replace" ;
     		study = (Study) request.getSession().getAttribute(commandObject);
+    		if(study == null){
+    			commandObject = (CreateStudyController.class).getName() + ".FORM.command" ;
+    			study = (Study) request.getSession().getAttribute(commandObject);
+    		}
     	}else if("EDIT_STUDY".equals(flowType)){
     		commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace" ;
     		study = (Study) request.getSession().getAttribute(commandObject);

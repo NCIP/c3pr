@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 /**
  * Controller class to handle the work flow in the Creation of a Study Design This uses
@@ -37,7 +39,17 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
      * @throws ServletException
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-        return createDefaultStudyWithDesign();
+    	String studyId = request.getParameter("studyId") ; 
+    	if(!StringUtils.isBlank(studyId)){
+    		Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
+            studyDao.initialize(study);
+            if (study != null) {
+                log.debug("Retrieving Study Details for Id: " + study.getId());
+            }
+            return study;
+    	}else{
+    		return createDefaultStudyWithDesign();	
+    	}
     }
 
     /**
@@ -60,14 +72,6 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         flow.addTab(new StudyNotificationTab());
        	flow.addTab(new CompanionStudyTab());	
         flow.addTab(new StudyOverviewTab("Overview", "Overview", "study/study_summary_create"));
-    }
-
-    @Override
-    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
-                    int page) throws Exception {
-        super.postProcessPage(request, command, errors, page);
-        Study study = (Study) command;
-        study.setStatuses( false);
     }
 
     @Override
@@ -102,6 +106,15 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         response.sendRedirect("confirm?studyId="+study.getId());
         return null;
 
+    }
+    
+    protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
+    	Study study = (Study) command ;
+    	if(study.getId() == null){
+    		return true;
+    	}else{
+    		return super.shouldSave(request, command, tab);
+    	}
     }
 
 	public void setStudyRepository(StudyRepository studyRepository) {

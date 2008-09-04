@@ -966,12 +966,11 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 				throw getC3PRExceptionHelper()
 						.getException(
 								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STUDY_SITE.CODE"));
-		}
-				else if ((!this.hasEnrollingEpoch())) {
+		}else if ((!this.hasEnrollingEpoch())) {
 				throw getC3PRExceptionHelper()
 						.getException(
 								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE"));
-			}
+		}
 		
     	if(this.getRandomizedIndicator()){
     		 if (!(this.hasRandomizedEpoch())){
@@ -1017,19 +1016,16 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		// For a new study, the coordingating center status should be set to
 		// Pending.
 		if (this.getId() == null) {
-			this
-					.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+			this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		} else {
 			if (!throwException) {
 				try {
-					this
-							.setCoordinatingCenterStudyStatus(evaluateCoordinatingCenterStudyStatus());
+					this.setCoordinatingCenterStudyStatus(evaluateCoordinatingCenterStudyStatus());
 				} catch (Exception e) {
-					e.printStackTrace();
+					this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 				}
 			} else {
-				this
-						.setCoordinatingCenterStudyStatus(evaluateCoordinatingCenterStudyStatus());
+				this.setCoordinatingCenterStudyStatus(evaluateCoordinatingCenterStudyStatus());
 			}
 		}
 

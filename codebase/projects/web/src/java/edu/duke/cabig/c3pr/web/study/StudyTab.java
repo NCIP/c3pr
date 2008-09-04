@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.web.report.StudyReportCommand;
@@ -192,6 +194,13 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 //            studyRepository.clear();
 //        }
         postProcessOnValidation(request, study, errors);
+        try {
+			study.setStatuses( false);
+		} catch (C3PRCodedException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
     }
 
     public void postProcessOnValidation(HttpServletRequest request, Study study, Errors errors) {
