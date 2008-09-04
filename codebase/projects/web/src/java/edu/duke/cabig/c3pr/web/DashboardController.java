@@ -182,8 +182,8 @@ public class DashboardController extends ParameterizableViewController {
             }
         }
 
-        request.setAttribute("recipientScheduledNotification", recipientScheduledNotificationsList);
-        request.setAttribute("scheduledNotifications", scheduledNotificationsList);
+        request.getSession().setAttribute("recipientScheduledNotification", recipientScheduledNotificationsList);
+        request.getSession().setAttribute("scheduledNotifications", scheduledNotificationsList);
     }
 
     private void getMostActiveStudies(HttpServletRequest request) {
