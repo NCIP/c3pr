@@ -29,7 +29,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
- * @author Priyatam
+ * @author Vinay Gangoli
  */
 public class CreateReportFacade {
 
