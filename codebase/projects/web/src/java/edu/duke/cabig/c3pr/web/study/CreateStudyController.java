@@ -108,6 +108,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 
     }
     
+    @Override
     protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
     	Study study = (Study) command ;
     	if(study.getId() == null){
