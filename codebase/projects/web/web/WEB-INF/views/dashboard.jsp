@@ -62,6 +62,7 @@
                     <c:forEach var="rsn" items="${recipientScheduledNotification}" varStatus="rsnStatus" end="5">
                     	<c:if test="${rsnStatus.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
                         <c:if test="${rsnStatus.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
+                        <c:if test="${!empty rsn.scheduledNotification.title || !empty rsn.scheduledNotification.message}">
                         <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${rsnStatus.count}">
                             <chrome:td bgcolor="${bg}"><a href="javascript:showMessageBody('messageDetails-${rsnStatus.index}')">
                             		<c:out value="${rsn.scheduledNotification.title}" /></a>
@@ -85,34 +86,8 @@
 									</table>
                             	</div>
                         </td></tr>
-                    </c:forEach>
-                    <c:forEach var="sn" items="${scheduledNotifications}" varStatus="snStatus" end="5">
-                    	<c:if test="${snStatus.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
-                        <c:if test="${snStatus.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
-                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${snStatus.count}">
-                            <chrome:td bgcolor="${bg}"><a href="javascript:showMessageBody('messageDetails-${snStatus.index}')">
-                            		<c:out value="${sn.title}" /></a>
-                            		</chrome:td>
-                            <chrome:td bgcolor="${bg}"><fmt:formatDate value="${sn.dateSent}" pattern="MM/dd/yyyy"/></chrome:td>
-                        </chrome:tr>
-                        <tr style="display:none;"><td>
-                        	<div id="messageDetails-${snStatus.index}">
-                           		<table>
-									<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
-									<tr><td width="10%" align="right" style="font-size: 11px;">Subject Line:</td> 								 
-									<td><input type="text" name="title" value="${sn.title}" size="100" class="width:96%;" onfocus="lastElement = this;" />
-									</td></tr>
-										
-									<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
-									<tr><td valign="top" align="right" style="font-size: 11px;">Message:</td>
-										<td>
-											${sn.htmlMessage}
-										</td>
-									</tr>
-								</table>
-                           	</div>
-	                       </td></tr>
-                    </c:forEach>
+                        </c:if>
+                    </c:forEach>                    
                 </table>
            </c:otherwise>
          </c:choose>
