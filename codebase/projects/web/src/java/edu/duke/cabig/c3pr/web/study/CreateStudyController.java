@@ -111,7 +111,8 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
     protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
     	Study study = (Study) command ;
     	if(study.getId() == null){
-    		return true;
+    		boolean shouldSave = !WebUtils.hasSubmitParameter(request, "embeddedStudy");
+    		return true && shouldSave;
     	}else{
     		return super.shouldSave(request, command, tab);
     	}
