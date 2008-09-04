@@ -195,7 +195,6 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 //        }
      	String flowType = request.getParameter("flowType");
         postProcessOnValidation(request, study, errors);
-        if("CREATE_STUDY".equals(flowType)){
         	try {
     			study.setStatuses( false);
     		} catch (C3PRCodedException e) {
@@ -203,7 +202,6 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     		} catch (ParseException e) {
     			e.printStackTrace();
     		}
-        }
         
     }
 
