@@ -433,6 +433,11 @@
         <property name="successView" value="admin/upload_registrations"/>
     </bean>
 
+	<bean name="/admin/viewInbox" id="viewInboxController"
+          class="edu.duke.cabig.c3pr.web.ViewInboxController" autowire="byName">
+        <property name="viewName" value="inbox_view"/>
+    </bean>
+    <!-- org.springframework.web.servlet.mvc.ParameterizableViewController -->
 
     <bean id="sectionInterceptor"
           class="edu.duke.cabig.c3pr.utils.web.navigation.SectionInterceptor" autowire="byName">

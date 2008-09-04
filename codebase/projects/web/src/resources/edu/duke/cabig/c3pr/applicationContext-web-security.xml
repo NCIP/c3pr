@@ -38,6 +38,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
         <entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
         <entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+        <entry key="/pages/admin/viewInbox" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
     </util:map>
 
     <bean id="taskPrivilegeAndObjectIdGenerator"
