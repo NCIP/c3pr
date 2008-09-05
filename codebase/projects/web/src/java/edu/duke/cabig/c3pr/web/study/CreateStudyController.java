@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
@@ -122,6 +123,14 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 	public void setStudyRepository(StudyRepository studyRepository) {
 		this.studyRepository = studyRepository;
 	}
+	
+	@Override
+	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+		  	Study study = (Study) command;
+	        study.setStatuses( false);
+	        super.postProcessPage(request, study, errors, page);
+	        
+	    }
 	
 	
 
