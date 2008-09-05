@@ -449,6 +449,9 @@
                 <bean class="edu.duke.cabig.c3pr.utils.web.navigation.Section" autowire="byType" p:displayName="Dashboard" p:mainController="dashboardController">
                     <property name="pathMapping" value="/dashboard/**"/>
                 </bean>
+                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.Section" autowire="byType" p:displayName="Inbox" p:mainController="viewInboxController">
+                    <property name="pathMapping" value="/admin/viewInbox/**"/>
+                </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
                         autowire="byType" p:displayName="Registration"
@@ -589,21 +592,7 @@
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Notification"
-                                    p:linkName="searchNotificationController">
-                                <property name="subTasks">
-                                    <list>
-                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
-                                                    autowire="byType"
-                                                    p:displayName="Search Notification"
-                                                    p:linkName="searchNotificationController"/>
-                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
-                                                    autowire="byType"
-                                                    p:displayName="Create Notification"
-                                                    p:linkName="createNotificationController"/>
-                                    </list>
-                                </property>
-                                
-                            </bean>
+                                    p:linkName="createNotificationController" />
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Import Study"
