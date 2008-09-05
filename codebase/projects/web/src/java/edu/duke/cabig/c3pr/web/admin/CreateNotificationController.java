@@ -155,8 +155,13 @@ public class CreateNotificationController extends SimpleFormController {
 	        	pn = organization.getPlannedNotifications().get(i);
 	        	if(pn.getHealthcareSite() == null){
 	        		pn.setHealthcareSite(healthcareSiteDao.getByNciInstituteCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)));
-	        		
 	        	}
+	        	//set the freq to Immediate as default. It is null sometimes when the select is manipulated by the javascript.
+	        	//fix this so the javascript manipulation doesnt nullify the freq value.
+	        	if(pn.getFrequency() == null){
+	        		pn.setFrequency(NotificationFrequencyEnum.IMMEDIATE);
+	        	}
+	     
 	        	for(UserBasedRecipient ubr: pn.getUserBasedRecipient()){
 	        		if(ubr.getEmailAddress() != null && ubr.getEmailAddress() != ""){
 	        			rsList = researchStaffDao.getByEmailAddress(ubr.getEmailAddress());
