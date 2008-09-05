@@ -190,19 +190,7 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 
     @Override
     public final void postProcess(HttpServletRequest request, Study study, Errors errors) {
-//        if (errors.hasErrors()) {
-//            studyRepository.clear();
-//        }
-     	String flowType = request.getParameter("flowType");
         postProcessOnValidation(request, study, errors);
-        	try {
-    			study.setStatuses( false);
-    		} catch (C3PRCodedException e) {
-    			e.printStackTrace();
-    		} catch (ParseException e) {
-    			e.printStackTrace();
-    		}
-        
     }
 
     public void postProcessOnValidation(HttpServletRequest request, Study study, Errors errors) {
