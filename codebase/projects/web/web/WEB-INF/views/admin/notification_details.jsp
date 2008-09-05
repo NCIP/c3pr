@@ -191,6 +191,15 @@
         		messageElement.disabled = false;
         	}
         }
+        
+        function updateName(divID, index) {
+        //$('plannedNotifications[0].eventName').options[$('plannedNotifications[0].eventName').selectedIndex].text;
+          var elementId = "plannedNotifications[" + index + "].eventName";
+          var stringValue = 'Notification: ' + $(elementId).options[$(elementId).selectedIndex].text;
+          if ($(divID)) {
+              $(divID).innerHTML = stringValue;
+          }
+      }
 	</script> 
 	</head>
 	
@@ -210,7 +219,7 @@
 			         RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)});
 			  	</script>
 				<tr id="notification-${nStatus.index}"><td>
-				<chrome:deletableDivision id="notification-details-${nStatus.index}" title="Notification Details" divTitle="a-${nStatus.index}"
+				<chrome:deletableDivision id="notification-details-${nStatus.index}" title="Notification: ${notification.eventName.displayName}" divTitle="a-${nStatus.index}"
 				onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}')">
 	
 				
@@ -219,7 +228,8 @@
 					<td width="10%" align="right">Event:</td>
 					<td align="left">
 						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="validate-notEmpty" 
-									 onchange="displayAccrualField('${nStatus.index}');runReportBasedLogic('${nStatus.index}');">
+									 onchange="displayAccrualField('${nStatus.index}');runReportBasedLogic('${nStatus.index}');"
+									 onclick="updateName('a-${nStatus.index}', '${nStatus.index}');">
 		                    <option value="">Please Select</option>
 		                    <form:options items="${notificationEventsRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
