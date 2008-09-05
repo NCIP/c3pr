@@ -581,35 +581,35 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="NEW_REGISTRATION_EVENT" />
-                            <property name="desc" value="New Registration" />
+                            <property name="desc" value="New registration" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="REGISTATION_STATUS_CHANGE" />
-                            <property name="desc" value="Registration Status Change" />
+                            <property name="desc" value="Registration status change" />
                         </bean> 
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="NEW_STUDY_SAVED_EVENT" />
-                            <property name="desc" value="New Study Opened" />
+                            <property name="desc" value="New study opened" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="STUDY_STATUS_CHANGED_EVENT" />
-                            <property name="desc" value="Study Status Change" />
+                            <property name="desc" value="Study status change" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="STUDY_SITE_STATUS_CHANGED_EVENT" />
-                            <property name="desc" value="Study Site Status Change" />
+                            <property name="desc" value="Study site status change" />
                         </bean> 
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="SUBJECT_REMOVED_OFF_STUDY" />
-                            <property name="desc" value="Subject Removed Off Study" />
+                            <property name="desc" value="Subject removed off study" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="STUDY_ACCRUAL_EVENT" />
-                            <property name="desc" value="Study Accrual" />
+                            <property name="desc" value="Study accrual" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="STUDY_SITE_ACCRUAL_EVENT" />
-                            <property name="desc" value="Study Site Accrual" />
+                            <property name="desc" value="Study site accrual" />
                         </bean>                       
                		</list>
                	</entry>
