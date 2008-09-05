@@ -140,6 +140,7 @@
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/admin/notification_search"/>
     </bean>
+
     
     <bean name="/admin/createNotification" id="createNotificationController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateNotificationController" autowire="byName">
@@ -243,6 +244,7 @@
     
     <bean name="/study/viewStudy" id="viewStudyController"
           class="edu.duke.cabig.c3pr.web.study.ViewStudyController" autowire="byName">
+         <property name="xmlUtility" ref="studyXmlUtility"/>
         <property name="editTask">
             <bean
                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
