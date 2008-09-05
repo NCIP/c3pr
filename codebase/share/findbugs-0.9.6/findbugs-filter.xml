@@ -1,7 +1,0 @@
-<FindBugsFilter>
-     <Match classregex="edu.duke.cabig.rproteomics.data.aml.*"/>
-     <Match classregex="edu.duke.cabig.rproteomics.data.mzxml.*"/>
-     <Match classregex="edu.duke.cabig.rproteomics.data.runtime.*"/>
-     <Match classregex="edu.duke.cabig.rproteomics.data.scanfeatures.*"/>
-     <Match classregex="edu.duke.cabig.rproteomics.data.statml.*"/>
-</FindBugsFilter>
