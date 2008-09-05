@@ -168,6 +168,24 @@
             element = $(element);
             new Effect.BlindUp(element, arguments[1] || {});
         }
+        
+        //This method disables/enables frequency and message textarea based on whether the selected event is report based.
+        function runReportBasedLogic(index){
+        	var frequencyElement = document.getElementById("plannedNotifications[" + index + "].frequency");
+        	var eventElement = document.getElementById("plannedNotifications[" + index + "].eventName");
+        	var messageElement = document.getElementById("plannedNotifications[" + index + "].message");
+
+        	if(eventElement.value == 'NEW_REGISTRATION_EVENT'){
+				//disable message fields and enable frequency element
+				frequencyElement.disabled = false;
+				messageElement.disabled = true;
+        	} else {
+        		//set frequency to IMMEDIATE and disable it and enable message element.
+        		frequencyElement.value = "IMMEDIATE";
+        		frequencyElement.disabled = true;
+        		messageElement.disabled = false;
+        	}
+        }
 	</script> 
 	</head>
 	
@@ -195,7 +213,8 @@
 				<tr>
 					<td width="10%" align="right">Event:</td>
 					<td align="left">
-						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="validate-notEmpty" onchange="displayAccrualField('${nStatus.index}')">
+						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="validate-notEmpty" 
+									 onchange="displayAccrualField('${nStatus.index}');runReportBasedLogic('${nStatus.index}');">
 		                    <option value="">Please Select</option>
 		                    <form:options items="${notificationEventsRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
