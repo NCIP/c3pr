@@ -15,22 +15,19 @@
             </div>
             <div class="row" >
             <table class="tablecontent" width="60%">
+            	<tr><th width="35%" class="alt" align="left"><b>Event Registered<b></th>
+            		<th width="35%" class="alt" align="left"><b>Frequency<b></th>
+            	</tr>
+            	<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
 				<tr>
-					<td width="35%" class="alt" align="left"><b>Event Registered<b></td>
 					<td class="alt" align="left">
-						<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
 							${plannedNotification.eventName.displayName}
-						</c:forEach>
 					</td>
-				</tr>
-				<tr>
-					<td width="35%" class="alt" align="left"><b>Frequency<b></td>
 					<td class="alt" align="left">
-						<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
 							${plannedNotification.frequency.displayName}
-						</c:forEach>
 					</td>
-				</tr>				
+				</tr>	
+				</c:forEach>			
 			</table>
               </div>
 		<br/>
