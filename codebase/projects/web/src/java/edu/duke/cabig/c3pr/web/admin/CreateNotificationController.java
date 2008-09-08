@@ -71,7 +71,7 @@ public class CreateNotificationController extends SimpleFormController {
     private InPlaceEditableTab<Organization> page;
     
     //constants for the Cron Triggers
-    public static final String WEEKLY = "0 42 13 ? * TUE";
+    public static final String WEEKLY = "0 00 12 ? * FRI";
 	public static final String MONTHLY ="0 0 12 L * ?";
 	public static final String ANNUAL ="0 0 12 L DEC ?";
 	
