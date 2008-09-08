@@ -18,17 +18,20 @@
     <c:set var="bgcolor" value="#ffffff"/>
 
 	<script>
-		function showMessageBody(id, rsnId, rowId){
-				markAsRead(rowId, rsnId);
+		function showMessageBody(id, rsnId, rowId, textId, title){
+				markAsRead(rowId, rsnId, textId, title);
 	     		var win = new Window({className: "dialog", width:710, height:350, zIndex: 100, resizable: true, title:"Email Message", 
 	        	showEffect:Effect.BlindDown, hideEffect: Effect.BlindUp, draggable:true, wiredDrag: true}); 
 	        	win.getContent().innerHTML = $(id).innerHTML;
 		     	win.showCenter();
 	     }  
 	     
-	     function markAsRead(rowId, rsnId){
+	     function markAsRead(rowId, rsnId, textId, title){
+	     	if(textId != '' && title != ''){
+	     		$(textId).innerHTML = title;
+	     	}
 	     	$(rowId).style.backgroundColor = "#eeeeee";
-	     	new Ajax.Request('../viewInbox?rsnId='+rsnId, {method:'get', asynchronous:true});
+	     	new Ajax.Request('../admin/viewInbox?rsnId='+rsnId, {method:'get', asynchronous:true});
 	     } 
 	</script>
 </head>
@@ -46,31 +49,57 @@
                         <td width="35%"><b>Date</b></td>
                     </tr>
                     <c:forEach var="rsn" items="${recipientScheduledNotification}" varStatus="rsnStatus" >
-                    	<c:if test="${!rsn.isRead}"><c:set var="bg" value="${bgcolor}"/></c:if>
-                        <c:if test="${rsn.isRead}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
-                        <c:if test="${!empty rsn.scheduledNotification.title || !empty rsn.scheduledNotification.message}">
-                        <tr id="row-${rsnStatus.index}" bgcolor="${bg}">
-                            <td><a href="javascript:showMessageBody('messageDetails-${rsnStatus.index}','${rsn.id}','row-${rsnStatus.index}')">
-                            		<c:out value="${rsn.scheduledNotification.title}" /></a>
-                            </td>
-                            <td><fmt:formatDate value="${rsn.scheduledNotification.dateSent}" pattern="MM/dd/yyyy"/></td>
-                        </tr>
-                        <tr style="display:none;"><td>
-                        	<div id="messageDetails-${rsnStatus.index}">
-                            		<table>
-										<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
-										<tr><td width="15%" align="right" style="font-size: 11px;">Subject Line:</td> 								 
-										<td><input type="text" name="title" value="${rsn.scheduledNotification.title}" size="50" class="width:96%;" onfocus="lastElement = this;" />
-										</td></tr>
-											
-										<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
-										<tr><td valign="top" align="right" style="font-size: 11px;">Message:</td>
-											<td style="font-size: 11px;">${rsn.scheduledNotification.htmlMessage}
-											</td>
-										</tr>
-									</table>
-                            	</div>
-                        </td></tr>
+						<c:if test="${!empty rsn.scheduledNotification.title || !empty rsn.scheduledNotification.message}">
+		                    <!-- Unread emails -->    
+		                    <c:if test="${!rsn.isRead}">    
+		                        <tr id="row-${rsnStatus.index}" bgcolor="${bgcolor}">
+		                            <td><a id="text-${rsnStatus.index}" href="javascript:showMessageBody('messageDetails-${rsnStatus.index}','${rsn.id}','row-${rsnStatus.index}','text-${rsnStatus.index}','${rsn.scheduledNotification.title}')">
+		                            		<b><c:out value="${rsn.scheduledNotification.title}" /></b>
+		                            	</a>
+		                            </td>
+		                            <td><fmt:formatDate value="${rsn.scheduledNotification.dateSent}" pattern="MM/dd/yyyy"/></td>
+		                        </tr>
+		                    </c:if>
+		                    <!-- Unread emails -->
+		                    <!-- emails that have been viewed -->    
+		                    <c:if test="${rsn.isRead}">    
+		                        <tr id="row-${rsnStatus.index}" bgcolor="${bgcolorAlternate}">
+		                            <td><a href="javascript:showMessageBody('messageDetails-${rsnStatus.index}','${rsn.id}','row-${rsnStatus.index}','','')">
+		                            		<c:out value="${rsn.scheduledNotification.title}" /></a>
+		                            </td>
+		                            <td><fmt:formatDate value="${rsn.scheduledNotification.dateSent}" pattern="MM/dd/yyyy"/></td>
+		                        </tr>
+		                    </c:if>
+		                    <!-- emails that have been viewed --> 
+	                        <tr style="display:none;"><td>
+	                        	<div id="messageDetails-${rsnStatus.index}">
+	                        		<div>
+										<table width="50%">
+										<tr><td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
+											<tr><td align="right" >
+												<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
+											</td></tr>
+										</table>
+									</div>
+	                        		<div id="printable">
+	                            		<table>
+											<tr><td width="15%" align="right" style="font-size: 11px;"><b>Subject Line:</b></td> 								 
+											<td style="font-size: 11px;">
+												<!-- <input type="text" name="title" value="${rsn.scheduledNotification.title}" size="50" class="width:96%;" 
+													onfocus="lastElement = this;" />  -->
+												 ${rsn.scheduledNotification.title}
+											</td></tr>
+												
+											<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
+											<tr><td valign="top" align="right" style="font-size: 11px;"><b>Message:</b></td>
+												<td style="font-size: 11px;">${rsn.scheduledNotification.htmlMessage}
+												</td>
+											</tr>
+											<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
+										</table>
+									</div>
+	                             </div></td>
+	                        </tr>
                        </c:if>
                     </c:forEach>
                 </table>
