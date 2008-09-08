@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -11,7 +12,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
@@ -127,7 +131,11 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
 		  	Study study = (Study) command;
-	        study.setStatuses( false);
+	        study.setDataEntryStatus(false);
+	        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+	        for (StudySite studySite : study.getStudySites()) {
+				studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
+			}
 	        super.postProcessPage(request, study, errors, page);
 	        
 	    }
