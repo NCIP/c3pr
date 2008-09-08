@@ -495,7 +495,7 @@
                 </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Person And Organization"
+                        autowire="byType" p:displayName="Person & Organization"
                         p:mainController="searchParticipantController">
                     <property name="pathMapping"
                               value="/participant/**"/>
