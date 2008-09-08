@@ -139,7 +139,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
     	plannedNotification.getScheduledNotification().add(scheduledNotification);
     	scheduledNotification.setDateSent(new Date());
 		scheduledNotification.setMessage(reportText);
-		scheduledNotification.setTitle(plannedNotification.getFrequency().getDisplayName() + " Report.");
+		scheduledNotification.setTitle(plannedNotification.getEventName().getDisplayName() + " - " + plannedNotification.getFrequency().getDisplayName() + " Report.");
     	RecipientScheduledNotification rsn; 
     	for(RoleBasedRecipient rbr: plannedNotification.getRoleBasedRecipient()){
     		rsn = new RecipientScheduledNotification();
@@ -214,9 +214,9 @@ public class ScheduledNotificationJob extends ScheduledJob {
     	msgBody.append( messageText + messageTerm + "<br/><br/>");
     	msgBody.append("<table border ='1'>");
     	msgBody.append("<tr>");
-    	msgBody.append("<th bgcolor='green'>" + "Subject MRN" + "</th>");
-    	msgBody.append("<th bgcolor='green'>" + "Registration  Status" + "</th>");
-    	msgBody.append("<th bgcolor='green'>" + "Subject Name" + "</th>");
+    	msgBody.append("<th>" + "Subject MRN" + "</th>");
+    	msgBody.append("<th>" + "Registration  Status" + "</th>");
+    	msgBody.append("<th>" + "Subject Name" + "</th>");
     	msgBody.append("</tr>");
     	StudySubject ss = null;
     	Iterator iter = ssList.iterator();
