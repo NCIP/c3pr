@@ -175,14 +175,16 @@
         	var eventElement = document.getElementById("plannedNotifications[" + index + "].eventName");
         	var messageElement = document.getElementById("plannedNotifications[" + index + "].message");
 
-        	if(eventElement.value == 'NEW_REGISTRATION_EVENT'){
+        	if(eventElement.value == 'NEW_REGISTRATION_EVENT_REPORT'){
 				//disable message fields and enable frequency element
 				frequencyElement.disabled = false;
 				if(frequencyElement.value == 'IMMEDIATE'){
-					messageElement.disabled = false;
+					frequencyElement.options[0].selected = true;
 				} else {
-					messageElement.disabled = true;
+					//messageElement.disabled = true;
 				}
+				messageElement.disabled = true;
+				frequencyElement.options[3].disabled = true;
         	} else {
         		//set frequency to IMMEDIATE and disable it and enable message element.
         		frequencyElement.options[3].selected = true;
@@ -230,8 +232,10 @@
 						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="validate-notEmpty" 
 									 onchange="displayAccrualField('${nStatus.index}');runReportBasedLogic('${nStatus.index}');"
 									 onclick="updateName('a-${nStatus.index}', '${nStatus.index}');">
-		                    <option value="">Please Select</option>
+		                    <option value="" disabled="disabled">-- Select an Event -- </option>
 		                    <form:options items="${notificationEventsRefData}" itemLabel="desc" itemValue="code" />
+		                    <option value="" disabled="disabled">-- Select a Report -- </option>
+		                    <form:options items="${notificationReportEventsRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
 					</td>
 					<td></td>			
@@ -245,11 +249,11 @@
 						
 					</td> 
 		            <td align="left" rowspan="2">
-		            	<c:if test="${notification.eventName == 'NEW_REGISTRATION_EVENT'}">
+		            	<c:if test="${notification.eventName == 'NEW_REGISTRATION_EVENT_REPORT'}">
 		            		<form:textarea title="Click to Edit"  rows="3" cols="33" path="plannedNotifications[${nStatus.index}].message" 
 		            				   onclick="showMessageBody('${nStatus.index}');" disabled="true" />
 		            	</c:if>
-		            	<c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT'}">
+		            	<c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT_REPORT'}">
 		            		<form:textarea title="Click to Edit"  rows="3" cols="33" path="plannedNotifications[${nStatus.index}].message" 
 		            				   onclick="showMessageBody('${nStatus.index}');" disabled="false" />
 		            	</c:if>
@@ -258,12 +262,12 @@
 		        
 		        <tr><td align="right">Frequency:</td>
 		            <td>
-		            <c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT'}">
+		            <c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT_REPORT'}">
 						<form:select path="plannedNotifications[${nStatus.index}].frequency" cssClass="validate-notEmpty" disabled="true" onchange="runReportBasedLogic('${nStatus.index}');">
 		                    <form:options items="${notificationFrequencyRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
 		            </c:if>
-		            <c:if test="${notification.eventName == 'NEW_REGISTRATION_EVENT'}">
+		            <c:if test="${notification.eventName == 'NEW_REGISTRATION_EVENT_REPORT'}">
 		            	<form:select path="plannedNotifications[${nStatus.index}].frequency" cssClass="validate-notEmpty" onchange="runReportBasedLogic('${nStatus.index}');">
 		                    <form:options items="${notificationFrequencyRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
@@ -384,7 +388,12 @@
 	                <select id="plannedNotifications[PAGE.ROW.INDEX].eventName"  
 	                onchange="displayAccrualField('PAGE.ROW.INDEX');runReportBasedLogic('PAGE.ROW.INDEX');"
 		            		name="plannedNotifications[PAGE.ROW.INDEX].eventName" class="validate-notEmpty">
+		            		<option value="" disabled="disabled">-- Select an Event --</option>
 	                    <c:forEach items="${notificationEventsRefData}" var="event">
+							<option value="${event.code}">${event.desc}</option>
+						</c:forEach>
+						<option value="" disabled="disabled">-- Select a report --</option>
+	                    <c:forEach items="${notificationReportEventsRefData}" var="event">
 							<option value="${event.code}">${event.desc}</option>
 						</c:forEach>
 	                </select>
@@ -399,9 +408,8 @@
 					<!-- liteview popup -->					
 				</td> 
 	            <td align="left" rowspan="2">
-	            	<c:set var="eventName" value="${notification.eventName}" />
+	            	<c:set var="eventName" value="NEW_REGISTRATION_EVENT_REPORT" />
 	            	<textarea title="Click to Edit"  rows="3" cols="25" id="plannedNotifications[PAGE.ROW.INDEX].message"
-	            			disabled="<c:if test='${notification.eventName == eventName}'>true</c:if>"
 	            			name="plannedNotifications[PAGE.ROW.INDEX].message" onclick="showMessageBody('PAGE.ROW.INDEX');"></textarea>
 	            </td>
 	        </tr>
@@ -409,10 +417,11 @@
 	        <tr><td align="right">Frequency:</td>
 	            <td>
 		            <select id="plannedNotifications[PAGE.ROW.INDEX].frequency" 
-		            		name="plannedNotifications[PAGE.ROW.INDEX].frequency" class="validate-notEmpty">
-	                    <c:forEach items="${notificationFrequencyRefData}" var="frequency">
-							<option value="${frequency.code}">${frequency.desc}</option>
-						</c:forEach>
+		            		name="plannedNotifications[PAGE.ROW.INDEX].frequency" class="validate-notEmpty" disabled="disabled">
+		                    <option value="ANNUAL">Annual</option>
+							<option value="MONTHLY">Monthly</option>
+							<option value="WEEKLY">Weekly</option>
+							<option value="IMMEDIATE" selected="selected">Immediate</option>
 	                </select>
 	        	</td>
 	        	<td></td>

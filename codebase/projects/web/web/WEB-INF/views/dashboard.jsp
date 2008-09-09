@@ -21,14 +21,6 @@
     <c:set var="bgcolorAlternate" value="#eeeeee"/>
     <c:set var="bgcolor" value="#ffffff"/>
 
-	<script>
-		function showMessageBody(id){
-	     		var win = new Window({className: "dialog", width:710, height:350, zIndex: 100, resizable: true, title:"Email Message", 
-	        	showEffect:Effect.BlindDown, hideEffect: Effect.BlindUp, draggable:true, wiredDrag: true}); 
-	        	win.getContent().innerHTML = $(id).innerHTML;
-		     	win.showCenter();
-	     }   
-	</script>
 </head>
 <body>
 
@@ -36,7 +28,6 @@
 <tr>
     <td valign="top" width="33%" style="background:url(../../images/chrome/li_item.jpg);">
         <chrome:box title="Frequently Used Shortcuts">
-
                 <table width=100% cellspacing="0" cellpadding="0" border="0">
                 <tr><td>
                     <c:forEach var="k" items="${links.keys}" varStatus="status">
@@ -45,51 +36,10 @@
                     </c:forEach>
                 </tr>
                 </table>
-
         </chrome:box>
-        <chrome:box title="C3PR Notifications" htmlContent="<a href='../pages/admin/viewInbox'>My Inbox</a>">
-          <c:choose> 
-           <c:when test="${(empty recipientScheduledNotification || fn:length(recipientScheduledNotification) == 0) && 
-           						(empty scheduledNotifications || fn:length(scheduledNotifications) == 0)}">
-           		<br />You don't have any notifications.
-           </c:when>
-           <c:otherwise>
-           		<table width="100%" cellspacing="1" cellpadding="2">
-                    <tr bgcolor="${bgcolorAlternate}">
-                        <td width="65%"><b>Title </b></td>
-                        <td width="35%"><b>Date</b></td>
-                    </tr>
-                    <c:forEach var="rsn" items="${recipientScheduledNotification}" varStatus="rsnStatus" end="5">
-                    	<c:if test="${rsnStatus.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
-                        <c:if test="${rsnStatus.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
-                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${rsnStatus.count}">
-                            <chrome:td bgcolor="${bg}"><a href="javascript:showMessageBody('messageDetails-${rsnStatus.index}')">
-                            		<c:out value="${rsn.scheduledNotification.title}" /></a>&nbsp;
-                            </chrome:td>
-                            <chrome:td bgcolor="${bg}"><fmt:formatDate value="${rsn.scheduledNotification.dateSent}" pattern="MM/dd/yyyy"/></chrome:td>
-                        </chrome:tr>
-                        <tr style="display:none;"><td>
-                        	<div id="messageDetails-${rsnStatus.index}">
-                            		<table>
-										<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
-										<tr><td width="10%" align="right" style="font-size: 11px;">Subject Line:</td> 								 
-										<td><input type="text" name="title" value="${rsn.scheduledNotification.title}" size="50" class="width:96%;" onfocus="lastElement = this;" />
-										</td></tr>
-											
-										<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
-										<tr><td valign="top" align="right" style="font-size: 11px;">Message:</td>
-											<td>
-												${rsn.scheduledNotification.htmlMessage}
-											</td>
-										</tr>
-									</table>
-                            	</div>
-                        </td></tr>
-                    </c:forEach>                    
-                </table>
-           </c:otherwise>
-         </c:choose>
-        </chrome:box>
+        
+        <tags:inbox recipientScheduledNotification="${recipientScheduledNotification}" htmlContent="<a href='../pages/admin/viewInbox'>My Inbox</a>" url="../pages/admin/viewInbox"/>
+        
         <chrome:box title="C3PR Development Notes">
 			<br>			
 			<div id="c3pr-wiki"><a href="https://wiki.nci.nih.gov/display/CTMS/Cancer+Central+Clinical+Participant+Registry+%28C3PR%29" target="_blank"><b>C3PR Wiki</b></a></div>
