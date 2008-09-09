@@ -577,6 +577,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>
                		</list>
                	</entry>
+               	<entry key="notificationReportEventsRefData">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="NEW_REGISTRATION_EVENT_REPORT" />
+                            <property name="desc" value="New registrations report" />
+                        </bean>
+               		</list>
+               	</entry>
                	<entry key="notificationEventsRefData">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">

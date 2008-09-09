@@ -37,9 +37,9 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
 
     protected ApplicationContext applicationContext;
     
-    private PlannedNotificationDao plannedNotificationDao;
+    protected PlannedNotificationDao plannedNotificationDao;
     
-    private RecipientScheduledNotificationDao recipientScheduledNotificationDao;
+    protected RecipientScheduledNotificationDao recipientScheduledNotificationDao;
 
     public ScheduledJob(){
     	super();

@@ -117,7 +117,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
     	scheduledNotificationDao = (ScheduledNotificationDao) applicationContext.getBean("scheduledNotificationDao");
     	
     	//if recipientScheduledNotification is null...create and save both scheduledNotification and recipientScheduledNotification.
-    	if(plannedNotification.getEventName().equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT)){
+    	if(plannedNotification.getEventName().equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT_REPORT)){
     		//gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
             		//userName, request.getRemoteAddr(), new Date(),httpReq.getRequestURI()));
     		gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
