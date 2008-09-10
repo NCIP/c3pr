@@ -215,26 +215,27 @@ public class CreateNotificationController extends SimpleFormController {
 			if(pn.getFrequency().equals(NotificationFrequencyEnum.WEEKLY)){
 				//all ids are of the form  "TW:Event-Freq-id:"
 				//every Friday at 12:00pm
-				t = new CronTrigger("TW: " + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString(), 
-									"TGW"  + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString(),
-									WEEKLY);
+				t = new CronTrigger("TW: " + getUniqueIdForTrigger(pn), "TGW"  + getUniqueIdForTrigger(pn), WEEKLY);
 			}
 			if(pn.getFrequency().equals(NotificationFrequencyEnum.MONTHLY)){
 				//every last day of month at 12:00pm
-				t = new CronTrigger("TM" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString(), 
-									"TGM" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString() , 
-									MONTHLY);
+				t = new CronTrigger("TM" + getUniqueIdForTrigger(pn), "TGM" + getUniqueIdForTrigger(pn), MONTHLY);
 			}
 			if(pn.getFrequency().equals(NotificationFrequencyEnum.ANNUAL)){
 				//every last day December at 12:00pm
-				t = new CronTrigger("TA" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString() , 
-									"TGA" + pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString() , 
-									ANNUAL);
+				t = new CronTrigger("TA" + getUniqueIdForTrigger(pn), "TGA" + getUniqueIdForTrigger(pn), ANNUAL);
 			}
 		} catch (ParseException e) {
 			log.error(e.getMessage());
 		}
 		return t;
+    }
+    
+    /*
+     * Generates the unique key for Trigger based on plannedNotification Object
+     */
+    private String getUniqueIdForTrigger(PlannedNotification pn){
+    	return pn.getEventName().getDisplayName() + "-" + pn.getFrequency().getDisplayName() + "-" + pn.getId().toString();
     }
 
     private void scheduleJobsForReportBasedEvents(PlannedNotification pn, Trigger trigger){
