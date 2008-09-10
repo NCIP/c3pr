@@ -62,7 +62,7 @@
                 </script>
 				<tr id="notification-${nStatus.index}">
 					<td><form:input size="5"
-						path="plannedNotifications[${nStatus.index}].threshold" maxlength="6"
+						path="plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6"
 						cssClass="validate-notEmpty&&NUMERIC" /></td>
 					<td>
 					<table class="tablecontent" id="table1" width="50%">
@@ -72,14 +72,14 @@
 								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" />
 							</th>
 						</tr>
-						<c:forEach var="email" varStatus="emailStatus"
-							items="${command.plannedNotifications[nStatus.index].userBasedRecipient}">
+						<c:forEach var="cmbr" varStatus="emailStatus"
+							items="${command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
 							<tr id="table1-${emailStatus.index}">
-								<td class="alt"><form:input
-									path="plannedNotifications }].userBasedRecipient[${emailStatus.index}].emailAddress"
+								<td class="alt"><form:input						 
+									path="plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].contactMechanism[0].value"
 									size="30" cssClass="validate-notEmpty&&EMAIL" /></td>
 								<td class="alt"><a
-									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${email.id==null?'HC#':'ID#'}${email.id==null?email.hashCode:email.id}');">
+									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${cmbr.id==null?'HC#':'ID#'}${cmbr.id==null?cmbr.hashCode:cmbr.id}');">
 								<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							</tr>
 						</c:forEach>
@@ -128,7 +128,7 @@
 <table>
 	<tr>
 		<td><input type="text" size="5"
-			name="plannedNotifications[PAGE.ROW.INDEX].threshold" maxlength="6"
+			name="plannedNotifications[PAGE.ROW.INDEX].studyThreshold" maxlength="6"
 			class="validate-notEmpty&&NUMERIC" /></td>
 		<td>
 		<table class="tablecontent" id="table1" width="50%">
@@ -162,7 +162,7 @@
 <table>
 	<tr>
 		<td class="alt"><input type="text"
-			name="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress"
+			name="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[NESTED.PAGE.ROW.INDEX].contactMechanism[0].value"
 			size="30" class="validate-notEmpty&&EMAIL" /></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
