@@ -6,6 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 
 /**
@@ -41,7 +45,15 @@ public class StudyNotificationTab extends StudyTab {
 
     @Override
     public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study,
-                    Errors errors) {
+                     Errors errors) {
+    	
+    	for(PlannedNotification pn: study.getPlannedNotifications()){
+    		for(ContactMechanismBasedRecipient cmbr: pn.getContactMechanismBasedRecipient()){
+    			for(ContactMechanism cm: cmbr.getContactMechanism()){
+    				cm.setType(ContactMechanismType.EMAIL);
+    			}
+    		}
+    	}
         super.postProcessOnValidation(httpServletRequest, study, errors);
     }
 
