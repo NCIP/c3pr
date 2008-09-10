@@ -22,6 +22,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -127,8 +128,13 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 			if (plannedNotification != null) {
 				getHibernateTemplate().initialize(plannedNotification.getUserBasedRecipientInternal());
 				getHibernateTemplate().initialize(plannedNotification.getRoleBasedRecipientInternal());
+				getHibernateTemplate().initialize(plannedNotification.getContactMechanismBasedRecipientInternal());
+			}
+			for(ContactMechanismBasedRecipient cmbr: plannedNotification.getContactMechanismBasedRecipient()){
+				getHibernateTemplate().initialize(cmbr.getContactMechanismInternal());
 			}
 		}
+		
 		
 		for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
 			if (studyOrganization != null) {

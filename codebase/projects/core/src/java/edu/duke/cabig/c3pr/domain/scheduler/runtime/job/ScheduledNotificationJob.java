@@ -89,7 +89,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
         				}
         			} else {
         				logger.error("Error during report generation job: scheduledNotification is null. " +
-        						"Note: only registration event can have frequencies other than IMMEDIATE.");
+        						"Note: only events can have frequencies other than IMMEDIATE.");
         			}
         		}
         	} else if(recipientScheduledNotification.getDeliveryStatus().equals(EmailNotificationDeliveryStatusEnum.PENDING) ||
