@@ -273,7 +273,7 @@ document.getElementById("command").submit();
         </tr>
         <c:forEach items="${command.plannedNotifications}" var="notification">
             <tr>
-                <td class="alt">${notification.threshold}</td>
+                <td class="alt">${notification.studyThreshold}</td>
                 <td class="alt">${notification.emailAddresses}</td>
                 <td class="alt">${notification.roles}</td>
    	        </tr>	           
