@@ -1,22 +1,33 @@
 /** C H A N G E S        END */
 
 body {
-    margin: 1px 1px 1px 1px;
-    padding: 0px;
-    font-size: 11px;
-    color: #000000;
-    font-family: Verdana, arial, Helvetica, sans-serif;
-    background: #fff;
+	margin: 0px;
+	padding: 0px;
+	font-size: 11px;
+	color: #000000;
+	font-family: Verdana, arial, Helvetica, sans-serif;
+	background-color: #be7627;
+	background-image: url(images/body_bg.png);
+	background-repeat: repeat-y;
+	background-position: center;
+}
+#all{
+width:980px;
+margin:0px auto;
+text-align:left;
+background: #fff;
+position:relative;
 }
 
 #headLane1 {
-    background-color: #f89223;
+    background-color: #be7627;
     height: 5px;
     font-size:0px;
+	visibility:hidden
 }
 
 .headLane2 {
-    background: url(images/headLane2.jpg) repeat-x top;
+    background: #fff;
     /*height: 48px;*/
 }
 
@@ -25,7 +36,7 @@ body {
 }
 
 #headerTitle1 {
-    background: url(images/C3PR_name.jpg) no-repeat left;
+    background: url(../../images/C3PR_name.png) no-repeat left;
     width: 328px;
     height: 48px;
     position: relative;
@@ -38,7 +49,7 @@ body {
     font-family: verdana;
     font-size: 11px;
     font-weight: bold;
-    color: #FFF;
+    color: #000;
     position: relative;
     /*width: 400px;*/
     top: 27px;
@@ -46,10 +57,10 @@ body {
 }
 
 #logo {
-    background: url(images/C3PR_logo.jpg) no-repeat left;
+    background: url(../../images/C3PR_logo.png) no-repeat left;
     /*padding-top: 11px;*/
     /*padding-left: 75px;*/
-    width: 85px;
+    width: 190px;
     height: 48px;
     margin-left: 10px;
     /*margin-right: 10px;*/
@@ -63,17 +74,17 @@ body {
 */
     /*padding: 6px 10px 0 20px;*/
     font-size: 0.85em;
-    color: #FFFFFF;
+    color: #000;
 }
 
 #login-action a {
-    color: #FFFFFF;
+    color: #000;
     font-weight: bold;
     text-decoration: none;
 }
 
 #login-action a:hover {
-    color: #FFFF00;
+    color: #0000ff;
 }
 
 /**** COMMON TAB STYLES (shared across all three levels) */
@@ -350,28 +361,37 @@ ul.tabs li {
 .box {
     background-color: #fff;
     margin-bottom: 12px;
+	background: url(images/box/box_bg.jpg) repeat-x top;
 }
 
 .box .header {
-    background: url(images/box/boxheader_BG.jpg) repeat-x top #1972C7;
+    
     /* border:1px red dotted; */
 }
 
 .box .header h2 {
-    color: #343331;
-    margin: 0;
-    font-size:11px;
-    height:16px;
-    padding: 3px 0px 0px 5px;
-    font-family: Verdana;
+  color:#606060;
+font-size:1.7em;
+font-weight:normal;
+margin:0pt;
+padding-left:20px;
+padding-right:20px;
+padding-top:6px;
+}
+
+.hr {
+background-color:#999999;
+height:2px;
+margin-left:20px;
+margin-right:4px;
 }
 
 .box .header .background-L {
-    background: url( images/box/boxheader_BG_L.jpg ) no-repeat top left;
+    background: url( images/box/box_header_bg_l.jpg ) no-repeat top left;
 }
 
 .box .header .background-R {
-    background: url( images/box/boxheader_BG_R.jpg ) no-repeat top right;
+    background: url( images/box/box_header_bg_r.jpg ) no-repeat top right;
 }
 
 
@@ -382,40 +402,48 @@ ul.tabs li {
 }
 
 .border-L {
-    background: url( images/box/box_L.jpg ) repeat-y left;
+    background: url( images/box/box_l.png ) repeat-y left;
 }
 
 .border-R {
-    background: url( images/box/box_R.jpg ) repeat-y right;
+    background: url( images/box/box_r.png ) repeat-y right;
 }
 
 .border-B {
-    background: url( images/box/box_B.jpg ) repeat-x bottom;
+    background: url( images/box/box_bottom.png ) repeat-x bottom;
 }
 
 .border-TL {
     background: url( images/box/box_TL.jpg ) no-repeat top left;
+     border: 1px red dotted;
 }
 
 .border-TR {
     background: url( images/box/box_TR.jpg ) no-repeat top right;
+     border: 1px yellow dotted;
 }
 
 .border-BL {
-    background: url( images/box/box_BL.jpg ) no-repeat bottom left;
+    background: url( images/box/box_bl.png ) no-repeat bottom left;
 }
 
 .border-BR {
-    background: url( images/box/box_BR.jpg ) no-repeat bottom right;
+    background: url( images/box/box_br.png ) no-repeat bottom right;
 }
 
 /** B O X    B O R D E R S    end **/
 
 
 .box .interior {
-    margin: 0px 2px 0px 2px;
-    padding: 2px 5px 6px 1px;
-    min-height: 28px;
+	min-height: 28px;
+	margin-top: 0px;
+	margin-right: 2px;
+	margin-bottom: 0px;
+	margin-left: 2px;
+	padding-top: 2px;
+	padding-right: 10px;
+	padding-bottom: 6px;
+	padding-left: 10px;
 }
 
 .box.tabbed .interior {
@@ -427,10 +455,14 @@ ul.tabs li {
 
 
 .box h3 {
-    position: relative;
-    border-top: solid 1px #000;
-    background-color: #f8c993;
-    padding: 4px 8px;
+	position: relative;
+	border-bottom:1px solid #999999;
+	padding-top:15px;
+	margin-bottom: 10px;
+	padding-right: 17px;
+	padding-bottom: 4px;
+	padding-left: 17px;
+	margin-top: 30px;
 }
 
 /**** TABS WITHIN A BOX */
@@ -485,7 +517,7 @@ ul.tabs li {
 }
 
 .division h3{
-    font-size: 10px;
+    font-size: 12px;
     color: #000;
 }
 
@@ -592,12 +624,13 @@ table.tablecontent {
 .tablecontent th {
     text-align: left;
     border-color: #444 #999;
-    background-color: #ddd;
+    background-color: #eaeaea;
 }
 
 .tablecontent td {
     border-color: #888 #ddd;
     border-bottom: 1px solid #C1DAD7; /*background-color: #fff;*/
+	font-size:10px;
 }
 
 .red {
@@ -620,22 +653,22 @@ table.tablecontent {
 }
 
 #nav {
-    color:#f89223;
+    color:#be7627;
     padding-top: 7px;
     padding-left: 5px;
     font-size: 11px;
-    font-weight: bold;
+    font-weight: normal;
     font-family: tahoma;
 }
 
 #nav a {
     text-decoration: none;
-    color:#f89223;
+    color:#be7627;
 }
 
 #nav a:link {
     text-decoration: none;
-    color:#f89223;
+    color:#be7627;
 }
 
 #nav a:hover {

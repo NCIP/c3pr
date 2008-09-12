@@ -1,9 +1,9 @@
 input[type=button], input[type=submit], input[type=reset] {
     font-size: 11px;
     font-family: Verdana;
-    color: black;
-    background-color: #f5f6f1;
-    border: 2px outset #003d73;
+    color: white;
+    background-color: #417691;
+    border: 1px outset #003d73;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     margin-left: 2pt;
     vertical-align: middle;
