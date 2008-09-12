@@ -62,9 +62,6 @@
 		</table>
 	</div>
 </tags:panelBox>
-new Reg = ${newRegistration}
-<br> actionButtonLabel="${actionLabel}" <br>
-requiresMultiSite="${requiresMultiSite}" 
 <c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions)}">
 	<tags:panelBox>
 		<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}" />
