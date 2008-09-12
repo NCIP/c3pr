@@ -115,7 +115,7 @@
 		                                   id="addInclusionRowTable-${epochCount.index}" class="tablecontent">
 		                                 <tr id="hInclusionEligibility--${epochCount.index}" <c:if test="${fn:length(epoch.inclusionEligibilityCriteria) == 0}">style="display:none;"</c:if>>
 		                                    <th><span class="label required-indicator">Question</span>&nbsp;<tags:hoverHint id="study.inclusionEligibilityCriteria.questionText-${epochCount.index}" keyProp="study.inclusionEligibilityCriteria.questionText"/></th>
-		                                    <th>N/A</th>
+		                                    <th><span class="label">N/A</span>&nbsp;<tags:hoverHint id="NA" keyProp="NA"/></th>
 		                                    <th></th>
 		                                </tr>
 		                                <c:forEach varStatus="status" var="ieCrit"
@@ -184,7 +184,6 @@
                                 
                             </div>
                             </chrome:division></td>                            
-                    	<span id="instructions">&nbsp;&nbsp;*N/A - Allow not applicable answer.</span>
                 
             </tags:minimizablePanelBox>
     </c:forEach>
