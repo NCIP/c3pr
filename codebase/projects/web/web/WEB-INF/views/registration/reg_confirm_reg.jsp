@@ -223,7 +223,7 @@ function manageCompanions(registrationId){
 		</c:if>
 	</table>
 	</c:if>
-	<c:if test="${command.dataEntryStatusString!='Incomplete'}">
+	<c:if test="${command.dataEntryStatusString!='Incomplete' && empty command.parentStudySubject}">
 		<div align="right">
 			<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
 				<input type="hidden" name="registrationId" value="${command.id }"/>
@@ -292,6 +292,7 @@ function manageCompanions(registrationId){
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.gridId }"/>
 </form>
+${hasCompanion }
 <c:if test="${hasCompanions && command.dataEntryStatusString=='Complete' && command.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
 	<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions('${command.id}');"/>
 </c:if>
