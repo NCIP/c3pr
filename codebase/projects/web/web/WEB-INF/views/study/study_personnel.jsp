@@ -86,7 +86,7 @@ function showDiseases() {
             var catId = siteSelect
 	        StudyAjaxFacade.getSitePersonnel(catId, function(diseases) {
 	              diseases.each(function(cat) {
-	               	var name = cat.lastName + " (" +  cat.nciIdentifier + ")";
+	               	var name = cat.lastName + " " + cat.firstName+ " (" +  cat.nciIdentifier + ")";
 	                var opt = new Option(name, cat.id)
 	                diseaseTermSelect.options.add(opt)
 	            })
