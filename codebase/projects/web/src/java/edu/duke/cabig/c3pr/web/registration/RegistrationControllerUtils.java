@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.registration;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
@@ -10,6 +11,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -179,14 +181,11 @@ public class RegistrationControllerUtils {
 	public boolean registerableAsorWithCompanion(StudySubject studySubject) {
 		if(studySubject.getParentStudySubject()!=null)
 			return false;
-		if (studySubject.getStudySite().getStudy()
-				.getCompanionStudyAssociations().size() > 0) {
+		if (studySubject.getStudySite().getStudy().getCompanionStudyAssociations().size() > 0) {
 			Map<Integer, Object> compIds = new HashMap<Integer, Object>();
-			for (CompanionStudyAssociation companionStudyAssociation : studySubject
-					.getStudySite().getStudy().getCompanionStudyAssociations()) {
+			for (CompanionStudyAssociation companionStudyAssociation : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()) {
 				if (companionStudyAssociation.getMandatoryIndicator()) {
-					compIds.put(companionStudyAssociation.getCompanionStudy()
-							.getId(), new Object());
+					compIds.put(companionStudyAssociation.getCompanionStudy().getId(), new Object());
 				}
 			}
 
@@ -199,16 +198,48 @@ public class RegistrationControllerUtils {
 			if (compIds.size() > 0)
 				return false;
 		}
-		
 		return true;
 
 	}
 	
 	public void updateStatusForEmbeddedStudySubjet(StudySubject studySubject){
+		studySubject.setRegDataEntryStatus(studySubject.evaluateRegistrationDataEntryStatus());
+		studySubject.getScheduledEpoch().setEligibilityIndicator(evaluateEligibilityIndicator(studySubject));
+		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(studySubject.evaluateScheduledEpochDataEntryStatus());
 		if(studySubject.getParentStudySubject()!=null && studySubject.isDataEntryComplete()){
         	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.READY_FOR_REGISTRATION);
         	studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
 		}
 	}
-
+	
+	public boolean evaluateEligibilityIndicator(StudySubject studySubject) {
+        boolean flag = true;
+        List<SubjectEligibilityAnswer> answers = (studySubject
+                        .getScheduledEpoch()).getInclusionEligibilityAnswers();
+        for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
+            String answerText = subjectEligibilityAnswer.getAnswerText();
+            if (answerText == null
+                            || answerText.equalsIgnoreCase("")
+                            || (!answerText.equalsIgnoreCase("Yes") && !answerText
+                                            .equalsIgnoreCase("NA"))) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            answers = (studySubject.getScheduledEpoch())
+                            .getExclusionEligibilityAnswers();
+            for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
+                String answerText = subjectEligibilityAnswer.getAnswerText();
+                if (answerText == null
+                                || answerText.equalsIgnoreCase("")
+                                || (!answerText.equalsIgnoreCase("No") && !answerText
+                                                .equalsIgnoreCase("NA"))) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
 }

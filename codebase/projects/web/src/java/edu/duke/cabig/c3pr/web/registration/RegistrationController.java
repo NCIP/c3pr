@@ -1,17 +1,14 @@
 package edu.duke.cabig.c3pr.web.registration;
 
-import edu.duke.cabig.c3pr.dao.*;
-import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
-import edu.duke.cabig.c3pr.service.StudySubjectService;
-import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -19,12 +16,49 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
+import edu.duke.cabig.c3pr.dao.ArmDao;
+import edu.duke.cabig.c3pr.dao.EpochDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.ScheduledEpochDao;
+import edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.AnatomicSite;
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Companion;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
+import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
+import edu.duke.cabig.c3pr.service.StudySubjectService;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 /**
  * @author Ramakrishna
@@ -101,27 +135,20 @@ public abstract class RegistrationController<C extends StudySubject> extends
         intializeFlows(flow);
     }
 
-//    @Override
-//    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
-//                    throws Exception {
-//        StudySubject command = (StudySubject) sessionFormObject;
-//        if (command != null) {
-//            if (command.getId() != null) {
-//                return getDao().merge(command);
-//            }
-//            else if (command.getScheduledEpoch() != null
-//                            && command.getScheduledEpoch().getEpoch() != null) {
-//                epochDao.reassociate(command.getScheduledEpoch().getEpoch());
-//            }
-//            if (command.getParticipant() != null) getParticipantDao().reassociate(
-//                            command.getParticipant());
-//            if (command.getStudySite() != null) {
-//                getStudySiteDao().reassociate(command.getStudySite());
-//                getStudyDao().reassociate(command.getStudySite().getStudy());
-//            }
-//        }
-//        return command;
-//    }
+    @Override
+    protected boolean isFormSubmission(HttpServletRequest request) {
+    	if (WebUtils.hasSubmitParameter(request, "registrationId")&& WebUtils.hasSubmitParameter(request, "goToTab")) {
+            try {
+                request.getSession(false).setAttribute(getFormSessionAttributeName(),
+                                formBackingObject(request));
+                return true;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    	return super.isFormSubmission(request);
+    }
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
@@ -161,12 +188,19 @@ public abstract class RegistrationController<C extends StudySubject> extends
             studySubject = studySubjectDao.getById(Integer.parseInt(request
                             .getParameter("registrationId")), true);
             studySubjectDao.initialize(studySubject);
-            
+            Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
+    	    studyDao.initialize(study);
+    	    for(CompanionStudyAssociation companionStudyAssoc : study.getCompanionStudyAssociations()){
+    	    	Study companionStudy = companionStudyAssoc.getCompanionStudy();
+    	    	studyDao.initialize(companionStudy);
+    	    	
+    	    }
         }
         else {
             studySubject = new StudySubject();
             log.debug("------------Command set to new Command------------------");
         }
+        request.getSession().removeAttribute(getReplacedCommandSessionAttributeName(request));
         return studySubject;
     }
 
@@ -190,7 +224,7 @@ public abstract class RegistrationController<C extends StudySubject> extends
     }
 
     @Override
-    protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page)
+    protected Map<String, Object> referenceData(HttpServletRequest request, int page)
                     throws Exception {
         // Currently the static data is a hack, once DB design is approved for
         // an LOV this will be
@@ -199,6 +233,7 @@ public abstract class RegistrationController<C extends StudySubject> extends
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
         refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
         refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
+        refdata.put("companions", getCompanionStudySubject(request));
 
         return refdata;
     }
@@ -313,6 +348,42 @@ public abstract class RegistrationController<C extends StudySubject> extends
 
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
+    }
+    
+    private List<Companion> getCompanionStudySubject(HttpServletRequest request){
+    	List<Companion> companions = new ArrayList<Companion>();
+    	String registrationId = request.getParameter("registrationId");
+    	if(!StringUtils.isBlank(registrationId)){
+    		StudySubject studySubject = studySubjectDao.getById(Integer.parseInt(registrationId));
+    		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()){
+    			Companion companion = new Companion();
+    			Study companionStudy = companionStudyAssoc.getCompanionStudy();
+    			companion.setCompanionStudyShortTitle(companionStudy.getShortTitleText());
+    			companion.setCompanionStudyPrimaryIdentifier(companionStudy.getPrimaryIdentifier());
+    			companion.setMandatoryIndicator(companionStudyAssoc.getMandatoryIndicator());
+    			for(StudySite studySite : companionStudy.getStudySites()){
+    				if(studySite.getHealthcareSite() == studySubject.getStudySite().getHealthcareSite()){
+    					companion.setStudySiteId(studySite.getId());
+//    					for(StudySubject cStudySubject : studySite.getStudySubjects()){
+//    						if(cStudySubject.getParticipant() == studySubject.getParticipant()){
+//    							companion.setRegistrationId(cStudySubject.getId());
+//    							companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
+//    						}
+//    					}
+    					for(StudySubject cStudySubject : studySubject.getChildStudySubjects()){
+    						if(studySite.getHealthcareSite().getId() == studySubject.getStudySite().getHealthcareSite().getId()){
+    							companion.setRegistrationId(cStudySubject.getId());
+    							companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
+    						}
+    					}
+    				}
+    				
+    				
+    			}
+    			companions.add(companion);
+    		}
+    	}
+    	return companions;
     }
 
 }

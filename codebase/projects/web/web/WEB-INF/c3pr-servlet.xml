@@ -140,7 +140,11 @@
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/admin/notification_search"/>
     </bean>
-
+    
+    <bean name="/registration/testPage" id="testPage"
+          class="edu.duke.cabig.c3pr.web.registration.ChangeEpochController" autowire="byName">
+        <property name="studySiteDao" ref="studySiteDao"/>
+    </bean>
     
     <bean name="/admin/createNotification" id="createNotificationController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateNotificationController" autowire="byName">
@@ -592,7 +596,7 @@
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Notification"
-                                    p:linkName="createNotificationController" />
+                                                    p:linkName="createNotificationController"/>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Import Study"

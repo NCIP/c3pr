@@ -11,6 +11,7 @@ import org.springframework.validation.Errors;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
@@ -36,39 +37,9 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubject> {
     public void postProcess(HttpServletRequest request, StudySubject command, Errors error) {
         // TODO Auto-generated method stub
         if (command.getScheduledEpoch()!=null) {
-            (command.getScheduledEpoch())
-                            .setEligibilityIndicator(evaluateEligibilityIndicator(command));
+            (command.getScheduledEpoch()).setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(command));
         }
     }
 
-    private boolean evaluateEligibilityIndicator(StudySubject studySubject) {
-        boolean flag = true;
-        List<SubjectEligibilityAnswer> answers = (studySubject
-                        .getScheduledEpoch()).getInclusionEligibilityAnswers();
-        for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
-            String answerText = subjectEligibilityAnswer.getAnswerText();
-            if (answerText == null
-                            || answerText.equalsIgnoreCase("")
-                            || (!answerText.equalsIgnoreCase("Yes") && !answerText
-                                            .equalsIgnoreCase("NA"))) {
-                flag = false;
-                break;
-            }
-        }
-        if (flag) {
-            answers = (studySubject.getScheduledEpoch())
-                            .getExclusionEligibilityAnswers();
-            for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
-                String answerText = subjectEligibilityAnswer.getAnswerText();
-                if (answerText == null
-                                || answerText.equalsIgnoreCase("")
-                                || (!answerText.equalsIgnoreCase("No") && !answerText
-                                                .equalsIgnoreCase("NA"))) {
-                    flag = false;
-                    break;
-                }
-            }
-        }
-        return flag;
-    }
+    
 }

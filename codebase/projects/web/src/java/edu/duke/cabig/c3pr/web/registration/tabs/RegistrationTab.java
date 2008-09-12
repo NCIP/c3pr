@@ -5,6 +5,7 @@ import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
+import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
@@ -18,8 +19,19 @@ public abstract class RegistrationTab<C extends StudySubject> extends InPlaceEdi
     
     protected StudySubjectRepository studySubjectRepository;
     
+    protected RegistrationControllerUtils registrationControllerUtils;
+    
 
-    public void setStudySubjectRepository(StudySubjectRepository studySubjectRepository) {
+    public RegistrationControllerUtils getRegistrationControllerUtils() {
+		return registrationControllerUtils;
+	}
+
+	public void setRegistrationControllerUtils(
+			RegistrationControllerUtils registrationControllerUtils) {
+		this.registrationControllerUtils = registrationControllerUtils;
+	}
+
+	public void setStudySubjectRepository(StudySubjectRepository studySubjectRepository) {
         this.studySubjectRepository = studySubjectRepository;
     }
 

@@ -27,6 +27,7 @@ function submitLocalForm(formName, regId ,schEphId){
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="registrationId" id="create_registrationId" value=""/>
+	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
 	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
 </form>
 <div class="eXtremeTable" >

@@ -11,10 +11,14 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.web.registration.tabs.ManageCompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ManageEpochTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationOverviewTab;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
@@ -41,6 +45,7 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
     protected void intializeFlows(Flow flow) {
         flow.addTab(new RegistrationOverviewTab<StudySubject>());
         flow.addTab(new ManageEpochTab<StudySubject>());
+        flow.addTab(new ManageCompanionRegistrationTab<StudySubject>());
         setFlow(flow);
     }
 
@@ -71,11 +76,6 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
                                                                                         // Settings
                                                                                         // | File
                                                                                         // Templates.
-    }
-
-    @Override
-    protected boolean isFormSubmission(HttpServletRequest arg0) {
-        return super.isFormSubmission(arg0);
     }
 
     @Override

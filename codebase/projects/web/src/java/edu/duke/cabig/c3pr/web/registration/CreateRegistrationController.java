@@ -48,18 +48,6 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
     		return false;
     	}
-        if (WebUtils.hasSubmitParameter(request, "registrationId")) {
-            if (request.getSession(false).getAttribute(getFormSessionAttributeName()) == null) {
-                try {
-                    request.getSession(false).setAttribute(getFormSessionAttributeName(),
-                                    formBackingObject(request));
-                    return true;
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
         return super.isFormSubmission(request);
     }
     

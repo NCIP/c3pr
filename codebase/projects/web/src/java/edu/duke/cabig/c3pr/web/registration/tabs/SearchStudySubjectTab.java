@@ -126,6 +126,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
             // TODO Auto-generated catch block
             return;
         }
+      
         Epoch epoch = epochDao.getById(id);
         epochDao.initialize(epoch);
         ScheduledEpoch scheduledEpoch;
@@ -142,14 +143,13 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
         else {
             command.getScheduledEpochs().set(0, scheduledEpoch);
         }
-        studyDao.initialize(command.getStudySite().getStudy());
-        participantDao.initialize(command.getParticipant());
         buildCommandObject(command);
     }
 
     private void buildCommandObject(StudySubject studySubject) {
-        studyDao.initialize(studySubject.getStudySite().getStudy());
-        participantDao.initialize(studySubject.getParticipant());
+		Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
+	    studyDao.initialize(study);
+	    participantDao.initialize(studySubject.getParticipant());
         if (studySubject.getScheduledEpoch()!=null) {
             ScheduledEpoch scheduledEpoch = studySubject
                             .getScheduledEpoch();

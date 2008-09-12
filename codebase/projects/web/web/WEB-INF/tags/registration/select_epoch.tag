@@ -22,7 +22,14 @@
 		minimizeEpochBox();
 		displayEpochMessage(message, true);
 	}
-	function postProcessEpochSelection(id, name, type){
+	function postProcessEpochSelection(id, name, type,isReserving){
+		if(!isReserving){
+			$("epochElement").value = id;
+			var message = "Selected epoch: " +name+ " (" +type+ ") ";
+			minimizeEpochBox();
+			displayEpochMessage(message, true);
+			return;
+		}
 		epochId=id;
 		epochName=name;
 		epochType=type;

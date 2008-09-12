@@ -64,6 +64,9 @@
 		<form:input path="participant" cssClass="validate-notEmpty" />
 		<input type="text" id="epochElement" name="epoch" value="${!empty command.scheduledEpoch?command.scheduledEpoch.epoch.id:''}" class="validate-notEmpty"/>
 	</div>	
+	<registrationTags:goToTab currentTab="0" registration="${command}" />
+	<registrationTags:backToTab currentTab="0" registration="${command}" />
+	<c:set var="custonButton" value ="${param.customButton}" ></c:set>
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
 </div>

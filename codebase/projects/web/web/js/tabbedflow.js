@@ -15,6 +15,10 @@ C3PR.tabbedFlowUpdateTarget = function(evt) {
     if ($('command')._finish) $('command')._finish.disable()
 }
 
+C3PR.tabbedFlowUpdateFinishTarget = function(evt) {
+	$('command').submit()
+}
+
 C3PR.tabbedFlowMandatoryPage = function(click) {
     Event.stop(click)
     C3PR.tabbedFlowUpdateTarget(click)
@@ -48,4 +52,6 @@ Event.observe(window, "load", function() {
 
     if ($("flow-prev")) Event.observe("flow-prev", "click", C3PR.tabbedFlowUpdateTarget)
     if ($("flow-update")) Event.observe("flow-update", "click", C3PR.tabbedFlowUpdateTarget)
+    if ($("flow-next")) Event.observe("flow-next", "click", C3PR.tabbedFlowUpdateTarget)
+    if ($("flow-finish")) Event.observe("flow-finish", "click", C3PR.tabbedFlowUpdateFinishTarget)
 })

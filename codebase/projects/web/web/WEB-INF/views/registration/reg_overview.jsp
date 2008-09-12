@@ -231,43 +231,22 @@
             <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
             <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
         </tr>
-        <c:forEach items="${command.studySite.study.companionStudyAssociations}" var="companionStudyAssociation">
-            <c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
-				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
-					<c:set var="tempStudySiteId" value="${vStudySite.id}">
-					</c:set>
-				</c:if>
-			</c:forEach>
-			<c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
-				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
-					<c:forEach items="${vStudySite.studySubjects}" var="vStudySubject">
-						<c:if test="${vStudySubject.participant.id == command.participant.id}">
-							<c:set var="tempReg" value="${vStudySubject}">
-							</c:set>
-							<c:set var="tempRegId" value="${vStudySubject.id}">
-							</c:set>
-						</c:if>
-					</c:forEach>
-				</c:if>
-			</c:forEach>
+		<c:forEach items="${companions}" var="companion">
             <tr>
-                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-                <td class="alt">${empty tempReg?"Not Started":tempReg.regWorkflowStatus.displayName}</td>
-                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+                <td class="alt">${companion.companionStudyShortTitle}</td>
+                <td class="alt">${companion.registrationId == 0?"Not Started":companion.registrationStatus}</td>
+                <td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
                 <td class="alt">
 			        <c:choose> 
-						<c:when test="${!empty tempRegId}"> 
-							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${tempRegId}' />'"/> 
+						<c:when test="${companion.registrationId != 0}"> 
+							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${ companion.registrationId}' />'"/> 
 						</c:when>
 						<c:otherwise> 
-				        	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${tempStudySiteId}','${command.participant.id}','${command.id}');"/> 
+				        	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${ companion.studySiteId}','${command.participant.id}','${command.id}');"/> 
 						</c:otherwise> 
 					</c:choose>
                 </td>
    	        </tr>	
-   	        <c:set var="tempReg" value="" ></c:set>    
-   	        <c:set var="tempStudySiteId" value="" ></c:set>      
-   	        <c:set var="tempRegId" value="" ></c:set>          
         </c:forEach>
     </table>
 </chrome:division>

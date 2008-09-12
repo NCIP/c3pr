@@ -23,16 +23,24 @@ function createReg(studySite, participant, parentRegistrationId){
 	$('create_parent_id').value=parentRegistrationId;
 	$('create').submit();
 }
+
+function manageCompanions(registrationId){
+	$('manageCompanion').submit();
+}
 </script>
 </head>
 <body>
+<form action="../registration/manageRegistration?registrationId=${command.id }" method="post" id="manageCompanion">
+	<input type="hidden" name="_page0" id="_page0" value="0"/>
+	<input type="hidden" name="_target2" id="_target2" value="2"/>
+	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
+</form>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="studySite" id="create_studySite" value=""/>
 	<input type="hidden" name="participant" id="create_participant" value=""/>
 	<input type="hidden" name=parentRegistrationId id="create_parent_id" value=""/>
-	<input type="hidden" name="create_companion" value=""/>
 	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
 </form>
 <c:choose>
@@ -223,73 +231,10 @@ function createReg(studySite, participant, parentRegistrationId){
 			</form>
 		</div>
 	</c:if>
-	<c:if test="${hasCompanions && command.dataEntryStatusString=='Complete' && command.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
-<chrome:division title="Companion Studies">
-    <table class="tablecontent" width="50%">
-        <tr>
-            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
-            <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
-            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
-        </tr>
-        <c:forEach items="${command.studySite.study.companionStudyAssociations}" var="companionStudyAssociation">
-            <c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
-				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
-					<c:set var="tempStudySiteId" value="${vStudySite.id}">
-					</c:set>
-				</c:if>
-			</c:forEach>
-			<c:forEach items="${companionStudyAssociation.companionStudy.studySites}" var="vStudySite">
-				<c:if test="${vStudySite.healthcareSite.id == command.studySite.healthcareSite.id}">
-					<c:forEach items="${vStudySite.studySubjects}" var="vStudySubject">
-						<c:if test="${vStudySubject.participant.id == command.participant.id}">
-							<c:set var="tempReg" value="${vStudySubject}">
-							</c:set>
-							<c:set var="tempRegId" value="${vStudySubject.id}">
-							</c:set>
-						</c:if>
-					</c:forEach>
-				</c:if>
-			</c:forEach>
-            <tr>
-                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-                <td class="alt">${empty tempReg?"Not Started":tempReg.regWorkflowStatus.displayName}</td>
-                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
-                <td class="alt">
-			        <c:choose> 
-						<c:when test="${!empty tempRegId}"> 
-							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${tempRegId}' />'"/> 
-						</c:when>
-						<c:otherwise> 
-				        	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${tempStudySiteId}','${command.participant.id}','${command.id}');"/> 
-						</c:otherwise> 
-					</c:choose>
-                </td>
-   	        </tr>	
-   	        <c:set var="tempReg" value="" ></c:set>    
-   	        <c:set var="tempStudySiteId" value="" ></c:set>      
-   	        <c:set var="tempRegId" value="" ></c:set>          
-        </c:forEach>
-    </table>
-</chrome:division>
-</c:if>
-
-<c:if test="${!empty command.parentStudySubject}">
-<chrome:division title="Parent Study">
-    <table class="tablecontent" width="50%">
-        <tr>
-            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
-			<th width="75%" scope="col" align="left"><b>Primary Identifier</b></th>
-        </tr>
-            <tr>
-                <td class="alt">${command.parentStudySubject.studySite.study.shortTitleText}</td>
-				<td class="alt">${command.parentStudySubject.studySite.study.primaryIdentifier}</td>
-                <td class="alt">
-                	<input type="button" id="manageParentRegistration" value="Continue registering from parent" onclick="javascript:document.location='<c:url value='/pages/registration/confirm?registrationId=${command.parentStudySubject.id}' />'"/>
-                </td>
-   	        </tr>	           
-    </table>
-</chrome:division>
-</div>
+	
+<c:choose>
+	<c:when test="${param.create_companion != 'true'}">
+	</div>
 	
 	<c:if test="${hotlinkEnable}">
 	<%--<table width="60%">
@@ -339,16 +284,24 @@ function createReg(studySite, participant, parentRegistrationId){
 	    </c:if>
 	  </ul>
 	</c:if>
-</c:if>
+</c:when>
+<c:otherwise>
+</c:otherwise>
+</c:choose>
 </tags:panelBox>
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.gridId }"/>
 </form>
-
+<c:if test="${hasCompanions && command.dataEntryStatusString=='Complete' && command.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
+	<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions('${command.id}');"/>
+</c:if>
 <c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions)}">
 <tags:panelBox>
 	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
+</c:if>
+<c:if test="${not empty command.parentStudySubject}">
+	<input type="button" name="close" value="Close" onclick="parent.closePopup();">
 </c:if>
 </body>
 </html>

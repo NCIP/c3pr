@@ -66,6 +66,11 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 </script>
 </head>
 <body>
+
+<registrationTags:goToTab currentTab="1" registration="${command}" />
+<registrationTags:backToTab currentTab="1" registration="${command}" />
+<c:set var="custonButton" value ="${param.customButton}" ></c:set>
+
 <c:choose>
 <c:when test="${alreadyRegistered!=null}">
 	<tags:panelBox>
@@ -79,7 +84,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 </c:when>
 <c:otherwise>
 <%System.out.println("In otherwise"); %>
-<tags:formPanelBox tab="${tab}" flow="${flow}" action="createRegistration">
+<tags:formPanelBox tab="${tab}" flow="${flow}">
 <input type="hidden" name="consentVersion" id="consentVersion" value="${command.studySite.study.consentVersion}"/>
 <form:hidden path="informedConsentVersion"/>
 

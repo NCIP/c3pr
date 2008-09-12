@@ -11,7 +11,9 @@ function navRollOver(obj, state) {
 </script>
 </head>
 <body>
-
+<registrationTags:goToTab currentTab="2" registration="${command}" />
+<registrationTags:backToTab currentTab="2" registration="${command}" />
+<c:set var="custonButton" value ="${param.customButton}" ></c:set>
 <c:choose>
 	<c:when test="${fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></div><br><br>
