@@ -141,7 +141,7 @@
         </chrome:division>
         <br/>
         
-        <chrome:division id="study-details" title="Reasons for Amendment (Minimum One)">
+        <chrome:division id="study-details" title="Reasons for Amendment (Atleast One)">
         <table>
         	<tr>
         		<td width="25%"><b>Epoch & Arms :</b></td>
@@ -229,7 +229,7 @@
         </chrome:division>
         <br/>
         
-        <chrome:division id="study-details" title="Reasons for Amendment (Minimum One)">
+        <chrome:division id="study-details" title="Reasons for Amendment (Atleast One)">
         <table>
         	<tr>
         		<td width="25%"><b>Epoch & Arms :</b></td>
