@@ -20,7 +20,7 @@
 </head>
 
 <body>
-
+<div id="all">
     <layout:header2/>
 
 <div id="content">
@@ -32,6 +32,6 @@
     <tags:jsLogs debug="false"/>
     <tags:enableRowDeletion/>
     <tags:tabMethodForm/>
-
+</div>
 </body>
 </html>

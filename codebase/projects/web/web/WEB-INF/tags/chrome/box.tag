@@ -21,6 +21,11 @@
                 <td style="padding:6px 8px 4px 8px;"></td>
                 <td align="right"><b>${htmlContent}</b>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
+			<tr>
+			  <td colspan="3">
+				<div class="hr" />
+			  </td>
+		    </tr>
         </table>
     </div></div></div>
     <!-- end header -->

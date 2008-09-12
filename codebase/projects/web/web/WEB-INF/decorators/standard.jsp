@@ -20,6 +20,7 @@
 </head>
 
 <body>
+<div id="all">
 <layout:header2/>
 
 <c:set var="__decorator_title"><decorator:title/></c:set>
@@ -34,6 +35,6 @@
     <tags:jsLogs debug="false"/>
     <tags:enableRowDeletion/>
     <tags:tabMethodForm/>
-
+</div>
 </body>
 </html>

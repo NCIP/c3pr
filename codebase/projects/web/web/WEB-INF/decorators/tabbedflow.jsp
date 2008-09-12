@@ -22,6 +22,7 @@
 </head>
 
 <body>
+<div id="all">
 <layout:header2/>
 
 <div class="tabpane">
@@ -63,6 +64,6 @@
 <c:if test="${!empty disableForm && disableForm}">
 <tags:disableForm/>
 </c:if>
-
+</div>
 </body>
 </html>
