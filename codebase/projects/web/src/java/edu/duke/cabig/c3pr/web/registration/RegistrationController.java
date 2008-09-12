@@ -364,14 +364,8 @@ public abstract class RegistrationController<C extends StudySubject> extends
     			for(StudySite studySite : companionStudy.getStudySites()){
     				if(studySite.getHealthcareSite() == studySubject.getStudySite().getHealthcareSite()){
     					companion.setStudySiteId(studySite.getId());
-//    					for(StudySubject cStudySubject : studySite.getStudySubjects()){
-//    						if(cStudySubject.getParticipant() == studySubject.getParticipant()){
-//    							companion.setRegistrationId(cStudySubject.getId());
-//    							companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
-//    						}
-//    					}
     					for(StudySubject cStudySubject : studySubject.getChildStudySubjects()){
-    						if(studySite.getHealthcareSite().getId() == studySubject.getStudySite().getHealthcareSite().getId()){
+    						if(studySite == cStudySubject.getStudySite()){
     							companion.setRegistrationId(cStudySubject.getId());
     							companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
     						}
