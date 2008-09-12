@@ -9,7 +9,7 @@
 		var win;
 		function openPopup(studySite, participant, parentRegistrationId){
 			win = new Window(
-					{title: "Registration", top:35, scrollbar: false, left:100, width:700, height:325 , url: "<c:url value='/pages/registration/testPage?decorator=noheaderDecorator&customButton=true&create_companion=true&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&studySite=" + studySite, 
+					{onClose: function() {$('manageCompanion').submit()},title: "Registration", top:35, scrollbar: false, left:100, width:700, height:325 , url: "<c:url value='/pages/registration/testPage?decorator=noheaderDecorator&customButton=true&create_companion=true&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&studySite=" + studySite, 
 					  showEffectOptions: {duration:1.5}
 					}
 				) 
