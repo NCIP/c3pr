@@ -4,7 +4,7 @@
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
-<tags:dwrJavascriptLink objects="searchStudyController"/>
+<!--   tags:dwrJavascriptLink objects="searchStudyController"/ --> 
 
 <script type="text/javascript">
     function navRollOver(obj, state) {
