@@ -237,6 +237,11 @@ function manageCompanions(registrationId){
 			<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions('${command.id}');"/>
 		</c:if>	
 	</div>
+	<div align="right">
+		<c:if test="${not empty command.parentStudySubject}">
+			<input type="button" name="close" value="Close" onclick="parent.closePopup();">
+		</c:if>
+	</div>
 
 <c:choose>
 	<c:when test="${param.create_companion != 'true'}">
@@ -302,9 +307,6 @@ function manageCompanions(registrationId){
 <tags:panelBox>
 	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
-</c:if>
-<c:if test="${not empty command.parentStudySubject}">
-	<input type="button" name="close" value="Close" onclick="parent.closePopup();">
 </c:if>
 </body>
 </html>
