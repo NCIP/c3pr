@@ -169,23 +169,23 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
         <entry key="/pages/registration/create.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
-        <entry key="/pages/registration/testPage.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
+		<entry key="/pages/registration/testPage.*"
+               value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
         <entry key="/pages/registration/confirm.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
-        <entry key="/pages/registration/manageCompanionRegistration.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
+		<entry key="/pages/registration/manageCompanionRegistration.*"
+               value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
         <entry key="/pages/registration/edit.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
         <entry key="/pages/registration/search.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/registration/registrationDetails.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/registration/overview.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/registration/manageRegistration.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
 
 		<entry key="/pages/admin/getGroup.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
@@ -207,7 +207,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
         <entry key="/pages/admin/importRegistration.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
         <entry key="/pages/admin/configure.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/createNotification.*"
@@ -220,7 +220,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 
         <entry key="/pages/report/createReport.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/report/createStudyReport.*"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
@@ -296,6 +296,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                </value>
 
         </property>
-    </bean>
+         </bean>
 
 </beans>
