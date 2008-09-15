@@ -223,35 +223,6 @@
     </table>
 </chrome:division>
 
-<c:if test="${hasCompanions && command.dataEntryStatusString=='Complete' && command.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
-<chrome:division title="Companion Studies">
-    <table class="tablecontent" width="50%">
-        <tr>
-            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
-            <th width="75%" scope="col" align="left"><b>Registration Status</b></th>
-            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
-        </tr>
-		<c:forEach items="${companions}" var="companion">
-            <tr>
-                <td class="alt">${companion.companionStudyShortTitle}</td>
-                <td class="alt">${companion.registrationId == 0?"Not Started":companion.registrationStatus}</td>
-                <td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
-                <td class="alt">
-			        <c:choose> 
-						<c:when test="${companion.registrationId != 0}"> 
-							<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${ companion.registrationId}' />'"/> 
-						</c:when>
-						<c:otherwise> 
-				        	<input type="button" id="registerCompanionStudy" value="Register" onclick="createReg('${ companion.studySiteId}','${command.participant.id}','${command.id}');"/> 
-						</c:otherwise> 
-					</c:choose>
-                </td>
-   	        </tr>	
-        </c:forEach>
-    </table>
-</chrome:division>
-</c:if>
-
 <div <c:if test="${empty command.parentStudySubject}">style="display:none;"</c:if>>
 <chrome:division title="Parent Study">
     <table class="tablecontent" width="50%">
