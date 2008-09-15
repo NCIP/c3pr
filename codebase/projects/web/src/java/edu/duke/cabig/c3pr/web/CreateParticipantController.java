@@ -23,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
+import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
@@ -47,6 +48,8 @@ public class CreateParticipantController<C extends Participant> extends
     protected ConfigurationProperty configurationProperty;
 
     private ParticipantValidator participantValidator;
+    
+    private PersonnelService personnelService;
 
     private HealthcareSiteDao healthcareSiteDao;
 
@@ -118,7 +121,7 @@ public class CreateParticipantController<C extends Participant> extends
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object oCommand, BindException errors) throws Exception {
         Participant command = (Participant) oCommand;
-
+        addCreatingOrganization(command, request);
         command.setId(participantDao.merge(command).getId());
 
         ModelAndView modelAndView = null;
@@ -137,6 +140,13 @@ public class CreateParticipantController<C extends Participant> extends
         return null;
     }
 
+    
+    private void addCreatingOrganization(Participant participant, HttpServletRequest request){
+    	HealthcareSite hcs = personnelService.getLoggedInUsersOrganization(request);
+    	List<HealthcareSite> hcsList = participant.getHealthcareSites();
+    	hcsList.add(hcs);    	
+    }
+    
     protected List<HealthcareSite> getHealthcareSites() {
         return healthcareSiteDao.getAll();
     }
@@ -172,5 +182,13 @@ public class CreateParticipantController<C extends Participant> extends
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
         this.healthcareSiteDao = healthcareSiteDao;
     }
+
+	public PersonnelService getPersonnelService() {
+		return personnelService;
+	}
+
+	public void setPersonnelService(PersonnelService personnelService) {
+		this.personnelService = personnelService;
+	}
 
 }

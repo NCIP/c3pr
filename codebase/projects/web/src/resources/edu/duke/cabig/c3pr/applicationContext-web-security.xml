@@ -9,9 +9,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <util:map id="taskObjectPrivilegeMap">
-        <entry key="/pages/registration/searchRegistration" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
-        <entry key="/pages/registration/createRegistration" value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
-        <entry key="/pages/registration/registrationDetails" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+        <entry key="/pages/registration/searchRegistration" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+        <entry key="/pages/registration/createRegistration" value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
+        <entry key="/pages/registration/registrationDetails" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+        <entry key="/pages/registration/manageRegistration.*" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
 
         <entry key="/pages/study/searchStudy" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
         <entry key="/pages/study/editStudy" value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
@@ -30,13 +31,13 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/admin/createOrganization" value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
         <entry key="/pages/admin/searchOrganization" value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
         <entry key="/pages/admin/importStudy" value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
-        <entry key="/pages/admin/importRegistration" value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+        <entry key="/pages/admin/importRegistration" value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
         <entry key="/pages/admin/configure" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/password_policy_configure" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/createNotification" value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
         <entry key="/pages/admin/searchNotification" value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
 
-        <entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+        <entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
         <entry key="/pages/admin/viewInbox" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
     </util:map>
@@ -65,8 +66,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
 
     <util:map id="sectionObjectPrivilegeMap">
-        <entry key="/pages/registration/searchRegistration" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
-        <entry key="/pages/registration/registrationDetails" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+        <entry key="/pages/registration/searchRegistration" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+        <entry key="/pages/registration/registrationDetails" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+        <entry key="/pages/registration/manageRegistration.*" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
 
         <entry key="/pages/study/searchStudy" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
         <entry key="/pages/participant/searchParticipant" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
@@ -75,7 +77,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/admin/configure" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/password_policy_configure" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/searchInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
-        <entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+        <entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
         <entry key="/pages/admin/searchNotification" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
          <entry key="/pages/admin/createNotification" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +21,6 @@ import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -83,17 +80,10 @@ public class SearchRegistrationController extends SimpleFormController {
             }
 
             if (participantId == null) {
-                List<Participant> participants = participantDao.searchByExample(participant);
-                Set<Participant> participantSet = new TreeSet<Participant>();
-                participantSet.addAll(participants);
-                List<Participant> uniqueParticipants = new ArrayList<Participant>();
-                uniqueParticipants.addAll(participantSet);
-                for (Participant partVar : uniqueParticipants) {
-                    registrations = partVar.getStudySubjects();
-                }
+            	registrations = studySubjectDao.searchByParticipant(participant);
             }
             else {
-                registrations = participantDao.getById(participantId).getStudySubjects();
+                registrations = studySubjectDao.searchByParticipantId(participantId);
             }
         }
         else if (request.getParameter("select").equals("Study")) {
@@ -116,26 +106,11 @@ public class SearchRegistrationController extends SimpleFormController {
             }
 
             if (studyId == null) {
-                List<Study> studies = studyDao.searchByExample(study, true);
-                Set<Study> studySet = new TreeSet<Study>();
-                List<Study> uniqueStudies = new ArrayList<Study>();
-                studySet.addAll(studies);
-                uniqueStudies.addAll(studySet);
-                for (Study studyVar : uniqueStudies) {
-                    for (StudySite studySite : studyVar.getStudySites()) {
-                        for (StudySubject studySubject : studySite.getStudySubjects()) {
-                            registrations.add(studySubject);
-                        }
-                    }
-                }
+            	registrations = studySubjectDao.searchByStudy(study);
             }
             else {
-                study = studyDao.getById(studyId);
-                for (StudySite studySite : study.getStudySites()) {
-                    for (StudySubject studySubject : studySite.getStudySubjects()) {
-                        registrations.add(studySubject);
-                    }
-                }
+                registrations = studySubjectDao.searchByStudyId(studyId);
+                
             }
         }
         else if (request.getParameter("select").equals("Id")) {
