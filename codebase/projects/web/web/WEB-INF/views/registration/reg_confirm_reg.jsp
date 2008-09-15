@@ -31,7 +31,7 @@ function manageCompanions(registrationId){
 </head>
 <body>
 <form action="../registration/manageRegistration?registrationId=${command.id }" method="post" id="manageCompanion">
-	<input type="hidden" name="_page0" id="_page0" value="0"/>
+	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target2" id="_target2" value="2"/>
 	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
 </form>
