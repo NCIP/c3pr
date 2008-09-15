@@ -7,6 +7,7 @@
 <jwr:style src="/csslib/${skinName}.css" />
 <jwr:script src="/jslib/c3pr.js" />
 <jwr:script src="/jslib/js${skinName}.js" />
+<jwr:style src="/css/commonui.css" />
 
 <!--[if IE]>
 <%--<jwr:style src="/csslib/ie.css" />--%>
