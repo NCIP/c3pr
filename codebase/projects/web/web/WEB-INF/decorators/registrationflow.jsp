@@ -26,6 +26,7 @@
 </head>
 
 <body>
+<div id="all">
 <layout:header2/>
 <c:set var="studySubject" value="${command}" scope="request"/>
 <div class="tabpane">
@@ -81,5 +82,6 @@
 <c:if test="${!empty disableForm && disableForm}">
 <tags:disableForm/>
 </c:if>
+</div>
 </body>
 </html>
