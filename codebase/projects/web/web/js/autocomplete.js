@@ -88,10 +88,61 @@ var AutocompleterManager= {
 	addAutocompleter: function(ac){
 							this.autoCompleters.push(ac)
 						}
+				
 }
 
+function initSearchField() {
+
+    $$("input[type=text].autocomplete").each(function(theInput)
+    {
+        addEventHandlersForAutoCompleter(theInput)
+    });
+
+     $$("input[type=text][class='autocomplete validate-NOTEMPTY']").each(function(theInput)
+    {
+            addEventHandlersForAutoCompleter(theInput)
+    });
+
+}
+function addEventHandlersForAutoCompleter(theInput){
+
+        var message = '(Begin typing here)';
+
+          /* Add event handlers */
+        Event.observe(theInput, 'focus', clearDefaultText);
+        Event.observe(theInput, 'blur', replaceDefaultText);
+        /* Save the current value */
+        if (trim(theInput.value) == '') {
+            theInput.defaultText = message;
+            theInput.className = 'pending-search';
+            theInput.value = message;
+        }
+}
+function clearDefaultText(e) {
+    var target = window.event ? window.event.srcElement : e ? e.target : null;
+    if (!target) return;
+
+    if (target.value == '(Begin typing here)') {
+        target.value = '';
+        target.className = 'autocomplete';
+    }
+
+}
+
+function replaceDefaultText(e) {
+    var target = window.event ? window.event.srcElement : e ? e.target : null;
+    if (!target) return;
+
+    if (trim(target.value) == '' ) {
+        target.value = '(Begin typing here)';
+        target.className = 'pending-search';
+    }
+}
+
+
 Event.observe(window, "load", function() {
-	AutocompleterManager.registerAutoCompleters()
+	AutocompleterManager.registerAutoCompleters();
+	initSearchField();
 })
 
 /* Abstract Implementation of an autocompleter object*/
@@ -107,4 +158,14 @@ var AbstractAutocompleterProps = {
     displayChoices: function(){ return this.basename+"-choices"},
     isFreeTextAllowed: false, 
     indicator: function(){ return this.basename+"-indicator"}
+}
+
+function trim(stringToTrim) {
+	return stringToTrim.replace(/^\s+|\s+$/g,"");
+}
+function ltrim(stringToTrim) {
+	return stringToTrim.replace(/^\s+/,"");
+}
+function rtrim(stringToTrim) {
+	return stringToTrim.replace(/\s+$/,"");
 }
