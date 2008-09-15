@@ -86,7 +86,9 @@
 
                                        ['<c:out value="${name}" />', '<c:url value="${task.url}"/>', null,
                                            <c:forEach items="${task.subTasks}" var="subtask">
+                                           <csmauthz:accesscontrol domainObject="${subtask}" authorizationCheckName="taskAuthorizationCheck">
                                                 ['<c:out value="${subtask.displayName}" />', '<c:url value="${subtask.url}"/>'],
+                                                </csmauthz:accesscontrol>
                                            </c:forEach>
                                        ],
                                     </csmauthz:accesscontrol>
