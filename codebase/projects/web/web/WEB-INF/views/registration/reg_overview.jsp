@@ -282,26 +282,30 @@
         <tr>
             <td width="35%" class="label">Registration Status</td>
             <td>${command.regWorkflowStatus.code}&nbsp;
-                <c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
-                    <input type="button" value="Take subject off study"
-                           onclick="new Effect.SlideDown('OffStudyStatus')">
-                </c:if><br/><br/>
-                <div id="OffStudyStatus">
-                    <form:form id="offStudyStatusForm">
-                        <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
-                        <input type="hidden" name="regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>
-                        Reason:
-                        <form:textarea path="offStudyReasonText" rows="2" cols="40"
-                                       cssClass="validate-notEmpty"></form:textarea>
-                        <br /><br />
-                        Date: &nbsp;&nbsp;&nbsp;
-                        <tags:dateInput path="offStudyDate" cssClass="validate-notEmpty&&DATE"/>
-                        <em> (mm/dd/yyyy)</em><br /><br />
-                        <c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
-                            <input type="button" value="cancel" onclick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
-                    </form:form>
-                </div>
-                <script type="text/javascript">new Element.hide('OffStudyStatus');</script>
+            	
+            	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+                            authorizationCheckName="domainObjectAuthorizationCheck">
+	                <c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+	                    <input type="button" value="Take subject off study"
+	                           onclick="new Effect.SlideDown('OffStudyStatus')">
+	                </c:if><br/><br/>
+	                <div id="OffStudyStatus">
+	                    <form:form id="offStudyStatusForm">
+	                        <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
+	                        <input type="hidden" name="regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>
+	                        Reason:
+	                        <form:textarea path="offStudyReasonText" rows="2" cols="40"
+	                                       cssClass="validate-notEmpty"></form:textarea>
+	                        <br /><br />
+	                        Date: &nbsp;&nbsp;&nbsp;
+	                        <tags:dateInput path="offStudyDate" cssClass="validate-notEmpty&&DATE"/>
+	                        <em> (mm/dd/yyyy)</em><br /><br />
+	                        <c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
+	                            <input type="button" value="cancel" onclick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
+	                    </form:form>
+	                </div>
+                	<script type="text/javascript">new Element.hide('OffStudyStatus');</script>
+               </csmauthz:accesscontrol>
             </td>
         </tr>
         <c:if test="${command.regWorkflowStatus=='OFF_STUDY'}">
@@ -367,8 +371,10 @@
         </tr>
     </table>
     <c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><br>
-
-        <div align="right"><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/></div>
+    	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+                            authorizationCheckName="domainObjectAuthorizationCheck">
+        	<div align="right"><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/></div>
+        </csmauthz:accesscontrol>
     </c:if>
     <script>
         eArray = new Array();
