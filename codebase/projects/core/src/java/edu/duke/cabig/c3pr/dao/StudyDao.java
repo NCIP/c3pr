@@ -21,6 +21,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
+import sun.util.logging.resources.logging;
+
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -108,7 +110,12 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public void save(Study study) {
         getHibernateTemplate().saveOrUpdate(study);
     }
-	
+    
+    @Transactional(readOnly = false)
+    public void load(Study study, int i ) {
+        getHibernateTemplate().load(study, i);
+    }
+        
     @Transactional(readOnly = false)
     public void initialize(Study study) throws DataAccessException {
     	getHibernateTemplate().initialize(study.getEpochsInternal());
