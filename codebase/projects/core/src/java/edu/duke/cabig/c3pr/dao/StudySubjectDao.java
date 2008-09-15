@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,15 +22,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.PlannedNotification;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.StratificationCriterion;
-import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -44,6 +43,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     private static Log log = LogFactory.getLog(StudySubjectDao.class);
 
     private StudyDao studyDao;
+    
+    private ParticipantDao participantDao;
+    
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
     }
@@ -180,6 +182,66 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         return studySubjectCriteria.list();
     }
 
+    /*
+     * Used by searchRegistrationsController
+     */
+    public List<StudySubject> searchByParticipant(Participant participant){
+    	List<StudySubject> registrations = new ArrayList<StudySubject>();
+    	
+    	List<Participant> participantList = participantDao.searchByExample(participant);
+        Set<Participant> participantSet = new TreeSet<Participant>();
+        participantSet.addAll(participantList);
+        List<Participant> uniqueParticipants = new ArrayList<Participant>();
+        uniqueParticipants.addAll(participantSet);
+        for (Participant partVar : uniqueParticipants) {
+            registrations = partVar.getStudySubjects();
+        }
+        return registrations;
+    }
+    
+
+    /*
+     * Used by searchRegistrationsController
+     */
+	public List<StudySubject> searchByParticipantId(Integer participantId) {
+		return participantDao.getById(participantId).getStudySubjects();
+	}
+    
+	/*
+     * Used by searchRegistrationsController
+     */
+	public List<StudySubject> searchByStudy(Study study) {
+		List<StudySubject> registrations = new ArrayList<StudySubject>();
+		List<Study> studies = studyDao.searchByExample(study, true);
+        Set<Study> studySet = new TreeSet<Study>();
+        List<Study> uniqueStudies = new ArrayList<Study>();
+        studySet.addAll(studies);
+        uniqueStudies.addAll(studySet);
+        for (Study studyVar : uniqueStudies) {
+            for (StudySite studySite : studyVar.getStudySites()) {
+                for (StudySubject studySubject : studySite.getStudySubjects()) {
+                    registrations.add(studySubject);
+                }
+            }
+        }
+        return registrations;
+	}
+	
+	/*
+     * Used by searchRegistrationsController
+     */
+	public List<StudySubject> searchByStudyId(Integer studyId) {
+		List<StudySubject> registrations = new ArrayList<StudySubject>();
+		Study study = studyDao.getById(studyId);
+        for (StudySite studySite : study.getStudySites()) {
+            for (StudySubject studySubject : studySite.getStudySubjects()) {
+                registrations.add(studySubject);
+            }
+        }
+        return registrations;
+	}
+	
+	
     /**
      * *
      * 
@@ -389,5 +451,14 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     public List<StudySubject> searchByExample(StudySubject ss, boolean isWildCard) {
         return searchByExample(ss, isWildCard, 0);
     }
+
+	public ParticipantDao getParticipantDao() {
+		return participantDao;
+	}
+
+	public void setParticipantDao(ParticipantDao participantDao) {
+		this.participantDao = participantDao;
+	}
+
 
 }

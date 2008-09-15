@@ -9,6 +9,8 @@ import java.util.StringTokenizer;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -43,6 +45,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	private String ethnicGroupCode;
 
 	//private String raceCode;
+	private List<HealthcareSite> healthcareSites = new ArrayList<HealthcareSite>();;
 
 	private List<RaceCode> raceCodes;
 
@@ -53,7 +56,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	private LazyListHelper lazyListHelper;
 
 	private List<Identifier> identifiers;
-
+	
 	public Participant() {
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,
@@ -301,5 +304,19 @@ public class Participant extends Person implements Comparable<Participant> {
 				.equals("")) return false;
 		return true;
 	}
+
+	@ManyToMany
+	@Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @JoinTable(name="prt_org_associations",
+        joinColumns = @JoinColumn(name="prt_stu_sub_id"),
+        inverseJoinColumns = @JoinColumn(name="org_stu_sub_id")
+    )
+    public List<HealthcareSite> getHealthcareSites() {
+        return healthcareSites;
+    }
+
+    public void setHealthcareSites(List<HealthcareSite> healthcareSites) {
+    	this.healthcareSites = healthcareSites;
+    }
 
 }

@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
@@ -278,6 +279,16 @@ public class PersonnelServiceImpl implements PersonnelService {
         
     }
     
+    
+    public HealthcareSite getLoggedInUsersOrganization(HttpServletRequest request){
+    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
+        																					.getSession().getAttribute("userObject");
+    	List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(user.getEmailId());
+    	if(rsList != null && rsList.size() > 0){
+    		return rsList.get(0).getHealthcareSite();
+    	}
+    	return null;
+    }
 
     // spring settters
     public UserProvisioningManager getUserProvisioningManager() {

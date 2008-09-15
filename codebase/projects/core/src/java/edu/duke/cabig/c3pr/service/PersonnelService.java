@@ -68,6 +68,11 @@ public interface PersonnelService {
      * used exclusively for the dashboard and inbox view of notifications
      */
     public List<RecipientScheduledNotification> getRecentNotifications(HttpServletRequest request);
+    
+    /*
+     * Used while saving the subject to add the creating org.
+     */
+    public HealthcareSite getLoggedInUsersOrganization(HttpServletRequest request);
 
     public User getCSMUserByUsername(String userName);
 

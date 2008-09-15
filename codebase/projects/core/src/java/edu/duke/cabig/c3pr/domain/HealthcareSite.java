@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -32,9 +33,11 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
     private List<HealthcareSiteInvestigator> healthcareSiteInvestigators = new ArrayList<HealthcareSiteInvestigator>();
 
     private List<ResearchStaff> researchStaffs = new ArrayList<ResearchStaff>();
+    
+    private List<Participant> participants = new ArrayList<Participant>();
 
     private LazyListHelper lazyListHelper;
-
+    
     public HealthcareSite() {
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(InvestigatorGroup.class,
@@ -145,6 +148,16 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
     }
 
     public void setInvestigatorGroups(List<InvestigatorGroup> investigatorGroups) {
+    }
+    
+    @ManyToMany(mappedBy = "healthcareSites" )
+    @Cascade(value = { CascadeType.LOCK})
+    public List<Participant> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<Participant> participants) {
+    	this.participants = participants;
     }
 
 }

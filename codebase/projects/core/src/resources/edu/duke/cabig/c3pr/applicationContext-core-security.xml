@@ -28,17 +28,17 @@
     <aop:aspectj-autoproxy/>
     <aop:spring-configured/>
 
-    <!-- <aop:config> -->
+     <aop:config>
         <!-- pointcuts -->
-        <!--<aop:pointcut id="daoMethodPointcut"
+        <aop:pointcut id="daoMethodPointcut"
                       expression="execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.save(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+)) ||
                       execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.merge(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+))||
                       execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.search*(..))||
                       execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.get*(..))
-                      "/>-->
+                      "/>
 
         <!-- aspects -->
-        <!--<aop:aspect id="daoSaveOrUpdateSecurityInterceptorAspect"
+        <aop:aspect id="daoSaveOrUpdateSecurityInterceptorAspect"
                     ref="daoSecurityInterceptorAspectBean">
             <aop:around pointcut-ref="daoMethodPointcut"
                         method="advise"/>
@@ -46,7 +46,7 @@
 
         </aop:aspect>
     </aop:config>
--->
+
 
     <bean id="daoSecurityInterceptorAspectBean"
           class="gov.nih.nci.security.acegi.csm.aop.SecurityInterceptorAspect">
@@ -81,26 +81,31 @@
 
         <!--registration permissions-->
         <entry key="execution(* save(edu.duke.cabig.c3pr.domain.StudySubject))"
-               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
 
         <entry key="execution(* merge(edu.duke.cabig.c3pr.domain.StudySubject))"
-               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
 
         <entry key="execution(* reassociate(edu.duke.cabig.c3pr.domain.StudySubject))"
-               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
 
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.get*(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+       
+       <entry key="execution(* edu.duke.cabig.c3pr.dao.ParticipantDao.get*(..))"
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+               
+       <entry key="execution(* edu.duke.cabig.c3pr.dao.ParticipantDao.search*(..))"
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
 
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.search*(..))"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
 
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedSearch(..))"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
 
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedStudySearch(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
-
 	
 	
 	
@@ -146,6 +151,7 @@
             <value>
                 edu.duke.cabig.c3pr.dao.StudyDao.*=CSM_AUTHN_CHECK
                 edu.duke.cabig.c3pr.dao.StudySubjectDao.*=CSM_AUTHN_CHECK
+              	edu.duke.cabig.c3pr.dao.ParticipantDao.*=CSM_AUTHN_CHECK
             </value>
         </property>
         <property name="accessDecisionManager">
@@ -197,7 +203,12 @@
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
         <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
     </bean>
-
+    
+    <bean id="participantSiteCSMGroupAuthorizationCheckProvider"
+          class="edu.duke.cabig.c3pr.accesscontrol.ParticipantSiteCSMGroupAuthorizationCheckProvider">
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
+    </bean>
 
     <util:map id="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"
               map-class="java.util.LinkedHashMap">
@@ -206,6 +217,8 @@
                value-ref="studySiteSiteSecurityCSMGroupAuthorizationCheckProvider"/>
         <entry key="edu.duke.cabig.c3pr.domain.StudySubject"
                value-ref="studySubjectSiteCSMGroupAuthorizationCheckProvider"/>
+        <entry key="edu.duke.cabig.c3pr.domain.Participant"
+               value-ref="participantSiteCSMGroupAuthorizationCheckProvider"/>
 
     </util:map>
 
