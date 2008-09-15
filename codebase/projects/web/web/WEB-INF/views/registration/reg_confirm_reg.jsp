@@ -231,7 +231,13 @@ function manageCompanions(registrationId){
 			</form>
 		</div>
 	</c:if>
-	
+	<br>
+	<div align="right">
+		<c:if test="${hasCompanions && command.dataEntryStatusString=='Complete' && command.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
+			<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions('${command.id}');"/>
+		</c:if>	
+	</div>
+
 <c:choose>
 	<c:when test="${param.create_companion != 'true'}">
 	</div>
@@ -292,10 +298,6 @@ function manageCompanions(registrationId){
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.gridId }"/>
 </form>
-${hasCompanion }
-<c:if test="${hasCompanions && command.dataEntryStatusString=='Complete' && command.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
-	<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions('${command.id}');"/>
-</c:if>
 <c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions)}">
 <tags:panelBox>
 	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
