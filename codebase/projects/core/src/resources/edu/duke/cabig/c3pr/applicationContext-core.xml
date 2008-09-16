@@ -136,7 +136,7 @@
         </property>
     </bean>
 
-    <bean id="configuration" parent="daoTemplate"
+    <bean id="configuration" parent="configurationDaoTemplate"
       class="edu.duke.cabig.c3pr.tools.Configuration"/>
       
     
@@ -277,12 +277,18 @@
             <ref bean="sessionFactory"/>
         </property>
     </bean>
-    <bean id="daoTemplate" abstract="true">
+    <bean id="daoTemplate" abstract="true"  class="edu.duke.cabig.c3pr.dao.C3PRBaseDao">
+        <property name="hibernateTemplate">
+            <ref bean="hibernateTemplate"/>
+        </property>
+        <property name="maxSearchResultsForAutocompleter" value="${maxSearchResultsForAutocompleter}"></property>
+    </bean>
+
+	<bean id="configurationDaoTemplate" abstract="true" >
         <property name="hibernateTemplate">
             <ref bean="hibernateTemplate"/>
         </property>
     </bean>
-
     <bean id="openSessionInViewInterceptor"
           class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor"
           autowire="byName">

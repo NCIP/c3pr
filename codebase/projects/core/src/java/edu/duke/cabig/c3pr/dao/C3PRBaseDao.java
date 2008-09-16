@@ -23,6 +23,16 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomainObjectDao<T> {
 
 	private static Log log = LogFactory.getLog(C3PRBaseDao.class);
+	private int maxSearchResultsForAutocompleter ; 
+
+	public int getMaxSearchResultsForAutocompleter() {
+		return maxSearchResultsForAutocompleter;
+	}
+
+	public void setMaxSearchResultsForAutocompleter(
+			int maxSearchResultsForAutocompleter) {
+		this.maxSearchResultsForAutocompleter = maxSearchResultsForAutocompleter;
+	}
 
 	/**
 	 * Get Object by Id (based on domain class) with eager fetch of a single association
@@ -161,7 +171,7 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 		}
 
 		log.debug("query string = " + query);
-		this.getHibernateTemplate().setMaxResults(30);
+		this.getHibernateTemplate().setMaxResults(getMaxSearchResultsForAutocompleter());
 		return (getHibernateTemplate()).find(query.toString(), params.toArray());
 	}
 
