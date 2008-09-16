@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.accesscontrol;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
@@ -31,7 +32,12 @@ public class ParticipantSiteCSMGroupAuthorizationCheckProvider implements CSMAut
 
         if (domainObject instanceof Participant) {
         	Participant participant = (Participant) domainObject;
-            List<HealthcareSite> hcsList = participant.getHealthcareSites();
+        	List<HealthcareSite> hcsList = participant.getHealthcareSites();
+        	
+        	List<OrganizationAssignedIdentifier> oaiList = participant.getOrganizationAssignedIdentifiers();
+        	for(OrganizationAssignedIdentifier oai: oaiList){
+        		hcsList.add(oai.getHealthcareSite());
+        	}
             
             for(HealthcareSite hcs: hcsList){
             	log.debug("### Checking permission for user on site:" + hcs.getNciInstituteCode());
