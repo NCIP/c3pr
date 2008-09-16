@@ -42,9 +42,7 @@ public class EpochDao extends GridIdentifiableDao<Epoch> {
     @Transactional(readOnly = false)
     public void initialize(Epoch epoch) throws DataAccessException {
         getHibernateTemplate().initialize(epoch.getArmsInternal());
-        getHibernateTemplate().initialize(epoch.getEligibilityCriteriaInternal());
-        getHibernateTemplate().initialize(epoch.getExclusionEligibilityCriteriaInternal());
-        getHibernateTemplate().initialize(epoch.getInclusionEligibilityCriteriaInternal());
+        getHibernateTemplate().initialize(epoch.getEligibilityCriteria());
         getHibernateTemplate().initialize(epoch.getStratificationCriteriaInternal());
         if (epoch.getRandomization() != null
                         && epoch.getRandomization() instanceof BookRandomization) {
