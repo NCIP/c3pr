@@ -195,6 +195,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		$("healthcareSite-hidden").value="";
 		$("disease-sub-category").options.length=0;
 		e1 = document.getElementById("errorsDiv");
+		$('flashMessageForGroup').hide();
 		if(e1!=null){
 			e1.innerHTML='';
 		}
