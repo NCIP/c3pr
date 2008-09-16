@@ -6,6 +6,7 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_SUBJECT;
 import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
 /**
@@ -30,6 +32,7 @@ public class ParticipantDaoTest extends DaoTestCase {
 
     private HealthcareSiteDao healthcareSiteDao = (HealthcareSiteDao) getApplicationContext()
                     .getBean("healthcareSiteDao");
+    private OrganizationDao organizationDao = (OrganizationDao) getApplicationContext().getBean("organizationDao");
 
     /**
      * Test for loading a Participant by Id
@@ -96,7 +99,7 @@ public class ParticipantDaoTest extends DaoTestCase {
     }
 
     /**
-     * Test for Creating Participant with basic details and address
+     * Test for Creating Participant with basic details and address and healthcareSite
      * 
      * @throws Exception
      */
@@ -112,6 +115,10 @@ public class ParticipantDaoTest extends DaoTestCase {
         participant.getAddress().setCountryCode("USA");
         participant.getAddress().setStateCode("NC");
         participant.getAddress().setStreetAddress("350 Glen Dale Avenue");
+        HealthcareSite hcs = organizationDao.getById(1000);
+        List<HealthcareSite> hcsList = new ArrayList<HealthcareSite>();
+        hcsList.add(hcs);
+        participant.setHealthcareSites(hcsList);
         Address add = new Address();
 
         dao.save(participant);
@@ -119,6 +126,7 @@ public class ParticipantDaoTest extends DaoTestCase {
         interruptSession();
 
         Participant savedParticipant = dao.getById(participant.getId());
+        assertEquals(1000,savedParticipant.getHealthcareSites().get(0).getId().intValue());
         assertEquals("Lewis", savedParticipant.getLastName());
         assertEquals("NC", savedParticipant.getAddress().getStateCode());
     }
