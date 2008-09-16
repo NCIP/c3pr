@@ -326,13 +326,14 @@
     </bean>
     <bean name="/registration/manageRegistration" id="manageRegistrationController"
           class="edu.duke.cabig.c3pr.web.registration.ManageRegistrationController" autowire="byName">
+        <property name="xmlUtility" ref="registrationXmlUtility"/>
         <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject"/>
         <property name="commandName" value="command"/>
         <property name="sessionForm" value="true"/>
         <!-- <property name="bindOnNewForm" value="true" />-->
     </bean>
     <bean name="/registration/confirm"
-          id="confirmRegistrationController"
+          id="confirmRegistrationCoStudyntroller"
           class="edu.duke.cabig.c3pr.web.registration.RegistrationConfirmAndRandomizeController" autowire="byName">
         <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject"/>
         <property name="commandName" value="command"/>
