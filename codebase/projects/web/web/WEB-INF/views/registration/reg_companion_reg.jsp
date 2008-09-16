@@ -31,6 +31,8 @@
 	<input type="hidden" name="_target2" id="_target2" value="2"/>
 	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
 </form>
+<c:choose>
+<c:when test="${fn:length(companions)>0}">
 <tags:panelBox>
 	<div id="CompanionRegistration">
 		<table class="tablecontent" width="100%" title="Companion Registration">
@@ -63,9 +65,16 @@
 	</div>
 </tags:panelBox>
 <c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions)}">
-	<tags:panelBox>
+	<tags:panelBox title="Parent Registration">
 		<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}" />
 	</tags:panelBox>
 </c:if>
+</c:when>
+<c:otherwise>
+	<tags:panelBox>
+		<center><b>No Companion Associated with this Registration.</b></center>
+	</tags:panelBox>
+</c:otherwise>
+</c:choose>
 </body>
 </html>
