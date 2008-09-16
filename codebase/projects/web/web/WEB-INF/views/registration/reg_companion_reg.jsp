@@ -52,10 +52,16 @@
 	                <td class="alt">
 				        <c:choose> 
 							<c:when test="${companion.registrationId != 0}"> 
-								<input type="button" CompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${ companion.registrationId}' />'"/> 
+							<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+	                            authorizationCheckName="domainObjectAuthorizationCheck">
+								<input type="button" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${ companion.registrationId}' />'"/> 
+							</csmauthz:accesscontrol>
 							</c:when>
 							<c:otherwise> 
+							<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+	                            authorizationCheckName="domainObjectAuthorizationCheck">
 					        	<input type="button" id="registerCompanionStudy" value="Register" onclick="openPopup('${ companion.studySiteId}','${command.participant.id}','${command.id}');"/> 
+					        </csmauthz:accesscontrol>
 							</c:otherwise> 
 						</c:choose>
 	                </td>
