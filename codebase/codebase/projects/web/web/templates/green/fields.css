@@ -1,0 +1,59 @@
+input[type=button], input[type=submit], input[type=reset] {
+    font-size: 11px;
+    font-family: Verdana;
+    color: white;
+    background-color: #689a65;
+    border: 1px outset #689a65;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin-left: 2pt;
+    vertical-align: middle;
+}
+
+input, label, select, textarea {
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  margin-left: 2pt;
+  font-size: 11px;
+}
+
+input[type=text], input[type=password], select, textarea {
+  border-color : #689a65;
+  border-style : solid;
+  border-width : 1px;
+  padding: 2px;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 11px;
+}
+
+input[disabled], select[disabled], textarea[disabled] {
+  border-color: #ddc;
+  background-color: #ddc;
+}
+
+input[type=file] {
+  border-color : #689a65;
+  border-style : solid;
+  border-width : 1px;
+}
+
+input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
+  border-style: inset;
+}
+/*
+    SELECT-equivalent groups of radio buttons
+ */
+.longselect {
+    border: 1px inset #ccc;
+}
+.longselect label {
+    display: block;
+    padding: 0.2em 0.5em;
+    /* next two properties combine to give a hanging indent */
+    text-indent: -1.3em;
+    padding-left: 1.8em;
+    background-color: #f4f4f5;
+}
+.longselect label:hover {
+    background-color: #D7E7ED;
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="c3pr-management" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="skip.test" value="true" />
+	<property name="antfiles.dir" location="${basedir}"/>
+	<property file="${antfiles.dir}/build.properties" />
+	<property file="${antfiles.dir}/c3pr-ivy.properties" />
+	<import file="${antfiles.dir}/common.xml"/>
+	
+	
+	
+	
+</project>

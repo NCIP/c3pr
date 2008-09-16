@@ -1,0 +1,39 @@
+<!-- ======================================================================= -->
+<!-- C3PR test-system                                                        -->
+<!-- ======================================================================= -->
+<project name="c3pr-1.0-test-system-test" basedir=".">
+
+	<property name="test.dir" location="${basedir}/test"/>
+	<property name="test.logs.dir" location="${test.dir}/logs"/>
+	<property name="junit.results.dir" value="${test.logs.dir}/junit"/>
+
+	<!-- call the test target for each project and aggregates the log resutls  -->
+	<target name="test" description="Runs the tests">
+		<property name="cobertura.home" location="../../share/cobertura-1.8"/>
+		<property name="testcoverage.datafile" location="${test.logs.dir}/queryengine.ser"/>
+		
+		<mkdir dir="${junit.results.dir}"/>
+		<junit dir="${basedir}" printsummary="yes" haltonfailure="true" showoutput="true" fork="yes">
+			<classpath refid="test.classpath"/>
+			<classpath>
+			    <fileset dir="${cobertura.home}">
+			        <include name="cobertura.jar" />
+			        <include name="lib/**/*.jar" />
+			    </fileset>
+			</classpath>
+
+			<sysproperty key="basedir" value="${basedir}"/>
+			<sysproperty key="net.sourceforge.cobertura.datafile" value="${testcoverage.datafile}" />
+
+			<formatter type="xml" usefile="true" />
+			<formatter type="plain" usefile="false" />
+
+			<batchtest fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*TestCase.java"/>
+					<include name="**/*Test.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+</project>

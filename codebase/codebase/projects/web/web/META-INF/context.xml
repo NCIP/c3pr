@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- To do a local deployment. For developers use
+    Edit the docBase to your local directory
+-->
+<Context path="/c3pr" docBase="/Users/kherm/dev/cvsroot/c3prv2/codebase/projects/web/web"
+         debug="0" privileged="true" reloadable="true" orverride="true">
+
+</Context>
+
+
+

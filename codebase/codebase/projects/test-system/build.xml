@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!-- ================================================================= -->
+<!-- C3PR 2.0 test-system build file                                   -->
+<!-- ================================================================= -->
+<project name="c3pr-2.0-test-system" default="all" basedir=".">
+	<!-- Environment -->
+	<property environment="env" />
+	<property file="${basedir}/build.properties" />
+	<property file="${user.dir}/build.properties" />
+
+	<!-- Information -->
+	<property name="project.name" value="test-system" />
+	<property name="project.version" value="1.0" />
+
+	<property name="src.dir" value="${basedir}/src/java" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="jar.dir" value="${build.dir}/jars" />
+	<property name="project.jarfile" value="${jar.dir}/c3pr-2.0-${project.name}-${project.version}.jar" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="ext.lib.dir" value="${basedir}/ext/lib" />
+	<property name="ext.test.lib.dir" location="${basedir}/ext/test/lib" />
+	<property name="web.dir" location="${basedir}/web" />
+	<property name="war.file" location="${build.dir}/c3prv2.war" />
+
+	<!-- testing stuff -->
+	<property name="test.dir" location="${basedir}/test" />
+	<property name="test.src.dir" location="${test.dir}/src/java" />
+	<property name="test.classes.dir" location="${build.dir}/classes-test" />
+	<property name="test.lib.dir" location="${test.dir}/lib" />
+	<property name="test.logs.dir" location="${test.dir}/logs" />
+	<property name="test.project.jar" location="${jar.dir}/c3pr-2.0-${project.name}-tests-${project.version}.jar" />
+
+	<!-- Load common util path -->
+	<import file="antfiles/build-test.xml" />
+
+	<!-- build properties -->
+	<property name="debug" value="on"/>
+	
+	<!-- =============================================================== -->
+	<!-- The Build Classpath                                             -->
+	<!-- =============================================================== -->
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${ext.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- =============================================================== -->
+	<!-- The Run Classpath                                                   -->
+	<!-- =============================================================== -->
+	<path id="run.classpath">
+		<fileset dir="${jar.dir}">
+			<include name="**/*.jar" />
+			<exclude name="**/*test*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${ext.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- =============================================================== -->
+	<!-- The Test Classpath                                                   -->
+	<!-- =============================================================== -->
+	<path id="test.classpath">
+		<fileset dir="${jar.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${env.JAVA_HOME}/lib">
+			<include name="tools.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${ext.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${test.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${ext.test.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+        <fileset dir="${env.GLOBUS_LOCATION}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+	<!-- =============================================================== -->
+	<!-- Prepares the build directory                                    -->
+	<!-- =============================================================== -->
+	<target name="prepare">
+		<tstamp />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${test.lib.dir}" />
+	</target>
+
+	<!-- =============================================================== -->
+	<!-- Compiles the source code                                        -->
+	<!-- =============================================================== -->
+	<target name="compile" depends="prepare" description="compiles.">
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${ext.lib.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" deprecation="off" optimize="off">
+			<classpath refid="build.classpath" />
+		</javac>
+	</target>
+
+	<!-- =============================================================== -->
+	<!-- Compiles the test source code                                        -->
+	<!-- =============================================================== -->
+	<target name="compile-tests" depends="prepare" description="compiles.">
+		<mkdir dir="${test.classes.dir}" />
+		<mkdir dir="${ext.test.lib.dir}" />
+		<javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
+			<classpath refid="test.classpath" />
+		</javac>
+	</target>
+
+	<!-- ============================================================== -->
+	<!-- Cleans up generated stuff                                      -->
+	<!-- ============================================================== -->
+	<target name="clean" depends="" description="Removes generated files.">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<!-- ============================================================== -->
+	<!-- Creates the test jar files                                     -->
+	<!-- ============================================================== -->
+	<target name="jar" depends="compile" description="Builds the Jar Files">
+		<mkdir dir="${jar.dir}" />
+		<jar jarfile="${project.jarfile}" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="${main.class}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- ============================================================== -->
+	<!-- Creates the jar files                                          -->
+	<!-- ============================================================== -->
+	<target name="jar-tests" depends="compile-tests" description="Builds the Jar Files">
+		<mkdir dir="${jar.dir}" />
+		<jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- ============================================================== -->
+	<!-- Builds from scratch                                                -->
+	<!-- ============================================================== -->
+	<target name="all" description="Builds the entire application" depends="jar,jar-tests" />
+</project>
+

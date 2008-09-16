@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+
+<project name="Installation Build"  basedir=".">
+
+    <!-- this is required to pick up the properties generated during the install pages -->
+    <property file="${basedir}/ant.install.properties"/>
+    <property name="installer.properties" value="installer.properties"/>
+
+    <property name="c3prv2.install.artifact" value="c3prv2-installpack.zip"/>
+	<property name="web-archive.dir" value="${basedir}/web-archive"/>
+    <property name="ext.dir" value="${basedir}/ext"/>
+
+    <!--properties from the GUI installer-->
+    <property name="base.codebase.dir" value="${basedir}/codebase"/>
+    <property name="install.codebase.dir" value="${install.dir}/codebase"/>
+
+    <!--c3pr src folders-->
+    <property name="c3pr.core.dir" value="${base.codebase.dir}/projects/core"/>
+
+    <target name="prepare">
+        <unzip src="${antinstaller.jar}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="${installer.properties}"/>
+            </patternset>
+        </unzip>
+
+        <!--source the properties-->
+        <property file="${basedir}/${installer.properties}"/>
+
+        <unzip src="${antinstaller.jar}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="${c3prv2.install.artifact}"/>
+            </patternset>
+        </unzip>
+
+        <!--delete previous install-->
+        <delete dir="${base.codebase.dir}" failonerror="false"/>
+
+    </target>
+
+    <target name="installNewTomcat">
+        <unzip src="${antinstaller.jar}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="${tomcat.artifact}"/>
+            </patternset>
+        </unzip>
+
+        <unzip src="${basedir}/${tomcat.artifact}"
+               dest="${tomcat.home}"
+               overwrite="true"/>
+
+        <echo message="Modifying tomcat conf"/>
+
+        <!--Works for all OS-->
+        <pathconvert targetos="unix" property="tomcat.conf.dir">
+            <path location="${tomcat.home}/conf"/>
+        </pathconvert>
+
+        <!--todo refactor into core build.xml-->
+        <copy file="${tomcat.conf.dir}/catalina.properties.template"
+              tofile="${tomcat.conf.dir}/catalina.properties"
+              overwrite="true"
+              filtering="true"
+              verbose="true">
+
+            <filterset>
+                <filter token="csm.config" value="gov.nih.nci.security.configFile=${tomcat.conf.dir}/cabig/ApplicationSecurityConfig.xml"/>
+                <filter token="jaas.config" value="java.security.auth.login.config=${tomcat.conf.dir}/cabig/csm_jaas.config"/>
+            </filterset>
+        </copy>
+
+        <chmod dir="${tomcat.home}/bin" includes="**/*.sh" perm="ugo+x"/>
+
+    </target>
+
+    <target name="deploy-webapp">
+    	<unzip src="${basedir}/${c3prv2.install.artifact}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+            	<include name="web-archive"/>
+            </patternset>
+        </unzip>
+
+    	<unzip src="${basedir}/${c3prv2.install.artifact}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="antfiles"/>
+            </patternset>
+        </unzip>
+    	
+    	<!--Works for all OS-->
+        <pathconvert targetos="unix" property="tomcat.webapp.dir">
+            <path location="${tomcat.home}/webapps"/>
+        </pathconvert>
+
+    	<property file="${basedir}/antfiles/c3pr-ivy.properties"/>
+    	<property file="${basedir}/antfiles/build.properties"/>
+    	<property name="war.file" value="${application_name}.war"/>
+    	<!--copy c3pr.properties to $CATALINA_HOME/conf-->
+    	<copy file="${web-archive.dir}/${war.file}"
+    	              tofile="${tomcat.home}/webapps/${war.file}"
+    	                />
+    	
+        <!--copy c3pr.properties to $CATALINA_HOME/conf-->
+        <copy file="${basedir}/ant.install.properties"
+              tofile="${tomcat.home}/conf/c3pr/c3pr.properties"
+                />
+
+    </target>
+
+    <!--will only be run if deploy-webapp has been run-->
+    <target name="tomcat.security">
+    	<unzip src="${basedir}/${c3prv2.install.artifact}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="conf"/>
+            </patternset>
+        </unzip>
+    	<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="tomcat.security">
+    		<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
+    		<property name="conf.dir" value="${basedir}/conf"/>
+    		<property name="db" value="c3pr"/>
+    	</ant>
+    </target>
+
+    <target name="build-grid">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="build-grid">
+            <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
+        </ant>
+    </target>
+
+    <target name="deployGlobus">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="deployGlobus">
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
+        </ant>
+    </target>
+
+    <target name="deploy-grid-C3PRStudyConsumer" depends="build-grid,deployGlobus">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="deploy-grid-C3PRStudyConsumer">
+            <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
+        </ant>
+    </target>
+
+    <target name="deploy-grid-RegistrationConsumer" depends="build-grid,deployGlobus">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="deploy-grid-RegistrationConsumer">
+            <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
+        </ant>
+    </target>
+
+
+    <target name="deploy-codebase">
+        <echo message="Installing source code"/>
+
+        <copy todir="${install.codebase.dir}">
+            <fileset dir="${base.codebase.dir}"/>
+        </copy>
+    </target>
+
+    <target name="dummyTarget">
+        <!--does nothing-->
+    </target>
+
+    <target name="installExistingTomcat">
+        <!--does nothing-->
+    </target>
+
+    <target name="cleanUp" unless="deploy.codebase">
+        <!--<delete dir="${basedir}"/>-->
+    </target>
+
+</project>

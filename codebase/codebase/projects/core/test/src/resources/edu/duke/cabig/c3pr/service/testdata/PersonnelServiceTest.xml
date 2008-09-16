@@ -1,0 +1,10 @@
+<dataset>
+      
+   
+	<ADDRESSES id="1100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
+  
+    <INVESTIGATORS id="1100" version="1" first_name="Investigator Bill" last_name="Staff1"/>
+    
+    <CONTACT_MECHANISMS id="-1001" version="-1001" inv_id="1100"/>
+</dataset>
+

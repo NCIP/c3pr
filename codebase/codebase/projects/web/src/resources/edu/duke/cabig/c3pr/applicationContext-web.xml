@@ -1,0 +1,47 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+        >
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
+    <bean id="userDuplicateValidator" class="edu.duke.cabig.c3pr.utils.web.validators.UsernameDuplicateValidator"
+          autowire="byType"/>
+
+
+    <bean id="buildInfo" class="gov.nih.nci.cabig.ctms.tools.BuildInfo">
+        <property name="applicationName">
+            <value>@application_name@</value>
+        </property>
+        <property name="versionNumber">
+            <value>@iteration_number@</value>
+        </property>
+        <property name="timestamp">
+            <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+                <property name="targetObject">
+                    <ref local="dateFormatter" />
+                </property>
+                <property name="targetMethod">
+                    <value>parse</value>
+                </property>
+                <property name="arguments">
+                    <list>
+                        <value>@timestamp@</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="username">
+            <value>@username@</value>
+        </property>
+    </bean>
+
+
+    <bean id="dateFormatter" class="java.text.SimpleDateFormat">
+        <constructor-arg><value>yyyy-MM-dd HH:mm:ss</value></constructor-arg>
+    </bean>
+
+</beans>

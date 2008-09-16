@@ -1,0 +1,252 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww25100\viewh14280\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs20 \cf0 1;"AIDS-related anal cancer";"AIDS-related anal cancer";2;"10065860";0\
+2;"AIDS-related cervical cancer";"AIDS-related cervical cancer";2;"10008229";0\
+3;"AIDS-related HPV infections";"AIDS-related HPV infections";2;"10063001";0\
+4;"AIDS-related HPV-related cancer";"AIDS-related HPV-related cancer, NOS";2;"90600068";0\
+5;"AIDS-related Kaposi sarcoma";"AIDS-related Kaposi sarcoma";3;"10023290";0\
+6;"AIDS-related Hodgkin lymphoma";"AIDS-related Hodgkin lymphoma";4;"90600076";0\
+7;"AIDS-related NHL";"AIDS-related Non-Hodgkin lymphoma";4;"90600308";0\
+8;"AIDS-related primary CNS lymphoma";"AIDS-related primary CNS lymphoma";4;"90600080";0\
+9;"AIDS-related complications";"AIDS-related complications";5;"10049026";0\
+10;"Diffuse infiltra. lymph. sydrome";"Diffuse infiltrative lymphocytosis syndrome";5;"10025280";0\
+11;"HIV test positive";"HIV test positive";5;"10020188";0\
+12;"Bone cancer, NOS";"Bone cancer, NOS";7;"10053650";0\
+13;"Chondrosarcoma";"Chondrosarcoma";8;"10008737";0\
+14;"Ewing sarcoma/Peripheral PNET";"Ewing sarcoma/Peripheral primitive neuroectodermal tumor";9;"10015563";0\
+15;"Osteosarcoma";"Osteosarcoma";10;"10031291";0\
+16;"Ductal carcinoma in situ";"Ductal carcinoma in situ";12;"10013806";0\
+17;"Lobular carcinoma in situ";"Lobular carcinoma in situ";12;"10024744";0\
+18;"Cystosarcoma phylloides - breast";"Cystosarcoma phylloides of the breast";13;"10053130";0\
+19;"Inflammatory breast carcinoma";"Inflammatory breast carcinoma";13;"10021980";0\
+20;"Invasive breast carcinoma";"Invasive breast carcinoma";13;"10006190";0\
+21;"Breast cancer, NOS";"Breast cancer, NOS";14;"10006285";0\
+22;"Anaplastic astrocytoma";"Anaplastic astrocytoma";16;"10002224";0\
+23;"Diffuse brainstem glioma";"Diffuse brainstem glioma";16;"10006143";0\
+24;"Glioblastoma multiforme";"Glioblastoma multiforme";16;"10018337";0\
+25;"High-grade astrocytoma, NOS";"High-grade astrocytoma, NOS";16;"10008093";0\
+26;"Fibrillary astrocytoma";"Fibrillary astrocytoma";17;"10065889";0\
+27;"Low-grade astrocytoma, NOS";"Low-grade astrocytoma, NOS";17;"10003571";0\
+28;"Pilocytic astrocytoma";"Pilocytic astrocytoma";17;"90600112";0\
+29;"Choroid plexus carcinoma";"Choroid plexus carcinoma";18;"90600120";0\
+30;"CNS primary tumor, NOS";"CNS primary tumor, NOS";19;"10007959";0\
+31;"Pineal parenchymal tumor";"Pineal parenchymal tumor";19;"10035054";0\
+32;"Atypical teratoid/rhabdoid tumor";"Atypical teratoid/rhabdoid tumor";20;"10065870";0\
+33;"Medulloblastoma";"Medulloblastoma";20;"10027107";0\
+34;"Supratent. primitive neuro. tumor";"Supratentorial primitive neuroectodermal tumor";20;"10056672";0\
+35;"Ependymoma, NOS";"Ependymoma, NOS";21;"10014967";0\
+36;"Germinoma of CNS";"Germinoma of CNS";22;"10065852";0\
+37;"Nongerminomatous GCT - CNS";"Nongerminomatous germ cell tumor of the CNS";22;"10065853";0\
+38;"Meningioma, NOS";"Meningioma, NOS";23;"10027189";0\
+39;"Anaplastic oligodendroglioma";"Anaplastic oligodendroglioma";24;"10026659";0\
+40;"Oligodendroglioma, NOS";"Oligodendroglioma, NOS";24;"10030286";0\
+41;"Craniopharyngioma";"Craniopharyngioma";25;"10011318";0\
+42;"Pituitary gland cancer, NOS";"Pituitary gland cancer, NOS";25;"10035106";0\
+43;"CNS-excluded nervous sys. cancer";"CNS-excluded nervous system cancer, NOS";27;"10029208";0\
+44;"Neuroblastoma";"Neuroblastoma";28;"10029261";0\
+45;"Neurofibromatosis";"Neurofibromatosis";29;"10029268";0\
+46;"Adrenocortical carcinoma";"Adrenocortical carcinoma, NOS";31;"10001327";0\
+47;"Endocrine cancer, NOS";"Endocrine cancer, NOS";32;"10014709";0\
+48;"Carcinoid tumor";"Carcinoid tumor";33;"10007276";0\
+49;"Islet cell tumors - pancreas";"Islet cell tumors of the pancreas";33;"10033630";0\
+50;"Neuroendocrine cancer, NOS";"Neuroendocrine cancer, NOS";33;"10057270";0\
+51;"Pheochromocytoma (adrenal)";"Pheochromocytoma (adrenal)";33;"10034876";0\
+52;"Small cell car. (extrapulmonary)";"Small cell carcinoma (extrapulmonary)";33;"10041056";0\
+53;"Parathyroid cancer, NOS";"Parathyroid cancer, NOS";34;"10033965";0\
+54;"Anaplastic thyroid carcinoma";"Anaplastic thyroid carcinoma";35;"10002240";0\
+55;"Follicular thyroid carcinoma";"Follicular thyroid carcinoma";35;"10016935";0\
+56;"Hurthle cell neoplasm (thyroid)";"Hurthle cell neoplasm (thyroid)";35;"10065861";0\
+57;"Medullary thyroid carcinoma";"Medullary thyroid carcinoma";35;"10027105";0\
+58;"Papillary thyroid carcinoma";"Papillary thyroid carcinoma";35;"10033701";0\
+59;"Thyroid cancer, NOS";"Thyroid cancer, NOS";35;"10043738";0\
+60;"Malignant eye cancer, NOS";"Malignant eye cancer, NOS";37;"10025549";0\
+61;"Retinoblastoma";"Retinoblastoma";38;"10038918";0\
+62;"Anal cancer";"Anal cancer, NOS";40;"10002126";0\
+63;"Squamous cell carcinoma - anus";"Squamous cell carcinoma of the anus";40;"10041840";0\
+64;"Adenocarcinoma - colon";"Adenocarcinoma of the colon";41;"10009951";0\
+65;"Adenocarcinoma - rectum";"Adenocarcinoma of the rectum";41;"10038045";0\
+66;"Colorectal cancer, NOS";"Colorectal cancer, NOS";41;"10010029";0\
+67;"Adenocarcinoma - esophagus";"Adenocarcinoma of the esophagus";42;"10030139";0\
+68;"Adenocarcinoma - GEJ";"Adenocarcinoma of the gastroesophageal junction";42;"90002022";0\
+69;"Adenocarcinoma - stomach";"Adenocarcinoma of the stomach";42;"10001150";0\
+70;"Esophageal cancer, NOS";"Esophageal cancer, NOS";42;"10030157";0\
+71;"Gastric cancer, NOS";"Gastric cancer, NOS";42;"10017760";0\
+72;"Squamous cell car. - esophagus";"Squamous cell carcinoma of the esophagus";42;"10030186";0\
+73;"Gastrointestinal cancer, NOS";"Gastrointestinal cancer, NOS";43;"10017986";0\
+74;"Cholangiocar.- intra/extrahepatic";"Cholangiocarcinoma, intrahepatic and extrahepatic bile ducts (adenocarcinoma)";44;"10004669";0\
+75;"Gall bladder carcinoma (adeno)";"Gall bladder carcinoma (adenocarcinoma)";44;"10017618";0\
+76;"Hepatoblastoma";"Hepatoblastoma";44;"10019822";0\
+77;"Hepatocellular carcinoma";"Hepatocellular carcinoma";44;"10049010";0\
+78;"Liver/hepatobiliary cancer";"Liver and hepatobiliary cancer, NOS";44;"10019810";0\
+79;"Adenocarcinoma - pancreas";"Adenocarcinoma of the pancreas";45;"10052747";0\
+80;"Cystadenocarcinoma - pancreas";"Cystadenocarcinoma of the pancreas";45;"10065908";0\
+81;"Pancreatic cancer (not Islets)";"Pancreatic cancer (excluding Islets), NOS";45;"10033612";0\
+82;"Adenocarcinoma - small intest.";"Adenocarcinoma of the small intestine";46;"10041115";0\
+83;"Small intestine cancer, NOS";"Small intestine cancer, NOS";46;"10054184";0\
+84;"Extragonadal GCT, NOS";"Extragonadal germ cell tumors, NOS";48;"10015790";0\
+85;"Germ cell cancer, NOS";"Germ cell cancer, NOS";49;"10018204";0\
+86;"Ovarian dysgerminoma";"Ovarian dysgerminoma";50;"10052759";0\
+87;"Ovarian nondysgerm. GCT, NOS";"Ovarian nondysgerminomatous germ cell tumor, NOS";50;"10052311";0\
+88;"Testicular nonseminomat. GCT, NOS";"Testicular nonseminomatous germ cell tumor, NOS";51;"10043321";0\
+89;"Testicular seminoma";"Testicular seminoma";51;"10043353";0\
+90;"Head & neck cancer, NOS";"Head and neck cancer, NOS";53;"10025960";0\
+91;"H & N precancerous condition";"Head and neck precancerous condition";54;"90600168";0\
+92;"H & N squamous cell car., NOS";"Head and neck squamous cell carcinoma, NOS";55;"10060121";0\
+93;"Laryngeal squamous cell carcinoma";"Laryngeal squamous cell carcinoma";55;"10023843";0\
+94;"Lip/oral cavity squam. cell car.";"Lip and oral cavity squamous cell carcinoma";55;"10024534";0\
+95;"Pharyngeal squam. cell carcinoma";"Pharyngeal (including Hypopharyngeal and Oropharyngeal) squamous cell carcinoma";55;"10034819";0\
+96;"Nasopharyngeal carcinoma";"Nasopharyngeal carcinoma";56;"10028786";0\
+97;"Salivary gland cancer";"Salivary gland cancer";57;"10039397";0\
+98;"Hematopoietic malignancy, NOS";"Hematopoietic malignancy, NOS";59;"10018864";0\
+99;"Langerhans cell histiocytosis";"Langerhans cell histiocytosis";59;"10025581";0\
+100;"Systemic mastocytosis, NOS";"Systemic mastocytosis, NOS";60;"10025638";0\
+101;"Acute lymphoblastic leukemia";"Acute lymphoblastic leukemia, NOS";62;"10000846";0\
+102;"B-precursor ALL";"Precursor B-lymphoblastic leukemia (B-precursor ALL)";62;"10003890";0\
+103;"T-cell ALL";"Precursor T-lymphoblastic leukemia (T-cell ALL)";62;"10054569";0\
+104;"Acute myeloid leukemia";"Acute myeloid leukemia, NOS";63;"10000884";0\
+105;"Acute promyelocytic leukemia";"Acute promyelocytic leukemia";63;"10001019";0\
+106;"Treatment-related AML";"Treatment-related acute myeloid leukemia";63;"90600316";0\
+107;"Adult T-cell leukemia/lymphoma";"Adult T-cell leukemia/lymphoma";64;"10001415";0\
+108;"Chronic lymphocytic leukemia, NOS";"Chronic lymphocytic leukemia, NOS";64;"10008960";0\
+109;"Hairy cell leukemia";"Hairy cell leukemia";64;"10019053";0\
+110;"Prolymphocytic leukemia (B or T)";"Prolymphocytic leukemia (B or T-cell)";64;"10036888";0\
+111;"T-cell large gran. lymph. leuk.";"T-cell large granular lymphocytic leukemia";64;"10065862";0\
+112;"CEL/Hypereosinophilic syndrome";"Chronic eosinophilic leukemia/hypereosinophilic syndrome";65;"10065872";0\
+113;"Chronic idiopathic myelofibrosis";"Chronic idiopathic myelofibrosis";65;"10028537";0\
+114;"CML - Philadelphia chromosome";"Chronic myelogenous leukemia, Philadelphia chromosome positive";65;"10009013";0\
+115;"Essential thrombocythemia";"Essential thrombocythemia";65;"10015493";0\
+116;"Polycythemia vera";"Polycythemia vera";65;"10036061";0\
+117;"Leukemia, NOS";"Leukemia, NOS";66;"10024312";0\
+118;"Myelodysplastic syndrome, NOS";"Myelodysplastic syndrome, NOS";67;"10028534";0\
+119;"Chronic myelomonocytic leukemia";"Chronic myelomonocytic leukemia";68;"10009018";0\
+120;"Juvenile myelomonocytic leukemia";"Juvenile myelomonocytic leukemia";68;"10023249";0\
+121;"Lymphomatoid granulomatosis";"Lymphomatoid granulomatosis";70;"10025325";0\
+122;"Hodgkin lymphoma nodular LP, NOS";"Hodgkin lymphoma nodular lymphocyte predominant type, NOS";71;"10020231";0\
+123;"Hodgkin lymphoma, NOS";"Hodgkin lymphoma, NOS";71;"10020255";0\
+124;"Hodgkin lymphoma - like PTLD";"Hodgkin lymphoma-like post-transplant lymphoproliferative disorder";71;"90600328";0\
+125;"Lymphoma, NOS";"Lymphoma, NOS";72;"10025316";0\
+126;"ALCL, cutaneous";"Anaplastic large-cell lymphoma, primary cutaneous type ";73;"10065863";0\
+127;"ALCL, systemic";"Anaplastic large-cell lymphoma, primary systemic type";73;"10065864";0\
+128;"Burkitt lymphoma/leukemia";"Burkitt lymphoma/leukemia";73;"10006597";0\
+129;"CTCL/ Mycosis fungoides";"Cutaneous T-cell lymphoma/Mycosis fungoides";73;"10028500";0\
+130;"CTCL / Sezary syndrome";"Cutaneous T-cell lymphoma/Sezary syndrome";73;"10011677";0\
+131;"Diffuse large B-cell lymphoma";"Diffuse large B-cell lymphoma";73;"10012820";0\
+132;"MALT-lymphoma";"Extranodal marginal zone B-cell lymphoma of mucosa-associated lymphoid tissue (MALT-lymphoma)";73;"10015822";0\
+133;"Extranodal NK/T lymphoma-nasal";"Extranodal NK/T-cell lymphoma, nasal type";73;"10065855";0\
+134;"Follicular lymphoma";"Follicular lymphoma";73;"10016896";0\
+135;"Lymphoplasmacytic lymphoma";"Lymphoplasmacytic lymphoma (Waldenstrom macroglobulinemia)";73;"10047803";0\
+136;"Mantle cell lymphoma";"Mantle cell lymphoma";73;"10026799";0\
+137;"Mediastinal large B-cell lymphoma";"Mediastinal (thymic) large B-cell lymphoma";73;"10036712";0\
+138;"Nodal marginal zone B-cell lymph.";"Nodal marginal zone B-cell lymphoma";73;"10029462";0\
+139;"NHL, aggressive, NOS";"Non-Hodgkin lymphoma, aggressive, NOS";73;"10063908";0\
+140;"NHL, indolent, NOS";"Non-Hodgkin lymphoma, indolent, NOS";73;"10065856";0\
+141;"NHL, NOS";"Non-Hodgkin lymphoma, NOS";73;"10029593";0\
+142;"Peripheral T-cell lymphoma, NOS";"Peripheral T-cell lymphoma, NOS";73;"10034624";0\
+143;"PTLD (Monoclonal)";"Post-transplant lymphoproliferative disorder (Monoclonal), NOS";73;"90600336";0\
+144;"PTLD (Polyclonal)";"Post-transplant lymphoproliferative disorder (Polyclonal), NOS";73;"90600340";0\
+145;"Precur. B-lymphoblastic lymphoma";"Precursor B-lymphoblastic lymphoma";73;"10036525";0\
+146;"Precur. T-lymphoblastic lymphoma";"Precursor T-lymphoblastic lymphoma";73;"10036545";0\
+147;"Primary CNS lymphoma";"Primary CNS lymphoma";73;"10007953";0\
+148;"Primary effusion lymphoma";"Primary effusion lymphoma";73;"10065857";0\
+149;"Small lymphocytic lymphoma, NOS";"Small lymphocytic lymphoma, NOS";73;"10003910";0\
+150;"MGUS";"Monoclonal gammopathy of undetermined significance (MGUS)";75;"10020631";0\
+151;"Myeloma, NOS";"Myeloma, NOS";75;"10028566";0\
+152;"Solitary plasmacytoma";"Solitary plasmacytoma";75;"10035484";0\
+153;"Amyloidosis";"Amyloidosis";77;"10002024";0\
+154;"GVHD, acute";"Graft versus host disease, acute";77;"10000802";0\
+155;"GVHD, chronic";"Graft versus host disease, chronic";77;"10008907";0\
+156;"Immune disorder, NOS";"Immune disorder, NOS";77;"10021425";0\
+157;"Immunosuppression disorders";"Immunosuppression disorders";78;"10021510";0\
+158;"Lymphoadenopathy w/ polyclonal";"Lymphoadenopathy with polyclonal hypergammaglobulinemia";78;"90002028";0\
+159;"Lymphocytic interst. pneumonitis";"Lymphocytic interstitial pneumonitis";78;"10035755";0\
+160;"Clear cell sarcoma - kidney";"Clear cell sarcoma of the kidney";80;"10009253";0\
+161;"Kidney cancer, NOS";"Kidney cancer, NOS";81;"10038485";0\
+162;"Collecting duct renal cancer";"Collecting duct renal cancer";82;"90600176";0\
+163;"Papillary renal cell carcinoma";"Papillary renal cell carcinoma";82;"10033702";0\
+164;"RCC w/ sarcomatoid features";"Renal cell carcinoma with sarcomatoid features";82;"90600180";0\
+165;"RCC, clear cell adenocarcinoma";"Renal cell carcinoma, clear cell adenocarcinoma";82;"10009251";0\
+166;"Renal cell carcinoma, NOS";"Renal cell carcinoma, NOS";82;"10038415";0\
+167;"Rhabdoid tumor of the kidney";"Rhabdoid tumor of the kidney";83;"10039019";0\
+168;"Wilms tumor (Nephroblastoma)";"Wilms tumor (Nephroblastoma)";84;"10029145";0\
+169;"Lung cancer, NOS";"Lung cancer, NOS";86;"10025065";0\
+170;"Thymoma";"Thymoma";87;"10043673";0\
+171;"Mesothelioma";"Mesothelioma";88;"10027410";0\
+172;"Bronchioloalveolar carcinoma";"Bronchioloalveolar carcinoma";89;"10058354";0\
+173;"Lung adenocarcinoma";"Lung adenocarcinoma";89;"10025032";0\
+174;"Lung adenocar. w/ bronch. feat.";"Lung adenocarcinoma with bronchioloalveolar features";89;"90600324";0\
+175;"Non-small cell lung cancer, NOS";"Non-small cell lung cancer, NOS";89;"10029514";0\
+176;"Squamous cell lung carcinoma";"Squamous cell lung carcinoma";89;"10025126";0\
+177;"Small cell lung cancer";"Small cell lung cancer";90;"10041071";0\
+178;"Adenocarcinoma, NOS";"Adenocarcinoma, NOS";92;"10001166";0\
+179;"Carcinoma, NOS";"Carcinoma, NOS";92;"10007423";0\
+180;"Leptomeningeal metastases, NOS";"Leptomeningeal metastases, NOS";93;"10024233";0\
+181;"Malignant ascites, NOS";"Malignant ascites, NOS";93;"10025538";0\
+182;"Metastases to bone, NOS";"Metastases to bone, NOS";93;"10027452";0\
+183;"Metast. to brain parenchyma, NOS";"Metastases to brain parenchyma, NOS";93;"10059282";0\
+184;"Metastases to liver, NOS";"Metastases to liver, NOS";93;"10027457";0\
+185;"Metastases to lung, NOS";"Metastases to lung, NOS";93;"10027458";0\
+186;"Metastases to peritoneum, NOS";"Metastases to peritoneum, NOS";93;"10051676";0\
+187;"Metastases to skin, NOS";"Metastases to skin, NOS";93;"10027465";0\
+188;"Pleural effusion, NOS";"Pleural effusion, NOS";93;"10026673";0\
+189;"Miscellaneous neoplasm, NOS";"Miscellaneous neoplasm, NOS";94;"10025691";0\
+190;"Solid tumor, NOS";"Solid tumor, NOS";95;"10029000";0\
+191;"Vascular tumor, NOS";"Vascular tumor, NOS";96;"10055031";0\
+192;"Non-neoplastic condition, NOS";"Non-neoplastic disorder, NOS";98;"90600296";0\
+193;"Adenocarcinoma - cervix";"Adenocarcinoma of the cervix";100;"10008224";0\
+194;"Cervical cancer, NOS";"Cervical cancer, NOS";100;"10008238";0\
+195;"Squamous cervical cancer";"Squamous cervical cancer";100;"10041848";0\
+196;"Cervical intraepith. neoplasia";"Cervical intraepithelial neoplasia (CIN)";101;"10059383";0\
+197;"Female reprod. system cancer, NOS";"Female reproductive system cancer, NOS";102;"10016411";0\
+198;"Gestational trophoblastic disease";"Gestational trophoblastic disease";103;"10018212";0\
+199;"Fallopian tube carcinoma";"Fallopian tube carcinoma";104;"10016180";0\
+200;"Ovarian cancer, NOS";"Ovarian cancer, NOS";104;"10033272";0\
+201;"Ovarian epithelial cancer";"Ovarian epithelial cancer";104;"10033159";0\
+202;"Ovarian stromal cancer";"Ovarian stromal cancer";104;"10065858";0\
+203;"Ovarian tum. of low malig. poten.";"Ovarian tumors of low malignant potential";104;"10033268";0\
+204;"Primary peritoneal carcinoma";"Primary peritoneal carcinoma";104;"10026669";0\
+205;"Carcinosarcoma of the uterus";"Carcinosarcoma of the uterus";105;"10007508";0\
+206;"Endometrial stromal sarcoma";"Endometrial stromal sarcoma";105;"10048397";0\
+207;"Endometrioid endomet. adenocar.";"Endometrioid endometrial adenocarcinoma";105;"10014735";0\
+208;"Leiomyosarcoma - uterus";"Leiomyosarcoma of the uterus";105;"10046799";0\
+209;"Serous endometrial adenocarcinoma";"Serous endometrial adenocarcinoma";105;"10033700";0\
+210;"Uterine cancer, NOS";"Uterine cancer, NOS";105;"10046804";0\
+211;"Vaginal cancer, NOS";"Vaginal cancer, NOS";106;"10046888";0\
+212;"Vaginal intraepithelial neoplasia";"Vaginal intraepithelial neoplasia (VIN)";107;"10046890";0\
+213;"Vulvar cancer, NOS";"Vulvar cancer, NOS";108;"10047743";0\
+214;"Male reprod. system cancer, NOS";"Male reproductive system cancer, NOS";110;"10025519";0\
+215;"Penile adenocarcinoma";"Penile adenocarcinoma";111;"90600236";0\
+216;"Penile cancer, NOS";"Penile cancer, NOS";111;"10034330";0\
+217;"Penile squamous car.(epidermoid)";"Penile squamous carcinoma (epidermoid)";111;"10059631";0\
+218;"Prostate cancer, NOS";"Prostate cancer, NOS";112;"10036910";0\
+219;"Prostate intraepithelial neopl.";"Prostate intraepithelial neoplasia (PIN)";113;"10036912";0\
+220;"Testicular ca. (no germ/tropho.)";"Testicular cancer (excluding germ cell or trophoblastic cancer)";114;"10043342";0\
+221;"Basal cell carcinoma";"Basal cell carcinoma";116;"10004146";0\
+222;"Melanoma";"Melanoma";117;"10053571";0\
+223;"Merkel cell tumor";"Merkel cell tumor";118;"10029266";0\
+224;"Skin cancer, NOS";"Skin cancer, NOS";119;"10040811";0\
+225;"Squamous cell carcinoma - skin";"Squamous cell carcinoma of the skin";120;"10041834";0\
+226;"Alveolar soft part sarcoma";"Alveolar soft part sarcoma";122;"10001886";0\
+227;"Clear cell sarcoma - not kidney";"Clear cell sarcoma/Malignant melanoma of soft parts (excluding Clear cell sarcoma of the kidney)";122;"10065865";0\
+228;"Dermatofibrosarcoma";"Dermatofibrosarcoma";122;"10057043";0\
+229;"Desmoplas. small round cell tumor";"Desmoplastic small round cell tumor";122;"10064587";0\
+230;"Fibrosarcoma - not infantile";"Fibrosarcoma (excluding infantile fibrosarcoma)";122;"10016637";0\
+231;"Gastrointestinal stromal tumor";"Gastrointestinal stromal tumor";122;"10051066";0\
+232;"Infantile fibrosarcoma";"Infantile fibrosarcoma (congenital fibrosarcoma)";122;"10065859";0\
+233;"Leiomyosarcoma - not uterine";"Leiomyosarcoma (excluding uterine leiomyosarcoma)";122;"10024193";0\
+234;"Liposarcoma";"Liposarcoma";122;"10024631";0\
+235;"Malignant fibrous histiocytoma";"Malignant fibrous histiocytoma";122;"10025556";0\
+236;"Malig. periph. nerve sheath tum.";"Malignant peripheral nerve sheath tumor";122;"10026667";0\
+237;"Non-Rhabdo. soft tissue sarcoma";"Non-Rhabdomyosarcoma soft tissue sarcoma, NOS";122;"10039494";0\
+238;"Plexiform neurofibroma";"Plexiform neurofibroma";122;"10065866";0\
+239;"Synovial sarcoma";"Synovial sarcoma";122;"10042866";0\
+240;"Alveolar rhabdomyosarcoma";"Alveolar rhabdomyosarcoma";123;"10065867";0\
+241;"Embryonal rhabdomyosarcoma";"Embryonal rhabdomyosarcoma";123;"10065868";0\
+242;"Rhabdomyosarcoma, NOS";"Rhabdomyosarcoma, NOS";123;"10039024";0\
+243;"Soft tissue neoplasm, NOS";"Soft tissue neoplasm, NOS";124;"10061271";0\
+244;"Transitional cell car. - uroth.";"Transitional cell carcinoma of the urothelial tract";126;"10044409";0\
+245;"Urothelial/bladder cancer, NOS";"Urothelial tract/bladder cancer, NOS";127;"10018192";0\
+}

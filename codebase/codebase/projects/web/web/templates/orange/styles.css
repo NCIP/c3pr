@@ -1,0 +1,140 @@
+/* CSS Document */
+
+/* c3pr general style propertyies */
+
+
+a:link { color: #3B73B9; border:none;}
+a:visited { color: #3B73B9; border:none; }
+a:hover { color: #89ABD5; border:none;}
+a:active { color: #89ABD5; border:none; }
+
+a img{border:0px;}
+
+
+/*h1 { margin: 0px 0px 12px 0px; color: #2E3257; font-weight: 600; font-size: 16px; }*/
+
+h2 { margin: 0px 0px 12px 0px; color: #2E3257; font-weight: 600; font-size: 13px; }
+
+.header { background: url(../images/chrome/header_BG.gif) repeat-x top;  }
+
+.header_R { background: url(../images/chrome/header_BG_R.gif) no-repeat top right; }
+
+.c3prLogo { position: relative; vertical-align: top; }
+
+.c3prTagline { position: relative; }
+
+.login { position: absolute; top: 0px; right: 0px; padding: 6px 10px 0px 20px; font-size: .85em; }
+
+.login a { color: #FFFFFF; font-weight: bold; text-decoration: none; }
+
+.login a:hover { color: #FFFF00; }
+
+/* top-level tabs */
+
+#tabs1 { position: absolute; top: 22px; left: 131px; background: url(../images/chrome/tabs1_L1.gif) no-repeat top left; padding-left: 1px; width: 600px; font-size: .85em; }
+
+#tabs1 .tab { float: left; background: url(../images/chrome/tabs1_BG.gif) no-repeat top right; margin: 0px; height: 22px; }
+
+#tabs1 .tab div { background: url(../images/chrome/tabs1_L.gif) no-repeat top left; padding: 2px 20px 10px 20px; height: 22px; margin: 0px; }
+
+#tabs1 .selectedtab { float: left; background: url(../images/chrome/tabs1_BG_s.gif) no-repeat top right; margin: 0px; height: 22px; }
+
+#tabs1 .selectedtab div { background: url(../images/chrome/tabs1_L_s.gif) no-repeat top left; padding: 2px 20px 10px 20px; height: 22px; }
+
+#tabs1 a { text-decoration: none; font-weight: bold; color: #333333; }
+
+#tabs1 a:hover { color: #002EE2; }
+
+/* second-level tabs */
+
+#tabs2 { background: url(../images/chrome/tabs2_R.gif) no-repeat center left #A2A2A2; padding-right: 12px;  min-height: 18px; font-size: .85em; }
+
+#tabs2 .tab { float: left; background: url(../images/chrome/tabs2_BG.gif) no-repeat top left; margin: 0px; padding: 2px 0px 2px 0px; line-height: 14px; border-style: solid; border-width: 0px 1px 0px 0px; border-color: #000000; }
+
+#tabs2 .tab div { position: relative; left: 6px; background: url(../images/chrome/tabs2_R.gif) no-repeat top right; padding: 0px 16px 0px 10px;}
+
+#tabs2 .selectedtab { float: left; background: url(../images/chrome/tabs2_BG_s.gif) no-repeat top left; margin: 0px; padding: 2px 0px 2px 0px; line-height: 14px; border-style: solid; border-width: 0px 1px 0px 0px; border-color: #000000; }
+
+#tabs2 .selectedtab div { position: relative; left: 6px; background: url(../images/chrome/tabs2_R_s.gif) no-repeat top right; padding: 0px 16px 0px 10px; }
+
+#tabs2 a { text-decoration: none; font-weight: bold; color: #333333; }
+
+#tabs2 a:hover { color: #002EE2; }
+
+/* third-level tabs */
+
+#tabs3 { background: url(../images/chrome/tabs3_BG.gif) no-repeat top right; padding: 4px 12px 0px 0px; margin-left: 7px; height: 33px; font-size: .85em; }
+
+#tabs3 .tab { float: left; background: url(../images/chrome/tabs3_L.gif) no-repeat top left; margin: 0px; height: 17px; }
+
+#tabs3 .tab div { background: url(../images/chrome/tabs3_R.gif) no-repeat top right; padding: 2px 20px 0px 20px; height: 17px;}
+
+#tabs3 .selectedtab { float: left; background: url(../images/chrome/tabs3_L_s.gif) no-repeat top left; margin: 0px; height: 17px; }
+
+#tabs3 .selectedtab div { background: url(../images/chrome/tabs3_R_s.gif) no-repeat top right; padding: 2px 20px 0px 20px; height: 17px;}
+
+#tabs3 a { text-decoration: none; font-weight: bold; color: #333333; }
+
+#tabs3 a:hover { color: #002EE2; }
+
+/* third-level workflow tabs */
+
+#tabs3w { background: url(../images/chrome/tabs3w_R.gif) no-repeat top right; padding: 6px 12px 1px 0px;  min-height: 18px; font-size: .85em; margin: 0px 8px 0px 7px;}
+
+#tabs3w .tab { float: left; background: url(../images/chrome/tabs2_BG.gif) no-repeat top left; margin: 0px; padding: 2px 0px 2px 0px; line-height: 14px; border-style: solid; border-width: 0px 1px 1px 0px; border-right-color: #000000; border-bottom-color: #001779; }
+
+#tabs3w .tab div { position: relative; left: 6px; background: url(../images/chrome/tabs2_R.gif) no-repeat top right; padding: 0px 16px 0px 10px;}
+
+#tabs3w .selectedtab { float: left; background: url(../images/chrome/tabs3w_BG_s.gif) no-repeat top left; margin: 0px; padding: 2px 0px 2px 0px; line-height: 15px; border-style: solid; border-width: 0px 1px 0px 0px; border-right-color: #000000; border-bottom-color: #EFF7F9; }
+
+#tabs3w .selectedtab div { position: relative; left: 6px; background: url(../images/chrome/tabs3w_R_s.gif) no-repeat top right; padding: 0px 16px 0px 10px; }
+
+#tabs3w a { text-decoration: none; font-weight: bold; color: #333333; }
+
+#tabs3w a:hover { color: #002EE2; }
+
+/* taskbar */
+
+#taskbar { background: url(../images/chrome/taskbar_BG.gif) repeat-x top; font-weight: bold; padding: 0px 20px 0px 12px; height: 24px; font-size: 10px; }
+
+#taskbar a { font-weight: normal; padding: 0px 0px 0px 12px; color: #002EE2; text-decoration: none; }
+
+#taskbar #current { font-weight: bold; }
+
+#taskbar #current:before{ content: url(../images/arrowRight.gif); color: #002EE2}
+
+/* main content boxes */
+
+#summaryPane { float: left; width: 25%; margin: 0px 14px 12px 0px; background-color: #FFFFFF; vertical-align: top; }
+
+#mainPane { float: left; margin: 0px 14px 12px 0px; background-color: #FFFFFF; width: 70%; }
+
+.boxHeader { background: url(../images/chrome/boxheader_BG.gif) repeat-x top #1972C7; }
+
+.boxHeader_L { background: url(../images/chrome/boxheader_BG_L.gif) no-repeat top left; }
+
+.boxHeader_R { background: url(../images/chrome/boxheader_BG_R.gif) no-repeat top right; }
+
+.boxHeader H2 { font-weight: 600; font-size: 13px; color: #FFFFFF; margin: 0px; padding: 6px 20px 4px 8px;}
+
+.box_T { background: url(../images/chrome/box_T.gif) repeat-x top; }
+
+.box_L { background: url(../images/chrome/box_L.gif) repeat-y left; }
+
+.box_R { background: url(../images/chrome/box_R.gif) repeat-y right; }
+
+.box_B { background: url(../images/chrome/box_B.gif) repeat-x bottom; }
+
+.box_TL { background: url(../images/chrome/box_TL.gif) no-repeat top left; }
+
+.box_TR { background: url(../images/chrome/box_TR.gif) no-repeat top right; }
+
+.box_BL { background: url(../images/chrome/box_BL.gif) no-repeat bottom left; }
+
+.box_BR { background: url(../images/chrome/box_BR.gif) no-repeat bottom right; }
+
+.boxTabs { height: 28px; margin: 0px 8px 0px 7px; }
+
+.boxContent { padding: 8px 24px 24px 24px; }
+
+#footer { height: 65px; }
