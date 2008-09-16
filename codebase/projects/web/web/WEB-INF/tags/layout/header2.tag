@@ -181,6 +181,21 @@ function getSelectedValue() {
     if ($('rdORANGE').checked) return ('orange');
 }
 
+
+A_MENUS[0].a_index[0].a_config[1]=null;
+A_MENUS[0].a_index[3].a_config[1]=null;
+A_MENUS[0].a_index[7].a_config[1]=null;
+
+A_MENUS[0].a_index[8].a_config[1]=null;
+A_MENUS[0].a_index[11].a_config[1]=null;
+A_MENUS[0].a_index[15].a_config[1]=null;
+A_MENUS[0].a_index[18].a_config[1]=null;
+
+A_MENUS[0].a_index[21].a_config[1]=null;
+A_MENUS[0].a_index[27].a_config[1]=null;
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
 
