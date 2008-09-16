@@ -1,12 +1,16 @@
 <style>
-input.autocomplete{
+div.autocomplete{
     font-style: normal;
     background-color: #CCE6FF;
+	max-height: 100px;
+
+  	overflow: auto; 
+  	overflow-y: auto; 
+  	overflow-x: hidden;
 }
 input.pending-search {
     color: gray;
     font-style: italic;
     background-color: #CCE6FF;
 }
-
 </style>
