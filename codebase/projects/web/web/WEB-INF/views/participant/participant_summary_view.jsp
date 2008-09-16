@@ -1,4 +1,5 @@
 <%@ include file="taglibs.jsp"%>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 
 <html>
 <head>
@@ -154,6 +155,8 @@ function updateTargetPage(target){
 			</table>
 		</chrome:division>
 		<c:if test="${flowType == 'VIEW_SUBJECT'}">
+		<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+	                            authorizationCheckName="domainObjectAuthorizationCheck">
 			<div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> <input type="button"
 				value="Edit Subject"
@@ -161,6 +164,7 @@ function updateTargetPage(target){
 				<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
 			</span></div>
 		</div>
+		</csmauthz:accesscontrol>
 		</c:if>
 
         </div>
