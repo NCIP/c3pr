@@ -108,10 +108,13 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
             studySubject=studySubjectRepository.save(studySubject);
         }
         if (logger.isDebugEnabled()) {
-            logger
-                            .debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
+            logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
-        return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());
+        if(WebUtils.hasSubmitParameter(request, "decorator") && "noheaderDecorator".equals(request.getParameter("decorator"))){
+        	 return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId() +"&decorator=" + request.getParameter("decorator"));
+        }else{
+        	return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());	
+        }
     }
     
 }
