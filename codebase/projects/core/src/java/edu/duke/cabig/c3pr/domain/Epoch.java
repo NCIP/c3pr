@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
@@ -56,7 +58,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	private Boolean randomizedIndicator = false;
 
-	private ParameterizedInstantiateFactory<EligibilityCriteria> eligibilityFactory;
+	private List<EligibilityCriteria> eligibilityCriteria;
 
 	private C3PRExceptionHelper c3PRExceptionHelper;
 
@@ -224,8 +226,14 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		lazyListHelper.add(StratificationCriterion.class,
 				new InstantiateFactory<StratificationCriterion>(
 						StratificationCriterion.class));
-		eligibilityFactory = new ParameterizedInstantiateFactory();
-		lazyListHelper.add(EligibilityCriteria.class, eligibilityFactory);
+		lazyListHelper.add(InclusionEligibilityCriteria.class,
+				new ParameterizedInstantiateFactory<InclusionEligibilityCriteria>(
+						InclusionEligibilityCriteria.class));
+		lazyListHelper
+				.add(
+						ExclusionEligibilityCriteria.class,
+						new ParameterizedInstantiateFactory<ExclusionEligibilityCriteria>(
+								ExclusionEligibilityCriteria.class));
 		lazyListHelper.add(Arm.class, new BiDirectionalInstantiateFactory<Arm>(
 				Arm.class, this));
 		lazyListHelper.add(InclusionEligibilityCriteria.class,
@@ -236,6 +244,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 						ExclusionEligibilityCriteria.class));
 		lazyListHelper.add(StratumGroup.class,
 				new InstantiateFactory<StratumGroup>(StratumGroup.class));
+		setEligibilityCriteria(new ArrayList<EligibilityCriteria>());
 
 	}
 
@@ -352,59 +361,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	public void addEligibilityCriterion(EligibilityCriteria eligibilityCriterion) {
 		this.getEligibilityCriteria().add(eligibilityCriterion);
 	}
-
-	@Transient
-	public List<EligibilityCriteria> getEligibilityCriteria() {
-		return lazyListHelper.getLazyList(EligibilityCriteria.class);
-	}
-
-	@OneToMany(fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "EPH_ID")
-	@Where(clause = "retired_indicator  = 'false'")
-	public List<EligibilityCriteria> getEligibilityCriteriaInternal() {
-		return lazyListHelper.getInternalList(EligibilityCriteria.class);
-	}
-
-	public void setEligibilityCriteria(
-			List<EligibilityCriteria> eligibilityCriteria) {
-		lazyListHelper.setInternalList(EligibilityCriteria.class,
-				eligibilityCriteria);
-	}
-
-	public void setEligibilityCriteriaInternal(
-			List<EligibilityCriteria> eligibilityCriteria) {
-		lazyListHelper.setInternalList(EligibilityCriteria.class,
-				eligibilityCriteria);
-	}
-
-	@OneToMany(fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "EPH_ID")
-	@Where(clause = "DTYPE = 'E' and retired_indicator  = 'false'")
-	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriteriaInternal() {
-		return lazyListHelper
-				.getInternalList(ExclusionEligibilityCriteria.class);
-	}
-
-	@Transient
-	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriteria() {
-		return lazyListHelper.getLazyList(ExclusionEligibilityCriteria.class);
-	}
-
-	public void setExclusionEligibilityCriteria(
-			List<ExclusionEligibilityCriteria> exclusionEligibilityCriteria) {
-		lazyListHelper.setInternalList(ExclusionEligibilityCriteria.class,
-				exclusionEligibilityCriteria);
-	}
-
-	public void setExclusionEligibilityCriteriaInternal(
-			List<ExclusionEligibilityCriteria> exclusionEligibilityCriteria) {
-		lazyListHelper.setInternalList(ExclusionEligibilityCriteria.class,
-				exclusionEligibilityCriteria);
-
-	}
-
+	
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "EPH_ID")
@@ -434,15 +391,48 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 			StratificationCriterion stratificationCriterion) {
 		this.getStratificationCriteria().add(stratificationCriterion);
 	}
-
-	@OneToMany(fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	
+	@OneToMany
+	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "EPH_ID")
-	@Where(clause = "DTYPE = 'I' and retired_indicator  = 'false'")
-	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteriaInternal() {
-		return lazyListHelper
-				.getInternalList(InclusionEligibilityCriteria.class);
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<EligibilityCriteria> getEligibilityCriteria() {
+		return eligibilityCriteria;
 	}
+
+	public void setEligibilityCriteria(List<EligibilityCriteria> eligibilityCriteria) {
+		this.eligibilityCriteria = eligibilityCriteria;
+		lazyListHelper.setInternalList(InclusionEligibilityCriteria.class,
+				new ProjectedList<InclusionEligibilityCriteria>(this.eligibilityCriteria,
+						InclusionEligibilityCriteria.class));
+		lazyListHelper
+				.setInternalList(ExclusionEligibilityCriteria.class,
+						new ProjectedList<ExclusionEligibilityCriteria>(
+								this.eligibilityCriteria,
+								ExclusionEligibilityCriteria.class));
+	}
+
+	@Transient
+	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteria() {
+		return lazyListHelper.getLazyList(InclusionEligibilityCriteria.class);
+	}
+
+	public void setInclusionEligibilityCriteria(
+			List<InclusionEligibilityCriteria> inclusionEligibilityCriteria) {
+		// do nothing
+	}
+
+	@Transient
+	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriteria() {
+		return lazyListHelper.getLazyList(ExclusionEligibilityCriteria.class);
+	}
+
+	public void setExclusionEligibilityCriteria(
+			List<ExclusionEligibilityCriteria> exclusionEligibilityCriteria) {
+		// do nothing
+	}
+
+	
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
@@ -452,7 +442,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	public List<StratumGroup> getStratumGroupsInternal() {
 		return lazyListHelper.getInternalList(StratumGroup.class);
 	}
-
+	
 	public void setStratumGroupsInternal(List<StratumGroup> stratumGroup) {
 		lazyListHelper.setInternalList(StratumGroup.class, stratumGroup);
 	}
@@ -465,23 +455,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	public void setStratumGroups(List<StratumGroup> stratumGroup) {
 	}
 
-	@Transient
-	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteria() {
-		return lazyListHelper.getLazyList(InclusionEligibilityCriteria.class);
-	}
-
-	public void setInclusionEligibilityCriteria(
-			List<InclusionEligibilityCriteria> inclusionEligibilityCriteria) {
-		lazyListHelper.setInternalList(InclusionEligibilityCriteria.class,
-				inclusionEligibilityCriteria);
-	}
-
-	public void setInclusionEligibilityCriteriaInternal(
-			List<InclusionEligibilityCriteria> inclusionEligibilityCriteria) {
-		lazyListHelper.setInternalList(InclusionEligibilityCriteria.class,
-				inclusionEligibilityCriteria);
-
-	}
+	
 
 	@OneToOne
 	@JoinColumn(name = "rndm_id")
