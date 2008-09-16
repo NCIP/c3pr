@@ -133,7 +133,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 	function handleAddGroup(){
 		
 	if($('healthcareSite-hidden').value != ""){
-		$('flashMessage').hide();
+		$('flashMessageForGroup').hide();
 		new Ajax.Updater('groupDisplay', 'getGroup', {method:"get", asynchronous:true, evalScripts:true, onComplete:function(){ new Effect.Highlight('groupDisplay');}, 
 		    												parameters: { decorator:"nullDecorator", healthcareSite: $(sponsorSiteAutocompleterProps.basename+"-hidden").value}
 		    											});
