@@ -191,7 +191,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 								 return false;
 	}
 	function handleHealthcarSiteClear(){
-		$('flashMessageForGroup').hide();
 		$("healthcareSite-input").value="";
 		$("healthcareSite-hidden").value="";
 		$("disease-sub-category").options.length=0;
