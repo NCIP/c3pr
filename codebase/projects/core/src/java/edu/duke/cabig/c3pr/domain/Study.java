@@ -137,7 +137,6 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
 		blindedIndicator = false;
 		multiInstitutionIndicator = false;
-		stratificationIndicator = true;
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 		standaloneIndicator = true ;
 		companionIndicator = false ;
