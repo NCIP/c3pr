@@ -75,7 +75,7 @@
                     <input type="hidden" id="healthcareSite-hidden"
 								name="healthcareSite"
 								value="${command.healthcareSite.id }" />
-								<input id="healthcareSite-input" size="50" type="text"
+								<input id="healthcareSite-input" size="38" type="text"
 								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" disabled="true" />
 								<tags:hoverHint keyProp="researchStaff.organization"/>
 							<tags:indicator id="healthcareSite-indicator" />
@@ -85,7 +85,7 @@
                  <input type="hidden" id="healthcareSite-hidden"
 								name="healthcareSite"
 								value="${command.healthcareSite.id }" />
-								<input id="healthcareSite-input" size="50" type="text"
+								<input id="healthcareSite-input" size="38" type="text"
 								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" />
 								<tags:hoverHint keyProp="researchStaff.organization"/>
 							<tags:indicator id="healthcareSite-indicator" />

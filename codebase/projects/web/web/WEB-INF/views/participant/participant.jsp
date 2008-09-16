@@ -201,7 +201,7 @@ function manageIdentifierRadio(element){
 								<input type="hidden" id="mrnOrganization-hidden"
 									name="organizationAssignedIdentifiers[0].healthcareSite"
 									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-								<input id="mrnOrganization-input" size="50" type="text"
+								<input id="mrnOrganization-input" size="38" type="text"
 								name="xyz"
 								value='<c:out value="${_name} ${_code}" />'
 								class="autocomplete validate-notEmpty" />

@@ -28,7 +28,7 @@
             Name:
         </div>
         <div class="value">
-            <form:input size="48" path="name" cssClass="validate-notEmpty"/>
+            <form:input size="37" path="name" cssClass="validate-notEmpty"/>
             <tags:hoverHint keyProp="organization.name"/>
         </div>
     </div>
@@ -38,7 +38,7 @@
             Description:
         </div>
         <div class="value">
-            <form:textarea rows="3" cols="45" path="descriptionText"/>
+            <form:textarea rows="3" cols="35" path="descriptionText"/>
         </div>
     </div>
 
@@ -68,7 +68,7 @@
                 Street Address:
             </div>
             <div class="value">
-                <form:input size="46" path="address.streetAddress"/>
+                <form:input size="40" path="address.streetAddress"/>
             </div>
         </div>
 

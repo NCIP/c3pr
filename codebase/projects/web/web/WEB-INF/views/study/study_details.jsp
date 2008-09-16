@@ -188,7 +188,7 @@
         <div class="row">
             <div class="label required-indicator">
                 Short Title:</div>
-            <div class="value"><form:input path="shortTitleText" size="43"
+            <div class="value"><form:input path="shortTitleText" size="35"
                                            maxlength="30" cssClass="validate-notEmpty" id="_shortTitle"/>
             <tags:hoverHint keyProp="study.shortTitleText"/>
             </div>
@@ -198,7 +198,7 @@
             <div class="label required-indicator">
                 Long Title:</div>
             <div class="value"><form:textarea path="longTitleText" rows="2"
-                                              cols="40" cssClass="validate-notEmpty&&maxlength1024" />
+                                              cols="33" cssClass="validate-notEmpty&&maxlength1024" />
             <tags:hoverHint keyProp="study.longTitleText"/>
             </div>
             
@@ -207,14 +207,14 @@
         <div class="row">
             <div class="label">Description:</div>
             <div class="value"><form:textarea path="descriptionText" rows="2"
-                                              cols="40" cssClass="validate-maxlength2000" />
+                                              cols="35" cssClass="validate-maxlength2000" />
             <tags:hoverHint keyProp="study.description"/></div>
         </div>
 
         <div class="row">
             <div class="label">Precis:</div>
             <div class="value"><form:textarea path="precisText" rows="2"
-                                              cols="40" cssClass="validate-maxlength200" />
+                                              cols="35" cssClass="validate-maxlength200" />
             <tags:hoverHint keyProp="study.precisText"/>
             </div>
         </div>
@@ -377,7 +377,7 @@
 								<input type="hidden" id="coCenter-hidden1"
 									name="organizationAssignedIdentifiers[0].healthcareSite"
 									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-								<input id="coCenter-input" size="50" type="text" name="abcxyz"
+								<input id="coCenter-input" size="38" type="text" name="abcxyz"
 				value="${_nameCoord} ${_codeCoord }"
 				class="autocomplete validate-notEmpty" />
 								<tags:hoverHint keyProp="study.healthcareSite.name"/>
@@ -450,7 +450,7 @@
 <c:set var="_name" value="${command.studyFundingSponsors[0].healthcareSite.name}" />
 </c:if>
 
-            	<input type="text" id="healthcareSite-input" size="50"
+            	<input type="text" id="healthcareSite-input" size="35"
             		name="aaaxxx" 
             		value='<c:out value="${_name} ${_code}" />'
             		class="autocomplete" />
