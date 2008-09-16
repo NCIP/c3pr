@@ -27,6 +27,7 @@
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
 	    							$(hiddenField).value=selectedChoice.id;
 	    							$('flashMessage').hide();
+	    							$('flashMessageForGroup').hide();
 	    							updateGroups(selectedChoice.id,"",false);
 			 }
         }
@@ -105,10 +106,18 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		        } else {
 		        		$("disease-sub-category").options.length=0;
 		        			new Element.update($("groupDisplay"),'');
-		        	}
+		        			$('flashMessageForGroup').show()
+		    				new Effect.Highlight('flashMessageForGroup');
+		        }
 		        
 	    	})
 		};
+
+		function test(){
+			var length = $("disease-sub-category").options.length ;
+			alert(length);
+			return length;
+		}
 		
 		function showAffiliations(saveEvent) {
 		    var categoryId = $("disease-sub-category").value
@@ -122,7 +131,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		}
 		
 	function handleAddGroup(){
+		
 	if($('healthcareSite-hidden').value != ""){
+		$('flashMessage').hide();
 		new Ajax.Updater('groupDisplay', 'getGroup', {method:"get", asynchronous:true, evalScripts:true, onComplete:function(){ new Effect.Highlight('groupDisplay');}, 
 		    												parameters: { decorator:"nullDecorator", healthcareSite: $(sponsorSiteAutocompleterProps.basename+"-hidden").value}
 		    											});
@@ -225,10 +236,11 @@ RowManager.addRowInseter(instanceRowInserterProps);
 					</p>
 
           <br><br>Select a Group<br>
-          <select multiple size="1" style="width:400px" id="disease-sub-category">
+          		<select multiple size="1" style="width:400px" id="disease-sub-category">
           </select>
+		  <p id="flashMessageForGroup" style="display: none">Please Add a Investigator Group</p>
           <div align="right"><input type="button" value="Add Group" onclick="handleAddGroup()"/></div>
-
+		<br>
       </chrome:division>
 <div id="errorsDiv">
 </div>
