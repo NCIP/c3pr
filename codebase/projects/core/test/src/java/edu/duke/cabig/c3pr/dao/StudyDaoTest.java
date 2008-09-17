@@ -143,7 +143,7 @@ public class StudyDaoTest extends DaoTestCase {
     public void testWhereAndWhere() throws Exception {
 
         Study loadedStudy = dao.getById(1000);
-        List list = loadedStudy.getEpochs().get(0).getInclusionEligibilityCriteriaInternal();
+        List list = loadedStudy.getEpochs().get(0).getInclusionEligibilityCriteria();
         assertTrue(list.size() > 0);
     }
 
