@@ -3,7 +3,7 @@
 <%@attribute name="tab" type="gov.nih.nci.cabig.ctms.web.tabs.Tab" required="true" %>
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" required="true" %>
 
-<script language="JavaScript1.2">
+<%--<script language="JavaScript1.2">
 <c:forEach items="${flow.tabs}" var="atab" varStatus="status">
     <c:set var="selected" value="${atab.number == tab.number}"/>
     <c:out value='ssmItems[${status.count - 1}]=' />["<c:out value="${atab.shortTitle}" />", "#", "${not empty mandatory ? 'mandatory' : ''}"]
@@ -12,7 +12,7 @@
 buildMenu(<c:out value="${tab.number}" />, "<c:out value='${currentTask.displayName}' />");
     
 </script>
-
+--%>
 <!--/*-->
 <!--ssmItems[0] = ["Create registration"] //create header-->
 <!--ssmItems[1] = ["Select Subject & Study", "#", ""]-->

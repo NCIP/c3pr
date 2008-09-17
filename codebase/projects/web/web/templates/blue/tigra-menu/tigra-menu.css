@@ -6,8 +6,8 @@
     font-size: 10px;
 	text-decoration: none;
     text-align: center;
-	padding-top: 3px;
-	color: black;
+	padding-top: 0px;
+	color: white;
     height: 16px;
     background: url("../images/menuLaneDivider.jpg") no-repeat right center;
 }
@@ -16,7 +16,7 @@
 }
 
 .m0l0iover {
-	color: white;
+	color: black;
 }
 
 .m0l0oout {
@@ -50,7 +50,7 @@
 }
 
 .m0l1iover {
-    background: #417691; /* url("../images/menuLaneSelectedItem.jpg") repeat-x; */
+    background: #689a65; /* url("../images/menuLaneSelectedItem.jpg") repeat-x; */
     color: white;
 }
 
@@ -82,7 +82,7 @@
 	text-decoration: none;
     text-align: left;
 	padding-top: 3px;
-	padding-left: 3px;
+	padding-left: 2px;
 	color: black;
     height: 16px;
     background: #ccc; /*url("../images/menuLaneCenter.jpg") repeat-x; */
@@ -90,7 +90,7 @@
 }
 
 .m0l2iover {
-    background: #417691; /* url("../images/menuLaneSelectedItem.jpg") repeat-x; */
+    background: #689a65; /* url("../images/menuLaneSelectedItem.jpg") repeat-x; */
     color: white;
 }
 
