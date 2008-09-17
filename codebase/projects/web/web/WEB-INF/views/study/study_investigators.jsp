@@ -302,7 +302,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			    </chrome:box>
 			</td>
 			<td valign="middle">
-				<input type="button" value="Add Investigators >>" onclick="fireAction('addStudyDisease','0');" alt="Add Investigators"/>
+					<input type="button" value="Add Investigators >>" onclick="fireAction('addStudyDisease','0');" alt="Add Investigators"/>
 	        </td>
 			<td valign="top" width="45%">
 			    <chrome:box title="${command.studyOrganizations[selected_site].healthcareSite.name}" id="diseases">
@@ -353,7 +353,10 @@ and the controller gets the selected index via the hidden variable _selectedSite
   </c:otherwise>
 </c:choose>
 <div align="right">
+	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="CREATE"
+                            authorizationCheckName="domainObjectAuthorizationCheck">
 		<input id="createInvestigator" type="button" value="Create Investigator" />
+	</csmauthz:accesscontrol>
 </div>
 <br/>
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>  

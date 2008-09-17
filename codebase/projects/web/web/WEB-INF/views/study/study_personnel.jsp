@@ -1,4 +1,5 @@
 <%@ include file="taglibs.jsp"%>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 
 <html>
 <title><studyTags:htmlTitle study="${command}" /></title>
@@ -202,7 +203,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 <c:choose>
 	<c:when test="${fn:length(command.studyOrganizations) == 0}">
         <tr>
-			<td>Choose a study organization before adding investigators</td>
+			<td>Choose a study organization before adding personnel</td>
 		</tr>
     </c:when>
     <c:otherwise>
@@ -304,7 +305,10 @@ and the controller gets the selected index via the hidden variable _selectedSite
   </c:otherwise>
 </c:choose>
 <div align="right">
+	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="CREATE"
+                            authorizationCheckName="domainObjectAuthorizationCheck">
 		<input id="createPersonnel" type="button" value="Create Research Staff" />
+	</csmauthz:accesscontrol>
 </div>
 <br/>
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>  
