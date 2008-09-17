@@ -62,6 +62,5 @@ public class ContactMechanismBasedRecipient extends Recipient {
     @Transient
     public void setRetiredIndicatorAsTrue() {
         super.setRetiredIndicatorAsTrue();
-        this.setRetiredIndicatorAsTrue();
     }
 }

@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
@@ -25,6 +26,7 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
      * @throws Exception
      */
 	 private StudyDao studyDao = (StudyDao) getApplicationContext().getBean("studyDao");
+	 private ScheduledNotificationDao scheduledNotificationDao = (ScheduledNotificationDao) getApplicationContext().getBean("scheduledNotificationDao");
 	
     public void testGetById() throws Exception {
         PlannedNotification plannedNotification = getDao().getById(1000);
@@ -62,6 +64,33 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
             		assertNotNull("Missing Recipient", rsn.getRecipient());
             	}
             }
+        }
+    }
+    
+    
+    public void testDeletePlannedNotificationWithScheduledNotficationsAndRecipients() throws Exception {
+    	Integer snId = -1;
+        {
+        	PlannedNotification plannedNotification = getDao().getById(1000);
+        	addScheduledNotification(plannedNotification);
+            
+            this.getDao().merge(plannedNotification);
+
+            List<PlannedNotification> pnList = getDao().getAll(); 
+            for(PlannedNotification pn: pnList){
+            	if(pn.getId().intValue() == 1000){
+            		snId = pn.getScheduledNotification().get(0).getId();
+            		pn.setRetiredIndicatorAsTrue();
+            		this.getDao().saveOrUpdate(pn);
+            	}
+            }
+        }
+
+        interruptSession();
+        {
+        	PlannedNotification plannedNotification  = this.getDao().getById(1000);
+            assertNull("Could not reload organization with id ",  plannedNotification);
+            assertNotNull("Missing ScheduledNotfn", scheduledNotificationDao.getById(snId));
         }
     }
 

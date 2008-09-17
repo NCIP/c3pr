@@ -72,7 +72,7 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
 	}
 
     @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.MERGE})
     @JoinColumn(name = "schld_notfns_id")
     @Where(clause = "retired_indicator  = 'false'")
 	public List<RecipientScheduledNotification> getRecipientScheduledNotificationInternal() {

@@ -30,6 +30,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @Table(name = "planned_notfns")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "planned_notfns_ID_SEQ") })
+@Where(clause = "retired_indicator  = 'false'")
 public class PlannedNotification extends AbstractMutableDeletableDomainObject {
 
     private Integer studyThreshold;
@@ -66,7 +67,6 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     @Transient
     public void setRetiredIndicatorAsTrue() {
         super.setRetiredIndicatorAsTrue();
-        //this.setRetiredIndicatorAsTrue();
         Iterator iter = getUserBasedRecipient().iterator();
         while(iter.hasNext()){
         	((UserBasedRecipient)iter.next()).setRetiredIndicatorAsTrue();
@@ -75,14 +75,16 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
         while(iter.hasNext()){
         	((RoleBasedRecipient)iter.next()).setRetiredIndicatorAsTrue();
         }
-        iter = getContactMechanismBasedRecipient().iterator();
-        while(iter.hasNext()){
-        	((ContactMechanismBasedRecipient)iter.next()).setRetiredIndicatorAsTrue();
-        }
-        iter = getScheduledNotification().iterator();
-        while(iter.hasNext()){
-        	((ScheduledNotification)iter.next()).setRetiredIndicatorAsTrue();
-        }
+        //REINTRODUCE this when we start using Contact mechanism based Recpt
+//        iter = getContactMechanismBasedRecipient().iterator();
+//        while(iter.hasNext()){
+//        	((ContactMechanismBasedRecipient)iter.next()).setRetiredIndicatorAsTrue();
+//        }
+        
+//        iter = getScheduledNotification().iterator();
+//        while(iter.hasNext()){
+//        	((ScheduledNotification)iter.next()).setRetiredIndicatorAsTrue();
+//        }
     }
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -146,7 +148,7 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     }
     
     @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.MERGE})
     @JoinColumn(name = "planned_notfns_id", nullable = false)
     @Where(clause = "retired_indicator  = 'false'")
     @OrderBy(clause="date_sent desc")

@@ -44,4 +44,11 @@ public class PlannedNotificationDao extends GridIdentifiableDao<PlannedNotificat
     	getHibernateTemplate().saveOrUpdate(plannedNotification);
     	getHibernateTemplate().flush();
     }
+    
+    @Transactional(readOnly=false)
+    public void delete(PlannedNotification plannedNotification){
+    	//do not remove the flush...imperative for the notifications flow.
+    	getHibernateTemplate().delete(plannedNotification);
+    	getHibernateTemplate().flush();
+    }
 }

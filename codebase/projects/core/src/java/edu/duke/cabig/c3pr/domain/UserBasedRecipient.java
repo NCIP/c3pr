@@ -89,7 +89,6 @@ public class UserBasedRecipient extends Recipient {
     @Transient
     public void setRetiredIndicatorAsTrue() {
         super.setRetiredIndicatorAsTrue();
-        this.setRetiredIndicatorAsTrue();
     }
 
 }

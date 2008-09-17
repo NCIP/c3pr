@@ -14,6 +14,7 @@ import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.apache.commons.collections15.list.LazyList;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
@@ -130,6 +131,7 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
 
     @OneToMany(mappedBy="healthcareSite", fetch = FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @Where(clause="retired_indicator = 'false'")
  	public List<PlannedNotification> getPlannedNotificationsInternal() {
         return lazyListHelper.getInternalList(PlannedNotification.class);
     }

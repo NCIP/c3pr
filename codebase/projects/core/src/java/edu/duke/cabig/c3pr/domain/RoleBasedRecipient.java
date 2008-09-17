@@ -22,6 +22,5 @@ public class RoleBasedRecipient extends Recipient {
     @Transient
     public void setRetiredIndicatorAsTrue() {
         super.setRetiredIndicatorAsTrue();
-        this.setRetiredIndicatorAsTrue();
     }
 }
