@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.dao;
 
 import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_ORGANIZATION;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
@@ -36,7 +34,6 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
 	public static final String TITLE = "Vanguard";
 	
     private ResearchStaffDao researchStaffDao = (ResearchStaffDao) getApplicationContext().getBean("researchStaffDao");
-    private ScheduledNotificationDao scheduledNotificationDao= (ScheduledNotificationDao) getApplicationContext().getBean("scheduledNotificationDao");
     private PlannedNotificationDao plannedNotificationDao= (PlannedNotificationDao) getApplicationContext().getBean("plannedNotificationDao");
     private RecipientScheduledNotificationDao rsnDao= (RecipientScheduledNotificationDao) getApplicationContext().getBean("recipientScheduledNotificationDao");
     
@@ -95,7 +92,7 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
     public void testSaveNotificationWithMessageDetailsAndRecepients() throws Exception {
     	{
     		HealthcareSite org = getDao().getById(1000);
-			org.getPlannedNotifications().add(buildNotificationWithRecepientsAndMesssageDetails());    		
+			org.getPlannedNotifications().add(buildNotificationWithRecepientsAndMesssageDetails(org));    		
 			this.getDao().save(org);
     	}
     	interruptSession();
@@ -116,9 +113,10 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
         assertEquals("Wrong contact","vinay.gangoli@semanticbits.com", loadedOrg.getPlannedNotifications().get(0).getContactMechanismBasedRecipient().get(0).getContactMechanism().get(0).getValue());
     }
     
-    public PlannedNotification buildNotificationWithRecepientsAndMesssageDetails(){
+    public PlannedNotification buildNotificationWithRecepientsAndMesssageDetails(HealthcareSite org){
     	PlannedNotification plannedNotification = new PlannedNotification();
     	
+    	plannedNotification.setHealthcareSite(org);
     	plannedNotification.setDeliveryMechanism(DeliveryMechanismEnum.EMAIL);
     	plannedNotification.setEventName(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT);
     	plannedNotification.setFrequency(NotificationFrequencyEnum.IMMEDIATE);
@@ -138,11 +136,9 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
         ContactMechanism cm = new ContactMechanism();
         cm.setType(ContactMechanismType.EMAIL);
         cm.setValue("vinay.gangoli@semanticbits.com");
-        ArrayList <ContactMechanism> cmList  = new ArrayList<ContactMechanism>();
-        cmList.add(cm);
         
         ContactMechanismBasedRecipient cmbr = new ContactMechanismBasedRecipient();
-        cmbr.setContactMechanism(cmList);
+        cmbr.getContactMechanism().add(cm);
         plannedNotification.getContactMechanismBasedRecipient().add(cmbr);
 
     	
@@ -153,10 +149,10 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
     public void testSaveScheduledNotification(){
     
     	{
-    		PlannedNotification plannedNotification = buildNotificationWithRecepientsAndMesssageDetails();
+    		HealthcareSite org = getDao().getById(1000);
+    		PlannedNotification plannedNotification = buildNotificationWithRecepientsAndMesssageDetails(org);
     		ScheduledNotification scheduledNotification = addScheduledNotification(plannedNotification, "composedMessage");
-    		//plannedNotificationDao.getHibernateTemplate().merge(plannedNotification);
-    		plannedNotificationDao.getHibernateTemplate().saveOrUpdate(plannedNotification);//merge(plannedNotification);
+    		plannedNotificationDao.saveOrUpdate(plannedNotification);//merge(plannedNotification);
     	}
     	interruptSession();
 	
