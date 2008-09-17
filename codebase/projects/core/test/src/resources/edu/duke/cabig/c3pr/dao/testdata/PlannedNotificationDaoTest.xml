@@ -10,12 +10,15 @@
     
     <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Drury" retired_indicator = "false" />
 	
+	<PLANNED_NOTFNS id="999" version="1" study_threshold="10" event_name="STUDY_STATUS_CHANGED_EVENT" message="message" title="title" retired_indicator = "false" />
 	<PLANNED_NOTFNS id="1000" version="1" study_threshold="10" event_name="STUDY_STATUS_CHANGED_EVENT" message="message" title="title" retired_indicator = "false" />
 	<PLANNED_NOTFNS id="1001" version="1" study_threshold="10" retired_indicator = "true" />
 
-    <RECIPIENTS id="1111" version="1" planned_notfns_id="1000" research_staff_id="1000" dtype="RR" investigators_id="1000" retired_indicator = "false" />     
+    <RECIPIENTS id="1111" version="1" planned_notfns_id="1000" research_staff_id="1000" dtype="RR" retired_indicator = "false" />     
     <RECIPIENTS id="1000" version="1" planned_notfns_id="1000" research_staff_id="1000" dtype="RR" retired_indicator = "false" /> 
-    <RECIPIENTS id="1001" version="1" planned_notfns_id="1000" investigators_id="1000"  dtype="ER" retired_indicator = "false" />     
+    <RECIPIENTS id="1001" version="1" planned_notfns_id="1000" investigators_id="1000"  dtype="ER" retired_indicator = "false" />  
+    <RECIPIENTS id="1002" version="1" planned_notfns_id="999"  research_staff_id="1000" dtype="RR" retired_indicator = "false" />     
+    <RECIPIENTS id="1003" version="1" planned_notfns_id="999"  investigators_id="1000"  dtype="RR" retired_indicator = "false" />     
     
     <CONTACT_MECHANISMS id="1000" version="1" rs_id="1000"/>
     <CONTACT_MECHANISMS id="1001" version="1" inv_id="1000"/>
