@@ -75,8 +75,8 @@
 	                add_row_division_id: "notification",
 	                skeleton_row_division_id: "dummy-notification",
 	                initialIndex: ${fn:length(command.plannedNotifications)},
-	                softDelete: ${softDelete == 'true'},
-	                isAdmin: ${isAdmin == 'true'},
+	                softDelete: true,
+	                isAdmin: true,
 	                path: "plannedNotifications"
 	        };
 	        RowManager.addRowInseter(notificationRowInserterProps);
