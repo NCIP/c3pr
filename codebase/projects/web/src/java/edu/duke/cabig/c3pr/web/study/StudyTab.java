@@ -79,11 +79,16 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
      * and the design tab.
      */
     public void updateRandomization(Study study) {
-        if (study.getBlindedIndicator()) {
+        if (study.getCompanionIndicator()) {
+            study.setRandomizedIndicator(false);
+            study.setBlindedIndicator(false);
+        }
+        
+    	if (study.getBlindedIndicator()) {
             study.setRandomizedIndicator(true);
             study.setRandomizationType(RandomizationType.PHONE_CALL);
         }
-
+        
         if (!study.getRandomizedIndicator()) {
             study.setRandomizationType(null);
         }

@@ -168,7 +168,17 @@
         <%--AutocompleterManager.addAutocompleter(piCoCenterAutocompleterProps);--%>
 	    AutocompleterManager.addAutocompleter(principalInvestigatorAutocompleterProps);
 
-
+		function disableRandomizationForCompanion(companionIndicator){
+		  	var bIndicator=document.getElementById('blindedIndicator');
+	    	var rIndicator=document.getElementById('randomizedIndicator');
+	    	var rType=document.getElementById('randomizationType');
+			if(companionIndicator){
+	    		rType.value=""; 
+	    		rIndicator.value = "false" ;
+	    		rIndicator.disabled = true;
+	    		bIndicator.disabled = true;
+			}	
+		}
     </script>
 </head>
 <body>
@@ -535,6 +545,8 @@
 </div>
 </chrome:box>
 </form:form>
-
+<script>
+	disableRandomizationForCompanion(${command.companionIndicator})
+</script>
 </body>
 </html>
