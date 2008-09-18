@@ -4,8 +4,10 @@
 	<property file="c3pr-ivy.properties" />
     <import file="${basedir}/common.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
+	<property name="reports.dir" value="${basedir}/../reports" />
 	<!-- List of modules that need checkstyle reporting done -->
 	<property name="reportable.projects.list" value="core,web" />
+	<property name="javadoc-reportable.projects.list" value="core" />
 	<condition property="ivy.available">
 			<available file="${ivy.jar.file}" />
 	</condition>
@@ -289,5 +291,43 @@
             </sequential>
         </for>		
     </target>
-    	
+    
+	<target name="reports-javadoc" depends="download-ant-contrib" description="Generates javadoc">
+			<taskdef resource="net/sf/antcontrib/antlib.xml">
+	            <classpath>
+	                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+	            </classpath>
+	        </taskdef>
+			
+			<property name="javadoc.dir" value="${reports.dir}/javadoc"/>
+			<delete dir="${javadoc.dir}"/>
+			<mkdir dir="${javadoc.dir}"/>
+			
+			<for list="${javadoc-reportable.projects.list}" parallel="false" param="project.name" trim="true">
+				<sequential>
+					<echo message="Generating javadoc for project @{project.name}"/>
+					<javadoc packagenames="edu.duke.cabig.c3pr.d*" 
+							 sourcepath="${projects.dir}/@{project.name}/src/java" 
+							 destdir="${reports.dir}/javadoc/@{project.name}"
+							 author="true"
+							 version="true"
+							 use="true"
+							 access="private"
+							 windowtitle="C3PRV2 API">
+					 		<classpath>	 
+		                        <fileset dir="${projects.dir}/@{project.name}/build/lib">
+		                            <include name="*.jar"/>
+		                        </fileset>
+		                        <fileset dir="${projects.dir}/@{project.name}/build/testlib">
+		                            <include name="*.jar"/>
+		                        </fileset>
+		                        <fileset dir="${projects.dir}/@{project.name}/test/lib">
+		                            <include name="*.jar"/>
+		                        </fileset>
+		                    </classpath>
+					  </javadoc>
+				  </sequential>
+			 </for>
+		 </target>
+		
 </project>
