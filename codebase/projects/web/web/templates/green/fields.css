@@ -17,6 +17,18 @@ input, label, select, textarea {
   font-size: 11px;
 }
 
+div.pending-search {
+    color: gray;
+    font-style: italic;
+    background-color: #CCE6FF;
+}
+
+input.pending-search {
+    color: gray;
+    font-style: italic;
+    background-color: #CCE6FF;
+}
+
 input[type=text], input[type=password], select, textarea {
   border-color : #689a65;
   border-style : solid;

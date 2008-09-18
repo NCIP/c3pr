@@ -31,6 +31,12 @@ input[disabled], select[disabled], textarea[disabled] {
   background-color: #ddc;
 }
 
+input.pending-search {
+    color: gray;
+    font-style: italic;
+    background-color: #CCE6FF;
+}
+
 input[type=file] {
   border-color : #809eba;
   border-style : solid;
@@ -44,6 +50,12 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
 /*
     Styles for scriptaculous-generated autocompleters
  */
+ 
+ div.pending-search {
+    color: gray;
+    font-style: italic;
+    background-color: #CCE6FF;
+}
 div.autocomplete {
 	z-index: 30;
     position: absolute;
