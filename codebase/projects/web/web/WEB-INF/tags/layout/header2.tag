@@ -181,20 +181,16 @@ function getSelectedValue() {
     if ($('rdORANGE').checked) return ('orange');
 }
 
-
-A_MENUS[0].a_index[0].a_config[1]=null;
-A_MENUS[0].a_index[3].a_config[1]=null;
-A_MENUS[0].a_index[7].a_config[1]=null;
-
-A_MENUS[0].a_index[8].a_config[1]=null;
-A_MENUS[0].a_index[11].a_config[1]=null;
-A_MENUS[0].a_index[15].a_config[1]=null;
-A_MENUS[0].a_index[18].a_config[1]=null;
-
-A_MENUS[0].a_index[21].a_config[1]=null;
-A_MENUS[0].a_index[27].a_config[1]=null;
-
-
+//added these line to make top level menu item non clickable
+var disableClick = ['Dashboard', 'Inbox', 'Registration', 'Studies', 'Person &amp; Organization', 'Administration', 'Advanced Search'];
+for (var menuIndex = 0; menuIndex < A_MENUS[0].a_index.length ; menuIndex++) {
+	sectionName = A_MENUS[0].a_index[menuIndex].a_config[0];
+	for (var i = 0; i < disableClick.length ; i++) {
+		if(sectionName == disableClick[i]){
+			A_MENUS[0].a_index[menuIndex].a_config[1] = null ;
+		}
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
