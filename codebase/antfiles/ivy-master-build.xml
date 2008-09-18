@@ -27,6 +27,7 @@
     		<fileset file="${projects.dir}/core/ivy-build.xml" />
 			<fileset file="${projects.dir}/rules/ivy-build.xml" />
     		<fileset file="${projects.dir}/web/ivy-build.xml" />
+    		<fileset file="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" />
     	</ivy:buildlist>
   		<property name="buildlist.done" value="true" />
   		<echo message="buildList : ${build-path}" />
@@ -153,6 +154,22 @@
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
     	</ant>
     </target>
+	
+	<target name="deploy-studyServiceImpl" depends="build-core, build-rules"
+		description="Builds all c3pr modules and deploys webapp on your web/web local">
+		<ant target="deployStudyServiceImpl" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/StudyServiceImpl" inheritall="false">
+			<property name="env.skip.test" value="true"></property>
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+		</ant>
+	</target>
+	
+	<target name="deploy-studyService">
+		<ant target="deployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+		</ant>
+	</target>
+	
+	<target name="deploy-c3prStudyService" depends="deploy-studyService, deploy-studyServiceImpl"/>
 	
 	<!-- ==========================================================
 		target : tomcat.security
