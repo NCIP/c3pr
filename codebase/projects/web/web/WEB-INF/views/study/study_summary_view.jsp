@@ -115,6 +115,9 @@
 							<c:set var="noActiveStatusForCompanion" value="true"></c:set>
 					</c:if>
 				</c:forEach>
+				<c:if test="${fn:length(command.parentStudyAssociations) == 0 }">
+					<c:set var="noActiveStatusForCompanion" value="true"></c:set>
+				</c:if>
 				<c:choose> 
 					<c:when test="${!empty noActiveStatusForCompanion && noActiveStatusForCompanion == 'true' && command.companionIndicator == true && command.standaloneIndicator == false}"> 
 						<c:set var="tempSelectOpts" value="${commanSepOptValForEmbeded}"></c:set> 
