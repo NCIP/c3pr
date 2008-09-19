@@ -124,7 +124,7 @@ function clearDefaultText(e) {
 
     if (target.value == '(Begin typing here)') {
         target.value = '';
-        (target.className).replace('pending-search','');
+        target.className = (target.className).replace("pending-search"," ");
     }
 
 }
