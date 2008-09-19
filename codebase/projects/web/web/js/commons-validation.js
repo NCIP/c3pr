@@ -14,7 +14,7 @@ function validateFields(formFields) {
          element.value = trimWhitespace(element.value)
          
          // required element
-         if (element.required  && element.value == '') {
+         if (element.required  && (element.value == '' || element.value == '(Begin typing here)')) {
             ValidationManager.showError(element,element.requiredError);
             validForm=false;
             continue;

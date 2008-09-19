@@ -114,7 +114,7 @@ function addEventHandlersForAutoCompleter(theInput){
         /* Save the current value */
         if (trim(theInput.value) == '') {
             theInput.defaultText = message;
-            theInput.className = 'pending-search';
+            theInput.className = theInput.className + ' pending-search';
             theInput.value = message;
         }
 }
@@ -124,7 +124,7 @@ function clearDefaultText(e) {
 
     if (target.value == '(Begin typing here)') {
         target.value = '';
-        target.className = 'autocomplete';
+        (target.className).replace('pending-search','');
     }
 
 }
@@ -135,7 +135,7 @@ function replaceDefaultText(e) {
 
     if (trim(target.value) == '' ) {
         target.value = '(Begin typing here)';
-        target.className = 'pending-search';
+        target.className = target.className + ' pending-search';
     }
 }
 
