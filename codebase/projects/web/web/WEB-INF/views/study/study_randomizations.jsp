@@ -73,7 +73,7 @@
              <tr>
                 <td>
 	                <c:choose>
-	                <c:when test="${command.stratificationIndicator}">
+	                <c:when test="${epoch.stratificationIndicator}">
 	                	<b> Randomization Book:</b><tags:hoverHint keyProp="study.bookRandomizations.text"/>
 	                	<br/> eg: Stratum Group Number, Position, Arm Name</td>
 	                </c:when>
@@ -99,7 +99,7 @@
 			                <div class="label">Select file to Import:</div>
 			                <div class="value">
 			                 <c:choose>
-	                			<c:when test="${command.stratificationIndicator}">
+	                			<c:when test="${epoch.stratificationIndicator}">
 			                    	<div class="fileinputs"><input type="file" name="file" /><tags:hoverHint keyProp="study.bookRandomizations.file"/></div>
 			                 	</c:when>
 	                			<c:otherwise>
