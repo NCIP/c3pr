@@ -205,8 +205,10 @@ function removeDiseasesFromCart()
 
 function populateSelectsOnLoad()
 {
-
-    if ($('disease-input').value.length > 0)
+	if($('disease-input').value == '(Begin typing here)'){
+		return ;
+	}
+    if ($('disease-input').value.length > 0 )
     {
         StudyAjaxFacade.matchDiseaseCategories($('disease-input').value, '', function(values) {
             updateCategories(values[0].id);
