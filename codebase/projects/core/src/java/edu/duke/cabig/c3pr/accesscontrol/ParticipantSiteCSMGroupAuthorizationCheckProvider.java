@@ -32,18 +32,21 @@ public class ParticipantSiteCSMGroupAuthorizationCheckProvider implements CSMAut
 
         if (domainObject instanceof Participant) {
         	Participant participant = (Participant) domainObject;
-        	List<HealthcareSite> hcsList = participant.getHealthcareSites();
         	
-        	List<OrganizationAssignedIdentifier> oaiList = participant.getOrganizationAssignedIdentifiers();
-        	for(OrganizationAssignedIdentifier oai: oaiList){
-        		hcsList.add(oai.getHealthcareSite());
-        	}
-            
+        	List<HealthcareSite> hcsList = participant.getHealthcareSites();
             for(HealthcareSite hcs: hcsList){
             	log.debug("### Checking permission for user on site:" + hcs.getNciInstituteCode());
             	hasPermission = hasPermission || csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,
                         permission, siteObjectIdGenerator.generateId(hcs));
             }
+            
+            List<OrganizationAssignedIdentifier> oaiList = participant.getOrganizationAssignedIdentifiers();
+        	for(OrganizationAssignedIdentifier oai: oaiList){
+        		log.debug("### Checking permission for user on site:" + oai.getHealthcareSite().getNciInstituteCode());
+            	hasPermission = hasPermission || csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,
+                        permission, siteObjectIdGenerator.generateId(oai.getHealthcareSite()));
+        	}
+            
             return hasPermission;
         }
         else {
