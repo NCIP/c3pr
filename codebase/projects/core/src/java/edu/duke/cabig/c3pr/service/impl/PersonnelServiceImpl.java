@@ -271,7 +271,7 @@ public class PersonnelServiceImpl implements PersonnelService {
         else {
             // for the admin case
             for (PlannedNotification pn : plannedNotificationDao.getAll()) {
-                scheduledNotificationsList.addAll(pn.getScheduledNotification());
+                scheduledNotificationsList.addAll(pn.getScheduledNotifications());
             }
         }
 
