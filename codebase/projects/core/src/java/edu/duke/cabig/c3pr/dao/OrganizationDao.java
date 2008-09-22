@@ -48,7 +48,7 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
             Criteria orgCriteria = getSession().createCriteria(Organization.class);
             orgCriteria.addOrder(Order.asc("name"));
             orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-
+            orgCriteria.setMaxResults(50);
             if (isWildCard) {
                 example.enableLike(MatchMode.ANYWHERE);
             }
