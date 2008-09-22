@@ -256,6 +256,15 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public void setStudySites(List<StudySite> studySites) {
 		// do nothing
 	}
+	
+	@Transient
+	public String getPrintStudySites() {
+		StringBuffer s = new StringBuffer();
+		for(StudySite ss: getStudySites()){
+			s.append(ss.getHealthcareSite().getName());
+		}
+		return s.toString();
+	}
 
 	@Transient
 	public List<StudyFundingSponsor> getStudyFundingSponsors() {
