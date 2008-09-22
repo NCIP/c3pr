@@ -38,7 +38,8 @@
                 </table>
         </chrome:box>
         
-        <tags:inbox recipientScheduledNotification="${recipientScheduledNotification}" htmlContent="<a href='../pages/admin/viewInbox'>My Inbox</a>" url="../pages/admin/viewInbox"/>
+        <tags:inbox recipientScheduledNotification="${recipientScheduledNotification}" endValue="5"
+        			htmlContent="<a href='../pages/admin/viewInbox'>My Inbox</a>" url="../pages/admin/viewInbox"/>
         
         <chrome:box title="C3PR Development Notes">
 			<br>			
