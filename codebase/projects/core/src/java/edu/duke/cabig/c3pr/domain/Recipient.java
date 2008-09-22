@@ -20,18 +20,18 @@ import org.hibernate.annotations.Parameter;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "RECIPIENTS_ID_SEQ") })
 public abstract class Recipient extends AbstractMutableDeletableDomainObject {
 	
-	private List<RecipientScheduledNotification>  recipientScheduledNotification;
+	private List<RecipientScheduledNotification>  recipientScheduledNotifications;
 
     @OneToMany
     @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "recipients_id")
-	public List<RecipientScheduledNotification> getRecipientScheduledNotification() {
-		return recipientScheduledNotification;
+	public List<RecipientScheduledNotification> getRecipientScheduledNotifications() {
+		return recipientScheduledNotifications;
 	}
 
-	public void setRecipientScheduledNotification(
-			List<RecipientScheduledNotification> recipientScheduledNotification) {
-		this.recipientScheduledNotification = recipientScheduledNotification;
+	public void setRecipientScheduledNotifications(
+			List<RecipientScheduledNotification> recipientScheduledNotifications) {
+		this.recipientScheduledNotifications = recipientScheduledNotifications;
 	}
 	
 
