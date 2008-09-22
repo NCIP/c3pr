@@ -74,7 +74,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
         refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
         refdata.put("raceCode", configMap.get("raceCode"));
         refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
-        refdata.put("source", healthcareSiteDao.getAll());
+        //refdata.put("source", healthcareSiteDao.getAll());
         refdata.put("mandatory", "true");
         if (command.getId() != null) {
             refdata.put("disableForm", new Boolean(true));
