@@ -34,7 +34,8 @@
                       expression="execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.save(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+)) ||
                       execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.merge(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+))||
                       execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.search*(..))||
-                      execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.get*(..))
+                      execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.get*(..)) ||
+                      execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.adv*(..))
                       "/>
 
         <!-- aspects -->
