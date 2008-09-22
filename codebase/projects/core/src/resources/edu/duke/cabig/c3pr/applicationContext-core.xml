@@ -481,17 +481,16 @@
     </bean>
     
     <!--Utilities-->
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
-    	<property name="host" value="smtp.gmail.com" /> 
-    	<property name="port" value="465" /> 
-    	<property name="protocol" value="smtps" /> 
-    	<property name="username" value="c3prproject@gmail.com" /> 
-    	<property name="password" value="semanticbits" /> 
+    <bean id="mailSender" class="edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl"> 
+    	<property name="configuration" ref="configuration" />
+    	<property name="host" value="${outgoingMailServer}" /> 
+    	<property name="port" value="${outgoingMailServerPort}" /> 
+    	<property name="protocol" value="${smtpProtocol}" /> 
+    	<property name="username" value="${outgoingMailUsername}" /> 
+    	<property name="password" value="${outgoingMailPassword}" /> 
     	<property name="javaMailProperties"> 
     	<props> 
-    		<prop key="mail.smtps.auth">true</prop> 
-    		<prop key="mail.smtps.starttls.enable">true</prop> 
-    		<prop key="mail.smtps.debug">true</prop> 
+    		<prop key="dummy">dummy</prop> 
     	</props> 
     	</property> 
     </bean>
