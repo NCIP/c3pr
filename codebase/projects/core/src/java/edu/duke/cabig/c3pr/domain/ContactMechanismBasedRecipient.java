@@ -35,20 +35,20 @@ public class ContactMechanismBasedRecipient extends Recipient {
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "recipients_id")
     @Where(clause = "retired_indicator  = 'false'")
-    public List<ContactMechanism> getContactMechanismInternal() {
+    public List<ContactMechanism> getContactMechanismsInternal() {
         return lazyListHelper.getInternalList(ContactMechanism.class);
     }
 
-    public void setContactMechanismInternal(List<ContactMechanism> contactMechanism) {
-        lazyListHelper.setInternalList(ContactMechanism.class, contactMechanism);
+    public void setContactMechanismsInternal(List<ContactMechanism> contactMechanisms) {
+        lazyListHelper.setInternalList(ContactMechanism.class, contactMechanisms);
     }
 
     @Transient
-    public List<ContactMechanism> getContactMechanism() {
+    public List<ContactMechanism> getContactMechanisms() {
         return lazyListHelper.getLazyList(ContactMechanism.class);
     }
 
-    public void setContactMechanism(List<ContactMechanism> contactMechanism) {
+    public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
     }
 //    public List<ContactMechanism> getContactMechanism() {
 //		return contactMechanism;
