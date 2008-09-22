@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -45,7 +46,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	private String ethnicGroupCode;
 
 	//private String raceCode;
-	private List<HealthcareSite> healthcareSites = new ArrayList<HealthcareSite>();;
+	private List<HealthcareSite> healthcareSites;
 
 	private List<RaceCode> raceCodes;
 
@@ -68,6 +69,7 @@ public class Participant extends Person implements Comparable<Participant> {
 		// mandatory, so that the lazy-projected list is managed properly.
 		setIdentifiers(new ArrayList<Identifier>());
 		raceCodes =  new ArrayList<RaceCode>();
+		healthcareSites = new ArrayList<HealthcareSite>();
 	}
 
 	public void addIdentifier(Identifier identifier) {
@@ -306,7 +308,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	}
 
 	@ManyToMany
-	@Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@Cascade(value = {CascadeType.LOCK})
     @JoinTable(name="prt_org_associations",
         joinColumns = @JoinColumn(name="prt_stu_sub_id"),
         inverseJoinColumns = @JoinColumn(name="org_stu_sub_id")
