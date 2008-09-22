@@ -69,7 +69,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C> {
                 map.put("alreadyRegistered", new Boolean(true));
             }
         }
-        if (command.getCurrentScheduledEpoch().getEpoch().getId() == epoch.getId()) map.put(
+        if (command.getCurrentScheduledEpoch().getEpoch().getId().intValue() == epoch.getId().intValue()) map.put(
                         "isCurrentScheduledEpoch", new Boolean(true));
         if (epoch.getEpochOrder() < command.getCurrentScheduledEpoch().getEpoch().getEpochOrder()) {
             map.put("notRegistrable", new Boolean(true));
