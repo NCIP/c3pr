@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.service.PersonnelService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
@@ -52,6 +54,8 @@ public class CreateParticipantController<C extends Participant> extends
     private PersonnelService personnelService;
 
     private HealthcareSiteDao healthcareSiteDao;
+    
+    private Configuration configuration;
 
     public CreateParticipantController() {
         setCommandClass(Participant.class);
@@ -144,11 +148,24 @@ public class CreateParticipantController<C extends Participant> extends
     private void addCreatingOrganization(Participant participant, HttpServletRequest request){
     	HealthcareSite hcs = personnelService.getLoggedInUsersOrganization(request);
     	List<HealthcareSite> hcsList = participant.getHealthcareSites();
-    	hcsList.add(hcs);    	
+    	if(hcs != null){
+//    		if(hcs.getParticipants() == null){
+//    			List<Participant> pList = new ArrayList<Participant>();
+//        		pList.add(participant);
+//        		hcs.setParticipants(pList);
+//        	} else {
+//        		hcs.getParticipants().add(participant);
+//        	}
+    	} else {
+    		hcs = healthcareSiteDao.getByNciInstituteCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
+    	}
+    	hcsList.add(hcs);
+    	
     }
     
+    //throwing a stack overflow...hence commented out
     protected List<HealthcareSite> getHealthcareSites() {
-        return healthcareSiteDao.getAll();
+        return null; //healthcareSiteDao.getAll();
     }
 
     public ConfigurationProperty getConfigurationProperty() {
@@ -189,6 +206,14 @@ public class CreateParticipantController<C extends Participant> extends
 
 	public void setPersonnelService(PersonnelService personnelService) {
 		this.personnelService = personnelService;
+	}
+
+	public Configuration getConfiguration() {
+		return configuration;
+	}
+
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
 	}
 
 }
