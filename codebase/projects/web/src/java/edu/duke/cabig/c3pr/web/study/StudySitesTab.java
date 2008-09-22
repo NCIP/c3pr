@@ -26,7 +26,7 @@ class StudySitesTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(study);
         addConfigMapToRefdata(refdata, "studySiteStatusRefData");
         addConfigMapToRefdata(refdata, "studySiteRoleCodeRefData");
-        refdata.put("healthCareSites", getHealthcareSiteDao().getAll());
+        //refdata.put("healthCareSites", getHealthcareSiteDao().getAll());
         boolean isAdmin = isAdmin();
 
         if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
