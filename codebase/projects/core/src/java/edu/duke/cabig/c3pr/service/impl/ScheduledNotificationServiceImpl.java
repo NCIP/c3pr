@@ -93,7 +93,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String composedMessage){
     	
     	ScheduledNotification scheduledNotification = new ScheduledNotification();
-    	plannedNotification.getScheduledNotification().add(scheduledNotification);
+    	plannedNotification.getScheduledNotifications().add(scheduledNotification);
     	scheduledNotification.setDateSent(new Date());
 		scheduledNotification.setMessage(composedMessage);
 		scheduledNotification.setTitle(plannedNotification.getTitle());
