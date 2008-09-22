@@ -135,14 +135,17 @@ function clearScreen() {
         	<tr>
 	        	<td align="left">
 					<div class="row" name="inputs">
-						<b>DOB</b><tags:dateInput path="birthDate"/>
+						<b>Date of Birth</b><tags:dateInput path="birthDate"/>
 					</div>
 				</td>
-				<td align="left"><b>Race</b> &nbsp;
-					<form:select path="raceCode">
-						<option value="">Please Select</option>
-						<form:options items="${raceCode}" itemLabel="desc" itemValue="code" />
-					</form:select>
+				<td align="left" width="40%" >
+					<div class="row" name="inputs">
+						<b>Race</b> &nbsp;
+						<form:select path="raceCode" cssStyle="width:205px;">
+							<option value="">Please Select</option>
+							<form:options items="${raceCode}" itemLabel="desc" itemValue="code" />
+						</form:select>
+					</div>
 				</td>
         	</tr>    	
         	</table>        	
