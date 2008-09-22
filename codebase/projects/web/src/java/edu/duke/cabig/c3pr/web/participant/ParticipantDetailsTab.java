@@ -26,7 +26,7 @@ public class ParticipantDetailsTab extends ParticipantTab {
         refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
         refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
         refdata.put("raceCode", configMap.get("raceCode"));
-        refdata.put("source", healthcareSiteDao.getAll());
+        // refdata.put("source", healthcareSiteDao.getAll());
         refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
         refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
         refdata.put("mandatory", "true");
