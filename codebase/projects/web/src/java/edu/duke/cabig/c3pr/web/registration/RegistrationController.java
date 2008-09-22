@@ -167,6 +167,7 @@ public abstract class RegistrationController<C extends StudySubject> extends
     @Override
     protected C save(C command, Errors arg1) {
         C merged = (C) getDao().merge(getPrimaryDomainObject(command));
+        studyDao.initialize(merged.getStudySite().getStudy());
         return merged;
     }
 
