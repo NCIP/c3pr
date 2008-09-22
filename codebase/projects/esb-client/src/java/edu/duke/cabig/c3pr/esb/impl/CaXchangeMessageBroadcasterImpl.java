@@ -136,7 +136,8 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             Message xchangeMessage = CaXchangeMessageHelper.createXchangeMessage(messageDOM);
             Metadata mData = new Metadata();
             mData.setOperation(Operations.PROCESS);
-            mData.setMessageType(MessageTypes.fromString((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName())));
+            //mData.setMessageType(MessageTypes.fromString((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName())));
+            mData.setMessageType((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName()));
             mData.setExternalIdentifier(externalId);
 
             //will be removed. temp
