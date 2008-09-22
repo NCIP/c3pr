@@ -10,6 +10,8 @@
 <%@attribute name="recipientScheduledNotification" type="java.util.Collection"  required="true"%>
 <%@attribute name="url" required="true"%>
 <%@attribute name="htmlContent"%>
+<%@attribute name="endValue" required="false"%>
+
 <link href="themes/mac_os_x.css" rel="stylesheet" type="text/css"/> 
 
 <c:set var="bgcolorSelected" value="#cccccc" />
@@ -45,15 +47,17 @@
 			<br />You don't have any notifications.
           </c:when>
 		<c:otherwise>
+			<c:if test="${empty endValue}">
+				<c:set var="endValue" value="${fn:length(recipientScheduledNotification)}" />
+			</c:if>
 			<table id="rsnTable" width="100%" cellspacing="1" cellpadding="2">
 				<tr bgcolor="${bgcolorAlternate}">
 					<td width="65%"><b>Title</b></td>
 					<td width="35%"><b>Date</b></td>
 				</tr>
-				<c:forEach var="rsn" items="${recipientScheduledNotification}"
+				<c:forEach var="rsn" items="${recipientScheduledNotification}" end="${endValue}"
 					varStatus="rsnStatus">
-					<c:if
-						test="${!empty rsn.scheduledNotification.title || !empty rsn.scheduledNotification.message}">
+					<c:if test="${!empty rsn.scheduledNotification.title || !empty rsn.scheduledNotification.message}">
 						<!-- Unread emails -->
 						<c:if test="${!rsn.isRead}">
 							<tr id="row-${rsnStatus.index}" bgcolor="${bgcolor}">
