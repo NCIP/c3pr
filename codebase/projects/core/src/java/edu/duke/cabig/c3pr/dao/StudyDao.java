@@ -138,7 +138,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 				getHibernateTemplate().initialize(plannedNotification.getContactMechanismBasedRecipientInternal());
 			}
 			for(ContactMechanismBasedRecipient cmbr: plannedNotification.getContactMechanismBasedRecipient()){
-				getHibernateTemplate().initialize(cmbr.getContactMechanismInternal());
+				getHibernateTemplate().initialize(cmbr.getContactMechanismsInternal());
 			}
 		}
 		
