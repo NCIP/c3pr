@@ -136,7 +136,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
     public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String reportText){
     	
     	ScheduledNotification scheduledNotification = new ScheduledNotification();
-    	plannedNotification.getScheduledNotification().add(scheduledNotification);
+    	plannedNotification.getScheduledNotifications().add(scheduledNotification);
     	scheduledNotification.setDateSent(new Date());
 		scheduledNotification.setMessage(reportText);
 		scheduledNotification.setTitle(plannedNotification.getEventName().getDisplayName() + " - " + plannedNotification.getFrequency().getDisplayName() + " Report.");
