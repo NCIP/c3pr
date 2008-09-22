@@ -175,7 +175,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/registration/confirm.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
 		<entry key="/pages/registration/manageCompanionRegistration.*"
-               value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/registration/edit.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
         <entry key="/pages/registration/search.*"
