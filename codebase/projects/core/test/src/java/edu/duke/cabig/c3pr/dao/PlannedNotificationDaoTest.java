@@ -50,8 +50,8 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
         	PlannedNotification plannedNotification  = this.getDao().getById(savedId);
             assertNotNull("Could not reload organization with id " + savedId, plannedNotification);
             assertEquals("Wrong Event Name", NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT.getDisplayName(), plannedNotification.getEventName().getDisplayName());
-            assertNotNull("Missing ScheduledNotfn", plannedNotification.getScheduledNotification());
-            for(ScheduledNotification sn: plannedNotification.getScheduledNotification()){
+            assertNotNull("Missing ScheduledNotfn", plannedNotification.getScheduledNotifications());
+            for(ScheduledNotification sn: plannedNotification.getScheduledNotifications()){
             	assertNotNull("Missing RecipientScheduledNotification", sn.getRecipientScheduledNotification());
            		assertEquals("Incorrect message","message",sn.getMessage());
            		assertEquals("Incorrect title","title",sn.getTitle());
@@ -74,7 +74,7 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
             List<PlannedNotification> pnList = getDao().getAll(); 
             for(PlannedNotification pn: pnList){
             	if(pn.getId().intValue() == 1000){
-            		snId = pn.getScheduledNotification().get(0).getId();
+            		snId = pn.getScheduledNotifications().get(0).getId();
             		pn.setRetiredIndicatorAsTrue();
             		this.getDao().saveOrUpdate(pn);
             	}
@@ -91,7 +91,7 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
     public void addScheduledNotification(PlannedNotification plannedNotification){
     	
     	ScheduledNotification scheduledNotification = new ScheduledNotification();
-    	plannedNotification.getScheduledNotification().add(scheduledNotification);
+    	plannedNotification.getScheduledNotifications().add(scheduledNotification);
     	scheduledNotification.setDateSent(new Date());
 		scheduledNotification.setMessage(plannedNotification.getMessage());
 		scheduledNotification.setTitle(plannedNotification.getTitle());
