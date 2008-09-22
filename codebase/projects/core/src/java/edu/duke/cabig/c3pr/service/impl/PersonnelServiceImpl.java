@@ -242,7 +242,7 @@ public class PersonnelServiceImpl implements PersonnelService {
             rs = rsList.get(0);
             // getting notifications set up as userBasedNotifications
             for (UserBasedRecipient ubr : rs.getUserBasedRecipient()) {
-                recipientScheduledNotificationsList.addAll(ubr.getRecipientScheduledNotification());
+                recipientScheduledNotificationsList.addAll(ubr.getRecipientScheduledNotifications());
             }
 
             // getting notifications set up as roleBasedNotifications
@@ -262,7 +262,7 @@ public class PersonnelServiceImpl implements PersonnelService {
                 for (RoleBasedRecipient rbr : pn.getRoleBasedRecipient()) {
                     if (groupRoles.contains(rbr.getRole())) {
                         recipientScheduledNotificationsList.addAll(rbr
-                                        .getRecipientScheduledNotification());
+                                        .getRecipientScheduledNotifications());
                     }
                 }
             }
