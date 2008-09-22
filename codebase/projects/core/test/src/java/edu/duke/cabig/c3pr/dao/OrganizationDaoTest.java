@@ -110,7 +110,7 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
         
         assertEquals("Wrong Role", "admin", loadedOrg.getPlannedNotifications().get(0).getRoleBasedRecipient().get(0).getRole());
         assertEquals("Wrong User", "Research Bill", loadedOrg.getPlannedNotifications().get(0).getUserBasedRecipient().get(0).getResearchStaff().getFirstName());
-        assertEquals("Wrong contact","vinay.gangoli@semanticbits.com", loadedOrg.getPlannedNotifications().get(0).getContactMechanismBasedRecipient().get(0).getContactMechanism().get(0).getValue());
+        assertEquals("Wrong contact","vinay.gangoli@semanticbits.com", loadedOrg.getPlannedNotifications().get(0).getContactMechanismBasedRecipient().get(0).getContactMechanisms().get(0).getValue());
     }
     
     public PlannedNotification buildNotificationWithRecepientsAndMesssageDetails(HealthcareSite org){
@@ -138,7 +138,7 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
         cm.setValue("vinay.gangoli@semanticbits.com");
         
         ContactMechanismBasedRecipient cmbr = new ContactMechanismBasedRecipient();
-        cmbr.getContactMechanism().add(cm);
+        cmbr.getContactMechanisms().add(cm);
         plannedNotification.getContactMechanismBasedRecipient().add(cmbr);
 
     	
