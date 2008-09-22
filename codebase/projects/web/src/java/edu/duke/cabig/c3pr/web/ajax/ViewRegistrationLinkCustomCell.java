@@ -15,7 +15,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
  */
 public class ViewRegistrationLinkCustomCell extends AbstractCell {
 
-    public static final String VIEW_REG_URL = "manageRegistration?registrationId=";
+    public static final String VIEW_REG_URL = "../registration/manageRegistration?registrationId=";
 
     @Override
     public String getHtmlDisplay(TableModel tableModel, Column column) {
