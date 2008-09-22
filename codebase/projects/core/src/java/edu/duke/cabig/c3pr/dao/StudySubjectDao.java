@@ -194,7 +194,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         List<Participant> uniqueParticipants = new ArrayList<Participant>();
         uniqueParticipants.addAll(participantSet);
         for (Participant partVar : uniqueParticipants) {
-            registrations = partVar.getStudySubjects();
+            registrations.addAll(partVar.getStudySubjects());
         }
         return registrations;
     }
