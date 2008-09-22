@@ -48,7 +48,7 @@
           </c:when>
 		<c:otherwise>
 			<c:if test="${empty endValue}">
-				<c:set var="endValue" value="${fn:length(recipientScheduledNotification)}" />
+				<c:set var="endValue" value="100" />
 			</c:if>
 			<table id="rsnTable" width="100%" cellspacing="1" cellpadding="2">
 				<tr bgcolor="${bgcolorAlternate}">
