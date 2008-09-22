@@ -310,8 +310,8 @@ public class Participant extends Person implements Comparable<Participant> {
 	@ManyToMany
 	@Cascade(value = {CascadeType.LOCK})
     @JoinTable(name="prt_org_associations",
-        joinColumns = @JoinColumn(name="prt_stu_sub_id"),
-        inverseJoinColumns = @JoinColumn(name="org_stu_sub_id")
+        joinColumns = @JoinColumn(name="prt_id"),
+        inverseJoinColumns = @JoinColumn(name="org_id")
     )
     public List<HealthcareSite> getHealthcareSites() {
         return healthcareSites;
