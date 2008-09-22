@@ -33,7 +33,7 @@ public abstract class AbstractCreateC3PRUserController<X extends C3PRUser, D ext
         Map<String, Object> configMap = configurationProperty.getMap();
         Map<String, Object> refdata = new HashMap<String, Object>();
         refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
-        refdata.put("healthcareSites", healthcareSiteDao.getAll());
+        //refdata.put("healthcareSites", healthcareSiteDao.getAll());
         return refdata;
     }
 
