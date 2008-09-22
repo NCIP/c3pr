@@ -25,7 +25,7 @@ class StudyIdentifiersTab extends StudyTab {
     public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
         Map<String, Object> refdata = super.referenceData();
         addConfigMapToRefdata(refdata, "identifiersTypeRefData");
-        refdata.put("identifiersSourceRefData", getHealthcareSiteDao().getAll());
+        //refdata.put("identifiersSourceRefData", getHealthcareSiteDao().getAll());
         return refdata;
     }
 
