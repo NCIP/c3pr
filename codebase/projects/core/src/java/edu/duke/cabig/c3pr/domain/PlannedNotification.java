@@ -81,7 +81,7 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
 //        	((ContactMechanismBasedRecipient)iter.next()).setRetiredIndicatorAsTrue();
 //        }
         
-//        iter = getScheduledNotification().iterator();
+//        iter = getScheduledNotifications().iterator();
 //        while(iter.hasNext()){
 //        	((ScheduledNotification)iter.next()).setRetiredIndicatorAsTrue();
 //        }
@@ -152,20 +152,20 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     @JoinColumn(name = "planned_notfns_id", nullable = false)
     @Where(clause = "retired_indicator  = 'false'")
     @OrderBy(clause="date_sent desc")
-    public List<ScheduledNotification> getScheduledNotificationInternal() {
+    public List<ScheduledNotification> getScheduledNotificationsInternal() {
         return lazyListHelper.getInternalList(ScheduledNotification.class);
     }
 
-    public void setScheduledNotificationInternal(List<ScheduledNotification> scheduledNotification) {
-        lazyListHelper.setInternalList(ScheduledNotification.class, scheduledNotification);
+    public void setScheduledNotificationsInternal(List<ScheduledNotification> scheduledNotifications) {
+        lazyListHelper.setInternalList(ScheduledNotification.class, scheduledNotifications);
     }
 
     @Transient
-    public List<ScheduledNotification> getScheduledNotification() {
+    public List<ScheduledNotification> getScheduledNotifications() {
         return lazyListHelper.getLazyList(ScheduledNotification.class);
     }
 
-    public void setScheduledNotification(List<ScheduledNotification> scheduledNotification) {
+    public void setScheduledNotifications(List<ScheduledNotification> scheduledNotifications) {
     }
 
     @Transient
