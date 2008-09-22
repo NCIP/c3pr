@@ -185,14 +185,14 @@
 
     <style>
         .descTextarea {
-            width:385px;
+            width:318px;
         }
     </style>
 
   <!--[if IE]>
     <style>
         .descTextarea {
-            width:384px;
+            width:312px;
         }
     </style>
 
@@ -409,14 +409,14 @@ DELETED TD
   
     <style>
         .descTextarea {
-            width:388px;
+            width:318px;
         }
     </style>
 
   <!--[if IE]>
     <style>
         .descTextarea {
-            width:384px;
+            width:312px;
         }
     </style>
 
