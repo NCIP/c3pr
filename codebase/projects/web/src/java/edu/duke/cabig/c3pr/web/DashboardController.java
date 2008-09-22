@@ -132,7 +132,7 @@ public class DashboardController extends ParameterizableViewController {
             catch (Exception e) {
                 request.setAttribute("authentication", "Failed");
                 request.setAttribute("smokeTestError", e.getMessage());
-                log.error(e.getMessage());
+                log.error(e);
             }
         }
         return super.handleRequestInternal(request, response);
