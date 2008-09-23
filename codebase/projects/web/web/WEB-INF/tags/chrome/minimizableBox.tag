@@ -79,6 +79,11 @@
                 </div>
             </td>
         </tr>
+        <tr>
+		  <td colspan="3">
+			<div class="hr" />
+		  </td>
+	    </tr>
         </table>
     </div></div></div>
     <!-- end header -->
