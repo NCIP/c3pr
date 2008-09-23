@@ -430,7 +430,7 @@
     <!-- ================================= 
           target: publish-local              
          ================================= -->
-    <target name="publish-local" depends="clean-dist, init, local-version, jar, jar-test, debug-info, test-report" 
+    <target name="publish-local" depends="clean-dist, init, local-version, jar, jar-test, debug-info" 
     	description="--> publish this project in the local ivy repository">
     	<echo message="Executing in ${ant.project.name}" />
     	<ivy:publish artifactspattern="${dist.dir}/[artifact].[ext]" 
