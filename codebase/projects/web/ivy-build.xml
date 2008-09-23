@@ -90,6 +90,7 @@
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>
                 <exclude name="cog-jglobus.jar"/>
+                <exclude name="bouncycastle*.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="**/*.jar"/>
