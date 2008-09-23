@@ -46,7 +46,7 @@ function toggleImage(id){
 						    <c:set var="singleQuote" value="'" />
 						    <c:set var="singleQuoteAlias" value="\\&#39" />
 						    <c:set var="siteName" value="${fn:replace(study.studySites[0].healthcareSite.name, singleQuote, singleQuoteAlias)}" />
-							postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${study.studySites[0].id}', '${siteName}','${study.shortTitleText}','${study.identifiers[0].type}'+' - '+ '${study.identifiers[0].value}');
+							postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${study.studySites[0].id}', '${siteName}','${study.shortTitleText}','${study.identifiers[0].value}');
 						</c:otherwise>
 					</c:choose>
 				">
@@ -86,7 +86,7 @@ function toggleImage(id){
                                 <c:set var="siteName" value="${fn:replace(site.healthcareSite.name, singleQuote, singleQuoteAlias)}" />
 
                                 <c:set var="expiredIrb" value="${site.irbApprovalDate.time le yearOld.timeInMillis}"></c:set>
-								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.id}','${siteName}','${study.shortTitleText}','${study.identifiers[0].type}'+' - '+ '${study.identifiers[0].value}')"/>
+								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.id}','${siteName}','${study.shortTitleText}','${study.identifiers[0].value}')"/>
 								<c:if test="${expiredIrb}">
 									<c:set var="javLink" value="alert('The IRB approval date for this site has expired. Its more than an year old');"/>
 								</c:if>
