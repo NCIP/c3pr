@@ -20,7 +20,15 @@
     <c:set var="bgcolorSelected" value="#cccccc"/>
     <c:set var="bgcolorAlternate" value="#eeeeee"/>
     <c:set var="bgcolor" value="#ffffff"/>
-
+<script>
+function showErrorTrace(smtpConnectionStatus, smtpConnectionError){
+	if(!smtpConnectionStatus){
+		Dialog.alert(smtpConnectionError, 
+				{width:400, height:200, okLabel: "Close", ok:function(win) 
+				{debug("validate alert panel"); return true;}});
+	}
+}
+</script>
 </head>
 <body>
 
@@ -53,7 +61,15 @@
 					</div>
 					</c:if>
 					<div id ="SMTPTestSerive">
-						SMTP : Not Implemented
+						<b>SMTP Status</b> :
+						<c:choose>
+							<c:when test="${smtpConnectionSuccess}">
+								Connected
+							</c:when>
+							<c:otherwise>
+								Connection Failed <a href="javascript:showErrorTrace(${smtpConnectionSuccess}, ${smtpConnectionError})"> Error Trace</a> 
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>
