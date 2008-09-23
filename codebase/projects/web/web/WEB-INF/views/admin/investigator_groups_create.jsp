@@ -40,7 +40,7 @@
                 })
             },
             valueSelector: function(obj) {
-                return obj.investigator.fullName
+                return obj.investigator.fullName +" ("+obj.investigator.nciIdentifier+")"
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
