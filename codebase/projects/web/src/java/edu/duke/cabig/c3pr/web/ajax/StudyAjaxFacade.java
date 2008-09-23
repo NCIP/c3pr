@@ -361,7 +361,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
             if (siga.getEndDate() == null || siga.getEndDate().after(new Date())) {
                 inv = siga.getHealthcareSiteInvestigator();
                 reducedInvList.add(buildReduced(inv, Arrays.asList("id", "investigator.firstName",
-                                "investigator.lastName")));
+                                "investigator.lastName", "investigator.nciIdentifier")));
             }
         }
         return reducedInvList;
@@ -376,7 +376,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         for (HealthcareSiteInvestigator inv : hcsInvList) {
             if (inv.getStatusCode().equals("AC")) {
                 reducedHcsInvList.add(buildReduced(inv, Arrays.asList("id",
-                                "investigator.firstName", "investigator.lastName")));
+                                "investigator.firstName", "investigator.lastName", "investigator.nciIdentifier")));
             }
         }
         return reducedHcsInvList;
