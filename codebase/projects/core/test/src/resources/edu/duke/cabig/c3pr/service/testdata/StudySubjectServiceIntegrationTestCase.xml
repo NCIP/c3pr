@@ -66,7 +66,7 @@
     <STRAT_CRI_ANS_CMB id="1000" version="1" />
 	
 	<STUDY_AMENDMENTS/>
-
+	<comp_stu_associations/>
     <IDENTIFIERS id="1100" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1100"/>
     <IDENTIFIERS id="1000" version="1" value="MRN-AAACCCBB" type="MRN" hcs_id="1000" dtype="OAI" prt_id="1000"/>
 </dataset>
