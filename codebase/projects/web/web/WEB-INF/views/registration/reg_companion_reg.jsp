@@ -37,7 +37,6 @@
 	<div id="CompanionRegistration">
 		<table class="tablecontent" width="100%" title="Companion Registration">
 			<tr>
-				<th width="7%" scope="col" align="center"><b>Register</b></th>
 				<th width="40%" scope="col" align="center"><b>Short Title-(Identifier)</b></th>
 				<th width="9%" scope="col" align="center"><b>Mandatory</b></th>
 				<th width="20%" scope="col" align="center"><b>Registartion Status</b></th>
@@ -45,7 +44,6 @@
 			</tr>
 			<c:forEach items="${companions}" var="companion">
 	            <tr>
-					<td class="alt" align="center"><input type="checkbox" name="registerFromParentIndicator" value="false" checked="checked" /></td>
 	                <td class="alt">${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
 					<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>		                
 					<td class="alt">${companion.registrationId == 0?"Not Started":companion.registrationStatus}</td>
