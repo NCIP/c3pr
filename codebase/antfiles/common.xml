@@ -430,7 +430,7 @@
     <!-- ================================= 
           target: publish-local              
          ================================= -->
-    <target name="publish-local" depends="clean-dist, init, local-version, jar, jar-test, debug-info" 
+    <target name="publish-local" depends="clean-dist, init, local-version, jar, jar-test, debug-info, test-report" 
     	description="--> publish this project in the local ivy repository">
     	<echo message="Executing in ${ant.project.name}" />
     	<ivy:publish artifactspattern="${dist.dir}/[artifact].[ext]" 
@@ -549,7 +549,7 @@
 	<condition property="testPattern" value="**/${test}.class" else="edu/duke/cabig/**/*Test*.class">
 		<isset property="test"/>
 	</condition>
-	<target name="test" if="run.test" depends="clean-test-results, corbetura-init" description="Runs the testcases">
+	<target name="test" if="run.test" depends="clean-test-results" description="Runs the testcases">
 		<echo message="Executing in ${ant.project.name}" />
 		<echo message="Test results dir: ${test.results.dir}, with pattern ${testPattern} and classes from ${test.classes.dir}" />
 		<mkdir dir="${test.results.dir}" />
@@ -595,7 +595,7 @@
 	<!-- ============================================================== 
 			target: test-report                                                
 		============================================================== -->
-		<target name="test-report" if="run.test" depends="test,cobertura-report">
+		<target name="test-report" if="run.test" depends="test">
 			<echo message="Executing in ${ant.project.name}" />
 			<mkdir dir="${test.reports.dir}" />
 			<junitreport todir="${test.reports.dir}">
