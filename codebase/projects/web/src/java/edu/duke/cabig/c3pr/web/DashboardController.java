@@ -195,15 +195,20 @@ public class DashboardController extends ParameterizableViewController {
     
     private void testSmtpConnection(HttpServletRequest request) {
         boolean smtpConnectionSuccess = false ;
+        String errorTrace = "" ;
     	try {
         	C3PRMailSenderImpl c3prMailSender = (C3PRMailSenderImpl) mailSender ;
             Transport transport = c3prMailSender.getSession().getTransport(c3prMailSender.getProtocol());
             transport.connect(c3prMailSender.getHost(), c3prMailSender.getPort(), c3prMailSender.getUsername(), c3prMailSender.getPassword());
             smtpConnectionSuccess = transport.isConnected();
         } catch (Exception e) {
+        	errorTrace = e.toString() ; 
+        	if(e.getMessage() != null){
+        		errorTrace = errorTrace + " : " + e.getMessage();
+        	}
             log.error(" Error in connection with smtp server, please check configuration " + e);
-            request.setAttribute("smtpConnectionError", e.getMessage());
         }
+        request.setAttribute("errorTrace" , errorTrace);
         request.setAttribute("smtpConnectionSuccess", smtpConnectionSuccess);
     }
 
