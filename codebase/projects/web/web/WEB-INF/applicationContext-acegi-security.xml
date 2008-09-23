@@ -47,7 +47,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <bean id="insecureChannelProcessor"
           class="org.acegisecurity.securechannel.InsecureChannelProcessor"/>
 
-    <!--cas configuration-->
+    <!--websso cas configuration-->
     <bean id="webSSOProcessingFilter" class="org.acegisecurity.ui.cas.CasProcessingFilter">
         <property name="authenticationManager">
             <ref bean="authenticationManager"/>
@@ -76,6 +76,39 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <constructor-arg>
             <list>
                   <ref local="securityContextLogoutHandler"/>
+            </list>
+        </constructor-arg>
+     </bean>
+    
+    <!--cas configuration-->
+    <bean id="casProcessingFilter" class="org.acegisecurity.ui.cas.CasProcessingFilter">
+        <property name="authenticationManager">
+            <ref bean="authenticationManager"/>
+        </property>
+        <property name="authenticationFailureUrl">
+            <value>/decorated-error.jsp</value>
+        </property>
+        <property name="defaultTargetUrl">
+            <value>/</value>
+        </property>
+        <property name="filterProcessesUrl">
+            <value>/j_acegi_cas_security_check</value>
+        </property>
+    </bean>
+    
+    <bean id="casProcessingFilterEntryPoint" class="org.acegisecurity.ui.cas.CasProcessingFilterEntryPoint">
+        <property name="loginUrl" value="${ccts.websso.base_url}"/>
+        <property name="serviceProperties">
+            <ref bean="serviceProperties"/>
+        </property>
+    </bean>
+    
+    <bean id="casLogoutFilter"
+        class="org.acegisecurity.ui.logout.LogoutFilter">
+        <constructor-arg value="${ccts.websso.base_url}/logout"/>
+        <constructor-arg>
+            <list>
+                <ref local="securityContextLogoutHandler"/>
             </list>
         </constructor-arg>
     </bean>

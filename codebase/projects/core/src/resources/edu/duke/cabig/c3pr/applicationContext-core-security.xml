@@ -273,13 +273,51 @@
         </property>
     </bean>
 
-    <!--CAS Configuration-->
+    <!--CAS Configuration for WEB-SSO-->
     <bean id="webSSOAuthenticationProvider" class="org.acegisecurity.providers.cas.CasAuthenticationProvider">
+        <property name="casAuthoritiesPopulator">
+            <ref local="webSSOAuthoritiesPopulator"/>
+        </property>
+        <property name="casProxyDecider">
+            <ref local="casProxyDecider"/>
+        </property>
+        <property name="ticketValidator">
+            <ref local="webSSOProxyTicketValidator"/>
+        </property>
+        <property name="statelessTicketCache">
+            <ref local="statelessTicketCache"/>
+        </property>
+        <property name="key">
+            <value>my_password_for_this_auth_provider_only</value>
+        </property>
+    </bean>
+    
+    <bean id="webSSOProxyTicketValidator" class="gov.nih.nci.cabig.caaers.web.security.cas.CaaersCasProxyTicketValidator">
+        <property name="casValidate" value="${ccts.websso.base_url}/proxyValidate"/>
+        <property name="serviceProperties">
+            <ref local="serviceProperties"/>
+        </property>
+        <property name="trustStore" value="${ccts.websso.cert_file}"/>
+    </bean>
+
+    <bean id="webSSOAuthoritiesPopulator" class="edu.duke.cabig.c3pr.accesscontrol.WebSSOAuthoritiesPopulator">
+        <property name="hostCertificate" value="${hostCertificate}"></property>
+        <property name="hostKey" value="${hostKey}"/>
+        <property name="userDetailsService">
+            <ref local="csmUserDetailsService"/>
+        </property>
+    </bean>
+    
+    <bean id="casProxyDecider" class="org.acegisecurity.providers.cas.proxy.RejectProxyTickets">
+    </bean>
+
+	<!--CAS Configuration for non WEB-SSO-->
+    <bean id="casAuthenticationProvider" class="org.acegisecurity.providers.cas.CasAuthenticationProvider">
         <property name="casAuthoritiesPopulator">
             <ref local="casAuthoritiesPopulator"/>
         </property>
         <property name="casProxyDecider">
-            <ref local="casProxyDecider"/>
+            <bean class="org.acegisecurity.providers.cas.proxy.AcceptAnyCasProxy"/>
         </property>
         <property name="ticketValidator">
             <ref local="casProxyTicketValidator"/>
@@ -292,37 +330,26 @@
         </property>
     </bean>
 
-    <!--<bean id="casProxyTicketValidator" class="org.acegisecurity.providers.cas.ticketvalidator.CasProxyTicketValidator">
-        <property name="casValidate" value="${ccts.websso.base_url}/proxyValidate"/>
+    <bean id="casProxyTicketValidator" class="org.acegisecurity.providers.cas.ticketvalidator.CasProxyTicketValidator">
+        <property name="casValidate" value="${cas.base_url}/proxyValidate"/>
         <property name="serviceProperties">
             <ref local="serviceProperties"/>
         </property>
-        <property name="trustStore" value="${ccts.websso.cert_file}"/>
-        </bean>-->
-    <bean id="casProxyTicketValidator" class="gov.nih.nci.cabig.caaers.web.security.cas.CaaersCasProxyTicketValidator">
-        <property name="casValidate" value="${ccts.websso.base_url}/proxyValidate"/>
-        <property name="serviceProperties">
-            <ref local="serviceProperties"/>
-        </property>
-        <property name="trustStore" value="${ccts.websso.cert_file}"/>
+        <property name="trustStore" value="${cas.cert_file}"/>
     </bean>
-
-    <bean id="serviceProperties" class="org.acegisecurity.ui.cas.ServiceProperties">
-        <property name="service" value="${c3pr.webapp.url}/j_acegi_cas_security_check"></property>
-        <property name="sendRenew">
-            <value>false</value>
-        </property>
-    </bean>
-
-    <bean id="casAuthoritiesPopulator" class="edu.duke.cabig.c3pr.accesscontrol.WebSSOAuthoritiesPopulator">
-        <property name="hostCertificate" value="${hostCertificate}"></property>
-        <property name="hostKey" value="${hostKey}"/>
+    
+    <bean id="casAuthoritiesPopulator"
+          class="org.acegisecurity.providers.cas.populator.DaoCasAuthoritiesPopulator">
         <property name="userDetailsService">
             <ref local="csmUserDetailsService"/>
         </property>
     </bean>
-
-    <bean id="casProxyDecider" class="org.acegisecurity.providers.cas.proxy.RejectProxyTickets">
+    
+	<bean id="serviceProperties" class="org.acegisecurity.ui.cas.ServiceProperties">
+        <property name="service" value="${c3pr.webapp.url}/j_acegi_cas_security_check"></property>
+        <property name="sendRenew">
+            <value>false</value>
+        </property>
     </bean>
 
     <bean id="statelessTicketCache" class="org.acegisecurity.providers.cas.cache.EhCacheBasedTicketCache">

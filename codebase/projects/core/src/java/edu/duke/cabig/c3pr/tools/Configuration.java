@@ -15,9 +15,9 @@ public class Configuration extends DatabaseBackedConfiguration {
 
     public static final ConfigurationProperty<String> PSC_BASE_URL = PROPERTIES
                     .add(new ConfigurationProperty.Text("pscBaseUrl"));
-    
+
     public static final ConfigurationProperty<String> SMOKE_TEST_URL = PROPERTIES
-    .add(new ConfigurationProperty.Text("smokeTestURL"));
+                    .add(new ConfigurationProperty.Text("smokeTestURL"));
 
     public static final ConfigurationProperty<String> CAAERS_BASE_URL = PROPERTIES
                     .add(new ConfigurationProperty.Text("caaersBaseUrl"));
@@ -27,13 +27,13 @@ public class Configuration extends DatabaseBackedConfiguration {
 
     public static final ConfigurationProperty<String> ESB_URL = PROPERTIES
                     .add(new ConfigurationProperty.Text("esbUrl"));
-    
+
     public static final ConfigurationProperty<String> MULTISITE_ESB_URL = PROPERTIES
                     .add(new ConfigurationProperty.Text("jms.brokerUrl"));
 
     public static final ConfigurationProperty<String> ESB_ENABLE = PROPERTIES
                     .add(new ConfigurationProperty.Text("esbEnable"));
-    
+
     public static final ConfigurationProperty<String> MULTISITE_ENABLE = PROPERTIES
                     .add(new ConfigurationProperty.Text("multisiteEnable"));
 
@@ -87,23 +87,28 @@ public class Configuration extends DatabaseBackedConfiguration {
 
     public static final ConfigurationProperty<String> SITE_NAME = PROPERTIES
                     .add(new ConfigurationProperty.Text("siteName"));
-    
-    public static final ConfigurationProperty<String> PSC_WINDOW_NAME = PROPERTIES
-    .add(new ConfigurationProperty.Text("psc_window_name"));
-    
-    public static final ConfigurationProperty<String> CAAERS_WINDOW_NAME = PROPERTIES
-    .add(new ConfigurationProperty.Text("caaers_window_name"));
-    
-    public static final ConfigurationProperty<String> C3D_WINDOW_NAME = PROPERTIES
-    .add(new ConfigurationProperty.Text("c3d_window_name"));
-    
-    public static final ConfigurationProperty<String> SMTP_SSL_AUTH= PROPERTIES
-    .add(new ConfigurationProperty.Text("smtpSSLAuth"));
-    
-    public static final ConfigurationProperty<String> SMTP_PROTOCOL= PROPERTIES
-    .add(new ConfigurationProperty.Text("smtpProtocol"));
 
-    
+    public static final ConfigurationProperty<String> PSC_WINDOW_NAME = PROPERTIES
+                    .add(new ConfigurationProperty.Text("psc_window_name"));
+
+    public static final ConfigurationProperty<String> CAAERS_WINDOW_NAME = PROPERTIES
+                    .add(new ConfigurationProperty.Text("caaers_window_name"));
+
+    public static final ConfigurationProperty<String> C3D_WINDOW_NAME = PROPERTIES
+                    .add(new ConfigurationProperty.Text("c3d_window_name"));
+
+    public static final ConfigurationProperty<String> SMTP_SSL_AUTH = PROPERTIES
+                    .add(new ConfigurationProperty.Text("smtpSSLAuth"));
+
+    public static final ConfigurationProperty<String> SMTP_PROTOCOL = PROPERTIES
+                    .add(new ConfigurationProperty.Text("smtpProtocol"));
+
+    public static final ConfigurationProperty<String> CAS_BASE_URL = PROPERTIES
+                    .add(new ConfigurationProperty.Text("cas.base_url"));
+
+    public static final ConfigurationProperty<String> CAS_CERT_FILE = PROPERTIES
+                    .add(new ConfigurationProperty.Text("cas.cert_file"));
+
     public ConfigurationProperties getProperties() {
         return PROPERTIES;
     }
