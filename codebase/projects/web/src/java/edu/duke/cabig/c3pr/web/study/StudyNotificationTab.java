@@ -49,7 +49,7 @@ public class StudyNotificationTab extends StudyTab {
     	
     	for(PlannedNotification pn: study.getPlannedNotifications()){
     		for(ContactMechanismBasedRecipient cmbr: pn.getContactMechanismBasedRecipient()){
-    			for(ContactMechanism cm: cmbr.getContactMechanism()){
+    			for(ContactMechanism cm: cmbr.getContactMechanisms()){
     				cm.setType(ContactMechanismType.EMAIL);
     			}
     		}
