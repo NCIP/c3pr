@@ -35,7 +35,7 @@
 	<!-- ==================================================================
 		target : publish-all
 	====================================================================== -->
-  	<target name="publish-all" depends="buildlist, clean, reports-style" 
+  	<target name="publish-all" depends="buildlist, clean" 
   			description="compile, jar and publish all projects in the right order, publishes them into local repository">
    		 <subant target="publish-local" buildpathref="build-path" />
   	</target>
@@ -346,4 +346,45 @@
 			 </for>
 		 </target>
 		
+	<target name="reports-javadoc-tests" depends="download-ant-contrib" description="Generates javadoc">
+				<taskdef resource="net/sf/antcontrib/antlib.xml">
+		            <classpath>
+		                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+		            </classpath>
+		        </taskdef>
+				
+				<property name="javadoc.dir" value="${reports.dir}/test-javadoc"/>
+				<delete dir="${javadoc.dir}"/>
+				<mkdir dir="${javadoc.dir}"/>
+				
+				<for list="${javadoc-reportable.projects.list}" parallel="false" param="project.name" trim="true">
+					<sequential>
+						<echo message="Generating javadoc for project @{project.name}"/>
+						<javadoc packagenames="edu.duke.cabig.c3pr.*" 
+								 sourcepath="${projects.dir}/@{project.name}/test/src/java" 
+								 destdir="${reports.dir}/javadoc/@{project.name}"
+								 author="true"
+								 version="true"
+								 use="true"
+								 access="private"
+								 windowtitle="C3PRV2 API">
+						 		<classpath>	 
+			                        <fileset dir="${projects.dir}/@{project.name}/build/lib">
+			                            <include name="*.jar"/>
+			                        </fileset>
+			                        <fileset dir="${projects.dir}/@{project.name}/build/testlib">
+			                            <include name="*.jar"/>
+			                        </fileset>
+			                        <fileset dir="${projects.dir}/@{project.name}/test/lib">
+			                            <include name="*.jar"/>
+			                        </fileset>
+						 			<fileset dir="${projects.dir}/@{project.name}/build/classes-test">
+			                        </fileset>
+						 			<fileset dir="${projects.dir}/@{project.name}/build/classes">
+			                        </fileset>
+			                    </classpath>
+						  </javadoc>
+					  </sequential>
+				 </for>
+			 </target>
 </project>
