@@ -212,7 +212,7 @@ Event.observe(window, "load", function() {
 				{title: "Create Investigator", top:35, left:35, width:1100, height:400, 
 				url: "<c:url value='/pages/admin/createInvestigator?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
 				) 
-		win.show();
+		win.showCenter();
        
 	});
     
