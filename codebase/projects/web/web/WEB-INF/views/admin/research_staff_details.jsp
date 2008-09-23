@@ -171,7 +171,7 @@
 </chrome:division>
 
 
-<chrome:division id="staff-details" title="* User Role (Minimum One - Check all that apply)">
+<chrome:division id="staff-details" title="* User Role (Atleast One - Check all that apply)">
 	<div id="errorMsg1" style="display:none">
 		<span id='sid1' style='color:#EE3324'>Please select atleast one role.</span><br/> 	
 	</div>
