@@ -744,7 +744,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         List<StudySubject> regs=new ArrayList<StudySubject>();
         regs.add(studySubject);
         EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
-        EasyMock.expect(studySubjectDao.merge(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
         //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
