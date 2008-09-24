@@ -157,29 +157,6 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("Site Study status should evaluate to Active",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
 	}
 	
-	public void testChangeCoordinatingStatusPendingToActiveCase1() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
-		
-	}
-	
-	public void testChangeCoordinatingStatusPendingToActiveCase2() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
-		
-	}
-	
-	public void testChangeCoordinatingStatusPendingToActiveCase3() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
-		
-	}
-	
-	public void testChangeCoordinatingStatusPendingToActiveCase4() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
-		
-	}
 	
 
 }
