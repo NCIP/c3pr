@@ -223,25 +223,25 @@
 					<table width="100%" border="0" cellspacing="1" cellpadding="1"
 						id="table1">
 						<tr>
-							<td align="right"><span class="required-indicator"><b>First Name:</b>&nbsp;</span></td>
+							<td align="right"><span class="required-indicator">First Name:&nbsp;</span></td>
 							<td align="left"><input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/>
 							<span class="red">&nbsp;&nbsp;&nbsp;</span></td>
 						</tr>
 						<tr>
-							<td align="right"><span class="required-indicator"><b>Last Name:</b>&nbsp;</span></td>
+							<td align="right"><span class="required-indicator">Last Name:&nbsp;</span></td>
 							<td align="left"><input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/>
 							<span class="red">&nbsp;&nbsp;&nbsp;</span></td>
 						</tr>
 						<tr>
-							<td align="right"><b>Middle Name:</b>&nbsp;</td>
+							<td align="right">Middle Name:&nbsp;</td>
 							<td align="left"><input id="middleName" name="middleName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
 						</tr>
 						<tr>
-							<td align="right"><b>Maiden Name:</b>&nbsp;</td>
+							<td align="right">Maiden Name:&nbsp;</td>
 							<td align="left"><input id="maidenName" name="maidenName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
 						</tr>
 						<tr>
-						<td align="right"><span class="required-indicator"><b>Gender:</b></span>&nbsp;</td>
+						<td align="right"><span class="required-indicator">Gender:</span>&nbsp;</td>
 							<td align="left">
 								<select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
 										<option value="">Please select</option>
@@ -258,12 +258,12 @@
 				<td width="60%" valign="top">
 					<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
 						<tr>
-							<td align="right"><span class="required-indicator"><b>Birth Date:</b></span>&nbsp;</td>
+							<td align="right"><span class="required-indicator">Birth Date:</span>&nbsp;</td>
 							<td align="left"><input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
 								class="red"></span></td>
 						</tr>
 						<tr>
-							<td align="right"><span class="required-indicator"><b>Ethnicity:</b></span>&nbsp;</td>
+							<td align="right"><span class="required-indicator">Ethnicity:</span>&nbsp;</td>
 							<td align="left">							
 								<select id="ethnicGroupCode" name="ethnicGroupCode" class="validate-notEmpty">
 										<option value="">Please select</option>
@@ -277,7 +277,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td align="right"><span class="required-indicator"><b>Race(s):</b></span>&nbsp;<br><tags:hoverHint keyProp="subject.raceCode"/></td>
+							<td align="right"><span class="required-indicator">Race(s):</span>&nbsp;<br><tags:hoverHint keyProp="subject.raceCode"/></td>
 							<td align="left">
 								<input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/> Asian
                                 <input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/> Black or African American
@@ -307,31 +307,31 @@
 
 		<table width="75%" border="0" cellspacing="1" cellpadding="1" id="table1">
 			<tr>
-				<td width="125" align="right"><b>Street Address:</b>&nbsp;</td>
+				<td width="125" align="right">Street Address:&nbsp;</td>
 				<td align="left"><input id="streetAddress" name="streetAddress" type="text" value="" size="45"/>&nbsp;&nbsp;&nbsp;</td>
 			</tr>
 		</table>
 		<table width="58%" border="0" cellspacing="1" cellpadding="1" id="table1">	
 			<tr>
-				<td width="125" align="right"><b>City:</b>&nbsp;</td>
+				<td width="125" align="right">City:&nbsp;</td>
 				<td align="left"><input id="city" name="city" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
-				<td width="30" align="right"><span class="data"><b>State:</b>&nbsp;</span></td>
+				<td width="30" align="right"><span class="data">State:&nbsp;</span></td>
 				<td align="left"><input id="stateCode" name="stateCode" type="text" value=""/>
 			</tr>
 			<tr>
-				<td width="125" align="right"><b>Country:</b>&nbsp;</td>
+				<td width="125" align="right">Country:&nbsp;</td>
 				<td align="left"><input id="countryCode" name="countryCode" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
-				<td width="30" align="right"><b>Zip:</b>&nbsp;</td>
+				<td width="30" align="right">Zip:&nbsp;</td>
 				<td><input id="postalCode" name="postalCode" type="text" value=""/></td>
 			</tr>
 			<tr>				
-				<td width="125" align="right"><b>Fax:</b>&nbsp;</td>
+				<td width="125" align="right">Fax:&nbsp;</td>
 				<td align="left"><input id="fax" name="fax" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
-				<td width="30" align="right"><b>Phone:</b>&nbsp;</td>
+				<td width="30" align="right">Phone:&nbsp;</td>
 				<td align="left"><input id="phone" name="phone" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
 			</tr>
 			<tr>
-				<td width="125" align="right"><b>Email:</b>&nbsp;</td>
+				<td width="125" align="right">Email:&nbsp;</td>
 				<td align="left"><input id="email" name="email" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
 				<td width="30" align="right"></td>
 				<td align="left"></td>
