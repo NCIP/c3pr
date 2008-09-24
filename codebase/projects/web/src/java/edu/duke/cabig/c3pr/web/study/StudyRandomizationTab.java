@@ -79,22 +79,21 @@ public class StudyRandomizationTab extends StudyTab {
 
     public ModelAndView parseFile(HttpServletRequest request, Object commandObj, Errors error) {
         // save it to session
-        String flowType = "";
+    	
+    	//TO DO: need to change the following to factor in the companionStudyControllers.
+        String flowType = " ";
         if (getFlow().getName().equals("Create Study")) {
-            request.getSession().setAttribute(
-                            "edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command",
+            request.getSession().setAttribute(CreateStudyController.class.getName() + ".FORM.command.to-replace",
                             commandObj);
             flowType = "CREATE_STUDY";
         }
         else if (getFlow().getName().equals("Edit Study")) {
-            request.getSession().setAttribute(
-                            "edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command",
+            request.getSession().setAttribute(EditStudyController.class.getName() + ".FORM.command.to-replace",
                             commandObj);
             flowType = "EDIT_STUDY";
         }
         else if (getFlow().getName().equals("Amend Study")) {
-            request.getSession().setAttribute(
-                            "edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command",
+            request.getSession().setAttribute(AmendStudyController.class.getName() + ".FORM.command.to-replace",
                             commandObj);
             flowType = "AMEND_STUDY";
         }
