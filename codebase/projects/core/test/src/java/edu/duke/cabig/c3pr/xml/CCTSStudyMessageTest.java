@@ -10,11 +10,15 @@ import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
  */
 public class CCTSStudyMessageTest extends MasqueradingDaoTestCase<StudyDao> {
     XmlMarshaller marshaller;
-
+    
+    public XmlMarshaller getMarshaller() {
+        return new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
+    }
+    
     protected void setUp() throws Exception {
         super.setUp(); // To change body of overridden methods use File | Settings | File
                         // Templates.
-        marshaller = (XmlMarshaller) getApplicationContext().getBean("xmlUtility");
+        marshaller = getMarshaller();
     }
 
     public void testSerialization() throws Exception {
