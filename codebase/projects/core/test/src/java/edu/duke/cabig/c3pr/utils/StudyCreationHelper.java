@@ -157,6 +157,7 @@ public class StudyCreationHelper {
         study.setShortTitleText("ShortTitleText1");
         study.setLongTitleText("LongTitleText1");
         study.setPhaseCode("PhaseCode1");
+        study.setStratificationIndicator(true);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         study.setTargetAccrualNumber(150);
