@@ -204,7 +204,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectCreatorHelper.bindStratification(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+        //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.save(studySubject);
         verifyMocks();
@@ -239,7 +240,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubject.setInformedConsentVersion("1.0");
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.getScheduledEpoch().setEligibilityIndicator(true);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+       // studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.doLocalRegistration(studySubject);
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -259,7 +261,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         scheduledArm.setArm(new Arm());
         ((ScheduledEpoch) studySubject.getScheduledEpoch()).addScheduledArm(scheduledArm);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+        //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.doLocalRegistration(studySubject);
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -304,7 +307,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectCreatorHelper.bindStratification(studySubject);
         studySubjectCreatorHelper.bindRandomization(studySubject);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+        // studySubjectDao.save(studySubject);
         replayMocks();
         try {
             studySubjectRepository.doLocalRegistration(studySubject);
@@ -356,7 +360,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectCreatorHelper.bindEligibility(studySubject);
         studySubjectCreatorHelper.bindStratification(studySubject);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+        //studySubjectDao.save(studySubject);
         EasyMock.expect(stratumGroupDao.merge(EasyMock.isA(StratumGroup.class))).andReturn(new StratumGroup());
         replayMocks();
         try {
@@ -383,7 +388,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectCreatorHelper.bindStratificationInvalid(studySubject);
         studySubject.setStratumGroupNumber(0);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+        //studySubjectDao.save(studySubject);
         EasyMock.expect(stratumGroupDao.merge(EasyMock.isA(StratumGroup.class))).andReturn(new StratumGroup());
         replayMocks();
         try {
@@ -606,7 +612,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         List<StudySubject> regs=new ArrayList<StudySubject>();
         regs.add(studySubject);
         EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+        //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
         assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -638,7 +645,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         List<StudySubject> regs=new ArrayList<StudySubject>();
         regs.add(studySubject);
         EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+        //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
         assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -669,7 +677,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         List<StudySubject> regs=new ArrayList<StudySubject>();
         regs.add(studySubject);
         EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+        //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
         assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -701,7 +710,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         List<StudySubject> regs=new ArrayList<StudySubject>();
         regs.add(studySubject);
         EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+        //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
         assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -734,7 +744,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         List<StudySubject> regs=new ArrayList<StudySubject>();
         regs.add(studySubject);
         EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
         assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -765,7 +776,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         List<StudySubject> regs=new ArrayList<StudySubject>();
         regs.add(studySubject);
         EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
-        studySubjectDao.save(studySubject);
+        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+       // studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
         assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
