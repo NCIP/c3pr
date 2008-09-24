@@ -182,9 +182,7 @@ public class StudyOverviewTab extends StudyTab {
         super.validate(study, errors);
         try {
             study.setDataEntryStatus(true);
-            if (study.getId() == null) {
-                study.setStatuses(study.evaluateCoordinatingCenterStudyStatus());
-            }
+            study.setStatuses(study.evaluateCoordinatingCenterStudyStatus());
         }
         catch (Exception e) {
             errors.rejectValue("coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
