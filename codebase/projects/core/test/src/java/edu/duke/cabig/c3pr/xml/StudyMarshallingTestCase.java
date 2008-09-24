@@ -187,5 +187,9 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         ans.setPermissibleAnswer("it is valid");
         return studyObject;
     }
+    
+    public XmlMarshaller getMarshaller() {
+        return new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
+    }
 
 }
