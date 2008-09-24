@@ -69,7 +69,8 @@
 		<div id="book_container_${epochCount.index}" class="test">
 		<chrome:box title="${epoch.name}" id="book_${epochCount.index}" cssClass="paired"> 
 		<br/>
-	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
+	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">  
+	     <input type="hidden" name="index" value="${epochCount.index}"/>       
              <tr>
                 <td>
 	                <c:choose>
