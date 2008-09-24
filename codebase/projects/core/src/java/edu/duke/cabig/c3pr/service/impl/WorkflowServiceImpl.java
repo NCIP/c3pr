@@ -117,7 +117,9 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
             }
             try {
                 // messageBroadcaster.initialize();
-                messageBroadcaster.broadcast(xmlTransformer.transform(StringUtils.readFile(cctsXSLTName),xml), cctsObject.getGridId());
+                String transformedXML=xmlTransformer.transform(StringUtils.readFile(cctsXSLTName),xml);
+                log.debug("Transformed Message-----------"+transformedXML);
+                messageBroadcaster.broadcast(transformedXML, cctsObject.getGridId());
             }
             catch (Exception e) {
                 e.printStackTrace();
