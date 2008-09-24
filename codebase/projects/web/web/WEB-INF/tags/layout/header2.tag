@@ -15,13 +15,15 @@
         <td align="left" width="100%"><div id="headerTitle1"><div id="headerTitle2"><c:out value="${instName}" /></div></div></td>
         <td align="left" width="250px">
             <table border="0" cellpadding="1" cellspacing="1" width="250px">
-                <tr>
-                    <td align="right" valign="bottom">
-                        <c:if test="${userObject != null}">
-                            <div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /></b><!-- [Role name]--></div>
-                       </c:if>
-                    <td rowspan="2" align="right" width="1px"><img src="${siteName}" height="40px" border="1">
-                </tr>
+               <tr>
+					<td align="right" valign="bottom">
+					<c:if test="${userObject != null}">
+					<div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /> | ${userRole}</b></div>
+					</c:if>
+					<td rowspan="2" align="right" width="1px">
+					<c:if test="${! siteName == '<SITE_NAME>'}"><img src="${siteName}" height="40px" border="1"></c:if>
+				</tr>
+
                 <tr>
                     <td align="right" valign="top">
                         <div id="login-action">
@@ -29,7 +31,7 @@
 							
 							<c:url value="/help/Sample_project.htm" scope="request" var="_c3prHelpURL" />
 		 					<c:set var="roboHelpKey">ROBOHELP_${currentTask.linkName}</c:set>
-						<!--<c:out value="roboHelpkey : ${roboHelpKey}"></c:out> -->
+						<c:out value="roboHelpkey : ${roboHelpKey}"></c:out> 
 		  					<spring:message var="roboHelpLink" code="${roboHelpKey}" text="NO_${roboHelpKey}"/>
           					<a href="${_c3prHelpURL}#${roboHelpLink}.htm" target="_blank" id="help">Help</a>
 		  
