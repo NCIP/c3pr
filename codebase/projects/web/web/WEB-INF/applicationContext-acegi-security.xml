@@ -235,21 +235,19 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/admin/searchOrganization"
                value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
         <entry key="/pages/admin/importStudy.*"
-               value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
         <entry key="/pages/admin/download.*"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
         <entry key="/pages/admin/importRegistration.*"
-               value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
         <entry key="/pages/admin/configure.*"
-               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
         <entry key="/pages/admin/createNotification.*"
-               value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
-        <entry key="/pages/admin/searchNotification"
-               value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         
         <entry key="/pages/admin/password_policy_configure.*"
-               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
 
 
         <entry key="/pages/report/createReport.*"
