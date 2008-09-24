@@ -131,9 +131,6 @@
     <class name="edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier"
            extends="edu.duke.cabig.c3pr.domain.Identifier">
         <map-to xml="OrganizationAssignedIdentifierType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="value" type="string">
-            <bind-xml name="type" node="attribute" QName-prefix="xsi"/>
-        </field>
         <field name="healthcareSite" type="edu.duke.cabig.c3pr.domain.HealthcareSite">
             <bind-xml name="healthcareSite" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
@@ -162,9 +159,6 @@
 
     <class name="edu.duke.cabig.c3pr.domain.Participant" extends="edu.duke.cabig.c3pr.domain.Person">
         <map-to xml="participant" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="gridId" type="string">
-            <bind-xml name="gridId" node="element"/>
-        </field>
         <field name="administrativeGenderCode" type="string">
             <bind-xml name="administrativeGenderCode" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
