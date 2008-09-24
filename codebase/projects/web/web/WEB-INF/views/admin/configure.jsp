@@ -54,7 +54,7 @@
             <table>
             <tr><td width="30%">
                     <b><form:label path="conf[${entry.key}].value">${entry.value.property.name}</form:label>
-                    <tags:hoverHint keyProp="study.configure.${entry.key}" id="${beanPath}${status.index}" /></b>
+                    <tags:hoverHint keyProp="configure.${entry.key}" id="${beanPath}${status.index}" /></b>
 				</td>
 				<td>
                     <c:set var="beanPath">conf[${entry.key}].value</c:set>
