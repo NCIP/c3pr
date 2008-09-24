@@ -47,6 +47,7 @@ This is the install config for c3prv2 installer
                 defaultValueWin="${env.ProgramFiles}\c3prv2"
                 displayText="Select an installation directory"
                 create="true"/>
+        <comment displayText="Note:Make sure that the installation path does not contain any spaces."/>
     </page>
 
     <page
