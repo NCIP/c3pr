@@ -95,6 +95,7 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("304");
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(304),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(304, "exception message"));
+		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		replayMocks();	
 		try {
@@ -110,6 +111,7 @@ public class StudyTestCase extends AbstractTestCase{
 		studyCreationHelper.addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(basicStudy);
 		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
 		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
+		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("307");
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(307),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(307, "exception message"));
@@ -133,6 +135,7 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testDataEntryStatusCompleteCase2() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
+		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		replayMocks();	
 		assertEquals("Wrong Data Entry Status",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus());
