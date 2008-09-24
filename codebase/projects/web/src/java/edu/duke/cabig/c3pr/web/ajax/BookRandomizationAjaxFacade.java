@@ -29,6 +29,12 @@ import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.AmendStudyController;
+import edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.CreateStudyController;
+import edu.duke.cabig.c3pr.web.study.EditCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.EditStudyController;
 
 public class BookRandomizationAjaxFacade {
 
@@ -56,25 +62,26 @@ public class BookRandomizationAjaxFacade {
             context = new HttpServletRequestContext(req);
         }
         
-        Study study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command");
+        Study study = (Study) req.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM.command.to-replace");
         String action = "/pages/study/createStudy";
         
+        //TO DO: move this piece out into a seperate getCommandOnly() method.
         if (study == null || (study != null && study.getCompanionIndicator())) {
         	if (flowType.equals("CREATE_STUDY")) {
-        		study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController.FORM.command");
+        		study = (Study) req.getSession().getAttribute(CreateCompanionStudyController.class.getName() + ".FORM.command.to-replace");
                 action = "/pages/study/createCompanionStudy";	
         	}else if (flowType.equals("AMEND_STUDY")) {
-                study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command");
+                study = (Study) req.getSession().getAttribute(AmendStudyController.class.getName() + ".FORM.command.to-replace");
                 action = "/pages/study/amendStudy";
                 if(study == null || (study != null && study.getCompanionIndicator())){
-                	study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController.FORM.command");
+                	study = (Study) req.getSession().getAttribute(AmendCompanionStudyController.class.getName() + ".FORM.command.to-replace");
                 	action = "/pages/study/amendCompanionStudy";
                 }
             }else {
-                study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command");
+                study = (Study) req.getSession().getAttribute(EditStudyController.class.getName() + ".FORM.command.to-replace");
                 action = "/pages/study/editStudy";
                 if(study == null || (study != null && study.getCompanionIndicator())){
-                	study = (Study) req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.EditCompanionStudyController.FORM.command");
+                	study = (Study) req.getSession().getAttribute(EditCompanionStudyController.class.getName() + ".FORM.command.to-replace");
                 	action = "/pages/study/editCompanionStudy";
                 }
             }
@@ -112,7 +119,6 @@ public class BookRandomizationAjaxFacade {
                     	validatePositionsWithoutStratification(((BookRandomization) tEpoch.getRandomization())
                                 .getBookRandomizationEntry());
                     }
-                    
                 }
                 else {
                     log.error("Invalid epoch Index");
