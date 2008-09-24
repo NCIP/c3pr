@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,7 @@ import gov.nih.nci.security.authorization.domainobjects.Group;
 public class SkinFilter implements Filter, ApplicationContextAware {
     private FilterConfig filterConfig = null;
     private ApplicationContext applicationContext;
+    
     private Logger log = Logger.getLogger(SkinFilter.class);
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -58,6 +60,7 @@ public class SkinFilter implements Filter, ApplicationContextAware {
             if (auth != null) {
                 gov.nih.nci.security.authorization.domainobjects.User user = ps.getCSMUserByUsername(auth.getName());
                 ((HttpServletRequest)servletRequest).getSession().setAttribute("userObject", user);
+                ((HttpServletRequest)servletRequest).getSession().setAttribute("userRole", getRole(user, ps));
            }
         }
 
@@ -84,6 +87,38 @@ public class SkinFilter implements Filter, ApplicationContextAware {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
+    
+    private String getRole(gov.nih.nci.security.authorization.domainobjects.User user, PersonnelServiceImpl personnelService){
+    	 Iterator<C3PRUserGroupType> groupIterator = null;
+    	 List<String> groupRoles = new ArrayList<String>();
+         try {
+             groupIterator = personnelService.getGroups(user.getUserId().toString()).iterator();
+         }
+         catch (C3PRBaseException cbe) {
+             log.error(cbe.getMessage());
+         }
+         while (groupIterator.hasNext()) {
+             groupRoles.add(((C3PRUserGroupType) groupIterator.next()).name());
+         }
+         if(groupRoles.contains("C3PR_ADMIN")){
+        	 return "Admin";
+         }
+		 if(groupRoles.contains("SITE_COORDINATOR")){
+			return "Site Coordinator";
+		 }
+		 if(groupRoles.contains("STUDY_COORDINATOR") && groupRoles.contains("REGISTRAR")){
+			return "Study Coordinator | Registrar"; 
+		 }
+		 if(groupRoles.contains("STUDY_COORDINATOR")){
+			return "Study Coordinator"; 
+		 }
+		 if(groupRoles.contains("REGISTRAR")){
+			return "Registrar"; 
+		 }
+    	 return "";
+    }
+    
+    
     public void destroy() {
     }
 }
