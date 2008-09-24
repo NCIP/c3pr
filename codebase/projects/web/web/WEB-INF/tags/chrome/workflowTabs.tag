@@ -37,6 +37,6 @@ buildMenu(<c:out value="${tab.number}" />, "<c:out value='${currentTask.displayN
     <c:set var="selected" value="${atab.number == tab.number}"/>
 	<c:if test="${selected}">
 		<tags:pageHelp propertyKey="${tab.class.name}" />
-		<c:out value="${propertyKey}"></c:out>
+	<!-- 	<c:out value="property key : ${propertyKey}"></c:out>   -->
 	</c:if>
 </c:forEach>
