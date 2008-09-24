@@ -91,8 +91,7 @@ This is the install config for c3prv2 installer
     <page
             type="input"
             name="selectRulesRepo"
-            displayText="Select Rules Repository Directory"
-            ifTarget="installExistingTomcat">
+            displayText="Select Rules Repository Directory">
         <directory
                 property="rules.repository.dir"
                 displayText="Rules Repository"

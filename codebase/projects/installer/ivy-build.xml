@@ -78,6 +78,7 @@
 	                <filter token="iteration_number" value="${iteration_number}"/>
 	                <filter token="ctmsi.commons.version" value="${ctmsi.commons.version}"/>
 	                <filter token="csm.context.name" value="${csm.context.name}"/>
+	            	<filter token="maxSearchResultsForAutocompleter" value="${maxSearchResultsForAutocompleter}"/>
 	            </filterset>
 
 	        </copy>
