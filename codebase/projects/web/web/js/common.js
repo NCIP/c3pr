@@ -147,6 +147,5 @@ C3PR.buildCCTSErrorHtml=function(error){
 }
 
 function updateHelpLink(baseUrl, linkName){
-	alert("in update help link")
 	$('help').href= baseUrl + "#" + linkName + ".htm";
 	}
