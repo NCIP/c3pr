@@ -589,7 +589,7 @@
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
                         autowire="byType" p:displayName="Administration"
-                        p:mainController="searchNotificationController">
+                        p:mainController="createNotificationController">
                     <property name="pathMapping" value="/admin/**"/>
                     <property name="tasks">
                     
