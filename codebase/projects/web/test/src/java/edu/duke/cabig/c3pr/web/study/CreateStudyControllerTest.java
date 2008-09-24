@@ -89,10 +89,8 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
 
     public void testPostProcessFinishStudy() throws Exception {
         request.setMethod("POST");
-    	expect(command.getTrimmedShortTitleText()).andReturn("Short Title");
-    	expect(command.getPrimaryIdentifier()).andReturn("PrimaryId-121");
-    	expect(command.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.ACTIVE);
-        expect(studyRepository.merge(command)).andReturn(null);
+    	expect(command.getId()).andReturn(1);
+        expect(studyRepository.merge(command)).andReturn((Study) command);
         replayMocks();
         ModelAndView mv = controller.processFinish(request, response, command, errors);
         assertNull("Command not present in model: ", mv);
