@@ -86,6 +86,18 @@ This is the install config for c3prv2 installer
                 defaultValue="${env.CATALINA_HOME}"
                 checkExists="true"/>
     </page>
+    
+    <!--Select Rule repository-->
+    <page
+            type="input"
+            name="selectRulesRepo"
+            displayText="Select Rules Repository Directory"
+            ifTarget="installExistingTomcat">
+        <directory
+                property="rules.repository.dir"
+                displayText="Rules Repository"
+                checkExists="true"/>
+    </page>
 
     <!--Select what to install-->
     <page type="input"
@@ -145,6 +157,7 @@ This is the install config for c3prv2 installer
                 displayText="Note: Logs will be created in ${tomcat.home}/logs"
                 bold="true"/>
         <hidden property="ctmsi.commons.version" value="@ctmsi.commons.version@"/>
+        <hidden property="rules.repository" value="file://${rules.repository.dir}"/>
     </page>
 
     <!--CSM configure-->
@@ -193,6 +206,7 @@ This is the install config for c3prv2 installer
             <option text="PostgreSQL" value="postgres"/>
             <option text="Other/none" value="none"/>
         </select>
+        <hidden property="maxSearchResultsForAutocompleter" value="@maxSearchResultsForAutocompleter@"/>
     </page>
 
     <page
@@ -228,6 +242,8 @@ This is the install config for c3prv2 installer
                 property="datasource.dialect"
                 value="org.hibernate.dialect.Oracle9Dialect"
                 />
+        <hidden property="jdbc.quartz.delegateClassName" value="org.quartz.impl.jdbcjobstore.oracle.OracleDelegate"/>
+        <hidden property="audit.dialect" value="org.hibernate.dialect.Oracle9Dialect"/>
     </page>
 
 
@@ -260,6 +276,8 @@ This is the install config for c3prv2 installer
         <hidden
                 property="datasource.dialect"
                 value="org.hibernate.dialect.PostgreSQLDialect"/>
+        <hidden property="jdbc.quartz.delegateClassName" value="org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"/>
+        <hidden property="audit.dialect" value="edu.duke.cabig.c3pr.hibernate.ImprovedPostgreSQLDialect"/>
     </page>
 
     <page
