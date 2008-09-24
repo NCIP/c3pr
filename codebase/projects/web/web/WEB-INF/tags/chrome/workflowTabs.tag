@@ -2,6 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="tab" type="gov.nih.nci.cabig.ctms.web.tabs.Tab" required="true" %>
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" required="true" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 
 <%--<script language="JavaScript1.2">
 <c:forEach items="${flow.tabs}" var="atab" varStatus="status">
@@ -31,3 +32,11 @@ buildMenu(<c:out value="${tab.number}" />, "<c:out value='${currentTask.displayN
 </c:forEach>
 </ul>    
 --%>
+
+<c:forEach items="${flow.tabs}" var="atab" varStatus="status">
+    <c:set var="selected" value="${atab.number == tab.number}"/>
+	<c:if test="${selected}">
+		<tags:pageHelp propertyKey="${tab.class.name}" />
+		<c:out value="${propertyKey}"></c:out>
+	</c:if>
+</c:forEach>
