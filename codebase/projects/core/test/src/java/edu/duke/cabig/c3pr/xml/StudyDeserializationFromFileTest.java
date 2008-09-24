@@ -25,13 +25,15 @@ public class StudyDeserializationFromFileTest extends MasqueradingDaoTestCase<St
     StudyDao dao;
     private StudyRepository studyRepository;
     
-
+    public XmlMarshaller getMarshaller() {
+        return new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
+    }
     StudyXMLImporterService importService;
 
     protected void setUp() throws Exception {
         super.setUp(); // To change body of overridden methods use File | Settings | File
                         // Templates.
-        marshaller = (XmlMarshaller) getApplicationContext().getBean("xmlUtility");
+        marshaller = getMarshaller();
         importService = (StudyXMLImporterService) getApplicationContext().getBean(
                         "studyXMLImporterService");
         studyRepository = (StudyRepository) getApplicationContext().getBean("studyRepository");
@@ -61,5 +63,5 @@ public class StudyDeserializationFromFileTest extends MasqueradingDaoTestCase<St
 	public void setStudyRepository(StudyRepository studyRepository) {
 		this.studyRepository = studyRepository;
 	}
-
+	
 }
