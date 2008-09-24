@@ -53,7 +53,7 @@
                 <include name="**/*.*"/>
             </fileset>
             <fileset dir="${resources.dir}">
-                <include name="*-castor-mapping.xml"/>
+                <include name="*.*"/>
             </fileset>
             <fileset dir="${resources.dir}/xsd">
                 <include name="c3pr-domain.xsd"/>
