@@ -87,7 +87,7 @@ public class StudyDaoTest extends DaoTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean(
-                        "c3pr-study-xml-castor-mapping"));
+                        "c3pr-study-xml-castorMapping"));
     }
 
     /* public void testForReport() {
