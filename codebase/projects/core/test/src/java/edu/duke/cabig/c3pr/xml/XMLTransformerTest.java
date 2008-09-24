@@ -22,13 +22,13 @@ public class XMLTransformerTest extends TestCase{
     }
     public void testStudyTransformationFromString() throws Exception{
         String xslName="ccts-study-transformer.xsl";
-        String sampleXml="samples/c3pr-sample-study.xml";
+        String sampleXml="c3pr-sample-study.xml";
         System.out.println(new XMLTransformer().transform(readFile(xslName), readFile(sampleXml)));
     }
     
     public void testRegistrationTransformationFromString() throws Exception{
         String xslName="ccts-registration-transformer.xsl";
-        String sampleXml="samples/c3pr-sample-registration.xml";
+        String sampleXml="c3pr-sample-registration.xml";
         System.out.println(new XMLTransformer().transform(readFile(xslName), readFile(sampleXml)));
     }
     
