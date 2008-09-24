@@ -48,6 +48,12 @@ import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.service.PersonnelService;
+import edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.AmendStudyController;
+import edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.CreateStudyController;
+import edu.duke.cabig.c3pr.web.study.EditCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.EditStudyController;
 
 /**
  * @author Priyatam
@@ -473,27 +479,27 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     }
 
     private String getFormSessionAttributeNameAmend() {
-        return "edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command";
+        return AmendStudyController.class.getName() + ".FORM.command.to-replace";
     }
 
     private String getFormSessionAttributeName() {
-        return "edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command";
+        return CreateStudyController.class.getName() + ".FORM.command.to-replace";
     }
 
     private String getFormSessionAttributeNameAgain() {
-        return "edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command";
+        return EditStudyController.class.getName() + ".FORM.command.to-replace";
     }
     
     private String getFormSessionAttributeNameAmendCompanion() {
-        return "edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController.FORM.command";
+        return AmendCompanionStudyController.class.getName() + ".FORM.command.to-replace";
     }
 
     private String getFormSessionAttributeNameCreateCompanion() {
-        return "edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController.FORM.command";
+        return CreateCompanionStudyController.class.getName() + ".FORM.command.to-replace";
     }
 
     private String getFormSessionAttributeNameEditCompanion() {
-        return "edu.duke.cabig.c3pr.web.study.EditCompanionStudyController.FORM.command";
+        return EditCompanionStudyController.class.getName() + ".FORM.command.to-replace";
     }
 
     private String[] extractSubnames(String text) {
