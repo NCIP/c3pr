@@ -145,3 +145,8 @@ C3PR.buildCCTSErrorHtml=function(error){
 	errorHtml+="</table>"
 	return errorHtml
 }
+
+function updateHelpLink(baseUrl, linkName){
+	alert("in update help link")
+	$('help').href= baseUrl + "#" + linkName + ".htm";
+	}
