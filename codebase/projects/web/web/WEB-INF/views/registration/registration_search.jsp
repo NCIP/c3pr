@@ -196,7 +196,7 @@ Event.observe(window, "load", function() {
 			<td>
 			<table border="0">
 				<tr>
-					<td width="20%" valign="top" align="right"><b>Search By:</b></td>
+					<td width="20%" valign="top" align="right">Search By:</td>
 					<td align="right" width="15%">
                         <form:select id="select" path="select" onchange="manageSelectBox(this);">
                             <form:option value="Subject" label="Subject" />
@@ -225,7 +225,7 @@ Event.observe(window, "load", function() {
 				</tr>
 
 				<tr>
-					<td width="20%" valign="top" align="right"><span class="label"><b>Search Criteria:</b></span>&nbsp;</td>
+					<td width="20%" valign="top" align="right"><span class="label">Search Criteria:</span>&nbsp;</td>
 					<td colspan="2"><input type="hidden" id="registration-hidden" />
                         <form:input id="registration-input" path="searchText" cssClass="autocomplete" size="52"/>
                         <tags:indicator id="registration-indicator" />

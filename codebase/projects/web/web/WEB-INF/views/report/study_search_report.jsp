@@ -64,12 +64,12 @@ function showTable(table) {
             <table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            	<div class="row" name="inputs"><b>Short Title</b>
+	            	<div class="row" name="inputs">Short Title
 	            		<form:input path="studyShortTitle" size="20"/>
 		            </div>
 		        </td>
 		        <td align="left">
-		        	<div class="row" name="inputs"><b>Identifier</b>
+		        	<div class="row" name="inputs">Identifier
 	            		<form:input path="studyIdentifier" size="20"/>
 		            </div>
 		        </td>
@@ -83,19 +83,19 @@ function showTable(table) {
         	<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            <div class="row" name="inputs"><b>Identifier</b>
+	            <div class="row" name="inputs">Identifier
 	            	<form:input path="participantIdentifier" size="20"/>
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs"><b>First Name</b>
+		        <div class="row" name="inputs">First Name
 	            	<form:input path="firstName" size="20"/>
 	            </div>
 		        </td>
 	        </tr>
 	        <tr>
 	            <td align="left">
-	            <div class="row" name="inputs"><b>Last Name</b>
+	            <div class="row" name="inputs">Last Name
 	            	<form:input path="lastName" size="20"/>
 	            </div>
 		        </td>

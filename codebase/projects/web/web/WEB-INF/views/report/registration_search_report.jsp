@@ -72,12 +72,12 @@ function clearScreen() {
             <table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            	<div class="row" name="inputs"><b>Short Title</b>
+	            	<div class="row" name="inputs">Short Title
 	            		<form:input path="studyShortTitle" size="20"/>
 		            </div>
 		        </td>
 		        <td align="left">
-		        	<div class="row" name="inputs"><b>Identifier</b>
+		        	<div class="row" name="inputs">Identifier
 	            		<form:input path="studyCoordinatingSite" size="20"/>
 		            </div>
 		        </td>
@@ -91,12 +91,12 @@ function clearScreen() {
         	<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            <div class="row" name="inputs"><b>Site Name</b>
+	            <div class="row" name="inputs">Site Name
 	            	<form:input path="siteName" size="25"/>
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs"><b>NCI ID</b>
+		        <div class="row" name="inputs">NCI ID
 	            	<form:input path="siteNciId" size="25"/>
 	            </div>
 		        </td>
@@ -116,12 +116,12 @@ function clearScreen() {
         	<tr>
 	        	<td align="left">
 		        	<div class="row" name="inputs">
-		        		<b>Start Date</b><tags:dateInput path="regStartDate"/>
+		        		Start Date<tags:dateInput path="regStartDate"/>
 		            </div>
 	            </td>
 	            <td align="left">    
 		            <div class="row" name="inputs">
-		            	<b>End Date</b><tags:dateInput path="regEndDate"/>
+		            	End Date<tags:dateInput path="regEndDate"/>
 		            </div>
 	            </td>
         	</tr>        	
@@ -135,12 +135,12 @@ function clearScreen() {
         	<tr>
 	        	<td align="left">
 					<div class="row" name="inputs">
-						<b>Date of Birth</b><tags:dateInput path="birthDate"/>
+						Date of Birth<tags:dateInput path="birthDate"/>
 					</div>
 				</td>
 				<td align="left" width="40%" >
 					<div class="row" name="inputs">
-						<b>Race</b> &nbsp;
+						Race &nbsp;
 						<form:select path="raceCode" cssStyle="width:205px;">
 							<option value="">Please Select</option>
 							<form:options items="${raceCode}" itemLabel="desc" itemValue="code" />
