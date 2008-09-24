@@ -59,7 +59,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <chrome:division title="Assigned Identifier">
 	<table width="47%" border="0" cellspacing="1" cellpadding="1" id="table1">
 		<tr>
-			<td align="right"><span class="required-indicator"><b>Organization:</b></span></td>
+			<td align="right"><span class="required-indicator">Organization:</span></td>
 			<td align="left"><input type="hidden" id="mrnOrganization-hidden"
 					name="organizationAssignedIdentifiers[0].healthcareSite" />
 				<input id="mrnOrganization-input" size="50" type="text"
@@ -70,7 +70,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			</td>
 		</tr>
 		<tr>
-			<td align="right"><span class="required-indicator"><b>Medical Record Number:</b></span></td>
+			<td align="right"><span class="required-indicator">Medical Record Number:</span></td>
 			<td align="left"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 				size="30" maxlength="30" class="validate-notEmpty" />
 			     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
