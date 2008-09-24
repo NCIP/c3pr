@@ -95,7 +95,9 @@ This is the install config for c3prv2 installer
         <directory
                 property="rules.repository.dir"
                 displayText="Rules Repository"
-                checkExists="true"/>
+                defaultValue="${install.dir}/rules"
+                checkExists="true"
+                create="true"/>
     </page>
 
     <!--Select what to install-->
