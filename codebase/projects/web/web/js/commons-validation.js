@@ -36,7 +36,7 @@ function validateFields(formFields) {
          }
          
          // non zero numeric
-         if (isNonZeroNumeric(element.value, true) == false) {
+         if (element.nonzero && isNonZeroNumeric(element.value, true) == false) {
             ValidationManager.showError(element,element.nonzeroError);
             validForm=false;
             continue;
