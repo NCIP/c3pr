@@ -84,10 +84,20 @@
             initialIndex: ${fn:length(command.epochs)},
             softDelete: ${softDelete == 'true'},
             isAdmin: ${isAdmin == 'true'},
-            path: "epochs"
+            path: "epochs",
+            postProcessRowInsertion: function(object){
+            								var inputName="epochs["+object.localIndex+"].name";
+            								//inputElement=$$("input[name='"+inputName+"']")[0];
+            								//inputElement=$$("input[name='epochs[0].name']")[0];
+            								//alert(inputElement);
+            								setTimeout("enableFocus(\'"+inputName+"\')",10);
+            							}
             };
  		RowManager.addRowInseter(genericEpochRowInserterProps);
         RowManager.registerRowInserters();
+        function enableFocus(inputName2){
+        	$$("input[name='"+inputName2+"']")[0].focus();
+        }
     </script>
 
 </head>
