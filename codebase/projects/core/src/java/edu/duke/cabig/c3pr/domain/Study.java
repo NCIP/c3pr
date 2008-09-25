@@ -257,14 +257,14 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		// do nothing
 	}
 	
-	@Transient
-	public String getPrintStudySites() {
-		StringBuffer s = new StringBuffer();
-		for(StudySite ss: getStudySites()){
-			s.append(ss.getHealthcareSite().getName());
-		}
-		return s.toString();
-	}
+//	@Transient
+//	public String getPrintStudySites() {
+//		StringBuffer s = new StringBuffer();
+//		for(StudySite ss: getStudySites()){
+//			s.append(ss.getHealthcareSite().getName());
+//		}
+//		return s.toString();
+//	}
 
 	@Transient
 	public List<StudyFundingSponsor> getStudyFundingSponsors() {
