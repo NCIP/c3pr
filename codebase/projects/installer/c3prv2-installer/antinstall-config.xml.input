@@ -2,14 +2,14 @@
 <!DOCTYPE installer PUBLIC "-//tp23 //DTD Ant Installer Config//EN" "http://antinstaller.sf.net/dtd/antinstall-config-0.7.dtd">
 <!--
 
-This is the install config for c3prv2 installer
+This is the install config for c3pr2.5 installer
 -->
 
 <installer
         ui="swing,text"
         verbose="false"
         lookAndFeel="jgoodies"
-        name="C3PRV2 Installer"
+        name="C3PR2.5 Installer"
         windowIcon="/resources/c3prv2_installer_icon-32.gif"
         defaultImageResource="/resources/installer_banner.gif"
         antialiased="true"
@@ -19,9 +19,9 @@ This is the install config for c3prv2 installer
     <page
             type="input"
             name="intro"
-            displayText="Welcome to the C3PRV2 installer program">
+            displayText="Welcome to the C3PR2.5 installer program">
         <comment
-                displayText="This will help you Install/Uninstall C3PRV2 Application"
+                displayText="This will help you Install/Uninstall C3PR2.5 Application"
                 />
 
         <hidden property="application_name" value="@application_name@"/>
@@ -43,8 +43,8 @@ This is the install config for c3prv2 installer
           displayText="Installation directory">
         <directory
                 property="install.dir"
-                defaultValue="/tmp/c3prv2"
-                defaultValueWin="${env.ProgramFiles}\c3prv2"
+                defaultValue="/tmp/c3pr2.5"
+                defaultValueWin="${env.ProgramFiles}\c3pr2.5"
                 displayText="Select an installation directory"
                 create="true"/>
         <comment displayText="Note:Make sure that the installation path does not contain any spaces."/>
@@ -109,12 +109,12 @@ This is the install config for c3prv2 installer
                 displayText="Choose the components you want to install"
                 bold="true"/>
         <target
-                displayText="C3PRV2 Web Application"
+                displayText="C3PR2.5 Web Application"
                 target="deploy-webapp"
                 defaultValue="true"
                 />
         <target
-                displayText="C3PRV2 Source Code"
+                displayText="C3PR2.5 Source Code"
                 target="deploy-codebase"
                 defaultValue="true"
                 />
@@ -286,7 +286,7 @@ This is the install config for c3prv2 installer
             type="progress"
             name="progress"
             showTargets="true"
-            displayText="C3PRV2 Installation progress"
+            displayText="C3PR2.5 Installation progress"
             target="cleanUp">
     </page>
 
