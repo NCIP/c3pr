@@ -7,7 +7,7 @@
 	<property name="reports.dir" value="${basedir}/../reports" />
 	<!-- List of modules that need checkstyle reporting done -->
 	<property name="reportable.projects.list" value="core,web" />
-	<property name="javadoc-reportable.projects.list" value="core" />
+	<property name="javadoc-reportable.projects.list" value="core,web" />
 	<condition property="ivy.available">
 			<available file="${ivy.jar.file}" />
 	</condition>
@@ -354,10 +354,11 @@
 		        </taskdef>
 				
 				<property name="javadoc.dir" value="${reports.dir}/test-javadoc"/>
+				<echo message="${javadoc.dir}"/>
 				<delete dir="${javadoc.dir}"/>
 				<mkdir dir="${javadoc.dir}"/>
 				
-				<for list="${javadoc-reportable.projects.list}" parallel="false" param="project.name" trim="true">
+				<for list="${javadoc-reportable.projects.list}" parallel="false" param="project.name" trim="true"  >
 					<sequential>
 						<echo message="Generating javadoc for project @{project.name}"/>
 						<javadoc packagenames="edu.duke.cabig.c3pr.*" 
@@ -368,23 +369,19 @@
 								 use="true"
 								 access="private"
 								 windowtitle="C3PRV2 API">
-						 		<classpath>	 
-			                        <fileset dir="${projects.dir}/@{project.name}/build/lib">
+									<classpath path="${jar.file}" />
+									<classpath refid="main.classpath" />
+									<fileset dir="${projects.dir}/@{project.name}/build/testlib">
 			                            <include name="*.jar"/>
 			                        </fileset>
-			                        <fileset dir="${projects.dir}/@{project.name}/build/testlib">
-			                            <include name="*.jar"/>
-			                        </fileset>
-			                        <fileset dir="${projects.dir}/@{project.name}/test/lib">
-			                            <include name="*.jar"/>
-			                        </fileset>
-						 			<fileset dir="${projects.dir}/@{project.name}/build/classes-test">
-			                        </fileset>
-						 			<fileset dir="${projects.dir}/@{project.name}/build/classes">
-			                        </fileset>
-			                    </classpath>
+									
 						  </javadoc>
 					  </sequential>
 				 </for>
 			 </target>
-</project>
+	
+	
+			<target name="reports-junit" depends="buildlist, test-report" description="Generates javadoc">
+				
+			</target>
+	</project>
