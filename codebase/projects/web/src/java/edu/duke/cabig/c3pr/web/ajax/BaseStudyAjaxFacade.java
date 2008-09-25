@@ -70,10 +70,10 @@ public class BaseStudyAjaxFacade {
         columnCompanion.setProperty("companionIndicator");
         model.addColumn(columnCompanion);
 
-        Column columnSite = model.getColumnInstance();
-        columnSite.setTitle("Sites");
-        columnSite.setProperty("printStudySites");
-        model.addColumn(columnSite);
+//        Column columnSite = model.getColumnInstance();
+//        columnSite.setTitle("Sites");
+//        columnSite.setProperty("printStudySites");
+//        model.addColumn(columnSite);
         
         
         return model.assemble();
