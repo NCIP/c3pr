@@ -140,11 +140,12 @@ public class ViewStudyController extends StudyController<Study> {
         if (httpServletRequest.getParameterMap().keySet().contains("_action")
                         && StringUtils.getBlankIfNull(httpServletRequest.getParameter("_action"))
                                         .equalsIgnoreCase("export")) {
-            Study study = (Study) currentFormObject(httpServletRequest, httpServletRequest
+        	httpServletResponse.reset();
+        	Study study = (Study) currentFormObject(httpServletRequest, httpServletRequest
                             .getSession().getAttribute(getFormSessionAttributeName()));
             httpServletResponse.setContentType("application/xml");
-            httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-"
-                            + study.getId() + ".xml");
+            String fileName = "study-"+ study.getId() + ".xml" ; 
+            httpServletResponse.setHeader("Content-Disposition", "attachment; filename="+fileName);
             xmlUtility.toXML(study, httpServletResponse.getWriter());
             httpServletResponse.getWriter().close();
 

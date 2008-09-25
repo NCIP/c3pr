@@ -56,12 +56,13 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
         if (httpServletRequest.getParameterMap().keySet().contains("_action")
                         && StringUtils.getBlankIfNull(httpServletRequest.getParameter("_action"))
                                         .equalsIgnoreCase("export")) {
-            StudySubject studySubject = (StudySubject) currentFormObject(httpServletRequest,
+        	httpServletResponse.reset();
+        	StudySubject studySubject = (StudySubject) currentFormObject(httpServletRequest,
                             httpServletRequest.getSession().getAttribute(
                                             getFormSessionAttributeName()));
             httpServletResponse.setContentType("application/xml");
-            httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-"
-                            + studySubject.getId() + ".xml");
+            String fileName = "registration-"+ studySubject.getId() + ".xml" ; 
+            httpServletResponse.setHeader("Content-Disposition", "attachment; filename="+fileName);
             xmlUtility.toXML(studySubject, httpServletResponse.getWriter());
             httpServletResponse.getWriter().close();
             return null;
