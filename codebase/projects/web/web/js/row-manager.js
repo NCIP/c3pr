@@ -169,7 +169,8 @@ var AbstractRowInserterProps = {
 	getRowDivisionElement: function(){
 							element=$(this.add_row_division_id)
 							if(this.havingParentRowInserter()){
-								classString="#"+this.parent_row_inserter.getColumnDivisionID(this.parent_row_index)+" #"+this.add_row_division_id
+								//classString="#"+this.parent_row_inserter.getColumnDivisionID(this.parent_row_index)+" #"+this.add_row_division_id
+								classString="#"+this.parent_row_inserter.getColumnDivisionID(this.parent_row_index)+" "+this.row_addition_startegy+"[id='"+this.add_row_division_id+"']"
 								element=$$(classString)[0]
 							}
 							return element
