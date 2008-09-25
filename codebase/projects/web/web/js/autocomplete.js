@@ -105,7 +105,7 @@ function addEventHandlersForAutoCompleter(theInput){
 
           /* Add event handlers */
         Event.observe(theInput, 'focus', clearDefaultText);
-        Event.observe(theInput, 'blur', replaceDefaultText);
+        Event.observe(theInput, 'blur', delayedReplaceDefaultText);
         /* Save the current value */
         if (trim(theInput.value) == '') {
             theInput.defaultText = message;
@@ -124,14 +124,19 @@ function clearDefaultText(e) {
 
 }
 
-function replaceDefaultText(e) {
-    var target = window.event ? window.event.srcElement : e ? e.target : null;
+delayedReplaceDefaultText= function (e1) {
+	funcTemp=function(){replaceDefaultText(e1);};
+	setTimeout(funcTemp,100);
+};
+
+function replaceDefaultText(e2) {
+    var target = window.event ? window.event.srcElement : e2 ? e2.target : null;
     if (!target) return;
     // commenting for release need to fix it
-  /*  if (trim(target.value) == '' ) {
+  if (trim(target.value) == '' ) {
         target.value = '(Begin typing here)';
         target.className = target.className + ' pending-search';
-    }*/
+    }
 }
 
 
