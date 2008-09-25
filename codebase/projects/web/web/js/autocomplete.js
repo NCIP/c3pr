@@ -93,16 +93,11 @@ var AutocompleterManager= {
 
 function initSearchField() {
 
-    $$("input[type=text].autocomplete").each(function(theInput)
+    $$("input.autocomplete").each(function(theInput)
     {
         addEventHandlersForAutoCompleter(theInput)
     });
-
-     $$("input[type=text][class='autocomplete validate-NOTEMPTY']").each(function(theInput)
-    {
-            addEventHandlersForAutoCompleter(theInput)
-    });
-
+    
 }
 function addEventHandlersForAutoCompleter(theInput){
 
@@ -132,11 +127,11 @@ function clearDefaultText(e) {
 function replaceDefaultText(e) {
     var target = window.event ? window.event.srcElement : e ? e.target : null;
     if (!target) return;
-
-    if (trim(target.value) == '' ) {
+    // commenting for release need to fix it
+  /*  if (trim(target.value) == '' ) {
         target.value = '(Begin typing here)';
         target.className = target.className + ' pending-search';
-    }
+    }*/
 }
 
 
