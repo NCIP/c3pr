@@ -74,7 +74,7 @@ function toggleImage(id){
 							</thead>
 							<%int j=i*100; %>
 							<c:forEach items="${study.studySites}" var="site" varStatus="siteIndex">
-								<c:if test='${site.siteStudyStatus.code=="Active"}'>
+								<%--<c:if test='${site.siteStudyStatus.code=="Active"}'>--%>
 								<%
 									Calendar yearOld=Calendar.getInstance();
 									yearOld.add(Calendar.YEAR, -1);
@@ -101,7 +101,7 @@ function toggleImage(id){
 										<td>${site.irbApprovalDateStr}<c:if test="${expiredIrb}"><font color='Red'><i>(expired)</i></font></c:if></td>
 									</tr>
 								</csmauthz:accesscontrol>
-								</c:if>
+								<%--</c:if>--%>
 							</c:forEach>
 						</table>
 						</div>
