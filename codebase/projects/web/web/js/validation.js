@@ -135,8 +135,8 @@ var ValidationManager = {
 			}else if(validationType.toUpperCase().indexOf('MAXLENGTH')==0){
 				element.maxlength = parseInt(validationType.substr(9))
 				element.maxlengthError = ValidationManager.ERROR_MSG_MAXLENGTH
-										
 			}else if(validationType.toUpperCase().indexOf('NONZERO_NUMERIC')==0){
+				element.nonzero = true ;
 				element.nonzeroError = ValidationManager.ERROR_MSG_NONZERO_VALUE
 			}else {
 				element.pattern = validationType
