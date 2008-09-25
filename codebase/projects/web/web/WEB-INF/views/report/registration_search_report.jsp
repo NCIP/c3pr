@@ -60,6 +60,11 @@ function clearScreen() {
 }
  
 </script>
+<style type="text/css">
+	.eXtremeTable .filter input[type="text"] {
+		width:103px;
+		}
+</style>
 </head>
 <body>
 <form:form name="searchForm" id="searchForm" method="post" cssClass="standard autoclear">
@@ -72,12 +77,12 @@ function clearScreen() {
             <table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            	<div class="row" name="inputs">Short Title
+	            	<div class="row" name="inputs"><b>Short Title</b>
 	            		<form:input path="studyShortTitle" size="20"/>
 		            </div>
 		        </td>
 		        <td align="left">
-		        	<div class="row" name="inputs">Identifier
+		        	<div class="row" name="inputs"><b>Identifier</b>
 	            		<form:input path="studyCoordinatingSite" size="20"/>
 		            </div>
 		        </td>
@@ -91,12 +96,12 @@ function clearScreen() {
         	<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            <div class="row" name="inputs">Site Name
+	            <div class="row" name="inputs"><b>Site Name</b>
 	            	<form:input path="siteName" size="25"/>
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs">NCI ID
+		        <div class="row" name="inputs"><b>NCI ID</b>
 	            	<form:input path="siteNciId" size="25"/>
 	            </div>
 		        </td>
@@ -116,12 +121,12 @@ function clearScreen() {
         	<tr>
 	        	<td align="left">
 		        	<div class="row" name="inputs">
-		        		Start Date<tags:dateInput path="regStartDate"/>
+		        		<b>Start Date</b><tags:dateInput path="regStartDate"/>
 		            </div>
 	            </td>
 	            <td align="left">    
 		            <div class="row" name="inputs">
-		            	End Date<tags:dateInput path="regEndDate"/>
+		            	<b>End Date</b><tags:dateInput path="regEndDate"/>
 		            </div>
 	            </td>
         	</tr>        	
@@ -135,12 +140,12 @@ function clearScreen() {
         	<tr>
 	        	<td align="left">
 					<div class="row" name="inputs">
-						Date of Birth<tags:dateInput path="birthDate"/>
+						<b>Date of Birth</b><tags:dateInput path="birthDate"/>
 					</div>
 				</td>
 				<td align="left" width="40%" >
 					<div class="row" name="inputs">
-						Race &nbsp;
+						<b>Race</b> &nbsp;
 						<form:select path="raceCode" cssStyle="width:205px;">
 							<option value="">Please Select</option>
 							<form:options items="${raceCode}" itemLabel="desc" itemValue="code" />
@@ -166,7 +171,7 @@ function clearScreen() {
 <chrome:box title="Results">
     <chrome:division id="single-fields">
         <div id="tableDiv">
-   			<c:out value="${assembler}" escapeXml="false"/> 
+   			<c:out value="${assembler}" escapeXml="false" /> 
 		</div>
 	</chrome:division>
 </chrome:box>
