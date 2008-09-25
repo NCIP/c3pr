@@ -61,10 +61,13 @@
     
 	<bean name="c3prPropertyConfigurerFromFile[rules.repository]"
           class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>     
+          
+    <bean name="c3prPropertyConfigurerFromFile[jackrabbit.repository]"
+          class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>  
 
 	<bean id="repository"
 		class="org.springmodules.jcr.jackrabbit.TransientRepositoryFactoryBean" depends-on="repositoryCleaner">
-		<property name="configuration" value="classpath:edu/duke/cabig/c3pr/rules/jackrabbit-repo-postgres.xml"/>		    
+		<property name="configuration" ref="c3prPropertyConfigurerFromFile[jackrabbit.repository]" />		    
 		<property name="homeDir" ref="c3prPropertyConfigurerFromFile[rules.repository]" />
 	</bean>
 
