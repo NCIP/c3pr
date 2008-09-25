@@ -10,7 +10,12 @@ if (navigator.appName !="Netscape")
 {   document.write("<link rel='stylesheet' href='default.css'>");}
 //-->
 </script>
-<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<style type="text/css">
+<!--
+p.whs1 { font-size:11pt; }
+li.whs2 { font-size:11pt; }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
 <!--
 function reDo() {
   if (innerWidth != origWidth || innerHeight != origHeight)
@@ -55,7 +60,7 @@ addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 	{
 	document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchNotification.htm\">Administration</a> > Import Study</p>");
+document.write("<a href=\"createNotification.htm\">Administration</a> > Import Study</p>");
 
 	}
 
@@ -75,17 +80,23 @@ else
 //-->
 </script>
 <h3>Import Study</h3>
-<ol><li class=p><p>To import a study: </p></li>
-	<ol><li>Select XML file to import by clicking on the <b>Browse</b> 
+<p class="whs1"><span style="font-weight: bold;"><B>To import 
+ a study:</B></span> <br>&nbsp;</p>
+<ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
+ XML file to import by clicking on the <b style="font-size: 11pt;">Browse</b> 
  button and locating the file. To see an example of how an XML file should 
- be formatted before it is imported, click the <b>Download Schema File</b> 
- and <b>Download Sample XML File</b> links. </li>
-		<li>Click on <b>Import</b> to import Study. </li>
-		<li>Click on the Study that you just imported and change the status 
- of the <b>Study Sites</b> in order to import the registration.<b><br>
-		Note:</b> For instructions on how to enter a study manually go 
- to the <a href="createStudy.htm">Studies</a> section. </li>
-	</ol>
+ be formatted before it is imported, click the <b style="font-size: 11pt;">Download 
+ Schema File</b> and <b style="font-size: 11pt;">Download Sample XML File</b> 
+ links. </font></span></li>
+	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
+ on <b style="font-size: 11pt;">Import</b> to import Study. </font></span></li>
+	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
+ on the Study that you just imported and change the status of the <b style="font-size: 11pt;">Study 
+ Sites</b> in order to import the registration.<b style="font-size: 11pt;"><br>
+	Note:</b> </font></span><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">For instructions on 
+ how to enter a study manually go to </font></span><span style="font-weight: bold; font-size: 11pt;"><font size=3 style="font-size:11pt;"><B>Studies 
+ &gt; Create Study</B></font></span><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;"> in the navigation 
+ bar.</font></span></li>
 </ol>
 <script type="text/javascript" language="javascript1.2">
 <!--
@@ -96,7 +107,7 @@ if(0)
 {
 document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchNotification.htm\">Administration</a> > Import Study</p>");
+document.write("<a href=\"createNotification.htm\">Administration</a> > Import Study</p>");
 
 }
 //-->

@@ -10,7 +10,12 @@ if (navigator.appName !="Netscape")
 {   document.write("<link rel='stylesheet' href='default.css'>");}
 //-->
 </script>
-<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<style type="text/css">
+<!--
+ul.whs1 { list-style:square; }
+p.whs2 { font-size:11pt; }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
 <!--
 function reDo() {
   if (innerWidth != origWidth || innerHeight != origHeight)
@@ -55,7 +60,7 @@ addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 	{
 	document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchNotification.htm\">Administration</a> > Configure C3PR</p>");
+document.write("<a href=\"createNotification.htm\">Administration</a> > Configure C3PR</p>");
 
 	}
 
@@ -75,7 +80,86 @@ else
 //-->
 </script>
 <h3>Configure C3PR</h3>
-<p>Type topic text here.</p>
+<ul type="square" class="whs1">
+	<li class=p><p class="whs2"><b>Authentication Mode</b><br>
+	This defines the strategy C3PR uses to authenticate. Possible values 
+ are 'local' and 'webSSO'(Default: local) </p></li>
+	<li class=p><p class="whs2"><b>Authorization enable switch</b><br>
+	Switch to turn on/off authorization. The value may not be applied until 
+ the application is restarted (Default: false) </p></li>
+	<li class=p><p class="whs2"><b>C3D hotlink URL</b><br>
+	The base URL for the C3D deployment to which this C3PR instance can 
+ link (Default: <a href="https://octrials-train.nci.nih.gov/opa45/rdclaunch.htm" 
+ class="external free" title="https://octrials-train.nci.nih.gov/opa45/rdclaunch.htm" 
+ rel=nofollow style="font-size: 11pt;">https://octrials-train.nci.nih.gov/opa45/rdclaunch.htm</a>) 
+ </p></li>
+	<li class=p><p class="whs2"><b>C3PR URL</b><br>
+	This is the URL of this C3PR instance. </p></li>
+	<li class=p><p class="whs2"><b>caAERS hotlink URL</b><br>
+	The base URL for the caAERS deployment to which this C3PR instance 
+ can link (Default: <a href="https://cbvapp-d1017.nci.nih.gov:28443/caaers/pages/ae/list" 
+ class="external free" title="https://cbvapp-d1017.nci.nih.gov:28443/caaers/pages/ae/list" 
+ rel=nofollow style="font-size: 11pt;">https://cbvapp-d1017.nci.nih.gov:28443/caaers/pages/ae/list</a>) 
+ </p></li>
+	<li class=p><p class="whs2"><b>WebSSO base URL</b><br>
+	(Default: <a href="https://cbvapp-d1017.nci.nih.gov:48443/cas" class="external free" 
+ title="https://cbvapp-d1017.nci.nih.gov:48443/cas" rel=nofollow style="font-size: 11pt;">https://cbvapp-d1017.nci.nih.gov:48443/cas</a>) 
+ </p></li>
+	<li class=p><p class="whs2"><b>WebSSO certificate file</b><br>
+	websso certificate file path (Default: /System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/lib/security/cacerts) 
+ </p></li>
+	<li class=p><p class="whs2"><b>ESB enable switch</b><br>
+	Switch to turn on/off esb (Default: false) </p></li>
+	<li class=p><p class="whs2"><b>ESB URL</b><br>
+	URL for the enterprise service bus -- the value may not be applied 
+ until the application is restarted (Default: <a href="https://cbvapp-d1017.nci.nih.gov:28445/wsrf/cagrid/CaXchangeRequestProcessor" 
+ class="external free" title="https://cbvapp-d1017.nci.nih.gov:28445/wsrf/cagrid/CaXchangeRequestProcessor" 
+ rel=nofollow style="font-size: 11pt;">https://cbvapp-d1017.nci.nih.gov:28445/wsrf/cagrid/CaXchangeRequestProcessor</a>) 
+ </p></li>
+	<li class=p><p class="whs2"><b>Host certificate file</b> 
+ (host certificate file path)<br>
+	(Default: /Users/kherm/certs/manav.local-cert.pem) </p></li>
+	<li class=p><p class="whs2"><b>Host key</b><br>
+	Host key path (Default: /Users/kherm/certs/manav.local-key.pem) </p></li>
+	<li class=p><p class="whs2"><b>Hosted Mode</b><br>
+	If the value is false, C3PR will not send a registration request to 
+ Co-ordinating center for approval for Multi-Site trials (Default: true) 
+ </p></li>
+	<li class=p><p class="whs2"><b>Local site NCI institute 
+ code</b><br>
+	The NCI institute code of the site where this C3PR instance is running 
+ </p></li>
+	<li class=p><p class="whs2"><b>SMTP authentication</b><br>
+	(Default: true) </p></li>
+	<li class=p><p class="whs2"><b>From address</b><br>
+	The &quot;from&quot; address for all mail sent by C3PR. This address 
+ need not be a real e-mail address. The value may not be applied until 
+ the application is restarted (Default: admin@semanticbits.com) </p></li>
+	<li class=p><p class="whs2"><b>SMTP password</b><br>
+	Mail server password (only necessary if the mail server requires authentication). 
+ The value may not be applied until the application is restarted (Default: 
+ biju1234) </p></li>
+	<li class=p><p class="whs2"><b>SMTP server</b><br>
+	The address of the outgoing mail server (e.g.: smtp.gmail.com). The 
+ value may not be applied until the application is restarted (Default: 
+ smtp.comcast.net) </p></li>
+	<li class=p><p class="whs2"><b>SMTP port</b><br>
+	The port number of the outgoing mail server. The value may not be applied 
+ until the application is restarted (Default: 25) </p></li>
+	<li class=p><p class="whs2"><b>SMTP user name</b><br>
+	Mail server username (only necessary if the mail server requires authentication). 
+ The value may not be applied until the application is restarted (Default: 
+ biju.joseph@semanticbits.com) </p></li>
+	<li class=p><p class="whs2"><b>Study Calendar hotlink URL</b><br>
+	The base URL for the Study Calendar deployment to which this C3PR instance 
+ can link (Default: <a href="https://cbvapp-d1017.nci.nih.gov:28443/psc/pages/schedule" 
+ class="external free" title="https://cbvapp-d1017.nci.nih.gov:28443/psc/pages/schedule" 
+ rel=nofollow style="font-size: 11pt;">https://cbvapp-d1017.nci.nih.gov:28443/psc/pages/schedule</a>)</p></li>
+	<li class=p><p class="whs2"><b>Save Your Configuration</b><br>
+	Once you have completed the C3PR configuration, click <b>Save.</b> 
+ </p></li>
+</ul>
+<p class="whs2">&nbsp;</p>
 <script type="text/javascript" language="javascript1.2">
 <!--
 highlightSearch();
@@ -85,7 +169,7 @@ if(0)
 {
 document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchNotification.htm\">Administration</a> > Configure C3PR</p>");
+document.write("<a href=\"createNotification.htm\">Administration</a> > Configure C3PR</p>");
 
 }
 //-->

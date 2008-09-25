@@ -46,8 +46,7 @@ if (window.gbWhTopic)
 {
 	if (window.addTocInfo)
 	{
-	addTocInfo("Studies\nCreate Study");
-addTocInfo("Studies\nCreate Study\nDetails");
+	addTocInfo("Studies\nCreate Study\nDetails");
 addTocInfo("Studies\nCreate Companion Study\nStudy Details");
 addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 
@@ -62,7 +61,7 @@ addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 	{
 	document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > Create Study</p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Details</p>");
 
 	}
 
@@ -85,7 +84,8 @@ else
 <p class="whs1">There are thirteen <b>Task</b> pages of the 
  C3PR <b>Create Study</b> form that must be completed in order for a new 
  study to be entered in C3PR. If you are creating a multi-site study, enter 
- all of the appropriate organizations in the Sites task page. </p>
+ all of the appropriate organizations in the <span style="font-weight: bold;"><B>Sites</B></span> 
+ task page. </p>
 <p class="whs1">&nbsp;</p>
 <p class="whs1">These thirteen related task pages depend on 
  one another and the behavior or action on each task page will depend on 
@@ -188,7 +188,7 @@ if(0)
 {
 document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > Create Study</p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Details</p>");
 
 }
 //-->

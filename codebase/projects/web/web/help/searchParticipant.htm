@@ -46,9 +46,7 @@ if (window.gbWhTopic)
 {
 	if (window.addTocInfo)
 	{
-	addTocInfo("Person & Organization");
-addTocInfo("Person & Organization\nSubject");
-addTocInfo("Person & Organization\nSubject\nSearch Subject");
+	addTocInfo("Person & Organization\nSubject\nSearch Subject");
 addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 
 	}
@@ -62,7 +60,7 @@ addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 	{
 	document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("Person & Organization</p>");
+document.write("<a href=\"searchParticipant.htm\">Person & Organization</a> > <a href=\"searchParticipant.htm\">Subject</a> > Search Subject</p>");
 
 	}
 
@@ -112,7 +110,7 @@ if(0)
 {
 document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("Person & Organization</p>");
+document.write("<a href=\"searchParticipant.htm\">Person & Organization</a> > <a href=\"searchParticipant.htm\">Subject</a> > Search Subject</p>");
 
 }
 //-->
