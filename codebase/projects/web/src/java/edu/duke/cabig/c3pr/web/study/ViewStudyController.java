@@ -61,7 +61,7 @@ public class ViewStudyController extends StudyController<Study> {
 
     @Override
     protected void layoutTabs(Flow flow) {
-        flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
+        flow.addTab(new EditStudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
         flow.addTab(new StudyRegistrationsTab());
 
     }
@@ -188,4 +188,5 @@ public class ViewStudyController extends StudyController<Study> {
     public void setXmlUtility(XmlMarshaller xmlUtility) {
         this.xmlUtility = xmlUtility;
     }
+    
 }

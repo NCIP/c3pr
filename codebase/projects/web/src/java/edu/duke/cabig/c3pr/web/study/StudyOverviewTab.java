@@ -177,7 +177,6 @@ public class StudyOverviewTab extends StudyTab {
         return new ModelAndView("", map);
     }
 
-    @Override
     public void validate(Study study, Errors errors) {
         super.validate(study, errors);
         try {
@@ -188,7 +187,7 @@ public class StudyOverviewTab extends StudyTab {
             errors.rejectValue("coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
         }
     }
-
+    
     protected boolean suppressValidation(HttpServletRequest request, Object study) {
         if (request.getParameter("_activate") != null
                         && request.getParameter("_activate").equals("true")) {

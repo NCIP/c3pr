@@ -90,7 +90,7 @@ public class AmendStudyController extends StudyController<Study> {
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
         flow.addTab(new CompanionStudyTab());
-        flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
+        flow.addTab(new EditStudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
     }
 
     @Override

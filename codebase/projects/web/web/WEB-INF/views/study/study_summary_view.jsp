@@ -53,7 +53,7 @@
         }
 
       	function reloadCompanion(){
-   			<tags:tabMethod method="reloadCompanion" divElement="'companionAssociationsDiv'" formName="'tabMethodForm'" viewName="/study/companionSection"/>
+   			<tags:tabMethod method="reloadCompanion" divElement="'companionAssociationsDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/> 
    		}
     </script>
 </head>

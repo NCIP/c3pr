@@ -303,7 +303,7 @@ function manageCompanions(registrationId){
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.gridId }"/>
 </form>
-<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions)}">
+<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.regWorkflowStatus == 'UNREGISTERED'}">
 <tags:panelBox>
 	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>

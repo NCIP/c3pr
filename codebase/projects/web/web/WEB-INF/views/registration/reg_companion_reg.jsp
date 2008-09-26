@@ -68,7 +68,8 @@
 		</table>
 	</div>
 </tags:panelBox>
-<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions)}">
+
+<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.regWorkflowStatus == 'UNREGISTERED'}">
 	<tags:panelBox title="Parent Registration">
 		<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}" />
 	</tags:panelBox>
