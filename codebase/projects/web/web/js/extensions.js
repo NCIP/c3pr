@@ -1,10 +1,16 @@
 Ajax.InPlaceCollectionEditor.prototype.__createEditField = Ajax.InPlaceCollectionEditor.prototype.createEditField;
 Ajax.InPlaceCollectionEditor.prototype.__onSubmit = Ajax.InPlaceCollectionEditor.prototype.onSubmit;
+Ajax.InPlaceCollectionEditor.prototype.__buildOptionList = Ajax.InPlaceCollectionEditor.prototype.buildOptionList;
 Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
     createEditField: function() {
         if (this.options.callback) { var callbackSet = this.options.callback };
         this.__createEditField();
         if (callbackSet) { this.options.callback = callbackSet;    };
+    },
+    buildOptionList: function() {
+        if(BrowserDetect.browser=='Explorer')
+        	Object.extend(this._controls.editor,Element);
+        this.__buildOptionList();
     },
     onSubmit: function(){
 		if(this.options.validations!=null && this.options.validations!=''){
