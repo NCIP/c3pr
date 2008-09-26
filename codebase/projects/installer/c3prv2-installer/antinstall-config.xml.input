@@ -246,6 +246,7 @@ This is the install config for c3pr2.5 installer
                 />
         <hidden property="jdbc.quartz.delegateClassName" value="org.quartz.impl.jdbcjobstore.oracle.OracleDelegate"/>
         <hidden property="audit.dialect" value="org.hibernate.dialect.Oracle9Dialect"/>
+        <hidden property="jackrabbit.repository" value="classpath:edu/duke/cabig/c3pr/rules/jackrabbit-repo-oracle.xml"/>
     </page>
 
 
@@ -280,6 +281,7 @@ This is the install config for c3pr2.5 installer
                 value="org.hibernate.dialect.PostgreSQLDialect"/>
         <hidden property="jdbc.quartz.delegateClassName" value="org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"/>
         <hidden property="audit.dialect" value="edu.duke.cabig.c3pr.hibernate.ImprovedPostgreSQLDialect"/>
+        <hidden property="jackrabbit.repository" value="classpath:edu/duke/cabig/c3pr/rules/jackrabbit-repo-postgres.xml"/>
     </page>
 
     <page
