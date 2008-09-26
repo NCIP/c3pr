@@ -996,11 +996,14 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
     	}
     	
     	for(CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()){
-			 if(compStudyAssoc.getMandatoryIndicator() 
-					&& !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
-					|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)){
-				throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
-			}
+    		if(compStudyAssoc.getMandatoryIndicator() != null){
+    			if(compStudyAssoc.getMandatoryIndicator() 
+    					&& !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
+    					|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)){
+    				throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
+    			}
+    		}
+			 
 		}
 		if (!evaluateEpochsDataEntryStatus()){
 			return StudyDataEntryStatus.INCOMPLETE;
