@@ -96,10 +96,10 @@
     <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M" race_code="Hispanic" add_id="1001"  retired_indicator = "false" /> 
    	<PARTICIPANTS id="1010" version="1" first_name="Ru" last_name="Clo" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1000"  retired_indicator = "false" />       
 	
-	<prt_org_associations id="1000" version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
-   	<prt_org_associations id="1001" version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
-   	<prt_org_associations id="1002" version="1" prt_id="1002" org_id="1000"  retired_indicator = "false"/>
-   	<prt_org_associations id="1003" version="1" prt_id="1010" org_id="1000"  retired_indicator = "false"/>
+	<prt_org_associations  version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
+   	<prt_org_associations  version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
+   	<prt_org_associations  version="1" prt_id="1002" org_id="1000"  retired_indicator = "false"/>
+   	<prt_org_associations  version="1" prt_id="1010" org_id="1000"  retired_indicator = "false"/>
    	
     <ANATOMIC_SITES id="1000" version="1" name="Skin" category="skin"  retired_indicator = "false" />     
 
