@@ -66,7 +66,7 @@
 			title="C3PR Development Notes">
 			<br>
 			<div id="c3pr-wiki"><a
-				href="https://wiki.nci.nih.gov/display/CTMS/Cancer+Central+Clinical+Participant+Registry+%28C3PR%29"
+				href='<fmt:message key="DASHBOARD.C3PR.DEVELOPMENT.WIKI"/>'
 				target="_blank"><b>C3PR Wiki</b></a></div>
 			<div id="c3pr-userguide"><a
 				href="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide"
