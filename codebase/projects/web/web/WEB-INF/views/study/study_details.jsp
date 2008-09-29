@@ -422,7 +422,7 @@
 			    
 				<div class="rightpanel">
                     <div class="row">
-                        <div class="label required-indicator">Identifier:</div>
+                        <div class="label required-indicator">Study Identifier:</div>
                         <div class="value">
                         	<input type="text" name="organizationAssignedIdentifiers[0].value" 
 								size="30" maxlength="30"
@@ -475,7 +475,7 @@
 	</div>
 	<div class="rightpanel">
         <div class="row">
-            <div class="label">Identifier:</div>
+            <div class="label">Study Identifier:</div>
             <div class="value">
             	<div id="fundingSponId">
 	            	<input type="text" name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="30"
