@@ -1315,4 +1315,14 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
         public boolean isCreatable(){
             return this.dataEntryStatus==StudyDataEntryStatus.COMPLETE;
         }
+	
+	@Transient
+	public String getCompanionIndicatorDisplayValue(){
+		if(getCompanionIndicator()){
+			return "Yes" ;
+		}else{
+			return "No" ;
+		}
+		
+	}
 }

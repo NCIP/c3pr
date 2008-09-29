@@ -66,8 +66,7 @@ public class BaseStudyAjaxFacade {
         
         Column columnCompanion = model.getColumnInstance();
         columnCompanion.setTitle("Companion Indicator");
-        columnCompanion.setCell((StudyLinkDisplayCell.class).getName());
-        columnCompanion.setProperty("companionIndicator");
+        columnCompanion.setProperty("companionIndicatorDisplayValue");
         model.addColumn(columnCompanion);
 
 //        Column columnSite = model.getColumnInstance();
