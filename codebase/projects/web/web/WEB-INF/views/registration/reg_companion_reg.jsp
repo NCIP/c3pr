@@ -26,60 +26,75 @@
 	</script>
 </head>
 <body>
-<form action="../registration/manageRegistration?registrationId=${command.id }" method="post" id="manageCompanion">
-	<input type="hidden" name="_page0" id="_page0" value="0"/>
-	<input type="hidden" name="_target2" id="_target2" value="2"/>
-	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
-</form>
+<form
+	action="../registration/manageRegistration?registrationId=${command.id }"
+	method="post" id="manageCompanion"><input type="hidden"
+	name="_page0" id="_page0" value="0" /> <input type="hidden"
+	name="_target2" id="_target2" value="2" /> <input type="hidden"
+	name="goToTab" id="goToTab" value="true" /></form>
 <c:choose>
-<c:when test="${fn:length(companions)>0}">
-<tags:panelBox>
-	<div id="CompanionRegistration">
-		<table class="tablecontent" width="100%" title="Companion Registration">
-			<tr>
-				<th width="40%" scope="col" align="center"><b>Short Title-(Identifier)</b></th>
-				<th width="9%" scope="col" align="center"><b>Mandatory</b></th>
-				<th width="20%" scope="col" align="center"><b>Registartion Status</b></th>
-				<th />
-			</tr>
-			<c:forEach items="${companions}" var="companion">
-	            <tr>
-	                <td class="alt">${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
-					<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>		                
-					<td class="alt">${companion.registrationId == 0?"Not Started":companion.registrationStatus}</td>
-	                <td class="alt">
-				        <c:choose> 
-							<c:when test="${companion.registrationId != 0}"> 
-							<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
-	                            authorizationCheckName="domainObjectAuthorizationCheck">
-								<input type="button" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${ companion.registrationId}' />'"/> 
-							</csmauthz:accesscontrol>
+	<c:when test="${fn:length(companions)>0}">
+		<tags:panelBox>
+			<div id="CompanionRegistration">
+			<table class="tablecontent" width="100%"
+				title="Companion Registration">
+				<tr>
+					<th width="40%" scope="col" align="center"><b>Short
+					Title-(Identifier)</b></th>
+					<th width="9%" scope="col" align="center"><b>Mandatory</b></th>
+					<th width="20%" scope="col" align="center"><b>Registartion
+					Status</b></th>
+					<th />
+				</tr>
+				<c:forEach items="${companions}" var="companion">
+					<tr>
+						<td class="alt">${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
+						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
+						<td class="alt">${companion.registrationId == 0?"Not
+						Started":companion.registrationStatus}</td>
+						<td class="alt"><c:choose>
+							<c:when test="${companion.registrationId != 0}">
+								<csmauthz:accesscontrol domainObject="${command}"
+									hasPrivileges="UPDATE"
+									authorizationCheckName="domainObjectAuthorizationCheck">
+									<input type="button" value="Manage"
+										onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${ companion.registrationId}' />'" />
+								</csmauthz:accesscontrol>
 							</c:when>
-							<c:otherwise> 
-							<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
-	                            authorizationCheckName="domainObjectAuthorizationCheck">
-					        	<input type="button" id="registerCompanionStudy" value="Register" onclick="openPopup('${ companion.studySiteId}','${command.participant.id}','${command.id}');"/> 
-					        </csmauthz:accesscontrol>
-							</c:otherwise> 
-						</c:choose>
-	                </td>
-	   	        </tr>	
-	        </c:forEach>
-		</table>
-	</div>
-</tags:panelBox>
+							<c:otherwise>
+								<csmauthz:accesscontrol domainObject="${command}"
+									hasPrivileges="UPDATE"
+									authorizationCheckName="domainObjectAuthorizationCheck">
+									<input type="button" id="registerCompanionStudy"
+										value="Register"
+										onclick="openPopup('${ companion.studySiteId}','${command.participant.id}','${command.id}');" />
+								</csmauthz:accesscontrol>
+							</c:otherwise>
+						</c:choose></td>
+					</tr>
+				</c:forEach>
+			</table>
+			</div>
+		</tags:panelBox>
 
-<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.regWorkflowStatus == 'UNREGISTERED'}">
-	<tags:panelBox title="Parent Registration">
-		<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}" />
-	</tags:panelBox>
-</c:if>
-</c:when>
-<c:otherwise>
-	<tags:panelBox>
-		<center><b>No Companion Associated with this Registration.</b></center>
-	</tags:panelBox>
-</c:otherwise>
+		<c:if
+			test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.regWorkflowStatus == 'UNREGISTERED'}">
+			<tags:panelBox title="Parent Registration">
+				<font color="GREEN"> <strong>Data entry is complete
+				for all mandatory companion registrations, Click on '${actionLabel}'
+				button to register subject on parent and companion studies.</strong></font>
+				<registrationTags:register registration="${command}"
+					newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
+					requiresMultiSite="${requiresMultiSite}" />
+			</tags:panelBox>
+		</c:if>
+	</c:when>
+	<c:otherwise>
+		<tags:panelBox>
+			<center><b>No Companion Associated with this
+			Registration.</b></center>
+		</tags:panelBox>
+	</c:otherwise>
 </c:choose>
 </body>
 </html>
