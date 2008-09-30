@@ -598,19 +598,28 @@
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Notification"
-                                                    p:linkName="createNotificationController"/>
+                                    p:linkName="createNotificationController"/>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Import Study"
-                                    p:linkName="studyXMLFileUploadController"/>
-                            <bean
-                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Import Registration"
-                                    p:linkName="studySubjectXMLFileUploadController"/>
+                                    autowire="byType" p:displayName="Import"
+                                    p:linkName="studyXMLFileUploadController">
+                                <property name="subTasks">
+                                    <list>
+                                            <bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Import Study"
+				                                    p:linkName="studyXMLFileUploadController"/>
+				                            <bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Import Registration"
+				                                    p:linkName="studySubjectXMLFileUploadController"/>
+                                    </list>
+                                </property>
+                            </bean>                        
 							<bean 
 	                            	class="edu.duke.cabig.c3pr.utils.web.navigation.Task" autowire="byType"
 	                                p:displayName="Configure C3PR" p:linkName="configurationController"/>  
-	                       	  <bean 
+	                       	<bean 
 	                            	class="edu.duke.cabig.c3pr.utils.web.navigation.Task" autowire="byType"
 	                                p:displayName="Configure Password Policy" p:linkName="passwordPolicyConfigurationController"/>                          
                         </list>
