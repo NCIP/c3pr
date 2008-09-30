@@ -90,10 +90,11 @@
 
                             <c:set var="name" value="${task.displayName}" />
                             <c:if test="${fn:length(task.subTasks) > 0}">
-                                <c:set var="name" value="${task.displayName}"  />
+                                <c:set var="name" value='${task.displayName}'/>
                             </c:if>
 
-                                       ['<c:out value="${name}" />', '<c:url value="${task.url}"/>', null,
+                                       ['<c:out value="${name}" /><c:if test="${fn:length(task.subTasks) > 0}">&nbsp;&raquo;</c:if>',
+                                        '<c:url value="${task.url}"/>', null,
                                            <c:forEach items="${task.subTasks}" var="subtask">
                                            <csmauthz:accesscontrol domainObject="${subtask}" authorizationCheckName="taskAuthorizationCheck">
                                                 ['<c:out value="${subtask.displayName}" />', '<c:url value="${subtask.url}"/>'],
