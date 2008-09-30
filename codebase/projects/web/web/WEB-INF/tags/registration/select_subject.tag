@@ -139,11 +139,11 @@
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"	class="subFlowTabs">
 		<tr>
 			<td width="100%" id="tabDisplay">
-			<a href="#" style="font-size:100%"><span id="searchSubjectSpan" class="current" onclick="moveToSearchSubject()">
+			<a href="#" style="font-size:100%"><span id="searchSubjectSpan" class="tab" onclick="moveToSearchSubject()">
 			<img src="<tags:imageUrl name="subTabWhiteL.gif"/>" width="3" height="16" align="absmiddle" />			
 			<b>Search Subject</b><img src="<tags:imageUrl name="subTabWhiteR.gif"/>" width="3" height="16" align="absmiddle" />
 			</span></a>
-			<a href="#"><span id="createSubjectSpan" class="tab" onclick="moveToCreateSubject()">
+			<a href="#"><span id="createSubjectSpan" class="current" onclick="moveToCreateSubject()">
 			<img src="<tags:imageUrl name="subTabGrayL.gif"/>" width="3" height="16" align="absmiddle" />
 			<b>Create Subject</b><img src="<tags:imageUrl name="subTabGrayR.gif"/>" width="3" height="16" align="absmiddle" />
 			</span></a>
@@ -154,7 +154,7 @@
 	<br/>
 
 	<!-- start of search subject div-->	
-	<div id="searchSubjectDiv">
+	<div id="searchSubjectDiv" style="display:none;">
 	<form id="searchSubjectForm" action="" method="post">
 	<input type="hidden" name="async" id="async" value="async">
 		<div class="content">
@@ -209,7 +209,7 @@
 	</script>
 	
 	<!--start of create subject div-->
-	<div id="createSubjectDiv" style="display:none;">
+	<div id="createSubjectDiv" style="">
 	<div id="createSubjectDetailsDiv">		
 	<form id="createSubForm" name="createSubForm">
 	<input type="hidden" name="validate" id="validate" value="true"/>
