@@ -1,25 +1,16 @@
 package org.apache.jackrabbit.core.persistence.db;
 
 
-import java.io.IOException;
 import java.util.Properties;
-
-import org.apache.log4j.Logger;
-
-import edu.duke.cabig.c3pr.rules.repository.RepositoryServiceImpl;
+import edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl;
 
 public class RulesVersioningOracleDBPersistanceManager extends OraclePersistenceManager {
 
-	private static Logger logger = Logger.getLogger(RepositoryServiceImpl.class);
-
     public RulesVersioningOracleDBPersistanceManager() {
 
-        Properties props = new Properties();
-        try{
-        	props.load(this.getClass().getClassLoader().getResourceAsStream("context/datasource.properties"));
-        }catch(IOException ioe){
-        	logger.error(ioe.getMessage());
-        }    
+    	Properties props = new Properties();
+        RulesDelegationServiceImpl.loadConfiguration(props);
+
         this.driver = props.getProperty("datasource.driver");
         this.password = props.getProperty("datasource.password");
         this.user = props.getProperty("datasource.username");
@@ -27,6 +18,7 @@ public class RulesVersioningOracleDBPersistanceManager extends OraclePersistence
         this.schemaObjectPrefix = "rep_ver_";
         this.url = props.getProperty("datasource.url");
         this.externalBLOBs = false;
+
     	
        /* this.driver = "org.postgresql.Driver";
         this.password = "postgres";

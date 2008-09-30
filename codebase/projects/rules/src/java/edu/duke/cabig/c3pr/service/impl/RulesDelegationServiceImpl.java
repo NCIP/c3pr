@@ -1,10 +1,15 @@
 package edu.duke.cabig.c3pr.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.rules.exception.RuleException;
@@ -12,6 +17,7 @@ import edu.duke.cabig.c3pr.rules.runtime.BusinessRulesExecutionService;
 import edu.duke.cabig.c3pr.service.RulesDelegationService;
 import edu.duke.cabig.c3pr.service.ScheduledNotificationService;
 import edu.duke.cabig.c3pr.service.SchedulerService;
+import edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean;
 
 public class RulesDelegationServiceImpl implements RulesDelegationService{
 
@@ -48,6 +54,22 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 		}
 		log.debug(this.getClass().getName() + ": Exiting activateRules()");
 	}
+	
+	public static void loadConfiguration(Properties props) {
+    	ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:edu/duke/cabig/c3pr/applicationContext-config.xml");
+    	
+    	String url = applicationContext.getBean("c3prPropertyConfigurerFromFile[datasource.url]").toString();
+    	String driver = applicationContext.getBean("c3prPropertyConfigurerFromFile[datasource.driver]").toString();
+    	String user = applicationContext.getBean("c3prPropertyConfigurerFromFile[datasource.username]").toString();
+    	String pwd = applicationContext.getBean("c3prPropertyConfigurerFromFile[datasource.password]").toString();
+        
+		props.setProperty("datasource.driver", driver);
+        props.setProperty("datasource.password", pwd);
+        props.setProperty("datasource.username", user);
+        props.setProperty("datasource.url", url);
+
+	}
+	
 
 	public BusinessRulesExecutionService getBusinessRulesExecutionService() {
 		return businessRulesExecutionService;
