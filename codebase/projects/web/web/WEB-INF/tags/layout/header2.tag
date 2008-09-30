@@ -191,7 +191,7 @@ function getSelectedValue() {
 }
 
 //added these line to make top level menu item non clickable
-var disableClick = ['Dashboard', 'Inbox', 'Registration', 'Studies', 'Person &amp; Organization', 'Administration', 'Advanced Search'];
+var disableClick = ['Dashboard', 'Inbox', 'Registration', 'Studies', 'Person &amp; Organization', 'Administration', 'Advanced Search', 'Import'];
 for (var menuIndex = 0; menuIndex < A_MENUS[0].a_index.length ; menuIndex++) {
 	sectionName = A_MENUS[0].a_index[menuIndex].a_config[0];
 	for (var i = 0; i < disableClick.length ; i++) {
