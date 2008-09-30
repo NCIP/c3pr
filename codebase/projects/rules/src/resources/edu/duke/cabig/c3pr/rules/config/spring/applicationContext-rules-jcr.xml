@@ -8,7 +8,7 @@
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
     
-    
+    <import resource="classpath:edu/duke/cabig/c3pr/applicationContext-config.xml" />
 	<tx:annotation-driven proxy-target-class="true" />
 <!-- 
 	<bean id="rulesPropertyConfigurer"
@@ -45,7 +45,7 @@
 
 
 	<!-- configuring a 'transient' repository (automatically starts when a session is opened 
-		and shutdowns when all sessions are closed) -->
+		and shutdowns when all sessions are closed) 
     <bean id="c3prPropertyConfigurerFromFile"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
@@ -57,7 +57,7 @@
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
-    </bean>    
+    </bean>    -->
     
 	<bean name="c3prPropertyConfigurerFromFile[rules.repository]"
           class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>     

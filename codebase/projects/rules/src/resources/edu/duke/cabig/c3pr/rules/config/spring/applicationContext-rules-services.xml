@@ -19,19 +19,11 @@
     <bean id="ruleDeploymentService" class="edu.duke.cabig.c3pr.rules.deploy.RuleDeploymentServiceImpl"/>
 
     <bean id="ruleExecutionService" class="edu.duke.cabig.c3pr.rules.runtime.RuleExecutionServiceImpl"/>
-<!--
-    <bean id="emailService" class="gov.nih.nci.cabig.caaers.email.EmailServiceImpl"/>
--->
-    <bean id="ruleEngineService" autowire="byType" class="edu.duke.cabig.c3pr.rules.business.service.RulesEngineServiceImpl"/>
-
-<!-- <bean id="evaluationService" autowire="byType"
-        class="edu.duke.cabig.c3pr.rules.business.service.EvaluationServiceImpl"/> 
-        
-    <bean id="adverseEventEvaluationService" class="gov.nih.nci.cabig.caaers.rules.business.service.AdverseEventEvaluationServiceImpl" autowire="no">
-    	<property name="rulesEngineService" ref="ruleEngineService" />
-    	<property name="businessRulesExecutionService" ref="businessRulesExecutionService" />
-    </bean>-->
     
+<!--<bean id="emailService" class="gov.nih.nci.cabig.caaers.email.EmailServiceImpl"/>  -->
+
+    <bean id="ruleEngineService" autowire="byType" class="edu.duke.cabig.c3pr.rules.business.service.RulesEngineServiceImpl"/>
+  
     <bean id="businessRulesExecutionService" class="edu.duke.cabig.c3pr.rules.runtime.BusinessRulesExecutionServiceImpl" autowire="byName" />
      
     <bean id="rulesLoader" class="edu.duke.cabig.c3pr.rules.deploy.SystemRulesDeployer">
