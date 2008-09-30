@@ -16,7 +16,8 @@
 
 <c:set var="bgcolorSelected" value="#cccccc" />
 <c:set var="bgcolorAlternate" value="#eeeeee" />
-<c:set var="bgcolor" value="#ffffff" />
+<c:set var="bgcolorRead" value="#ffffff" />
+<c:set var="bgcolor" value="#fff8aa" />
 
 <script>
 		function showMessageBody(index, rsnId, title, url){
@@ -72,7 +73,7 @@
 						<!-- Unread emails -->
 						<!-- emails that have been viewed -->
 						<c:if test="${rsn.isRead}">
-							<tr id="row-${rsnStatus.index}" bgcolor="${bgcolorAlternate}">
+							<tr id="row-${rsnStatus.index}" bgcolor="${bgcolorRead}">
 								<td><a
 									href="javascript:showMessageBody('${rsnStatus.index}','${rsn.id}','','${url}')">
 								<c:out value="${rsn.scheduledNotification.title}" /></a></td>
