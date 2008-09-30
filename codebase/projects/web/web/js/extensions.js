@@ -9,7 +9,7 @@ Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
     },
     buildOptionList: function() {
         if(BrowserDetect.browser=='Explorer')
-        	Object.extend(this._controls.editor,Element);
+        	Element.extend(this._controls.editor); 
         this.__buildOptionList();
     },
     onSubmit: function(){
