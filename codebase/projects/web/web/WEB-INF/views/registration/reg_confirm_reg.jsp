@@ -79,6 +79,9 @@ function manageCompanions(registrationId){
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
+		<c:when test="${command.regDataEntryStatus.code == 'Incomplete'}">
+			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font>
+		</c:when>
 		<c:when test="${reg_registered && hasCompanions}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
@@ -108,6 +111,8 @@ function manageCompanions(registrationId){
 	</c:when>
 	<c:otherwise>
 		<c:choose>
+		<c:when test="${command.regDataEntryStatus.code == 'Incomplete'}">
+			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:when>
 		<c:when test="${reg_registered && hasCompanions}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
