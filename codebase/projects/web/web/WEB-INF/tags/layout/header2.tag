@@ -90,7 +90,7 @@
 
                             <c:set var="name" value="${task.displayName}" />
                             <c:if test="${fn:length(task.subTasks) > 0}">
-                                <c:set var="name" value="${task.displayName} &raquo " />
+                                <c:set var="name" value="${task.displayName} " />&raquo
                             </c:if>
 
                                        ['<c:out value="${name}" />', '<c:url value="${task.url}"/>', null,
