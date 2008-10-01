@@ -332,7 +332,7 @@
 									<tags:indicator id="userEmail[${nStatus.index}][${emailStatus.index}]-indicator" />
 									
 								</td>
-								<td class="alt"><a
+								<td class="alt" valign="top"><a
 									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${email.id==null?'HC#':'ID#'}${email.id==null?email.hashCode:email.id}');">
 									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 								</td>
@@ -350,7 +350,7 @@
 						                <option value="">Please Select</option>
 						                <form:options items="${notificationPersonnelRoleRefData}" itemLabel="desc" itemValue="code" />
 						            </form:select></td>
-								<td class="alt"><a
+								<td class="alt" valign="top"><a
 									href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${roleStatus.index},'${role.id==null?'HC#':'ID#'}${role.id==null?role.hashCode:role.id}');">
 									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 								</td>
@@ -503,7 +503,7 @@
 							value="${command.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" class="autocomplete validate-notEmpty" />
 					<tags:indicator id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-indicator" />
 					<div id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-choices" class="autocomplete"></div></td>
-				<td class="alt"><a
+				<td class="alt" valign="top"><a
 					href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX, -1);">
 					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 				</td>
@@ -522,7 +522,7 @@
 						</c:forEach>
 	                </select>
 	            </td>
-				<td class="alt"><a
+				<td class="alt" valign="top"><a
 					href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),SECONDARY.NESTED.PAGE.ROW.INDEX,-1);">
 					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 				</td>
