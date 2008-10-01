@@ -25,6 +25,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.SearchRegistrationCommand;
 
 /**
@@ -57,6 +58,9 @@ public class SearchRegistrationController extends SimpleFormController {
         SearchRegistrationCommand searchRegistrationCommand = (SearchRegistrationCommand) oCommand;
         StudySubject registration = new StudySubject(true);
         String text = searchRegistrationCommand.getSearchText();
+        if(StringUtils.equals(text, "(Begin typing here)")){
+        	text = "" ;
+        }
         String type = searchRegistrationCommand.getSearchType();
         List<StudySubject> registrations = new ArrayList<StudySubject>();
         log.debug(" Search string is :" + text);
@@ -114,12 +118,14 @@ public class SearchRegistrationController extends SimpleFormController {
             }
         }
         else if (request.getParameter("select").equals("Id")) {
-            OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
-            orgIdentifier.setValue(text);
-            registration.addIdentifier(orgIdentifier);
-            SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
-            sysIdentifier.setValue(text);
-            registration.addIdentifier(sysIdentifier);
+            if (!StringUtils.isBlank(text)) {
+				OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+				orgIdentifier.setValue(text);
+				registration.addIdentifier(orgIdentifier);
+				SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+				sysIdentifier.setValue(text);
+				registration.addIdentifier(sysIdentifier);
+			}
             registrations = studySubjectDao.searchByExample(registration, true);
         }
 
