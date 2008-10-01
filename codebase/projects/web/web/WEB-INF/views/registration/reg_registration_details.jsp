@@ -157,7 +157,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<tr>
 		<td class="label" width="40%">Payment Method:</td>
 		<td>
-			<form:select id="paymentMethod" path="paymentMethod" onchange="manageField(this);">
+			<form:select id="paymentMethod" path="paymentMethod">
 				<option value="">Please Select</option>
 				<form:options items="${paymentMethods}" itemLabel="desc" itemValue="code"/>
 			</form:select>
