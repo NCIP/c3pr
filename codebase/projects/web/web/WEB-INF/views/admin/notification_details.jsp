@@ -213,7 +213,6 @@
 		<input type="hidden" name="_action" value="">
 		<input type="hidden" name="_selected" value="">
 		<input type="hidden" name="_finish" value="true">
-		<br/>
 		
 			<table id="notification" width="100%">
 			<tr></tr>
