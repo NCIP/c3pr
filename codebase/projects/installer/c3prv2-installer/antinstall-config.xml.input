@@ -206,6 +206,7 @@ This is the install config for c3pr2.5 installer
                 defaultValue="oracle">
             <option text="Oracle" value="oracle"/>
             <option text="PostgreSQL" value="postgres"/>
+            <option text="SQL ServerL" value="sqlserver"/>
             <option text="Other/none" value="none"/>
         </select>
         <hidden property="maxSearchResultsForAutocompleter" value="@maxSearchResultsForAutocompleter@"/>
@@ -282,6 +283,45 @@ This is the install config for c3pr2.5 installer
         <hidden property="jdbc.quartz.delegateClassName" value="org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"/>
         <hidden property="audit.dialect" value="edu.duke.cabig.c3pr.hibernate.ImprovedPostgreSQLDialect"/>
         <hidden property="jackrabbit.repository" value="classpath:edu/duke/cabig/c3pr/rules/jackrabbit-repo-postgres.xml"/>
+    </page>
+    
+    <page
+            name="sqlserverProperties"
+            type="input"
+            displayText="SQL Server Properties"
+            ifProperty="${database.type}==sqlserver">
+        <text
+                property="datasource.url"
+                displayText="Database URL"
+                defaultValue="jdbc:jtds:sqlserver://localhost:4581/c3pr_dev"
+                />
+
+        <text
+                property="datasource.username"
+                displayText="Database Username"
+                defaultValue="admin"
+                />
+        <text
+                property="datasource.password"
+                displayText="Database Password"
+                defaultValue="admin"
+                />
+
+        <hidden
+                property="datasource.driver"
+                value="net.sourceforge.jtds.jdbc.Driver"/>
+
+        <hidden
+                property="datasource.dialect"
+                value="org.hibernate.dialect.SQLServerDialect"/>
+        <hidden property="jdbc.quartz.delegateClassName" value="org.quartz.impl.jdbcjobstore.MSSQLDelegate"/>
+        <hidden property="audit.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
+        <hidden property="jackrabbit.repository" value="classpath:edu/duke/cabig/c3pr/rules/jackrabbit-repo-sqlserver.xml"/>
+        <target
+                displayText="Setup Database"
+                target="migrate"
+                defaultValue="true"
+                />
     </page>
 
     <page
