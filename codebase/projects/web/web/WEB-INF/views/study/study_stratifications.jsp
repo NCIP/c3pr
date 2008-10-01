@@ -217,8 +217,8 @@
 				</script>				
 				<table border="1" class="tablecontent"  width="50%">
 				<tr>
-					<th width="25%">Group Number&nbsp;<tags:hoverHint id="study.stratumGroup.stratumGroupNumber-${epochCount.index}" keyProp="study.stratumGroup.stratumGroupNumber"/></th>					
-					<th width="70%">Answer Combination&nbsp;<tags:hoverHint id="study.stratumGroup.answerCombinations-${epochCount.index}" keyProp="study.stratumGroup.answerCombinations"/></th>
+					<th width="30%">Group Number&nbsp;<tags:hoverHint id="study.stratumGroup.stratumGroupNumber-${epochCount.index}" keyProp="study.stratumGroup.stratumGroupNumber"/></th>					
+					<th width="65%">Answer Combination&nbsp;<tags:hoverHint id="study.stratumGroup.answerCombinations-${epochCount.index}" keyProp="study.stratumGroup.answerCombinations"/></th>
 <!--  				<th width="20%">Stratum Group#</th>-->
 					<th width="5%"></th>
 				</tr>
@@ -230,8 +230,8 @@
 							items="${command.epochs[epochCount.index].stratumGroups}">	
 							<c:if test="${epoch.stratificationIndicator == 'true' }">					
 							<tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index}" style="cursor:move">
-								<td width="25%">${stratumGroup.stratumGroupNumber}</td>					
-								<td width="70%">${stratumGroup.answerCombinations}</td>
+								<td width="30%">${stratumGroup.stratumGroupNumber}</td>					
+								<td width="65%">${stratumGroup.answerCombinations}</td>
 								<!-- <td>${stratumGroup.stratumGroupNumber}</td> -->
 								<td width="5%">
 								<a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},'${stratumGroup.id==null?'HC#':'ID#'}${stratumGroup.id==null?stratumGroup.hashCode:stratumGroup.id}');">
