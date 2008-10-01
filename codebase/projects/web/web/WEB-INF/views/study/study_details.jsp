@@ -217,14 +217,14 @@
         <div class="row">
             <div class="label">Description:</div>
             <div class="value"><form:textarea path="descriptionText" rows="2"
-                                              cols="35" cssClass="validate-maxlength2000" />
+                                              cols="33" cssClass="validate-maxlength2000" />
             <tags:hoverHint keyProp="study.description"/></div>
         </div>
 
         <div class="row">
             <div class="label">Precis:</div>
             <div class="value"><form:textarea path="precisText" rows="2"
-                                              cols="35" cssClass="validate-maxlength200" />
+                                              cols="33" cssClass="validate-maxlength200" />
             <tags:hoverHint keyProp="study.precisText"/>
             </div>
         </div>
@@ -262,24 +262,23 @@
             <tags:hoverHint keyProp="study.phaseCode"/></div>
         </div>
 
-		<c:choose>
-            <c:when test="${not empty command.id}">
-                <div class="row">
+		<div class="row">
                     <div class="label">
                         Blinded:</div>
+		<c:choose>
+            <c:when test="${not empty command.id}">
+                
                     <div class="value">${command.blindedIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.blindedIndicator"/></div>
-                </div>
+                
             </c:when>
             <c:otherwise>
-		        <div class="row">
-		            <div class="label">Blinded:</div>
 		            <div class="value"><form:select path="blindedIndicator" onchange="blindedRandomization();">
 		                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 		            </form:select>
 		            <tags:hoverHint keyProp="study.blindedIndicator"/></div>
-		        </div>
         	</c:otherwise>
         </c:choose>
+        </div>
         
          <c:choose>
             <c:when test="${not empty command.id}">
@@ -314,7 +313,7 @@
 	            	<option value="">Please Select</option>
 	            	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 	        	</form:select>
-	        	<tags:hoverHint keyProp="study.standaloneIndicator"/>
+	        	<tags:hoverHint keyProp="study.standaloneIndicator"/></div>
 	        </div>
     </div>
 </chrome:division>

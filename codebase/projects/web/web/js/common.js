@@ -257,4 +257,7 @@ var BrowserDetect = {
 BrowserDetect.init();
 function updateHelpLink(baseUrl, linkName){
 	$('help').href= baseUrl + "#" + linkName + ".htm";
-	}
+}
+//Event.observe(window, "load", function (){
+//	BrowserDetect.browser=='Explorer'?$$('.required-indicator').each(function(element){element.update("<span style='color:#900;'>*</span> "+element.innerHTML)}):null;
+//})
