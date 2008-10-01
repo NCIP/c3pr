@@ -27,9 +27,11 @@
 	        	showEffect:Effect.BlindDown, hideEffect: Effect.BlindUp, draggable:true, wiredDrag: true}); 
 	        	win.setContent('emailMessageDetails', true, true);
 	     	}else {
-			    $('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
-	     		$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
+			    //$('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
+	     		//$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
 	     	}
+	     	$('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
+     		$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
 	     	win.showCenter();
 	     }   
 	     
@@ -321,13 +323,14 @@
 						<c:forEach var="email" varStatus="emailStatus" items="${command.plannedNotifications[nStatus.index].userBasedRecipient}">
 							<tr id="table1-${emailStatus.index}">
 								<td class="alt">
+								<div id="userEmail[${nStatus.index}][${emailStatus.index}]-choices" class="autocomplete" style="display: none;"></div>
 									<input type="hidden" id="userEmail[${nStatus.index}][${emailStatus.index}]-hidden" 
 										name="plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].emailAddress" 
 										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
 									<input id="userEmail[${nStatus.index}][${emailStatus.index}]-input" size="40" type="text" 
 										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].fullName} (${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress})" class="autocomplete validate-notEmpty" />
 									<tags:indicator id="userEmail[${nStatus.index}][${emailStatus.index}]-indicator" />
-									<div id="userEmail[${nStatus.index}][${emailStatus.index}]-choices" class="autocomplete"></div>
+									
 								</td>
 								<td class="alt"><a
 									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${email.id==null?'HC#':'ID#'}${email.id==null?email.hashCode:email.id}');">
@@ -380,7 +383,7 @@
 		<tr><td><chrome:deletableDivision id="notification-details-PAGE.ROW.INDEX" title="Notification Details" divTitle="a-PAGE.ROW.INDEX"
 				onclick="RowManager.deleteRow(notificationRowInserterProps,PAGE.ROW.INDEX,-1)">
 		
-		<table>
+		<table width="70%">
 			<tr>
 				<td width="10%" align="right">Event:
 	            </td>
@@ -409,7 +412,7 @@
 				</td> 
 	            <td align="left" rowspan="2">
 	            	<c:set var="eventName" value="NEW_REGISTRATION_EVENT_REPORT" />
-	            	<textarea title="Click to Edit"  rows="3" cols="25" id="plannedNotifications[PAGE.ROW.INDEX].message"
+	            	<textarea title="Click to Edit"  rows="3" cols="33" id="plannedNotifications[PAGE.ROW.INDEX].message"
 	            			name="plannedNotifications[PAGE.ROW.INDEX].message" onclick="showMessageBody('PAGE.ROW.INDEX');"></textarea>
 	            </td>
 	        </tr>
