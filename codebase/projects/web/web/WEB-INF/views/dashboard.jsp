@@ -95,6 +95,24 @@
 		</chrome:box></td>
 		<td valign="top"><chrome:box
 			title="Incomplete Registrations - Most Recent">
+			<script>
+				function submitLocalForm(formName, regId ,schEphId){
+					registrationElement=formName+'_registrationId';
+					$(registrationElement).value=regId;
+				//	schEphElement=formName+'_scheduledEpoch';
+				//	$(schEphElement).value=schEphId;
+					$(formName).submit();
+				}	
+			</script>
+			<form id="manage" name="manage" action="../pages/registration/manageRegistration" method="get">
+				<input type="hidden" name="registrationId" id="manage_registrationId" value=""/>
+			</form>
+			<form action="../pages/registration/createRegistration" method="post" id="create">
+				<input type="hidden" name="_page" id="_page0" value="0"/>
+				<input type="hidden" name="_target1" id="_target1" value="1"/>
+				<input type="hidden" name="registrationId" id="create_registrationId" value=""/>
+				<input type="hidden" name="goToTab" id="goToTab" value="true"/>
+			</form>
 			<c:if
 				test="${uRegistrations != null && fn:length(uRegistrations) > 0}">
 				<table width="100%" cellspacing="1" cellpadding="2">
@@ -106,18 +124,23 @@
 					</tr>
 					<c:forEach var="registration" items="${uRegistrations}"
 						varStatus="status">
-
+						<c:choose>
+							<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
+								<c:set var="formType" value="create" />
+							</c:when>
+							<c:otherwise>
+								<c:set var="formType" value="manage" />				
+							</c:otherwise>
+						</c:choose>
 						<c:if test="${status.count % 2 == 1}">
 							<c:set var="bg" value="${bgcolor}" />
 						</c:if>
 						<c:if test="${status.count % 2 == 0}">
 							<c:set var="bg" value="${bgcolorAlternate}" />
 						</c:if>
-
-						<c:url var="_url"
-							value="/pages/registration/manageRegistration?registrationId=${registration.id}" />
+				
 						<chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}"
-							rowNumber="${status.count}" _url="${_url}">
+							rowNumber="${status.count}" _onclick="submitLocalForm('${formType}','${registration.id}','${registration.currentScheduledEpoch.id}')" >
 							<chrome:td bgcolor="${bg}">
 								<c:out
 									value="${registration.participant.firstName} ${registration.participant.lastName}" />
