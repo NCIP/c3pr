@@ -215,7 +215,7 @@
 					stratumGroupRowInserter_${epochCount.index}.initialIndex= ${fn:length(command.epochs[epochCount.index].stratumGroups)};
 					RowManager.registerRowInserter(stratumGroupRowInserter_${epochCount.index});
 				</script>				
-				<table border="1" class="tablecontent"  width="50%">
+				<table border="1" class="tablecontent"  width="60%">
 				<tr>
 					<th width="30%">Group Number&nbsp;<tags:hoverHint id="study.stratumGroup.stratumGroupNumber-${epochCount.index}" keyProp="study.stratumGroup.stratumGroupNumber"/></th>					
 					<th width="65%">Answer Combination&nbsp;<tags:hoverHint id="study.stratumGroup.answerCombinations-${epochCount.index}" keyProp="study.stratumGroup.answerCombinations"/></th>
@@ -223,7 +223,7 @@
 					<th width="5%"></th>
 				</tr>
 				</table>
-				<table id="sgCombinationsTable_${epochCount.index}" border="1" class="tablecontent"  width="50%">
+				<table id="sgCombinationsTable_${epochCount.index}" border="1" class="tablecontent"  width="60%">
 					<tbody id="sortablelist_${epochCount.index}">
 						
 						<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
