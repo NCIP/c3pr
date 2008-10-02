@@ -101,7 +101,7 @@
         <!--copy jglobus to $CATALINA_HOME/common-->
         <copy todir="${catalina.home}/common/lib" overwrite="false">
             <fileset dir="${lib.dir}">
-                <include name="cog-jglobus.jar"/>
+                <include name="cog-jglobus*.jar"/>
             </fileset>
         </copy>
     </target>
