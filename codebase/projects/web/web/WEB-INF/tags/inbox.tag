@@ -36,7 +36,7 @@
 	     	if(textId != '' && title != ''){
 	     		$(textId).innerHTML = title;
 	     	}
-	     	$(rowId).style.backgroundColor = "#eeeeee";
+	     	$(rowId).style.backgroundColor = "#ffffff";
 	     	new Ajax.Request(url + '?rsnId='+rsnId, {method:'get', asynchronous:true});
 	     } 
 	</script>
