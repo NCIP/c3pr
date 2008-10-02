@@ -207,7 +207,7 @@ function manageIdentifierRadio(element){
 								class="autocomplete validate-notEmpty" />
 								<tags:hoverHint keyProp="subject.MRN.organization"/>
 								<tags:indicator id="mrnOrganization-indicator" />
-								<div id="mrnOrganization-choices" class="autocomplete"></div>
+								<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"></div>
 							    </div>
                     </div>
                     <div class="row">
