@@ -248,7 +248,7 @@ Event.observe(window, "load", function() {
     <tr>
     <td valign="top" width="45%">
     <chrome:box title="${tab.shortTitle}">
-
+	<br/>
         <div>
             <input type="hidden" name="_actionx" value="">
             <input type="hidden" name="_selected" value="">
@@ -261,7 +261,7 @@ Event.observe(window, "load", function() {
             <form:input size="45" id="disease-input" path="diseaseCategoryAsText" cssClass="autocomplete"/>
             <tags:hoverHint keyProp="study.diseaseCategoryAsText"/>
             <tags:indicator id="disease-indicator"/>
-            <div id="disease-choices" class="autocomplete"></div>
+            <div id="disease-choices" class="autocomplete" style="display: none;"></div>
             <input type="button" id="disease-clear" value="Clear" onClick="handleClear()"/>
 
             <p id="disease-selected" style="display: none"></p>
@@ -288,6 +288,7 @@ Event.observe(window, "load", function() {
 	
 	<td valign="top" width="45%">
     <chrome:box title="Selected Disease - ${fn:length(command.studyDiseases)}" id="diseases">
+    <br/>
         <c:choose>
             <c:when test="${fn:length(command.studyDiseases) == 0}">
                 No Diseases Selected
