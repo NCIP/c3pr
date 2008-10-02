@@ -373,7 +373,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         this.informedConsentVersion = informedConsentVersion;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "STI_ID")
     public StudyInvestigator getTreatingPhysician() {
         return treatingPhysician;
