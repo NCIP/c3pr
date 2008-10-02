@@ -78,7 +78,7 @@
 	<br>    
 	<br>
     <div id="investigators">
-      <br><br>New Investigators <br>
+      <br><br><b>New Investigators </b><br /><br/>
      <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
             <th><span class="required-indicator"></span>Investigator</th>

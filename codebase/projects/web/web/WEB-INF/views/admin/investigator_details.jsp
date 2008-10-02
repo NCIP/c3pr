@@ -78,7 +78,7 @@ function fireAction(action, selected){
 					<tags:indicator
 						id="healthcareSite${status.index}-indicator" />
 					<div id="healthcareSite${status.index}-choices"
-						class="autocomplete"></div>
+						class="autocomplete" style="display: none;"></div>
 				</td>
                 <td class="alt">
                     <form:select path="healthcareSiteInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">

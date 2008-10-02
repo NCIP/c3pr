@@ -232,7 +232,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 					<input type="button" onclick="handleHealthcarSiteClear()"
                         value="Clear"/>
 					<tags:indicator	id="healthcareSite-indicator" />
-				<div id="healthcareSite-choices" class="autocomplete"></div>
+				<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
 				 <p id="flashMessage" style="display: none">Search for an Organization first
 					</p>
 
