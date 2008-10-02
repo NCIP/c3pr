@@ -139,13 +139,13 @@
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"	class="subFlowTabs">
 		<tr>
 			<td width="100%" id="tabDisplay">
-			<a href="#" style="font-size:100%"><span id="searchSubjectSpan" class="tab" onclick="moveToSearchSubject()">
-			<img src="<tags:imageUrl name="subTabWhiteL.gif"/>" width="3" height="16" align="absmiddle" />			
-			<b>Search Subject</b><img src="<tags:imageUrl name="subTabWhiteR.gif"/>" width="3" height="16" align="absmiddle" />
-			</span></a>
 			<a href="#"><span id="createSubjectSpan" class="current" onclick="moveToCreateSubject()">
 			<img src="<tags:imageUrl name="subTabGrayL.gif"/>" width="3" height="16" align="absmiddle" />
 			<b>Create Subject</b><img src="<tags:imageUrl name="subTabGrayR.gif"/>" width="3" height="16" align="absmiddle" />
+			</span></a>
+			<a href="#" style="font-size:100%"><span id="searchSubjectSpan" class="tab" onclick="moveToSearchSubject()">
+			<img src="<tags:imageUrl name="subTabWhiteL.gif"/>" width="3" height="16" align="absmiddle" />			
+			<b>Search Subject</b><img src="<tags:imageUrl name="subTabWhiteR.gif"/>" width="3" height="16" align="absmiddle" />
 			</span></a>
 			</td>
 			<td><img src="<tags:imageUrl name="subTabSpacer.gif"/>" width="7" height="1" /></td>
