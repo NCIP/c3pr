@@ -57,16 +57,16 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 </script>
 
 <chrome:division title="Assigned Identifier">
-	<table width="47%" border="0" cellspacing="1" cellpadding="1" id="table1">
+	<table width="61%" border="0" cellspacing="1" cellpadding="1" id="table1">
 		<tr>
-			<td align="right"><span class="required-indicator">Organization:</span></td>
+			<td align="right" width="19%"><span class="required-indicator">Organization:</span></td>
 			<td align="left"><input type="hidden" id="mrnOrganization-hidden"
 					name="organizationAssignedIdentifiers[0].healthcareSite" />
 				<input id="mrnOrganization-input" size="50" type="text"
 				name="organizationAssignedIdentifiers[0].healthcareSite.name" class="autocomplete validate-notEmpty" />
-				<tags:indicator id="mrnOrganization-indicator" />
 				<tags:hoverHint keyProp="subject.MRN.organization"/>
-				<div id="mrnOrganization-choices" class="autocomplete"></div>
+				<tags:indicator id="mrnOrganization-indicator" />
+				<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"></div>
 			</td>
 		</tr>
 		<tr>
