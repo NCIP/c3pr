@@ -302,7 +302,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			    </chrome:box>
 			</td>
 			<td valign="middle">
-					<input type="button" value="Add Investigators >>" onclick="fireAction('addStudyDisease','0');" alt="Add Investigators"/>
+					<input type="button" value="Add >>" onclick="fireAction('addStudyDisease','0');" alt="Add Investigators"/>
 	        </td>
 			<td valign="top" width="45%">
 			    <chrome:box title="${command.studyOrganizations[selected_site].healthcareSite.name}" id="diseases">
