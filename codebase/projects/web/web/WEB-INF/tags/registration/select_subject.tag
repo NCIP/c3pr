@@ -217,9 +217,9 @@
 	<input type="hidden" name="async" id="async" value="async">
 	<div class="division " id="single-fields" >
     <div class="content">
-		<table width="70%" border="0" cellspacing="0" cellpadding="0" id="details">
+		<table width="75%" border="0" cellspacing="0" cellpadding="0" id="details">
 			<tr>
-				<td width="40%" valign="top">
+				<td width="45%" valign="top">
 					<table width="100%" border="0" cellspacing="1" cellpadding="1"
 						id="table1">
 						<tr>
@@ -255,7 +255,7 @@
 						</tr>					
 					</table>
 				</td>
-				<td width="60%" valign="top">
+				<td width="55%" valign="top">
 					<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
 						<tr>
 							<td align="right"><span class="required-indicator">Birth Date:</span>&nbsp;</td>
