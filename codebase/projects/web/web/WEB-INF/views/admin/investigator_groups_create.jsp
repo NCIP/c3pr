@@ -76,6 +76,7 @@
 	        clonedRowInserter=Object.clone(principalInvestigatorAutocompleterProps);
 			clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
 			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+			initSearchField();
 					}
 	};
 RowManager.addRowInseter(instanceRowInserterProps);  
