@@ -37,12 +37,6 @@
         }
 
 
-        function activateInPlaceEditing(arrayElements) {
-            for (aE = 0; aE < arrayElements.length; aE++) {
-                arrayElements[aE].enterEditMode('click');
-            }
-        }
-
         function statusChangeCallback(statusCode) {
             elmt = document.getElementById('amendButtonDisplayDiv');
             if (statusCode == 'Active' || statusCode == 'Amendment Pending') {
@@ -304,13 +298,22 @@
                 <td>
 	                <csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
 	                                        authorizationCheckName="domainObjectAuthorizationCheck">
-	                    &nbsp; <input type="button" value="Edit" onclick="activateInPlaceEditing(eArray_${status.index})"/>
+	                    &nbsp; <input type="button" value="Edit" id="inPlaceEdit_${status.index}"/>
 	                </csmauthz:accesscontrol>
                     <script>
                         eArray_${status.index} = new Array();
                         eArray_${status.index}.push(editor_changedSiteStudyStatus_${status.index});
                         eArray_${status.index}.push(editor_changedSiteStudyStartDate_${status.index});
                         eArray_${status.index}.push(editor_changedSiteStudyIrbApprovalDate_${status.index});
+                        function activateInPlaceEditing_${status.index}(localevent) {
+				            for (aE = 0; aE < eArray_${status.index}.length; aE++) {
+				                eArray_${status.index}[aE].enterEditMode(localevent);
+				            }
+				        }
+				        
+				        Event.observe(window, "load", function() {
+				    		Event.observe("inPlaceEdit_${status.index}", "click", activateInPlaceEditing_${status.index});
+				    	})
                     </script>
                     <c:if test="${isRegistrar}">
 	                 <script type="text/javascript">

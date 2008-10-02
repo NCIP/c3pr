@@ -21,12 +21,17 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <script>
-        function activateInPlaceEditing(arrayElements) {
-            for (aE = 0; aE < arrayElements.length; aE++) {
-                arrayElements[aE].enterEditMode('click');
+        function activateInPlaceEditing(localEditEvent) {
+            for (aE = 0; aE < eArray.length; aE++) {
+                eArray[aE].enterEditMode(localEditEvent);
             }
             new Effect.Appear('OffStudyDiv');
         }
+        
+        Event.observe(window, "load", function() {
+    		Event.observe("editInPlace", "click", activateInPlaceEditing);
+    	})
+    	
         function show() {
             new Effect.SlideDown('OffStudyStatus');
         }
@@ -344,7 +349,7 @@
     <c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><br>
     	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
                             authorizationCheckName="domainObjectAuthorizationCheck">
-        	<div align="right"><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/></div>
+        	<div align="right"><input type="button" value="Edit" id="editInPlace"/></div>
         </csmauthz:accesscontrol>
     </c:if>
     <script>
