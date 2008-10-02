@@ -79,7 +79,7 @@
 								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" disabled="true" />
 								<tags:hoverHint keyProp="researchStaff.organization"/>
 							<tags:indicator id="healthcareSite-indicator" />
-							<div id="healthcareSite-choices" class="autocomplete"></div>
+							<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
                 </c:if>
                 <c:if test="${FLOW == 'SAVE_FLOW'}">
                  <input type="hidden" id="healthcareSite-hidden"
@@ -89,7 +89,7 @@
 								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" />
 								<tags:hoverHint keyProp="researchStaff.organization"/>
 							<tags:indicator id="healthcareSite-indicator" />
-							<div id="healthcareSite-choices" class="autocomplete"></div>
+							<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
                 </c:if>
             </div>
         </div>
