@@ -150,7 +150,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 			<form:hidden id="diseaseSite-hidden" path="diseaseHistory.anatomicSite"/>
 			<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
 			<tags:indicator id="diseaseSite-indicator"/>
-			<div id="diseaseSite-choices" class="autocomplete"></div>
+			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
 			<tags:hoverHint keyProp="studySubject.diseaseSite"/>
 		</td>
 	</tr>
