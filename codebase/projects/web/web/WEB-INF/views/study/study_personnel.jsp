@@ -216,7 +216,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 					<div>
 			            <br/>&nbsp;<b>Select an Organization</b><br>
 			            <input:hidden id="disease"/>
-			            <select id="site" name="site" onchange="fireAction('siteChange','0');">   
+			            <select id="site" name="site" onchange="fireAction('siteChange','0');" style="width: 400px">   
 			                    <c:forEach items="${command.studyOrganizations}" var="studySite" varStatus="status">
 			                        <csmauthz:accesscontrol domainObject="${studySite.healthcareSite}"
 			                                                hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
