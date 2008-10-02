@@ -62,8 +62,8 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			<td align="right" width="19%"><span class="required-indicator">Organization:</span></td>
 			<td align="left"><input type="hidden" id="mrnOrganization-hidden"
 					name="organizationAssignedIdentifiers[0].healthcareSite" />
-				<input id="mrnOrganization-input" size="50" type="text"
-				name="organizationAssignedIdentifiers[0].healthcareSite.name" class="autocomplete validate-notEmpty" />
+				<input id="mrnOrganization-input" size="50" type="text" name="abcxyz"
+				 class="autocomplete validate-notEmpty" />
 				<tags:hoverHint keyProp="subject.MRN.organization"/>
 				<tags:indicator id="mrnOrganization-indicator" />
 				<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"></div>
