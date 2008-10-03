@@ -1,281 +1,405 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 6.1.13.0 - FREE Community Edition (http://www.liquid-technologies.com) -->
 <registrations xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
-<registration>
-    <studySite>																<!-- One study site is mandatory -->
-        <healthcareSite>
-            <nciInstituteCode>NC166</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
-        </healthcareSite>
-       <irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>		<!-- The IRB approval date is optional -->
-        <roleCode>Affiliate Site</roleCode>
-        <startDate>1985-01-11T00:00:00.000-02:00</startDate> 			<!-- The start date is optional -->
-    </studySite>
-    <studyRef>
-        <shortTitleText>test design page</shortTitleText>					<!-- Short title text is optional -->
-        <longTitleText> long title </longTitleText>						<!-- Long title text is optional -->
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
-        xsi:type="OrganizationAssignedIdentifierType">						
-            <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>warren-239341</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
-            <primaryIndicator>true</primaryIndicator>
-            <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NC166</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
-            </healthcareSite>
-        </identifier>
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980"
-            xsi:type="OrganizationAssignedIdentifierType">					<!-- Protocol Authority Identifier is optional-->
-            <type>Protocol Authority Identifier</type>
-            <value>NCT00018980</value>
-            <primaryIndicator>false</primaryIndicator>
-            <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NCCTG</nciInstituteCode>					<!-- This Institute code should already exist in the database-->
-            </healthcareSite>
-        </identifier>
-    </studyRef>
-    <participant>
-        <firstName>George1</firstName>							<!-- First Name is mandatory for the participant-->
-        <lastName>Elliot1</lastName>							<!-- Last Name is mandatory for the participant-->
-        <address/>
-        <administrativeGenderCode> Male </administrativeGenderCode>			<!-- Gender is mandatory for the participant-->
-        <birthDate>1971-01-01</birthDate>						<!-- Birth Date is mandatory for the participant-->
-        <ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>				<!-- Ethnic group is mandatory for the participant-->
-        <raceCode>Asian</raceCode>
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
-            xsi:type="OrganizationAssignedIdentifierType">						<!-- Identifier of type MRN is mandatory-->
-            <type>MRN</type>
-            <value>mrn1</value>									<!-- Participant with this MRN should not already exist in the database-->
-            <primaryIndicator>true</primaryIndicator>
-            <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NC166</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
-            </healthcareSite>
-        </identifier>
-    </participant>
-    <startDate>2007-10-01</startDate>									<!-- Start Date is mandatory-->
-    <informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>	<!-- Informed Consent Signed Date is mandatory-->
-    <informedConsentVersion>1.0</informedConsentVersion>						<!-- Informed Consent Version is mandatory-->
-    <regDataEntryStatus>COMPLETE</regDataEntryStatus>							<!-- Data entry status is optional as it is determined from above fields-->
-    <regWorkflowStatus>REGISTERED</regWorkflowStatus>							<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
-    <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">	<!-- Exactly one Scheduled Epoch is required-->
-        <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
-        <epoch xsi:type="EpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
-            <name>epoch</name>	
-            <arm>
-                <name>Arm A</name>										<!-- The Arm name should exist in the database for the given study/epoch-->
-                <targetAccrualNumber>300</targetAccrualNumber>
-            </arm>										<!-- The Epoch name should exist in the database for the given study-->
-            <descriptionText/>
-        </epoch>
-        <scheduledArm>															<!-- The Scheduled Arm is mandatory for Scheduled Epoch -->
-            <arm>
-                <name>Arm A</name>										<!-- The Arm name should exist in the database for the given study/epoch-->
-                <targetAccrualNumber>300</targetAccrualNumber>
-            </arm>
-        </scheduledArm>
-    </scheduledEpoch>									<!-- The stratum group is optional--> 
-</registration>
-<registration>
-    <studySite>																<!-- One study site is mandatory -->
-        <healthcareSite>
-            <nciInstituteCode>NC166</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
-        </healthcareSite>
-       <irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>		<!-- The IRB approval date is optional -->
-        <roleCode>Affiliate Site</roleCode>
-        <startDate>1985-01-11T00:00:00.000-02:00</startDate> 			<!-- The start date is optional -->
-    </studySite>
-    <studyRef>
-        <shortTitleText>test design page</shortTitleText>					<!-- Short title text is optional -->
-        <longTitleText> long title </longTitleText>						<!-- Long title text is optional -->
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
-        xsi:type="OrganizationAssignedIdentifierType">						
-            <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>warren-239341</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
-            <primaryIndicator>true</primaryIndicator>
-            <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NC166</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
-            </healthcareSite>
-        </identifier>
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980"
-            xsi:type="OrganizationAssignedIdentifierType">					<!-- Protocol Authority Identifier is optional-->
-            <type>Protocol Authority Identifier</type>
-            <value>NCT00018980</value>
-            <primaryIndicator>false</primaryIndicator>
-            <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NCCTG</nciInstituteCode>					<!-- This Institute code should already exist in the database-->
-            </healthcareSite>
-        </identifier>
-    </studyRef>
-    <participant>
-        <firstName>George2</firstName>							<!-- First Name is mandatory for the participant-->
-        <lastName>Elliot2</lastName>							<!-- Last Name is mandatory for the participant-->
-        <address/>
-        <administrativeGenderCode> Male </administrativeGenderCode>			<!-- Gender is mandatory for the participant-->
-        <birthDate>1971-01-01</birthDate>						<!-- Birth Date is mandatory for the participant-->
-        <ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>				<!-- Ethnic group is mandatory for the participant-->
-        <raceCode>Asian</raceCode>
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
-            xsi:type="OrganizationAssignedIdentifierType">						<!-- Identifier of type MRN is mandatory-->
-            <type>MRN</type>
-            <value>mrn2</value>									<!-- Participant with this MRN should not already exist in the database-->
-            <primaryIndicator>true</primaryIndicator>
-            <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NC166</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
-            </healthcareSite>
-        </identifier>
-    </participant>
-    <startDate>2007-10-01</startDate>									<!-- Start Date is mandatory-->
-    <informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>	<!-- Informed Consent Signed Date is mandatory-->
-    <informedConsentVersion>1.0</informedConsentVersion>						<!-- Informed Consent Version is mandatory-->
-    <regDataEntryStatus>COMPLETE</regDataEntryStatus>							<!-- Data entry status is optional as it is determined from above fields-->
-    <regWorkflowStatus>REGISTERED</regWorkflowStatus>							<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
-    <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">	<!-- Exactly one Scheduled Epoch is required-->
-        <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
-        <epoch xsi:type="EpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
-            <name>epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
-            <descriptionText/>
-        </epoch>
-        <scheduledArm>												<!-- The Scheduled Arm is mandatory for Scheduled Epoch -->
-            <arm>
-                <name>Arm A</name>										<!-- The Arm name should exist in the database for the given study/ epoch-->
-                <targetAccrualNumber>300</targetAccrualNumber>
-            </arm>
-        </scheduledArm>
-    </scheduledEpoch>									<!-- The stratum group is optional--> 
-</registration>
-
-<registration>
-    <studySite>																<!-- One study site is mandatory -->
-        <healthcareSite>
-            <nciInstituteCode>NC166</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
-        </healthcareSite>
-       <irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>		<!-- The IRB approval date is optional -->
-        <roleCode>Affiliate Site</roleCode>
-        <startDate>1985-01-11T00:00:00.000-02:00</startDate> 			<!-- The start date is optional -->
-    </studySite>
-    <studyRef>
-        <shortTitleText>test design page</shortTitleText>					<!-- Short title text is optional -->
-        <longTitleText> long title </longTitleText>						<!-- Long title text is optional -->
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
-        xsi:type="OrganizationAssignedIdentifierType">						
-            <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>warren-239341</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
-            <primaryIndicator>true</primaryIndicator>
-            <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NC166</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
-            </healthcareSite>
-        </identifier>
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980"
-            xsi:type="OrganizationAssignedIdentifierType">					<!-- Protocol Authority Identifier is optional-->
-            <type>Protocol Authority Identifier</type>
-            <value>NCT00018980</value>
-            <primaryIndicator>false</primaryIndicator>
-            <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NCCTG</nciInstituteCode>					<!-- This Institute code should already exist in the database-->
-            </healthcareSite>
-        </identifier>
-    </studyRef>
-    <participant>
-        <firstName>George3</firstName>							<!-- First Name is mandatory for the participant-->
-        <lastName>Elliot3</lastName>							<!-- Last Name is mandatory for the participant-->
-        <address/>
-        <administrativeGenderCode> Male </administrativeGenderCode>			<!-- Gender is mandatory for the participant-->
-        <birthDate>1971-01-01</birthDate>						<!-- Birth Date is mandatory for the participant-->
-        <ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>				<!-- Ethnic group is mandatory for the participant-->
-        <raceCode>Asian</raceCode>
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
-            xsi:type="OrganizationAssignedIdentifierType">						<!-- Identifier of type MRN is mandatory-->
-            <type>MRN</type>
-            <value>mrn3</value>									<!-- Participant with this MRN should not already exist in the database-->
-            <primaryIndicator>true</primaryIndicator>
-            <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NC166</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
-            </healthcareSite>
-        </identifier>
-    </participant>
-    <startDate>2007-10-01</startDate>									<!-- Start Date is mandatory-->
-    <informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>	<!-- Informed Consent Signed Date is mandatory-->
-    <informedConsentVersion>1.0</informedConsentVersion>						<!-- Informed Consent Version is mandatory-->
-    <regDataEntryStatus>COMPLETE</regDataEntryStatus>							<!-- Data entry status is optional as it is determined from above fields-->
-    <regWorkflowStatus>REGISTERED</regWorkflowStatus>							<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
-    <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">	<!-- Exactly one Scheduled Epoch is required-->
-        <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
-        <epoch xsi:type="EpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
-            <name>epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
-            <descriptionText/>
-        </epoch>
-        <scheduledArm>															<!-- The Scheduled Arm is mandatory for Scheduled Epoch -->
-            <arm>
-                <name>Arm A</name>										<!-- The Arm name should exist in the database for the given study/ epoch-->
-                <targetAccrualNumber>300</targetAccrualNumber>
-            </arm>
-        </scheduledArm>
-    </scheduledEpoch>									<!-- The stratum group is optional--> 
-</registration>
-<registration>
-    <studySite>																<!-- One study site is mandatory -->
-        <healthcareSite>
-            <nciInstituteCode>NC166</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
-        </healthcareSite>
-       <irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>		<!-- The IRB approval date is optional -->
-        <roleCode>Affiliate Site</roleCode>
-        <startDate>1985-01-11T00:00:00.000-02:00</startDate> 			<!-- The start date is optional -->
-    </studySite>
-    <studyRef>
-        <shortTitleText>test design page</shortTitleText>					<!-- Short title text is optional -->
-        <longTitleText> long title </longTitleText>						<!-- Long title text is optional -->
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
-        xsi:type="OrganizationAssignedIdentifierType">						
-            <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>warren-239341</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
-            <primaryIndicator>true</primaryIndicator>
-            <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NC166</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
-            </healthcareSite>
-        </identifier>
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980"
-            xsi:type="OrganizationAssignedIdentifierType">					<!-- Protocol Authority Identifier is optional-->
-            <type>Protocol Authority Identifier</type>
-            <value>NCT00018980</value>
-            <primaryIndicator>false</primaryIndicator>
-            <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NCCTG</nciInstituteCode>					<!-- This Institute code should already exist in the database-->
-            </healthcareSite>
-        </identifier>
-    </studyRef>
-    <participant>
-        <firstName>George4</firstName>							<!-- First Name is mandatory for the participant-->
-        <lastName>Elliot4</lastName>							<!-- Last Name is mandatory for the participant-->
-        <address/>
-        <administrativeGenderCode> Male </administrativeGenderCode>			<!-- Gender is mandatory for the participant-->
-        <birthDate>1971-01-01</birthDate>						<!-- Birth Date is mandatory for the participant-->
-        <ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>				<!-- Ethnic group is mandatory for the participant-->
-        <raceCode>Asian</raceCode>
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
-            xsi:type="OrganizationAssignedIdentifierType">						<!-- Identifier of type MRN is mandatory-->
-            <type>MRN</type>
-            <value>mrn4</value>									<!-- Participant with this MRN should not already exist in the database-->
-            <primaryIndicator>true</primaryIndicator>
-            <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>NC166</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
-            </healthcareSite>
-        </identifier>
-    </participant>
-    <startDate>2007-10-01</startDate>									<!-- Start Date is mandatory-->
-    <informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>	<!-- Informed Consent Signed Date is mandatory-->
-    <informedConsentVersion>1.0</informedConsentVersion>						<!-- Informed Consent Version is mandatory-->
-    <regDataEntryStatus>COMPLETE</regDataEntryStatus>							<!-- Data entry status is optional as it is determined from above fields-->
-    <regWorkflowStatus>REGISTERED</regWorkflowStatus>							<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
-    <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">	<!-- Exactly one Scheduled Epoch is required-->
-        <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
-        <epoch xsi:type="EpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
-            <name>epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
-            <descriptionText/>
-        </epoch>
-        <scheduledArm>												<!-- The Scheduled Arm is mandatory for Scheduled Epoch -->
-            <arm>
-                <name>Arm A</name>										<!-- The Arm name should exist in the database for the given study/ epoch-->
-                <targetAccrualNumber>300</targetAccrualNumber>
-            </arm>
-        </scheduledArm>
-    </scheduledEpoch>									<!-- The stratum group is optional--> 
-</registration>
+	<registration>
+		<studySite>
+			<!-- One study site is mandatory -->
+			<healthcareSite>
+				<nciInstituteCode>NC166</nciInstituteCode>
+				<!-- This Institute code should already exist in the database -->
+			</healthcareSite>
+			<irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>
+			<!-- The IRB approval date is optional -->
+			<roleCode>Affiliate Site</roleCode>
+			<startDate>1985-01-11T00:00:00.000-02:00</startDate>
+			<!-- The start date is optional -->
+		</studySite>
+		<studyRef>
+			<shortTitleText>test design page</shortTitleText>
+			<!-- Short title text is optional -->
+			<longTitleText> long title </longTitleText>
+			<!-- Long title text is optional -->
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
+				<type>Coordinating Center Identifier</type>
+				<!-- Type of 'Coordinating Center Identifier' is mandatory-->
+				<value>warren-239341</value>
+				<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NC166</nciInstituteCode>
+					<!-- This Institute code should already exist in the database -->
+				</healthcareSite>
+			</identifier>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980" xsi:type="OrganizationAssignedIdentifierType">
+				<!-- Protocol Authority Identifier is optional-->
+				<type>Protocol Authority Identifier</type>
+				<value>NCT00018980</value>
+				<primaryIndicator>false</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NCCTG</nciInstituteCode>
+					<!-- This Institute code should already exist in the database-->
+				</healthcareSite>
+			</identifier>
+		</studyRef>
+		<participant>
+			<firstName>George1</firstName>
+			<!-- First Name is mandatory for the participant-->
+			<lastName>Elliot1</lastName>
+			<!-- Last Name is mandatory for the participant-->
+			<address />
+			<administrativeGenderCode> Male </administrativeGenderCode>
+			<!-- Gender is mandatory for the participant-->
+			<birthDate>1971-01-01</birthDate>
+			<!-- Birth Date is mandatory for the participant-->
+			<ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>
+			<!-- Ethnic group is mandatory for the participant-->
+			<raceCode>Asian</raceCode>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
+				<!-- Identifier of type MRN is mandatory-->
+				<type>MRN</type>
+				<value>mrn1</value>
+				<!-- Participant with this MRN should not already exist in the database-->
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NC166</nciInstituteCode>
+					<!-- This Institute code should already exist in the database -->
+				</healthcareSite>
+			</identifier>
+		</participant>
+		<startDate>2007-10-01</startDate>
+		<!-- Start Date is mandatory-->
+		<informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>
+		<!-- Informed Consent Signed Date is mandatory-->
+		<informedConsentVersion>1.0</informedConsentVersion>
+		<!-- Informed Consent Version is mandatory-->
+		<regDataEntryStatus>COMPLETE</regDataEntryStatus>
+		<!-- Data entry status is optional as it is determined from above fields-->
+		<regWorkflowStatus>REGISTERED</regWorkflowStatus>
+		<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+		<scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">
+			<!-- Exactly one Scheduled Epoch is required-->
+			<startDate>2007-10-01</startDate>
+			<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
+			<epoch xsi:type="EpochType">
+				<!-- Epoch is mandatory for Scheduled Epoch-->
+				<name>epoch</name>
+				<arm>
+					<name>Arm A</name>
+					<!-- The Arm name should exist in the database for the given study/epoch-->
+					<targetAccrualNumber>300</targetAccrualNumber>
+				</arm>
+				<!-- The Epoch name should exist in the database for the given study-->
+				<descriptionText />
+			</epoch>
+			<scheduledArm>
+				<!-- The Scheduled Arm is mandatory for Scheduled Epoch -->
+				<arm>
+					<name>Arm A</name>
+					<!-- The Arm name should exist in the database for the given study/epoch-->
+					<targetAccrualNumber>300</targetAccrualNumber>
+				</arm>
+			</scheduledArm>
+		</scheduledEpoch>
+		<!-- The stratum group is optional-->
+	</registration>
+	<registration>
+		<studySite>
+			<!-- One study site is mandatory -->
+			<healthcareSite>
+				<nciInstituteCode>NC166</nciInstituteCode>
+				<!-- This Institute code should already exist in the database -->
+			</healthcareSite>
+			<irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>
+			<!-- The IRB approval date is optional -->
+			<roleCode>Affiliate Site</roleCode>
+			<startDate>1985-01-11T00:00:00.000-02:00</startDate>
+			<!-- The start date is optional -->
+		</studySite>
+		<studyRef>
+			<shortTitleText>test design page</shortTitleText>
+			<!-- Short title text is optional -->
+			<longTitleText> long title </longTitleText>
+			<!-- Long title text is optional -->
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
+				<type>Coordinating Center Identifier</type>
+				<!-- Type of 'Coordinating Center Identifier' is mandatory-->
+				<value>warren-239341</value>
+				<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NC166</nciInstituteCode>
+					<!-- This Institute code should already exist in the database -->
+				</healthcareSite>
+			</identifier>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980" xsi:type="OrganizationAssignedIdentifierType">
+				<!-- Protocol Authority Identifier is optional-->
+				<type>Protocol Authority Identifier</type>
+				<value>NCT00018980</value>
+				<primaryIndicator>false</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NCCTG</nciInstituteCode>
+					<!-- This Institute code should already exist in the database-->
+				</healthcareSite>
+			</identifier>
+		</studyRef>
+		<participant>
+			<firstName>George2</firstName>
+			<!-- First Name is mandatory for the participant-->
+			<lastName>Elliot2</lastName>
+			<!-- Last Name is mandatory for the participant-->
+			<address />
+			<administrativeGenderCode> Male </administrativeGenderCode>
+			<!-- Gender is mandatory for the participant-->
+			<birthDate>1971-01-01</birthDate>
+			<!-- Birth Date is mandatory for the participant-->
+			<ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>
+			<!-- Ethnic group is mandatory for the participant-->
+			<raceCode>Asian</raceCode>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
+				<!-- Identifier of type MRN is mandatory-->
+				<type>MRN</type>
+				<value>mrn2</value>
+				<!-- Participant with this MRN should not already exist in the database-->
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NC166</nciInstituteCode>
+					<!-- This Institute code should already exist in the database -->
+				</healthcareSite>
+			</identifier>
+		</participant>
+		<startDate>2007-10-01</startDate>
+		<!-- Start Date is mandatory-->
+		<informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>
+		<!-- Informed Consent Signed Date is mandatory-->
+		<informedConsentVersion>1.0</informedConsentVersion>
+		<!-- Informed Consent Version is mandatory-->
+		<regDataEntryStatus>COMPLETE</regDataEntryStatus>
+		<!-- Data entry status is optional as it is determined from above fields-->
+		<regWorkflowStatus>REGISTERED</regWorkflowStatus>
+		<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+		<scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">
+			<!-- Exactly one Scheduled Epoch is required-->
+			<startDate>2007-10-01</startDate>
+			<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
+			<epoch xsi:type="EpochType">
+				<!-- Epoch is mandatory for Scheduled Epoch-->
+				<name>epoch</name>
+				<!-- The Epoch name should exist in the database for the given study-->
+				<descriptionText />
+			</epoch>
+			<scheduledArm>
+				<!-- The Scheduled Arm is mandatory for Scheduled Epoch -->
+				<arm>
+					<name>Arm A</name>
+					<!-- The Arm name should exist in the database for the given study/ epoch-->
+					<targetAccrualNumber>300</targetAccrualNumber>
+				</arm>
+			</scheduledArm>
+		</scheduledEpoch>
+		<!-- The stratum group is optional-->
+	</registration>
+	<registration>
+		<studySite>
+			<!-- One study site is mandatory -->
+			<healthcareSite>
+				<nciInstituteCode>NC166</nciInstituteCode>
+				<!-- This Institute code should already exist in the database -->
+			</healthcareSite>
+			<irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>
+			<!-- The IRB approval date is optional -->
+			<roleCode>Affiliate Site</roleCode>
+			<startDate>1985-01-11T00:00:00.000-02:00</startDate>
+			<!-- The start date is optional -->
+		</studySite>
+		<studyRef>
+			<shortTitleText>test design page</shortTitleText>
+			<!-- Short title text is optional -->
+			<longTitleText> long title </longTitleText>
+			<!-- Long title text is optional -->
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
+				<type>Coordinating Center Identifier</type>
+				<!-- Type of 'Coordinating Center Identifier' is mandatory-->
+				<value>warren-239341</value>
+				<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NC166</nciInstituteCode>
+					<!-- This Institute code should already exist in the database -->
+				</healthcareSite>
+			</identifier>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980" xsi:type="OrganizationAssignedIdentifierType">
+				<!-- Protocol Authority Identifier is optional-->
+				<type>Protocol Authority Identifier</type>
+				<value>NCT00018980</value>
+				<primaryIndicator>false</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NCCTG</nciInstituteCode>
+					<!-- This Institute code should already exist in the database-->
+				</healthcareSite>
+			</identifier>
+		</studyRef>
+		<participant>
+			<firstName>George3</firstName>
+			<!-- First Name is mandatory for the participant-->
+			<lastName>Elliot3</lastName>
+			<!-- Last Name is mandatory for the participant-->
+			<address />
+			<administrativeGenderCode> Male </administrativeGenderCode>
+			<!-- Gender is mandatory for the participant-->
+			<birthDate>1971-01-01</birthDate>
+			<!-- Birth Date is mandatory for the participant-->
+			<ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>
+			<!-- Ethnic group is mandatory for the participant-->
+			<raceCode>Asian</raceCode>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
+				<!-- Identifier of type MRN is mandatory-->
+				<type>MRN</type>
+				<value>mrn3</value>
+				<!-- Participant with this MRN should not already exist in the database-->
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NC166</nciInstituteCode>
+					<!-- This Institute code should already exist in the database -->
+				</healthcareSite>
+			</identifier>
+		</participant>
+		<startDate>2007-10-01</startDate>
+		<!-- Start Date is mandatory-->
+		<informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>
+		<!-- Informed Consent Signed Date is mandatory-->
+		<informedConsentVersion>1.0</informedConsentVersion>
+		<!-- Informed Consent Version is mandatory-->
+		<regDataEntryStatus>COMPLETE</regDataEntryStatus>
+		<!-- Data entry status is optional as it is determined from above fields-->
+		<regWorkflowStatus>REGISTERED</regWorkflowStatus>
+		<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+		<scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">
+			<!-- Exactly one Scheduled Epoch is required-->
+			<startDate>2007-10-01</startDate>
+			<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
+			<epoch xsi:type="EpochType">
+				<!-- Epoch is mandatory for Scheduled Epoch-->
+				<name>epoch</name>
+				<!-- The Epoch name should exist in the database for the given study-->
+				<descriptionText />
+			</epoch>
+			<scheduledArm>
+				<!-- The Scheduled Arm is mandatory for Scheduled Epoch -->
+				<arm>
+					<name>Arm A</name>
+					<!-- The Arm name should exist in the database for the given study/ epoch-->
+					<targetAccrualNumber>300</targetAccrualNumber>
+				</arm>
+			</scheduledArm>
+		</scheduledEpoch>
+		<!-- The stratum group is optional-->
+	</registration>
+	<registration>
+		<studySite>
+			<!-- One study site is mandatory -->
+			<healthcareSite>
+				<nciInstituteCode>NC166</nciInstituteCode>
+				<!-- This Institute code should already exist in the database -->
+			</healthcareSite>
+			<irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>
+			<!-- The IRB approval date is optional -->
+			<roleCode>Affiliate Site</roleCode>
+			<startDate>1985-01-11T00:00:00.000-02:00</startDate>
+			<!-- The start date is optional -->
+		</studySite>
+		<studyRef>
+			<shortTitleText>test design page</shortTitleText>
+			<!-- Short title text is optional -->
+			<longTitleText> long title </longTitleText>
+			<!-- Long title text is optional -->
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
+				<type>Coordinating Center Identifier</type>
+				<!-- Type of 'Coordinating Center Identifier' is mandatory-->
+				<value>warren-239341</value>
+				<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NC166</nciInstituteCode>
+					<!-- This Institute code should already exist in the database -->
+				</healthcareSite>
+			</identifier>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980" xsi:type="OrganizationAssignedIdentifierType">
+				<!-- Protocol Authority Identifier is optional-->
+				<type>Protocol Authority Identifier</type>
+				<value>NCT00018980</value>
+				<primaryIndicator>false</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NCCTG</nciInstituteCode>
+					<!-- This Institute code should already exist in the database-->
+				</healthcareSite>
+			</identifier>
+		</studyRef>
+		<participant>
+			<firstName>George4</firstName>
+			<!-- First Name is mandatory for the participant-->
+			<lastName>Elliot4</lastName>
+			<!-- Last Name is mandatory for the participant-->
+			<address />
+			<administrativeGenderCode> Male </administrativeGenderCode>
+			<!-- Gender is mandatory for the participant-->
+			<birthDate>1971-01-01</birthDate>
+			<!-- Birth Date is mandatory for the participant-->
+			<ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>
+			<!-- Ethnic group is mandatory for the participant-->
+			<raceCode>Asian</raceCode>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
+				<!-- Identifier of type MRN is mandatory-->
+				<type>MRN</type>
+				<value>mrn4</value>
+				<!-- Participant with this MRN should not already exist in the database-->
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite>
+					<!-- Healthcare Site is mandatory for the identifier-->
+					<nciInstituteCode>NC166</nciInstituteCode>
+					<!-- This Institute code should already exist in the database -->
+				</healthcareSite>
+			</identifier>
+		</participant>
+		<startDate>2007-10-01</startDate>
+		<!-- Start Date is mandatory-->
+		<informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>
+		<!-- Informed Consent Signed Date is mandatory-->
+		<informedConsentVersion>1.0</informedConsentVersion>
+		<!-- Informed Consent Version is mandatory-->
+		<regDataEntryStatus>COMPLETE</regDataEntryStatus>
+		<!-- Data entry status is optional as it is determined from above fields-->
+		<regWorkflowStatus>REGISTERED</regWorkflowStatus>
+		<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+		<scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">
+			<!-- Exactly one Scheduled Epoch is required-->
+			<startDate>2007-10-01</startDate>
+			<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
+			<epoch xsi:type="EpochType">
+				<!-- Epoch is mandatory for Scheduled Epoch-->
+				<name>epoch</name>
+				<!-- The Epoch name should exist in the database for the given study-->
+				<descriptionText />
+			</epoch>
+			<scheduledArm>
+				<!-- The Scheduled Arm is mandatory for Scheduled Epoch -->
+				<arm>
+					<name>Arm A</name>
+					<!-- The Arm name should exist in the database for the given study/ epoch-->
+					<targetAccrualNumber>300</targetAccrualNumber>
+				</arm>
+			</scheduledArm>
+		</scheduledEpoch>
+		<!-- The stratum group is optional-->
+	</registration>
 </registrations>
-
