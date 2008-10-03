@@ -85,9 +85,12 @@
         <xs:sequence>
             <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="epochOrder" type="xs:int" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="arm" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="accrualCeiling" type="xs:int" minOccurs="0" maxOccurs="1"/>
             <xs:element name="accrualIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="stratificationIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="randomizedIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="reservationIndicator" type="xs:string" minOccurs="0"
             maxOccurs="1"/>
             <xs:element name="treatmentIndicator" type="xs:string" minOccurs="0"
@@ -235,14 +238,14 @@
         <xs:sequence>
             <xs:element name="startDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
             <xs:element ref="epoch" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="0" maxOccurs="1"/>
             <xs:element name="eligibilityIndicator" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="ScheduledArmType">
         <xs:sequence>
-            <xs:element name="arm" type="ArmType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="arm" type="ArmType" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -252,8 +255,10 @@
             <xs:element name="multiInstitutionIndicator" type="xs:string" minOccurs="0"
                         maxOccurs="1"/>
             <xs:element name="randomizedIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="shortTitleText" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="longTitleText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="stratificationIndicator" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="standaloneIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="shortTitleText" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="longTitleText" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="precisText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="phaseCode" type="PhaseCodeType" minOccurs="0" maxOccurs="1"/>
