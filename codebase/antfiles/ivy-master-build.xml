@@ -85,7 +85,9 @@
 		to do migrate and build as a single job using hudson. 
 	=============================================================-->
 	<target name="migrate">
-		<subant target="migrate" buildpath="${projects.dir}/core/ivy-build.xml" />
+		<ant target="migrate" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+		</ant>
 	</target>
 
 	<!-- ==========================================================
