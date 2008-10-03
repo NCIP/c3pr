@@ -175,8 +175,7 @@ public class StudySubjectFactory {
                             .getException(
                                             getCode("C3PR.EXCEPTION.REGISTRATION.NOTFOUND.STUDY_WITH_IDENTIFIER.CODE"),
                                             new String[] {
-                                                    identifier.getHealthcareSite()
-                                                                    .getNciInstituteCode(),
+                                                    identifier.getValue(),
                                                     this.identifierTypeValueStr });
         }
         if (studies.size() == 0) {
@@ -184,8 +183,7 @@ public class StudySubjectFactory {
                             .getException(
                                             getCode("C3PR.EXCEPTION.REGISTRATION.NOTFOUND.STUDY_WITH_IDENTIFIER.CODE"),
                                             new String[] {
-                                                    identifier.getHealthcareSite()
-                                                                    .getNciInstituteCode(),
+                                                    identifier.getValue(),
                                                     this.identifierTypeValueStr });
         }
         if (studies.size() > 1) {
@@ -193,8 +191,7 @@ public class StudySubjectFactory {
                             .getException(
                                             getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE.STUDY_SAME_CO_IDENTIFIER.CODE"),
                                             new String[] {
-                                                    identifier.getHealthcareSite()
-                                                                    .getNciInstituteCode(),
+                                                    identifier.getValue(),
                                                     this.identifierTypeValueStr });
         }
         if (studies.get(0).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.ACTIVE) {
@@ -242,12 +239,11 @@ public class StudySubjectFactory {
     private ScheduledEpoch buildScheduledEpoch(ScheduledEpoch source, Epoch epoch)
                     throws C3PRCodedException {
         ScheduledEpoch scheduledEpoch = null;
-        if (epoch.getTreatmentIndicator()) {
+        if (true) {
             ScheduledEpoch scheduledEpochSource = source;
             scheduledEpoch = new ScheduledEpoch();
             ScheduledEpoch scheduledTreatmentEpoch = scheduledEpoch;
             scheduledTreatmentEpoch.setEligibilityIndicator(true);
-            if (epoch.getRequiresArm()) {
                 if (scheduledEpochSource.getScheduledArm() != null
                                 && scheduledEpochSource.getScheduledArm().getArm() != null
                                 && scheduledEpochSource.getScheduledArm().getArm()
@@ -275,10 +271,6 @@ public class StudySubjectFactory {
                     scheduledTreatmentEpoch.getScheduledArms().get(0).setArm(arm);
 
                 }
-            }
-        }
-        else {
-            scheduledEpoch = new ScheduledEpoch();
         }
         scheduledEpoch.setEpoch(epoch);
         scheduledEpoch.setScEpochWorkflowStatus(source.getScEpochWorkflowStatus());
