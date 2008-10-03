@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+<studies xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+<study>
 <blindedIndicator>false</blindedIndicator>
 <multiInstitutionIndicator>true</multiInstitutionIndicator>
 <randomizedIndicator>false</randomizedIndicator>
+<stratificationIndicator>true</stratificationIndicator>
+<standaloneIndicator>false</standaloneIndicator>
 <shortTitleText>test design page</shortTitleText>
 <longTitleText>long title</longTitleText>
 <descriptionText></descriptionText>
 <precisText></precisText>
 <phaseCode>Phase I Trial</phaseCode>
 <consentVersion>1.0</consentVersion>
-<dataEntryStatus>COMPLETE</dataEntryStatus>
-<coordinatingCenterStudyStatus>ACTIVE</coordinatingCenterStudyStatus>
+<dataEntryStatus>INCOMPLETE</dataEntryStatus>
+<coordinatingCenterStudyStatus>PENDING</coordinatingCenterStudyStatus>
 <type>Diagnostic</type>
 <targetAccrualNumber>10</targetAccrualNumber>
 <organizationAssignedIdentifier>
@@ -26,10 +29,10 @@
 <postalCode>20892</postalCode>
 <countryCode>USA</countryCode>
 </address>
-<nciInstituteCode>Warren</nciInstituteCode>
+<nciInstituteCode>NC166</nciInstituteCode>
 </healthcareSite>
 </organizationAssignedIdentifier>
-<treatmentEpoch>
+<epoch>
 <name>epoch</name>
 <descriptionText></descriptionText>
 <arm>
@@ -42,7 +45,7 @@
 <permissibleAnswer><permissibleAnswer>cfa</permissibleAnswer></permissibleAnswer>
 <permissibleAnswer><permissibleAnswer>sdv</permissibleAnswer></permissibleAnswer>
 </stratificationCriteria>
-</treatmentEpoch>
+</epoch>
 <studyCoordinatingCenter>
 <healthcareSite>
 <name>Warren Grant Magnuson Clinical Center</name>
@@ -53,14 +56,14 @@
 <postalCode>20892</postalCode>
 <countryCode>USA</countryCode>
 </address>
-<nciInstituteCode>Warren</nciInstituteCode>
+<nciInstituteCode>NC166</nciInstituteCode>
 </healthcareSite>
 <studyInvestigator>
 <roleCode>Principal Investigator</roleCode>
 <statusCode>Active</statusCode>
 <healthcareSiteInvestigator>
 <investigator>
-<nciIdentifier>1000091</nciIdentifier>
+<nciIdentifier>nci-10012</nciIdentifier>
 <fullName>Hillary Clinton</fullName>
 </investigator>
 </healthcareSiteInvestigator>
@@ -81,7 +84,7 @@
 <irbApprovalDate>2008-02-07</irbApprovalDate>
 <roleCode>Affiliate Site</roleCode>
 <startDate>2008-02-06</startDate>
-<siteStudyStatus>ACTIVE</siteStudyStatus>
+<siteStudyStatus>PENDING</siteStudyStatus>
 </studySite>
 <studySite>
 <healthcareSite>
@@ -93,14 +96,15 @@
 <postalCode>27710</postalCode>
 <countryCode>USA</countryCode>
 </address>
-<nciInstituteCode>Duke</nciInstituteCode>
+<nciInstituteCode>NC166</nciInstituteCode>
 </healthcareSite>
 <irbApprovalDate>2008-02-06</irbApprovalDate>
 <roleCode>Affiliate Site</roleCode>
 <startDate>2008-02-06</startDate>
-<siteStudyStatus>ACTIVE</siteStudyStatus>
+<siteStudyStatus>PENDING</siteStudyStatus>
 </studySite>
 </study>
+</studies>
 
 
 
