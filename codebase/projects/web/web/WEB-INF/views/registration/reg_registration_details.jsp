@@ -108,11 +108,17 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<td>
 		<c:choose>
 		<c:when test="${fn:length(command.studySite.activeStudyInvestigators)>0}">
-			<form:select path="treatingPhysician">
+			<select id ="treatingPhysician" name="treatingPhysicianInternal">
+				<option value="">Please Select</option>
+				<c:forEach items="${command.studySite.activeStudyInvestigators}" var="activeInv">
+					<option value="${activeInv.id }" ${!empty command.treatingPhysician && command.treatingPhysician.id==activeInv.id?'selected':''}>${activeInv.healthcareSiteInvestigator.investigator.fullName }</option>
+				</c:forEach>
+			</select>
+			<%--<form:select path="treatingPhysician">
 				<option value="">Please Select</option>
 				<form:options
 					items="${command.studySite.activeStudyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
-			</form:select>
+			</form:select>--%>
 			<c:if test="${empty command.otherTreatingPhysician }">
 				<c:set var="physicianStyle" value="display: none;"></c:set>			 
 			</c:if>
