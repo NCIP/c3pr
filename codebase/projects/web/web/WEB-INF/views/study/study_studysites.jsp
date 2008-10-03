@@ -94,7 +94,7 @@ Event.observe(window, "load", function() {
                 				<input type="button" id="healthcareSite-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite-indicator"/>
-                  			<div id="healthcareSite-choices" class="autocomplete"></div>
+                  			<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
 							<input type="hidden" name="studySites[0].roleCode" value="Affiliate Site"/>
            			 </td>
 	                 <td>
