@@ -4,13 +4,37 @@ class LinkHealthcareSiteToParticipant extends edu.northwestern.bioinformatics.be
 		addColumn("participants", "prt_prt_org_assoc_id", "integer", nullable : true)
     	addColumn("organizations", "org_prt_org_assoc_id", "integer", nullable : true)
     	
-		createTable("prt_org_associations") { t ->
-            t.addColumn("prt_stu_sub_id", "integer", nullable: false)
-            t.addColumn("org_stu_sub_id", "integer", nullable: false)
-            t.addColumn("version", "integer", defaultValue: 0, nullable: false)
-			t.addColumn("grid_id", "string")
-			t.addColumn("retired_indicator", 'string' );
+    	if(databaseMatches('sqlserver')){
+			createTable("prt_org_associations") { t ->
+				t.setIncludePrimaryKey(false)
+	            t.addColumn("prt_stu_sub_id", "integer", nullable: false)
+	            t.addColumn("org_stu_sub_id", "integer", nullable: false)
+	            t.addColumn("version", "integer", defaultValue: 0, nullable: false)
+				t.addColumn("grid_id", "string")
+				t.addColumn("retired_indicator", 'string' );
+	        }
+        } else {
+        		createTable("prt_org_associations") { t ->
+	            t.addColumn("prt_stu_sub_id", "integer", nullable: false)
+	            t.addColumn("org_stu_sub_id", "integer", nullable: false)
+	            t.addColumn("version", "integer", defaultValue: 0, nullable: false)
+				t.addColumn("grid_id", "string")
+				t.addColumn("retired_indicator", 'string' );
+	        }
+        
         }
+        
+        
+        createTable("ctc_version_categories") { t ->
+t.setIncludePrimaryKey(false)
+t.addColumn("version_id", "integer", nullable: false)
+t.addColumn("category_id", "integer", nullable: false)
+}
+        
+        
+        
+        
+        
         
         execute("ALTER TABLE participants ADD CONSTRAINT FK_PRT_PRT_ORG_ASSOC FOREIGN KEY (prt_prt_org_assoc_id) REFERENCES prt_org_associations (ID)");
         execute("ALTER TABLE organizations ADD CONSTRAINT FK_ORG_PRT_ORG_ASSOC FOREIGN KEY (org_prt_org_assoc_id) REFERENCES prt_org_associations (ID)");
