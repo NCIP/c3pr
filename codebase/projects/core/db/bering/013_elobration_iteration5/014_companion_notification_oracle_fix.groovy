@@ -1,8 +1,10 @@
 class CompanionNotificationOracleFix extends edu.northwestern.bioinformatics.bering.Migration {
 	void up() {
-		if(databaseMatches('postgres')){
+		if(databaseMatches('postgresql')){
 			execute("ALTER TABLE prt_org_associations DROP id");
 		}
+		
+		// not required for SQL Server
 		
 		if (databaseMatches('oracle')) {
 			execute("ALTER TABLE prt_org_associations DROP column id");
