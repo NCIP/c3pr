@@ -9,3 +9,4 @@
 <%@taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
