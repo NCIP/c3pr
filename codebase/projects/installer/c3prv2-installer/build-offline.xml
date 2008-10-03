@@ -160,6 +160,13 @@
     		<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
     	</ant>
     </target>
+    
+    <!--will only be run if SQL Server Database-->
+    <target name="migrate">
+        <ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="migrate">
+            <property name="env.CATALINA_HOME" value="${tomcat.home}"/>
+        </ant>
+    </target>
 
 
     <target name="build-grid">
