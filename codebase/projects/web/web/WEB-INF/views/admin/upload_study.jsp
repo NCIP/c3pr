@@ -15,6 +15,11 @@
             document.getElementById('tableDiv').innerHTML=table;
         }
     </script>
+	<style type="text/css">
+		.eXtremeTable .filter input[type="text"] {
+		width:103px;
+		}
+	</style>
 
 </head>
 <!-- MAIN BODY STARTS HERE -->
@@ -62,7 +67,6 @@
                 </div>
             </div>
             </c:if>
-
 
             <div class="row">
                 <div class="value">

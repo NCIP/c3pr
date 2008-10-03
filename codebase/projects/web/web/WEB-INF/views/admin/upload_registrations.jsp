@@ -16,6 +16,12 @@
             document.getElementById('tableDiv').innerHTML=table;
         }
     </script>
+	<style type="text/css">
+		.eXtremeTable .filter input[type="text"] {
+		width:83px;
+		}
+	</style>
+
 
 </head>
 <!-- MAIN BODY STARTS HERE -->
