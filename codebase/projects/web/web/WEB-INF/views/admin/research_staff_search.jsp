@@ -95,7 +95,7 @@
                         value="Clear"/>
                     <tags:hoverHint keyProp="researchStaff.organization"/>
 					<tags:indicator	id="healthcareSite-indicator" />
-				<div id="healthcareSite-choices" class="autocomplete"></div>
+				<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
                 </div>
             </div>
             <div class="row">
