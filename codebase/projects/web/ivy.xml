@@ -94,7 +94,7 @@
         	
         	 <!-- Groovy (used by bering) needs this version of asm, but hibernate is pulling in 1.5.3 -->
         	<dependency org="asm" name="asm" rev="2.2.3" />
-        	<dependency org="edu.northwestern.bioinformatics"  name="bering" rev="0.6.1">
+        	<dependency org="edu.northwestern.bioinformatics"  name="bering" rev="0.7">
         		<exclude name="spring" conf="*" />
         		<exclude name="spring-mock" conf="*" />
         	</dependency>
