@@ -121,6 +121,10 @@
             <bind-xml name="reservationIndicator" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="stratificationIndicator" type="boolean">
+            <bind-xml name="stratificationIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
         <field name="treatmentIndicator" type="boolean">
             <bind-xml name="treatmentIndicator" node="element"
                 xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -333,6 +337,14 @@
         </field>
         <field name="randomizedIndicator" type="boolean">
             <bind-xml name="randomizedIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="stratificationIndicator" type="boolean">
+            <bind-xml name="stratificationIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="standaloneIndicator" type="boolean">
+            <bind-xml name="standaloneIndicator" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="shortTitleText" type="string">
