@@ -206,7 +206,7 @@ This is the install config for c3pr2.5 installer
                 defaultValue="oracle">
             <option text="Oracle" value="oracle"/>
             <option text="PostgreSQL" value="postgres"/>
-            <option text="SQL ServerL" value="sqlserver"/>
+            <option text="SQL Server" value="sqlserver"/>
             <option text="Other/none" value="none"/>
         </select>
         <hidden property="maxSearchResultsForAutocompleter" value="@maxSearchResultsForAutocompleter@"/>
