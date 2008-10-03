@@ -1,11 +1,11 @@
 class MailSenderConfig extends edu.northwestern.bioinformatics.bering.Migration {
 	void up() {
-		insert('configuration', [ key:"smtpSSLAuth", value:"true" ], primaryKey: false)
-		insert('configuration', [ key:"smtpProtocol", value:"smtps" ], primaryKey: false)
+			insert('configuration', [ prop:"smtpSSLAuth", value:"true" ], primaryKey: false)
+			insert('configuration', [ prop:"smtpProtocol", value:"smtps" ], primaryKey: false)
 	}
 
 	void down(){
-         delete('configuration', [ key:"smtpSSLAuth" ])
-         delete('configuration', [ key:"smtpProtocol" ])
+			delete('configuration', [ prop:"smtpSSLAuth" ])
+         	delete('configuration', [ prop:"smtpProtocol" ])
 	}
 }

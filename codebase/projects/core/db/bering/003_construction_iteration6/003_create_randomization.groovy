@@ -69,7 +69,7 @@ class CreateRandomization extends edu.northwestern.bioinformatics.bering.Migrati
 	   	
 		//setNullable('book_rndm_entry', 'arms_id', true)
 		//execute("insert into arms('id') values ('100')")
-		execute("insert into stratum_groups(id) values ('101')")
+		insert("stratum_groups", [ id: '101' ], primaryKey: false)
 		//execute("insert into book_rndm_entry('str_grp_id') values ('101')")
 		execute("update book_rndm_entry set str_grp_id=101")
 		//execute("update book_rndm_entry set arms_id=100")

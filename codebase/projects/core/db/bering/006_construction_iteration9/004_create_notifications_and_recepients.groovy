@@ -20,6 +20,7 @@ class CreateNotificationsAndRecepients extends edu.northwestern.bioinformatics.b
         } 				
  		execute('alter table recepients add constraint fk_notifications_id foreign key (notifications_id) references notifications(id)') 	
  		
+ 		//not needed for sqlserver
  		if (databaseMatches('oracle')) {
     	    execute("rename seq_notifications_ID to notifications_ID_SEQ")
     	    execute("rename seq_recepients_ID to recepients_ID_SEQ")

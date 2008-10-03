@@ -14,6 +14,8 @@
     <property name="postgresql.db.script.dir" value="${db.scripts.dir}/PostGreSQL"/>
     <property name="oracle.csm.db.scripts.dir" value="${oracle.db.script.dir}/csm"/>
     <property name="postgresql.csm.db.scripts.dir" value="${postgresql.db.script.dir}/csm"/>
+	<property name="sqlserver.db.script.dir" value="${db.scripts.dir}/SQLServer"/>
+	<property name="sqlserver.csm.db.scripts.dir" value="${sqlserver.db.script.dir}/csm"/>
 	
 	<!--CSM Tomcat dirs-->
 	<property name="conf.dir" value="${basedir}/conf/"/>
@@ -120,6 +122,7 @@
 
         <property name="oracle.keyword" value="Oracle"/>
         <property name="postgresql.keyword" value="PostgreSQLDialect"/>
+    	 <property name="sqlserver.keyword" value="SQLServer"/>
 
         <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.PostgreSQL">
             <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
@@ -128,6 +131,10 @@
         <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.Oracle">
             <contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
         </condition>
+    	
+    	<condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.SqlServer">
+    	           <contains string="${datasource.dialect}" substring="${sqlserver.keyword}"/>
+    	</condition>
 
     </target>
 

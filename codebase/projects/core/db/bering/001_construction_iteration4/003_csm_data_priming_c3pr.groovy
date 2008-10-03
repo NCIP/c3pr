@@ -4,6 +4,8 @@ class CreateCSMDataPriming extends edu.northwestern.bioinformatics.bering.Migrat
             external("../../oracle/csm/2_DataPriming.sql")
         } else if (databaseMatches('postgresql')){
             external("../../PostGreSQL/csm/2_DataPriming.sql")
+         } else if (databaseMatches('sqlserver')){
+            external("../../SQLServer/csm/2_DataPriming.sql")
         }
     }
 

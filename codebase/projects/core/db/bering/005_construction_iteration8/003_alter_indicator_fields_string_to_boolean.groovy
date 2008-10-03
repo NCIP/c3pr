@@ -54,6 +54,29 @@ class AlterIndicatorFieldsStringToBoolean extends edu.northwestern.bioinformatic
     	execute("update scheduled_arms set eligibility_indicator = '1' where eligibility_indicator = 'Yes' or eligibility_indicator = 'true'")
     	execute("update scheduled_arms set eligibility_indicator = '0' where eligibility_indicator = 'No' or eligibility_indicator = 'false'")
     	 }
+    	 
+    	if (databaseMatches('sqlserver')){
+    	execute("update studies set multi_institution_indicator = '1' where multi_institution_indicator = 'Yes' or multi_institution_indicator = 'true'")
+    	execute("update studies set multi_institution_indicator = '0' where multi_institution_indicator = 'No' or multi_institution_indicator = 'false'")
+    	
+    	execute("update studies set blinded_indicator = '1' where blinded_indicator = 'Yes' or blinded_indicator = 'true'")
+    	execute("update studies set blinded_indicator = '0' where blinded_indicator = 'No' or blinded_indicator = 'false'")
+    	
+    	execute("update studies set randomized_indicator = '1' where randomized_indicator = 'Yes' or randomized_indicator = 'true'")
+    	execute("update studies set randomized_indicator = '0' where randomized_indicator = 'No' or randomized_indicator = 'false'")
+    	
+    	execute("update epochs set reservation_indicator = '1' where reservation_indicator = 'Yes' or reservation_indicator = 'true'")
+    	execute("update epochs set reservation_indicator = '0' where reservation_indicator = 'No' or reservation_indicator = 'false'")
+    	
+    	execute("update epochs set enrollment_indicator = '1' where enrollment_indicator = 'Yes' or enrollment_indicator = 'true'")
+    	execute("update epochs set enrollment_indicator = '0' where enrollment_indicator = 'No' or enrollment_indicator = 'false'")
+    	
+    	execute("update epochs set accrual_indicator = '1' where accrual_indicator = 'Yes' or accrual_indicator = 'true'")
+    	execute("update epochs set accrual_indicator = '0' where accrual_indicator = 'No' or accrual_indicator = 'false'")
+    	
+    	execute("update scheduled_arms set eligibility_indicator = '1' where eligibility_indicator = 'Yes' or eligibility_indicator = 'true'")
+    	execute("update scheduled_arms set eligibility_indicator = '0' where eligibility_indicator = 'No' or eligibility_indicator = 'false'")
+    	 }
    	 }
 
     void down() {

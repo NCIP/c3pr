@@ -10,6 +10,9 @@ class StudyUniqueConstraints extends edu.northwestern.bioinformatics.bering.Migr
     	if (databaseMatches('postgres')) {
    		execute("CREATE UNIQUE INDEX UI_IDENTIFIERS_ORG_VALUE ON IDENTIFIERS(hcs_id,value) where type='Protocol Authority Identifier'")
    		}
+   		if (databaseMatches('sqlserver')) {
+   		execute("CREATE UNIQUE INDEX UI_IDENTIFIERS_ORG_VALUE ON IDENTIFIERS(hcs_id,value)")
+   		}
    		execute("ALTER TABLE INVESTIGATORS add CONSTRAINT UK_INV UNIQUE(nci_identifier,first_name,last_name,maiden_name)")
    		execute("ALTER TABLE RESEARCH_STAFF add CONSTRAINT UK_RSF UNIQUE(nci_identifier,first_name,last_name,maiden_name)")
    		execute("ALTER TABLE HC_SITE_INVESTIGATORS add CONSTRAINT UK_ORG_INV UNIQUE(hcs_id,inv_id)")

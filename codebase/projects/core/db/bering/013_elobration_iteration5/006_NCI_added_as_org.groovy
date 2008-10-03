@@ -5,7 +5,7 @@ class LocalNCIInstituteCode extends edu.northwestern.bioinformatics.bering.Migra
 	}
 
 	void down(){
-        	execute("delete from organizations where id IN (16999)");
-        	execute("delete from addresses where id IN (16999)");
+    	execute("delete from organizations where id IN (16999)");
+    	execute("delete from addresses where id IN (16999)");
 	}
 }

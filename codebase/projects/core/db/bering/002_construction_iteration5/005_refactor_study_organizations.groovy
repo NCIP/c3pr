@@ -8,6 +8,8 @@ class RefactorStudyOrganizations extends edu.northwestern.bioinformatics.bering.
 	    	 		
 	 		execute("alter table STUDY_SITES drop constraint PK_STUDY_SITES")
 	 		
+	 		//sqlserver does not need any sequence manipulation
+	 		
 	 	    if (databaseMatches('oracle')) {
 	    	    execute("rename STUDY_SITES_ID_SEQ to seq_STUDY_SITES_ID")
 	 	    }

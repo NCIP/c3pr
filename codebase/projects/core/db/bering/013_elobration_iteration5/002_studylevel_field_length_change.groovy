@@ -7,7 +7,11 @@ class StudyTableFieldLength extends edu.northwestern.bioinformatics.bering.Migra
 	   	 }else if(databaseMatches('postgres')){
 			execute("ALTER TABLE STUDIES ALTER LONG_TITLE_TEXT TYPE VARCHAR(1024)");
 			execute("ALTER TABLE ELIGIBILITY_CRITERIA ALTER QUESTION_TEXT TYPE VARCHAR(1024)");	   	 	
+	   	 }else if(databaseMatches('sqlserver')){
+			execute("ALTER TABLE STUDIES ALTER COLUMN LONG_TITLE_TEXT VARCHAR(1024)");
+			execute("ALTER TABLE ELIGIBILITY_CRITERIA ALTER COLUMN QUESTION_TEXT VARCHAR(1024)");	   	 	
 	   	 }
+	   	
 	}
 	
     void down() {
@@ -17,6 +21,9 @@ class StudyTableFieldLength extends edu.northwestern.bioinformatics.bering.Migra
 	   	 }else if(databaseMatches('postgres')){
 			execute("ALTER TABLE STUDIES ALTER LONG_TITLE_TEXT TYPE VARCHAR(200)");
 			execute("ALTER TABLE ELIGIBILITY_CRITERIA ALTER QUESTION_TEXT TYPE VARCHAR(500)");	   	 	
+	   	 }else if(databaseMatches('sqlserver')){
+			execute("ALTER TABLE STUDIES ALTER COLUMN LONG_TITLE_TEXT VARCHAR(200)");
+			execute("ALTER TABLE ELIGIBILITY_CRITERIA ALTER COLUMN QUESTION_TEXT VARCHAR(500)");	   	 	
 	   	 }
    	}
 }

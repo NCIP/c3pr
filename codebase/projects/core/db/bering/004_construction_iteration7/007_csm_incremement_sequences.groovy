@@ -8,7 +8,14 @@ class CSMIncrememntCSMSequences extends edu.northwestern.bioinformatics.bering.M
 		       execute("ALTER SEQUENCE CSM_PG_PE_ID_SEQ restart with 9");
 		       execute("ALTER SEQUENCE CSM_USER_GROU_USER_GROUP_R_SEQ restart with 34");
     		}
-		 
+    		
+         if (databaseMatches('sqlserver')) {
+    		   execute("DBCC CHECKIDENT ( 'CSM_GROUP', RESEED, 5 )");
+		       execute("DBCC CHECKIDENT ( 'CSM_PROTECTION_GROUP', RESEED, 7 )");
+		       execute("DBCC CHECKIDENT ( 'CSM_PROTECTION_ELEMENT', RESEED, 9 )");
+		       execute("DBCC CHECKIDENT ( 'CSM_PG_PE', RESEED, 9 )");
+		       execute("DBCC CHECKIDENT ( 'CSM_USER_GROUP_ROLE_PG', RESEED, 34 )");
+    		}
 
          if (databaseMatches('oracle')) {
             execute("DROP SEQUENCE CSM_GROUP_GROUP_ID_SEQ");

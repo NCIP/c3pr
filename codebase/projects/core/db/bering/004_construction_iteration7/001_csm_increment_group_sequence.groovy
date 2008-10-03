@@ -8,6 +8,9 @@ class CSMIncrememntGroupSeq extends edu.northwestern.bioinformatics.bering.Migra
             execute("DROP SEQUENCE CSM_GROUP_GROUP_ID_SEQ");
             execute("CREATE SEQUENCE CSM_GROUP_GROUP_ID_SEQ start with 4 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
          }
+         if (databaseMatches('sqlserver')) {
+		    execute("DBCC CHECKIDENT ( 'CSM_GROUP', RESEED, 4 )");
+		}
 	}
 
 	void down(){

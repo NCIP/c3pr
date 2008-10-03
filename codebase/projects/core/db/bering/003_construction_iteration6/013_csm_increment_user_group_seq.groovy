@@ -7,6 +7,9 @@ class CSMIncrememntUserGroupSeq extends edu.northwestern.bioinformatics.bering.M
             execute("DROP SEQUENCE csm_user_grou_user_group_i_seq");
             execute("CREATE SEQUENCE csm_user_grou_user_group_i_seq start with 4 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
          }
+         if (databaseMatches('sqlserver')) {
+		    execute("DBCC CHECKIDENT ( 'CSM_USER_GROUP', RESEED, 4 )");
+		}
 
 
 	}

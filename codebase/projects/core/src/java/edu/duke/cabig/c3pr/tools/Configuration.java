@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.tools;
 import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperties;
 import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
 import gov.nih.nci.cabig.ctms.tools.configuration.DatabaseBackedConfiguration;
+import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationEntry;
 
 import org.springframework.core.io.ClassPathResource;
 
@@ -66,7 +67,7 @@ public class Configuration extends DatabaseBackedConfiguration {
 
     public static final ConfigurationProperty<String> OUTGOING_MAIL_SERVER = PROPERTIES
                     .add(new ConfigurationProperty.Text("outgoingMailServer"));
-
+    
     public static final ConfigurationProperty<String> OUTGOING_MAIL_SERVER_PORT = PROPERTIES
                     .add(new ConfigurationProperty.Text("outgoingMailServerPort"));
 
@@ -108,6 +109,10 @@ public class Configuration extends DatabaseBackedConfiguration {
 
     public static final ConfigurationProperty<String> CAS_CERT_FILE = PROPERTIES
                     .add(new ConfigurationProperty.Text("cas.cert_file"));
+    
+    protected Class<? extends ConfigurationEntry> getConfigurationEntryClass() {
+        return C3prConfigurationEntry.class;
+    }
 
     public ConfigurationProperties getProperties() {
         return PROPERTIES;

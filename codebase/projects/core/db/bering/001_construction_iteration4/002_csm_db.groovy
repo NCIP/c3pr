@@ -4,6 +4,8 @@ class CreateCSMDB extends edu.northwestern.bioinformatics.bering.Migration {
             external("../../oracle/csm/1_AuthSchema_create.sql")
         } else if (databaseMatches('postgresql')){
             external("../../PostGreSQL/csm/1_AuthSchema_create.sql")
+        } else if (databaseMatches('sqlserver')){
+           external("../../SQLServer/csm/1_AuthSchema_create.sql")
         }
     }
 
@@ -12,6 +14,8 @@ class CreateCSMDB extends edu.northwestern.bioinformatics.bering.Migration {
             external("../../oracle/csm/1_AuthSchema_delete.sql")
         } else if (databaseMatches('postgresql')) {
           external("../../PostGreSQL/csm/1_AuthSchema_delete.sql")
+        } else if (databaseMatches('sqlserver')) {
+          external("../../SQLServer/csm/1_AuthSchema_delete.sql")
         }
     }
 }

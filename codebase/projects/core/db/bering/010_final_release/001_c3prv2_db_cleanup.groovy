@@ -4,6 +4,8 @@ class CleanC3prv2DB extends edu.northwestern.bioinformatics.bering.Migration {
             external("../../oracle/static-data-delete.sql")
         } else if (databaseMatches('postgresql')){
             external("../../PostGreSQL/static-data-delete.sql")
+        } else if (databaseMatches('sqlserver')){
+            external("../../SQLServer/static-data-delete.sql")
         }
     }
 
@@ -12,6 +14,8 @@ class CleanC3prv2DB extends edu.northwestern.bioinformatics.bering.Migration {
             external("../../oracle/static-data-delete.sql")
         } else if (databaseMatches('postgresql')) {
           external("../../oracle/static-data-delete.sql")
+        } else if (databaseMatches('sqlserver')) {
+          external("../../SQLServer/static-data-delete.sql")
         }
     }
 }

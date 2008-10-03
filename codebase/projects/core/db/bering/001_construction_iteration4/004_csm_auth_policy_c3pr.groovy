@@ -4,6 +4,8 @@ class CreateCSMAuthPolicy extends edu.northwestern.bioinformatics.bering.Migrati
             external("../../oracle/csm/3_C3PRV2_auth_policy.sql")
         } else if (databaseMatches('postgresql')){
             external("../../PostGreSQL/csm/3_C3PRV2_auth_policy.sql")
+        } else if (databaseMatches('sqlserver')){
+            external("../../SQLServer/csm/3_C3PRV2_auth_policy.sql")
         }
     }
 

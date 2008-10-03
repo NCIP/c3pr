@@ -1,7 +1,7 @@
 class AddCtcV2Terms extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
     
-    
+      //not needed for sqlserver
      if (databaseMatches('oracle')) 
      { 	execute("alter table DISEASE_TERMS modify version default 0")
     	execute("alter table DISEASE_CATEGORIES modify version default 0")

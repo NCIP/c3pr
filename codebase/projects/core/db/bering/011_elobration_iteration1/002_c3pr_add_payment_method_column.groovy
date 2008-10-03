@@ -3,6 +3,10 @@ class addpaymentMethodColumnInStudySubject extends edu.northwestern.bioinformati
        if (databaseMatches('postgres')) {
     		execute("alter table STUDY_SUBJECTS add PAYMENT_METHOD varchar(50)");
 	 	}
+	 	
+	   if (databaseMatches('sqlserver')) {
+    		execute("alter table STUDY_SUBJECTS add PAYMENT_METHOD varchar(50)");
+	 	}
        if (databaseMatches('oracle')) {
 	    	execute("alter table STUDY_SUBJECTS add PAYMENT_METHOD varchar2(50)");
 	 	}
@@ -11,6 +15,9 @@ class addpaymentMethodColumnInStudySubject extends edu.northwestern.bioinformati
 
     void down() {
         if (databaseMatches('postgres')) {	    	
+	    	execute("alter table STUDY_SUBJECTS drop PAYMENT_METHOD");
+	 	}
+	 	 if (databaseMatches('sqlserver')) {	    	
 	    	execute("alter table STUDY_SUBJECTS drop PAYMENT_METHOD");
 	 	}
     	if (databaseMatches('oracle')) {

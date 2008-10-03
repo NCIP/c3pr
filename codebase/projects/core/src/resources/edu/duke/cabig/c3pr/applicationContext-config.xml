@@ -40,7 +40,7 @@
             <bean class="org.apache.commons.configuration.DatabaseConfiguration">
                 <constructor-arg ref="fileLoadedDatasource"/>
                 <constructor-arg value="configuration"/>
-                <constructor-arg value="key"/>
+                <constructor-arg value="prop"/>
                 <constructor-arg value="value"/>
             </bean>
         </constructor-arg>

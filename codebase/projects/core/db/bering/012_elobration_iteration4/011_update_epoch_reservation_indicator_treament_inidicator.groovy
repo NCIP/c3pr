@@ -9,6 +9,11 @@ class updateEpochReservationIndicatorTreatmentIndicator extends edu.northwestern
 	       execute("update epochs set reservation_indicator='no' where treatment_indicator='yes'");
 	       execute("update epochs set randomized_indicator='no' where randomized_indicator='';");
         }
+        
+     if (databaseMatches('sqlserver')){
+	       execute("update epochs set reservation_indicator='no' where treatment_indicator=1");
+	       execute("update epochs set randomized_indicator=0 where randomized_indicator='';");
+        }
 	      
     }
 

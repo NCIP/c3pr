@@ -6,6 +6,7 @@ class RenameRecepients extends edu.northwestern.bioinformatics.bering.Migration 
  	    }
 		renameTable('RECEPIENTS', 'RECIPIENTS')
 		
+		//not needed for sqlserver
 		if (databaseMatches('oracle')) {
 	   		execute("rename SEQ_recipients_ID to recipients_ID_SEQ")
  	    }

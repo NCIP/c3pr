@@ -7,6 +7,10 @@ class UpdateEpochsEnrollmentIndicator extends edu.northwestern.bioinformatics.be
 	if (databaseMatches('oracle')){
 		execute("update epochs set enrollment_indicator='yes' where display_role='Treatment'or display_role='TREATMENT' ");
 		}
+		
+	if (databaseMatches('sqlserver')){
+		execute("update epochs set enrollment_indicator='yes' where display_role='Treatment'or display_role='TREATMENT' ");
+		}
 	}
 
 	void down(){
