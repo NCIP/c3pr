@@ -1,8 +1,11 @@
 class LinkHealthcareSiteToParticipantOracleFix extends edu.northwestern.bioinformatics.bering.Migration {
 	void up() {
-	
-		execute(" ALTER TABLE participants drop CONSTRAINT FK_PRT_PRT_ORG_ASSOC");
-    	execute(" ALTER TABLE organizations drop CONSTRAINT FK_ORG_PRT_ORG_ASSOC");
+		if (databaseMatches('sqlserver')){
+				// do Nothing
+	    } else {
+    		execute(" ALTER TABLE participants drop CONSTRAINT FK_PRT_PRT_ORG_ASSOC");
+	    	execute(" ALTER TABLE organizations drop CONSTRAINT FK_ORG_PRT_ORG_ASSOC");
+    	}
     	
 		dropColumn("participants", "prt_prt_org_assoc_id");
     	dropColumn("organizations", "org_prt_org_assoc_id");
