@@ -214,6 +214,7 @@
 	<form id="createSubForm" name="createSubForm">
 	<input type="hidden" name="validate" id="validate" value="true"/>
 	<input type="hidden" name="_finish" id="_action" value="">
+	<input type="hidden" name="_page" value="0">
 	<input type="hidden" name="async" id="async" value="async">
 	<div class="division " id="single-fields" >
     <div class="content">

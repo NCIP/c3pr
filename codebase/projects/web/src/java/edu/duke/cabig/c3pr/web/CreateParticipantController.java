@@ -14,6 +14,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
@@ -73,6 +74,20 @@ public class CreateParticipantController<C extends Participant> extends
     @Override
     protected Participant getPrimaryDomainObject(C command) {
         return command;
+    }
+    
+    @Override
+    protected boolean isFormSubmission(HttpServletRequest request) {
+        if (WebUtils.hasSubmitParameter(request, "async")) {
+            try {
+                request.getSession(false).setAttribute(getFormSessionAttributeName(),
+                                formBackingObject(request));
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return super.isFormSubmission(request);
     }
 
     @Override
