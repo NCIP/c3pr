@@ -317,11 +317,6 @@ This is the install config for c3pr2.5 installer
         <hidden property="jdbc.quartz.delegateClassName" value="org.quartz.impl.jdbcjobstore.MSSQLDelegate"/>
         <hidden property="audit.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
         <hidden property="jackrabbit.repository" value="classpath:edu/duke/cabig/c3pr/rules/jackrabbit-repo-sqlserver.xml"/>
-        <target
-                displayText="Setup Database"
-                target="migrate"
-                defaultValue="true"
-                />
     </page>
 
     <page
