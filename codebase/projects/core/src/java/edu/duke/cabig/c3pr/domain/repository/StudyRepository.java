@@ -13,7 +13,7 @@ public interface StudyRepository {
 
 	public void buildAndSave(Study study) throws C3PRCodedException;
 	
-	public void validate(Study study) throws StudyValidationException;
+	public void validate(Study study) throws StudyValidationException, C3PRCodedException;
 	
 	public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier) throws C3PRCodedException;
 	
