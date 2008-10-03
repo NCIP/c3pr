@@ -31,15 +31,11 @@ class LinkHealthcareSiteToParticipant extends edu.northwestern.bioinformatics.be
 		t.addColumn("category_id", "integer", nullable: false)
 	}
         
-        
-        
-        
     	if(databaseMatches('sqlserver')){
     	} else  {
 	        execute("ALTER TABLE participants ADD CONSTRAINT FK_PRT_PRT_ORG_ASSOC FOREIGN KEY (prt_prt_org_assoc_id) REFERENCES prt_org_associations (ID)");
 	        execute("ALTER TABLE organizations ADD CONSTRAINT FK_ORG_PRT_ORG_ASSOC FOREIGN KEY (org_prt_org_assoc_id) REFERENCES prt_org_associations (ID)");
         }
-        
 	}
 
 	void down(){
