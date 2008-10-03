@@ -7,12 +7,14 @@ import javax.persistence.Transient;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
@@ -87,8 +89,12 @@ public class StudyRepositoryImpl implements StudyRepository {
             // load Investigators from DB
             for (StudyInvestigator sInv : organization.getStudyInvestigators()) {
                 Investigator inv = sInv.getHealthcareSiteInvestigator().getInvestigator();
-                Investigator loadedInv = investigatorDao.getInvestigatorsByNciInstituteCode(inv
-                                .getNciIdentifier()).get(0);
+                List<Investigator> loadedInvestigators = investigatorDao.getInvestigatorsByNciInstituteCode(inv
+                        .getNciIdentifier());
+                Investigator loadedInv = null;
+                if(loadedInvestigators.size()>0){
+                	loadedInv = loadedInvestigators.get(0);
+                }
                 if (loadedInv == null) {
                      	throw getC3PRExceptionHelper()
          				.getException(
@@ -130,32 +136,36 @@ public class StudyRepositoryImpl implements StudyRepository {
      * 
      * @param study
      * @throws StudyValidationException
+     * @throws C3PRCodedException 
      */
-    public void validate(Study study) throws StudyValidationException {
-        // make sure grid id exists
-        if (study.getId() != null) {
-            if (studyDao.getById(study.getId()) != null) {
-                throw new StudyValidationException("Study exists");
-            }
-        }
+    public void validate(Study study) throws StudyValidationException, C3PRCodedException	{
         
-        if ((study.getCoordinatingCenterAssignedIdentifier()==null)){
-        	throw new StudyValidationException("Coordinating Center identifier is required");
-        } 
-        
-      /*  else if (studyDao.getCoordinatingCenterIdentifiersWithValue(study.getCoordinatingCenterAssignedIdentifier().getValue(), study.getCoordinatingCenterAssignedIdentifier().getHealthcareSite()).size()>0) {
-                throw new StudyValidationException("Study exists");
-            }*/
+        try {
+			if ((study.getCoordinatingCenterAssignedIdentifier()==null)){
+				throw new StudyValidationException("Coordinating Center identifier is required");
+			}  	else if (searchByCoOrdinatingCenterId(study.getCoordinatingCenterAssignedIdentifier()).size()>0) {
+			    throw new StudyValidationException("Study exists");
+			}
+			
+			if ((study.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.ACTIVE)){
+				throw new StudyValidationException("Study cannot be imported in ACTIVE status");
+			} 
+			
+     
 
-        for (StudyOrganization organization : study.getStudyOrganizations()) {
-            if (healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite()
-                            .getNciInstituteCode()) == null) {
-                throw new StudyValidationException(
-                                "Could not find Organization with NCI Institute code:"
-                                                + organization.getHealthcareSite()
-                                                                .getNciInstituteCode());
-            }
-        }
+			for (StudyOrganization organization : study.getStudyOrganizations()) {
+			    if (healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite()
+			                    .getNciInstituteCode()) == null) {
+			        throw new StudyValidationException(
+			                        "Could not find Organization with NCI Institute code:"
+			                                        + organization.getHealthcareSite()
+			                                                        .getNciInstituteCode());
+			    }
+			}
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new StudyValidationException("Error when validating study : " + e.getMessage());
+		}
     }
     
     public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)throws C3PRCodedException {
