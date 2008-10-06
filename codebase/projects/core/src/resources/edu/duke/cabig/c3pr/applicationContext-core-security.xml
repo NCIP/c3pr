@@ -94,10 +94,13 @@
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
        
        <entry key="execution(* edu.duke.cabig.c3pr.dao.ParticipantDao.get*(..))"
-               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+               value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
+               
+       <entry key="execution(* edu.duke.cabig.c3pr.dao.ParticipantDao.save*(..))"
+               value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
                
        <entry key="execution(* edu.duke.cabig.c3pr.dao.ParticipantDao.search*(..))"
-               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+               value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
 
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.search*(..))"
                value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
