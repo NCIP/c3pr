@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.controllers;
 
 import java.util.Date;
 import java.util.List;

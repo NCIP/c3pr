@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 12:51:05 PM To change this
  * template use File | Settings | File Templates.
  */
-class StudyIdentifiersTab extends StudyTab {
+public class StudyIdentifiersTab extends StudyTab {
 
     private StudyValidator studyValidator;
 

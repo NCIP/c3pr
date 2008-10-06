@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,7 +24,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:11:26 PM To change this template
  * use File | Settings | File Templates.
  */
-class StudyPersonnelTab extends StudyTab {
+public class StudyPersonnelTab extends StudyTab {
 
     private StudyValidator studyValidator;
 

@@ -1,5 +1,18 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.controllers;
 
+import edu.duke.cabig.c3pr.web.study.tabs.EditStudyOverviewTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyAmendmentTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyEligibilityChecklistTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyNotificationTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyPersonnelTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyRandomizationTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudySitesTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyStratificationTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
@@ -8,7 +21,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
  * 
  * @author Himanshu
  */
-public class EditCompanionStudyController extends EditStudyController {
+public class AmendCompanionStudyController extends AmendStudyController {
 	
     /**
      * Layout Tabs
@@ -17,7 +30,8 @@ public class EditCompanionStudyController extends EditStudyController {
      *            flow the Flow object
      */
     protected void layoutTabs(Flow flow) {
-    	 boolean editMode = true;
+    	boolean editMode = false;
+    	flow.addTab(new StudyAmendmentTab());
         flow.addTab(new StudyDetailsTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());

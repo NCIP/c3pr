@@ -29,12 +29,12 @@ import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController;
-import edu.duke.cabig.c3pr.web.study.AmendStudyController;
-import edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController;
-import edu.duke.cabig.c3pr.web.study.CreateStudyController;
-import edu.duke.cabig.c3pr.web.study.EditCompanionStudyController;
-import edu.duke.cabig.c3pr.web.study.EditStudyController;
+import edu.duke.cabig.c3pr.web.study.controllers.AmendCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.controllers.AmendStudyController;
+import edu.duke.cabig.c3pr.web.study.controllers.CreateCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.controllers.CreateStudyController;
+import edu.duke.cabig.c3pr.web.study.controllers.EditCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.controllers.EditStudyController;
 
 public class BookRandomizationAjaxFacade {
 

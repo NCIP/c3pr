@@ -12,6 +12,7 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.web.study.controllers.ViewStudyController;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
 /**

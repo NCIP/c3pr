@@ -25,6 +25,8 @@ import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.web.participant.ParticipantTab;
+import edu.duke.cabig.c3pr.web.study.controllers.CreateStudyController;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 
 /**
@@ -33,7 +35,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 @C3PRUseCases( { CREATE_STUDY })
 public class CreateStudyControllerTest extends AbstractStudyControllerTest {
 
-    private edu.duke.cabig.c3pr.web.study.CreateStudyController controller;
+    private edu.duke.cabig.c3pr.web.study.controllers.CreateStudyController controller;
 
     private HealthCareSiteDaoMock healthcareSiteDao;
 

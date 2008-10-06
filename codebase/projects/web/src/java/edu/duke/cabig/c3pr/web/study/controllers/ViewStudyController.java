@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.controllers;
 
 import java.util.Map;
 
@@ -19,6 +19,8 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
+import edu.duke.cabig.c3pr.web.study.tabs.EditStudyOverviewTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyRegistrationsTab;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;

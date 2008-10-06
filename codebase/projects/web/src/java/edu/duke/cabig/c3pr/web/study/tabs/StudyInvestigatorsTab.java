@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +22,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:02:39 PM To change this template
  * use File | Settings | File Templates.
  */
-class StudyInvestigatorsTab extends StudyTab {
+public class StudyInvestigatorsTab extends StudyTab {
 
     private StudyValidator studyValidator;
 

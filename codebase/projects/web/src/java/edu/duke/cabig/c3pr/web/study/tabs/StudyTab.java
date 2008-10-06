@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.text.ParseException;
 import java.util.Iterator;

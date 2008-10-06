@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import edu.duke.cabig.c3pr.domain.Study;
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:24:28 PM To change this template
  * use File | Settings | File Templates.
  */
-class StudyEligibilityChecklistTab extends StudyTab {
+public class StudyEligibilityChecklistTab extends StudyTab {
 
     public static final String INCLUSION = "Inclusion";
 

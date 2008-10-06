@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.controllers;
 
 import java.util.List;
 
@@ -13,6 +13,18 @@ import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyEligibilityChecklistTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyNotificationTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyOverviewTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyPersonnelTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyRandomizationTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudySitesTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyStratificationTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**

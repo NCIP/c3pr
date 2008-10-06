@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study;
+package edu.duke.cabig.c3pr.web.study.tabs;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:32:32 PM To change this template
  * use File | Settings | File Templates.
  */
-class StudyRegistrationsTab extends StudyTab {
+public class StudyRegistrationsTab extends StudyTab {
 
     private StudyDao studyDao;
 
