@@ -39,6 +39,9 @@
 			<name>epoch</name>
 			<descriptionText>
 			</descriptionText>
+			<stratificationIndicator>true</stratificationIndicator>
+			<treatmentIndicator>true</treatmentIndicator>
+			<enrollmentIndicator>true</enrollmentIndicator>
 			<arm>
 				<name>Arm A</name>
 				<descriptionText>
