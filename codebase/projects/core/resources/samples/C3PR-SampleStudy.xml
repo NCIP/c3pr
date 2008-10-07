@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Created with Liquid XML Studio 6.1.13.0 - FREE Community Edition (http://www.liquid-technologies.com) -->
 <studies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
 	<study>
 		<blindedIndicator>1</blindedIndicator>
 		<multiInstitutionIndicator>1</multiInstitutionIndicator>
 		<randomizedIndicator>1</randomizedIndicator>
-		<stratificationIndicator>true</stratificationIndicator>
+		<stratificationIndicator>false</stratificationIndicator>
 		<shortTitleText>short_title_text</shortTitleText>
 		<longTitleText>long_title_text</longTitleText>
 		<descriptionText>description</descriptionText>
@@ -46,7 +45,8 @@
 		<epoch>
 			<name>NonTreatment1005</name>
 			<descriptionText>non treatment cancer desc</descriptionText>
-			<accrualCeiling>0</accrualCeiling>
+			<accrualCeiling>100</accrualCeiling>
+			<stratificationIndicator>false</stratificationIndicator>
 		</epoch>
 		<epoch>
 			<name>Treatment1000</name>
@@ -77,6 +77,7 @@
 		<epoch>
 			<name>Treatment1001</name>
 			<descriptionText>cancer desc</descriptionText>
+			<stratificationIndicator>false</stratificationIndicator>
 			<arm>
 				<name>Arm 1002</name>
 				<descriptionText>Arm 1002 desc</descriptionText>
@@ -171,4 +172,82 @@
 			</studyInvestigator>
 		</studyCoordinatingCenter>
 	</study>
+	<study>
+	<blindedIndicator>false</blindedIndicator>
+	<multiInstitutionIndicator>false</multiInstitutionIndicator>
+	<randomizedIndicator>false</randomizedIndicator>
+	<stratificationIndicator>false</stratificationIndicator>
+	<standaloneIndicator>true</standaloneIndicator>
+	<shortTitleText>Test crae</shortTitleText>
+	<longTitleText>test clrea</longTitleText>
+	<descriptionText />
+	<precisText />
+	<phaseCode>Phase I Trial</phaseCode>
+	<consentVersion>1</consentVersion>
+	<dataEntryStatus>COMPLETE</dataEntryStatus>
+	<coordinatingCenterStudyStatus>PENDING</coordinatingCenterStudyStatus>
+	<type>Diagnostic</type>
+	<targetAccrualNumber>23</targetAccrualNumber>
+	<organizationAssignedIdentifier>
+		<type>Coordinating Center Identifier</type>
+		<value>1321</value>
+		<primaryIndicator>true</primaryIndicator>
+		<healthcareSite>
+			<name>Duke University Medical Center (NC010)</name>
+			<address>
+				<city>Durham</city>
+				<stateCode>NC</stateCode>
+				<countryCode>USA</countryCode>
+			</address>
+			<nciInstituteCode>NC010</nciInstituteCode>
+		</healthcareSite>
+	</organizationAssignedIdentifier>
+	<epoch >
+		<name>epoch 2</name>
+		<descriptionText/>
+		<accrualCeiling>1</accrualCeiling>
+		<accrualIndicator>false</accrualIndicator>
+		<stratificationIndicator>false</stratificationIndicator> 
+		<reservationIndicator>false</reservationIndicator>
+		<treatmentIndicator>false</treatmentIndicator>
+		<enrollmentIndicator>true</enrollmentIndicator>
+	</epoch>
+	<studyCoordinatingCenter gridId="3a1200cd-3e3a-44e5-a661-52352920cbf9">
+		<healthcareSite>
+			<name>Duke University Medical Center (NC010)</name>
+			<address>
+				<city>Durham</city>
+				<stateCode>NC</stateCode>
+				<countryCode>USA</countryCode>
+			</address>
+			<nciInstituteCode>NC010</nciInstituteCode>
+		</healthcareSite>
+		<studyInvestigator>
+			<roleCode>Principal Investigator</roleCode>
+			<statusCode>Active</statusCode>
+			<healthcareSiteInvestigator>
+				<investigator>
+					<nciIdentifier>nci-10012</nciIdentifier>
+					<fullName>brad Jim</fullName>
+				</investigator>
+			</healthcareSiteInvestigator>
+		</studyInvestigator>
+	</studyCoordinatingCenter>
+	<studySite gridId="7fe875bf-2f09-4cb0-a093-eac4d3aab8d8">
+		<healthcareSite>
+			<name>Duke Hematology/Oncology at Raleigh Community Hospital
+			</name>
+			<address>
+				<city>Raleigh</city>
+				<stateCode>NC</stateCode>
+				<countryCode>USA</countryCode>
+			</address>
+			<nciInstituteCode>NC138</nciInstituteCode>
+		</healthcareSite>
+		<irbApprovalDate>2008-09-24</irbApprovalDate>
+		<roleCode>Affiliate Site</roleCode>
+		<startDate>2008-09-24</startDate>
+		<siteStudyStatus>PENDING</siteStudyStatus>
+	</studySite>
+</study>
 </studies>
