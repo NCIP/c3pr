@@ -12,9 +12,9 @@ import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
- * JUnit Tests for ArmDao
+ * JUnit Tests for PlannedNotificationDao
  * 
- * @author Priyatam
+ * @author Vinay Gangoli
  * @testType unit
  */
 public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotificationDao> {
