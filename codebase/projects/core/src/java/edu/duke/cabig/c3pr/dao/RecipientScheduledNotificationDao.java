@@ -2,6 +2,9 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 
 /**
@@ -22,13 +25,21 @@ public class RecipientScheduledNotificationDao extends GridIdentifiableDao<Recip
      * 
      * @see edu.duke.cabig.c3pr.dao.Arm#getAll()
      */
+    @Transactional(readOnly=true)
     public List<RecipientScheduledNotification> getAll() {
         return getHibernateTemplate().find("from RecipientScheduledNotification");
     }
     
-
+    @Transactional(readOnly=true)
     public RecipientScheduledNotification getInitializedRecipientScheduledNotificationById(int id){
     	RecipientScheduledNotification recipientScheduledNotification = getById(id);
     	return recipientScheduledNotification;
+    }
+    
+    @Transactional(readOnly=false)
+    public void saveOrUpdate(RecipientScheduledNotification recipientScheduledNotification){
+    	//do not remove the flush...imperative for the notifications flow.
+    	getHibernateTemplate().saveOrUpdate(recipientScheduledNotification);
+    	getHibernateTemplate().flush();
     }
 }

@@ -79,6 +79,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
         try {
             // init the member variables
         	notificationEmailService = (NotificationEmailService) applicationContext.getBean("notificationEmailService");
+        	setAuditInfo();
         	if(recipientScheduledNotification == null){
         		if(plannedNotification.getFrequency() != NotificationFrequencyEnum.IMMEDIATE){
         			//Generate the REPORT NOTIFICATION and send it
@@ -106,10 +107,16 @@ public class ScheduledNotificationJob extends ScheduledJob {
         }catch (Exception e){
             logger.error("execution of job failed", e);
             recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.ERROR);
+        } finally {
+        	recipientScheduledNotificationDao.saveOrUpdate(recipientScheduledNotification);
         }
         logger.debug("Exiting ScheduledNotification Job");
     }
     
+    public void setAuditInfo(){
+    	gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+        		"C3PR Admin", "C3PR Scheduled Notification Job", new Date(), "C3PR Scheduled Notification Job"));
+    }
     
     public ScheduledNotification handleReportGeneration(PlannedNotification plannedNotification){
     	
@@ -120,9 +127,8 @@ public class ScheduledNotificationJob extends ScheduledJob {
     	if(plannedNotification.getEventName().equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT_REPORT)){
     		//gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
             		//userName, request.getRemoteAddr(), new Date(),httpReq.getRequestURI()));
-    		gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
-            		"C3PR Admin", "C3PR Scheduled Notification Job", new Date(), "C3PR Scheduled Notification Job"));
-    		
+//    		gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+//            		"C3PR Admin", "C3PR Scheduled Notification Job", new Date(), "C3PR Scheduled Notification Job"));
     		
 			String reportText = generateReportFromHistory(plannedNotification);
 			ScheduledNotification scheduledNotification = addScheduledNotification(plannedNotification, reportText);

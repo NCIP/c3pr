@@ -29,8 +29,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 	public static final String MONTHLY ="0 0 12 L * ?";
 	public static final String ANNUAL ="0 0 12 L DEC ?";
 	
-	public static final Long REPEAT_INTERVAL_IN_MILLI_SECONDS= 10*60*1000L;
-	public static final Integer REPEAT_COUNT= 0;
+	public static final Long REPEAT_INTERVAL_IN_MILLI_SECONDS = 10*60*1000L;
+	public static final Integer REPEAT_COUNT = 3;
 	
 	private Logger log = Logger.getLogger(StudyTargetAccrualNotificationEmail.class);
 	
