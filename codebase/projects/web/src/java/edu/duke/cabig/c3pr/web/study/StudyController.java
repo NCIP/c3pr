@@ -217,7 +217,7 @@ public abstract class StudyController<C extends Study> extends
     }
 
     public static void setHealthcareSites(List<HealthcareSite> healthcareSites) {
-        edu.duke.cabig.c3pr.web.study.healthcareSites = healthcareSites;
+        StudyController.healthcareSites = healthcareSites;
     }
 
 	public void setCompanionStudyAssociationDao(
