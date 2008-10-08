@@ -1,11 +1,9 @@
 package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 
-import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +22,13 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request,
                     HttpServletResponse response) throws Exception {
-        if (isAjaxRequest(request)) {
+        if (AjaxableUtils.isAjaxRequest(request)) {
             synchronized (this) {
                 ModelAndView superModelAndView = super.handleRequestInternal(request, response);
-                ModelAndView modelAndView = getAjaxModelAndView(request);
+                ModelAndView modelAndView = AjaxableUtils.getAjaxModelAndView(request);
                 modelAndView.getModel().putAll(superModelAndView.getModel());
-                if (isAjaxResponseFreeText(modelAndView)) {
-                    respondAjaxFreeText(modelAndView, response);
+                if (AjaxableUtils.isAjaxResponseFreeText(modelAndView)) {
+                    AjaxableUtils.respondAjaxFreeText(modelAndView, response);
                     return null;
                 }
                 return modelAndView;
@@ -52,11 +50,11 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
     @Override
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
                     int page) throws Exception {
-        if (isAjaxRequest(request)) {
+        if (AjaxableUtils.isAjaxRequest(request)) {
             AjaxableTab<C> ajaxTab = (AjaxableTab<C>) getFlow((C) command).getTab(page);
             ModelAndView modelAndView = ajaxTab.postProcessAsynchronous(request, (C) command,
                             errors);
-            setAjaxModelAndView(request, modelAndView);
+            AjaxableUtils.setAjaxModelAndView(request, modelAndView);
             if (!errors.hasErrors() && shouldSave(request, (C) command, getTab((C) command, page))) {
                 C newCommand = save((C) command, errors);
                 if (newCommand != null) {
@@ -70,43 +68,4 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
         }
     }
 
-    protected boolean isAjaxRequest(HttpServletRequest request) {
-        if (StringUtils.getBlankIfNull(request.getParameter(getAjaxRequestParamName()))
-                        .equalsIgnoreCase("true")) return true;
-        return false;
-    }
-
-    protected void setAjaxModelAndView(HttpServletRequest request, ModelAndView modelAndView) {
-        request.setAttribute(getAjaxModelAndViewAttr(), modelAndView);
-    }
-
-    protected ModelAndView getAjaxModelAndView(HttpServletRequest request) {
-        return (ModelAndView) request.getAttribute(getAjaxModelAndViewAttr());
-    }
-
-    protected boolean isAjaxResponseFreeText(ModelAndView modelAndView) {
-        if (StringUtils.getBlankIfNull(modelAndView.getViewName()).equals("")) {
-            return true;
-        }
-        return false;
-    }
-
-    protected void respondAjaxFreeText(ModelAndView modelAndView, HttpServletResponse response)
-                    throws Exception {
-        PrintWriter pr = response.getWriter();
-        pr.println(modelAndView.getModel().get(getFreeTextModelName()));
-        pr.flush();
-    }
-
-    protected String getAjaxRequestParamName() {
-        return "_asynchronous";
-    }
-
-    protected String getAjaxModelAndViewAttr() {
-        return "async_model_and_view";
-    }
-
-    protected String getFreeTextModelName() {
-        return "free_text";
-    }
 }

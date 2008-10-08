@@ -26,18 +26,7 @@ public abstract class AjaxableTab<C> extends Tab<C> {
 
     protected ModelAndView postProcessAsynchronous(HttpServletRequest request, C command,
                     Errors error) throws Exception {
-        return new ModelAndView(getAjaxViewName(request));
+        return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
     }
 
-    protected String getFreeTextModelName() {
-        return "free_text";
-    }
-
-    protected String getAjaxViewName(HttpServletRequest request) {
-        return request.getParameter(getAjaxViewParamName());
-    }
-
-    protected String getAjaxViewParamName() {
-        return "_asyncViewName";
-    }
 }

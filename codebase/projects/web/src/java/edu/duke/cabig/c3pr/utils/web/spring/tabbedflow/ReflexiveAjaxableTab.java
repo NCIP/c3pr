@@ -32,24 +32,10 @@ public abstract class ReflexiveAjaxableTab<C> extends AjaxableTab<C> {
 
     public ModelAndView postProcessAsynchronous(HttpServletRequest request, C command, Errors error)
                     throws Exception {
-        if (methodInvocationRequest(request)) {
-            return (ModelAndView)ReflectionUtils.invokeMethod(ReflectionUtils.findMethod(this.getClass(), getMethodName(request), paramTypes), this, new Object[] { request, command, error } ); 
+        if (AjaxableUtils.methodInvocationRequest(request)) {
+            return (ModelAndView)ReflectionUtils.invokeMethod(ReflectionUtils.findMethod(this.getClass(), AjaxableUtils.getMethodName(request), paramTypes), this, new Object[] { request, command, error } ); 
         }
         return super.postProcessAsynchronous(request, command, error);
     }
 
-    protected boolean methodInvocationRequest(HttpServletRequest request) {
-        if (WebUtils.hasSubmitParameter(request, getAJAXMethodInvAttrName())) {
-            return true;
-        }
-        return false;
-    }
-
-    public String getAJAXMethodInvAttrName() {
-        return "_asyncMethodName";
-    }
-
-    public String getMethodName(HttpServletRequest request) {
-        return (String) request.getParameter(getAJAXMethodInvAttrName());
-    }
 }
