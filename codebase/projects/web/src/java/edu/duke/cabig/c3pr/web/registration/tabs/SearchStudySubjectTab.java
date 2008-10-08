@@ -28,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
@@ -212,7 +213,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
         int id = Integer.parseInt(request.getParameter("epochId"));
         map.put("alertForCeiling",
                         new Boolean(studySubjectRepository.isEpochAccrualCeilingReached(id)));
-        return new ModelAndView(getAjaxViewName(request), map);
+        return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
     }
 
     public StudySubjectService getStudySubjectService() {

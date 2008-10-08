@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 
 /**
@@ -83,7 +84,7 @@ public class InvestigatorsGroupsTab<C> extends InPlaceEditableTab<C> {
                 retValue += currentStartDate;
             }
         }
-        map.put(getFreeTextModelName(), retValue);
+        map.put(AjaxableUtils.getFreeTextModelName(), retValue);
         return new ModelAndView("", map);
     }
 

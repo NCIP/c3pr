@@ -12,6 +12,7 @@ import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
@@ -79,6 +80,6 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C> {
                         && command.getCurrentScheduledEpoch().getEpoch().getId() != epoch.getId()) {
             map.put("notRegistrable", new Boolean(true));
         }
-        return new ModelAndView(getAjaxViewName(request), map);
+        return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
     }
 }

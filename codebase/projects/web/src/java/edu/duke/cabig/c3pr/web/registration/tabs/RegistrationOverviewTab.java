@@ -8,16 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
-import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 
 /**
@@ -106,7 +105,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("responseMessage", responseMessage);
-        return new ModelAndView(getAjaxViewName(request), map);
+        return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
     }
 
     public ModelAndView broadcastRegistration(HttpServletRequest request, Object commandObj,
@@ -119,7 +118,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         catch (C3PRCodedException e) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("responseMessage", e.getMessage());
-            return new ModelAndView(getAjaxViewName(request), map);
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }
     }
     
@@ -128,7 +127,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         C command = (C) commandObj;
         String responseMessage = null;
         try {
-            if(command.getMultisiteWorkflowStatus()==CCTSWorkflowStatusType.MESSAGE_SEND_FAILED)
+            if(command.getMultisiteWorkflowStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED)
                 this.studySubjectService.sendRegistrationRequest(command);
             else
                 this.studySubjectService.sendRegistrationResponse(command);
@@ -139,7 +138,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         }finally{
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("responseMessage", responseMessage);
-            return new ModelAndView(getAjaxViewName(request), map);
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }
     }
 
