@@ -42,6 +42,9 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
     public void testGetStudies() throws Exception {
         for (int i = 1000; i < 1003; i++) {
             Study study = getDao().getById(i);
+            // have to set the coordinating center identifier to something differnt to prevent duplicate study exception. 
+            // The studies in daoTest.xml have already been inserted into database.
+            study.getCoordinatingCenterAssignedIdentifier().setValue("abc" + i);
             String[] xmlStudy = (marshaller.toXML(study)).split(">", 2);
             String studyXml = xmlStudy[0] + "><studies>" + xmlStudy[1] + "</studies> ";  
             
