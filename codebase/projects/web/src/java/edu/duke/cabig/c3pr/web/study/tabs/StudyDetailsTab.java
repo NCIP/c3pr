@@ -14,9 +14,9 @@ import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.web.study.controllers.AmendStudyController;
-import edu.duke.cabig.c3pr.web.study.controllers.CreateStudyController;
-import edu.duke.cabig.c3pr.web.study.controllers.EditStudyController;
+import edu.duke.cabig.c3pr.web.study.AmendStudyController;
+import edu.duke.cabig.c3pr.web.study.CreateStudyController;
+import edu.duke.cabig.c3pr.web.study.EditStudyController;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 13, 2007 Time: 7:27:09 PM To change this template

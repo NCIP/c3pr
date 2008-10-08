@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study.controllers;
+package edu.duke.cabig.c3pr.web.study;
 
 import java.util.Date;
 import java.util.List;
@@ -217,7 +217,7 @@ public abstract class StudyController<C extends Study> extends
     }
 
     public static void setHealthcareSites(List<HealthcareSite> healthcareSites) {
-        StudyController.healthcareSites = healthcareSites;
+        edu.duke.cabig.c3pr.web.study.healthcareSites = healthcareSites;
     }
 
 	public void setCompanionStudyAssociationDao(

@@ -48,12 +48,12 @@ import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.service.PersonnelService;
-import edu.duke.cabig.c3pr.web.study.controllers.AmendCompanionStudyController;
-import edu.duke.cabig.c3pr.web.study.controllers.AmendStudyController;
-import edu.duke.cabig.c3pr.web.study.controllers.CreateCompanionStudyController;
-import edu.duke.cabig.c3pr.web.study.controllers.CreateStudyController;
-import edu.duke.cabig.c3pr.web.study.controllers.EditCompanionStudyController;
-import edu.duke.cabig.c3pr.web.study.controllers.EditStudyController;
+import edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.AmendStudyController;
+import edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.CreateStudyController;
+import edu.duke.cabig.c3pr.web.study.EditCompanionStudyController;
+import edu.duke.cabig.c3pr.web.study.EditStudyController;
 
 /**
  * @author Priyatam

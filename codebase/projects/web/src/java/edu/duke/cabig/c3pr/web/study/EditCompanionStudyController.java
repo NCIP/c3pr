@@ -1,7 +1,6 @@
-package edu.duke.cabig.c3pr.web.study.controllers;
+package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.web.study.tabs.EditStudyOverviewTab;
-import edu.duke.cabig.c3pr.web.study.tabs.StudyAmendmentTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
@@ -21,7 +20,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
  * 
  * @author Himanshu
  */
-public class AmendCompanionStudyController extends AmendStudyController {
+public class EditCompanionStudyController extends EditStudyController {
 	
     /**
      * Layout Tabs
@@ -30,8 +29,7 @@ public class AmendCompanionStudyController extends AmendStudyController {
      *            flow the Flow object
      */
     protected void layoutTabs(Flow flow) {
-    	boolean editMode = false;
-    	flow.addTab(new StudyAmendmentTab());
+    	 boolean editMode = true;
         flow.addTab(new StudyDetailsTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());

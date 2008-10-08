@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.study.controllers;
+package edu.duke.cabig.c3pr.web.study;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

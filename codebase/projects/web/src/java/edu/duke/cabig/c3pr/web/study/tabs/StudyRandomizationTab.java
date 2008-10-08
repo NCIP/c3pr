@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.web.ajax.BookRandomizationAjaxFacade;
-import edu.duke.cabig.c3pr.web.study.controllers.AmendStudyController;
-import edu.duke.cabig.c3pr.web.study.controllers.CreateStudyController;
-import edu.duke.cabig.c3pr.web.study.controllers.EditStudyController;
+import edu.duke.cabig.c3pr.web.study.AmendStudyController;
+import edu.duke.cabig.c3pr.web.study.CreateStudyController;
+import edu.duke.cabig.c3pr.web.study.EditStudyController;
 
 /**
  * Author: gangoliV Date: July 30, 2007
