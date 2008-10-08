@@ -60,7 +60,7 @@ public class RowManagableTabTest extends AbstractTestCase{
         replayMocks();
         ModelAndView modelAndView=rowManagableTab.deleteRow(request, command, errors);
         assertEquals(1, command.list.size());
-        assertEquals("Unmatched hashCode/Id", modelAndView.getModel().get(rowManagableTab.getFreeTextModelName()));
+        assertEquals("Unmatched hashCode/Id", modelAndView.getModel().get(AjaxableUtils.getFreeTextModelName()));
         verifyMocks();
     }
     
