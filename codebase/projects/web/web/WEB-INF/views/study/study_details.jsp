@@ -391,7 +391,7 @@
 				class="autocomplete validate-notEmpty" />
 								<tags:hoverHint keyProp="study.healthcareSite.name"/>
 							<tags:indicator id="coCenter-indicator" />
-							<div id="coCenter-choices" class="autocomplete"></div>
+							<div id="coCenter-choices" class="autocomplete"  style="display: none;"></div>
 							</div>
                     </div>	
                     <div class="row">
