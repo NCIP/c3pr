@@ -13,7 +13,7 @@ import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
-import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.AmendStudyController;
 import edu.duke.cabig.c3pr.web.study.CreateStudyController;
 import edu.duke.cabig.c3pr.web.study.EditStudyController;
@@ -40,7 +40,7 @@ public class StudyDetailsTab extends StudyTab {
 		Map map=new HashMap();
 		CompanionStudyAssociation companionStudyAssociation=parentStudy.getCompanionStudyAssociations().get(rowCount);
     	companionStudyAssociation.setCompanionStudy(companionStudy);
-		map.put(getFreeTextModelName(), "");
+		map.put(AjaxableUtils.getFreeTextModelName(), "");
 		if(companionStudyAssociation.getParentStudy().getId() != null ){
 			companionStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		}

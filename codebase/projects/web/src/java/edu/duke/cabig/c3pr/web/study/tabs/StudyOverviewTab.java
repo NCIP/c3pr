@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 
 /**
  * Tab for Study Overview/Summary page <p/> Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007
@@ -49,7 +50,7 @@ public class StudyOverviewTab extends StudyTab {
         }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("responseMessage", responseMessage);
-        return new ModelAndView(getAjaxViewName(request), map);
+        return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
     }
 
     public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
@@ -62,7 +63,7 @@ public class StudyOverviewTab extends StudyTab {
         catch (C3PRBaseException e) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("responseMessage", e.getMessage());
-            return new ModelAndView(getAjaxViewName(request), map);
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }
     }
     
@@ -173,7 +174,7 @@ public class StudyOverviewTab extends StudyTab {
         else {
             retValue += command.getCoordinatingCenterStudyStatus().getCode();
         }
-        map.put(getFreeTextModelName(), retValue);
+        map.put(AjaxableUtils.getFreeTextModelName(), retValue);
         return new ModelAndView("", map);
     }
 
@@ -209,6 +210,6 @@ public class StudyOverviewTab extends StudyTab {
     }
     
     public ModelAndView reloadCompanion(HttpServletRequest request, Object command , Errors error) {
-		return new ModelAndView(getAjaxViewName(request));
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
 }

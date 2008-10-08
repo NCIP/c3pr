@@ -14,13 +14,14 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.BookRandomization;
-import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 
 /**
@@ -100,7 +101,7 @@ public class StudyStratificationTab extends StudyTab {
         tEpochsListForReorderedGroups.add(indexOfEpochNumber, sgList);
 
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put(this.getFreeTextModelName(), serializedString);
+        map.put(AjaxableUtils.getFreeTextModelName(), serializedString);
         return new ModelAndView("", map);
     }
 
@@ -163,7 +164,7 @@ public class StudyStratificationTab extends StudyTab {
         }
 
         Map map = new HashMap();
-        map.put(getFreeTextModelName(), message);
+        map.put(AjaxableUtils.getFreeTextModelName(), message);
         return new ModelAndView("", map);
     }
 

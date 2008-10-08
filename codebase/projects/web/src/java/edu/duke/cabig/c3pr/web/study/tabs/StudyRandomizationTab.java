@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.ajax.BookRandomizationAjaxFacade;
 import edu.duke.cabig.c3pr.web.study.AmendStudyController;
 import edu.duke.cabig.c3pr.web.study.CreateStudyController;
@@ -109,13 +110,13 @@ public class StudyRandomizationTab extends StudyTab {
             Object viewData = bookRandomizationAjaxFacade.getTable(new HashMap<String, List>(),
                             study.getFile(), index, request, flowType);
             if (StringUtils.isEmpty(viewData.toString())) {
-                map.put(getFreeTextModelName(),
+                map.put(AjaxableUtils.getFreeTextModelName(),
                                 "<div><b>Incorrect format. Please try again.</b></div>");
             }
             else {
                 bookRandomizationEntries[Integer.parseInt(index)] = viewData.toString();
                 request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);
-                map.put(getFreeTextModelName(), viewData.toString());
+                map.put(AjaxableUtils.getFreeTextModelName(), viewData.toString());
             }
         }
         catch (Exception e) {
