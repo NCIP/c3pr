@@ -28,6 +28,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -85,7 +86,9 @@ public class StudyXMLImporterServiceImpl implements
                     try {
                         study = (Study) marshaller.fromXML(new StringReader(new XMLOutputter().outputString(studyNode)));
                         studyRepository.validate(study);
-
+                        // do any custom processing after validation
+                        study = processStudy(study);
+                      
                         log.debug("Saving study with grid ID" + study.getGridId());
 
                         studyRepository.buildAndSave(study);
@@ -110,6 +113,15 @@ public class StudyXMLImporterServiceImpl implements
                      getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING"), e);
         }
         return studyList;
+    }
+    
+    public Study processStudy(Study study){
+    	// updating the study status before importing.
+    	if ((study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)) {
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+			log.debug("Study:" + study.getPrimaryIdentifier() + "cannot be imported in Active Status. So it's status has been set to Pending");
+		}
+    	return study;
     }
 
     // setters for spring
