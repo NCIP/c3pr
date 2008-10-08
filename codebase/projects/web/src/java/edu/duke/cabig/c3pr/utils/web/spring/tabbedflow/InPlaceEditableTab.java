@@ -47,7 +47,7 @@ public class InPlaceEditableTab<C> extends WorkFlowTab<C> {
             value = (String) new DefaultObjectPropertyReader(command, pathToGet)
                             .getPropertyValueFromPath();
         }
-        map.put(getFreeTextModelName(), value);
+        map.put(AjaxableUtils.getFreeTextModelName(), value);
         return new ModelAndView("", map);
     }
 }

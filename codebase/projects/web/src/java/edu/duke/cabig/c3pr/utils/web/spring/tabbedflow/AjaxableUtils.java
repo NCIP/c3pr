@@ -10,7 +10,7 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
-public static class AjaxableUtils {
+public class AjaxableUtils {
 
     public static final boolean isAjaxRequest(HttpServletRequest request) {
         if (StringUtils.getBlankIfNull(request.getParameter(getAjaxRequestParamName()))

@@ -90,13 +90,13 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C> {
         }
         Map<String, String> map = new HashMap<String, String>();
         if (index == null) {
-            map.put(getFreeTextModelName(), "Unmatched hashCode/Id");
+            map.put(AjaxableUtils.getFreeTextModelName(), "Unmatched hashCode/Id");
             return new ModelAndView("", map);
         }
         
         if (this.shouldDelete(request, command, error)) {
             col.remove(index.intValue());
-            map.put(getFreeTextModelName(), "deletedIndex="
+            map.put(AjaxableUtils.getFreeTextModelName(), "deletedIndex="
                             + index + "||hashCode="
                             + deletionIdStr + "||");
         }
