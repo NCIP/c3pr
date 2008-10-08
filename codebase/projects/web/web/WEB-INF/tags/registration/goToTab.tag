@@ -42,7 +42,9 @@
 		<c:if test="${(currentTab == 2) && randomizationRequired == 'true' && goToTab == 1}">
 			<c:set var="goToTab" value ="4" scope="request" ></c:set>	
 		</c:if>	
-
+		<c:if test="${(currentTab == 2) && goToTab == 1}">
+			<c:set var="goToTab" value ="2" scope="request" ></c:set>	
+		</c:if>
 		<c:if test="${(currentTab == 3) && randomizationRequired == 'true' && goToTab == 1}">
 			<c:set var="goToTab" value ="4" scope="request"></c:set>	
 		</c:if>	
