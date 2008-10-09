@@ -19,7 +19,15 @@
 <c:set var="bgcolorAlternate" value="#eeeeee" />
 <c:set var="bgcolorRead" value="#ffffff" />
 <c:set var="bgcolor" value="#fff8aa" />
-
+<script type="text/css">
+	.eXtremeTable .toolbar {
+		background-color:#F4F4F4;
+		border:1px solid silver;
+		font-family:verdana,arial,helvetica,sans-serif;
+		font-size:9px;
+		margin-right:1px;
+	}
+</script>
 <script>
 		function showMessageBody(index, rsnId, title, url){
 				var id = "messageDetails-" + index;
@@ -52,32 +60,115 @@
 		     	new Ajax.Request("../admin/viewInbox" + parameterString, {method:'get', asynchronous:true});
 	     	}
 	     }
+	     
 	</script>
 
 <chrome:box title="C3PR Notifications" htmlContent='${htmlContent}'>
 	<c:choose>
-		<c:when
-			test="${empty recipientScheduledNotification || fn:length(recipientScheduledNotification) == 0}">
-			<br />You don't have any notifications.
+		<c:when	test="${empty recipientScheduledNotification || fn:length(recipientScheduledNotification) == 0}">
+			<br /><b>You don't have any notifications.</b>
           </c:when>
 		<c:otherwise>
+			<c:set var="numOfMessagesOnPage" value="5" />
 			<c:if test="${empty endValue}">
-				<c:set var="endValue" value="100" />
+				<c:set var="startValue" value="1" />
+				<c:set var="endValue" value="5" />
 			</c:if>
+			
 			<c:if test="${empty canDelete}">
 				<c:set var="canDelete" value="false" />
 			</c:if>
+			
+			<c:set var="prevStartValue" value="${startValue - numOfMessagesOnPage}" />
+			<c:set var="prevEndValue" value="${startValue - 1}" />
+			<c:set var="nextStartValue" value="${endValue + 1}" />
+			<c:set var="nextEndValue" value="${endValue + numOfMessagesOnPage>fn:length(recipientScheduledNotification)?fn:length(recipientScheduledNotification):endValue + numOfMessagesOnPage}" />
+			
+			<%-- ${startValue} and ${endValue} |	${prevStartValue} and ${prevEndValue} |	${nextStartValue} and ${nextEndValue} --%>
+			
 			<table id="rsnTable" width="100%" cellspacing="1" cellpadding="2">
+				<c:if test="${canDelete != 'false'}">
+				<tr>
+				<td colspan="1" align="left" valign="bottom">
+					<b>${startValue} - ${endValue}</b> of <b>${fn:length(recipientScheduledNotification)}</b>
+				</td>
+				<td colspan="2" align="right">
+				<div class="eXtremeTable">
+					<table cellspacing="1" cellpadding="0" border="0" class="toolbar">
+						<tbody><tr>
+							<td>
+								<c:choose>
+									<c:when test="${(startValue - numOfMessagesOnPage) > 0}">
+										<a href='viewInbox?startValue=1&endValue=${numOfMessagesOnPage}'>
+											<img alt="First" style="border: 0pt none ;" src="/c3pr/images/table/firstPage.gif"/>
+										</a>
+									</c:when>
+									<c:otherwise>
+										<img alt="First" style="border: 0pt none ;" src="/c3pr/images/table/firstPageDisabled.gif"/>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${(startValue - numOfMessagesOnPage) > 0}">
+										<a href='viewInbox?startValue=${prevStartValue}&endValue=${prevEndValue}'>
+											<img alt="Prev" style="border: 0pt none ;" src="/c3pr/images/table/prevPage.gif"/>
+										</a>
+									</c:when>
+									<c:otherwise>
+										<img alt="Prev" style="border: 0pt none ;" src="/c3pr/images/table/prevPageDisabled.gif"/>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${endValue < fn:length(recipientScheduledNotification)}">
+										<a href='viewInbox?startValue=${nextStartValue}&endValue=${nextEndValue}'>
+											<img alt="Next" style="border: 0pt none ;" src="/c3pr/images/table/nextPage.gif"/>
+										</a>
+									</c:when>
+									<c:otherwise>
+										<img alt="Next" style="border: 0pt none ;" src="/c3pr/images/table/nextPageDisabled.gif"/>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${endValue < fn:length(recipientScheduledNotification)}">
+										<c:choose>
+										<c:when test="${fn:length(recipientScheduledNotification) - fn:length(recipientScheduledNotification) % numOfMessagesOnPage + 1 > fn:length(recipientScheduledNotification)}">
+											<a href='viewInbox?startValue=${fn:length(recipientScheduledNotification) - numOfMessagesOnPage + 1}&endValue=${fn:length(recipientScheduledNotification)}'>
+												<img alt="Last" style="border: 0pt none ;" src="/c3pr/images/table/lastPage.gif"/>
+											</a>
+										</c:when>
+										<c:otherwise>
+											<a href='viewInbox?startValue=${fn:length(recipientScheduledNotification) - fn:length(recipientScheduledNotification) % numOfMessagesOnPage + 1}&endValue=${fn:length(recipientScheduledNotification)}'>
+												<img alt="Last" style="border: 0pt none ;" src="/c3pr/images/table/lastPage.gif"/>
+											</a>
+										</c:otherwise>
+										</c:choose>
+									</c:when>
+									<c:otherwise>
+										<img alt="Last" style="border: 0pt none ;" src="/c3pr/images/table/lastPageDisabled.gif"/>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				</td>
+				</tr>
+				</c:if>
 				<tr bgcolor="${bgcolorAlternate}">
-					<td width="65%"><b>Title</b></td>
-					<td width="30%"><b>Date</b></td>
+					<td><b>Title</b></td>
+					<td width="20%"><b>Date</b></td>
 					<c:if test="${canDelete != 'false'}">
-						<td width="5%"></td>
+						<td width="10%"></td>
 					</c:if>
 				</tr>
-				<c:forEach var="rsn" items="${recipientScheduledNotification}" end="${endValue}"
+				<c:forEach var="rsn" items="${recipientScheduledNotification}" begin="${startValue}" end="${endValue}"
 					varStatus="rsnStatus">
-					<c:if test="${!empty rsn.scheduledNotification.title || !empty rsn.scheduledNotification.message}">
 						<!-- Unread emails -->
 						<c:if test="${!rsn.isRead}">
 							<tr id="row-${rsnStatus.index}" bgcolor="${bgcolor}">
@@ -88,7 +179,7 @@
 									value="${rsn.scheduledNotification.dateSent}"
 									pattern="MM/dd/yyyy" /></td>
 								<c:if test="${canDelete != 'false'}">
-									<td><a href="javascript:deleteRow('row-${rsnStatus.index}', '${rsn.id}');">
+									<td align="center"><a href="javascript:deleteRow('row-${rsnStatus.index}', '${rsn.id}');">
 										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 									</td>
 								</c:if>
@@ -106,7 +197,7 @@
 									value="${rsn.scheduledNotification.dateSent}"
 									pattern="MM/dd/yyyy" /></td>
 								<c:if test="${canDelete != 'false'}">
-									<td><a href="javascript:deleteRow('row-${rsnStatus.index}', '${rsn.id}');">
+									<td align="center"><a href="javascript:deleteRow('row-${rsnStatus.index}', '${rsn.id}');">
 										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 									</td>
 								</c:if>
@@ -160,7 +251,6 @@
 							</div>
 							</td>
 						</tr>
-					</c:if>
 				</c:forEach>
 			</table>
 		</c:otherwise>
