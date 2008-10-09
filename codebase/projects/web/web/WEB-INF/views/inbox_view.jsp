@@ -14,7 +14,7 @@
     <title>C3PR Inbox Page</title>
 </head>
 <body>   
-	<tags:inbox recipientScheduledNotification="${recipientScheduledNotification}" url="../admin/viewInbox"/>
+	<tags:inbox recipientScheduledNotification="${recipientScheduledNotification}" url="../admin/viewInbox" canDelete="true"/>
         
         
 	<%--<chrome:box title="Results">
