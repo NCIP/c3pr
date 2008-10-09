@@ -187,7 +187,7 @@
 							</chrome:td>
 							<chrome:td bgcolor="${bg}">
 								<c:out
-									value="${study.coordinatingCenterAssignedIdentifier.value}" />
+									value="${study.primaryIdentifier}" />
 							</chrome:td>
 							<chrome:td bgcolor="${bg}">
 								<c:out
@@ -229,7 +229,7 @@
 							</chrome:td>
 							<chrome:td bgcolor="${bg}">
 								<c:out
-									value="${study.coordinatingCenterAssignedIdentifier.value}" />
+									value="${study.primaryIdentifier}" />
 							</chrome:td>
 							<chrome:td bgcolor="${bg}">
 								<c:out
