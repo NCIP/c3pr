@@ -52,8 +52,14 @@ public class ViewInboxController extends ParameterizableViewController {
 		if(request.getParameter("rsnId") != null){
 			Integer id = Integer.valueOf(request.getParameter("rsnId"));
 			RecipientScheduledNotification rsn = recipientScheduledNotificationDao.getById(id);
-			rsn.setIsRead(Boolean.TRUE);
-			rsn.setDateRead(new Date());
+			//clicked to delete
+			if(request.getParameter("delete")  != null && request.getParameter("delete").toString().equalsIgnoreCase("true")){
+				rsn.setRetiredIndicatorAsTrue();
+			} else {
+			//clicked to read
+				rsn.setIsRead(Boolean.TRUE);
+				rsn.setDateRead(new Date());
+			}
 			recipientScheduledNotificationDao.save(rsn);
 			getNotifications(request);
 		}
