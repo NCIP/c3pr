@@ -13,6 +13,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "recipients")
@@ -25,6 +26,7 @@ public abstract class Recipient extends AbstractMutableDeletableDomainObject {
     @OneToMany
     @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "recipients_id")
+    @Where(clause = "retired_indicator  = 'false'")
 	public List<RecipientScheduledNotification> getRecipientScheduledNotifications() {
 		return recipientScheduledNotifications;
 	}
