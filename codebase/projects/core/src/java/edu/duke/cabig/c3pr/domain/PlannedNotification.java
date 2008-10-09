@@ -151,7 +151,7 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.MERGE})
     @JoinColumn(name = "planned_notfns_id", nullable = false)
     @Where(clause = "retired_indicator  = 'false'")
-    @OrderBy(clause="date_sent desc")
+//    @OrderBy(clause="date_sent desc")
     public List<ScheduledNotification> getScheduledNotificationsInternal() {
         return lazyListHelper.getInternalList(ScheduledNotification.class);
     }
