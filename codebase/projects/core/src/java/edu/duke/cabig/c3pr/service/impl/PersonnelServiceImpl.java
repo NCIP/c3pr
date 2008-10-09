@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
+import edu.duke.cabig.c3pr.utils.RecipientScheduledNotificationComparator;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 import gov.nih.nci.security.authorization.domainobjects.Group;
@@ -274,7 +276,8 @@ public class PersonnelServiceImpl implements PersonnelService {
                 scheduledNotificationsList.addAll(pn.getScheduledNotifications());
             }
         }
-
+        
+        Collections.sort(recipientScheduledNotificationsList, new RecipientScheduledNotificationComparator());
         return recipientScheduledNotificationsList;
         
     }
