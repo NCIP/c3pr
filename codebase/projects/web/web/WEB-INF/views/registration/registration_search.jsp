@@ -229,7 +229,7 @@ Event.observe(window, "load", function() {
 					<td colspan="2"><input type="hidden" id="registration-hidden" />
                         <form:input id="registration-input" path="searchText" cssClass="autocomplete" size="52"/>
                         <tags:indicator id="registration-indicator" />
-					<div id="registration-choices" class="autocomplete"></div>
+					<div id="registration-choices" class="autocomplete" style="display: none;"></div>
 					<p id="registration-selected" style="display: none">You've selected
 					<span id="registration-selected-name"></span>.</p>
 					</td>
