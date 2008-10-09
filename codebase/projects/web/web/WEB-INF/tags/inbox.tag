@@ -11,6 +11,7 @@
 <%@attribute name="url" required="true"%>
 <%@attribute name="htmlContent"%>
 <%@attribute name="endValue" required="false"%>
+<%@attribute name="canDelete" required="false"%>
 
 <link href="themes/mac_os_x.css" rel="stylesheet" type="text/css"/> 
 
@@ -42,12 +43,13 @@
 	     
 	     function deleteRow(rowId, rsnId){
 	     	if(confirm("Are you sure you want to delete this message?")){
+	     		//removing from view
 	     		var theTableBody = $('rsnTable').tBodies[0];
 		     	var x = $(rowId).rowIndex;
 		     	theTableBody.deleteRow(x);
-		     	parameterString="softDelete=true";
-		     	alert(rsnId);
-		     	new Ajax.Request("../admin/viewInbox" + '?rsnId='+rsnId + '&delete=true', {method:'get', asynchronous:true});
+		     	//removing from command object
+		     	var parameterString = "?rsnId=" + rsnId + "&delete=true";
+		     	new Ajax.Request("../admin/viewInbox" + parameterString, {method:'get', asynchronous:true});
 	     	}
 	     }
 	</script>
@@ -62,11 +64,16 @@
 			<c:if test="${empty endValue}">
 				<c:set var="endValue" value="100" />
 			</c:if>
+			<c:if test="${empty canDelete}">
+				<c:set var="canDelete" value="false" />
+			</c:if>
 			<table id="rsnTable" width="100%" cellspacing="1" cellpadding="2">
 				<tr bgcolor="${bgcolorAlternate}">
 					<td width="65%"><b>Title</b></td>
 					<td width="30%"><b>Date</b></td>
-					<td width="5%"></td>
+					<c:if test="${canDelete != 'false'}">
+						<td width="5%"></td>
+					</c:if>
 				</tr>
 				<c:forEach var="rsn" items="${recipientScheduledNotification}" end="${endValue}"
 					varStatus="rsnStatus">
@@ -80,9 +87,11 @@
 								<td><fmt:formatDate
 									value="${rsn.scheduledNotification.dateSent}"
 									pattern="MM/dd/yyyy" /></td>
+								<c:if test="${canDelete != 'false'}">
 									<td><a href="javascript:deleteRow('row-${rsnStatus.index}', '${rsn.id}');">
 										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 									</td>
+								</c:if>
 							</tr>
 						</c:if>
 						<!-- Unread emails -->
@@ -96,9 +105,11 @@
 								<td><fmt:formatDate
 									value="${rsn.scheduledNotification.dateSent}"
 									pattern="MM/dd/yyyy" /></td>
-								<td><a href="javascript:deleteRow('row-${rsnStatus.index}', '${rsn.id}');">
+								<c:if test="${canDelete != 'false'}">
+									<td><a href="javascript:deleteRow('row-${rsnStatus.index}', '${rsn.id}');">
 										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-								</td>
+									</td>
+								</c:if>
 							</tr>
 						</c:if>
 						<!-- emails that have been viewed -->
