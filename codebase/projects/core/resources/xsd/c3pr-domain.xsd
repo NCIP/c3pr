@@ -210,6 +210,7 @@
       <xs:element minOccurs="0" maxOccurs="1" name="randomizedIndicator" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="stratificationIndicator" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="standaloneIndicator" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="companionIndicator" type="xs:string" />   
       <xs:element minOccurs="1" maxOccurs="1" name="shortTitleText" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="longTitleText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="descriptionText" type="xs:string" />
