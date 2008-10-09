@@ -5,7 +5,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@attribute name="recipientScheduledNotification" type="java.util.Collection"  required="true"%>
 <%@attribute name="url" required="true"%>
@@ -39,6 +39,17 @@
 	     	$(rowId).style.backgroundColor = "#ffffff";
 	     	new Ajax.Request(url + '?rsnId='+rsnId, {method:'get', asynchronous:true});
 	     } 
+	     
+	     function deleteRow(rowId, rsnId){
+	     	if(confirm("Are you sure you want to delete this message?")){
+	     		var theTableBody = $('rsnTable').tBodies[0];
+		     	var x = $(rowId).rowIndex;
+		     	theTableBody.deleteRow(x);
+		     	parameterString="softDelete=true";
+		     	alert(rsnId);
+		     	new Ajax.Request("../admin/viewInbox" + '?rsnId='+rsnId + '&delete=true', {method:'get', asynchronous:true});
+	     	}
+	     }
 	</script>
 
 <chrome:box title="C3PR Notifications" htmlContent='${htmlContent}'>
@@ -54,7 +65,8 @@
 			<table id="rsnTable" width="100%" cellspacing="1" cellpadding="2">
 				<tr bgcolor="${bgcolorAlternate}">
 					<td width="65%"><b>Title</b></td>
-					<td width="35%"><b>Date</b></td>
+					<td width="30%"><b>Date</b></td>
+					<td width="5%"></td>
 				</tr>
 				<c:forEach var="rsn" items="${recipientScheduledNotification}" end="${endValue}"
 					varStatus="rsnStatus">
@@ -68,9 +80,13 @@
 								<td><fmt:formatDate
 									value="${rsn.scheduledNotification.dateSent}"
 									pattern="MM/dd/yyyy" /></td>
+									<td><a href="javascript:deleteRow('row-${rsnStatus.index}', '${rsn.id}');">
+										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+									</td>
 							</tr>
 						</c:if>
 						<!-- Unread emails -->
+						
 						<!-- emails that have been viewed -->
 						<c:if test="${rsn.isRead}">
 							<tr id="row-${rsnStatus.index}" bgcolor="${bgcolorRead}">
@@ -80,11 +96,15 @@
 								<td><fmt:formatDate
 									value="${rsn.scheduledNotification.dateSent}"
 									pattern="MM/dd/yyyy" /></td>
+								<td><a href="javascript:deleteRow('row-${rsnStatus.index}', '${rsn.id}');">
+										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+								</td>
 							</tr>
 						</c:if>
 						<!-- emails that have been viewed -->
+						
 						<tr style="display:none;">
-							<td colspan="2">
+							<td colspan="3">
 							<div id="messageDetails-${rsnStatus.index}">
 								<div>
 									<table width="80%">
