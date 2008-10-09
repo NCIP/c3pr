@@ -49,6 +49,12 @@ public class ViewInboxController extends ParameterizableViewController {
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
+		if(request.getParameter("startValue") != null &&
+				request.getParameter("endValue") != null	){
+			request.setAttribute("startValue", request.getParameter("startValue"));
+			request.setAttribute("endValue", request.getParameter("endValue"));
+		}
+		
 		if(request.getParameter("rsnId") != null){
 			Integer id = Integer.valueOf(request.getParameter("rsnId"));
 			RecipientScheduledNotification rsn = recipientScheduledNotificationDao.getById(id);
