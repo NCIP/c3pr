@@ -2,9 +2,11 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
  * Hibernate implementation of StudySiteDao
@@ -37,6 +39,11 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
         return getHibernateTemplate().find(
                         "from StudySite s where s.healthcareSite.nciInstituteCode = ?",
                         nciInstituteCode);
+    }
+    
+    @Transactional(readOnly = false)
+    public void initialize(StudySite studySite) throws DataAccessException {
+    	getHibernateTemplate().initialize(studySite.getStudySubjects());
     }
 
 }
