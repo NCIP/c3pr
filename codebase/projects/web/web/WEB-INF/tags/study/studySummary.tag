@@ -12,43 +12,43 @@
 	<td><b>Primary Identifier:</b></td>
 </tr>
 <tr>
-	<td>${command.primaryIdentifier}</td>
+	<td>${command.study.primaryIdentifier}</td>
 </tr>
 <tr>
 	<td><b>Short Title:</b></td>
 </tr>
 <tr>
-	<td>${command.trimmedShortTitleText}</td>
+	<td>${command.study.trimmedShortTitleText}</td>
 </tr>
 <tr>
 	<td><b>Target Accrual:</b></td>
 </tr>
 <tr>
-	<td>${command.targetAccrualNumber}</td>
+	<td>${command.study.targetAccrualNumber}</td>
 </tr>
 <tr>
 	<td><b>Status:</b></td>
 </tr>
 <tr>
-	<td>${command.coordinatingCenterStudyStatus.code}</td>
+	<td>${command.study.coordinatingCenterStudyStatus.code}</td>
 </tr>
 <tr>
 	<td><b>Sponsor:</b></td>
 </tr>
 <tr>
-	<td>${command.identifiers[0].value}</td>
+	<td>${command.study.identifiers[0].value}</td>
 </tr>
 <tr>
 	<td><b>Phase:</b></td>
 </tr>
 <tr>
-	<td>${command.phaseCode}</td>
+	<td>${command.study.phaseCode}</td>
 </tr>
 <tr>
 	<td><b>Type:</b></td>
 </tr>
 <tr>
-	<td>${command.type}</td>
+	<td>${command.study.type}</td>
 </tr>
 <c:forEach begin="1" end="6">
 <tr>
