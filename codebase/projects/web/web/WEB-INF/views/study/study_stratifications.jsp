@@ -1,7 +1,7 @@
 <%@ include file="taglibs.jsp"%>
 <html>
 <head>
-<title><studyTags:htmlTitle study="${command}" /></title>
+<title><studyTags:htmlTitle study="${command.study}" /></title>
 <script>		           
 
 	function preProcessGenerateGroups(epochCountIndex){
@@ -62,7 +62,7 @@
 
 <c:choose>
 
-<c:when test="${command.stratificationIndicator =='false' }">
+<c:when test="${command.study.stratificationIndicator =='false' }">
 
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>
 			</tags:formPanelBox>
@@ -76,8 +76,8 @@
 		<input type="hidden" id="_selectedAnswer" name="_selectedAnswer" value="">
 		<input type="hidden" id="generateGroups" name="generateGroups" value="false"/>
 	</div>
-	<c:if test="${command.stratificationIndicator}">
-	<c:forEach items="${command.epochs}" var="epoch"
+	<c:if test="${command.study.stratificationIndicator}">
+	<c:forEach items="${command.study.epochs}" var="epoch"
 		varStatus="epochCount">
 		<c:if test="${epoch.stratificationIndicator == 'true' }">
 		<script>
@@ -104,7 +104,7 @@
                 nested_row_inserter: startAnsRowInserterProps_${epochCount.index},
                 add_row_division_id: "epoch-${epochCount.index }",
                 skeleton_row_division_id: "dummy-strat-${epochCount.index}",
-                initialIndex: ${fn:length(command.epochs[epochCount.index].stratificationCriteria)},
+                initialIndex: ${fn:length(command.study.epochs[epochCount.index].stratificationCriteria)},
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
                 callRemoveFromCommand:"true",
@@ -137,15 +137,15 @@
 				</tr>
 			</div>
 				<c:forEach
-					items="${command.epochs[epochCount.index].stratificationCriteria}"
+					items="${command.study.epochs[epochCount.index].stratificationCriteria}"
 					var="strat" varStatus="status">
 					<c:if test="${epoch.stratificationIndicator == 'true' }">
 					<script>
-                        RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}).updateIndex(${fn:length(command.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers)});
+                        RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}).updateIndex(${fn:length(command.study.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers)});
                     </script>
 					<tr id="epoch-${epochCount.index }-${status.index }">						
 						<td><form:textarea
-							path="epochs[${epochCount.index }].stratificationCriteria[${status.index}].questionText"
+							path="study.epochs[${epochCount.index }].stratificationCriteria[${status.index}].questionText"
 							rows="1" cols="60" cssClass="validate-notEmpty" /></td>
 
 						<td>
@@ -157,11 +157,11 @@
 										</th>
 								</tr>
 								<c:forEach var="answer" varStatus="statusAns"
-									items="${command.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers}">
+									items="${command.study.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers}">
 									<c:if test="${epoch.stratificationIndicator == 'true' }">
 									<tr id="table1-${statusAns.index }">
 										<td class="alt"><form:input
-											path="epochs[${epochCount.index }].stratificationCriteria[${status.index}].permissibleAnswers[${statusAns.index}].permissibleAnswer"
+											path="study.epochs[${epochCount.index }].stratificationCriteria[${status.index}].permissibleAnswers[${statusAns.index}].permissibleAnswer"
 											size="30" cssClass="validate-notEmpty" /></td>
 										<c:choose>
 											<c:when test="${statusAns.index < 2}">
@@ -212,7 +212,7 @@
 			<div id="sgCombinations_${epochCount.index}"><!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
 			<c:if test="${fn:length(epoch.stratificationCriteria) > 0}">
 				<script>
-					stratumGroupRowInserter_${epochCount.index}.initialIndex= ${fn:length(command.epochs[epochCount.index].stratumGroups)};
+					stratumGroupRowInserter_${epochCount.index}.initialIndex= ${fn:length(command.study.epochs[epochCount.index].stratumGroups)};
 					RowManager.registerRowInserter(stratumGroupRowInserter_${epochCount.index});
 				</script>				
 				<table border="1" class="tablecontent"  width="60%">
@@ -227,7 +227,7 @@
 					<tbody id="sortablelist_${epochCount.index}">
 						
 						<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
-							items="${command.epochs[epochCount.index].stratumGroups}">	
+							items="${command.study.epochs[epochCount.index].stratumGroups}">	
 							<c:if test="${epoch.stratificationIndicator == 'true' }">					
 							<tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index}" style="cursor:move">
 								<td width="30%">${stratumGroup.stratumGroupNumber}</td>					
@@ -265,7 +265,7 @@
 </form:form>
 
 
-<c:forEach items="${command.epochs}" var="epoch"
+<c:forEach items="${command.study.epochs}" var="epoch"
 	varStatus="epochCount">
 	<c:if test="${epoch.stratificationIndicator == 'true' }">
 	<div id="dummy-strat-${epochCount.index }" style="display:none">
@@ -273,9 +273,9 @@
 		<tr>
 			
 			<td><input type="hidden"
-				name="epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionNumber" />
+				name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionNumber" />
 			<textarea
-				name="epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText"
+				name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText"
 				rows="1" cols="60" class="validate-notEmpty"></textarea></td>
 
 			<td>
@@ -283,24 +283,24 @@
 				<tr>
 					<th></th>
 					<th><input type="button" value="Add Answer"
-						onclick="stratumGroupAlert('${fn:length(command.epochs[epochCount.index].stratumGroups)}');RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX));" />
+						onclick="stratumGroupAlert('${fn:length(command.study.epochs[epochCount.index].stratumGroups)}');RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX));" />
 					</th>
 				</tr>
 				<tr id="table1-0">
 					<td><input type="text"
-						name="epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[0].permissibleAnswer"
+						name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[0].permissibleAnswer"
 						size="30" class="validate-notEmpty" /></td>
 				</tr>
 				<tr id="table1-1">
 					<td><input type="text"
-						name="epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[1].permissibleAnswer"
+						name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[1].permissibleAnswer"
 						size="30" class="validate-notEmpty" /></td>
 				</tr>
 			</table>
 			</td>
 			<td><a
 				href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX,-1);"
-				onclick="stratumGroupAlert('${fn:length(command.epochs[epochCount.index].stratumGroups)}');">
+				onclick="stratumGroupAlert('${fn:length(command.study.epochs[epochCount.index].stratumGroups)}');">
 			<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
 				alt="Delete"></a></td>
 		</tr>
@@ -310,11 +310,11 @@
 	<table>
 		<tr>
 			<td><input type="text"
-				name="epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[NESTED.PAGE.ROW.INDEX].permissibleAnswer"
+				name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[NESTED.PAGE.ROW.INDEX].permissibleAnswer"
 				size="30" class="validate-notEmpty" /></td>
 			<td><a
 				href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);"
-				onclick="stratumGroupAlert('${fn:length(command.epochs[epochCount.index].stratumGroups)}');">
+				onclick="stratumGroupAlert('${fn:length(command.study.epochs[epochCount.index].stratumGroups)}');">
 			<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 		</tr>
 	</table>
@@ -324,7 +324,7 @@
 	<table>
 		<tr>
 			<td><input type="text"
-				name="epochs[${epochCount.index}].stratumGroups[PAGE.ROW.INDEX].stratumGroupNumber"
+				name="study.epochs[${epochCount.index}].stratumGroups[PAGE.ROW.INDEX].stratumGroupNumber"
 				size="30" class="validate-notEmpty" /></td>
 				<td></td>
 			<td><a

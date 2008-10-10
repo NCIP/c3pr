@@ -5,7 +5,7 @@
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 
 <html>
-    <title><studyTags:htmlTitle study="${command}" /></title>
+    <title><studyTags:htmlTitle study="${command.study}" /></title>
 
 <!-- MAIN BODY STARTS HERE -->
 <body>

@@ -2,7 +2,7 @@
 <%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 
 <html>
-<title><studyTags:htmlTitle study="${command}" /></title>
+<title><studyTags:htmlTitle study="${command.study}" /></title>
 
 <c:set var="selected_site" value="0"/>
 <c:if test="${not empty selectedSite}">
@@ -201,7 +201,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 <input type="hidden" id="_selectedSite" name="_selectedSite" value="">
 
 <c:choose>
-	<c:when test="${fn:length(command.studyOrganizations) == 0}">
+	<c:when test="${fn:length(command.study.studyOrganizations) == 0}">
         <tr>
 			<td>Choose a study organization before adding personnel</td>
 		</tr>
@@ -211,13 +211,13 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		<table border="0" id="table1" cellspacing="10" width="100%">
 			<tr>
 			<td valign="top" width="45%">
-			<tags:errors path="studyOrganizations[0].studyPersonnel"/> 
+			<tags:errors path="study.studyOrganizations[0].studyPersonnel"/> 
 				<chrome:box title="${tab.shortTitle}">
 					<div>
 			            <br/>&nbsp;<b>Select an Organization</b><br>
 			            <input:hidden id="disease"/>
-			            <select id="site" name="site" onchange="fireAction('siteChange','0');" style="width: 400px">   
-			                    <c:forEach items="${command.studyOrganizations}" var="studySite" varStatus="status">
+			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
+			                    <c:forEach items="${command.study.studyOrganizations}" var="studySite" varStatus="status">
 			                        <csmauthz:accesscontrol domainObject="${studySite.healthcareSite}"
 			                                                hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
 			                        <c:if test="${selected_site == status.index }">
@@ -246,7 +246,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                <option value="">No Selected Research Staff</option>
 			            </select>
 			            
-			            <form:select id="disease-sel-hidden" size="1" path="studyOrganizations[${selected_site}].studyPersonnelIds" />
+			            <form:select id="disease-sel-hidden" size="1" path="study.studyOrganizations[${selected_site}].studyPersonnelIds" />
 			        <br/>
 	               </div>	        
 			    </chrome:box>
@@ -255,10 +255,10 @@ and the controller gets the selected index via the hidden variable _selectedSite
 				<input type="button" value="Add >>" onclick="fireAction('addStudyDisease','0');" alt="Add Research Staff"/>
 	        </td>
 			<td valign="top" width="45%">
-			    <chrome:box title="${command.studyOrganizations[selected_site].healthcareSite.name}" id="diseases">
+			    <chrome:box title="${command.study.studyOrganizations[selected_site].healthcareSite.name}" id="diseases">
 			        <br/>
 			        <c:choose>
-			            <c:when test="${fn:length(command.studyOrganizations[selected_site].studyPersonnel) == 0}">
+			            <c:when test="${fn:length(command.study.studyOrganizations[selected_site].studyPersonnel) == 0}">
 			                No Research Staff Selected
 			            </c:when>			
 			            <c:otherwise>
@@ -269,20 +269,20 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                        <th width="20%">Status<tags:hoverHint keyProp="study.personnel.status"/></th>
 			                        <th width="5%"></th>
 			                    </tr>
-			                    <c:forEach items="${command.studyOrganizations[selected_site].studyPersonnel}" var="studyPersonnel"
+			                    <c:forEach items="${command.study.studyOrganizations[selected_site].studyPersonnel}" var="studyPersonnel"
 			                               varStatus="status">
 		                        <tr>
 		                            <td>
 		                              ${studyPersonnel.researchStaff.lastName}&nbsp;${studyPersonnel.researchStaff.firstName}
 		                            </td>
 									<td>
-		                            <form:select path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].roleCode" cssClass="validate-notEmpty">
+		                            <form:select path="study.studyOrganizations[${selected_site}].studyPersonnel[${status.index}].roleCode" cssClass="validate-notEmpty">
 				                        <option value="">Please Select</option>
 				                       <form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
 				                    </form:select>
 		                            </td>
 		                            <td>
-		                            <form:select path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].statusCode" cssClass="validate-notEmpty">
+		                            <form:select path="study.studyOrganizations[${selected_site}].studyPersonnel[${status.index}].statusCode" cssClass="validate-notEmpty">
 				                        <option value="">Please Select</option>
 				                        <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
 				                    </form:select>
@@ -305,7 +305,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
   </c:otherwise>
 </c:choose>
 <div align="right">
-	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="CREATE"
+	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE"
                             authorizationCheckName="domainObjectAuthorizationCheck">
 		<input id="createPersonnel" type="button" value="Create Research Staff" />
 	</csmauthz:accesscontrol>

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
+    <title><studyTags:htmlTitle study="${command.study}" /></title>
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 </head>
 
@@ -37,7 +37,7 @@
 
     add_row_division_id: "companionTable", 	        
     skeleton_row_division_id: "dummy-row",
-    initialIndex: ${fn:length(command.companionStudyAssociations)},
+    initialIndex: ${fn:length(command.study.companionStudyAssociations)},
     softDelete: false,
     isAdmin: ${isAdmin == 'true'},
     path: "companionStudyAssociations",
@@ -89,14 +89,14 @@ function closePopup() {
 
 --></script>
         
-<tags:errors path="companionStudyAssociations" />
+<tags:errors path="study.companionStudyAssociations" />
 
 <table border="0" cellspacing="0" cellpadding="0" height="50" width="100%" border="2">
     <tr>
         <td>
             <br>
 			<c:choose>
-				<c:when test="${empty command.studySites || (fn:length(command.studySites) == 1 && (empty command.studySites[0].healthcareSite))}">
+				<c:when test="${empty command.study.studySites || (fn:length(command.study.studySites) == 1 && (empty command.study.studySites[0].healthcareSite))}">
 					<tr align="center">
 						<td align="center" height="50">Please add study site to the study, click <a href="javascript:document.getElementById('flowredirect-target').name='_target6';document.getElementById('flowredirect').submit();"> Add Sites </a> to add study site</td>
 					</tr>
@@ -113,16 +113,16 @@ function closePopup() {
 		                    <th></th>
 		                </tr>
 		                   
-		                   <c:forEach items="${command.companionStudyAssociations}" varStatus="status" var="companionStudyAssociation">
+		                   <c:forEach items="${command.study.companionStudyAssociations}" varStatus="status" var="companionStudyAssociation">
 		                    <tr id="companionTable-${status.index}">
 		                     <td>
 		               				<input type="hidden" id="companionStudy${status.index}-hidden"
-		                        			name="companionStudyAssociations[${status.index}].companionStudy"
-		                      				 value="${command.companionStudyAssociations[status.index].companionStudy.id}"/>
+		                        			name="study.companionStudyAssociations[${status.index}].companionStudy"
+		                      				 value="${command.study.companionStudyAssociations[status.index].companionStudy.id}"/>
 		                			<input class="autocomplete validate-notEmpty" type="text" id="companionStudy${status.index}-input"
-		                       				size="40"  value="${command.companionStudyAssociations[status.index].companionStudy.shortTitleText}"/>
+		                       				size="40"  value="${command.study.companionStudyAssociations[status.index].companionStudy.shortTitleText}"/>
 		                			<input type="button" id="companionStudy${status.index}-clear" value="Clear"/>
-		                       		<c:if test="${empty command.companionStudyAssociations[status.index].companionStudy.id}">
+		                       		<c:if test="${empty command.study.companionStudyAssociations[status.index].companionStudy.id}">
 		                      			<script>
 		                      			$('companionStudy${status.index}-hidden').name="some_dummy_value";
 		                      			$('companionStudy${status.index}-input').disabled=true;
@@ -133,11 +133,11 @@ function closePopup() {
 		           			 </td>
 		           			 <td class="alt" align="center">
 								<div id="companionStudy${status.index}-companionStudyStatus">
-									${command.companionStudyAssociations[status.index].companionStudy.coordinatingCenterStudyStatus.displayName}
+									${command.study.companionStudyAssociations[status.index].companionStudy.coordinatingCenterStudyStatus.displayName}
 								</div>								 
 							</td>
 		                     <td>
-		                		<form:select path="companionStudyAssociations[${status.index}].mandatoryIndicator" cssClass="validate-notEmpty">
+		                		<form:select path="study.companionStudyAssociations[${status.index}].mandatoryIndicator" cssClass="validate-notEmpty">
 		                    			<option value="">Please Select</option>
 		                    				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 		                		</form:select>
@@ -156,7 +156,7 @@ function closePopup() {
     </tr>
 </table>
 <div align="right">
-	<c:if test="${! (empty command.studySites || (fn:length(command.studySites) == 1 && (empty command.studySites[0].healthcareSite)))}">
+	<c:if test="${! (empty command.study.studySites || (fn:length(command.study.studySites) == 1 && (empty command.study.studySites[0].healthcareSite)))}">
 		<input id="addCompanion" type="button" value="Add Companion Study" onclick="javascript:RowManager.addRow(instanceRowInserterProps);" />
 		<input id="createCompanion" type="button" value="Create Companion Study" />
 	</c:if>
@@ -172,10 +172,10 @@ function closePopup() {
                        
             <td>
                 <input type="hidden" id="companionStudyPAGE.ROW.INDEX-hidden"
-                        name="companionStudyAssociations[PAGE.ROW.INDEX].companionStudy"/>
+                        name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy"/>
                 <input class="autocomplete validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-input"
                        size="40"
-                       value="${command.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText}"/>
+                       value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText}"/>
                 <input type="button" id="companionStudyPAGE.ROW.INDEX-clear"
                         value="Clear"/>
                    <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
@@ -186,7 +186,7 @@ function closePopup() {
 				</div>
 			</td>
             <td>
-                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="validate-notEmpty">
+                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="validate-notEmpty">
                     <option value="">Please Select</option>
                     <c:forEach items="${yesNo}" var="status">
                         <option value="${status.code}">${status.desc}</option>

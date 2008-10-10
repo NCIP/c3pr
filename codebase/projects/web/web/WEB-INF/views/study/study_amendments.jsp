@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
+    <title><studyTags:htmlTitle study="${command.study}" /></title>
 <jwr:script src="/js/tabbedflow.js" />
 
 <script>
@@ -37,7 +37,7 @@
     
     ValidationManager.submitPostProcess= function(formElement, continueSubmission){
        
-       if(formElement.id="command"){
+       if(formElement.id="command.study"){
              box1=document.getElementById('currentStudyAmendment.amendmentVersion');
              box2=document.getElementById('currentStudyAmendment.amendmentDate');
              box3=document.getElementById('amendmentVersion');
@@ -86,7 +86,7 @@
 				<th>Amendment Date</th>
 				<th>Comments</th>
 			</tr>
-			<c:forEach items="${command.previousStudyAmendments}"  var="studyAmendments" varStatus="status">
+			<c:forEach items="${command.study.previousStudyAmendments}"  var="studyAmendments" varStatus="status">
 			<tr id="studyAmendments-${status.index}">
 				<td>${studyAmendments.amendmentVersion}</td>
 				<td>${studyAmendments.amendmentDateStr}</td>
@@ -101,7 +101,7 @@
 
 
 <c:choose>
-<c:when test="${command.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
+<c:when test="${command.study.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
 
 	
 	<form:form name="myform" cssClass="standard">
@@ -166,15 +166,15 @@
         	<tr>
         		<td><b>Consent :</b></td>
         		<td><form:checkbox path="currentStudyAmendment.consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 1);"/></td>
-				<td <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>><b>Companion Study :</b></td>
-        		<td <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>><form:checkbox path="currentStudyAmendment.companionChangedIndicator" value="true"/></td>
+				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><b>Companion Study :</b></td>
+        		<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><form:checkbox path="currentStudyAmendment.companionChangedIndicator" value="true"/></td>
         	</tr>        	
         </table>
         
         <div id="consentVersion1"
-                <c:if test="${ empty command.currentStudyAmendment.consentChangedIndicator || 
-                command.currentStudyAmendment.consentChangedIndicator == '' || 
-                !command.currentStudyAmendment.consentChangedIndicator}">style="display:none;"</c:if>>
+                <c:if test="${ empty command.study.currentStudyAmendment.consentChangedIndicator || 
+                command.study.currentStudyAmendment.consentChangedIndicator == '' || 
+                !command.study.currentStudyAmendment.consentChangedIndicator}">style="display:none;"</c:if>>
          <b>&nbsp;Consent Version/Date:</b>
          <form:input id="consentVersionx" path="consentVersion" size="9" cssClass="date"/>
          <a href="#" id="consentVersionx-calbutton">
@@ -188,7 +188,7 @@
 </c:when>
 
 <c:otherwise>
-<c:set var="amendmentSize" value="${fn:length(command.studyAmendments)}" scope="request" />
+<c:set var="amendmentSize" value="${fn:length(command.study.studyAmendments)}" scope="request" />
 
 	<form:form name="myform" cssClass="standard">
 	<tags:tabFields tab="${tab}"/>
@@ -252,14 +252,14 @@
         	<tr>
         		<td><b>Consent :</b></td>
         		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 2);"/></td>
-				<td <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>><b>Companion Study :</b></td>
-				<td <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>><input type="checkbox" name="studyAmendments[${amendmentSize}].companionChangedIndicator" value="true"/></td>        	
+				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><b>Companion Study :</b></td>
+				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><input type="checkbox" name="studyAmendments[${amendmentSize}].companionChangedIndicator" value="true"/></td>        	
 			</tr>
         </table> 
 
         <div id="consentVersion2" style="display:none;">
          <b>&nbsp;Consent Version/Date:</b>
-         <input type="text" name="consentVersion" id="consentVersiony" size="9" value="${command.consentVersion}" class="date"/>
+         <input type="text" name="consentVersion" id="consentVersiony" size="9" value="${command.study.consentVersion}" class="date"/>
          <a href="#" id="consentVersiony-calbutton">
 		    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 		</a>

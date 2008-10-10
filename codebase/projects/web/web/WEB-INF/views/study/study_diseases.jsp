@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title><studyTags:htmlTitle study="${command}" /></title>
+<title><studyTags:htmlTitle study="${command.study}" /></title>
 
 <%--<tags:includeScriptaculous/>--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
@@ -254,11 +254,11 @@ Event.observe(window, "load", function() {
             <input type="hidden" name="_selected" value="">
         </div>
 
-        	<tags:errors path="studyDiseases"/>
+        	<tags:errors path="study.studyDiseases"/>
             Search for a Disease Category<br>
             
             <input type="hidden" id="disease-hidden"/>
-            <form:input size="45" id="disease-input" path="diseaseCategoryAsText" cssClass="autocomplete"/>
+            <form:input size="45" id="disease-input" path="study.diseaseCategoryAsText" cssClass="autocomplete"/>
             <tags:hoverHint keyProp="study.diseaseCategoryAsText"/>
             <tags:indicator id="disease-indicator"/>
             <div id="disease-choices" class="autocomplete" style="display: none;"></div>
@@ -278,7 +278,7 @@ Event.observe(window, "load", function() {
             <select multiple size="10" id="disease-sel">
                 <option value="">No Selected Diseases</option>
             </select> <form:select id="disease-sel-hidden" size="1"
-                                   path="diseaseTermIds">
+                                   path="study.diseaseTermIds">
         </form:select>
         
     </chrome:box>
@@ -287,10 +287,10 @@ Event.observe(window, "load", function() {
 	<td valign="middle"><input type="button" value="Add Study Disease >>" onclick="fireAction('addStudyDisease','0');" alt="Add Study Disease"/></td>
 	
 	<td valign="top" width="45%">
-    <chrome:box title="Selected Disease - ${fn:length(command.studyDiseases)}" id="diseases">
+    <chrome:box title="Selected Disease - ${fn:length(command.study.studyDiseases)}" id="diseases">
     <br/>
         <c:choose>
-            <c:when test="${fn:length(command.studyDiseases) == 0}">
+            <c:when test="${fn:length(command.study.studyDiseases) == 0}">
                 No Diseases Selected
             </c:when>
             <c:otherwise>
@@ -299,14 +299,14 @@ Event.observe(window, "load", function() {
                         <th scope="col">Disease Term</th>
                         <th scope="col">Primary</th>
                     </tr>
-                    <c:forEach items="${command.studyDiseases}" var="studyDisease"
+                    <c:forEach items="${command.study.studyDiseases}" var="studyDisease"
                                varStatus="status">
                         <tr>
                             <td class="alt"><a href="javascript:fireAction('removeStudyDisease',${status.index});">
                                 <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove"></a>&nbsp;
                                     ${studyDisease.diseaseTerm.ctepTerm}</td>
                             <td class="alt">
-                                <form:checkbox path="studyDiseases[${status.index}].leadDisease"/>
+                                <form:checkbox path="study.studyDiseases[${status.index}].leadDisease"/>
                             </td>
                         </tr>
                     </c:forEach>

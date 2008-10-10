@@ -2,13 +2,13 @@
 
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
+    <title><studyTags:htmlTitle study="${command.study}" /></title>
     
 <script>
             var roleRowInserterProps= {
                 add_row_division_id: "table2",
                 skeleton_row_division_id: "dummy-roleRow",
-                initialIndex: ${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)},
+                initialIndex: ${fn:length(command.study.plannedNotifications[nStatus.index].roleBasedRecipient)},
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
                 row_index_indicator: "SECONDARY.NESTED.PAGE.ROW.INDEX",
@@ -17,7 +17,7 @@
             var emailRowInserterProps= {
                 add_row_division_id: "table1",
                 skeleton_row_division_id: "dummy-emailRow",
-                initialIndex: ${fn:length(command.plannedNotifications[nStatus.index].userBasedRecipient)},
+                initialIndex: ${fn:length(command.study.plannedNotifications[nStatus.index].userBasedRecipient)},
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
@@ -28,7 +28,7 @@
                 secondary_nested_row_inserter: roleRowInserterProps,
                 add_row_division_id: "notification",
                 skeleton_row_division_id: "dummy-notification",
-                initialIndex: ${fn:length(command.plannedNotifications)},
+                initialIndex: ${fn:length(command.study.plannedNotifications)},
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
                 path: "plannedNotifications"
@@ -45,7 +45,7 @@
 		<br />
 		<table id="notification" class="tablecontent">
 			<div id="notificationHeader"
-				style=<c:if test="${fn:length(command.plannedNotifications) == 0}">"display:none"</c:if>>
+				style=<c:if test="${fn:length(command.study.plannedNotifications) == 0}">"display:none"</c:if>>
 			<tr>
 				<th><span class="required-indicator">Threshold</span><tags:hoverHint
 					keyProp="study.notification.threshold" /></th>
@@ -54,15 +54,15 @@
 				<th></th>
 			</tr>
 			</div>
-			<c:forEach items="${command.plannedNotifications}" var="notification"
+			<c:forEach items="${command.study.plannedNotifications}" var="notification"
 				varStatus="nStatus">
 				<script>
-                    RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].userBasedRecipient)});
-                    RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)});
+                    RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].userBasedRecipient)});
+                    RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].roleBasedRecipient)});
                 </script>
 				<tr id="notification-${nStatus.index}">
 					<td><form:input size="5"
-						path="plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6"
+						path="study.plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6"
 						cssClass="validate-notEmpty&&NUMERIC" /></td>
 					<td>
 					<table class="tablecontent" id="table1" width="50%">
@@ -73,10 +73,10 @@
 							</th>
 						</tr>
 						<c:forEach var="cmbr" varStatus="emailStatus"
-							items="${command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
+							items="${command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
 							<tr id="table1-${emailStatus.index}">
 								<td class="alt"><form:input						 
-									path="plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].contactMechanisms[0].value"
+									path="study.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].contactMechanisms[0].value"
 									size="30" cssClass="validate-notEmpty&&EMAIL" /></td>
 								<td class="alt"><a
 									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${cmbr.id==null?'HC#':'ID#'}${cmbr.id==null?cmbr.hashCode:cmbr.id}');">
@@ -94,10 +94,10 @@
 							</th>
 						</tr>
 						<c:forEach var="role" varStatus="roleStatus"
-							items="${command.plannedNotifications[nStatus.index].roleBasedRecipient}">
+							items="${command.study.plannedNotifications[nStatus.index].roleBasedRecipient}">
 							<tr id="table2-${roleStatus.index}">
 								<td class="alt"><form:select
-									path="plannedNotifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role" cssClass="validate-notEmpty">
+									path="study.plannedNotifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role" cssClass="validate-notEmpty">
 									<option value="">Please Select</option>
 									<form:options items="${notificationPersonnelRoleRefData}"
 										itemLabel="desc" itemValue="code" />
@@ -128,7 +128,7 @@
 <table>
 	<tr>
 		<td><input type="text" size="5"
-			name="plannedNotifications[PAGE.ROW.INDEX].studyThreshold" maxlength="6"
+			name="study.plannedNotifications[PAGE.ROW.INDEX].studyThreshold" maxlength="6"
 			class="validate-notEmpty&&NUMERIC" /></td>
 		<td>
 		<table class="tablecontent" id="table1" width="50%">
@@ -162,7 +162,7 @@
 <table>
 	<tr>
 		<td class="alt"><input type="text"
-			name="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
+			name="study.plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
 			size="30" class="validate-notEmpty&&EMAIL" /></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
@@ -175,8 +175,8 @@
 <table>
 	<tr>
 		<td class="alt"><select
-			id="plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role"
-			name="plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="validate-notEmpty">
+			id="study.plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role"
+			name="study.plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${notificationPersonnelRoleRefData}" var="role">
 				<option value="${role.code}">${role.desc}</option>

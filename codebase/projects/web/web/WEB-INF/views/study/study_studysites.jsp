@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
+    <title><studyTags:htmlTitle study="${command.study}" /></title>
     
 <%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
@@ -14,7 +14,7 @@
 
     <jsp:attribute name="singleFields">
     <c:choose>
-	<c:when test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">
+	<c:when test="${ (empty command.study.multiInstitutionIndicator) || command.study.multiInstitutionIndicator=='false'}">
 	<script language="JavaScript" type="text/JavaScript">
 	
 var singleHealthcareSiteAutocompleterProps = {
@@ -84,23 +84,23 @@ Event.observe(window, "load", function() {
                        				size="40"
 									<c:set var="_codeSite" value="" />
 									<c:set var="_nameSite" value="" />
-									<c:if test="${fn:length(command.studySites)>0}">	
-									<c:set var="_codeSite" value="(${command.studySites[0].healthcareSite.nciInstituteCode})" />
-									<c:set var="_nameSite" value="${command.studySites[0].healthcareSite.name}" />
+									<c:if test="${fn:length(command.study.studySites)>0}">	
+									<c:set var="_codeSite" value="(${command.study.studySites[0].healthcareSite.nciInstituteCode})" />
+									<c:set var="_nameSite" value="${command.study.studySites[0].healthcareSite.name}" />
 									</c:if>
                       				 value='<c:out value="${_nameSite} ${_codeSite}" />'/>
 								<input type="hidden" id="healthcareSite-hidden"
-                        			name="studySites[0].healthcareSite" value="${command.studySites[0].healthcareSite.id}" />
+                        			name="study.studySites[0].healthcareSite" value="${command.study.studySites[0].healthcareSite.id}" />
                 				<input type="button" id="healthcareSite-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite-indicator"/>
                   			<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
-							<input type="hidden" name="studySites[0].roleCode" value="Affiliate Site"/>
+							<input type="hidden" name="study.studySites[0].roleCode" value="Affiliate Site"/>
            			 </td>
 	                 <td>
 		                <input id="studySites[0].startDate"
-		                       name="studySites[0].startDate"
-							   value="${command.studySites[0].startDateStr}"
+		                       name="study.studySites[0].startDate"
+							   value="${command.study.studySites[0].startDateStr}"
 		                       type="text" cssClass="date validate-DATE" />
 		                <a href="#" id="studySites[0].startDate-calbutton">
 		                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
@@ -108,7 +108,7 @@ Event.observe(window, "load", function() {
 		            </td>
 		            <td>
 		                <input id="studySites[0].irbApprovalDate"
-		                       name="studySites[0].irbApprovalDate" value="${command.studySites[0].irbApprovalDateStr}"
+		                       name="study.studySites[0].irbApprovalDate" value="${command.study.studySites[0].irbApprovalDateStr}"
 		                       type="text"
 		                       cssClass="date validate-DATE" />
 		                <a href="#" id="studySites[0].irbApprovalDate-calbutton">
@@ -116,7 +116,7 @@ Event.observe(window, "load", function() {
 		                </a>
 		            </td>
                      <td>
-                         <input id="studySites[0].targetAccrualNumber" name="studySites[0].targetAccrualNumber" value="${command.studySites[0].targetAccrualNumber}"
+                         <input id="studySites[0].targetAccrualNumber" name="study.studySites[0].targetAccrualNumber" value="${command.study.studySites[0].targetAccrualNumber}"
 				 				type="text" maxlength="6" cssClass="validate-NUMERIC&&NONZERO_NUMERIC"
                           />
                      </td>
@@ -166,7 +166,7 @@ var instanceRowInserterProps = {
 
     add_row_division_id: "siteTable", 	        
     skeleton_row_division_id: "dummy-row",
-    initialIndex: ${fn:length(command.studySites)},
+    initialIndex: ${fn:length(command.study.studySites)},
     softDelete: ${softDelete == 'true'},
     isAdmin: ${isAdmin == 'true'},
     path: "studySites",
@@ -202,7 +202,7 @@ var instanceRowInserterProps = {
 RowManager.addRowInseter(instanceRowInserterProps);
 </script>
         
-<tags:errors path="studySites" />
+<tags:errors path="study.studySites" />
 
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -210,7 +210,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 
             <br>
             <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
-                 <tr id="h-multiSite" <c:if test="${fn:length(command.studySites) == 0}">style="display:none;"</c:if>>
+                 <tr id="h-multiSite" <c:if test="${fn:length(command.study.studySites) == 0}">style="display:none;"</c:if>>
                     <th><b><span class="required-indicator">Organization</span></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
                     <th><b>Activation Date</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
                     <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
@@ -218,17 +218,17 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <th></th>
                 </tr>
                     
-                <c:forEach items="${command.studySites}" varStatus="status" var="site">
+                <c:forEach items="${command.study.studySites}" varStatus="status" var="site">
                     <tr id="siteTable-${status.index}">
                     
                     
                      <td>
                				<input type="hidden" id="healthcareSite${status.index}-hidden"
-                        			name="studySites[${status.index}].healthcareSite"
-                      				 value="${command.studySites[status.index].healthcareSite.id}"/>
+                        			name="study.studySites[${status.index}].healthcareSite"
+                      				 value="${command.study.studySites[status.index].healthcareSite.id}"/>
                 			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input"
                        				size="40"
-                      				 value="${command.studySites[status.index].healthcareSite.name} (${command.studySites[status.index].healthcareSite.nciInstituteCode})"/>
+                      				 value="${command.study.studySites[status.index].healthcareSite.name} (${command.study.studySites[status.index].healthcareSite.nciInstituteCode})"/>
                 				<input type="button" id="healthcareSite${status.index}-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite${status.index}-indicator"/>
@@ -236,13 +236,13 @@ RowManager.addRowInseter(instanceRowInserterProps);
            			 </td>
 
                         <td>
-                        	<input type="hidden" name="studySites[${status.index}].roleCode" value="Affiliate Site"/>
-                            <tags:dateInput path="studySites[${status.index}].startDate"/>
+                        	<input type="hidden" name="study.studySites[${status.index}].roleCode" value="Affiliate Site"/>
+                            <tags:dateInput path="study.studySites[${status.index}].startDate"/>
                         </td>
                         <td>
-                            <tags:dateInput path="studySites[${status.index}].irbApprovalDate"/>
+                            <tags:dateInput path="study.studySites[${status.index}].irbApprovalDate"/>
                         </td>
-                        <td> <form:input path="studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC"/>
+                        <td> <form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC"/>
             			</td>  
                         <td><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${site.id==null?'HC#':'ID#'}${site.id==null?site.hashCode:site.id}');"><img
@@ -273,10 +273,10 @@ RowManager.addRowInseter(instanceRowInserterProps);
                        
             <td>
                 <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
-                        name="studySites[PAGE.ROW.INDEX].healthcareSite"/>
+                        name="study.studySites[PAGE.ROW.INDEX].healthcareSite"/>
                 <input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input"
                        size="40"
-                       value="${command.studySites[PAGE.ROW.INDEX].healthcareSite.name}"/>
+                       value="${command.study.studySites[PAGE.ROW.INDEX].healthcareSite.name}"/>
                 <input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
                         value="Clear"/>
                    <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
@@ -284,9 +284,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
             </td>
             
             <td>
-            <input type="hidden" name="studySites[PAGE.ROW.INDEX].roleCode" value="Affiliate Site"/>
+            <input type="hidden" name="study.studySites[PAGE.ROW.INDEX].roleCode" value="Affiliate Site"/>
                 <input id="studySites[PAGE.ROW.INDEX].startDate"
-                       name="studySites[PAGE.ROW.INDEX].startDate"
+                       name="study.studySites[PAGE.ROW.INDEX].startDate"
                        type="text"
                        class="date validate-DATE" />
                 <a href="#" id="studySites[PAGE.ROW.INDEX].startDate-calbutton">
@@ -295,7 +295,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             </td>
             <td>
                 <input id="studySites[PAGE.ROW.INDEX].irbApprovalDate"
-                       name="studySites[PAGE.ROW.INDEX].irbApprovalDate"
+                       name="study.studySites[PAGE.ROW.INDEX].irbApprovalDate"
                        type="text"
                        class="date validate-DATE" />
                 <a href="#" id="studySites[PAGE.ROW.INDEX].irbApprovalDate-calbutton">
@@ -304,7 +304,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             </td>
 			<td>
                 <input id="studySites[PAGE.ROW.INDEX].targetAccrualNumber"
-                       name="studySites[PAGE.ROW.INDEX].targetAccrualNumber" maxlength="6"
+                       name="study.studySites[PAGE.ROW.INDEX].targetAccrualNumber" maxlength="6"
                        type="text" class="validate-NUMERIC"/>
             </td>            
             <td>

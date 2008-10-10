@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title><studyTags:htmlTitle study="${command}" /></title>
+<title><studyTags:htmlTitle study="${command.study}" /></title>
 <script>
 
 function activateAndSaveStudy(){
@@ -30,55 +30,55 @@ document.getElementById("command").submit();
     <table class="tablecontent" width="60%">
         <tr>
             <td width="35%" class="alt" align="left"><b>Short Title</b></td>
-            <td class="alt" align="left">${command.shortTitleText}</td>
+            <td class="alt" align="left">${command.study.shortTitleText}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Primary Identifier</b></td>
-            <td class="alt" align="left">${command.primaryIdentifier}</td>
+            <td class="alt" align="left">${command.study.primaryIdentifier}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Target Accrual Number</b></td>
-            <td class="alt" align="left">${command.targetAccrualNumber}</td>
+            <td class="alt" align="left">${command.study.targetAccrualNumber}</td>
         </tr>
          <tr>
             <td class="alt" align="left"><b>Data Entry Status</b></td>
-            <td class="alt" align="left">${command.dataEntryStatus.code}</td>
+            <td class="alt" align="left">${command.study.dataEntryStatus.code}</td>
         </tr> 
          <tr>
             <td class="alt" align="left"><b>Status</b></td>
-            <td class="alt" align="left">${command.coordinatingCenterStudyStatus.displayName}</td>
+            <td class="alt" align="left">${command.study.coordinatingCenterStudyStatus.displayName}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Phase</b></td>
-            <td class="alt" align="left">${command.phaseCode}</td>
+            <td class="alt" align="left">${command.study.phaseCode}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Type</b></td>
-            <td class="alt" align="left">${command.type}</td>
+            <td class="alt" align="left">${command.study.type}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Phase</b></td>
-            <td class="alt" align="left">${command.phaseCode}</td>
+            <td class="alt" align="left">${command.study.phaseCode}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Multi Institution</b></td>
-            <td class="alt" align="left">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</td>
+            <td class="alt" align="left">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Blinded</b></td>
-            <td class="alt" align="left">${command.blindedIndicator=="true"?"Yes":"No"}</td>
+            <td class="alt" align="left">${command.study.blindedIndicator=="true"?"Yes":"No"}</td>
         </tr>
           <tr>
             <td class="alt" align="left"><b>Consent Version/Date</b></td>
-            <td class="alt" align="left">${command.consentVersion}</td>
+            <td class="alt" align="left">${command.study.consentVersion}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Randomized</b></td>
-            <td class="alt" align="left">${command.randomizedIndicator=="true"?"Yes":"No"}</td>
+            <td class="alt" align="left">${command.study.randomizedIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Randomization Type</b></td>
-            <td class="alt" align="left">${command.randomizationType.displayName}</td>
+            <td class="alt" align="left">${command.study.randomizationType.displayName}</td>
         </tr>
     </table>
 </chrome:division>
@@ -89,7 +89,7 @@ document.getElementById("command").submit();
             <th width="50%"><b>Epochs</b></th>
             <th><b>Arms</b>
         </tr>
-        <c:forEach items="${command.epochs}" var="epoch">
+        <c:forEach items="${command.study.epochs}" var="epoch">
             <tr>
                 <td>${epoch.name}</td>
 				<c:if test="${not empty epoch.arms}">
@@ -122,7 +122,7 @@ document.getElementById("command").submit();
             <th scope="col" align="left"><b>Permissible Answers</b></th>
 
         </tr>
-        <c:forEach items="${command.epochs}" var="epoch">
+        <c:forEach items="${command.study.epochs}" var="epoch">
                 <c:forEach items="${epoch.stratificationCriteria}" var="strat">
                     <tr>
                         <td class="alt">${strat.questionText}</td>
@@ -148,7 +148,7 @@ document.getElementById("command").submit();
             <th scope="col" align="left"><b>Answer Combination</b></th>
 
         </tr>
-        <c:forEach items="${command.epochs}" var="epoch">
+        <c:forEach items="${command.study.epochs}" var="epoch">
                 <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
                     <tr>
                         <td class="alt">${stratGrp.stratumGroupNumber}</td>
@@ -170,7 +170,7 @@ document.getElementById("command").submit();
             <th width="10%" scope="col" align="left">Start Date</th>
             <th width="20%" scope="col" align="left">IRB Approval Date</th>
         </tr>
-        <c:forEach items="${command.studySites}" var="studySite">
+        <c:forEach items="${command.study.studySites}" var="studySite">
             <tr class="results">
                 <td class="alt" align="left">${studySite.healthcareSite.name}</td>
                 <td class="alt" align="left">${studySite.siteStudyStatus.code}</td>
@@ -192,7 +192,7 @@ document.getElementById("command").submit();
 	            <th width="35%" scope="col" align="left">Identifier Type</th>
 	            <th scope="col" align="left">Identifier</th>
 			</tr>
-			<c:forEach items="${command.organizationAssignedIdentifiers}"
+			<c:forEach items="${command.study.organizationAssignedIdentifiers}"
 				var="orgIdentifier">
 				<tr class="results">
 					<td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
@@ -210,7 +210,7 @@ document.getElementById("command").submit();
             <th width="35%" scope="col" align="left">Identifier Type</th>
             <th scope="col" align="left">Identifier</th>
 		</tr>
-		<c:forEach items="${command.systemAssignedIdentifiers}"
+		<c:forEach items="${command.study.systemAssignedIdentifiers}"
 		var="identifier">
 			<tr class="results">
 				<td class="alt" align="left">${identifier.systemName}</td>
@@ -229,7 +229,7 @@ document.getElementById("command").submit();
             <th width="17%" scope="col" align="left">Status</th>
             <th width="45%" scope="col" align="left">Organization</th>
         </tr>
-        <c:forEach items="${command.studyOrganizations}" var="studyOrganization" varStatus="status">
+        <c:forEach items="${command.study.studyOrganizations}" var="studyOrganization" varStatus="status">
             <c:forEach items="${studyOrganization.studyInvestigators}" var="studyInvestigator" varStatus="status">
                 <tr class="results">
                     <td class="alt"
@@ -251,7 +251,7 @@ document.getElementById("command").submit();
             <th width="17%" scope="col" align="left">Status</th>
             <th width="45%" scope="col" align="left">Organization</th>
         </tr>
-        <c:forEach items="${command.studyOrganizations}" var="studyOrganization" varStatus="status">
+        <c:forEach items="${command.study.studyOrganizations}" var="studyOrganization" varStatus="status">
             <c:forEach items="${studyOrganization.studyPersonnel}" var="studyPersonnel" varStatus="status">
                 <tr class="results">
                     <td class="alt">${studyPersonnel.researchStaff.fullName}</td>
@@ -271,7 +271,7 @@ document.getElementById("command").submit();
             <th width="45%" scope="col" align="left"><b>Email</b></th>
             <th width="40%" scope="col" align="left"><b>Role</b></th>
         </tr>
-        <c:forEach items="${command.plannedNotifications}" var="notification">
+        <c:forEach items="${command.study.plannedNotifications}" var="notification">
             <tr>
                 <td class="alt">${notification.studyThreshold}</td>
                 <td class="alt">${notification.emailAddresses}</td>
@@ -280,7 +280,7 @@ document.getElementById("command").submit();
         </c:forEach>
     </table>
 </chrome:division>
-<div <c:if test="${command.companionIndicator=='true'}">style="display:none;"</c:if>>
+<div <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
 <chrome:division title="Companion Studies">
     <table class="tablecontent" width="60%">
         <tr>
@@ -288,7 +288,7 @@ document.getElementById("command").submit();
             <th width="25%" scope="col" align="left"><b>Status</b></th>
             <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
         </tr>
-        <c:forEach items="${command.companionStudyAssociations}" var="companionStudyAssociation">
+        <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
             <tr>
                 <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
                 <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>

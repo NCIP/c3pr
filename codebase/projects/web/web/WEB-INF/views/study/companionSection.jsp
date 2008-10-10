@@ -6,7 +6,7 @@
             <th width="25%" scope="col" align="left"><b>Status</b></th>
             <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
         </tr>
-        <c:forEach items="${command.companionStudyAssociations}" var="companionStudyAssociation">
+        <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
             <tr>
                 <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
                 <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>

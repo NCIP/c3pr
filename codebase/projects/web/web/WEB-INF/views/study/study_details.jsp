@@ -2,15 +2,15 @@
 
 <html>
 <head>
-    <title><studyTags:htmlTitle study="${command}" /></title>
-    <c:set var="sponIndex" value="${command.fundingSponsorIdentifierIndex==-1?fn:length(command.organizationAssignedIdentifiers):command.fundingSponsorIdentifierIndex}"></c:set>
+    <title><studyTags:htmlTitle study="${command.study}" /></title>
+    <c:set var="sponIndex" value="${command.study.fundingSponsorIdentifierIndex==-1?fn:length(command.study.organizationAssignedIdentifiers):command.study.fundingSponsorIdentifierIndex}"></c:set>
     <jwr:script src="/js/tabbedflow.js" />
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
     <script type="text/javascript">
     
     function blindedRandomization(){
-    	var bIndicator=document.getElementById('blindedIndicator');
-    	var rIndicator=document.getElementById('randomizedIndicator');
+    	var bIndicator=document.getElementById('study.blindedIndicator');
+    	var rIndicator=document.getElementById('study.randomizedIndicator');
     	var rType=document.getElementById('randomizationType');
     	var rTypeDiv=document.getElementById('randomizationTypeDiv');
 
@@ -42,9 +42,9 @@
         }
 
         ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-           if((formElement.id=="command" || formElement.id=="embedStudyForm" )&&continueSubmission){
+           if((formElement.id=="command.study" || formElement.id=="embedStudyForm" )&&continueSubmission){
                  box1=document.getElementById('healthcareSite-hidden');
-               	if(document.getElementById('randomizedIndicator').value =='false'){
+               	if(document.getElementById('study.randomizedIndicator').value =='false'){
                	new Element.update('randomizationTypeDiv','');
                	};
                  if((box1==null)||box1.value == '') {
@@ -82,7 +82,7 @@
         }
         
         function manageRandomizationTypeSelectBox(box) {
-            if (box.value == '' && (document.getElementById('randomizedIndicator').value =='true')) {
+            if (box.value == '' && (document.getElementById('study.randomizedIndicator').value =='true')) {
                 document.getElementById("randomizationType").className="validate-notEmpty";
             }
         }
@@ -169,8 +169,8 @@
 	    AutocompleterManager.addAutocompleter(principalInvestigatorAutocompleterProps);
 
 		function disableRandomizationForCompanion(companionIndicator){
-		  	var bIndicator=document.getElementById('blindedIndicator');
-	    	var rIndicator=document.getElementById('randomizedIndicator');
+		  	var bIndicator=document.getElementById('study.blindedIndicator');
+	    	var rIndicator=document.getElementById('study.randomizedIndicator');
 	    	var rType=document.getElementById('randomizationType');
 			if(companionIndicator){
 	    		rType.value=""; 
@@ -184,7 +184,7 @@
 <body>
 <div id="emptyDivCompanion" style="display: none;"></div>
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
-<form:form id="${!empty param.embeddedStudy?'embedStudyForm':'command'}" method="post" name="studyDetails" cssClass="standard">
+<form:form id="${!empty param.embeddedStudy?'embedStudyForm':'command.study'}" method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
 
 <input type="hidden" name="deletedSponsor" id="deletedSponsor" value=""/>
@@ -198,7 +198,7 @@
         <div class="row">
             <div class="label required-indicator">
                 Short Title:</div>
-            <div class="value"><form:input path="shortTitleText" size="35"
+            <div class="value"><form:input path="study.shortTitleText" size="35"
                                            maxlength="30" cssClass="validate-notEmpty" id="_shortTitle"/>
             <tags:hoverHint keyProp="study.shortTitleText"/>
             </div>
@@ -207,7 +207,7 @@
         <div class="row">
             <div class="label required-indicator">
                 Long Title:</div>
-            <div class="value"><form:textarea path="longTitleText" rows="2"
+            <div class="value"><form:textarea path="study.longTitleText" rows="2"
                                               cols="33" cssClass="validate-notEmpty&&maxlength1024" />
             <tags:hoverHint keyProp="study.longTitleText"/>
             </div>
@@ -216,14 +216,14 @@
 
         <div class="row">
             <div class="label">Description:</div>
-            <div class="value"><form:textarea path="descriptionText" rows="2"
+            <div class="value"><form:textarea path="study.descriptionText" rows="2"
                                               cols="33" cssClass="validate-maxlength2000" />
             <tags:hoverHint keyProp="study.description"/></div>
         </div>
 
         <div class="row">
             <div class="label">Precis:</div>
-            <div class="value"><form:textarea path="precisText" rows="2"
+            <div class="value"><form:textarea path="study.precisText" rows="2"
                                               cols="33" cssClass="validate-maxlength200" />
             <tags:hoverHint keyProp="study.precisText"/>
             </div>
@@ -233,7 +233,7 @@
     <div class="rightpanel">
         <div class="row">
             <div class="label required-indicator">Target Accrual:</div>
-            <div class="value"><form:input path="targetAccrualNumber" size="10" maxlength="6"
+            <div class="value"><form:input path="study.targetAccrualNumber" size="10" maxlength="6"
                                            cssClass="validate-notEmpty&&numeric&&nonzero_numeric" />
             <tags:hoverHint keyProp="study.targetAccrualNumber"/></div>
         </div>
@@ -241,7 +241,7 @@
         <div class="row">
             <div class="label required-indicator">
                 Type:</div>
-            <div class="value"><form:select path="type"
+            <div class="value"><form:select path="study.type"
                                             cssClass="validate-notEmpty" >
                 <option value="">Please Select</option>
                 <form:options items="${typeRefData}" itemLabel="desc"
@@ -253,7 +253,7 @@
         <div class="row">
             <div class="label required-indicator">
                 Phase:</div>
-            <div class="value"><form:select path="phaseCode"
+            <div class="value"><form:select path="study.phaseCode"
                                             cssClass="validate-notEmpty" >
                 <option value="">Please Select</option>
                 <form:options items="${phaseCodeRefData}" itemLabel="desc"
@@ -266,13 +266,13 @@
                     <div class="label">
                         Blinded:</div>
 		<c:choose>
-            <c:when test="${not empty command.id}">
+            <c:when test="${not empty command.study.id}">
                 
-                    <div class="value">${command.blindedIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.blindedIndicator"/></div>
+                    <div class="value">${command.study.blindedIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.blindedIndicator"/></div>
                 
             </c:when>
             <c:otherwise>
-		            <div class="value"><form:select path="blindedIndicator" onchange="blindedRandomization();">
+		            <div class="value"><form:select path="study.blindedIndicator" onchange="blindedRandomization();">
 		                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 		            </form:select>
 		            <tags:hoverHint keyProp="study.blindedIndicator"/></div>
@@ -281,18 +281,18 @@
         </div>
         
          <c:choose>
-            <c:when test="${not empty command.id}">
+            <c:when test="${not empty command.study.id}">
                 <div class="row">
                     <div class="label required-indicator">
                         Multi-Institutional:</div>
-                    <div class="value">${command.multiInstitutionIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.multiInstitutionIndicator"/></div>
+                    <div class="value">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.multiInstitutionIndicator"/></div>
                 </div>
             </c:when>
             <c:otherwise>
                 <div class="row">
                     <div class="label required-indicator">
                         Multi-Institutional:</div>
-                    <div class="value"><form:select path="multiInstitutionIndicator"
+                    <div class="value"><form:select path="study.multiInstitutionIndicator"
                                                    cssClass="validate-notEmpty" >
                         <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                     </form:select> <tags:hoverHint keyProp="study.multiInstitutionIndicator"/></div>
@@ -303,13 +303,13 @@
          <div class="row">
              <div class="label required-indicator">Consent Version/Date:</div>
              <div class="value">
-             <tags:dateInput path="consentVersion" validateDate="false" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
+             <tags:dateInput path="study.consentVersion" validateDate="false" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
              <tags:hoverHint keyProp="study.consentVersion"/></div>
          </div>
-        <div class="row" <c:if test="${ (empty command.companionIndicator) || command.companionIndicator=='false' ||((!empty param.embeddedStudy) && command.companionIndicator=='true' && param.embeddedStudy=='true')}">style="display:none;"</c:if>>
+        <div class="row" <c:if test="${ (empty command.study.companionIndicator) || command.study.companionIndicator=='false' ||((!empty param.embeddedStudy) && command.study.companionIndicator=='true' && param.embeddedStudy=='true')}">style="display:none;"</c:if>>
 	        <div class="label required-indicator">Standalone Study:</div>
 	        <div class="value">
-	        	<form:select path="standaloneIndicator" cssClass="validate-notEmpty" >
+	        	<form:select path="study.standaloneIndicator" cssClass="validate-notEmpty" >
 	            	<option value="">Please Select</option>
 	            	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 	        	</form:select>
@@ -323,7 +323,7 @@
     
     		<div class="row">
          		<div class="label required-indicator">Stratified:</div>	
-         		<div class="value"><form:select path="stratificationIndicator" cssClass="validate-notEmpty">
+         		<div class="value"><form:select path="study.stratificationIndicator" cssClass="validate-notEmpty">
          		<option value="">Please Select</option>
          		<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
          		</form:select>
@@ -334,10 +334,10 @@
 	        <div class="row">
 		            <div class="label required-indicator">
 		                Randomized:</div>
-		            <div class="value"><form:select path="randomizedIndicator"
+		            <div class="value"><form:select path="study.randomizedIndicator"
 		                                            onchange="manageRandomizedIndicatorSelectBox(this);" 
 		                                            cssClass="validate-notEmpty"
-		                                            disabled="${command.blindedIndicator == 'true'}" >
+		                                            disabled="${command.study.blindedIndicator == 'true'}" >
 		                <option value="">Please Select</option>
 		                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 		            </form:select>
@@ -347,12 +347,12 @@
     </div>
 	<div class="rightpanel">
         <div id="randomizationTypeDiv"
-                <c:if test="${ ((empty command.randomizedIndicator) || command.randomizedIndicator=='false') && 
-                						command.blindedIndicator == 'false'}">style="display:none;"</c:if>>
+                <c:if test="${ ((empty command.study.randomizedIndicator) || command.study.randomizedIndicator=='false') && 
+                						command.study.blindedIndicator == 'false'}">style="display:none;"</c:if>>
 
             <div class="row">
                 <div class="label required-indicator">Type:</div>
-                <div class="value"><form:select id="randomizationType" path="randomizationType" onchange="manageRandomizationTypeSelectBox(this);"  disabled="${command.blindedIndicator == 'true'}">
+                <div class="value"><form:select id="randomizationType" path="study.randomizationType" onchange="manageRandomizationTypeSelectBox(this);"  disabled="${command.study.blindedIndicator == 'true'}">
                     <form:option label="Please Select" value=""/>
                     <form:option label="Book" value="BOOK"/>
                     <form:option label="Phone Call" value="PHONE_CALL"/>
@@ -365,7 +365,7 @@
 </chrome:division>
 
 <chrome:division title="Coordinating Center">
-<tags:errors path="coordinatingCenterAssignedIdentifier"/> 
+<tags:errors path="study.coordinatingCenterAssignedIdentifier"/> 
 
          <div id="coordinatingCenter">
             	<div class="leftpanel">
@@ -375,17 +375,17 @@
 <c:set var="_codeCoord" value="" />
 <c:set var="_nameCoord" value="" />
 
-<c:if test="${fn:length(command.studyCoordinatingCenters)>0}">				
-<c:set var="_codeCoord" value="(${command.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode})" />
-<c:set var="_nameCoord" value="${command.studyCoordinatingCenters[0].healthcareSite.name}" />
+<c:if test="${fn:length(command.study.studyCoordinatingCenters)>0}">				
+<c:set var="_codeCoord" value="(${command.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode})" />
+<c:set var="_nameCoord" value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" />
 </c:if>
 
 <input type="hidden" id="coCenter-hidden"
-								name="studyCoordinatingCenters[0].healthcareSite"
-								value="${command.studyCoordinatingCenters[0].healthcareSite.id }" />
+								name="study.studyCoordinatingCenters[0].healthcareSite"
+								value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" />
 								<input type="hidden" id="coCenter-hidden1"
-									name="organizationAssignedIdentifiers[0].healthcareSite"
-									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+									name="study.organizationAssignedIdentifiers[0].healthcareSite"
+									value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
 								<input id="coCenter-input" size="38" type="text" name="abcxyz"
 				value="${_nameCoord} ${_codeCoord }"
 				class="autocomplete validate-notEmpty" />
@@ -400,20 +400,20 @@
 <c:set var="_codeInv" value="" />
 <c:set var="_nameInv" value="" />
 
-<c:if test="${fn:length(command.studyCoordinatingCenters[0].studyInvestigators)>0}">				
-<c:set var="_codeInv" value="(${command.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.nciIdentifier})" />
-<c:set var="_nameInv" value="${command.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" />
+<c:if test="${fn:length(command.study.studyCoordinatingCenters[0].studyInvestigators)>0}">				
+<c:set var="_codeInv" value="(${command.study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.nciIdentifier})" />
+<c:set var="_nameInv" value="${command.study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" />
 </c:if>
 
  <form:hidden id="investigator0-hidden"
-                                path="studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
+                                path="study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
 		                   		<input type="text" id="investigator0-input" size="30"
 		                          		value="${_nameInv} ${_codeInv }" class="autocomplete validate-notEmpty"/>
 		                   		<tags:indicator id="investigator0-indicator"/>
 		                   		<div id="investigator0-choices" class="autocomplete"></div>
-		                   		<input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
+		                   		<input type="hidden" name="study.studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
 								  		value="Principal Investigator"/>
-						   		<input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].statusCode" value="Active"/>
+						   		<input type="hidden" name="study.studyCoordinatingCenters[0].studyInvestigators[0].statusCode" value="Active"/>
 						   		<tags:hoverHint keyProp="study.healthcareSiteInvestigator"/>
 	                		</div>
 	            	</div>			 
@@ -423,13 +423,13 @@
                     <div class="row">
                         <div class="label required-indicator">Study Identifier:</div>
                         <div class="value">
-                        	<input type="text" name="organizationAssignedIdentifiers[0].value" 
+                        	<input type="text" name="study.organizationAssignedIdentifiers[0].value" 
 								size="30" maxlength="30"
-								value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+								value="${command.study.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
 							<input type="hidden" name="organizationAssignedIdentifiers[0].type"
 								value="Coordinating Center Identifier"/>
-							<c:if test="${empty command.id}">
-								<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
+							<c:if test="${empty command.study.id}">
+								<input type="hidden" name="study.organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
 							</c:if>
 							<tags:hoverHint keyProp="study.coordinatingcenter.identifier"/>
 						</div>
@@ -443,7 +443,7 @@
 </chrome:division>
 
 <chrome:division title="Funding Sponsor">
-<tags:errors path="fundingSponsorAssignedIdentifier"/>
+<tags:errors path="study.fundingSponsorAssignedIdentifier"/>
 
    <div id="fundingSponsor">
      <div class="leftpanel">
@@ -454,9 +454,9 @@
 <c:set var="_code" value="" />
 <c:set var="_name" value="" />
 
-<c:if test="${fn:length(command.studyFundingSponsors)>0}">				
-<c:set var="_code" value="(${command.studyFundingSponsors[0].healthcareSite.nciInstituteCode})" />
-<c:set var="_name" value="${command.studyFundingSponsors[0].healthcareSite.name}" />
+<c:if test="${fn:length(command.study.studyFundingSponsors)>0}">				
+<c:set var="_code" value="(${command.study.studyFundingSponsors[0].healthcareSite.nciInstituteCode})" />
+<c:set var="_name" value="${command.study.studyFundingSponsors[0].healthcareSite.name}" />
 </c:if>
 
             	<input type="text" id="healthcareSite-input" size="35"
@@ -464,8 +464,8 @@
             		value='<c:out value="${_name} ${_code}" />'
             		class="autocomplete" />
 				<input type="hidden" id="healthcareSite-hidden"
-            		name="studyFundingSponsors[0].healthcareSite"
-            		value="${fn:length(command.studyFundingSponsors)>0?command.studyFundingSponsors[0].healthcareSite.id:''}"/>            		
+            		name="study.studyFundingSponsors[0].healthcareSite"
+            		value="${fn:length(command.study.studyFundingSponsors)>0?command.study.studyFundingSponsors[0].healthcareSite.id:''}"/>            		
 			<tags:indicator id="healthcareSite-indicator" />
 			<tags:hoverHint keyProp="study.studyFundingSponsor"/>
 			<div id="healthcareSite-choices" class="autocomplete"></div>
@@ -477,14 +477,14 @@
             <div class="label">Study Identifier:</div>
             <div class="value">
             	<div id="fundingSponId">
-	            	<input type="text" name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="30"
-						maxlength="30" value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].value}"
+	            	<input type="text" name="study.organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="30"
+						maxlength="30" value="${command.study.fundingSponsorIdentifierIndex==-1?'':command.study.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].value}"
 						id="fundingSponsorIdentifier" />
 					<input type="hidden" id="healthcareSite-hidden1"
-	                    name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].healthcareSite"
-	                    value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].healthcareSite.id}" />
+	                    name="study.organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].healthcareSite"
+	                    value="${command.study.fundingSponsorIdentifierIndex==-1?'':command.study.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].healthcareSite.id}" />
 					<input type="hidden" 
-						name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].type" id="fundingSponIdentifierType" value="Protocol Authority Identifier" />
+						name="study.organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].type" id="fundingSponIdentifierType" value="Protocol Authority Identifier" />
 					<tags:hoverHint keyProp="study.fundingsponsor.identifier"/>
 				</div>
 			</div>
@@ -500,13 +500,13 @@
                         <div class="label">Name:</div>
                         <div class="value"><input type="hidden" id="piCoCenter-hidden"
 						name="studyCoordinatingCenters[0].healthcareSite"
-						value="${command.studyCoordinatingCenters[0].healthcareSite.id }" />
+						value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" />
 						<input type="hidden" id="piCoCenter-hidden1"
 							name="organizationAssignedIdentifiers[0].healthcareSite"
-							value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+							value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
 						<input id="piCoCenter-input" size="50" type="text"
 						name="studyCoordinatingCenters[0].healthcareSite.name"
-						value="${command.studyCoordinatingCenters[0].healthcareSite.name}" class="autocomplete" />
+						value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" class="autocomplete" />
 						<tags:indicator id="piCoCenter-indicator" />
 						<div id="piCoCenter-choices" class="autocomplete"></div>
 						</div>
@@ -518,9 +518,9 @@
 				 <div class="row">
 	                        <div class="label">Principal Investigator:</div>
 	                       <div class="value"> <form:hidden id="investigator0-hidden"
-                                path="studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
+                                path="study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
                    <input type="text" id="investigator0-input" size="30"
-                          value="${command.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" class="autocomplete"/>
+                          value="${command.study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" class="autocomplete"/>
                    <tags:indicator id="investigator0-indicator"/>
                    <div id="investigator0-choices" class="autocomplete"></div>
                    <input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
@@ -545,7 +545,7 @@
 </chrome:box>
 </form:form>
 <script>
-	disableRandomizationForCompanion(${command.companionIndicator})
+	disableRandomizationForCompanion(${command.study.companionIndicator})
 </script>
 </body>
 </html>

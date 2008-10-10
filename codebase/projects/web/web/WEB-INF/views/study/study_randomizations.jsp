@@ -1,7 +1,7 @@
 <%@ include file="taglibs.jsp"%>
 <html>
 <head>
- <title><studyTags:htmlTitle study="${command}" /></title>
+ <title><studyTags:htmlTitle study="${command.study}" /></title>
 <style type="text/css">
         .test { width: 100%;}
 </style>
@@ -23,8 +23,8 @@
 		}
 		var str = "bookRandomizations-" + index;
 		var content = "";
-		if(form == "command"){
-		//alert("command it is");
+		if(form == "command.study"){
+		//alert("command.study it is");
 			content = document.getElementById(str).value;
 		}
 		BookRandomizationAjaxFacade.getTable(parameterMap, content, index, flowType, uploadBookCallback);
@@ -55,16 +55,16 @@
 
 <c:choose>
 
-<c:when test="${command.randomizedIndicator =='false' }">
+<c:when test="${command.study.randomizedIndicator =='false' }">
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_RANDOMIZATION"/></div><br><br>
 			</tags:formPanelBox>
 	</c:when>
 <c:otherwise>
 
 <!--BOOK RANDOMIZATION SECTION-->
-<c:if test="${command.randomizationType.name == 'BOOK'}">	
+<c:if test="${command.study.randomizationType.name == 'BOOK'}">	
 
-	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
+	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 		<c:if test="${epoch.randomizedIndicator}">
 		<div id="book_container_${epochCount.index}" class="test">
 		<chrome:box title="${epoch.name}" id="book_${epochCount.index}" cssClass="paired"> 
@@ -90,7 +90,7 @@
 	     </table>
 	     <br/>
 	     <div id="bookButton" align="center">    
-         	<input type='button' onclick='uploadBook("command", "${epochCount.index}", "${flowType}")' value='Upload Randomization Book'/>   
+         	<input type='button' onclick='uploadBook("command.study", "${epochCount.index}", "${flowType}")' value='Upload Randomization Book'/>   
 		 </div>
 		 <hr />
 		 	<form:form method="post" id="epochForm_${epochCount.index}" enctype="multipart/form-data">
@@ -137,8 +137,8 @@
 <tags:tabFields tab="${tab}"/>
 
 <!--CALLOUT RANDOMIZATION SECTION-->
-<c:if test="${command.randomizationType.name == 'CALL_OUT'}">
-	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
+<c:if test="${command.study.randomizationType.name == 'CALL_OUT'}">
+	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 	<c:if test="${epoch.randomizedIndicator}">
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 		<br/>
@@ -146,7 +146,7 @@
              <tr>
                 <td><b>Call-Out URL:</b></td>
 				<td>
-				<form:input path="epochs[${epochCount.index}].randomization.calloutUrl" size="30" /> e.g. http://www.callout-url.com
+				<form:input path="study.epochs[${epochCount.index}].randomization.calloutUrl" size="30" /> e.g. http://www.callout-url.com
 				</td>				
              </tr>
 	     </table>
@@ -158,15 +158,15 @@
 <!--CALLOUT RANDOMIZATION SECTION-->
 
 <!--PHONECALL RANDOMIZATION SECTION-->
-<c:if test="${command.randomizationType.name == 'PHONE_CALL'}">
-	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
+<c:if test="${command.study.randomizationType.name == 'PHONE_CALL'}">
+	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 	<c:if test="${epoch.randomizedIndicator}">
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 		<br/>
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
              <tr>
                 <td><b>Phone Number:</b></td>
-				<td><form:input path="epochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/> e.g. 7035600296 or 703-560-0296
+				<td><form:input path="study.epochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/> e.g. 7035600296 or 703-560-0296
 				</td>				
              </tr>
 	     </table>
