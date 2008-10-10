@@ -50,12 +50,12 @@ public class StudyValidator implements Validator {
     }
 
     public void validateStudy(Object target, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "longTitleText", "required",
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "study.longTitleText", "required",
                         "required field");
-        ValidationUtils.rejectIfEmpty(errors, "coordinatingCenterStudyStatus", "required",
+        ValidationUtils.rejectIfEmpty(errors, "study.coordinatingCenterStudyStatus", "required",
                         "required field");
-        ValidationUtils.rejectIfEmpty(errors, "phaseCode", "required", "required field");
-        ValidationUtils.rejectIfEmpty(errors, "type", "required", "required field");
+        ValidationUtils.rejectIfEmpty(errors, "study.phaseCode", "required", "required field");
+        ValidationUtils.rejectIfEmpty(errors, "study.type", "required", "required field");
     }
 
     public void validateStudyIdentifiers(Object target, Errors errors) {
@@ -66,7 +66,7 @@ public class StudyValidator implements Validator {
             for (int orgIdentifierIndex = 0; orgIdentifierIndex < allOrganizationAssigedIdentitiers
                             .size(); orgIdentifierIndex++) {
                 errors
-                                .pushNestedPath("organizationAssignedIdentifiers["
+                                .pushNestedPath("study.organizationAssignedIdentifiers["
                                                 + orgIdentifierIndex + "]");
                 // ValidationUtils.invokeValidator(this.identifierValidator,
                 // allOrganizationAssigedIdentitiers.get(orgIdentifierIndex), errors);
@@ -78,7 +78,7 @@ public class StudyValidator implements Validator {
             if (allOrganizationAssigedIdentitiers.size() > uniqueOrgIdentifiers.size()) {
                 errors
                                 .rejectValue(
-                                                "organizationAssignedIdentifiers",
+                                                "study.organizationAssignedIdentifiers",
                                                 new Integer(
                                                                 getCode("C3PR.STUDY.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"))
                                                                 .toString(),
@@ -95,13 +95,13 @@ public class StudyValidator implements Validator {
         try {
             for (int sysIdentifierIndex = 0; sysIdentifierIndex < allOrganizationAssigedIdentitiers
                             .size(); sysIdentifierIndex++) {
-                errors.pushNestedPath("systemAssignedIdentifiers[" + sysIdentifierIndex + "]");
+                errors.pushNestedPath("study.systemAssignedIdentifiers[" + sysIdentifierIndex + "]");
                 errors.popNestedPath();
             }
             Set<SystemAssignedIdentifier> uniqueSysIdentifiers = new HashSet<SystemAssignedIdentifier>();
             uniqueSysIdentifiers.addAll(allSystemAssigedIdentitiers);
             if (allSystemAssigedIdentitiers.size() > uniqueSysIdentifiers.size()) {
-                errors.rejectValue("systemAssignedIdentifiers", new Integer(
+                errors.rejectValue("study.systemAssignedIdentifiers", new Integer(
                                 getCode("C3PR.STUDY.DUPLICATE.SYSTEM_ASSIGNED_IDENTIFIER.ERROR"))
                                 .toString(), getMessageFromCode(
                                 getCode("C3PR.STUDY.DUPLICATE.SYSTEM_ASSIGNED_IDENTIFIER.ERROR"),
@@ -119,7 +119,7 @@ public class StudyValidator implements Validator {
         List<StudySite> allStudySites = study.getStudySites();
         try {
             for (int studySiteIndex = 0; studySiteIndex < allStudySites.size(); studySiteIndex++) {
-                errors.pushNestedPath("studySites[" + studySiteIndex + "]");
+                errors.pushNestedPath("study.studySites[" + studySiteIndex + "]");
                 // ValidationUtils.invokeValidator(this.studySiteValidator,
                 // allStudySites.get(studySiteIndex), errors);
                 errors.popNestedPath();
@@ -127,7 +127,7 @@ public class StudyValidator implements Validator {
             Set<StudySite> uniqueStudySites = new HashSet<StudySite>();
             uniqueStudySites.addAll(allStudySites);
             if (allStudySites.size() > uniqueStudySites.size()) {
-                errors.rejectValue("studySites", new Integer(
+                errors.rejectValue("study.studySites", new Integer(
                                 getCode("C3PR.STUDY.DUPLICATE.STUDY_SITE.ERROR")).toString(),
                                 getMessageFromCode(
                                                 getCode("C3PR.STUDY.DUPLICATE.STUDY_SITE.ERROR"),
@@ -157,7 +157,7 @@ public class StudyValidator implements Validator {
             }
             uniqueStudyInvestigators.addAll(notNullInvestigatorsList);
             if (notNullInvestigatorsList.size() > uniqueStudyInvestigators.size()) {
-                errors.rejectValue("studyOrganizations[0].studyInvestigators", new Integer(
+                errors.rejectValue("study.studyOrganizations[0].studyInvestigators", new Integer(
                                 getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"))
                                 .toString(), getMessageFromCode(
                                 getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),
@@ -189,7 +189,7 @@ public class StudyValidator implements Validator {
             if (notNullPersonnelList.size() > uniqueStudyPersonnel.size()) {
                 errors
                                 .rejectValue(
-                                                "studyOrganizations[0].studyPersonnel",
+                                                "study.studyOrganizations[0].studyPersonnel",
                                                 new Integer(
                                                                 getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR"))
                                                                 .toString(),
@@ -210,7 +210,7 @@ public class StudyValidator implements Validator {
             Set<Epoch> uniqueEpochs = new HashSet<Epoch>();
             uniqueEpochs.addAll(allEpochs);
             if (allEpochs.size() > uniqueEpochs.size()) {
-                errors.rejectValue("epochs", new Integer(
+                errors.rejectValue("study.epochs", new Integer(
                                 getCode("C3PR.STUDY.DUPLICATE.EPOCH.ERROR")).toString(),
                                 getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.EPOCH.ERROR"),
                                                 null, null));
@@ -227,7 +227,7 @@ public class StudyValidator implements Validator {
         List<Epoch> allEpochs = study.getEpochs();
         try {
             for (int epochIndex = 0; epochIndex < allEpochs.size(); epochIndex++) {
-                errors.pushNestedPath("epochs[" + epochIndex + "]");
+                errors.pushNestedPath("study.epochs[" + epochIndex + "]");
                 ValidationUtils.invokeValidator(this.epochValidator, allEpochs
                                 .get(epochIndex), errors);
                 errors.popNestedPath();
@@ -245,7 +245,7 @@ public class StudyValidator implements Validator {
         uniqueDiseases.addAll(allDiseases);
         try {
             if (allDiseases.size() > uniqueDiseases.size()) {
-                errors.rejectValue("studyDiseases", new Integer(
+                errors.rejectValue("study.studyDiseases", new Integer(
                                 getCode("C3PR.STUDY.DUPLICATE.DISEASE.ERROR")).toString(),
                                 getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.DISEASE.ERROR"),
                                                 null, null));
@@ -272,7 +272,7 @@ public class StudyValidator implements Validator {
                     if ((study.getId() == null) || (coCenterIdentifiers.size() > 1) || (coCenterIdentifiers.size() == 1 && study.getId() != studyIdOfExistingRecord(coCenterIdentifiers.get(0)))) {
                         errors
                                         .rejectValue(
-                                                        "coordinatingCenterAssignedIdentifier",
+                                                        "study.coordinatingCenterAssignedIdentifier",
                                                         "C3PR.STUDY.DUPLICATE.STUDY.COORDINATING.CENTER.IDENTIFIER.ERROR",
                                                         getMessageFromCode(
                                                                         getCode("C3PR.STUDY.DUPLICATE.STUDY.COORDINATING.CENTER.IDENTIFIER.ERROR"),
@@ -312,7 +312,7 @@ public class StudyValidator implements Validator {
                     if ((study.getId() == null) || (funSponIdentifiers.size() > 1 || (funSponIdentifiers.size() == 1 && study.getId() != studyIdOfExistingRecord(funSponIdentifiers.get(0))))) {
                         errors
                                         .rejectValue(
-                                                        "fundingSponsorAssignedIdentifier",
+                                                        "study.fundingSponsorAssignedIdentifier",
                                                         new Integer(
                                                                         getCode("C3PR.STUDY.DUPLICATE.STUDY.FUNDING.SPONSOR.IDENTIFIER.ERROR"))
                                                                         .toString(),
