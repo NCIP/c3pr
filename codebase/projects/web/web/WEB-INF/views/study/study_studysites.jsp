@@ -232,7 +232,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 				<input type="button" id="healthcareSite${status.index}-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite${status.index}-indicator"/>
-                  			<div id="healthcareSite${status.index}-choices" class="autocomplete"></div>
+                  			<div id="healthcareSite${status.index}-choices" class="autocomplete" style="display: none;"></div>
            			 </td>
 
                         <td>
@@ -280,7 +280,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
                         value="Clear"/>
                    <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
-                  <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
+                  <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete" style="display: none;"></div>
             </td>
             
             <td>
