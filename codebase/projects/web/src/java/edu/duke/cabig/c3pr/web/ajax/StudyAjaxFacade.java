@@ -54,6 +54,7 @@ import edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController;
 import edu.duke.cabig.c3pr.web.study.CreateStudyController;
 import edu.duke.cabig.c3pr.web.study.EditCompanionStudyController;
 import edu.duke.cabig.c3pr.web.study.EditStudyController;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
  * @author Priyatam
@@ -229,7 +230,8 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
     public List<HealthcareSiteInvestigator> matchStudyOrganizationInvestigators(String text,
                     int siteIndex, HttpServletRequest request) throws Exception {
-        Study study = (Study) getCommandOnly(request);
+        StudyWrapper studyWrapper = (StudyWrapper) getCommandOnly(request);
+        Study study = studyWrapper.getStudy();
         int siteId = study.getStudyOrganizations().get(siteIndex).getHealthcareSite().getId();
         List<HealthcareSiteInvestigator> inv = healthcareSiteInvestigatorDao.getBySubnames(
                         extractSubnames(text), siteId);
@@ -277,7 +279,8 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
     public List<StudyPersonnel> matchStudyPersonnels(String text, int siteIndex,
                     HttpServletRequest request) throws Exception {
-        Study study = (Study) getCommandOnly(request);
+        StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request);
+        Study study = wrapper.getStudy();
         int siteId = study.getStudyOrganizations().get(siteIndex).getHealthcareSite().getId();
         List<StudyPersonnel> personnel = studyPersonnelDao.getBySubnames(extractSubnames(text),
                         siteId);
@@ -291,7 +294,8 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
     public List<ResearchStaff> matchResearchStaffs(String text, int siteIndex,
                     HttpServletRequest request) throws Exception {
-        Study study = (Study) getCommandOnly(request);
+        StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request);
+        Study study = wrapper.getStudy();
         int siteId = study.getStudyOrganizations().get(siteIndex).getHealthcareSite().getId();
         List<ResearchStaff> staffCol = researchStaffDao
                         .getBySubnames(extractSubnames(text), siteId);
@@ -418,8 +422,8 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     }
     
     public List<Study> matchComapanionStudies(String text, HttpServletRequest request) throws Exception {
-    	
-    	Study parentStudy = (Study) getCommandOnly(request);
+    	StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request) ;
+    	Study parentStudy = wrapper.getStudy();
     	System.out.println("parent " + parentStudy);
         List<Study> companionStudies = studyDao.getBySubnames(extractSubnames(text));
 

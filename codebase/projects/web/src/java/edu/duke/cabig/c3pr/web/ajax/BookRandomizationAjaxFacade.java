@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController;
 import edu.duke.cabig.c3pr.web.study.CreateStudyController;
 import edu.duke.cabig.c3pr.web.study.EditCompanionStudyController;
 import edu.duke.cabig.c3pr.web.study.EditStudyController;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 public class BookRandomizationAjaxFacade {
 
@@ -62,26 +63,26 @@ public class BookRandomizationAjaxFacade {
             context = new HttpServletRequestContext(req);
         }
         
-        Study study = (Study) req.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM.command.to-replace");
+        StudyWrapper wrapper = (StudyWrapper) req.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM.command.to-replace");
         String action = "/pages/study/createStudy";
         
         //TO DO: move this piece out into a seperate getCommandOnly() method.
-        if (study == null || (study != null && study.getCompanionIndicator())) {
+        if (wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())) {
         	if (flowType.equals("CREATE_STUDY")) {
-        		study = (Study) req.getSession().getAttribute(CreateCompanionStudyController.class.getName() + ".FORM.command.to-replace");
+        		wrapper = (StudyWrapper) req.getSession().getAttribute(CreateCompanionStudyController.class.getName() + ".FORM.command.to-replace");
                 action = "/pages/study/createCompanionStudy";	
         	}else if (flowType.equals("AMEND_STUDY")) {
-                study = (Study) req.getSession().getAttribute(AmendStudyController.class.getName() + ".FORM.command.to-replace");
+                wrapper = (StudyWrapper) req.getSession().getAttribute(AmendStudyController.class.getName() + ".FORM.command.to-replace");
                 action = "/pages/study/amendStudy";
-                if(study == null || (study != null && study.getCompanionIndicator())){
-                	study = (Study) req.getSession().getAttribute(AmendCompanionStudyController.class.getName() + ".FORM.command.to-replace");
+                if(wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())){
+                	wrapper = (StudyWrapper) req.getSession().getAttribute(AmendCompanionStudyController.class.getName() + ".FORM.command.to-replace");
                 	action = "/pages/study/amendCompanionStudy";
                 }
             }else {
-                study = (Study) req.getSession().getAttribute(EditStudyController.class.getName() + ".FORM.command.to-replace");
+                wrapper = (StudyWrapper) req.getSession().getAttribute(EditStudyController.class.getName() + ".FORM.command.to-replace");
                 action = "/pages/study/editStudy";
-                if(study == null || (study != null && study.getCompanionIndicator())){
-                	study = (Study) req.getSession().getAttribute(EditCompanionStudyController.class.getName() + ".FORM.command.to-replace");
+                if(wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())){
+                	wrapper = (StudyWrapper) req.getSession().getAttribute(EditCompanionStudyController.class.getName() + ".FORM.command.to-replace");
                 	action = "/pages/study/editCompanionStudy";
                 }
             }
@@ -92,17 +93,17 @@ public class BookRandomizationAjaxFacade {
         }
         TableModel model = new TableModelImpl(context);
         Epoch tEpoch = null;
-        if (study != null && study.getRandomizationType() != null
-                        && study.getRandomizationType().equals(RandomizationType.BOOK)) {
+        if (wrapper != null && wrapper.getStudy().getRandomizationType() != null
+                        && wrapper.getStudy().getRandomizationType().equals(RandomizationType.BOOK)) {
             String bookRandomizations;
             int selectedEpoch = StringUtils.getBlankIfNull(epochIndexString).equals("") ? -1
                             : Integer.parseInt(epochIndexString);
-            tEpoch = study.getEpochs().get(selectedEpoch);
+            tEpoch = wrapper.getStudy().getEpochs().get(selectedEpoch);
             bookRandomizations = StringUtils.getBlankIfNull(content);
             if (!StringUtils.isEmpty(bookRandomizations)) {
                 if (tEpoch != null) {
                     try {
-                    	if (study.getStratificationIndicator()){
+                    	if (wrapper.getStudy().getStratificationIndicator()){
                     		parseBookRandomization(bookRandomizations, tEpoch);
                     	}else {
                     		parseBookRandomizationWithoutStratification(bookRandomizations, tEpoch);
@@ -112,7 +113,7 @@ public class BookRandomizationAjaxFacade {
                         log.error("Error while calling parseBookRandomization: " + e.getMessage());
                         return "<br/><div class='error'>Incorrect format. Please try again.</div>";
                     }
-                    if (study.getStratificationIndicator()){
+                    if (wrapper.getStudy().getStratificationIndicator()){
                     	validatePositions(((BookRandomization) tEpoch.getRandomization())
                                     .getBookRandomizationEntry());
                     }else {
@@ -129,7 +130,7 @@ public class BookRandomizationAjaxFacade {
                 List<BookRandomizationEntry> breList = ((BookRandomization) tEpoch
                                 .getRandomization()).getBookRandomizationEntry();
                 try {
-                	if (study.getStratificationIndicator()){
+                	if (wrapper.getStudy().getStratificationIndicator()){
                 		return build(model, breList, "Book Randomization :" + selectedEpoch, action,
                                     flowType).toString();
                 	}else {
