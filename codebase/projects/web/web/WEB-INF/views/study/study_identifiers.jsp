@@ -120,7 +120,7 @@ function manageIdentifierRadio(element){
 							value="Clear" /> <tags:indicator
 							id="healthcareSite${organizationStatus.index}-indicator" />
 						<div id="healthcareSite${organizationStatus.index}-choices"
-							class="autocomplete"></div>
+							class="autocomplete" style="display: none;"></div>
 						</td>
 						<td>
 						<c:choose>
@@ -261,7 +261,7 @@ function manageIdentifierRadio(element){
 		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
 			value="Clear" /> <tags:indicator
 			id="healthcareSitePAGE.ROW.INDEX-indicator" />
-		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete" />
+		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete" style="display: none;"/>
 		</td>
 		<td><select id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="study.organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
