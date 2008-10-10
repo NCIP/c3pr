@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 import java.util.Map;
 
@@ -18,10 +18,9 @@ public class StudyRegistrationsTab extends StudyTab {
     }
 
     @Override
-    public Map<String, Object> referenceData(Study study) {
-        Map<String, Object> refdata = super.referenceData(study);
-        refdata.put("participantAssignments", this.getStudyDao().getStudySubjectsForStudy(
-                        study.getId()));
+    public Map<String, Object> referenceData(StudyWrapper wrapper) {
+        Map<String, Object> refdata = super.referenceData(wrapper);
+        refdata.put("participantAssignments", this.getStudyDao().getStudySubjectsForStudy(wrapper.getStudy().getId()));
 
         return refdata;
     }

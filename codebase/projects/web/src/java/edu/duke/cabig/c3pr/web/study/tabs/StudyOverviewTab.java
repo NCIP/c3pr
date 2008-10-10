@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
  * Tab for Study Overview/Summary page <p/> Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007
@@ -37,8 +38,8 @@ public class StudyOverviewTab extends StudyTab {
     }
 
     public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj,
-                    Errors error) {
-        Study study = (Study) commandObj;
+                                                  Errors error) {
+        Study study = ((StudyWrapper) commandObj).getStudy();
         String responseMessage = null;
         try {
             log.debug("Getting status for study");
@@ -56,7 +57,7 @@ public class StudyOverviewTab extends StudyTab {
     public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
         try {
             log.debug("Sending message to CCTS esb");
-            Study study = (Study) commandObj;
+            Study study = ((StudyWrapper) commandObj).getStudy();
             studyService.broadcastMessage(study);
             return getMessageBroadcastStatus(request, commandObj, error);
         }
@@ -66,141 +67,134 @@ public class StudyOverviewTab extends StudyTab {
             return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }
     }
-    
+
     @Override
-    public Map referenceData(HttpServletRequest request, Study command) {
+    public Map referenceData(HttpServletRequest request, StudyWrapper command) {
         request.setAttribute("isCCTSEnv", isCCTSEnv());
-    	try {
-    		command.setDataEntryStatus(command.evaluateDataEntryStatus()) ;
-    	}catch (Exception e) {
-    		log.error(e.getMessage());
-    	}
-    	return super.referenceData(request, command);
+        try {
+            command.getStudy().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return super.referenceData(request, command);
     }
 
     @SuppressWarnings("finally")
     @Override
-    protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, Study command,
-                    String property, String value) {
+    protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, StudyWrapper command,
+                                                     String property, String value) {
 
         Map<String, String> map = new HashMap<String, String>();
         String retValue = "";
 
-        if (property.startsWith("changedSiteStudy")) {
+        if (property.contains("changedSiteStudy")) {
 
             int studySiteIndex = Integer.parseInt(property.split("_")[1]);
 
-            if (property.startsWith("changedSiteStudyStatus")) {
+            if (property.contains("changedSiteStudyStatus")) {
 
                 SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
                 try {
-					command.getStudySites().get(
-					                studySiteIndex).setWorkFlowSiteStudyStatus(statusObject);
-				} 
+                    command.getStudy().getStudySites().get(
+                            studySiteIndex).setWorkFlowSiteStudyStatus(statusObject);
+                }
                 catch (C3PRCodedException e) {
-                    if ((command.getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL || command
-                                    .getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
-                                    && statusObject == SiteStudyStatus.ACTIVE && isAdmin()) {
-							command.getStudySites().get(studySiteIndex).setSiteStudyStatus(
-							                SiteStudyStatus.ACTIVE);
-                    }
-                    else {
+                    if ((command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL || command
+                            .getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
+                            && statusObject == SiteStudyStatus.ACTIVE && isAdmin()) {
+                        command.getStudy().getStudySites().get(studySiteIndex).setSiteStudyStatus(
+                                SiteStudyStatus.ACTIVE);
+                    } else {
                         retValue = "<script>alert('" + e.getCodedExceptionMesssage() + "')</script>";
                     }
                 }
                 finally {
-                    retValue += command.getStudySites().get(studySiteIndex).getSiteStudyStatus()
-                                    .getCode();
+                    retValue += command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus()
+                            .getCode();
                 }
 
-            }
-            else if (property.startsWith("changedSiteStudyStartDate")) {
+            } else if (property.contains("changedSiteStudyStartDate")) {
 
                 try {
                     Date startDate = new SimpleDateFormat("MM/dd/yyyy").parse(value);
-                    command.getStudySites().get(studySiteIndex).setStartDate(startDate);
-                    retValue += command.getStudySites().get(studySiteIndex).getStartDateStr();
+                    command.getStudy().getStudySites().get(studySiteIndex).setStartDate(startDate);
+                    retValue += command.getStudy().getStudySites().get(studySiteIndex).getStartDateStr();
                 }
                 catch (ParseException e) {
                     retValue = "<script>alert('" + e.getMessage() + "')</script>";
                 }
 
-            }
-            else if (property.startsWith("changedSiteStudyIrbApprovalDate")) {
+            } else if (property.contains("changedSiteStudyIrbApprovalDate")) {
                 try {
                     Date irbApprovalDate = new SimpleDateFormat("MM/dd/yyyy").parse(value);
-                    command.getStudySites().get(studySiteIndex).setIrbApprovalDate(irbApprovalDate);
-                    retValue += command.getStudySites().get(studySiteIndex).getIrbApprovalDateStr();
+                    command.getStudy().getStudySites().get(studySiteIndex).setIrbApprovalDate(irbApprovalDate);
+                    retValue += command.getStudy().getStudySites().get(studySiteIndex).getIrbApprovalDateStr();
                 }
                 catch (ParseException e) {
                     retValue = "<script>alert('" + e.getMessage() + "')</script>";
                 }
             }
 
-        }
-        else if (property.startsWith("changedCoordinatingCenterStudyStatus")) {
+        } else if (property.contains("changedCoordinatingCenterStudyStatus")) {
             CoordinatingCenterStudyStatus statusObject = CoordinatingCenterStudyStatus
-                            .getByCode(value);
+                    .getByCode(value);
 
             try {
-                command.setStatuses(statusObject);
+                command.getStudy().setStatuses(statusObject);
                 // adding a callback incase the status change is successful
                 // this callback is used to dynamically display/hide the amend study button
-                retValue = "<script>statusChangeCallback('"+ command.getCoordinatingCenterStudyStatus().getCode()+ "');reloadCompanion();" +
-                		"</script>";
+                retValue = "<script>statusChangeCallback('" + command.getStudy().getCoordinatingCenterStudyStatus().getCode() + "');reloadCompanion();" +
+                        "</script>";
             }
             catch (C3PRCodedException e) {
                 // case when the user has an admin role and he/she can change the study status to
                 // Active even when the study is closed to accrual
                 // or closed to accrual and treatment.
-                if ((command.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL || command
-                                .getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
-                                && statusObject == CoordinatingCenterStudyStatus.ACTIVE
-                                && isAdmin()) {
-                    command.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-                }
-                else {
+                if ((command.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL || command
+                        .getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
+                        && statusObject == CoordinatingCenterStudyStatus.ACTIVE
+                        && isAdmin()) {
+                    command.getStudy().setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+                } else {
                     retValue = "<script>alert('" + e.getMessage() + "')</script>";
                 }
             }
             finally {
-                retValue += command.getCoordinatingCenterStudyStatus().getCode();
+                retValue += command.getStudy().getCoordinatingCenterStudyStatus().getCode();
             }
-        }
-        else if (property.startsWith("changedTargetAccrualNumber")) {
-            command.setTargetAccrualNumber(new Integer(value));
-            retValue = command.getTargetAccrualNumber().toString();
-        }
-        else {
-            retValue += command.getCoordinatingCenterStudyStatus().getCode();
+        } else if (property.contains("changedTargetAccrualNumber")) {
+            command.getStudy().setTargetAccrualNumber(new Integer(value));
+            retValue = command.getStudy().getTargetAccrualNumber().toString();
+        } else {
+            retValue += command.getStudy().getCoordinatingCenterStudyStatus().getCode();
         }
         map.put(AjaxableUtils.getFreeTextModelName(), retValue);
         return new ModelAndView("", map);
     }
 
-    public void validate(Study study, Errors errors) {
-        super.validate(study, errors);
+    public void validate(StudyWrapper wrapper, Errors errors) {
+        super.validate(wrapper, errors);
         try {
-            study.setDataEntryStatus(true);
-            study.setStatuses(study.evaluateCoordinatingCenterStudyStatus());
+            wrapper.getStudy().setDataEntryStatus(true);
+            wrapper.getStudy().setStatuses(wrapper.getStudy().evaluateCoordinatingCenterStudyStatus());
         }
         catch (Exception e) {
-            errors.rejectValue("coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
+            errors.rejectValue("study.coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
         }
     }
-    
+
     protected boolean suppressValidation(HttpServletRequest request, Object study) {
         if (request.getParameter("_activate") != null
-                        && request.getParameter("_activate").equals("true")) {
+                && request.getParameter("_activate").equals("true")) {
             return false;
         }
         return true;
     }
 
-    private boolean isCCTSEnv(){
+    private boolean isCCTSEnv() {
         return this.configuration.get(Configuration.ESB_ENABLE).equalsIgnoreCase("true");
     }
-    
+
     public StudyService getStudyService() {
         return studyService;
     }
@@ -208,7 +202,7 @@ public class StudyOverviewTab extends StudyTab {
     public void setStudyService(StudyService studyService) {
         this.studyService = studyService;
     }
-    
+
     public ModelAndView reloadCompanion(HttpServletRequest request, Object command , Errors error) {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}

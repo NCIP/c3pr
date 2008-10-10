@@ -1,13 +1,5 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.validation.Errors;
-
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
@@ -17,6 +9,13 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
+import org.springframework.validation.Errors;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:02:39 PM To change this template
@@ -38,14 +37,14 @@ public class StudyInvestigatorsTab extends StudyTab {
 
     public StudyInvestigatorsTab(boolean editMode) {
         super("Investigators", "Investigators", editMode ? "study/study_investigators_edit"
-                        : "study/study_investigators");
+                : "study/study_investigators");
     }
 
     @Override
-    public Map<String, Object> referenceData(Study study) {
-        Map<String, Object> refdata = super.referenceData(study); // To change body of overridden
-                                                                    // methods use File | Settings |
-                                                                    // File Templates.
+    public Map<String, Object> referenceData(StudyWrapper wrapper) {
+        Map<String, Object> refdata = super.referenceData(wrapper); // To change body of overridden
+        // methods use File | Settings |
+        // File Templates.
         addConfigMapToRefdata(refdata, "studyInvestigatorRoleRefData");
         addConfigMapToRefdata(refdata, "studyInvestigatorStatusRefData");
 
@@ -53,14 +52,14 @@ public class StudyInvestigatorsTab extends StudyTab {
     }
 
     @Override
-    public void validate(Study study, Errors errors) {
-        super.validate(study, errors);
-        this.studyValidator.validateStudyInvestigators(study, errors);
+    public void validate(StudyWrapper wrapper, Errors errors) {
+        super.validate(wrapper, errors);
+        this.studyValidator.validateStudyInvestigators(wrapper.getStudy(), errors);
     }
 
     @Override
-    public void postProcessOnValidation(HttpServletRequest request, Study study,
-                    Errors errors) {
+    public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
+                                        Errors errors) {
 
         String selected = request.getParameter("_selected");
         String action = request.getParameter("_actionx");
@@ -68,7 +67,7 @@ public class StudyInvestigatorsTab extends StudyTab {
         StudyOrganization studyOrg = null;
 
         // get the StudyOrganization to which we will add/remove investigator.
-        List<StudyOrganization> studyOrgList = study.getStudyOrganizations();
+        List<StudyOrganization> studyOrgList = wrapper.getStudy().getStudyOrganizations();
         if (!StringUtils.isBlank(selectedSite)) {
             studyOrg = studyOrgList.get(Integer.parseInt(selectedSite));
         }
@@ -95,18 +94,17 @@ public class StudyInvestigatorsTab extends StudyTab {
                             studyInvestigator.setRoleCode("Site Investigator");
                             studyInvestigator.setStatusCode("Active");
                             studyInvestigator.setStudyOrganization(studyOrg);
-                            
-                            HashSet<StudyInvestigator> sStudyInvestigator = new HashSet<StudyInvestigator>() ;
+
+                            HashSet<StudyInvestigator> sStudyInvestigator = new HashSet<StudyInvestigator>();
                             sStudyInvestigator.addAll(studyOrg.getStudyInvestigators());
-                            if(sStudyInvestigator.add(studyInvestigator)){
-                            	studyOrg.getStudyInvestigators().add(studyInvestigator);	
-                            }else{
-                            	errors.rejectValue("studyOrganizations[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
+                            if (sStudyInvestigator.add(studyInvestigator)) {
+                                studyOrg.getStudyInvestigators().add(studyInvestigator);
+                            } else {
+                                errors.rejectValue("studyOrganizations[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
                                         studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),
                                         null, null));
                             }
-                        }
-                        else {
+                        } else {
                             log.error("StudyInvestigatorTab - postProcessOnValidation(): healthcareSiteInvestigatorDao.getById() returned null");
                         }
                     }
@@ -150,7 +148,7 @@ public class StudyInvestigatorsTab extends StudyTab {
     }
 
     public void setHealthcareSiteInvestigatorDao(
-                    HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
+            HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
         this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
     }
 

@@ -1,21 +1,16 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
-
-import edu.duke.cabig.c3pr.domain.BookRandomization;
-import edu.duke.cabig.c3pr.domain.Randomization;
-import edu.duke.cabig.c3pr.domain.StratumGroup;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.domain.validator.EpochValidator;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
+import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
@@ -32,21 +27,20 @@ public class StudyDesignTab extends StudyTab {
     }
 
     @Override
-    public Map referenceData(HttpServletRequest request, Study study) {
-        Map<String, Object> refdata = super.referenceData(study);
+    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
+        Map<String, Object> refdata = super.referenceData(wrapper);
         refdata.put("currentOperation", getConfigurationProperty().getMap().get("inclusion"));
         addConfigMapToRefdata(refdata, "yesNo");
         boolean isAdmin = isAdmin();
 
         if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                        .toString().equals("true"))
-                        || (request.getAttribute("editFlow") != null && request.getAttribute(
-                                        "editFlow").toString().equals("true"))) {
+                .toString().equals("true"))
+                || (request.getAttribute("editFlow") != null && request.getAttribute(
+                "editFlow").toString().equals("true"))) {
             if (request.getSession().getAttribute(DISABLE_FORM_EPOCH_AND_ARMS) != null && !isAdmin) {
                 refdata.put("disableForm", request.getSession().getAttribute(
-                                DISABLE_FORM_EPOCH_AND_ARMS));
-            }
-            else {
+                        DISABLE_FORM_EPOCH_AND_ARMS));
+            } else {
                 refdata.put("disableForm", new Boolean(false));
             }
         }
@@ -59,14 +53,15 @@ public class StudyDesignTab extends StudyTab {
      */
     @Override
     public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)
-                    throws Exception {
+            throws Exception {
 
         String listPath = request.getParameter(getCollectionParamName());
         // If treatementEpochs are deleted we directly call the super.deleteRow()
+        StudyWrapper wrapper = (StudyWrapper) command ;
         if (listPath.indexOf(".") > 0) {
             listPath = listPath.substring(0, listPath.indexOf("."));
-            Epoch te = (Epoch) new DefaultObjectPropertyReader(command, listPath)
-                            .getPropertyValueFromPath();
+            Epoch te = (Epoch) new DefaultObjectPropertyReader(wrapper.getStudy(), listPath)
+                    .getPropertyValueFromPath();
 
             Randomization randomization = te.getRandomization();
             if (randomization instanceof BookRandomization) {
@@ -79,20 +74,20 @@ public class StudyDesignTab extends StudyTab {
                 }
             }
         }
-        return super.deleteRow(request, command, error);
+        return super.deleteRow(request, wrapper.getStudy(), error);
     }
 
     @Override
-    public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study,
-                    Errors errors) {
-        updateRandomization(study);
+    public void postProcessOnValidation(HttpServletRequest httpServletRequest, StudyWrapper wrapper,
+                                        Errors errors) {
+        updateRandomization(wrapper.getStudy());
     }
 
     @Override
-    public void validate(Study study, Errors errors) {
-        super.validate(study, errors);
-        this.studyValidator.validateStudyDesign(study, errors);
-        this.studyValidator.validateEpochs(study, errors);
+    public void validate(StudyWrapper wrapper, Errors errors) {
+       super.validate(wrapper, errors);
+        this.studyValidator.validateStudyDesign(wrapper.getStudy(), errors);
+        this.studyValidator.validateEpochs(wrapper.getStudy(), errors);
     }
 
     public EpochValidator getEpochValidator() {

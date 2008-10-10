@@ -1,24 +1,19 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.validation.Errors;
-
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
-import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
-import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
+import org.springframework.validation.Errors;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:11:26 PM To change this template
@@ -29,14 +24,14 @@ public class StudyPersonnelTab extends StudyTab {
     private StudyValidator studyValidator;
 
     private PersonnelService personnelService;
-    
+
     private ResearchStaffDao researchStaffDao;
 
     public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
-	}
+        this.researchStaffDao = researchStaffDao;
+    }
 
-	public void setPersonnelService(PersonnelService personnelService) {
+    public void setPersonnelService(PersonnelService personnelService) {
         this.personnelService = personnelService;
     }
 
@@ -46,14 +41,13 @@ public class StudyPersonnelTab extends StudyTab {
 
     public StudyPersonnelTab(boolean editMode) {
         super("Personnel", "Personnel", editMode ? "study/study_personnel_edit"
-                        : "study/study_personnel");
+                : "study/study_personnel");
     }
 
     @Override
-    public Map referenceData(HttpServletRequest request, Study study) {
-        Map<String, Object> refdata = super.referenceData(study); // To change body of overridden
-                                                                    // methods use File | Settings |
-                                                                    // File Templates.
+    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
+        Map<String, Object> refdata = super.referenceData(wrapper);
+        Study study = wrapper.getStudy();
         for (int i = 0; i < study.getStudyOrganizations().size(); i++) {
             for (int j = 0; j < study.getStudyOrganizations().get(i).getStudyPersonnel().size(); j++) {
                 try {
@@ -64,14 +58,14 @@ public class StudyPersonnelTab extends StudyTab {
                         userGroup = groupIterator.next();
                         groupRoles.add(userGroup.getDisplayName());
                     }
-                    refdata.put("studyOrganizations[" + i + "].studyPersonnel[" + j + "].roleData",groupRoles);
+                    refdata.put("studyOrganizations[" + i + "].studyPersonnel[" + j + "].roleData", groupRoles);
                 }
                 catch (C3PRBaseException e) {
                     e.printStackTrace();
                 }
             }
         }
-        
+
         if (StringUtils.isBlank(request.getParameter("_selectedSite"))) {
             refdata.put("selectedSite", 0);
         }
@@ -83,71 +77,69 @@ public class StudyPersonnelTab extends StudyTab {
     }
 
     @Override
-    public void validate(Study study, Errors errors) {
-        super.validate(study, errors);
-        this.studyValidator.validateStudyPersonnel(study, errors);
+    public void validate(StudyWrapper wrapper, Errors errors) {
+        super.validate(wrapper, errors);
+        this.studyValidator.validateStudyPersonnel(wrapper.getStudy(), errors);
     }
 
     @Override
-    public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study,
-                    Errors errors) {
-    	
-    	 String selected = httpServletRequest.getParameter("_selected");
-         String action = httpServletRequest.getParameter("_actionx");
-         Object selectedSite = httpServletRequest.getParameter("_selectedSite");
-         StudyOrganization so = null;
-         
+    public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
+                                        Errors errors) {
 
-         // get the StudyOrganization to which we will add/remove research staff.
-         List<StudyOrganization> soList = study.getStudyOrganizations();
-         if (selectedSite != null && !selectedSite.toString().equals("")) {
-             selectedSite = httpServletRequest.getParameter("_selectedSite").toString();
-             so = soList.get(new Integer(selectedSite.toString()).intValue());
-         }
-    	
-         if (!errors.hasErrors()) {
+        String selected = request.getParameter("_selected");
+        String action = request.getParameter("_actionx");
+        Object selectedSite = request.getParameter("_selectedSite");
+        StudyOrganization so = null;
 
-             if ("siteChange".equals(action)) {
-                 httpServletRequest.getSession().setAttribute("_selectedSite", selectedSite);
-                 return;
-             }
+        // get the StudyOrganization to which we will add/remove research staff.
+        List<StudyOrganization> soList = wrapper.getStudy().getStudyOrganizations();
+        if (selectedSite != null && !selectedSite.toString().equals("")) {
+            selectedSite = request.getParameter("_selectedSite").toString();
+            so = soList.get(new Integer(selectedSite.toString()).intValue());
+        }
 
-             if ("addStudyDisease".equals(action) && so != null) {
-                 String[] rsIds = so.getStudyPersonnelIds();
-                 if (rsIds.length > 0) {
-                     ResearchStaff rs = null;
-                     log
-                                     .debug("Study PersonnelIds Size : "
-                                                     + so.getStudyPersonnelIds().length);
-                     for (String rsId : rsIds) {
-                         log.debug("Research Staff Id : " + rsId);
-                         StudyPersonnel sPersonnel = new StudyPersonnel();
-                         rs = researchStaffDao.getById(new Integer(rsId).intValue());
-                         if (rs != null) {
-                             sPersonnel.setResearchStaff(rs);
-                             sPersonnel.setRoleCode("C3pr Admin");
-                             sPersonnel.setStatusCode("Active");
-                             sPersonnel.setStudyOrganization(so);
-                             so.getStudyPersonnel().add(sPersonnel);
-                             studyValidator.validateStudyPersonnel(study, errors);
-                             if (errors.hasErrors()) {
-                                 so.getStudyPersonnel().remove(sPersonnel);
-                             }
-                         }
-                         else {
-                             log
-                                             .error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
-                         }
-                     }
-                 }
-                 return;
-             }
-         }
+        if (!errors.hasErrors()) {
 
-         if ("removeStudyDisease".equals(action) && so != null) {
-             so.getStudyPersonnel().remove(Integer.parseInt(selected));
-             return;
-         }
+            if ("siteChange".equals(action)) {
+                request.getSession().setAttribute("_selectedSite", selectedSite);
+                return;
+            }
+
+            if ("addStudyDisease".equals(action) && so != null) {
+                String[] rsIds = so.getStudyPersonnelIds();
+                if (rsIds.length > 0) {
+                    ResearchStaff rs = null;
+                    log
+                            .debug("Study PersonnelIds Size : "
+                                    + so.getStudyPersonnelIds().length);
+                    for (String rsId : rsIds) {
+                        log.debug("Research Staff Id : " + rsId);
+                        StudyPersonnel sPersonnel = new StudyPersonnel();
+                        rs = researchStaffDao.getById(new Integer(rsId).intValue());
+                        if (rs != null) {
+                            sPersonnel.setResearchStaff(rs);
+                            sPersonnel.setRoleCode("C3pr Admin");
+                            sPersonnel.setStatusCode("Active");
+                            sPersonnel.setStudyOrganization(so);
+                            so.getStudyPersonnel().add(sPersonnel);
+                            studyValidator.validateStudyPersonnel(wrapper.getStudy(), errors);
+                            if (errors.hasErrors()) {
+                                so.getStudyPersonnel().remove(sPersonnel);
+                            }
+                        } else {
+                            log
+                                    .error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
+                        }
+                    }
+                }
+                return;
+            }
+        }
+
+        if ("removeStudyDisease".equals(action) && so != null) {
+            so.getStudyPersonnel().remove(Integer.parseInt(selected));
+            return;
+        }
     }
 
     public StudyValidator getStudyValidator() {

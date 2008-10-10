@@ -1,12 +1,11 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.text.ParseException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.*;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
@@ -15,24 +14,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.Errors;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.BookRandomization;
-import edu.duke.cabig.c3pr.domain.CalloutRandomization;
-import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
-import edu.duke.cabig.c3pr.domain.RandomizationType;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
-import edu.duke.cabig.c3pr.web.report.StudyReportCommand;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 14, 2007 Time: 12:43:28 PM To change this
  * template use File | Settings | File Templates.
  */
-public abstract class StudyTab extends InPlaceEditableTab<Study> {
+public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
     protected ConfigurationProperty configurationProperty;
 
     private HealthcareSiteDao healthcareSiteDao;
@@ -59,7 +50,7 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     public static final String DISABLE_FORM_IDENTIFIERS = "DISABLE_FORM_IDENTIFIERS";
 
     public static final String DISABLE_FORM_NOTIFICATION = "DISABLE_FORM_NOTIFICATION";
-    
+
     public static final String DISABLE_FORM_COMPANION = "DISABLE_FORM_COMPANION";
 
     // public static final String DISABLE_FORM_INVESTIGATORS = "DISABLE_FORM_INVESTIGATORS";
@@ -83,12 +74,12 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
             study.setRandomizedIndicator(false);
             study.setBlindedIndicator(false);
         }
-        
-    	if (study.getBlindedIndicator()) {
+
+        if (study.getBlindedIndicator()) {
             study.setRandomizedIndicator(true);
             study.setRandomizationType(RandomizationType.PHONE_CALL);
         }
-        
+
         if (!study.getRandomizedIndicator()) {
             study.setRandomizationType(null);
         }
@@ -100,34 +91,30 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
             while (iter.hasNext()) {
                 tEpoch = (Epoch) iter.next();
                 if (study.getRandomizedIndicator() && study.getRandomizationType() != null
-                                && tEpoch.getRandomizedIndicator() != null
-                                && tEpoch.getRandomizedIndicator()) {
+                        && tEpoch.getRandomizedIndicator() != null
+                        && tEpoch.getRandomizedIndicator()) {
                     if (study.getRandomizationType().equals(RandomizationType.BOOK)) {
                         if (tEpoch.getRandomization() instanceof BookRandomization) {
                             // do nothing. This happens if nothing is chnaged during the edit flow
-                        }
-                        else {
+                        } else {
                             tEpoch.setRandomization(new BookRandomization());
                         }
                     }
                     if (study.getRandomizationType().equals(RandomizationType.CALL_OUT)) {
                         if (tEpoch.getRandomization() instanceof CalloutRandomization) {
                             // do nothing. This happens if nothing is chnaged during the edit flow
-                        }
-                        else {
+                        } else {
                             tEpoch.setRandomization(new CalloutRandomization());
                         }
                     }
                     if (study.getRandomizationType().equals(RandomizationType.PHONE_CALL)) {
                         if (tEpoch.getRandomization() instanceof PhoneCallRandomization) {
                             // do nothing. This happens if nothing is chnaged during the edit flow
-                        }
-                        else {
+                        } else {
                             tEpoch.setRandomization(new PhoneCallRandomization());
                         }
                     }
-                }
-                else {
+                } else {
                     tEpoch.setRandomization(null);
                 }
             }
@@ -181,33 +168,34 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     public Boolean isAdmin() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
-        if (auth!=null){
-	        GrantedAuthority[] groups = auth.getAuthorities();
-	        for (GrantedAuthority ga : groups) {
-	            if (ga.getAuthority().endsWith("admin")) {
-	                return new Boolean(true);
-	            }
-	        }
+        if (auth != null) {
+            GrantedAuthority[] groups = auth.getAuthorities();
+            for (GrantedAuthority ga : groups) {
+                if (ga.getAuthority().endsWith("admin")) {
+                    return new Boolean(true);
+                }
+            }
         }
 
         return new Boolean(false);
     }
 
+
     @Override
-    public final void postProcess(HttpServletRequest request, Study study, Errors errors) {
-        postProcessOnValidation(request, study, errors);
+    public final void postProcess(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
+        postProcessOnValidation(request, wrapper, errors);
     }
 
-    public void postProcessOnValidation(HttpServletRequest request, Study study, Errors errors) {
+    public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
 
     }
 
-	public StudyRepository getStudyRepository() {
-		return studyRepository;
-	}
+    public StudyRepository getStudyRepository() {
+        return studyRepository;
+    }
 
-	public void setStudyRepository(StudyRepository studyRepository) {
-		this.studyRepository = studyRepository;
-	}
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
 
 }

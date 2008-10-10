@@ -1,17 +1,12 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import edu.duke.cabig.c3pr.domain.*;
+import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import org.springframework.validation.Errors;
 
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyAmendment;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.service.StudyService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 public class StudyAmendmentTab extends StudyTab {
 
@@ -22,8 +17,8 @@ public class StudyAmendmentTab extends StudyTab {
     }
 
     @Override
-    public Map referenceData(HttpServletRequest request, Study study) {
-        Map<String, Object> refdata = super.referenceData(study);
+    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
+        Map<String, Object> refdata = super.referenceData(wrapper);
         // this will ensure the amendment form isnt disabled.
         refdata.put("disableForm", new Boolean(false));
         // this will ensure all other tabs/forms are disabled
@@ -33,10 +28,10 @@ public class StudyAmendmentTab extends StudyTab {
     }
 
     @Override
-    public void postProcessOnValidation(HttpServletRequest request, Study study, Errors errors) {
+    public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
 
-        int size = study.getStudyAmendments().size();
-        StudyAmendment sAmendment = (StudyAmendment) study.getStudyAmendments().get(size - 1);
+        int size = wrapper.getStudy().getStudyAmendments().size();
+        StudyAmendment sAmendment = (StudyAmendment) wrapper.getStudy().getStudyAmendments().get(size - 1);
 
         if (sAmendment != null) {
             // Note: the epochsIndicator will be null if the checkbox is not checked.
@@ -47,63 +42,57 @@ public class StudyAmendmentTab extends StudyTab {
             // explicitly set the epochsIndicator in the studyAmendment instance to false.
             if (sAmendment.getEaChangedIndicator() != null && sAmendment.getEaChangedIndicator()) {
                 request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
-            }
-            else {
+            } else {
                 request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
                 sAmendment.setEaChangedIndicator(false);
             }
 
             if (sAmendment.getEligibilityChangedIndicator() != null
-                            && sAmendment.getEligibilityChangedIndicator()) {
+                    && sAmendment.getEligibilityChangedIndicator()) {
                 request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(false));
-            }
-            else {
+            } else {
                 request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(true));
                 sAmendment.setEligibilityChangedIndicator(false);
             }
 
             if (sAmendment.getStratChangedIndicator() != null
-                            && sAmendment.getStratChangedIndicator()) {
+                    && sAmendment.getStratChangedIndicator()) {
                 request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(false));
-            }
-            else {
+            } else {
                 request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(true));
                 sAmendment.setStratChangedIndicator(false);
             }
 
             if (sAmendment.getDiseasesChangedIndicator() != null
-                            && sAmendment.getDiseasesChangedIndicator()) {
+                    && sAmendment.getDiseasesChangedIndicator()) {
                 request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(false));
-            }
-            else {
+            } else {
                 request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(true));
                 sAmendment.setDiseasesChangedIndicator(false);
             }
 
             if (sAmendment.getRandomizationChangedIndicator() != null
-                            && sAmendment.getRandomizationChangedIndicator()) {
+                    && sAmendment.getRandomizationChangedIndicator()) {
                 request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(false));
-            }
-            else {
+            } else {
                 request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(true));
                 sAmendment.setRandomizationChangedIndicator(false);
             }
-            
+
             if (sAmendment.getCompanionChangedIndicator() != null && sAmendment.getCompanionChangedIndicator()) {
-            	request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(false));
-            }
-            else {
-            	request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(true));
-            	sAmendment.setCompanionChangedIndicator(false);
+                request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(false));
+            } else {
+                request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(true));
+                sAmendment.setCompanionChangedIndicator(false);
             }
 
             // Change the status from Active to Pending_amendment.
             try {
                 // Changing the status only if it is currently Active.
-                if (study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
-                    study
-                                    .setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-                    for (StudySite studySite : study.getStudySites()) {
+                if (wrapper.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
+                    wrapper.getStudy()
+                            .setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+                    for (StudySite studySite : wrapper.getStudy().getStudySites()) {
                         if (studySite.getSiteStudyStatus() == SiteStudyStatus.ACTIVE) {
                             studySite.setSiteStudyStatus(SiteStudyStatus.AMENDMENT_PENDING);
                         }

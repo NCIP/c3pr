@@ -1,49 +1,47 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import org.springframework.validation.Errors;
 
-import edu.duke.cabig.c3pr.domain.Study;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
-public class CompanionStudyTab extends StudyTab{
-	
-	public CompanionStudyTab() {
+public class CompanionStudyTab extends StudyTab {
+
+    public CompanionStudyTab() {
         super("Companion Studies", "Companion Studies", "study/study_companions");
     }
-	
-	@Override
-    public Map referenceData(HttpServletRequest request, Study study) {
-		request.getSession().setAttribute("studyObj", study);
-        Map<String, Object> refdata = super.referenceData(study);
+
+    @Override
+    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
+        request.getSession().setAttribute("studyObj", wrapper.getStudy());
+        Map<String, Object> refdata = super.referenceData(wrapper);
         addConfigMapToRefdata(refdata, "yesNo");
         boolean isAdmin = isAdmin();
         if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                        .toString().equals("true"))
-                        || (request.getAttribute("editFlow") != null && request.getAttribute(
-                                        "editFlow").toString().equals("true"))) {
+                .toString().equals("true"))
+                || (request.getAttribute("editFlow") != null && request.getAttribute(
+                "editFlow").toString().equals("true"))) {
             if (request.getSession().getAttribute(DISABLE_FORM_COMPANION) != null && !isAdmin) {
                 refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_COMPANION));
-            }
-            else {
+            } else {
                 refdata.put("disableForm", new Boolean(false));
             }
         }
         return refdata;
     }
-	
-	@Override
-	public Map<String, Object> referenceData(Study command) {
-		return super.referenceData(command);
-	}
-	
-	@Override
-    public void postProcessOnValidation(HttpServletRequest req, Study study, Errors errors) {
-        super.postProcessOnValidation(req, study, errors);
-   
-	}
-	
+
+    @Override
+    public Map<String, Object> referenceData(StudyWrapper command) {
+        return super.referenceData(command);
+    }
+
+    @Override
+    public void postProcessOnValidation(HttpServletRequest req, StudyWrapper wrapper, Errors errors) {
+        super.postProcessOnValidation(req, wrapper, errors);
+
+    }
+
 
 }

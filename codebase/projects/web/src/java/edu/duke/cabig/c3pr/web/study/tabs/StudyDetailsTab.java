@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.AmendStudyController;
 import edu.duke.cabig.c3pr.web.study.CreateStudyController;
 import edu.duke.cabig.c3pr.web.study.EditStudyController;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 13, 2007 Time: 7:27:09 PM To change this template
@@ -25,7 +26,7 @@ import edu.duke.cabig.c3pr.web.study.EditStudyController;
 public class StudyDetailsTab extends StudyTab {
 
     private StudyValidator studyValidator;
-    
+
     private StudyDao studyDao;
 
     public StudyDetailsTab() {
@@ -33,51 +34,51 @@ public class StudyDetailsTab extends StudyTab {
     }
 
     public ModelAndView embedCompanion(HttpServletRequest request, Object commandObj,
-            Errors error) {
-    	int rowCount = Integer.parseInt(request.getParameter("rowCount"));
-    	Study parentStudy = getParentStudy(request);
-    	Study companionStudy = (Study)commandObj ;
-		Map map=new HashMap();
-		CompanionStudyAssociation companionStudyAssociation=parentStudy.getCompanionStudyAssociations().get(rowCount);
-    	companionStudyAssociation.setCompanionStudy(companionStudy);
-		map.put(AjaxableUtils.getFreeTextModelName(), "");
-		if(companionStudyAssociation.getParentStudy().getId() != null ){
-			companionStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-		}
-		return new ModelAndView("",map);
-	}
-    
-    private Study getParentStudy(HttpServletRequest request) {
-    	String flowType = request.getParameter("flowType");
-    	String commandObject = "" ;
-    	Study study = null;
-    	if("CREATE_STUDY".equals(flowType)){
-    		commandObject = (CreateStudyController.class).getName() + ".FORM.command.to-replace" ;
-    		study = (Study) request.getSession().getAttribute(commandObject);
-    		if(study == null){
-    			commandObject = (CreateStudyController.class).getName() + ".FORM.command" ;
-    			study = (Study) request.getSession().getAttribute(commandObject);
-    		}
-    	}else if("EDIT_STUDY".equals(flowType)){
-    		commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace" ;
-    		study = (Study) request.getSession().getAttribute(commandObject);
-    		if(study == null){
-    			commandObject = (EditStudyController.class).getName() + ".FORM.command" ;
-    			study = (Study) request.getSession().getAttribute(commandObject);
-    		}
-    	}else if("AMEND_STUDY".equals(flowType)){
-    		commandObject = (AmendStudyController.class).getName() + ".FORM.command.to-replace" ;
-    		study = (Study) request.getSession().getAttribute(commandObject);
-    		if(study == null){
-    			commandObject = (AmendStudyController.class).getName() + ".FORM.command" ;
-    			study = (Study) request.getSession().getAttribute(commandObject);
-    		}
-    	}
-    	return study ;
-	}
+                                       Errors error) {
+        int rowCount = Integer.parseInt(request.getParameter("rowCount"));
+        Study parentStudy = getParentStudy(request);
+        Study companionStudy = (Study) commandObj;
+        Map map = new HashMap();
+        CompanionStudyAssociation companionStudyAssociation = parentStudy.getCompanionStudyAssociations().get(rowCount);
+        companionStudyAssociation.setCompanionStudy(companionStudy);
+        map.put(AjaxableUtils.getFreeTextModelName(), "");
+        if (companionStudyAssociation.getParentStudy().getId() != null) {
+            companionStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+        }
+        return new ModelAndView("", map);
+    }
 
-	@Override
-    public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
+    private Study getParentStudy(HttpServletRequest request) {
+        String flowType = request.getParameter("flowType");
+        String commandObject = "";
+        Study study = null;
+        if ("CREATE_STUDY".equals(flowType)) {
+            commandObject = (CreateStudyController.class).getName() + ".FORM.command.to-replace";
+            study = (Study) request.getSession().getAttribute(commandObject);
+            if (study == null) {
+                commandObject = (CreateStudyController.class).getName() + ".FORM.command";
+                study = (Study) request.getSession().getAttribute(commandObject);
+            }
+        } else if ("EDIT_STUDY".equals(flowType)) {
+            commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace";
+            study = (Study) request.getSession().getAttribute(commandObject);
+            if (study == null) {
+                commandObject = (EditStudyController.class).getName() + ".FORM.command";
+                study = (Study) request.getSession().getAttribute(commandObject);
+            }
+        } else if ("AMEND_STUDY".equals(flowType)) {
+            commandObject = (AmendStudyController.class).getName() + ".FORM.command.to-replace";
+            study = (Study) request.getSession().getAttribute(commandObject);
+            if (study == null) {
+                commandObject = (AmendStudyController.class).getName() + ".FORM.command";
+                study = (Study) request.getSession().getAttribute(commandObject);
+            }
+        }
+        return study;
+    }
+
+    @Override
+    public Map<String, Object> referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData();
         addConfigMapToRefdata(refdata, "studySearchType");
         addConfigMapToRefdata(refdata, "diseaseCodeRefData");
@@ -92,24 +93,21 @@ public class StudyDetailsTab extends StudyTab {
         boolean isAdmin = isAdmin();
 
         if (request.getAttribute("amendFlow") != null
-                        && request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
+                && request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
             // amend-flow: set the disableForm refData for the amend flow.
             if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null && !isAdmin) {
                 refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_DETAILS));
-            }
-            else {
+            } else {
                 refdata.put("disableForm", new Boolean(false));
                 refdata.put("mandatory", "true");
             }
-        }
-        else if (request.getAttribute("editFlow") != null
-                        && request.getAttribute("editFlow").toString().equalsIgnoreCase("true")) {
+        } else if (request.getAttribute("editFlow") != null
+                && request.getAttribute("editFlow").toString().equalsIgnoreCase("true")) {
             // edit-flow: disable all unless in PENDING STATE.
-            if (!(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING)
-                            && !isAdmin) {
+            if (!(wrapper.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING)
+                    && !isAdmin) {
                 disableAll(request);
-            }
-            else {
+            } else {
                 // all states other than pending
                 enableAll(request);
                 refdata.put("mandatory", "true");
@@ -117,13 +115,11 @@ public class StudyDetailsTab extends StudyTab {
             // set the disableForm refData for the edit flow.
             if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null && !isAdmin) {
                 refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_DETAILS));
-            }
-            else {
+            } else {
                 refdata.put("disableForm", new Boolean(false));
                 refdata.put("mandatory", "true");
             }
-        }
-        else {
+        } else {
             // this must be the create flow
             enableAll(request);
             refdata.put("mandatory", "true");
@@ -133,35 +129,35 @@ public class StudyDetailsTab extends StudyTab {
     }
 
     @Override
-    public void postProcessOnValidation(HttpServletRequest request, Study study, Errors errors) {
-        super.postProcessOnValidation(request, study, errors);
+    public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
+        super.postProcessOnValidation(request, wrapper, errors);
         if (request.getParameter("deletedSponsor") != null && request.getParameter("deletedSponsor").equals("delete")) {
-            if (study.getFundingSponsorIdentifierIndex() != -1) {
-                study.getOrganizationAssignedIdentifiers().remove(
-                                study.getFundingSponsorIdentifierIndex());
+            if (wrapper.getStudy().getFundingSponsorIdentifierIndex() != -1) {
+                wrapper.getStudy().getOrganizationAssignedIdentifiers().remove(
+                        wrapper.getStudy().getFundingSponsorIdentifierIndex());
             }
-            if ((study.getStudyFundingSponsors().size() > 0)) {
-                study.getStudyFundingSponsors().remove(0);
+            if ((wrapper.getStudy().getStudyFundingSponsors().size() > 0)) {
+                wrapper.getStudy().getStudyFundingSponsors().remove(0);
             }
-        }
-        else if (request.getParameter("deletedSponsorIdentifier") != null && request.getParameter("deletedSponsorIdentifier").equals("delete")) {
-            if (study.getFundingSponsorIdentifierIndex() != -1) {
-                study.getOrganizationAssignedIdentifiers().remove(
-                                study.getFundingSponsorIdentifierIndex());
+        } else
+        if (request.getParameter("deletedSponsorIdentifier") != null && request.getParameter("deletedSponsorIdentifier").equals("delete")) {
+            if (wrapper.getStudy().getFundingSponsorIdentifierIndex() != -1) {
+                wrapper.getStudy().getOrganizationAssignedIdentifiers().remove(
+                        wrapper.getStudy().getFundingSponsorIdentifierIndex());
             }
 
         }
-        updateRandomization(study);
+        updateRandomization(wrapper.getStudy());
         /*if (study.getFundingSponsorAssignedIdentifier()!= null){
         	studyDao.refreshFundingSposorIdentifier(study);
         }*/
     }
 
     @Override
-    public void validate(Study study, Errors errors) {
-        super.validate(study, errors);
-        studyValidator.validateStudyCoordinatingCetnterIdentifier(study, errors);
-        studyValidator.validateStudyFundingSponsorIdentifier(study, errors);
+    public void validate(StudyWrapper wrapper, Errors errors) {
+        super.validate(wrapper, errors);
+        studyValidator.validateStudyCoordinatingCetnterIdentifier(wrapper.getStudy(), errors);
+        studyValidator.validateStudyFundingSponsorIdentifier(wrapper.getStudy(), errors);
 
     }
 
@@ -173,7 +169,7 @@ public class StudyDetailsTab extends StudyTab {
         this.studyValidator = studyValidator;
     }
 
-	public void setStudyDao(StudyDao studyDao) {
-		this.studyDao = studyDao;
-	}
+    public void setStudyDao(StudyDao studyDao) {
+        this.studyDao = studyDao;
+    }
 }

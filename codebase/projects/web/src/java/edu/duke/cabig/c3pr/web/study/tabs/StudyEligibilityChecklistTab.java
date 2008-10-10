@@ -1,13 +1,9 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -15,9 +11,12 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.validation.Errors;
 
-import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.Study;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:24:28 PM To change this template
@@ -36,18 +35,17 @@ public class StudyEligibilityChecklistTab extends StudyTab {
     }
 
     @Override
-    public Map referenceData(HttpServletRequest request, Study study) {
-        Map<String, Object> refdata = super.referenceData(study);
+    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
+        Map<String, Object> refdata = super.referenceData(wrapper);
         boolean isAdmin = isAdmin();
         if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                        .toString().equals("true"))
-                        || (request.getAttribute("editFlow") != null && request.getAttribute(
-                                        "editFlow").toString().equals("true"))) {
+                .toString().equals("true"))
+                || (request.getAttribute("editFlow") != null && request.getAttribute(
+                "editFlow").toString().equals("true"))) {
             if (request.getSession().getAttribute(DISABLE_FORM_ELIGIBILITY) != null && !isAdmin) {
                 refdata.put("disableForm", request.getSession().getAttribute(
-                                DISABLE_FORM_ELIGIBILITY));
-            }
-            else {
+                        DISABLE_FORM_ELIGIBILITY));
+            } else {
                 refdata.put("disableForm", new Boolean(false));
             }
         }
@@ -55,14 +53,13 @@ public class StudyEligibilityChecklistTab extends StudyTab {
     }
 
     @Override
-    public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study,
-                    Errors errors) {
+    public void postProcessOnValidation(HttpServletRequest httpServletRequest, StudyWrapper wrapper,
+                                        Errors errors) {
         Object obj = httpServletRequest.getParameter("name");
         if (obj != null) {
             try {
-                POIFSFileSystem pfs = new POIFSFileSystem(study.getCriteriaInputStream());
-                parseCadsrFile(study, pfs, obj.toString());
-
+                POIFSFileSystem pfs = new POIFSFileSystem(wrapper.getStudy().getCriteriaInputStream());
+                parseCadsrFile(wrapper.getStudy(), pfs, obj.toString());
             }
             catch (IOException e1) {
                 errors.reject("Could not import Studies", e1.getMessage());
@@ -95,39 +92,38 @@ public class StudyEligibilityChecklistTab extends StudyTab {
 
                 // inclusion section
                 if (currentRow.getCell((short) 0) != null
-                                && currentRow.getCell((short) 0).getCellType() == HSSFCell.CELL_TYPE_STRING
-                                && currentRow.getCell((short) 0).getRichStringCellValue()
-                                                .toString().startsWith(INCLUSION)) {
+                        && currentRow.getCell((short) 0).getCellType() == HSSFCell.CELL_TYPE_STRING
+                        && currentRow.getCell((short) 0).getRichStringCellValue()
+                        .toString().startsWith(INCLUSION)) {
                     // iterating over the inclusion rows
                     HSSFRow innerCurrentRow;
                     while (rowIter.hasNext()) {
                         innerCurrentRow = (HSSFRow) rowIter.next();
                         if (innerCurrentRow.getCell((short) 0) != null
-                                        && innerCurrentRow.getCell((short) 0).getCellType() == HSSFCell.CELL_TYPE_STRING
-                                        && innerCurrentRow.getCell((short) 0)
-                                                        .getRichStringCellValue().toString()
-                                                        .startsWith(EXCLUSION)) {
+                                && innerCurrentRow.getCell((short) 0).getCellType() == HSSFCell.CELL_TYPE_STRING
+                                && innerCurrentRow.getCell((short) 0)
+                                .getRichStringCellValue().toString()
+                                .startsWith(EXCLUSION)) {
                             currentRow = innerCurrentRow;
                             break;
                         }
                         currentCell = innerCurrentRow.getCell((short) 3);
                         if (currentCell != null
-                                        && currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING
-                                        && currentCell.getRichStringCellValue().toString().length() > 0) {
+                                && currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING
+                                && currentCell.getRichStringCellValue().toString().length() > 0) {
                             // create the new inc and populate the list
                             if (inc != null) {
                                 incList.add(inc);
                             }
                             inc = new InclusionEligibilityCriteria();
                             inc.setQuestionText(currentCell.getRichStringCellValue().toString());
-                        }
-                        else {
+                        } else {
                             // get the answers
                             currentCell = innerCurrentRow.getCell((short) 15);
                             if (currentCell != null
-                                            && currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING
-                                            && currentCell.getRichStringCellValue().toString()
-                                                            .equalsIgnoreCase(NOT_APPLICABLE)) {
+                                    && currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING
+                                    && currentCell.getRichStringCellValue().toString()
+                                    .equalsIgnoreCase(NOT_APPLICABLE)) {
                                 if (inc != null) {
                                     inc.setNotApplicableIndicator(true);
                                 }
@@ -140,9 +136,9 @@ public class StudyEligibilityChecklistTab extends StudyTab {
 
                 // exclusion section
                 if (currentRow.getCell((short) 0) != null
-                                && currentRow.getCell((short) 0).getCellType() == HSSFCell.CELL_TYPE_STRING
-                                && currentRow.getCell((short) 0).getRichStringCellValue()
-                                                .toString().startsWith(EXCLUSION)) {
+                        && currentRow.getCell((short) 0).getCellType() == HSSFCell.CELL_TYPE_STRING
+                        && currentRow.getCell((short) 0).getRichStringCellValue()
+                        .toString().startsWith(EXCLUSION)) {
                     // iterating over the exclusion rows
                     HSSFRow innerCurrentRow;
                     while (rowIter.hasNext()) {
@@ -152,32 +148,31 @@ public class StudyEligibilityChecklistTab extends StudyTab {
                         // however leaving it in place as it is harmless and will be useful if we
                         // ever have repeated inc/exc sections in the input file
                         if (innerCurrentRow.getCell((short) 0) != null
-                                        && innerCurrentRow.getCell((short) 0).getCellType() == HSSFCell.CELL_TYPE_STRING
-                                        && innerCurrentRow.getCell((short) 0)
-                                                        .getRichStringCellValue().toString()
-                                                        .startsWith(INCLUSION)) {
+                                && innerCurrentRow.getCell((short) 0).getCellType() == HSSFCell.CELL_TYPE_STRING
+                                && innerCurrentRow.getCell((short) 0)
+                                .getRichStringCellValue().toString()
+                                .startsWith(INCLUSION)) {
                             currentRow = innerCurrentRow;
                             break;
                         }
                         currentCell = innerCurrentRow.getCell((short) 3);
                         if (currentCell != null
-                                        && currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING
-                                        && currentCell.getRichStringCellValue().toString().length() > 0) {
+                                && currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING
+                                && currentCell.getRichStringCellValue().toString().length() > 0) {
                             // create the new exc and populate the list
                             if (exc != null) {
                                 excList.add(exc);
                             }
                             exc = new ExclusionEligibilityCriteria();
                             exc.setQuestionText(currentCell.getRichStringCellValue().toString());
-                        }
-                        else {
+                        } else {
                             // get the answers
                             currentCell = innerCurrentRow.getCell((short) 15);
                             if (currentCell != null
-                                            && currentCell.getRichStringCellValue() != null
-                                            && currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING
-                                            && currentCell.getRichStringCellValue().toString()
-                                                            .equalsIgnoreCase(NOT_APPLICABLE)) {
+                                    && currentCell.getRichStringCellValue() != null
+                                    && currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING
+                                    && currentCell.getRichStringCellValue().toString()
+                                    .equalsIgnoreCase(NOT_APPLICABLE)) {
                                 if (exc != null) {
                                     exc.setNotApplicableIndicator(true);
                                 }
@@ -191,9 +186,9 @@ public class StudyEligibilityChecklistTab extends StudyTab {
             }// end if while loop that iterates over the entire file.
             if (study.getEpochByName(name) != null) {
                 study.getEpochByName(name).getInclusionEligibilityCriteria().addAll(
-                                incList);
+                        incList);
                 study.getEpochByName(name).getExclusionEligibilityCriteria().addAll(
-                                excList);
+                        excList);
             }
 
         }

@@ -1,13 +1,13 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 import org.springframework.validation.Errors;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 12:51:05 PM To change this
@@ -22,7 +22,7 @@ public class StudyIdentifiersTab extends StudyTab {
     }
 
     @Override
-    public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
+    public Map<String, Object> referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData();
         addConfigMapToRefdata(refdata, "identifiersTypeRefData");
         //refdata.put("identifiersSourceRefData", getHealthcareSiteDao().getAll());
@@ -30,9 +30,9 @@ public class StudyIdentifiersTab extends StudyTab {
     }
 
     @Override
-    public void validate(Study study, Errors errors) {
-        super.validate(study, errors);
-        this.studyValidator.validateStudyIdentifiers(study, errors);
+    public void validate(StudyWrapper wrapper, Errors errors) {
+        super.validate(wrapper, errors);
+        this.studyValidator.validateStudyIdentifiers(wrapper.getStudy(), errors);
 
     }
 
