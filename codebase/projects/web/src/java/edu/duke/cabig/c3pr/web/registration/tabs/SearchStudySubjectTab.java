@@ -16,6 +16,7 @@ import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -49,6 +50,8 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
     private StudySubjectDao studySubjectDao;
 
     private HealthcareSiteDao healthcareSiteDao;
+    
+    private StudySiteDao studySiteDao;
 
     public EpochDao getEpochDao() {
         return epochDao;
@@ -103,6 +106,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
                 command.addScheduledEpoch(scheduledEpoch);
                 buildCommandObject(command);
             }
+            studySiteDao.initialize(((StudySubject)command).getStudySite());
             return;
         }
         
@@ -145,6 +149,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
             command.getScheduledEpochs().set(0, scheduledEpoch);
         }
         buildCommandObject(command);
+        studySiteDao.initialize(((StudySubject)command).getStudySite());
     }
 
     private void buildCommandObject(StudySubject studySubject) {
@@ -231,4 +236,12 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
     public void setParticipantDao(ParticipantDao participantDao) {
         this.participantDao = participantDao;
     }
+
+	public StudySiteDao getStudySiteDao() {
+		return studySiteDao;
+	}
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
+	}
 }
