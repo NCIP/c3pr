@@ -86,15 +86,15 @@ public class StudyRandomizationTab extends StudyTab {
         //TO DO: need to change the following to factor in the companionStudyControllers.
         String flowType = " ";
         if (getFlow().getName().equals("Create Study")) {
-            request.getSession().setAttribute(CreateStudyController.class.getName() + ".FORM.command.to-replace",
+            request.getSession().setAttribute(CreateStudyController.class.getName() + ".FORM.command",
                     commandObj);
             flowType = "CREATE_STUDY";
         } else if (getFlow().getName().equals("Edit Study")) {
-            request.getSession().setAttribute(EditStudyController.class.getName() + ".FORM.command.to-replace",
+            request.getSession().setAttribute(EditStudyController.class.getName() + ".FORM.command",
                     commandObj);
             flowType = "EDIT_STUDY";
         } else if (getFlow().getName().equals("Amend Study")) {
-            request.getSession().setAttribute(AmendStudyController.class.getName() + ".FORM.command.to-replace",
+            request.getSession().setAttribute(AmendStudyController.class.getName() + ".FORM.command",
                     commandObj);
             flowType = "AMEND_STUDY";
         }
