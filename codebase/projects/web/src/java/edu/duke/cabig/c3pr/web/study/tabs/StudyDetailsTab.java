@@ -52,29 +52,30 @@ public class StudyDetailsTab extends StudyTab {
         String flowType = request.getParameter("flowType");
         String commandObject = "";
         Study study = null;
+        StudyWrapper wrapper = null ;
         if ("CREATE_STUDY".equals(flowType)) {
             commandObject = (CreateStudyController.class).getName() + ".FORM.command.to-replace";
-            study = (Study) request.getSession().getAttribute(commandObject);
+            wrapper = (StudyWrapper) request.getSession().getAttribute(commandObject);
             if (study == null) {
                 commandObject = (CreateStudyController.class).getName() + ".FORM.command";
-                study = (Study) request.getSession().getAttribute(commandObject);
+                wrapper = (StudyWrapper) request.getSession().getAttribute(commandObject);
             }
         } else if ("EDIT_STUDY".equals(flowType)) {
             commandObject = (EditStudyController.class).getName() + ".FORM.command.to-replace";
-            study = (Study) request.getSession().getAttribute(commandObject);
+            wrapper = (StudyWrapper) request.getSession().getAttribute(commandObject);
             if (study == null) {
                 commandObject = (EditStudyController.class).getName() + ".FORM.command";
-                study = (Study) request.getSession().getAttribute(commandObject);
+                wrapper = (StudyWrapper) request.getSession().getAttribute(commandObject);
             }
         } else if ("AMEND_STUDY".equals(flowType)) {
             commandObject = (AmendStudyController.class).getName() + ".FORM.command.to-replace";
-            study = (Study) request.getSession().getAttribute(commandObject);
+            wrapper = (StudyWrapper) request.getSession().getAttribute(commandObject);
             if (study == null) {
                 commandObject = (AmendStudyController.class).getName() + ".FORM.command";
-                study = (Study) request.getSession().getAttribute(commandObject);
+                wrapper = (StudyWrapper) request.getSession().getAttribute(commandObject);
             }
         }
-        return study;
+        return wrapper.getStudy();
     }
 
     @Override
