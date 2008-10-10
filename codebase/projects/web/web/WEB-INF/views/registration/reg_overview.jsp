@@ -252,7 +252,7 @@
         <tr>
             <td class="label">Registration Start Date</td>
             <td> 
-            <tags:inPlaceEdit value="${command.startDateStr }" path="startDate" validations="validate-notEmpty&&DATE"/>
+            <tags:inPlaceEdit value="${command.startDateStr }" path="startDate" id="startDate" validations="validate-notEmpty&&DATE"/>
             </td>
         </tr>
         <tr>
@@ -297,14 +297,14 @@
         <tr>
             <td class="label">Informed Consent Signed Date</td>
             <td>
-                <tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate"
+                <tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate" id="informedConsentSignedDate"
                                   validations="validate-notEmpty&&DATE"/>
             </td>
         </tr>
         <tr>
             <td class="label">Informed Consent Version</td>
             <td>
-                <tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion"
+                <tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion" id="informedConsentVersion"
                                   validations="validate-notEmpty"/>
             </td>
         </tr>
@@ -322,14 +322,14 @@
             </c:forEach>
             <c:set var="commanSepOptVal" value="${commanSepOptVal}]"></c:set>
             <td>
-                <tags:inPlaceSelect value="${command.treatingPhysicianFullName}" path="treatingPhysician"
+                <tags:inPlaceSelect value="${command.treatingPhysicianFullName}" path="treatingPhysician" id="treatingPhysician"
                                     commanSepOptVal="${commanSepOptVal}" pathToGet="treatingPhysicianFullName"/>
                 &nbsp;</td>
         </tr>
         <tr>
             <td width="35%" class="label">Registration Identifier</td>
             <td>
-                <tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier"
+                <tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier" id="coOrdinatingCenterIdentifier"
                                   validations="validate-notEmpty"/>
                 &nbsp;</td>
         </tr>
