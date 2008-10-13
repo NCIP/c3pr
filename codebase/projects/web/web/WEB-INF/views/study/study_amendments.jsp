@@ -6,8 +6,8 @@
 <jwr:script src="/js/tabbedflow.js" />
 
 <script>
-	Calendar.setup({inputField:"consentVersionx", ifFormat:"%", button:"consentVersionx-calbutton"});
-    Calendar.setup({inputField:"consentVersiony", ifFormat:"%", button:"consentVersiony-calbutton"});
+	Calendar.setup({inputField:"study.consentVersionx", ifFormat:"%", button:"consentVersionx-calbutton"});
+    Calendar.setup({inputField:"stud.consentVersiony", ifFormat:"%", button:"consentVersiony-calbutton"});
 	
 	Effect.OpenUp = function(element) {
         element = $(element);
@@ -22,15 +22,15 @@
     function manageConsentVersionCheckBox(box, num){
     	if (box.checked) {
     		if(num == 1){
-    			Effect.OpenUp('consentVersion1');
+    			Effect.OpenUp('study.consentVersion1');
     		}else {
-    			Effect.OpenUp('consentVersion2');
+    			Effect.OpenUp('study.consentVersion2');
     		}            
         }else {
         	if(num == 1){
-    			Effect.CloseDown('consentVersion1');
+    			Effect.CloseDown('study.consentVersion1');
     		}else {
-    			Effect.CloseDown('consentVersion2');
+    			Effect.CloseDown('study.consentVersion2');
     		}             
         }
     }    
@@ -80,14 +80,14 @@
 <chrome:box title="Amendments">
 <br/>	
 <chrome:division id="study-details" title="Previous Amendments">
-	<table id="studyAmendments" class="tablecontent">
+	<table id="study.studyAmendments" class="tablecontent">
 			<tr>
 				<th>Version #</th>
 				<th>Amendment Date</th>
 				<th>Comments</th>
 			</tr>
 			<c:forEach items="${command.study.previousStudyAmendments}"  var="studyAmendments" varStatus="status">
-			<tr id="studyAmendments-${status.index}">
+			<tr id="study.studyAmendments-${status.index}">
 				<td>${studyAmendments.amendmentVersion}</td>
 				<td>${studyAmendments.amendmentDateStr}</td>
 				<td>${studyAmendments.comments}</td>
@@ -171,12 +171,12 @@
         	</tr>        	
         </table>
         
-        <div id="consentVersion1"
+        <div id="study.consentVersion1"
                 <c:if test="${ empty command.study.currentStudyAmendment.consentChangedIndicator || 
                 command.study.currentStudyAmendment.consentChangedIndicator == '' || 
                 !command.study.currentStudyAmendment.consentChangedIndicator}">style="display:none;"</c:if>>
          <b>&nbsp;Consent Version/Date:</b>
-         <form:input id="consentVersionx" path="study.consentVersion" size="9" cssClass="date"/>
+         <form:input id="study.consentVersionx" path="study.consentVersion" size="9" cssClass="date"/>
          <a href="#" id="consentVersionx-calbutton">
 		    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 		</a>
@@ -209,7 +209,7 @@
     	<div class="row">
             <div class="label">Version #:</div>
             <div class="value">
-                <input type="text" name="study.studyAmendments[${amendmentSize}].amendmentVersion" id="amendmentVersion" size="5" /> 
+                <input type="text" name="study.studyAmendments[${amendmentSize}].amendmentVersion" id="study.amendmentVersion" size="5" /> 
             </div>
         </div>
         <div class="row">
@@ -257,9 +257,9 @@
 			</tr>
         </table> 
 
-        <div id="consentVersion2" style="display:none;">
+        <div id="study.consentVersion2" style="display:none;">
          <b>&nbsp;Consent Version/Date:</b>
-         <input type="text" name="study.consentVersion" id="consentVersiony" size="9" value="${command.study.consentVersion}" class="date"/>
+         <input type="text" name="study.consentVersion" id="study.consentVersiony" size="9" value="${command.study.consentVersion}" class="date"/>
          <a href="#" id="consentVersiony-calbutton">
 		    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 		</a>
