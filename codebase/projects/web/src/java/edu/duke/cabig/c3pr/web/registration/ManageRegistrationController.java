@@ -94,9 +94,7 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     }
 
     public StudySubject createNewScheduledEpochSubject(HttpServletRequest request,
-                    Object commandObj, Errors error) {
-    	StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj ;
-        StudySubject command = wrapper.getStudySubject();
+                    StudySubject command, Errors error) {
         Map map = new HashMap();
         Integer id = Integer.parseInt(request.getParameter("epoch"));
         Epoch epoch = epochDao.getById(id);
