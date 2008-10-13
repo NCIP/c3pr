@@ -30,7 +30,7 @@
 			</c:otherwise>
 		</c:choose>
 		<c:if test="${isCurrentScheduledEpoch}">
-			Registration Status: <strong>${command.regWorkflowStatus}</strong><br>
+			Registration Status: <strong>${command.studySubject.regWorkflowStatus}</strong><br>
 			<span class="red"><strong>Current Registration</strong></span>
 		</c:if>
 	</div>
@@ -40,10 +40,10 @@
 				<div id="participant1" class="participants" align="center">
 					<div><img src="<tags:imageUrl name="Subject.gif"/>"
 					alt="Subject" width="80" height="80" align="absmiddle"></div>
-					<div>${command.participant.firstName} ${command.participant.lastName }</div>
+					<div>${command.studySubject.participant.firstName} ${command.studySubject.participant.lastName }</div>
 				</div>
 			</div>
-			<c:if test="${command.regWorkflowStatus!='OFF_STUDY' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+			<c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
 				<script type="text/javascript">subjectDragger=new Draggable('participant1', {revert:false});</script>
 			</c:if>
 		</c:when>
