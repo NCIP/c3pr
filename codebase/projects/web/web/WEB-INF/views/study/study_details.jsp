@@ -426,7 +426,7 @@
                         	<input type="text" name="study.organizationAssignedIdentifiers[0].value" 
 								size="30" maxlength="30"
 								value="${command.study.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
-							<input type="hidden" name="organizationAssignedIdentifiers[0].type"
+							<input type="hidden" name="study.organizationAssignedIdentifiers[0].type"
 								value="Coordinating Center Identifier"/>
 							<c:if test="${empty command.study.id}">
 								<input type="hidden" name="study.organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
