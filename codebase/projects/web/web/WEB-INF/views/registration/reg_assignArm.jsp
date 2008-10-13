@@ -35,7 +35,7 @@
 			<tr>
 			<td class="label" width="80%">Select Arm:</td>
 				<td>
-					<select name ="scheduledEpoch.scheduledArms[0].arm">
+					<select name="studySubject.scheduledEpoch.scheduledArms[0].arm">
 						<option value="" selected>Please Select</option>
 						<c:forEach items="${command.studySubject.scheduledEpoch.epoch.arms}" var="arm">
 							<option value="${arm.id }" <c:if test="${!empty command.studySubject.scheduledEpoch.scheduledArms[0].arm && arm.id== command.studySubject.scheduledEpoch.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
