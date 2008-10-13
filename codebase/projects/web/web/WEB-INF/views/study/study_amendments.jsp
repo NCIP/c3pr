@@ -38,10 +38,10 @@
     ValidationManager.submitPostProcess= function(formElement, continueSubmission){
        
        if(formElement.id="command.study"){
-             box1=document.getElementById('currentStudyAmendment.amendmentVersion');
-             box2=document.getElementById('currentStudyAmendment.amendmentDate');
-             box3=document.getElementById('amendmentVersion');
-             box4=document.getElementById('amendmentDate');
+             box1=document.getElementById('study.currentStudyAmendment.amendmentVersion');
+             box2=document.getElementById('study.currentStudyAmendment.amendmentDate');
+             box3=document.getElementById('study.amendmentVersion');
+             box4=document.getElementById('study.amendmentDate');
            
              if(box1 != null){
              	if(box1.value != ''){
