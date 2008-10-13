@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -32,7 +32,7 @@ field.value="";
 <!-- MAIN BODY STARTS HERE -->
 
 <tabs:body
-	title="Edit Registration: ${command.participant.firstName}  ${command.participant.lastName}">
+	title="Edit Registration: ${command.studySubject.participant.firstName}  ${command.studySubject.participant.lastName}">
 	<form:form method="post" name="form" id="form">
 		<div><input type="hidden" name="_page" id="_page" value="4"> <input
 			type="hidden" name="_action" id="_action" value=""> <input

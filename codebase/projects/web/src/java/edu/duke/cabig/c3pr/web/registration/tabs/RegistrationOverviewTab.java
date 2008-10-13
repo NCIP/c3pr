@@ -20,12 +20,13 @@ import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
+import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
  * use File | Settings | File Templates.
  */
-public class RegistrationOverviewTab<C extends StudySubject> extends RegistrationTab<C> {
+public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends RegistrationTab<C> {
 
     private StudySubjectService studySubjectService;
 
@@ -46,7 +47,8 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
 
     @Override
     public Map<String, Object> referenceData(C command) {
-        StudySubject studySubject = (StudySubject) command;
+        StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
+    	StudySubject studySubject = wrapper.getStudySubject();
         Map<String, Object> map = new HashMap<String, Object>();
         boolean actionRequired = false;
         boolean newRegistration = false;
@@ -97,7 +99,8 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
 
     public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj,
                     Errors error) {
-        C command = (C) commandObj;
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj ;
+    	StudySubject command = wrapper.getStudySubject();
         String responseMessage = null;
         try {
             responseMessage = studySubjectService.getCCTSWofkflowStatus(command).getDisplayName();
@@ -112,7 +115,8 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
 
     public ModelAndView broadcastRegistration(HttpServletRequest request, Object commandObj,
                     Errors error) {
-        C command = (C) commandObj;
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj ;
+    	StudySubject command = wrapper.getStudySubject();
         try {
             this.studySubjectService.broadcastMessage(command);
             return getMessageBroadcastStatus(request, commandObj, error);
@@ -126,7 +130,8 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
     
     public ModelAndView broadcastMultiSiteRegistration(HttpServletRequest request, Object commandObj,
                     Errors error) {
-        C command = (C) commandObj;
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj ;
+    	StudySubject command = wrapper.getStudySubject();
         String responseMessage = null;
         try {
             if(command.getMultisiteWorkflowStatus()==CCTSWorkflowStatusType.MESSAGE_SEND_FAILED)

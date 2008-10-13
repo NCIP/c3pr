@@ -27,7 +27,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
  * 
  */
 
-public class CreateRegistrationController<C extends StudySubject> extends RegistrationController<C> {
+public class CreateRegistrationController<C extends StudySubjectWrapper> extends RegistrationController<C> {
     /**
      * Logger for this class
      */
@@ -45,7 +45,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 
     @Override
     protected boolean isFormSubmission(HttpServletRequest request) {
-    	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
+    	if(WebUtils.hasSubmitParameter(request, "studySubject.studySite") && WebUtils.hasSubmitParameter(request, "studySubject.participant") && WebUtils.hasSubmitParameter(request, "studySubject.parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
     		return false;
     	}
         return super.isFormSubmission(request);
@@ -54,10 +54,12 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
     	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
+    		StudySubjectWrapper wrapper = new StudySubjectWrapper() ;
     		StudySubject studySubject = new StudySubject();
     		studySubject.setParentStudySubject(studySubjectDao.getById(Integer.parseInt(request.getParameter("parentRegistrationId")), true));
     		studySubjectDao.initialize(studySubject.getParentStudySubject());
-    		return studySubject ;	
+    		wrapper.setStudySubject(studySubject) ;
+    		return  wrapper;	
     	}else{
     		return super.formBackingObject(request);
     	}
@@ -78,7 +80,8 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
                     int page) throws Exception {
         // TODO Auto-generated method stub
-        StudySubject studySubject = (StudySubject) command;
+        StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
+        StudySubject studySubject = wrapper.getStudySubject();
         super.postProcessPage(request, command, errors, page);
         if (studySubject.getScheduledEpoch() != null) {
             studySubject.updateDataEntryStatus();
@@ -100,7 +103,8 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
-        StudySubject studySubject = (StudySubject) command;
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
+        StudySubject studySubject = wrapper.getStudySubject();
         if(registrationControllerUtils.isRegisterableOnPage(studySubject))
         	studySubject = studySubjectService.register(studySubject);
         else{

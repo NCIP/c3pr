@@ -20,7 +20,7 @@
 <script>
 function submitRandomization(){
 	if(${registration.regWorkflowStatus!='REGISTERERD' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount}){
-		confirmFlag=confirm("This registration will exceed the accrual ceiling at ${command.studySite.healthcareSite.name}. Do you want to continue?");
+		confirmFlag=confirm("This registration will exceed the accrual ceiling at ${command.studySubject.studySite.healthcareSite.name}. Do you want to continue?");
 		if(!confirmFlag)
 			return;
 	}
@@ -54,11 +54,11 @@ function submitRandomization(){
 				<tr>
 				<c:choose>
 					<c:when test="${registration.studySite.study.blindedIndicator}">
-						<td class="labelR">Enter Kit Number</td><td><input type="text" name="scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
+						<td class="labelR">Enter Kit Number</td><td><input type="text" name="studySubject.scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
 					</c:when>
 					<c:otherwise>
 						<td class="labelR">Select Arm:</td><td>
-						<select name ="scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
+						<select name ="studySubject.scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
 							<option value="" selected>Please Select</option>
 							<c:forEach items="${registration.scheduledEpoch.epoch.arms}" var="arm">
 							<option value="${arm.id}">${arm.name }</option>

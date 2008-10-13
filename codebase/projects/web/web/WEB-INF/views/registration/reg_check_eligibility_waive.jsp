@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
 function navRollOver(obj, state) {
@@ -10,7 +10,7 @@ function navRollOver(obj, state) {
 }
 function toggleTextArea(a,b){
 	if(document.getElementById(a).checked==true){
-		document.getElementById('command').reset();
+		document.getElementById('command.studySubject').reset();
 		new Effect.OpenUp(document.getElementById(b));
 		document.getElementById(a).checked=true;
 		document.getElementById('criterias').style.display='none';
@@ -52,13 +52,13 @@ function markAsAnswered(id){
 						<tr>
 							<td width="30%" align=left><b>Waive Eligibility</td>
 							<td align="left">
-								<input type="checkbox" id='eligibilityInd' onClick="toggleTextArea('eligibilityInd','WaiveEligibility')" <c:if test="${!command.eligibilityIndicator }">checked="checked"</c:if>/>
-								<input type="hidden" value="${command.eligibilityIndicator?'on':'1' }" id="eligibilityIndicator" name="${command.eligibilityIndicator?'eligibilityIndicator':'_eligibilityIndicator' }"/> 
+								<input type="checkbox" id='eligibilityInd' onClick="toggleTextArea('eligibilityInd','WaiveEligibility')" <c:if test="${!command.studySubject.eligibilityIndicator }">checked="checked"</c:if>/>
+								<input type="hidden" value="${command.studySubject.eligibilityIndicator?'on':'1' }" id="eligibilityIndicator" name="${command.studySubject.eligibilityIndicator?'eligibilityIndicator':'_eligibilityIndicator' }"/> 
 							</td>
 						</tr>
 						<tr>
 							<td colspan=2>
-								<div id="WaiveEligibility" <c:if test="${command.eligibilityIndicator }">style="display:none;"</c:if>>
+								<div id="WaiveEligibility" <c:if test="${command.studySubject.eligibilityIndicator }">style="display:none;"</c:if>>
 								<form:textarea path="eligibilityWaiverReasonText" rows="5" cols="50" />
 								<tags:hoverHint keyProp="studySubject.eligibilityWaiverReasonText"/>
 								</div>
@@ -69,7 +69,7 @@ function markAsAnswered(id){
 			</tr>
 			<tr>
 				<td>
-					<div id="criterias" <c:if test="${!command.eligibilityIndicator }">style="display:none;"</c:if>>
+					<div id="criterias" <c:if test="${!command.studySubject.eligibilityIndicator }">style="display:none;"</c:if>>
 					<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 						<tr>
 							<td>
@@ -81,10 +81,10 @@ function markAsAnswered(id){
 										<td align="left"><b>Answers</b></td>
 									</tr>
 									<c:set var="index" value="0"/>
-									<c:forEach var="criteria" varStatus="status" items="${command.studySite.study.incCriterias}">
+									<c:forEach var="criteria" varStatus="status" items="${command.studySubject.studySite.study.incCriterias}">
 										<tr>
 											<td width="5%">
-												<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null||command.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
+												<div id="tick-${index }" <c:if test="${command.studySubject.subjectEligibilityAnswers[index].answerText==null||command.studySubject.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
 													<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
 												</div>
 											</td>
@@ -92,11 +92,11 @@ function markAsAnswered(id){
 												${criteria.questionText}
 											</td>
 											<td width="15%">
-												<select id="subjectEligibilityAnswers[${index}].answerText" name="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+												<select id="subjectEligibilityAnswers[${index}].answerText" name="studySubject.subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
 													<option value="">--Please Select---</option>
-													<option value="Yes" ${command.subjectEligibilityAnswers[index].answerText=='Yes'?'selected':'' }>Yes</option>
-													<option value="No" ${command.subjectEligibilityAnswers[index].answerText=='No'?'selected':'' }>No</option>
-													<c:if test="${criteria.notApplicableIndicator}"><option value="NA" ${command.subjectEligibilityAnswers[index].answerText=='NA'?'selected':'' }>NA</option></c:if>
+													<option value="Yes" ${command.studySubject.subjectEligibilityAnswers[index].answerText=='Yes'?'selected':'' }>Yes</option>
+													<option value="No" ${command.studySubject.subjectEligibilityAnswers[index].answerText=='No'?'selected':'' }>No</option>
+													<c:if test="${criteria.notApplicableIndicator}"><option value="NA" ${command.studySubject.subjectEligibilityAnswers[index].answerText=='NA'?'selected':'' }>NA</option></c:if>
 												</select>
 											</td>
 										</tr>
@@ -116,10 +116,10 @@ function markAsAnswered(id){
 										<td align="left"><b>Question<span class="red">*</span></b></td>
 										<td align="left"><b>Answers</b></td>
 									</tr>
-									<c:forEach var="criteria" varStatus="status" items="${command.studySite.study.excCriterias}">
+									<c:forEach var="criteria" varStatus="status" items="${command.studySubject.studySite.study.excCriterias}">
 										<tr>
 											<td width="5%">
-												<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null }">style="display:none;"</c:if>>
+												<div id="tick-${index }" <c:if test="${command.studySubject.subjectEligibilityAnswers[index].answerText==null }">style="display:none;"</c:if>>
 													<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
 												</div>
 											</td>
@@ -127,11 +127,11 @@ function markAsAnswered(id){
 												${criteria.questionText}
 											</td>
 											<td width="15%">
-												<select id="subjectEligibilityAnswers[${index}].answerText" name="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+												<select id="subjectEligibilityAnswers[${index}].answerText" name="studySubject.subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
 													<option value="">--Please Select---</option>
-													<option value="Yes" ${command.subjectEligibilityAnswers[index].answerText=='Yes'?'selected':'' }>Yes</option>
-													<option value="No" ${command.subjectEligibilityAnswers[index].answerText=='No'?'selected':'' }>No</option>
-													<c:if test="${criteria.notApplicableIndicator}"><option value="NA" ${command.subjectEligibilityAnswers[index].answerText=='NA'?'selected':'' }>NA</option></c:if>
+													<option value="Yes" ${command.studySubject.subjectEligibilityAnswers[index].answerText=='Yes'?'selected':'' }>Yes</option>
+													<option value="No" ${command.studySubject.subjectEligibilityAnswers[index].answerText=='No'?'selected':'' }>No</option>
+													<c:if test="${criteria.notApplicableIndicator}"><option value="NA" ${command.studySubject.subjectEligibilityAnswers[index].answerText=='NA'?'selected':'' }>NA</option></c:if>
 												</select>
 											</td>
 										</tr>

@@ -55,7 +55,7 @@
 			var ret=t.responseText
 		    var name=ret.substr(0,ret.indexOf("||"));
 		    var id=ret.substr(ret.indexOf("||")+2);
-			$('participant').value = id;	
+			$('studySubject.participant').value = id;	
 			document.getElementById("subject-message").innerHTML = "Selected subject: " +name;
 			message="Selected subject: " +name;
 			minimizeSubjectBox(message);
@@ -98,7 +98,7 @@
 	/* handlers for searchSubject flwo */
 	  	
 	function postProcessSubjectSelection(id, name, identifier){
-		$("participant").value = id;
+		$('studySubject.participant').value = id;
 		minimizeSubjectBox("Selected subject: " +name+ " (" + identifier + ")");	
 	}  	
 	
@@ -299,7 +299,7 @@
 		<br>
 		<tags:identifiers identifiersTypes="${identifiersTypeRefData}" displaySys="false" />
 		<!--end of adding identifiers-->
-		
+
 		<!--start of address section
 		<p id="instructions"><a href="#" onclick="toggleAddressSection()">Address & Contact Info</a></p>-->
 		<chrome:division title="<a href='javascript:toggleAddressSection();'>Address & Contact Info</a>" minimize="true" divIdToBeMinimized="addressSection">

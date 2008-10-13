@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 
     <style type="text/css">
         .labelR {
@@ -102,13 +102,13 @@
 	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
 </form>
 <form id="hotlinksForm" action="" method="get">
-<input type="hidden" name="assignment" value="${command.gridId }"/>
+<input type="hidden" name="assignment" value="${command.studySubject.gridId }"/>
 </form>
 <form:form method="post">
     <tags:tabFields tab="${tab}"/>
 </form:form>
 <c:if test="${registerableWithCompanions}">
-    <registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
+    <registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
                                requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
 <tags:panelBox>
@@ -118,32 +118,32 @@
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td width="35%" class="label">First Name</td>
-            <td>${command.participant.firstName}</td>
+            <td>${command.studySubject.participant.firstName}</td>
         </tr>
         <tr>
             <td class="label">Last Name</td>
-            <td>${command.participant.lastName}</td>
+            <td>${command.studySubject.participant.lastName}</td>
         </tr>
         <tr>
             <td class="label">Gender</td>
-            <td>${command.participant.administrativeGenderCode}</td>
+            <td>${command.studySubject.participant.administrativeGenderCode}</td>
         </tr>
         <tr>
             <td class="label">MRN</td>
-            <td>${command.participant.primaryIdentifier }</td>
+            <td>${command.studySubject.participant.primaryIdentifier }</td>
         </tr>
         <tr>
             <td class="label">Birth Date</td>
-            <td>${command.participant.birthDateStr}</td>
+            <td>${command.studySubject.participant.birthDateStr}</td>
         </tr>
         <tr>
             <td class="label">Ethnicity</td>
-            <td>${command.participant.ethnicGroupCode}</td>
+            <td>${command.studySubject.participant.ethnicGroupCode}</td>
         </tr>
         <tr>
             <td class="label">Race(s)</td>
             <td>
-            	<c:forEach items="${command.participant.raceCodes}" var="raceCode">
+            	<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
 		            <div class="row">
 		                <div class="left">${raceCode.displayName}</div>
 		            </div>
@@ -156,31 +156,31 @@
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td class="label">Status</td>
-            <td>${command.studySite.study.coordinatingCenterStudyStatus.displayName}</td>
+            <td>${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</td>
         </tr>
         <tr>
             <td width="35%" class="label">Short Title</td>
-            <td>${command.studySite.study.shortTitleText}</td>
+            <td>${command.studySubject.studySite.study.shortTitleText}</td>
         </tr>
         <tr>
             <td class="label">Long Title</td>
-            <td>${command.studySite.study.longTitleText}</td>
+            <td>${command.studySubject.studySite.study.longTitleText}</td>
         </tr>
         <tr>
             <td class="label">Randomized</td>
-            <td>${command.studySite.study.randomizedIndicator?'Yes':'No'}</td>
+            <td>${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</td>
         </tr>
         <tr>
             <td class="label">Multi Institutional</td>
-            <td>${command.studySite.study.multiInstitutionIndicator?'Yes':'No'}</td>
+            <td>${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</td>
         </tr>
         <tr>
             <td class="label"> Phase</td>
-            <td>${command.studySite.study.phaseCode}</td>
+            <td>${command.studySubject.studySite.study.phaseCode}</td>
         </tr>
         <tr>
             <td width="25%" class="label">Coordinating Center Identifier</td>
-            <td>${command.studySite.study.identifiers[0].value}</td>
+            <td>${command.studySubject.studySite.study.identifiers[0].value}</td>
         </tr>
     </table>
 </chrome:division>
@@ -188,26 +188,26 @@
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td width="35%" class="label">Name</td>
-            <td>${command.studySite.healthcareSite.name}</td>
+            <td>${command.studySubject.studySite.healthcareSite.name}</td>
         </tr>
         <tr>
             <td class="label">Address</td>
-            <td>${command.studySite.healthcareSite.address.streetAddress},
-                    ${command.studySite.healthcareSite.address.city},
-                    ${command.studySite.healthcareSite.address.stateCode},
-                    ${command.studySite.healthcareSite.address.postalCode}</td>
+            <td>${command.studySubject.studySite.healthcareSite.address.streetAddress},
+                    ${command.studySubject.studySite.healthcareSite.address.city},
+                    ${command.studySubject.studySite.healthcareSite.address.stateCode},
+                    ${command.studySubject.studySite.healthcareSite.address.postalCode}</td>
         </tr>
         <tr>
             <td class="label">Status</td>
-            <td>${command.studySite.siteStudyStatus.code}</td>
+            <td>${command.studySubject.studySite.siteStudyStatus.code}</td>
         </tr>
         <tr>
             <td class="label">NCI Institution Code</td>
-            <td>${command.studySite.healthcareSite.nciInstituteCode}</td>
+            <td>${command.studySubject.studySite.healthcareSite.nciInstituteCode}</td>
         </tr>
         <tr>
             <td class="label">IRB Approval Date</td>
-            <td>${command.studySite.irbApprovalDateStr}</td>
+            <td>${command.studySubject.studySite.irbApprovalDateStr}</td>
         </tr>
     </table>
 </chrome:division>
@@ -215,20 +215,20 @@
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td width="35%" class="label">Current Epoch</td>
-            <td>${command.scheduledEpoch.epoch.name}</td>
+            <td>${command.studySubject.scheduledEpoch.epoch.name}</td>
         </tr>
         <tr>
             <td class="label">Enrolling</td>
-            <td>${command.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</td>
+            <td>${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</td>
         </tr>
         <tr>
             <td class="label">Epoch Status</td>
-            <td>${command.scheduledEpoch.scEpochWorkflowStatus.code}</td>
+            <td>${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</td>
         </tr>
     </table>
 </chrome:division>
 
-<div <c:if test="${empty command.parentStudySubject}">style="display:none;"</c:if>>
+<div <c:if test="${empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
 <chrome:division title="Parent Study">
     <table class="tablecontent" width="50%">
         <tr>
@@ -236,10 +236,10 @@
 			<th width="75%" scope="col" align="left"><b>Primary Identifier</b></th>
         </tr>
             <tr>
-                <td class="alt">${command.parentStudySubject.studySite.study.shortTitleText}</td>
-				<td class="alt">${command.parentStudySubject.studySite.study.primaryIdentifier}</td>
+                <td class="alt">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}</td>
+				<td class="alt">${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}</td>
                 <td class="alt">
-                	<input type="button" id="manageParentRegistration" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.parentStudySubject.id}' />'"/>
+                	<input type="button" id="manageParentRegistration" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.studySubject.parentStudySubject.id}' />'"/>
                 </td>
    	        </tr>	           
     </table>
@@ -252,16 +252,16 @@
         <tr>
             <td class="label">Registration Start Date</td>
             <td> 
-            <tags:inPlaceEdit value="${command.startDateStr }" path="startDate" id="startDate" validations="validate-notEmpty&&DATE"/>
+            <tags:inPlaceEdit value="${command.studySubject.startDateStr }" path="studySubject.startDate" id="startDate" validations="validate-notEmpty&&DATE"/>
             </td>
         </tr>
         <tr>
             <td width="35%" class="label">Registration Status</td>
-            <td>${command.regWorkflowStatus.code}&nbsp;
+            <td>${command.studySubject.regWorkflowStatus.code}&nbsp;
             	
-            	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+            	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE"
                             authorizationCheckName="domainObjectAuthorizationCheck">
-	                <c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+	                <c:if test="${command.studySubject.regWorkflowStatus=='REGISTERED' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
 	                    <input type="button" value="Take subject off study"
 	                           onclick="new Effect.SlideDown('OffStudyStatus')">
 	                </c:if><br/><br/>
@@ -270,13 +270,13 @@
 	                        <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 	                        <input type="hidden" name="regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>
 	                        Reason:
-	                        <form:textarea path="offStudyReasonText" rows="2" cols="40"
+	                        <form:textarea path="studySubject.offStudyReasonText" rows="2" cols="40"
 	                                       cssClass="validate-notEmpty"></form:textarea>
 	                        <br /><br />
 	                        Date: &nbsp;&nbsp;&nbsp;
-	                        <tags:dateInput path="offStudyDate" cssClass="validate-notEmpty&&DATE"/>
+	                        <tags:dateInput path="studySubject.offStudyDate" cssClass="validate-notEmpty&&DATE"/>
 	                        <em> (mm/dd/yyyy)</em><br /><br />
-	                        <c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
+	                        <c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
 	                            <input type="button" value="cancel" onclick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
 	                    </form:form>
 	                </div>
@@ -284,27 +284,27 @@
                </csmauthz:accesscontrol>
             </td>
         </tr>
-        <c:if test="${command.regWorkflowStatus=='OFF_STUDY'}">
+        <c:if test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">
             <tr>
                 <td class="label" width="35%">Off Study Reason</td>
-                <td>${command.offStudyReasonText }</td>
+                <td>${command.studySubject.offStudyReasonText }</td>
             </tr>
             <tr>
                 <td class="label">Off Study Date</td>
-                <td>${command.offStudyDate }</td>
+                <td>${command.studySubject.offStudyDate }</td>
             </tr>
         </c:if>
         <tr>
             <td class="label">Informed Consent Signed Date</td>
             <td>
-                <tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate" id="informedConsentSignedDate"
+                <tags:inPlaceEdit value="${command.studySubject.informedConsentSignedDateStr }" path="studySubject.informedConsentSignedDate" id="informedConsentSignedDate"
                                   validations="validate-notEmpty&&DATE"/>
             </td>
         </tr>
         <tr>
             <td class="label">Informed Consent Version</td>
             <td>
-                <tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion" id="informedConsentVersion"
+                <tags:inPlaceEdit value="${command.studySubject.informedConsentVersion}" path="studySubject.informedConsentVersion" id="informedConsentVersion"
                                   validations="validate-notEmpty"/>
             </td>
         </tr>
@@ -313,7 +313,7 @@
             <c:set var="options" value=""></c:set>
             <c:set var="values" value=""></c:set>
             <c:set var="commanSepOptVal" value="["></c:set>
-            <c:forEach items="${command.studySite.activeStudyInvestigators}" var="physician" varStatus="temp">
+            <c:forEach items="${command.studySubject.studySite.activeStudyInvestigators}" var="physician" varStatus="temp">
                 <c:set var="commanSepOptVal"
                        value="${commanSepOptVal}[${physician.id},'${physician.healthcareSiteInvestigator.investigator.fullName}']"></c:set>
                 <c:if test="${!temp.last}">
@@ -322,32 +322,32 @@
             </c:forEach>
             <c:set var="commanSepOptVal" value="${commanSepOptVal}]"></c:set>
             <td>
-                <tags:inPlaceSelect value="${command.treatingPhysicianFullName}" path="treatingPhysician" id="treatingPhysician"
+                <tags:inPlaceSelect value="${command.studySubject.treatingPhysicianFullName}" path="studySubject.treatingPhysician" id="treatingPhysician"
                                     commanSepOptVal="${commanSepOptVal}" pathToGet="treatingPhysicianFullName"/>
                 &nbsp;</td>
         </tr>
         <tr>
             <td width="35%" class="label">Registration Identifier</td>
             <td>
-                <tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier" id="coOrdinatingCenterIdentifier"
+                <tags:inPlaceEdit value="${command.studySubject.coOrdinatingCenterIdentifier}" path="studySubject.coOrdinatingCenterIdentifier" id="coOrdinatingCenterIdentifier"
                                   validations="validate-notEmpty"/>
                 &nbsp;</td>
         </tr>
         <tr>
             <td class="label">Primary Disease</td>
-            <td>${command.diseaseHistory.primaryDiseaseStr }</td>
+            <td>${command.studySubject.diseaseHistory.primaryDiseaseStr }</td>
         </tr>
         <tr>
             <td class="label">Primary Disease Site</td>
-            <td>${command.diseaseHistory.primaryDiseaseSiteStr }</td>
+            <td>${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</td>
         </tr>
         <tr>
         <td class="label">Payment Method</td>
-            <td>${command.paymentMethod}</td>
+            <td>${command.studySubject.paymentMethod}</td>
         </tr>
     </table>
-    <c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><br>
-    	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+    <c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY'}"><br>
+    	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE"
                             authorizationCheckName="domainObjectAuthorizationCheck">
         	<div align="right"><input type="button" value="Edit" id="editInPlace"/></div>
         </csmauthz:accesscontrol>
@@ -370,7 +370,7 @@
             <th>Primary&nbsp;Indicator</th>
             <th></th>
         </tr>
-        <c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
+        <c:forEach var="orgIdentifier" items="${command.studySubject.organizationAssignedIdentifiers}"
                    begin="1" varStatus="organizationStatus">
             <tr>
                 <td>${orgIdentifier.healthcareSite.name}</td>
@@ -378,17 +378,17 @@
                 <td>${orgIdentifier.value}</td>
                 <td>${orgIdentifier.primaryIndicator}
                     <form:radiobutton value="true" cssClass="identifierRadios"
-                                      path="command.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
+                                      path="command.studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
             </tr>
         </c:forEach>
-        <c:forEach items="${command.systemAssignedIdentifiers}" varStatus="status" var="sysIdentifier">
+        <c:forEach items="${command.studySubject.systemAssignedIdentifiers}" varStatus="status" var="sysIdentifier">
             <tr>
                 <td>${sysIdentifier.systemName}</td>
                 <td>${sysIdentifier.type}</td>
                 <td>${sysIdentifier.value}</td>
                 <td>${sysIdentifier.primaryIndicator}
                     <form:radiobutton value="true" cssClass="identifierRadios"
-                                      path="command.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
+                                      path="command.studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
             </tr>
         </c:forEach>
     </table>
@@ -398,11 +398,11 @@
             <tr>
                 <td width="35%" class="label">Eligible
                 </td>
-                <td>${command.scheduledEpoch.eligibilityIndicator?'True':'False' }</td>
+                <td>${command.studySubject.scheduledEpoch.eligibilityIndicator?'True':'False' }</td>
             </tr>
         </table>
         <c:choose>
-            <c:when test="${fn:length(command.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
+            <c:when test="${fn:length(command.studySubject.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.studySubject.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
                 There is no eligibility check list available for this epoch
             </c:when>
             <c:otherwise>
@@ -415,7 +415,7 @@
                             <th scope="col" align="left">Question</th>
                             <th scope="col" align="left">Answer</th>
                         </tr>
-                        <c:forEach items="${command.scheduledEpoch.inclusionEligibilityAnswers}" var="criteria">
+                        <c:forEach items="${command.studySubject.scheduledEpoch.inclusionEligibilityAnswers}" var="criteria">
                             <tr class="results">
                                 <td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
                                 <td class="alt"
@@ -433,7 +433,7 @@
                             <th scope="col" align="left">Question</th>
                             <th scope="col" align="left">Answer</th>
                         </tr>
-                        <c:forEach items="${command.scheduledEpoch.exclusionEligibilityAnswers}" var="criteria">
+                        <c:forEach items="${command.studySubject.scheduledEpoch.exclusionEligibilityAnswers}" var="criteria">
                             <tr class="results">
                                 <td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
                                 <td class="alt"
@@ -447,7 +447,7 @@
     </chrome:division>
     <chrome:division id="stratification" title="Stratification">
         <c:choose>
-            <c:when test="${fn:length(command.scheduledEpoch.subjectStratificationAnswers) == 0}">
+            <c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
                 <table width="50%" border="0" cellspacing="0" cellpadding="0" id="table1">
                     <tr>
                         <td class="label" align=left>The Selected Epoch does not have any stratification factors</td>
@@ -460,7 +460,7 @@
                         <th width="35%" scope="col" align="left">Strata</th>
                         <th scope="col" align="left"><b>Answer</b></th>
                     </tr>
-                    <c:forEach items="${command.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
+                    <c:forEach items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
                         <tr class="results">
                             <td class="alt" align="left">${criteria.stratificationCriterion.questionText}</td>
                             <td class="alt"
@@ -482,7 +482,7 @@
         </chrome:division>
     </c:if>
 </div>
-<c:if test="${command.regWorkflowStatus=='REGISTERED' && hotlinkEnable}">
+<c:if test="${command.studySubject.regWorkflowStatus=='REGISTERED' && hotlinkEnable}">
     <chrome:division title="CCTS Workflow">
         <form:form id="viewDetails" name="viewDetails">
             <div class="content">
@@ -493,10 +493,10 @@
                         </td>
 						<td width="75%" align="left">
 						<div id="broadcastResponse">
-                            ${command.cctsWorkflowStatus.displayName}
-                            <c:if test="${command.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
+                            ${command.studySubject.cctsWorkflowStatus.displayName}
+                            <c:if test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
                         	<a href="javascript:C3PR.showCCTSError();">Click here to see the error message</a>
-                        	<div id="cctsErrorMessage" style="display: none;">${ command.cctsErrorString}</div>
+                        	<div id="cctsErrorMessage" style="display: none;">${ command.studySubject.cctsErrorString}</div>
                         	</c:if>
                         </div>
                         </td>
@@ -562,8 +562,8 @@
 	  </ul>
 </c:if>
 
-<%--<c:if test='${(command.multisiteWorkflowStatus=="MESSAGE_SEND_FAILED" || command.multisiteWorkflowStatus=="MESSAGE_REPLY_FAILED") && multisiteEnable}'>--%>
-<c:if test='${command.scheduledEpoch.scEpochWorkflowStatus=="PENDING" && multisiteEnable}'>
+<%--<c:if test='${(command.studySubject.multisiteWorkflowStatus=="MESSAGE_SEND_FAILED" || command.studySubject.multisiteWorkflowStatus=="MESSAGE_REPLY_FAILED") && multisiteEnable}'>--%>
+<c:if test='${command.studySubject.scheduledEpoch.scEpochWorkflowStatus=="PENDING" && multisiteEnable}'>
     <chrome:division title="MultiSite Workflow">
         <form:form id="multisiteDetails" name="multisiteDetails">
             <div class="content">
@@ -574,10 +574,10 @@
 
                     <div class="value">
                         <span id="multiSiteResponse">
-                                ${command.multisiteWorkflowStatus.displayName}
+                                ${command.studySubject.multisiteWorkflowStatus.displayName}
                         </span>
-                        <c:if test='${command.multisiteWorkflowStatus.code=="MESSAGE_SEND_FAILED" || command.multisiteWorkflowStatus.code=="MESSAGE_REPLY_FAILED"}'>
-                        	<c:set var="multiSiteLabel" value='${command.multisiteWorkflowStatus.code=="MESSAGE_SEND_FAILED"?"Send request":"Send Response"}' />
+                        <c:if test='${command.studySubject.multisiteWorkflowStatus.code=="MESSAGE_SEND_FAILED" || command.studySubject.multisiteWorkflowStatus.code=="MESSAGE_REPLY_FAILED"}'>
+                        	<c:set var="multiSiteLabel" value='${command.studySubject.multisiteWorkflowStatus.code=="MESSAGE_SEND_FAILED"?"Send request":"Send Response"}' />
 	                        <input type="button" id="broadcastMultiSiteBtn" value="${multiSiteLabel }"
 	                               onclick="doMultiSiteBroadcast();"/>
                         </c:if>

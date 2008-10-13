@@ -17,13 +17,13 @@
 	<c:set var="randomizationRequired" value ="false" ></c:set>
 	<c:set var="backToTab" value ="4" scope="request"></c:set>
   	<c:if test="${!empty registration}">
-		<c:if test="${fn:length(command.scheduledEpoch.subjectEligibilityAnswers) != 0}">
+		<c:if test="${fn:length(command.studySubject.scheduledEpoch.subjectEligibilityAnswers) != 0}">
 			<c:set var="eligibiltyRequired" value ="true" ></c:set>
 		</c:if>				
-		<c:if test="${command.scheduledEpoch.epoch.stratificationIndicator == 'true' }">
+		<c:if test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator == 'true' }">
 			<c:set var="stratificationRequired" value ="true" ></c:set>
 		</c:if>
-		<c:if test="${!empty command.scheduledEpoch.epoch.arms}">
+		<c:if test="${!empty command.studySubject.scheduledEpoch.epoch.arms}">
 			<c:set var="randomizationRequired" value ="true" ></c:set>		
 		</c:if>
 		<c:if test="${(currentTab == 4) && stratificationRequired == 'true' && backToTab == 4}">

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
     <jwr:style src="/css/subtabbedflow.css" />
 <script>						    
 	function navRollOver(obj, state) {
@@ -60,31 +60,31 @@
 <form:form method="post">
 <tags:tabFields tab="${tab}"/>
 	<div style="display:none">
-		<form:input path="studySite" cssClass="validate-notEmpty"/>
-		<form:input path="participant" cssClass="validate-notEmpty" />
-		<input type="text" id="epochElement" name="epoch" value="${!empty command.scheduledEpoch?command.scheduledEpoch.epoch.id:''}" class="validate-notEmpty"/>
+		<form:input path="studySubject.studySite" cssClass="validate-notEmpty"/>
+		<form:input path="studySubject.participant" cssClass="validate-notEmpty" />
+		<input type="text" id="epochElement" name="epoch" value="${!empty command.studySubject.scheduledEpoch?command.studySubject.scheduledEpoch.epoch.id:''}" class="validate-notEmpty"/>
 	</div>	
-	<registrationTags:goToTab currentTab="0" registration="${command}" />
-	<registrationTags:backToTab currentTab="0" registration="${command}" />
+	<registrationTags:goToTab currentTab="0" registration="${command.studySubject}" />
+	<registrationTags:backToTab currentTab="0" registration="${command.studySubject}" />
 	<c:set var="custonButton" value ="${param.customButton}" ></c:set>
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
 </div>
-<c:if test="${command.studySite.id!=null && command.participant.id!=null}">
+<c:if test="${command.studySubject.studySite.id!=null && command.studySubject.participant.id!=null}">
 	<script>
 		<c:choose> 
-			<c:when test="${!empty command.scheduledEpoch}"> 
+			<c:when test="${!empty command.studySubject.scheduledEpoch}"> 
 				new Element.show('Epoch'); 
 				minimizeEpochBox(); 
-				displayEpochMessage("Selected epoch: ${command.scheduledEpoch.epoch.name}",true); 
+				displayEpochMessage("Selected epoch: ${command.studySubject.scheduledEpoch.epoch.name}",true); 
 			</c:when> 
 			<c:otherwise> 
-				var url1 = "../registration/searchEpoch?studySiteId="+${command.studySite.id}; 
+				var url1 = "../registration/searchEpoch?studySiteId="+${command.studySubject.studySite.id}; 
 				new Ajax.Updater('epochResults',url1, {onSuccess:callbackEpoch, onFailure:callbackEpochFail}); 
 			</c:otherwise> 
 		</c:choose> 
-		minimizeStudyBox("Selected study: ${command.studySite.study.shortTitleText} (${command.studySite.study.coordinatingCenterAssignedIdentifier.value}) at ${command.studySite.healthcareSite.name}"); 
-		minimizeSubjectBox("Selected subject: ${command.participant.fullName} ");
+		minimizeStudyBox("Selected study: ${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.coordinatingCenterAssignedIdentifier.value}) at ${command.studySubject.studySite.healthcareSite.name}"); 
+		minimizeSubjectBox("Selected subject: ${command.studySubject.participant.fullName} ");
 	</script>
 </c:if>
 </body>

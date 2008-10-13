@@ -1,7 +1,7 @@
 <%@ include file="taglibs.jsp"%>
 <html>
 <head>
-	 <title><registrationTags:htmlTitle registration="${command}" /></title>
+	 <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
 function navRollOver(obj, state) {
@@ -11,13 +11,13 @@ function navRollOver(obj, state) {
 </script>
 </head>
 <body>
-<registrationTags:goToTab currentTab="3" registration="${command}" />
-<registrationTags:backToTab currentTab="3" registration="${command}" />
+<registrationTags:goToTab currentTab="3" registration="${command.studySubject}" />
+<registrationTags:backToTab currentTab="3" registration="${command.studySubject}" />
 <c:set var="custonButton" value ="${param.customButton}" ></c:set>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 
 	<c:choose>
-	<c:when test="${command.scheduledEpoch.epoch.stratificationIndicator == 'false' || fn:length(command.scheduledEpoch.subjectStratificationAnswers)==0}">
+	<c:when test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator == 'false' || fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers)==0}">
 		<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_STRATIFICATION"/></div><br><br>
 	</c:when>
 	<c:otherwise>
@@ -26,16 +26,16 @@ function navRollOver(obj, state) {
 			<th align="left"><b>Criteria</b></th>
 			<th align="left"><b>Answers</b></th>
 		</tr>
-		<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.subjectStratificationAnswers}">
+		<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}">
 			<tr>
 				<td >
 					${criteria.stratificationCriterion.questionText}
 				</td>
 				<td width="15%">
-					<form:select path="scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" >
+					<form:select path="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" >
 					<option value="">Please select</option>
 					<c:forEach items="${criteria.stratificationCriterion.permissibleAnswers}" var="option">
-						<option value="${option.id }" <c:if test="${option.id== command.scheduledEpoch.subjectStratificationAnswers[status.index].stratificationCriterionAnswer.id}">selected</c:if>>${option.permissibleAnswer }</option>
+						<option value="${option.id }" <c:if test="${option.id== command.studySubject.scheduledEpoch.subjectStratificationAnswers[status.index].stratificationCriterionAnswer.id}">selected</c:if>>${option.permissibleAnswer }</option>
 					</c:forEach>
 					</form:select>
 				</td>

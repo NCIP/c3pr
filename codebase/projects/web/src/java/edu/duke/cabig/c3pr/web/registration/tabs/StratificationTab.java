@@ -4,18 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.apache.tools.ant.taskdefs.War;
 import org.springframework.validation.Errors;
+
+import EDU.oswego.cs.dl.util.concurrent.FJTask.Wrap;
 
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyStratificationTab;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
  * use File | Settings | File Templates.
  */
-public class StratificationTab extends RegistrationTab<StudySubject> {
+public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
 
     /**
      * Logger for this class
@@ -27,18 +32,19 @@ public class StratificationTab extends RegistrationTab<StudySubject> {
     }
 
     @Override
-    public Map<String, Object> referenceData(StudySubject command) {
+    public Map<String, Object> referenceData(StudySubjectWrapper command) {
+    	StudySubject studySubject = command.getStudySubject();
         Map ref = new HashMap();
         boolean requiresStratification = false;
-        if (command.getScheduledEpoch()!=null) if ((command
-                        .getScheduledEpoch().getEpoch()).getStratificationCriteria().size() > 0) requiresStratification = true;
+        if (studySubject.getScheduledEpoch()!=null) if ((studySubject.getScheduledEpoch().getEpoch()).getStratificationCriteria().size() > 0) requiresStratification = true;
         ref.put("requiresStratification", requiresStratification);
         return ref;
     }
 
     @Override
-    public void validate(StudySubject ss, Errors errors) {
-        super.validate(ss, errors);
+    public void validate(StudySubjectWrapper wrapper, Errors errors) {
+    	super.validate(wrapper, errors);
+    	StudySubject ss = wrapper.getStudySubject();
         if (ss.getScheduledEpoch()!=null) {
             ScheduledEpoch ste = ss.getScheduledEpoch();
             if (ste.getSubjectStratificationAnswers().size() > 0) {

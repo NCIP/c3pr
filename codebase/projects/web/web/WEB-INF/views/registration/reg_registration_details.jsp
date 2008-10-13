@@ -2,7 +2,7 @@
         
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
@@ -56,7 +56,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 						
 		function setVersion(box){
 			cv = document.getElementById('consentVersion');
-			icv = document.getElementById('informedConsentVersion');
+			icv = document.getElementById('studySubject.informedConsentVersion');
 	    	if (box.checked) {
 	    		icv.value=cv.value;       
 	        }else {
@@ -67,8 +67,8 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 </head>
 <body>
 
-<registrationTags:goToTab currentTab="1" registration="${command}" />
-<registrationTags:backToTab currentTab="1" registration="${command}" />
+<registrationTags:goToTab currentTab="1" registration="${command.studySubject}" />
+<registrationTags:backToTab currentTab="1" registration="${command.studySubject}" />
 <c:set var="custonButton" value ="${param.customButton}" ></c:set>
 
 <c:choose>
@@ -85,44 +85,44 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <c:otherwise>
 <%System.out.println("In otherwise"); %>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
-<input type="hidden" name="consentVersion" id="consentVersion" value="${command.studySite.study.consentVersion}"/>
-<form:hidden path="informedConsentVersion"/>
+<input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
+<form:hidden path="studySubject.informedConsentVersion"/>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
 		<td class="label" width="50%">Informed Consent Signed Date:</td>
-		<td><tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></td>
+		<td><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></td>
 	</tr>
 	<tr>
-		<td class="label">Current Consent Version is <em>${command.studySite.study.consentVersion}</em>:</td>
-		<td><input type="checkbox" name="currentVersionIndicator" value="true" onclick="setVersion(this);" 
-				<c:if test="${!empty command.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></td>
+		<td class="label">Current Consent Version is <em>${command.studySubject.studySite.study.consentVersion}</em>:</td>
+		<td><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
+				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></td>
 	</tr>
 	<tr>
 		<td class="label" width="50%">Registration Start Date:</td>
-		<td><tags:dateInput path="startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></td>
+		<td><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></td>
 	</tr>
 	<tr>
 		<td class="label" width="50%"><em></em>Enrolling Physician:</td>
 		<td>
 		<c:choose>
-		<c:when test="${fn:length(command.studySite.activeStudyInvestigators)>0}">
-			<select id ="treatingPhysician" name="treatingPhysicianInternal">
+		<c:when test="${fn:length(command.studySubject.studySite.activeStudyInvestigators)>0}">
+			<select id ="treatingPhysician" name="studySubject.treatingPhysicianInternal">
 				<option value="">Please Select</option>
-				<c:forEach items="${command.studySite.activeStudyInvestigators}" var="activeInv">
-					<option value="${activeInv.id }" ${!empty command.treatingPhysician && command.treatingPhysician.id==activeInv.id?'selected':''}>${activeInv.healthcareSiteInvestigator.investigator.fullName }</option>
+				<c:forEach items="${command.studySubject.studySite.activeStudyInvestigators}" var="activeInv">
+					<option value="${activeInv.id }" ${!empty command.studySubject.treatingPhysician && command.studySubject.treatingPhysician.id==activeInv.id?'selected':''}>${activeInv.healthcareSiteInvestigator.investigator.fullName }</option>
 				</c:forEach>
 			</select>
-			<%--<form:select path="treatingPhysician">
+			<%--<form:select path="studySubject.treatingPhysician">
 				<option value="">Please Select</option>
 				<form:options
-					items="${command.studySite.activeStudyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
+					items="${command.studySubject.studySite.activeStudyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
 			</form:select>--%>
-			<c:if test="${empty command.otherTreatingPhysician }">
+			<c:if test="${empty command.studySubject.otherTreatingPhysician }">
 				<c:set var="physicianStyle" value="display: none;"></c:set>			 
 			</c:if>
-			<form:input path="otherTreatingPhysician" cssStyle="${physicianStyle}"/>
+			<form:input path="studySubject.otherTreatingPhysician" cssStyle="${physicianStyle}"/>
 		</c:when>
 		<c:otherwise>
 		No active physician found
@@ -134,17 +134,17 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<tr>
 		<td class="label" width="40%">Primary Disease:</td>
 		<td>
-			<form:select id="stuydDiseaseSelect" path="diseaseHistory.studyDisease" onchange="manageField(this);">
+			<form:select id="stuydDiseaseSelect" path="studySubject.diseaseHistory.studyDisease" onchange="manageField(this);">
 				<option value="">Please Select</option>
-				<form:options items="${command.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
+				<form:options items="${command.studySubject.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
 				<option value="">Other</option>
 			</form:select>
 			<tags:hoverHint keyProp="studySubject.primaryDisease"/>
-			<c:if test="${empty command.diseaseHistory.otherPrimaryDiseaseCode}">
+			<c:if test="${empty command.studySubject.diseaseHistory.otherPrimaryDiseaseCode}">
 				<c:set var="diseaseStyle" value="display:none;"></c:set>			 
 			</c:if>
 			<span id="otherDisease" style="${diseaseStyle}">
-				<form:input id="otherDisease" path="diseaseHistory.otherPrimaryDiseaseCode" />
+				<form:input id="otherDisease" path="studySubject.diseaseHistory.otherPrimaryDiseaseCode" />
 				<tags:hoverHint keyProp="studySubject.otherDisease"/>
 			</span>
 		<td>
@@ -152,8 +152,8 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<tr>
 		<td class="label" width="40%">Primary Disease Site:</td>
 		<td>
-			<form:input id="diseaseSite-input" path="diseaseHistory.otherPrimaryDiseaseSiteCode" cssClass="autocomplete"/>
-			<form:hidden id="diseaseSite-hidden" path="diseaseHistory.anatomicSite"/>
+			<form:input id="diseaseSite-input" path="studySubject.diseaseHistory.otherPrimaryDiseaseSiteCode" cssClass="autocomplete"/>
+			<form:hidden id="diseaseSite-hidden" path="studySubject.diseaseHistory.anatomicSite"/>
 			<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
@@ -163,7 +163,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<tr>
 		<td class="label" width="40%">Payment Method:</td>
 		<td>
-			<form:select id="paymentMethod" path="paymentMethod">
+			<form:select id="paymentMethod" path="studySubject.paymentMethod">
 				<option value="">Please Select</option>
 				<form:options items="${paymentMethods}" itemLabel="desc" itemValue="code"/>
 			</form:select>

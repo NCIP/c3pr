@@ -39,7 +39,7 @@
 			alert("Study is not active at "+siteName);
 			return;
 		}
-		document.getElementById("studySite").value = id;
+		document.getElementById("studySubject.studySite").value = id;
 		var url = "../registration/searchEpoch?studySiteId="+id;
 		new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
 		var message = "Selected study: " +studyName+ " (" +identifier+ ") "  + " at " +siteName;

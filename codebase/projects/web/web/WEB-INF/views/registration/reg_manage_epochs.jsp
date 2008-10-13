@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
     
 <style type="text/css">
         .label { width: 20em; text-align: right; padding: 2px; }
@@ -46,7 +46,7 @@ function reloadPage(Id){
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target2" id="_target2" value="2"/>
-	<input type="hidden" name="registrationId" value="${command.id }"/>
+	<input type="hidden" name="registrationId" value="${command.studySubject.id }"/>
 	<input type="hidden" name="epoch" id="create_epoch"/>
 	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
 </form>
@@ -61,17 +61,17 @@ function reloadPage(Id){
 </form:form>
 <tags:panelBox title="Change Epoch">
 	<c:choose>
-		<c:when test="${command.regWorkflowStatus=='OFF_STUDY'}">
+		<c:when test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">
 			<fmt:message key="REGISTRATION.OFF_STUDY"/>
 		</c:when>
-		<c:when test="${command.scheduledEpoch.scEpochWorkflowStatus!='APPROVED'}">
+		<c:when test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus!='APPROVED'}">
 			<fmt:message key="REGISTRATION.UNAPPROVED_CURRENT_EPOCH"/>
 		</c:when>
 		<c:otherwise>To move subject between epochs, drag and drop the subject to the appropriate epoch</c:otherwise>
 	</c:choose>
 	<br><br>
 	<table border="0" cellspacing="0" cellpadding="0">
-		<c:forEach items="${command.studySite.study.epochs}" var="epoch" varStatus="epochStatus">
+		<c:forEach items="${command.studySubject.studySite.study.epochs}" var="epoch" varStatus="epochStatus">
 			<c:if test="${epochStatus.index%3==0}">
 				<tr>
 			</c:if>
@@ -88,12 +88,12 @@ function reloadPage(Id){
 		</c:forEach>
 	</table>
 </tags:panelBox>
-<c:if test="${command.regWorkflowStatus!='OFF_STUDY' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+<c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
 <div id="mockDrag" style="display:none">
 	<div id="participant1" class="participants" align="center" style="display:none">
 		<div><img src="<tags:imageUrl name="Subject.gif"/>"
 		alt="Subject" width="80" height="80" align="absmiddle"></div>
-		<div>${command.participant.firstName} ${command.participant.lastName }</div>
+		<div>${command.studySubject.participant.firstName} ${command.studySubject.participant.lastName }</div>
 	</div>
 </div>
 </c:if>

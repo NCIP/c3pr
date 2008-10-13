@@ -10,15 +10,17 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
-public class ManageCompanionRegistrationTab<C extends StudySubject> extends RegistrationTab<C> {
+public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> extends RegistrationTab<C> {
 	
 	public ManageCompanionRegistrationTab() {
 		super("Manage Companion Registration", "Companion Registration", "registration/reg_companion_reg");
 	}
 	
 	public Map<String,Object> referenceData(C command) {
-		StudySubject studySubject = ((StudySubject) command);
+		StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
+    	StudySubject studySubject = wrapper.getStudySubject();
 		Map map = registrationControllerUtils.buildMap(studySubject);
 		boolean actionRequired = false;
 		String actionLabel = "";

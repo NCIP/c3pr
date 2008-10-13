@@ -18,28 +18,28 @@
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Short
 			Title:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studySite.study.trimmedShortTitleText}</td>
+			<td valign="bottom" align="left">${command.studySubject.studySite.study.trimmedShortTitleText}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Primary
 			Identifier:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studySite.study.primaryIdentifier}</td>
+			<td valign="bottom" align="left">${command.studySubject.studySite.study.primaryIdentifier}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Phase:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studySite.study.phaseCode}</td>
+			<td valign="bottom" align="left">${command.studySubject.studySite.study.phaseCode}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Status:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studySite.study.status}</td>
+			<td valign="bottom" align="left">${command.studySubject.studySite.study.status}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Sponsor:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studySite.study.identifiers[0].value}</td>
+			<td valign="bottom" align="left">${command.studySubject.studySite.study.identifiers[0].value}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Type:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studySite.study.type}</td>
+			<td valign="bottom" align="left">${command.studySubject.studySite.study.type}</td>
 		</tr>
 		<c:forEach begin="1" end="10">
 			<tr>

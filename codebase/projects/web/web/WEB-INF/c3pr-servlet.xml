@@ -320,7 +320,7 @@
           class="edu.duke.cabig.c3pr.web.registration.CreateRegistrationController"
           autowire="byName">
         <property name="commandClass"
-                  value="edu.duke.cabig.c3pr.domain.StudySubject"/>
+                  value="edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper"/>
         <property name="commandName" value="command"/>
         <property name="sessionForm" value="true"/>
         <property name="bindOnNewForm" value="true" />
@@ -328,7 +328,7 @@
     <bean name="/registration/manageRegistration" id="manageRegistrationController"
           class="edu.duke.cabig.c3pr.web.registration.ManageRegistrationController" autowire="byName">
         <property name="xmlUtility" ref="registrationXmlUtility"/>
-        <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper"/>
         <property name="commandName" value="command"/>
         <property name="sessionForm" value="true"/>
         <!-- <property name="bindOnNewForm" value="true" />-->
@@ -336,7 +336,7 @@
     <bean name="/registration/confirm"
           id="confirmRegistrationCoStudyntroller"
           class="edu.duke.cabig.c3pr.web.registration.RegistrationConfirmAndRandomizeController" autowire="byName">
-        <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper"/>
         <property name="commandName" value="command"/>
         <property name="formView" value="/registration/reg_confirm_reg"/>
         <property name="successView" value="/registration/reg_confirm_reg"/>

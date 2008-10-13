@@ -61,7 +61,8 @@ public class RegistrationConfirmAndRandomizeController extends
 	@Override
 	protected Map referenceData(HttpServletRequest request, Object command,
 			Errors errors) throws Exception {
-		StudySubject studySubject = ((StudySubject) command);
+		StudySubjectWrapper wrapper= (StudySubjectWrapper) command;
+		StudySubject studySubject = wrapper.getStudySubject();
 		Map map = registrationControllerUtils.buildMap(studySubject);
 		boolean actionRequired = false;
 		String actionLabel = "";
@@ -90,15 +91,18 @@ public class RegistrationConfirmAndRandomizeController extends
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
-		return studySubjectDao.getById(Integer.parseInt(request
-				.getParameter("registrationId")));
+		StudySubjectWrapper wrapper = new StudySubjectWrapper();
+		StudySubject studySubject = studySubjectDao.getById(Integer.parseInt(request.getParameter("registrationId")));
+		wrapper.setStudySubject(studySubject);
+		return wrapper ;
 	}
 
 	@Override
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
-		StudySubject studySubject = (StudySubject) command;
+		StudySubjectWrapper wrapper= (StudySubjectWrapper) command;
+		StudySubject studySubject = wrapper.getStudySubject();
 		if (!validSubmit(studySubject)) {
 			throw new Exception(
 					"Subject is either already registered or the subject registration requires QC");

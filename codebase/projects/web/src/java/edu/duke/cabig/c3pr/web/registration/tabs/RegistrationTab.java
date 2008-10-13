@@ -6,12 +6,13 @@ import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
+import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
  * use File | Settings | File Templates.
  */
-public abstract class RegistrationTab<C extends StudySubject> extends InPlaceEditableTab<C> {
+public abstract class RegistrationTab<C extends StudySubjectWrapper> extends InPlaceEditableTab<C> {
 
     protected ConfigurationProperty configurationProperty;
 

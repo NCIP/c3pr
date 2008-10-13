@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<title><registrationTags:htmlTitle registration="${command}" /></title>
+<title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -37,7 +37,7 @@ field.value="";
 <!-- MAIN BODY STARTS HERE -->
 
 <tabs:body
-	title="Edit Registration: ${command.participant.firstName}  ${command.participant.lastName}">
+	title="Edit Registration: ${command.studySubject.participant.firstName}  ${command.studySubject.participant.lastName}">
 	<form:form method="post" name="form" id="form">
 		<div><input type="hidden" name="_page" id="_page" value="1"> <input
 			type="hidden" name="_action" id="_action" value=""> <input
@@ -70,25 +70,25 @@ field.value="";
 										<th width="15%" align="left" class="label">Primary Indicator</th>
 										<th width="15%" align="left" class="label"></th>
 									</tr>
-									<c:forEach items="${command.identifiers}" varStatus="status">
+									<c:forEach items="${command.studySubject.identifiers}" varStatus="status">
 										<tr align="center" class="results">
 											<td width="10%"><a
 												href="javascript:fireAction('removeIdentifier',${status.index});"><img
 												src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 											<td width="20%"><form:input
-												path="identifiers[${status.index}].source" /></td>
+												path="studySubject.identifiers[${status.index}].source" /></td>
 											<td width="20%"><form:input
-												path="identifiers[${status.index}].type" /></td>
+												path="studySubject.identifiers[${status.index}].type" /></td>
 											<td width="20%"><form:input
-												path="identifiers[${status.index}].value"
+												path="studySubject.identifiers[${status.index}].value"
 												onclick="javascript:clearField(this)();" /></td>
 											<td width="25%" align="center"><form:radiobutton
-												path="identifiers[${status.index}].primaryIndicator"
+												path="studySubject.identifiers[${status.index}].primaryIndicator"
 												value="true" /></td>
 											<td width="10%"><em></em><span class="red"><form:errors
-												path="identifiers[${status.index}].type" /> <form:errors
-												path="identifiers[${status.index}].source" /> <form:errors
-												path="identifiers[${status.index}].value" /><em></em></span></td>
+												path="studySubject.identifiers[${status.index}].type" /> <form:errors
+												path="studySubject.identifiers[${status.index}].source" /> <form:errors
+												path="studySubject.identifiers[${status.index}].value" /><em></em></span></td>
 										</tr>
 									</c:forEach>
 									<tr>

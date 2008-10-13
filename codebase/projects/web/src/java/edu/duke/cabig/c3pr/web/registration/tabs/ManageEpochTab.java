@@ -13,12 +13,13 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
+import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
  * use File | Settings | File Templates.
  */
-public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C> {
+public class ManageEpochTab<C extends StudySubjectWrapper> extends RegistrationTab<C> {
 
     public ManageEpochTab() {
         super("Manage Epochs", "Change Current Epoch", "registration/reg_manage_epochs");
@@ -35,8 +36,9 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C> {
     }
 
     public ModelAndView getEpochSection(HttpServletRequest request, Object commandObj, Errors error) {
-        C command = (C) commandObj;
-        int id = -1;
+    	C command = (C) commandObj;
+    	StudySubject studySubject = command.getStudySubject();
+    	int id = -1;
         Map<String, Object> map = new HashMap<String, Object>();
         id = Integer.parseInt(request.getParameter("epochId"));
         Epoch epoch = epochDao.getById(id);
@@ -65,19 +67,19 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C> {
                 map.put("requiresArm", new Boolean(true));
             }
         }
-        for (ScheduledEpoch scheduledEpoch : command.getScheduledEpochs()) {
+        for (ScheduledEpoch scheduledEpoch : studySubject.getScheduledEpochs()) {
             if (scheduledEpoch.getEpoch().getId() == epoch.getId()) {
                 map.put("alreadyRegistered", new Boolean(true));
             }
         }
-        if (command.getCurrentScheduledEpoch().getEpoch().getId().intValue() == epoch.getId().intValue()) map.put(
+        if (studySubject.getCurrentScheduledEpoch().getEpoch().getId().intValue() == epoch.getId().intValue()) map.put(
                         "isCurrentScheduledEpoch", new Boolean(true));
-        if (epoch.getEpochOrder() < command.getCurrentScheduledEpoch().getEpoch().getEpochOrder()) {
+        if (epoch.getEpochOrder() < studySubject.getCurrentScheduledEpoch().getEpoch().getEpochOrder()) {
             map.put("notRegistrable", new Boolean(true));
         }
-        else if (epoch.getEpochOrder() == command.getCurrentScheduledEpoch().getEpoch()
+        else if (epoch.getEpochOrder() == studySubject.getCurrentScheduledEpoch().getEpoch()
                         .getEpochOrder()
-                        && command.getCurrentScheduledEpoch().getEpoch().getId() != epoch.getId()) {
+                        && studySubject.getCurrentScheduledEpoch().getEpoch().getId() != epoch.getId()) {
             map.put("notRegistrable", new Boolean(true));
         }
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);

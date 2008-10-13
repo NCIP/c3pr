@@ -1,7 +1,7 @@
 <%@ include file="taglibs.jsp"%>
 <html>
 <head>
-<title><registrationTags:htmlTitle registration="${command}" /></title>
+<title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
@@ -27,7 +27,7 @@
 </head>
 <body>
 <form
-	action="../registration/manageRegistration?registrationId=${command.id }"
+	action="../registration/manageRegistration?registrationId=${command.studySubject.id }"
 	method="post" id="manageCompanion"><input type="hidden"
 	name="_page0" id="_page0" value="0" /> <input type="hidden"
 	name="_target2" id="_target2" value="2" /> <input type="hidden"
@@ -54,7 +54,7 @@
 						Started":companion.registrationStatus}</td>
 						<td class="alt"><c:choose>
 							<c:when test="${companion.registrationId != 0}">
-								<csmauthz:accesscontrol domainObject="${command}"
+								<csmauthz:accesscontrol domainObject="${command.studySubject}"
 									hasPrivileges="UPDATE"
 									authorizationCheckName="domainObjectAuthorizationCheck">
 									<input type="button" value="Manage"
@@ -62,12 +62,12 @@
 								</csmauthz:accesscontrol>
 							</c:when>
 							<c:otherwise>
-								<csmauthz:accesscontrol domainObject="${command}"
+								<csmauthz:accesscontrol domainObject="${command.studySubject}"
 									hasPrivileges="UPDATE"
 									authorizationCheckName="domainObjectAuthorizationCheck">
 									<input type="button" id="registerCompanionStudy"
 										value="Register"
-										onclick="openPopup('${ companion.studySiteId}','${command.participant.id}','${command.id}');" />
+										onclick="openPopup('${ companion.studySiteId}','${command.studySubject.participant.id}','${command.studySubject.id}');" />
 								</csmauthz:accesscontrol>
 							</c:otherwise>
 						</c:choose></td>
@@ -78,12 +78,12 @@
 		</tags:panelBox>
 
 		<c:if
-			test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.regWorkflowStatus == 'UNREGISTERED'}">
-			<tags:panelBox title="Parent Registration">
+			test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.regWorkflowStatus == 'UNREGISTERED'}">
+			<tags:panelBox title="Parent Registration"><br>
 				<font color="GREEN"> <strong>Data entry is complete
 				for all mandatory companion registrations, Click on '${actionLabel}'
-				button to register subject on parent and companion studies.</strong></font><br>
-				<registrationTags:register registration="${command}"
+				button to register subject on parent and companion studies.</strong></font><br><br>
+				<registrationTags:register registration="${command.studySubject}"
 					newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
 					requiresMultiSite="${requiresMultiSite}" />
 			</tags:panelBox>

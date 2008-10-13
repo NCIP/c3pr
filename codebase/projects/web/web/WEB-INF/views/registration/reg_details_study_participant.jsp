@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 
 <script>
 function navRollOver(obj, state) {
@@ -33,7 +33,7 @@ field.value="";
 <!-- MAIN BODY STARTS HERE -->
 
 <tabs:body
-	title="Edit Registration: ${command.participant.firstName}  ${command.participant.lastName}">
+	title="Edit Registration: ${command.studySubject.participant.firstName}  ${command.studySubject.participant.lastName}">
 	<form:form method="post" name="form" id="form">
 		<div><input type="hidden" name="_page" id="_page" value="0"> <input
 			type="hidden" name="_action" id="_action" value=""> <input
@@ -58,21 +58,21 @@ field.value="";
 									id="table1">
 									<tr>
 										<td width="200" align="right"><em></em><b> Primary Identifier:<b>&nbsp;</td>
-										<td align="left">${command.primaryIdentifier}</td>
+										<td align="left">${command.studySubject.primaryIdentifier}</td>
 									</tr>
 									<tr>
 										<td width="200" align="right"><em></em><b>Informed Consent
 										Version:<b>&nbsp;</td>
-										<td align="left">${command.informedConsentVersion}</td>
+										<td align="left">${command.studySubject.informedConsentVersion}</td>
 									</tr>
 									<tr>
 										<td width="200" align="right"><em></em><b>Informed Consent
 										Signed Date:<b>&nbsp;</td>
-										<td align="left" valign="top">${command.informedConsentSignedDateStr}</td>
+										<td align="left" valign="top">${command.studySubject.informedConsentSignedDateStr}</td>
 									</tr>
 									<tr>
 										<td width="200" align="right"><em></em><b> Treating Physician:<b>&nbsp;</td>
-										<td align="left">${command.treatingPhysicianFullName}</td>
+										<td align="left">${command.studySubject.treatingPhysicianFullName}</td>
 									</tr>
 								</table>
 								</form>

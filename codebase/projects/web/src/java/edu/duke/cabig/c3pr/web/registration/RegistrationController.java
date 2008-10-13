@@ -64,7 +64,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * @author Ramakrishna
  */
 
-public abstract class RegistrationController<C extends StudySubject> extends
+public abstract class RegistrationController<C extends StudySubjectWrapper> extends
                 AutomaticSaveAjaxableFormController<C, StudySubject, StudySubjectDao> {
 
     private static Log log = LogFactory.getLog(RegistrationController.class);
@@ -149,7 +149,13 @@ public abstract class RegistrationController<C extends StudySubject> extends
         }
     	return super.isFormSubmission(request);
     }
-
+    
+    @Override
+    protected Object currentFormObject(HttpServletRequest request,
+    		Object command) throws Exception {
+    	return command;
+    }
+    
     @Override
     protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
         if (WebUtils.hasSubmitParameter(request, "dontSave")) return false;
@@ -161,14 +167,15 @@ public abstract class RegistrationController<C extends StudySubject> extends
 
     @Override
     protected StudySubject getPrimaryDomainObject(C command) {
-        return command;
+        return command.getStudySubject();
     }
 
     @Override
     protected C save(C command, Errors arg1) {
-        C merged = (C) getDao().merge(getPrimaryDomainObject(command));
+        StudySubject merged = (StudySubject) getDao().merge(getPrimaryDomainObject(command));
         studyDao.initialize(merged.getStudySite().getStudy());
-        return merged;
+        command.setStudySubject(merged);
+        return command;
     }
 
     @Override
@@ -184,6 +191,7 @@ public abstract class RegistrationController<C extends StudySubject> extends
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         StudySubject studySubject = null;
+        StudySubjectWrapper wrapper = new StudySubjectWrapper();
         if ((request.getParameter("registrationId") != null)
                         && (request.getParameter("registrationId") != "")) {
             studySubject = studySubjectDao.getById(Integer.parseInt(request
@@ -202,7 +210,8 @@ public abstract class RegistrationController<C extends StudySubject> extends
             log.debug("------------Command set to new Command------------------");
         }
         request.getSession().removeAttribute(getReplacedCommandSessionAttributeName(request));
-        return studySubject;
+        wrapper.setStudySubject(studySubject);
+        return wrapper;
     }
 
     protected void updateRegistration(StudySubject registration) {

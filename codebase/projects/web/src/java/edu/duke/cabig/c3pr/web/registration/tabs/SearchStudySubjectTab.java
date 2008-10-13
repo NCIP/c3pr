@@ -30,12 +30,13 @@ import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
+import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
  * use File | Settings | File Templates.
  */
-public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
+public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> {
 
     private static final Logger logger = Logger.getLogger(SearchStudySubjectTab.class);
 
@@ -68,7 +69,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
     }
 
     @Override
-    public Map<String, Object> referenceData(StudySubject command) {
+    public Map<String, Object> referenceData(StudySubjectWrapper command) {
         Map<String, Object> refdata = new HashMap<String, Object>();
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
 
@@ -80,7 +81,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
         refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
         //refdata.put("source", healthcareSiteDao.getAll());
         refdata.put("mandatory", "true");
-        if (command.getId() != null) {
+        if (command.getStudySubject().getId() != null) {
             refdata.put("disableForm", new Boolean(true));
         }
         return refdata;
@@ -88,7 +89,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
     }
 
     @Override
-    public void postProcess(HttpServletRequest request, StudySubject command, Errors error) {
+    public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors error) {
         if (WebUtils.hasSubmitParameter(request, "registrationId")) {
             if (WebUtils.hasSubmitParameter(request, "epoch")) {
                 ScheduledEpoch scheduledEpoch;
@@ -103,21 +104,21 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
                     scheduledEpoch = new ScheduledEpoch();
                 }
                 scheduledEpoch.setEpoch(epoch);
-                command.addScheduledEpoch(scheduledEpoch);
-                buildCommandObject(command);
+                command.getStudySubject().addScheduledEpoch(scheduledEpoch);
+                buildCommandObject(command.getStudySubject());
             }
-            studySiteDao.initialize(((StudySubject)command).getStudySite());
+            studySiteDao.initialize(command.getStudySubject().getStudySite());
             return;
         }
         
-        if (command.getParticipant() == null || command.getStudySite() == null) {
+        if (command.getStudySubject().getParticipant() == null || command.getStudySubject().getStudySite() == null) {
             request.setAttribute("alreadyRegistered", new Boolean(true));
             return;
         }
         
         StudySubject exampleSS = new StudySubject(true);
-        exampleSS.setParticipant(command.getParticipant());
-        exampleSS.setStudySite(command.getStudySite());
+        exampleSS.setParticipant(command.getStudySubject().getParticipant());
+        exampleSS.setStudySite(command.getStudySubject().getStudySite());
         List registrations = studySubjectDao.searchBySubjectAndStudySite(exampleSS);
         if (registrations.size() > 0) {
             request.setAttribute("alreadyRegistered", new Boolean(true));
@@ -128,7 +129,6 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
             id = Integer.parseInt(request.getParameter("epoch"));
         }
         catch (RuntimeException e) {
-            // TODO Auto-generated catch block
             return;
         }
       
@@ -143,13 +143,13 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
             scheduledEpoch = new ScheduledEpoch();
         }
         scheduledEpoch.setEpoch(epoch);
-        if (command.getScheduledEpochs().size() == 0) command.getScheduledEpochs().add(0,
+        if (command.getStudySubject().getScheduledEpochs().size() == 0) command.getStudySubject().getScheduledEpochs().add(0,
                         scheduledEpoch);
         else {
-            command.getScheduledEpochs().set(0, scheduledEpoch);
+            command.getStudySubject().getScheduledEpochs().set(0, scheduledEpoch);
         }
-        buildCommandObject(command);
-        studySiteDao.initialize(((StudySubject)command).getStudySite());
+        buildCommandObject(command.getStudySubject());
+        studySiteDao.initialize(command.getStudySubject().getStudySite());
     }
 
     private void buildCommandObject(StudySubject studySubject) {

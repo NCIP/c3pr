@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <link href="resources/styles.css" rel="stylesheet" type="text/css">
     <link href="resources/search.css" rel="stylesheet" type="text/css">
@@ -30,7 +30,7 @@ function manageCompanions(registrationId){
 </script>
 </head>
 <body>
-<form action="../registration/manageRegistration?registrationId=${command.id }" method="post" id="manageCompanion">
+<form action="../registration/manageRegistration?registrationId=${command.studySubject.id }" method="post" id="manageCompanion">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target2" id="_target2" value="2"/>
 	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
@@ -79,7 +79,7 @@ function manageCompanions(registrationId){
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
-		<c:when test="${command.regDataEntryStatus.code == 'Incomplete'}">
+		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font>
 		</c:when>
 		<c:when test="${reg_registered && hasCompanions}">
@@ -111,7 +111,7 @@ function manageCompanions(registrationId){
 	</c:when>
 	<c:otherwise>
 		<c:choose>
-		<c:when test="${command.regDataEntryStatus.code == 'Incomplete'}">
+		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:when>
 		<c:when test="${reg_registered && hasCompanions}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
@@ -142,27 +142,27 @@ function manageCompanions(registrationId){
 	<table width="50%" class="tablecontent">
 		<tr>
 			<td width="35%" align="left"><b>Subject MRN</b></td>
-			<td>${command.participant.primaryIdentifier}</td>
+			<td>${command.studySubject.participant.primaryIdentifier}</td>
 		</tr>
 		<tr>
 			<td align="left"><b>Study Sponsor Identifier</b></td>
-			<td>${command.studySite.study.organizationAssignedIdentifiers[0].value}</td>
+			<td>${command.studySubject.studySite.study.organizationAssignedIdentifiers[0].value}</td>
 		</tr>
 		<tr>
 			<td align="left"><b>Study Short Title</b></td>
-			<td valign="top">${command.studySite.study.shortTitleText}</td>
+			<td valign="top">${command.studySubject.studySite.study.shortTitleText}</td>
 		</tr>
 		<tr>
 			<td align="left"><b>Registration Status</b></td>
-			<td valign="top">${command.regWorkflowStatus.code }</td>
+			<td valign="top">${command.studySubject.regWorkflowStatus.code }</td>
 		</tr>		
 		<tr>
 			<td align="left"><b>Current Epoch</b></td>
-			<td valign="top">${command.scheduledEpoch.epoch.name}</td>
+			<td valign="top">${command.studySubject.scheduledEpoch.epoch.name}</td>
 		</tr>
 		<tr>
 			<td align="left"><b>Current Epoch Status</b></td>
-			<td valign="top">${command.scheduledEpoch.scEpochWorkflowStatus.code}</td>
+			<td valign="top">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</td>
 		</tr>
 		<c:if test="${!empty armAssigned}">
 			<tr>
@@ -172,19 +172,19 @@ function manageCompanions(registrationId){
 		</c:if>
 		<tr>
 			<td align="left"><b>Data Entry Status</b></td>
-			<td valign="top">${command.dataEntryStatusString }</td>
+			<td valign="top">${command.studySubject.dataEntryStatusString }</td>
 		</tr>
 		<tr>
 			<td align="left"><b>Site</b></td>
-			<td>${command.studySite.healthcareSite.name}</td>
+			<td>${command.studySubject.studySite.healthcareSite.name}</td>
 		</tr>
 		<tr>
 			<td align="left"><b>Registration Date</b></td>
-			<td>${command.startDateStr }</td>
+			<td>${command.studySubject.startDateStr }</td>
 		</tr>
 		<tr>
 			<td align="left"><b>Enrolling Physician</b></td>
-			<td>${command.treatingPhysicianFullName}</td>
+			<td>${command.studySubject.treatingPhysicianFullName}</td>
 		</tr>
 	</table>
 	<br>
@@ -228,22 +228,22 @@ function manageCompanions(registrationId){
 		</c:if>
 	</table>
 	</c:if>
-	<c:if test="${command.dataEntryStatusString!='Incomplete' && empty command.parentStudySubject}">
+	<c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' && empty command.studySubject.parentStudySubject}">
 		<div align="right">
 			<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
-				<input type="hidden" name="registrationId" value="${command.id }"/>
+				<input type="hidden" name="registrationId" value="${command.studySubject.id }"/>
 				<input type="submit" value="Manage this registration"/>
 			</form>
 		</div>
 	</c:if>
 	<br>
 	<div align="right">
-		<c:if test="${hasCompanions && command.dataEntryStatusString=='Complete' && command.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
-			<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions('${command.id}');"/>
+		<c:if test="${hasCompanions && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
+			<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions('${command.studySubject.id}');"/>
 		</c:if>	
 	</div>
 	<div align="right">
-		<c:if test="${not empty command.parentStudySubject}">
+		<c:if test="${not empty command.studySubject.parentStudySubject}">
 			<input type="button" name="close" value="Close" onclick="parent.closePopup();">
 		</c:if>
 	</div>
@@ -306,11 +306,11 @@ function manageCompanions(registrationId){
 </c:choose>
 </tags:panelBox>
 <form id="hotlinksForm" action="" method="get">
-<input type="hidden" name="assignment" value="${command.gridId }"/>
+<input type="hidden" name="assignment" value="${command.studySubject.gridId }"/>
 </form>
-<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.regWorkflowStatus == 'UNREGISTERED'}">
+<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.regWorkflowStatus == 'UNREGISTERED'}">
 <tags:panelBox>
-	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
+	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
 </c:if>
 </body>

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
 function navRollOver(obj, state) {
@@ -11,11 +11,11 @@ function navRollOver(obj, state) {
 </script>
 </head>
 <body>
-<registrationTags:goToTab currentTab="2" registration="${command}" />
-<registrationTags:backToTab currentTab="2" registration="${command}" />
+<registrationTags:goToTab currentTab="2" registration="${command.studySubject}" />
+<registrationTags:backToTab currentTab="2" registration="${command.studySubject}" />
 <c:set var="custonButton" value ="${param.customButton}" ></c:set>
 <c:choose>
-	<c:when test="${fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
+	<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectEligibilityAnswers) == 0}">
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></div><br><br>
 			</tags:formPanelBox>
 	</c:when>
@@ -32,13 +32,13 @@ function navRollOver(obj, state) {
 							<th align="left"><b>Answer</b></th>
 						</tr>
 						<c:set var="index" value="0"/>
-						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.epoch.inclusionEligibilityCriteria}">
+						<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.inclusionEligibilityCriteria}">
 							<tr>
 								<td width="85%">
 									${criteria.questionText}
 								</td>
 								<td width="15%" valign="center">
-									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
+									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
 										<option value="">Please select</option>
 										<form:option value="Yes" />
 										<form:option value="No" />
@@ -61,13 +61,13 @@ function navRollOver(obj, state) {
 							<th align="left"><b>Question</b></th>
 							<th align="left"><b>Answer</b></th>
 						</tr>
-						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.epoch.exclusionEligibilityCriteria}">
+						<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.exclusionEligibilityCriteria}">
 							<tr>
 								<td width="85%">
 									${criteria.questionText}
 								</td>
 								<td width="15%" valign="center">
-									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
+									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
 										<option value="">Please select</option>
 										<form:option value="Yes" />
 										<form:option value="No" />

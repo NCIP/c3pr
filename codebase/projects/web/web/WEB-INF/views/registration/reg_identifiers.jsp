@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command}" /></title>
+    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
     
 <%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
@@ -32,14 +32,14 @@ function clearField(field) {
 var systemIdentifierRowInserterProps = {
     add_row_division_id: "systemIdentifier", 	        /* this id belongs to element where the row would be appended to */
     skeleton_row_division_id: "dummy-row-systemIdentifier",
-    initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+    initialIndex: ${fn:length(command.studySubject.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
     softDelete: true,
     path: "systemAssignedIdentifiers"                               /* this is the path of the collection that holds the rows  */
 };
 var organizationIdentifierRowInserterProps = {
        add_row_division_id: "organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
        skeleton_row_division_id: "dummy-row-organizationIdentifier",
-       initialIndex: ${fn:length(command.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+       initialIndex: ${fn:length(command.studySubject.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
        path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
        softDelete: ${flowType!='CREATE_STUDY'},
        postProcessRowInsertion: function(object){
@@ -81,13 +81,13 @@ function manageIdentifierRadio(element){
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>
-				<c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
+				<c:forEach var="orgIdentifier" items="${command.studySubject.organizationAssignedIdentifiers}"
 					begin="0" varStatus="organizationStatus">
 					<tr id="organizationIdentifier-${organizationStatus.index}">
 						<td>${orgIdentifier.healthcareSite.name}</td>
 						<td>${orgIdentifier.type}</td>
 						<td>${orgIdentifier.value}</td>
-						<td>${orgIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
+						<td>${orgIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -110,12 +110,12 @@ function manageIdentifierRadio(element){
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>
-				<c:forEach items="${command.systemAssignedIdentifiers}"	varStatus="status" var="sysIdentifier">
+				<c:forEach items="${command.studySubject.systemAssignedIdentifiers}"	varStatus="status" var="sysIdentifier">
 					<tr id="systemIdentifier-${status.index}">
 						<td>${sysIdentifier.systemName}</td>
 						<td>${sysIdentifier.type}</td>
 						<td>${orgIsysIdentifierdentifier.value}</td>
-						<td>${sysIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
+						<td>${sysIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -137,10 +137,10 @@ function manageIdentifierRadio(element){
 <table>
 	<tr>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" 
+			name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" 
 			class="validate-notEmpty" /></td>
 		<td><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="validate-notEmpty">
 			<option value="">--Please Select--</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
@@ -148,12 +148,12 @@ function manageIdentifierRadio(element){
 			</c:forEach>
 		</select></td>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			onfocus="javascript:clearField(this)" type="text"
 			class="validate-notEmpty" /></td>
 		<td><input type="radio"
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"/></td>
+			name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"/></td>
 		<td><a
 			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -165,17 +165,17 @@ function manageIdentifierRadio(element){
 <table>
 	<tr>
 		<td><input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
+			name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
 		<input class="autocomplete validate-notEmpty" type="text"
 			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
-			value="${command.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
+			value="${command.studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
 		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
 			value="Clear" /> <tags:indicator
 			id="healthcareSitePAGE.ROW.INDEX-indicator" />
 		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete">
 		</td>
 		<td><select id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="validate-notEmpty">
 			<option value="">--Please Select--</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
@@ -183,12 +183,12 @@ function manageIdentifierRadio(element){
 			</c:forEach>
 		</select></td>
 		<td><input id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			onfocus="javascript:clearField(this)" type="text"
 			class="validate-notEmpty" /></td>
 		<td><input type="radio"
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"/></td>
+			name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"/></td>
 		<td><a
 			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>

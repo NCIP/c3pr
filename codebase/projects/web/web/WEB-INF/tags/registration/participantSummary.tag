@@ -25,24 +25,24 @@ function submitlinksPage(){
 		cellpadding="0" id="table1">
 		<tr>
 			<td valign="top" width="40%" align="right"><b>First Name:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.participant.firstName}</td>
+			<td valign="bottom" align="left">${command.studySubject.participant.firstName}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="40%" align="right"><b>Last Name:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.participant.lastName}</td>
+			<td valign="bottom" align="left">${command.studySubject.participant.lastName}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="40%" align="right"><b>Gender:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.participant.administrativeGenderCode}</td>
+			<td valign="bottom" align="left">${command.studySubject.participant.administrativeGenderCode}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="40%" align="right"><b>Ethnicity:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.participant.ethnicGroupCode}</td>
+			<td valign="bottom" align="left">${command.studySubject.participant.ethnicGroupCode}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="40%" align="right"><b>Races(s):&nbsp;</b></td>
 			<td valign="bottom" align="left">
-				<c:forEach items="${command.participant.raceCodes}" var="raceCode">
+				<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
 		            <div class="row">
 		                <div class="left">${raceCode.displayName}</div>
 		            </div>
@@ -52,7 +52,7 @@ function submitlinksPage(){
 		<tr>
 			<td valign="top" width="40%" align="right"><b>Primary
 			Identifier:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.participant.primaryIdentifier
+			<td valign="bottom" align="left">${command.studySubject.participant.primaryIdentifier
 			}</td>
 		</tr>
 		<tr>
@@ -69,7 +69,7 @@ function submitlinksPage(){
 		</tr>
 		<tr>
 			<td align="left" colspan="2"><a
-				href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.participant.gridId }','_caaers');">
+				href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.studySubject.participant.gridId }','_caaers');">
 			<b>Adverse Event Reporting</b></a></td>
 		</tr>
 		<tr>
@@ -81,7 +81,7 @@ function submitlinksPage(){
 
 		<tr>
 			<td  align="left" colspan="2"><a
-				href="javascript:accessApp('http://10.10.10.2:8041','studycalendar/pages/schedule?assignment=${command.participant.gridId }','_psc');">
+				href="javascript:accessApp('http://10.10.10.2:8041','studycalendar/pages/schedule?assignment=${command.studySubject.participant.gridId }','_psc');">
 			<b>Study Calendar</b></a></td>
 		</tr>
 		<tr>

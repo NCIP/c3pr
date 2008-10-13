@@ -21,11 +21,12 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.registration.tabs.ManageCompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ManageEpochTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationOverviewTab;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
-public class ManageRegistrationController<C extends StudySubject> extends RegistrationController<C> {
+public class ManageRegistrationController<C extends StudySubjectWrapper> extends RegistrationController<C> {
 
     private XmlMarshaller xmlUtility;
 
@@ -43,32 +44,32 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
 
     @Override
     protected void intializeFlows(Flow flow) {
-        flow.addTab(new RegistrationOverviewTab<StudySubject>());
-        flow.addTab(new ManageEpochTab<StudySubject>());
-        flow.addTab(new ManageCompanionRegistrationTab<StudySubject>());
+        flow.addTab(new RegistrationOverviewTab<StudySubjectWrapper>());
+        flow.addTab(new ManageEpochTab<StudySubjectWrapper>());
+        flow.addTab(new ManageCompanionRegistrationTab<StudySubjectWrapper>());
         setFlow(flow);
     }
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest,
-                    HttpServletResponse httpServletResponse) throws Exception {
+    protected ModelAndView handleRequestInternal(HttpServletRequest request,
+                    HttpServletResponse response) throws Exception {
         // study export
-        if (httpServletRequest.getParameterMap().keySet().contains("_action")
-                        && StringUtils.getBlankIfNull(httpServletRequest.getParameter("_action"))
+        if (request.getParameterMap().keySet().contains("_action")
+                        && StringUtils.getBlankIfNull(request.getParameter("_action"))
                                         .equalsIgnoreCase("export")) {
-        	httpServletResponse.reset();
-        	StudySubject studySubject = (StudySubject) currentFormObject(httpServletRequest,
-                            httpServletRequest.getSession().getAttribute(
-                                            getFormSessionAttributeName()));
-            httpServletResponse.setContentType("application/xml");
+        	response.reset();
+        	
+        	StudySubjectWrapper wrapper= (StudySubjectWrapper) currentFormObject(request,request.getSession().getAttribute(getFormSessionAttributeName()));
+            StudySubject studySubject = wrapper.getStudySubject();
+        	response.setContentType("application/xml");
             String fileName = "registration-"+ studySubject.getId() + ".xml" ; 
-            httpServletResponse.setHeader("Content-Disposition", "attachment; filename="+fileName);
-            xmlUtility.toXML(studySubject, httpServletResponse.getWriter());
-            httpServletResponse.getWriter().close();
+            response.setHeader("Content-Disposition", "attachment; filename="+fileName);
+            xmlUtility.toXML(studySubject, response.getWriter());
+            response.getWriter().close();
             return null;
         }
 
-        return super.handleRequestInternal(httpServletRequest, httpServletResponse); // To change
+        return super.handleRequestInternal(request, response); // To change
                                                                                         // body of
                                                                                         // overridden
                                                                                         // methods
@@ -82,7 +83,8 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
-        StudySubject studySubject = createNewScheduledEpochSubject(request, command, errors);
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
+        StudySubject studySubject = createNewScheduledEpochSubject(request, wrapper.getStudySubject(), errors);
         studySubject = studySubjectService.register(studySubject);
         if (logger.isDebugEnabled()) {
             logger
@@ -93,7 +95,8 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
 
     public StudySubject createNewScheduledEpochSubject(HttpServletRequest request,
                     Object commandObj, Errors error) {
-        StudySubject command = (StudySubject) commandObj;
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj ;
+        StudySubject command = wrapper.getStudySubject();
         Map map = new HashMap();
         Integer id = Integer.parseInt(request.getParameter("epoch"));
         Epoch epoch = epochDao.getById(id);
@@ -104,10 +107,12 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
     }
 
     @Override
-    protected C save(C command, Errors arg1) {
-        getDao().merge(getPrimaryDomainObject(command));
-        return command;
-    }
+	protected C save(C command, Errors arg1) {
+		StudySubject merged = (StudySubject) getDao().merge(
+				getPrimaryDomainObject(command));
+		command.setStudySubject(merged);
+		return command;
+	}
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
