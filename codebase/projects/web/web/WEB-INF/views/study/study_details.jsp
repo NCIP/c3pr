@@ -42,7 +42,7 @@
         }
 
         ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-           if((formElement.id=="command.study" || formElement.id=="embedStudyForm" )&&continueSubmission){
+           if((formElement.id=="command" || formElement.id=="embedStudyForm" )&&continueSubmission){
                  box1=document.getElementById('healthcareSite-hidden');
                	if(document.getElementById('study.randomizedIndicator').value =='false'){
                	new Element.update('randomizationTypeDiv','');
@@ -184,7 +184,7 @@
 <body>
 <div id="emptyDivCompanion" style="display: none;"></div>
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
-<form:form id="${!empty param.embeddedStudy?'embedStudyForm':'command.study'}" method="post" name="studyDetails" cssClass="standard">
+<form:form id="${!empty param.embeddedStudy?'embedStudyForm':'command'}" method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
 
 <input type="hidden" name="deletedSponsor" id="deletedSponsor" value=""/>
