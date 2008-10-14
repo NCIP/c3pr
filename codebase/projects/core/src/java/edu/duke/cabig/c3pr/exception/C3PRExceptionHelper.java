@@ -47,6 +47,30 @@ public class C3PRExceptionHelper {
         return new C3PRCodedException(code, getExceptionMessageFromCode(code, params, locale),
                         throwable);
     }
+    
+    public C3PRCodedRuntimeException getRuntimeException(int code) {
+        return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, null, null));
+    }
+
+    public C3PRCodedRuntimeException getRuntimeException(int code, Throwable throwable) {
+        return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, null, null),
+                        throwable);
+    }
+
+    public C3PRCodedRuntimeException getRuntimeException(int code, Object[] params, Throwable throwable) {
+        return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, params, null),
+                        throwable);
+    }
+
+    public C3PRCodedRuntimeException getRuntimeException(int code, Object[] params) {
+        return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, params, null));
+    }
+
+    public C3PRCodedRuntimeException getRuntimeException(int code, Object[] params, Throwable throwable,
+                    Locale locale) {
+        return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, params, locale),
+                        throwable);
+    }
 
     private String getExceptionMessageFromCode(int code, Object[] params, Locale locale) {
         String msg = "";
