@@ -12,16 +12,16 @@
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
                 row_index_indicator: "SECONDARY.NESTED.PAGE.ROW.INDEX",
-                path: "plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient"
+                path: "study.plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient"
            };
             var emailRowInserterProps= {
                 add_row_division_id: "table1",
                 skeleton_row_division_id: "dummy-emailRow",
-                initialIndex: ${fn:length(command.study.plannedNotifications[nStatus.index].userBasedRecipient)},
+                initialIndex: ${fn:length(command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)},
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
-                path: "plannedNotifications[PAGE.ROW.INDEX].emailBasedRecipient"
+                path: "study.plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient"
             };
             var notificationRowInserterProps = {
                 nested_row_inserter: emailRowInserterProps,
@@ -31,7 +31,7 @@
                 initialIndex: ${fn:length(command.study.plannedNotifications)},
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
-                path: "plannedNotifications"
+                path: "study.plannedNotifications"
             };
             RowManager.addRowInseter(notificationRowInserterProps);
             RowManager.registerRowInserters();
@@ -57,7 +57,7 @@
 			<c:forEach items="${command.study.plannedNotifications}" var="notification"
 				varStatus="nStatus">
 				<script>
-                    RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].userBasedRecipient)});
+                    RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)});
                     RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].roleBasedRecipient)});
                 </script>
 				<tr id="notification-${nStatus.index}">
