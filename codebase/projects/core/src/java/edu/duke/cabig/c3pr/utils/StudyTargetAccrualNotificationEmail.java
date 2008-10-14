@@ -12,6 +12,7 @@ import org.springframework.mail.SimpleMailMessage;
 
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
@@ -85,7 +86,13 @@ public class StudyTargetAccrualNotificationEmail {
     public List<String> generateEmailList(Study study, PlannedNotification nf) {
 
         List<String> finalList = new ArrayList<String>();
-
+        for (ContactMechanismBasedRecipient cmbr : nf.getContactMechanismBasedRecipient()) {
+        	for (ContactMechanism cm : cmbr.getContactMechanisms()) {
+        		if(cm.getType().getCode().equalsIgnoreCase(ContactMechanismType.EMAIL.getCode())){
+        			finalList.add(cm.getValue());
+        		}
+            }
+        }
         for (UserBasedRecipient er : nf.getUserBasedRecipient()) {
             finalList.add(er.getEmailAddress());
         }
