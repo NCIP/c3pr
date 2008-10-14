@@ -4,11 +4,12 @@
 
 <tags:parsedStylesheetLink name="tables"/>
 
-<jwr:style src="/csslib/${skinName}.css" />
-<jwr:script src="/jslib/c3pr.js" />
-<jwr:script src="/jslib/js${skinName}.js" />
-<jwr:style src="/css/commonui.css" />
+<jwr:style src="/csslib/${skinName}.zcss" />
+<jwr:script src="/jslib/c3pr.zjs" />
+<jwr:script src="/jslib/js${skinName}.zjs" />
+<jwr:style src="/css/commonui.zcss" />
 
 <!--[if IE]>
-<%--<jwr:style src="/csslib/ie.css" />--%>
+<%--<jwr:style src="/csslib/ie.zcss" />--%>
 <![endif]-->
+
