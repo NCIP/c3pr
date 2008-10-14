@@ -16,32 +16,7 @@
 	  			border-left-width: 1px
 		}
 	</style>
-	<script>
-		var win;
-		var currentMessageIndex;
-	     	
-	     function showMessageBody(index){
-	     	currentMessageIndex = index;
-	     	if(win == null){
-	     		win = new Window({className: "dialog", width:550, height:550, zIndex: 100, resizable: true, title: "Email Message", 
-	        	showEffect:Effect.BlindDown, hideEffect: Effect.BlindUp, draggable:true, wiredDrag: true}); 
-	        	win.setContent('emailMessageDetails', true, true);
-	     	}else {
-			    //$('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
-	     		//$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
-	     	}
-	     	$('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
-     		$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
-	     	win.showCenter();
-	     }   
-	     
-	     function updateMessage(index){
-	     	$('plannedNotifications['+currentMessageIndex+'].title').value = $('plannedNotifications.title').value;
-	     	$('plannedNotifications['+currentMessageIndex+'].message').value = $('plannedNotifications.message').value;
-	     	win.close();
-	     	//$('emailMessageDetails-'+index).innerHTML = win.getContent().innerHTML;
-	     }
-	</script>
+	
 	<script language="JavaScript" type="text/JavaScript">
 			var roleRowInserterProps= {
 	            add_row_division_id: "table2",
@@ -105,6 +80,120 @@
 	</script>
 	
 	<script type="text/javascript">
+		var win;
+		var currentMessageIndex;
+	     	
+	     function showMessageBody(index){
+	     	currentMessageIndex = index;
+	     	if(win == null){
+	     		win = new Window({className: "dialog", width:550, height:550, zIndex: 100, resizable: true, title: "Email Message", 
+	        	showEffect:Effect.BlindDown, hideEffect: Effect.BlindUp, draggable:true, wiredDrag: true}); 
+	        	win.setContent('emailMessageDetails', true, true);
+	     	}else {
+			    //$('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
+	     		//$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
+	     	}
+	     	$('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
+     		$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
+	     	win.showCenter();
+	     	updateSubvars(index);
+	     }   
+	     
+	     function updateSubvars(index){
+        	var elementId = "plannedNotifications[" + index + "].eventName";
+          	var stringValue = $(elementId).options[$(elementId).selectedIndex].value;
+			var subVarElmt = $("subVar");
+			if(stringValue == 'NEW_STUDY_SAVED_EVENT'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[1].disabled = "";
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+			} else if(stringValue == 'STUDY_STATUS_CHANGED_EVENT'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[1].disabled = "";
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+			} else if(stringValue == 'NEW_STUDY_SITE_SAVED_EVENT'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[2].disabled = "";
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+			} else if(stringValue == 'STUDY_SITE_STATUS_CHANGED_EVENT'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[2].disabled = "";
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+			} else if(stringValue == 'NEW_REGISTRATION_EVENT'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+				subVarElmt.options[5].disabled = "";
+				subVarElmt.options[6].disabled = "";
+				
+			} else if(stringValue == 'REGISTATION_STATUS_CHANGE'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+				subVarElmt.options[5].disabled = "";
+				subVarElmt.options[6].disabled = "";
+			} else if(stringValue == 'SUBJECT_REMOVED_OFF_STUDY'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+				subVarElmt.options[5].disabled = "";
+				subVarElmt.options[6].disabled = "";
+			} else if(stringValue == 'STUDY_ACCRUAL_EVENT'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+				subVarElmt.options[7].disabled = "";
+				subVarElmt.options[9].disabled = "";
+			} else if(stringValue == 'STUDY_SITE_ACCRUAL_EVENT'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+				subVarElmt.options[8].disabled = "";
+				subVarElmt.options[10].disabled = "";
+			} else if(stringValue == 'NEW_REGISTRATION_EVENT_REPORT'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+				subVarElmt.options[5].disabled = "";
+				subVarElmt.options[6].disabled = "";
+			} else {
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "";
+				}
+			}
+        }
+        
+	     function updateMessage(index){
+	     	$('plannedNotifications['+currentMessageIndex+'].title').value = $('plannedNotifications.title').value;
+	     	$('plannedNotifications['+currentMessageIndex+'].message').value = $('plannedNotifications.message').value;
+	     	win.close();
+	     	//$('emailMessageDetails-'+index).innerHTML = win.getContent().innerHTML;
+	     }
+	
 		function insertAtCursor() {
 			var myField = document.getElementById('plannedNotifications.message');
 			var myValue = document.getElementById('subVar');
@@ -203,7 +292,7 @@
           if ($(divID)) {
               $(divID).innerHTML = stringValue;
           }
-      }
+        }
 	</script> 
 	</head>
 	
@@ -541,7 +630,7 @@
 				<tr>
 					 <td valign="top" align="right">Substitution Variables:</td>
 					 <td>
-						<select id="subVar" name="subVar" onchange="insertAtCursor()">
+						<select id="subVar" name="subVar" onchange="insertAtCursor()" >
 								<option value="" selected="selected">Please Select</option>
 							<c:forEach items="${notificationEmailSubstitutionVariablesRefData}" var="subVar">
 								<option value="${subVar.code}">${subVar.desc}</option>
