@@ -23,7 +23,7 @@
 		}
 		var str = "bookRandomizations-" + index;
 		var content = "";
-		if(form == "command.study"){
+		if(form == "command"){
 		//alert("command.study it is");
 			content = document.getElementById(str).value;
 		}
@@ -84,13 +84,13 @@
 	                </c:otherwise>
 	                </c:choose>
 				<td>
-					<TEXTAREA name="bookRandomizations-${epochCount.index}" id="bookRandomizations-${epochCount.index}" cols=25 rows=12 class="validate-notEmpty&&maxlength500"></TEXTAREA>
+					<TEXTAREA name="study.bookRandomizations-${epochCount.index}" id="bookRandomizations-${epochCount.index}" cols=25 rows=12 class="validate-notEmpty&&maxlength500"></TEXTAREA>
 				</td>				
              </tr>
 	     </table>
 	     <br/>
 	     <div id="bookButton" align="center">    
-         	<input type='button' onclick='uploadBook("command.study", "${epochCount.index}", "${flowType}")' value='Upload Randomization Book'/>   
+         	<input type='button' onclick='uploadBook("command", "${epochCount.index}", "${flowType}")' value='Upload Randomization Book'/>   
 		 </div>
 		 <hr />
 		 	<form:form method="post" id="epochForm_${epochCount.index}" enctype="multipart/form-data">
