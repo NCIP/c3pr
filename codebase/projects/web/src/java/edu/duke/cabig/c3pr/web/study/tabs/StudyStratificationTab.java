@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -178,8 +179,16 @@ public class StudyStratificationTab extends StudyTab {
     	Study study = ((StudyWrapper) command).getStudy();
         String listPath = request.getParameter(getCollectionParamName());
         // run this piece of code only if str Qs or Ans are being deleted.
-
-        listPath = listPath.substring(0, listPath.indexOf("."));
+        
+        StringTokenizer tokenizer = new StringTokenizer(listPath, ".");
+        String[] list = new String[tokenizer.countTokens()] ;
+        int i = 0  ;
+        while (tokenizer.hasMoreElements()){
+       	 	list[i] =	tokenizer.nextElement().toString();
+        	 i ++ ;
+        }
+        
+        listPath = list[1];
         Epoch te = (Epoch) new DefaultObjectPropertyReader(study, listPath)
                 .getPropertyValueFromPath();
 
@@ -212,7 +221,7 @@ public class StudyStratificationTab extends StudyTab {
             te.getStratumGroups().clear();
         }
 
-        return super.deleteRow(request, study, error);
+        return super.deleteRow(request, command, error);
     }
 
     @Override
