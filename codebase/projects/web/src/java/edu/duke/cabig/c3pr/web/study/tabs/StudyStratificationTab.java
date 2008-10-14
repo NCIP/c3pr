@@ -175,12 +175,12 @@ public class StudyStratificationTab extends StudyTab {
     @Override
     public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)
             throws Exception {
-
+    	Study study = ((StudyWrapper) command).getStudy();
         String listPath = request.getParameter(getCollectionParamName());
         // run this piece of code only if str Qs or Ans are being deleted.
 
         listPath = listPath.substring(0, listPath.indexOf("."));
-        Epoch te = (Epoch) new DefaultObjectPropertyReader(command, listPath)
+        Epoch te = (Epoch) new DefaultObjectPropertyReader(study, listPath)
                 .getPropertyValueFromPath();
 
         // Clearing the book entries from Randomization object.
@@ -212,7 +212,7 @@ public class StudyStratificationTab extends StudyTab {
             te.getStratumGroups().clear();
         }
 
-        return super.deleteRow(request, command, error);
+        return super.deleteRow(request, study, error);
     }
 
     @Override
