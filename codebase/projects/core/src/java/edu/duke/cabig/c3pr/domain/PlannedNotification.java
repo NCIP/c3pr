@@ -171,6 +171,13 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
     @Transient
     public String getEmailAddresses() {
         String emailAddresses = "";
+        for (ContactMechanismBasedRecipient cmbr : getContactMechanismBasedRecipient()) {
+        	for (ContactMechanism cm : cmbr.getContactMechanisms()) {
+        		if(cm.getType().getCode().equalsIgnoreCase(ContactMechanismType.EMAIL.getCode())){
+        			emailAddresses += cm.getValue() + " <br/> ";
+        		}
+            }
+        }
         for (UserBasedRecipient eRec : getUserBasedRecipient()) {
             emailAddresses += eRec.getEmailAddress() + " <br/> ";
         }
