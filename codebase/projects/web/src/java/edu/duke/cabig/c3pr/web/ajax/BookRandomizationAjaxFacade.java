@@ -63,26 +63,26 @@ public class BookRandomizationAjaxFacade {
             context = new HttpServletRequestContext(req);
         }
         
-        StudyWrapper wrapper = (StudyWrapper) req.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM.command.to-replace");
+        StudyWrapper wrapper = (StudyWrapper) req.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM.command");
         String action = "/pages/study/createStudy";
         
         //TO DO: move this piece out into a seperate getCommandOnly() method.
         if (wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())) {
         	if (flowType.equals("CREATE_STUDY")) {
-        		wrapper = (StudyWrapper) req.getSession().getAttribute(CreateCompanionStudyController.class.getName() + ".FORM.command.to-replace");
+        		wrapper = (StudyWrapper) req.getSession().getAttribute(CreateCompanionStudyController.class.getName() + ".FORM.command");
                 action = "/pages/study/createCompanionStudy";	
         	}else if (flowType.equals("AMEND_STUDY")) {
-                wrapper = (StudyWrapper) req.getSession().getAttribute(AmendStudyController.class.getName() + ".FORM.command.to-replace");
+                wrapper = (StudyWrapper) req.getSession().getAttribute(AmendStudyController.class.getName() + ".FORM.command");
                 action = "/pages/study/amendStudy";
                 if(wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())){
-                	wrapper = (StudyWrapper) req.getSession().getAttribute(AmendCompanionStudyController.class.getName() + ".FORM.command.to-replace");
+                	wrapper = (StudyWrapper) req.getSession().getAttribute(AmendCompanionStudyController.class.getName() + ".FORM.command");
                 	action = "/pages/study/amendCompanionStudy";
                 }
             }else {
-                wrapper = (StudyWrapper) req.getSession().getAttribute(EditStudyController.class.getName() + ".FORM.command.to-replace");
+                wrapper = (StudyWrapper) req.getSession().getAttribute(EditStudyController.class.getName() + ".FORM.command");
                 action = "/pages/study/editStudy";
                 if(wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())){
-                	wrapper = (StudyWrapper) req.getSession().getAttribute(EditCompanionStudyController.class.getName() + ".FORM.command.to-replace");
+                	wrapper = (StudyWrapper) req.getSession().getAttribute(EditCompanionStudyController.class.getName() + ".FORM.command");
                 	action = "/pages/study/editCompanionStudy";
                 }
             }
