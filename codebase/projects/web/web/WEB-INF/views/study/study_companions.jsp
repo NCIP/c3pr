@@ -40,7 +40,7 @@
     initialIndex: ${fn:length(command.study.companionStudyAssociations)},
     softDelete: false,
     isAdmin: ${isAdmin == 'true'},
-    path: "companionStudyAssociations",
+    path: "study.companionStudyAssociations",
     postProcessRowInsertion: function(object){
 		currentRow = object.localIndex;
         clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
