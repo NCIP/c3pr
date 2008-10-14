@@ -37,7 +37,7 @@ public class StudyDetailsTab extends StudyTab {
                                        Errors error) {
         int rowCount = Integer.parseInt(request.getParameter("rowCount"));
         Study parentStudy = getParentStudy(request);
-        Study companionStudy = (Study) commandObj;
+        Study companionStudy = ((StudyWrapper) commandObj).getStudy();
         Map map = new HashMap();
         CompanionStudyAssociation companionStudyAssociation = parentStudy.getCompanionStudyAssociations().get(rowCount);
         companionStudyAssociation.setCompanionStudy(companionStudy);
