@@ -120,12 +120,12 @@
 
     <servlet-mapping>
         <servlet-name>JavascriptServlet</servlet-name>
-        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.zjs</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>CSSServlet</servlet-name>
-        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.zcss</url-pattern>
     </servlet-mapping>
 
     <!-- JAWR config end -->
