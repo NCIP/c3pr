@@ -89,7 +89,7 @@
                 isAdmin: ${isAdmin == 'true'},
                 callRemoveFromCommand:"true",
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
-                path: "epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
+                path: "study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
                 epochCountIndex: ${epochCount.index},
                 deleteMsgPrefix: "Stratum Groups and Book Randomization Entries(if any) will be deleted.",
                 onDeleteFromCommandSuccess: function(t){
@@ -108,7 +108,7 @@
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
                 callRemoveFromCommand:"true",
-                path: "epochs[${epochCount.index }].stratificationCriteria",
+                path: "study.epochs[${epochCount.index }].stratificationCriteria",
                 epochCountIndex: ${epochCount.index},
                 deleteMsgPrefix: "Stratum Groups and Book Randomization Entries(if any) will be deleted.",
                 onDeleteFromCommandSuccess: function(t){
@@ -204,7 +204,7 @@
 			    postProcessRowDeletion: function(t){
 	                reorderStratumGroupNumbers(${epochCount.index});                	
 			    },
-			    path: "epochs[${epochCount.index}].stratumGroups"
+			    path: "study.epochs[${epochCount.index}].stratumGroups"
 			};
 			</script>
 			
