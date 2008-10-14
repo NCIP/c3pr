@@ -107,8 +107,8 @@ public abstract class StudyController<C extends StudyWrapper> extends
         binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor(
                 SiteStudyStatus.class));
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
-        binder.registerCustomEditor(String.class, "file", new StringMultipartFileEditor());
-        binder.registerCustomEditor(byte[].class, "criteriaFile",
+        binder.registerCustomEditor(String.class, "study.file", new StringMultipartFileEditor());
+        binder.registerCustomEditor(byte[].class, "study.criteriaFile",
                 new ByteArrayMultipartFileEditor());
         binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor(
                 studyDao));
