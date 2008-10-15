@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.StudyStatusHelper;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import org.acegisecurity.Authentication;
@@ -29,8 +30,18 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
     private HealthcareSiteDao healthcareSiteDao;
 
     protected StudyRepository studyRepository;
+    
+    protected StudyStatusHelper studyStatusHelper ;
 
-    protected static final Log log = LogFactory.getLog(StudyTab.class);
+    public StudyStatusHelper getStudyStatusHelper() {
+		return studyStatusHelper;
+	}
+
+	public void setStudyStatusHelper(StudyStatusHelper studyStatusHelper) {
+		this.studyStatusHelper = studyStatusHelper;
+	}
+
+	protected static final Log log = LogFactory.getLog(StudyTab.class);
 
     // public static final String DISABLE_FORM_DESIGN = "DISABLE_FORM_DESIGN";
     public static final String DISABLE_FORM_DETAILS = "DISABLE_FORM_DETAILS";

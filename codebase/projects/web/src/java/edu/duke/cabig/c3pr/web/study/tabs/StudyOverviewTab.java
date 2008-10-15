@@ -18,7 +18,6 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
-import edu.duke.cabig.c3pr.utils.StudyStatusHelper;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
@@ -29,11 +28,7 @@ import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 public class StudyOverviewTab extends StudyTab {
     protected StudyService studyService;
     protected Configuration configuration;
-    protected StudyStatusHelper studyStatusHelper;
 
-    public void setStudyStatusHelper(StudyStatusHelper studyStatusHelper) {
-		this.studyStatusHelper = studyStatusHelper;
-	}
 
 	public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
