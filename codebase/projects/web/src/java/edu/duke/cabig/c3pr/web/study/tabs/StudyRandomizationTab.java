@@ -102,10 +102,10 @@ public class StudyRandomizationTab extends StudyTab {
         Map map = new HashMap();
         try {
             String index = request.getParameter("index").toString();
-            Study study = (Study) (commandObj);
-
+            StudyWrapper wrapper = (StudyWrapper) commandObj ;
+            
             Object viewData = bookRandomizationAjaxFacade.getTable(new HashMap<String, List>(),
-                    study.getFile(), index, request, flowType);
+                    wrapper.getFile(), index, request, flowType);
             if (StringUtils.isEmpty(viewData.toString())) {
                 map.put(AjaxableUtils.getFreeTextModelName(),
                         "<div><b>Incorrect format. Please try again.</b></div>");

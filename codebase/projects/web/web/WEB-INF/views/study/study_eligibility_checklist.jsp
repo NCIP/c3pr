@@ -73,7 +73,7 @@
 			<tr>
 				<td width="35%" align="right"><b>Select caDSR File to
 				Import:</b></td>
-				<td><input type="file" name="criteriaFile" /> <input
+				<td><input type="file" name="study.criteriaFile" /> <input
 					type='submit' value='Upload' /> <tags:hoverHint
 					keyProp="study.criteriafile" /></td>
 			</tr>
