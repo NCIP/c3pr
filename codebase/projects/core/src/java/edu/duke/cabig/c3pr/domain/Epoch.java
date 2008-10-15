@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -29,6 +25,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -547,7 +544,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		this.randomizedIndicator = randomizedIndicator;
 	}
 
-	public boolean evaluateStatus() throws C3PRCodedException {
+	public boolean evaluateStatus() throws C3PRCodedRuntimeException {
 		if (!evaluateStratificationDataEntryStatus())
 			return false;
 		if (!evaluateRandomizationDataEntryStatus()) {
@@ -557,7 +554,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 			if ((this.getArms().size() < 2)||(this.getRandomization() == null)) {
 				if (this.getArms().size() < 2) {
 					throw getC3PRExceptionHelper()
-							.getException(
+							.getRuntimeException(
 									getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE"),
 									new String[] { this.getName() });
 				}
@@ -565,7 +562,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 				if (getStudy().getStratificationIndicator()) {
 					if (!this.hasStratumGroups()) {
 						throw getC3PRExceptionHelper()
-								.getException(
+								.getRuntimeException(
 										getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
 										new String[] { this.getName() });
 					}
@@ -573,7 +570,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 				if (this.getRandomization() == null) {
 					throw getC3PRExceptionHelper()
-							.getException(
+							.getRuntimeException(
 									getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE"),
 									new String[] { this.getName() });
 				}
@@ -588,12 +585,12 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	}
 
 	public boolean evaluateStratificationDataEntryStatus()
-			throws C3PRCodedException {
+			throws C3PRCodedRuntimeException {
 		
 			if (this.getStratificationIndicator()) {
 				if (!this.hasStratification() || !this.hasStratumGroups()) {
 					throw getC3PRExceptionHelper()
-							.getException(
+							.getRuntimeException(
 									getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
 									new String[] { this.getName() });
 				}
@@ -604,7 +601,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	}
 
 	public boolean evaluateRandomizationDataEntryStatus()
-			throws C3PRCodedException {
+			throws C3PRCodedRuntimeException {
 		
 		if (this.study.getRandomizationType() == (RandomizationType.BOOK)) {
 			if (this.getRandomizedIndicator()) {
@@ -612,14 +609,14 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 					if (this.study.getStratificationIndicator()) {
 						if (!this.hasStratumGroups()) {
 							throw getC3PRExceptionHelper()
-									.getException(
+									.getRuntimeException(
 											getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
 											new String[] { this.getName() });
 						}
 					}
 				} else {
 					throw getC3PRExceptionHelper()
-							.getException(
+							.getRuntimeException(
 									getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.BOOK_ENTRIES_FOR_BOOK_RANDOMIZED_EPOCH.CODE"),
 									new String[] { this.getName() });
 				}
@@ -634,7 +631,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 							.isBlank(((PhoneCallRandomization) randomization)
 									.getPhoneNumber())) {
 						throw getC3PRExceptionHelper()
-								.getException(
+								.getRuntimeException(
 										getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE"),
 										new String[] { this.getName() });
 					}
@@ -650,7 +647,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 							.isBlank(((CalloutRandomization) randomization)
 									.getCalloutUrl())) {
 						throw getC3PRExceptionHelper()
-								.getException(
+								.getRuntimeException(
 										getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.CALL_OUT_URL_FOR_CALL_OUT_RANDOMIZED_EPOCH.CODE"),
 										new String[] { this.getName() });
 					}
@@ -663,7 +660,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	}
 
 	public boolean evaluateEligibilityDataEntryStatus()
-			throws C3PRCodedException {
+			throws C3PRCodedRuntimeException {
 		// Default returns true unless more information is obtained
 		return true;
 	}

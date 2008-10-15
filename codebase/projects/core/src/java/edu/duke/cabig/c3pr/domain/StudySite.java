@@ -24,6 +24,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
@@ -315,6 +316,121 @@ public class StudySite extends StudyOrganization implements
 			}
 		}
 		return getStudy();
+	}
+	
+
+	public void openStudy() throws C3PRCodedRuntimeException{
+		if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
+
+			Date currentDate = new Date();
+			GregorianCalendar calendar = new GregorianCalendar();
+			calendar.setTime(currentDate);
+			calendar.add(calendar.YEAR, -1);
+			String allowedOldDate = "" ;
+			String todayDate = "" ;
+			
+				try {
+					allowedOldDate  = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
+					todayDate  = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
+				} catch (ParseException e) {
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"),new String[] { this.getHealthcareSite().getName() });
+				}
+				
+			if (this.getIrbApprovalDate() == null ) {
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"),
+							new String[] { this.getHealthcareSite().getName() });
+			}
+			if ( this.getIrbApprovalDate().after(currentDate)){
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.INVALID.IRB_APPROVAL_DATE.CODE"),
+									new String[] { this.getHealthcareSite().getName(), todayDate});
+			}
+			if (this.getIrbApprovalDate().before(calendar.getTime())){
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.EXPIRED.IRB_APPROVAL_DATE.CODE"),
+									new String[] { this.getHealthcareSite().getName(), allowedOldDate });
+			}
+			if ((this.getStartDate() == null)
+					|| (this.getStartDate().after(currentDate))) {
+					throw getC3PRExceptionHelper()
+							.getRuntimeException(
+									getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.START_DATE.CODE"),
+									new String[] { this
+											.getHealthcareSite().getName() });
+			}
+			
+			this.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+		
+			} else { throw getC3PRExceptionHelper()
+			.getRuntimeException(
+					getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_CANNOT_BE_SET_WITH_CURRENT_COORDINATING_CENTER_STATUS.CODE"),
+					new String[] { SiteStudyStatus.ACTIVE.getDisplayName(),this.getStudy().getCoordinatingCenterStudyStatus().getDisplayName() });
+				
+			}
+		
+		}
+		
+	
+	public void closeToAccrual() throws C3PRCodedRuntimeException {
+		
+			if (((this.getSiteStudyStatus()) == (SiteStudyStatus.PENDING))
+					|| ((this.getSiteStudyStatus()) == (SiteStudyStatus.AMENDMENT_PENDING)))
+					throw getC3PRExceptionHelper()
+							.getRuntimeException(
+									getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+									new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL
+											.getDisplayName() });
+			this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
+			}
+	
+	public void closeToAccrualAndTreatment() throws C3PRCodedException {
+		
+			if (((this.getSiteStudyStatus()) == (SiteStudyStatus.PENDING))
+					|| ((this.getSiteStudyStatus()) == (SiteStudyStatus.AMENDMENT_PENDING))
+					|| ((this.getSiteStudyStatus()) == (SiteStudyStatus.CLOSED_TO_ACCRUAL)))
+					throw getC3PRExceptionHelper()
+							.getRuntimeException(
+									getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+									new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
+											.getDisplayName() });
+			this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+	}
+		
+	public void putInPending() throws C3PRCodedRuntimeException {
+		this.setSiteStudyStatus(SiteStudyStatus.PENDING);
+	}
+	
+	public void temporarilyCloseToAccrualAndTreatment() throws C3PRCodedException {
+		
+		if (((this.getSiteStudyStatus()) == (SiteStudyStatus.PENDING))
+				|| ((this.getSiteStudyStatus()) == (SiteStudyStatus.AMENDMENT_PENDING))
+				|| ((this.getSiteStudyStatus()) == (SiteStudyStatus.CLOSED_TO_ACCRUAL))
+				|| ((this.getSiteStudyStatus()) == (SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
+				throw getC3PRExceptionHelper()
+						.getRuntimeException(
+								getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+								new String[] { SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
+										.getDisplayName() });
+		}
+		this.setSiteStudyStatus(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+	}
+	
+	public void temporarilyCloseToAccrual() throws C3PRCodedRuntimeException {
+		
+		if (((this.getSiteStudyStatus()) == (SiteStudyStatus.PENDING))
+				|| ((this.getSiteStudyStatus()) == (SiteStudyStatus.AMENDMENT_PENDING))
+				|| ((this.getSiteStudyStatus()) == (SiteStudyStatus.CLOSED_TO_ACCRUAL))
+				|| ((this.getSiteStudyStatus()) == (SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
+				throw getC3PRExceptionHelper()
+						.getRuntimeException(
+								getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+								new String[] { SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
+										.getDisplayName() });
+		}
+		this.setSiteStudyStatus(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+	}
+	
+	public void putInAmendmentPending() throws C3PRCodedRuntimeException {
+		this.setSiteStudyStatus(SiteStudyStatus.AMENDMENT_PENDING);
+		
 	}
 	
 	@Transient
