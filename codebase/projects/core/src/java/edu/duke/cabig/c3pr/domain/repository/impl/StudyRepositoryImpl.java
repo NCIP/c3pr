@@ -7,28 +7,23 @@ import javax.persistence.Transient;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
-import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.factory.StudyFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
-import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl;
 
 @Transactional
 public class StudyRepositoryImpl implements StudyRepository {
@@ -41,12 +36,18 @@ public class StudyRepositoryImpl implements StudyRepository {
 
 	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
-	private Logger log = Logger.getLogger(StudyXMLImporterServiceImpl.class
+	private Logger log = Logger.getLogger(StudyRepositoryImpl.class
 			.getName());
 
 	private C3PRExceptionHelper c3PRExceptionHelper;
 
 	private MessageSource c3prErrorMessages;
+	
+	private StudyFactory studyFactory;
+
+	public void setStudyFactory(StudyFactory studyFactory) {
+		this.studyFactory = studyFactory;
+	}
 
 	public StudyRepositoryImpl() {
 		super();
@@ -63,75 +64,20 @@ public class StudyRepositoryImpl implements StudyRepository {
 	public void save(Study study) throws C3PRCodedException {
 		// TODO call ESB to broadcast protocol, POC
 		studyDao.save(study);
+		log.debug("Study saved with Primary Identifier" + study.getPrimaryIdentifier());
 	}
 
 	public Study merge(Study study) {
 		return studyDao.merge(study);
 	}
 
+		
 	@Transactional(readOnly = false)
-	public void buildAndSave(Study study) throws C3PRCodedException {
-
-		// load study orgs from db Not to be imported
-		for (StudyOrganization organization : study.getStudyOrganizations()) {
-			HealthcareSite loadedSite = healthcareSiteDao
-					.getByNciInstituteCode(organization.getHealthcareSite()
-							.getNciInstituteCode());
-			if (loadedSite == null) {
-				throw getC3PRExceptionHelper()
-						.getException(
-								getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
-								new String[] { organization.getHealthcareSite()
-										.getNciInstituteCode() });
-			}
-			organization.setHealthcareSite(loadedSite);
-
-			// load Investigators from DB
-			for (StudyInvestigator sInv : organization.getStudyInvestigators()) {
-				Investigator inv = sInv.getHealthcareSiteInvestigator()
-						.getInvestigator();
-				List<Investigator> loadedInvestigators = investigatorDao
-						.getInvestigatorsByNciInstituteCode(inv
-								.getNciIdentifier());
-				Investigator loadedInv = null;
-				if (loadedInvestigators.size() > 0) {
-					loadedInv = loadedInvestigators.get(0);
-				}
-				if (loadedInv == null) {
-					throw getC3PRExceptionHelper()
-							.getException(
-									getCode("C3PR.EXCEPTION.STUDY.INVALID.NCI_IDENTIFIER.CODE"),
-									new String[] { inv.getNciIdentifier() });
-				}
-				HealthcareSiteInvestigator loadedSiteInv = healthcareSiteInvestigatorDao
-						.getSiteInvestigator(loadedSite, loadedInv);
-
-				if (loadedSiteInv == null) {
-					throw getC3PRExceptionHelper()
-							.getException(
-									getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
-									new String[] { loadedSite.getName(),
-											loadedInv.getFullName() });
-				}
-				sInv.setHealthcareSiteInvestigator(loadedSiteInv);
-				sInv.setSiteInvestigator(loadedSiteInv);
-
-			}
-
-		}
-
-		for (OrganizationAssignedIdentifier identifier : study
-				.getOrganizationAssignedIdentifiers()) {
-			HealthcareSite loadedSite = healthcareSiteDao
-					.getByNciInstituteCode(identifier.getHealthcareSite()
-							.getNciInstituteCode());
-			identifier.setHealthcareSite(loadedSite);
-		}
-
-		studyDao.save(study);
-		log.debug("Study saved with grid ID" + study.getGridId());
+	public void buildAndSave(Study study) throws C3PRCodedException{
+		study = studyFactory.buildStudy(study);
+		save(study);
 	}
-
+	
 	/**
 	 * Validate a study against a set of validation rules
 	 * 
@@ -143,13 +89,19 @@ public class StudyRepositoryImpl implements StudyRepository {
 			C3PRCodedException {
 
 		try {
+			
+			if(study.getCompanionIndicator()){
+				if (study.getCompanionStudyAssociations().size()>0){
+					throw new StudyValidationException("Companion Study :" + study.getShortTitleText() + "cannot have other companions");
+				}
+				
 			if ((study.getCoordinatingCenterAssignedIdentifier() == null)) {
 				throw new StudyValidationException(
 						"Coordinating Center identifier is required");
-			} else if (searchByCoOrdinatingCenterId(
-					study.getCoordinatingCenterAssignedIdentifier()).size() > 0) {
+			} else if (!study.getCompanionIndicator() && (searchByCoOrdinatingCenterId(
+					study.getCoordinatingCenterAssignedIdentifier()).size() > 0)) {
 				throw new StudyValidationException("Study exists");
-			}
+			} 
 
 			for (StudyOrganization organization : study.getStudyOrganizations()) {
 				if (healthcareSiteDao.getByNciInstituteCode(organization
@@ -160,10 +112,17 @@ public class StudyRepositoryImpl implements StudyRepository {
 											.getNciInstituteCode());
 				}
 			}
+			
+			}
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			throw new StudyValidationException("Error when validating study : "
 					+ e.getMessage());
+		}
+		
+		// validate the companion studies.
+		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+			validate(companionStudyAssociation.getCompanionStudy());
 		}
 	}
 
@@ -184,6 +143,40 @@ public class StudyRepositoryImpl implements StudyRepository {
 		}
 		identifier.setHealthcareSite(healthcareSite);
 		return studyDao.searchByOrgIdentifier(identifier);
+	}
+
+	public void open(Study study) throws C3PRCodedRuntimeException {
+		study.open();
+		
+	}
+
+	public void closeToAccrual(Study study) throws C3PRCodedRuntimeException {
+		study.closeToAccrual();		
+	}
+
+	public void closeToAccrualAndTreatment(Study study)
+			throws C3PRCodedRuntimeException {
+		study.closeToAccrualAndTreatment();
+		
+	}
+
+	public void putInAmendmentPending(Study study)
+			throws C3PRCodedRuntimeException {
+		study.putInAmendmentPending();
+	}
+
+	public void putInPending(Study study) throws C3PRCodedRuntimeException {
+		study.putInPending();
+	}
+
+	public void temporarilyCloseToAccrual(Study study)
+			throws C3PRCodedRuntimeException {
+		study.temporarilyCloseToAccrual();
+	}
+
+	public void temporarilyCloseToAccrualAndTreatment(Study study)
+			throws C3PRCodedRuntimeException {
+		study.temporarilyCloseToAccrualAndTreatment();
 	}
 
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
