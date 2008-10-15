@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sun.util.logging.resources.logging;
 
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -147,6 +148,11 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 			if (studyOrganization != null) {
 				getHibernateTemplate().initialize(studyOrganization.getStudyInvestigatorsInternal());
 				getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
+			}
+		}
+		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
+			if (companionStudyAssociation != null) {
+				this.initialize(companionStudyAssociation.getCompanionStudy());
 			}
 		}
 	}
