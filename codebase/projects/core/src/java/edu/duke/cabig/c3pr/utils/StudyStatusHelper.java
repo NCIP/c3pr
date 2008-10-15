@@ -2,11 +2,11 @@ package edu.duke.cabig.c3pr.utils;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 
 public class StudyStatusHelper {
 	
-	public void setStatus(Study study,CoordinatingCenterStudyStatus targetStatus) throws C3PRCodedException{
+	public static void setStatus(Study study,CoordinatingCenterStudyStatus targetStatus) throws C3PRCodedRuntimeException{
 		
 		// TODO Should be using Switch Statement to do this
 		
