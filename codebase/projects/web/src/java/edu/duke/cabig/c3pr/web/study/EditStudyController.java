@@ -148,7 +148,7 @@ public class EditStudyController extends StudyController<StudyWrapper> {
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
                                    int page) throws Exception {
         super.postProcessPage(request, command, errors, page);
-        (((StudyWrapper) command).getStudy()).setDataEntryStatus(false);
+      //  (((StudyWrapper) command).getStudy()).setDataEntryStatus(false);
     }
 
 }

@@ -140,7 +140,7 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
     protected void postProcessPage(HttpServletRequest request, Object command,
                                    Errors errors, int page) throws Exception {
         Study study = ((StudyWrapper) command).getStudy();
-        study.setDataEntryStatus(false);
+  //      study.setDataEntryStatus(false);
         study
                 .setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         for (StudySite studySite : study.getStudySites()) {
