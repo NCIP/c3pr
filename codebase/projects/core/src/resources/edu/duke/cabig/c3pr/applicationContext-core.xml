@@ -451,6 +451,11 @@
     <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
           autowire="byName"/>
 
+	<!-- Factories -->
+	<bean id="studyFactory" lazy-init="true" class="edu.duke.cabig.c3pr.domain.factory.StudyFactory"
+          autowire="byName"/>
+          
+          
     <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
           lazy-init="true" autowire="byType">
         <property name="mailSender" ref="mailSender"/>
