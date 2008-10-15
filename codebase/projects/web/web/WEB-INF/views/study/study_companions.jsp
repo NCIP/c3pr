@@ -129,7 +129,7 @@ function closePopup() {
 		                      			</script>
 		                      		</c:if>
 		                  		 	<tags:indicator id="companionStudy${status.index}-indicator"/>
-		                  			<div id="companionStudy${status.index}-choices" class="autocomplete"></div>
+		                  			<div id="companionStudy${status.index}-choices" class="autocomplete" style="display:none;"></div>
 		           			 </td>
 		           			 <td class="alt" align="center">
 								<div id="companionStudy${status.index}-companionStudyStatus">
@@ -179,7 +179,7 @@ function closePopup() {
                 <input type="button" id="companionStudyPAGE.ROW.INDEX-clear"
                         value="Clear"/>
                    <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
-                  <div id="companionStudyPAGE.ROW.INDEX-choices" class="autocomplete"></div>
+                  <div id="companionStudyPAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
             </td>
 			<td >
 				<div id="companionStudyPAGE.ROW.INDEX-companionStudyStatus" >
