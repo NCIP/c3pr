@@ -5,6 +5,7 @@ import java.util.List;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
 
 public interface StudyRepository {
@@ -22,6 +23,20 @@ public interface StudyRepository {
     public void refresh(Study study);
 
     public void reassociate(Study study);
+    
+    public void open(Study study) throws C3PRCodedRuntimeException;
+    
+    public void closeToAccrual(Study study) throws C3PRCodedRuntimeException;
+    
+    public void closeToAccrualAndTreatment(Study study) throws C3PRCodedRuntimeException;
+    
+    public void putInPending(Study study) throws C3PRCodedRuntimeException;
+    
+    public void temporarilyCloseToAccrualAndTreatment(Study study) throws C3PRCodedRuntimeException;
+    
+    public void temporarilyCloseToAccrual(Study study) throws C3PRCodedRuntimeException;
+    
+    public void putInAmendmentPending(Study study) throws C3PRCodedRuntimeException;
     
     public void clear();
 }
