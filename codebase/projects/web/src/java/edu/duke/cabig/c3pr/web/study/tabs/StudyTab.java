@@ -31,16 +31,6 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
 
     protected StudyRepository studyRepository;
     
-    protected StudyStatusHelper studyStatusHelper ;
-
-    public StudyStatusHelper getStudyStatusHelper() {
-		return studyStatusHelper;
-	}
-
-	public void setStudyStatusHelper(StudyStatusHelper studyStatusHelper) {
-		this.studyStatusHelper = studyStatusHelper;
-	}
-
 	protected static final Log log = LogFactory.getLog(StudyTab.class);
 
     // public static final String DISABLE_FORM_DESIGN = "DISABLE_FORM_DESIGN";

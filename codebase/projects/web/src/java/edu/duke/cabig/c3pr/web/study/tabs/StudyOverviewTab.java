@@ -16,8 +16,10 @@ import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.StudyStatusHelper;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
@@ -99,7 +101,7 @@ public class StudyOverviewTab extends StudyTab {
                     command.getStudy().getStudySites().get(
                             studySiteIndex).setWorkFlowSiteStudyStatus(statusObject);
                 }
-                catch (C3PRCodedException e) {
+                catch (C3PRCodedRuntimeException e) {
                     if ((command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL || command
                             .getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
                             && statusObject == SiteStudyStatus.ACTIVE && isAdmin()) {
@@ -141,13 +143,13 @@ public class StudyOverviewTab extends StudyTab {
                     .getByCode(value);
 
             try {
-            	 studyStatusHelper.setStatus(command.getStudy(), statusObject);
+            	 StudyStatusHelper.setStatus(command.getStudy(), statusObject);
                 // adding a callback incase the status change is successful
                 // this callback is used to dynamically display/hide the amend study button
                 retValue = "<script>statusChangeCallback('" + command.getStudy().getCoordinatingCenterStudyStatus().getCode() + "');reloadCompanion();" +
                         "</script>";
             }
-            catch (C3PRCodedException e) {
+            catch (C3PRCodedRuntimeException e) {
                 // case when the user has an admin role and he/she can change the study status to
                 // Active even when the study is closed to accrual
                 // or closed to accrual and treatment.
