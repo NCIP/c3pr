@@ -12,7 +12,7 @@ function submitForm(){
 	<input type="hidden" name="epoch" id="create_epoch"/>
 	<input type="hidden" name="studySubject.studySite" id="studySite" value="${studySite}"/>
 	<input type="hidden" name="studySubject.participant" id="participant"  value="${participant}"/>
-	<input type="hidden" name="studySubject.parentRegistrationId" id="parentRegistrationId"  value="${parentRegistrationId}"/>
+	<input type="hidden" name="parentRegistrationId" id="parentRegistrationId"  value="${parentRegistrationId}"/>
 </form>
 </head>
 <body>
