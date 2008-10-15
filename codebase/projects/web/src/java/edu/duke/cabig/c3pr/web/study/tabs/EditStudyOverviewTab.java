@@ -12,7 +12,7 @@ public class EditStudyOverviewTab extends StudyOverviewTab {
 
     public void validate(Study study, Errors errors) {
         try {
-            study.setDataEntryStatus(true);
+       //     study.setDataEntryStatus(true);
         }
         catch (Exception e) {
             errors.rejectValue("coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
