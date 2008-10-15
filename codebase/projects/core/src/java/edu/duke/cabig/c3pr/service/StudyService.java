@@ -35,8 +35,6 @@ public interface StudyService extends CCTSWorkflowService, MultiSiteWorkflowServ
 
     public void closeStudy(List<Identifier> studyIdentifiers)throws C3PRCodedException;
     
-    public void updateStudyStatus(List<Identifier> studyIdentifiers, CoordinatingCenterStudyStatus status) throws C3PRCodedException;
-    
     public void closeStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode) throws C3PRCodedException;
     
     public void closeStudySites(List<Identifier> studyIdentifiers) throws C3PRCodedException;
