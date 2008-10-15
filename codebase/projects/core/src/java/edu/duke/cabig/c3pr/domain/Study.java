@@ -86,8 +86,6 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	private String primaryIdentifier;
 
-	// This is for the bookRandomizationEntried File
-	private String file;
 
 	// This is for the CADSR exclusion/inclusion criteria file
 	private byte[] criteriaFile;
@@ -727,19 +725,6 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	public void setRandomizationType(RandomizationType randomizationType) {
 		this.randomizationType = randomizationType;
-	}
-
-	@Transient
-	public String getFile() {
-
-		if (file != null) {
-			return file;
-		}
-		return null;
-	}
-
-	public void setFile(String file) {
-		this.file = file;
 	}
 
 	@Transient
