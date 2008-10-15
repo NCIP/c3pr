@@ -391,7 +391,7 @@
 				class="autocomplete validate-notEmpty" />
 								<tags:hoverHint keyProp="study.healthcareSite.name"/>
 							<tags:indicator id="coCenter-indicator" />
-							<div id="coCenter-choices" class="autocomplete"  style="display: none;"></div>
+							<div id="coCenter-choices" class="autocomplete" style="display:none;"></div>
 							</div>
                     </div>	
                     <div class="row">
@@ -410,7 +410,7 @@
 		                   		<input type="text" id="investigator0-input" size="30"
 		                          		value="${_nameInv} ${_codeInv }" class="autocomplete validate-notEmpty"/>
 		                   		<tags:indicator id="investigator0-indicator"/>
-		                   		<div id="investigator0-choices" class="autocomplete"></div>
+		                   		<div id="investigator0-choices" class="autocomplete" style="display:none;"></div>
 		                   		<input type="hidden" name="study.studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
 								  		value="Principal Investigator"/>
 						   		<input type="hidden" name="study.studyCoordinatingCenters[0].studyInvestigators[0].statusCode" value="Active"/>
@@ -468,7 +468,7 @@
             		value="${fn:length(command.study.studyFundingSponsors)>0?command.study.studyFundingSponsors[0].healthcareSite.id:''}"/>            		
 			<tags:indicator id="healthcareSite-indicator" />
 			<tags:hoverHint keyProp="study.studyFundingSponsor"/>
-			<div id="healthcareSite-choices" class="autocomplete"></div>
+			<div id="healthcareSite-choices" class="autocomplete" style="display:none;"></div>
 			</div>
         </div>
 	</div>
@@ -508,7 +508,7 @@
 						name="studyCoordinatingCenters[0].healthcareSite.name"
 						value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" class="autocomplete" />
 						<tags:indicator id="piCoCenter-indicator" />
-						<div id="piCoCenter-choices" class="autocomplete"></div>
+						<div id="piCoCenter-choices" class="autocomplete" style="display:none;"></div>
 						</div>
                    </div> 
 
@@ -522,7 +522,7 @@
                    <input type="text" id="investigator0-input" size="30"
                           value="${command.study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" class="autocomplete"/>
                    <tags:indicator id="investigator0-indicator"/>
-                   <div id="investigator0-choices" class="autocomplete"></div>
+                   <div id="investigator0-choices" class="autocomplete" style="display:none;"></div>
                    <input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
 					value="Principal Investigator"/>
 					<input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].statusCode" value="Active"/>
