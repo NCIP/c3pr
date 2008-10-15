@@ -975,7 +975,11 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
    		 }
     	}
     	
-    	for(CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()){
+		if (!evaluateEpochsDataEntryStatus()){
+			return StudyDataEntryStatus.INCOMPLETE;
+		}
+		
+		for(CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()){
     		if(compStudyAssoc.getMandatoryIndicator() != null){
     			if(compStudyAssoc.getMandatoryIndicator() 
     					&& !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
@@ -984,9 +988,6 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
     			}
     		}
 			 
-		}
-		if (!evaluateEpochsDataEntryStatus()){
-			return StudyDataEntryStatus.INCOMPLETE;
 		}
 
 		return StudyDataEntryStatus.COMPLETE;

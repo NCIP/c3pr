@@ -203,7 +203,7 @@ public class StudySite extends StudyOrganization implements
 	}
 
 	public SiteStudyStatus evaluateSiteStudyStatus()
-			throws C3PRCodedException {
+			throws C3PRCodedRuntimeException {
 
 		if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL) {
 			return SiteStudyStatus.CLOSED_TO_ACCRUAL;
@@ -236,26 +236,26 @@ public class StudySite extends StudyOrganization implements
 					allowedOldDate  = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
 					todayDate  = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
 				} catch (ParseException e) {
-					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"),new String[] { this.getHealthcareSite().getName() });
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"),new String[] { this.getHealthcareSite().getName() });
 				}
 				
 			if (this.getIrbApprovalDate() == null ) {
 				if( this.getId() != null ){
-					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"),
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"),
 							new String[] { this.getHealthcareSite().getName() });
 				}
 				return SiteStudyStatus.PENDING;
 			}
 			if ( this.getIrbApprovalDate().after(currentDate)){
 				if ((this.getId() != null)) {
-					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.INVALID.IRB_APPROVAL_DATE.CODE"),
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.INVALID.IRB_APPROVAL_DATE.CODE"),
 									new String[] { this.getHealthcareSite().getName(), todayDate});
 				}
 				return SiteStudyStatus.PENDING;
 			}
 			if (this.getIrbApprovalDate().before(calendar.getTime())){
 				if ((this.getId() != null)) {
-					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.EXPIRED.IRB_APPROVAL_DATE.CODE"),
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.EXPIRED.IRB_APPROVAL_DATE.CODE"),
 									new String[] { this.getHealthcareSite().getName(), allowedOldDate });
 				}
 				return SiteStudyStatus.PENDING;
@@ -264,7 +264,7 @@ public class StudySite extends StudyOrganization implements
 					|| (this.getStartDate().after(currentDate))) {
 				if ((this.getId() != null)) {
 					throw getC3PRExceptionHelper()
-							.getException(
+							.getRuntimeException(
 									getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.START_DATE.CODE"),
 									new String[] { this
 											.getHealthcareSite().getName() });
@@ -277,7 +277,7 @@ public class StudySite extends StudyOrganization implements
 		return SiteStudyStatus.PENDING;
 	}
 
-	public Study setWorkFlowSiteStudyStatus(SiteStudyStatus status) throws C3PRCodedException{
+	public Study setWorkFlowSiteStudyStatus(SiteStudyStatus status) throws C3PRCodedRuntimeException{
 		SiteStudyStatus currentSiteStatus = this.getSiteStudyStatus();
 		if ((status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
 				|| (status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
@@ -292,7 +292,7 @@ public class StudySite extends StudyOrganization implements
 					|| ((currentSiteStatus) == (SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
 				if ((this.getId() != null)) {
 					throw getC3PRExceptionHelper()
-							.getException(
+							.getRuntimeException(
 									getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
 									new String[] { status.getDisplayName() });
 				}
@@ -305,7 +305,7 @@ public class StudySite extends StudyOrganization implements
 			} else {
 				if ((getStudy().getId() != null)) {
 					throw getC3PRExceptionHelper()
-							.getException(
+							.getRuntimeException(
 									getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
 									new String[] {
 											status.getDisplayName(),
