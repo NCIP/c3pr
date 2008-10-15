@@ -12,6 +12,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
 
@@ -26,6 +27,7 @@ public class StudyServiceImpl extends WorkflowServiceImpl implements StudyServic
     private Logger log = Logger.getLogger(StudyService.class);
     private StudyDao studyDao;
     private StudySiteDao studySiteDao;
+    private StudyRepository studyRepositoryImpl;
 
     public void setStudySiteDao(StudySiteDao studySiteDao) {
         this.studySiteDao = studySiteDao;
@@ -35,7 +37,11 @@ public class StudyServiceImpl extends WorkflowServiceImpl implements StudyServic
         this.studyDao = studyDao;
     }
 
-    public List<Study> searchByExample(Study study, int maxResults) {
+    public void setStudyRepositoryImpl(StudyRepository studyRepositoryImpl) {
+		this.studyRepositoryImpl = studyRepositoryImpl;
+	}
+
+	public List<Study> searchByExample(Study study, int maxResults) {
         return studyDao.searchByExample(study, maxResults);
     }
 
@@ -67,16 +73,10 @@ public class StudyServiceImpl extends WorkflowServiceImpl implements StudyServic
 
     public void closeStudy(List<Identifier> studyIdentifiers) throws C3PRCodedException{
         Study study=getUniqueStudy(studyIdentifiers);
-        study.setStatuses(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+        studyRepositoryImpl.closeToAccrual(study);        
         studyDao.save(study);
     }
     
-    public void updateStudyStatus(List<Identifier> studyIdentifiers, CoordinatingCenterStudyStatus status) throws C3PRCodedException{
-        Study study=getUniqueStudy(studyIdentifiers);
-        study.setStatuses(status);
-        studyDao.save(study);
-    }
-
     public void closeStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode) throws C3PRCodedException{
         StudySite studySite=getUniqueStudy(studyIdentifiers).getStudySiteFromNCICode(nciInstituteCode);
         studySite.setWorkFlowSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
@@ -102,7 +102,7 @@ public class StudyServiceImpl extends WorkflowServiceImpl implements StudyServic
 
     public void openStudy(List<Identifier> studyIdentifiers) throws C3PRCodedException{
         Study study=getUniqueStudy(studyIdentifiers);
-        study.setStatuses(CoordinatingCenterStudyStatus.OPEN);
+        studyRepositoryImpl.open(study);
         studyDao.save(study);
     }
 
