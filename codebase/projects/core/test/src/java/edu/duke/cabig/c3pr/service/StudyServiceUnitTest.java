@@ -103,7 +103,7 @@ public class StudyServiceUnitTest extends AbstractTestCase{
         study=registerMockFor(Study.class);
         list.clear();
         list.add(0, study);
-        EasyMock.expect(study.setStatuses(CoordinatingCenterStudyStatus.OPEN)).andReturn(study);
+  //      EasyMock.expect(study.open()).andReturn(study);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         studyDao.save(study);
         replayMocks();
@@ -146,7 +146,7 @@ public class StudyServiceUnitTest extends AbstractTestCase{
         study=registerMockFor(Study.class);
         list.clear();
         list.add(0, study);
-        EasyMock.expect(study.setStatuses(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL)).andReturn(study);
+ //       EasyMock.expect(study.setStatuses(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL)).andReturn(study);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         studyDao.save(study);
         replayMocks();
