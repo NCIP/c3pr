@@ -284,7 +284,7 @@ Event.observe(window, "load", function() {
     </chrome:box>
 	</td>
 	
-	<td valign="middle"><input type="button" value="Add Study Disease >>" onclick="fireAction('addStudyDisease','0');" alt="Add Study Disease"/></td>
+	<td valign="middle"><input type="button" value="Add >>" onclick="fireAction('addStudyDisease','0');" alt="Add Study Disease"/></td>
 	
 	<td valign="top" width="45%">
     <chrome:box title="Selected Disease - ${fn:length(command.study.studyDiseases)}" id="diseases">
