@@ -301,7 +301,7 @@ document.getElementById("command").submit();
 </div>
 			<div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> 
-				<input type="button" value="Save and Activate" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
+				<input type="button" value="Activate" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
 				<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
  			</span></div>
 			</div>
