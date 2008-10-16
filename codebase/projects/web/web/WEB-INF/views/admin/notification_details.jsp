@@ -95,7 +95,7 @@
 	     	}
 	     	$('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
      		$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
-	     	win.showCenter();
+	     	win.showCenter(true);
 	     	updateSubvars(index);
 	     }   
 	     

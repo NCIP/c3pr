@@ -70,7 +70,7 @@ Event.observe(window, "load", function() {
 				{title: "Create Companion Study", top:35, left:35, width:1000, height:400, zIndex:100,
 				url: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true&flowType=${flowType}&rowCount='/>"+ rowCount, showEffectOptions: {duration:1.5}}
 				) 
-		win.showCenter();
+		win.showCenter(true);
     });
 })
 
