@@ -222,6 +222,14 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 					rulesDelegationService.activateRules(event, objects);
 					objects.remove(pn);
 				}
+				//activate rules if the event occured is a new Reg event and we have a stored planned notification for
+				//registration status changes. In other words...new Reg event shud send out Reg status changed notification.
+				if(pn.getEventName().equals(NotificationEventTypeEnum.REGISTATION_STATUS_CHANGE) &&
+						event.equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT)){
+					objects.add(pn);
+					rulesDelegationService.activateRules(NotificationEventTypeEnum.REGISTATION_STATUS_CHANGE, objects);
+					objects.remove(pn);
+				}
 			}
 		}
 		log.debug(this.getClass().getName() + ": exiting handleNewStudySubjectSaved()");
