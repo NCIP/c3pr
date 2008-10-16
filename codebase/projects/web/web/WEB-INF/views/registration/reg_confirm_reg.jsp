@@ -191,43 +191,6 @@ function manageCompanions(registrationId){
 	</div>
 
 	
-	<c:if test="${hotlinkEnable}">
-	<table width="60%">
-		<c:if test="${!empty caaersBaseUrl}">
-		<tr>
-			<td align="left"><a
-				href="javascript:accessApp('${caaersBaseUrl }?assignment=${command.studySubject.participant.gridId }','_caaers');">
-			<b>Adverse Event Reporting</b></a> </td>
-		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-		</tr>
-		</c:if>
-		<c:if test="${!empty pscBaseUrl}">
-		<tr>
-			<td align="left"><a
-				href="javascript:accessApp('${pscBaseUrl }','_psc');">
-			<b>Study Calendar</b></a></td>
-		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-		</tr>
-		</c:if>
-		<c:if test="${!empty c3dBaseUrl}">
-		<tr>
-			<td align="left"><a
-				href="javascript:accessApp('${c3dBaseUrl }','_c3d');">
-			<b>Clinical Database</b></a></td>
-		</tr>
-		</c:if>
-	</table>
-	</c:if>
 	<c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' && empty command.studySubject.parentStudySubject}">
 		<div align="right">
 			<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
@@ -252,7 +215,7 @@ function manageCompanions(registrationId){
 	<c:when test="${param.create_companion != 'true'}">
 	</div>
 	
-	<c:if test="${true}">
+	<c:if test="${hotlinkEnable}">
 	<%--<table width="60%">
 		<c:if test="${!empty caaersBaseUrl}">
 		<tr>
@@ -290,13 +253,13 @@ function manageCompanions(registrationId){
 	</table>--%>
 	  <ul>
     	<c:if test="${!empty caaersBaseUrl}">
-	    <li><a href="${caaersBaseUrl }?assignment=${command.studySubject.participant.gridId }" target="${caaers_window }"><b>Adverse Event Reporting System</a></li>
+	    <li><a href="${caaersBaseUrl }?assignment=${command.studySubject.gridId }" target="${caaers_window }"><b>Adverse Event Reporting System</a></li>
 	    </c:if>
 		<c:if test="${!empty pscBaseUrl}">
-	    <li><a href="${pscBaseUrl }?assignment=${command.studySubject.participant.gridId }" target="${psc_window }">Patient Study Calendar</a></li>
+	    <li><a href="${pscBaseUrl }?assignment=${command.studySubject.gridId }" target="${psc_window }">Patient Study Calendar</a></li>
 	    </c:if>
 		<c:if test="${!empty c3dBaseUrl}">
-	    <li><a href="${c3dBaseUrl }?assignment=${command.studySubject.participant.gridId }" target="${c3d_window }">Cancer Central Clinical Database</a></li>
+	    <li><a href="${c3dBaseUrl }?assignment=${command.studySubject.gridId }" target="${c3d_window }">Cancer Central Clinical Database</a></li>
 	    </c:if>
 	  </ul>
 	</c:if>
