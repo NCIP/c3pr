@@ -284,13 +284,15 @@ document.getElementById("command").submit();
 <chrome:division title="Companion Studies">
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left"><b>Companion Study Short Title</b></th>
-            <th width="25%" scope="col" align="left"><b>Status</b></th>
-            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
+            <th width="45%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+			<th width="30%" scope="col" align="left"><b>Data Entry Status</b></th>
+            <th width="15%" scope="col" align="left"><b>Status</b></th>
+            <th width="10%" scope="col" align="left"><b>Mandatory</b></th>
         </tr>
         <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
             <tr>
                 <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+				<td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
                 <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>
                 <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
    	        </tr>	           
