@@ -80,12 +80,13 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
                     int page) throws Exception {
         // TODO Auto-generated method stub
-        StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
+    	super.postProcessPage(request, command, errors, page);
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        super.postProcessPage(request, command, errors, page);
         if (studySubject.getScheduledEpoch() != null) {
             studySubject.updateDataEntryStatus();
         }
+        wrapper.setStudySubject(studySubject);
     }
     
     @Override
