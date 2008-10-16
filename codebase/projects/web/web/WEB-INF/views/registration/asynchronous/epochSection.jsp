@@ -65,13 +65,13 @@
 					<c:choose>
 						<c:when test="${requiresArm||requiresEligibility||requiresStratification||requiresRandomization}">
 							To complete registration, you need to fill in more information.<br>Click ok to continue.
-							<input type="button" onClick="registerSubject('create','${epoch.id }')" value="Ok"><input type="button" onClick="reloadPage('${epoch.id }')" value="Cancel">
 						</c:when>
 						<c:otherwise>
 							Are you sure you want to register the subject on this epoch.
-							<input type="button" onClick="registerSubject('manage','${epoch.id }')" value="Ok"><input type="button" onClick="reloadPage('${epoch.id }')" value="Cancel">
+							<!--  input type="button" onClick="registerSubject('manage','${epoch.id }')" value="Ok"><input type="button" onClick="reloadPage('${epoch.id }')" value="Cancel" -->
 						</c:otherwise>
 					</c:choose>
+					<input type="button" onClick="registerSubject('create','${epoch.id }')" value="Ok"><input type="button" onClick="reloadPage('${epoch.id }')" value="Cancel">
 					</div>
 					<div id="epochUpdate-${epoch.id }" style="display:none"><img src="<tags:imageUrl name="indicator.white.gif"/>"
 									alt="Indicator" align="absmiddle">Updating...</div>
