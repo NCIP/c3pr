@@ -186,7 +186,7 @@ function manageIdentifierRadio(element){
 		</chrome:division>
 		
 		<chrome:division title="MRN">
-		<tags:errors path="*"/>
+		<tags:errors path="primaryIdentifier"/>
     		<div class="leftpanel">
          		<div id="mrnDetails">
                 	 <div class="row">
@@ -225,6 +225,7 @@ function manageIdentifierRadio(element){
 		</chrome:division>
 		
 		<chrome:division title="Organization Assigned Identifiers">
+		<tags:errors path="organizationAssignedIdentifiers"/>
 
 				<table id="organizationIdentifiersTable" border="0"
 					cellspacing="0" cellpadding="0" class="tablecontent">
@@ -286,7 +287,7 @@ function manageIdentifierRadio(element){
 			</chrome:division></td>
 
 			<chrome:division title="System Assigned Identifiers">
-
+				<tags:errors path="systemAssignedIdentifiers"/>
 				<table id="systemIdentifiersTable" border="0" cellspacing="0" cellpadding="0"
 					class="tablecontent">
 					<tr id="hSystemAssignedIdentifier" <c:if test="${fn:length(command.systemAssignedIdentifiers) == 0}">style="display:none;"</c:if>>
