@@ -21,20 +21,38 @@ public class InvestigatorValidator implements Validator {
     }
     
     public void isExistingInvestigator(Object target, Errors errors) {
+    	
     	Investigator inv = (Investigator)target;
-    	List<Investigator> investigators = new ArrayList<Investigator>();
-    	investigators =  investigatorDao.getInvestigatorsByNciInstituteCode(inv.getNciIdentifier());
-    	if (investigators.size()>1){
+    	
+    	List<Investigator> investigatorsbyNCICode = new ArrayList<Investigator>();
+    	investigatorsbyNCICode =  investigatorDao.getInvestigatorsByNciInstituteCode(inv.getNciIdentifier());
+    	if (investigatorsbyNCICode.size()>1){
     		errors.reject("tempProperty",
-                            "Investigator already exists");
+                            "Investigator with this NCI Identifier already exists");
     	} else if(inv.getId()==null){
-    		if(investigators.size()>0){
+    		if(investigatorsbyNCICode.size()>0){
     			errors.reject("tempProperty",
-                "Investigator already exists");
+                "Investigator with this NCI Identifier already exists");
     		}
-    	}else  if(investigators.size()==1){
-    			if(inv.getNciIdentifier().equals(investigators.get(0).getNciIdentifier()) && !inv.getId().equals(investigators.get(0).getId())){
-    				errors.reject("tempProperty","Investigator already exists");
+    	}else  if(investigatorsbyNCICode.size()==1){
+    			if(inv.getNciIdentifier().equals(investigatorsbyNCICode.get(0).getNciIdentifier()) && !inv.getId().equals(investigatorsbyNCICode.get(0).getId())){
+    				errors.reject("tempProperty","Investigator with this NCI Identifier already exists");
+    			}
+    		}
+    	
+    	List<Investigator> investigatorsbyEmail = new ArrayList<Investigator>();
+    	investigatorsbyEmail =  investigatorDao.getByEmailAddress(inv.getContactMechanisms().get(0).getValue());
+    	if (investigatorsbyEmail.size()>1){
+    		errors.reject("tempProperty",
+                            "Investigator with this Email already exists");
+    	} else if(inv.getId()==null){
+    		if(investigatorsbyEmail.size()>0){
+    			errors.reject("tempProperty",
+                "Investigator with this Email already exists");
+    		}
+    	}else  if(investigatorsbyEmail.size()==1){
+    			if(inv.getContactMechanisms().get(0).getValue().equals(investigatorsbyEmail.get(0).getContactMechanisms().get(0).getValue()) && !inv.getId().equals(investigatorsbyEmail.get(0).getId())){
+    				errors.reject("tempProperty","Investigator with this Email already exists");
     			}
     		}
     }
