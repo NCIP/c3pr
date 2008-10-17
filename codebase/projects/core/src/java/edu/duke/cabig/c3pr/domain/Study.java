@@ -68,9 +68,9 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	private Boolean multiInstitutionIndicator;
 
 	private Boolean randomizedIndicator;
-	
+
 	private Boolean companionIndicator;
-	
+
 	private Boolean stratificationIndicator;
 
 	private String shortTitleText;
@@ -89,7 +89,6 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	private String primaryIdentifier;
 
-
 	// This is for the CADSR exclusion/inclusion criteria file
 	private byte[] criteriaFile;
 
@@ -106,7 +105,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	private List<StudyOrganization> studyOrganizations;
 
 	private List<Identifier> identifiers;
-	
+
 	// TODO move into Command Object
 	private String[] diseaseTermIds;
 
@@ -115,34 +114,35 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	private String consentVersion;
 
 	private LazyListHelper lazyListHelper;
-	
+
 	private C3PRExceptionHelper c3PRExceptionHelper;
-	
+
 	private MessageSource c3prErrorMessages;
 
-    @Transient
-    private int acrrualsWithinLastWeek;  
-    
-    private Boolean standaloneIndicator;
-    
-    private Logger log = Logger.getLogger(Study.class);
-    
-    private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
-    
+	@Transient
+	private int acrrualsWithinLastWeek;
+
+	private Boolean standaloneIndicator;
+
+	private Logger log = Logger.getLogger(Study.class);
+
+	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+
 	public Study() {
-		
+
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 		resourceBundleMessageSource.setBasename("error_messages_multisite");
 		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
 		resourceBundleMessageSource1.setBasename("error_messages_c3pr");
-		resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
+		resourceBundleMessageSource1
+				.setParentMessageSource(resourceBundleMessageSource);
 		this.c3prErrorMessages = resourceBundleMessageSource1;
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
 		blindedIndicator = false;
 		multiInstitutionIndicator = false;
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
-		standaloneIndicator = true ;
-		companionIndicator = false ;
+		standaloneIndicator = true;
+		companionIndicator = false;
 
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(StudySite.class,
@@ -169,20 +169,20 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		lazyListHelper.add(StudyAmendment.class,
 				new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
 		lazyListHelper.add(PlannedNotification.class,
-				new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
-		lazyListHelper
-		.add(
-				Epoch.class,
+				new InstantiateFactory<PlannedNotification>(
+						PlannedNotification.class));
+		lazyListHelper.add(Epoch.class,
 				new ParameterizedBiDirectionalInstantiateFactory<Epoch>(
 						Epoch.class, this));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
 		lazyListHelper
-		.add(
-				CompanionStudyAssociation.class,
-				new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(
-						CompanionStudyAssociation.class, this, "ParentStudy"));
+				.add(
+						CompanionStudyAssociation.class,
+						new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(
+								CompanionStudyAssociation.class, this,
+								"ParentStudy"));
 
 	}
 
@@ -190,10 +190,11 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper
-		.add(
-				CompanionStudyAssociation.class,
-				new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(
-						CompanionStudyAssociation.class, this, "ParentStudy"));
+				.add(
+						CompanionStudyAssociation.class,
+						new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(
+								CompanionStudyAssociation.class, this,
+								"ParentStudy"));
 
 		lazyListHelper.add(StudySite.class,
 				new ParameterizedBiDirectionalInstantiateFactory<StudySite>(
@@ -208,9 +209,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 						StudyCoordinatingCenter.class,
 						new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(
 								StudyCoordinatingCenter.class, this));
-		lazyListHelper
-				.add(
-				Epoch.class,
+		lazyListHelper.add(Epoch.class,
 				new ParameterizedBiDirectionalInstantiateFactory<Epoch>(
 						Epoch.class, this));
 		lazyListHelper.add(SystemAssignedIdentifier.class,
@@ -224,7 +223,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		lazyListHelper.add(StudyAmendment.class,
 				new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
 		lazyListHelper.add(PlannedNotification.class,
-				new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
+				new InstantiateFactory<PlannedNotification>(
+						PlannedNotification.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
@@ -259,15 +259,15 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public void setStudySites(List<StudySite> studySites) {
 		// do nothing
 	}
-	
-//	@Transient
-//	public String getPrintStudySites() {
-//		StringBuffer s = new StringBuffer();
-//		for(StudySite ss: getStudySites()){
-//			s.append(ss.getHealthcareSite().getName());
-//		}
-//		return s.toString();
-//	}
+
+	// @Transient
+	// public String getPrintStudySites() {
+	// StringBuffer s = new StringBuffer();
+	// for(StudySite ss: getStudySites()){
+	// s.append(ss.getHealthcareSite().getName());
+	// }
+	// return s.toString();
+	// }
 
 	@Transient
 	public List<StudyFundingSponsor> getStudyFundingSponsors() {
@@ -397,7 +397,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		}
 		return null;
 	}
-	
+
 	@Transient
 	public HealthcareSiteInvestigator getPrincipalInvestigator() {
 		for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
@@ -411,7 +411,6 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		}
 		return null;
 	}
-	
 
 	@Transient
 	public StudyOrganization getPrincipalInvestigatorStudyOrganization() {
@@ -490,7 +489,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public List<Epoch> getEpochsInternal() {
 		return lazyListHelper.getInternalList(Epoch.class);
 	}
-	
+
 	@Transient
 	public List<Epoch> getEpochs() {
 		return lazyListHelper.getLazyList(Epoch.class);
@@ -555,8 +554,10 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		return lazyListHelper.getInternalList(PlannedNotification.class);
 	}
 
-	public void setPlannedNotificationsInternal(final List<PlannedNotification> plannedNotifications) {
-		lazyListHelper.setInternalList(PlannedNotification.class, plannedNotifications);
+	public void setPlannedNotificationsInternal(
+			final List<PlannedNotification> plannedNotifications) {
+		lazyListHelper.setInternalList(PlannedNotification.class,
+				plannedNotifications);
 	}
 
 	@Transient
@@ -564,7 +565,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		return lazyListHelper.getLazyList(PlannedNotification.class);
 	}
 
-	public void setPlannedNotifications(final List<PlannedNotification> plannedNotifications) {
+	public void setPlannedNotifications(
+			final List<PlannedNotification> plannedNotifications) {
 	}
 
 	public void setEpochsInternal(final List<Epoch> epochs) {
@@ -755,37 +757,37 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	@Transient
 	public boolean hasElligibility() {
 
-		for(Epoch epoch:this.getEpochs()){
-			if(epoch.hasEligibility())
-					return true;
-			}
+		for (Epoch epoch : this.getEpochs()) {
+			if (epoch.hasEligibility())
+				return true;
+		}
 		return false;
 	}
 
 	@Transient
 	public boolean hasRandomizedEpoch() {
-		for(Epoch epoch:this.getEpochs()){
-			if(epoch.getRandomizedIndicator())
-					return true;
-			}
+		for (Epoch epoch : this.getEpochs()) {
+			if (epoch.getRandomizedIndicator())
+				return true;
+		}
 		return false;
 	}
-	
+
 	@Transient
 	public boolean hasStratifiedEpoch() {
-		for(Epoch epoch:this.getEpochs()){
-			if(epoch.getStratificationIndicator())
-					return true;
-			}
+		for (Epoch epoch : this.getEpochs()) {
+			if (epoch.getStratificationIndicator())
+				return true;
+		}
 		return false;
 	}
 
 	@Transient
 	public boolean hasEnrollingEpoch() {
-		for(Epoch epoch:this.getEpochs()){
-			if(epoch.getEnrollmentIndicator())
+		for (Epoch epoch : this.getEpochs()) {
+			if (epoch.getEnrollmentIndicator())
 				return true;
-	}
+		}
 		return false;
 	}
 
@@ -868,19 +870,19 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		Iterator eIter = epochList.iterator();
 		while (eIter.hasNext()) {
 			epoch = (Epoch) eIter.next();
-				if (epoch.getName().equalsIgnoreCase(name)) {
-					return epoch;
-				}
+			if (epoch.getName().equalsIgnoreCase(name)) {
+				return epoch;
 			}
+		}
 		return null;
 	}
 
-	public void updateDataEntryStatus()
-			throws C3PRCodedRuntimeException {
-			this.setDataEntryStatus(evaluateDataEntryStatus());
+	public void updateDataEntryStatus() throws C3PRCodedRuntimeException {
+		this.setDataEntryStatus(evaluateDataEntryStatus());
 	}
-	
-	public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus() throws C3PRCodedException {
+
+	public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus()
+			throws C3PRCodedException {
 		if (evaluateDataEntryStatus() != StudyDataEntryStatus.COMPLETE) {
 			return CoordinatingCenterStudyStatus.PENDING;
 		}
@@ -889,33 +891,31 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 				return CoordinatingCenterStudyStatus.AMENDMENT_PENDING;
 			}
 		}
-		
-		if(this.getCompanionIndicator() && !this.standaloneIndicator){
+
+		if (this.getCompanionIndicator() && !this.standaloneIndicator) {
 			return CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION;
-		}else{
+		} else {
 			return CoordinatingCenterStudyStatus.ACTIVE;
 		}
-		
+
 	}
 
-	public boolean evaluateAmendmentStatus()
-			throws C3PRCodedException {
-		
+	public boolean evaluateAmendmentStatus() throws C3PRCodedException {
+
 		if (this.getStudyAmendments().size() > 0) {
 			StudyAmendment latestAmendment = this.getStudyAmendments().get(
 					this.getStudyAmendments().size() - 1);
 
-				if ((this.getId() != null && (latestAmendment
-						.getAmendmentDate() == null))) {
-					throw getC3PRExceptionHelper()
-							.getException(
-									getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.INVALID_AMENDMENT_DATE.CODE"));
-				}
-				if ((this.getId() != null && (latestAmendment.getVersion() == null))) {
-					throw getC3PRExceptionHelper()
-							.getException(
-									getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.VERSION.CODE"));
-				}
+			if ((this.getId() != null && (latestAmendment.getAmendmentDate() == null))) {
+				throw getC3PRExceptionHelper()
+						.getException(
+								getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.INVALID_AMENDMENT_DATE.CODE"));
+			}
+			if ((this.getId() != null && (latestAmendment.getVersion() == null))) {
+				throw getC3PRExceptionHelper()
+						.getException(
+								getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.VERSION.CODE"));
+			}
 			if ((latestAmendment.getAmendmentDate() != null)
 					&& (latestAmendment.getAmendmentDate().after(new Date()))) {
 				if ((this.getId() != null)) {
@@ -951,153 +951,193 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 			throws C3PRCodedRuntimeException {
 
 		if ((this.getStudySites().size() == 0)) {
-				throw getC3PRExceptionHelper()
-						.getRuntimeException(
-								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STUDY_SITE.CODE"));
-		}else if ((!this.hasEnrollingEpoch())) {
-				throw getC3PRExceptionHelper()
-						.getRuntimeException(
-								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE"));
-		}
-		
-    	if(this.getRandomizedIndicator()){
-    		 if (!(this.hasRandomizedEpoch())){
-    				 throw getC3PRExceptionHelper()
- 					.getRuntimeException(
- 							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZED_EPOCH_FOR_RANDOMIZED_STUDY.CODE"));
-    		 }
-    	}
-    	if(this.getStratificationIndicator()){
-   		  if (!(this.hasStratifiedEpoch())){
-   				 throw getC3PRExceptionHelper()
+			throw getC3PRExceptionHelper()
 					.getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFIED_EPOCH_FOR_STRATIFIED_STUDY.CODE"));
-   		 }
-    	}
-    	
-		if (!evaluateEpochsDataEntryStatus()){
+							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STUDY_SITE.CODE"));
+		} else if ((!this.hasEnrollingEpoch())) {
+			throw getC3PRExceptionHelper()
+					.getRuntimeException(
+							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE"));
+		}
+
+		if (this.getRandomizedIndicator()) {
+			if (!(this.hasRandomizedEpoch())) {
+				throw getC3PRExceptionHelper()
+						.getRuntimeException(
+								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZED_EPOCH_FOR_RANDOMIZED_STUDY.CODE"));
+			}
+		}
+		if (this.getStratificationIndicator()) {
+			if (!(this.hasStratifiedEpoch())) {
+				throw getC3PRExceptionHelper()
+						.getRuntimeException(
+								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFIED_EPOCH_FOR_STRATIFIED_STUDY.CODE"));
+			}
+		}
+
+		if (!evaluateEpochsDataEntryStatus()) {
 			return StudyDataEntryStatus.INCOMPLETE;
 		}
-		
-		for(CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()){
-    		if(compStudyAssoc.getMandatoryIndicator() != null){
-    			if(compStudyAssoc.getMandatoryIndicator() 
-    					&& !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
-    					|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)){
-    				throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
-    			}
-    		}
-			 
+
+		for (CompanionStudyAssociation compStudyAssoc : this
+				.getCompanionStudyAssociations()) {
+			if (compStudyAssoc.getMandatoryIndicator() != null) {
+				if (compStudyAssoc.getMandatoryIndicator()
+						&& !(compStudyAssoc.getCompanionStudy()
+								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION || compStudyAssoc
+								.getCompanionStudy()
+								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)) {
+					throw getC3PRExceptionHelper()
+							.getRuntimeException(
+									getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
+				}
+			}
+
 		}
 
 		return StudyDataEntryStatus.COMPLETE;
 	}
 
-	public void open() throws C3PRCodedRuntimeException{
-		
+	public void open() throws C3PRCodedRuntimeException {
+
 		evaluateDataEntryStatus();
-		
-		if(this.getCompanionStudyAssociations().size() > 0 ){
-			for(CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()){
-				if(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
-						|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE){
-					compStudyAssoc.getCompanionStudy().setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-				}else if(compStudyAssoc.getMandatoryIndicator() 
-						&& !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
-						|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)){
-					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
+
+		if (this.getCompanionStudyAssociations().size() > 0) {
+			for (CompanionStudyAssociation compStudyAssoc : this
+					.getCompanionStudyAssociations()) {
+				if (compStudyAssoc.getCompanionStudy()
+						.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
+						|| compStudyAssoc.getCompanionStudy()
+								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
+					compStudyAssoc.getCompanionStudy()
+							.setCoordinatingCenterStudyStatus(
+									CoordinatingCenterStudyStatus.ACTIVE);
+				} else if (compStudyAssoc.getMandatoryIndicator()
+						&& !(compStudyAssoc.getCompanionStudy()
+								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION || compStudyAssoc
+								.getCompanionStudy()
+								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)) {
+					throw getC3PRExceptionHelper()
+							.getRuntimeException(
+									getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
 				}
 			}
 		}
-		
-		if (( (this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
+
+		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
 			{
-					throw getC3PRExceptionHelper()
-							.getRuntimeException(
-									getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE"),
-									new String[] { this.getCoordinatingCenterStudyStatus()
-											.getDisplayName() });
-				}
+				throw getC3PRExceptionHelper()
+						.getRuntimeException(
+								getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE"),
+								new String[] { this
+										.getCoordinatingCenterStudyStatus()
+										.getDisplayName() });
 			}
-		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-		
 		}
-		
-	
+		this
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+
+	}
+
 	public void closeToAccrual() throws C3PRCodedRuntimeException {
-		
-			if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
-					|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING)))
-					throw getC3PRExceptionHelper()
-							.getRuntimeException(
-									getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-									new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
-											.getDisplayName() });
-			this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-			}
-	
+
+		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
+				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING)))
+			throw getC3PRExceptionHelper()
+					.getRuntimeException(
+							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+							new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
+									.getDisplayName() });
+		this
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+	}
+
 	public void closeToAccrualAndTreatment() throws C3PRCodedRuntimeException {
-		
-			if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
-					|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
-					|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL)))
-					throw getC3PRExceptionHelper()
-							.getRuntimeException(
-									getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-									new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
-											.getDisplayName() });
-			this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+
+		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
+				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
+				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL)))
+			throw getC3PRExceptionHelper()
+					.getRuntimeException(
+							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+							new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
+									.getDisplayName() });
+		this
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 	}
-		
+
 	public void putInPending() throws C3PRCodedRuntimeException {
-		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		this
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 	}
-	
-	public void temporarilyCloseToAccrualAndTreatment() throws C3PRCodedRuntimeException {
-		
+
+	public void temporarilyCloseToAccrualAndTreatment()
+			throws C3PRCodedRuntimeException {
+
 		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
-				throw getC3PRExceptionHelper()
-						.getRuntimeException(
-								getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-								new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
-										.getDisplayName() });
+			throw getC3PRExceptionHelper()
+					.getRuntimeException(
+							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+							new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
+									.getDisplayName() });
 		}
-		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+		this
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
 	}
-	
+
+	public void readyForActivation() throws C3PRCodedRuntimeException {
+
+		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
+				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.ACTIVE))
+				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL))
+				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT))
+				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
+			throw getC3PRExceptionHelper()
+					.getRuntimeException(
+							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+							new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
+									.getDisplayName() });
+		}
+		this
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION);
+	}
+
 	public void temporarilyCloseToAccrual() throws C3PRCodedRuntimeException {
-		
+
 		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
-				throw getC3PRExceptionHelper()
-						.getRuntimeException(
-								getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-								new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
-										.getDisplayName() });
+			throw getC3PRExceptionHelper()
+					.getRuntimeException(
+							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+							new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
+									.getDisplayName() });
 		}
-		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+		this
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
 	}
-	
+
 	public void putInAmendmentPending() throws C3PRCodedRuntimeException {
-		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-		
+		this
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+
 	}
-    
-    public boolean evaluateEpochsDataEntryStatus()
-                    throws C3PRCodedRuntimeException {
-            for (Epoch epoch : this.getEpochs()) {
-            	if (!epoch.evaluateStatus())
-           return false;
-            }
-        return true;
-    }
-    @Transient
+
+	public boolean evaluateEpochsDataEntryStatus()
+			throws C3PRCodedRuntimeException {
+		for (Epoch epoch : this.getEpochs()) {
+			if (!epoch.evaluateStatus())
+				return false;
+		}
+		return true;
+	}
+
+	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
 		return c3PRExceptionHelper;
 	}
@@ -1105,11 +1145,14 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public void setC3PRExceptionHelper(C3PRExceptionHelper exceptionHelper) {
 		this.c3PRExceptionHelper = exceptionHelper;
 	}
+
 	@Transient
-	 public int getCode(String errortypeString) {
-	        return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
-	    }
-	 @Transient
+	public int getCode(String errortypeString) {
+		return Integer.parseInt(this.c3prErrorMessages.getMessage(
+				errortypeString, null, null));
+	}
+
+	@Transient
 	public MessageSource getC3prErrorMessages() {
 		return c3prErrorMessages;
 	}
@@ -1126,14 +1169,14 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		this.stratificationIndicator = stratificationIndicator;
 	}
 
-    @Transient
-    public int getAcrrualsWithinLastWeek() {
-        return this.acrrualsWithinLastWeek;
-    }
+	@Transient
+	public int getAcrrualsWithinLastWeek() {
+		return this.acrrualsWithinLastWeek;
+	}
 
-    public void setAcrrualsWithinLastWeek(int acrrualsWithinLastWeek) {
-        this.acrrualsWithinLastWeek = acrrualsWithinLastWeek;
-    }
+	public void setAcrrualsWithinLastWeek(int acrrualsWithinLastWeek) {
+		this.acrrualsWithinLastWeek = acrrualsWithinLastWeek;
+	}
 
 	public Boolean getStandaloneIndicator() {
 		return standaloneIndicator;
@@ -1142,24 +1185,27 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public void setStandaloneIndicator(Boolean standaloneIndicator) {
 		this.standaloneIndicator = standaloneIndicator;
 	}
-	
+
 	@OneToMany(mappedBy = "parentStudy", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<CompanionStudyAssociation> getCompanionStudyAssociationsInternal() {
 		return lazyListHelper.getInternalList(CompanionStudyAssociation.class);
 	}
-	
+
 	@Transient
 	public List<CompanionStudyAssociation> getCompanionStudyAssociations() {
 		return lazyListHelper.getLazyList(CompanionStudyAssociation.class);
 	}
 
-	public void setCompanionStudyAssociationsInternal( List<CompanionStudyAssociation> companionStudyAssociations) {
-		lazyListHelper.setInternalList(CompanionStudyAssociation.class, companionStudyAssociations);
+	public void setCompanionStudyAssociationsInternal(
+			List<CompanionStudyAssociation> companionStudyAssociations) {
+		lazyListHelper.setInternalList(CompanionStudyAssociation.class,
+				companionStudyAssociations);
 	}
-	
-	public void addCompanionStudyAssociation(CompanionStudyAssociation companionStudyAssociation) {
+
+	public void addCompanionStudyAssociation(
+			CompanionStudyAssociation companionStudyAssociation) {
 		this.getCompanionStudyAssociations().add(companionStudyAssociation);
 		companionStudyAssociation.setParentStudy(this);
 	}
@@ -1171,71 +1217,78 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public void setCompanionIndicator(Boolean companionIndicator) {
 		this.companionIndicator = companionIndicator;
 	}
-	
+
 	@OneToMany(mappedBy = "companionStudy")
 	@Cascade(value = { CascadeType.LOCK })
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<CompanionStudyAssociation> getParentStudyAssociations() {
 		return parentStudyAssociations;
 	}
-	
+
 	private void setParentStudyAssociations(
 			List<CompanionStudyAssociation> parentStudyAssociations) {
 		this.parentStudyAssociations = parentStudyAssociations;
 	}
-	
+
 	@SuppressWarnings("unused")
 	@Transient
-	public Map<Object, Object> buildMapForNotification(){
-		
-		Map<Object, Object>  map = new HashMap<Object, Object>();
-		map.put(NotificationEmailSubstitutionVariablesEnum.COORDINATING_CENTER_STUDY_STATUS.toString(), 
-				getCoordinatingCenterStudyStatus().getDisplayName() == null ? "status" : getCoordinatingCenterStudyStatus().getDisplayName());
+	public Map<Object, Object> buildMapForNotification() {
+
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map
+				.put(
+						NotificationEmailSubstitutionVariablesEnum.COORDINATING_CENTER_STUDY_STATUS
+								.toString(), getCoordinatingCenterStudyStatus()
+								.getDisplayName() == null ? "status"
+								: getCoordinatingCenterStudyStatus()
+										.getDisplayName());
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(),
 				getId() == null ? "id" : getId().toString());
-		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(),
-				getShortTitleText() == null ? "Short Title":getShortTitleText().toString());
-		
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE
+				.toString(), getShortTitleText() == null ? "Short Title"
+				: getShortTitleText().toString());
+
 		return map;
 	}
-	
-	
+
 	/*
 	 * Study utility method to return the current accruals for the study
 	 */
 	@Transient
-	public Integer getCurrentAccrualCount(){
-        Integer totalAccrual = 0;
-        Iterator sslIter = getStudySites().iterator();
-        StudySite studySite;
-        while (sslIter.hasNext()) {
-            studySite = (StudySite) sslIter.next();
-            totalAccrual += studySite.getStudySubjects().size();
-        }
-        return totalAccrual;
-	}
-	
-	public StudySite getStudySiteFromNCICode(String nciInstituteCode){
-            for (StudySite studySite: this.getStudySites()){
-                if(studySite.getHealthcareSite().getNciInstituteCode().equalsIgnoreCase(nciInstituteCode)){
-                    return studySite;
-                }
-            }
-            throw new RuntimeException("cannot find a study site with the given nci institute code");
-        }
-	
-	@Transient
-        public boolean isCreatable(){
-            return this.dataEntryStatus==StudyDataEntryStatus.COMPLETE;
-        }
-	
-	@Transient
-	public String getCompanionIndicatorDisplayValue(){
-		if(getCompanionIndicator()){
-			return "Yes" ;
-		}else{
-			return "No" ;
+	public Integer getCurrentAccrualCount() {
+		Integer totalAccrual = 0;
+		Iterator sslIter = getStudySites().iterator();
+		StudySite studySite;
+		while (sslIter.hasNext()) {
+			studySite = (StudySite) sslIter.next();
+			totalAccrual += studySite.getStudySubjects().size();
 		}
-		
+		return totalAccrual;
+	}
+
+	public StudySite getStudySiteFromNCICode(String nciInstituteCode) {
+		for (StudySite studySite : this.getStudySites()) {
+			if (studySite.getHealthcareSite().getNciInstituteCode()
+					.equalsIgnoreCase(nciInstituteCode)) {
+				return studySite;
+			}
+		}
+		throw new RuntimeException(
+				"cannot find a study site with the given nci institute code");
+	}
+
+	@Transient
+	public boolean isCreatable() {
+		return this.dataEntryStatus == StudyDataEntryStatus.COMPLETE;
+	}
+
+	@Transient
+	public String getCompanionIndicatorDisplayValue() {
+		if (getCompanionIndicator()) {
+			return "Yes";
+		} else {
+			return "No";
+		}
+
 	}
 }

@@ -118,24 +118,26 @@ public class StudyDetailsTab extends StudyTab {
 
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
+    	Study study = wrapper.getStudy() ;
         super.postProcessOnValidation(request, wrapper, errors);
         if (request.getParameter("deletedSponsor") != null && request.getParameter("deletedSponsor").equals("delete")) {
-            if (wrapper.getStudy().getFundingSponsorIdentifierIndex() != -1) {
-                wrapper.getStudy().getOrganizationAssignedIdentifiers().remove(
-                        wrapper.getStudy().getFundingSponsorIdentifierIndex());
+            if (study.getFundingSponsorIdentifierIndex() != -1) {
+                study.getOrganizationAssignedIdentifiers().remove(
+                        study.getFundingSponsorIdentifierIndex());
             }
-            if ((wrapper.getStudy().getStudyFundingSponsors().size() > 0)) {
-                wrapper.getStudy().getStudyFundingSponsors().remove(0);
+            if ((study.getStudyFundingSponsors().size() > 0)) {
+                study.getStudyFundingSponsors().remove(0);
             }
         } else
         if (request.getParameter("deletedSponsorIdentifier") != null && request.getParameter("deletedSponsorIdentifier").equals("delete")) {
-            if (wrapper.getStudy().getFundingSponsorIdentifierIndex() != -1) {
-                wrapper.getStudy().getOrganizationAssignedIdentifiers().remove(
-                        wrapper.getStudy().getFundingSponsorIdentifierIndex());
+            if (study.getFundingSponsorIdentifierIndex() != -1) {
+                study.getOrganizationAssignedIdentifiers().remove(
+                        study.getFundingSponsorIdentifierIndex());
             }
 
         }
-        updateRandomization(wrapper.getStudy());
+        updateRandomization(study);
+        wrapper.setStudy(study);
         /*if (study.getFundingSponsorAssignedIdentifier()!= null){
         	studyDao.refreshFundingSposorIdentifier(study);
         }*/

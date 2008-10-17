@@ -1,7 +1,8 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import edu.duke.cabig.c3pr.domain.Study;
 import org.springframework.validation.Errors;
+
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 public class EditStudyOverviewTab extends StudyOverviewTab {
 
@@ -9,13 +10,14 @@ public class EditStudyOverviewTab extends StudyOverviewTab {
                                 String viewName) {
         super(longTitle, shortTitle, viewName);
     }
-
-    public void validate(Study study, Errors errors) {
+    
+    @Override
+    public void validate(StudyWrapper wrapper, Errors errors) {
         try {
-       //     study.setDataEntryStatus(true);
+           // wrapper.getStudy().updateDataEntryStatus();
         }
         catch (Exception e) {
-            errors.rejectValue("coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
+            errors.rejectValue("study.coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
         }
     }
 

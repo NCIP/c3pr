@@ -26,6 +26,8 @@ public class StudyStatusHelper {
 			study.closeToAccrual();
 		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)){
 			study.closeToAccrualAndTreatment();
+		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION)){
+			study.readyForActivation();
 		}
 		
 	}
