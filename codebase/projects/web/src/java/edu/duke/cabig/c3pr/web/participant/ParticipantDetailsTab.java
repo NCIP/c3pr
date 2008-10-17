@@ -37,10 +37,9 @@ public class ParticipantDetailsTab extends ParticipantTab {
 
     @Override
     public void validate(Participant participant, Errors errors) {
-        // TODO Auto-generated method stub
         super.validate(participant, errors);
         participantValidator.validateParticipantMRN(participant, errors);
-
+        participantValidator.validateIdentifiers(participant, errors);
     }
 
     public ParticipantValidator getParticipantValidator() {
