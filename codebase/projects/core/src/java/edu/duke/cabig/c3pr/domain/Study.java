@@ -98,7 +98,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	private StudyDataEntryStatus dataEntryStatus;
 
-	private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
+	private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
 
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 
@@ -141,6 +141,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		blindedIndicator = false;
 		multiInstitutionIndicator = false;
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
+		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
 		standaloneIndicator = true;
 		companionIndicator = false;
 
