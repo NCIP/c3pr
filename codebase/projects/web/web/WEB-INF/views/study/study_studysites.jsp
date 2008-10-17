@@ -256,7 +256,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 </table>
 <div align="right">
 <input id="addEpoch" type="button"
-               value="Add Study Site"
+               value="Add"
                onclick="$('h-multiSite').show();javascript:RowManager.addRow(instanceRowInserterProps);"/>
 </div>
  </c:otherwise>
