@@ -39,12 +39,12 @@ function submitRandomization(){
 		</c:when>
 		<c:otherwise>
 
-            <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'}">
+            <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
                 <strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
             </c:if>
 
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
-            <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'}">
+            <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'&& registration.scheduledEpoch.epoch.randomizedIndicator}">
                 <tr><td align="left" colspan="2"></td></tr>
 				<tr><td class="labelR" width="150">Phone Number:</td><td >${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
 				<tr>
@@ -68,7 +68,7 @@ function submitRandomization(){
 				</c:choose>
 				</tr>
 			</c:if>
-			<c:if test="${registration.studySite.study.randomizationType.name == 'BOOK'}">
+			<c:if test="${registration.studySite.study.randomizationType.name == 'BOOK' && registration.scheduledEpoch.epoch.randomizedIndicator}">
 				<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
 				<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
 				<tr><td class="labelR">Stratum Group:</td><td>${registration.stratumGroup}</td></tr>
