@@ -58,13 +58,13 @@
                 <prop key="/registration/createParticipant">
                     createParticipantController
                 </prop>
-                <prop key="/participant/createParticipant">
+                <prop key="/personAndOrganization/participant/createParticipant">
                     createParticipantController
                 </prop>
                 <prop key="/registration/searchParticipant">
                     searchParticipantController
                 </prop>
-                <prop key="/participant/searchParticipant">
+                <prop key="/personAndOrganization/participant/searchParticipant">
                     searchParticipantController
                 </prop>
                 <prop key="/registration/searchStudy">
@@ -90,7 +90,6 @@
         <property name="suffix" value=".jsp"/>
         <property name="order" value="1"/>
     </bean>
-
     <bean id="urlResolver"
           class="edu.duke.cabig.c3pr.utils.web.spring.BeanNameControllerUrlResolver">
         <property name="servletName" value="pages"/>
@@ -165,12 +164,12 @@
     
     
     <!-- mapping for create/search ORGANIZATION task -->
-    <bean name="/admin/searchOrganization" id="searchOrganizationController"
+    <bean name="/personAndOrganization/organization/searchOrganization" id="searchOrganizationController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/admin/organization_search"/>
     </bean>
 
-    <bean name="/admin/createOrganization" id="createOrganizationController"
+    <bean name="/personAndOrganization/organization/createOrganization" id="createOrganizationController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
           autowire="byName">
         <property name="commandName" value="command"/>
@@ -267,7 +266,7 @@
         <property name="formView" value="study/study_search"/>
         <property name="successView" value="study/study_search"/>
     </bean>
-    <bean name="/participant/createParticipant"
+    <bean name="/personAndOrganization/participant/createParticipant"
           id="createParticipantController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.CreateParticipantController"
           autowire="byName">
@@ -277,7 +276,7 @@
                   value="true"/>
         <!-- Set the pages in Controller -->
     </bean>
-    <bean name="/participant/searchParticipant"
+    <bean name="/personAndOrganization/participant/searchParticipant"
           id="searchParticipantController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.SearchParticipantController"
           autowire="byName">
@@ -288,7 +287,7 @@
         <property name="commandClass"
                   value="edu.duke.cabig.c3pr.web.SearchCommand"/>
     </bean>
-    <bean name="/participant/editParticipant"
+    <bean name="/personAndOrganization/participant/editParticipant"
           id="editParticipantController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.EditParticipantController"
           autowire="byName">
@@ -296,7 +295,7 @@
                   value="edu.duke.cabig.c3pr.domain.Participant"/>
         <property name="commandName" value="command"/>
     </bean>
-    <bean name="/participant/viewParticipant"
+    <bean name="/personAndOrganization/participant/viewParticipant"
           id="viewParticipantController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.ViewParticipantController"
           autowire="byName">
@@ -304,7 +303,7 @@
                   value="edu.duke.cabig.c3pr.domain.Participant"/>
         <property name="commandName" value="command"/>
     </bean>
-    <bean name="/participant/confirmCreateParticipant" id="confirmCreateParticipantController" autowire="byType"
+    <bean name="/personAndOrganization/participant/confirmCreateParticipant" id="confirmCreateParticipantController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.ConfirmCreateParticipantController">
     </bean>
     <bean name="/registration/searchRegistration"
@@ -346,11 +345,11 @@
           autowire="byName">
     </bean>
 
-    <bean name="/admin/searchInvestigator" id="searchInvestigatorController"
+    <bean name="/personAndOrganization/investigator/searchInvestigator" id="searchInvestigatorController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/admin/investigator_search"/>
     </bean>
-    <bean name="/admin/createInvestigator"
+    <bean name="/personAndOrganization/investigator/createInvestigator"
           id="createInvestigatorController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorController"
           autowire="byName">
@@ -365,7 +364,7 @@
         </property>
     </bean>
     <bean id="investigatorValidator" class="edu.duke.cabig.c3pr.domain.validator.InvestigatorValidator" autowire="byName"></bean>
-    <bean name="/admin/getGroup"
+    <bean name="/personAndOrganization/investigator/getGroup"
           id="createInvestigatorGroupsController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController"
           autowire="byName">
@@ -376,7 +375,7 @@
         <property name="sessionForm" value="true"/>
         <property name="bindOnNewForm" value="true"/>
     </bean>
-    <bean name="/admin/createInvestigatorGroups" id="createInvestigatorGroups" lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController"
+    <bean name="/personAndOrganization/investigator/createInvestigatorGroups" id="createInvestigatorGroups" lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController"
     autowire="byName">
     	<property name="commandClass"
                   value="edu.duke.cabig.c3pr.web.admin.InvestigatorGroupsCommand"/>
@@ -391,11 +390,11 @@
      <bean id="c3PRDefaultTabConfigurer" class="edu.duke.cabig.c3pr.web.admin.C3PRDefaultTabConfigurer"
                autowire="byName"/>
 
-    <bean name="/admin/searchResearchStaff" id="searchResearchStaffController"
+    <bean name="/personAndOrganization/researchStaff/searchResearchStaff" id="searchResearchStaffController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/admin/research_staff_search"/>
     </bean>
-    <bean name="/admin/createResearchStaff"
+    <bean name="/personAndOrganization/researchStaff/createResearchStaff"
           id="createResearchStaffController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
           autowire="byName">
@@ -412,11 +411,11 @@
 
 	<bean name="/admin/configure" id="configurationController" autowire="byName"
           class="edu.duke.cabig.c3pr.web.admin.ConfigurationController"/>
-    <bean name="/admin/viewInvestigator" id="viewInvestigatorController" autowire="byType"
+    <bean name="/personAndOrganization/investigator/viewInvestigator" id="viewInvestigatorController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController">
     </bean>
     
-    <bean name="/admin/viewResearchStaff" id="viewResearchStaffController" autowire="byType"
+    <bean name="/personAndOrganization/researchStaff/viewResearchStaff" id="viewResearchStaffController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewResearchStaffController">
     </bean>
 
@@ -503,8 +502,8 @@
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
                         autowire="byType" p:displayName="Person &amp; Organization"
                         p:mainController="searchParticipantController">
-                    <property name="pathMapping"
-                              value="/participant/**"/>
+                    <property name="pathMapping" value="/personAndOrganization/**/**"/>
+                             
                     <property name="tasks">
                     	 <list>
                             <bean

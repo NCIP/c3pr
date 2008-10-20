@@ -19,22 +19,22 @@
         <pattern>/pages/study/editStudy</pattern>
         <pattern>/pages/study/viewStudy</pattern>
         <pattern>/pages/study/amendStudy</pattern>
-        <pattern>/pages/participant/createParticipant</pattern>
-        <pattern>/pages/participant/editParticipant</pattern>
-        <pattern>/pages/participant/viewParticipant</pattern>
+        <pattern>/pages/personAndOrganization/participant/createParticipant</pattern>
+        <pattern>/pages/personAndOrganization/participant/editParticipant</pattern>
+        <pattern>/pages/personAndOrganization/participant/viewParticipant</pattern>
         <pattern>/pages/registration/manageRegistration*</pattern>
     </decorator>
     <decorator name="registration" page="registrationflow.jsp">
         <pattern>/pages/registration/*</pattern>
     </decorator>
     <decorator name="standardContent" page="standardContent.jsp">
-        <pattern>/pages/admin/createOrganization</pattern>
-        <pattern>/pages/admin/searchOrganization</pattern> 
-        <pattern>/pages/admin/createInvestigator</pattern>
-        <pattern>/pages/admin/searchInvestigator</pattern> 
-        <pattern>/pages/admin/createResearchStaff</pattern>
-        <pattern>/pages/admin/searchResearchStaff</pattern> 
-        <pattern>/pages/admin/createInvestigatorGroups</pattern>
+        <pattern>/pages/personAndOrganization/organization/createOrganization</pattern>
+        <pattern>/pages/personAndOrganization/organization/searchOrganization</pattern> 
+        <pattern>/pages/personAndOrganization/investigator/createInvestigator</pattern>
+        <pattern>/pages/personAndOrganization/investigator/searchInvestigator</pattern> 
+        <pattern>/pages/personAndOrganization/researchStaff/createResearchStaff</pattern>
+        <pattern>/pages/personAndOrganization/researchStaff/searchResearchStaff</pattern> 
+        <pattern>/pages/personAndOrganization/investigator/createInvestigatorGroups</pattern>
     </decorator>
     <decorator name="nullDecorator" page="nullDecorator.jsp"/>
     <decorator name="noheaderDecorator" page="noheaderDecorator.jsp">

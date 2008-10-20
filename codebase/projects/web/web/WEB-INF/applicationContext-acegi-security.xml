@@ -177,15 +177,15 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/skin" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
         
         <!-- TODO: set up correct default -->
-        <entry key="/pages/participant/create.*"
+        <entry key="/pages/personAndOrganization/participant/create.*"
                value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
-        <entry key="/pages/participant/edit.*"
+        <entry key="/pages/personAndOrganization/participant/edit.*"
                value="edu.duke.cabig.c3pr.domain.Participant:UPDATE"/>
-        <entry key="/pages/participant/view.*"
+        <entry key="/pages/personAndOrganization/participant/view.*"
                value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
-        <entry key="/pages/participant/search.*"
+        <entry key="/pages/personAndOrganization/participant/search.*"
                value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
-        <entry key="/pages/participant/confirm.*"
+        <entry key="/pages/personAndOrganization/participant/confirm.*"
                value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
 
         <entry key="/pages/study/create.*"
@@ -220,19 +220,19 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/registration/manageRegistration.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
 
-		<entry key="/pages/admin/getGroup.*"
+		<entry key="/pages/personAndOrganization/investigator/getGroup.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
-        <entry key="/pages/admin/searchInvestigator.*"
+        <entry key="/pages/personAndOrganization/investigator/searchInvestigator.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
-        <entry key="/pages/admin/createInvestigator.*"
+        <entry key="/pages/personAndOrganization/investigator/createInvestigator.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
-        <entry key="/pages/admin/searchResearchStaff.*"
+        <entry key="/pages/personAndOrganization/researchStaff/searchResearchStaff.*"
                value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
-        <entry key="/pages/admin/createResearchStaff.*"
+        <entry key="/pages/personAndOrganization/researchStaff/createResearchStaff.*"
                value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
-        <entry key="/pages/admin/createOrganization.*"
+        <entry key="/pages/personAndOrganization/organization/createOrganization.*"
                value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
-        <entry key="/pages/admin/searchOrganization"
+        <entry key="/pages/personAndOrganization/organization/searchOrganization"
                value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
         <entry key="/pages/admin/importStudy.*"
                value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
