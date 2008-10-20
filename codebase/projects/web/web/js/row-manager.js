@@ -165,6 +165,9 @@ var AbstractRowInserterProps = {
 	updateIndex: function(index){
 						this.localIndex=index
 						this.initialIndex=index
+						this.onUpdateIndex(this,index)
+					},
+	onUpdateIndex: function(object,index){
 					},
 	getRowDivisionElement: function(){
 							element=$(this.add_row_division_id)
