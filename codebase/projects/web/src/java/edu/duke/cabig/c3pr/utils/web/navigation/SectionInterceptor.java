@@ -31,9 +31,11 @@ public class SectionInterceptor extends HandlerInterceptorAdapter {
         String controllerPath = urlPathHelper.getPathWithinServletMapping(request);
         Section current = findSection(controllerPath);
         Task currentTask = findTask(current, controllerPath);
+        Task currentSubTask = findSubTask(current, controllerPath);
 
         request.setAttribute(prefix("currentSection"), current);
         request.setAttribute(prefix("currentTask"), currentTask);
+        request.setAttribute(prefix("currentSubTask"), currentSubTask);
         request.setAttribute(prefix("sections"), getSections());
 
         return true;
@@ -57,6 +59,17 @@ public class SectionInterceptor extends HandlerInterceptorAdapter {
             }
         }
         return null;
+    }
+    
+    private SubTask findSubTask(Section section, String controllerPath) {
+    	 for (Task task : getTasks(section)) {
+    		  for (SubTask subTask: task.getSubTasks()){
+    			  if (subTask.getUrl().indexOf(controllerPath) > -1) {
+    	                 return subTask;
+    	             }
+    		  }
+         }
+         return null;
     }
 
     private String prefix(String attr) {
