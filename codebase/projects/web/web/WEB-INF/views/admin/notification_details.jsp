@@ -40,10 +40,12 @@
 				   clonedRowInserter.basename=clonedRowInserter.basename + "[" +object.parent_row_index + "][" +object.localIndex + "]";
 				   AutocompleterManager.registerAutoCompleter(clonedRowInserter);
 			   },
-		       onLoadRowInitialize: function(object, currentRowIndex){
-					clonedRowInserter1=Object.clone(userEmailAutocompleterProps);
-					clonedRowInserter1.basename=clonedRowInserter1.basename+ "[" +object.parent_row_index + "][" +currentRowIndex + "]";
-					AutocompleterManager.registerAutoCompleter(clonedRowInserter1);
+			   onUpdateIndex: function(object, currentRowIndex){
+				   	for(rowIndex=0 ; rowIndex<currentRowIndex ; rowIndex++){
+						clonedRowInserter1=Object.clone(userEmailAutocompleterProps);
+						clonedRowInserter1.basename=clonedRowInserter1.basename+ "[" +object.parent_row_index + "][" +rowIndex + "]";
+						AutocompleterManager.registerAutoCompleter(clonedRowInserter1);
+				   	}
 		       }
 	        };
 	        var notificationRowInserterProps = {
@@ -306,10 +308,6 @@
 			<table id="notification" width="100%">
 			<tr></tr>
 			<c:forEach items="${command.plannedNotifications}" var="notification" varStatus="nStatus">
-				<script>
-			         RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].userBasedRecipient)});
-			         RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)});
-			  	</script>
 				<tr id="notification-${nStatus.index}"><td>
 				<chrome:deletableDivision id="notification-details-${nStatus.index}" title="Notification: ${notification.eventName.displayName}" divTitle="a-${nStatus.index}"
 				onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}')">
@@ -415,7 +413,7 @@
 									<input type="hidden" id="userEmail[${nStatus.index}][${emailStatus.index}]-hidden" 
 										name="plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].emailAddress" 
 										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
-									<input id="userEmail[${nStatus.index}][${emailStatus.index}]-input" size="40" type="text" 
+									<input id="userEmail[${nStatus.index}][${emailStatus.index}]-input" size="40" type="text"  
 										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].fullName} (${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress})" class="autocomplete validate-notEmpty" />
 									<tags:indicator id="userEmail[${nStatus.index}][${emailStatus.index}]-indicator" />
 									
@@ -452,7 +450,10 @@
 		      	</table>
 		      	</chrome:deletableDivision></td>
 				</tr>
-						
+				<script>
+			         RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].userBasedRecipient)});
+			         RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)});
+			  	</script>
 			</c:forEach>
 			</table>
 			
