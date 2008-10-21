@@ -42,13 +42,13 @@
         }
 
         ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-           if((formElement.id=="command" || formElement.id=="embedStudyForm" )&&continueSubmission){
-                 box1=document.getElementById('healthcareSite-hidden');
-               	if(document.getElementById('study.randomizedIndicator').value =='false'){
-               	new Element.update('randomizationTypeDiv','');
+                 if((formElement.id=="command" || formElement.id=="embedStudyForm" )&&continueSubmission){
+                 	box1=document.getElementById('healthcareSite-hidden');
+               	    if(document.getElementById('study.randomizedIndicator').value =='false'){
+               	    new Element.update('randomizationTypeDiv','');
                	};
                  if((box1==null)||box1.value == '') {
-	                 document.getElementById('healthcareSite-input').name="abcd";
+                	 document.getElementById('healthcareSite-input').name="abcd";
 	                 document.getElementById('healthcareSite-hidden').name="xyz1";
 	                 document.getElementById('healthcareSite-hidden1').name="abcdxw";
 	                 document.getElementById('fundingSponsorIdentifier').name="xyz1ab";
@@ -56,10 +56,10 @@
 	                 document.getElementById('deletedSponsor').value="delete";
                  }
                  else{
-             	   	box2=document.getElementById('healthcareSite-hidden1');
-	                if ((box2==null)||box2.value == '') {
-	                   document.getElementById('deletedSponsorIdentifier').value="delete";
-	             }
+             	   	box2=document.getElementById('fundingSponsorIdentifier');
+             	   	   if ((box2==null)||box2.value == '') {
+	                   	document.getElementById('deletedSponsorIdentifier').value="delete";
+	               }
 	             }
 	             if(formElement.id=="embedStudyForm"){
            			embedCompanionStudy();
