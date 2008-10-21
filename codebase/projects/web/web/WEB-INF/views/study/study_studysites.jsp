@@ -117,7 +117,7 @@ Event.observe(window, "load", function() {
 		            </td>
                      <td>
                          <input id="studySites[0].targetAccrualNumber" name="study.studySites[0].targetAccrualNumber" value="${command.study.studySites[0].targetAccrualNumber}"
-				 				type="text" maxlength="6" cssClass="validate-NUMERIC&&NONZERO_NUMERIC"
+				 				size="6" type="text" maxlength="6" cssClass="validate-NUMERIC&&NONZERO_NUMERIC"
                           />
                      </td>
                     </tr>
@@ -242,7 +242,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <td>
                             <tags:dateInput path="study.studySites[${status.index}].irbApprovalDate"/>
                         </td>
-                        <td> <form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC"/>
+                        <td> <form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC" size="6"/>
             			</td>  
                         <td><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${site.id==null?'HC#':'ID#'}${site.id==null?site.hashCode:site.id}');"><img
@@ -304,7 +304,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             </td>
 			<td>
                 <input id="studySites[PAGE.ROW.INDEX].targetAccrualNumber"
-                       name="study.studySites[PAGE.ROW.INDEX].targetAccrualNumber" maxlength="6"
+                       name="study.studySites[PAGE.ROW.INDEX].targetAccrualNumber" maxlength="6" size="6"
                        type="text" class="validate-NUMERIC"/>
             </td>            
             <td>
