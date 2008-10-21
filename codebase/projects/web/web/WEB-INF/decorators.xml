@@ -5,7 +5,7 @@
         <pattern>/public/user/*</pattern>
         <pattern>/accessDenied.jsp</pattern>
         <pattern>/pages/registration/searchRegistration</pattern>
-        <pattern>/pages/participant/searchParticipant</pattern>
+        <pattern>/pages/personAndOrganization/participant/searchParticipant</pattern>
         <pattern>/pages/registration/overview</pattern>
         <pattern>/pages/registration/confirm</pattern>
         <pattern>/pages/registration/manageCompanionRegistration</pattern>
