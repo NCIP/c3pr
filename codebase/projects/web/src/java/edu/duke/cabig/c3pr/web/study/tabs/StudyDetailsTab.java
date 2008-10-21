@@ -137,6 +137,7 @@ public class StudyDetailsTab extends StudyTab {
 
         }
         updateRandomization(study);
+        updateStratification(study);
         wrapper.setStudy(study);
         /*if (study.getFundingSponsorAssignedIdentifier()!= null){
         	studyDao.refreshFundingSposorIdentifier(study);
