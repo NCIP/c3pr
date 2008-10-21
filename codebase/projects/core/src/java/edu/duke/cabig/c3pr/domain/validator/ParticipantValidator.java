@@ -92,10 +92,10 @@ public class ParticipantValidator implements Validator {
                                 .rejectValue(
                                                 "organizationAssignedIdentifiers",
                                                 new Integer(
-                                                                getCode("C3PR.SUJECT.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"))
+                                                                getCode("C3PR.SUBJECT.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"))
                                                                 .toString(),
                                                 getMessageFromCode(
-                                                                getCode("C3PR.SUJECT.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"),
+                                                                getCode("C3PR.SUBJECT.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"),
                                                                 null, null));
             }
         }
