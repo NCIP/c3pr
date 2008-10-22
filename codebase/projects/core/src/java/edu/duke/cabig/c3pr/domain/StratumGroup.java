@@ -117,14 +117,12 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     @Transient
     public String getAnswerCombinations() {
         String result = "";
-        Iterator iter = getStratificationCriterionAnswerCombination().iterator();
-        while (iter.hasNext()) {
-            result += " - "
-                            + ((StratificationCriterionAnswerCombination) iter.next())
-                                            .getStratificationCriterionPermissibleAnswer()
-                                            .getPermissibleAnswer();
+        for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : this.getStratificationCriterionAnswerCombination()){
+        	result = result + " - " + stratificationCriterionAnswerCombination.getStratificationCriterionPermissibleAnswer().getPermissibleAnswer() ; 
         }
-        result = result.substring(3);
+        if(result.length() != 0 ){
+        	result = result.substring(3);
+        }
         return result;
     }
 
@@ -133,9 +131,8 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         final int PRIME = 31;
         int result = super.hashCode();
         int computedSum = 0;
-        Iterator iter = getStratificationCriterionAnswerCombination().iterator();
-        while (iter.hasNext()) {
-            computedSum += ((StratificationCriterionAnswerCombination) iter.next()).hashCode();
+        for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : this.getStratificationCriterionAnswerCombination()){
+        	 computedSum += stratificationCriterionAnswerCombination.hashCode(); 
         }
         result = PRIME * result + computedSum;
         return result;
