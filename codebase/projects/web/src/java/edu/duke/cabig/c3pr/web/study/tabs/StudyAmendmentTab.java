@@ -86,10 +86,10 @@ public class StudyAmendmentTab extends StudyTab {
                 sAmendment.setCompanionChangedIndicator(false);
             }
 
-            // Change the status from Active to Pending_amendment.
+            // Change the status from Open to Pending_amendment.
             try {
                 // Changing the status only if it is currently Active.
-                if (wrapper.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
+                if (wrapper.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
                     wrapper.getStudy()
                             .setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
                     for (StudySite studySite : wrapper.getStudy().getStudySites()) {

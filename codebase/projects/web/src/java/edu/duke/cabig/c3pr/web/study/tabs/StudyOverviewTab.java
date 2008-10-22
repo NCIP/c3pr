@@ -155,9 +155,9 @@ public class StudyOverviewTab extends StudyTab {
                 // or closed to accrual and treatment.
                 if ((command.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL || command
                         .getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
-                        && statusObject == CoordinatingCenterStudyStatus.ACTIVE
+                        && statusObject == CoordinatingCenterStudyStatus.OPEN
                         && isAdmin()) {
-                    command.getStudy().setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+                    command.getStudy().setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
                 } else {
                     retValue = "<script>alert('" + e.getMessage() + "')</script>";
                 }
