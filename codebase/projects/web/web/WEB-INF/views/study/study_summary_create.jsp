@@ -161,6 +161,27 @@ document.getElementById("command").submit();
     </table>
 </chrome:division>
 
+<div <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
+<chrome:division title="Companion Studies">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="45%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+			<th width="30%" scope="col" align="left"><b>Data Entry Status</b></th>
+            <th width="15%" scope="col" align="left"><b>Status</b></th>
+            <th width="10%" scope="col" align="left"><b>Mandatory</b></th>
+        </tr>
+        <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
+            <tr>
+                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+				<td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
+                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>
+                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+   	        </tr>	           
+        </c:forEach>
+    </table>
+</chrome:division>
+</div>
+
 <chrome:division title="Sites">
     <table class="tablecontent" width="60%">
         <tr>
@@ -183,127 +204,31 @@ document.getElementById("command").submit();
 </chrome:division>
 
 <chrome:division title="Identifiers">
-<h4>Organization Assigned Identifiers</h4>
+<h4>Coordinating Assigned Identifier</h4>
 	<br>
-
 		<table class="tablecontent" width="60%">
 			<tr>
 				<th width="50%" scope="col" align="left">Assigning Authority</th>
 	            <th width="35%" scope="col" align="left">Identifier Type</th>
 	            <th scope="col" align="left">Identifier</th>
 			</tr>
-			<c:forEach items="${command.study.organizationAssignedIdentifiers}"
+			<c:if test="${command.study.coordinatingCenterIdentifier != null}"
 				var="orgIdentifier">
 				<tr class="results">
 					<td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
 					<td class="alt" align="left">${orgIdentifier.type}</td>
 					<td class="alt" align="left">${orgIdentifier.value}</td>
 				</tr>
-			</c:forEach>
+			</c:if>
 		</table>
 	<br>
-<h4>System Assigned Identifiers</h4>
-<br>
-	<table class="tablecontent" width="60%">
-		<tr>
-			<th width="50%" scope="col" align="left">System Name</th>
-            <th width="35%" scope="col" align="left">Identifier Type</th>
-            <th scope="col" align="left">Identifier</th>
-		</tr>
-		<c:forEach items="${command.study.systemAssignedIdentifiers}"
-		var="identifier">
-			<tr class="results">
-				<td class="alt" align="left">${identifier.systemName}</td>
-				<td class="alt" align="left">${identifier.type}</td>
-				<td class="alt" align="left">${identifier.value}</td>
-			</tr>
-		</c:forEach>
-	</table>
 </chrome:division>
 
-<chrome:division title="Investigators">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="20%" scope="col" align="left">Name</th>
-            <th width="18%" scope="col" align="left">Role</th>
-            <th width="17%" scope="col" align="left">Status</th>
-            <th width="45%" scope="col" align="left">Organization</th>
-        </tr>
-        <c:forEach items="${command.study.studyOrganizations}" var="studyOrganization" varStatus="status">
-            <c:forEach items="${studyOrganization.studyInvestigators}" var="studyInvestigator" varStatus="status">
-                <tr class="results">
-                    <td class="alt"
-                        align="left">${studyInvestigator.healthcareSiteInvestigator.investigator.fullName}</td>
-                    <td class="alt" align="left">${studyInvestigator.roleCode}</td>
-                    <td class="alt" align="left">${studyInvestigator.statusCode}</td>
-                    <td class="alt">${studyInvestigator.studyOrganization.healthcareSite.name}</td>
-                </tr>
-            </c:forEach>
-        </c:forEach>
-    </table>
-</chrome:division>
 
-<chrome:division title="Personnel">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="20%" scope="col" align="left">Name</th>
-            <th width="18%" scope="col" align="left">Role</th>
-            <th width="17%" scope="col" align="left">Status</th>
-            <th width="45%" scope="col" align="left">Organization</th>
-        </tr>
-        <c:forEach items="${command.study.studyOrganizations}" var="studyOrganization" varStatus="status">
-            <c:forEach items="${studyOrganization.studyPersonnel}" var="studyPersonnel" varStatus="status">
-                <tr class="results">
-                    <td class="alt">${studyPersonnel.researchStaff.fullName}</td>
-                    <td class="alt">${studyPersonnel.roleCode}</td>
-                    <td class="alt">${studyPersonnel.statusCode}</td>
-                    <td class="alt">${studyPersonnel.studyOrganization.healthcareSite.name}</td>
-                </tr>
-            </c:forEach>
-        </c:forEach>
-    </table>
-</chrome:division>
-
-<chrome:division title="Notifications">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="15%" scope="col" align="left"><b>Threshold</b></th>
-            <th width="45%" scope="col" align="left"><b>Email</b></th>
-            <th width="40%" scope="col" align="left"><b>Role</b></th>
-        </tr>
-        <c:forEach items="${command.study.plannedNotifications}" var="notification">
-            <tr>
-                <td class="alt">${notification.studyThreshold}</td>
-                <td class="alt">${notification.emailAddresses}</td>
-                <td class="alt">${notification.roles}</td>
-   	        </tr>	           
-        </c:forEach>
-    </table>
-</chrome:division>
-<div <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
-<chrome:division title="Companion Studies">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="45%" scope="col" align="left"><b>Companion Study Short Title</b></th>
-			<th width="30%" scope="col" align="left"><b>Data Entry Status</b></th>
-            <th width="15%" scope="col" align="left"><b>Status</b></th>
-            <th width="10%" scope="col" align="left"><b>Mandatory</b></th>
-        </tr>
-        <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
-            <tr>
-                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-				<td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
-                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>
-                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
-   	        </tr>	           
-        </c:forEach>
-    </table>
-</chrome:division>
-</div>
 </div>
 			<div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> 
-				<input type="button" value="Activate" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
+				<input type="button" value="Open" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
 				<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
  			</span></div>
 			</div>

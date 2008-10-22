@@ -125,7 +125,7 @@ function manageIdentifierRadio(element){
 						<td>
 						<c:choose>
 						<c:when test="${handleDifferently}">
-							<form:input path="study.organizationAssignedIdentifiers[${organizationStatus.index}].type" cssClass="validate-notEmpty"/>
+							<form:input path="study.organizationAssignedIdentifiers[${organizationStatus.index}].type"/>
 						</c:when>
 						<c:otherwise>
 							<form:select

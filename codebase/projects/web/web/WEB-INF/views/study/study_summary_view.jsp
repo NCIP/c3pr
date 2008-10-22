@@ -93,7 +93,7 @@
         <tr>
             <td class="alt" align="left" rows="2"><b>Status</b></td>
             <c:set var="commanSepOptVal"
-                   value="[['Active','Active'],
+                   value="[['Open','Open'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]">
@@ -105,7 +105,7 @@
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
             <td>
 				<c:forEach items="${command.study.parentStudyAssociations}" var="parentStudyAssociation">
-					<c:if test="${!(parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.name == 'ACTIVE')}">
+					<c:if test="${!(parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.name == 'OPEN')}">
 							<c:set var="noActiveStatusForCompanion" value="true"></c:set>
 					</c:if>
 				</c:forEach>
@@ -447,7 +447,7 @@
                 <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
                 <td class="alt">
 					<c:choose>
-						<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'ACTIVE') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_FOR_ACTIVATION')}">                	
+						<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'OPEN') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_FOR_ACTIVATION')}">                	
 							<input type="button" id="manageCompanionStudy" value="View" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
 						</c:when>
 						<c:otherwise>    
@@ -502,7 +502,7 @@
 </chrome:division>
 </div>
 
-<c:if test="${command.study.coordinatingCenterStudyStatus == 'ACTIVE' && isCCTSEnv}">
+<c:if test="${command.study.coordinatingCenterStudyStatus == 'OPEN' && isCCTSEnv}">
     <chrome:division title="CCTS Workflow">
         <div class="content">
             <div class="row">
@@ -545,7 +545,7 @@
                        value="Export Study" onclick="doExportAction();"/>
                 <csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
 	                    <input type="button" value="Edit Study" onclick="document.location='../study/editStudy?studyId=${command.study.id}'"/>
-	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"  <c:if test="${command.study.coordinatingCenterStudyStatus != 'ACTIVE' &&
+	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"  <c:if test="${command.study.coordinatingCenterStudyStatus != 'OPEN' &&
 	  							command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
 	                           onclick="document.location='../study/amendStudy?studyId=${command.study.id}'"/>
                 </csmauthz:accesscontrol> 
@@ -560,7 +560,7 @@
                        value="Export Study" onclick="doExportAction();"/>
                 <csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
 	                    <input type="button" value="Edit Study" onclick="document.location='../study/editCompanionStudy?studyId=${command.study.id}'"/>
-	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"  <c:if test="${command.study.coordinatingCenterStudyStatus != 'ACTIVE' &&
+	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"  <c:if test="${command.study.coordinatingCenterStudyStatus != 'OPEN' &&
 	  							command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
 	                           onclick="document.location='../study/amendCompanionStudy?studyId=${command.study.id}'"/>
                 </csmauthz:accesscontrol> 

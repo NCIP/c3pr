@@ -51,7 +51,7 @@
 		                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
 		                <td class="alt">
 							<c:choose>
-								<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName == 'Active') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName == 'Ready For Activation')}">                	
+								<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName == 'Open') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName == 'Ready For Activation')}">                	
 									<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
 								</c:when>
 								<c:otherwise>                	
