@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.accesscontrol;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck;
@@ -33,8 +34,8 @@ public class StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider implements
         if (domainObject instanceof Study) {
             Study study = (Study) domainObject;
             // if no sites then make it globally accessible
-            if (study.getStudySites().size() > 0) {
-                for (StudySite site : study.getStudySites()) {
+            if (study.getStudyOrganizations().size() > 0) {
+                for (StudyOrganization site : study.getStudyOrganizations()) {
                     HealthcareSite hcs = site.getHealthcareSite();
                     log.debug("### Checking permission for user on site:"
                                     + hcs.getNciInstituteCode());
