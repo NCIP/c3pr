@@ -48,9 +48,19 @@
 				   	}
 		       }
 	        };
+	        var contactMechanismRowInserterProps= {
+	            add_row_division_id: "table3",
+	            skeleton_row_division_id: "dummy-cmRow",
+	            initialIndex: ${fn:length(command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)},
+	            softDelete: ${softDelete == 'true'},
+	            isAdmin: ${isAdmin == 'true'},
+	            row_index_indicator: "TERTIARY.NESTED.PAGE.ROW.INDEX",
+	            path: "plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient"
+	       };
 	        var notificationRowInserterProps = {
 	                nested_row_inserter: emailRowInserterProps,
 	                secondary_nested_row_inserter: roleRowInserterProps,
+	                tertiary_nested_row_inserter: contactMechanismRowInserterProps,
 	                add_row_division_id: "notification",
 	                skeleton_row_division_id: "dummy-notification",
 	                initialIndex: ${fn:length(command.plannedNotifications)},
@@ -58,6 +68,7 @@
 	                isAdmin: true,
 	                path: "plannedNotifications"
 	        };
+	        
 	        RowManager.addRowInseter(notificationRowInserterProps);
 	        RowManager.registerRowInserters();
 	</script>
@@ -313,7 +324,7 @@
 				onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}')">
 	
 				
-				<table width="60%">
+				<table width="100%">
 				<tr>
 					<td width="10%" align="right">Event:</td>
 					<td align="left">
@@ -394,16 +405,21 @@
 		        	<td colspan="3"></td>  
 		        </tr>
 		        
-		        
 		        <tr><td colspan="5"><hr size="1"/></td></tr>
-		         
-		         <tr><td width="49%" align="center" colspan="2"><input type="button" value="Add Email/Name" onmouseover="this.style.cursor='pointer';"
+		    </table>
+		    
+		    
+		    <table>     
+		        <tr><td width="32%" align="center" colspan="1"><input type="button" value="Add Email/Name" onmouseover="this.style.cursor='pointer';"
 									onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /> </td>
-					 <td colspan="1" width="2%" class="divider" rowspan="2"></td>
-			         <td width="49%" align="center" colspan="2"><input type="button" value="Add Role" onmouseover="this.style.cursor='pointer';"
+					<td colspan="1" width="2%" class="divider" rowspan="2"></td>
+			        <td width="32%" align="center" colspan="1"><input type="button" value="Add Role" onmouseover="this.style.cursor='pointer';"
 								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /></td>
+					<td colspan="1" width="2%" class="divider" rowspan="2"></td>
+					<td width="32%" align="center" colspan="1"><input type="button" value="Add Contact" onmouseover="this.style.cursor='pointer';"
+								onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /></td>
 			     </tr>
-			     <tr><td align="center" colspan="2">
+			     <tr><td align="center" colspan="1">
 		      		 <table id="table1">
 		      		 	<tr><td></td><td></td></tr>
 						<c:forEach var="email" varStatus="emailStatus" items="${command.plannedNotifications[nStatus.index].userBasedRecipient}">
@@ -426,7 +442,7 @@
 						</c:forEach>
 					</table>
 		      		</td>
-			      	<td align="center" colspan="2">
+			      	<td align="center" colspan="1">
 			      		<table id="table2">
 			      			<tr><td></td><td></td></tr>
 							<c:forEach var="role" varStatus="roleStatus" items="${command.plannedNotifications[nStatus.index].roleBasedRecipient}">
@@ -443,7 +459,23 @@
 								</tr>
 							</c:forEach>
 						</table>			
-			      	</td>         
+			      	</td>  
+			      	<td align="center" colspan="1">
+			      		<table id="table3">
+			      			<tr><td></td><td></td></tr>																	  
+							<c:forEach var="cm" varStatus="cmStatus" items="${command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
+								<tr id="table3-${cmStatus.index}">
+								<td class="alt">
+									<form:input size="30" path="plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${cmStatus.index}].contactMechanisms[0].value" 
+											cssClass="validate-notEmpty&&EMAIL" /></td>
+								<td class="alt" valign="top"><a
+									href="javascript:RowManager.deleteRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${cmStatus.index},'${cm.id==null?'HC#':'ID#'}${cm.id==null?cm.hashCode:cm.id}');">
+									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+								</td>
+								</tr>
+							</c:forEach>
+						</table>			
+			      	</td>          
 		      	</tr>
 		
 		      	<tr><td colspan="5"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
@@ -453,6 +485,7 @@
 				<script>
 			         RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].userBasedRecipient)});
 			         RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)});
+			         RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)});
 			  	</script>
 			</c:forEach>
 			</table>
@@ -618,6 +651,23 @@
 			</tr>
 			</table>
 		</div>
+		
+		<div id="dummy-cmRow" style="display:none">
+			<table>
+			<tr>
+				<td class="alt">
+		            <input id="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value" 
+		            	   name="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
+						   class="validate-notEmpty&&EMAIL" size="30" type="text" />
+	            </td>
+				<td class="alt" valign="top"><a
+					href="javascript:RowManager.deleteRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),TERTIARY.NESTED.PAGE.ROW.INDEX,-1);">
+					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+				</td>
+			</tr>
+			</table>
+		</div>
+			      	
 	
 		<div id="emailMessageDetails" style="display:none">	
 			<table width="650" style="font-size: 11px;">

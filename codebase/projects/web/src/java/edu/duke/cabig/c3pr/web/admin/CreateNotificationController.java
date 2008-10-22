@@ -32,6 +32,9 @@ import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
@@ -162,7 +165,18 @@ public class CreateNotificationController extends SimpleFormController {
 	        	if(pn.getFrequency() == null){
 	        		pn.setFrequency(NotificationFrequencyEnum.IMMEDIATE);
 	        	}
-	     
+	        	
+	        	//set the contactMechnism Type for the contactMechanismBasedRecipient Emails 
+	        	if(pn.getContactMechanismBasedRecipient() != null){
+	        		for(ContactMechanismBasedRecipient cmbr: pn.getContactMechanismBasedRecipient()){
+		        		for(ContactMechanism cm: cmbr.getContactMechanisms()){
+		        			if(cm != null && cm.getValue() != null){
+		        				cm.setType(ContactMechanismType.EMAIL);
+		        			}
+		        		}
+		        	}
+	        	}
+	        	
 	        	for(UserBasedRecipient ubr: pn.getUserBasedRecipient()){
 	        		if(ubr.getEmailAddress() != null && ubr.getEmailAddress() != ""){
 	        			rsList = researchStaffDao.getByEmailAddress(ubr.getEmailAddress());
