@@ -124,7 +124,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         studyObject.setLongTitleText(strValue);
         studyObject.setPhaseCode("0");
         studyObject.setPrecisText(strValue);
-        studyObject.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+        studyObject.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         studyObject.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         studyObject.setType(strValue);
         studyObject.setTargetAccrualNumber(intValue);
