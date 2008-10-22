@@ -80,6 +80,7 @@ public class EditStudyController extends StudyController<StudyWrapper> {
         flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new CompanionStudyTab());
+        flow.addTab(new StudySitesTab());
         flow.addTab(new EditStudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
     }
 
