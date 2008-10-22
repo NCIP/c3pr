@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContextAware;
 import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ScheduledNotificationDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
@@ -110,6 +111,15 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	for(UserBasedRecipient ubr: plannedNotification.getUserBasedRecipient()){
     		rsn = new RecipientScheduledNotification();
     		rsn.setRecipient(ubr);
+    		rsn.setIsRead(Boolean.FALSE);
+    		rsn.setScheduledNotification(scheduledNotification);
+    		rsn.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.PENDING);
+    		scheduledNotification.getRecipientScheduledNotification().add(rsn);
+    	}
+    	
+    	for(ContactMechanismBasedRecipient cmbr: plannedNotification.getContactMechanismBasedRecipient()){
+    		rsn = new RecipientScheduledNotification();
+    		rsn.setRecipient(cmbr);
     		rsn.setIsRead(Boolean.FALSE);
     		rsn.setScheduledNotification(scheduledNotification);
     		rsn.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.PENDING);
@@ -227,7 +237,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 		Study study = new Study();
 		study.setShortTitleText("shortTitleText");
 		study.setId(10);
-		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
 		
 		System.out.println(nes.composeMessage(messageWithSubVars, study));
 	}*/
