@@ -154,10 +154,10 @@ public class DashboardController extends ParameterizableViewController {
     
     private void getMostActiveStudies(HttpServletRequest request) {
         Study study = new Study(true);
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         List<Study> studies = studyService.searchByExample(study, false, MAX_RESULTS, "descending",
                         "id");
-        log.debug("Active studies found: " + studies.size());
+        log.debug("Open studies found: " + studies.size());
 
         Calendar cal = Calendar.getInstance();
         Date endDate = new Date(System.currentTimeMillis());
