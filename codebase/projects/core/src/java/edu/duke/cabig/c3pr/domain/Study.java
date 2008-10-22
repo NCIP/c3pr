@@ -896,7 +896,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		if (this.getCompanionIndicator() && !this.standaloneIndicator) {
 			return CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION;
 		} else {
-			return CoordinatingCenterStudyStatus.ACTIVE;
+			return CoordinatingCenterStudyStatus.OPEN;
 		}
 
 	}
@@ -951,11 +951,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public StudyDataEntryStatus evaluateDataEntryStatus()
 			throws C3PRCodedRuntimeException {
 
-		if ((this.getStudySites().size() == 0)) {
-			throw getC3PRExceptionHelper()
-					.getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STUDY_SITE.CODE"));
-		} else if ((!this.hasEnrollingEpoch())) {
+		if ((!this.hasEnrollingEpoch())) {
 			throw getC3PRExceptionHelper()
 					.getRuntimeException(
 							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE"));
@@ -987,7 +983,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 						&& !(compStudyAssoc.getCompanionStudy()
 								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION || compStudyAssoc
 								.getCompanionStudy()
-								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)) {
+								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN)) {
 					throw getC3PRExceptionHelper()
 							.getRuntimeException(
 									getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
@@ -1009,15 +1005,15 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 				if (compStudyAssoc.getCompanionStudy()
 						.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION
 						|| compStudyAssoc.getCompanionStudy()
-								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
+								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
 					compStudyAssoc.getCompanionStudy()
 							.setCoordinatingCenterStudyStatus(
-									CoordinatingCenterStudyStatus.ACTIVE);
+									CoordinatingCenterStudyStatus.OPEN);
 				} else if (compStudyAssoc.getMandatoryIndicator()
 						&& !(compStudyAssoc.getCompanionStudy()
 								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION || compStudyAssoc
 								.getCompanionStudy()
-								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)) {
+								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN)) {
 					throw getC3PRExceptionHelper()
 							.getRuntimeException(
 									getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
@@ -1037,7 +1033,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 			}
 		}
 		this
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 
 	}
 
@@ -1093,7 +1089,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	public void readyForActivation() throws C3PRCodedRuntimeException {
 
 		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.ACTIVE))
+				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.OPEN))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {

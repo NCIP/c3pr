@@ -223,7 +223,7 @@ public class StudySite extends StudyOrganization implements
 				&& (this.getSiteStudyStatus() == SiteStudyStatus.ACTIVE)) {
 			return SiteStudyStatus.AMENDMENT_PENDING;
 		}
-		if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
+		if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
 
 			Date currentDate = new Date();
 			GregorianCalendar calendar = new GregorianCalendar();
@@ -320,7 +320,7 @@ public class StudySite extends StudyOrganization implements
 	
 
 	public void openStudy() throws C3PRCodedRuntimeException{
-		if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
+		if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
 
 			Date currentDate = new Date();
 			GregorianCalendar calendar = new GregorianCalendar();
