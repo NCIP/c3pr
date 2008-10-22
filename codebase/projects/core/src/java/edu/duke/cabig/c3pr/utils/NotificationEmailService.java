@@ -22,6 +22,7 @@ import org.springframework.mail.SimpleMailMessage;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
@@ -142,12 +143,31 @@ public class NotificationEmailService {
         List<String> emailList = new ArrayList<String>();
     	emailList.addAll(getEmailsFromRoleBasedRecipient(recipientScheduledNotification));
     	emailList.addAll(getEmailsFromUserBasedRecipient(recipientScheduledNotification));
-//    	emailList.addAll(getEmailsFromContactMechanismBasedRecipient(recipientScheduledNotification));
+    	emailList.addAll(getEmailsFromContactMechanismBasedRecipient(recipientScheduledNotification));
     	log.debug(this.getClass().getName() + ": Exiting generateEmailList()");
     	return emailList;
         
     }
 
+    public List<String> getEmailsFromContactMechanismBasedRecipient(RecipientScheduledNotification recipientScheduledNotification){
+    	log.debug(this.getClass().getName() + ": Entering getEmailsFromContactMechanismBasedRecipient()");
+        List<String> returnList = new ArrayList<String>();
+        
+        if(recipientScheduledNotification.getRecipient() instanceof ContactMechanismBasedRecipient){
+        	ContactMechanismBasedRecipient cmbr = (ContactMechanismBasedRecipient)recipientScheduledNotification.getRecipient();
+    		if(cmbr.getContactMechanisms() != null){
+    			for(ContactMechanism cm: cmbr.getContactMechanisms()){
+    				if(cm.getType() != null && cm.getType().equals(ContactMechanismType.EMAIL)){
+    					returnList.add(cm.getValue());
+    				}
+    			}
+    		}
+    	}
+        log.debug(this.getClass().getName() + ": exiting getEmailsFromRoleBasedRecipient()");
+        return returnList;
+    }
+    
+    
     public List<String> getEmailsFromRoleBasedRecipient(RecipientScheduledNotification recipientScheduledNotification) {
     	log.debug(this.getClass().getName() + ": Entering getEmailsFromRoleBasedRecipient()");
         List<String> returnList = new ArrayList<String>();
