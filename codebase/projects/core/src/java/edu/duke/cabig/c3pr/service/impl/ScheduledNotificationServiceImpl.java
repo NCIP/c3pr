@@ -227,7 +227,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 		Study study = new Study();
 		study.setShortTitleText("shortTitleText");
 		study.setId(10);
-		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 		
 		System.out.println(nes.composeMessage(messageWithSubVars, study));
 	}*/

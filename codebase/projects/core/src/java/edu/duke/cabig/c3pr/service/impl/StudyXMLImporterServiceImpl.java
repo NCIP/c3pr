@@ -117,9 +117,9 @@ public class StudyXMLImporterServiceImpl implements
     
     public Study processStudy(Study study){
     	// updating the study status before importing.
-    	if ((study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE)) {
+    	if ((study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN)) {
 			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-			log.debug("Study:" + study.getPrimaryIdentifier() + "cannot be imported in Active Status. So it's status has been set to Pending");
+			log.debug("Study:" + study.getPrimaryIdentifier() + "cannot be imported in Open Status. So it's status has been set to Pending");
 		}
     	return study;
     }
