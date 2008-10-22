@@ -93,7 +93,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		if(entity instanceof StudySubject){			
 			handleNewStudySubjectSaved(null,((StudySubject)entity).getRegWorkflowStatus(), entity);
 		}
-		//Every new study...notification is onyl sent if new stuayd status is Active
+		//Every new study...notification is onyl sent if new stuayd status is Open
 		if(entity instanceof Study){			
 			handleStudyStatusChange(null,((Study)entity).getCoordinatingCenterStudyStatus(), entity);
 		}
@@ -298,9 +298,9 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//do nothing if the final status is pending coz this isnt open study nor is it study status change.
 			//also do nothing is there is no status change.
 		} else {
-			//if the prev status is null or pending and current status is active then its a new study
+			//if the prev status is null or pending and current status is Open then its a new study
 			//else its a study status change.
-			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.ACTIVE) &&
+			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.OPEN) &&
 				(previousCoordinatingCenterStudyStatus == null || previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING)) ){
 				event = NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT;
 			} else {
