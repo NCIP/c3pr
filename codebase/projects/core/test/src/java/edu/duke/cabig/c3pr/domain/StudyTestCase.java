@@ -153,8 +153,8 @@ public class StudyTestCase extends AbstractTestCase{
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
 		basicStudy.setStratificationIndicator(false);
 		basicStudy.setCoordinatingCenterStudyStatus(basicStudy.evaluateCoordinatingCenterStudyStatus());
-		assertEquals("Study status should evaluate to Active",CoordinatingCenterStudyStatus.ACTIVE,basicStudy.getCoordinatingCenterStudyStatus());
-		assertEquals("Site Study status should evaluate to Active",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
+		assertEquals("Study status should evaluate to Active",CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
+		assertEquals("Site Study status should evaluate to OPEN",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
 	}
 	
 	
