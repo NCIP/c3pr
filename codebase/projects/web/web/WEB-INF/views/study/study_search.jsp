@@ -66,7 +66,7 @@
 </chrome:search>
 
 <br>
-
+<c:if test="${studies!=null}">
 <chrome:box title="Search Results">
     <chrome:division id="single-fields">
             <div id="tableDiv">
@@ -75,6 +75,6 @@
         </chrome:division>
 
 </chrome:box>
-
+</c:if>
 </body>
 </html>
