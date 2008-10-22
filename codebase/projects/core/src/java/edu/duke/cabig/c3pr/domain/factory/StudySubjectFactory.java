@@ -194,7 +194,7 @@ public class StudySubjectFactory {
                                                     identifier.getValue(),
                                                     this.identifierTypeValueStr });
         }
-        if (studies.get(0).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.ACTIVE) {
+        if (studies.get(0).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
             throw exceptionHelper.getException(
                             getCode("C3PR.EXCEPTION.REGISTRATION.STUDY_NOT_ACTIVE"), new String[] {
                                     identifier.getHealthcareSite().getNciInstituteCode(),
