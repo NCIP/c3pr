@@ -8,11 +8,9 @@ public class StudyStatusHelper {
 	
 	public static void setStatus(Study study,CoordinatingCenterStudyStatus targetStatus) throws C3PRCodedRuntimeException{
 		
-		// TODO Should be using Switch Statement to do this
+		// TODO Should be using Switch block to do this
 		
-		if (targetStatus.equals(CoordinatingCenterStudyStatus.ACTIVE)){
-			study.open();
-		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.OPEN)){
+		if (targetStatus.equals(CoordinatingCenterStudyStatus.OPEN)){
 			study.open();
 		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.PENDING)){
 			study.putInPending();
