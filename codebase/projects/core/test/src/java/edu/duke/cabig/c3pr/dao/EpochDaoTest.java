@@ -40,7 +40,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -144,7 +144,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -273,7 +273,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -312,7 +312,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");

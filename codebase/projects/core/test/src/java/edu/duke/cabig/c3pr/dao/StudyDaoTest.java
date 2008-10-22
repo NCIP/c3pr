@@ -206,7 +206,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -282,7 +282,7 @@ public class StudyDaoTest extends DaoTestCase {
         study.setShortTitleText("ShortTitleText1");
         study.setLongTitleText("LongTitleText1");
         study.setPhaseCode("PhaseCode1");
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         study.setTargetAccrualNumber(150);
         study.setType("Type");
@@ -593,7 +593,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -621,7 +621,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(100);
             study.setType("Type");
@@ -696,7 +696,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -718,7 +718,7 @@ public class StudyDaoTest extends DaoTestCase {
             StudySite studySite = new StudySite();
             studySite.setHealthcareSite(hcsiteloaded);
             studySite.setRoleCode("role");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 
             study.addStudySite(studySite);
@@ -921,7 +921,7 @@ public class StudyDaoTest extends DaoTestCase {
         studySite.setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
         studySite.setRoleCode("role");
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 
         // Study Investigator
@@ -967,7 +967,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -1003,7 +1003,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -1058,7 +1058,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -1147,7 +1147,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -1193,7 +1193,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
@@ -1322,7 +1322,7 @@ public class StudyDaoTest extends DaoTestCase {
         study.setShortTitleText("ShortTitleText");
         study.setLongTitleText("LongTitleText");
         study.setPhaseCode("PhaseCode");
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         study.setTargetAccrualNumber(150);
         study.setType("Type");
@@ -1365,7 +1365,7 @@ public class StudyDaoTest extends DaoTestCase {
         study.setShortTitleText("ShortTitleText");
         study.setLongTitleText("LongTitleText");
         study.setPhaseCode("PhaseCode");
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         study.setTargetAccrualNumber(150);
         study.setType("Type");
