@@ -23,6 +23,7 @@ public class CreateCompanionStudyController<C extends StudyWrapper> extends Crea
         flow.addTab(new StudyStratificationTab());
         flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
+        flow.addTab(new StudySitesTab());
         flow.addTab(new StudyOverviewTab("Overview", "Overview", "study/study_summary_create"));
     }
 
