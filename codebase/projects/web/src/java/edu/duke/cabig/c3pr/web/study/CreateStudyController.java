@@ -72,11 +72,6 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
         flow.addTab(new StudyStratificationTab());
         flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
-        flow.addTab(new StudySitesTab());
-        flow.addTab(new StudyIdentifiersTab());
-        flow.addTab(new StudyInvestigatorsTab());
-        flow.addTab(new StudyPersonnelTab());
-        flow.addTab(new StudyNotificationTab());
         flow.addTab(new CompanionStudyTab());
         flow.addTab(new StudyOverviewTab("Overview", "Overview",
                 "study/study_summary_create"));

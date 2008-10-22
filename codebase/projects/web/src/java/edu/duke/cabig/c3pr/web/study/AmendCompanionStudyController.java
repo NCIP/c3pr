@@ -26,11 +26,6 @@ public class AmendCompanionStudyController extends AmendStudyController {
         flow.addTab(new StudyStratificationTab());
         flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
-        flow.addTab(new StudySitesTab());
-        flow.addTab(new StudyIdentifiersTab());
-        flow.addTab(new StudyInvestigatorsTab());
-        flow.addTab(new StudyPersonnelTab());
-        flow.addTab(new StudyNotificationTab());
         flow.addTab(new EditStudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
     }
 

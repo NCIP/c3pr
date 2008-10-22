@@ -4,7 +4,12 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.web.study.tabs.EditStudyOverviewTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyNotificationTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyPersonnelTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyRegistrationsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudySitesTab;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import org.acegisecurity.Authentication;
@@ -56,6 +61,11 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
     @Override
     protected void layoutTabs(Flow flow) {
         flow.addTab(new EditStudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
+        flow.addTab(new StudySitesTab());
+        flow.addTab(new StudyIdentifiersTab());
+        flow.addTab(new StudyInvestigatorsTab());
+        flow.addTab(new StudyPersonnelTab());
+        flow.addTab(new StudyNotificationTab());
         flow.addTab(new StudyRegistrationsTab());
 
     }
