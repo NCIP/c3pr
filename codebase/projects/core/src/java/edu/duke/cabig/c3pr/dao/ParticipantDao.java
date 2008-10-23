@@ -248,4 +248,11 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     public Participant merge(Participant participant) {
         return (Participant) getHibernateTemplate().merge(participant);
     }
+    
+    @SuppressWarnings("unchecked")
+    public List<Participant> searchByIdentifier(int id) {
+        return (List<Participant>) getHibernateTemplate().find(
+                                        "select P from Participant P, Identifier I where I.id=? and I=any elements(P.identifiers)",
+                                        new Object[] {id});
+    }
 }

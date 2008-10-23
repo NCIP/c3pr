@@ -372,4 +372,12 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public void setEpochDao(EpochDao epochDao) {
         this.epochDao = epochDao;
     }
+    @SuppressWarnings("unchecked")
+    public List<Study> searchByIdentifier(int id) {
+        return (List<Study>) getHibernateTemplate().find(
+                                        "select S from Study S, Identifier I where I.id=? and I=any elements(S.identifiers)",
+                                        new Object[] {id});
+    }
+    
+    
 }

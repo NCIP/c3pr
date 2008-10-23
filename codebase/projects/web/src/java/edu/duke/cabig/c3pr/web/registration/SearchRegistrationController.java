@@ -18,11 +18,9 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -64,67 +62,45 @@ public class SearchRegistrationController extends SimpleFormController {
         String type = searchRegistrationCommand.getSearchType();
         List<StudySubject> registrations = new ArrayList<StudySubject>();
         log.debug(" Search string is :" + text);
-        if (request.getParameter("select").equals("Subject")) {
-            Integer participantId = null;
+        Integer id = null;
+    	if (request.getParameter("selected-id") != null
+                && !(request.getParameter("selected-id").equals(""))) {
+    			id = Integer.parseInt(request.getParameter("selected-id"));
+    	}
+        
+    	if (request.getParameter("select").equals("Subject")) {
             Participant participant = new Participant();
-            if (request.getParameter("subjectOption").equals("N")
-                            || request.getParameter("subjectOption").equals("F")) {
-                if (request.getParameter("selected-id") != null
-                                && !(request.getParameter("selected-id").equals(""))) {
-                    participantId = Integer.parseInt(request.getParameter("selected-id"));
-                }
+            String subjectOption = request.getParameter("subjectOption") ;
+            if (StringUtils.equals(subjectOption,"N") || StringUtils.equals(subjectOption,"F")) {
+            	registrations = studySubjectDao.searchByParticipantId(id);
             }
-            else {
-                OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
-                orgIdentifier.setValue(text);
-                participant.addIdentifier(orgIdentifier);
-                SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
-                sysIdentifier.setValue(text);
-                participant.addIdentifier(sysIdentifier);
-            }
-
-            if (participantId == null) {
+            else if(StringUtils.equals(subjectOption, "Identifier")){
+            	participant = participantDao.searchByIdentifier(id).get(0) ;
             	registrations = studySubjectDao.searchByParticipant(participant);
             }
-            else {
-                registrations = studySubjectDao.searchByParticipantId(participantId);
+
+            if (id == null) {
+            	registrations = studySubjectDao.searchByParticipant(participant);
             }
+           
         }
         else if (request.getParameter("select").equals("Study")) {
             Study study = new Study(true);
-            Integer studyId = null;
-
-            if (request.getParameter("studyOption").equals("shortTitle")) {
-                if (request.getParameter("selected-id") != null
-                                && !(request.getParameter("selected-id").equals(""))) {
-                    studyId = Integer.parseInt(request.getParameter("selected-id"));
-                }
+            String studyOption = request.getParameter("studyOption");
+            if (StringUtils.equals(studyOption, "shortTitle")) {
+            	registrations = studySubjectDao.searchByStudyId(id);
             }
-            else {
-                OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
-                orgIdentifier.setValue(text);
-                study.addIdentifier(orgIdentifier);
-                SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
-                sysIdentifier.setValue(text);
-                study.addIdentifier(sysIdentifier);
-            }
-
-            if (studyId == null) {
+            else if(StringUtils.equals(studyOption, "Identifier")){
+            	study = studyDao.searchByIdentifier(id).get(0);
             	registrations = studySubjectDao.searchByStudy(study);
             }
-            else {
-                registrations = studySubjectDao.searchByStudyId(studyId);
-                
+            if (id == null) {
+            	registrations = studySubjectDao.searchByStudy(study);
             }
         }
         else if (request.getParameter("select").equals("Id")) {
             if (!StringUtils.isBlank(text)) {
-				OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
-				orgIdentifier.setValue(text);
-				registration.addIdentifier(orgIdentifier);
-				SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
-				sysIdentifier.setValue(text);
-				registration.addIdentifier(sysIdentifier);
+            	registration = studySubjectDao.searchByIdentifier(id).get(0);
 			}
             registrations = studySubjectDao.searchByExample(registration, true);
         }

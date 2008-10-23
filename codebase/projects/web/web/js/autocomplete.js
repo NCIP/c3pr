@@ -126,7 +126,7 @@ function clearDefaultText(e) {
 
 delayedReplaceDefaultText= function (e1) {
 	funcTemp=function(){replaceDefaultText(e1);};
-	setTimeout(funcTemp,100);
+	setTimeout(funcTemp,200);
 };
 
 function replaceDefaultText(e2) {

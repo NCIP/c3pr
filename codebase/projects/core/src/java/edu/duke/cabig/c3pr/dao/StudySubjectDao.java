@@ -459,6 +459,12 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
 	}
-
+	
+	@SuppressWarnings("unchecked")
+    public List<StudySubject> searchByIdentifier(int id) {
+        return (List<StudySubject>) getHibernateTemplate().find(
+                                        "select SS from StudySubject SS, Identifier I where I.id=? and I=any elements(SS.identifiers)",
+                                        new Object[] {id});
+    }
 
 }
