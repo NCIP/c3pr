@@ -71,31 +71,32 @@ public class SearchRegistrationController extends SimpleFormController {
     	if (request.getParameter("select").equals("Subject")) {
             Participant participant = new Participant();
             String subjectOption = request.getParameter("subjectOption") ;
-            if (StringUtils.equals(subjectOption,"N") || StringUtils.equals(subjectOption,"F")) {
-            	registrations = studySubjectDao.searchByParticipantId(id);
-            }
-            else if(StringUtils.equals(subjectOption, "Identifier")){
-            	participant = participantDao.searchByIdentifier(id).get(0) ;
-            	registrations = studySubjectDao.searchByParticipant(participant);
-            }
-
             if (id == null) {
             	registrations = studySubjectDao.searchByParticipant(participant);
+            }else{
+            	 if (StringUtils.equals(subjectOption,"N") || StringUtils.equals(subjectOption,"F")) {
+                 	registrations = studySubjectDao.searchByParticipantId(id);
+                 }
+                 else if(StringUtils.equals(subjectOption, "Identifier")){
+                 	participant = participantDao.searchByIdentifier(id).get(0) ;
+                 	registrations = studySubjectDao.searchByParticipant(participant);
+                 }
             }
            
         }
         else if (request.getParameter("select").equals("Study")) {
             Study study = new Study(true);
             String studyOption = request.getParameter("studyOption");
-            if (StringUtils.equals(studyOption, "shortTitle")) {
-            	registrations = studySubjectDao.searchByStudyId(id);
-            }
-            else if(StringUtils.equals(studyOption, "Identifier")){
-            	study = studyDao.searchByIdentifier(id).get(0);
-            	registrations = studySubjectDao.searchByStudy(study);
-            }
             if (id == null) {
             	registrations = studySubjectDao.searchByStudy(study);
+            }else{
+                if (StringUtils.equals(studyOption, "shortTitle")) {
+                	registrations = studySubjectDao.searchByStudyId(id);
+                }
+                else if(StringUtils.equals(studyOption, "Identifier")){
+                	study = studyDao.searchByIdentifier(id).get(0);
+                	registrations = studySubjectDao.searchByStudy(study);
+                }
             }
         }
         else if (request.getParameter("select").equals("Id")) {
