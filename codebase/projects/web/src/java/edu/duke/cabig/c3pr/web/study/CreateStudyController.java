@@ -74,8 +74,9 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new CompanionStudyTab());
         flow.addTab(new StudySitesTab());
+        flow.addTab(new StudyAdvanceTab());
         flow.addTab(new StudyOverviewTab("Overview", "Overview",
-                "study/study_summary_create"));
+                "study/study_summary_create",false));
     }
 
     @Override
@@ -109,7 +110,12 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
                                          HttpServletResponse response, Object command, BindException errors)
             throws Exception {
         Study study = ((StudyWrapper) command).getStudy();
-        study = studyRepository.merge(study);
+        if(request.getParameter("_action").equals("open")){
+            study= studyRepository.openStudy(study.getIdentifiers());
+        }else if(request.getParameter("_action").equals("create")){
+            study=studyRepository.createStudy(study.getIdentifiers());
+        }
+        ((StudyWrapper) command).setStudy(study);
         response.sendRedirect("confirm?studyId=" + study.getId());
         return null;
 

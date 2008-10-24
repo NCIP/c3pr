@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web.study;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.web.study.tabs.EditStudyOverviewTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
@@ -12,6 +13,8 @@ import edu.duke.cabig.c3pr.web.study.tabs.StudyRegistrationsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudySitesTab;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
@@ -20,6 +23,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -152,4 +156,11 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         this.xmlUtility = xmlUtility;
     }
 
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, StudyWrapper command,
+                    Tab<StudyWrapper> tab) {
+        if(WebUtils.hasSubmitParameter(request, InPlaceEditableTab.IN_PLACE_PARAM_NAME))
+            return true;
+        return false;
+    }
 }
