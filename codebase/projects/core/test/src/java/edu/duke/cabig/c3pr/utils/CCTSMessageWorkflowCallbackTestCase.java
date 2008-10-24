@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.utils;
 
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
 
@@ -27,10 +27,10 @@ public class CCTSMessageWorkflowCallbackTestCase extends MasqueradingDaoTestCase
             callback.messageSendSuccessful("success");
 
             StudySubject reloaded = getDao().getById(subject.getId());
-            reloaded.getCctsWorkflowStatus().equals(CCTSWorkflowStatusType.MESSAGE_SEND);
+            reloaded.getCctsWorkflowStatus().equals(WorkFlowStatusType.MESSAGE_SEND);
 
             callback.messageSendConfirmed("confirmed");
-            reloaded.getCctsWorkflowStatus().equals(CCTSWorkflowStatusType.MESSAGE_SEND_CONFIRMED);
+            reloaded.getCctsWorkflowStatus().equals(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
         }
 
     }
