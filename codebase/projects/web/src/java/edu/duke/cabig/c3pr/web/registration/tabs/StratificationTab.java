@@ -4,17 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.tools.ant.taskdefs.War;
 import org.springframework.validation.Errors;
-
-import EDU.oswego.cs.dl.util.concurrent.FJTask.Wrap;
 
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
-import edu.duke.cabig.c3pr.web.study.tabs.StudyStratificationTab;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
