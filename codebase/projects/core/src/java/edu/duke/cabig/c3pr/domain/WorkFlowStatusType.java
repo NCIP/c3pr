@@ -9,7 +9,7 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
  * Created by IntelliJ IDEA. User: kherm Date: Nov 19, 2007 Time: 2:35:15 PM To change this template
  * use File | Settings | File Templates.
  */
-public enum CCTSWorkflowStatusType implements CodedEnum<String> {
+public enum WorkFlowStatusType implements CodedEnum<String> {
 
     MESSAGE_SEND("Message sent"), MESSAGE_SEND_CONFIRMED("Message send confirmed"), MESSAGE_SEND_FAILED(
                     "Message send failed"), MESSAGE_RECIEVED("Message has been receved"),
@@ -18,7 +18,7 @@ public enum CCTSWorkflowStatusType implements CodedEnum<String> {
 
     private String code;
 
-    CCTSWorkflowStatusType(String code) {
+    WorkFlowStatusType(String code) {
         this.code = code;
         register(this);
 
@@ -32,8 +32,8 @@ public enum CCTSWorkflowStatusType implements CodedEnum<String> {
         return sentenceCasedName(this);
     }
 
-    public static CCTSWorkflowStatusType getByCode(String code) {
-        return getByClassAndCode(CCTSWorkflowStatusType.class, code);
+    public static WorkFlowStatusType getByCode(String code) {
+        return getByClassAndCode(WorkFlowStatusType.class, code);
     }
 
 }

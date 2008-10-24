@@ -11,7 +11,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
-import org.apache.commons.collections15.list.LazyList;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
@@ -37,6 +36,10 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
     private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 
     private List<OrganizationAssignedIdentifier> identifiers = new ArrayList<OrganizationAssignedIdentifier>();
+    
+    private EndPointConnectionProperty studyEndPointProperty;
+    
+    private EndPointConnectionProperty registrationEndPointProperty;
     
     private LazyListHelper lazyListHelper;
     
@@ -148,4 +151,44 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
     public void setPlannedNotifications(List<PlannedNotification> plannedNotifications) {
     }
 
+    @OneToOne(cascade = { javax.persistence.CascadeType.ALL })
+    @JoinColumn(name = "study_endpoint_props_id")
+    public EndPointConnectionProperty getStudyEndPointProperty() {
+        return studyEndPointProperty;
+    }
+
+    public void setStudyEndPointProperty(EndPointConnectionProperty studyEndPointProperty) {
+        this.studyEndPointProperty = studyEndPointProperty;
+    }
+
+    @OneToOne(cascade = { javax.persistence.CascadeType.ALL })
+    @JoinColumn(name = "reg_endpoint_props_id")
+    public EndPointConnectionProperty getRegistrationEndPointProperty() {
+        return registrationEndPointProperty;
+    }
+
+    public void setRegistrationEndPointProperty(EndPointConnectionProperty registrationEndPointProperty) {
+        this.registrationEndPointProperty = registrationEndPointProperty;
+    }
+
+    @Transient
+    public boolean getEndPointAuthenticationRequired(){
+        return this.getHasEndpointProperty() && this.studyEndPointProperty.getIsAuthenticationRequired() && this.registrationEndPointProperty.getIsAuthenticationRequired();
+    }
+    
+    @Transient
+    public void setEndPointAuthenticationRequired(boolean endPointAuthenticationRequired) {
+        this.studyEndPointProperty.setIsAuthenticationRequired(endPointAuthenticationRequired);
+        this.registrationEndPointProperty.setIsAuthenticationRequired(endPointAuthenticationRequired);
+    }
+    
+    @Transient
+    public boolean getHasEndpointProperty(){
+        return studyEndPointProperty!=null && registrationEndPointProperty!=null;
+    }
+    
+    public void initializeEndPointProperties(EndPointType endPointType){
+        registrationEndPointProperty=new EndPointConnectionProperty(endPointType);
+        studyEndPointProperty=new EndPointConnectionProperty(endPointType);
+    }
 }

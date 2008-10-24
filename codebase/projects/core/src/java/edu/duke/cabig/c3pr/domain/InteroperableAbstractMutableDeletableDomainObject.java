@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
@@ -10,17 +13,19 @@ import javax.persistence.Transient;
  * use File | Settings | File Templates.
  */
 @MappedSuperclass
-public class CCTSAbstractMutableDeletableDomainObject extends AbstractMutableDeletableDomainObject {
+public abstract class InteroperableAbstractMutableDeletableDomainObject extends AbstractMutableDeletableDomainObject {
 
-    private CCTSWorkflowStatusType cctsWorkflowStatus;
+    private WorkFlowStatusType cctsWorkflowStatus;
 
-    private CCTSWorkflowStatusType multisiteWorkflowStatus;
+    private WorkFlowStatusType multisiteWorkflowStatus;
     
     private boolean importErrorFlag;
 
     private String importErrorString;
     
     private String cctsErrorString;
+    
+    protected List<EndPoint> endpoints=new ArrayList<EndPoint>();
 
     public String getCctsErrorString() {
         return cctsErrorString;
@@ -31,11 +36,11 @@ public class CCTSAbstractMutableDeletableDomainObject extends AbstractMutableDel
     }
 
     @Enumerated(EnumType.STRING)
-    public CCTSWorkflowStatusType getCctsWorkflowStatus() {
+    public WorkFlowStatusType getCctsWorkflowStatus() {
         return cctsWorkflowStatus;
     }
 
-    public void setCctsWorkflowStatus(CCTSWorkflowStatusType cctsWorkflowStatus) {
+    public void setCctsWorkflowStatus(WorkFlowStatusType cctsWorkflowStatus) {
         this.cctsWorkflowStatus = cctsWorkflowStatus;
     }
 
@@ -74,11 +79,18 @@ public class CCTSAbstractMutableDeletableDomainObject extends AbstractMutableDel
     }
 
     @Enumerated(EnumType.STRING)
-    public CCTSWorkflowStatusType getMultisiteWorkflowStatus() {
+    public WorkFlowStatusType getMultisiteWorkflowStatus() {
         return multisiteWorkflowStatus;
     }
 
-    public void setMultisiteWorkflowStatus(CCTSWorkflowStatusType multisiteWorkflowStatus) {
+    public void setMultisiteWorkflowStatus(WorkFlowStatusType multisiteWorkflowStatus) {
         this.multisiteWorkflowStatus = multisiteWorkflowStatus;
+    }
+
+    @Transient
+    public abstract List<EndPoint> getEndpoints();
+
+    public void setEndpoints(List<EndPoint> endpoints) {
+        this.endpoints = endpoints;
     }
 }

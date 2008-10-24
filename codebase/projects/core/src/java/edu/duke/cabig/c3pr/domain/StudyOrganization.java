@@ -32,7 +32,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_ORGANIZATIONS_ID_SEQ") })
-public abstract class StudyOrganization extends AbstractMutableDeletableDomainObject {
+public abstract class StudyOrganization extends InteroperableAbstractMutableDeletableDomainObject {
 
     private Study study;
 
@@ -180,5 +180,12 @@ public abstract class StudyOrganization extends AbstractMutableDeletableDomainOb
 
     public void setStudyInvestigatorIds(String[] studyInvestigatorIds) {
         this.studyInvestigatorIds = studyInvestigatorIds;
+    }
+    
+    @OneToMany
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name = "sto_id")
+    public List<EndPoint> getEndpoints() {
+        return endpoints;
     }
 }

@@ -13,7 +13,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -49,7 +48,7 @@ import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 @Entity
 @Table(name = "STUDY_SUBJECTS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SUBJECTS_ID_SEQ") })
-public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
+public class StudySubject extends InteroperableAbstractMutableDeletableDomainObject {
     private LazyListHelper lazyListHelper;
 
     private List<ScheduledEpoch> scheduledEpochs = new ArrayList<ScheduledEpoch>();
@@ -584,9 +583,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     
     @Transient
     public boolean isCoOrdinatingCenter(String nciCode) {
-        return this.getStudySite().getStudy().getStudyCoordinatingCenters().get(0)
-                        .getHealthcareSite().getNciInstituteCode()
-                        .equals(nciCode);
+        return this.getStudySite().getStudy().isCoOrdinatingCenter(nciCode);
     }
     
     public void updateDataEntryStatus(){
@@ -613,7 +610,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     }
     
     public boolean requiresAffiliateSiteResponse(){
-        if(this.getMultisiteWorkflowStatus()==CCTSWorkflowStatusType.MESSAGE_RECIEVED)
+        if(this.getMultisiteWorkflowStatus()==WorkFlowStatusType.MESSAGE_RECIEVED)
             return true;
         return false;
     }
@@ -667,5 +664,12 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL.toString(), getStudySite().getCurrentAccrualCount());
 		return map;
 	}
+	
+	@OneToMany
+	    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	    @JoinColumn(name = "stu_sub_id")
+	    public List<EndPoint> getEndpoints() {
+	        return endpoints;
+	    }
 	
 }
