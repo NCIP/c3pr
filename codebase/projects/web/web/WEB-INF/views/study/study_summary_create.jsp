@@ -8,21 +8,28 @@
 
 function activateAndSaveStudy(){
 document.getElementById("_activate").value="true";
-document.getElementById("command").submit();
+document.getElementById("_action").value="open";
+document.getElementById("viewDetails").submit();
 }
 
+function createStudy(){
+document.getElementById("_activate").value="false";
+document.getElementById("_action").value="create";
+document.getElementById("viewDetails").submit();
+}
 </script>
 
 </head>
 
 <body>
-<tags:c3prCustomTabForm tab="${tab}" flow="${flow}"
-              title="Study Overview" willSave="${willSave}" formName="review" needReset="false">
-<jsp:attribute name="repeatingFields">
+<form:form id="viewDetails" name="viewDetails">
+<tags:tabFields tab="${tab}"/>
+<chrome:box title="Study Summary">
 <div>
     <input type="hidden" name="_finish" value="true"/>
     <div>
     <input type="hidden" name="_activate" id="_activate" value="false"/>
+    <input type="hidden" name="_action" id="_action"/>
 </div>
 </div>
 <div id="printable">
@@ -229,11 +236,11 @@ document.getElementById("command").submit();
 			<div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> 
 				<input type="button" value="Open" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
+				<input type="button" value="Create" id="createButtonDisplayDiv" onclick="createStudy();return false;"/>
 				<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
  			</span></div>
 			</div>
-
-   </jsp:attribute>
-</tags:c3prCustomTabForm>
+</chrome:box>
+</form:form>
 </body>
 </html>

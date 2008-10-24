@@ -49,14 +49,26 @@
       	function reloadCompanion(){
    			<tags:tabMethod method="reloadCompanion" divElement="'companionAssociationsDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/> 
    		}
+   		
+   		function changeStudyStatus(status){
+   			$('statusChange').value=status;
+   			$('command').submit();
+   		
+   		}
     </script>
 </head>
 
 <body>
+<form:form>
+<input type="hidden" name="_target${tab.number}" id="_target"/>
+<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
+<input type="hidden" name="statusChange" id="statusChange"/>
+</form:form>
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
 <chrome:box title="Study Summary">
-<div><input type="hidden" name="_finish" value="true"/> <input
+<div>
+	<input type="hidden" name="_finish" value="true"/> <input
         type="hidden" name="_action" value=""></div>
 
 <div id="printable">
@@ -91,9 +103,67 @@
             <td class="alt" align="left">${command.study.dataEntryStatus.code}</td>
         </tr>
         <tr>
+            <td class="alt" align="left"><b>Status</b></td>
+            <td class="alt" align="left">
+            	<c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
+            		<c:if test="${coCenterStatus=='READY_TO_OPEN'}">
+            			<c:set var="readyToOpen" value="Ready to open this study"></c:set>
+            		</c:if>
+            		<c:if test="${coCenterStatus=='OPEN'}">
+            			<c:set var="open" value="Open Study"></c:set>
+            		</c:if>
+            		<c:if test="${coCenterStatus=='CLOSED_TO_ACCRUAL'}">
+            			<c:set var="closed" value="Close this study"></c:set>
+            			<c:set var="commanSepOptVal"
+                   		value="[['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],
+                   		['Closed To Accrual','Closed To Accrual']]">
+						</c:set>
+            		</c:if>
+            		<c:if test="${coCenterStatus=='TEMPORARILY_CLOSED_TO_ACCRUAL'}">
+            			<c:set var="closed" value="close this study"></c:set>
+            			<c:set var="commanSepOptVal"
+                   		value="[['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
+						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
+						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]">
+						</c:set>
+            		</c:if>
+            	</c:forEach>
+            	<c:choose>
+            	<c:when test="${!empty closed}">
+            		<tags:inPlaceSelect id="changedCoordinatingCenterStudyStatus"
+                        value="${command.study.coordinatingCenterStudyStatus.code}"
+                        path="study.changedCoordinatingCenterStudyStatus"
+                        commanSepOptVal="${commanSepOptVal}">
+				</tags:inPlaceSelect>
+            	</c:when>
+            	<c:otherwise>
+            		${command.study.coordinatingCenterStudyStatus.code}
+            	</c:otherwise>
+            	</c:choose>
+            	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
+                                        authorizationCheckName="domainObjectAuthorizationCheck">
+                    &nbsp;
+                    <c:if test="${!empty readyToOpen}">
+	                    <input type="button" value="${readyToOpen }"
+                                  onclick="changeStudyStatus('readyToOpen')"/>
+		            	</c:if>
+            	<c:if test="${!empty closed}">
+            	<input type="button" value="${closed }"
+                                  onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/>
+            	</c:if>
+                </csmauthz:accesscontrol>
+                <c:if test="${isRegistrar &&  !empty closed}">
+	                 <script type="text/javascript">
+	                 				  editor_changedTargetAccrualNumber.dispose();
+	                 				  editor_study.changedCoordinatingCenterStudyStatus.dispose();
+	                 </script>
+                </c:if>
+            </td>
+        </tr>
+        <%--<tr>
             <td class="alt" align="left" rows="2"><b>Status</b></td>
             <c:set var="commanSepOptVal"
-                   value="[['Open','Open'],
+                   value="[['Active','Active'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]">
@@ -137,7 +207,7 @@
 	                 </script>
                 </c:if>
             </td>
-        </tr>
+        </tr>--%>
         <tr>
             <td class="alt" align="left"><b>Type</b></td>
             <td class="alt" align="left">${command.study.type}</td>
@@ -447,7 +517,7 @@
                 <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
                 <td class="alt">
 					<c:choose>
-						<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'OPEN') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_FOR_ACTIVATION')}">                	
+						<c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'OPEN') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_TO_OPEN')}">                	
 							<input type="button" id="manageCompanionStudy" value="View" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
 						</c:when>
 						<c:otherwise>    
@@ -537,9 +607,25 @@
 
 <%--Optionally display edit mode buttons--%>
 <c:if test="${not empty editAuthorizationTask && empty flowType}">
-    <div class="content buttons autoclear" <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
+    <div class="content buttons autoclear">
         <div class="flow-buttons">
         <span class="next">
+        	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
+                                        authorizationCheckName="domainObjectAuthorizationCheck">
+                    &nbsp;
+		            	<c:if test="${!empty open}">
+		            	<input type="button" value="${open }"
+		                                  onclick="changeStudyStatus('open')"/>
+		            	</c:if> 
+                </csmauthz:accesscontrol>
+                <c:choose>
+                <c:when test="${command.study.companionIndicator=='true'}">
+                <c:set var="amendURL" value="amendCompanionStudy"/>
+                </c:when>
+                <c:otherwise>
+                <c:set var="amendURL" value="amendStudy"/>
+                </c:otherwise>
+                </c:choose>
             <!--export study-->
                 <input type="button"
                        value="Export Study" onclick="doExportAction();"/>
@@ -547,27 +633,11 @@
 	                    <input type="button" value="Edit Study" onclick="document.location='../study/editStudy?studyId=${command.study.id}'"/>
 	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"  <c:if test="${command.study.coordinatingCenterStudyStatus != 'OPEN' &&
 	  							command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
-	                           onclick="document.location='../study/amendStudy?studyId=${command.study.id}'"/>
-                </csmauthz:accesscontrol> 
-        </span>
-        </div>
-        </div>
-        <div class="content buttons autoclear"  <c:if test="${command.study.companionIndicator=='false'}">style="display:none;"</c:if>> 
-        <div class="flow-buttons">
-        <span class="next">
-            <!--export study-->
-                <input type="button"
-                       value="Export Study" onclick="doExportAction();"/>
-                <csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
-	                    <input type="button" value="Edit Study" onclick="document.location='../study/editCompanionStudy?studyId=${command.study.id}'"/>
-	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"  <c:if test="${command.study.coordinatingCenterStudyStatus != 'OPEN' &&
-	  							command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
-	                           onclick="document.location='../study/amendCompanionStudy?studyId=${command.study.id}'"/>
+	                           onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'"/>
                 </csmauthz:accesscontrol> 
         </span>
         </div>
     </div>
-
 </c:if>
 <br/>
 <div align="right">
