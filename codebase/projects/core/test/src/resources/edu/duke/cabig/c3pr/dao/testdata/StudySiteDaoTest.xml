@@ -15,13 +15,17 @@
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />    
   
-    <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" nci_institute_code="code"  retired_indicator = "false" />
-    <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1001" nci_institute_code="code"  retired_indicator = "false" />
-          
+  <ENDPOINT_PROPS id="1000" version="1" url="http://xyz.com" end_point_type="GRID"/>
+  
+  <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" nci_institute_code="code"  retired_indicator = "false" study_endpoint_props_id="1000"/>
+  <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1001" nci_institute_code="code"  retired_indicator = "false" study_endpoint_props_id="1000"/>
+  
     <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
     hcs_id="1000" type="SST" retired_indicator = "false" />
     <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
-    hcs_id="1001" type="SST" retired_indicator = "false" />        
+    hcs_id="1001" type="SST" retired_indicator = "false" />  
+  
+  <ENDPOINTS id="1000" version="0" multisite_service_name="STUDY" multisite_api_name="OPEN_STUDY" endpoint_prop_id="1000" dtype="GRID"/>
               
    	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1000"  retired_indicator = "false" />
     <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1001"  retired_indicator = "false" />
