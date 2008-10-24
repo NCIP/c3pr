@@ -8,6 +8,24 @@
             padding: 5px 15px;
         }
     </style>
+    <script>
+    ValidationManager.submitPostProcess=function(formElement, flag){
+    	if(formElement.id=='command'){
+    		complete=true;
+    		if($('advance').checked)
+    			if($('studyServiceURL').value==''){
+    				ValidationManager.removeError($('studyServiceURL'));
+    				ValidationManager.showError($('studyServiceURL'),'required');
+    				complete=false;
+    			}else if($('registrationServiceURL').value==''){
+    				ValidationManager.removeError($('registrationServiceURL'));
+    				ValidationManager.showError($('registrationServiceURL'),'required');
+    				complete=false;
+    			}
+    		return complete;
+    	}
+    }
+    </script>
 </head>
 <body>
 
@@ -57,8 +75,59 @@
 	        </c:if>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="label">
+            Advanced Property:
+        </div>
+        <div class="value">
+	        <input type="checkbox" id="advance" name="setAdvancedProperty" onchange="new Effect.Combo('multisite-config');">
+        </div>
+    </div>
+    
     </chrome:division>
 
+    <chrome:division id="multisite-config" title="Multisite configuration">
+    <div class="leftpanel">
+        <div class="row">
+            <div class="label required-indicator">
+                Study service url:
+            </div>
+            <div class="value">
+                <input type="text" size="60" id="studyServiceURL" name="studyServiceURL" value="${command.hasEndpointProperty?command.studyEndPointProperty.url:''}" class="validate-notEmpty"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label required-indicator"">
+                Registration service url:
+            </div>
+            <div class="value">
+                <input type="text" size="60" id="registrationServiceURL" name="registrationServiceURL" value="${command.hasEndpointProperty?command.registrationEndPointProperty.url:''}" class="validate-notEmpty"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">
+                Authentication required:
+            </div>
+            <div class="value">
+                <input type="checkbox" id="authenticationRequired" name="authenticationRequired"/>
+            </div>
+        </div>
+    </div>
+    </chrome:division>
+    <script>
+    <c:choose>
+	<c:when test="${command.hasEndpointProperty}">
+       $('advance').checked=true;
+       <c:if test="${command.endPointAuthenticationRequired}">$('authenticationRequired').checked=true;</c:if>
+    </c:when>
+    <c:otherwise>
+    	new Element.hide('multisite-config');
+    </c:otherwise>
+    </c:choose>
+    </script>
     <chrome:division id="address" title="Address">
     <div class="leftpanel">
 
