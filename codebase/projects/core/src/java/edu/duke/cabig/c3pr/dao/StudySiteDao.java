@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
@@ -46,4 +47,8 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
     	getHibernateTemplate().initialize(studySite.getStudySubjects());
     }
 
+    @Transactional(readOnly = false)
+    public StudySite merge(StudySite studySite) {
+        return (StudySite) getHibernateTemplate().merge(studySite);
+    }
 }

@@ -96,9 +96,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public List<Study> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
         return (List<Study>) getHibernateTemplate()
                         .find(
-                                        "select S from Study S, Identifier I where I.healthcareSite.id=?"
+                                        "select S from Study S, Identifier I where I.healthcareSite.nciInstituteCode=?"
                                                         + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
-                                        new Object[] { id.getHealthcareSite().getId(),
+                                        new Object[] { id.getHealthcareSite().getNciInstituteCode(),
                                                 id.getValue(), id.getType() });
     }
 

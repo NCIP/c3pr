@@ -15,6 +15,7 @@ import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -52,6 +53,8 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
             if (isWildCard) {
                 example.enableLike(MatchMode.ANYWHERE);
             }
+            example.excludeProperty("studyEndPointProperty");
+            example.excludeProperty("registrationEndPointProperty");
             result = orgCriteria.add(example).list();
         }
         catch (DataAccessResourceFailureException e) {
