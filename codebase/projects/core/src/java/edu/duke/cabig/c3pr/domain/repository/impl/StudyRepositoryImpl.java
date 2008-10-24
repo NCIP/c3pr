@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain.repository.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Transient;
@@ -13,223 +15,456 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.APIName;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.factory.StudyFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
+import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl;
+import edu.duke.cabig.c3pr.tools.Configuration;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 @Transactional
 public class StudyRepositoryImpl implements StudyRepository {
 
-	private StudyDao studyDao;
+    private StudyDao studyDao;
 
-	private HealthcareSiteDao healthcareSiteDao;
+    private HealthcareSiteDao healthcareSiteDao;
 
-	private InvestigatorDao investigatorDao;
+    private InvestigatorDao investigatorDao;
 
-	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
+    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
-	private Logger log = Logger.getLogger(StudyRepositoryImpl.class
-			.getName());
+    private Logger log = Logger.getLogger(StudyXMLImporterServiceImpl.class.getName());
 
-	private C3PRExceptionHelper c3PRExceptionHelper;
+    private C3PRExceptionHelper c3PRExceptionHelper;
 
-	private MessageSource c3prErrorMessages;
-	
-	private StudyFactory studyFactory;
+    private MessageSource c3prErrorMessages;
 
-	public void setStudyFactory(StudyFactory studyFactory) {
+    private StudySiteDao studySiteDao;
+
+    private StudyService studyService;
+    
+    private Configuration configuration;
+    
+    private StudyFactory studyFactory;
+    
+    public void setStudyFactory(StudyFactory studyFactory) {
 		this.studyFactory = studyFactory;
 	}
 
-	public StudyRepositoryImpl() {
-		super();
-		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
-		resourceBundleMessageSource.setBasename("error_messages_multisite");
-		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
-		resourceBundleMessageSource1.setBasename("error_messages_c3pr");
-		resourceBundleMessageSource1
-				.setParentMessageSource(resourceBundleMessageSource);
-		this.c3prErrorMessages = resourceBundleMessageSource1;
-		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
-	}
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
-	public void save(Study study) throws C3PRCodedException {
-		// TODO call ESB to broadcast protocol, POC
-		studyDao.save(study);
-		log.debug("Study saved with Primary Identifier" + study.getPrimaryIdentifier());
-	}
+    public void setStudySiteDao(StudySiteDao studySiteDao) {
+        this.studySiteDao = studySiteDao;
+    }
 
-	public Study merge(Study study) {
-		return studyDao.merge(study);
-	}
+    public StudyRepositoryImpl() {
+        super();
+        ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+        resourceBundleMessageSource.setBasename("error_messages_multisite");
+        ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
+        resourceBundleMessageSource1.setBasename("error_messages_c3pr");
+        resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
+        this.c3prErrorMessages = resourceBundleMessageSource1;
+        this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
+    }
 
-		
-	@Transactional(readOnly = false)
-	public void buildAndSave(Study study) throws C3PRCodedException{
-		study = studyFactory.buildStudy(study);
-		save(study);
-	}
-	
-	/**
-	 * Validate a study against a set of validation rules
-	 * 
-	 * @param study
-	 * @throws StudyValidationException
-	 * @throws C3PRCodedException
-	 */
-	public void validate(Study study) throws StudyValidationException,
-			C3PRCodedException {
+    public void save(Study study) throws C3PRCodedException {
+        // TODO call ESB to broadcast protocol, POC
+        studyDao.save(study);
+    }
 
-		try {
-			
-			if(study.getCompanionIndicator()){
-				if (study.getCompanionStudyAssociations().size()>0){
-					throw new StudyValidationException("Companion Study :" + study.getShortTitleText() + "cannot have other companions");
-				}
-				
-			if ((study.getCoordinatingCenterAssignedIdentifier() == null)) {
-				throw new StudyValidationException(
-						"Coordinating Center identifier is required");
-			} else if (!study.getCompanionIndicator() && (searchByCoOrdinatingCenterId(
-					study.getCoordinatingCenterAssignedIdentifier()).size() > 0)) {
-				throw new StudyValidationException("Study exists");
-			} 
+    public Study merge(Study study) {
+        return studyDao.merge(study);
+    }
 
-			for (StudyOrganization organization : study.getStudyOrganizations()) {
-				if (healthcareSiteDao.getByNciInstituteCode(organization
-						.getHealthcareSite().getNciInstituteCode()) == null) {
-					throw new StudyValidationException(
-							"Could not find Organization with NCI Institute code:"
-									+ organization.getHealthcareSite()
-											.getNciInstituteCode());
-				}
-			}
-			
-			}
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			throw new StudyValidationException("Error when validating study : "
-					+ e.getMessage());
-		}
-		
-		// validate the companion studies.
-		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
-			validate(companionStudyAssociation.getCompanionStudy());
-		}
-	}
+    @Transactional(readOnly = false)
+    public void buildAndSave(Study study) throws C3PRCodedException {
 
-	public List<Study> searchByCoOrdinatingCenterId(
-			OrganizationAssignedIdentifier identifier)
-			throws C3PRCodedException {
-		HealthcareSite healthcareSite = this.healthcareSiteDao
-				.getByNciInstituteCode(identifier.getHealthcareSite()
-						.getNciInstituteCode());
-		if (healthcareSite == null) {
-			throw getC3PRExceptionHelper()
-					.getException(
-							getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
-							new String[] {
-									identifier.getHealthcareSite()
-											.getNciInstituteCode(),
-									identifier.getType() });
-		}
-		identifier.setHealthcareSite(healthcareSite);
-		return studyDao.searchByOrgIdentifier(identifier);
-	}
+        study = studyFactory.buildStudy(study);
 
-	public void open(Study study) throws C3PRCodedRuntimeException {
-		study.open();
-		
-	}
+        studyDao.save(study);
+        log.debug("Study saved with grid ID" + study.getGridId());
+    }
 
-	public void closeToAccrual(Study study) throws C3PRCodedRuntimeException {
-		study.closeToAccrual();		
-	}
+    /**
+     * Validate a study against a set of validation rules
+     * 
+     * @param study
+     * @throws StudyValidationException
+     * @throws C3PRCodedException
+     */
+    public void validate(Study study) throws StudyValidationException, C3PRCodedException {
 
-	public void closeToAccrualAndTreatment(Study study)
-			throws C3PRCodedRuntimeException {
-		study.closeToAccrualAndTreatment();
-		
-	}
+        try {
+            if ((study.getCoordinatingCenterAssignedIdentifier() == null)) {
+                throw new StudyValidationException("Coordinating Center identifier is required");
+            }
+            else if (searchByCoOrdinatingCenterId(study.getCoordinatingCenterAssignedIdentifier())
+                            .size() > 0) {
+                throw new StudyValidationException("Study exists");
+            }
 
-	public void putInAmendmentPending(Study study)
-			throws C3PRCodedRuntimeException {
-		study.putInAmendmentPending();
-	}
+            if ((study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN)) {
+                throw new StudyValidationException("Study cannot be imported in ACTIVE status");
+            }
 
-	public void putInPending(Study study) throws C3PRCodedRuntimeException {
-		study.putInPending();
-	}
+            for (StudyOrganization organization : study.getStudyOrganizations()) {
+                if (healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite()
+                                .getNciInstituteCode()) == null) {
+                    throw new StudyValidationException(
+                                    "Could not find Organization with NCI Institute code:"
+                                                    + organization.getHealthcareSite()
+                                                                    .getNciInstituteCode());
+                }
+            }
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new StudyValidationException("Error when validating study : " + e.getMessage());
+        }
+    }
 
-	public void temporarilyCloseToAccrual(Study study)
-			throws C3PRCodedRuntimeException {
-		study.temporarilyCloseToAccrual();
-	}
+    public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)
+                    throws C3PRCodedException {
+        HealthcareSite healthcareSite = this.healthcareSiteDao.getByNciInstituteCode(identifier
+                        .getHealthcareSite().getNciInstituteCode());
+        if (healthcareSite == null) {
+            throw getC3PRExceptionHelper().getException(
+                            getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
+                            new String[] { identifier.getHealthcareSite().getNciInstituteCode(),
+                                    identifier.getType() });
+        }
+        identifier.setHealthcareSite(healthcareSite);
+        return studyDao.searchByOrgIdentifier(identifier);
+    }
 
-	public void temporarilyCloseToAccrualAndTreatment(Study study)
-			throws C3PRCodedRuntimeException {
-		study.temporarilyCloseToAccrualAndTreatment();
-	}
+    public List<Study> searchByExample(Study study, int maxResults) {
+        return studyDao.searchByExample(study, maxResults);
+    }
 
-	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
+    public int countAcrrualsByDate(Study study, Date startDate, Date endDate) {
+        return studyDao.countAcrrualsByDate(study, startDate, endDate);
+    }
 
-	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
-		this.investigatorDao = investigatorDao;
-	}
+    public List<Study> searchByExample(Study study, boolean isWildCard, int maxResults,
+                    String order, String orderBy) {
+        return studyDao.searchByExample(study, isWildCard, maxResults, order, orderBy);
+    }
 
-	public void setStudyDao(StudyDao studyDao) {
-		this.studyDao = studyDao;
-	}
+    @Transactional
+    public StudySite activateStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode){
+        Study study = getUniqueStudy(studyIdentifiers);
+        StudySite studySite = study.getStudySite(
+                        nciInstituteCode);
+        if (studyService.canMultisiteBroadcast(study)
+                        && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())
+                        && studySite.getSiteStudyStatus()!=SiteStudyStatus.APPROVED_FOR_ACTIVTION) {
+            throw getC3PRExceptionHelper().getRuntimeException(
+                            getCode("C3PR.EXCEPTION.STUDYSITE.NEED_APPROVAL_FROM_CO_CENTER.CODE"));
+        }
+        studySite.activate();
+        studySite=studySiteDao.merge(studySite);
+        if (studyService.canMultisiteBroadcast(study)
+                        && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())) {
+            List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.addAll(studyIdentifiers);
+            domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
+            studyService.handleCoordinatingCenterBroadcast(study, APIName.ACTIVATE_STUDY_SITE,
+                            domainObjects);
+        }
+        return studySite;
+    }
 
-	@Transient
-	public int getCode(String errortypeString) {
-		return Integer.parseInt(this.c3prErrorMessages.getMessage(
-				errortypeString, null, null));
-	}
+    @Transactional
+    public Study amendStudy(List<Identifier> studyIdentifiers, Study amendedStudyDetails){
+        throw new RuntimeException("Not yet implemented");
+    }
 
-	@Transient
-	public C3PRExceptionHelper getC3PRExceptionHelper() {
-		return c3PRExceptionHelper;
-	}
+    @Transactional
+    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
+                    String nciInstituteCode){
+        Study study=getUniqueStudy(studyIdentifiers);
+        StudySite studySite = study.getStudySite(
+                        nciInstituteCode);
+        studySite.approveForActivation();
+        studySite=studySiteDao.merge(studySite);
+        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.addAll(studyIdentifiers);
+            domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
+            studyService.handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION, domainObjects);
+        }
+        return studySite;
+    }
 
-	public void setExceptionHelper(C3PRExceptionHelper c3PRExceptionHelper) {
-		this.c3PRExceptionHelper = c3PRExceptionHelper;
-	}
+    @Transactional
+    public Study closeStudy(List<Identifier> studyIdentifiers) {
+        Study study = getUniqueStudy(studyIdentifiers);
+        study.closeToAccrual();
+        study=this.merge(study);
+        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
+        }
+        return study;
+    }
 
-	@Transient
-	public MessageSource getC3prErrorMessages() {
-		return c3prErrorMessages;
-	}
+    @Transactional
+    public Study closeStudyToAccrualAndTreatment(List<Identifier> studyIdentifiers) {
+        Study study = getUniqueStudy(studyIdentifiers);
+        study.closeToAccrualAndTreatment();
+        study=this.merge(study);
+        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
+        }
+        return study;
+    }
 
-	public void setC3prErrorMessages(MessageSource errorMessages) {
-		c3prErrorMessages = errorMessages;
-	}
+    @Transactional
+    public Study temporarilyCloseStudy(List<Identifier> studyIdentifiers) {
+        Study study = getUniqueStudy(studyIdentifiers);
+        study.temporarilyCloseToAccrual();
+        study=this.merge(study);
+        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
+        }
+        return study;
+    }
 
-	public void setHealthcareSiteInvestigatorDao(
-			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
-		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
-	}
+    @Transactional
+    public Study temporarilyCloseStudyToAccrualAndTreatment(List<Identifier> studyIdentifiers) {
+        Study study = getUniqueStudy(studyIdentifiers);
+        study.temporarilyCloseToAccrualAndTreatment();
+        study=this.merge(study);
+        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
+        }
+        return study;
+    }
+    
+    @Transactional
+    public Study updateStudyStatus(List<Identifier> studyIdentifiers,
+                    CoordinatingCenterStudyStatus status){
+        Study study = getUniqueStudy(studyIdentifiers);
+        study.setCoordinatingCenterStudyStatus(status);
+        return this.merge(study);
+    }
 
-	public void reassociate(Study study) {
-		studyDao.reassociate(study);
-	}
+    @Transactional
+    public StudySite closeStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode){
+        Study study=getUniqueStudy(studyIdentifiers);
+        StudySite studySite = study.getStudySite(
+                        nciInstituteCode);
+        studySite.closeToAccrual();
+        studySite=studySiteDao.merge(studySite);
+        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.addAll(studyIdentifiers);
+            domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
+            studyService.handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
+        }
+        return studySite;
+    }
 
-	public void refresh(Study study) {
-		studyDao.refresh(study);
-	}
+    @Transactional
+    public StudySite closeStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers,
+                    String nciInstituteCode) {
+        Study study=getUniqueStudy(studyIdentifiers);
+        StudySite studySite = study.getStudySite(
+                        nciInstituteCode);
+        studySite.closeToAccrualAndTreatment();
+        studySite=studySiteDao.merge(studySite);
+        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.addAll(studyIdentifiers);
+            domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
+            studyService.handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
+        }
+        return studySite;
+    }
 
-	public void clear() {
-		studyDao.clear();
-	}
+    @Transactional
+    public StudySite temporarilyCloseStudySite(List<Identifier> studyIdentifiers,
+                    String nciInstituteCode) {
+        Study study=getUniqueStudy(studyIdentifiers);
+        StudySite studySite = study.getStudySite(
+                        nciInstituteCode);
+        studySite.temporarilyCloseToAccrual();
+        studySite=studySiteDao.merge(studySite);
+        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.addAll(studyIdentifiers);
+            domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
+            studyService.handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
+        }
+        return studySite;
+    }
 
+    @Transactional
+    public StudySite temporarilyCloseStudySiteToAccrualAndTreatment(
+                    List<Identifier> studyIdentifiers, String nciInstituteCode) {
+        Study study=getUniqueStudy(studyIdentifiers);
+        StudySite studySite = study.getStudySite(
+                        nciInstituteCode);
+        studySite.temporarilyCloseToAccrualAndTreatment();
+        studySite=studySiteDao.merge(studySite);
+        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.addAll(studyIdentifiers);
+            domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
+            studyService.handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
+        }
+        return studySite;
+    }
+    
+    @Transactional
+    public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers){
+        Study study = getUniqueStudy(studyIdentifiers);
+        for (StudySite studySite : study.getStudySites()) {
+            studySite.closeToAccrual();
+            studySiteDao.save(studySite);
+        }
+        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY_SITES, studyIdentifiers);
+        }
+        return study.getStudySites();
+    }
+
+    @Transactional
+    public Study createStudy(Study study) {
+        study.updateDataEntryStatus();
+        if (study.getDataEntryStatus()!=StudyDataEntryStatus.COMPLETE) {
+            throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.INCOMPLETE"));
+        }
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+        study=this.merge(study);
+        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.add(study);
+            studyService.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY, domainObjects);
+        }
+        return study;
+    }
+    
+    @Transactional
+    public Study createStudy(List<Identifier> studyIdentifiers) {
+        Study study = getUniqueStudy(studyIdentifiers);
+        study.updateDataEntryStatus();
+        if (study.getDataEntryStatus()!=StudyDataEntryStatus.COMPLETE) {
+            throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.INCOMPLETE"));
+        }
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+        study=this.merge(study);
+        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.add(study);
+            studyService.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY, domainObjects);
+        }
+        return study;
+    }
+
+    @Transactional
+    public Study openStudy(List<Identifier> studyIdentifiers) {
+        Study study = getUniqueStudy(studyIdentifiers);
+        if(study.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.PENDING)
+            study=this.createStudy(studyIdentifiers);
+        study.open();
+        study= this.merge(study);
+        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            studyService.handleAffiliateSitesBroadcast(study, APIName.OPEN_STUDY, studyIdentifiers);
+        }
+        return study;
+    }
+
+    @Transactional
+    public StudySite updateStudySiteProtocolVersion(List<Identifier> studyIdentifiers,
+                    String nciInstituteCode, String version) {
+        throw new RuntimeException("Not yet implemented");
+
+    }
+
+    public Study getUniqueStudy(List<Identifier> studyIdentifiers) {
+        List<Study> studies = studyDao.getByIdentifiers(studyIdentifiers);
+        if (studies.size() == 0) {
+            throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.NOT_FOUND_GIVEN_IDENTIFIERS.CODE"));
+        }
+        else if (studies.size() > 1) {
+            throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.MULTIPLE_STUDIES_FOUND.CODE"));
+        }
+        return studies.get(0);
+    }
+
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+        this.healthcareSiteDao = healthcareSiteDao;
+    }
+
+    public void setInvestigatorDao(InvestigatorDao investigatorDao) {
+        this.investigatorDao = investigatorDao;
+    }
+
+    public void setStudyDao(StudyDao studyDao) {
+        this.studyDao = studyDao;
+    }
+
+    @Transient
+    public int getCode(String errortypeString) {
+        return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
+    }
+
+    @Transient
+    public C3PRExceptionHelper getC3PRExceptionHelper() {
+        return c3PRExceptionHelper;
+    }
+
+    public void setExceptionHelper(C3PRExceptionHelper c3PRExceptionHelper) {
+        this.c3PRExceptionHelper = c3PRExceptionHelper;
+    }
+
+    @Transient
+    public MessageSource getC3prErrorMessages() {
+        return c3prErrorMessages;
+    }
+
+    public void setC3prErrorMessages(MessageSource errorMessages) {
+        c3prErrorMessages = errorMessages;
+    }
+
+    public void setHealthcareSiteInvestigatorDao(
+                    HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
+        this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+    }
+
+    public void reassociate(Study study) {
+        studyDao.reassociate(study);
+    }
+
+    public void refresh(Study study) {
+        studyDao.refresh(study);
+    }
+
+    public void clear() {
+        studyDao.clear();
+    }
+
+    public void setStudyService(StudyService studyService) {
+        this.studyService = studyService;
+    }
 }
