@@ -2,7 +2,7 @@ package edu.duke.cabig.c3pr.utils;
 
 import java.io.StringReader;
 
-import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.esb.MessageResponseHandler;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -36,8 +36,8 @@ public class AffiliateSiteRequestHandler extends AbstractRequestHandler<StudySub
         }
     }
     @Override
-    public CCTSWorkflowStatusType multisiteWorkflowStatus() {
+    public WorkFlowStatusType multisiteWorkflowStatus() {
         // TODO Auto-generated method stub
-        return CCTSWorkflowStatusType.MESSAGE_RECIEVED;
+        return WorkFlowStatusType.MESSAGE_RECIEVED;
     }
 }

@@ -1,13 +1,25 @@
 package edu.duke.cabig.c3pr.utils;
 
-import org.apache.log4j.Logger;
-
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.axis.message.MessageElement;
+import org.apache.log4j.Logger;
+import org.apache.xerces.parsers.DOMParser;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.Namespace;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.DOMOutputter;
 import org.jdom.output.XMLOutputter;
+import org.xml.sax.InputSource;
 
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -15,12 +27,20 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 public class XMLUtils {
     /**
      * Logger for this class
      */
     private static final Logger logger = Logger.getLogger(XMLUtils.class);
+
+    private XmlMarshaller xmlMarshaller;
+
+    public XMLUtils(XmlMarshaller xmlMarshaller) {
+        this.xmlMarshaller = xmlMarshaller;
+    }
 
     public static String toXml(StudySubject studySubject) throws RuntimeException {
         String ns = "http://semanticbits.com/registration.xsd";
@@ -161,5 +181,56 @@ public class XMLUtils {
             logger.error("toXml(StudySubject)", e);
         }
         return xml;
+    }
+
+    public <T extends AbstractMutableDomainObject> List<T> extractDomainObjectsFromXML(String xml) {
+        List<T> domainObjects = new ArrayList<T>();
+        org.jdom.Document document = null;
+        try {
+            document = new SAXBuilder().build(new StringReader(xml));
+            List<Element> elements = document.getRootElement().getChildren();
+            for (int i = 0; i < elements.size(); i++) {
+                Element element = elements.get(i);
+                OutputStream outputStream = new ByteArrayOutputStream();
+                new XMLOutputter().output(element, outputStream);
+                domainObjects.add((T) xmlMarshaller.fromXML(new StringReader(outputStream
+                                .toString())));
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return domainObjects;
+    }
+
+    public <T extends AbstractMutableDomainObject> List<org.w3c.dom.Document> getXMLElementsForDomainObjects(
+                    List<T> domainObjects) {
+        List<org.w3c.dom.Document> elements = new ArrayList<org.w3c.dom.Document>();
+        try {
+            for (T t : domainObjects) {
+                DOMParser domParser=new DOMParser();
+                domParser.parse(new InputSource(new StringReader(xmlMarshaller.toXML(t))));
+                elements.add(domParser.getDocument());
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return elements;
+    }
+
+    public <T extends AbstractMutableDomainObject> List<MessageElement> getMessageElementsForDomainObjects(
+                    List<T> domainObjects) {
+        List<org.w3c.dom.Document> elements = getXMLElementsForDomainObjects(domainObjects);
+        List<MessageElement> messageElements = new ArrayList<MessageElement>();
+        try {
+            for (org.w3c.dom.Document d : elements) {
+                messageElements.add(new MessageElement(d.getDocumentElement()));
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return messageElements;
     }
 }

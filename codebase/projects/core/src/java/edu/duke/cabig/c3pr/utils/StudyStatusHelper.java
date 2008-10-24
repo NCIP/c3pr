@@ -8,14 +8,16 @@ public class StudyStatusHelper {
 	
 	public static void setStatus(Study study,CoordinatingCenterStudyStatus targetStatus) throws C3PRCodedRuntimeException{
 		
-		// TODO Should be using Switch block to do this
+		// TODO Should be using Switch Statement to do this
 		
 		if (targetStatus.equals(CoordinatingCenterStudyStatus.OPEN)){
 			study.open();
+		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.OPEN)){
+			study.open();
 		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.PENDING)){
-			study.putInPending();
+			study.pending();
 		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.AMENDMENT_PENDING)){
-			study.putInAmendmentPending();
+			study.pendingAmendment();
 		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)){
 			study.temporarilyCloseToAccrual();
 		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)){
@@ -24,8 +26,6 @@ public class StudyStatusHelper {
 			study.closeToAccrual();
 		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)){
 			study.closeToAccrualAndTreatment();
-		} else if (targetStatus.equals(CoordinatingCenterStudyStatus.READY_FOR_ACTIVATION)){
-			study.readyForActivation();
 		}
 		
 	}

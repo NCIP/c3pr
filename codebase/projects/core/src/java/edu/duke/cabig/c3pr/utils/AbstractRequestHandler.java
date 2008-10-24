@@ -5,11 +5,11 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
-import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.esb.MessageResponseHandler;
 
-public abstract class AbstractRequestHandler<C extends CCTSAbstractMutableDeletableDomainObject> implements MessageResponseHandler{
+public abstract class AbstractRequestHandler<C extends InteroperableAbstractMutableDeletableDomainObject> implements MessageResponseHandler{
     
     private OpenSessionInViewInterceptor openSessionInViewInterceptor;
     
@@ -41,7 +41,7 @@ public abstract class AbstractRequestHandler<C extends CCTSAbstractMutableDeleta
         }
     }
     
-    public abstract CCTSWorkflowStatusType multisiteWorkflowStatus();
+    public abstract WorkFlowStatusType multisiteWorkflowStatus();
     
     public abstract C messageAsObject(String message);
     

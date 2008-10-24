@@ -7,8 +7,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
-import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
-import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.esb.CCTSApplicationNames;
 import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
 import edu.duke.cabig.c3pr.esb.ResponseErrors;
@@ -26,7 +26,7 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
     private Logger log = Logger.getLogger(DefaultCCTSMessageWorkflowCallbackFactory.class);
 
     public MessageWorkflowCallback createWorkflowCallback(
-                    CCTSAbstractMutableDeletableDomainObject domainObject) {
+                    InteroperableAbstractMutableDeletableDomainObject domainObject) {
         DefaultCCTSMessageWorkflowCallbackImpl callback = new DefaultCCTSMessageWorkflowCallbackImpl(
                         domainObject);
         callback.setDao(dao);
@@ -45,10 +45,10 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
 
         private C3PRBaseDao dao;
 
-        private CCTSAbstractMutableDeletableDomainObject domainObject;
+        private InteroperableAbstractMutableDeletableDomainObject domainObject;
 
         private DefaultCCTSMessageWorkflowCallbackImpl(
-                        CCTSAbstractMutableDeletableDomainObject domainObject) {
+                        InteroperableAbstractMutableDeletableDomainObject domainObject) {
             this.domainObject = domainObject;
         }
 
@@ -61,7 +61,7 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
             gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
                             "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
             log.debug("Recording successful send for objectId" + objectId);
-            domainObject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND);
+            domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND);
             dao.save(domainObject);
         }
 
@@ -69,7 +69,7 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
             gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
                             "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
             log.debug("Recording send failed for objectId" + objectId);
-            domainObject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
+            domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
             dao.save(domainObject);
         }
 
@@ -83,7 +83,7 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
             gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
                             "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
             log.debug("Recording send confirmed for objectId" + objectId);
-            domainObject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_CONFIRMED);
+            domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
             dao.save(domainObject);
         }
 
