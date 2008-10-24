@@ -123,6 +123,10 @@
                 <value>edu.duke.cabig.c3pr.domain.CompanionStudyAssociation</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledNotification</value>
                 <value>edu.duke.cabig.c3pr.domain.RecipientScheduledNotification</value>
+                <value>edu.duke.cabig.c3pr.domain.EndPointConnectionProperty</value>
+                <value>edu.duke.cabig.c3pr.domain.GridEndPoint</value>
+                <value>edu.duke.cabig.c3pr.domain.EndPoint</value>
+                <value>edu.duke.cabig.c3pr.domain.Error</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -245,6 +249,10 @@
 	                <value>edu.duke.cabig.c3pr.domain.CompanionStudyAssociation</value>
 	                <value>edu.duke.cabig.c3pr.domain.ScheduledNotification</value>
 	                <value>edu.duke.cabig.c3pr.domain.RecipientScheduledNotification</value>
+                    <value>edu.duke.cabig.c3pr.domain.EndPointConnectionProperty</value>
+                    <value>edu.duke.cabig.c3pr.domain.GridEndPoint</value>
+                    <value>edu.duke.cabig.c3pr.domain.EndPoint</value>
+                    <value>edu.duke.cabig.c3pr.domain.Error</value>
               </list>
         </property> 
         <!--  <property name="auditAll">
@@ -326,6 +334,7 @@
     <bean id="scheduledEpochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledEpochDao"
           autowire="byName"/>
     <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byName"/>
+    <bean id="endpointDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EndpointDao" autowire="byName"/>
     <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byName"/>
     <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao"
           autowire="byName"/>
@@ -357,7 +366,7 @@
 	
 	
 	<!-- Multisite Request Handlers -->
-    <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
+    <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
     	<property name="studySubjectService" ref="studySubjectService"></property>
     	<property name="xmlUtility" ref="registrationXmlUtility"/>
         <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
@@ -368,28 +377,39 @@
     	</property>
 		<property name="xmlUtility" ref="registrationXmlUtility"/>
         <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
-    </bean>
+    </bean>-->
     
     <!-- Services -->
-    <bean id="cctsWorkflowService" class="edu.duke.cabig.c3pr.service.impl.CCTSWorkflowServiceImpl"
+    <bean id="workflowService" class="edu.duke.cabig.c3pr.service.impl.WorkflowServiceImpl"
           abstract="true" autowire="byType">
         <property name="exceptionHelper" ref="exceptionHelper"/>
     </bean>
 
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
-          autowire="byName" parent="cctsWorkflowService">
-        <property name="dao" ref="studyDao"/>
-        <property name="cctsXSLTName" value="ccts-study-transformer.xsl"/>
-        <property name="multisiteXmlUtility" ref="studyXmlUtility"/>
-        <property name="cctsXmlUtility" ref="cctsStudyXmlUtility"/>
+          autowire="byName" parent="workflowService">
+    </bean>
+    
+    <bean id="multiSiteHandlerService" class="edu.duke.cabig.c3pr.service.MultiSiteHandlerService">
+    	<property name="endPointFactory" ref="endPointFactory"></property>
+    	<property name="endpointDao" ref="endpointDao"></property>
+    	<property name="exceptionHelper" ref="exceptionHelper"/>
+    	<property name="c3prErrorMessages" ref="c3prErrorMessages"></property>
+    </bean>
+    
+    <bean id="endPointFactory" class="edu.duke.cabig.c3pr.domain.factory.EndPointFactory">
+    	<property name="delegatedCredentialProvider">
+    		<bean class="edu.duke.cabig.c3pr.infrastructure.MultisiteDelegatedCredentialProvider">
+    			<property name="idpUrl"><value>${idp.url}</value></property>
+    			<property name="ifsUrl"><value>${ifs.url}</value></property>
+    		</bean>
+    	</property>
     </bean>
     
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
           autowire="byName"/>
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
-          autowire="byName" parent="cctsWorkflowService">
+          autowire="byName" parent="workflowService">
         <property name="cctsXSLTName" value="ccts-registration-transformer.xsl"/>
-        <property name="multisiteXmlUtility" ref="registrationXmlUtility"/>
         <property name="cctsXmlUtility" ref="registrationXmlUtility"/>
         <property name="dao" ref="studySubjectDao"/>
         <property name="hostedMode">

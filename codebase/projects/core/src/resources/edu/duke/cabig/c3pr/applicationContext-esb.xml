@@ -46,7 +46,7 @@ set it appropriately for the domain object sent as ccts message-->
         <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider"/>
     </bean>
     
-	<bean id="connectionFactory"
+	<!--<bean id="connectionFactory"
 		class="org.apache.activemq.ActiveMQConnectionFactory">
 		<property name="brokerURL" value="${jms.brokerUrl}" />
 	</bean>
@@ -96,7 +96,7 @@ set it appropriately for the domain object sent as ccts message-->
 		<property name="enableJMS" value="${multisiteEnable}"/>
 	</bean>
 	
-	<!--<bean id="jmsAffiliateSiteBroadcaster"
+	<bean id="jmsAffiliateSiteBroadcaster"
 		class="edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl" init-method = "initialize">
 		<property name="connectionFactory">
 			<ref bean="connectionFactory" />
