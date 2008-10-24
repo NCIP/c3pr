@@ -154,9 +154,32 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.setStratificationIndicator(false);
 		basicStudy.setCoordinatingCenterStudyStatus(basicStudy.evaluateCoordinatingCenterStudyStatus());
 		assertEquals("Study status should evaluate to Active",CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
-		assertEquals("Site Study status should evaluate to OPEN",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
+		assertEquals("Site Study status should evaluate to Open",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
 	}
 	
+	public void testChangeCoordinatingStatusPendingToActiveCase1() throws Exception {
+		Study study = new Study();
+		Study study1 = studyCreationHelper.createBasicStudy();
+		
+	}
+	
+	public void testChangeCoordinatingStatusPendingToActiveCase2() throws Exception {
+		Study study = new Study();
+		Study study1 = studyCreationHelper.createBasicStudy();
+		
+	}
+	
+	public void testChangeCoordinatingStatusPendingToActiveCase3() throws Exception {
+		Study study = new Study();
+		Study study1 = studyCreationHelper.createBasicStudy();
+		
+	}
+	
+	public void testChangeCoordinatingStatusPendingToActiveCase4() throws Exception {
+		Study study = new Study();
+		Study study1 = studyCreationHelper.createBasicStudy();
+		
+	}
 	
 
 }
