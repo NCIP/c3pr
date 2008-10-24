@@ -39,7 +39,8 @@
 				conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-management" rev="latest.integration" 
 				conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
-			
+        	
+        	<dependency org="asm" name="asm-commons" rev="2.2.3" force="true"/>
         	<dependency org="gov.nih.nci.cagrid.websso" name="caaers-cas-patch" rev="1.5" />
 			<dependency org="backport-util-concurrent" name="backport-util-concurrent" rev="2.1" force="true"/>
 			<dependency org="gov.nih.nci" name="client" rev="1.1" />
@@ -95,6 +96,21 @@
         		<exclude name="spring-mock" conf="*" />
         	</dependency>
         	
+        	<dependency org="edu.duke.cabig.c3pr"
+        		name="studyService-common" rev="1.2" />
+        	<dependency org="edu.duke.cabig.c3pr"
+        		name="studyService-client" rev="1.2" />
+        	<dependency org="edu.duke.cabig.c3pr"
+        		name="studyService-stubs" rev="1.2" />
+        	
+        	<dependency org="gov.nih.nci.ccts.grid.smoketest"
+        		name="smokeTestService-common" rev="1.2" />
+        	<dependency org="gov.nih.nci.ccts.grid.smoketest"
+        		name="smokeTestService-stubs" rev="1.2" />
+        	<dependency org="gov.nih.nci.ccts.grid.smoketest"
+        	name="smokeTestService-client" rev="1.2" />
+        	
+        	
         	<dependency org="net.sourceforge.jtds" name="jtds" rev="1.2.2" />
         	<dependency org="javax.mail" name="mail" rev="1.4" />
         	<dependency org="javax.activation" name="activation" rev="1.1" />
@@ -105,6 +121,8 @@
         	<dependency org="ant" name="ant" rev="1.6.5" conf="core"/>
 -->        	
 			<dependency org="org.globus" name="cog-jglobus" rev="1.2" conf="build;runtime;dist" />
+        	<dependency org="org.globus" name="xalan" rev="2.6.0" conf="build;runtime;dist" />
+        	<dependency org="org.globus" name="xmlsec" rev="1.2" conf="build;runtime;dist" />
 
 			<!-- CTMS commons dependencies -->
 			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-base" rev="${ctmsi.commons.version}" transitive="false"/>
