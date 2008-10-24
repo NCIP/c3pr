@@ -16,9 +16,9 @@ import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
  */
 public class InPlaceEditableTab<C> extends WorkFlowTab<C> {
 
-    private static final String IN_PLACE_PARAM_NAME = "_ajaxInPlaceEditParam";
+    public static final String IN_PLACE_PARAM_NAME = "_ajaxInPlaceEditParam";
 
-    private static final String PATH_TO_GET = "_pathToGet";
+    public static final String PATH_TO_GET = "_pathToGet";
 
     public InPlaceEditableTab() {
 
@@ -26,6 +26,10 @@ public class InPlaceEditableTab<C> extends WorkFlowTab<C> {
 
     public InPlaceEditableTab(String longTitle, String shortTitle, String viewName) {
         super(longTitle, shortTitle, viewName);
+    }
+    
+    public InPlaceEditableTab(String longTitle, String shortTitle, String viewName, Boolean willSave) {
+        super(longTitle, shortTitle, viewName,willSave);
     }
 
     public InPlaceEditableTab(String longTitle, String shortTitle) {

@@ -10,8 +10,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
+import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 
@@ -73,7 +75,16 @@ public class CreateOrganizationController extends SimpleFormController {
             log.error("Incorrect Command object passsed into CreateOrganizationController.");
             return new ModelAndView(getFormView());
         }
-
+        if(WebUtils.hasSubmitParameter(request, "setAdvancedProperty") && request.getParameter("setAdvancedProperty").equalsIgnoreCase("ON")){
+            if(!organization.getHasEndpointProperty())
+                organization.initializeEndPointProperties(EndPointType.GRID);
+            organization.getStudyEndPointProperty().setUrl(request.getParameter("studyServiceURL"));
+            organization.getRegistrationEndPointProperty().setUrl(request.getParameter("registrationServiceURL"));
+            if(WebUtils.hasSubmitParameter(request, "authenticationRequired") && request.getParameter("authenticationRequired").equalsIgnoreCase("ON"))
+                organization.setEndPointAuthenticationRequired(true);
+            else
+                organization.setEndPointAuthenticationRequired(false);
+        }
         if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
             organizationService.save(organization);
         }

@@ -32,6 +32,7 @@ import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
@@ -50,7 +51,9 @@ public class DashboardController extends ParameterizableViewController {
 
     private String filename;
 
-    private StudyServiceImpl studyService;
+    //private StudyServiceImpl studyService;
+    
+    private StudyRepository studyRepository;
 
     private StudySubjectServiceImpl studySubjectService;
 
@@ -80,10 +83,6 @@ public class DashboardController extends ParameterizableViewController {
 
 	public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
-    }
-
-    public void setStudyService(StudyServiceImpl studyService) {
-        this.studyService = studyService;
     }
 
     public void setStudySubjectService(StudySubjectServiceImpl studySubjectService) {
@@ -155,7 +154,7 @@ public class DashboardController extends ParameterizableViewController {
     private void getMostActiveStudies(HttpServletRequest request) {
         Study study = new Study(true);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-        List<Study> studies = studyService.searchByExample(study, false, MAX_RESULTS, "descending",
+        List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending",
                         "id");
         log.debug("Open studies found: " + studies.size());
 
@@ -166,7 +165,7 @@ public class DashboardController extends ParameterizableViewController {
         Date startDate = new Date(cal.getTime().getTime());
 
         for (Study st : studies) {
-            st.setAcrrualsWithinLastWeek(studyService.countAcrrualsByDate(st, startDate, endDate));
+            st.setAcrrualsWithinLastWeek(studyRepository.countAcrrualsByDate(st, startDate, endDate));
         }
         request.setAttribute("aStudies", studies);
     }
@@ -174,7 +173,7 @@ public class DashboardController extends ParameterizableViewController {
     private void getRecentPendingStudies(HttpServletRequest request) {
         Study study = new Study(true);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-        List<Study> studies = studyService.searchByExample(study, false, MAX_RESULTS, "descending",
+        List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending",
                         "id");
         log.debug("Pending studies found: " + studies.size());
         request.setAttribute("pStudies", studies);
@@ -246,5 +245,9 @@ public class DashboardController extends ParameterizableViewController {
     public void setDelegatedCredentialProvider(
                     SecurityContextCredentialProvider delegatedCredentialProvider) {
         this.delegatedCredentialProvider = delegatedCredentialProvider;
+    }
+
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
     }
 }

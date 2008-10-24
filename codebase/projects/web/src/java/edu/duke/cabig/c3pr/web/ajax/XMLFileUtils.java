@@ -3,7 +3,7 @@ package edu.duke.cabig.c3pr.web.ajax;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
+import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Nov 26, 2007 Time: 2:22:43 PM To change this template
@@ -20,13 +20,13 @@ public class XMLFileUtils {
      * @return
      */
 
-    public static Collection<? extends CCTSAbstractMutableDeletableDomainObject> getFilteredCopy(
-                    Collection<? extends CCTSAbstractMutableDeletableDomainObject> importedObjects) {
-        Collection<CCTSAbstractMutableDeletableDomainObject> newCollection = new ArrayList<CCTSAbstractMutableDeletableDomainObject>();
+    public static Collection<? extends InteroperableAbstractMutableDeletableDomainObject> getFilteredCopy(
+                    Collection<? extends InteroperableAbstractMutableDeletableDomainObject> importedObjects) {
+        Collection<InteroperableAbstractMutableDeletableDomainObject> newCollection = new ArrayList<InteroperableAbstractMutableDeletableDomainObject>();
 
         synchronized (importedObjects) {
 
-            for (CCTSAbstractMutableDeletableDomainObject domainObject : (Iterable<CCTSAbstractMutableDeletableDomainObject>) importedObjects) {
+            for (InteroperableAbstractMutableDeletableDomainObject domainObject : (Iterable<InteroperableAbstractMutableDeletableDomainObject>) importedObjects) {
                 // remove invalid studies
                 if (!domainObject.isImportErrorFlag()) {
                     newCollection.add(domainObject);
@@ -44,13 +44,13 @@ public class XMLFileUtils {
      * @param importedObjects
      * @return
      */
-    public static Collection<? extends CCTSAbstractMutableDeletableDomainObject> getInvalidImports(
-                    Collection<? extends CCTSAbstractMutableDeletableDomainObject> importedObjects) {
-        Collection<CCTSAbstractMutableDeletableDomainObject> newCollection = new ArrayList<CCTSAbstractMutableDeletableDomainObject>();
+    public static Collection<? extends InteroperableAbstractMutableDeletableDomainObject> getInvalidImports(
+                    Collection<? extends InteroperableAbstractMutableDeletableDomainObject> importedObjects) {
+        Collection<InteroperableAbstractMutableDeletableDomainObject> newCollection = new ArrayList<InteroperableAbstractMutableDeletableDomainObject>();
 
         synchronized (importedObjects) {
 
-            for (CCTSAbstractMutableDeletableDomainObject domainObject : (Iterable<CCTSAbstractMutableDeletableDomainObject>) importedObjects) {
+            for (InteroperableAbstractMutableDeletableDomainObject domainObject : (Iterable<InteroperableAbstractMutableDeletableDomainObject>) importedObjects) {
                 // remove invalid studies
                 if (domainObject.isImportErrorFlag()) {
                     newCollection.add(domainObject);

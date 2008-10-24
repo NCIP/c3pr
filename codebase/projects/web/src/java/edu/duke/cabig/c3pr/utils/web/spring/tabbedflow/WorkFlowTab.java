@@ -14,6 +14,16 @@ public abstract class WorkFlowTab<C> extends RowManagableTab<C> {
     private String showSummary = "true";
 
     private String showLink = "true";
+    
+    private Boolean willSave = true;
+
+    public Boolean getWillSave() {
+        return willSave;
+    }
+
+    public void setWillSave(Boolean willSave) {
+        this.willSave = willSave;
+    }
 
     public WorkFlowTab() {
 
@@ -21,6 +31,11 @@ public abstract class WorkFlowTab<C> extends RowManagableTab<C> {
 
     public WorkFlowTab(String longTitle, String shortTitle, String viewName) {
         super(longTitle, shortTitle, viewName);
+    }
+    
+    public WorkFlowTab(String longTitle, String shortTitle, String viewName, Boolean willSave) {
+        super(longTitle, shortTitle, viewName);
+        this.willSave=willSave;
     }
 
     public WorkFlowTab(String longTitle, String shortTitle, String viewName, Class[] params) {
