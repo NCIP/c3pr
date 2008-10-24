@@ -6,7 +6,7 @@ import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
-import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
@@ -65,12 +65,12 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         studySubjectServiceImpl.setStudySubjectRepository(studySubjectRepository);
         studySubjectServiceImpl.setConfiguration(configuration);
         studySubjectServiceImpl.setStudySubjectFactory(studySubjectFactory);
-        studySubjectServiceImpl.setJmsAffiliateSiteBroadcaster(jmsAffiliateSiteBroadcaster);
+        //studySubjectServiceImpl.setJmsAffiliateSiteBroadcaster(jmsAffiliateSiteBroadcaster);
         studySubjectServiceImpl.setC3prErrorMessages(c3prErrorMessages);
         studySubjectServiceImpl.setExceptionHelper(exceptionHelper);
         studySubjectServiceImpl.setCctsXmlUtility(xmlMarshaller);
-        studySubjectServiceImpl.setMultisiteXmlUtility(xmlMarshaller);
-        studySubjectServiceImpl.setJmsCoOrdinatingCenterBroadcaster(jmsCoBroadcaster);
+        //studySubjectServiceImpl.setMultisiteXmlUtility(xmlMarshaller);
+        //studySubjectServiceImpl.setJmsCoOrdinatingCenterBroadcaster(jmsCoBroadcaster);
         studySubjectService=studySubjectServiceImpl;
     }
     
@@ -339,7 +339,7 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
         replayMocks();
         studySubjectService.processAffliateSiteRegistrationRequest(studySubject);
         assertEquals("Wrong Registration Workflow status", RegistrationWorkFlowStatus.REGISTERED, studySubject1.getRegWorkflowStatus());
-        assertEquals("Wrong CCTS Workflow status", CCTSWorkflowStatusType.MESSAGE_SEND_FAILED, studySubject1.getCctsWorkflowStatus());
+        assertEquals("Wrong CCTS Workflow status", WorkFlowStatusType.MESSAGE_SEND_FAILED, studySubject1.getCctsWorkflowStatus());
         verifyMocks();
     }
     
