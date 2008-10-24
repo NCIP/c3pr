@@ -1,13 +1,19 @@
 package edu.duke.cabig.c3pr.service.impl;
 
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
-import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
-import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
+import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
+import edu.duke.cabig.c3pr.domain.APIName;
+import edu.duke.cabig.c3pr.domain.ServiceName;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
@@ -15,19 +21,21 @@ import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.CCTSWorkflowService;
+import edu.duke.cabig.c3pr.service.MultiSiteHandlerService;
 import edu.duke.cabig.c3pr.service.MultiSiteWorkflowService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XMLTransformer;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Dec 6, 2007 Time: 4:01:40 PM To change this template
  * use File | Settings | File Templates.
  */
-public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkflowService {
+public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkflowService {
 
     private Logger log = Logger.getLogger(CCTSWorkflowService.class);
 
@@ -37,8 +45,6 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
 
     protected XmlMarshaller cctsXmlUtility;
     
-    protected XmlMarshaller multisiteXmlUtility;
-
     private DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory;
 
     private C3PRExceptionHelper exceptionHelper;
@@ -47,26 +53,32 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
 
     private MessageSource c3prErrorMessages;
     
-    private MessageBroadcastService jmsCoOrdinatingCenterBroadcaster;
+    //private MessageBroadcastService jmsCoOrdinatingCenterBroadcaster;
     
-    private MessageBroadcastService jmsAffiliateSiteBroadcaster;
+    //private MessageBroadcastService jmsAffiliateSiteBroadcaster;
     
     private String cctsXSLTName;
     
     private XMLTransformer xmlTransformer; 
+    
+    private MultiSiteHandlerService multiSiteHandlerService;
+
+    public void setMultiSiteHandlerService(MultiSiteHandlerService multiSiteHandlerService) {
+        this.multiSiteHandlerService = multiSiteHandlerService;
+    }
 
     public void setCctsXSLTName(String cctsXSLTName) {
         this.cctsXSLTName = cctsXSLTName;
     }
-
-    public void setJmsCoOrdinatingCenterBroadcaster(
-                    MessageBroadcastService jmsCoOrdinatingCenterBroadcaster) {
-        this.jmsCoOrdinatingCenterBroadcaster = jmsCoOrdinatingCenterBroadcaster;
-    }
-
-    public void setJmsAffiliateSiteBroadcaster(MessageBroadcastService jmsAffiliateSiteBroadcaster) {
-        this.jmsAffiliateSiteBroadcaster = jmsAffiliateSiteBroadcaster;
-    }
+//
+//    public void setJmsCoOrdinatingCenterBroadcaster(
+//                    MessageBroadcastService jmsCoOrdinatingCenterBroadcaster) {
+//        this.jmsCoOrdinatingCenterBroadcaster = jmsCoOrdinatingCenterBroadcaster;
+//    }
+//
+//    public void setJmsAffiliateSiteBroadcaster(MessageBroadcastService jmsAffiliateSiteBroadcaster) {
+//        this.jmsAffiliateSiteBroadcaster = jmsAffiliateSiteBroadcaster;
+//    }
 
     public MessageSource getC3prErrorMessages() {
         return c3prErrorMessages;
@@ -88,14 +100,14 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
         this.exceptionHelper = exceptionHelper;
     }
 
-    public CCTSWorkflowStatusType getCCTSWofkflowStatus(
-                    CCTSAbstractMutableDeletableDomainObject cctsObject) {
-        CCTSAbstractMutableDeletableDomainObject loadedCCTSObject = (CCTSAbstractMutableDeletableDomainObject) dao
+    public WorkFlowStatusType getCCTSWofkflowStatus(
+                    InteroperableAbstractMutableDeletableDomainObject cctsObject) {
+        InteroperableAbstractMutableDeletableDomainObject loadedCCTSObject = (InteroperableAbstractMutableDeletableDomainObject) dao
                         .getByGridId(cctsObject);
         return loadedCCTSObject.getCctsWorkflowStatus();
     }
 
-    public void broadcastMessage(CCTSAbstractMutableDeletableDomainObject cctsObject)
+    public void broadcastMessage(InteroperableAbstractMutableDeletableDomainObject cctsObject)
                     throws C3PRCodedException {
         if (getIsBroadcastEnable().equalsIgnoreCase("true")) {
             messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory
@@ -174,43 +186,39 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
         return exceptionHelper;
     }
 
-    public CCTSWorkflowStatusType getMultiSiteWofkflowStatus(
-                    CCTSAbstractMutableDeletableDomainObject cctsObject) {
-        CCTSAbstractMutableDeletableDomainObject loadedCCTSObject = (CCTSAbstractMutableDeletableDomainObject) dao
-        .getByGridId(cctsObject);
-        return loadedCCTSObject.getMultisiteWorkflowStatus();
-    }
-
-    public void sendRegistrationRequest(StudySubject studySubject) {
-        try {
-            jmsCoOrdinatingCenterBroadcaster.broadcast(multisiteXmlUtility.toXML(studySubject));
-            studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_CONFIRMED);
-        }
-        catch (Exception e) {
-            studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void sendRegistrationResponse(StudySubject studySubject) {
-        if (getIsMultiSiteEnable().equalsIgnoreCase("true")) {
-            try {
-                jmsAffiliateSiteBroadcaster.broadcast(multisiteXmlUtility.toXML(studySubject));
-                studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_CONFIRMED);
-            }
-            catch (Exception e) {
-                studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_FAILED);
-                throw new RuntimeException(e);
-            }
-        }else {
-            throw new RuntimeException(this.exceptionHelper
-            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTISITE.DISABLED")));
-        }
-    }
-
-    public void setMultisiteXmlUtility(XmlMarshaller multisiteXmlUtility) {
-        this.multisiteXmlUtility = multisiteXmlUtility;
-    }
+//    public CCTSWorkflowStatusType getMultiSiteWofkflowStatus(
+//                    InteroperableAbstractMutableDeletableDomainObject cctsObject) {
+//        InteroperableAbstractMutableDeletableDomainObject loadedCCTSObject = (InteroperableAbstractMutableDeletableDomainObject) dao
+//        .getByGridId(cctsObject);
+//        return loadedCCTSObject.getMultisiteWorkflowStatus();
+//    }
+//
+//    public void sendRegistrationRequest(StudySubject studySubject) {
+//        try {
+//            jmsCoOrdinatingCenterBroadcaster.broadcast(multisiteXmlUtility.toXML(studySubject));
+//            studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_CONFIRMED);
+//        }
+//        catch (Exception e) {
+//            studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
+//            throw new RuntimeException(e);
+//        }
+//    }
+//
+//    public void sendRegistrationResponse(StudySubject studySubject) {
+//        if (getIsMultiSiteEnable().equalsIgnoreCase("true")) {
+//            try {
+//                jmsAffiliateSiteBroadcaster.broadcast(multisiteXmlUtility.toXML(studySubject));
+//                studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_CONFIRMED);
+//            }
+//            catch (Exception e) {
+//                studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_FAILED);
+//                throw new RuntimeException(e);
+//            }
+//        }else {
+//            throw new RuntimeException(this.exceptionHelper
+//            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTISITE.DISABLED")));
+//        }
+//    }
 
     public void setCctsXmlUtility(XmlMarshaller cctsXmlUtility) {
         this.cctsXmlUtility = cctsXmlUtility;
@@ -219,5 +227,53 @@ public class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkfl
     public void setXmlTransformer(XMLTransformer xmlTransformer) {
         this.xmlTransformer = xmlTransformer;
     }
+
+    public void handleMultiSiteBroadcast(List studyOrganizations, ServiceName multisiteServiceName, APIName multisiteAPIName, List domainObjects) {
+        if(studyOrganizations.size()==0){
+            log.error("There are no study organizations to bradcast to.");
+        }
+        boolean errorBroadcast=false;
+        for(int i=0 ; i<studyOrganizations.size() ; i++){
+            StudyOrganization studyOrganization=(StudyOrganization)studyOrganizations.get(i);
+            try {
+                EndPointConnectionProperty endPointProperty=multisiteServiceName==ServiceName.STUDY?studyOrganization.getHealthcareSite().getStudyEndPointProperty():studyOrganization.getHealthcareSite().getRegistrationEndPointProperty();
+                multiSiteHandlerService.handle(multisiteServiceName, multisiteAPIName, endPointProperty, domainObjects);
+                studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
+            }
+            catch (C3PRCodedException e) {
+                errorBroadcast=true;
+                log.error("Error bradcasting the message to "+studyOrganization.getHealthcareSite().getName(), e);
+                studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+            }
+        }
+        if(multisiteServiceName==ServiceName.STUDY){
+            Study study=((StudyOrganization)studyOrganizations.get(0)).getStudy();
+            if(errorBroadcast){
+                study.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+                //study.setMultisiteErrorString("Error Broadcasting.");
+            }
+            else{
+                study.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
+                //study.setMultisiteErrorString("");
+            }
+            dao.merge(study);
+        }
+        
+    }
     
+    public void handleAffiliateSiteBroadcast(String nciInstituteCode, Study study, APIName multisiteAPIName, List domainObjects){
+        List<AbstractMutableDomainObject> studyOrganizations=new ArrayList<AbstractMutableDomainObject>();
+        studyOrganizations.add(study.getStudySite(nciInstituteCode));
+        handleMultiSiteBroadcast(studyOrganizations, getMultisiteServiceName(), multisiteAPIName, domainObjects);
+    }
+    
+    public void handleAffiliateSitesBroadcast(Study study, APIName multisiteAPIName, List domainObjects){
+        handleMultiSiteBroadcast(study.getAffiliateStudySites(), getMultisiteServiceName(), multisiteAPIName, domainObjects);
+    }
+    
+    public void handleCoordinatingCenterBroadcast(Study study, APIName multisiteAPIName, List domainObjects){
+        handleMultiSiteBroadcast(study.getStudyCoordinatingCenters(), getMultisiteServiceName(), multisiteAPIName, domainObjects);
+    }
+    
+    public abstract ServiceName getMultisiteServiceName();
 }

@@ -1,12 +1,13 @@
 package edu.duke.cabig.c3pr.service.impl;
 
+import java.io.StringReader;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
+import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
@@ -16,10 +17,14 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
+import edu.duke.cabig.c3pr.esb.BroadcastException;
+import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * @author Kruttik
@@ -64,7 +69,7 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
         ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
         if (requiresExternalApprovalForRegistration(studySubject)) {
             try {
-                sendRegistrationRequest(studySubject);
+                //sendRegistrationRequest(studySubject);
                 scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
             }
             catch (RuntimeException e) {
@@ -115,7 +120,7 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
 	                    catch (C3PRCodedException e) {
 	                        logger.error(e.getMessage());
 	                        studySubject
-	                                        .setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
+	                                        .setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
 	                    }
 	                    catch (Exception e) {
 	                     // TODO throw a C3PRCodedUncheckedException
@@ -123,12 +128,12 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
 	                    }
 	                    try{
 	                        if(studySubject.requiresAffiliateSiteResponse()){
-	                            sendRegistrationResponse(studySubject);
+	                            //sendRegistrationResponse(studySubject);
 	                        }
 	                    }catch(RuntimeException e){
 	                        logger.error(e.getMessage());
 	                        studySubject
-	                                        .setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_FAILED);
+	                                        .setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_REPLY_FAILED);
 	                    }
 	                }
 	                else {
@@ -166,7 +171,7 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
             logger.error(e);
             deserialisedStudySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
             deserialisedStudySubject.setDisapprovalReasonText(e.getCodedExceptionMesssage());
-            sendRegistrationResponse(deserialisedStudySubject);
+            //sendRegistrationResponse(deserialisedStudySubject);
             return;
         }
         if(!studySubject.getScheduledEpoch().getRequiresRandomization()||(studySubject.getScheduledEpoch().getRequiresRandomization() 
@@ -179,7 +184,7 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
                 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
                 studySubject.setDisapprovalReasonText(e.getMessage());
                 studySubjectRepository.save(studySubject);
-                sendRegistrationResponse(studySubject);
+                //sendRegistrationResponse(studySubject);
                 return;
             }
         }
@@ -221,5 +226,11 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
     
     public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults) {
         return studySubjectDao.getIncompleteRegistrations(registration, maxResults);
+    }
+
+    @Override
+    public ServiceName getMultisiteServiceName() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
