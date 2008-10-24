@@ -14,6 +14,8 @@ import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
+import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
@@ -70,6 +72,42 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
             assertNotNull("Could not reload organization with id " + savedId, loaded);
             assertEquals("Wrong name", "Northwestern Memorial Hospital", loaded.getName());
             assertEquals("Wrong city", "Chicago", loaded.getAddress().getCity());
+        }
+    }
+    
+    public void testSaveNewOrganizationWithEndpoint() {
+        Integer savedId;
+        {
+            HealthcareSite healthcaresite = new HealthcareSite();
+
+            Address address = new Address();
+            address.setCity("Chicago");
+            address.setCountryCode("USA");
+            address.setPostalCode("83929");
+            address.setStateCode("IL");
+            address.setStreetAddress("123 Lake Shore Dr");
+
+            healthcaresite.setAddress(address);
+            healthcaresite.setName("Northwestern Memorial Hospital");
+            healthcaresite.setDescriptionText("NU healthcare");
+            healthcaresite.setNciInstituteCode("NCI northwestern");
+            this.getDao().save(healthcaresite);
+            
+            savedId = healthcaresite.getId();
+            assertNotNull("The saved organization didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+            HealthcareSite loaded = this.getDao().getById(savedId);
+            loaded.setStudyEndPointProperty(new EndPointConnectionProperty(true, EndPointType.GRID));
+            loaded.getStudyEndPointProperty().setUrl("http://");
+            this.getDao().save(loaded);
+        }
+        interruptSession();
+        {
+            HealthcareSite loaded = this.getDao().getById(savedId);
+            assertNotNull("Shouldnt be null", loaded.getStudyEndPointProperty());
         }
     }
 
