@@ -23,11 +23,13 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 public class StudyCreationHelper {
-	private  HealthcareSiteDao healthcareSitedao;
+    private HealthcareSiteDao healthcareSitedao;
+
     public Study getMultiSiteRandomizedStudy(RandomizationType randomizationType) throws Exception {
         Study study = buildBasicStudy(true, randomizationType);
         Epoch epoch = getTreatmentEpochWithArm();
@@ -38,7 +40,7 @@ public class StudyCreationHelper {
 
     public Study getMultiSiteNonRandomizedStudy(Boolean reserving, Boolean enrolling) {
         Study study = buildBasicStudy(true, null);
-       Epoch epoch = new Epoch();
+        Epoch epoch = new Epoch();
         epoch.setName("screening");
         epoch.setReservationIndicator(reserving);
         epoch.setEnrollmentIndicator(enrolling);
@@ -78,7 +80,7 @@ public class StudyCreationHelper {
         study.addEpoch(epoch);
         return study;
     }
-    
+
     public Study getLocalNonRandomizedTratmentWithoutArmStudy() {
         Study study = buildBasicStudy(false, null);
         Epoch epoch = new Epoch();
@@ -219,10 +221,10 @@ public class StudyCreationHelper {
         ((PhoneCallRandomization) pRandomization).setPhoneNumber("777 777 7777");
         epoch.setRandomization(pRandomization);
     }
-    
+
     public Study createBasicStudy() {
-    	
-    	Study study = new Study();
+
+        Study study = new Study();
         study.setPrecisText("New study");
         study.setShortTitleText("ShortTitleText");
         study.setLongTitleText("LongTitleText");
@@ -236,74 +238,85 @@ public class StudyCreationHelper {
 
         return study;
     }
-    
- public Study addStudySiteAndEnrollingEpochToBasicStudy(Study study) {
-    	
+
+    public Study addStudySiteAndEnrollingEpochToBasicStudy(Study study) {
+
         study.addStudySite(new StudySite());
         Epoch epoch = new Epoch();
         epoch.setEnrollmentIndicator(new Boolean(true));
         study.addEpoch(epoch);
-        
+
         return study;
     }
- 
- public Study addStudySiteAndRandomizedTreatmentEpochToBasicStudy(Study study) {
- 	
-     study.addStudySite(new StudySite());
-     Epoch treatmentEpoch = new Epoch();
-     treatmentEpoch.setName("Treatment Epoch1");
-     treatmentEpoch.setRandomizedIndicator(new Boolean(true));
-     treatmentEpoch.setEnrollmentIndicator(new Boolean(true));
-     study.addEpoch(treatmentEpoch);
-     
-     return study;
- }
- 
- public Study addStudySiteAndRandomizedTreatmentEpochWith2ArmsToBasicStudy(Study study) {
-	 	
-     study.addStudySite(new StudySite());
-     Epoch treatmentEpoch = new Epoch();
-     treatmentEpoch.setName("Treatment Epoch1");
-     Arm arm1 = new Arm();
-     arm1.setName("arm1");
-     treatmentEpoch.addArm(arm1);
-     Arm arm2 = new Arm();
-     arm2.setName("arm2");
-     treatmentEpoch.addArm(arm2);
-     treatmentEpoch.setRandomizedIndicator(new Boolean(true));
-     treatmentEpoch.setEnrollmentIndicator(new Boolean(true));
-     study.addEpoch(treatmentEpoch);
-     
-     return study;
- }
- 
- public Study addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(Study study) {
-	 	
-     study.addStudySite(new StudySite());
-     Epoch treatmentEpoch = new Epoch();
-     treatmentEpoch.setName("Treatment Epoch1");
-     Arm arm1 = new Arm();
-     arm1.setName("arm1");
-     treatmentEpoch.addArm(arm1);
-     Arm arm2 = new Arm();
-     arm2.setName("arm2");
-     treatmentEpoch.addArm(arm2);
-     addStratumGroupToEpoch(treatmentEpoch);
-     treatmentEpoch.setRandomizedIndicator(new Boolean(true));
-     treatmentEpoch.setEnrollmentIndicator(new Boolean(true));
-     study.addEpoch(treatmentEpoch);
-     
-     return study;
- }
- 
- public Study addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(Study study){
-	 
-	 addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(study);
-	 addPhoneCallRandomization(study.getEpochs().get(0));
-     return study;
- }
 
-	public void setHealthcareSitedao(HealthcareSiteDao healthcareSitedao) {
-		this.healthcareSitedao = healthcareSitedao;
-	}
+    public Study addStudySiteAndRandomizedTreatmentEpochToBasicStudy(Study study) {
+
+        study.addStudySite(new StudySite());
+        Epoch treatmentEpoch = new Epoch();
+        treatmentEpoch.setName("Treatment Epoch1");
+        treatmentEpoch.setRandomizedIndicator(new Boolean(true));
+        treatmentEpoch.setEnrollmentIndicator(new Boolean(true));
+        study.addEpoch(treatmentEpoch);
+
+        return study;
+    }
+
+    public Study addStudySiteAndRandomizedTreatmentEpochWith2ArmsToBasicStudy(Study study) {
+
+        study.addStudySite(new StudySite());
+        Epoch treatmentEpoch = new Epoch();
+        treatmentEpoch.setName("Treatment Epoch1");
+        Arm arm1 = new Arm();
+        arm1.setName("arm1");
+        treatmentEpoch.addArm(arm1);
+        Arm arm2 = new Arm();
+        arm2.setName("arm2");
+        treatmentEpoch.addArm(arm2);
+        treatmentEpoch.setRandomizedIndicator(new Boolean(true));
+        treatmentEpoch.setEnrollmentIndicator(new Boolean(true));
+        study.addEpoch(treatmentEpoch);
+
+        return study;
+    }
+
+    public Study addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(
+                    Study study) {
+
+        study.addStudySite(new StudySite());
+        Epoch treatmentEpoch = new Epoch();
+        treatmentEpoch.setName("Treatment Epoch1");
+        Arm arm1 = new Arm();
+        arm1.setName("arm1");
+        treatmentEpoch.addArm(arm1);
+        Arm arm2 = new Arm();
+        arm2.setName("arm2");
+        treatmentEpoch.addArm(arm2);
+        addStratumGroupToEpoch(treatmentEpoch);
+        treatmentEpoch.setRandomizedIndicator(new Boolean(true));
+        treatmentEpoch.setEnrollmentIndicator(new Boolean(true));
+        study.addEpoch(treatmentEpoch);
+
+        return study;
+    }
+
+    public Study addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(
+                    Study study) {
+
+        addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(study);
+        addPhoneCallRandomization(study.getEpochs().get(0));
+        return study;
+    }
+
+    public void setHealthcareSitedao(HealthcareSiteDao healthcareSitedao) {
+        this.healthcareSitedao = healthcareSitedao;
+    }
+
+    public void addStudySiteAsCooordinatingCenter(Study study) {
+        StudySite studySite=study.getStudySites().get(0);
+        StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
+                        .get(0);
+        studyCoordinatingCenter.setHealthcareSite(studySite.getHealthcareSite());
+        studyCoordinatingCenter.setStudy(study);
+    }
+    
 }
