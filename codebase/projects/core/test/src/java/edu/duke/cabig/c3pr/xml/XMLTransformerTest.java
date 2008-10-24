@@ -1,11 +1,17 @@
 package edu.duke.cabig.c3pr.xml;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 import junit.framework.TestCase;
 
@@ -49,5 +55,12 @@ public class XMLTransformerTest extends TestCase{
             if (br != null) br.close();
             return(sb.toString());
         }
+    }
+    
+    public void testDeserialization() throws Exception {
+        XmlMarshaller xmlMarshaller=new XmlMarshaller("c3pr-registration-xml-castor-mapping.xml");
+        
+        Participant participant=(Participant)xmlMarshaller.fromXML(new StringReader(readFile("samples/sample-participant.xml")));
+        assertNotNull(participant);
     }
 }
