@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
@@ -40,6 +42,22 @@ public class StudyOverviewTab extends StudyTab {
         super(longTitle, shortTitle, viewName);
     }
 
+    public StudyOverviewTab(String longTitle, String shortTitle, String viewName, Boolean willSave) {
+        super(longTitle, shortTitle, viewName,willSave);
+    }
+    
+    @Override
+    public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
+                    Errors errors) {
+        if(WebUtils.hasSubmitParameter(request, "statusChange")){
+            if(request.getParameter("statusChange").equals("readyToOpen")){
+                studyRepository.createStudy(wrapper.getStudy().getIdentifiers());
+            }else if(request.getParameter("statusChange").equals("open")){
+                studyRepository.openStudy(wrapper.getStudy().getIdentifiers());
+            }
+        }
+    }
+    
     public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj,
                                                   Errors error) {
         Study study = ((StudyWrapper) commandObj).getStudy();
@@ -82,14 +100,8 @@ public class StudyOverviewTab extends StudyTab {
         return super.referenceData(request, command);
     }
 
-    @SuppressWarnings("finally")
-    @Override
-    protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, StudyWrapper command,
-                                                     String property, String value) {
-
-        Map<String, String> map = new HashMap<String, String>();
-        String retValue = "";
-
+    private String handleInPlaceEditing(HttpServletRequest request, StudyWrapper command,
+                    String property, String value) throws Exception{
         if (property.contains("changedSiteStudy")) {
 
             int studySiteIndex = Integer.parseInt(property.split("_")[1]);
@@ -97,94 +109,126 @@ public class StudyOverviewTab extends StudyTab {
             if (property.contains("changedSiteStudyStatus")) {
 
                 SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
-                try {
-                    command.getStudy().getStudySites().get(
-                            studySiteIndex).setWorkFlowSiteStudyStatus(statusObject);
+                if(statusObject==SiteStudyStatus.ACTIVE){
+                    StudySite studySite=studyRepository.activateStudySite(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
+                }else if(statusObject==SiteStudyStatus.APPROVED_FOR_ACTIVTION){
+                    StudySite studySite=studyRepository.approveStudySiteForActivation(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
+                }else if(statusObject==SiteStudyStatus.CLOSED_TO_ACCRUAL){
+                    StudySite studySite=studyRepository.closeStudySite(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
+                }else if(statusObject==SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT){
+                    StudySite studySite=studyRepository.closeStudySiteToAccrualAndTreatment(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
+                }else if(statusObject==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL){
+                    StudySite studySite=studyRepository.temporarilyCloseStudySite(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
+                }else if(statusObject==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT){
+                    StudySite studySite=studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
                 }
-                catch (C3PRCodedRuntimeException e) {
-                    if ((command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL || command
-                            .getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
-                            && statusObject == SiteStudyStatus.ACTIVE && isAdmin()) {
-                        command.getStudy().getStudySites().get(studySiteIndex).setSiteStudyStatus(
-                                SiteStudyStatus.ACTIVE);
-                    } else {
-                        retValue = "<script>alert('" + e.getCodedExceptionMesssage() + "')</script>";
-                    }
-                }
-                finally {
-                    retValue += command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus()
-                            .getCode();
-                }
-
+                return command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus()
+                .getCode();
             } else if (property.contains("changedSiteStudyStartDate")) {
-
-                try {
                     Date startDate = new SimpleDateFormat("MM/dd/yyyy").parse(value);
                     command.getStudy().getStudySites().get(studySiteIndex).setStartDate(startDate);
-                    retValue += command.getStudy().getStudySites().get(studySiteIndex).getStartDateStr();
-                }
-                catch (ParseException e) {
-                    retValue = "<script>alert('" + e.getMessage() + "')</script>";
-                }
-
+                    return command.getStudy().getStudySites().get(studySiteIndex).getStartDateStr();
             } else if (property.contains("changedSiteStudyIrbApprovalDate")) {
-                try {
                     Date irbApprovalDate = new SimpleDateFormat("MM/dd/yyyy").parse(value);
                     command.getStudy().getStudySites().get(studySiteIndex).setIrbApprovalDate(irbApprovalDate);
-                    retValue += command.getStudy().getStudySites().get(studySiteIndex).getIrbApprovalDateStr();
-                }
-                catch (ParseException e) {
-                    retValue = "<script>alert('" + e.getMessage() + "')</script>";
-                }
+                    return command.getStudy().getStudySites().get(studySiteIndex).getIrbApprovalDateStr();
             }
 
         } else if (property.contains("changedCoordinatingCenterStudyStatus")) {
             CoordinatingCenterStudyStatus statusObject = CoordinatingCenterStudyStatus
                     .getByCode(value);
 
-            try {
-            	 StudyStatusHelper.setStatus(command.getStudy(), statusObject);
-                // adding a callback incase the status change is successful
-                // this callback is used to dynamically display/hide the amend study button
-                retValue = "<script>statusChangeCallback('" + command.getStudy().getCoordinatingCenterStudyStatus().getCode() + "');reloadCompanion();" +
-                        "</script>";
+            if(statusObject==CoordinatingCenterStudyStatus.OPEN){
+                Study study=studyRepository.openStudy(command.getStudy().getIdentifiers());
+                command.setStudy(study);
+            }else if(statusObject==CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL){
+                Study study=studyRepository.closeStudy(command.getStudy().getIdentifiers());
+                command.setStudy(study);
+            }else if(statusObject==CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT){
+                Study study=studyRepository.closeStudyToAccrualAndTreatment(command.getStudy().getIdentifiers());
+                command.setStudy(study);
+            }else if(statusObject==CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL){
+                Study study=studyRepository.temporarilyCloseStudy(command.getStudy().getIdentifiers());
+                command.setStudy(study);
+            }else if(statusObject==CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT){
+                Study study=studyRepository.temporarilyCloseStudyToAccrualAndTreatment(command.getStudy().getIdentifiers());
+                command.setStudy(study);
+            }else if(statusObject==CoordinatingCenterStudyStatus.READY_TO_OPEN){
+                Study study=studyRepository.createStudy(command.getStudy().getIdentifiers());
+                command.setStudy(study);
             }
-            catch (C3PRCodedRuntimeException e) {
-                // case when the user has an admin role and he/she can change the study status to
-                // Active even when the study is closed to accrual
-                // or closed to accrual and treatment.
-                if ((command.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL || command
-                        .getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
-                        && statusObject == CoordinatingCenterStudyStatus.OPEN
-                        && isAdmin()) {
-                    command.getStudy().setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-                } else {
-                    retValue = "<script>alert('" + e.getMessage() + "')</script>";
-                }
-            }
-            finally {
-                retValue += command.getStudy().getCoordinatingCenterStudyStatus().getCode();
-            }
+            return command.getStudy().getCoordinatingCenterStudyStatus().getCode();
         } else if (property.contains("changedTargetAccrualNumber")) {
             command.getStudy().setTargetAccrualNumber(new Integer(value));
-            retValue = command.getStudy().getTargetAccrualNumber().toString();
+            return command.getStudy().getTargetAccrualNumber().toString();
         } else {
-            retValue += command.getStudy().getCoordinatingCenterStudyStatus().getCode();
+            return command.getStudy().getCoordinatingCenterStudyStatus().getCode();
+        }
+        return value;
+    }
+    
+    @SuppressWarnings("finally")
+    @Override
+    protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, StudyWrapper command,
+                                                     String property, String value) {
+
+        Map<String, String> map = new HashMap<String, String>();
+        String retValue = "";
+        try {
+            retValue=handleInPlaceEditing(request, command, property, value);
+        }
+        catch (Exception e) {
+            retValue = "<script>alert('" + e.getMessage() + "')</script>";
         }
         map.put(AjaxableUtils.getFreeTextModelName(), retValue);
         return new ModelAndView("", map);
     }
 
-    public void validate(StudyWrapper wrapper, Errors errors) {
-        super.validate(wrapper, errors);
-        try {
-            wrapper.getStudy().updateDataEntryStatus();
-            studyRepository.open(wrapper.getStudy());
+    public ModelAndView adminOverride(HttpServletRequest request, Object commandObj, Errors error) {
+        StudyWrapper command=(StudyWrapper)commandObj;
+        String property=request.getParameter("property");
+        String value=request.getParameter("value");
+        String retValue="";
+        Map<String, String> map = new HashMap<String, String>();
+        if(!isAdmin()){
+            retValue = "<script>alert('You dont have admin privileges to take this action.')</script>";
+            map.put(AjaxableUtils.getFreeTextModelName(), retValue);
+            return new ModelAndView("", map);        
         }
-        catch (Exception e) {
-            errors.rejectValue("study.coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
+        if(property==null || value==null){
+            retValue = "<script>alert('no value specified')</script>";
+            map.put(AjaxableUtils.getFreeTextModelName(), retValue);
+            return new ModelAndView("", map);
         }
+        if (property.contains("changedSiteStudyStatus")) {
+
+            int studySiteIndex = Integer.parseInt(property.split("_")[1]);
+            SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
+            command.getStudy().getStudySites().get(
+                            studySiteIndex).setSiteStudyStatus(statusObject);
+            retValue = command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus()
+                        .getCode();
+
+        } else if (property.contains("changedCoordinatingCenterStudyStatus")) {
+            CoordinatingCenterStudyStatus statusObject = CoordinatingCenterStudyStatus
+                    .getByCode(value);
+            command.getStudy().setCoordinatingCenterStudyStatus(statusObject);
+            retValue = command.getStudy().getCoordinatingCenterStudyStatus().getCode();
+        }
+        map.put(AjaxableUtils.getFreeTextModelName(), retValue);
+        return new ModelAndView("", map);
     }
+    
+//    public void validate(StudyWrapper wrapper, Errors errors) {
+//        super.validate(wrapper, errors);
+//        try {
+//            wrapper.getStudy().updateDataEntryStatus();
+//            studyRepository.open(wrapper.getStudy());
+//        }
+//        catch (Exception e) {
+//            errors.rejectValue("study.coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
+//        }
+//    }
 
     protected boolean suppressValidation(HttpServletRequest request, Object study) {
         if (request.getParameter("_activate") != null
