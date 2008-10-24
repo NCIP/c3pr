@@ -126,9 +126,22 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
         }
     }
 
-    public ConfigurationProperty getConfigurationProperty() {
-        return configurationProperty;
-    }
+	public void updateStratification(Study study) {
+		if (!study.getStratificationIndicator()) {
+			List<Epoch> epochs = study.getEpochs();
+			for (Epoch epoch : epochs) {
+				if (epoch.getStratificationIndicator()) {
+					epoch.setStratificationIndicator(false);
+					epoch.getStratificationCriteria().clear();
+					epoch.getStratumGroups().clear();
+				}
+			}
+		}
+	}
+	
+	public ConfigurationProperty getConfigurationProperty() {
+		return configurationProperty;
+	}
 
     public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
         this.configurationProperty = configurationProperty;
