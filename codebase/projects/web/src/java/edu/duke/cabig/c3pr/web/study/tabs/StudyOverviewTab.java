@@ -219,16 +219,16 @@ public class StudyOverviewTab extends StudyTab {
         return new ModelAndView("", map);
     }
     
-//    public void validate(StudyWrapper wrapper, Errors errors) {
-//        super.validate(wrapper, errors);
-//        try {
-//            wrapper.getStudy().updateDataEntryStatus();
-//            studyRepository.open(wrapper.getStudy());
-//        }
-//        catch (Exception e) {
-//            errors.rejectValue("study.coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
-//        }
-//    }
+    public void validate(StudyWrapper wrapper, Errors errors) {
+        super.validate(wrapper, errors);
+        try {
+            wrapper.getStudy().updateDataEntryStatus();
+            studyRepository.openStudy(wrapper.getStudy().getIdentifiers());
+        }
+       catch (Exception e) {
+            errors.rejectValue("study.coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
+        }
+    }
 
     protected boolean suppressValidation(HttpServletRequest request, Object study) {
         if (request.getParameter("_activate") != null
