@@ -78,7 +78,7 @@ function manageIdentifierRadio(element){
 		
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
-					<th><span class="required-indicator">Assigning Authority</span><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+					<th><span class="required-indicator">Assigning Organization</span><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
 					<th><span class="required-indicator">Identifier Type</span><tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
 					<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
 					<th>Primary Indicator<tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
