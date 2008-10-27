@@ -24,11 +24,13 @@
 
 	<!--  Items to be published  -->
 	<publications>
-		<artifact name="${ivy.module}-cient" conf="publish" type="jar"
+		<artifact name="${ivy.module}-client" conf="publish" type="jar"
 			ext="jar" />
-		<artifact name="${ivy.module}-common" conf="test" type="jar"
+		<artifact name="${ivy.module}-common" conf="publish" type="jar"
 		ext="jar" />
-		<artifact name="${ivy.module}-stubs" conf="test" type="jar"
+		<artifact name="${ivy.module}-stubs" conf="publish" type="jar"
+		ext="jar" />
+		<artifact name="${ivy.module}-tests" conf="test" type="jar"
 			ext="jar" />
 	</publications>
 

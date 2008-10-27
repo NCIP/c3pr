@@ -30,7 +30,7 @@
 	<!-- ================================= 
 		target: publish-local              
 		================================= -->
-	<target name="publish-local" depends="all,clean-dist"
+	<target name="publish-local" depends="all,clean-dist, local-version, load-ivy, resolve, version"
 		description="--> publish this project in the local repository">
 		<echo message="Executing in ${ant.project.name}" />
 		<mkdir dir="${dist.dir}" />
@@ -48,5 +48,5 @@
 		<echo message="project ${ant.project.name} published locally with version ${version}" />
 	</target>
 	
-	
+	<target name="clean-lib"/>
 </project>

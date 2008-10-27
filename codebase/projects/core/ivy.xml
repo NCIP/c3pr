@@ -38,7 +38,9 @@
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-esb-client" rev="latest.integration" 
 				conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-management" rev="latest.integration" 
-				conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
+			conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
+        	<dependency org="edu.duke.cabig.c3pr"
+        		name="StudyService" rev="latest.integration" />
         	
         	<dependency org="asm" name="asm-commons" rev="2.2.3" force="true"/>
         	<dependency org="gov.nih.nci.cagrid.websso" name="caaers-cas-patch" rev="1.5" />
@@ -95,13 +97,6 @@
         		<exclude name="spring" conf="*" />
         		<exclude name="spring-mock" conf="*" />
         	</dependency>
-        	
-        	<dependency org="edu.duke.cabig.c3pr"
-        		name="studyService-common" rev="1.2" />
-        	<dependency org="edu.duke.cabig.c3pr"
-        		name="studyService-client" rev="1.2" />
-        	<dependency org="edu.duke.cabig.c3pr"
-        		name="studyService-stubs" rev="1.2" />
         	
         	<dependency org="gov.nih.nci.ccts.grid.smoketest"
         		name="smokeTestService-common" rev="1.2" />
