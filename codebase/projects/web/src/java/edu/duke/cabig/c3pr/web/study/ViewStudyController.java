@@ -5,6 +5,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.web.study.tabs.EditStudyOverviewTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyAdvanceTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyNotificationTab;
@@ -70,6 +71,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
+        flow.addTab(new StudyAdvanceTab());
         flow.addTab(new StudyRegistrationsTab());
 
     }
