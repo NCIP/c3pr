@@ -231,7 +231,7 @@ function manageIdentifierRadio(element){
 					cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr id="hOrganizationAssignedIdentifier" <c:if test="${fn:length(command.organizationAssignedIdentifiers) < 2}">style="display:none;"</c:if>>
 						<th><span
-							class="required-indicator">Assigning Authority</span><tags:hoverHint keyProp="identifier.organization"/></th>
+							class="required-indicator">Assigning Organization</span><tags:hoverHint keyProp="identifier.organization"/></th>
 						<th><span class="required-indicator">Identifier
 						Type</span><tags:hoverHint keyProp="identifier.type"/></th>
 						<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="identifier.value"/></th>
