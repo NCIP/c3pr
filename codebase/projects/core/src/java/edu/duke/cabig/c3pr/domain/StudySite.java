@@ -50,11 +50,12 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
         this.c3prErrorMessages = resourceBundleMessageSource1;
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
+        siteStudyStatus = SiteStudyStatus.PENDING;
     }
 
     private Integer targetAccrualNumber;
 
-    private SiteStudyStatus siteStudyStatus = SiteStudyStatus.PENDING;
+    private SiteStudyStatus siteStudyStatus;
 
     private Date startDate = Calendar.getInstance().getTime();
 

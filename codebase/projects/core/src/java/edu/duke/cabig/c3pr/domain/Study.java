@@ -95,7 +95,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
 
     private StudyDataEntryStatus dataEntryStatus;
 
-	private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
+	private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
 
     private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 
@@ -173,6 +173,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
                                         new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(
                                                         CompanionStudyAssociation.class, this,
                                                         "ParentStudy"));
+        coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
 
     }
 
@@ -904,11 +905,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
 
     public StudyDataEntryStatus evaluateDataEntryStatus() {
 
-        if ((this.getStudySites().size() == 0)) {
-            throw getC3PRExceptionHelper().getRuntimeException(
-                            getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STUDY_SITE.CODE"));
-        }
-        else if ((!this.hasEnrollingEpoch())) {
+    	if ((!this.hasEnrollingEpoch())) {
             throw getC3PRExceptionHelper().getRuntimeException(
                             getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE"));
         }
