@@ -63,7 +63,7 @@ field.value="";
 									<tr align="center" class="label">
 										<th width="10%" align="left" class="label"></th>
 										<th width="15%" align="left" class="label"><span class="red">*</span>Assigning
-										Authority</th>
+										Organization</th>
 										<th width="15%" align="left" class="label"><span class="red">*</span>
 										Identifier Type</th>
 										<th width="15%" align="left" class="label"><span class="red">*</span>Identifier</th>

@@ -75,7 +75,7 @@ function manageIdentifierRadio(element){
 		
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
-					<th><span class="required-indicator">Assigning Authority</span></th>
+					<th><span class="required-indicator">Assigning Organization</span></th>
 					<th><span class="required-indicator">Identifier Type</span></th>
 					<th><span class="required-indicator">Identifier</span></th>
 					<th>Primary&nbsp;Indicator</th>
