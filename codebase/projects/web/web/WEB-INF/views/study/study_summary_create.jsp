@@ -215,16 +215,33 @@ document.getElementById("viewDetails").submit();
 	<br>
 		<table class="tablecontent" width="60%">
 			<tr>
-				<th width="50%" scope="col" align="left">Assigning Authority</th>
+				<th width="50%" scope="col" align="left">Assigning Organization</th>
 	            <th width="35%" scope="col" align="left">Identifier Type</th>
 	            <th scope="col" align="left">Identifier</th>
 			</tr>
-			<c:if test="${command.study.coordinatingCenterIdentifier != null}"
-				var="orgIdentifier">
+			<c:if test="${command.study.coordinatingCenterAssignedIdentifier != null}">
 				<tr class="results">
-					<td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
-					<td class="alt" align="left">${orgIdentifier.type}</td>
-					<td class="alt" align="left">${orgIdentifier.value}</td>
+					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name}</td>
+					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
+					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
+				</tr>
+			</c:if>
+		</table>
+	<br>
+
+<h4>Funding Sponsor Identifier</h4>
+	<br>
+		<table class="tablecontent" width="60%">
+			<tr>
+				<th width="50%" scope="col" align="left">Assigning Organization</th>
+	            <th width="35%" scope="col" align="left">Identifier Type</th>
+	            <th scope="col" align="left">Identifier</th>
+			</tr>
+			<c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
+				<tr class="results">
+					<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
+					<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type}</td>
+					<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
 				</tr>
 			</c:if>
 		</table>
