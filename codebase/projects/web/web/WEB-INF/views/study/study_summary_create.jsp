@@ -1,24 +1,8 @@
-<%@ include file="taglibs.jsp"%>
-
+<%@ include file="taglibs.jsp" %>
 
 <html>
 <head>
-<title><studyTags:htmlTitle study="${command.study}" /></title>
-<script>
-
-function activateAndSaveStudy(){
-document.getElementById("_activate").value="true";
-document.getElementById("_action").value="open";
-document.getElementById("viewDetails").submit();
-}
-
-function createStudy(){
-document.getElementById("_activate").value="false";
-document.getElementById("_action").value="create";
-document.getElementById("viewDetails").submit();
-}
-</script>
-
+    <title><studyTags:htmlTitle study="${command.study}"/></title>
 </head>
 
 <body>
@@ -26,15 +10,7 @@ document.getElementById("viewDetails").submit();
 <tags:tabFields tab="${tab}"/>
 <chrome:box title="Study Summary">
 <tags:errors path="*"/>
-<div>
-    <input type="hidden" name="_finish" value="true"/>
-    <div>
-    <input type="hidden" name="_activate" id="_activate" value="false"/>
-    <input type="hidden" name="_action" id="_action"/>
-</div>
-</div>
-<div id="printable">
-<chrome:division id="study-details" title="Basic Details" >
+<chrome:division id="study-details" title="Basic Details">
     <table class="tablecontent" width="60%">
         <tr>
             <td width="35%" class="alt" align="left"><b>Short Title</b></td>
@@ -48,11 +24,11 @@ document.getElementById("viewDetails").submit();
             <td class="alt" align="left"><b>Target Accrual Number</b></td>
             <td class="alt" align="left">${command.study.targetAccrualNumber}</td>
         </tr>
-         <tr>
+        <tr>
             <td class="alt" align="left"><b>Data Entry Status</b></td>
             <td class="alt" align="left">${command.study.dataEntryStatus.code}</td>
-        </tr> 
-         <tr>
+        </tr>
+        <tr>
             <td class="alt" align="left"><b>Status</b></td>
             <td class="alt" align="left">${command.study.coordinatingCenterStudyStatus.displayName}</td>
         </tr>
@@ -76,7 +52,7 @@ document.getElementById("viewDetails").submit();
             <td class="alt" align="left"><b>Blinded</b></td>
             <td class="alt" align="left">${command.study.blindedIndicator=="true"?"Yes":"No"}</td>
         </tr>
-          <tr>
+        <tr>
             <td class="alt" align="left"><b>Consent Version/Date</b></td>
             <td class="alt" align="left">${command.study.consentVersion}</td>
         </tr>
@@ -100,25 +76,25 @@ document.getElementById("viewDetails").submit();
         <c:forEach items="${command.study.epochs}" var="epoch">
             <tr>
                 <td>${epoch.name}</td>
-				<c:if test="${not empty epoch.arms}">
-	                <td>
-	                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-	                            <tr>
-	                                <th><b>Name</b></th>
-	                                <th><b>Target Accrual No.</b>
-	                            </tr>
-	                            <tr>
-	                                <c:forEach items="${epoch.arms}" var="arm">
-	                            <tr>
-	                                <td>${arm.name}</td>
-	                                <td>${arm.targetAccrualNumber}</td>
-	                            </tr>
-	                            </c:forEach>
-	                        </table>
-	                </td>
-				</c:if>
+                <c:if test="${not empty epoch.arms}">
+                    <td>
+                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+                            <tr>
+                                <th><b>Name</b></th>
+                                <th><b>Target Accrual No.</b>
+                            </tr>
+                            <tr>
+                                <c:forEach items="${epoch.arms}" var="arm">
+                            <tr>
+                                <td>${arm.name}</td>
+                                <td>${arm.targetAccrualNumber}</td>
+                            </tr>
+                            </c:forEach>
+                        </table>
+                    </td>
+                </c:if>
             </tr>
-            
+
         </c:forEach>
     </table>
 </chrome:division>
@@ -131,20 +107,20 @@ document.getElementById("viewDetails").submit();
 
         </tr>
         <c:forEach items="${command.study.epochs}" var="epoch">
-                <c:forEach items="${epoch.stratificationCriteria}" var="strat">
-                    <tr>
-                        <td class="alt">${strat.questionText}</td>
-                        <td class="alt">
-                            <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-                                <c:forEach items="${strat.permissibleAnswers}" var="ans">
-                                    <tr>
-                                        <td class="alt" align="left">${ans.permissibleAnswer}</td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </td>
-                    </tr>
-                </c:forEach>
+            <c:forEach items="${epoch.stratificationCriteria}" var="strat">
+                <tr>
+                    <td class="alt">${strat.questionText}</td>
+                    <td class="alt">
+                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+                            <c:forEach items="${strat.permissibleAnswers}" var="ans">
+                                <tr>
+                                    <td class="alt" align="left">${ans.permissibleAnswer}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </td>
+                </tr>
+            </c:forEach>
         </c:forEach>
     </table>
 </chrome:division>
@@ -157,106 +133,83 @@ document.getElementById("viewDetails").submit();
 
         </tr>
         <c:forEach items="${command.study.epochs}" var="epoch">
-                <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
-                    <tr>
-                        <td class="alt">${stratGrp.stratumGroupNumber}</td>
-                        <td class="alt">
+            <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
+                <tr>
+                    <td class="alt">${stratGrp.stratumGroupNumber}</td>
+                    <td class="alt">
                             ${stratGrp.answerCombinations}
-                        </td>
-                    </tr>
-                </c:forEach>
+                    </td>
+                </tr>
+            </c:forEach>
         </c:forEach>
     </table>
 </chrome:division>
 
 <div <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
-<chrome:division title="Companion Studies">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="45%" scope="col" align="left"><b>Companion Study Short Title</b></th>
-			<th width="30%" scope="col" align="left"><b>Data Entry Status</b></th>
-            <th width="15%" scope="col" align="left"><b>Status</b></th>
-            <th width="10%" scope="col" align="left"><b>Mandatory</b></th>
-        </tr>
-        <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
+    <chrome:division title="Companion Studies">
+        <table class="tablecontent" width="60%">
             <tr>
-                <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-				<td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
-                <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>
-                <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
-   	        </tr>	           
-        </c:forEach>
-    </table>
-</chrome:division>
-</div>
-
-<chrome:division title="Sites">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="40%" scope="col" align="left">Study Site</th>
-            <th width="15%" scope="col" align="left">Status</th>
-            <th width="15%" scope="col" align="left">Role</th>
-            <th width="10%" scope="col" align="left">Start Date</th>
-            <th width="20%" scope="col" align="left">IRB Approval Date</th>
-        </tr>
-        <c:forEach items="${command.study.studySites}" var="studySite">
-            <tr class="results">
-                <td class="alt" align="left">${studySite.healthcareSite.name}</td>
-                <td class="alt" align="left">${studySite.siteStudyStatus.code}</td>
-                <td class="alt" align="left">${studySite.roleCode}</td>
-                <td class="alt" align="left">${studySite.startDateStr}</td>
-                <td class="alt" align="left">${studySite.irbApprovalDateStr}</td>
+                <th width="45%" scope="col" align="left"><b>Companion Study Short Title</b></th>
+                <th width="30%" scope="col" align="left"><b>Data Entry Status</b></th>
+                <th width="15%" scope="col" align="left"><b>Status</b></th>
+                <th width="10%" scope="col" align="left"><b>Mandatory</b></th>
             </tr>
-        </c:forEach>
-    </table>
-</chrome:division>
+            <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
+                <tr>
+                    <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+                    <td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
+                    <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>
+                    <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </chrome:division>
+</div>
 
 <chrome:division title="Identifiers">
-<h4>Coordinating Assigned Identifier</h4>
-	<br>
-		<table class="tablecontent" width="60%">
-			<tr>
-				<th width="50%" scope="col" align="left">Assigning Organization</th>
-	            <th width="35%" scope="col" align="left">Identifier Type</th>
-	            <th scope="col" align="left">Identifier</th>
-			</tr>
-			<c:if test="${command.study.coordinatingCenterAssignedIdentifier != null}">
-				<tr class="results">
-					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name}</td>
-					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
-					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
-			</c:if>
-		</table>
-	<br>
+    <h4>Coordinating Assigned Identifier</h4>
+    <br>
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left">Assigning Organization</th>
+            <th width="35%" scope="col" align="left">Identifier Type</th>
+            <th scope="col" align="left">Identifier</th>
+        </tr>
+        <c:if test="${command.study.coordinatingCenterAssignedIdentifier != null}">
+        <tr class="results">
+            <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name}</td>
+            <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
+            <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
+            </c:if>
+    </table>
+    <br>
 
-<h4>Funding Sponsor Identifier</h4>
-	<br>
-		<table class="tablecontent" width="60%">
-			<tr>
-				<th width="50%" scope="col" align="left">Assigning Organization</th>
-	            <th width="35%" scope="col" align="left">Identifier Type</th>
-	            <th scope="col" align="left">Identifier</th>
-			</tr>
-			<c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
-				<tr class="results">
-					<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
-					<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type}</td>
-					<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
-				</tr>
-			</c:if>
-		</table>
-	<br>
+    <h4>Funding Sponsor Identifier</h4>
+    <br>
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left">Assigning Organization</th>
+            <th width="35%" scope="col" align="left">Identifier Type</th>
+            <th scope="col" align="left">Identifier</th>
+        </tr>
+        <c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
+            <tr class="results">
+                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
+                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type}</td>
+                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
+            </tr>
+        </c:if>
+    </table>
+    <br>
 </chrome:division>
-
-
-</div>
-			<div class="content buttons autoclear">
-			<div class="flow-buttons"><span class="next"> 
-				<input type="button" value="Open" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
-				<input type="button" value="Create" id="createButtonDisplayDiv" onclick="createStudy();return false;"/>
-				<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
+<div class="content buttons autoclear">
+    <div class="flow-buttons"><span class="next">
+				<input type="button" value="Manage" id="manageStudy"
+                       onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
+				<input type="button" value="Done" id="gotoHome"
+                       onclick="javascript:document.location='<c:url value='/pages/dashboard' />'"/>
  			</span></div>
-			</div>
+</div>
 </chrome:box>
 </form:form>
 </body>
