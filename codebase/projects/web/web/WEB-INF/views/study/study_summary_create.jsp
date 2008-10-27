@@ -25,6 +25,7 @@ document.getElementById("viewDetails").submit();
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
 <chrome:box title="Study Summary">
+<tags:errors path="*"/>
 <div>
     <input type="hidden" name="_finish" value="true"/>
     <div>
@@ -224,7 +225,6 @@ document.getElementById("viewDetails").submit();
 					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name}</td>
 					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
 					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
-				</tr>
 			</c:if>
 		</table>
 	<br>
