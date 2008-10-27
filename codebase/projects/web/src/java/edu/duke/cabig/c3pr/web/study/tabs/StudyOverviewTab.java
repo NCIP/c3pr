@@ -219,7 +219,7 @@ public class StudyOverviewTab extends StudyTab {
         return new ModelAndView("", map);
     }
     
-    public void validate(StudyWrapper wrapper, Errors errors) {
+   /* public void validate(StudyWrapper wrapper, Errors errors) {
         super.validate(wrapper, errors);
         try {
             wrapper.getStudy().updateDataEntryStatus();
@@ -229,7 +229,7 @@ public class StudyOverviewTab extends StudyTab {
             errors.rejectValue("study.coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
         }
     }
-
+*/
     protected boolean suppressValidation(HttpServletRequest request, Object study) {
         if (request.getParameter("_activate") != null
                 && request.getParameter("_activate").equals("true")) {
