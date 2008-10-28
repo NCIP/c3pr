@@ -63,7 +63,7 @@
 	     
 	</script>
 
-<chrome:box title="C3PR Notifications" htmlContent='${htmlContent}'>
+<chrome:box title="Notifications" htmlContent='${htmlContent}'>
 	<c:choose>
 		<c:when	test="${empty recipientScheduledNotification || fn:length(recipientScheduledNotification) == 0}">
 			<br /><b>You don't have any notifications.</b>
