@@ -47,6 +47,7 @@ public class StudyPersonnelTab extends StudyTab {
     public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
         Study study = wrapper.getStudy();
+        
         for (int i = 0; i < study.getStudyOrganizations().size(); i++) {
             for (int j = 0; j < study.getStudyOrganizations().get(i).getStudyPersonnel().size(); j++) {
                 try {
@@ -102,9 +103,7 @@ public class StudyPersonnelTab extends StudyTab {
             if ("siteChange".equals(action)) {
                 request.getSession().setAttribute("_selectedSite", selectedSite);
                 return;
-            }
-
-            if ("addStudyDisease".equals(action) && so != null) {
+            }else if ("addStudyDisease".equals(action) && so != null) {
                 String[] rsIds = so.getStudyPersonnelIds();
                 if (rsIds.length > 0) {
                     ResearchStaff rs = null;
