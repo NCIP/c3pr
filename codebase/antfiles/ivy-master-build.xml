@@ -165,6 +165,14 @@
 		</ant>
 	</target>
 	
+	<target name="undeploy-studyService">
+		<ant target="undeployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+			<property name="webapp.localtion" value="aaa" />
+			<property name="service.deployment.dir.name" value="abc" />
+		</ant>
+	</target>
+
 	<target name="deploy-studyService">
 		<ant target="deployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
@@ -192,9 +200,12 @@
     	<ant target="publish-local" antfile="${projects.dir}/esb-client/ivy-build.xml" dir="${projects.dir}/esb-client" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>
+		<ant target="publish-local" antfile="${projects.dir}/grid/StudyService/ivy-build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
+    		<property name="env.skip.test" value="true"></property>
+    	</ant>
 		<ant target="publish-local" antfile="${projects.dir}/core/ivy-build.xml" dir="${projects.dir}/core" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
-    	</ant>		
+    	</ant>
     </target>
 	
 	<target name="build-rules" depends="clean-repo, build-core" description="Builds rules">
