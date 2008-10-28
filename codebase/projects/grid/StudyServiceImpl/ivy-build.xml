@@ -39,6 +39,7 @@
 		<delete>
 			<fileset dir="${webapp.deploy.lib.dir}">
 		        <include name="c3pr-*.jar"/>
+				<include name="StudyServiceImpl*.jar"/>
 		    </fileset>
 		</delete>
 		<copy todir="${webapp.deploy.lib.dir}" preservelastmodified="true">
@@ -72,4 +73,5 @@
 		</copy>
 
 	</target>
+	
 </project>
