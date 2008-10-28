@@ -36,18 +36,14 @@ public class StudyInvestigatorsTab extends StudyTab {
     }
 
     public StudyInvestigatorsTab(boolean editMode) {
-        super("Investigators", "Investigators", editMode ? "study/study_investigators_edit"
-                : "study/study_investigators");
+        super("Investigators", "Investigators", "study/study_investigators");
     }
 
     @Override
     public Map<String, Object> referenceData(StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper); // To change body of overridden
-        // methods use File | Settings |
-        // File Templates.
+        Map<String, Object> refdata = super.referenceData(wrapper);
         addConfigMapToRefdata(refdata, "studyInvestigatorRoleRefData");
         addConfigMapToRefdata(refdata, "studyInvestigatorStatusRefData");
-
         return refdata;
     }
 

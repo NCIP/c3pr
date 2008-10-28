@@ -25,19 +25,7 @@ public class StudySitesTab extends StudyTab {
         addConfigMapToRefdata(refdata, "studySiteStatusRefData");
         addConfigMapToRefdata(refdata, "studySiteRoleCodeRefData");
         boolean isAdmin = isAdmin();
-
-        if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                .toString().equals("true"))
-                || (request.getAttribute("editFlow") != null && request.getAttribute(
-                "editFlow").toString().equals("true"))) {
-            if (request.getSession().getAttribute(DISABLE_FORM_SITES) != null && !isAdmin) {
-                refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_SITES));
-            } else {
-                refdata.put("disableForm", new Boolean(false));
-            }
-        }
         return refdata;
-
     }
 
     @Override
