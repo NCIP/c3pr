@@ -21,7 +21,6 @@
 	<!-- <import resource="/Users/kruttikagarwal/Documents/workspace/c3pr/codebase/projects/core/src/resources/edu/duke/cabig/c3pr/applicationContext*.xml"/>-->
 	
 	<bean id="c3prStudyService" class="edu.duke.cabig.c3pr.grid.studyservice.service.impl.C3PRStudyServiceImpl">
-		<property name="studyWorkflowService" ref="studyWorkflowService"/>
 		<property name="xmlMarshaller" ref="studyXmlUtility"/>
 		<property name="interceptor" ref="openSessionInViewInterceptor"/>
 		<property name="studyRepository" ref="studyRepository"/>
