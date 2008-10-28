@@ -40,12 +40,6 @@
         	<!--  ant-contrib -->
         	<dependency org="ant-contrib" name="ant-contrib" rev="1.0b2" />
         	
-        	<!-- caGRID related --> 			
-        	<dependency org="edu.duke.cabig.c3pr"
-        	name="studyService-stubs" rev="1.2" />
-        	<dependency org="edu.duke.cabig.c3pr"
-        	name="studyService-common" rev="1.2" />
-        	
         	<dependency org="ant-contrib" name="ant-contrib" rev="1.0b2" conf="test->default"/>
         </dependencies>
 </ivy-module>
