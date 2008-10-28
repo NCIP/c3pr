@@ -34,7 +34,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -240,17 +239,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
     }
 
     public void setStudySites(List<StudySite> studySites) {
-        // do nothing
+
     }
 
-    // @Transient
-    // public String getPrintStudySites() {
-    // StringBuffer s = new StringBuffer();
-    // for(StudySite ss: getStudySites()){
-    // s.append(ss.getHealthcareSite().getName());
-    // }
-    // return s.toString();
-    // }
+    
 
     @Transient
     public List<StudyFundingSponsor> getStudyFundingSponsors() {
@@ -258,7 +250,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
     }
 
     public void setStudyFundingSponsors(List<StudyFundingSponsor> studyFundingSponsors) {
-        // do nothing
+
     }
 
     @Transient
@@ -267,7 +259,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
     }
 
     public void setStudyCoordinatingCenters(List<StudyCoordinatingCenter> studyCoordinatingCenters) {
-        // do nothing
+
     }
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
@@ -291,13 +283,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
                                         StudyCoordinatingCenter.class));
     }
 
-    public void addStudyOrganization(StudyOrganization so) {
-        this.getStudyOrganizations().add(so);
-        so.setStudy(this);
+    public void addStudyOrganization(StudyOrganization studyOrganization) {
+        this.getStudyOrganizations().add(studyOrganization);
+        studyOrganization.setStudy(this);
     }
 
-    public void removeStudyOrganization(StudyOrganization so) {
-        this.getStudyOrganizations().remove(so);
+    public void removeStudyOrganization(StudyOrganization studyOrganization) {
+        this.getStudyOrganizations().remove(studyOrganization);
     }
 
     public void addEpoch(Epoch epoch) throws RuntimeException {
