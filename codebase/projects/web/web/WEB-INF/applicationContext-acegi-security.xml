@@ -231,16 +231,16 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/personAndOrganization/researchStaff/createResearchStaff.*"
                value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
         <entry key="/pages/personAndOrganization/organization/createOrganization.*"
-               value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/personAndOrganization/organization/searchOrganization"
-               value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
+               value="edu.duke.cabig.c3pr.domain.Investigator:READ"/>
         <entry key="/pages/admin/importStudy.*"
-               value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/download.*"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
         <entry key="/pages/admin/importRegistration.*"
-               value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/configure.*"
                value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
         <entry key="/pages/admin/createNotification.*"
