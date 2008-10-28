@@ -108,7 +108,7 @@ public class StudyInvestigatorsTab extends StudyTab {
             }
         }
 
-        if ("removeStudyDisease".equals(action) && studyOrg != null) {
+        if (StringUtils.equals("removeStudyDisease", action) && studyOrg != null) {
             studyOrg.getStudyInvestigators().remove(Integer.parseInt(selected));
             return;
         }
