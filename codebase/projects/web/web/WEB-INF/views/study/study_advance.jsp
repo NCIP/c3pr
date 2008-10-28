@@ -2,13 +2,6 @@
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}"/></title>
-    <script type="text/javascript">
-        function saveStudy() {
-            document.getElementById("_activate").value = "false";
-            document.getElementById("_action").value = "create";
-            document.getElementById("viewDetails").submit();
-        }
-    </script>
 </head>
 <body>
 <tags:basicFormPanelBox flow="${flow}" tab="${tab}">
@@ -29,8 +22,7 @@
     <div class="content buttons autoclear">
         <div class="flow-buttons">
             <span class="next">
-				<input type="button" value="Save" id="saveAdvanceConfig"
-                       onclick="saveStudy();"/>
+				<input type="submit" value="Save"/>
  			</span>
         </div>
     </div>
