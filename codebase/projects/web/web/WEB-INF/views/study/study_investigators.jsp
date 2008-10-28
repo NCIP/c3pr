@@ -14,27 +14,21 @@
 <title>${tab.longTitle}</title>
 
 <script type="text/javascript">
-function validatePage() {
-    return true;
+
+function saveStudy(){
+	document.getElementById("command").submit();
 }
 
 function fireAction(action, selected) {
-    if (validatePage()) {
         addDiseasesToCart()
-        document.getElementById('command')._target.name = '_noname';
         $('_actionx').value = action;
         $('_selectedSite').value = document.getElementById('site').selectedIndex;
         $('_selected').value = selected;
         document.myform.submit();
     }
-}
 
 function clearField(field) {
     field.value = "";
-}
-
-function hover(index)
-{
 }
 
 function acPostSelect(mode, selectedChoice) {
@@ -49,6 +43,7 @@ function updateSelectedDisplay(mode) {
 }
 
 function acCreate(mode) {
+
     new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
             mode.populator, {
         valueSelector: mode.valueSelector,
@@ -57,6 +52,7 @@ function acCreate(mode) {
         },
         indicator: mode.basename + "-indicator"
     })
+
     Event.observe(mode.basename + "-clear", "click", function() {
         $(mode.basename + "-selected").hide()
         $(mode.basename).value = ""
@@ -64,11 +60,11 @@ function acCreate(mode) {
     })
 }
 
-
 function updateCategories(id) {
 	if(id  == null || id  == ''){
 		id = document.getElementById('site').value;
 	}
+
     StudyAjaxFacade.matchActiveGroupsByOrganizationId(id, function(categories) {
         var sel = $("disease-sub-category")
         sel.size = categories.length < 10 ? categories.length + 2 : 10;
@@ -157,7 +153,6 @@ function addDiseasesToCart() {
         }
     }
     // Copy over [Selected Diseases MultiSelect] to [Hidden Selected Diseases MultiSelect]
-    //selectAll(diseaseSelectedHidden)
     synchronizeSelects(diseaseSelected, diseaseSelectedHidden);
 }
 
@@ -173,8 +168,7 @@ function synchronizeSelects(selectFrom, selectTo)
     }
 }
 
-function removeDiseasesFromCart()
-{
+function removeDiseasesFromCart(){
     var diseaseSelected = $("disease-sel");
     var diseaseSelectedHidden = $("disease-sel-hidden");
 
@@ -186,21 +180,17 @@ function removeDiseasesFromCart()
     }
     synchronizeSelects(diseaseSelected, diseaseSelectedHidden)
 }
-var win;
-function populateSelectsOnLoad()
-{
-    if ($('site').value.length > 0)
-    {
+
+function populateSelectsOnLoad(){
+    if ($('site').value.length > 0){
         updateCategories($('site').value);
     }
 }
 
+var win;
 Event.observe(window, "load", function() {
     $('disease-sel').style.display = 'none';
     $('disease-sel-hidden').style.display = 'none';
-
-    //acCreate(diseaseAutocompleterProps)
-    //updateSelectedDisplay(diseaseAutocompleterProps)
 
     Event.observe("disease-sub-category", "change", function() {
         showDiseases()
@@ -215,7 +205,6 @@ Event.observe(window, "load", function() {
 		win.showCenter(true);
        
 	});
-    
     populateSelectsOnLoad();
 })
 
@@ -237,7 +226,6 @@ and the controller gets the selected index via the hidden variable _selectedSite
 </c:if>
 
 <form:form method="post" name="myform" cssClass="standard">
-<tags:tabFields tab="${tab}"/>
 
 <input type="hidden" id="_actionx" name="_actionx" value="">
 <input type="hidden" id="_selected" name="_selected" value="">
@@ -359,7 +347,14 @@ and the controller gets the selected index via the hidden variable _selectedSite
 	</csmauthz:accesscontrol>
 </div>
 <br/>
-<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>  
+<div class="content buttons autoclear">
+        <div class="flow-buttons">
+            <span class="next">
+				<input type="button" value="Save" id="saveAdvanceConfig"
+                       onclick="saveStudy();"/>
+ 			</span>
+        </div>
+    </div> 
 </form:form>
 
 <div id="dummy-row" style="display:none;">

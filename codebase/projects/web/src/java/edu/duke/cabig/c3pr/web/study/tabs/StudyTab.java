@@ -166,8 +166,6 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
         request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(true));
         request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(true));
         request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(true));
-        request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(true));
-        request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(true));
         request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(true));
     }
 
@@ -178,8 +176,6 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
         request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(false));
         request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(false));
         request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(false));
-        request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(false));
-        request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(false));
         request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(false));
     }
 
