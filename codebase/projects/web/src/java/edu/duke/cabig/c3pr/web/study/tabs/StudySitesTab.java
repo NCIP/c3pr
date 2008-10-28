@@ -16,7 +16,7 @@ public class StudySitesTab extends StudyTab {
     private StudyValidator studyValidator;
 
     public StudySitesTab() {
-        super("Sites", "Sites", "study/study_studysites");
+        super("Study Sites", "Study Sites", "study/study_studysites");
     }
 
     @Override

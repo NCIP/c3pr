@@ -16,7 +16,7 @@ import java.util.Map;
 public class StudyNotificationTab extends StudyTab {
 
     public StudyNotificationTab() {
-        super("Notifications", "Notifications", "study/study_notification");
+        super("Study Notifications", "Study Notifications", "study/study_notification");
     }
 
     @Override
