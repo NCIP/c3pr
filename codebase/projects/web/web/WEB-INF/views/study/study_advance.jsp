@@ -4,7 +4,8 @@
     <title><studyTags:htmlTitle study="${command.study}"/></title>
 </head>
 <body>
-<tags:basicFormPanelBox flow="${flow}" tab="${tab}">
+<tags:panelBox>
+<form:form>
     <div class="leftpanel">
         <div class="row">
             <div class="label required-indicator">
@@ -26,7 +27,8 @@
  			</span>
         </div>
     </div>
-</tags:basicFormPanelBox>
+</form:form>
+</tags:panelBox>
 
 </body>
 </html>
