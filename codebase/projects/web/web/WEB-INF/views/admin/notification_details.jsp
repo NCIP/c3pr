@@ -320,7 +320,7 @@
 			<tr></tr>
 			<c:forEach items="${command.plannedNotifications}" var="notification" varStatus="nStatus">
 				<tr id="notification-${nStatus.index}"><td>
-				<chrome:deletableDivision id="notification-details-${nStatus.index}" title="Notification: ${notification.eventName.displayName}" divTitle="a-${nStatus.index}"
+				<chrome:deletableDivision id="notification-details-${nStatus.index}" title="${notification.eventName.displayName}" divTitle="a-${nStatus.index}"
 				onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}')">
 	
 				
@@ -505,7 +505,7 @@
 		<tr><td><chrome:deletableDivision id="notification-details-PAGE.ROW.INDEX" title="Notification Details" divTitle="a-PAGE.ROW.INDEX"
 				onclick="RowManager.deleteRow(notificationRowInserterProps,PAGE.ROW.INDEX,-1)">
 		
-		<table width="70%">
+		<table width="100%">
 			<tr>
 				<td width="10%" align="right">Event:
 	            </td>
@@ -587,21 +587,33 @@
 	        
 	        <tr><td colspan="5"><hr size="1"/></td>
 	        </tr>
+	</table>
+		    
+		    
+	<table width="100%"> 
 			<tr>
-	         	<td width="49%" align="center" colspan="2"><input type="button" value="Add Email/Name" onmouseover="this.style.cursor='pointer';"
-						onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" /> </td>
-			 	<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-	         	<td width="49%" align="center" colspan="2"><input type="button" value="Add Role" onmouseover="this.style.cursor='pointer';"
-						onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" /></td>
+				<td width="32%" align="center" colspan="1"><span style="width:40" ><input type="button" value="Add Email/Name" onmouseover="this.style.cursor='pointer';"
+								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" /> </span></td>
+				<td colspan="1" width="2%" class="divider" rowspan="2"></td>
+		        <td width="32%" align="center" colspan="1"><input type="button" value="Add Role" onmouseover="this.style.cursor='pointer';"
+							onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" /></td>
+				<td colspan="1" width="2%" class="divider" rowspan="2"></td>
+				<td width="32%" align="center" colspan="1"><input type="button" value="Add Contact" onmouseover="this.style.cursor='pointer';"
+							onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" /></td>
 		    </tr>
 		    
-		    <tr><td align="center" colspan="2">
+		    <tr><td align="center" colspan="1">
 					<table id="table1">
 					<tr></tr>				
 					</table>
 		      	</td>
-		      	<td align="center" colspan="2">      		
+		      	<td align="center" colspan="1">      		
 					<table id="table2">
+					<tr></tr>				
+					</table>
+		      	</td> 
+		      	<td align="center" colspan="1">      		
+					<table id="table3">
 					<tr></tr>				
 					</table>
 		      	</td>         
