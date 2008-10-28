@@ -21,6 +21,7 @@ function saveStudy(){
 
 function fireAction(action, selected) {
         addDiseasesToCart()
+        $('_doNotSave').value = true;
         $('_actionx').value = action;
         $('_selectedSite').value = document.getElementById('site').selectedIndex;
         $('_selected').value = selected;
@@ -227,6 +228,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 
 <form:form method="post" name="myform" cssClass="standard">
 
+<input type="hidden" id="_doNotSave" name="_doNotSave" value="">
 <input type="hidden" id="_actionx" name="_actionx" value="">
 <input type="hidden" id="_selected" name="_selected" value="">
 <input type="hidden" id="_selectedSite" name="_selectedSite" value="">
@@ -272,7 +274,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            
 			            <p id="disease-selected" style="display: none"></p>			
 			            <br><br><b>&nbsp;Select a Group</b><br>
-			            <select multiple size="1" onmouseover="javascript:hover()" style="width:400px" id="disease-sub-category">
+			            <select multiple size="1" style="width:400px" id="disease-sub-category">
 			                <option value="">Please select a Group first</option>
 			            </select>
 			

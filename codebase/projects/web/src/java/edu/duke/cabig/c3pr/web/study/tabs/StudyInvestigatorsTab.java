@@ -1,21 +1,22 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
-import org.springframework.validation.Errors;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:02:39 PM To change this template
@@ -70,12 +71,10 @@ public class StudyInvestigatorsTab extends StudyTab {
 
         if (!errors.hasErrors()) {
 
-            if ("siteChange".equals(action)) {
+            if (StringUtils.equals("siteChange", action)) {
                 request.getSession().setAttribute("_selectedSite", selectedSite);
                 return;
-            }
-
-            if ("addStudyDisease".equals(action) && studyOrg != null) {
+            }else if (StringUtils.equals("addStudyDisease", action)&& studyOrg != null) {
                 String[] studyInvestigatorIds = studyOrg.getStudyInvestigatorIds();
                 if (studyInvestigatorIds.length > 0) {
                     HealthcareSiteInvestigator healthcareSiteInvestigator = null;

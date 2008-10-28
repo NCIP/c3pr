@@ -39,6 +39,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
     private edu.duke.cabig.c3pr.utils.web.navigation.Task editTask;
 
     private XmlMarshaller xmlUtility;
+    private final String DO_NOT_SAVE = "_doNotSave" ; 
 
     public ViewStudyController() {
         super("View Study Details");
@@ -161,8 +162,9 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
     @Override
     protected boolean shouldSave(HttpServletRequest request, StudyWrapper command,
                     Tab<StudyWrapper> tab) {
-        if(WebUtils.hasSubmitParameter(request, InPlaceEditableTab.IN_PLACE_PARAM_NAME))
-            return true;
-        return false;
+        if(WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(DO_NOT_SAVE, "true")){
+            return false;
+        }
+        return true;
     }
 }
