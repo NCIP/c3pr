@@ -40,8 +40,7 @@ public class StudyPersonnelTab extends StudyTab {
     }
 
     public StudyPersonnelTab(boolean editMode) {
-        super("Personnel", "Personnel", editMode ? "study/study_personnel_edit"
-                : "study/study_personnel");
+        super("Study Personnel", "Study Personnel",  "study/study_personnel");
     }
 
     @Override

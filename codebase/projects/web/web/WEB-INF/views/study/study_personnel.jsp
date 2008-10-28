@@ -15,21 +15,15 @@
 <title>${tab.longTitle}</title>
 
 <script type="text/javascript">
-function validatePage() {
-    return true;
-}
 
 function fireAction(action, selected) {
-    if (validatePage()) {
-        
         addDiseasesToCart()
-        document.getElementById('command')._target.name = '_noname';
+         $('_doNotSave').value = true;
         $('_actionx').value = action;
         $('_selectedSite').value = document.getElementById('site').selectedIndex;
         $('_selected').value = selected;
         document.myform.submit();
     }
-}
 
 function closePopup() {
 	win.close();
@@ -162,12 +156,6 @@ Event.observe(window, "load", function() {
     $('disease-sel').style.display = 'none';
     $('disease-sel-hidden').style.display = 'none';
 
-    //acCreate(diseaseAutocompleterProps)
-    //updateSelectedDisplay(diseaseAutocompleterProps)
-
-  //  Event.observe("disease-sub-category", "change", function() {
-    //    showDiseases()
-  //  })
   	showDiseases();
 
     $('createPersonnel').observe('click', function(event) {
@@ -180,6 +168,9 @@ Event.observe(window, "load", function() {
 });
 })
 
+function saveStudy(){
+	document.getElementById("command").submit();
+}
 </script>
 </head>
 
@@ -194,8 +185,8 @@ and the controller gets the selected index via the hidden variable _selectedSite
 </c:if>
 
 <form:form method="post" name="myform" cssClass="standard">
-<tags:tabFields tab="${tab}"/>
 
+<input type="hidden" id="_doNotSave" name="_doNotSave" value="">
 <input type="hidden" id="_actionx" name="_actionx" value="">
 <input type="hidden" id="_selected" name="_selected" value="">
 <input type="hidden" id="_selectedSite" name="_selectedSite" value="">
@@ -311,7 +302,14 @@ and the controller gets the selected index via the hidden variable _selectedSite
 	</csmauthz:accesscontrol>
 </div>
 <br/>
-<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>  
+<div class="content buttons autoclear">
+        <div class="flow-buttons">
+            <span class="next">
+				<input type="button" value="Save" id="saveAdvanceConfig"
+                       onclick="saveStudy();"/>
+ 			</span>
+        </div>
+    </div> 
 </form:form>
 
 </body>

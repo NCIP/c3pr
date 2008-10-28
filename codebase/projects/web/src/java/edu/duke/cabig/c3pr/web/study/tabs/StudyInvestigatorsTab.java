@@ -37,7 +37,7 @@ public class StudyInvestigatorsTab extends StudyTab {
     }
 
     public StudyInvestigatorsTab(boolean editMode) {
-        super("Investigators", "Investigators", "study/study_investigators");
+        super("Study Investigators", "Study Investigators", "study/study_investigators");
     }
 
     @Override
