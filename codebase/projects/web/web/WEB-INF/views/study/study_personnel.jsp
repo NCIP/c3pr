@@ -268,13 +268,11 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		                            </td>
 									<td>
 		                            <form:select path="study.studyOrganizations[${selected_site}].studyPersonnel[${status.index}].roleCode" cssClass="validate-notEmpty">
-				                        <option value="">Please Select</option>
 				                       <form:options items="${studyPersonnel.researchStaff.groups}" itemLabel="displayName" itemValue="code"/>
 				                    </form:select>
 		                            </td>
 		                            <td>
 		                            <form:select path="study.studyOrganizations[${selected_site}].studyPersonnel[${status.index}].statusCode" cssClass="validate-notEmpty">
-				                        <option value="">Please Select</option>
 				                        <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
 				                    </form:select>
 		                            </td>

@@ -105,6 +105,7 @@ public class StudyPersonnelTab extends StudyTab {
                         rs = researchStaffDao.getById(new Integer(rsId).intValue());
                         if (rs != null) {
                             sPersonnel.setResearchStaff(rs);
+                            sPersonnel.setRoleCode(rs.getGroups().get(0).getDisplayName());
                             sPersonnel.setStatusCode("Active");
                             sPersonnel.setStudyOrganization(studyOrganization);
                             studyOrganization.getStudyPersonnel().add(sPersonnel);

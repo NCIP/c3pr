@@ -319,7 +319,6 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		                            </td>
 		                            <td>
 		                            <form:select path="study.studyOrganizations[${selected_site}].studyInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
-				                        <option value="">Please Select</option>
 				                        <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc"/>
 				                    </form:select>
 		                            </td>
