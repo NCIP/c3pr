@@ -161,7 +161,7 @@ Event.observe(window, "load", function() {
     $('createPersonnel').observe('click', function(event) {
     	win = new Window(
 				{title: "Create Research Staff", top:35, left:35, width:1000, height:400, zIndex:100,
-				url: "<c:url value='/pages/admin/createResearchStaff?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
+				url: "<c:url value='/pages/personAndOrganization/createResearchStaff?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
 				) 
 		win.showCenter(true);
 
