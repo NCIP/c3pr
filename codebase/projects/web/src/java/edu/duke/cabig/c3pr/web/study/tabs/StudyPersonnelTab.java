@@ -94,7 +94,6 @@ public class StudyPersonnelTab extends StudyTab {
         if (!errors.hasErrors()) {
             if (StringUtils.equals("siteChange", action)) {
                 request.getSession().setAttribute("_selectedSite", selectedSite);
-                return;
             }else if (StringUtils.equals("addStudyDisease", action) && studyOrganization != null) {
                 String[] rsIds = studyOrganization.getStudyPersonnelIds();
                 if (rsIds.length > 0) {
@@ -118,13 +117,11 @@ public class StudyPersonnelTab extends StudyTab {
                         }
                     }
                 }
-                return;
             }
         }
 
         if (StringUtils.equals("removeStudyDisease", action) && studyOrganization != null) {
             studyOrganization.getStudyPersonnel().remove(Integer.parseInt(selected));
-            return;
         }
     }
 

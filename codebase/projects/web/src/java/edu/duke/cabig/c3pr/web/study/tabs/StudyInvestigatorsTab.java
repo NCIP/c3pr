@@ -43,7 +43,6 @@ public class StudyInvestigatorsTab extends StudyTab {
     @Override
     public Map<String, Object> referenceData(StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
-        addConfigMapToRefdata(refdata, "studyInvestigatorRoleRefData");
         addConfigMapToRefdata(refdata, "studyInvestigatorStatusRefData");
         return refdata;
     }
@@ -73,7 +72,6 @@ public class StudyInvestigatorsTab extends StudyTab {
 
             if (StringUtils.equals("siteChange", action)) {
                 request.getSession().setAttribute("_selectedSite", selectedSite);
-                return;
             }else if (StringUtils.equals("addStudyDisease", action)&& studyOrg != null) {
                 String[] studyInvestigatorIds = studyOrg.getStudyInvestigatorIds();
                 if (studyInvestigatorIds.length > 0) {
@@ -104,13 +102,11 @@ public class StudyInvestigatorsTab extends StudyTab {
                         }
                     }
                 }
-                return;
             }
         }
 
         if (StringUtils.equals("removeStudyDisease", action) && studyOrg != null) {
             studyOrg.getStudyInvestigators().remove(Integer.parseInt(selected));
-            return;
         }
     }
 
