@@ -5,6 +5,11 @@
     <title><studyTags:htmlTitle study="${command.study}" /></title>
     
 <script>
+
+function saveStudy() {
+    document.getElementById("command").submit();
+}
+
             var roleRowInserterProps= {
                 add_row_division_id: "table2",
                 skeleton_row_division_id: "dummy-roleRow",
@@ -38,9 +43,8 @@
         </script>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
-	formName="form" displayErrors="false">
-	<jsp:attribute name="singleFields">
+<tags:panelBox>
+<form:form>
 		<div><input type="hidden" id="_action" name="_action" value=""></div>
 		<br />
 		<table id="notification" class="tablecontent">
@@ -120,8 +124,16 @@
 		<div align="right"><input type="button" value="Add Notification"
 			onclick="RowManager.addRow(notificationRowInserterProps);" /></div>
 		<br />
-		</jsp:attribute>
-</tags:tabForm>
+<div class="content buttons autoclear">
+        <div class="flow-buttons">
+            <span class="next">
+				<input type="button" value="Save" id="saveAdvanceConfig"
+                       onclick="saveStudy();"/>
+ 			</span>
+        </div>
+    </div>
+</form:form>
+</tags:panelBox>
 
 
 <div id="dummy-notification" style="display:none">

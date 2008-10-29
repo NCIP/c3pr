@@ -6,6 +6,11 @@
 
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
+
+function saveStudy() {
+    document.getElementById('command').submit();
+}
+
 var healthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
     populator: function(autocompleter, text) {
@@ -69,9 +74,8 @@ function manageIdentifierRadio(element){
 </script>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
-	formName="studyIdentifiersForm" displayErrors="false">
-	<jsp:attribute name="singleFields">
+<tags:panelBox>
+<form:form>
 	<tags:errors path="study.organizationAssignedIdentifiers"/> 	
 	<br>
 		<chrome:division title="Organization Assigned Identifiers">
@@ -210,10 +214,16 @@ function manageIdentifierRadio(element){
 				</div>
 
 		</chrome:division>
-	
-	</jsp:attribute>
-
-</tags:tabForm>
+	<div class="content buttons autoclear">
+        <div class="flow-buttons">
+            <span class="next">
+				<input type="button" value="Save" id="saveAdvanceConfig"
+                       onclick="saveStudy();"/>
+ 			</span>
+        </div>
+    </div>
+</form:form>
+</tags:panelBox>
 	<script>
 		$$("form .identifierRadios").each(function(e)
 										{

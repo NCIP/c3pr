@@ -3,16 +3,20 @@
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}" /></title>
-    
+    <script>
+function saveStudy() {
+    document.getElementById("command").submit();
+}
+</script>
 <%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 
 </head>
 
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm" displayErrors="false">
+<tags:panelBox>
+<form:form>
 
-    <jsp:attribute name="singleFields">
     <c:choose>
 	<c:when test="${ (empty command.study.multiInstitutionIndicator) || command.study.multiInstitutionIndicator=='false'}">
 	<script language="JavaScript" type="text/JavaScript">
@@ -261,12 +265,17 @@ RowManager.addRowInseter(instanceRowInserterProps);
 </div>
  </c:otherwise>
   </c:choose>
-    	</jsp:attribute>
 
-    	 <jsp:attribute name="localButtons">
-    </jsp:attribute>
-
-</tags:tabForm>
+<div class="content buttons autoclear">
+        <div class="flow-buttons">
+            <span class="next">
+				<input type="button" value="Save" id="saveAdvanceConfig"
+                       onclick="saveStudy();"/>
+ 			</span>
+        </div>
+    </div>
+</form:form>
+</tags:panelBox>
 <div id="dummy-row" style="display:none;">
     <table>
         <tr id="siteTable-PAGE.ROW.INDEX">
