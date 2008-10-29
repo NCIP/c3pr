@@ -357,6 +357,7 @@
           class="edu.duke.cabig.c3pr.dao.StratificationCriterionDao" autowire="byName"/>
     <bean id="anatomicSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.AnatomicSiteDao" autowire="byName"/>
     <bean id="organizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationDao" autowire="byName"/>
+    <bean id="studyOrganizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyOrganizationDao" autowire="byName"/>
     <bean id="stratificationAnswerDao" parent="daoTemplate"
           class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byName"/>
     <bean id="stratumGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratumGroupDao" autowire="byName"/>
@@ -387,13 +388,6 @@
 
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
           autowire="byName" parent="workflowService">
-    </bean>
-    
-    <bean id="multiSiteHandlerService" class="edu.duke.cabig.c3pr.service.MultiSiteHandlerService">
-    	<property name="endPointFactory" ref="endPointFactory"></property>
-    	<property name="endpointDao" ref="endpointDao"></property>
-    	<property name="exceptionHelper" ref="exceptionHelper"/>
-    	<property name="c3prErrorMessages" ref="c3prErrorMessages"></property>
     </bean>
     
     <bean id="endPointFactory" class="edu.duke.cabig.c3pr.domain.factory.EndPointFactory">

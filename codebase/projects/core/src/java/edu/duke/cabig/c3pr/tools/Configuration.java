@@ -56,9 +56,6 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> AUTHENTICATION_MODEL = PROPERTIES
                     .add(new ConfigurationProperty.Text("authenticationMode"));
 
-    public static final ConfigurationProperty<String> HOSTED_MODE = PROPERTIES
-                    .add(new ConfigurationProperty.Text("hostedMode"));
-
     public static final ConfigurationProperty<String> AUTHORIZATION_ENABLE = PROPERTIES
                     .add(new ConfigurationProperty.Text("authorizationSwitch"));
 

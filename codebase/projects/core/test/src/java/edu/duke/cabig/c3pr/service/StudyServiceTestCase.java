@@ -8,7 +8,6 @@ import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
 public class StudyServiceTestCase extends AbstractTestCase{
 
     private StudyService studyService;
-    private MultiSiteHandlerService multiSiteHandlerService;
     
     
     @Override
@@ -16,8 +15,6 @@ public class StudyServiceTestCase extends AbstractTestCase{
         // TODO Auto-generated method stub
         super.setUp();
         StudyServiceImpl studyServiceImpl=new StudyServiceImpl();
-        multiSiteHandlerService=registerMockFor(MultiSiteHandlerService.class);
-        studyServiceImpl.setMultiSiteHandlerService(multiSiteHandlerService);
         studyService=studyServiceImpl;        
     }
     

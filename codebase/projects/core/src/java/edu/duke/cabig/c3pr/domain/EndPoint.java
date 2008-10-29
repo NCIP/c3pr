@@ -88,8 +88,8 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject{
             throw new RuntimeException(e);
         }
         catch (InvocationTargetException e) {
-            error.setErrorCode("-1");
-            error.setErrorMessage(e.getMessage());
+            error.setErrorCode("500");
+            error.setErrorMessage("Error invoking "+this.apiName.getCode()+":"+e.getMessage());
             this.errors.add(error);
             this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
             throw e;

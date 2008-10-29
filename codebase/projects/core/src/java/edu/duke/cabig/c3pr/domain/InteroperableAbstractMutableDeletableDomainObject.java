@@ -93,4 +93,16 @@ public abstract class InteroperableAbstractMutableDeletableDomainObject extends 
     public void setEndpoints(List<EndPoint> endpoints) {
         this.endpoints = endpoints;
     }
+    
+    public void addEndPoint(EndPoint endPoint){
+        this.getEndpoints().add(endPoint);
+    }
+    
+    public EndPoint getEndPoint(ServiceName serviceName, APIName apiName){
+        for(EndPoint endPoint: this.endpoints){
+            if(endPoint.getServiceName()==serviceName && endPoint.getApiName()==apiName)
+                return endPoint;
+        }
+        return null;
+    }
 }

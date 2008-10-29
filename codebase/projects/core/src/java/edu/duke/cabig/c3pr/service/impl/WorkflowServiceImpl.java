@@ -7,21 +7,20 @@ import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
-import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
-import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
-import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
+import edu.duke.cabig.c3pr.dao.StudyOrganizationDao;
 import edu.duke.cabig.c3pr.domain.APIName;
+import edu.duke.cabig.c3pr.domain.EndPoint;
+import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
+import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.esb.BroadcastException;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
+import edu.duke.cabig.c3pr.domain.factory.EndPointFactory;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
-import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.CCTSWorkflowService;
-import edu.duke.cabig.c3pr.service.MultiSiteHandlerService;
 import edu.duke.cabig.c3pr.service.MultiSiteWorkflowService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
@@ -61,11 +60,9 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     
     private XMLTransformer xmlTransformer; 
     
-    private MultiSiteHandlerService multiSiteHandlerService;
-
-    public void setMultiSiteHandlerService(MultiSiteHandlerService multiSiteHandlerService) {
-        this.multiSiteHandlerService = multiSiteHandlerService;
-    }
+    private EndPointFactory endPointFactory;
+    
+    private StudyOrganizationDao studyOrganizationDao;
 
     public void setCctsXSLTName(String cctsXSLTName) {
         this.cctsXSLTName = cctsXSLTName;
@@ -237,27 +234,34 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
             StudyOrganization studyOrganization=(StudyOrganization)studyOrganizations.get(i);
             try {
                 EndPointConnectionProperty endPointProperty=multisiteServiceName==ServiceName.STUDY?studyOrganization.getHealthcareSite().getStudyEndPointProperty():studyOrganization.getHealthcareSite().getRegistrationEndPointProperty();
-                multiSiteHandlerService.handle(multisiteServiceName, multisiteAPIName, endPointProperty, domainObjects);
+                //multiSiteHandlerService.handle(multisiteServiceName, multisiteAPIName, endPointProperty, domainObjects);
+                EndPoint endPoint=studyOrganization.getEndPoint(multisiteServiceName, multisiteAPIName);
+                if(endPoint==null){
+                    endPoint=endPointFactory.newInstance(multisiteServiceName, multisiteAPIName, endPointProperty);
+                    studyOrganization.addEndPoint(endPoint);
+                }
+                endPoint.invoke(domainObjects);
                 studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
             }
-            catch (C3PRCodedException e) {
-                errorBroadcast=true;
-                log.error("Error bradcasting the message to "+studyOrganization.getHealthcareSite().getName(), e);
+            catch (Exception e) {
                 studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
             }
-        }
-        if(multisiteServiceName==ServiceName.STUDY){
-            Study study=((StudyOrganization)studyOrganizations.get(0)).getStudy();
-            if(errorBroadcast){
-                study.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
-                //study.setMultisiteErrorString("Error Broadcasting.");
+            finally{
+                studyOrganizationDao.merge(studyOrganization);
             }
-            else{
-                study.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
-                //study.setMultisiteErrorString("");
-            }
-            dao.merge(study);
         }
+//        if(multisiteServiceName==ServiceName.STUDY){
+//            Study study=((StudyOrganization)studyOrganizations.get(0)).getStudy();
+//            if(errorBroadcast){
+//                study.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+//                //study.setMultisiteErrorString("Error Broadcasting.");
+//            }
+//            else{
+//                study.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
+//                //study.setMultisiteErrorString("");
+//            }
+//            dao.merge(study);
+//        }
         
     }
     
@@ -276,4 +280,13 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     }
     
     public abstract ServiceName getMultisiteServiceName();
+
+    public void setEndPointFactory(EndPointFactory endPointFactory) {
+        this.endPointFactory = endPointFactory;
+    }
+
+    public void setStudyOrganizationDao(StudyOrganizationDao studyOrganizationDao) {
+        this.studyOrganizationDao = studyOrganizationDao;
+    }
+
 }
