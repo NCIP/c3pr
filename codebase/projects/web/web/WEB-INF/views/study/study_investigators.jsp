@@ -201,7 +201,7 @@ Event.observe(window, "load", function() {
     	
     	win = new Window(
 				{title: "Create Investigator", top:35, left:35, width:1000, height:400, zIndex:100,
-				url: "<c:url value='/pages/personAndOrganization/createInvestigator?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
+				url: "<c:url value='/pages/personAndOrganization/investigator/createInvestigator?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
 				) 
 		win.showCenter(true);
        
