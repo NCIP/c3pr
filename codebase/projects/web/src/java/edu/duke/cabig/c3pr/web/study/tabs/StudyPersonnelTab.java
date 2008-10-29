@@ -1,19 +1,24 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
-import edu.duke.cabig.c3pr.domain.*;
+import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
-import org.springframework.validation.Errors;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:11:26 PM To change this template
@@ -48,27 +53,20 @@ public class StudyPersonnelTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(wrapper);
         Study study = wrapper.getStudy();
         
-        for (int i = 0; i < study.getStudyOrganizations().size(); i++) {
-            for (int j = 0; j < study.getStudyOrganizations().get(i).getStudyPersonnel().size(); j++) {
-                try {
-                    List<String> groupRoles = new ArrayList<String>();
-                    Iterator<C3PRUserGroupType> groupIterator = personnelService.getGroups(study.getStudyOrganizations().get(i).getStudyPersonnel().get(j).getResearchStaff()).iterator();
-                    C3PRUserGroupType userGroup;
-                    while (groupIterator.hasNext()) {
-                        userGroup = groupIterator.next();
-                        groupRoles.add(userGroup.getDisplayName());
-                    }
-                    refdata.put("studyOrganizations[" + i + "].studyPersonnel[" + j + "].roleData", groupRoles);
-                }
-                catch (C3PRBaseException e) {
-                    e.printStackTrace();
-                }
-            }
+        for(StudyOrganization studyOrganization : study.getStudyOrganizations()){
+        	for(StudyPersonnel studyPersonnel : studyOrganization.getStudyPersonnel()){
+        		ResearchStaff researchStaff = studyPersonnel.getResearchStaff();
+        		List<C3PRUserGroupType> groupRoles = new ArrayList<C3PRUserGroupType>();
+        		try {
+					groupRoles = personnelService.getGroups(researchStaff);
+					researchStaff.setGroups(groupRoles);
+				} catch (C3PRBaseException e) {
+					e.printStackTrace();
+				}
+        	} 
         }
 
-        addConfigMapToRefdata(refdata, "studyPersonnelRoleRefData");
         addConfigMapToRefdata(refdata, "studyPersonnelStatusRefData");
-
         return refdata;
     }
 
@@ -101,16 +99,13 @@ public class StudyPersonnelTab extends StudyTab {
                 String[] rsIds = studyOrganization.getStudyPersonnelIds();
                 if (rsIds.length > 0) {
                     ResearchStaff rs = null;
-                    log
-                            .debug("Study PersonnelIds Size : "
-                                    + studyOrganization.getStudyPersonnelIds().length);
+                    log.debug("Study PersonnelIds Size : "+ studyOrganization.getStudyPersonnelIds().length);
                     for (String rsId : rsIds) {
                         log.debug("Research Staff Id : " + rsId);
                         StudyPersonnel sPersonnel = new StudyPersonnel();
                         rs = researchStaffDao.getById(new Integer(rsId).intValue());
                         if (rs != null) {
                             sPersonnel.setResearchStaff(rs);
-                            sPersonnel.setRoleCode("C3pr Admin");
                             sPersonnel.setStatusCode("Active");
                             sPersonnel.setStudyOrganization(studyOrganization);
                             studyOrganization.getStudyPersonnel().add(sPersonnel);
@@ -119,8 +114,7 @@ public class StudyPersonnelTab extends StudyTab {
                                 studyOrganization.getStudyPersonnel().remove(sPersonnel);
                             }
                         } else {
-                            log
-                                    .error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
+                            log.error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
                         }
                     }
                 }
