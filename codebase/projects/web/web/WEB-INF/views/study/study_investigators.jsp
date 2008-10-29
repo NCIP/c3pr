@@ -25,7 +25,6 @@ function fireAction(action, selected) {
         $('_actionx').value = action;
         $('_selectedSite').value = document.getElementById('site').selectedIndex;
         $('_selected').value = selected;
-        document.myform.submit();
     }
 
 function clearField(field) {
