@@ -66,10 +66,6 @@ public class StudyPersonnelTab extends StudyTab {
             }
         }
 
-        if (StringUtils.isBlank(request.getParameter("_selectedSite"))) {
-            refdata.put("selectedSite", 0);
-        }
-
         addConfigMapToRefdata(refdata, "studyPersonnelRoleRefData");
         addConfigMapToRefdata(refdata, "studyPersonnelStatusRefData");
 
@@ -88,28 +84,26 @@ public class StudyPersonnelTab extends StudyTab {
 
         String selected = request.getParameter("_selected");
         String action = request.getParameter("_actionx");
-        Object selectedSite = request.getParameter("_selectedSite");
-        StudyOrganization so = null;
+        String selectedSite = request.getParameter("_selectedSite");
+        StudyOrganization studyOrganization = null;
 
         // get the StudyOrganization to which we will add/remove research staff.
-        List<StudyOrganization> soList = wrapper.getStudy().getStudyOrganizations();
-        if (selectedSite != null && !selectedSite.toString().equals("")) {
-            selectedSite = request.getParameter("_selectedSite").toString();
-            so = soList.get(new Integer(selectedSite.toString()).intValue());
+        List<StudyOrganization> studyOrganizationList = wrapper.getStudy().getStudyOrganizations();
+        if (!StringUtils.isBlank(selectedSite)) {
+            studyOrganization = studyOrganizationList.get(Integer.parseInt(selectedSite));
         }
 
         if (!errors.hasErrors()) {
-
-            if ("siteChange".equals(action)) {
+            if (StringUtils.equals("siteChange", action)) {
                 request.getSession().setAttribute("_selectedSite", selectedSite);
                 return;
-            }else if ("addStudyDisease".equals(action) && so != null) {
-                String[] rsIds = so.getStudyPersonnelIds();
+            }else if (StringUtils.equals("addStudyDisease", action) && studyOrganization != null) {
+                String[] rsIds = studyOrganization.getStudyPersonnelIds();
                 if (rsIds.length > 0) {
                     ResearchStaff rs = null;
                     log
                             .debug("Study PersonnelIds Size : "
-                                    + so.getStudyPersonnelIds().length);
+                                    + studyOrganization.getStudyPersonnelIds().length);
                     for (String rsId : rsIds) {
                         log.debug("Research Staff Id : " + rsId);
                         StudyPersonnel sPersonnel = new StudyPersonnel();
@@ -118,11 +112,11 @@ public class StudyPersonnelTab extends StudyTab {
                             sPersonnel.setResearchStaff(rs);
                             sPersonnel.setRoleCode("C3pr Admin");
                             sPersonnel.setStatusCode("Active");
-                            sPersonnel.setStudyOrganization(so);
-                            so.getStudyPersonnel().add(sPersonnel);
+                            sPersonnel.setStudyOrganization(studyOrganization);
+                            studyOrganization.getStudyPersonnel().add(sPersonnel);
                             studyValidator.validateStudyPersonnel(wrapper.getStudy(), errors);
                             if (errors.hasErrors()) {
-                                so.getStudyPersonnel().remove(sPersonnel);
+                                studyOrganization.getStudyPersonnel().remove(sPersonnel);
                             }
                         } else {
                             log
@@ -134,8 +128,8 @@ public class StudyPersonnelTab extends StudyTab {
             }
         }
 
-        if ("removeStudyDisease".equals(action) && so != null) {
-            so.getStudyPersonnel().remove(Integer.parseInt(selected));
+        if (StringUtils.equals("removeStudyDisease", action) && studyOrganization != null) {
+            studyOrganization.getStudyPersonnel().remove(Integer.parseInt(selected));
             return;
         }
     }
