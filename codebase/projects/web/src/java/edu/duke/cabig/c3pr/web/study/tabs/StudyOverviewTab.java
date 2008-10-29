@@ -49,12 +49,14 @@ public class StudyOverviewTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
                     Errors errors) {
+    	Study study = wrapper.getStudy();
         if(WebUtils.hasSubmitParameter(request, "statusChange")){
             if(request.getParameter("statusChange").equals("readyToOpen")){
-                studyRepository.createStudy(wrapper.getStudy().getIdentifiers());
+                study = studyRepository.createStudy(study.getIdentifiers());
             }else if(request.getParameter("statusChange").equals("open")){
-                studyRepository.openStudy(wrapper.getStudy().getIdentifiers());
+                study = studyRepository.openStudy(study.getIdentifiers());
             }
+            wrapper.setStudy(study);
         }
     }
     
