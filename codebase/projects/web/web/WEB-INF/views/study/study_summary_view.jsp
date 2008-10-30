@@ -499,7 +499,7 @@
                 <c:if test="${!empty open}">
                     <input type="button" value="${open }"
                            onclick="changeStudyStatus('open')"/>
-					<input type="button" value="${open }"
+					<input type="button" value="Create Study"
                            onclick="changeStudyStatus('readyToOpen')"/>
                 </c:if>
             </csmauthz:accesscontrol>
