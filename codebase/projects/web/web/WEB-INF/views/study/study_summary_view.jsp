@@ -499,6 +499,8 @@
                 <c:if test="${!empty open}">
                     <input type="button" value="${open }"
                            onclick="changeStudyStatus('open')"/>
+					<input type="button" value="${open }"
+                           onclick="changeStudyStatus('readyToOpen')"/>
                 </c:if>
             </csmauthz:accesscontrol>
                 <c:choose>
@@ -524,9 +526,16 @@
         </span>
         </div>
     </div>
+</c:if >
+<c:if test="${not empty flowType}">
+<div class="content buttons autoclear">
+    <div class="flow-buttons"><span class="next">
+				<input type="button" value="Manage" id="manageStudy"
+                       onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
+ 			</span></div>
+</div>
 </c:if>
 <br/>
-
 <div align="right">
     <input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
 </div>
