@@ -941,7 +941,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
         if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING) {
             this.readyToOpen();
         }
-        if(!(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_TO_OPEN
+        if(!(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_TO_OPEN 
+        				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING
                         || this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
                         || this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)){
             throw getC3PRExceptionHelper().getRuntimeException(
