@@ -161,6 +161,23 @@ This is the install config for c3pr2.5 installer
         <hidden property="ctmsi.commons.version" value="@ctmsi.commons.version@"/>
         <hidden property="rules.repository" value="file://${rules.repository.dir}"/>
     </page>
+    
+    <page
+            type="input"
+            name="inputTimeOut"
+            displayText="ESB"
+            ifTarget="deploy-webapp">
+        <text
+                property="esb.timeout"
+                displayText="ESB Timeout (in seconds)"
+                defaultValue="120"/>
+
+        <comment/>
+
+        <comment
+                displayText="Note: This is the caXchange timeout"
+                bold="true"/>
+    </page>
 
     <!--CSM configure-->
     <page
