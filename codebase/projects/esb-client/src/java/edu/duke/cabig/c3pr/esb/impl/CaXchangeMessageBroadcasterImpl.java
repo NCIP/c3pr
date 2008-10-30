@@ -17,6 +17,7 @@ import org.acegisecurity.Authentication;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.context.SecurityContextImpl;
+import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI;
 import org.apache.log4j.Logger;
 import org.globus.gsi.GlobusCredential;
@@ -40,8 +41,6 @@ import gov.nih.nci.cagrid.caxchange.context.client.CaXchangeResponseServiceClien
 import gov.nih.nci.cagrid.caxchange.context.stubs.types.CaXchangeResponseServiceReference;
 import gov.nih.nci.caxchange.Credentials;
 import gov.nih.nci.caxchange.Message;
-import gov.nih.nci.caxchange.MessagePayload;
-import gov.nih.nci.caxchange.MessageTypes;
 import gov.nih.nci.caxchange.Metadata;
 import gov.nih.nci.caxchange.Operations;
 import gov.nih.nci.caxchange.ResponseMessage;
@@ -70,7 +69,13 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
     private Logger log = Logger.getLogger(CaXchangeMessageBroadcasterImpl.class);
     private MessageWorkflowCallback messageWorkflowCallback;
+    
 
+    private int timeout;
+    
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
 
     /**
      * Will just use a dummy id to broadcast message
@@ -95,11 +100,10 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         Credentials creds = new Credentials();
         creds.setUserName("hmarwaha");
         creds.setPassword("password");
-
+        GlobusCredential proxy = null;
         try {
 
 
-            GlobusCredential proxy = null;
             // if a provider is registered then use it to get credentials
             if (delegatedCredentialProvider != null) {
                 log.debug("Using delegated crential provider to set credentials");
@@ -157,12 +161,14 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             throw new BroadcastException("caXchange could not process message", e);
         }
 
+        //logging epr info
+        logEPR(responseRef.getEndpointReference());
         //check on the response asynchronously
         //only if someone is interested
         if (messageWorkflowCallback != null || messageResponseHandlers.size() > 0) {
             log.debug("Will track response from caXchange");
             try {
-                FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef,messageWorkflowCallback, externalId),SecurityContextHolder.getContext().getAuthentication());
+                FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef,messageWorkflowCallback, externalId,proxy, timeout),SecurityContextHolder.getContext().getAuthentication());
                 //ToDo make this like a global service not single thread executor
                 ExecutorService es = Executors.newSingleThreadExecutor();
                 es.submit(asyncTask);
@@ -312,11 +318,13 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         String objectId;
         private MessageWorkflowCallback messageWorkflowCallback;
         private long startTime;
+        private int timeout;
 
-        public SynchronousResponseProcessor(CaXchangeResponseServiceReference responseRef, MessageWorkflowCallback messageWorkflowCallback, String objectId) throws org.apache.axis.types.URI.MalformedURIException, RemoteException {
-            responseService = new CaXchangeResponseServiceClient(responseRef.getEndpointReference());
+        public SynchronousResponseProcessor(CaXchangeResponseServiceReference responseRef, MessageWorkflowCallback messageWorkflowCallback, String objectId, GlobusCredential proxy, int timeout) throws org.apache.axis.types.URI.MalformedURIException, RemoteException {
+            responseService = new CaXchangeResponseServiceClient(responseRef.getEndpointReference(),proxy);
             this.messageWorkflowCallback=messageWorkflowCallback;
             this.objectId=objectId;
+            this.timeout=timeout;
         }
 
 
@@ -327,7 +335,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             }
             long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
             log.debug("Elapsed time : " + elapsedTime + " seconds");
-            if (elapsedTime > 60) {
+            if (elapsedTime > timeout) {
                 log.debug("Giving up. caXchange never returned a response for more than 60 seconds. Recording Error.");
                 ResponseErrors<CCTSApplicationNames> errors= new ResponseErrors<CCTSApplicationNames>();
                 errors.addError(CCTSApplicationNames.CAXCHANGE, "Timedout. No response from caXchange.");
@@ -340,6 +348,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
                 return responseService.getResponse();
             } catch (RemoteException e) {
                 //sleep for 3 seconds and check again
+                log.error("Remote Exchange from EPR"+e.getMessage(),e);
                 Thread.sleep(3000);
                 return call();
             }
@@ -352,4 +361,20 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         }
     }
 
+    private void logEPR(EndpointReferenceType endpointReference){
+      //logging epr info
+        log.debug("logging EPR info..");
+        log.debug(endpointReference.getAddress());
+        log.debug(endpointReference.getAddress().toString());
+        log.debug(endpointReference.getAddress().getHost());
+        log.debug(endpointReference.getAddress().getPath());
+        log.debug(endpointReference.getAddress().getFragment());
+        log.debug(endpointReference.getAddress().getQueryString());
+        log.debug(endpointReference.getAddress().getRegBasedAuthority());
+        log.debug(endpointReference.getAddress().getScheme());
+        log.debug(endpointReference.getAddress().getSchemeSpecificPart());
+        log.debug(endpointReference.getAddress().getUserinfo());
+        log.debug(endpointReference.getAddress().getPort());
+        
+    }
 }
