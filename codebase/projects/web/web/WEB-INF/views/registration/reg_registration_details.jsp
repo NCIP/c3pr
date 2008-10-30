@@ -91,11 +91,11 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
-		<td class="label" width="50%">Informed Consent Signed Date:</td>
+		<td class="label required-indicator" width="50%">Informed Consent Signed Date:</td>
 		<td><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></td>
 	</tr>
 	<tr>
-		<td class="label">Current Consent Version is <em>${command.studySubject.studySite.study.consentVersion}</em>:</td>
+		<td class="label required-indicator">Current Consent Version is <em>${command.studySubject.studySite.study.consentVersion}</em>:</td>
 		<td><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
 				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></td>
 	</tr>
