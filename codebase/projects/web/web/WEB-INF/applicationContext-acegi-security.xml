@@ -233,7 +233,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/personAndOrganization/organization/createOrganization.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/personAndOrganization/organization/searchOrganization"
-               value="edu.duke.cabig.c3pr.domain.Investigator:READ"/>
+               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/importStudy.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/download.*"
