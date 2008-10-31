@@ -72,7 +72,7 @@
 			</healthcareSite>
 			<studyInvestigator>
 				<roleCode>Principal Investigator</roleCode>
-				<statusCode>Active</statusCode>
+				<statusCode>Open</statusCode>
 				<healthcareSiteInvestigator>
 					<investigator>
 						<nciIdentifier>nci-10012</nciIdentifier>
