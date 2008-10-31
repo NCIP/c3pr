@@ -23,6 +23,13 @@ document.getElementById("viewDetails").submit();
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
 <chrome:box title="Study Summary">
+<div>
+    <input type="hidden" name="_finish" value="true"/>
+    <div>
+    <input type="hidden" name="_activate" id="_activate" value="false"/>
+    <input type="hidden" name="_action" id="_action"/>
+</div>
+</div>
 <tags:errors path="*"/>
 <chrome:division id="study-details" title="Basic Details">
     <table class="tablecontent" width="60%">
