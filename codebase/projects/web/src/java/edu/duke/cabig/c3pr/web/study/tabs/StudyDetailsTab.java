@@ -8,10 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.AmendStudyController;
@@ -28,12 +36,25 @@ public class StudyDetailsTab extends StudyTab {
     private StudyValidator studyValidator;
 
     private StudyDao studyDao;
+    
+    private HealthcareSiteDao healthcareSiteDao;
+    
+    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
-    public StudyDetailsTab() {
+	public void setHealthcareSiteInvestigatorDao(
+			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
+		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+	}
+
+	public StudyDetailsTab() {
         super("Details", "Details", "study/study_details");
     }
 
-    public ModelAndView embedCompanion(HttpServletRequest request, Object commandObj,
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public ModelAndView embedCompanion(HttpServletRequest request, Object commandObj,
                                        Errors error) {
         int rowCount = Integer.parseInt(request.getParameter("rowCount"));
         Study parentStudy = getParentStudy(request);
@@ -136,6 +157,53 @@ public class StudyDetailsTab extends StudyTab {
             }
 
         }
+        if((request.getParameter("piCoCenter-hidden")!=null && !request.getParameter("piCoCenter-hidden").equals("") )&& request.getParameter("hcsInvestigator-hidden")!=null && !request.getParameter("hcsInvestigator-hidden").equals(""))  {	
+        	
+        	HealthcareSiteInvestigator healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(Integer.parseInt(request.getParameter("hcsInvestigator-hidden")));
+			boolean invExists = false;
+        	
+        	if (study.getStudyCoordinatingCenters().get(0).getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
+        		if(!study.getStudyCoordinatingCenters().get(0).ifStudyInvestigatorExists(healthcareSiteInvestigator)){
+        			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
+						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigatorsInternal().remove(study.getPrincipalInvestigator());
+					}
+        			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
+	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
+					study.getStudyCoordinatingCenters().get(0).addStudyInvestigator(studyInvestigator);
+        		}
+        	} else { 
+        		boolean siteExists=false;
+        		for(StudySite studySite:study.getStudySites()){
+        			if(studySite.getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
+        				if (!studySite.ifStudyInvestigatorExists(healthcareSiteInvestigator)) {
+        					if(study.getPrincipalInvestigatorStudyOrganization()!=null){
+        						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
+        					}
+        					StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
+							healthcareSiteInvestigator
+									.addStudyInvestigator(studyInvestigator);
+							studySite.addStudyInvestigator(studyInvestigator);
+							study.addStudySite(studySite);
+						}
+						siteExists=true;
+        			} 
+        		}
+        		
+        		if(!siteExists){
+        			StudySite studySite = new StudySite();
+        			studySite.setHealthcareSite(healthcareSiteInvestigator.getHealthcareSite());
+        			studySite.setRoleCode("Affiliate Site");
+        			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
+						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalInvestigator());
+					}
+        			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
+	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
+	        		studySite.addStudyInvestigator(studyInvestigator);
+	        		
+					study.addStudySite(studySite);
+        		} 
+        	} 
+        }
         updateRandomization(study);
         updateStratification(study);
         wrapper.setStudy(study);
@@ -143,14 +211,25 @@ public class StudyDetailsTab extends StudyTab {
         	studyDao.refreshFundingSposorIdentifier(study);
         }*/
     }
+    
+    
+    public StudyInvestigator buildPrincipalInvestigator(){
+    	
+    	StudyInvestigator studyInvestigator = new StudyInvestigator();
+		studyInvestigator.setRoleCode("Principal Investigator");
+		studyInvestigator.setStatusCode("Active");
+		return studyInvestigator;
+    }
 
     @Override
     public void validate(StudyWrapper wrapper, Errors errors) {
         super.validate(wrapper, errors);
         studyValidator.validateStudyCoordinatingCetnterIdentifier(wrapper.getStudy(), errors);
         studyValidator.validateStudyFundingSponsorIdentifier(wrapper.getStudy(), errors);
+        studyValidator.validateStudyInvestigators(wrapper.getStudy(), errors);
 
     }
+    
 
     public StudyValidator getStudyValidator() {
         return studyValidator;
@@ -163,4 +242,5 @@ public class StudyDetailsTab extends StudyTab {
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
     }
+    
 }
