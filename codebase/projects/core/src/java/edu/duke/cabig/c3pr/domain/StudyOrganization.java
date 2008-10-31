@@ -188,4 +188,14 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     public List<EndPoint> getEndpoints() {
         return endpoints;
     }
+    
+    @Transient
+    public boolean ifStudyInvestigatorExists(HealthcareSiteInvestigator healthcareInvestigator){
+    	for (StudyInvestigator studyInvestigator:getStudyInvestigators()){
+    		if (studyInvestigator.getHealthcareSiteInvestigator().equals(healthcareInvestigator)){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 }
