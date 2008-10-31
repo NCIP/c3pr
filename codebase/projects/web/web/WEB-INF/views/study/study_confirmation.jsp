@@ -69,7 +69,7 @@
 		    </table>
 	    </chrome:box>
 	    </div>
-		<div <c:if test="${command.study.companionIndicator=='false' || (command.study.companionIndicator=='true' && command.study.standaloneIndicator=='true')}">style="display:none;"</c:if>>
+		<div <c:if test="${command.study.companionIndicator=='false' || (command.study.companionIndicator=='true' && (command.study.standaloneIndicator=='true' || fn:length(command.study.companionStudyAssociations) == 0))}">style="display:none;"</c:if>>
 	    <chrome:box title="Parent Study" autopad="true">
 		    <table class="tablecontent" width="60%">
 		        <tr>
