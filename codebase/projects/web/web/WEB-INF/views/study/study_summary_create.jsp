@@ -3,6 +3,20 @@
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}"/></title>
+<script>
+
+function activateAndSaveStudy(){
+document.getElementById("_activate").value="true";
+document.getElementById("_action").value="open";
+document.getElementById("viewDetails").submit();
+}
+
+function createStudy(){
+document.getElementById("_activate").value="false";
+document.getElementById("_action").value="create";
+document.getElementById("viewDetails").submit();
+}
+</script>
 </head>
 
 <body>
@@ -203,13 +217,12 @@
     <br>
 </chrome:division>
 <div class="content buttons autoclear">
-    <div class="flow-buttons"><span class="next">
-				<input type="button" value="Manage" id="manageStudy"
-                       onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
-				<input type="button" value="Done" id="gotoHome"
-                       onclick="javascript:document.location='<c:url value='/pages/dashboard' />'"/>
+			<div class="flow-buttons"><span class="next"> 
+				<input type="button" value="Open" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
+				<input type="button" value="Create" id="createButtonDisplayDiv" onclick="createStudy();return false;"/>
+				<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
  			</span></div>
-</div>
+			</div>
 </chrome:box>
 </form:form>
 </body>
