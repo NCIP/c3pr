@@ -322,7 +322,6 @@
         </field>
     </class>
 
-
     <class name="edu.duke.cabig.c3pr.domain.Study">
         <map-to xml="study" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="gridId" type="string">
@@ -350,6 +349,10 @@
         <field name="standaloneIndicator" type="boolean">
             <bind-xml name="standaloneIndicator" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>          
+         <field name="companionIndicator" type="boolean">
+            <bind-xml name="companionIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>   
         </field>
         <field name="shortTitleText" type="string">
             <bind-xml name="shortTitleText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -401,6 +404,34 @@
                collection="collection" get-method="getStudyOrganizations" set-method="addStudyOrganization">
             <bind-xml node="element"
                       auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+         <field name="companionStudyAssociations" type="edu.duke.cabig.c3pr.domain.CompanionStudyAssociation"
+               collection="collection" get-method="getCompanionStudyAssociations" set-method="addCompanionStudyAssociation">
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+    
+     <class name="edu.duke.cabig.c3pr.domain.CompanionStudyAssociation">
+        <map-to xml="companionStudy" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="gridId" type="string">
+            <bind-xml name="gridId" node="attribute"/>
+        </field>
+        <field name="version" type="integer">
+            <bind-xml name="version" node="attribute"/>
+        </field>
+        <field name="companionStudy" type="edu.duke.cabig.c3pr.domain.Study">
+            <bind-xml name="companionStudy" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="mandatoryIndicator" type="boolean">
+            <bind-xml name="mandatoryIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="parentStudy" type="edu.duke.cabig.c3pr.domain.Study">
+            <bind-xml name="parentStudy" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
