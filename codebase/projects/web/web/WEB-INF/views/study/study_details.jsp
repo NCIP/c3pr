@@ -129,7 +129,7 @@
 			}
 		}
 		
-		<%--var piCoCenterAutocompleterProps = {
+		var piCoCenterAutocompleterProps = {
             basename: "piCoCenter",
             populator: function(autocompleter, text) {
                 StudyAjaxFacade.matchHealthcareSites(text,function(values) {
@@ -141,16 +141,14 @@
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=piCoCenterAutocompleterProps.basename+"-hidden"
-    								hiddenField1=piCoCenterAutocompleterProps.basename+"-hidden1"
 	    							$(hiddenField).value=selectedChoice.id;
-	    							$(hiddenField1).value=selectedChoice.id;
 			}
-		}--%>
+		}
        
         var principalInvestigatorAutocompleterProps = {
-            basename: "investigator0",
+            basename: "hcsInvestigator",
             populator: function(autocompleter, text) {
-                StudyAjaxFacade.matchStudyOrganizationInvestigatorsGivenOrganizationId(text,document.getElementById("coCenter-hidden").value, function(values) {
+                StudyAjaxFacade.matchStudyOrganizationInvestigatorsGivenOrganizationId(text,document.getElementById("piCoCenter-hidden").value, function(values) {
                     autocompleter.setChoices(values)
                 })
             },
@@ -165,7 +163,7 @@
         
         AutocompleterManager.addAutocompleter(coCenterAutocompleterProps);
         AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
-        <%--AutocompleterManager.addAutocompleter(piCoCenterAutocompleterProps);--%>
+        AutocompleterManager.addAutocompleter(piCoCenterAutocompleterProps);
 	    AutocompleterManager.addAutocompleter(principalInvestigatorAutocompleterProps);
 
 		function disableRandomizationForCompanion(companionIndicator){
@@ -371,52 +369,26 @@
             	<div class="leftpanel">
                 	 <div class="row">
 		                        <div class="label required-indicator">Name:</div>
-		                        <div class="value">
-<c:set var="_codeCoord" value="" />
-<c:set var="_nameCoord" value="" />
-
-<c:if test="${fn:length(command.study.studyCoordinatingCenters)>0}">				
-<c:set var="_codeCoord" value="(${command.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode})" />
-<c:set var="_nameCoord" value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" />
-</c:if>
-
-<input type="hidden" id="coCenter-hidden"
-								name="study.studyCoordinatingCenters[0].healthcareSite"
-								value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" />
-								<input type="hidden" id="coCenter-hidden1"
-									name="study.organizationAssignedIdentifiers[0].healthcareSite"
-									value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-								<input id="coCenter-input" size="38" type="text" name="abcxyz"
-				value="${_nameCoord} ${_codeCoord }"
-				class="autocomplete validate-notEmpty" />
-								<tags:hoverHint keyProp="study.healthcareSite.name"/>
-							<tags:indicator id="coCenter-indicator" />
-							<div id="coCenter-choices" class="autocomplete" style="display:none;"></div>
-							</div>
-                    </div>	
-                    <div class="row">
-	                       <div class="label required-indicator">Principal Investigator:</div>
-	                       <div class="value">
-<c:set var="_codeInv" value="" />
-<c:set var="_nameInv" value="" />
-
-<c:if test="${fn:length(command.study.studyCoordinatingCenters[0].studyInvestigators)>0}">				
-<c:set var="_codeInv" value="(${command.study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.nciIdentifier})" />
-<c:set var="_nameInv" value="${command.study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" />
-</c:if>
-
- <form:hidden id="investigator0-hidden"
-                                path="study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
-		                   		<input type="text" id="investigator0-input" size="30"
-		                          		value="${_nameInv} ${_codeInv }" class="autocomplete validate-notEmpty"/>
-		                   		<tags:indicator id="investigator0-indicator"/>
-		                   		<div id="investigator0-choices" class="autocomplete" style="display:none;"></div>
-		                   		<input type="hidden" name="study.studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
-								  		value="Principal Investigator"/>
-						   		<input type="hidden" name="study.studyCoordinatingCenters[0].studyInvestigators[0].statusCode" value="Active"/>
-						   		<tags:hoverHint keyProp="study.healthcareSiteInvestigator"/>
-	                		</div>
-	            	</div>			 
+						                        <div class="value">
+									<c:set var="_codeCoord" value="" />
+									<c:set var="_nameCoord" value="" />
+									
+									<c:if test="${fn:length(command.study.studyCoordinatingCenters)>0}">				
+										<c:set var="_codeCoord" value="(${command.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode})" />
+										<c:set var="_nameCoord" value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" />
+									</c:if>
+					
+									<input type="hidden" id="coCenter-hidden" name="study.studyCoordinatingCenters[0].healthcareSite"
+													value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" />
+									<input type="hidden" id="coCenter-hidden1"
+														name="study.organizationAssignedIdentifiers[0].healthcareSite"
+														value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+									<input id="coCenter-input" size="38" type="text" name="abcxyz" value="${_nameCoord} ${_codeCoord }" class="autocomplete validate-notEmpty" />
+									<tags:hoverHint keyProp="study.healthcareSite.name"/>
+									<tags:indicator id="coCenter-indicator" />
+									<div id="coCenter-choices" class="autocomplete" style="display:none;"></div>
+								</div>
+				      </div>	
 			    </div>
 			    
 				<div class="rightpanel">
@@ -459,7 +431,7 @@
 <c:set var="_name" value="${command.study.studyFundingSponsors[0].healthcareSite.name}" />
 </c:if>
 
-            	<input type="text" id="healthcareSite-input" size="35"
+            	<input type="text" id="healthcareSite-input" size="38"
             		name="aaaxxx" 
             		value='<c:out value="${_name} ${_code}" />'
             		class="autocomplete" />
@@ -493,44 +465,51 @@
    </div>
 </chrome:division>
 
-<%-- <chrome:division title="Principal Investigator">
+<chrome:division title="Principal Investigator">
+<tags:errors path="study.studyOrganizations[0].studyInvestigators"/> 
     <div id="principalInvestigator">
-    <div class="leftpanel">
-  				<div class="row">
-                        <div class="label">Name:</div>
-                        <div class="value"><input type="hidden" id="piCoCenter-hidden"
-						name="studyCoordinatingCenters[0].healthcareSite"
-						value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" />
-						<input type="hidden" id="piCoCenter-hidden1"
-							name="organizationAssignedIdentifiers[0].healthcareSite"
-							value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-						<input id="piCoCenter-input" size="50" type="text"
-						name="studyCoordinatingCenters[0].healthcareSite.name"
-						value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" class="autocomplete" />
-						<tags:indicator id="piCoCenter-indicator" />
-						<div id="piCoCenter-choices" class="autocomplete" style="display:none;"></div>
-						</div>
-                   </div> 
-
-    </div>
-	<div class="rightpanel">               
-         					
-				 <div class="row">
-	                        <div class="label">Principal Investigator:</div>
-	                       <div class="value"> <form:hidden id="investigator0-hidden"
-                                path="study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
-                   <input type="text" id="investigator0-input" size="30"
-                          value="${command.study.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" class="autocomplete"/>
-                   <tags:indicator id="investigator0-indicator"/>
-                   <div id="investigator0-choices" class="autocomplete" style="display:none;"></div>
-                   <input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
-					value="Principal Investigator"/>
-					<input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].statusCode" value="Active"/>
-                   </div>            
-          </div>
+	    <div class="leftpanel">
+	  				<div class="row">
+							<c:set var="_codeOrgPI" value="" />
+							<c:set var="_nameOrgPI" value="" />
+							
+							<c:if test="${command.study.principalInvestigatorStudyOrganization != null}">				
+								<c:set var="_codeOrgPI" value="(${command.study.principalInvestigatorStudyOrganization.healthcareSite.nciInstituteCode})" />
+								<c:set var="_nameOrgPI" value="${command.study.principalInvestigatorStudyOrganization.healthcareSite.name}" />
+							</c:if>
+	                        <div class="label required-indicator">Organization:</div>
+	                        <div class="value"><input type="hidden" id="piCoCenter-hidden"
+							name="piCoCenter-hidden" value="${command.study.id==null?"":command.study.principalInvestigatorStudyOrganization.healthcareSite.id}"/>
+							<input id="piCoCenter-input" size="38" type="text"
+							name="xyzabc"  value='<c:out value="${_nameOrgPI} ${_codeOrgPI}" />' class="autocomplete validate-notEmpty"/>
+							<tags:indicator id="piCoCenter-indicator" />
+							<div id="piCoCenter-choices" class="autocomplete" style="display:none;"></div>
+							</div>
+	                   </div> 
+	
+	    </div>
+		<div class="rightpanel">               
+	         					
+					 <div class="row">
+								<c:set var="_codePI" value="" />
+								<c:set var="_namePI" value="" />
+								
+								<c:if test="${command.study.principalInvestigatorStudyOrganization != null}">				
+									<c:set var="_codePI" value="(${command.study.principalInvestigator.investigator.nciIdentifier})" />
+									<c:set var="_namePI" value="${command.study.principalInvestigatorFullName}" />
+								</c:if>
+		                        <div class="label required-indicator">Principal Investigator:</div>
+		                        <div class="value"> <input type="hidden" id="hcsInvestigator-hidden"
+	                               name="hcsInvestigator-hidden" value="${command.study.id==null?"":command.study.principalInvestigator.id}"/>
+			                   <input type="text" id="hcsInvestigator-input" size="30"
+										value="<c:out value="${_namePI} ${_codePI}"></c:out>" class="autocomplete validate-notEmpty"/>
+			                   <tags:indicator id="hcsInvestigator-indicator"/>
+			                   <div id="hcsInvestigator-choices" class="autocomplete" style="display:none;"></div>
+	                 </div>            
+	    </div>
     </div>
 </chrome:division>
---%>
+
 <div <c:if test="${(!empty param.embeddedStudy)}">style="display:none;"</c:if>>
 	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 </div>
