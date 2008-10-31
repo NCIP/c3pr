@@ -227,6 +227,10 @@ document.getElementById("viewDetails").submit();
 			<div class="flow-buttons"><span class="next"> 
 				<input type="button" value="Open" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
 				<input type="button" value="Create" id="createButtonDisplayDiv" onclick="createStudy();return false;"/>
+<input type="button" value="Manage" id="manageStudy"
+                       onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
+				<input type="button" value="Done" id="gotoHome"
+                       onclick="javascript:document.location='<c:url value='/pages/dashboard' />'"/>
  			</span></div>
 			</div>
 </chrome:box>
