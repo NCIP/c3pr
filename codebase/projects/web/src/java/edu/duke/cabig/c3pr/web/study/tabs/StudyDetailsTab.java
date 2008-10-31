@@ -165,7 +165,7 @@ public class StudyDetailsTab extends StudyTab {
         	if (study.getStudyCoordinatingCenters().get(0).getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
         		if(!study.getStudyCoordinatingCenters().get(0).ifStudyInvestigatorExists(healthcareSiteInvestigator)){
         			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
-						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigatorsInternal().remove(study.getPrincipalInvestigator());
+			//			study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigatorsInternal().remove(study.getPrincipalStudyInvestigator());
 					}
         			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
 	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
@@ -177,7 +177,7 @@ public class StudyDetailsTab extends StudyTab {
         			if(studySite.getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
         				if (!studySite.ifStudyInvestigatorExists(healthcareSiteInvestigator)) {
         					if(study.getPrincipalInvestigatorStudyOrganization()!=null){
-        						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
+       // 						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
         					}
         					StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
 							healthcareSiteInvestigator
@@ -194,7 +194,7 @@ public class StudyDetailsTab extends StudyTab {
         			studySite.setHealthcareSite(healthcareSiteInvestigator.getHealthcareSite());
         			studySite.setRoleCode("Affiliate Site");
         			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
-						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalInvestigator());
+			//			study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
 					}
         			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
 	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
