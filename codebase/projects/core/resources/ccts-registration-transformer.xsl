@@ -8,12 +8,10 @@
         </xsl:copy>
     </xsl:template>
     <xsl:template match="c3pr:scheduledEpoch">
-        <xsl:choose>
-            <xsl:when test="./c3pr:epoch/c3pr:treatmentIndicator = 'true'">
                 <scheduledEpoch
                     xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:type="ScheduledTreatmentEpochType">
+                    xsi:type="ScheduledEpochType">
                     <xsl:attribute name="gridId">
                         <xsl:value-of select="@gridId"/>
                     </xsl:attribute>
@@ -25,33 +23,13 @@
                         <xsl:copy-of select="./c3pr:epoch/c3pr:name"/>
                         <xsl:copy-of select="./c3pr:epoch/c3pr:descriptionText"/>
                         <xsl:copy-of select="./c3pr:epoch/c3pr:arm"/>
-                    </epoch>
-                    <xsl:copy-of select="./c3pr:scheduledArm"/>
-                    <xsl:copy-of select="./c3pr:eligibilityIndicator"/>
-                </scheduledEpoch>
-            </xsl:when>
-            <xsl:when test="./c3pr:epoch/c3pr:treatmentIndicator = 'false'">
-                <scheduledEpoch
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:type="ScheduledNonTreatmentEpochType">
-                    <xsl:attribute name="gridId">
-                        <xsl:value-of select="@gridId"/>
-                    </xsl:attribute>
-                    <xsl:copy-of select="./c3pr:startDate"/>
-                    <epoch xsi:type="NonTreatmentEpochType">
-                        <xsl:attribute name="gridId">
-                            <xsl:value-of select="@gridId"/>
-                        </xsl:attribute>
-                        <xsl:copy-of select="./c3pr:epoch/c3pr:name"/>
-                        <xsl:copy-of select="./c3pr:epoch/c3pr:descriptionText"/>
                         <xsl:copy-of select="./c3pr:epoch/c3pr:accrualCeiling"/>
                         <xsl:copy-of select="./c3pr:epoch/c3pr:accrualIndicator"/>
                         <xsl:copy-of select="./c3pr:epoch/c3pr:reservationIndicator"/>
                         <xsl:copy-of select="./c3pr:epoch/c3pr:enrollmentIndicator"/>
                     </epoch>
+                    <xsl:copy-of select="./c3pr:scheduledArm"/>
+                    <xsl:copy-of select="./c3pr:eligibilityIndicator"/>
                 </scheduledEpoch>
-            </xsl:when>
-        </xsl:choose>
-
     </xsl:template>
 </xsl:stylesheet>
