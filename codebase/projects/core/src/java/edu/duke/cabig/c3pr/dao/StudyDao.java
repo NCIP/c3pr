@@ -34,6 +34,7 @@ import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -104,13 +105,41 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 
     @Transactional(readOnly = false)
     public Study merge(Study study) {
-        return (Study) getHibernateTemplate().merge(study);
+    	study = modifyStudy(study);
+    	return (Study) getHibernateTemplate().merge(study);
     }
 
     @Transactional(readOnly = false)
     public void save(Study study) {
+    	study = modifyStudy(study);
         getHibernateTemplate().saveOrUpdate(study);
     }
+    
+
+    private Study modifyStudy(Study study) {
+    	if(study.hasCompanions()){
+    		List<StudySite> studySites = study.getStudySites();
+    		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+    			Study companionStudy = companionStudyAssociation.getCompanionStudy();
+    			for(StudySite studySite : studySites){
+    				List<StudySite> companionStudySites = companionStudy.getStudySites();
+    				List<HealthcareSite> healthcareSiteList = new ArrayList<HealthcareSite>();
+    				for(StudySite companionStudySite : companionStudySites){
+    					healthcareSiteList.add(companionStudySite.getHealthcareSite());
+    				}
+    				if(!healthcareSiteList.contains(studySite.getHealthcareSite())){
+    					StudySite newStudySite = new StudySite();
+						newStudySite.setHealthcareSite(studySite.getHealthcareSite());
+						newStudySite.setStudy(companionStudy);
+						newStudySite.setIrbApprovalDate(studySite.getIrbApprovalDate());
+						newStudySite.setStartDate(studySite.getStartDate());
+						companionStudySites.add(newStudySite);
+    				}
+    			}
+    		}
+    	}
+    	return study;
+	}
     
     @Transactional(readOnly = false)
     public void load(Study study, int i ) {

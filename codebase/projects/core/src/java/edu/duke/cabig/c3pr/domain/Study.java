@@ -714,7 +714,17 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
         }
         return false;
     }
-
+    
+    @Transient
+    public boolean hasCompanions() {
+    	List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+    	companionStudyAssociations.addAll(this.getCompanionStudyAssociations());
+    	if(companionStudyAssociations.size() > 0){
+    		return true ;
+    	}
+    	return false;
+    }
+    
     @Transient
     public boolean hasRandomizedEpoch() {
         for (Epoch epoch : this.getEpochs()) {
@@ -1190,10 +1200,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject imp
         return totalAccrual;
     }
 
-    @Transient
-    public boolean isCreatable() {
-        return this.evaluateDataEntryStatus() == StudyDataEntryStatus.COMPLETE;
-    }
+//    @Transient
+//    public boolean isCreatable() {
+//        return this.evaluateDataEntryStatus() == StudyDataEntryStatus.COMPLETE;
+//    }
 
     public Boolean getHostedMode() {
         return hostedMode;

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -424,31 +425,30 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     public List<Study> matchComapanionStudies(String text, HttpServletRequest request) throws Exception {
     	StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request) ;
     	Study parentStudy = wrapper.getStudy();
-    	System.out.println("parent " + parentStudy);
         List<Study> companionStudies = studyDao.getBySubnames(extractSubnames(text));
 
         List<Study> reducedCompanionStudies = new ArrayList<Study>(companionStudies.size());
         for (Study companionStudy : companionStudies) {
-        	if(companionStudy.getCompanionIndicator() && hasSameStudySiteAsMainStudy(companionStudy, parentStudy)){
+        	if(companionStudy.getCompanionIndicator()){
         		reducedCompanionStudies.add(buildReduced(companionStudy, Arrays.asList("id", "shortTitleText", "coordinatingCenterStudyStatus")));
         	}
         }
         return reducedCompanionStudies ;
 
     }
-    
-    private boolean hasSameStudySiteAsMainStudy(Study companionStudy, Study parentStudy) {
-    	List<StudySite> companionStudySites = companionStudy.getStudySites();
-    	List<StudySite> parentStudySites = parentStudy.getStudySites();
-    	for(StudySite companionStudySite : companionStudySites){
-    		for(StudySite parentStudySite : parentStudySites){
-    			if(parentStudySite.getHealthcareSite().equals(companionStudySite.getHealthcareSite())){
-    				return true ;
-    			}
-    		}
-    	}
-    	return false ;
-    }
+
+//    private boolean hasSameStudySiteAsMainStudy(Study companionStudy, Study parentStudy) {
+//    	List<StudySite> companionStudySites = companionStudy.getStudySites();
+//    	List<StudySite> parentStudySites = parentStudy.getStudySites();
+//    	for(StudySite companionStudySite : companionStudySites){
+//    		for(StudySite parentStudySite : parentStudySites){
+//    			if(parentStudySite.getHealthcareSite().equals(companionStudySite.getHealthcareSite())){
+//    				return true ;
+//    			}
+//    		}
+//    	}
+//    	return false ;
+//    }
 
 	private final Object getCommandOnly(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(false);
