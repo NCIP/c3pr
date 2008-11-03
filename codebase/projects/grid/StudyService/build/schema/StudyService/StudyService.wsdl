@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://grid.c3pr.cabig.duke.edu/StudyService" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns0="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns1="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:ns1="http://grid.c3pr.cabig.duke.edu/StudyService/types" xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns0="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" name="StudyService" targetNamespace="http://grid.c3pr.cabig.duke.edu/StudyService">
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="./../wsrf/properties/WS-ResourceProperties.wsdl" />
+  <import namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" location="./ServiceSecurity.wsdl" />
+  <!--============================================================
+
+                      T Y P E S
+                      
+  ============================================================-->
+  <types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" targetNamespace="http://grid.c3pr.cabig.duke.edu/StudyService" elementFormDefault="qualified" attributeFormDefault="unqualified">
+      <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" />
+      <import namespace="http://grid.c3pr.cabig.duke.edu/StudyService/types" schemaLocation="./StudyServiceTypes.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
+      <import namespace="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" schemaLocation="./c3pr-domain.xsd" />
+      <element name="CreateStudyRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateStudyResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="OpenStudyRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="OpenStudyResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="ApproveStudySiteForActivationRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ApproveStudySiteForActivationResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="ActivateStudySiteRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ActivateStudySiteResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="AmendStudyRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AmendStudyResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="UpdateStudySiteProtocolVersionRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="UpdateStudySiteProtocolVersionResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="CloseStudyRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CloseStudyResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="UpdateStudyStatusRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="UpdateStudyStatusResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="CloseStudySiteRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CloseStudySiteResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="CloseStudySitesRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CloseStudySitesResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="StudyServiceResourceProperties">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <!--  place service messages here -->
+  <message name="CreateStudyRequest">
+    <part name="parameters" element="tns:CreateStudyRequest" />
+  </message>
+  <message name="CreateStudyResponse">
+    <part name="parameters" element="tns:CreateStudyResponse" />
+  </message>
+  <message name="OpenStudyRequest">
+    <part name="parameters" element="tns:OpenStudyRequest" />
+  </message>
+  <message name="OpenStudyResponse">
+    <part name="parameters" element="tns:OpenStudyResponse" />
+  </message>
+  <message name="ApproveStudySiteForActivationRequest">
+    <part name="parameters" element="tns:ApproveStudySiteForActivationRequest" />
+  </message>
+  <message name="ApproveStudySiteForActivationResponse">
+    <part name="parameters" element="tns:ApproveStudySiteForActivationResponse" />
+  </message>
+  <message name="ActivateStudySiteRequest">
+    <part name="parameters" element="tns:ActivateStudySiteRequest" />
+  </message>
+  <message name="ActivateStudySiteResponse">
+    <part name="parameters" element="tns:ActivateStudySiteResponse" />
+  </message>
+  <message name="AmendStudyRequest">
+    <part name="parameters" element="tns:AmendStudyRequest" />
+  </message>
+  <message name="AmendStudyResponse">
+    <part name="parameters" element="tns:AmendStudyResponse" />
+  </message>
+  <message name="UpdateStudySiteProtocolVersionRequest">
+    <part name="parameters" element="tns:UpdateStudySiteProtocolVersionRequest" />
+  </message>
+  <message name="UpdateStudySiteProtocolVersionResponse">
+    <part name="parameters" element="tns:UpdateStudySiteProtocolVersionResponse" />
+  </message>
+  <message name="CloseStudyRequest">
+    <part name="parameters" element="tns:CloseStudyRequest" />
+  </message>
+  <message name="CloseStudyResponse">
+    <part name="parameters" element="tns:CloseStudyResponse" />
+  </message>
+  <message name="UpdateStudyStatusRequest">
+    <part name="parameters" element="tns:UpdateStudyStatusRequest" />
+  </message>
+  <message name="UpdateStudyStatusResponse">
+    <part name="parameters" element="tns:UpdateStudyStatusResponse" />
+  </message>
+  <message name="CloseStudySiteRequest">
+    <part name="parameters" element="tns:CloseStudySiteRequest" />
+  </message>
+  <message name="CloseStudySiteResponse">
+    <part name="parameters" element="tns:CloseStudySiteResponse" />
+  </message>
+  <message name="CloseStudySitesRequest">
+    <part name="parameters" element="tns:CloseStudySitesRequest" />
+  </message>
+  <message name="CloseStudySitesResponse">
+    <part name="parameters" element="tns:CloseStudySitesResponse" />
+  </message>
+  <!--============================================================
+
+                       P O R T T Y P E
+                      
+  ============================================================-->
+  <portType name="StudyServicePortType" wsrp:ResourceProperties="tns:StudyServiceResourceProperties">
+    <operation name="createStudy">
+      <input message="tns:CreateStudyRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/CreateStudyRequest" />
+      <output message="tns:CreateStudyResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/CreateStudyResponse" />
+    </operation>
+    <operation name="openStudy">
+      <input message="tns:OpenStudyRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/OpenStudyRequest" />
+      <output message="tns:OpenStudyResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/OpenStudyResponse" />
+    </operation>
+    <operation name="approveStudySiteForActivation">
+      <input message="tns:ApproveStudySiteForActivationRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/ApproveStudySiteForActivationRequest" />
+      <output message="tns:ApproveStudySiteForActivationResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/ApproveStudySiteForActivationResponse" />
+    </operation>
+    <operation name="activateStudySite">
+      <input message="tns:ActivateStudySiteRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/ActivateStudySiteRequest" />
+      <output message="tns:ActivateStudySiteResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/ActivateStudySiteResponse" />
+    </operation>
+    <operation name="amendStudy">
+      <input message="tns:AmendStudyRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/AmendStudyRequest" />
+      <output message="tns:AmendStudyResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/AmendStudyResponse" />
+    </operation>
+    <operation name="updateStudySiteProtocolVersion">
+      <input message="tns:UpdateStudySiteProtocolVersionRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/UpdateStudySiteProtocolVersionRequest" />
+      <output message="tns:UpdateStudySiteProtocolVersionResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/UpdateStudySiteProtocolVersionResponse" />
+    </operation>
+    <operation name="closeStudy">
+      <input message="tns:CloseStudyRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/CloseStudyRequest" />
+      <output message="tns:CloseStudyResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/CloseStudyResponse" />
+    </operation>
+    <operation name="updateStudyStatus">
+      <input message="tns:UpdateStudyStatusRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/UpdateStudyStatusRequest" />
+      <output message="tns:UpdateStudyStatusResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/UpdateStudyStatusResponse" />
+    </operation>
+    <operation name="closeStudySite">
+      <input message="tns:CloseStudySiteRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/CloseStudySiteRequest" />
+      <output message="tns:CloseStudySiteResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/CloseStudySiteResponse" />
+    </operation>
+    <operation name="closeStudySites">
+      <input message="tns:CloseStudySitesRequest" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/CloseStudySitesRequest" />
+      <output message="tns:CloseStudySitesResponse" wsa:Action="http://grid.c3pr.cabig.duke.edu/StudyService/CloseStudySitesResponse" />
+    </operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetMultipleResourceProperties">
+      <wsdl:input name="GetMultipleResourcePropertiesRequest" message="wsrpw:GetMultipleResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourceProperties" />
+      <wsdl:output name="GetMultipleResourcePropertiesResponse" message="wsrpw:GetMultipleResourcePropertiesResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourcePropertiesResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+    </wsdl:operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetResourceProperty">
+      <wsdl:input name="GetResourcePropertyRequest" message="wsrpw:GetResourcePropertyRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourceProperty" />
+      <wsdl:output name="GetResourcePropertyResponse" message="wsrpw:GetResourcePropertyResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourcePropertyResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+    </wsdl:operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="QueryResourceProperties">
+      <wsdl:input name="QueryResourcePropertiesRequest" message="wsrpw:QueryResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourceProperties" />
+      <wsdl:output name="QueryResourcePropertiesResponse" message="wsrpw:QueryResourcePropertiesResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourcePropertiesResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+      <wsdl:fault name="UnknownQueryExpressionDialectFault" message="wsrpw:UnknownQueryExpressionDialectFault" />
+      <wsdl:fault name="InvalidQueryExpressionFault" message="wsrpw:InvalidQueryExpressionFault" />
+      <wsdl:fault name="QueryEvaluationErrorFault" message="wsrpw:QueryEvaluationErrorFault" />
+    </wsdl:operation>
+    <operation name="getServiceSecurityMetadata">
+      <input message="wns1:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />
+      <output message="wns1:GetServiceSecurityMetadataResponse" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataResponse" />
+    </operation>
+  </portType>
+</definitions>
+
