@@ -77,7 +77,7 @@
 		var userEmailAutocompleterProps = {
             basename: "userEmail",
             populator: function(autocompleter, text) {
-                UserAjaxFacade.matchNameAndEmail(text,function(values) {
+                UserAjaxFacade.matchNameAndEmail(text, document.getElementById('emailId').value,  function(values) {
                     autocompleter.setChoices(values)
                 })
             },
@@ -315,6 +315,7 @@
 		<input type="hidden" name="_action" value="">
 		<input type="hidden" name="_selected" value="">
 		<input type="hidden" name="_finish" value="true">
+		<input type="hidden" id="emailId" name="emailId" value="${userObject.emailId}" />
 		
 			<table id="notification" width="100%">
 			<tr></tr>

@@ -16,6 +16,7 @@ import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.Person;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -91,11 +92,19 @@ public class UserAjaxFacade {
         return dst;
     }
 
-    public List<Person> matchNameAndEmail(String text) throws Exception {
-    	//Defaulting to the hosting site...until we provide notifications to external sites.
-    	String nciInstituteCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
+    public List<Person> matchNameAndEmail(String text, String emailId) throws Exception {
+    	//getting the site of the logged in user
+    	List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(emailId);
+    	String nciInstituteCode = null;
     	
-        List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>(new LinkedHashSet<ResearchStaff> (researchStaffDao.getBySubNameAndSubEmail(extractSubnames(text), nciInstituteCode)));
+    	if(rsList != null && rsList.size() > 0){
+    		nciInstituteCode =  rsList.get(0).getHealthcareSite().getNciInstituteCode();
+    	} else {
+    		//Defaulting to the hosting site...as no site was found for logged in user.
+    		nciInstituteCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
+    	}
+    	
+    	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>(new LinkedHashSet<ResearchStaff> (researchStaffDao.getBySubNameAndSubEmail(extractSubnames(text), nciInstituteCode)));
         List<HealthcareSiteInvestigator> hcsInvestigatorsList = new ArrayList<HealthcareSiteInvestigator>(new LinkedHashSet<HealthcareSiteInvestigator> (healthcareSiteInvestigatorDao.getBySubNameAndSubEmail(extractSubnames(text), nciInstituteCode)));
 
         List<Investigator> investigatorsList = new ArrayList<Investigator>();

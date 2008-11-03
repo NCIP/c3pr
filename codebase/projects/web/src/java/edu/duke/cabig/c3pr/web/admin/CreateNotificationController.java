@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
@@ -86,9 +87,18 @@ public class CreateNotificationController extends SimpleFormController {
 	
 
     protected Object formBackingObject(HttpServletRequest request) throws Exception {    	
-    	String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);    	
-        Organization org = organizationDao.getByNciIdentifier(localNciCode).get(0);
-        return org;
+    	    	
+    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
+        																					.getSession().getAttribute("userObject");
+    	List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(user.getEmailId());
+    	//get the logged in users site....if logged in user has no site(e.g: c3pr_admin) get the hosting site. 
+    	if(rsList != null && rsList.size() > 0){
+    		return rsList.get(0).getHealthcareSite();
+    	} else {
+    		String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
+    		Organization org = organizationDao.getByNciIdentifier(localNciCode).get(0);
+            return org;
+    	}
     }
 
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
@@ -122,6 +132,18 @@ public class CreateNotificationController extends SimpleFormController {
     protected ModelAndView processFormSubmission(HttpServletRequest request,
                     HttpServletResponse response, Object command, BindException errors)
                     throws Exception {
+    	
+    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
+																		.getSession().getAttribute("userObject");
+    	List<ResearchStaff> researchStaffList = researchStaffDao.getByEmailAddress(user.getEmailId());
+    	HealthcareSite hcs = null;
+    	//Get the logged in users site....if logged in user has no site(e.g: c3pr_admin) get the hosting site. 
+    	if(researchStaffList != null && researchStaffList.size() > 0){
+    		hcs = researchStaffList.get(0).getHealthcareSite();
+    	} else {
+    		String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
+    		hcs = organizationDao.getByNciIdentifier(localNciCode).get(0);
+    	}
     	
     	if (isAjaxRequest(request)) {
 			request.getParameter("_asynchronous");
@@ -157,8 +179,8 @@ public class CreateNotificationController extends SimpleFormController {
 	        PlannedNotification pn = null;
 	        for(int i = 0; i < organization.getPlannedNotifications().size(); i++){
 	        	pn = organization.getPlannedNotifications().get(i);
-	        	if(pn.getHealthcareSite() == null){
-	        		pn.setHealthcareSite(healthcareSiteDao.getByNciInstituteCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)));
+	        	if(pn.getHealthcareSite() == null && hcs != null){
+	        		pn.setHealthcareSite(hcs);
 	        	}
 	        	//set the freq to Immediate as default. It is null sometimes when the select is manipulated by the javascript.
 	        	//fix this so the javascript manipulation doesnt nullify the freq value.
