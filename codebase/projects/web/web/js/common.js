@@ -124,6 +124,13 @@ C3PR.showCCTSError=function(){
 	win.showCenter();
 }
 
+C3PR.showAsMessage=function(title, divId){
+	var win = new Window({className: "dialog", width:350, height:400, zIndex: 100, resizable: true, title: title, showEffect:Effect.BlindDown, hideEffect: Effect.SwitchOff, draggable:true, wiredDrag: true});
+	win.getContent().innerHTML= $(divId).innerHTML;
+	win.setStatusBar("Message"); 
+	win.showCenter();
+}
+
 C3PR.buildCCTSErrorHtml=function(error){
 	appFlag=true
 	errorHtml="<table>"
