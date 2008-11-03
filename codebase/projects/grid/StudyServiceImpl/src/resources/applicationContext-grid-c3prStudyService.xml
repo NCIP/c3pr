@@ -24,5 +24,6 @@
 		<property name="xmlMarshaller" ref="studyXmlUtility"/>
 		<property name="interceptor" ref="openSessionInViewInterceptor"/>
 		<property name="studyRepository" ref="studyRepository"/>
+		<property name="studyFactory" ref="studyFactory"/>
 	</bean>
 </beans>
