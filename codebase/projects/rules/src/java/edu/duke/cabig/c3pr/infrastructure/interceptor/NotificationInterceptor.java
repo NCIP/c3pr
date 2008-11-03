@@ -19,7 +19,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
@@ -40,6 +43,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	
 	private Configuration configuration;
 	
+	private HealthcareSiteDao healthcareSiteDao;
+	
 	private String studyId; 
 	private String studySiteId;
 	private String studySubjectId;
@@ -52,15 +57,23 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		this.applicationContext = applicationContext;
 	}
 	
-	public List<PlannedNotification> getPlannedNotifications(){
+	public List<PlannedNotification> getPlannedNotifications(List<HealthcareSite> hcsList){
 		List<PlannedNotification> result;
+		List<String> nciCodeList = new ArrayList<String>();
+		for(HealthcareSite hcs: hcsList){
+			nciCodeList.add(hcs.getNciInstituteCode());
+		}
+		
 		SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
 		Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
 		session.setFlushMode(FlushMode.MANUAL);
 		result = new ArrayList<PlannedNotification>();
         try {
-          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
-          query.setString(0, configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
+          //Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
+          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
+//          Query query = session.createQuery("Select p from PlannedNotification as p, o from HealthcareSite as o where p.id = o.plannedNotificationsInternal.id and" +
+//          		"o.nci_institute_code in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
+//          query.setEntity(0, nciCodeList);
           result = query.list();
         }
         catch (DataAccessResourceFailureException e) {
@@ -71,6 +84,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
         }
         catch (HibernateException e) {
             log.error(e.getMessage());
+        }catch(Exception e){
+        	log.error(e.getMessage());
         }
         finally{
         	session.close();
@@ -93,7 +108,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		if(entity instanceof StudySubject){			
 			handleNewStudySubjectSaved(null,((StudySubject)entity).getRegWorkflowStatus(), entity);
 		}
-		//Every new study...notification is onyl sent if new stuayd status is Open
+		//Every new study...notification is onyl sent if new stuayd status is Active
 		if(entity instanceof Study){			
 			handleStudyStatusChange(null,((Study)entity).getCoordinatingCenterStudyStatus(), entity);
 		}
@@ -216,7 +231,9 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			} else {
 				event = NotificationEventTypeEnum.REGISTATION_STATUS_CHANGE;
 			}
-			for(PlannedNotification pn: getPlannedNotifications()){
+			List <HealthcareSite> hcsList = getSites(studySubject); 
+				
+			for(PlannedNotification pn: getPlannedNotifications(hcsList)){
 				if(pn.getEventName().equals(event)){
 					objects.add(pn);
 					rulesDelegationService.activateRules(event, objects);
@@ -262,8 +279,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//there is some status change and event is configured in plannedNotifs
 			//for study site we only have ths study site status changed event
 			event = NotificationEventTypeEnum.STUDY_SITE_STATUS_CHANGED_EVENT;
-			
-			for(PlannedNotification pn: getPlannedNotifications()){
+			List <HealthcareSite> hcsList = getSites(entity);
+			for(PlannedNotification pn: getPlannedNotifications(hcsList)){
 				if(pn.getEventName().equals(event)){
 					objects.add(pn);
 					rulesDelegationService.activateRules(event, objects);
@@ -298,7 +315,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//do nothing if the final status is pending coz this isnt open study nor is it study status change.
 			//also do nothing is there is no status change.
 		} else {
-			//if the prev status is null or pending and current status is Open then its a new study
+			//if the prev status is null or pending and current status is active then its a new study
 			//else its a study status change.
 			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.OPEN) &&
 				(previousCoordinatingCenterStudyStatus == null || previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING)) ){
@@ -306,8 +323,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			} else {
 				event = NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT;
 			}
-			
-			for(PlannedNotification pn: getPlannedNotifications()){
+			List <HealthcareSite> hcsList = getSites(entity);
+			for(PlannedNotification pn: getPlannedNotifications(hcsList)){
 				//there is some status change and event is configured in plannedNotifs...activate RulesService
 				if(pn.getEventName().equals(event)){
 					objects.add(pn);
@@ -337,7 +354,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		objects.add(studySubject);
 		int studyAccruals = 0;
 		int threshold = 0;
-		for(PlannedNotification pn: getPlannedNotifications()){
+		List <HealthcareSite> hcsList = getSites(studySubject);
+		for(PlannedNotification pn: getPlannedNotifications(hcsList)){
 			if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_ACCRUAL_EVENT)){
 				Iterator <StudyOrganization>iter = studySubject.getStudySite().getStudy().getStudyOrganizations().iterator();
 				while(iter.hasNext()){
@@ -368,6 +386,33 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 				}
 			}
 		}
+	}
+	
+	/*
+	 * Returns the list of sites associated with the study/studySite/studySubject(depending on the event).
+	 */
+	private List<HealthcareSite> getSites(Object entity){
+		
+		List<HealthcareSite> hcsList = new ArrayList<HealthcareSite>();
+		if(entity instanceof StudySubject){
+			hcsList.add(((StudySubject)entity).getStudySite().getHealthcareSite());
+			hcsList.add(((StudySubject)entity).getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+		}
+		if(entity instanceof StudySite){
+			hcsList.add(((StudySite)entity).getHealthcareSite());
+			hcsList.add(((StudySite)entity).getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+		}
+		if(entity instanceof Study){
+			for(StudyOrganization so: ((Study)entity).getStudyOrganizations()){
+				hcsList.add(so.getHealthcareSite());
+			}
+		}
+		//defaulting to the hosting site if nothing is found
+		if(hcsList.size() == 0){
+			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
+			hcsList.add(healthcareSiteDao.getByNciInstituteCode(localNciCode));
+		}
+		return hcsList;
 	}
 	
 	private int calculateStudyAccrual(StudySubject studySubject){
@@ -432,6 +477,10 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
 }
