@@ -55,6 +55,8 @@ public class StudyOverviewTab extends StudyTab {
                 study = studyRepository.createStudy(study.getIdentifiers());
             }else if(request.getParameter("statusChange").equals("open")){
                 study = studyRepository.openStudy(study.getIdentifiers());
+            }else if(request.getParameter("statusChange").equals("close")){
+                study = studyRepository.closeStudy(study.getIdentifiers());
             }
             wrapper.setStudy(study);
         }
