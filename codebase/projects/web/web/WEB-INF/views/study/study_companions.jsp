@@ -95,13 +95,6 @@ function closePopup() {
     <tr>
         <td>
             <br>
-			<c:choose>
-				<c:when test="${empty command.study.studySites || (fn:length(command.study.studySites) == 1 && (empty command.study.studySites[0].healthcareSite))}">
-					<tr align="center">
-						<td align="center" height="50">Please add study site to the study, click <a href="javascript:document.getElementById('flowredirect-target').name='_target6';document.getElementById('flowredirect').submit();"> Add Sites </a> to add study site</td>
-					</tr>
-				</c:when>
-				<c:otherwise>
 					<table id="companionTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 		                <tr>
 		                    <th><b><span class="required-indicator">Short Title</span></b>
@@ -149,9 +142,7 @@ function closePopup() {
 		                    </tr>
 		                </c:forEach>
 		            </table>
-				</c:otherwise>
-			</c:choose>
- 	
+			
         </td>
     </tr>
 </table>
