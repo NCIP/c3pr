@@ -31,5 +31,7 @@ public interface MultiSiteWorkflowService<C extends InteroperableAbstractMutable
     public void handleCoordinatingCenterBroadcast(Study study, APIName multisiteAPIName, List<? extends AbstractMutableDomainObject> domainObjects);
     
     public <T extends AbstractMutableDomainObject> void handleMultiSiteBroadcast(List<StudyOrganization> studyOrganizations, ServiceName multisiteServiceName, APIName multisiteAPIName, List<T> domainObjects);
+    
+    public <T extends AbstractMutableDomainObject> void handleMultiSiteBroadcast(StudyOrganization studyOrganization, ServiceName multisiteServiceName, APIName multisiteAPIName, List<T> domainObjects);
 
 }

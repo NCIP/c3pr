@@ -8,6 +8,7 @@ import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.GridEndPoint;
 import edu.duke.cabig.c3pr.domain.APIName;
 import edu.duke.cabig.c3pr.domain.ServiceName;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.esb.DelegatedCredentialProvider;
 
 public class EndPointFactory {
@@ -20,6 +21,20 @@ public class EndPointFactory {
             endPoint=new GridEndPoint(endPointProperty, multisiteServiceName, multisiteAPIName, getCredential());
         }
         
+        return endPoint;
+    }
+    
+    public EndPoint getEndPoint(ServiceName multisiteServiceName, APIName multisiteAPIName, StudyOrganization studyOrganization){
+        EndPointConnectionProperty endPointProperty=multisiteServiceName==ServiceName.STUDY?studyOrganization.getHealthcareSite().getStudyEndPointProperty():studyOrganization.getHealthcareSite().getRegistrationEndPointProperty();
+        EndPoint endPoint=studyOrganization.getEndPoint(multisiteServiceName, multisiteAPIName);
+        if(endPoint==null){
+            endPoint=this.newInstance(multisiteServiceName, multisiteAPIName, endPointProperty);
+            studyOrganization.addEndPoint(endPoint);
+        }else{
+            if(endPoint instanceof GridEndPoint){
+                ((GridEndPoint)endPoint).setGlobusCredential(getCredential());
+            }
+        }
         return endPoint;
     }
 

@@ -229,40 +229,25 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
         if(studyOrganizations.size()==0){
             log.error("There are no study organizations to bradcast to.");
         }
-        boolean errorBroadcast=false;
         for(int i=0 ; i<studyOrganizations.size() ; i++){
             StudyOrganization studyOrganization=(StudyOrganization)studyOrganizations.get(i);
-            try {
-                EndPointConnectionProperty endPointProperty=multisiteServiceName==ServiceName.STUDY?studyOrganization.getHealthcareSite().getStudyEndPointProperty():studyOrganization.getHealthcareSite().getRegistrationEndPointProperty();
-                //multiSiteHandlerService.handle(multisiteServiceName, multisiteAPIName, endPointProperty, domainObjects);
-                EndPoint endPoint=studyOrganization.getEndPoint(multisiteServiceName, multisiteAPIName);
-                if(endPoint==null){
-                    endPoint=endPointFactory.newInstance(multisiteServiceName, multisiteAPIName, endPointProperty);
-                    studyOrganization.addEndPoint(endPoint);
-                }
-                endPoint.invoke(domainObjects);
-                studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
-            }
-            catch (Exception e) {
-                studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
-            }
-            finally{
-                studyOrganizationDao.merge(studyOrganization);
-            }
+            handleMultiSiteBroadcast(studyOrganization, multisiteServiceName, multisiteAPIName, domainObjects);
         }
-//        if(multisiteServiceName==ServiceName.STUDY){
-//            Study study=((StudyOrganization)studyOrganizations.get(0)).getStudy();
-//            if(errorBroadcast){
-//                study.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
-//                //study.setMultisiteErrorString("Error Broadcasting.");
-//            }
-//            else{
-//                study.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
-//                //study.setMultisiteErrorString("");
-//            }
-//            dao.merge(study);
-//        }
-        
+    }
+    
+    public void handleMultiSiteBroadcast(StudyOrganization studyOrganization, ServiceName multisiteServiceName, APIName multisiteAPIName, List domainObjects) {
+        try {
+            //multiSiteHandlerService.handle(multisiteServiceName, multisiteAPIName, endPointProperty, domainObjects);
+            EndPoint endPoint=endPointFactory.getEndPoint(multisiteServiceName, multisiteAPIName, studyOrganization);
+            endPoint.invoke(domainObjects);
+            studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
+        }
+        catch (Exception e) {
+            studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+        }
+        finally{
+            studyOrganizationDao.save(studyOrganization);
+        }
     }
     
     public void handleAffiliateSiteBroadcast(String nciInstituteCode, Study study, APIName multisiteAPIName, List domainObjects){

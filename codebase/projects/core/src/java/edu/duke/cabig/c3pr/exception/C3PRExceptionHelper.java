@@ -87,4 +87,17 @@ public class C3PRExceptionHelper {
         }
         return msg;
     }
+    
+    public C3PRCodedRuntimeException transformException(Exception e){
+        String errorMsg=e.getMessage();
+        if(errorMsg.indexOf(":")==3){
+            try {
+                int code=Integer.parseInt(errorMsg.substring(0, 3));
+                return getRuntimeException(code, e);
+            }
+            catch (NumberFormatException e1) {
+            }
+        }
+        return getRuntimeException(-1,e);
+    }
 }
