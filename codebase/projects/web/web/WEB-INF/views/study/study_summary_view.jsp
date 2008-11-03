@@ -106,7 +106,7 @@
 </tr>
 <tr>
     <td class="alt" align="left"><b>Status</b></td>
-    <td class="alt" align="left">
+    <td class="alt" align="left">${command.study.coordinatingCenterStudyStatus.code}
         <c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
             <c:if test="${coCenterStatus=='READY_TO_OPEN'}">
                 <c:set var="readyToOpen" value="Ready to open this study"></c:set>
@@ -115,14 +115,14 @@
                 <c:set var="open" value="Open Study"></c:set>
             </c:if>
             <c:if test="${coCenterStatus=='CLOSED_TO_ACCRUAL'}">
-                <c:set var="closed" value="Close this study"></c:set>
+                <c:set var="closed" value="Close Study"></c:set>
                 <c:set var="commanSepOptVal"
                        value="[['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],
                    		['Closed To Accrual','Closed To Accrual']]">
                 </c:set>
             </c:if>
             <c:if test="${coCenterStatus=='TEMPORARILY_CLOSED_TO_ACCRUAL'}">
-                <c:set var="closed" value="close this study"></c:set>
+                <c:set var="closed" value="Close study"></c:set>
                 <c:set var="commanSepOptVal"
                        value="[['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
@@ -130,7 +130,7 @@
                 </c:set>
             </c:if>
         </c:forEach>
-        <c:choose>
+        <%--<c:choose>
             <c:when test="${!empty closed}">
                 <tags:inPlaceSelect id="changedCoordinatingCenterStudyStatus"
                                     value="${command.study.coordinatingCenterStudyStatus.code}"
@@ -159,57 +159,9 @@
                 editor_changedTargetAccrualNumber.dispose();
                 editor_study.changedCoordinatingCenterStudyStatus.dispose();
             </script>
-        </c:if>
+        </c:if>--%>
     </td>
 </tr>
-    <%--<tr>
-        <td class="alt" align="left" rows="2"><b>Status</b></td>
-        <c:set var="commanSepOptVal"
-               value="[['Active','Active'],
-                    ['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
-                    ['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
-                    ['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]">
-        </c:set>
-        <c:set var="commanSepOptValForEmbeded"
-               value="[['Ready For Activation','Ready For Activation'],
-                    ['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
-                    ['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
-                    ['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
-        <td>
-            <c:forEach items="${command.study.parentStudyAssociations}" var="parentStudyAssociation">
-                <c:if test="${!(parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.name == 'OPEN')}">
-                        <c:set var="noActiveStatusForCompanion" value="true"></c:set>
-                </c:if>
-            </c:forEach>
-            <c:if test="${fn:length(command.study.parentStudyAssociations) == 0 }">
-                <c:set var="noActiveStatusForCompanion" value="true"></c:set>
-            </c:if>
-            <c:choose>
-                <c:when test="${!empty noActiveStatusForCompanion && noActiveStatusForCompanion == 'true' && command.study.companionIndicator == true && command.study.standaloneIndicator == false}">
-                    <c:set var="tempSelectOpts" value="${commanSepOptValForEmbeded}"></c:set>
-                </c:when>
-                <c:otherwise>
-                    <c:set var="tempSelectOpts" value="${commanSepOptVal}"></c:set>
-                </c:otherwise>
-            </c:choose>
-            <tags:inPlaceSelect id="changedCoordinatingCenterStudyStatus"
-                    value="${command.study.coordinatingCenterStudyStatus.code}"
-                    path="study.changedCoordinatingCenterStudyStatus"
-                    commanSepOptVal="${tempSelectOpts}">
-            </tags:inPlaceSelect>
-            <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
-                                    authorizationCheckName="domainObjectAuthorizationCheck">
-                &nbsp; <input type="button" value="Change Status"
-                              onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/>
-            </csmauthz:accesscontrol>
-            <c:if test="${isRegistrar}">
-                 <script type="text/javascript">
-                                   editor_changedTargetAccrualNumber.dispose();
-                                   editor_study.changedCoordinatingCenterStudyStatus.dispose();
-                 </script>
-            </c:if>
-        </td>
-    </tr>--%>
 <tr>
     <td class="alt" align="left"><b>Type</b></td>
     <td class="alt" align="left">${command.study.type}</td>
@@ -499,9 +451,15 @@
                 <c:if test="${!empty open}">
                     <input type="button" value="${open }"
                            onclick="changeStudyStatus('open')"/>
-					<input type="button" value="Create Study"
-                           onclick="changeStudyStatus('readyToOpen')"/>
                 </c:if>
+                <c:if test="${!empty readyToOpen}">
+	                <input type="button" value="${readyToOpen }"
+	                       onclick="changeStudyStatus('readyToOpen')"/>
+	            </c:if>
+	            <c:if test="${!empty closed}">
+	                <input type="button" value="${closed }"
+	                       onclick="changeStudyStatus('close')"/>
+	            </c:if>
             </csmauthz:accesscontrol>
                 <c:choose>
                     <c:when test="${command.study.companionIndicator=='true'}">
@@ -526,16 +484,9 @@
         </span>
         </div>
     </div>
-</c:if >
-<c:if test="${not empty flowType}">
-<div class="content buttons autoclear">
-    <div class="flow-buttons"><span class="next">
-				<input type="button" value="Manage" id="manageStudy"
-                       onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
- 			</span></div>
-</div>
 </c:if>
 <br/>
+
 <div align="right">
     <input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
 </div>
