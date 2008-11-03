@@ -10,6 +10,9 @@
 	<property name="web.dir" location="${basedir}/web"/>
     <property name="webinf.dir" value="${web.dir}/WEB-INF"/>
     <property name="webinfviews.dir" value="${web.dir}/WEB-INF/views"/>
+	<property name="webinftags.dir" value="${web.dir}/WEB-INF/tags"/>
+	<property name="webinfdec.dir" value="${web.dir}/WEB-INF/decorators"/>
+	<property name="webinfimages.dir" value="${web.dir}/images"/>
     <property name="webinf.lib.dir" value="${webinf.dir}/lib"/>
     <property name="webinf.classes.dir" value="${webinf.dir}/classes"/>
 	
@@ -122,6 +125,15 @@
     <target name="copy-views" description="Explicitly copy the views folder ">
         <copy todir="${deploy.path}/${webapp.name}/WEB-INF/views/" preservelastmodified="true">
             <fileset dir="${webinfviews.dir}"/>
+        </copy>
+    	<copy todir="${deploy.path}/${webapp.name}/WEB-INF/tags/" preservelastmodified="true">
+            <fileset dir="${webinftags.dir}"/>
+        </copy>
+    	<copy todir="${deploy.path}/${webapp.name}/WEB-INF/decorators/" preservelastmodified="true">
+            <fileset dir="${webinfdec.dir}"/>
+        </copy>
+    	<copy todir="${deploy.path}/${webapp.name}/images/" preservelastmodified="true">
+            <fileset dir="${webinfimages.dir}"/>
         </copy>
     </target>
 	
