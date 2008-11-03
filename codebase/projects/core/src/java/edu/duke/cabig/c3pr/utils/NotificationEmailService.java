@@ -15,6 +15,13 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
+import org.hibernate.FlushMode;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -26,6 +33,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
@@ -38,7 +46,7 @@ import edu.duke.cabig.c3pr.tools.Configuration;
  * Author: vGangoli Date: Nov 30, 2007
  */
 
-public class NotificationEmailService {
+public class NotificationEmailService implements ApplicationContextAware {
 
     private MailSender mailSender;
 
@@ -52,7 +60,7 @@ public class NotificationEmailService {
     
     private Configuration configuration;
 
-    
+    private ApplicationContext applicationContext;
     /**
      * This method is reponsible for figuring out the email address from notifications and sending
      * out the notification email using Javamail.
@@ -163,7 +171,7 @@ public class NotificationEmailService {
     			}
     		}
     	}
-        log.debug(this.getClass().getName() + ": exiting getEmailsFromRoleBasedRecipient()");
+        log.debug(this.getClass().getName() + ": exiting getEmailsFromContactMechanismBasedRecipient()");
         return returnList;
     }
     
@@ -173,7 +181,17 @@ public class NotificationEmailService {
         List<String> returnList = new ArrayList<String>();
         List<C3PRUserGroupType> groupList = null;
         List<ResearchStaff> rStaffList = null;
-        rStaffList = getHostingHealthcareSite().getResearchStaffs();
+        List<HealthcareSite> hcsList = getRelatedHelathcaresite(recipientScheduledNotification);
+        if (hcsList == null  || hcsList.size() == 0){
+        	//default to hosting Site if no related site is found
+        	rStaffList = getHostingHealthcareSite().getResearchStaffs();
+        } else {
+        	//rStaff is not acccessible thru the hcsList as its throws lazyInitException...hence get the id and use the dao instead.
+        	Integer hcsId = hcsList.get(0).getId();
+        	HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
+        	rStaffList = hcs.getResearchStaffs();
+        }
+        
 
         for (ResearchStaff rs : rStaffList) {
             try {
@@ -240,6 +258,38 @@ public class NotificationEmailService {
     }
     
     
+    private List<HealthcareSite> getRelatedHelathcaresite(RecipientScheduledNotification rsn){
+    	SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
+		org.hibernate.Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
+		session.setFlushMode(FlushMode.MANUAL);
+		
+		List<HealthcareSite> result = null; 
+        try {
+          //Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
+          Query query =  session.createQuery("select o from HealthcareSite o, PlannedNotification p where " +
+          									 "p.scheduledNotificationsInternal.id = ? and o.plannedNotificationsInternal.id = p.id");
+          query.setInteger(0, rsn.getScheduledNotification().getId());
+          result = query.list();
+        }
+        catch (DataAccessResourceFailureException e) {
+            log.error(e.getMessage());
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        catch (HibernateException e) {
+            log.error(e.getMessage());
+        }catch(Exception e){
+        	log.error(e.getMessage());
+        }
+        finally{
+        	session.close();
+        }
+        return result;
+    	
+    }
+    
+    
     public HealthcareSite getHostingHealthcareSite(){
     	return healthcareSiteDao.getByNciInstituteCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
     }
@@ -283,6 +333,20 @@ public class NotificationEmailService {
 
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+
+
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+
+
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
 	}
 
 }
