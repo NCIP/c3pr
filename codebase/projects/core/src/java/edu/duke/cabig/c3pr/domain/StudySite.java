@@ -574,4 +574,27 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         return map;
     }
 
+    @Transient
+    public List<SiteStudyStatus> getPossibleStatusTransitions(){
+        List<SiteStudyStatus> statuses=new ArrayList<SiteStudyStatus>();
+        if(this.getStudy().getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.OPEN)
+            return statuses;
+        if(this.siteStudyStatus==SiteStudyStatus.PENDING || this.siteStudyStatus==SiteStudyStatus.AMENDMENT_PENDING){
+            statuses.add(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
+            statuses.add(SiteStudyStatus.ACTIVE);
+        }else if(this.siteStudyStatus== SiteStudyStatus.APPROVED_FOR_ACTIVTION){
+            statuses.add(SiteStudyStatus.ACTIVE);
+        }else if(this.siteStudyStatus==SiteStudyStatus.ACTIVE){
+            statuses.add(SiteStudyStatus.CLOSED_TO_ACCRUAL);
+            statuses.add(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+            statuses.add(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+            statuses.add(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+        }else if(this.siteStudyStatus==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL){
+            statuses.add(SiteStudyStatus.CLOSED_TO_ACCRUAL);
+            statuses.add(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+            statuses.add(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
+            statuses.add(SiteStudyStatus.ACTIVE);
+        }
+        return statuses;
+    }
 }

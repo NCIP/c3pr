@@ -113,4 +113,8 @@ public class GridEndPoint extends EndPoint {
         message.set_any(messageElementsArray);
         return new Object[]{message};
     }
+
+    public void setGlobusCredential(GlobusCredential globusCredential) {
+        this.globusCredential = globusCredential;
+    }
 }

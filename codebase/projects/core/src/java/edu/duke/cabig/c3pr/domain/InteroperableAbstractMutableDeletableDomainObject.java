@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EnumType;
@@ -105,4 +106,14 @@ public abstract class InteroperableAbstractMutableDeletableDomainObject extends 
         }
         return null;
     }
+    
+    @Transient
+    public EndPoint getLastAttemptedEndpoint(){
+        List<EndPoint> tempList = new ArrayList<EndPoint>();
+        tempList.addAll(getEndpoints());
+        Collections.sort(tempList);
+        if (tempList.size() == 0) return null;
+        return tempList.get(tempList.size() - 1);
+    }
+    
 }

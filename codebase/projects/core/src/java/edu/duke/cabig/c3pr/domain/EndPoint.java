@@ -4,10 +4,15 @@ import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +22,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
@@ -24,6 +31,8 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
@@ -31,7 +40,7 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 @Table(name = "ENDPOINTS")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "ENDPOINTS_ID_SEQ") })
-public abstract class EndPoint extends AbstractMutableDeletableDomainObject{
+public abstract class EndPoint extends AbstractMutableDeletableDomainObject implements Comparable<EndPoint>{
     /**
      * Logger for this class
      */
@@ -41,6 +50,8 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject{
     protected ServiceName serviceName;
     protected APIName apiName;
     protected WorkFlowStatusType status;
+    //private Timestamp attemptDate;
+    private Date attemptDate;
     protected List<Error> errors= new ArrayList<Error>();
 
     public EndPoint(){
@@ -69,6 +80,7 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject{
         Method method=getAPI();
         Error error=new Error();
         error.setErrorDate(new Date());
+        error.setErrorSource(this.toString());
         try {
             method.invoke(service, getArguments(argument));
             this.setStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
@@ -88,11 +100,23 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject{
             throw new RuntimeException(e);
         }
         catch (InvocationTargetException e) {
-            error.setErrorCode("500");
-            error.setErrorMessage("Error invoking "+this.apiName.getCode()+":"+e.getMessage());
+            String errorMsg=e.getTargetException().getMessage();
+            String code="500";
+            Pattern p=Pattern.compile(".*([0-9][0-9][0-9]):(.*)");
+            Matcher matcher=p.matcher(errorMsg);
+            if(matcher.find()){
+                code=matcher.group(1);
+                errorMsg=matcher.group(2);
+            }else{
+                System.out.println("code not found.");
+            }
+            error.setErrorCode(code);
+            error.setErrorMessage("Error invoking "+this.apiName.getCode()+":"+errorMsg);
             this.errors.add(error);
             this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
             throw e;
+        }finally{
+            setAttemptDate(new Date());
         }
     }
     
@@ -106,6 +130,11 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject{
         return xmlUtils;
     }
 
+    
+    public int compareTo(EndPoint endPoint) {
+        return this.attemptDate.compareTo(endPoint.getAttemptDate());
+    }
+    
     @ManyToOne
     @JoinColumn(name="ENDPOINT_PROP_ID")
     @Cascade(value = { CascadeType.LOCK })
@@ -119,7 +148,7 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject{
 
     @OneToMany
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    @JoinColumn(name = "endpoint_id")
+    @JoinColumn(name = "endpoint_id", nullable=false)
     public List<Error> getErrors() {
         return errors;
     }
@@ -154,5 +183,46 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject{
     public void setStatus(WorkFlowStatusType status) {
         this.status = status;
     }
+    
+    @Override
+    public String toString() {
+        return "Endpoint("+this.endPointProperty.getUrl()+"of type"+this.endPointProperty.getEndPointType().getCode()+". Service:"+this.serviceName.getCode()+" -API:"+this.apiName.getCode()+")";
+    }
 
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Column(name="attempt_name")
+//    public Timestamp getAttemptDateInternal() {
+//        return attemptDate;
+//    }
+//
+//    public void setAttemptDateInternal(Timestamp attemptDate) {
+//        this.attemptDate = attemptDate;
+//    }
+    
+//    @Transient
+//    public Date getAttemptDate() {
+//        return attemptDate;
+//    }
+//
+//    public void setAttemptDate(Date attemptDate) {
+//        this.attemptDate = new Timestamp(attemptDate.getTime());
+//    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getAttemptDate() {
+        return attemptDate;
+    }
+
+    public void setAttemptDate(Date attemptDate) {
+        this.attemptDate = attemptDate;
+    }
+
+    @Transient
+    public Error getLastAttemptError(){
+        List<Error> tempList = new ArrayList<Error>();
+        tempList.addAll(getErrors());
+        Collections.sort(tempList);
+        if (tempList.size() == 0) return null;
+        return tempList.get(tempList.size() - 1);
+    }
 }

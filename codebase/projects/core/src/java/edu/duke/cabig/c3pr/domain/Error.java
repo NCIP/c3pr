@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -11,7 +13,7 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "Errors")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "errors_id_seq") })
-public class Error extends AbstractMutableDeletableDomainObject{
+public class Error extends AbstractMutableDeletableDomainObject implements Comparable<Error>{
 
     private String errorSource;
     
@@ -21,6 +23,7 @@ public class Error extends AbstractMutableDeletableDomainObject{
     
     private Date errorDate;
 
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getErrorDate() {
         return errorDate;
     }
@@ -53,6 +56,7 @@ public class Error extends AbstractMutableDeletableDomainObject{
         this.errorMessage = errorMessage;
     }
     
-    
-    
+    public int compareTo(Error error) {
+        return this.errorDate.compareTo(error.errorDate);
+    }
 }
