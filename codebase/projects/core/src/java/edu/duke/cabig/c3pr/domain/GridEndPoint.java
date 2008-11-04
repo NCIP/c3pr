@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -114,7 +115,26 @@ public class GridEndPoint extends EndPoint {
         return new Object[]{message};
     }
 
+    
     public void setGlobusCredential(GlobusCredential globusCredential) {
         this.globusCredential = globusCredential;
+    }
+
+    @Override
+    public Object processReturnType(Object returnType) {
+        if(returnType==null) return null;
+        if (returnType instanceof Message) {
+            Message message = (Message) returnType;
+            try {
+                List arguments = getXMLUtils().getArguments(message);
+                return arguments;
+            }
+            catch (RemoteException e) {
+                this.getErrors().add(new Error(this.toString(),"-1","error deserializing the returned value"));
+                return null;
+            }
+        }
+        
+        return null;
     }
 }

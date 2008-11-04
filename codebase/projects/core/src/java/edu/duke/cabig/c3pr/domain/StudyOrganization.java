@@ -34,7 +34,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_ORGANIZATIONS_ID_SEQ") })
 public abstract class StudyOrganization extends InteroperableAbstractMutableDeletableDomainObject {
 
-    private Study study;
+    protected Study study;
 
     private HealthcareSite healthcareSite;
 
@@ -44,6 +44,16 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     private String[] studyInvestigatorIds;
     
     private String[] studyPersonnelIds;
+    
+    private Boolean hostedMode=true;
+
+    public Boolean getHostedMode() {
+        return hostedMode;
+    }
+
+    public void setHostedMode(Boolean hostedMode) {
+        this.hostedMode = hostedMode;
+    }
 
     public StudyOrganization() {
         lazyListHelper = new LazyListHelper();

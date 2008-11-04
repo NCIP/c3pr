@@ -53,6 +53,7 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     //private Timestamp attemptDate;
     private Date attemptDate;
     protected List<Error> errors= new ArrayList<Error>();
+    protected Object returnValue;
 
     public EndPoint(){
         
@@ -75,29 +76,16 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     @Transient
     public abstract Object[] getArguments(Object argument);
     
+    @Transient
+    public abstract Object processReturnType(Object returnValue);
+    
     public void invoke(Object argument) throws InvocationTargetException{
         Object service=getService(); 
         Method method=getAPI();
-        Error error=new Error();
-        error.setErrorDate(new Date());
-        error.setErrorSource(this.toString());
         try {
-            method.invoke(service, getArguments(argument));
+            returnValue=method.invoke(service, getArguments(argument));
+            returnValue=processReturnType(returnValue);
             this.setStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
-        }
-        catch (IllegalArgumentException e) {
-            error.setErrorCode("-1");
-            error.setErrorMessage(e.getMessage());
-            this.errors.add(error);
-            this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
-            throw new RuntimeException(e);
-        }
-        catch (IllegalAccessException e) {
-            error.setErrorCode("-1");
-            error.setErrorMessage(e.getMessage());
-            this.errors.add(error);
-            this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
-            throw new RuntimeException(e);
         }
         catch (InvocationTargetException e) {
             String errorMsg=e.getTargetException().getMessage();
@@ -110,11 +98,14 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
             }else{
                 System.out.println("code not found.");
             }
-            error.setErrorCode(code);
-            error.setErrorMessage("Error invoking "+this.apiName.getCode()+":"+errorMsg);
-            this.errors.add(error);
+            this.errors.add(new Error(this.toString(),code,"Error invoking "+this.apiName.getCode()+":"+errorMsg));
             this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
             throw e;
+        }
+        catch (Exception e) {
+            this.errors.add(new Error(this.toString(),"-1",e.getMessage()));
+            this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+            throw new RuntimeException(e);
         }finally{
             setAttemptDate(new Date());
         }
@@ -130,6 +121,14 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         return xmlUtils;
     }
 
+    @Transient
+    protected XmlMarshaller getXMLMarshaller(){
+        if(serviceName==ServiceName.STUDY)
+            return new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
+        else if(serviceName==ServiceName.REGISTRATION)
+            return new XmlMarshaller("c3pr-registration-xml-castor-mapping.xml");
+        return null;
+    }
     
     public int compareTo(EndPoint endPoint) {
         return this.attemptDate.compareTo(endPoint.getAttemptDate());
@@ -224,5 +223,10 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         Collections.sort(tempList);
         if (tempList.size() == 0) return null;
         return tempList.get(tempList.size() - 1);
+    }
+
+    @Transient
+    public Object getReturnValue() {
+        return returnValue;
     }
 }

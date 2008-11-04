@@ -12,4 +12,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "SCC")
 public class StudyCoordinatingCenter extends StudyOrganization {
 
+    public StudyCoordinatingCenter() {
+        super();
+        this.setHostedMode(false);
+    }
 }

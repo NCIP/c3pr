@@ -116,4 +116,12 @@ public abstract class InteroperableAbstractMutableDeletableDomainObject extends 
         return tempList.get(tempList.size() - 1);
     }
     
+    @Transient
+    public List<Error> getRecentErrors(){
+        List<Error> tempList = new ArrayList<Error>();
+        for(EndPoint endPoint:getEndpoints())
+            tempList.addAll(endPoint.getErrors());
+        Collections.sort(tempList);
+        return tempList;
+    }
 }
