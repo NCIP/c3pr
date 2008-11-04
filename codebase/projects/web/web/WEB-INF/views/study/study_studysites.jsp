@@ -76,20 +76,18 @@ Event.observe(window, "load", function() {
                     <th><b>Activation Date</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
                     <th><b>IRB Approval Date</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
                     <th><b>Target Accrual Number</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
+                    <th><b>Hosted Mode</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
                 </tr>
                 
                     <tr>
                      <td>
-									
                 			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite-input"
                        				size="40"
 									<c:set var="_codeSite" value="" />
 									<c:set var="_nameSite" value="" />
 									<c:if test="${fn:length(command.study.studySites)>0}">	
-									
 									<c:set var="_codeSite" value="(${command.study.studySites[0].healthcareSite.nciInstituteCode})" />
 									<c:set var="_nameSite" value="${command.study.studySites[0].healthcareSite.name}" />
-									
 									</c:if>
                       				 value='<c:out value="${_nameSite} ${_codeSite}" />'/>
 								<input type="hidden" id="healthcareSite-hidden"
@@ -122,6 +120,10 @@ Event.observe(window, "load", function() {
                          <input id="studySites[0].targetAccrualNumber" name="study.studySites[0].targetAccrualNumber" value="${command.study.studySites[0].targetAccrualNumber}"
 				 				size="6" type="text" maxlength="6" cssClass="validate-NUMERIC&&NONZERO_NUMERIC"
                           />
+                     </td>
+                     <td>
+                         <input id="study.studySites[0].hostedMode"
+                       			name="study.studySites[0].hostedMode" type="checkbox" disabled="disabled"/>
                      </td>
                     </tr>
             </table>
@@ -172,7 +174,7 @@ var instanceRowInserterProps = {
     initialIndex: ${fn:length(command.study.studySites)},
     softDelete: ${softDelete == 'true'},
     isAdmin: ${isAdmin == 'true'},
-    path: "studySites",
+    path: "study.studySites",
     postProcessRowInsertion: function(object){
         inputDateElementLocal="studySites["+object.localIndex+"].startDate";
         inputDateElementLink="studySites["+object.localIndex+"].startDate-calbutton";
@@ -218,6 +220,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <th><b>Activation Date</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
                     <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
                     <th><b>Target Accrual Number</b><tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
+                    <th><b>Hosted Mode</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
                     <th></th>
                 </tr>
                     
@@ -246,11 +249,16 @@ RowManager.addRowInseter(instanceRowInserterProps);
                             <tags:dateInput path="study.studySites[${status.index}].irbApprovalDate"/>
                         </td>
                         <td> <form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC" size="6"/>
-            			</td>  
+            			</td> 
+            			<td><form:checkbox path="study.studySites[${status.index}].hostedMode"/>
+            			<script>
+					        <c:if test="${!(command.study.multiInstitutionIndicator && multisiteEnv)}">$('study.studySites[${status.index}].hostedMode').disabled = true;
+					        </c:if>
+					    </script>
+            			</td> 
                         <td><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${site.id==null?'HC#':'ID#'}${site.id==null?site.hashCode:site.id}');"><img
                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-
                     </tr>
                 </c:forEach>
             </table>
@@ -313,11 +321,20 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <input id="studySites[PAGE.ROW.INDEX].targetAccrualNumber"
                        name="study.studySites[PAGE.ROW.INDEX].targetAccrualNumber" maxlength="6" size="6"
                        type="text" class="validate-NUMERIC"/>
-            </td>            
+            </td>
+            <td>
+                <input id="studySites[PAGE.ROW.INDEX].hostedMode"
+                       name="study.studySites[PAGE.ROW.INDEX].hostedMode" type="checkbox" checked/>
+                       <input type="hidden" value="1" name="_study.studySites[PAGE.ROW.INDEX].hostedMode" id="_studySites[PAGE.ROW.INDEX].hostedMode"/>
+                       <script>
+                       <c:if test="${!(command.study.multiInstitutionIndicator && multisiteEnv)}">$('studySites[PAGE.ROW.INDEX].hostedMode').disabled = true;
+					        </c:if></script>
+            </td>
             <td>
                 <a
                     href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+            
         </tr>
     </table>
 </div>
