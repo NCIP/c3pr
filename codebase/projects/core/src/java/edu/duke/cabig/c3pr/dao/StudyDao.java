@@ -21,11 +21,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
+
 import sun.util.logging.resources.logging;
 
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
+import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -177,6 +180,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 			if (studyOrganization != null) {
 				getHibernateTemplate().initialize(studyOrganization.getStudyInvestigatorsInternal());
 				getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
+				getHibernateTemplate().initialize(studyOrganization.getEndpoints());
+				for(EndPoint endPoint: studyOrganization.getEndpoints())
+				    getHibernateTemplate().initialize(endPoint.getErrors());
 			}
 		}
 		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
