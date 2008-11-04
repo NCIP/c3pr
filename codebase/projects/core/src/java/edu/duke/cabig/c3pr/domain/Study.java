@@ -127,12 +127,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	private Logger log = Logger.getLogger(Study.class);
 
-	private Boolean hostedMode;
-
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 
 	public Study() {
-		hostedMode = true;
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 		resourceBundleMessageSource.setBasename("error_messages_multisite");
 		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
@@ -1318,14 +1315,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	// return this.evaluateDataEntryStatus() == StudyDataEntryStatus.COMPLETE;
 	// }
 
-	public Boolean getHostedMode() {
-		return hostedMode;
-	}
-
-	public void setHostedMode(Boolean hostedMode) {
-		this.hostedMode = hostedMode;
-	}
-
 	@Transient
 	public boolean isCoOrdinatingCenter(String nciCode) {
 		return this.getStudyCoordinatingCenters().get(0).getHealthcareSite()
@@ -1334,8 +1323,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public boolean canMultisiteBroadcast() {
-		return this.getMultiInstitutionIndicator() && !this.companionIndicator
-				&& !this.getHostedMode();
+		return this.getMultiInstitutionIndicator() && !this.companionIndicator;
 	}
 
 	@Transient
