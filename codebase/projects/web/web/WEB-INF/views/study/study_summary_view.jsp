@@ -446,9 +446,7 @@
     </chrome:division>
 </c:if>
 
-
-<%--Optionally display edit mode buttons--%>
-<c:if test="${not empty editAuthorizationTask && empty flowType}">
+<c:if test="${not empty editAuthorizationTask}">
     <div class="content buttons autoclear">
         <div class="flow-buttons">
         <span class="next">
@@ -476,47 +474,28 @@
                         <c:set var="amendURL" value="amendStudy"/>
                     </c:otherwise>
                 </c:choose>
-            <!--export study-->
-               <input type="button"
-                       value="Export Study" onclick="doExportAction();"/>
-                <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
-                                        authorizationCheckName="taskAuthorizationCheck">
-                    <input type="button" value="Edit Study"
-                           onclick="document.location='../study/editStudy?studyId=${command.study.id}'"/>
-                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"
-                                                             <c:if test="${command.study.coordinatingCenterStudyStatus != 'OPEN' &&
-	  							command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
-                                                             onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'"/>
-                </csmauthz:accesscontrol> 
+            	<c:if test="${empty flowType}">
+	                <csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
+	                    <input type="button" value="Edit Study" onclick="document.location='../study/editStudy?studyId=${command.study.id}'"/>
+	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv" 
+	                    	<c:if test="${command.study.coordinatingCenterStudyStatus != 'OPEN' && command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
+	                                                            onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'"/>
+	                </csmauthz:accesscontrol>
+                </c:if> 
+                <c:if test="${not empty flowType}">
+                	<input type="button" value="Manage Study" onclick="document.location='../study/viewStudy?studyId=${command.study.id}'"/>
+                </c:if>
         </span>
         </div>
     </div>
-</c:if >
-<c:if test="${not empty flowType}">
-<div class="content buttons autoclear">
-    <div class="flow-buttons"><span class="next">
-		<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
-                                    authorizationCheckName="domainObjectAuthorizationCheck">
-                &nbsp;
-				 <c:if test="${!empty open}">
-                    <input type="button" value="${open }"
-                           onclick="changeStudyStatus('open')"/>
-				</c:if>
-				<c:if test="${command.study.coordinatingCenterStudyStatus=='PENDING'}">
-					<input type="button" value="Create Study"
-                           onclick="changeStudyStatus('readyToOpen')"/>
-                </c:if>
-		 </csmauthz:accesscontrol>
-
-				<input type="button" value="Manage" id="manageStudy"
-                       onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
- 			</span></div>
-</div>
 </c:if>
 <br/>
+<c:if test="${empty flowType}">
 <div align="right">
+ 	<input type="button" value="Export Study" onclick="doExportAction();"/>
     <input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
 </div>
+</c:if>
 </chrome:box>
 
 <div id="errorsDiv" style="display:none">
