@@ -2,8 +2,10 @@ package edu.duke.cabig.c3pr.infrastructure.interceptor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,7 +66,6 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			if(hcs != null){
 				nciCodeList.add(hcs.getNciInstituteCode());
 			}
-		
 		}
 		
 		SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
@@ -415,8 +416,22 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
 			hcsList.add(healthcareSiteDao.getByNciInstituteCode(localNciCode));
 		}
+		
+		removeDuplicates(hcsList);
 		return hcsList;
 	}
+	
+	
+	/*
+     * removes multiple occurrences of any sites that may result in emails being sent out twice
+     */
+    private void removeDuplicates(List<HealthcareSite> hcsList){
+    	Set <HealthcareSite> set = new HashSet<HealthcareSite>();
+    	set.addAll(hcsList);
+    	hcsList.clear();
+    	hcsList.addAll(set);
+    }
+    
 	
 	private int calculateStudyAccrual(StudySubject studySubject){
 		return studySubject.getStudySite().getStudy().getCurrentAccrualCount().intValue();
