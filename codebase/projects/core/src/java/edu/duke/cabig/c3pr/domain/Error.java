@@ -22,6 +22,16 @@ public class Error extends AbstractMutableDeletableDomainObject implements Compa
     private String errorMessage;
     
     private Date errorDate;
+    
+    
+    public Error(){
+    	
+    }
+    
+    public Error(String errorMessage) {
+		super();
+		this.errorMessage = errorMessage;
+	}
 
     @Temporal(TemporalType.TIMESTAMP)
     public Date getErrorDate() {
