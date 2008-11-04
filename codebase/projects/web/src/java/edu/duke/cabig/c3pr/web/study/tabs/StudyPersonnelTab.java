@@ -57,20 +57,25 @@ public class StudyPersonnelTab extends StudyTab {
         	for(StudyPersonnel studyPersonnel : studyOrganization.getStudyPersonnel()){
         		ResearchStaff researchStaff = studyPersonnel.getResearchStaff();
         		List<C3PRUserGroupType> groupRoles = new ArrayList<C3PRUserGroupType>();
-        		try {
-					groupRoles = personnelService.getGroups(researchStaff);
+					groupRoles = getGroups(researchStaff);
 					researchStaff.setGroups(groupRoles);
-				} catch (C3PRBaseException e) {
-					e.printStackTrace();
-				}
         	} 
         }
-
         addConfigMapToRefdata(refdata, "studyPersonnelStatusRefData");
         return refdata;
     }
 
-    @Override
+    private List<C3PRUserGroupType> getGroups(ResearchStaff researchStaff) {
+    	List<C3PRUserGroupType> list = new ArrayList<C3PRUserGroupType>();
+		try {
+			list = personnelService.getGroups(researchStaff);
+		} catch (C3PRBaseException e) {
+			e.printStackTrace();
+		}
+		return list ; 
+	}
+
+	@Override
     public void validate(StudyWrapper wrapper, Errors errors) {
         super.validate(wrapper, errors);
         this.studyValidator.validateStudyPersonnel(wrapper.getStudy(), errors);
@@ -97,15 +102,15 @@ public class StudyPersonnelTab extends StudyTab {
             }else if (StringUtils.equals("addStudyDisease", action) && studyOrganization != null) {
                 String[] rsIds = studyOrganization.getStudyPersonnelIds();
                 if (rsIds.length > 0) {
-                    ResearchStaff rs = null;
+                    ResearchStaff researchStaff = null;
                     log.debug("Study PersonnelIds Size : "+ studyOrganization.getStudyPersonnelIds().length);
                     for (String rsId : rsIds) {
                         log.debug("Research Staff Id : " + rsId);
                         StudyPersonnel sPersonnel = new StudyPersonnel();
-                        rs = researchStaffDao.getById(new Integer(rsId).intValue());
-                        if (rs != null) {
-                            sPersonnel.setResearchStaff(rs);
-                            sPersonnel.setRoleCode(rs.getGroups().get(0).getDisplayName());
+                        researchStaff = researchStaffDao.getById(new Integer(rsId).intValue());
+                        if (researchStaff != null) {
+                            sPersonnel.setResearchStaff(researchStaff);
+                            sPersonnel.setRoleCode(getGroups(researchStaff).get(0).getDisplayName());
                             sPersonnel.setStatusCode("Active");
                             sPersonnel.setStudyOrganization(studyOrganization);
                             studyOrganization.getStudyPersonnel().add(sPersonnel);
