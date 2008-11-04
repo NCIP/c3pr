@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
@@ -33,7 +36,8 @@ public class StudyTestCase extends AbstractTestCase{
 		EasyMock.expect(c3prExceptionHelper.getException(301)).andReturn(new C3PRCodedException(301, "exception message"));
 		replayMocks();
 		try {
-			basicStudy.evaluateDataEntryStatus();
+			List<Error> errors = new ArrayList<Error>();
+			basicStudy.evaluateDataEntryStatus(errors);
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
@@ -47,7 +51,8 @@ public class StudyTestCase extends AbstractTestCase{
 		EasyMock.expect(c3prExceptionHelper.getException(300)).andReturn(new C3PRCodedException(300, "exception message"));
 		replayMocks();
 		try {
-			basicStudy.evaluateDataEntryStatus();
+			List<Error> errors = new ArrayList<Error>();
+			basicStudy.evaluateDataEntryStatus(errors);
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
@@ -64,7 +69,8 @@ public class StudyTestCase extends AbstractTestCase{
 		EasyMock.expect(c3prExceptionHelper.getException(302)).andReturn(new C3PRCodedException(302, "exception message"));
 		replayMocks();
 		try {
-			basicStudy.evaluateDataEntryStatus();
+			List<Error> errors = new ArrayList<Error>();
+			basicStudy.evaluateDataEntryStatus(errors);
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
@@ -81,7 +87,8 @@ public class StudyTestCase extends AbstractTestCase{
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(306),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(306, "exception message"));
 		replayMocks();	
 		try {
-			basicStudy.evaluateDataEntryStatus();
+			List<Error> errors = new ArrayList<Error>();
+			basicStudy.evaluateDataEntryStatus(errors);
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
@@ -99,7 +106,8 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		replayMocks();	
 		try {
-			basicStudy.evaluateDataEntryStatus();
+			List<Error> errors = new ArrayList<Error>();
+			basicStudy.evaluateDataEntryStatus(errors);
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
@@ -117,7 +125,8 @@ public class StudyTestCase extends AbstractTestCase{
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(307),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(307, "exception message"));
 		replayMocks();	
 		try {
-			basicStudy.evaluateDataEntryStatus();
+			List<Error> errors = new ArrayList<Error>();
+			basicStudy.evaluateDataEntryStatus(errors);
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
@@ -129,7 +138,8 @@ public class StudyTestCase extends AbstractTestCase{
 		studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 		basicStudy.setStratificationIndicator(false);
 		replayMocks();
-			assertEquals("Data Entry Status should evaluate to Complete",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus());
+			List<Error> errors = new ArrayList<Error>();
+			assertEquals("Data Entry Status should evaluate to Complete",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus(errors));
 			verifyMocks();
 	}
 	
@@ -138,7 +148,8 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		replayMocks();	
-		assertEquals("Wrong Data Entry Status",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus());
+		List<Error> errors = new ArrayList<Error>();
+		assertEquals("Wrong Data Entry Status",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus(errors));
 		verifyMocks();
 	}
 	
