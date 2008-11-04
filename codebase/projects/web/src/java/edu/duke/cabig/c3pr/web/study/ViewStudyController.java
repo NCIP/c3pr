@@ -74,7 +74,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
-        flow.addTab(new StudyAdvanceTab());
+        //flow.addTab(new StudyAdvanceTab());
         flow.addTab(new StudyRegistrationsTab());
 
     }
