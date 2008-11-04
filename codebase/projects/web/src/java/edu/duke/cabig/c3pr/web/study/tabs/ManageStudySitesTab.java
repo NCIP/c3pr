@@ -37,7 +37,7 @@ public class ManageStudySitesTab extends StudyTab {
     }
 
     public ManageStudySitesTab() {
-        super("Manage Stites", "Manage Stites", "study/study_manage_studysites");
+        super("Manage Sites", "Manage Sites", "study/study_manage_studysites");
     }
 
     @Override
