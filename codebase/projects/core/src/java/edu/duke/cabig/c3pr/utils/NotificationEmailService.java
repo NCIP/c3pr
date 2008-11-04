@@ -60,7 +60,13 @@ public class NotificationEmailService implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
     
+    private String linkBack = null;
+    
     public static final String STUDY_INVESTIGATOR = "SI";
+    
+    public static final String LINK_BACK_SUBJECT = "Notification from C3PR";
+    
+    public static final String LINK_BACK_TEXT = "To view this message click on https://localhost:8443/c3pr/pages/admin/viewInbox   You may be asked to login.";
     /**
      * This method is reponsible for figuring out the email address from notifications and sending
      * out the notification email using Javamail.
@@ -106,18 +112,32 @@ public class NotificationEmailService implements ApplicationContextAware {
 
             MimeMessage message = new MimeMessage(mailSession);
             
-            message.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
-            message.setFrom(new InternetAddress("c3prproject@gmail.com"));
-            
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setContent(recipientScheduledNotification.getScheduledNotification().getMessage(), "text/html");
+            if(linkBack.equalsIgnoreCase("true")){
+            	message.setSubject(LINK_BACK_SUBJECT);
+                message.setFrom(new InternetAddress("c3prproject@gmail.com"));
+                
+                MimeBodyPart mimeBodyPart = new MimeBodyPart();
+                mimeBodyPart.setContent(LINK_BACK_TEXT, "text/html");
 
-            Multipart multiPart = new MimeMultipart();
-            multiPart.addBodyPart(mimeBodyPart);
-            
-            message.setContent(multiPart);
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddress));
+                Multipart multiPart = new MimeMultipart();
+                multiPart.addBodyPart(mimeBodyPart);
+                
+                message.setContent(multiPart);
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddress));
+            } else {
+            	message.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
+                message.setFrom(new InternetAddress("c3prproject@gmail.com"));
+                
+                MimeBodyPart mimeBodyPart = new MimeBodyPart();
+                mimeBodyPart.setContent(recipientScheduledNotification.getScheduledNotification().getMessage(), "text/html");
 
+                Multipart multiPart = new MimeMultipart();
+                multiPart.addBodyPart(mimeBodyPart);
+                
+                message.setContent(multiPart);
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddress));
+            }
+            
             transport.connect("smtp.gmail.com", "c3prproject@gmail.com", "semanticbits");
             message.saveChanges();
             transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
@@ -154,13 +174,18 @@ public class NotificationEmailService implements ApplicationContextAware {
         //logging the email details for testing purposes
         
         for (String emailAddress : emailList) {
-                SimpleMailMessage msg = new SimpleMailMessage(this.accountCreatedTemplateMessage);
+        SimpleMailMessage msg = new SimpleMailMessage(this.accountCreatedTemplateMessage);
+	        if(linkBack.equalsIgnoreCase("true")){
+	        	msg.setSubject(LINK_BACK_SUBJECT);
+                msg.setTo(emailAddress);
+                msg.setText(LINK_BACK_TEXT);
+	        } else {
                 msg.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
                 msg.setTo(emailAddress);
                 msg.setText(recipientScheduledNotification.getScheduledNotification().getMessage());
-                log.debug("Trying to send " + recipientScheduledNotification.getScheduledNotification().getTitle()+ " notification email");
-                
-                this.mailSender.send(msg);
+	        }
+	        log.debug("Trying to send " + recipientScheduledNotification.getScheduledNotification().getTitle()+ " notification email");
+	        this.mailSender.send(msg);
         }
         log.debug(this.getClass().getName() + ": Exiting sendEmail()");
     }
@@ -399,6 +424,20 @@ public class NotificationEmailService implements ApplicationContextAware {
 
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
+	}
+
+
+
+
+	public String getLinkBack() {
+		return linkBack;
+	}
+
+
+
+
+	public void setLinkBack(String linkBack) {
+		this.linkBack = linkBack;
 	}
 
 }

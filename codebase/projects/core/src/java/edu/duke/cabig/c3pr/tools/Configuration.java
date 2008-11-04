@@ -108,10 +108,14 @@ public class Configuration extends DatabaseBackedConfiguration {
                     .add(new ConfigurationProperty.Text("cas.cert_file"));
     
     public static final ConfigurationProperty<String> IDP_URL = PROPERTIES
-    .add(new ConfigurationProperty.Text("idp.url"));
+    				.add(new ConfigurationProperty.Text("idp.url"));
 
     public static final ConfigurationProperty<String> IFS_URL = PROPERTIES
-        .add(new ConfigurationProperty.Text("ifs.url"));
+        			.add(new ConfigurationProperty.Text("ifs.url"));
+    
+    public static final ConfigurationProperty<String> NOTIFICATION_LINK_BACK = PROPERTIES
+    				.add(new ConfigurationProperty.Text("notification.link_back"));
+
     
     protected Class<? extends ConfigurationEntry> getConfigurationEntryClass() {
         return C3prConfigurationEntry.class;
