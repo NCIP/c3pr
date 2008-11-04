@@ -52,8 +52,15 @@
         }
 
         function changeStudyStatus(status) {
-            $('statusChange').value = status;
-            $('command').submit();
+
+        	if (${fn:length(errors)} > 0){
+        		var d = $('errorsDiv');
+        		Dialog.alert(d.innerHTML, 
+        		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
+        	} else {
+	            $('statusChange').value = status;
+	            $('command').submit();
+        	}
 
         }
     </script>
@@ -470,7 +477,7 @@
                     </c:otherwise>
                 </c:choose>
             <!--export study-->
-                <input type="button"
+               <input type="button"
                        value="Export Study" onclick="doExportAction();"/>
                 <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
                                         authorizationCheckName="taskAuthorizationCheck">
@@ -484,13 +491,51 @@
         </span>
         </div>
     </div>
+</c:if >
+<c:if test="${not empty flowType}">
+<div class="content buttons autoclear">
+    <div class="flow-buttons"><span class="next">
+		<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
+                                    authorizationCheckName="domainObjectAuthorizationCheck">
+                &nbsp;
+				 <c:if test="${!empty open}">
+                    <input type="button" value="${open }"
+                           onclick="changeStudyStatus('open')"/>
+				</c:if>
+				<c:if test="${command.study.coordinatingCenterStudyStatus=='PENDING'}">
+					<input type="button" value="Create Study"
+                           onclick="changeStudyStatus('readyToOpen')"/>
+                </c:if>
+		 </csmauthz:accesscontrol>
+
+				<input type="button" value="Manage" id="manageStudy"
+                       onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
+ 			</span></div>
+</div>
 </c:if>
 <br/>
-
 <div align="right">
     <input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
 </div>
 </chrome:box>
+
+<div id="errorsDiv" style="display:none">
+	<div class="value" align="left">
+		<font size="2" face="Verdana" color="red">
+			Cannot Create Study. Please review the data.
+		</font>
+	</div>
+	
+	<br>
+	
+	<c:forEach items="${errors}" var="error" >
+		<div class="value" align="left">
+			<font size="1" face="Verdana" color="black">
+				${error.errorMessage}
+			</font>
+		</div>
+	</c:forEach>
+</div>
 
 </form:form>
 </body>

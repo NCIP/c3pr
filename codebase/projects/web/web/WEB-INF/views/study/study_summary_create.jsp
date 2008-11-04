@@ -3,18 +3,30 @@
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}"/></title>
-<script>
 
+<script>
 function activateAndSaveStudy(){
-document.getElementById("_activate").value="true";
-document.getElementById("_action").value="open";
-document.getElementById("viewDetails").submit();
+	if (${fn:length(errors)} > 0){
+		var d = $('errorsDiv');
+		Dialog.alert(d.innerHTML, 
+		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
+	} else {
+		document.getElementById("_activate").value="true";
+		document.getElementById("_action").value="open";
+		document.getElementById("viewDetails").submit();
+	}
 }
 
 function createStudy(){
-document.getElementById("_activate").value="false";
-document.getElementById("_action").value="create";
-document.getElementById("viewDetails").submit();
+	if (${fn:length(errors)} > 0){
+		var d = $('errorsDiv');
+		Dialog.alert(d.innerHTML, 
+		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
+	} else {
+		document.getElementById("_activate").value="false";
+		document.getElementById("_action").value="create";
+		document.getElementById("viewDetails").submit();
+	}
 }
 </script>
 </head>
@@ -229,9 +241,26 @@ document.getElementById("viewDetails").submit();
 				<input type="button" value="Create" id="createButtonDisplayDiv" onclick="createStudy();return false;"/>
 <input type="button" value="Manage" id="manageStudy"
                        onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
- 			</span></div>
+			</span></div>
 			</div>
 </chrome:box>
+<div id="errorsDiv" style="display:none">
+	<div class="value" align="left">
+		<font size="2" face="Verdana" color="red">
+			Cannot Create Study. Please review the data.
+		</font>
+	</div>
+	
+	<br>
+	
+	<c:forEach items="${errors}" var="error" >
+		<div class="value" align="left">
+			<font size="1" face="Verdana" color="black">
+				${error.errorMessage}
+			</font>
+		</div>
+	</c:forEach>
+</div>
 </form:form>
 </body>
 </html>
