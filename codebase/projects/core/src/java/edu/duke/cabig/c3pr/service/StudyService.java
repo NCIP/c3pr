@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.service;
 
 import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 
 
 /**
@@ -10,7 +11,7 @@ import edu.duke.cabig.c3pr.domain.Study;
  * @author priyatam
  */
 public interface StudyService extends MultiSiteWorkflowService, CCTSWorkflowService{
-    public boolean canMultisiteBroadcast(Study study);
+    public boolean canMultisiteBroadcast(StudyOrganization studyOrganization);
     
     public String getLocalNCIInstituteCode();
     

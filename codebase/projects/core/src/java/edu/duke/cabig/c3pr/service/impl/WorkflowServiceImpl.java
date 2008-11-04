@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.CCTSWorkflowService;
 import edu.duke.cabig.c3pr.service.MultiSiteWorkflowService;
+import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -63,6 +64,12 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     private EndPointFactory endPointFactory;
     
     private StudyOrganizationDao studyOrganizationDao;
+    
+    private StudyService studyService;
+
+    public void setStudyService(StudyService studyService) {
+        this.studyService = studyService;
+    }
 
     public void setCctsXSLTName(String cctsXSLTName) {
         this.cctsXSLTName = cctsXSLTName;
@@ -236,6 +243,9 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     }
     
     public void handleMultiSiteBroadcast(StudyOrganization studyOrganization, ServiceName multisiteServiceName, APIName multisiteAPIName, List domainObjects) {
+        if(!studyService.canMultisiteBroadcast(studyOrganization)){
+            return;
+        }
         try {
             //multiSiteHandlerService.handle(multisiteServiceName, multisiteAPIName, endPointProperty, domainObjects);
             EndPoint endPoint=endPointFactory.getEndPoint(multisiteServiceName, multisiteAPIName, studyOrganization);
