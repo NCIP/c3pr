@@ -17,6 +17,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ public class EditStudyController extends StudyController<StudyWrapper> {
 
     protected static final Log log = LogFactory.getLog(EditStudyController.class);
     private Task editTask;
+    private final String DO_NOT_SAVE = "_doNotSave" ; 
 
     public Task getEditTask() {
         return editTask;
@@ -116,7 +118,11 @@ public class EditStudyController extends StudyController<StudyWrapper> {
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, StudyWrapper command, Tab<StudyWrapper> tab) {
-        return super.shouldSave(request, command, tab) && StringUtils.isBlank(request.getParameter("_action"));
+        boolean shouldSave = super.shouldSave(request, command, tab) && StringUtils.isBlank(request.getParameter("_action"));
+        if(WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")){
+            shouldSave = false;
+        }
+        return shouldSave ; 
     }
 
     @Override
