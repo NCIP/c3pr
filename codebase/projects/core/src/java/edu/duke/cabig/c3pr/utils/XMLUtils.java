@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import org.apache.axis.message.MessageElement;
 import org.apache.log4j.Logger;
@@ -28,7 +31,9 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+import gov.nih.nci.cabig.ccts.domain.Message;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import gov.nih.nci.cagrid.common.Utils;
 
 public class XMLUtils {
     /**
@@ -232,5 +237,43 @@ public class XMLUtils {
             throw new RuntimeException(e);
         }
         return messageElements;
+    }
+    
+    private String getModifiedDomainXML(String messageXML){
+        System.out.println("messageXML---------");
+        System.out.println(messageXML);
+        System.out.println("messageXML end---------");
+        String domainXml=messageXML.substring(messageXML.indexOf('>')+1, messageXML.lastIndexOf('<'));
+        System.out.println("domainXml---------");
+        System.out.println(domainXml);
+        System.out.println("domainXml end---------");
+        String modifiedXML="<message>"+domainXml+"</message>";
+        System.out.println("modifiedXML---------");
+        System.out.println(modifiedXML);
+        System.out.println("modifiedXML end---------");
+        return modifiedXML;
+    }
+    public <T extends AbstractMutableDomainObject> List<T> getArguments(Message message)
+                    throws RemoteException {
+        StringWriter xmlWriter = new StringWriter();
+        try {
+            Utils.serializeObject(message, new QName("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"), xmlWriter);
+        }
+        catch (Exception e) {
+            throw new RemoteException("Cannot serialize..");
+        }
+        return new XMLUtils(xmlMarshaller).extractDomainObjectsFromXML(getModifiedDomainXML(xmlWriter.toString()));
+    }
+
+    public <T extends AbstractMutableDomainObject> List<T> getDomainObjectsFromList(
+                    Class<T> domanObjectClass,
+                    List<? extends AbstractMutableDomainObject> objectList) {
+        List<T> list = new ArrayList<T>();
+        for (AbstractMutableDomainObject o : objectList) {
+            if (domanObjectClass.isInstance(o)) {
+                list.add((T) o);
+            }
+        }
+        return list;
     }
 }

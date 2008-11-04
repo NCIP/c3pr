@@ -175,7 +175,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(
                         nciInstituteCode);
-        if (studyService.canMultisiteBroadcast(study)
+        if (study.canMultisiteBroadcast()
                         && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())
                         && studySite.getSiteStudyStatus()!=SiteStudyStatus.APPROVED_FOR_ACTIVTION) {
             throw getC3PRExceptionHelper().getRuntimeException(
@@ -183,7 +183,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         }
         studySite.activate();
         studySite=studySiteDao.merge(studySite);
-        if (studyService.canMultisiteBroadcast(study)
+        if (study.canMultisiteBroadcast()
                         && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())) {
             List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
@@ -207,7 +207,7 @@ public class StudyRepositoryImpl implements StudyRepository {
                         nciInstituteCode);
         studySite.approveForActivation();
         studySite=studySiteDao.merge(studySite);
-        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
@@ -220,10 +220,10 @@ public class StudyRepositoryImpl implements StudyRepository {
     public Study closeStudy(List<Identifier> studyIdentifiers) {
         Study study = getUniqueStudy(studyIdentifiers);
         study.closeToAccrual();
-        study=this.merge(study);
-        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
         }
+        study=this.merge(study);
         return study;
     }
 
@@ -232,7 +232,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         study.closeToAccrualAndTreatment();
         study=this.merge(study);
-        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
         }
         return study;
@@ -243,7 +243,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         study.temporarilyCloseToAccrual();
         study=this.merge(study);
-        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
         }
         return study;
@@ -254,7 +254,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         study.temporarilyCloseToAccrualAndTreatment();
         study=this.merge(study);
-        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
         }
         return study;
@@ -275,7 +275,7 @@ public class StudyRepositoryImpl implements StudyRepository {
                         nciInstituteCode);
         studySite.closeToAccrual();
         studySite=studySiteDao.merge(studySite);
-        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
@@ -292,7 +292,7 @@ public class StudyRepositoryImpl implements StudyRepository {
                         nciInstituteCode);
         studySite.closeToAccrualAndTreatment();
         studySite=studySiteDao.merge(studySite);
-        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
@@ -309,7 +309,7 @@ public class StudyRepositoryImpl implements StudyRepository {
                         nciInstituteCode);
         studySite.temporarilyCloseToAccrual();
         studySite=studySiteDao.merge(studySite);
-        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
@@ -326,7 +326,7 @@ public class StudyRepositoryImpl implements StudyRepository {
                         nciInstituteCode);
         studySite.temporarilyCloseToAccrualAndTreatment();
         studySite=studySiteDao.merge(studySite);
-        if(studyService.canMultisiteBroadcast(study) && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
@@ -342,7 +342,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             studySite.closeToAccrual();
             studySiteDao.save(studySite);
         }
-        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY_SITES, studyIdentifiers);
         }
         return study.getStudySites();
@@ -352,7 +352,7 @@ public class StudyRepositoryImpl implements StudyRepository {
     public Study createStudy(Study study) {
         study.readyToOpen();
         study=this.merge(study);
-        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.add(study);
             studyService.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY, domainObjects);
@@ -365,7 +365,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         study.readyToOpen();
         study=this.merge(study);
-        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.add(study);
             studyService.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY, domainObjects);
@@ -380,7 +380,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             study=this.createStudy(studyIdentifiers);
         study.open();
         study= this.merge(study);
-        if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             studyService.handleAffiliateSitesBroadcast(study, APIName.OPEN_STUDY, studyIdentifiers);
         }
         return study;
