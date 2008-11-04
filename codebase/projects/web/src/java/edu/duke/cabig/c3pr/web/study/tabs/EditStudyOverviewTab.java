@@ -11,14 +11,4 @@ public class EditStudyOverviewTab extends StudyOverviewTab {
         super(longTitle, shortTitle, viewName);
     }
     
-    @Override
-    public void validate(StudyWrapper wrapper, Errors errors) {
-        try {
-           // wrapper.getStudy().updateDataEntryStatus();
-        }
-        catch (Exception e) {
-            errors.rejectValue("study.coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
-        }
-    }
-
 }
