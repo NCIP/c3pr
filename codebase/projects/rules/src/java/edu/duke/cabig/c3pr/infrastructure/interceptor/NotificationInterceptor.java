@@ -61,7 +61,10 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		List<PlannedNotification> result;
 		List<String> nciCodeList = new ArrayList<String>();
 		for(HealthcareSite hcs: hcsList){
-			nciCodeList.add(hcs.getNciInstituteCode());
+			if(hcs != null){
+				nciCodeList.add(hcs.getNciInstituteCode());
+			}
+		
 		}
 		
 		SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
