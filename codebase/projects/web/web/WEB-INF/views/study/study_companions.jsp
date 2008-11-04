@@ -147,10 +147,8 @@ function closePopup() {
     </tr>
 </table>
 <div align="right">
-	<c:if test="${! (empty command.study.studySites || (fn:length(command.study.studySites) == 1 && (empty command.study.studySites[0].healthcareSite)))}">
 		<input id="addCompanion" type="button" value="Add Companion Study" onclick="javascript:RowManager.addRow(instanceRowInserterProps);" />
 		<input id="createCompanion" type="button" value="Create Companion Study" />
-	</c:if>
 </div>
 
 </jsp:attribute>
