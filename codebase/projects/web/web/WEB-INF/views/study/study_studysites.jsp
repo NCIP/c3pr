@@ -3,11 +3,7 @@
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}" /></title>
-    <script>
-function saveStudy() {
-    document.getElementById("command").submit();
-}
-</script>
+   
 <%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 
@@ -84,13 +80,16 @@ Event.observe(window, "load", function() {
                 
                     <tr>
                      <td>
+									
                 			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite-input"
                        				size="40"
 									<c:set var="_codeSite" value="" />
 									<c:set var="_nameSite" value="" />
 									<c:if test="${fn:length(command.study.studySites)>0}">	
+									
 									<c:set var="_codeSite" value="(${command.study.studySites[0].healthcareSite.nciInstituteCode})" />
 									<c:set var="_nameSite" value="${command.study.studySites[0].healthcareSite.name}" />
+									
 									</c:if>
                       				 value='<c:out value="${_nameSite} ${_codeSite}" />'/>
 								<input type="hidden" id="healthcareSite-hidden"
@@ -269,8 +268,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <div class="content buttons autoclear">
         <div class="flow-buttons">
             <span class="next">
-				<input type="button" value="Save" id="saveAdvanceConfig"
-                       onclick="saveStudy();"/>
+				<input type="submit" value="Save" id="saveAdvanceConfig""/>
  			</span>
         </div>
     </div>

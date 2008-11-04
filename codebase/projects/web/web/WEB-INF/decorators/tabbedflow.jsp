@@ -60,6 +60,7 @@ buildMenu(<c:out value="${tab.number}" />, "<c:out value='${currentTask.displayN
     <form:form id="flowredirect">
         <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
         <input type="hidden" name="_page${tab.number}"/>
+        <input type="hidden" name="_doNotSave" value="true"/>
     </form:form>
 
 </div>
