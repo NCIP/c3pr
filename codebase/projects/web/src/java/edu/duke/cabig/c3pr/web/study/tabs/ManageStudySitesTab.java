@@ -45,8 +45,17 @@ public class ManageStudySitesTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(wrapper);
         boolean isAdmin = isAdmin();
         refdata.put("localNCICode", this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
-        refdata.put("canMultisiteBroadcast", studyService.canMultisiteBroadcast(wrapper.getStudy()));
         return refdata;
+    }
+    
+    public ModelAndView showEndpointMessage(HttpServletRequest request, Object obj, Errors errors) {
+        StudyWrapper wrapper=((StudyWrapper)obj);
+        Study study=((StudyWrapper)wrapper).getStudy();
+        String nciCode=request.getParameter("nciCode");
+        StudySite studySite=study.getStudySite(nciCode);
+        Map map=new HashMap();
+        map.put("site", studySite);
+        return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }
 
     public ModelAndView changeStatus(HttpServletRequest request, Object obj,
