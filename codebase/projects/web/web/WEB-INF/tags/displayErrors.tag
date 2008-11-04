@@ -3,11 +3,17 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@attribute name="id"%>
 <%@attribute name="errors" type="java.util.List" required="true"%>
-Click <a href="javascript:C3PR.showAsMessage('Multisite Error','${id }');">here</a> to see the error message
-<div id="${id }" style="display:none">
+<script>
+</script>
+<div id="${id }">
 	<c:choose>
 		<c:when test="${fn:length(errors)>0}">
-			<table>
+			<table class="tablecontent">
+			<tr>
+				<th>Date</th>
+				<th>Code</th>
+				<th>Message</th>
+			</tr>
 			<c:forEach items="${errors}" var="error">
 				<tr>
 				<td width="20%">
