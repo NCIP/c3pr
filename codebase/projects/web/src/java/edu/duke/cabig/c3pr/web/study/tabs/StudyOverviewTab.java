@@ -1,9 +1,10 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,15 +14,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
-import edu.duke.cabig.c3pr.utils.StudyStatusHelper;
+import edu.duke.cabig.c3pr.utils.ErrorHelper;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
@@ -54,7 +55,7 @@ public class StudyOverviewTab extends StudyTab {
             if(request.getParameter("statusChange").equals("readyToOpen")){
                 study = studyRepository.createStudy(study.getIdentifiers());
             }else if(request.getParameter("statusChange").equals("open")){
-                study = studyRepository.openStudy(study.getIdentifiers());
+            	study = studyRepository.openStudy(study.getIdentifiers());
             }else if(request.getParameter("statusChange").equals("close")){
                 study = studyRepository.closeStudy(study.getIdentifiers());
             }
@@ -96,11 +97,9 @@ public class StudyOverviewTab extends StudyTab {
     @Override
     public Map referenceData(HttpServletRequest request, StudyWrapper command) {
         request.setAttribute("isCCTSEnv", isCCTSEnv());
-        try {
-            command.getStudy().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus());
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+        List<Error> dataEntryErrors = new ArrayList<Error>();
+            command.getStudy().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus(dataEntryErrors));
+        	request.setAttribute("errors", dataEntryErrors);
         return super.referenceData(request, command);
     }
 
