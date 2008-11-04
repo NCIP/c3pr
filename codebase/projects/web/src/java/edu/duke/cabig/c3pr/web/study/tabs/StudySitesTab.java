@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import org.springframework.validation.Errors;
 
@@ -14,6 +15,12 @@ import java.util.Map;
 public class StudySitesTab extends StudyTab {
 
     private StudyValidator studyValidator;
+    
+    protected Configuration configuration;
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     public StudySitesTab() {
         super("Study Sites", "Study Sites", "study/study_studysites");
@@ -24,6 +31,7 @@ public class StudySitesTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(wrapper);
         addConfigMapToRefdata(refdata, "studySiteStatusRefData");
         addConfigMapToRefdata(refdata, "studySiteRoleCodeRefData");
+        refdata.put("multisiteEnv", new Boolean(this.configuration.get(Configuration.MULTISITE_ENABLE)));
         boolean isAdmin = isAdmin();
         return refdata;
     }
