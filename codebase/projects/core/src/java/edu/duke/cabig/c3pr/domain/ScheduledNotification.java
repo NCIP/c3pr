@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -31,6 +32,8 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
 	private Date dateSent;
 	
 	private LazyListHelper lazyListHelper;
+	
+	private StudyOrganization studyOrganization;
 
 	public ScheduledNotification() {
         lazyListHelper = new LazyListHelper();
@@ -97,5 +100,16 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
         super.setRetiredIndicatorAsTrue();
         this.setRetiredIndicatorAsTrue();
     }
+
+    @OneToOne
+    @Cascade(value = { CascadeType.LOCK})
+    @JoinColumn(name = "study_org_id")
+	public StudyOrganization getStudyOrganization() {
+		return studyOrganization;
+	}
+
+	public void setStudyOrganization(StudyOrganization studyOrganization) {
+		this.studyOrganization = studyOrganization;
+	}
 	
 }

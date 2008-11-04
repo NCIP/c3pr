@@ -3,7 +3,9 @@ package edu.duke.cabig.c3pr.service.impl;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -22,6 +24,7 @@ import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
@@ -44,23 +47,28 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     /* Study Status Changed case     */
     public Integer saveScheduledNotification(PlannedNotification plannedNotification, Study study) {
     	String composedMessage = applyRuntimeReplacementsForEmailMessage(plannedNotification.getMessage(), study.buildMapForNotification());
-    	return saveScheduledNotification(plannedNotification, composedMessage);
+    	return saveScheduledNotification(plannedNotification, composedMessage, study.getStudyOrganizations());
     }
     
     /* StudySite Status Changed case     */
     public Integer saveScheduledNotification(PlannedNotification plannedNotification, StudySite studySite) {
     	String composedMessage = applyRuntimeReplacementsForEmailMessage(plannedNotification.getMessage(), studySite.buildMapForNotification());
-    	return saveScheduledNotification(plannedNotification, composedMessage);
+    	List<StudyOrganization> soList = new ArrayList<StudyOrganization>();
+    	soList.add(studySite);
+    	return saveScheduledNotification(plannedNotification, composedMessage, soList);
     }   
     
     /* New Registration case     */
     public Integer saveScheduledNotification(PlannedNotification plannedNotification, StudySubject studySubject) {
     	String composedMessage = applyRuntimeReplacementsForEmailMessage(plannedNotification.getMessage(), studySubject.buildMapForNotification());
-    	return saveScheduledNotification(plannedNotification, composedMessage);
+    	List<StudyOrganization> soList = new ArrayList<StudyOrganization>();
+    	soList.add(studySubject.getStudySite());
+    	return saveScheduledNotification(plannedNotification, composedMessage, soList);
     } 
     
+    
     /* Generic save method called by all the above mthods to save the ScheduledNotifications    */
-    public Integer saveScheduledNotification(PlannedNotification plannedNotification, String composedMessage){
+    public Integer saveScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> ssList){
     	log.debug(this.getClass().getName() + ": Entering saveScheduledNotification()");
     	ScheduledNotification scheduledNotification = null;
     	
@@ -73,7 +81,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     		session.update(plannedNotification);
         	//plannedNotificationDao.reassociate(plannedNotification); 
         	//generating and saving the ScheduledNotification
-        	scheduledNotification = addScheduledNotification(plannedNotification, composedMessage);
+        	scheduledNotification = addScheduledNotification(plannedNotification, composedMessage, ssList);
         	session.saveOrUpdate(plannedNotification);
         	session.flush();
         	//plannedNotificationDao.saveOrUpdate(plannedNotification);
@@ -91,7 +99,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 		}
     }
     
-    public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String composedMessage){
+    public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> soList){
     	
     	ScheduledNotification scheduledNotification = new ScheduledNotification();
     	plannedNotification.getScheduledNotifications().add(scheduledNotification);
@@ -125,6 +133,14 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     		rsn.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.PENDING);
     		scheduledNotification.getRecipientScheduledNotification().add(rsn);
     	}
+    	
+		//Add the studyOrganization containing the site which is linked to by PlannedNotifications
+		for(StudyOrganization ss: soList){
+			if(ss.getHealthcareSite().getNciInstituteCode().equals(plannedNotification.getHealthcareSite().getNciInstituteCode())){
+				scheduledNotification.setStudyOrganization(ss);
+			}
+		}
+    	
     	return scheduledNotification;
     }
     

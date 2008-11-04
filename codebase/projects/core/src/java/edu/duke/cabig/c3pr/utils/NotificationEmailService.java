@@ -1,8 +1,10 @@
 package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -15,13 +17,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
-import org.hibernate.FlushMode;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -33,10 +30,11 @@ import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
@@ -61,6 +59,8 @@ public class NotificationEmailService implements ApplicationContextAware {
     private Configuration configuration;
 
     private ApplicationContext applicationContext;
+    
+    public static final String STUDY_INVESTIGATOR = "SI";
     /**
      * This method is reponsible for figuring out the email address from notifications and sending
      * out the notification email using Javamail.
@@ -73,6 +73,19 @@ public class NotificationEmailService implements ApplicationContextAware {
     	List<String> emailList = null;
         //composing the message to be sent out
         emailList = generateEmailList(recipientScheduledNotification);
+        
+        //logging the email details for testing purposes
+        log.debug("********************  Email Address List *****************");
+        for (String emailAddress : emailList) {
+        	log.debug(emailAddress + "    ");
+        }
+        log.debug("*************** Email Title *****************");
+        log.debug(recipientScheduledNotification.getScheduledNotification().getTitle());
+        log.debug("*************** Email Content ***************");
+        log.debug(recipientScheduledNotification.getScheduledNotification().getMessage());
+        //logging the email details for testing purposes
+        
+        
         for (String emailAddress : emailList) {
         	
         	//TO DO: Must move this to be read in from an external file
@@ -128,6 +141,18 @@ public class NotificationEmailService implements ApplicationContextAware {
         List<String> emailList = null;
         //composing the message to be sent out
         emailList = generateEmailList(recipientScheduledNotification);
+        
+        //logging the email details for testing purposes
+        log.debug("********************  Email Address List *****************");
+        for (String emailAddress : emailList) {
+        	log.debug(emailAddress + "    ");
+        }
+        log.debug("*************** Email Title *****************");
+        log.debug(recipientScheduledNotification.getScheduledNotification().getTitle());
+        log.debug("*************** Email Content ***************");
+        log.debug(recipientScheduledNotification.getScheduledNotification().getMessage());
+        //logging the email details for testing purposes
+        
         for (String emailAddress : emailList) {
                 SimpleMailMessage msg = new SimpleMailMessage(this.accountCreatedTemplateMessage);
                 msg.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
@@ -152,6 +177,7 @@ public class NotificationEmailService implements ApplicationContextAware {
     	emailList.addAll(getEmailsFromRoleBasedRecipient(recipientScheduledNotification));
     	emailList.addAll(getEmailsFromUserBasedRecipient(recipientScheduledNotification));
     	emailList.addAll(getEmailsFromContactMechanismBasedRecipient(recipientScheduledNotification));
+    	removeDuplicates(emailList);
     	log.debug(this.getClass().getName() + ": Exiting generateEmailList()");
     	return emailList;
         
@@ -177,10 +203,13 @@ public class NotificationEmailService implements ApplicationContextAware {
     
     
     public List<String> getEmailsFromRoleBasedRecipient(RecipientScheduledNotification recipientScheduledNotification) {
+    	
     	log.debug(this.getClass().getName() + ": Entering getEmailsFromRoleBasedRecipient()");
-        List<String> returnList = new ArrayList<String>();
-        List<C3PRUserGroupType> groupList = null;
-        List<ResearchStaff> rStaffList = null;
+    	List<String> returnList = new ArrayList<String>();
+        
+        /* this portion gets all the users for the related organization(defaults to the hosting org).
+         * However this is replaced by the new logic which utilizes the studySite in the scheduledNotification
+         * to retrieve the personnel/investigators assigned to the study.
         List<HealthcareSite> hcsList = getRelatedHelathcaresite(recipientScheduledNotification);
         if (hcsList == null  || hcsList.size() == 0){
         	//default to hosting Site if no related site is found
@@ -190,29 +219,50 @@ public class NotificationEmailService implements ApplicationContextAware {
         	Integer hcsId = hcsList.get(0).getId();
         	HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
         	rStaffList = hcs.getResearchStaffs();
-        }
+        }*/
         
-
-        for (ResearchStaff rs : rStaffList) {
-            try {
-                groupList = personnelServiceImpl.getGroups(rs);
+        if(recipientScheduledNotification.getRecipient() instanceof RoleBasedRecipient){
+        	RoleBasedRecipient rbr = (RoleBasedRecipient)recipientScheduledNotification.getRecipient();
+        	
+            List<C3PRUserGroupType> groupList = null;
+            List<ResearchStaff> rStaffList = new ArrayList<ResearchStaff>();
+            
+            //Incase the scheduledNotification does not have a studyOrg related to it(legacy data) then return empty list.
+            //this means that roleBasedRecipients for pre-existing ScheduledNotifications(reports) will be ignored.
+            if(recipientScheduledNotification.getScheduledNotification().getStudyOrganization() == null){
+            	log.debug(this.getClass().getName() + ": ScheduledNotification has no studyOrgs associated with it. This must be an old ScheduledNotification.");
+            	return returnList;
             }
-            catch (C3PRBaseException e) {
-                log.error("NotificationEmailService - personnelServiceImpl.getGroups():FAILED");
-                log.error(e.getMessage());
+            
+            //Handle the researchStaff first
+            for(StudyPersonnel sp: recipientScheduledNotification.getScheduledNotification().getStudyOrganization().getStudyPersonnel()){
+            	rStaffList.add(sp.getResearchStaff());
             }
-             //Handle the investigator code seperately 
-            if (groupList != null) {
-                for (C3PRUserGroupType group : groupList) {
-                	if(recipientScheduledNotification.getRecipient() instanceof RoleBasedRecipient){
-                    	RoleBasedRecipient rbr = (RoleBasedRecipient)recipientScheduledNotification.getRecipient() ;	
+            
+            for (ResearchStaff rs : rStaffList) {
+                try {
+                    groupList = personnelServiceImpl.getGroups(rs);
+                }
+                catch (C3PRBaseException e) {
+                    log.error("NotificationEmailService - personnelServiceImpl.getGroups():FAILED" + e.getMessage());
+                }
+                if (groupList != null) {
+                    for (C3PRUserGroupType group : groupList) {
                 		if(rbr.getRole().equalsIgnoreCase(group.getCode())){
                                 returnList.addAll(getEmailAddressesFromResearchStaff(rs));
-                           }
-                	}
+                        }
+                    }
                 }
             }
+            
+            //Handle the investigators seperately
+    		if(rbr.getRole().equalsIgnoreCase(STUDY_INVESTIGATOR)){
+    			for(StudyInvestigator si: recipientScheduledNotification.getScheduledNotification().getStudyOrganization().getStudyInvestigators()){
+                    returnList.addAll(getEmailAddressesFromInvestigator(si.getHealthcareSiteInvestigator().getInvestigator()));
+    			}
+            }
         }
+        
         log.debug(this.getClass().getName() + ": exiting getEmailsFromRoleBasedRecipient()");
         return returnList;
     }
@@ -257,7 +307,19 @@ public class NotificationEmailService implements ApplicationContextAware {
     	return returnList;
     }
     
+    /*
+     * removes the muktiple occurrences of any emails addresses that may result in emails being sent out twice
+     * to the same recipient.
+     */
+    private void removeDuplicates(List<String> emailList){
+    	Set <String> set = new HashSet<String>();
+    	set.addAll(emailList);
+    	emailList.clear();
+    	emailList.addAll(set);
+    }
     
+    
+    /* Commented out ...was previously used by getEmailsFromRoleBasedRecipient();
     private List<HealthcareSite> getRelatedHelathcaresite(RecipientScheduledNotification rsn){
     	SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
 		org.hibernate.Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
@@ -270,15 +332,6 @@ public class NotificationEmailService implements ApplicationContextAware {
           									 "p.scheduledNotificationsInternal.id = ? and o.plannedNotificationsInternal.id = p.id");
           query.setInteger(0, rsn.getScheduledNotification().getId());
           result = query.list();
-        }
-        catch (DataAccessResourceFailureException e) {
-            log.error(e.getMessage());
-        }
-        catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-        catch (HibernateException e) {
-            log.error(e.getMessage());
         }catch(Exception e){
         	log.error(e.getMessage());
         }
@@ -286,8 +339,7 @@ public class NotificationEmailService implements ApplicationContextAware {
         	session.close();
         }
         return result;
-    	
-    }
+    }*/
     
     
     public HealthcareSite getHostingHealthcareSite(){
