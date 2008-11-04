@@ -363,11 +363,7 @@ public class StudyRepositoryImpl implements StudyRepository {
     @Transactional
     public Study createStudy(List<Identifier> studyIdentifiers) {
         Study study = getUniqueStudy(studyIdentifiers);
-        study.updateDataEntryStatus();
-        if (study.getDataEntryStatus()!=StudyDataEntryStatus.COMPLETE) {
-            throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.INCOMPLETE"));
-        }
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+        study.readyToOpen();
         study=this.merge(study);
         if(studyService.canMultisiteBroadcast(study) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
