@@ -1,11 +1,13 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.navigation.Task;
-import edu.duke.cabig.c3pr.web.study.tabs.*;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
@@ -20,12 +22,20 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.navigation.Task;
+import edu.duke.cabig.c3pr.web.study.tabs.CompanionStudyTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyAmendmentTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyEligibilityChecklistTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyOverviewTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyRandomizationTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyStratificationTab;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 public class AmendStudyController extends StudyController<StudyWrapper> {
 
@@ -82,7 +92,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new CompanionStudyTab());
-        flow.addTab(new EditStudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
+        flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
     }
 
     @Override

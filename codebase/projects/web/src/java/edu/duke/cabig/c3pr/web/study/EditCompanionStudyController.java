@@ -1,6 +1,12 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.web.study.tabs.*;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyEligibilityChecklistTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyOverviewTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyRandomizationTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyStratificationTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
@@ -25,7 +31,7 @@ public class EditCompanionStudyController extends EditStudyController {
         flow.addTab(new StudyStratificationTab());
         flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
-        flow.addTab(new EditStudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
+        flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
     }
 
 }

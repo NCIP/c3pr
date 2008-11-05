@@ -45,15 +45,15 @@ public class CreateCompanionStudyController<C extends StudyWrapper> extends Crea
                 studyFSIndex++;
             }
 
-//            List<StudySite> parentStudySite = parentStudy.getStudySites();
-//            int studySiteIndex = 0;
-//            for (StudySite studySite : parentStudySite) {
-//                StudySite ss = companionStudy.getStudySites().get(studySiteIndex);
-//                ss.setHealthcareSite(studySite.getHealthcareSite());
-//                ss.setIrbApprovalDate(studySite.getIrbApprovalDate());
-//                ss.setStartDate(studySite.getStartDate());
-//                studySiteIndex++;
-//            }
+            List<StudySite> parentStudySite = parentStudy.getStudySites();
+            int studySiteIndex = 0;
+            for (StudySite studySite : parentStudySite) {
+                StudySite ss = companionStudy.getStudySites().get(studySiteIndex);
+                ss.setHealthcareSite(studySite.getHealthcareSite());
+                ss.setIrbApprovalDate(studySite.getIrbApprovalDate());
+                ss.setStartDate(studySite.getStartDate());
+                studySiteIndex++;
+            }
 
             List<StudyCoordinatingCenter> parentStudyCoordinatingCenter = parentStudy.getStudyCoordinatingCenters();
             int cSiteIndex = 0;
