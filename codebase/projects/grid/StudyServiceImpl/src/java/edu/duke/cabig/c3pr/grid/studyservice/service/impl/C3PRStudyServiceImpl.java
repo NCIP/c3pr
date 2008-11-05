@@ -20,9 +20,14 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.factory.StudyFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -45,8 +50,10 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
     
     private StudyRepository studyRepository;
     
+    private XMLUtils xmUtils;
+    
     public void createStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
-        List<Study> objects = getDomainObjectsFromList(Study.class, getArguments(message));
+        List<Study> objects = xmUtils.getDomainObjectsFromList(Study.class, xmUtils.getArguments(message));
         if (objects.size() != 1) {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is exactly one study defination in the message.");
@@ -55,7 +62,14 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         try {
             Study study=objects.get(0);
             studyFactory.buildStudy(study);
-            study.setHostedMode(false);
+            for(StudySite studySite:study.getStudySites()){
+                studySite.setHostedMode(false);
+                studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
+            }
+            for(StudyCoordinatingCenter studyCoordinatingCenter:study.getStudyCoordinatingCenters()){
+                studyCoordinatingCenter.setHostedMode(false);
+            }
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
             studyRepository.createStudy(study);
         }catch (C3PRCodedException e) {
             throw new RemoteException("error building the study", e);
@@ -65,7 +79,7 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
     }
 
     public void openStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
-        List<Identifier> objects = getDomainObjectsFromList(Identifier.class, getArguments(message));
+        List<Identifier> objects = xmUtils.getDomainObjectsFromList(Identifier.class, xmUtils.getArguments(message));
         if (objects.size() == 0) {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
@@ -83,13 +97,13 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
 
     public void approveStudySiteForActivation(gov.nih.nci.cabig.ccts.domain.Message message)
                     throws RemoteException {
-        List arguments = getArguments(message);
-        List<Identifier> identifiers = getDomainObjectsFromList(Identifier.class, arguments);
+        List arguments = xmUtils.getArguments(message);
+        List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
         if (identifiers.size() == 0) {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
         }
-        List<HealthcareSite> heaList = getDomainObjectsFromList(HealthcareSite.class, arguments);
+        List<HealthcareSite> heaList = xmUtils.getDomainObjectsFromList(HealthcareSite.class, arguments);
         if (heaList.size() != 1) {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is atleast one healtcare site defination in the message.");
@@ -108,13 +122,13 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
 
     public void activateStudySite(gov.nih.nci.cabig.ccts.domain.Message message)
                     throws RemoteException {
-        List arguments = getArguments(message);
-        List<Identifier> identifiers = getDomainObjectsFromList(Identifier.class, arguments);
+        List arguments = xmUtils.getArguments(message);
+        List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
         if (identifiers.size() == 0) {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
         }
-        List<HealthcareSite> heaList = getDomainObjectsFromList(HealthcareSite.class, arguments);
+        List<HealthcareSite> heaList = xmUtils.getDomainObjectsFromList(HealthcareSite.class, arguments);
         if (heaList.size() != 1) {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is atleast one healtcare site defination in the message.");
@@ -143,7 +157,7 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
     }
 
     public void closeStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
-        List<Identifier> objects = getDomainObjectsFromList(Identifier.class, getArguments(message));
+        List<Identifier> objects = xmUtils.getDomainObjectsFromList(Identifier.class, xmUtils.getArguments(message));
         if (objects.size() == 0) {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
@@ -163,15 +177,15 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
                     throws RemoteException {
      // TODO: Implement this autogenerated method
         throw new RemoteException("Not yet implemented");
-        // List<Identifier> objects=getDomainObjectsFromList(Identifier.class,
-        // getArguments(message));
+        // List<Identifier> objects=xmUtils.getDomainObjectsFromList(Identifier.class,
+        // xmUtils.getArguments(message));
         // if(objects.size()==0){
         // throw new RemoteException("Illegal Argument(s). Make sure there is atleast one identifier
         // in the message.");
         // }
         // List<CoordinatingCenterStudyStatus>
-        // status=getDomainObjectsFromList(CoordinatingCenterStudyStatus.class,
-        // getArguments(message));
+        // status=xmUtils.getDomainObjectsFromList(CoordinatingCenterStudyStatus.class,
+        // xmUtils.getArguments(message));
         // if(objects.size()==0){
         // throw new RemoteException("Illegal Argument(s). Make sure there is exactly once status in
         // the message.");
@@ -181,13 +195,13 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
 
     public void closeStudySite(gov.nih.nci.cabig.ccts.domain.Message message)
                     throws RemoteException {
-        List arguments = getArguments(message);
-        List<Identifier> identifiers = getDomainObjectsFromList(Identifier.class, arguments);
+        List arguments = xmUtils.getArguments(message);
+        List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
         if (identifiers.size() == 0) {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
         }
-        List<HealthcareSite> heaList = getDomainObjectsFromList(HealthcareSite.class, arguments);
+        List<HealthcareSite> heaList = xmUtils.getDomainObjectsFromList(HealthcareSite.class, arguments);
         if (heaList.size() != 1) {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is atleast one healtcare site defination in the message.");
@@ -207,50 +221,12 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
                     throws RemoteException {
      // TODO: Implement this autogenerated method
         throw new RemoteException("Not yet implemented");
-//        List arguments = getArguments(message);
-//        List<Identifier> identifiers = getDomainObjectsFromList(Identifier.class, arguments);
+//        List arguments = xmUtils.getArguments(message);
+//        List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
 //        if (identifiers.size() == 0) {
 //            throw new RemoteException(
 //                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
 //        }
-    }
-
-    private String getModifiedDomainXML(String messageXML){
-        System.out.println("messageXML---------");
-        System.out.println(messageXML);
-        System.out.println("messageXML end---------");
-        String domainXml=messageXML.substring(messageXML.indexOf('>')+1, messageXML.lastIndexOf('<'));
-        System.out.println("domainXml---------");
-        System.out.println(domainXml);
-        System.out.println("domainXml end---------");
-        String modifiedXML="<message>"+domainXml+"</message>";
-        System.out.println("modifiedXML---------");
-        System.out.println(modifiedXML);
-        System.out.println("modifiedXML end---------");
-        return modifiedXML;
-    }
-    private <T extends AbstractMutableDomainObject> List<T> getArguments(Message message)
-                    throws RemoteException {
-        StringWriter xmlWriter = new StringWriter();
-        try {
-            Utils.serializeObject(message, new QName("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"), xmlWriter);
-        }
-        catch (Exception e) {
-            throw new RemoteException("Cannot serialize..");
-        }
-        return new XMLUtils(xmlMarshaller).extractDomainObjectsFromXML(getModifiedDomainXML(xmlWriter.toString()));
-    }
-
-    private <T extends AbstractMutableDomainObject> List<T> getDomainObjectsFromList(
-                    Class<T> domanObjectClass,
-                    List<? extends AbstractMutableDomainObject> objectList) {
-        List<T> list = new ArrayList<T>();
-        for (AbstractMutableDomainObject o : objectList) {
-            if (domanObjectClass.isInstance(o)) {
-                list.add((T) o);
-            }
-        }
-        return list;
     }
 
     public GetMultipleResourcePropertiesResponse getMultipleResourceProperties(
@@ -272,6 +248,7 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
 
     public void setXmlMarshaller(XmlMarshaller xmlMarshaller) {
         this.xmlMarshaller = xmlMarshaller;
+        this.xmUtils=new XMLUtils(xmlMarshaller);
     }
 
     public void setInterceptor(OpenSessionInViewInterceptor interceptor) {
