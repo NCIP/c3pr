@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.xml;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
@@ -10,21 +10,41 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RandomizationType;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 
-import junit.framework.TestCase;
-
-public class XMLTransformerTest extends TestCase{
+public class XMLTransformerTest extends AbstractXMLMarshalling{
+	
+	
+		String schemaFileName = "ccts-domain.xsd";
+	 
+	 /**
+	     * @throws Exception
+	     * @Before
+	     */
+	    protected void setUp() throws Exception {
+	        super.setUp(); // To change body of overridden methods use File | Settings | File
+	                        // Templates.
+	    }
     
     public void testStudyTransformation() throws Exception{
         String xslName="ccts-study-transformer.xsl";
-        String sampleXml="samples/c3pr-sample-study.xml";
-        InputStream xslInputStream=getClass().getClassLoader().getResourceAsStream(xslName);
+        String sampleXml="ccts-sample-study.xml";
+        try {
+            // validate the marshalled message
+        	 byte[] messageBytes = new XMLTransformer().transform(readFile(xslName), readFile(sampleXml)).getBytes();
+             parser.parse(new ByteArrayInputStream(messageBytes), new MyHandler());
+             
+             // Added these after multi-site
+             
+              InputStream xslInputStream=getClass().getClassLoader().getResourceAsStream(xslName);
         InputStream xmlInputStream=getClass().getClassLoader().getResourceAsStream(sampleXml);
         OutputStream outputStream=new ByteArrayOutputStream();
         new XMLTransformer().transform(new StreamSource(xslInputStream), new StreamSource(xmlInputStream), new StreamResult(outputStream));
-        System.out.println(outputStream.toString());
+        }
+        catch (Exception x) {
+            fail(x.getMessage());
+        }
+        System.out.println(new XMLTransformer().transform(readFile(xslName), readFile(sampleXml)));
+        // System.out.println(outputStream.toString());
     }
     public void testStudyTransformationFromString() throws Exception{
         String xslName="ccts-study-transformer.xsl";
