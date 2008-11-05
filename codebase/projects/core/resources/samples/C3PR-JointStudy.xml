@@ -21,7 +21,7 @@
 		<targetAccrualNumber>10</targetAccrualNumber>
 		<organizationAssignedIdentifier>
 			<type>Coordinating Center Identifier</type>
-			<value>warren-239341</value>
+			<value>warren-239341ab</value>
 			<primaryIndicator>true</primaryIndicator>
 			<healthcareSite>
 				<name>Warren Grant Magnuson Clinical Center</name>

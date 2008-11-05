@@ -14,7 +14,7 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
         xsi:type="OrganizationAssignedIdentifierType">						
             <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>2390</value>												<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+            <value>2390</value>												<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>												<!-- Healthcare Site is mandatory for the identifier-->
                 <nciInstituteCode>Warren</nciInstituteCode>					<!-- This Institute code should already exist in the database -->

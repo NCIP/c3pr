@@ -2,13 +2,14 @@
 	<blindedIndicator>false</blindedIndicator>
 	<multiInstitutionIndicator>false</multiInstitutionIndicator>
 	<randomizedIndicator>true</randomizedIndicator>
+	<stratificationIndicator>true</stratificationIndicator>
 	<shortTitleText>Smoke Test</shortTitleText>
 	<longTitleText>Smoke Test long title</longTitleText>
 	<descriptionText/>
 	<precisText/>
 	<phaseCode>Phase II Trial</phaseCode>
 	<dataEntryStatus>COMPLETE</dataEntryStatus>
-	<coordinatingCenterStudyStatus>ACTIVE</coordinatingCenterStudyStatus>
+	<coordinatingCenterStudyStatus>OPEN</coordinatingCenterStudyStatus>
 	<type>Primary Treatment</type>
 	<targetAccrualNumber>500</targetAccrualNumber>
 	<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="OrganizationAssignedIdentifierType">
@@ -46,6 +47,7 @@
 	<epoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gridId="73b061cf-e4cc-42ec-b7a3-9b8f39ac84ef" xsi:type="TreatmentEpochType">
 		<name>Treatment</name>
 		<descriptionText/>
+		<treatmentIndicator>true</treatmentIndicator>
 		<arm gridId="6d3a4394-3e9e-449f-860b-039aa5e1a93e">
 			<name>Arm A</name>
 			<descriptionText/>
@@ -86,7 +88,7 @@
 		</healthcareSite>
 		<studyInvestigator>
 			<roleCode>Principal Investigator</roleCode>
-			<statusCode>Active</statusCode>
+			<statusCode>OPEN</statusCode>
 			<healthcareSiteInvestigator>
 				<investigator>
 					<nciIdentifier>SMOKE_TEST</nciIdentifier>

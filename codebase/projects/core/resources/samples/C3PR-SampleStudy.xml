@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<studies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
-	<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
-		gridId="dc4456ef-62ec-4e49-8149-1e0c2733649d" version="9">
+<?xml version="1.0" encoding="UTF-8" ?>
+<studies xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<study>
 		<blindedIndicator>false</blindedIndicator>
 		<multiInstitutionIndicator>false</multiInstitutionIndicator>
 		<randomizedIndicator>false</randomizedIndicator>
@@ -21,14 +19,14 @@
 		<targetAccrualNumber>122</targetAccrualNumber>
 		<organizationAssignedIdentifier>
 			<type>Coordinating Center Identifier</type>
-			<value>1000-1-1-11-changed1</value>
+			<value>1000-1-1-11-changed202-</value>
 			<primaryIndicator>true</primaryIndicator>
 			<healthcareSite>
 				<name>Duke University Health Center</name>
 				<address>
 					<city>Durham</city>
 					<stateCode>NC</stateCode>
-					<countryCode>USA</countryCode>	
+					<countryCode>USA</countryCode>
 				</address>
 				<nciInstituteCode>NC166</nciInstituteCode>
 			</healthcareSite>
@@ -81,7 +79,8 @@
 		</studySite>
 		<companionStudy gridId="76fb53bf-fac7-4b80-8994-051e97363b4d"
 			version="1">
-			<companionStudy gridId="5978bd05-9f23-47c8-bfc8-d1e460c83e4f" version="3">
+			<companionStudy gridId="5978bd05-9f23-47c8-bfc8-d1e460c83e4f"
+				version="3">
 				<blindedIndicator>false</blindedIndicator>
 				<multiInstitutionIndicator>false</multiInstitutionIndicator>
 				<randomizedIndicator>false</randomizedIndicator>
@@ -100,7 +99,7 @@
 				<targetAccrualNumber>1</targetAccrualNumber>
 				<organizationAssignedIdentifier>
 					<type>Coordinating Center Identifier</type>
-					<value>1000-1-1-11comp-changed1</value>
+					<value>1000-1-1-11comp-changed02-</value>
 					<primaryIndicator>true</primaryIndicator>
 					<healthcareSite>
 						<name>Duke University Health Center</name>

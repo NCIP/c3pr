@@ -23,7 +23,7 @@
 				<type>Coordinating Center Identifier</type>
 				<!-- Type of 'Coordinating Center Identifier' is mandatory-->
 				<value>warren-239341</value>
-				<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+				<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
 				<primaryIndicator>true</primaryIndicator>
 				<healthcareSite>
 					<!-- Healthcare Site is mandatory for the identifier-->
@@ -59,7 +59,7 @@
 			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
 				<!-- Identifier of type MRN is mandatory-->
 				<type>MRN</type>
-				<value>mrn1</value>
+				<value>mrn1b</value>
 				<!-- Participant with this MRN should not already exist in the database-->
 				<primaryIndicator>true</primaryIndicator>
 				<healthcareSite>
@@ -127,7 +127,7 @@
 				<type>Coordinating Center Identifier</type>
 				<!-- Type of 'Coordinating Center Identifier' is mandatory-->
 				<value>warren-239341</value>
-				<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+				<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
 				<primaryIndicator>true</primaryIndicator>
 				<healthcareSite>
 					<!-- Healthcare Site is mandatory for the identifier-->
@@ -163,7 +163,7 @@
 			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
 				<!-- Identifier of type MRN is mandatory-->
 				<type>MRN</type>
-				<value>mrn2</value>
+				<value>mrn2b</value>
 				<!-- Participant with this MRN should not already exist in the database-->
 				<primaryIndicator>true</primaryIndicator>
 				<healthcareSite>
@@ -226,7 +226,7 @@
 				<type>Coordinating Center Identifier</type>
 				<!-- Type of 'Coordinating Center Identifier' is mandatory-->
 				<value>warren-239341</value>
-				<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+				<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
 				<primaryIndicator>true</primaryIndicator>
 				<healthcareSite>
 					<!-- Healthcare Site is mandatory for the identifier-->
@@ -262,7 +262,7 @@
 			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
 				<!-- Identifier of type MRN is mandatory-->
 				<type>MRN</type>
-				<value>mrn3</value>
+				<value>mrn3b</value>
 				<!-- Participant with this MRN should not already exist in the database-->
 				<primaryIndicator>true</primaryIndicator>
 				<healthcareSite>
@@ -325,7 +325,7 @@
 				<type>Coordinating Center Identifier</type>
 				<!-- Type of 'Coordinating Center Identifier' is mandatory-->
 				<value>warren-239341</value>
-				<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+				<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
 				<primaryIndicator>true</primaryIndicator>
 				<healthcareSite>
 					<!-- Healthcare Site is mandatory for the identifier-->
@@ -361,7 +361,7 @@
 			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" xsi:type="OrganizationAssignedIdentifierType">
 				<!-- Identifier of type MRN is mandatory-->
 				<type>MRN</type>
-				<value>mrn4</value>
+				<value>mrn4b</value>
 				<!-- Participant with this MRN should not already exist in the database-->
 				<primaryIndicator>true</primaryIndicator>
 				<healthcareSite>
