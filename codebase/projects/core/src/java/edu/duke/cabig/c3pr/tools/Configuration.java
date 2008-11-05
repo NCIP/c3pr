@@ -116,6 +116,9 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> NOTIFICATION_LINK_BACK = PROPERTIES
     				.add(new ConfigurationProperty.Text("notification.link_back"));
 
+    public static final ConfigurationProperty<String> ESB_TIME_OUT = PROPERTIES
+					.add(new ConfigurationProperty.Text("esb.timeout"));
+    
     
     protected Class<? extends ConfigurationEntry> getConfigurationEntryClass() {
         return C3prConfigurationEntry.class;
