@@ -53,10 +53,13 @@ function showEndpointError(nciCode){
 							<c:choose>
 								<c:when test="${site.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
 									<font color="red">${site.lastAttemptedEndpoint.status.code}</font><br>
-									Click <a href="javascript:showEndpointError('${site.healthcareSite.nciInstituteCode }');">here</a> to see the error message
+									Click <a href="javascript:showEndpointError('${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
 								</c:when>
 								<c:otherwise>
 									<font color="green">${site.lastAttemptedEndpoint.status.code}</font><br>
+									<c:if test="${fn:length(site.possibleEndpoints)>0}">
+									Click <a href="javascript:showEndpointError('${site.healthcareSite.nciInstituteCode }');">here</a> to see the messages
+									</c:if>
 								</c:otherwise>
 							</c:choose>
 						</c:when>

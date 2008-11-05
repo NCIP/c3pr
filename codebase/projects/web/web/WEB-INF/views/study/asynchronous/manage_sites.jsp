@@ -5,12 +5,20 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <script>
 function takeEndpointAction(action){
-	parent.takeAction(action,${site.healthcareSite.nciInstituteCode },'true');
+	parent.takeAction(action,'${site.healthcareSite.nciInstituteCode }','true');
 	Dialog.closeInfo();
 }
 </script>
-<div align="center" style="font-size: 1.7em; color: red;">Errors</div>
-<tags:displayErrors id="endpoint-errors" errors="${site.recentErrors}"></tags:displayErrors>
+<c:choose>
+<c:when test="${fn:length(site.possibleEndpoints)>0}">
+	<div align="center" style="font-size: 1.7em; color: red;">Errors</div>
+	<tags:displayErrors id="endpoint-errors" errors="${site.recentErrors}"></tags:displayErrors>
+</c:when>
+<c:otherwise>
+	<div align="center" style="font-size: 1.7em; color: red;">Sync Study</div>
+	The study is out of sync with this site. The following action(s) are available.
+</c:otherwise>
+</c:choose>
 <div class="content buttons autoclear" align="right">
 <c:forEach items="${site.possibleEndpoints}" var="apiName">
 	<c:if test="${apiName=='CREATE_STUDY'}">
