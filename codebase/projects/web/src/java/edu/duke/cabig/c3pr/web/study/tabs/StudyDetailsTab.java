@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.AmendStudyController;
 import edu.duke.cabig.c3pr.web.study.CreateStudyController;
@@ -154,7 +155,7 @@ public class StudyDetailsTab extends StudyTab {
             }
 
         }
-        if((request.getParameter("piCoCenter-hidden")!=null && !request.getParameter("piCoCenter-hidden").equals("") )&& request.getParameter("hcsInvestigator-hidden")!=null && !request.getParameter("hcsInvestigator-hidden").equals(""))  {	
+        if(!StringUtils.isBlank(request.getParameter("piCoCenter-hidden")) && !StringUtils.isBlank(request.getParameter("hcsInvestigator-hidden")))  {	
         	
         	HealthcareSiteInvestigator healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(Integer.parseInt(request.getParameter("hcsInvestigator-hidden")));
 			boolean invExists = false;
@@ -162,7 +163,7 @@ public class StudyDetailsTab extends StudyTab {
         	if (study.getStudyCoordinatingCenters().get(0).getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
         		if(!study.getStudyCoordinatingCenters().get(0).ifStudyInvestigatorExists(healthcareSiteInvestigator)){
         			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
-			//			study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigatorsInternal().remove(study.getPrincipalStudyInvestigator());
+						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigatorsInternal().remove(study.getPrincipalStudyInvestigator());
 					}
         			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
 	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
@@ -174,7 +175,7 @@ public class StudyDetailsTab extends StudyTab {
         			if(studySite.getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
         				if (!studySite.ifStudyInvestigatorExists(healthcareSiteInvestigator)) {
         					if(study.getPrincipalInvestigatorStudyOrganization()!=null){
-       // 						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
+        						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
         					}
         					StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
 							healthcareSiteInvestigator
@@ -191,7 +192,7 @@ public class StudyDetailsTab extends StudyTab {
         			studySite.setHealthcareSite(healthcareSiteInvestigator.getHealthcareSite());
         			studySite.setRoleCode("Affiliate Site");
         			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
-			//			study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
+						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
 					}
         			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
 	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
