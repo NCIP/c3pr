@@ -122,20 +122,18 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, C command,
-                                 Tab<C> tab) {
-    	 boolean shouldSave = super.shouldSave(request, command, tab) ;
-         if(WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")){
-             shouldSave = false;
-         }
-         return shouldSave ; 
-//    	Study study = command.getStudy();
-//        if (study.getId() == null) {
-//            boolean shouldSave = !WebUtils.hasSubmitParameter(request,"embeddedStudy");
-//            return true && shouldSave;
-//        } else {
-//            return super.shouldSave(request, command, tab);
-//        }
-    }
+			Tab<C> tab) {
+    	Study study = command.getStudy();
+		if (WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")) {
+			return false;
+		}
+		if (study.getId() == null) {
+			boolean shouldSave = !WebUtils.hasSubmitParameter(request, "embeddedStudy");
+			return true && shouldSave;
+		} else {
+			return super.shouldSave(request, command, tab);
+		}
+	}
 
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
