@@ -1288,10 +1288,14 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 										.getDisplayName());
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(),
 				getId() == null ? "id" : getId().toString());
-		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE
-				.toString(), getShortTitleText() == null ? "Short Title"
-				: getShortTitleText().toString());
-
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(), 
+				getShortTitleText() == null ? "Short Title": getShortTitleText().toString());
+		
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_CURRENT_ACCRUAL.toString(),
+				getCurrentAccrualCount() == null ? "current accrual" : getCurrentAccrualCount().toString());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD.toString(),
+				getTargetAccrualNumber() == null ? "target accrual" : getTargetAccrualNumber().toString());
+		
 		return map;
 	}
 

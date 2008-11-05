@@ -654,6 +654,8 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
 				getRegWorkflowStatus().getDisplayName() == null ? "site name" : getRegWorkflowStatus().getDisplayName());
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(),
 				getStudySite().getStudy().getShortTitleText() == null ? "Short Title" : getStudySite().getStudy().getShortTitleText());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(),
+				getStudySite().getStudy().getId() == null ? "Study Id" : getStudySite().getStudy().getId().toString());
 		
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD.toString(),
 				getStudySite().getStudy().getTargetAccrualNumber() == null ? "Study Target Accrual" : getStudySite().getStudy().getTargetAccrualNumber());
