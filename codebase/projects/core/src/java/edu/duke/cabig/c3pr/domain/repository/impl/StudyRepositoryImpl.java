@@ -175,7 +175,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(
                         nciInstituteCode);
-        if (study.canMultisiteBroadcast()
+        if (!studySite.getHostedMode()
                         && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())
                         && studySite.getSiteStudyStatus()!=SiteStudyStatus.APPROVED_FOR_ACTIVTION) {
             throw getC3PRExceptionHelper().getRuntimeException(
@@ -187,7 +187,7 @@ public class StudyRepositoryImpl implements StudyRepository {
                         && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())) {
             List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
-            domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
+            domainObjects.add(study.getStudySite(nciInstituteCode));
             studyService.handleCoordinatingCenterBroadcast(study, APIName.ACTIVATE_STUDY_SITE,
                             domainObjects);
         }

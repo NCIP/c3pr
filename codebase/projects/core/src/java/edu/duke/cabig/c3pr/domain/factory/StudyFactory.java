@@ -34,7 +34,7 @@ public class StudyFactory {
 	private Logger log = Logger.getLogger(StudyFactory.class
 			.getName());
 
-	private C3PRExceptionHelper c3PRExceptionHelper;
+	private C3PRExceptionHelper exceptionHelper;
 
 	private MessageSource c3prErrorMessages;
 	 
@@ -48,7 +48,7 @@ public class StudyFactory {
 					.getByNciInstituteCode(organization.getHealthcareSite()
 							.getNciInstituteCode());
 			if (loadedSite == null) {
-				throw getC3PRExceptionHelper()
+				throw exceptionHelper
 						.getException(
 								getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
 								new String[] { organization.getHealthcareSite()
@@ -68,7 +68,7 @@ public class StudyFactory {
 					loadedInv = loadedInvestigators.get(0);
 				}
 				if (loadedInv == null) {
-					throw getC3PRExceptionHelper()
+					throw exceptionHelper
 							.getException(
 									getCode("C3PR.EXCEPTION.STUDY.INVALID.NCI_IDENTIFIER.CODE"),
 									new String[] { inv.getNciIdentifier() });
@@ -77,7 +77,7 @@ public class StudyFactory {
 						.getSiteInvestigator(loadedSite, loadedInv);
 
 				if (loadedSiteInv == null) {
-					throw getC3PRExceptionHelper()
+					throw exceptionHelper
 							.getException(
 									getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
 									new String[] { loadedSite.getName(),
@@ -107,13 +107,8 @@ public class StudyFactory {
 		
 	}
 	
-	public C3PRExceptionHelper getC3PRExceptionHelper() {
-		return c3PRExceptionHelper;
-	}
-
-
 	public void setC3PRExceptionHelper(C3PRExceptionHelper exceptionHelper) {
-		c3PRExceptionHelper = exceptionHelper;
+		exceptionHelper = exceptionHelper;
 	}
 
 
@@ -147,6 +142,10 @@ public class StudyFactory {
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(
 				errortypeString, null, null));
 	}
+
+    public void setExceptionHelper(C3PRExceptionHelper exceptionHelper) {
+        this.exceptionHelper = exceptionHelper;
+    }
 
 
 }
