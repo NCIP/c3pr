@@ -128,15 +128,15 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
             throw new RemoteException(
                             "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
         }
-        List<HealthcareSite> heaList = xmUtils.getDomainObjectsFromList(HealthcareSite.class, arguments);
-        if (heaList.size() != 1) {
+        List<StudySite> studySiteList = xmUtils.getDomainObjectsFromList(StudySite.class, arguments);
+        if (studySiteList.size() != 1) {
             throw new RemoteException(
-                            "Illegal Argument(s). Make sure there is atleast one healtcare site defination in the message.");
+                            "Illegal Argument(s). Make sure there is atleast one study site defination in the message.");
         }
         WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
         try {
-            studyRepository.activateStudySite(identifiers, heaList.get(0)
-                            .getNciInstituteCode());
+            studyRepository.getUniqueStudy(identifiers).getStudySite(studySiteList.get(0).getHealthcareSite().getNciInstituteCode()).setIrbApprovalDate(studySiteList.get(0).getIrbApprovalDate());
+            studyRepository.activateStudySite(identifiers, studySiteList.get(0).getHealthcareSite().getNciInstituteCode());
         }
         catch (Exception e) {
             throw new RemoteException(e.getMessage());
