@@ -208,4 +208,18 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     	}
     	return false;
     }
+    
+    @Transient
+    public boolean isSuccessfullSend(APIName apiName){
+        for(EndPoint endPoint:getEndpoints()){
+            if(endPoint.apiName==apiName && endPoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED)
+                return true;
+        }
+        return false;
+    }
+    
+    @Transient
+    public boolean getIsCoordinatingCenter(){
+        return this.study.isCoOrdinatingCenter(this.getHealthcareSite().getNciInstituteCode());
+    }
 }

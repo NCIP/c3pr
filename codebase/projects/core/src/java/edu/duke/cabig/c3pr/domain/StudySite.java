@@ -620,13 +620,4 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         }
         return apiList;
     }
-    
-    @Transient
-    private boolean isSuccessfullSend(APIName apiName){
-        for(EndPoint endPoint:getEndpoints()){
-            if(endPoint.apiName==apiName && endPoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED)
-                return true;
-        }
-        return false;
-    }
 }

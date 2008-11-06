@@ -1363,6 +1363,20 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 						new String[] { nciCode });
 	}
 
+        @Transient
+        public StudyOrganization getStudyOrganization(String nciCode) {
+                for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
+                        if (studyOrganization.getHealthcareSite().getNciInstituteCode()
+                                        .equalsIgnoreCase(nciCode)) {
+                                return studyOrganization;
+                        }
+                }
+                throw this.c3PRExceptionHelper
+                                .getRuntimeException(
+                                                getCode("C3PR.EXCEPTION.STUDY.STUDYSITE_NOT_FOUND_INVALID_NCICODE.CODE"),
+                                                new String[] { nciCode });
+        }
+
 	@Transient
 	public String getCompanionIndicatorDisplayValue() {
 		if (getCompanionIndicator()) {
