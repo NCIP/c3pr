@@ -74,7 +74,7 @@
 }
 
 .alert_content {
-	overflow:visible;
+	overflow:scroll;
 	color: #000;
 	font-family: Tahoma, Arial, sans-serif;
   font: 12px arial;
