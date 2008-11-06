@@ -265,6 +265,12 @@ BrowserDetect.init();
 function updateHelpLink(baseUrl, linkName){
 	$('help').href= baseUrl + "#" + linkName + ".htm";
 }
+C3PR.handleAjaxError= function(xmlResponse){
+									Dialog.alert(xmlResponse.responseText, 
+						             {width:600, height:600, okLabel: "close", 
+						              ok:function(win) {return true;}});
+								}
+								
 //Event.observe(window, "load", function (){
 //	BrowserDetect.browser=='Explorer'?$$('.required-indicator').each(function(element){element.update("<span style='color:#900;'>*</span> "+element.innerHTML)}):null;
 //})

@@ -9,6 +9,7 @@
 <%@attribute name="onComplete"%>
 <%@attribute name="onFailure"%>
 <c:set var="callbackOpts" value=""></c:set>
+<c:set var="onFail" value="C3PR.handleAjaxError"></c:set>
 <c:if test="${! empty onComplete}">
 <c:set var="callbackOpts" value="${callbackOpts}onComplete:${onComplete },"></c:set>
 </c:if>
@@ -16,8 +17,9 @@
 <c:set var="callbackOpts" value="${callbackOpts}onSuccess:${onSuccess },"></c:set>
 </c:if>
 <c:if test="${! empty onFailure}">
-<c:set var="callbackOpts" value="${callbackOpts}onFailure:${onFailure },"></c:set>
+<c:set var="onFail" value="${onFailure}"></c:set>
 </c:if>
+<c:set var="callbackOpts" value="${callbackOpts}onFailure:${onFail },"></c:set>
 <c:choose>
 <c:when test="${empty formName}">
 tempTargetVar=$("command")._target!=null?$("command")._target.name:null;
