@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -39,6 +40,8 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
     protected StudyRepository studyRepository;
 
     protected StudyService studyService;
+    
+    protected StudyDao studyDao;
 
     protected static final Log log = LogFactory.getLog(StudyTab.class);
 
@@ -227,6 +230,10 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
 
     public void setStudyService(StudyService studyService) {
         this.studyService = studyService;
+    }
+
+    public void setStudyDao(StudyDao studyDao) {
+        this.studyDao = studyDao;
     }
 
 }

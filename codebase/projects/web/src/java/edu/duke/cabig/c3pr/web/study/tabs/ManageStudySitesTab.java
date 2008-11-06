@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
@@ -52,9 +53,11 @@ public class ManageStudySitesTab extends StudyTab {
         StudyWrapper wrapper=((StudyWrapper)obj);
         Study study=((StudyWrapper)wrapper).getStudy();
         String nciCode=request.getParameter("nciCode");
-        StudySite studySite=study.getStudySite(nciCode);
+        String localNciCode=request.getParameter("localNciCode");
+        StudyOrganization studyOrganization=study.getStudyOrganization(nciCode);
         Map map=new HashMap();
-        map.put("site", studySite);
+        map.put("site", studyOrganization);
+        map.put("localSite", study.getStudyOrganization(localNciCode));
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }
 
@@ -92,8 +95,8 @@ public class ManageStudySitesTab extends StudyTab {
             studySite=studyRepository.approveStudySiteForActivation(study.getIdentifiers(), nciCode);
         }else if(apiName==APIName.ACTIVATE_STUDY_SITE && isRetry){
             domainObjects.addAll(study.getIdentifiers());
-            domainObjects.add(studySite.getHealthcareSite());
-            studyService.handleMultiSiteBroadcast(studySite, ServiceName.STUDY, apiName, study.getIdentifiers());
+            domainObjects.add(studySite);
+            studyService.handleCoordinatingCenterBroadcast(study, APIName.ACTIVATE_STUDY_SITE, domainObjects);
         }else if(apiName==APIName.ACTIVATE_STUDY_SITE){
             studySite=studyRepository.activateStudySite(study.getIdentifiers(), nciCode);
         }else if(apiName==APIName.CLOSE_STUDY_SITE && isRetry){
@@ -104,6 +107,8 @@ public class ManageStudySitesTab extends StudyTab {
             studySite=studyRepository.closeStudySite(study.getIdentifiers(), nciCode);
         }
         Map map=new HashMap();
+        wrapper.setStudy(studyRepository.getUniqueStudy(study.getIdentifiers()));
+        studyDao.initialize(wrapper.getStudy());
         map.put("site", studySite);
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }
