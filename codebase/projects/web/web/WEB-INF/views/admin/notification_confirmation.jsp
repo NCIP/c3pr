@@ -19,6 +19,7 @@
             		<th width="35%" class="alt" align="left"><b>Frequency<b></th>
             	</tr>
             	<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
+				<c:if test="${plannedNotification.retiredIndicator == 'false'}">
 				<tr>
 					<td class="alt" align="left">
 							${plannedNotification.eventName.displayName}
@@ -27,6 +28,7 @@
 							${plannedNotification.frequency.displayName}
 					</td>
 				</tr>	
+				</c:if>
 				</c:forEach>			
 			</table>
               </div>
