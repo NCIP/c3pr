@@ -24,15 +24,13 @@ public interface OrganizationService {
      * 
      * @see edu.duke.cabig.c3pr.service.OrganizationService#merge(edu.duke.cabig.c3pr.domain.HealthcareSite)
      */
-    public void merge(HealthcareSite organization) throws C3PRBaseException,
+    public Organization merge(Organization organization) throws C3PRBaseException,
                     C3PRBaseRuntimeException;
-
+    
     public OrganizationDao getOrganizationDao();
 
     public String getSiteNameByNciIdentifier(String nciId);
     
     public void saveNotification(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException;
     
-    public void mergeNotification(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException;
-
 }

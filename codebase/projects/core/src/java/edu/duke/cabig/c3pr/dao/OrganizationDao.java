@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
 /**
  * @author Vinay Gangoli
@@ -91,7 +92,7 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
         }
         return result;
     }
-
+    
     @Transactional(readOnly = false)
     public void reassociate(HealthcareSite p) {
         getHibernateTemplate().lock(p, LockMode.NONE);
@@ -101,4 +102,13 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
     public void save(HealthcareSite obj) {
         getHibernateTemplate().saveOrUpdate(obj);
     }
+    
+    /*
+	 * Saves a domain object
+	 */
+	@Transactional(readOnly = false)
+	public Organization merge(DomainObject domainObject) {
+		return (Organization)getHibernateTemplate().merge(domainObject);
+	}
+
 }

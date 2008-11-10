@@ -73,9 +73,10 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 	 * Saves a domain object
 	 */
 	@Transactional(readOnly = false)
-	public void merge(DomainObject domainObject) {
-		getHibernateTemplate().merge(domainObject);
+	public DomainObject merge(DomainObject domainObject) {
+		domainObject = (DomainObject)getHibernateTemplate().merge(domainObject);
 		postProcessSave();
+		return domainObject;
 	}
 
 	/**

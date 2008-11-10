@@ -46,8 +46,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         organizationDao.save(organization);
     }
     
-    public void mergeNotification(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException {
-        organizationDao.merge(organization);
+    public Organization merge(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException {
+    	return organizationDao.merge(organization);
     }
     
     public void save(HealthcareSite site) throws C3PRBaseException, C3PRBaseRuntimeException {
@@ -60,10 +60,10 @@ public class OrganizationServiceImpl implements OrganizationService {
      * fine. thsi methiod was created so that we caould avoid calling createGroupForOrganization
      * 
      * @see edu.duke.cabig.c3pr.service.OrganizationService#merge(edu.duke.cabig.c3pr.domain.HealthcareSite)
-     */
+     
     public void merge(HealthcareSite site) throws C3PRBaseException, C3PRBaseRuntimeException {
         organizationDao.save(site);
-    }
+    }*/
 
     private Group createGroupForOrganization(HealthcareSite organization) throws C3PRBaseException,
                     C3PRBaseRuntimeException {
