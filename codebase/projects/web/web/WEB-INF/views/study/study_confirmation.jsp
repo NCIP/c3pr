@@ -36,7 +36,7 @@
 					<br/>
 					<br/>
 	    </chrome:box>
-	    <div <c:if test="${command.companionIndicator == 'true' || fn:length(command.companionStudyAssociations) == 0}">style="display:none;"</c:if>>
+	    <div <c:if test="${command.study.companionIndicator == 'true' || fn:length(command.study.companionStudyAssociations) == 0}">style="display:none;"</c:if>>
 	    <chrome:box title="Companion Studies" autopad="true">
 		    <table class="tablecontent" width="60%">
 		        <tr>
