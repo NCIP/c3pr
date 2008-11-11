@@ -107,10 +107,12 @@
 <form:form method="post">
     <tags:tabFields tab="${tab}"/>
 </form:form>
+<tags:panelBox title="Register and Randomize">
 <c:if test="${registerableWithCompanions}">
-    <registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
+    <registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
                                requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
+</tags:panelBox>
 <tags:panelBox>
 <br/>
 <div id="printable">
