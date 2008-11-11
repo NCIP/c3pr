@@ -88,6 +88,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends Regi
         map.put("newRegistration", newRegistration);
         map.put("armAssigned", armAssigned);
         map.put("armAssignedLabel", armAssignedLabel);
+        map.put("registerableWithCompanions", registrationControllerUtils.registerableAsorWithCompanion(studySubject));
         map.put("requiresMultiSite", studySubjectService
                         .requiresExternalApprovalForRegistration(studySubject));
         map.put("multisiteEnable", new Boolean(this.configuration.get(Configuration.MULTISITE_ENABLE)));
