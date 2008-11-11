@@ -107,12 +107,12 @@
 <form:form method="post">
     <tags:tabFields tab="${tab}"/>
 </form:form>
+<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.regWorkflowStatus == 'UNREGISTERED'}">
 <tags:panelBox title="Register and Randomize">
-<c:if test="${registerableWithCompanions}">
     <registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
                                requiresMultiSite="${requiresMultiSite}"/>
-</c:if>
 </tags:panelBox>
+</c:if>
 <tags:panelBox>
 <br/>
 <div id="printable">
