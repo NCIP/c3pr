@@ -52,8 +52,7 @@ public class ManageEpochTab<C extends StudySubjectWrapper> extends RegistrationT
         map.put("requiresArm", new Boolean(false));
         map.put("acrrualCeilingReached", new Boolean(studySubjectRepository
                         .isEpochAccrualCeilingReached(id)));
-        if (epoch.getTreatmentIndicator()) {
-            map.put("epochType", "Treatment");
+            map.put("epochType", epoch.getTreatmentIndicator()?"Treatment":"Non-Treatment");
             if (epoch.getEligibilityCriteria().size() > 0) {
                 map.put("requiresEligibility", new Boolean(true));
             }
@@ -66,7 +65,6 @@ public class ManageEpochTab<C extends StudySubjectWrapper> extends RegistrationT
             if (epoch.getArms().size() > 0) {
                 map.put("requiresArm", new Boolean(true));
             }
-        }
         for (ScheduledEpoch scheduledEpoch : studySubject.getScheduledEpochs()) {
             if (scheduledEpoch.getEpoch().getId() == epoch.getId()) {
                 map.put("alreadyRegistered", new Boolean(true));
