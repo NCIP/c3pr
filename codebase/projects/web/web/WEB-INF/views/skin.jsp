@@ -49,11 +49,7 @@
 
 <table width="100%" cellspacing="10" cellpadding="2" border="0">
     <tr>
-        <td align="left"><h3><form:radiobutton path="conf['skinPath'].value" value="blue" id="rdBLUE" onchange="selectedValue = 'blue';"/>&nbsp;<label for="rdBLUE" style="font-size:9px;">BLUE</label></h3><br><img class="selectobject" src="<c:url value="/images/screens/blue.gif" />" onclick="$('rdBLUE').click();"></td>
-        <td align="left"><h3><form:radiobutton path="conf['skinPath'].value" value="orange" id="rdORANGE" onchange="selectedValue = 'orange';"/>&nbsp;<label for="rdORANGE" style="font-size:9px;">ORANGE</label></h3><br><img class="selectobject" src="<c:url value="/images/screens/orange.gif" />" onclick="$('rdORANGE').click();"></td>
-    </tr>
-    <tr>
-        <td align="left"><h3><form:radiobutton path="conf['skinPath'].value" value="green" id="rdGREEN" onchange="selectedValue = 'green';"/>&nbsp;<label for="rdGREEN" style="font-size:9px;">GREEN</label></h3><br><img class="selectobject" src="<c:url value="/images/screens/green.gif" />" onclick="$('rdGREEN').click();"></td>
+        <td align="left"><h3><form:radiobutton path="conf['skinPath'].value" value="mocha" id="rdMOCHA" onchange="selectedValue = 'mocha';"/>&nbsp;<label for="rdMOCHA" style="font-size:9px;">Mocha</label></h3><br><img class="selectobject" src="<c:url value="/images/screens/mocha.png" />" onclick="$('rdMOCHA').click();"></td>
     </tr>
     <tr>
         <td colspan="2" align="center"><input id="submitAJAXForm" type="button" value="APPLY" <%-- onclick="submitForm()"--%>></td>

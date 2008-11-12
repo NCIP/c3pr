@@ -23,7 +23,7 @@
             </tr>
 			<tr>
 			  <td colspan="3">
-				<div class="hr" />
+				<c:if test="${not empty title}"><div class="hr" /></c:if>
 			  </td>
 		    </tr>
         </table>

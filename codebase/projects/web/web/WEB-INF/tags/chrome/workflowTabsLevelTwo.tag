@@ -1,3 +1,4 @@
+<!--BEGIN workflowTabsLevelTwo.tag-->
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="tab" type="gov.nih.nci.cabig.ctms.web.tabs.Tab" required="true" %>
@@ -10,3 +11,4 @@
     </div></li>
 </c:forEach>
 </ul>
+<!--END workflowTabsLevelTwo.tag-->

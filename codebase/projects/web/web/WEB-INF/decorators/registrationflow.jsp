@@ -36,7 +36,7 @@ buildMenu(<c:out value="${tab.number}" />, "<c:out value='${currentTask.displayN
     
 </script>
 <div id="all">
-<layout:header2/>
+<layout:header/>
 <c:set var="studySubject" value="${command}" scope="request"/>
 <div class="tabpane">
 <c:choose>

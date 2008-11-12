@@ -32,7 +32,7 @@ buildMenu(<c:out value="${tab.number}" />, "<c:out value='${currentTask.displayN
     
 </script>
 <div id="content">
-    <layout:header2/>
+    <layout:header/>
     <layout:navigation/>
 
     <div class="tabpane">

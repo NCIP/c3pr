@@ -309,8 +309,7 @@
 	</script> 
 	</head>
 	
-	<body>
-	<div id="main">	
+	<body>	
 	<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Notifications" action="createNotification">
 		<input type="hidden" name="_action" value="">
 		<input type="hidden" name="_selected" value="">
@@ -411,13 +410,13 @@
 		    
 		    
 		    <table>     
-		        <tr><td width="32%" align="center" colspan="1"><input type="button" value="Add Email/Name" onmouseover="this.style.cursor='pointer';"
+		        <tr><td width="32%" align="center" colspan="1"><input type="button" value="Add Email/Name" onMouseOver="this.style.cursor='pointer';"
 									onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /> </td>
 					<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-			        <td width="32%" align="center" colspan="1"><input type="button" value="Add Role" onmouseover="this.style.cursor='pointer';"
+			        <td width="32%" align="center" colspan="1"><input type="button" value="Add Role" onMouseOver="this.style.cursor='pointer';"
 								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /></td>
 					<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-					<td width="32%" align="center" colspan="1"><input type="button" value="Add Contact" onmouseover="this.style.cursor='pointer';"
+					<td width="32%" align="center" colspan="1"><input type="button" value="Add Contact" onMouseOver="this.style.cursor='pointer';"
 								onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /></td>
 			     </tr>
 			     <tr><td align="center" colspan="1">
@@ -492,7 +491,7 @@
 			</table>
 			
 			<div align="right">
-				<input id="addNotification" type="button" value="Add Notification" onmouseover="this.style.cursor='pointer';" 
+				<input id="addNotification" type="button" value="Add Notification" onMouseOver="this.style.cursor='pointer';" 
 					onclick="RowManager.addRow(notificationRowInserterProps);" />
 			</div><br/>
 				
@@ -529,14 +528,14 @@
 				<td align="right" valign="top">Message Details:
 					<!-- liteView popup -->
 					<div id="emailMessageDetails-PAGE.ROW.INDEX" style="display:none">	
-						<input type="text" id="plannedNotifications[PAGE.ROW.INDEX].title" name="plannedNotifications[PAGE.ROW.INDEX].title" size="100" class="width:96%;" onfocus="lastElement = this;" />
+						<input type="text" id="plannedNotifications[PAGE.ROW.INDEX].title" name="plannedNotifications[PAGE.ROW.INDEX].title" size="100" class="width:96%;" onFocus="lastElement = this;" />
 					</div>
 					<!-- liteview popup -->					
 				</td> 
 	            <td align="left" rowspan="2">
 	            	<c:set var="eventName" value="NEW_REGISTRATION_EVENT_REPORT" />
 	            	<textarea title="Click to Edit"  rows="3" cols="33" id="plannedNotifications[PAGE.ROW.INDEX].message"
-	            			name="plannedNotifications[PAGE.ROW.INDEX].message" onclick="showMessageBody('PAGE.ROW.INDEX');"></textarea>
+	            			name="plannedNotifications[PAGE.ROW.INDEX].message" onClick="showMessageBody('PAGE.ROW.INDEX');"></textarea>
 	            </td>
 	        </tr>
 	        
@@ -593,13 +592,13 @@
 		    
 	<table width="100%"> 
 			<tr>
-				<td width="32%" align="center" colspan="1"><span style="width:40" ><input type="button" value="Add Email/Name" onmouseover="this.style.cursor='pointer';"
+				<td width="32%" align="center" colspan="1"><span style="width:40" ><input type="button" value="Add Email/Name" onMouseOver="this.style.cursor='pointer';"
 								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" /> </span></td>
 				<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-		        <td width="32%" align="center" colspan="1"><input type="button" value="Add Role" onmouseover="this.style.cursor='pointer';"
+		        <td width="32%" align="center" colspan="1"><input type="button" value="Add Role" onMouseOver="this.style.cursor='pointer';"
 							onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" /></td>
 				<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-				<td width="32%" align="center" colspan="1"><input type="button" value="Add Contact" onmouseover="this.style.cursor='pointer';"
+				<td width="32%" align="center" colspan="1"><input type="button" value="Add Contact" onMouseOver="this.style.cursor='pointer';"
 							onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" /></td>
 		    </tr>
 		    
@@ -686,7 +685,7 @@
 			<table width="650" style="font-size: 11px;">
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
 				<tr><td width="17%" align="right" >Subject Line:</td> 								 
-				<td><input type="text" id="plannedNotifications.title" size="80" class="width:96%;" onfocus="lastElement = this;" />
+				<td><input type="text" id="plannedNotifications.title" size="80" class="width:96%;" onFocus="lastElement = this;" />
 				</td></tr>
 				
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
@@ -694,7 +693,7 @@
 				<tr>
 					 <td valign="top" align="right">Substitution Variables:</td>
 					 <td>
-						<select id="subVar" name="subVar" onchange="insertAtCursor()" >
+						<select id="subVar" name="subVar" onChange="insertAtCursor()" >
 								<option value="" selected="selected">Please Select</option>
 							<c:forEach items="${notificationEmailSubstitutionVariablesRefData}" var="subVar">
 								<option value="${subVar.code}">${subVar.desc}</option>
@@ -712,11 +711,10 @@
 				</tr>
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
 				<tr><td colspan="2" align="right">
-						<input type="button" value="Update" onclick="updateMessage('${nStatus.index}');" />
-						<input type="button" value="Cancel" onclick="win.close();" />
+						<input type="button" value="Update" onClick="updateMessage('${nStatus.index}');" />
+						<input type="button" value="Cancel" onClick="win.close();" />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</td></tr>				
 			</table>
-		</div>
 	</body>
 </html>

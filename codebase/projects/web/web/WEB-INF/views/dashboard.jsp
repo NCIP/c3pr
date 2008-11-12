@@ -37,6 +37,11 @@
 		win.showCenter();
 	}
 </script>
+<style>
+#main {
+top:90px;
+}
+</style>
 </head>
 <body>
 

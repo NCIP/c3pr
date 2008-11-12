@@ -21,7 +21,7 @@
 
 <body>
 <div id="all">
-<layout:header2/>
+<layout:header/>
 
 <c:set var="__decorator_title"><decorator:title/></c:set>
 
