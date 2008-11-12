@@ -174,6 +174,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected C save(C command, Errors arg1) {
         StudySubject merged = (StudySubject) getDao().merge(getPrimaryDomainObject(command));
         studyDao.initialize(merged.getStudySite().getStudy());
+        studySiteDao.initialize(merged.getStudySite());
         command.setStudySubject(merged);
         return command;
     }
