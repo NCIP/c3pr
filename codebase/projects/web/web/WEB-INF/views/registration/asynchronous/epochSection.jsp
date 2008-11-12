@@ -17,11 +17,6 @@
 		<c:choose>
 			<c:when test="${epochType=='Treatment'}">
 				Type: Treatment<br>
-				<c:if test="${!alreadyRegistered}">
-					Requires eligibility check: ${requiresEligibility?"Yes":"No"}<br>
-					Requires stratification: ${requiresStratification?"Yes":"No"}<br>
-					Requires randomization: ${requiresRandomization?"Yes":"No"}<br>
-				</c:if>
 			</c:when>
 			<c:otherwise>
 				Type: Non-Treatment<br>
@@ -29,6 +24,11 @@
 				Accrual Indicator: ${epoch.accrualIndicator}<br>
 			</c:otherwise>
 		</c:choose>
+		<c:if test="${!alreadyRegistered}">
+					Requires eligibility check: ${requiresEligibility?"Yes":"No"}<br>
+					Requires stratification: ${requiresStratification?"Yes":"No"}<br>
+					Requires randomization: ${requiresRandomization?"Yes":"No"}<br>
+				</c:if>
 		<c:if test="${isCurrentScheduledEpoch}">
 			Registration Status: <strong>${command.studySubject.regWorkflowStatus}</strong><br>
 			<span class="red"><strong>Current Registration</strong></span>
