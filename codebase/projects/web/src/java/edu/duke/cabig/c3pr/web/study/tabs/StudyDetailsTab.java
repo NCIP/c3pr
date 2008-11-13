@@ -52,49 +52,12 @@ public class StudyDetailsTab extends StudyTab {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
-	public ModelAndView embedCompanion(HttpServletRequest request, Object commandObj,
-                                       Errors error) {
-        int rowCount = Integer.parseInt(request.getParameter("rowCount"));
-        Study parentStudy = getParentStudy(request);
-        Study companionStudy = ((StudyWrapper) commandObj).getStudy();
-        Map map = new HashMap();
-        CompanionStudyAssociation companionStudyAssociation = parentStudy.getCompanionStudyAssociations().get(rowCount);
-        companionStudyAssociation.setCompanionStudy(companionStudy);
-        map.put(AjaxableUtils.getFreeTextModelName(), "");
-        if (companionStudyAssociation.getParentStudy().getId() != null) {
-            companionStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-        }
-        return new ModelAndView("", map);
-    }
-
-    private Study getParentStudy(HttpServletRequest request) {
-        String flowType = request.getParameter("flowType");
-        String commandObject = "";
-        StudyWrapper wrapper = null ;
-        if ("CREATE_STUDY".equals(flowType)) {
-            commandObject = (CreateStudyController.class).getName() + ".FORM.command";
-            wrapper = (StudyWrapper) request.getSession().getAttribute(commandObject);
-        } else if ("EDIT_STUDY".equals(flowType)) {
-                commandObject = (EditStudyController.class).getName() + ".FORM.command";
-                wrapper = (StudyWrapper) request.getSession().getAttribute(commandObject);
-        } else if ("AMEND_STUDY".equals(flowType)) {
-                commandObject = (AmendStudyController.class).getName() + ".FORM.command";
-                wrapper = (StudyWrapper) request.getSession().getAttribute(commandObject);
-        }
-        return wrapper.getStudy();
-    }
-
     @Override
     public Map<String, Object> referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData();
-        addConfigMapToRefdata(refdata, "studySearchType");
-        addConfigMapToRefdata(refdata, "diseaseCodeRefData");
-        addConfigMapToRefdata(refdata, "monitorCodeRefData");
         addConfigMapToRefdata(refdata, "phaseCodeRefData");
-        addConfigMapToRefdata(refdata, "sponsorCodeRefData");
         addConfigMapToRefdata(refdata, "statusRefData");
         addConfigMapToRefdata(refdata, "typeRefData");
-        addConfigMapToRefdata(refdata, "coordinatingCenters");
         addConfigMapToRefdata(refdata, "yesNo");
 
         boolean isAdmin = isAdmin();
