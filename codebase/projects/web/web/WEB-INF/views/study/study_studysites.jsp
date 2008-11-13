@@ -44,7 +44,6 @@ function updateSelectedDisplay(mode) {
 	$(mode.basename + '-selected').show()
     }
 }
-
 function acCreate(mode) {
 	new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
 	mode.populator, {
@@ -52,14 +51,14 @@ function acCreate(mode) {
 	afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
 		hiddenField=inputElement.id.split("-")[0]+"-hidden";
 	    $(hiddenField).value=selectedChoice.id;
-	},
-	indicator: mode.basename + "-indicator"
+	 }})
+    clearElement=document.getElementById(mode.basename + "-clear")
+    if(clearElement!=null){
+	    Event.observe(mode.basename + "-clear", "click", function() {
+															$(mode.basename)?$(mode.basename).value = "":null
+															$(mode.inputElement()).value = ""
     })
-      Event.observe(mode.basename + "-clear", "click", function() {
-	$(mode.basename + "-selected").hide()
-	$(mode.basename).value = ""
-	$(mode.basename + "-input").value = ""
-    })
+    }
 }
 
 Event.observe(window, "load", function() {
@@ -69,7 +68,7 @@ Event.observe(window, "load", function() {
 })
 
 </script>
-        <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
+        <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0"	>
                <tr>
                     <th><b><span class="required-indicator">Organization</span></b>
                     &nbsp;<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
@@ -82,16 +81,16 @@ Event.observe(window, "load", function() {
                     <tr>
                      <td>
                 			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite-input"
-                       				size="40"
+                       				size="36"
 									<c:set var="_codeSite" value="" />
 									<c:set var="_nameSite" value="" />
 									<c:if test="${fn:length(command.study.studySites)>0}">	
-									<c:set var="_codeSite" value="(${command.study.studySites[0].healthcareSite.nciInstituteCode})" />
-									<c:set var="_nameSite" value="${command.study.studySites[0].healthcareSite.name}" />
+										<c:set var="_codeSite" value="(${command.study.studySites[0].healthcareSite.nciInstituteCode})" />
+										<c:set var="_nameSite" value="${command.study.studySites[0].healthcareSite.name}" />
 									</c:if>
                       				 value='<c:out value="${_nameSite} ${_codeSite}" />'/>
 								<input type="hidden" id="healthcareSite-hidden"
-                        			name="study.studySites[0].healthcareSite" value="${command.study.studySites[0].healthcareSite.id}" />
+                        			name="study.studySites[0].healthcareSite" value="${fn:length(command.study.studySites)>0?command.study.studySites[0].healthcareSite.id:""}" />
                 				<input type="button" id="healthcareSite-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite-indicator"/>
@@ -101,15 +100,15 @@ Event.observe(window, "load", function() {
 	                 <td>
 		                <input id="studySites[0].startDate"
 		                       name="study.studySites[0].startDate"
-							   value="${command.study.studySites[0].startDateStr}"
-		                       type="text" cssClass="date validate-DATE" />
+							   value="${fn:length(command.study.studySites)>0?command.study.studySites[0].startDateStr:""}"
+		                       type="text" cssClass="date validate-DATE" valign="top"/>
 		                <a href="#" id="studySites[0].startDate-calbutton">
 		                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
 		                </a>
 		            </td>
 		            <td>
 		                <input id="studySites[0].irbApprovalDate"
-		                       name="study.studySites[0].irbApprovalDate" value="${command.study.studySites[0].irbApprovalDateStr}"
+		                       name="study.studySites[0].irbApprovalDate" value="${fn:length(command.study.studySites)>0?command.study.studySites[0].irbApprovalDateStr:""}"
 		                       type="text"
 		                       cssClass="date validate-DATE" />
 		                <a href="#" id="studySites[0].irbApprovalDate-calbutton">
@@ -117,7 +116,7 @@ Event.observe(window, "load", function() {
 		                </a>
 		            </td>
                      <td>
-                         <input id="studySites[0].targetAccrualNumber" name="study.studySites[0].targetAccrualNumber" value="${command.study.studySites[0].targetAccrualNumber}"
+                         <input id="studySites[0].targetAccrualNumber" name="study.studySites[0].targetAccrualNumber" value="${fn:length(command.study.studySites)>0?command.study.studySites[0].targetAccrualNumber:""}"
 				 				size="6" type="text" maxlength="6" cssClass="validate-NUMERIC&&NONZERO_NUMERIC"
                           />
                      </td>
@@ -248,7 +247,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <td>
                             <tags:dateInput path="study.studySites[${status.index}].irbApprovalDate"/>
                         </td>
-                        <td> <form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC" size="6"/>
+                        <td valign="top"> <form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC" size="6"/>
             			</td> 
             			<td><form:checkbox path="study.studySites[${status.index}].hostedMode"/>
             			<script>
