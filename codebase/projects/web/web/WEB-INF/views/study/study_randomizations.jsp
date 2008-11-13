@@ -24,7 +24,6 @@
 		var str = "bookRandomizations-" + index;
 		var content = "";
 		if(form == "command"){
-		//alert("command.study it is");
 			content = document.getElementById(str).value;
 		}
 		BookRandomizationAjaxFacade.getTable(parameterMap, content, index, flowType, uploadBookCallback);

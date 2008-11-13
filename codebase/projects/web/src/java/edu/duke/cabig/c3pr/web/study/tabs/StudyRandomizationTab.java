@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +15,6 @@ import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.ajax.BookRandomizationAjaxFacade;
-import edu.duke.cabig.c3pr.web.study.AmendStudyController;
-import edu.duke.cabig.c3pr.web.study.CreateStudyController;
-import edu.duke.cabig.c3pr.web.study.EditStudyController;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
@@ -27,11 +25,8 @@ public class StudyRandomizationTab extends StudyTab {
 
     private BookRandomizationAjaxFacade bookRandomizationAjaxFacade;
 
-    String[] bookRandomizationEntries;
-
     public StudyRandomizationTab() {
         super("Randomization", "Randomization", "study/study_randomizations");
-        bookRandomizationEntries = new String[10];
     }
 
     @Override
@@ -49,12 +44,13 @@ public class StudyRandomizationTab extends StudyTab {
             flowType = "AMEND_STUDY";
         }
         if (study.getRandomizedIndicator()
-                && study.getRandomizationType() == RandomizationType.BOOK) {
+                && study.getRandomizationType() == RandomizationType.BOOK 
+                && request.getAttribute("bookRandomizationEntries") == null) {
             Map<String, List> dummyMap = new HashMap<String, List>();
             String[] bookRandomizationEntries = new String[study.getEpochs().size()];
             for (int i = 0; i < study.getEpochs().size(); i++) {
-                bookRandomizationEntries[i] = bookRandomizationAjaxFacade.getTable(dummyMap, "", i
-                        + "", request, flowType);
+                bookRandomizationEntries[i] = bookRandomizationAjaxFacade.getTableForWrapper(dummyMap, "", i
+                        + "", request, flowType, wrapper);
             }
             request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);
         }
@@ -75,43 +71,35 @@ public class StudyRandomizationTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest req, StudyWrapper wrapper, Errors errors) {
         if (wrapper.getStudy().getRandomizationType() != null
-                && wrapper.getStudy().getRandomizationType().equals(RandomizationType.BOOK)) {
+                && wrapper.getStudy().getRandomizationType().equals(RandomizationType.BOOK) && req.getParameter("index") != null) {
             parseFile(req, wrapper, errors);
         }
     }
 
     public ModelAndView parseFile(HttpServletRequest request, Object commandObj, Errors error) {
-        // save it to session
 
-        //TO DO: need to change the following to factor in the companionStudyControllers.
         String flowType = " ";
         if (getFlow().getName().equals("Create Study")) {
-            request.getSession().setAttribute(CreateStudyController.class.getName() + ".FORM.command",
-                    commandObj);
             flowType = "CREATE_STUDY";
         } else if (getFlow().getName().equals("Edit Study")) {
-            request.getSession().setAttribute(EditStudyController.class.getName() + ".FORM.command",
-                    commandObj);
             flowType = "EDIT_STUDY";
         } else if (getFlow().getName().equals("Amend Study")) {
-            request.getSession().setAttribute(AmendStudyController.class.getName() + ".FORM.command",
-                    commandObj);
             flowType = "AMEND_STUDY";
         }
 
-        Map map = new HashMap();
+        Map <String, String>map = new HashMap<String, String>();
         try {
             String index = request.getParameter("index").toString();
             StudyWrapper wrapper = (StudyWrapper) commandObj ;
             
-            Object viewData = bookRandomizationAjaxFacade.getTable(new HashMap<String, List>(),
-                    wrapper.getFile(), index, request, flowType);
+            Object viewData = bookRandomizationAjaxFacade.getTableForWrapper(new HashMap<String, List>(),
+                    wrapper.getFile(), index, request, flowType, wrapper);
             if (StringUtils.isEmpty(viewData.toString())) {
-                map.put(AjaxableUtils.getFreeTextModelName(),
-                        "<div><b>Incorrect format. Please try again.</b></div>");
+                map.put(AjaxableUtils.getFreeTextModelName(), "<div><b>Incorrect format. Please try again.</b></div>");
             } else {
-                bookRandomizationEntries[Integer.parseInt(index)] = viewData.toString();
-                request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);
+            	ArrayList<String> bookRandomizationEntries = new ArrayList<String>();
+                bookRandomizationEntries.add(Integer.parseInt(index), viewData.toString());
+                request.setAttribute("bookRandomizationEntries", bookRandomizationEntries.toArray());
                 map.put(AjaxableUtils.getFreeTextModelName(), viewData.toString());
             }
         }
