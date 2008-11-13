@@ -52,9 +52,9 @@ h2 {
 
 a#firstlevelnav_searchRegistrationController {
 	background-image: url(images/registration_btn.png);
-	height: 45px;
+	height: 0px;
+	padding:45px 0px 0px 0px;
 	width: 148px;
-	text-indent: -9999px;
 	float: left;
 	margin-right: 0px;
 }
@@ -65,9 +65,9 @@ a#firstlevelnav_searchRegistrationController:active { background-position:0px -9
 
 a#firstlevelnav_searchStudyController {
 	background-image: url(images/studies_btn.png);
-	height: 45px;
+	height: 0px;
+	padding:45px 0px 0px 0px;
 	width: 148px;
-	text-indent: -9999px;
 	float: left;
 	margin-right: 0px;
 }
@@ -78,9 +78,9 @@ a#firstlevelnav_searchStudyController:active { background-position:0px -90px; }
 
 a#firstlevelnav_searchParticipantController {
 	background-image: url(images/personOrganization_btn.png);
-	height: 45px;
+	height: 0px;
+	padding:45px 0px 0px 0px;
 	width: 148px;
-	text-indent: -9999px;
 	float: left;
 	margin-right: 0px;
 }
@@ -91,9 +91,9 @@ a#firstlevelnav_searchParticipantController:active { background-position:0px -90
 
 a#firstlevelnav_createNotificationController {
 	background-image: url(images/administration_btn.png);
-	height: 45px;
+	height: 0px;
+	padding:45px 0px 0px 0px;
 	width: 148px;
-	text-indent: -9999px;
 	float: left;
 	margin-right: 0px;
 }
@@ -104,9 +104,9 @@ a#firstlevelnav_createNotificationController:active { background-position:0px -9
 
 a#firstlevelnav_createReportController {
 	background-image: url(images/advancedSearch_btn.png);
-	height: 45px;
+	height: 0px;
+	padding:45px 0px 0px 0px;
 	width: 148px;
-	text-indent: -9999px;
 	float: left;
 	margin-right: 0px;
 }
