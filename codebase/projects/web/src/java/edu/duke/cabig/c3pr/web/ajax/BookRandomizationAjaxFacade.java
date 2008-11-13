@@ -90,7 +90,7 @@ public class BookRandomizationAjaxFacade {
 			if (!StringUtils.isEmpty(bookRandomizations)) {
 				if (tEpoch != null) {
 					try {
-						if (wrapper.getStudy().getStratificationIndicator()) {
+						if (tEpoch.getStratificationIndicator()) {
 							parseBookRandomization(bookRandomizations, tEpoch);
 						} else {
 							parseBookRandomizationWithoutStratification(
@@ -102,7 +102,7 @@ public class BookRandomizationAjaxFacade {
 										+ e.getMessage());
 						return "<br/><div class='error'>Incorrect format. Please try again.</div>";
 					}
-					if (wrapper.getStudy().getStratificationIndicator()) {
+					if (tEpoch.getStratificationIndicator()) {
 						validatePositions(((BookRandomization) tEpoch
 								.getRandomization())
 								.getBookRandomizationEntry());
@@ -120,7 +120,7 @@ public class BookRandomizationAjaxFacade {
 				List<BookRandomizationEntry> breList = ((BookRandomization) tEpoch
 						.getRandomization()).getBookRandomizationEntry();
 				try {
-					if (wrapper.getStudy().getStratificationIndicator()) {
+					if (tEpoch.getStratificationIndicator()) {
 						return build(model, breList,
 								"Book Randomization :" + selectedEpoch, action,
 								flowType).toString();
