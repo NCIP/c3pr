@@ -152,8 +152,8 @@ public class EditParticipantController<C extends Participant> extends
     }
     
     @Override
-    protected Participant save(Participant command, Errors errors) {
-        command = participantDao.merge(command);
+    protected C save(C command, Errors errors) {
+        command = (C)participantDao.merge((Participant)command);
         return command;
     }
 }

@@ -113,7 +113,12 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
 	}
 
     @Override
-    protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
-        return WebUtils.hasSubmitParameter(request, "dontSave")?true:super.shouldSave(request, command, tab);
+    protected boolean shouldPersist(HttpServletRequest request, C command, Tab<C> tab) {
+        return WebUtils.hasSubmitParameter(request, "dontSave")?true:super.shouldPersist(request, command, tab);
+    }
+    
+    @Override
+    protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
+    	return shouldPersist(request, command, tab);
     }
 }

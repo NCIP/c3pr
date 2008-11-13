@@ -157,10 +157,15 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     }
     
     @Override
-    protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
+    protected boolean shouldPersist(HttpServletRequest request, C command, Tab<C> tab) {
         if (WebUtils.hasSubmitParameter(request, "dontSave")) return false;
         if (getPrimaryDomainObject(command) == null) return false;
         return getPrimaryDomainObject(command).getId() != null;
+    }
+    
+    @Override
+    protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
+    	return shouldPersist(request, command, tab);
     }
 
     abstract protected void intializeFlows(Flow<StudySubject> flow);

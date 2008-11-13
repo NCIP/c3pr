@@ -119,10 +119,10 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
     }
 
     @Override
-    protected boolean shouldSave(HttpServletRequest request, StudyWrapper command, Tab<StudyWrapper> tab) {
+    protected boolean shouldPersist(HttpServletRequest request, StudyWrapper command, Tab<StudyWrapper> tab) {
         return super.shouldSave(request, command, tab) && StringUtils.isBlank(request.getParameter("_action"));
     }
-
+    
     @Override
     protected boolean isSummaryEnabled() {
         return true;

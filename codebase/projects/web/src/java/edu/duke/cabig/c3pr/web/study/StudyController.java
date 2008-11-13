@@ -10,6 +10,8 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
@@ -148,6 +150,11 @@ public abstract class StudyController<C extends StudyWrapper> extends
         study.getParentStudyAssociations().size();
         wrapper.setStudy(study);
         return (C) wrapper;
+    }
+    
+    @Override
+    protected final boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
+    	return true;
     }
 
     public StudyService getStudyService() {

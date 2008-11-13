@@ -130,7 +130,7 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
     }
 
     @Override
-    protected boolean shouldSave(HttpServletRequest request, C command,
+    protected boolean shouldPersist(HttpServletRequest request, C command,
 			Tab<C> tab) {
     	Study study = command.getStudy();
 		if (WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")) {

@@ -1,8 +1,10 @@
 package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 import java.util.Map;
 
@@ -55,7 +57,7 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
             ModelAndView modelAndView = ajaxTab.postProcessAsynchronous(request, (C) command,
                             errors);
             AjaxableUtils.setAjaxModelAndView(request, modelAndView);
-            if (!errors.hasErrors() && shouldSave(request, (C) command, getTab((C) command, page))) {
+            if (!errors.hasErrors() && shouldPersist(request, (C) command, getTab((C) command, page))) {
                 C newCommand = save((C) command, errors);
                 if (newCommand != null) {
                     request.getSession().setAttribute(
@@ -67,5 +69,18 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
             super.postProcessPage(request, command, errors, page);
         }
     }
+    
+    protected boolean shouldPersist(HttpServletRequest request, C command, Tab<C> tab) {
+    	return shouldSave(request, command, tab);
+    }
+    
+    @Override
+    protected final boolean shouldSave(HttpServletRequest arg0, C arg1, Tab<C> arg2) {
+    	return isNextPageSavable(arg0, arg1, arg2);
+    }
 
+    protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
+    	return super.shouldSave(request, command, tab);
+    }
+    
 }

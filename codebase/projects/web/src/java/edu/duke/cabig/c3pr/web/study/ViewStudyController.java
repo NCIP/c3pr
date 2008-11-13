@@ -161,7 +161,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
     }
 
     @Override
-    protected boolean shouldSave(HttpServletRequest request, StudyWrapper command,
+    protected boolean shouldPersist(HttpServletRequest request, StudyWrapper command,
                     Tab<StudyWrapper> tab) {
         if(WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")){
             return false;

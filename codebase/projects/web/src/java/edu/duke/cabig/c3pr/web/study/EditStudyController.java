@@ -126,14 +126,22 @@ public class EditStudyController extends StudyController<StudyWrapper> {
     }
 
     @Override
-    protected boolean shouldSave(HttpServletRequest request, StudyWrapper command, Tab<StudyWrapper> tab) {
+    protected boolean shouldPersist(HttpServletRequest request, StudyWrapper command, Tab<StudyWrapper> tab) {
+    	boolean shouldSave = super.shouldSave(request, command, tab) && StringUtils.isBlank(request.getParameter("_action"));
+        if(WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")){
+            shouldSave = false;
+        }
+        return shouldSave ;
+    }
+    
+  /*  protected boolean shouldSave(HttpServletRequest request, StudyWrapper command, Tab<StudyWrapper> tab) {
         boolean shouldSave = super.shouldSave(request, command, tab) && StringUtils.isBlank(request.getParameter("_action"));
         if(WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")){
             shouldSave = false;
         }
         return shouldSave ; 
     }
-
+*/
     @Override
     protected boolean isSummaryEnabled() {
         return true;
