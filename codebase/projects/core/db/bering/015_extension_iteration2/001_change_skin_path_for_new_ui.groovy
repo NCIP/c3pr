@@ -9,4 +9,3 @@ class setNewSkinPath extends edu.northwestern.bioinformatics.bering.Migration {
 			insert('configuration', [ prop:"skinPath", value:"blue" ], primaryKey: false)
 	}
 }
-}
