@@ -44,6 +44,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     private StudyDao studyDao;
     
+    private StudySiteDao studySiteDao;
+    
     private ParticipantDao participantDao;
     
     public void setStudyDao(StudyDao studyDao) {
@@ -411,6 +413,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     @Transactional(readOnly = false)
     public void initialize(StudySubject studySubject) throws DataAccessException {
         studyDao.initialize(studySubject.getStudySite().getStudy());
+        studySiteDao.initialize(studySubject.getStudySite());
         
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyInvestigatorsInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyPersonnelInternal());
@@ -466,5 +469,13 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
                                         "select SS from StudySubject SS, Identifier I where I.id=? and I=any elements(SS.identifiers)",
                                         new Object[] {id});
     }
+
+	public StudySiteDao getStudySiteDao() {
+		return studySiteDao;
+	}
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
+	}
 
 }
