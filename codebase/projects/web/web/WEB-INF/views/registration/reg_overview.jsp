@@ -109,7 +109,7 @@
 </form:form>
 <c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.regWorkflowStatus == 'UNREGISTERED'}">
 <tags:panelBox title="Register and Randomize">
-    <registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
+    <registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
                                requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
 </c:if>
