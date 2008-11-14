@@ -1,9 +1,12 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.web.study.StudyWrapper;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -11,12 +14,10 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.validation.Errors;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:24:28 PM To change this template
@@ -65,7 +66,6 @@ public class StudyEligibilityChecklistTab extends StudyTab {
                 errors.reject("Could not import Studies", e1.getMessage());
             }
         }
-
     }
 
     /*
@@ -74,8 +74,14 @@ public class StudyEligibilityChecklistTab extends StudyTab {
      */
     public void parseCadsrFile(Study study, POIFSFileSystem pfs, String name) {
 
-        List<InclusionEligibilityCriteria> incList = new ArrayList<InclusionEligibilityCriteria>();
-        List<ExclusionEligibilityCriteria> excList = new ArrayList<ExclusionEligibilityCriteria>();
+    	List<InclusionEligibilityCriteria> incList = null;
+    	List<ExclusionEligibilityCriteria> excList  = null;
+    	if (study.getEpochByName(name) != null) {
+    		incList = study.getEpochByName(name).getInclusionEligibilityCriteria();
+            excList = study.getEpochByName(name).getExclusionEligibilityCriteria();
+    	} else {
+    		return;
+    	}
         try {
             HSSFWorkbook wb = new HSSFWorkbook(pfs);
             HSSFSheet sheet = wb.getSheetAt(0);
@@ -182,15 +188,14 @@ public class StudyEligibilityChecklistTab extends StudyTab {
                     // adding the last criteria to the list
                     excList.add(exc);
                 }// end of exclusion if
-
             }// end if while loop that iterates over the entire file.
-            if (study.getEpochByName(name) != null) {
+            
+            /*if (study.getEpochByName(name) != null) {
                 study.getEpochByName(name).getInclusionEligibilityCriteria().addAll(
                         incList);
                 study.getEpochByName(name).getExclusionEligibilityCriteria().addAll(
                         excList);
-            }
-
+            }*/
         }
         catch (IOException ioe) {
             log.error(ioe.getMessage());
