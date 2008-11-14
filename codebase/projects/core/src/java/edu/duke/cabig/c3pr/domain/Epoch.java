@@ -550,33 +550,8 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		if (!evaluateRandomizationDataEntryStatus(errors)) {
 			return false;
 		}
-		if (this.getRandomizedIndicator()) {
-			if ((this.getArms().size() < 2)||(this.getRandomization() == null)) {
-				if (this.getArms().size() < 2) {
-					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE"),
-							new String[] { this.getName() }).getMessage()));
-				}
-
-				if (getStudy().getStratificationIndicator()) {
-					if (!this.hasStratumGroups()) {
-						errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
-								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
-								new String[] { this.getName() }).getMessage()));
-					}
-				}
-
-				if (this.getRandomization() == null) {
-					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE"),
-							new String[] { this.getName() }).getMessage()));
-				}
-
-				if (!evaluateEligibilityDataEntryStatus(errors))
-					return false;
-
-			}
-		}
+		if (!evaluateEligibilityDataEntryStatus(errors))
+			return false;
 
 		return true;
 	}
@@ -599,17 +574,21 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	public boolean evaluateRandomizationDataEntryStatus(List<Error> errors)
 			throws C3PRCodedRuntimeException {
 		
+		if (this.getRandomizedIndicator()) {
+			if ((this.getArms().size() < 2)||(this.getRandomization() == null)) {
+				if (this.getArms().size() < 2) {
+					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
+							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE"),
+							new String[] { this.getName() }).getMessage()));
+				}
+
+
+			}
+		}
+		
 		if (this.study.getRandomizationType() == (RandomizationType.BOOK)) {
 			if (this.getRandomizedIndicator()) {
-				if (this.hasBookRandomizationEntry()) {
-					if (this.study.getStratificationIndicator()) {
-						if (!this.hasStratumGroups()) {
-							errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
-									getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
-									new String[] { this.getName() }).getMessage()));
-						}
-					}
-				} else {
+				if (!this.hasBookRandomizationEntry()) {
 					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
 							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.BOOK_ENTRIES_FOR_BOOK_RANDOMIZED_EPOCH.CODE"),
 							new String[] { this.getName() }).getMessage()));
