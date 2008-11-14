@@ -97,7 +97,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     private void doBookRandomization(StudySubject studySubject) throws C3PRBaseException {
         ScheduledArm sa = new ScheduledArm();
         ScheduledEpoch ste = studySubject.getScheduledEpoch();
-        if (studySubject.getStudySite().getStudy().getStratificationIndicator()){
+        if (studySubject.getStudySite().getStudy().getStratificationIndicator() && ste.getEpoch().getStratificationIndicator()){
 	        	sa.setArm(studySubject.getStratumGroup().getNextArm());
 	        if (sa.getArm() != null) {
 	            ste.addScheduledArm(sa);
