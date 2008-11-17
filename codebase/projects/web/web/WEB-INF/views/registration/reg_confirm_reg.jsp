@@ -272,7 +272,7 @@ function manageCompanions(registrationId){
 <input type="hidden" name="assignment" value="${command.studySubject.gridId }"/>
 </form>
 <c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.regWorkflowStatus == 'UNREGISTERED'}">
-<tags:panelBox>
+<tags:panelBox title="${actionLabel}">
 	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
 </c:if>
