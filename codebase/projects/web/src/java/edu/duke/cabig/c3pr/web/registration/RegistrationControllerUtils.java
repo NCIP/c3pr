@@ -1,8 +1,10 @@
 package edu.duke.cabig.c3pr.web.registration;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
@@ -15,7 +17,6 @@ import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.web.ajax.StudySubjectXMLFileImportAjaxFacade;
 
 public class RegistrationControllerUtils {
 
@@ -188,9 +189,11 @@ public class RegistrationControllerUtils {
 					compIds.put(companionStudyAssociation.getCompanionStudy().getId(), new Object());
 				}
 			}
-
+			Set<RegistrationWorkFlowStatus> status = new HashSet<RegistrationWorkFlowStatus>();
+			status.add(RegistrationWorkFlowStatus.READY_FOR_REGISTRATION);
+			status.add(RegistrationWorkFlowStatus.REGISTERED);
 			for (StudySubject stSubject : studySubject.getChildStudySubjects()) {
-				if (stSubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.READY_FOR_REGISTRATION) {
+				if (!status.contains(stSubject.getRegWorkflowStatus())) {
 					return false;
 				}
 				compIds.remove(stSubject.getStudySite().getStudy().getId());
