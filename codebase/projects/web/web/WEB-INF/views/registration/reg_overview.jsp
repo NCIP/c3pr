@@ -107,8 +107,8 @@
 <form:form method="post">
     <tags:tabFields tab="${tab}"/>
 </form:form>
-<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.regWorkflowStatus == 'UNREGISTERED'}">
-<tags:panelBox title="Register and Randomize">
+<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Unapproved'}">
+<tags:panelBox title="${actionLabel}">
     <registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
                                requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
