@@ -41,6 +41,11 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     public ManageRegistrationController() {
         super("Manage Registration");
     }
+    
+    private RegistrationControllerUtils registrationControllerUtils;
+    public void setRegistrationControllerUtils(RegistrationControllerUtils registrationControllerUtils) {
+        this.registrationControllerUtils = registrationControllerUtils;
+    }
 
     @Override
     protected void intializeFlows(Flow flow) {
@@ -100,6 +105,7 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
         Epoch epoch = epochDao.getById(id);
         ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
         scheduledEpoch.setEpoch(epoch);
+        scheduledEpoch.setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(command));
         command.addScheduledEpoch(scheduledEpoch);
         return command;
     }
