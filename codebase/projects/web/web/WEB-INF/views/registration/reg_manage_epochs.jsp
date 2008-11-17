@@ -83,7 +83,7 @@ function reloadPage(Id){
 				</script>
 			</td>
 			<c:if test="${epochStatus.index%3==2}">
-				</tr>
+			<tr></tr>
 			</c:if>
 		</c:forEach>
 	</table>
