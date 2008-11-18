@@ -51,7 +51,7 @@
 </head>
 
 <body>
-
+<tags:instructions code="study_randomizations" />
 <c:choose>
 
 <c:when test="${command.study.randomizedIndicator =='false' }">

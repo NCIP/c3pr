@@ -185,6 +185,7 @@ Event.observe(window, "load", function() {
 </head>
 <body>
 <chrome:search title="Search">
+<tags:instructions code="registration_search" />
 	<form:form id="searchForm" name="searchForm" method="post">
 	
 	<div>

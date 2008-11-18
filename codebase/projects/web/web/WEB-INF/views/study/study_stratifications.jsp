@@ -59,11 +59,9 @@
 </head>
 
 <body>
-
+<tags:instructions code="study_stratifications" />
 <c:choose>
-
 <c:when test="${command.study.stratificationIndicator =='false' }">
-
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>
 			</tags:formPanelBox>
 	</c:when>
@@ -248,7 +246,7 @@
 			</div>
 			<br>
 			<div id="stratumButton" align="right">
-				<input type='submit' onclick="preProcessGenerateGroups(${epochCount.index})" value='Generate Stratum Groups' />
+				<input type='submit' onClick="preProcessGenerateGroups(${epochCount.index})" value='Generate Stratum Groups' />
 			</div>
 			<script type="text/javascript" language="javascript">
 		  		Sortable.create('sortablelist_${epochCount.index}',{tag:'TR',constraint:false,onUpdate:postProcessDragDrop});

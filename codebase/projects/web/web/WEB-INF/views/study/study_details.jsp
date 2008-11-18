@@ -189,7 +189,7 @@
 <input type="hidden" name="deletedSponsorIdentifier" id="deletedSponsorIdentifier" value=""/>
 
 <chrome:box title="${tab.shortTitle}">
-
+<tags:instructions code="study_details" />
 <chrome:division id="study-details" title="Basic Details">
 
     <div class="leftpanel">

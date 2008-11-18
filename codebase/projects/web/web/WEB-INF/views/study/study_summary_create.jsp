@@ -35,6 +35,7 @@ function createStudy(){
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
 <chrome:box title="Study Summary">
+<tags:instructions code="study_summary_create" />
 <div>
     <input type="hidden" name="_finish" value="true"/>
     <div>
@@ -237,8 +238,8 @@ function createStudy(){
 </chrome:division>
 <div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> 
-				<input type="button" value="Open" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
-				<input type="button" value="Create" id="createButtonDisplayDiv" onclick="createStudy();return false;"/>
+				<input type="button" value="Open" id="saveActiveButtonDisplayDiv" onClick="activateAndSaveStudy();return false;"/>
+				<input type="button" value="Create" id="createButtonDisplayDiv" onClick="createStudy();return false;"/>
 <input type="button" value="Manage" id="manageStudy"
                        onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
 			</span></div>

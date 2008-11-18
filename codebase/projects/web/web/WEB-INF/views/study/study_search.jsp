@@ -30,7 +30,7 @@
 
 
 <chrome:search title="Search">
-
+<tags:instructions code="study_search" />
     <form:form id="searchForm" method="post">
         <div>
             <input type="hidden" name="_selected" id="_selected" value="">

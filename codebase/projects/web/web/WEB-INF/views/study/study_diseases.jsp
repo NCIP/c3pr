@@ -241,6 +241,7 @@ Event.observe(window, "load", function() {
 <body>
 <!-- MAIN BODY STARTS HERE -->
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
+<tags:instructions code="study_diseases" />
 <form:form method="post" name="studyDiseasesForm" cssClass="standard">
     <tags:tabFields tab="${tab}"/>
     
@@ -284,7 +285,7 @@ Event.observe(window, "load", function() {
     </chrome:box>
 	</td>
 	
-	<td valign="middle"><input type="button" value="Add >>" onclick="fireAction('addStudyDisease','0');" alt="Add Study Disease"/></td>
+	<td valign="middle"><input type="button" value="Add >>" onClick="fireAction('addStudyDisease','0');" alt="Add Study Disease"/></td>
 	
 	<td valign="top" width="45%">
     <chrome:box title="Selected Disease - ${fn:length(command.study.studyDiseases)}" id="diseases">

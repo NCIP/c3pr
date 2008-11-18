@@ -55,7 +55,7 @@
 </head>
 <body>
 <tags:minimizablePanelBox title="Upload Criteria" boxId="criteria">
-	<br />
+	<tags:instructions code="study_eligibility_checklist" />
 	<form:form method="post" id="eligibilityForm_${epochCount.index}"
 		enctype="multipart/form-data">
 		<table border="0" width="50%" id="table0" cellspacing="5">

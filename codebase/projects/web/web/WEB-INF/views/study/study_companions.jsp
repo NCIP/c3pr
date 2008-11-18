@@ -10,7 +10,7 @@
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm" displayErrors="false">
 
 	<jsp:attribute name="singleFields">
-    
+    <tags:instructions code="study_companions" />
     <script language="JavaScript" type="text/JavaScript"><!--
     
     var currentRow = -1;
@@ -147,7 +147,7 @@ function closePopup() {
     </tr>
 </table>
 <div align="right">
-		<input id="addCompanion" type="button" value="Add Companion Study" onclick="javascript:RowManager.addRow(instanceRowInserterProps);" />
+		<input id="addCompanion" type="button" value="Add Companion Study" onClick="javascript:RowManager.addRow(instanceRowInserterProps);" />
 		<input id="createCompanion" type="button" value="Create Companion Study" />
 </div>
 
