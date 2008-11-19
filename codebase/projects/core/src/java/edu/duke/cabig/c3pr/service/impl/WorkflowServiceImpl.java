@@ -39,7 +39,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
 
     private Logger log = Logger.getLogger(CCTSWorkflowService.class);
 
-    private GridIdentifiableDao dao;
+    protected GridIdentifiableDao dao;
 
     private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
 
@@ -47,7 +47,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     
     private DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory;
 
-    private C3PRExceptionHelper exceptionHelper;
+    protected C3PRExceptionHelper exceptionHelper;
 
     private Configuration configuration;
 
@@ -63,7 +63,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     
     private EndPointFactory endPointFactory;
     
-    private StudyOrganizationDao studyOrganizationDao;
+    protected StudyOrganizationDao studyOrganizationDao;
     
     private StudyService studyService;
 
@@ -283,5 +283,5 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     public void setStudyOrganizationDao(StudyOrganizationDao studyOrganizationDao) {
         this.studyOrganizationDao = studyOrganizationDao;
     }
-
+    
 }

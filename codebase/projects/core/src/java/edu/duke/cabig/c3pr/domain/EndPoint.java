@@ -80,9 +80,9 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     public abstract Object processReturnType(Object returnValue);
     
     public void invoke(Object argument) throws InvocationTargetException{
-        Object service=getService(); 
-        Method method=getAPI();
         try {
+            Object service=getService(); 
+            Method method=getAPI();
             returnValue=method.invoke(service, getArguments(argument));
             returnValue=processReturnType(returnValue);
             this.setStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);

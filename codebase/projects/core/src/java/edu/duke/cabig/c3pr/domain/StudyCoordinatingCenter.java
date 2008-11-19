@@ -18,7 +18,7 @@ public class StudyCoordinatingCenter extends StudyOrganization {
 
     public StudyCoordinatingCenter() {
         super();
-        this.setHostedMode(false);
+        this.setHostedMode(true);
     }
     
     @Transient

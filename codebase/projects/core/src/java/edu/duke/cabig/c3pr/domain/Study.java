@@ -841,16 +841,30 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.dataEntryStatus = dataEntryStatus;
 	}
 
-	@Column(name = "status")
-	@Enumerated(EnumType.STRING)
+	@Transient
 	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
-		return coordinatingCenterStudyStatus;
+		return this.getCoordinatingCenterStudyStatusInternal();
 	}
 
 	public void setCoordinatingCenterStudyStatus(
 			CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
-		this.coordinatingCenterStudyStatus = coordinatingCenterStudyStatus;
+            for(StudySite studySite: this.getStudySites()){
+                if(studySite.getHostedMode() || studySite.getIsCoordinatingCenter())
+                    studySite.setCoordinatingCenterStudyStatus(coordinatingCenterStudyStatus);
+            }
+            this.setCoordinatingCenterStudyStatusInternal(coordinatingCenterStudyStatus);
 	}
+	
+	@Column(name = "status")
+        @Enumerated(EnumType.STRING)
+        public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatusInternal() {
+                return coordinatingCenterStudyStatus;
+        }
+
+        public void setCoordinatingCenterStudyStatusInternal(
+                        CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
+            this.coordinatingCenterStudyStatus=coordinatingCenterStudyStatus;
+        }
 
 	public String getConsentVersion() {
 		return consentVersion;

@@ -87,8 +87,6 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         investigatorDao = registerDaoMockFor(InvestigatorDao.class);
         healthcareSiteInvestigatorDao = registerMockFor(HealthcareSiteInvestigatorDao.class);
         ((StudyRepositoryImpl) studyRepository).setHealthcareSiteDao(healthcareSiteDao);
-        ((StudyRepositoryImpl) studyRepository).setInvestigatorDao(investigatorDao);
-        ((StudyRepositoryImpl) studyRepository).setHealthcareSiteInvestigatorDao(healthcareSiteInvestigatorDao);
         healthcareSite=new HealthcareSite();
     }
 

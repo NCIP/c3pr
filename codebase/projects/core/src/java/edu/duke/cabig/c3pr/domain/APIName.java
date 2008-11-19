@@ -6,15 +6,17 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum APIName implements CodedEnum<String> {
-    CREATE_STUDY("createStudy"), OPEN_STUDY("openStudy"), APPROVE_STUDY_SITE_FOR_ACTIVATION("approveStudySiteForActivation"),
-    ACTIVATE_STUDY_SITE("activateStudySite"), AMEND_STUDY("amendStudy"), UDATE_STUDY_SITE_PROTOCOL_VERSION("updateStudySiteProtocolVersion"),
-    CLOSE_STUDY("closeStudy"), UDATE_STUDY_STATUS("updateStudyStatus"), CLOSE_STUDY_SITE("closeStudySite"),
-    CLOSE_STUDY_SITES("closeStudySites");
+    CREATE_STUDY("createStudy", "Create Study Defination"), OPEN_STUDY("openStudy", "Open Study"), APPROVE_STUDY_SITE_FOR_ACTIVATION("approveStudySiteForActivation", "Approve Study Site for Activation"),
+    ACTIVATE_STUDY_SITE("activateStudySite", "Activate Study Site"), AMEND_STUDY("amendStudy", "Amend Study"), UDATE_STUDY_SITE_PROTOCOL_VERSION("updateStudySiteProtocolVersion", "Update Study Site Protocol Version"),
+    CLOSE_STUDY("closeStudy", "Close Study"), UDATE_STUDY_STATUS("updateStudyStatus", "Update Study Status"), CLOSE_STUDY_SITE("closeStudySite", "Close Study Site"),
+    CLOSE_STUDY_SITES("closeStudySites", "Close Study Sites");
 
     private String code;
+    private String displayName;
 
-    private APIName(String code) {
+    private APIName(String code, String displayName) {
         this.code = code;
+        this.displayName=displayName;
         register(this);
     }
 
@@ -23,7 +25,7 @@ public enum APIName implements CodedEnum<String> {
     }
 
     public String getDisplayName() {
-        return sentenceCasedName(this);
+        return this.displayName;
     }
 
     public String getName() {

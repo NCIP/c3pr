@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -41,9 +42,11 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private Date irbApprovalDate = Calendar.getInstance().getTime();
 
     private String roleCode;
+    
+    private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
 
     public StudySite() {
-
+        coordinatingCenterStudyStatus=CoordinatingCenterStudyStatus.PENDING;
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
         resourceBundleMessageSource.setBasename("error_messages_multisite");
         ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
@@ -581,43 +584,93 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     }
 
     @Transient
-    public List<SiteStudyStatus> getPossibleStatusTransitions(){
+    public List<APIName> getPossibleActions(){
+        List<APIName> possibleActions=new ArrayList<APIName>();
         List<SiteStudyStatus> statuses=new ArrayList<SiteStudyStatus>();
-        if(this.getStudy().getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.OPEN)
-            return statuses;
-        if(this.siteStudyStatus==SiteStudyStatus.PENDING || this.siteStudyStatus==SiteStudyStatus.AMENDMENT_PENDING){
-            statuses.add(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
-            statuses.add(SiteStudyStatus.ACTIVE);
-        }else if(this.siteStudyStatus== SiteStudyStatus.APPROVED_FOR_ACTIVTION){
-            statuses.add(SiteStudyStatus.ACTIVE);
-        }else if(this.siteStudyStatus==SiteStudyStatus.ACTIVE){
-            statuses.add(SiteStudyStatus.CLOSED_TO_ACCRUAL);
-            statuses.add(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-            statuses.add(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
-            statuses.add(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
-        }else if(this.siteStudyStatus==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL){
-            statuses.add(SiteStudyStatus.CLOSED_TO_ACCRUAL);
-            statuses.add(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-            statuses.add(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
-            statuses.add(SiteStudyStatus.ACTIVE);
+        if(this.coordinatingCenterStudyStatus!=this.getStudy().getCoordinatingCenterStudyStatus()){
+            CoordinatingCenterStudyStatus studyCoordinatingCenterStudyStatus=this.getStudy().getCoordinatingCenterStudyStatus();
+            if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
+                possibleActions.add(APIName.CREATE_STUDY);
+                return possibleActions;
+            }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.OPEN){
+                if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
+                    possibleActions.add(APIName.CREATE_STUDY);
+                    possibleActions.add(APIName.OPEN_STUDY);
+                    return possibleActions;
+                }else{
+                    possibleActions.add(APIName.OPEN_STUDY);
+                    return possibleActions;
+                }
+            }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
+                if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
+                    possibleActions.add(APIName.CREATE_STUDY);
+                    possibleActions.add(APIName.OPEN_STUDY);
+                    return possibleActions;
+                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
+                    possibleActions.add(APIName.OPEN_STUDY);
+                    return possibleActions;
+                }else{
+                    possibleActions.add(APIName.AMEND_STUDY);
+                    return possibleActions;
+                }
+            }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL){
+                if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
+                    possibleActions.add(APIName.CREATE_STUDY);
+                    possibleActions.add(APIName.OPEN_STUDY);
+                    return possibleActions;
+                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
+                    possibleActions.add(APIName.OPEN_STUDY);
+                    return possibleActions;
+                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
+                    possibleActions.add(APIName.OPEN_STUDY);
+                    return possibleActions;
+                }else{
+                    possibleActions.add(APIName.CLOSE_STUDY);
+                    return possibleActions;
+                }
+            }
         }
-        return statuses;
+        if(this.getStudy().getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.OPEN)
+            return possibleActions;
+        if(this.siteStudyStatus==SiteStudyStatus.PENDING || this.siteStudyStatus==SiteStudyStatus.AMENDMENT_PENDING){
+            possibleActions.add(APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION);
+            possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
+            return possibleActions;
+        }else if(this.siteStudyStatus== SiteStudyStatus.APPROVED_FOR_ACTIVTION){
+            possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
+            return possibleActions;
+        }else if(this.siteStudyStatus==SiteStudyStatus.ACTIVE){
+            possibleActions.add(APIName.CLOSE_STUDY_SITE);
+            return possibleActions;
+        }
+        return possibleActions;
     }
     
-    @Transient
-    public List<APIName> getPossibleEndpoints(){
-        List<APIName> apiList=new ArrayList<APIName>();
-        if(this.study.getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.PENDING && !isSuccessfullSend(APIName.CREATE_STUDY)){
-            apiList.add(APIName.CREATE_STUDY);
-        }
-        if(this.study.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.OPEN && !isSuccessfullSend(APIName.OPEN_STUDY)){
-            apiList.add(APIName.OPEN_STUDY);
-        }
-        if(apiList.size()>0) return apiList;
-        for(EndPoint endPoint:getEndpoints()){
-            if(endPoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED)
-                apiList.add(endPoint.getApiName());
-        }
-        return apiList;
+//    @Transient
+//    public List<APIName> getPossibleEndpoints(){
+//        List<APIName> apiList=new ArrayList<APIName>();
+//        if(this.study.getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.PENDING && !isSuccessfullSend(APIName.CREATE_STUDY)){
+//            apiList.add(APIName.CREATE_STUDY);
+//        }
+//        if(this.study.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.OPEN && !isSuccessfullSend(APIName.OPEN_STUDY)){
+//            apiList.add(APIName.OPEN_STUDY);
+//        }
+//        if(apiList.size()>0) return apiList;
+//        for(EndPoint endPoint:getEndpoints()){
+//            if(endPoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED)
+//                apiList.add(endPoint.getApiName());
+//        }
+//        return apiList;
+//    }
+
+    @Column(name = "study_status")
+    @Enumerated(EnumType.STRING)
+    public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
+        return coordinatingCenterStudyStatus;
+    }
+
+    public void setCoordinatingCenterStudyStatus(
+                    CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
+        this.coordinatingCenterStudyStatus = coordinatingCenterStudyStatus;
     }
 }

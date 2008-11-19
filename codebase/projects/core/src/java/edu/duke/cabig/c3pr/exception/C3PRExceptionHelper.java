@@ -5,6 +5,8 @@ import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 
+import edu.duke.cabig.c3pr.domain.Error;
+
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Aug 23, 2007 Time: 1:45:43 PM To change this template
  * use File | Settings | File Templates.
@@ -48,6 +50,11 @@ public class C3PRExceptionHelper {
                         throwable);
     }
     
+    public C3PRCodedException getException(Error error) {
+        int code=Integer.parseInt(error.getErrorCode());
+        return new C3PRCodedException(code, getExceptionMessageFromCode(code, null, null)+error.getErrorMessage());
+    }
+    
     public C3PRCodedRuntimeException getRuntimeException(int code) {
         return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, null, null));
     }
@@ -70,6 +77,11 @@ public class C3PRExceptionHelper {
                     Locale locale) {
         return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, params, locale),
                         throwable);
+    }
+    
+    public C3PRCodedRuntimeException getRuntimeException(Error error) {
+        int code=Integer.parseInt(error.getErrorCode());
+        return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, null, null)+error.getErrorMessage());
     }
 
     private String getExceptionMessageFromCode(int code, Object[] params, Locale locale) {

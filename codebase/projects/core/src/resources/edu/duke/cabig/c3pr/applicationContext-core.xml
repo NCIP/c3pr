@@ -388,6 +388,7 @@
 
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
           autowire="byName" parent="workflowService">
+          <property name="dao" ref="studyDao"/>
     </bean>
     
     <bean id="endPointFactory" class="edu.duke.cabig.c3pr.domain.factory.EndPointFactory">
@@ -398,6 +399,11 @@
     		</bean>
     	</property>
     </bean>
+    
+    <bean id="multisiteDelegatedCredentialProvider" class="edu.duke.cabig.c3pr.infrastructure.MultisiteDelegatedCredentialProvider">
+		<property name="idpUrl"><value>${idp.url}</value></property>
+		<property name="ifsUrl"><value>${ifs.url}</value></property>
+	</bean>
     
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
           autowire="byName"/>
@@ -460,7 +466,9 @@
 	
     <!-- Repositories -->
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
-          autowire="byName"/>
+          autowire="byName">
+          <property name="c3PRExceptionHelper" ref="exceptionHelper"/>
+    </bean>
           
     <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
           autowire="byName"/>
