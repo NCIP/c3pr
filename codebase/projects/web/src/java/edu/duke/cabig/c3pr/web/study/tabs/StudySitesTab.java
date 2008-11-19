@@ -1,9 +1,12 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import org.springframework.validation.Errors;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -36,6 +39,17 @@ public class StudySitesTab extends StudyTab {
         return refdata;
     }
 
+    @Override
+    public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
+                    Errors errors) {
+        for(StudySite studySite: wrapper.getStudy().getStudySites()){
+            if(studySite.getIsCoordinatingCenter() || studySite.getHostedMode())
+                studySite.setCoordinatingCenterStudyStatus(wrapper.getStudy().getCoordinatingCenterStudyStatus());
+            else if(!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted") || request.getParameter(studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted").equalsIgnoreCase("true"))
+                studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+        }
+    }
+    
     @Override
     public void validate(StudyWrapper wrapper, Errors errors) {
         super.validate(wrapper, errors);
