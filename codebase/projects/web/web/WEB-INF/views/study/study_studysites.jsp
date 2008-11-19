@@ -250,6 +250,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <td valign="top"> <form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC" size="6"/>
             			</td> 
             			<td><form:checkbox path="study.studySites[${status.index}].hostedMode"/>
+            				<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.nciInstituteCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
             			<script>
 					        <c:if test="${!(command.study.multiInstitutionIndicator && multisiteEnv)}">$('study.studySites[${status.index}].hostedMode').disabled = true;
 					        </c:if>

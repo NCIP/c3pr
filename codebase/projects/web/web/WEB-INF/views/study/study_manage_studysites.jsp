@@ -7,11 +7,9 @@
 function saveStudy() {
     document.getElementById("command").submit();
 }
-function takeAction(action,nciCode,isRetry){
-	<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/sites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+'&isRetry='+isRetry+'&DO_NOT_SAVE=true'" />
-	//Element.descendants('actions-'+nciCode).each(function(value){
-	//						value.disable();
-	//						});
+function takeAction(nciCode){
+	action=$("siteAction-"+nciCode).value;
+	<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/sites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+'&DO_NOT_SAVE=true'" />
 	Element.show('sendingMessage-'+nciCode);
 	
 }
@@ -43,7 +41,7 @@ failedStatusChange= function (responseXML){
 	        <th><b>Status</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
 	        <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
 	        <th><b>Messages</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
-	        <th></th>
+	        <th><b>Actions</b></th>
 	    </tr>
 	    <c:forEach items="${command.study.studySites}" varStatus="status" var="site">
 		    <c:set var="siteEndpoint" value="${site}"/>
@@ -55,7 +53,7 @@ failedStatusChange= function (responseXML){
 				<td>
 					<div id="Messages-${site.healthcareSite.nciInstituteCode }">
 					<c:choose>
-						<c:when test="${!site.hostedMode && !site.isCoordinatingCenter}">
+						<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
 							<c:choose>
 								<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
 									<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
@@ -83,32 +81,27 @@ failedStatusChange= function (responseXML){
 	            	7.${empty siteEndpoint.lastAttemptedEndpoint}<br>
 	            	8.${siteEndpoint.lastAttemptedEndpoint.status!='MESSAGE_SEND_FAILED'}<br>
 	            	9.${fn:length(siteEndpoint.possibleEndpoints)==0}<br>--%>
-	            	<c:if test="${site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode}">
-	            	<c:if test="${empty siteEndpoint.lastAttemptedEndpoint || (siteEndpoint.lastAttemptedEndpoint.status!='MESSAGE_SEND_FAILED' && fn:length(siteEndpoint.possibleEndpoints)==0)}">
-					<c:forEach items="${site.possibleStatusTransitions}" var="siteStatus">
-						<c:choose>
-	   					<c:when test="${siteStatus=='ACTIVE' && (site.hostedMode || localNCICode==site.healthcareSite.nciInstituteCode)}">
-	   						<input type="button" value="Activate" onclick="takeAction('ACTIVATE_STUDY_SITE','${site.healthcareSite.nciInstituteCode }','false');"/>
+	            	<c:if test="${fn:length(site.possibleActions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+	            	<select id="siteAction-${site.healthcareSite.nciInstituteCode }">
+	            		<c:forEach items="${site.possibleActions}" var="possibleAction">
+	            		<c:choose>
+	   					<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE' && (site.hostedMode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+	   						<option value="${possibleAction}">${possibleAction.displayName }</option>
 	   					</c:when>
-	   					<c:when test="${siteStatus=='APPROVED_FOR_ACTIVTION' && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
-	   						<input type="button" value="Approve" onclick="takeAction('APPROVE_STUDY_SITE_FOR_ACTIVATION','${site.healthcareSite.nciInstituteCode }','false');"/>
+	   					<c:when test="${possibleAction=='APPROVED_FOR_ACTIVTION' && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
+	   						<option value="${possibleAction}">${possibleAction.displayName }</option>
 	   					</c:when>
-	   					<c:when test="${siteStatus=='CLOSED_TO_ACCRUAL'}">
-	   						<c:set value="true" var="isClose" />
-	   					</c:when>
-	   					<c:when test="${siteStatus=='TEMPORARILY_CLOSED_TO_ACCRUAL'}">
-	   						<c:set value="true" var="isClose" />
-	   					</c:when>
+	   					<c:otherwise>
+	   						<option value="${possibleAction}">${possibleAction.displayName }</option>
+	   					</c:otherwise>
 						</c:choose>
-					</c:forEach>
-					<c:if test="${!empty isClose}">
-  						<input type="button" value="Close" onclick="takeAction('CLOSE_STUDY_SITE','${site.healthcareSite.nciInstituteCode }','false');"/>
-  					</c:if>
+	            		</c:forEach>
+	            	</select>
+	            	<input type="button" value="Go" onclick="takeAction('${site.healthcareSite.nciInstituteCode }');"/>
 					</c:if>
-					</c:if>
-					</div>
 					<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
 						Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
+					</div>
 					</div>
 	            </td>
 	        </tr>

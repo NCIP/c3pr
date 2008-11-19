@@ -10,7 +10,7 @@
 </div>
 <div id="ajax-message">
 <c:choose>
-	<c:when test="${!site.hostedMode && !site.isCoordinatingCenter}">
+	<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
 		<c:choose>
 			<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
 				<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
@@ -28,38 +28,41 @@
 </c:choose>
 </div>
 <div id="actions"/>
-<c:if test="${empty siteEndpoint.lastAttemptedEndpoint || (siteEndpoint.lastAttemptedEndpoint.status!='MESSAGE_SEND_FAILED' && fn:length(siteEndpoint.possibleEndpoints)==0)}">
-<c:forEach items="${site.possibleStatusTransitions}" var="siteStatus">
-	<c:choose>
-		<c:when test="${siteStatus=='ACTIVE' && (site.hostedMode || localNCICode==site.healthcareSite.nciInstituteCode)}">
-			<input type="button" value="Activate" onclick="takeAction('ACTIVATE_STUDY_SITE','${site.healthcareSite.nciInstituteCode }','false');"/>
-		</c:when>
-		<c:when test="${siteStatus=='APPROVED_FOR_ACTIVTION' && localNCICode!=site.healthcareSite.nciInstituteCode}">
-			<input type="button" value="Approve" onclick="takeAction('APPROVE_STUDY_SITE_FOR_ACTIVATION','${site.healthcareSite.nciInstituteCode }','false');"/>
-		</c:when>
-		<c:when test="${siteStatus=='CLOSED_TO_ACCRUAL'}">
-			<c:set value="true" var="isClose" />
-		</c:when>
-		<c:when test="${siteStatus=='TEMPORARILY_CLOSED_TO_ACCRUAL'}">
-			<c:set value="true" var="isClose" />
-		</c:when>
-	</c:choose>
-</c:forEach>
-<c:if test="${!empty isClose}">
-	<input type="button" value="Close" onclick="takeAction('CLOSE_STUDY_SITE','${site.healthcareSite.nciInstituteCode }','false');"/>
-</c:if>
-</c:if>
+	<c:if test="${fn:length(site.possibleActions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+       	<select id="siteAction-${site.healthcareSite.nciInstituteCode }">
+       		<c:forEach items="${site.possibleActions}" var="possibleAction">
+       		<c:choose>
+			<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE' && (site.hostedMode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+				<option value="${possibleAction}">${possibleAction.displayName }</option>
+			</c:when>
+			<c:when test="${possibleAction=='APPROVED_FOR_ACTIVTION' && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
+				<option value="${possibleAction}">${possibleAction.displayName }</option>
+			</c:when>
+			<c:otherwise>
+				<option value="${possibleAction}">${possibleAction.displayName }</option>
+			</c:otherwise>
+		</c:choose>
+       		</c:forEach>
+       	</select>
+       	<input type="button" value="Go" onclick="takeAction('${site.healthcareSite.nciInstituteCode }');"/>
+	</c:if>
+	<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
+		Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
+	</div>
+	</div>
 </div>
 <script>
 $('siteIRB-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-IRB').innerHTML;
 $('Messages-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-message').innerHTML;
 $('actions-${site.healthcareSite.nciInstituteCode }').innerHTML=$('actions').innerHTML;
+$('siteStatus-${site.healthcareSite.nciInstituteCode }').innerHTML='${site.siteStudyStatus.code}';
 new Effect.Highlight($('siteIRB-${site.healthcareSite.nciInstituteCode }'), { startcolor: '#ffff99',
 endcolor: '#ffffff' });
 new Effect.Highlight($('Messages-${site.healthcareSite.nciInstituteCode }'), { startcolor: '#ffff99',
 endcolor: '#ffffff' });
-$('siteStatus-${site.healthcareSite.nciInstituteCode }').innerHTML='${site.siteStudyStatus.code}';
 new Effect.Highlight($('siteStatus-${site.healthcareSite.nciInstituteCode }'), { startcolor: '#ffff99',
+endcolor: '#ffffff' });
+new Effect.Highlight($('actions-${site.healthcareSite.nciInstituteCode }'), { startcolor: '#ffff99',
 endcolor: '#ffffff' });
 Element.hide('sendingMessage-${site.healthcareSite.nciInstituteCode }');
 </script>
