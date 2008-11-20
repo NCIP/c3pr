@@ -46,7 +46,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private CompanionStudyAssociation companionStudyAssociation ;
     private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus ;
 	public StudySite() {
-		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING
+		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
         resourceBundleMessageSource.setBasename("error_messages_multisite");
         ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
