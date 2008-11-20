@@ -21,10 +21,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
-
-import sun.util.logging.resources.logging;
-
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
@@ -37,7 +33,6 @@ import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -120,27 +115,27 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     
 
     private Study modifyStudy(Study study) {
-    	if(study.hasCompanions()){
-    		List<StudySite> studySites = study.getStudySites();
-    		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
-    			Study companionStudy = companionStudyAssociation.getCompanionStudy();
-    			for(StudySite studySite : studySites){
-    				List<StudySite> companionStudySites = companionStudy.getStudySites();
-    				List<HealthcareSite> healthcareSiteList = new ArrayList<HealthcareSite>();
-    				for(StudySite companionStudySite : companionStudySites){
-    					healthcareSiteList.add(companionStudySite.getHealthcareSite());
-    				}
-    				if(!healthcareSiteList.contains(studySite.getHealthcareSite())){
-    					StudySite newStudySite = new StudySite();
-						newStudySite.setHealthcareSite(studySite.getHealthcareSite());
-						newStudySite.setStudy(companionStudy);
-						newStudySite.setIrbApprovalDate(studySite.getIrbApprovalDate());
-						newStudySite.setStartDate(studySite.getStartDate());
-						companionStudySites.add(newStudySite);
-    				}
-    			}
-    		}
-    	}
+//    	if(study.hasCompanions()){
+//    		List<StudySite> studySites = study.getStudySites();
+//    		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+//    			Study companionStudy = companionStudyAssociation.getCompanionStudy();
+//    			for(StudySite studySite : studySites){
+//    				List<StudySite> companionStudySites = companionStudy.getStudySites();
+//    				List<HealthcareSite> healthcareSiteList = new ArrayList<HealthcareSite>();
+//    				for(StudySite companionStudySite : companionStudySites){
+//    					healthcareSiteList.add(companionStudySite.getHealthcareSite());
+//    				}
+//    				if(!healthcareSiteList.contains(studySite.getHealthcareSite())){
+//    					StudySite newStudySite = new StudySite();
+//						newStudySite.setHealthcareSite(studySite.getHealthcareSite());
+//						newStudySite.setStudy(companionStudy);
+//						newStudySite.setIrbApprovalDate(studySite.getIrbApprovalDate());
+//						newStudySite.setStartDate(studySite.getStartDate());
+//						companionStudySites.add(newStudySite);
+//    				}
+//    			}
+//    		}
+//    	}
     	return study;
 	}
     
@@ -163,7 +158,13 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		getHibernateTemplate().initialize(study.getIdentifiers());
 		getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
 		getHibernateTemplate().initialize(study.getParentStudyAssociations());
+		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
+			getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
+		}
 		getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
+		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
+		}
 		for (PlannedNotification plannedNotification : study.getPlannedNotificationsInternal()) {
 			if (plannedNotification != null) {
 				getHibernateTemplate().initialize(plannedNotification.getUserBasedRecipientInternal());

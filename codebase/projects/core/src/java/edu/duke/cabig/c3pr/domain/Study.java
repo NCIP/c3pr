@@ -25,6 +25,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.apache.log4j.Logger;
+import org.aspectj.apache.bcel.generic.CASTORE;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -290,6 +291,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Where(clause = "comp_assoc_id  is null")
 	@OrderBy
 	public List<StudyOrganization> getStudyOrganizations() {
 		return studyOrganizations;
@@ -1277,7 +1279,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	@OneToMany(mappedBy = "companionStudy")
-	@Cascade(value = { CascadeType.LOCK })
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<CompanionStudyAssociation> getParentStudyAssociations() {
 		return parentStudyAssociations;

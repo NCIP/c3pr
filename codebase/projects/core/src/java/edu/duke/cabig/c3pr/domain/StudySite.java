@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -42,11 +43,10 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private Date irbApprovalDate = Calendar.getInstance().getTime();
 
     private String roleCode;
-    
-    private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
-
-    public StudySite() {
-        coordinatingCenterStudyStatus=CoordinatingCenterStudyStatus.PENDING;
+    private CompanionStudyAssociation companionStudyAssociation ;
+    private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus ;
+	public StudySite() {
+		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
         resourceBundleMessageSource.setBasename("error_messages_multisite");
         ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
