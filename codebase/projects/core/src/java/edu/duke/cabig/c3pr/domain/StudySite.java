@@ -15,8 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -43,7 +41,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private Date irbApprovalDate = Calendar.getInstance().getTime();
 
     private String roleCode;
-    private CompanionStudyAssociation companionStudyAssociation ;
     private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus ;
 	public StudySite() {
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
