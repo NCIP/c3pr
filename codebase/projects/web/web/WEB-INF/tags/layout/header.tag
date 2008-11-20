@@ -11,7 +11,12 @@
             <c:if test="${userObject != null}">
 					<div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /> | ${userRole}</b></div>
 					</c:if>
-                    <c:if test="${! siteName == '<SITE_NAME>'}"><img src="${siteName}" height="40px" border="1"></c:if>
+                    <c:if test="${siteName ne '<SITE_NAME>'}">
+                      <div id="instName">
+                        <img src="${siteName}" height="35px" border="1">
+                        <c:out value="${instName}" />
+                      </div>
+                    </c:if>
         <div id="login-action">
                             <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="loginAuthorizationCheck">
 							<c:url value="/help/Sample_project.htm" scope="request" var="_c3prHelpURL" />

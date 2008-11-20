@@ -596,7 +596,7 @@
                         <list>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Notification"
+                                    autowire="byType" p:displayName="Notifications"
                                     p:linkName="createNotificationController"/>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"

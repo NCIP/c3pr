@@ -48,6 +48,19 @@ h2 {
 	text-decoration: none;
 }
 .login a:hover { color: #FFFF00; }
+#instName {
+position:absolute;
+top:1px;
+left:245px;
+color:white;
+font-size:9pt;
+width:300px;
+}
+#instName img {
+float:left;
+margin-right:5px;
+}
+
 /* top-level tabs */
 
 a#firstlevelnav_searchRegistrationController {

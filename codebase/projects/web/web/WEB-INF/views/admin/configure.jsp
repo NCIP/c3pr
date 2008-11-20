@@ -42,7 +42,7 @@
     </style>
 </head>
 <body>
-    <chrome:box autopad="true">
+    <chrome:box title="Configure C3PR" autopad="true">
     <c:url value="/pages/admin/configure" var="action"/>
     <tags:errors path="*"/>
     <form:form action="${action}" cssClass="standard">
@@ -52,11 +52,11 @@
 
             <div class="row">
             <table>
-            <tr><td width="30%">
+            <tr><td width="40%">
                     <b><form:label path="conf[${entry.key}].value">${entry.value.property.name}</form:label>
-                    <tags:hoverHint keyProp="configure.${entry.key}" id="${beanPath}${status.index}" /></b>
+                    </b> <tags:hoverHint keyProp="configure.${entry.key}" id="${beanPath}${status.index}" />
 				</td>
-				<td>
+ 				<td>
                     <c:set var="beanPath">conf[${entry.key}].value</c:set>
                     <c:choose>
                         <c:when test="${entry.value.property.controlType == 'boolean'}">
