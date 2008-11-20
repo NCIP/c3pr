@@ -337,7 +337,6 @@
 	<target name="clean" description="Removes all generated build artifacts.">
 		<runtarget target="preClean" />
 		<delete dir="tmp" />
-		<delete dir="${build.dir}" />
 		<delete file="${gar.name}" />
 		<runtarget target="postClean" />
 	</target>
