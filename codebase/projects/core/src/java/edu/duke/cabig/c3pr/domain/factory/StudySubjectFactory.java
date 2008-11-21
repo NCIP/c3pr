@@ -283,8 +283,8 @@ public class StudySubjectFactory {
         studySubject.setStartDate(source.getStartDate());
         studySubject.setStratumGroupNumber(source.getStratumGroupNumber());
         studySubject.getIdentifiers().addAll(source.getIdentifiers());
-        studySubject.setCctsWorkflowStatus(source.getCctsWorkflowStatus());
-        studySubject.setMultisiteWorkflowStatus(source.getMultisiteWorkflowStatus());
+        /*studySubject.setCctsWorkflowStatus(source.getCctsWorkflowStatus());
+        studySubject.setMultisiteWorkflowStatus(source.getMultisiteWorkflowStatus());*/
     }
 
     private int getCode(String errortypeString) {
