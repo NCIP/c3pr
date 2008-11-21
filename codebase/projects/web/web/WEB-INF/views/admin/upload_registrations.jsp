@@ -28,6 +28,7 @@
 <body>
 
 <chrome:box title="Import Registration">
+<tags:instructions code="upload_registrations" />
     <form action="importRegistration" method="post"
           enctype="multipart/form-data">
 

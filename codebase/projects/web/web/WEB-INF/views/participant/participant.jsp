@@ -109,7 +109,7 @@ function manageIdentifierRadio(element){
 </script>
 <style>
 #workflow-tabs {
-top:76px;
+top:62px;
 }
 </style>
 </head>
@@ -118,7 +118,7 @@ top:76px;
 <tags:tabFields tab="${tab}" />
 
 <chrome:box title="${tab.shortTitle}">
-
+<tags:instructions code="participant" />
 <chrome:division id="participant-details" title="Basic Details">
 				<div class="leftpanel">
 					<div class="row">

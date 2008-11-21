@@ -62,7 +62,7 @@
 
 <jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true">
-
+<tags:instructions code="research_staff_details" />
 <chrome:division id="site" title="Organization">
     <div class="leftpanel">
         <div class="row">

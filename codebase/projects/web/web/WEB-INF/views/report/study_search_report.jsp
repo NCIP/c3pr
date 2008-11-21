@@ -54,6 +54,7 @@ function showTable(table) {
 </script>
 </head>
 <body>
+<tags:instructions code="study_search_report" />
 <form:form name="searchForm" id="searchForm" method="post" cssClass="standard autoclear">
 	<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
 	<tr>

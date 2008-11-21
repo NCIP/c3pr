@@ -19,11 +19,17 @@ function fireAction(action, selected){
 }
 
 </script>
+<style>
+#workflow-tabs {
+top:62px;
+}
+</style>
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}"
-	formName="participantAddressForm">
+	formName="participantAddressForm">    
 	<jsp:attribute name="singleFields">
+    <tags:instructions code="participant_address" />
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<p id="instructions"><h2>Address</h2><br>

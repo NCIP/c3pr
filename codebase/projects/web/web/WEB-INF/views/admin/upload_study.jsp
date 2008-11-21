@@ -26,6 +26,7 @@
 <body>
 
 <chrome:box title="Import Study">
+ <tags:instructions code="upload_study" />
     <form action="importStudy" method="post"
           enctype="multipart/form-data">
 

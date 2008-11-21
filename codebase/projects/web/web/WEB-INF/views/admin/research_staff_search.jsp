@@ -48,7 +48,7 @@
 
 <div id="main">
 <chrome:search title="Search">
-
+<tags:instructions code="research_staff_search" />
     <form name="searchForm" id="searchForm" method="post">
     	
         <div>

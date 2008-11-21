@@ -210,6 +210,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <div id="main">
 
 <tags:panelBox title="Investigator Groups">
+<tags:instructions code="investigator_groups_create" />
 		<div>
 			<input type="hidden" name="_finish" value="true"> 
 			<input type="hidden" name="type1" value=""> 
@@ -230,7 +231,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 					id="healthcareSite-input" size="60" type="text" name="xyz"
 					value="${command.healthcareSite.name}"
 					class="autocomplete validate-notEmpty" /> 
-					<input type="button" onclick="handleHealthcarSiteClear()"
+					<input type="button" onClick="handleHealthcarSiteClear()"
                         value="Clear"/>
 					<tags:indicator	id="healthcareSite-indicator" />
 				<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
@@ -241,7 +242,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
           		<select multiple size="1" style="width:400px" id="disease-sub-category">
           </select>
 		  <p id="flashMessageForGroup" style="display: none">Please Add a Investigator Group</p>
-          <div align="right"><input type="button" value="Add Group" onclick="handleAddGroup()"/></div>
+          <div align="right"><input type="button" value="Add Group" onClick="handleAddGroup()"/></div>
 		<br>
       </chrome:division>
 <div id="errorsDiv">

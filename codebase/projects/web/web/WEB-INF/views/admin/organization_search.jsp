@@ -29,7 +29,7 @@
 
 <div id="main">
 <chrome:search title="Search">
-
+<tags:instructions code="organization_search" />
     <form name="searchForm" id="searchForm" method="post">
     	
         <div>

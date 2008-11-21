@@ -16,6 +16,7 @@ function submitPage(){
 <body>
 <!-- SUBJECT SEARCH STARTS HERE -->
 <chrome:search title="Search">
+ <tags:instructions code="participant_search" />
 	<form:form id="searchForm" name="searchForm" method="post">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>

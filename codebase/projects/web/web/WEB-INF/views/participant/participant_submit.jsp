@@ -5,9 +5,10 @@
     <title><participanttags:htmlTitle subject="${command}" /></title>
 <style type="text/css">
         .labelR { width: 12em; text-align: right; padding: 4px; }
-</style>
-<style type="text/css">
         .label { width: 12em; text-align: left; padding: 4px; }
+#workflow-tabs {
+top:62px;
+}
 </style>
 <script language="JavaScript" type="text/JavaScript">
 
@@ -22,6 +23,7 @@ function updateTargetPage(target){
 <tags:c3prCustomTabForm tab="${tab}" flow="${flow}" title="Subject Overview"
 	willSave="false" formName="review" needReset="false">
 	<jsp:attribute name="repeatingFields">
+    <tags:instructions code="participant_submit" />
 		<div><input type="hidden" name="_finish" value="true" /></div>
 
 		<chrome:division id="subject-details" title="Basic Details">

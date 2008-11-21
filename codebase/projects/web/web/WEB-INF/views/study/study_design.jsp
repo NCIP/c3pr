@@ -112,7 +112,7 @@
 <div><input type="hidden" name="_action" value=""> <input
 			type="hidden" name="_selectedEpoch" value=""> <input
 			type="hidden" name="_selectedArm" value=""></div>
-
+<tags:instructions code="study_design" />
 <!-- BIG TABLE START -->
 <table id="genericEpoch" width="100%" border="0">
 	<tr>

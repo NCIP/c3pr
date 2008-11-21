@@ -6,7 +6,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <div id="header">
-	<a id="logo" href="/c3pr/pages/dashboard">C3PR Dashboard</a>
+	<a id="logo" href="<c:url value='/pages/dashboard' />">C3PR Dashboard</a>
     <div class="background-R">
             <c:if test="${userObject != null}">
 					<div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /> | ${userRole}</b></div>
@@ -34,7 +34,7 @@
 		  &nbsp;|</a>&nbsp;&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a></csmauthz:accesscontrol>
                             <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="logoutAuthorizationCheck"><a href="<c:url value="/public/login"/>">Log in</a></csmauthz:accesscontrol>
                             <br />
-                            <div><a href="/c3pr/pages/dashboard">Dashboard</a>
+                            <div><a href="<c:url value='/pages/dashboard' />">Dashboard</a>
                             &nbsp;<csmauthz:accesscontrol domainObject="/pages/skin" authorizationCheckName="urlAuthorizationCheck"><a>|</a>&nbsp;<a id="changeSkin" style="cursor:pointer;">Change skin</a></csmauthz:accesscontrol></div>
                         </div>
 

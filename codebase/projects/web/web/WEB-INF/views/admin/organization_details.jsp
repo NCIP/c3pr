@@ -36,6 +36,7 @@
 <jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true">
 <input type="hidden" name="type1" value="">
+<tags:instructions code="organization_details" />
 <tags:errors path="*"/>
 
 <chrome:division id="organization" title="Details">
@@ -81,7 +82,7 @@
             Advanced Property:
         </div>
         <div class="value">
-	        <input type="checkbox" id="advance" name="setAdvancedProperty" onchange="new Effect.Combo('multisite-config');">
+	        <input type="checkbox" id="advance" name="setAdvancedProperty" onChange="new Effect.Combo('multisite-config');">
         </div>
     </div>
     

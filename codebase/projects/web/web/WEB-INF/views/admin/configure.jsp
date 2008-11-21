@@ -43,6 +43,7 @@
 </head>
 <body>
     <chrome:box title="Configure C3PR" autopad="true">
+    <tags:instructions code="configure" />
     <c:url value="/pages/admin/configure" var="action"/>
     <tags:errors path="*"/>
     <form:form action="${action}" cssClass="standard">

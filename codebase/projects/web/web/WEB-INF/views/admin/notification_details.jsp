@@ -315,7 +315,7 @@
 		<input type="hidden" name="_selected" value="">
 		<input type="hidden" name="_finish" value="true">
 		<input type="hidden" id="emailId" name="emailId" value="${userObject.emailId}" />
-		
+	<tags:instructions code="notification_details" />	
 			<table id="notification" width="100%">
 			<tr></tr>
 			<c:forEach items="${command.plannedNotifications}" var="notification" varStatus="nStatus">
