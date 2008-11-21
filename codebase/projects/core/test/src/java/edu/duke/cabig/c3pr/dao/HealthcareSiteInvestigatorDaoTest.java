@@ -60,7 +60,7 @@ public class HealthcareSiteInvestigatorDaoTest extends
     public void testGetById() throws Exception {
         HealthcareSiteInvestigator loaded = getDao().getById(1000);
         assertNotNull("HealthcareSiteInvestigatorDao not found", loaded);
-        assertEquals("OPEN", loaded.getStatusCode());
+        assertEquals("ACTIVE", loaded.getStatusCode());
     }
 
     /**
