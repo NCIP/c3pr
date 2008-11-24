@@ -245,7 +245,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
        // studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.doLocalRegistration(studySubject);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     
@@ -266,7 +266,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.doLocalRegistration(studySubject);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     
@@ -320,7 +320,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
             verifyMocks();
             return;
         }
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     
@@ -374,7 +374,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
             verifyMocks();
             return;
         }
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     
@@ -402,7 +402,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
             verifyMocks();
             return;
         }
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     
@@ -567,7 +567,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
         deserializedStudySubject.getScheduledEpochs().add(buildScheduledEpoch());
-        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
         try  {
                 EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
@@ -692,7 +692,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         StudySubject deserializedStudySubject = new StudySubject();
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.BOOK, false));
         studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(deserializedStudySubject);
-        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
         studySubject.setParticipant(buildParticipant());
@@ -725,7 +725,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         StudySubject deserializedStudySubject = new StudySubject();
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.PHONE_CALL, false));
         studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(deserializedStudySubject);
-        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
         studySubjectCreatorHelper.bindRandomization(deserializedStudySubject);
@@ -749,7 +749,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         //studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
-        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     
@@ -757,7 +757,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         StudySubject deserializedStudySubject = new StudySubject();
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(false));
         studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(deserializedStudySubject);
-        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getParticipant().setId(0);
         studySubject.setParticipant(buildParticipant());
@@ -781,7 +781,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
        // studySubjectDao.save(studySubject);
         replayMocks();
         studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
-        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     
