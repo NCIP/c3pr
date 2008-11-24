@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -38,12 +39,14 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @DiscriminatorValue(value = "SST")
 public class StudySite extends StudyOrganization implements Comparable<StudySite> {
-    private Date irbApprovalDate = Calendar.getInstance().getTime();
+    private Date irbApprovalDate;
 
     private String roleCode;
-    private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus ;
-	public StudySite() {
-		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
+    
+    private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
+
+    public StudySite() {
+        coordinatingCenterStudyStatus=CoordinatingCenterStudyStatus.PENDING;
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
         resourceBundleMessageSource.setBasename("error_messages_multisite");
         ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
@@ -58,7 +61,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     private SiteStudyStatus siteStudyStatus;
 
-    private Date startDate = Calendar.getInstance().getTime();
+    private Date startDate;
 
     private Date endDate;
 
@@ -581,7 +584,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     }
 
     @Transient
-    public List<APIName> getPossibleActions(){
+    public List<APIName> getPossibleTransitions(){
         List<APIName> possibleActions=new ArrayList<APIName>();
         List<SiteStudyStatus> statuses=new ArrayList<SiteStudyStatus>();
         if(this.coordinatingCenterStudyStatus!=this.getStudy().getCoordinatingCenterStudyStatus()){
