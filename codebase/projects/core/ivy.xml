@@ -98,6 +98,9 @@
         		<exclude name="spring-mock" conf="*" />
         	</dependency>
         	
+        	<dependency org="xml-security"
+        		name="xmlsec" rev="1.3.0" />
+        	
         	<dependency org="gov.nih.nci.ccts.grid.smoketest"
         		name="smokeTestService-common" rev="1.2" />
         	<dependency org="gov.nih.nci.ccts.grid.smoketest"
