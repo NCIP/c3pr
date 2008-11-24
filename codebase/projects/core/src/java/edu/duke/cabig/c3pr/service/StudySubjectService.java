@@ -35,4 +35,5 @@ public interface StudySubjectService extends CCTSWorkflowService, MultiSiteWorkf
     public List<StudySubject> searchByExample(StudySubject ss, int maxResults);
     
     public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults);
+    
 }
