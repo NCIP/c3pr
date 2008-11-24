@@ -12,7 +12,7 @@
 <body>
 <tags:panelBox>
 <form:form>
-
+	<input type="hidden" name="submitted" value="true"/>
     <c:choose>
 	<c:when test="${ (empty command.study.multiInstitutionIndicator) || command.study.multiInstitutionIndicator=='false'}">
 	<script language="JavaScript" type="text/JavaScript">

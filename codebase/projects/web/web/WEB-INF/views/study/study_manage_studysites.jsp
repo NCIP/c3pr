@@ -71,7 +71,8 @@ failedStatusChange= function (responseXML){
 					</c:choose>
 					</div>
 				</td>
-	            <td><div id="actions-${site.healthcareSite.nciInstituteCode }">
+	            <td>
+	            <div id="actions-${site.healthcareSite.nciInstituteCode }">
 	            	<%-- %>1.[${siteEndpoint.healthcareSite.nciInstituteCode}]<br>
 	            	2.${site.hostedMode || (!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode)}<br>
 	            	3.${site.hostedMode}<br>
@@ -81,18 +82,26 @@ failedStatusChange= function (responseXML){
 	            	7.${empty siteEndpoint.lastAttemptedEndpoint}<br>
 	            	8.${siteEndpoint.lastAttemptedEndpoint.status!='MESSAGE_SEND_FAILED'}<br>
 	            	9.${fn:length(siteEndpoint.possibleEndpoints)==0}<br>--%>
-	            	<c:if test="${fn:length(site.possibleActions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+	            	<c:set var="noAction" value="true"/>
+	            	<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
 	            	<select id="siteAction-${site.healthcareSite.nciInstituteCode }">
-	            		<c:forEach items="${site.possibleActions}" var="possibleAction">
+	            		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
 	            		<c:choose>
-	   					<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE' && (site.hostedMode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+	   					<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
+	   						<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && site.siteStudyStatus=='APPROVED_FOR_ACTIVTION')}">
 	   						<option value="${possibleAction}">${possibleAction.displayName }</option>
+	   						<c:set var="noAction" value="false"/>
+	   						</c:if>
 	   					</c:when>
-	   					<c:when test="${possibleAction=='APPROVED_FOR_ACTIVTION' && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
+	   					<c:when test="${possibleAction=='APPROVE_STUDY_SITE_FOR_ACTIVATION'}">
+	   						<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
 	   						<option value="${possibleAction}">${possibleAction.displayName }</option>
+	   						<c:set var="noAction" value="false"/>
+	   						</c:if>
 	   					</c:when>
 	   					<c:otherwise>
 	   						<option value="${possibleAction}">${possibleAction.displayName }</option>
+	   						<c:set var="noAction" value="false"/>
 	   					</c:otherwise>
 						</c:choose>
 	            		</c:forEach>
@@ -103,6 +112,11 @@ failedStatusChange= function (responseXML){
 						Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
 					</div>
 					</div>
+					<c:if test="${noAction}">
+					<script>
+						Element.hide("actions-${site.healthcareSite.nciInstituteCode }");
+					</script>
+					</c:if>
 	            </td>
 	        </tr>
 	    </c:forEach>
