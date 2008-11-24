@@ -31,5 +31,11 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
                 }
             }
         }
+
+        if(command.getDiseaseHistory() != null){
+        	if(StringUtils.equals(command.getDiseaseHistory().getOtherPrimaryDiseaseSiteCode(), "(Begin typing here)")){
+        		command.getDiseaseHistory().setOtherPrimaryDiseaseSiteCode("");
+        	}
+        }
     }
 }
