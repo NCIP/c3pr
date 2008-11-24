@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -23,13 +24,16 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implements
@@ -429,6 +433,39 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
             getHibernateTemplate().initialize(scheduledEpoch.getSubjectEligibilityAnswersInternal());
             getHibernateTemplate().initialize(scheduledEpoch.getSubjectStratificationAnswersInternal());
         }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<StudySubject> searchBySysIdentifier(SystemAssignedIdentifier id) {
+        return (List<StudySubject>) getHibernateTemplate()
+                        .find(
+                                        "select S from StudySubject S, Identifier I where I.systemName=?"
+                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
+                                        new Object[] { id.getSystemName(),
+                                                id.getValue(), id.getType() });
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<StudySubject> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
+        return (List<StudySubject>) getHibernateTemplate()
+                        .find(
+                                        "select S from StudySubject S, Identifier I where I.healthcareSite.nciInstituteCode=?"
+                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
+                                        new Object[] { id.getHealthcareSite().getNciInstituteCode(),
+                                                id.getValue(), id.getType() });
+    }
+    
+    public List<StudySubject> getByIdentifiers(List<Identifier> studySubjectIdentifiers) {
+        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+        for (Identifier identifier : studySubjectIdentifiers) {
+            if (identifier instanceof SystemAssignedIdentifier) studySubjects
+                            .addAll(searchBySysIdentifier((SystemAssignedIdentifier) identifier));
+            else if (identifier instanceof OrganizationAssignedIdentifier) studySubjects
+                            .addAll(searchByOrgIdentifier((OrganizationAssignedIdentifier) identifier));
+        }
+        Set<StudySubject> set = new LinkedHashSet<StudySubject>();
+        set.addAll(studySubjects);
+        return new ArrayList<StudySubject>(set);
     }
 
 

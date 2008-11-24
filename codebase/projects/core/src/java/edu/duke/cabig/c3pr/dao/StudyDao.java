@@ -71,24 +71,14 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public Study getStudyDesignById(int id) {
         return (Study) getHibernateTemplate().get(domainClass(), id);
     }
-
     @SuppressWarnings("unchecked")
-    public Study getByIdentifier(SystemAssignedIdentifier identifier) {
-        Criteria criteria = getSession().createCriteria(domainClass());
-        criteria = criteria.createCriteria("identifiers");
-
-        if (identifier.getType() != null) {
-            criteria.add(Restrictions.eq("type", identifier.getType()));
-        }
-
-        if (identifier.getSystemName() != null) {
-            criteria.add(Restrictions.eq("systemName", identifier.getSystemName()));
-        }
-
-        if (identifier.getValue() != null) {
-            criteria.add(Restrictions.eq("value", identifier.getValue()));
-        }
-        return (Study) CollectionUtils.firstElement(criteria.list());
+    public List<Study> searchBySysIdentifier(SystemAssignedIdentifier id) {
+        return (List<Study>) getHibernateTemplate()
+                        .find(
+                                        "select S from Study S, Identifier I where I.systemName=?"
+                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
+                                        new Object[] { id.getSystemName(),
+                                                id.getValue(), id.getType() });
     }
 
     @SuppressWarnings("unchecked")
@@ -396,7 +386,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         List<Study> studies = new ArrayList<Study>();
         for (Identifier identifier : studyIdentifiers) {
             if (identifier instanceof SystemAssignedIdentifier) studies
-                            .add(getByIdentifier((SystemAssignedIdentifier) identifier));
+                            .addAll(searchBySysIdentifier((SystemAssignedIdentifier) identifier));
             else if (identifier instanceof OrganizationAssignedIdentifier) studies
                             .addAll(searchByOrgIdentifier((OrganizationAssignedIdentifier) identifier));
         }
