@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
 import edu.duke.cabig.c3pr.dao.StudyOrganizationDao;
@@ -35,6 +37,7 @@ import gov.nih.nci.common.exception.XMLUtilityException;
  * Created by IntelliJ IDEA. User: kherm Date: Dec 6, 2007 Time: 4:01:40 PM To change this template
  * use File | Settings | File Templates.
  */
+@Transactional
 public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkflowService {
 
     private Logger log = Logger.getLogger(CCTSWorkflowService.class);
@@ -49,7 +52,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
 
     protected C3PRExceptionHelper exceptionHelper;
 
-    private Configuration configuration;
+    protected Configuration configuration;
 
     private MessageSource c3prErrorMessages;
     
@@ -65,12 +68,6 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     
     protected StudyOrganizationDao studyOrganizationDao;
     
-    private StudyService studyService;
-
-    public void setStudyService(StudyService studyService) {
-        this.studyService = studyService;
-    }
-
     public void setCctsXSLTName(String cctsXSLTName) {
         this.cctsXSLTName = cctsXSLTName;
     }
@@ -243,7 +240,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     }
     
     public void handleMultiSiteBroadcast(StudyOrganization studyOrganization, ServiceName multisiteServiceName, APIName multisiteAPIName, List domainObjects) {
-        if(!studyService.canMultisiteBroadcast(studyOrganization)){
+        if(!this.canMultisiteBroadcast(studyOrganization)){
             return;
         }
         try {
@@ -260,22 +257,29 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
         }
     }
     
+    @Transactional(propagation=Propagation.REQUIRES_NEW)
     public void handleAffiliateSiteBroadcast(String nciInstituteCode, Study study, APIName multisiteAPIName, List domainObjects){
         List<AbstractMutableDomainObject> studyOrganizations=new ArrayList<AbstractMutableDomainObject>();
         studyOrganizations.add(study.getStudySite(nciInstituteCode));
         handleMultiSiteBroadcast(studyOrganizations, getMultisiteServiceName(), multisiteAPIName, domainObjects);
     }
     
+    @Transactional(propagation=Propagation.REQUIRES_NEW)
     public void handleAffiliateSitesBroadcast(Study study, APIName multisiteAPIName, List domainObjects){
         handleMultiSiteBroadcast(study.getAffiliateStudySites(), getMultisiteServiceName(), multisiteAPIName, domainObjects);
     }
     
+    @Transactional(propagation=Propagation.REQUIRES_NEW)
     public void handleCoordinatingCenterBroadcast(Study study, APIName multisiteAPIName, List domainObjects){
         handleMultiSiteBroadcast(study.getStudyCoordinatingCenters(), getMultisiteServiceName(), multisiteAPIName, domainObjects);
     }
     
     public abstract ServiceName getMultisiteServiceName();
 
+    public boolean canMultisiteBroadcast(StudyOrganization studyOrganization){
+        return !studyOrganization.getHostedMode() && this.configuration.get(Configuration.MULTISITE_ENABLE).equalsIgnoreCase("true");
+    }
+    
     public void setEndPointFactory(EndPointFactory endPointFactory) {
         this.endPointFactory = endPointFactory;
     }

@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.APIName;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
@@ -20,16 +22,6 @@ import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 public class StudyServiceImpl extends WorkflowServiceImpl implements StudyService{
     
-    private Configuration configuration;
-    
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
-    public boolean canMultisiteBroadcast(StudyOrganization studyOrganization){
-        return !studyOrganization.getHostedMode() && this.configuration.get(Configuration.MULTISITE_ENABLE).equalsIgnoreCase("true");
-    }
-
     public String getLocalNCIInstituteCode(){
         return this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
     }
@@ -85,8 +77,8 @@ public class StudyServiceImpl extends WorkflowServiceImpl implements StudyServic
                         handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.OPEN_STUDY, studyIdentifiers);
                     }
                 }
-            updateCoordinatingCenterStatusForStudySite(studySite, APIName.OPEN_STUDY, CoordinatingCenterStudyStatus.OPEN);
             }
+            updateCoordinatingCenterStatusForStudySite(studySite, APIName.OPEN_STUDY, CoordinatingCenterStudyStatus.OPEN);
         }
     }
 
