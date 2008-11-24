@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
@@ -103,7 +104,7 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
 	            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
 	                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
 	            }
-	            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.APPROVED) {
+	            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) {
 	            	if (scheduledEpoch.isReserving()) {
 	                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 	                }
@@ -137,7 +138,7 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
 	                    }
 	                }
 	                else {
-	                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+	                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
 	                }
 	            }
 	            else {
@@ -233,4 +234,5 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
         // TODO Auto-generated method stub
         return null;
     }
+    
 }
