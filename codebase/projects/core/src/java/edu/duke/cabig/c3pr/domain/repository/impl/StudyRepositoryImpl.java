@@ -209,11 +209,13 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         study.closeToAccrual();
         study=this.merge(study);
-//        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-//            studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
-//        }
-        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-            studyService.closeStudyAtAffiliates(studyIdentifiers);
+        if(study.canMultisiteBroadcast()){
+            if(study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+                studyService.closeStudyAtAffiliates(studyIdentifiers);
+            }else{
+                study.getStudySite(studyService.getLocalNCIInstituteCode()).setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                study=this.merge(study);
+            }
         }
         return study;
     }
@@ -223,11 +225,13 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         study.closeToAccrualAndTreatment();
         study=this.merge(study);
-//        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-//            studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
-//        }
-        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-            studyService.closeStudyAtAffiliates(studyIdentifiers);
+        if(study.canMultisiteBroadcast()){
+            if(study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+                studyService.closeStudyAtAffiliates(studyIdentifiers);
+            }else{
+                study.getStudySite(studyService.getLocalNCIInstituteCode()).setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                study=this.merge(study);
+            }
         }
         return study;
     }
@@ -237,11 +241,13 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         study.temporarilyCloseToAccrual();
         study=this.merge(study);
-//        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-//            studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
-//        }
-        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-            studyService.closeStudyAtAffiliates(studyIdentifiers);
+        if(study.canMultisiteBroadcast()){
+            if(study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+                studyService.closeStudyAtAffiliates(studyIdentifiers);
+            }else{
+                study.getStudySite(studyService.getLocalNCIInstituteCode()).setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                study=this.merge(study);
+            }
         }
         return study;
     }
@@ -251,11 +257,13 @@ public class StudyRepositoryImpl implements StudyRepository {
         Study study = getUniqueStudy(studyIdentifiers);
         study.temporarilyCloseToAccrualAndTreatment();
         study=this.merge(study);
-//        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-//            studyService.handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
-//        }
-        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-            studyService.closeStudyAtAffiliates(studyIdentifiers);
+        if(study.canMultisiteBroadcast()){
+            if(study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+                studyService.closeStudyAtAffiliates(studyIdentifiers);
+            }else{
+                study.getStudySite(studyService.getLocalNCIInstituteCode()).setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                study=this.merge(study);
+            }
         }
         return study;
     }
@@ -387,8 +395,13 @@ public class StudyRepositoryImpl implements StudyRepository {
 //            domainObjects.add(study);
 //            studyService.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY, domainObjects);
 //        }
-        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-            studyService.createStudyAtAffiliates(study.getIdentifiers());
+        if(study.canMultisiteBroadcast()){
+            if(study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+                studyService.createStudyAtAffiliates(study.getIdentifiers());
+            }else{
+                study.getStudySite(studyService.getLocalNCIInstituteCode()).setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                study=this.merge(study);
+            }
         }
         return study;
     }
@@ -406,11 +419,13 @@ public class StudyRepositoryImpl implements StudyRepository {
             study=this.createStudy(studyIdentifiers);
         study.open();
         study= this.merge(study);
-//        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-//            studyService.handleAffiliateSitesBroadcast(study, APIName.OPEN_STUDY, studyIdentifiers);
-//        }
-        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-            studyService.openStudyAtAffiliates(studyIdentifiers);
+        if(study.canMultisiteBroadcast()){
+            if(study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+                studyService.openStudyAtAffiliates(studyIdentifiers);
+            }else{
+                study.getStudySite(studyService.getLocalNCIInstituteCode()).setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                study=this.merge(study);
+            }
         }
         return study;
     }
