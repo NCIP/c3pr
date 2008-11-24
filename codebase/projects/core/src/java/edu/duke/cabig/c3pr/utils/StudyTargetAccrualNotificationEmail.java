@@ -14,6 +14,8 @@ import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -40,10 +42,11 @@ public class StudyTargetAccrualNotificationEmail {
 
     private Logger log = Logger.getLogger(StudyTargetAccrualNotificationEmail.class);
 
+    public static final String STUDY_INVESTIGATOR = "SI";
     /**
      * This method is reponsible for figuring out the email address from notifications and sending
      * out the notificatino email using Javamail.
-     * 
+     *
      * @param studySubject
      */
     public void sendEmail(StudySubject studySubject) {
@@ -62,9 +65,9 @@ public class StudyTargetAccrualNotificationEmail {
                         msg.setSubject("Study Threshold Notification.");
                         msg.setTo(emailAddress);
                         msg.setText("This is to notify you that the study accrual for "
-                                        + study.getShortTitleText() + " has now reached "
-                                        + totalAccrual + ".");
-                        log.debug("Trying to send study target accrual notification email");
+									+ study.getShortTitleText() + " has now reached " + totalAccrual + ".");
+						log.debug("Trying to send study target accrual notification email to "+emailAddress);
+
                         this.mailSender.send(msg);
                     }
                     catch (MailException e) {
@@ -127,6 +130,12 @@ public class StudyTargetAccrualNotificationEmail {
                             if (group.getCode().equalsIgnoreCase(rr.getRole())) {
                                 returnList.addAll(getEmailAddressesFromResearchStaff(rs));
                             }
+                            //Handling the investigators
+							if(rr.getRole().equalsIgnoreCase(STUDY_INVESTIGATOR)){
+								for(HealthcareSiteInvestigator hcsi: so.getHealthcareSite().getHealthcareSiteInvestigators()){
+									returnList.addAll(getEmailAddressesFromInvestigator(hcsi.getInvestigator()));
+								}
+                            }
                         }
                     }
                 }
@@ -145,6 +154,17 @@ public class StudyTargetAccrualNotificationEmail {
             }
         }
         return returnList;
+    }
+
+
+	public List<String> getEmailAddressesFromInvestigator(Investigator inv) {
+		List<String> returnList = new ArrayList<String>();
+		for (ContactMechanism cm : inv.getContactMechanisms()) {
+			if (cm.getType().equals(ContactMechanismType.EMAIL)) {
+				returnList.add(cm.getValue());
+			}
+		}
+		return returnList;
     }
 
     /**
