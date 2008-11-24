@@ -24,6 +24,8 @@ public interface MultiSiteWorkflowService<C extends InteroperableAbstractMutable
 //    
 //    public CCTSWorkflowStatusType getMultiSiteWofkflowStatus(C cctsObject);
     
+    public boolean canMultisiteBroadcast(StudyOrganization studyOrganization);
+    
     public void handleAffiliateSiteBroadcast(String nciInstituteCode, Study study, APIName multisiteAPIName, List<? extends AbstractMutableDomainObject> domainObjects);
     
     public void handleAffiliateSitesBroadcast(Study study, APIName multisiteAPIName, List<? extends AbstractMutableDomainObject> domainObjects);

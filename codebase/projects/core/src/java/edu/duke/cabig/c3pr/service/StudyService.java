@@ -16,8 +16,6 @@ import edu.duke.cabig.c3pr.domain.StudySite;
  * @author priyatam
  */
 public interface StudyService extends MultiSiteWorkflowService, CCTSWorkflowService{
-    public boolean canMultisiteBroadcast(StudyOrganization studyOrganization);
-    
     public String getLocalNCIInstituteCode();
     
     public ServiceName getMultisiteServiceName();
