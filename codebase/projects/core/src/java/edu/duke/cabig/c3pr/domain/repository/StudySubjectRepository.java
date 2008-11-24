@@ -1,9 +1,12 @@
 package edu.duke.cabig.c3pr.domain.repository;
 
+import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
 public interface StudySubjectRepository {
@@ -31,5 +34,23 @@ public interface StudySubjectRepository {
 	throws C3PRCodedException;
     
     public List<StudySubject> findRegistrations(StudySubject exampleStudySubject);
+    
+    public StudySubject register(StudySubject studySubject);
+    
+    public StudySubject register(List<Identifier> studySubjectIdentifiers);
+    
+    public StudySubject enroll(List<Identifier> studySubjectIdentifiers);
+    
+    public StudySubject enroll(StudySubject studySubject);
+    
+    public StudySubject transferSubject(List<Identifier> studySubjectIdentifiers);
+    
+    public void takeSubjectOffStudy(List<Identifier> studySubjectIdentifiers,String offStudyReasonText,Date offStudyDate);
+    
+    public StudySubject create(StudySubject studySubject);
+    
+    public StudySubject reserve(StudySubject studySubject);
+    
+    public StudySubject reserve(List<Identifier> studySubjectIdentifiers);
     
 }
