@@ -28,21 +28,29 @@
 </c:choose>
 </div>
 <div id="actions"/>
-	<c:if test="${fn:length(site.possibleActions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
-       	<select id="siteAction-${site.healthcareSite.nciInstituteCode }">
-       		<c:forEach items="${site.possibleActions}" var="possibleAction">
-       		<c:choose>
-			<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE' && (site.hostedMode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+	<c:set var="action" value="false"/>
+    <c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+      	<select id="siteAction-${site.healthcareSite.nciInstituteCode }">
+   		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
+	   		<c:choose>
+			<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
+				<c:if test="${site.hostedMode || localNCICode==site.healthcareSite.nciInstituteCode}">
 				<option value="${possibleAction}">${possibleAction.displayName }</option>
+				<c:set var="action" value="true"/>
+				</c:if>
 			</c:when>
-			<c:when test="${possibleAction=='APPROVED_FOR_ACTIVTION' && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
+			<c:when test="${possibleAction=='APPROVED_FOR_ACTIVTION'}">
+				<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
 				<option value="${possibleAction}">${possibleAction.displayName }</option>
+				<c:set var="action" value="true"/>
+				</c:if>
 			</c:when>
 			<c:otherwise>
 				<option value="${possibleAction}">${possibleAction.displayName }</option>
+				<c:set var="action" value="true"/>
 			</c:otherwise>
-		</c:choose>
-       		</c:forEach>
+			</c:choose>
+       	</c:forEach>
        	</select>
        	<input type="button" value="Go" onclick="takeAction('${site.healthcareSite.nciInstituteCode }');"/>
 	</c:if>
@@ -54,7 +62,9 @@
 <script>
 $('siteIRB-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-IRB').innerHTML;
 $('Messages-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-message').innerHTML;
+<c:if test="${action}">
 $('actions-${site.healthcareSite.nciInstituteCode }').innerHTML=$('actions').innerHTML;
+</c:if>
 $('siteStatus-${site.healthcareSite.nciInstituteCode }').innerHTML='${site.siteStudyStatus.code}';
 new Effect.Highlight($('siteIRB-${site.healthcareSite.nciInstituteCode }'), { startcolor: '#ffff99',
 endcolor: '#ffffff' });
