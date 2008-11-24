@@ -24,7 +24,6 @@ import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -91,24 +90,26 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public void testCreateStudyCompleteDataEntryHosted() {
-        study.updateDataEntryStatus();
-        EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.COMPLETE);
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+ //       study.updateDataEntryStatus();
+ //       EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.COMPLETE);
+ //       study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
         EasyMock.expect(study.canMultisiteBroadcast()).andReturn(false);
+        study.readyToOpen();
         replayMocks();
         studyRepository.createStudy(study);
         verifyMocks();
     }
 
     public void testCreateStudyCompleteDataEntryCoCenter() {
-        study.updateDataEntryStatus();
-        EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.COMPLETE);
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+     //   study.updateDataEntryStatus();
+    	study.readyToOpen();
+     //   EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.COMPLETE);
+     //   study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
         EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("CC");
-        EasyMock.expect(study.isCoOrdinatingCenter("CC")).andReturn(true);
+    //    EasyMock.expect(study.isCoOrdinatingCenter("CC")).andReturn(true);
         List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
         domainObjects.add(study);
         studyService.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY,
@@ -119,8 +120,10 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public void testCreateStudyIncompleteDataEntry1() {
-        study.updateDataEntryStatus();
-        EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.INCOMPLETE);
+        study.readyToOpen();
+        EasyMock.expect(studyDao.merge(study)).andReturn(study);
+        
+    //    EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.INCOMPLETE);
         replayMocks();
         try {
             studyRepository.createStudy(study);
@@ -136,7 +139,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
     
     public void testCreateStudyIncompleteDataEntry2() {
-        study.updateDataEntryStatus();
+        study.readyToOpen();
         EasyMock.expectLastCall().andThrow(this.c3PRExceptionHelper.getRuntimeException(
                         getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STUDY_SITE.CODE")));
         replayMocks();
@@ -190,7 +193,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public void testOpenStudyPendingCoCenter() throws C3PRCodedException {
-        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
+        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
         EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.PENDING);
         study.updateDataEntryStatus();
         EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.COMPLETE);

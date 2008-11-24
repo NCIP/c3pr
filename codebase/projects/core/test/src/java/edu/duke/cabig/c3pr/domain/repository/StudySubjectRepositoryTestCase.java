@@ -81,6 +81,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectRepository=studySubjectRepositoryImpl;
         studySubject=new StudySubject();
         studySubjectCreatorHelper=new StudySubjectCreatorHelper();
+        studySubject.setParticipant(studySubjectCreatorHelper.createNewParticipant());
     }
     
     public void testAssignC3DIdentifier(){
@@ -217,7 +218,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
         replayMocks();
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.UNAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     
@@ -228,7 +229,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         replayMocks();
         studySubjectRepository.doLocalRegistration(studySubject);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.UNAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     
@@ -818,4 +819,91 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 			StudySubjectCreatorHelper studySubjectCreatorHelper) {
 		this.studySubjectCreatorHelper = studySubjectCreatorHelper;
 	}
+	
+	  public void testCreate() throws Exception{
+	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
+	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
+	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
+	        studySubject.addScheduledEpoch(scheduledEpochFirst);
+	        studySubjectCreatorHelper.buildCommandObject(studySubject);
+	        studySubjectCreatorHelper.bindEligibility(studySubject);
+	        studySubjectCreatorHelper.bindStratification(studySubject);
+	        studySubject.setInformedConsentSignedDate(new Date());
+	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.setId(1);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+	        replayMocks();
+	        studySubjectRepository.create(studySubject);
+	        verifyMocks();
+	    }
+	  
+	  public void testEnrollOnNonRandomizedEpochWithoutArm() throws Exception{
+	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
+	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpochWithoutArm(false));
+	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
+	        studySubject.addScheduledEpoch(scheduledEpochFirst);
+	        studySubjectCreatorHelper.buildCommandObject(studySubject);
+	        studySubjectCreatorHelper.bindEligibility(studySubject);
+	        studySubjectCreatorHelper.bindStratification(studySubject);
+	        studySubject.setInformedConsentSignedDate(new Date());
+	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.setId(1);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+	        replayMocks();
+	        studySubjectRepository.enroll(studySubject);
+	        verifyMocks();
+	    }
+	  public void testEnrollOnNonRandomizedEpochWithArm() throws Exception{
+	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
+	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(false));
+	        ScheduledArm scheduledArm = new ScheduledArm();
+	        scheduledArm.setArm(studySubjectCreatorHelper.createTestTreatmentEpoch(false).getArms().get(0));
+	        scheduledEpochFirst.addScheduledArm(scheduledArm);
+	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
+	        studySubject.addScheduledEpoch(scheduledEpochFirst);
+	        studySubjectCreatorHelper.buildCommandObject(studySubject);
+	        studySubjectCreatorHelper.bindEligibility(studySubject);
+	        studySubjectCreatorHelper.bindStratification(studySubject);
+	        studySubject.setInformedConsentSignedDate(new Date());
+	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.setId(1);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+	        replayMocks();
+	        studySubjectRepository.enroll(studySubject);
+	        verifyMocks();
+	    }
+	  
+	  public void testEnrollOnPhoneCallRandomizedEpoch() throws Exception{
+	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
+	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
+	        ScheduledArm scheduledArm = new ScheduledArm();
+	        scheduledArm.setArm(studySubjectCreatorHelper.createTestTreatmentEpoch(false).getArms().get(0));
+	        scheduledEpochFirst.addScheduledArm(scheduledArm);
+	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.PHONE_CALL,true));
+	        studySubject.addScheduledEpoch(scheduledEpochFirst);
+	        studySubjectCreatorHelper.buildCommandObject(studySubject);
+	        studySubjectCreatorHelper.bindEligibility(studySubject);
+	        studySubjectCreatorHelper.bindStratification(studySubject);
+	        studySubject.setInformedConsentSignedDate(new Date());
+	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.setId(1);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+	        replayMocks();
+	        studySubjectRepository.enroll(studySubject);
+	        verifyMocks();
+	    }
+	  public void testEnrollOnBookRandomizedEpoch() throws Exception{
+	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.BOOK,true));
+	        studySubjectCreatorHelper.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
+	        studySubjectCreatorHelper.buildCommandObject(studySubject);
+	        studySubjectCreatorHelper.bindEligibility(studySubject);
+	        studySubjectCreatorHelper.bindStratification(studySubject);
+	        studySubject.setInformedConsentSignedDate(new Date());
+	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.setId(1);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+	        replayMocks();
+	        studySubjectRepository.enroll(studySubject);
+	        verifyMocks();
+	    }
 }
