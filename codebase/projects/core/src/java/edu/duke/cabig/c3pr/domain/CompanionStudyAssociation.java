@@ -55,6 +55,46 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 	public Boolean getMandatoryIndicator() {
 		return mandatoryIndicator;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((companionStudy == null) ? 0 : companionStudy.hashCode());
+		result = prime
+				* result
+				+ ((mandatoryIndicator == null) ? 0 : mandatoryIndicator
+						.hashCode());
+		result = prime * result
+				+ ((parentStudy == null) ? 0 : parentStudy.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompanionStudyAssociation other = (CompanionStudyAssociation) obj;
+		if (companionStudy == null) {
+			if (other.companionStudy != null)
+				return false;
+		} else if (!companionStudy.equals(other.companionStudy))
+			return false;
+		if (mandatoryIndicator == null) {
+			if (other.mandatoryIndicator != null)
+				return false;
+		} else if (!mandatoryIndicator.equals(other.mandatoryIndicator))
+			return false;
+		if (parentStudy == null) {
+			if (other.parentStudy != null)
+				return false;
+		} else if (!parentStudy.equals(other.parentStudy))
+			return false;
+		return true;
+	}
 	public void setMandatoryIndicator(Boolean mandatoryIndicator) {
 		this.mandatoryIndicator = mandatoryIndicator;
 	}

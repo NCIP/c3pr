@@ -6,7 +6,10 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum ScheduledEpochWorkFlowStatus implements CodedEnum<String> {
-    UNAPPROVED("Unapproved"), PENDING("Pending"), DISAPPROVED("Disapproved"), APPROVED("Approved");
+     PENDING("Pending"), REGISTERED_BUT_NOT_RANDOMIZED("Registered But Not Randomized"),REGISTERED("Registered"),
+     //TODO
+     // the following to be removed with appropriate data migration script
+     UNAPPROVED("Unapproved"), DISAPPROVED("Disapproved");
 
     private String code;
 

@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
@@ -18,6 +21,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
@@ -41,6 +46,43 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
     private ScheduledEpochWorkFlowStatus scEpochWorkflowStatus;
 
     private String disapprovalReasonText;
+    
+    public Integer getStratumGroupNumber() {
+		return stratumGroupNumber;
+	}
+
+	public void setStratumGroupNumber(Integer stratumGroupNumber) {
+		this.stratumGroupNumber = stratumGroupNumber;
+	}
+	
+	 @Transient 
+	    public StratumGroup getStratumGroup() throws C3PRBaseException {
+	        StratumGroup stratumGroup = null;
+	        if (this.stratumGroupNumber != null) {
+	            stratumGroup = getEpoch()
+	                            .getStratumGroupByNumber(this.stratumGroupNumber);
+	        }
+	        else {
+	            List<SubjectStratificationAnswer> ssaList = getSubjectStratificationAnswers();
+	            if (ssaList != null) {
+	                Iterator iter = ssaList.iterator();
+	                List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
+	                while (iter.hasNext()) {
+	                    scacList.add(new StratificationCriterionAnswerCombination(
+	                                    (SubjectStratificationAnswer) iter.next()));
+	                }
+	                stratumGroup = getEpoch()
+	                                .getStratumGroupForAnsCombination(scacList);
+	            }
+	        }
+	        if (stratumGroup == null) {
+	            throw new C3PRBaseException(
+	                            "No startum group found. Maybe the answer combination does not have a valid startum group");
+	        }
+	        return stratumGroup;
+	    }
+
+	private Integer stratumGroupNumber;
 
     public String getDisapprovalReasonText() {
         return disapprovalReasonText;
@@ -48,7 +90,8 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 
     public ScheduledEpoch() {
         this.startDate = new Date();
-        this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.UNAPPROVED;
+     //   this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.UNAPPROVED;
+        this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.PENDING;
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(SubjectEligibilityAnswer.class,
                         new InstantiateFactory<SubjectEligibilityAnswer>(
@@ -66,7 +109,9 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
     public ScheduledEpoch(boolean forExample) {
         if (!forExample) {
             this.startDate = new Date();
-            this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.UNAPPROVED;
+    //        this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.UNAPPROVED;
+            this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.PENDING;
+
         }
     }
 
@@ -103,6 +148,7 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
         this.epoch = epoch;
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getStartDate() {
         return startDate;
     }
@@ -280,7 +326,7 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
     }
 
     public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(Integer stratumGroupNumber) {
-    	if (this.getEpoch().hasStratification()){
+    	if (this.getEpoch().getStratificationIndicator()){
 	        if (!this.evaluateStratificationIndicator(stratumGroupNumber)) {
 	            return ScheduledEpochDataEntryStatus.INCOMPLETE;
 	        }
@@ -299,15 +345,29 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
     }
     
     private boolean evaluateStratificationIndicator(Integer stratumGroupNumber) {
-        if (stratumGroupNumber!=null) return true;
-        List<SubjectStratificationAnswer> answers = this
-                        .getSubjectStratificationAnswers();
-        for (SubjectStratificationAnswer subjectStratificationAnswer : answers) {
-            if (subjectStratificationAnswer.getStratificationCriterionAnswer() == null) {
-                return false;
-            }
+        return (stratumGroupNumber==null)?false:true;
+    }
+    
+    public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(List<Error>  errors) {
+    	if (this.getEpoch().getStratificationIndicator()){
+	        if (!this.evaluateStratificationIndicator(stratumGroupNumber)) {
+	        	errors.add(new Error("The subject needs to be assgined a  stratum group number on scheduled epoch :" + this.getEpoch().getName()));
+	            return ScheduledEpochDataEntryStatus.INCOMPLETE;
+	        }
+    	}
+        if (!this.getEligibilityIndicator()) {
+        	errors.add(new Error("The subject does not meet the eligibility criteria on scheduled epoch :" + this.getEpoch().getName()));
+            return ScheduledEpochDataEntryStatus.INCOMPLETE;
         }
-        return true;
+        if (this.getRequiresArm()
+                        && !this.getRequiresRandomization()
+                        && (this.getScheduledArm() == null || this
+                                        .getScheduledArm().getArm() == null)) {
+        	errors.add(new Error("The subject is not assigned to a scheduled arm"));
+            return ScheduledEpochDataEntryStatus.INCOMPLETE;
+        }
+
+        return ScheduledEpochDataEntryStatus.COMPLETE;
     }
 
 	public Integer getCurrentPosition() {

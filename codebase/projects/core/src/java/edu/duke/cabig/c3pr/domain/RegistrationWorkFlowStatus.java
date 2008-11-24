@@ -6,9 +6,13 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum RegistrationWorkFlowStatus implements CodedEnum<String> {
-    UNREGISTERED("Unregistered"), PENDING("Pending"), DISAPPROVED("Disapproved"), RESERVED(
-                    "Reserved"), REGISTERED("Registered"), OFF_STUDY("Off-Study"), INVALID(
-                    "Invalid"), READY_FOR_REGISTRATION("Ready for registration");
+   PENDING("Pending"),  RESERVED(
+                    "Reserved"),  OFF_STUDY("Off-Study"),  
+                    REGISTERED_BUT_NOT_ENROLLED("Registered but not enrolled"),ENROLLED("enrolled"), 
+                    // TODO
+                    // following to be removed with the appropriate data migration script
+                    UNREGISTERED("Unregistered"), DISAPPROVED("Disapproved"),REGISTERED("Registered"),INVALID(
+                    "Invalid"),READY_FOR_REGISTRATION("Ready for registration");
 
     private String code;
 

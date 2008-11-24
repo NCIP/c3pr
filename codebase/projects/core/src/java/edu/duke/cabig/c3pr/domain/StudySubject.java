@@ -31,6 +31,9 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -83,6 +86,7 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
 
     private List<Identifier> identifiers;
 
+    // TODO going to be removed
     private Integer stratumGroupNumber;
     
     private String paymentMethod;
@@ -428,8 +432,9 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
         this.regDataEntryStatus = registrationDataEntryStatus;
     }
 
-    @Transient
-    public StratumGroup getStratumGroup() throws C3PRBaseException {
+  //TODO will be deprecated moved to ScheduledEpoch
+    @Transient 
+    public StratumGroup getStratumGroup() throws C3PRBaseRuntimeException {
         StratumGroup stratumGroup = null;
         if (this.stratumGroupNumber != null) {
             stratumGroup = ((ScheduledEpoch) getScheduledEpoch()).getEpoch()
@@ -450,7 +455,7 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
             }
         }
         if (stratumGroup == null) {
-            throw new C3PRBaseException(
+            throw new C3PRBaseRuntimeException(
                             "No startum group found. Maybe the answer combination does not have a valid startum group");
         }
         return stratumGroup;
@@ -505,11 +510,13 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
     public void setOffStudyReasonText(String offStudyReasonText) {
         this.offStudyReasonText = offStudyReasonText;
     }
-
+    
+    //TODO to be deleted
     public Integer getStratumGroupNumber() {
         return stratumGroupNumber;
     }
-
+    
+    //TODO to be deleted
     public void setStratumGroupNumber(Integer stratumGroupNumber) {
         this.stratumGroupNumber = stratumGroupNumber;
     }
@@ -521,8 +528,24 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
         return RegistrationDataEntryStatus.COMPLETE;
     }
 
+    
+    //Adding refactored code
+    public void evaluateRegistrationDataEntryStatus(List<Error> errors) {
+        if (this.getInformedConsentSignedDateStr().equals("")) {
+        	errors.add(new Error("Informed consent signed date is missing"));
+        }
+        if (StringUtils.getBlankIfNull(this.getInformedConsentVersion()).equals("")) {
+        	errors.add(new Error("Informed consent version is missing"));
+        }
+    }
+    
+    // TODO to be deleted and merged with the overloaded method
     public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus() {
         return this.getScheduledEpoch().evaluateScheduledEpochDataEntryStatus(this.stratumGroupNumber);
+    }
+    
+    public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(List<Error> errors) {
+        return this.getScheduledEpoch().evaluateScheduledEpochDataEntryStatus(errors);
     }
     
     @Transient
@@ -586,10 +609,19 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
         return this.getStudySite().getStudy().isCoOrdinatingCenter(nciCode);
     }
     
-    public void updateDataEntryStatus(){
+   /* public void updateDataEntryStatus(){
         this.setRegDataEntryStatus(this.evaluateRegistrationDataEntryStatus());
         this.getScheduledEpoch().setScEpochDataEntryStatus(
                         this.evaluateScheduledEpochDataEntryStatus());
+    }*/
+    
+    public List<Error> updateDataEntryStatus(){
+    	List<Error> errors = new ArrayList<Error>();
+    	this.evaluateRegistrationDataEntryStatus(errors);
+    	this.setRegDataEntryStatus((errors.size() > 0)?RegistrationDataEntryStatus.INCOMPLETE:RegistrationDataEntryStatus.COMPLETE);
+        this.getScheduledEpoch().setScEpochDataEntryStatus(
+                        this.evaluateScheduledEpochDataEntryStatus(errors));
+        return errors;
     }
 
     public String getPaymentMethod() {
@@ -674,4 +706,313 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
 	        return endpoints;
 	    }
 	
+	public ScheduledEpoch createScheduledEpoch(Epoch epoch) {
+		ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+		scheduledEpoch.setEpoch(epoch);
+		return scheduledEpoch;
+	}
+	
+	public boolean ifScheduledEpochCreatedForThisEpoch(Epoch epoch){
+		for(ScheduledEpoch scheduledEpoch:this.getScheduledEpochs())
+			if (scheduledEpoch.getEpoch().equals(epoch)){
+				return true;
+			}
+		
+		return false;
+	}
+	
+	public ScheduledEpoch getMatchingScheduledEpoch(Epoch epoch){
+		for(ScheduledEpoch scheduledEpoch:this.getScheduledEpochs())
+			if (scheduledEpoch.getEpoch().equals(epoch)){
+				return scheduledEpoch;
+			}
+		return null;
+	}
+	
+	//returns errors if cannot register.
+	public List<Error> canRegister(){
+		return updateDataEntryStatus();
+	}
+	
+	public List<Error> canReserve(){
+		return updateDataEntryStatus();
+	}
+	
+	public StudySubject register(){
+		if(getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.PENDING){
+			throw new C3PRBaseRuntimeException("StudySubject already registered on the epoch :" + getScheduledEpoch().getEpoch().getName());
+		} else{
+			 // This returns errors
+			List<Error> errors = new ArrayList<Error>();
+			errors=canRegister();
+			
+			if(errors.size()== 0) {
+				
+				// if the epoch requires randomization set it status to 'Approved But Not Randomized', else set it status to 'Approved'
+				if(getScheduledEpoch().getEpoch().getRandomizedIndicator()){
+					getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED);
+					//only if the study subject is still unregistered(i.e. for the 1st epoch), we update it's status.
+					//else, the study subject continues	to have his/her previous registration status.
+					if(this.getRegWorkflowStatus()==RegistrationWorkFlowStatus.PENDING){
+						this.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+					}
+					
+				}else {
+					getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+					//only if the study subject is still unregistered(i.e. for the 1st epoch), we update it's status.
+					//else, the study subject continues	to have his/her previous registration status.
+					if(this.getRegWorkflowStatus()==RegistrationWorkFlowStatus.PENDING){
+						this.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+					}
+				}
+			} else{
+					throw new C3PRInvalidDataEntryException(
+							" Cannot register because data entry is not complete",
+							errors);
+			}
+				
+		}
+		return this;
+	}
+	
+	public StudySubject enroll(){
+		if (getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.REGISTERED) {
+			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+				register();
+			}
+			
+			if(this.getParentStudySubject()!=null && !this.isStandAloneStudySubject()){
+				throw new C3PRBaseRuntimeException(
+						" Cannot directly register on the embedded study. The registration can happen only through the parent");
+			}
+			 for(StudySubject companionStudySubject: this.getChildStudySubjects()){
+	    		 if(getMatchingCompanionStudyAssociation(companionStudySubject)!=null){
+	    			 if(getMatchingCompanionStudyAssociation(companionStudySubject).getMandatoryIndicator()){
+	    				 if(companionStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
+	    						throw new C3PRBaseRuntimeException(
+	    						" First complete the workflow on the mandatory companions before enrolling on the parent");
+	    				 }
+	    			 }
+	    		 }
+	    	 }
+			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED) {
+				if (!isRandomizedOnScheduledEpoch()) {
+					if (!getStudySite().getHostedMode()
+							&& !this.getStudySite().getStudy()
+									.getStudyCoordinatingCenter()
+									.getHostedMode()
+							&& (!getStudySite().getHealthcareSite().equals(
+									this.getStudySite().getStudy()
+											.getStudyCoordinatingCenter()
+											.getHealthcareSite()))) {
+						doCoordinatingCenterRandomization(); // The coordinating center should do the randomization if not in hosted mode or not at the same site.
+						
+					} else {
+						doLocalRandomization(); //If in hosted mode or if the study site is same as the coordinating center site, it happens locally.
+					}
+
+				}
+			}
+			if (!getStudySite().getHostedMode()
+					&& !this.getStudySite().getStudy()
+							.getStudyCoordinatingCenter().getHostedMode()
+					&& (!getStudySite().getHealthcareSite().equals(
+							this.getStudySite().getStudy()
+									.getStudyCoordinatingCenter()
+									.getHealthcareSite()))) {
+				assignCoordinatingCenterIdentifier(this); // The coordinating center should assign the identifier if not in hosted mode or not at the same site.
+			} else {
+				assignLocalIdentifier(this); //If in hosted mode or if the study site is same as the coordinating center site, identifier is assigned locally.
+			}
+			getScheduledEpoch().setScEpochWorkflowStatus(
+					ScheduledEpochWorkFlowStatus.REGISTERED);
+		}
+		if (this.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.ENROLLED){
+			this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+		}
+			
+		return this;
+	}
+	
+	public StudySubject reserve(){
+		
+		if(this.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.PENDING){
+			throw new C3PRBaseRuntimeException("The subject cannot be reserved a spot on the study site. The subject is already registered on the study site.");
+		} else{
+			List<Error> errors = new ArrayList<Error>();
+			errors=canReserve();
+			if(errors.size()>0){
+				throw new C3PRInvalidDataEntryException(
+						" Cannot reserve a spot because data entry is not complete",
+						errors);
+			} else{
+				this.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
+			}
+		}
+		return this;
+	}
+	
+	@Transient
+	public boolean isRandomizedOnScheduledEpoch(){
+		return(getScheduledEpoch().getScheduledArm()!=null && getScheduledEpoch().getScheduledArm().getArm()!=null);
+	}
+	 private StudySubject doCoordinatingCenterRandomization() {
+	        // randomize subject
+	        switch (this.getStudySite().getStudy().getRandomizationType()) {
+	            case PHONE_CALL:
+	            	doPhoneCallRandomization();
+	            case BOOK:
+	                doBookRandomization();
+	                break;
+	            case CALL_OUT:
+	                break;
+	            default:
+	                break;
+	        }
+	        return this;
+	    }
+	 
+	 private StudySubject doLocalRandomization() {
+	        // randomize subject
+	        switch (this.getStudySite().getStudy().getRandomizationType()) {
+	            case PHONE_CALL:
+	            	doPhoneCallRandomization();
+	            case BOOK:
+	                doBookRandomization();
+	                break;
+	            case CALL_OUT:
+	                break;
+	            default:
+	                break;
+	        }
+	        return this;
+	    }
+
+	    private void doBookRandomization() {
+	        ScheduledArm sa = new ScheduledArm();
+	        ScheduledEpoch ste = getScheduledEpoch();
+	        if (getScheduledEpoch().getEpoch().getStratificationIndicator()){
+		        	sa.setArm(getStratumGroup().getNextArm());
+		        if (sa.getArm() != null) {
+		            ste.addScheduledArm(sa);
+		          //  stratumGroupDao.merge(studySubject.getStratumGroup());
+		        }
+	        } else {
+	        	sa.setArm(getNextArmForUnstratifiedStudy());
+		        if (sa.getArm() != null) {
+		            ste.addScheduledArm(sa);
+		        }
+	        }
+	    }
+	    
+	    private void doPhoneCallRandomization() {
+	    	if(this.getScheduledEpoch().getScheduledArm()==null){
+	    		throw new C3PRBaseRuntimeException("The subject should have been already assigned to a Scheduled Arm for the Scheduled Epoch :" + getScheduledEpoch().getEpoch().getName());
+	    	}
+	    }
+	    
+	    @Transient
+	    public Arm getNextArmForUnstratifiedStudy() {
+		  Arm arm = null;
+		  		if ((getScheduledEpoch()).getEpoch().hasBookRandomizationEntry()){
+		  			Iterator<BookRandomizationEntry> iter = ((BookRandomization)(getScheduledEpoch()).getEpoch().getRandomization()).getBookRandomizationEntry().iterator();
+		  			BookRandomizationEntry breTemp;
+			        
+			        while (iter.hasNext()) {
+			            breTemp = iter.next();
+			            if (breTemp.getPosition().equals((getScheduledEpoch()).getCurrentPosition())) {
+			                synchronized (this) {
+			                	(getScheduledEpoch()).setCurrentPosition(breTemp.getPosition()+1);
+			                    arm = breTemp.getArm();
+			                    break;
+			                }
+			            }
+			        }
+		  		}
+	        
+	        if (arm == null) {
+	            throw new C3PRBaseRuntimeException(
+	                            "No Arm avalable for this Epoch. Maybe the Randomization Book is exhausted");
+	        }
+	        return arm;
+	    }
+	    
+	     public void takeSubjectOffStudy(String offStudyReasonText,Date offStudyDate){
+	    	if(getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
+	    		throw new C3PRBaseRuntimeException("The subject has to be enrolled before being taken off study");
+	    	}
+	    	this.setOffStudyReasonText(offStudyReasonText);
+	    	this.setOffStudyDate(offStudyDate);
+	    	this.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
+	    }
+	     
+	     public StudySubject transfer(){
+		    	if(getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
+		    		throw new C3PRBaseRuntimeException("The subject has to be enrolled before being transferred");
+		    	}
+		    	if(this.getScheduledEpoch().compareTo(getCurrentScheduledEpoch())<=0){
+		    		throw new C3PRBaseRuntimeException("The subject can only be transferred to a higher order Epoch");
+		    	}
+		    	
+		    	if (getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.REGISTERED) {
+					if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+						register();
+					}
+					if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED) {
+						if (!isRandomizedOnScheduledEpoch()) {
+							if (!getStudySite().getHostedMode()
+									&& !this.getStudySite().getStudy()
+											.getStudyCoordinatingCenter()
+											.getHostedMode()
+									&& (!getStudySite().getHealthcareSite().equals(
+											this.getStudySite().getStudy()
+													.getStudyCoordinatingCenter()
+													.getHealthcareSite()))) {
+								doCoordinatingCenterRandomization(); // The coordinating center should do the randomization if not in hosted mode or not at the same site.
+							} else {
+								doLocalRandomization(); //If in hosted mode or if the study site is same as the coordinating center site, it happens locally.
+							}
+
+						}
+					}
+					getScheduledEpoch().setScEpochWorkflowStatus(
+							ScheduledEpochWorkFlowStatus.REGISTERED);
+				}
+		    	return this;
+		    }
+	     
+	     public StudySubject assignCoordinatingCenterIdentifier(StudySubject studySubject){
+	     	OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+	 		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
+	 		orgIdentifier.setType("Study Subject Identifier");
+	 		orgIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getParticipant().getPrimaryIdentifier());
+	 		studySubject.addIdentifier(orgIdentifier);
+	     	return studySubject;
+	     }
+	     
+	     public StudySubject assignLocalIdentifier(StudySubject studySubject){
+		     	OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+		 		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
+		 		orgIdentifier.setType("Study Subject Identifier");
+		 		orgIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getParticipant().getPrimaryIdentifier());
+		 		studySubject.addIdentifier(orgIdentifier);
+		     	return studySubject;
+		     }
+	     
+	     public CompanionStudyAssociation getMatchingCompanionStudyAssociation(StudySubject childStudySubject){
+	    	 for(CompanionStudyAssociation companionStudyAssociation: this.getStudySite().getStudy().getCompanionStudyAssociations()){
+	    		 if(companionStudyAssociation.getCompanionStudy().equals(childStudySubject.getStudySite().getStudy())){
+	    			 return companionStudyAssociation;
+	    		 }
+	    	 }
+	    	 return null;
+	     }
+	     
+	     
+	     public boolean isStandAloneStudySubject(){
+	    	 return this.getStudySite().getStudy().getStandaloneIndicator();
+	     }
+	     
+	     
+	     
 }

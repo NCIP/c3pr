@@ -17,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
@@ -180,7 +181,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
      * 
      */
     @Transient
-    public Arm getNextArm() throws C3PRBaseException {
+    public Arm getNextArm() {
         Iterator<BookRandomizationEntry> iter = getBookRandomizationEntry().iterator();
         BookRandomizationEntry breTemp;
         Arm arm = null;
@@ -195,7 +196,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
             }
         }
         if (arm == null) {
-            throw new C3PRBaseException(
+            throw new C3PRBaseRuntimeException(
                             "No Arm avalable for this stratum group. Maybe the Randomization Book is exhausted");
         }
         return arm;
