@@ -22,7 +22,6 @@ import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.ParticipantService;
-import edu.duke.cabig.c3pr.service.StudyService;
 
 public class StudySubjectFactory {
     /**
@@ -37,8 +36,6 @@ public class StudySubjectFactory {
     private final String identifierTypeValueStr = "Coordinating Center Identifier";
 
     private final String prtIdentifierTypeValueStr = "MRN";
-
-    private StudyService studyService;
 
     private ParticipantService participantService;
 
@@ -297,10 +294,6 @@ public class StudySubjectFactory {
 
     public void setC3prErrorMessages(MessageSource errorMessages) {
         c3prErrorMessages = errorMessages;
-    }
-
-    public void setStudyService(StudyService studyService) {
-        this.studyService = studyService;
     }
 
     public void setParticipantService(ParticipantService participantService) {
