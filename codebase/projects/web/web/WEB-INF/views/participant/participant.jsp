@@ -112,6 +112,13 @@ function manageIdentifierRadio(element){
 top:62px;
 }
 </style>
+    <!--[if IE]>
+    <style>
+#workflow-tabs {
+top:70px;
+}
+    </style>
+    <![endif]-->
 </head>
 <body>
 <form:form method="post" name="participantDetailsForm" cssClass="standard">

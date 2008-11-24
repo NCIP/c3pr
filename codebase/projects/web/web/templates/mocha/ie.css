@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* Skin specific CSS document for IE only */
+
+#sections {
+	LEFT: 228px;
+	POSITION: absolute;
+	TOP: 54px
+}

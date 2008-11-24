@@ -25,6 +25,8 @@
 			top:170px;
 		}
     </style>
+
+    
 </head>
 <body>
 <chrome:box title="Please log in" autopad="true">

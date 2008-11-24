@@ -763,14 +763,14 @@ div.row:after, .autoclear:after {
 	height: 0;
 	visibility: hidden;
 }
-div.row div.label, div.row div.value { line-height: 1.5em; }
+/*div.row div.label, div.row div.value { line-height: 1.5em; }*/
 div.row div.label {
 	font-weight: normal;
 	float: left;
 	margin-left: 0.5em;
 	text-align: right; /* default width; pages might override */
 	width: 11em;
-	line-height: 2.2em;/*border: 1px red dotted;*/
+
 }
 div.row div.value {
 	font-weight: normal; /* default; should be changed whenever .label width is changed */
