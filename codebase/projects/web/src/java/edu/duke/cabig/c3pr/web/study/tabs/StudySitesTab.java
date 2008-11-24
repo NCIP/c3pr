@@ -45,7 +45,9 @@ public class StudySitesTab extends StudyTab {
         for(StudySite studySite: wrapper.getStudy().getStudySites()){
             if(studySite.getIsCoordinatingCenter() || studySite.getHostedMode())
                 studySite.setCoordinatingCenterStudyStatus(wrapper.getStudy().getCoordinatingCenterStudyStatus());
-            else if(!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted") || request.getParameter(studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted").equalsIgnoreCase("true"))
+            else if(WebUtils.hasSubmitParameter(request, "submitted") &&
+                            (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted") || 
+                             request.getParameter(studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted").equalsIgnoreCase("true")))
                 studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         }
     }
