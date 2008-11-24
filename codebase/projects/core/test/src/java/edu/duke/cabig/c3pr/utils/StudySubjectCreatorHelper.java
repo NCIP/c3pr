@@ -268,6 +268,22 @@ public class StudySubjectCreatorHelper {
         }
         return epoch;
     }
+    
+    public Epoch createTestTreatmentEpochWithoutArm(boolean randomized) {
+        Epoch epoch = new Epoch();
+        epoch.setEnrollmentIndicator(true);
+        epoch.addEligibilityCriterion(new InclusionEligibilityCriteria());
+        epoch.addEligibilityCriterion(new ExclusionEligibilityCriteria());
+        StratificationCriterion stratificationCriterion = new StratificationCriterion();
+        stratificationCriterion
+                        .addPermissibleAnswer(new StratificationCriterionPermissibleAnswer());
+        epoch.addStratificationCriterion(stratificationCriterion);
+        epoch.setRandomizedIndicator(randomized);
+        if (randomized) {
+            epoch.setRandomization(new PhoneCallRandomization());
+        }
+        return epoch;
+    }
 
     public void addScheduledNonEnrollingEpochFromStudyEpochs(StudySubject studySubject) {
     	ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
