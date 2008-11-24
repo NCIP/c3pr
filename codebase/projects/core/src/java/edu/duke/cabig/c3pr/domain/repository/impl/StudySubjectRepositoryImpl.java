@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain.repository.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -24,12 +27,12 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
-import edu.duke.cabig.c3pr.service.impl.StudySubjectXMLImporterServiceImpl;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 @Transactional
@@ -48,10 +51,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     private MessageSource c3prErrorMessages;
 
     private StudySubjectFactory studySubjectFactory;
+    
+    private Logger log = Logger.getLogger(StudySubjectRepositoryImpl.class.getName());
 
-    private Logger log = Logger.getLogger(StudySubjectXMLImporterServiceImpl.class.getName());
-
-    public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue) {
+	public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue) {
         StudySubject loadedSubject = studySubjectDao.getByGridId(studySubject.getGridId());
         loadedSubject.setC3DIdentifier(c3dIdentifierValue);
         studySubjectDao.save(loadedSubject);
@@ -97,7 +100,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     private void doBookRandomization(StudySubject studySubject) throws C3PRBaseException {
         ScheduledArm sa = new ScheduledArm();
         ScheduledEpoch ste = studySubject.getScheduledEpoch();
-        if (studySubject.getStudySite().getStudy().getStratificationIndicator() && ste.getEpoch().getStratificationIndicator()){
+        if (ste.getEpoch().getStratificationIndicator()){
 	        	sa.setArm(studySubject.getStratumGroup().getNextArm());
 	        if (sa.getArm() != null) {
 	            ste.addScheduledArm(sa);
@@ -131,12 +134,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             }
             else {
                 // logic for accrual ceiling check
-                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
             }
         }
         else {
             // logic for accrual ceiling check
-            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
         }
         return this.save(studySubject);
     }
@@ -189,13 +192,13 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			throw this.exceptionHelper
 					.getException(getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
 		}
-		studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+		studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 		if (studySubject.getScheduledEpoch().isReserving()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 		} else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
 		} else {
-			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
 		}
 		studySubjectDao.save(studySubject);
 		log.debug("Registration saved with grid ID" + studySubject.getGridId());
@@ -205,7 +208,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     @Transient
     public Arm getNextArmForUnstratifiedStudy(StudySubject studySubject) throws C3PRBaseException {
 	  Arm arm = null;
-	  	if (studySubject.getScheduledEpoch() instanceof ScheduledEpoch){
 	  		if ((studySubject.getScheduledEpoch()).getEpoch().hasBookRandomizationEntry()){
 	  			Iterator<BookRandomizationEntry> iter = ((BookRandomization)(studySubject.getScheduledEpoch()).getEpoch().getRandomization()).getBookRandomizationEntry().iterator();
 	  			BookRandomizationEntry breTemp;
@@ -221,7 +223,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		            }
 		        }
 	  		}
-	  	}
         
         if (arm == null) {
             throw new C3PRBaseException(
@@ -256,7 +257,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     }
 
     public StudySubject save(StudySubject studySubject) {
-        studySubject.updateDataEntryStatus();
+ //       studySubject.updateDataEntryStatus();
 //        if (studySubject.getId() != null) return studySubjectDao.merge(studySubject);
 //        studySubjectDao.save(studySubject);
 //        return studySubject;
@@ -293,7 +294,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             throw new RuntimeException("Schedule epoch not in pending status.");
         }
         ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
-        if(referencedStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.APPROVED){
+        if(referencedStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.REGISTERED){
             String disapprovalReason="";
             if(StringUtils.getBlankIfNull(referencedStudySubject.getScheduledEpoch().getDisapprovalReasonText()).equals(""))
                 disapprovalReason="Registration was not approved by co-ordinating center. No error message was provided.";
@@ -308,12 +309,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
                 else {
                     ScheduledArm assignedScheduledArm=(referencedStudySubject.getScheduledEpoch()).getScheduledArm();
                     (scheduledEpoch).getScheduledArms().add(0,assignedScheduledArm);
-                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
                 }
             }
             else {
                 // logic for accrual ceiling check
-                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
             }
         }
         return this.save(studySubject);
@@ -325,5 +326,92 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         exampleSS.setStudySite(exampleStudySubject.getStudySite());
         return studySubjectDao.searchBySubjectAndStudySite(exampleSS);
     }
+
+	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) {
+		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
+		studySubject.enroll();
+		return save(studySubject);
+	}
+
+	public StudySubject enroll(StudySubject studySubject) {
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects=findRegistrations(studySubject);
+		if (studySubjects.size() > 1) {
+            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
+        }
+		studySubject.enroll();
+		return save(studySubject);
+	}
+
+	public StudySubject register(StudySubject studySubject) {
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects=findRegistrations(studySubject);
+		if (studySubjects.size() > 1) {
+            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
+        }
+		studySubject.register();
+		return save(studySubject);
+	}
+
+	public StudySubject register(List<Identifier> studySubjectIdentifiers) {
+		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
+		studySubject.register();
+		return save(studySubject);
+	}
+
+	public void takeSubjectOffStudy(List<Identifier> studySubjectIdentifiers, String offStudyReasonText,
+			Date offStudyDate) {
+		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
+		 studySubject.takeSubjectOffStudy(offStudyReasonText,offStudyDate);
+		save(studySubject);
+	}
+
+	public StudySubject transferSubject(List<Identifier> studySubjectIdentifiers) {
+		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
+		studySubject = studySubject.transfer();
+		
+		return save(studySubject);
+	}
 	
+	public StudySubject create(StudySubject studySubject) {
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects=findRegistrations(studySubject);
+		if (studySubjects.size() > 1) {
+            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
+        }
+		SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+		sysIdentifier.setSystemName("C3PR");
+		sysIdentifier.setType("Study Subject Identifier");
+		sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getParticipant().getPrimaryIdentifier());
+		studySubject.addIdentifier(sysIdentifier);
+		
+		return save(studySubject);
+	}
+
+	public StudySubject reserve(StudySubject studySubject) {
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects=findRegistrations(studySubject);
+		if (studySubjects.size() > 1) {
+            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
+        }
+		
+		return studySubject.reserve();
+	}
+
+	public StudySubject reserve(List<Identifier> studySubjectIdentifiers) {
+		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
+		studySubject.reserve();
+		return save(studySubject);
+	}
+	
+	 public StudySubject getUniqueStudySubjects(List<Identifier> studySubjectIdentifiers) {
+	        List<StudySubject> studySubjects = studySubjectDao.getByIdentifiers(studySubjectIdentifiers);
+	        if (studySubjects.size() == 0) {
+	            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.NOT_FOUND_GIVEN_IDENTIFIERS.CODE"));
+	        }
+	        else if (studySubjects.size() > 1) {
+	            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
+	        }
+	        return studySubjects.get(0);
+	    }
 }
