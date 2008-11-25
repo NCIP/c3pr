@@ -125,7 +125,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             catch (Exception e) {
                 scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
                 throw exceptionHelper.getException(
-                                getCode("C3PR.EXCEPTION.REGISTRATION.RANDOMIZATION.CODE"), e);
+                                getCode("C3PR.EXCEPTION.REGISTRATION.RANDOMIZATION.CODE"));
             }
             if ((studySubject.getScheduledEpoch()).getScheduledArm() == null) {
                 scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
