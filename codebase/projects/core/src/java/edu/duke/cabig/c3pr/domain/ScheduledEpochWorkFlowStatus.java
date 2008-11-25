@@ -9,7 +9,7 @@ public enum ScheduledEpochWorkFlowStatus implements CodedEnum<String> {
      PENDING("Pending"), REGISTERED_BUT_NOT_RANDOMIZED("Registered But Not Randomized"),REGISTERED("Registered"),
      //TODO
      // the following to be removed with appropriate data migration script
-     UNAPPROVED("Unapproved"), DISAPPROVED("Disapproved");
+     APPROVED("Approved"),UNAPPROVED("Unapproved"), DISAPPROVED("Disapproved");
 
     private String code;
 

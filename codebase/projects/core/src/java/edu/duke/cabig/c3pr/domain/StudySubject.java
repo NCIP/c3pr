@@ -434,7 +434,7 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
 
   //TODO will be deprecated moved to ScheduledEpoch
     @Transient 
-    public StratumGroup getStratumGroup() throws C3PRBaseRuntimeException {
+    public StratumGroup getStratumGroup(){
         StratumGroup stratumGroup = null;
         if (this.stratumGroupNumber != null) {
             stratumGroup = ((ScheduledEpoch) getScheduledEpoch()).getEpoch()
