@@ -134,12 +134,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             }
             else {
                 // logic for accrual ceiling check
-                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
             }
         }
         else {
             // logic for accrual ceiling check
-            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
         }
         return this.save(studySubject);
     }
@@ -192,7 +192,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			throw this.exceptionHelper
 					.getException(getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
 		}
-		studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+		studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
 		if (studySubject.getScheduledEpoch().isReserving()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 		} else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
@@ -294,7 +294,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             throw new RuntimeException("Schedule epoch not in pending status.");
         }
         ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
-        if(referencedStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.REGISTERED){
+        if(referencedStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.APPROVED){
             String disapprovalReason="";
             if(StringUtils.getBlankIfNull(referencedStudySubject.getScheduledEpoch().getDisapprovalReasonText()).equals(""))
                 disapprovalReason="Registration was not approved by co-ordinating center. No error message was provided.";
@@ -309,12 +309,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
                 else {
                     ScheduledArm assignedScheduledArm=(referencedStudySubject.getScheduledEpoch()).getScheduledArm();
                     (scheduledEpoch).getScheduledArms().add(0,assignedScheduledArm);
-                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
                 }
             }
             else {
                 // logic for accrual ceiling check
-                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
             }
         }
         return this.save(studySubject);
