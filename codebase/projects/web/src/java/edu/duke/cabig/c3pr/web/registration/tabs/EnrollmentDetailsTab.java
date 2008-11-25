@@ -32,9 +32,9 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
             }
         }
 
-        if(command.getDiseaseHistory() != null){
-        	if(StringUtils.equals(command.getDiseaseHistory().getOtherPrimaryDiseaseSiteCode(), "(Begin typing here)")){
-        		command.getDiseaseHistory().setOtherPrimaryDiseaseSiteCode("");
+        if(command.getStudySubject().getDiseaseHistory() != null){
+        	if(StringUtils.equals(command.getStudySubject().getDiseaseHistory().getOtherPrimaryDiseaseSiteCode(), "(Begin typing here)")){
+        		command.getStudySubject().getDiseaseHistory().setOtherPrimaryDiseaseSiteCode("");
         	}
         }
     }

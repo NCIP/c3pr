@@ -61,7 +61,7 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
                                                         "No corresponding Stratum Group exists. Please select different stratification answer(s).");
                     }
                 }
-                catch (C3PRBaseException cbe) {
+                catch (Exception cbe) {
                     logger.debug("StratificationTab: Invalid Stratification Answer selected.");
                     errors
                                     .reject("InvalidStratificationAnswer",
