@@ -239,6 +239,17 @@ public class XMLUtils {
         return messageElements;
     }
     
+    public <T extends AbstractMutableDomainObject> Message getMessageForDomainObjects(
+                    List<T> domainObjects) {
+        List<MessageElement> messageElements = getMessageElementsForDomainObjects(domainObjects);
+        Message message=new Message();
+        MessageElement[] messageElementsArray=new MessageElement[messageElements.size()];
+        for (int i=0 ; i< messageElements.size() ; i++)
+            messageElementsArray[i]=messageElements.get(i);
+        message.set_any(messageElementsArray);
+        return message;
+    }
+    
     private String getModifiedDomainXML(String messageXML){
         System.out.println("messageXML---------");
         System.out.println(messageXML);
