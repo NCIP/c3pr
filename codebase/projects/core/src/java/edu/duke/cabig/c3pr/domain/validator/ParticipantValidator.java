@@ -15,7 +15,6 @@ import org.springframework.validation.Validator;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 
 public class ParticipantValidator implements Validator {
