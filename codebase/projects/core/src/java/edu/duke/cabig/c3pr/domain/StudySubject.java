@@ -748,7 +748,7 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
 			
 			if(errors.size()== 0) {
 				
-				// if the epoch requires randomization set it status to 'Approved But Not Randomized', else set it status to 'Approved'
+				// if the epoch requires randomization set it status to 'Registered But Not Randomized', else set it status to 'Approved'
 				if(getScheduledEpoch().getEpoch().getRandomizedIndicator()){
 					getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED);
 					//only if the study subject is still unregistered(i.e. for the 1st epoch), we update it's status.
@@ -785,16 +785,17 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
 				throw new C3PRBaseRuntimeException(
 						" Cannot directly register on the embedded study. The registration can happen only through the parent");
 			}
-			 for(StudySubject companionStudySubject: this.getChildStudySubjects()){
-	    		 if(getMatchingCompanionStudyAssociation(companionStudySubject)!=null){
-	    			 if(getMatchingCompanionStudyAssociation(companionStudySubject).getMandatoryIndicator()){
-	    				 if(companionStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
+			 for(StudySubject childStudySubject: this.getChildStudySubjects()){
+	    		 if(getMatchingCompanionStudyAssociation(childStudySubject)!=null){
+	    			 if(getMatchingCompanionStudyAssociation(childStudySubject).getMandatoryIndicator()){
+	    				 if(childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
 	    						throw new C3PRBaseRuntimeException(
 	    						" First complete the workflow on the mandatory companions before enrolling on the parent");
 	    				 }
 	    			 }
 	    		 }
 	    	 }
+			 
 			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED) {
 				if (!isRandomizedOnScheduledEpoch()) {
 					if (!getStudySite().getHostedMode()
@@ -1008,7 +1009,7 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
 	    	 return null;
 	     }
 	     
-	     
+	     @Transient
 	     public boolean isStandAloneStudySubject(){
 	    	 return this.getStudySite().getStudy().getStandaloneIndicator();
 	     }
