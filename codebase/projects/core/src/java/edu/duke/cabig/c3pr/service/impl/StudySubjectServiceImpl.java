@@ -104,7 +104,7 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
 	            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
 	                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
 	            }
-	            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) {
+	            else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.APPROVED) {
 	            	if (scheduledEpoch.isReserving()) {
 	                    studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 	                }
