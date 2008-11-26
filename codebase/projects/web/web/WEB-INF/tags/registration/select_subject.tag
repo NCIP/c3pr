@@ -143,7 +143,7 @@
 			<a href="#" style="padding:5px; background-image:url(../../templates/mocha/images/taskbar_bg.png); background-position:top; text-decoration:none; color:white;"><span id="createSubjectSpan" class="current" onclick="moveToCreateSubject()"><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>"/>Create Subject</span></a>
 			<a href="#" style="padding:5px; background-image:url(../../templates/mocha/images/taskbar_bg.png); background-position:top; text-decoration:none; color:white;"><span id="searchSubjectSpan" class="tab" onclick="moveToSearchSubject()">
 			<img src="<tags:imageUrl name="icons/search.png"/>" />			
-			Search Subject</span></a>
+			Search for Subject</span></a>
 			</td>
 			<td><img src="<tags:imageUrl name="subTabSpacer.gif"/>" width="7" height="1" /></td>
 		</tr>
@@ -177,7 +177,6 @@
                 </div>	
             </div>
         </div>        
-    	<hr align="left" width="95%" />
     	<!--In order to ensure that the decorator is not applied to the dynamically (AJAX)inserted jsp
     		add the mapping to the excludes section of decorators.xml -->
     	<div id="subjectSearchResults" style="display:none;">
