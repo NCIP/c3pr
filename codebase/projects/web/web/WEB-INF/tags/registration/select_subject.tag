@@ -275,7 +275,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td align="right"><span class="required-indicator">Race(s):</span>&nbsp;<br><tags:hoverHint keyProp="subject.raceCode"/></td>
+							<td align="right"><span class="required-indicator">Race(s):</span>&nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span></td>
 							<td align="left">
 								<input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/> Asian
                                 <input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/> Black or African American
