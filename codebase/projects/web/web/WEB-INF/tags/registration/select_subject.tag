@@ -136,17 +136,14 @@
 
 <tags:minimizablePanelBox title="Select a subject" boxId="SubjectBox">
 	<!-- subTabbedflow-->
+    <tags:instructions code="select_subject" />
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"	class="subFlowTabs">
 		<tr>
 			<td width="100%" id="tabDisplay">
-			<a href="#"><span id="createSubjectSpan" class="current" onclick="moveToCreateSubject()">
-			<img src="<tags:imageUrl name="subTabGrayL.gif"/>" width="3" height="16" align="absmiddle" />
-			<b>Create Subject</b><img src="<tags:imageUrl name="subTabGrayR.gif"/>" width="3" height="16" align="absmiddle" />
-			</span></a>
-			<a href="#" style="font-size:100%"><span id="searchSubjectSpan" class="tab" onclick="moveToSearchSubject()">
-			<img src="<tags:imageUrl name="subTabWhiteL.gif"/>" width="3" height="16" align="absmiddle" />			
-			<b>Search Subject</b><img src="<tags:imageUrl name="subTabWhiteR.gif"/>" width="3" height="16" align="absmiddle" />
-			</span></a>
+			<a href="#" style="padding:5px; background-image:url(../../templates/mocha/images/taskbar_bg.png); background-position:top; text-decoration:none; color:white;"><span id="createSubjectSpan" class="current" onclick="moveToCreateSubject()"><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>"/>Create Subject</span></a>
+			<a href="#" style="padding:5px; background-image:url(../../templates/mocha/images/taskbar_bg.png); background-position:top; text-decoration:none; color:white;"><span id="searchSubjectSpan" class="tab" onclick="moveToSearchSubject()">
+			<img src="<tags:imageUrl name="icons/search.png"/>" />			
+			Search Subject</span></a>
 			</td>
 			<td><img src="<tags:imageUrl name="subTabSpacer.gif"/>" width="7" height="1" /></td>
 		</tr>

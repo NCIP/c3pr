@@ -47,7 +47,7 @@
 </head>
 
 <body>
-<div id="main">
+
 <div id="Subject">
 	<registrationTags:select_subject />
 </div>
@@ -69,7 +69,7 @@
 	<c:set var="custonButton" value ="${param.customButton}" ></c:set>
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
-</div>
+
 <c:if test="${command.studySubject.studySite.id!=null && command.studySubject.participant.id!=null}">
 	<script>
 		<c:choose> 

@@ -73,6 +73,7 @@
 
 <!--tags:minimizablePanelBox title="${epoch.name} : ${epoch.descriptionText }"	boxId="${epoch.name}"-->
 <tags:minimizablePanelBox	title="Select a study" boxId="Studybox">
+<tags:instructions code="select_study" />
         <form id="searchstudyForm" action="" method="post">
             <input type="hidden" name="_selected" id="_selected" value="">
             <input type="hidden" name="_action" id="_action" value=""> 
@@ -108,7 +109,6 @@
             </div>
         </div>
 		</form>
-    	<hr align="left" width="95%" />
     	
     	<div id="studySearchResults" style="display:none;">
 		<!--In order to ensure that the decorator is not applied to the dynamically (AJAX)inserted jsp
