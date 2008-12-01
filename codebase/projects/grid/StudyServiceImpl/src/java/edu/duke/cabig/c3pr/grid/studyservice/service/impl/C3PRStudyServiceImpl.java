@@ -1,23 +1,17 @@
 package edu.duke.cabig.c3pr.grid.studyservice.service.impl;
 
-import java.io.StringWriter;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 
-import org.apache.axis.message.MessageElement;
 import org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse;
 import org.oasis.wsrf.properties.GetMultipleResourceProperties_Element;
 import org.oasis.wsrf.properties.GetResourcePropertyResponse;
 import org.oasis.wsrf.properties.QueryResourcePropertiesResponse;
 import org.oasis.wsrf.properties.QueryResourceProperties_Element;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
@@ -26,19 +20,14 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.factory.StudyFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-import edu.duke.cabig.c3pr.grid.common.StudyServiceI;
-import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.grid.studyservice.common.StudyServiceI;
 import edu.duke.cabig.c3pr.utils.SessionAndAuditHelper;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import gov.nih.nci.cabig.ccts.domain.Message;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
-import gov.nih.nci.cagrid.common.Utils;
 
 public class C3PRStudyServiceImpl implements StudyServiceI {
 

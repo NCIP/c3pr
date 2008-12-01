@@ -15,7 +15,7 @@ import org.apache.axis.message.MessageElement;
 import org.globus.gsi.GlobusCredential;
 
 import edu.duke.cabig.c3pr.esb.DelegatedCredential;
-import edu.duke.cabig.c3pr.grid.client.StudyServiceClient;
+import edu.duke.cabig.c3pr.grid.studyservice.client.StudyServiceClient;
 import edu.duke.cabig.c3pr.infrastructure.MultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
