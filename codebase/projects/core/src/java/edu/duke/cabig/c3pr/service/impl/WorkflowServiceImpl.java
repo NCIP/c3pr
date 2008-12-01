@@ -45,7 +45,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     protected GridIdentifiableDao dao;
 
     private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
-
+    
     protected XmlMarshaller cctsXmlUtility;
     
     private DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory;
@@ -243,17 +243,16 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
         if(!this.canMultisiteBroadcast(studyOrganization)){
             return;
         }
+        StudyOrganization freshStudyOrganization=studyOrganizationDao.getById(studyOrganization.getId());
         try {
             //multiSiteHandlerService.handle(multisiteServiceName, multisiteAPIName, endPointProperty, domainObjects);
-            EndPoint endPoint=endPointFactory.getEndPoint(multisiteServiceName, multisiteAPIName, studyOrganization);
+            EndPoint endPoint=endPointFactory.getEndPoint(multisiteServiceName, multisiteAPIName, freshStudyOrganization);
             endPoint.invoke(domainObjects);
             studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
         }
         catch (Exception e) {
-            studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
-        }
-        finally{
-            studyOrganizationDao.save(studyOrganization);
+        	freshStudyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+        	studyOrganizationDao.save(freshStudyOrganization);
         }
     }
     

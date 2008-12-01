@@ -40,7 +40,9 @@
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-management" rev="latest.integration" 
 			conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
         	<dependency org="edu.duke.cabig.c3pr"
-        		name="StudyService" rev="latest.integration" />
+        	name="StudyService" rev="latest.integration" />
+        	<dependency org="edu.duke.cabig.c3pr"
+        		name="RegistrationService" rev="latest.integration" />
         	
         	<dependency org="asm" name="asm-commons" rev="2.2.3" force="true"/>
         	<dependency org="gov.nih.nci.cagrid.websso" name="caaers-cas-patch" rev="1.5" />
