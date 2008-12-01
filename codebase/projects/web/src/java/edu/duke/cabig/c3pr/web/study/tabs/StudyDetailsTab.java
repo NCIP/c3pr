@@ -52,6 +52,15 @@ public class StudyDetailsTab extends StudyTab {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
+    /*
+    * This method sets the study.randomizationIndicator, study.RandomizationType and
+    * epoch.randomization nased on teh values selected. This can be called from both the details
+    * and the design tab.
+    */
+    public void updateRandomization(Study study) {
+        super.updateRandomization(study);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
     @Override
     public Map<String, Object> referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData();

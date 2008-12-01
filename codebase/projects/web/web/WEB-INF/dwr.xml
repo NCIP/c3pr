@@ -71,7 +71,9 @@
         <create creator="spring" javascript="UserAjaxFacade">
             <param name="beanName" value="userAjaxFacade"/>
         </create>
-        <convert converter="bean" match="edu.duke.cabig.c3pr.domain.*"/>
+        <convert converter="bean" match="edu.duke.cabig.c3pr.domain.*">
+        	<param name="exclude" value="isCoordinatingCenter"/>
+        </convert>
     </allow>
 
     <signatures>

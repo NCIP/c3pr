@@ -162,11 +162,4 @@ public class EditStudyController extends StudyController<StudyWrapper> {
         return modelAndView;
     }
 
-    @Override
-    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
-                                   int page) throws Exception {
-        super.postProcessPage(request, command, errors, page);
-      //  (((StudyWrapper) command).getStudy()).setDataEntryStatus(false);
-    }
-
 }

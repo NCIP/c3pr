@@ -36,6 +36,7 @@ import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
@@ -425,30 +426,27 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     public List<Study> matchComapanionStudies(String text, HttpServletRequest request) throws Exception {
     	StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request) ;
     	Study parentStudy = wrapper.getStudy();
-        List<Study> companionStudies = studyDao.getBySubnames(extractSubnames(text));
+    	List<Study> companionStudies = studyDao.getBySubnames(extractSubnames(text));
 
         List<Study> reducedCompanionStudies = new ArrayList<Study>(companionStudies.size());
         for (Study companionStudy : companionStudies) {
-        	if(companionStudy.getCompanionIndicator()){
-        		reducedCompanionStudies.add(buildReduced(companionStudy, Arrays.asList("id", "shortTitleText", "coordinatingCenterStudyStatus")));
+        	if(companionStudy.getCompanionIndicator() )
+	        	if(companionStudy.getStandaloneIndicator() || (!companionStudy.getStandaloneIndicator() && isCompanionForCurrentStudy(companionStudy, parentStudy))){
+	        		reducedCompanionStudies.add(buildReduced(companionStudy, Arrays.asList("id", "shortTitleText", "coordinatingCenterStudyStatus")));
+	        	}
         	}
-        }
         return reducedCompanionStudies ;
-
     }
-
-//    private boolean hasSameStudySiteAsMainStudy(Study companionStudy, Study parentStudy) {
-//    	List<StudySite> companionStudySites = companionStudy.getStudySites();
-//    	List<StudySite> parentStudySites = parentStudy.getStudySites();
-//    	for(StudySite companionStudySite : companionStudySites){
-//    		for(StudySite parentStudySite : parentStudySites){
-//    			if(parentStudySite.getHealthcareSite().equals(companionStudySite.getHealthcareSite())){
-//    				return true ;
-//    			}
-//    		}
-//    	}
-//    	return false ;
-//    }
+    
+    private boolean isCompanionForCurrentStudy(Study companionStudy, Study parentStudy){
+    	List<CompanionStudyAssociation> companionStudyAssoc = companionStudy.getCompanionStudyAssociations();
+    	if(companionStudyAssoc.size() == 1){
+    		if(parentStudy.equals(companionStudyAssoc.get(0).getParentStudy())){
+    			return true ;
+    		}
+    	}
+    	return false ;
+    }
 
 	private final Object getCommandOnly(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(false);

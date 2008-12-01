@@ -87,6 +87,7 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
      * and the design tab.
      */
     public void updateRandomization(Study study) {
+
         if (study.getBlindedIndicator()) {
             study.setRandomizedIndicator(true);
             study.setRandomizationType(RandomizationType.PHONE_CALL);
@@ -96,6 +97,21 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
             study.setRandomizationType(null);
         }
         // Instantiating the appropriate randomization class and setting it in the epoch.
+
+        if (!study.getRandomizedIndicator()) {
+            List<Epoch> epochs = study.getEpochs();
+            for (Epoch epoch : epochs) {
+                if (epoch.getRandomizedIndicator()) {
+                    epoch.setRandomizedIndicator(false);
+                    if(epoch.getRandomization() instanceof BookRandomization){
+                    	((BookRandomization)epoch.getRandomization()).getBookRandomizationEntry().clear();
+                    }else if(epoch.getRandomization() instanceof PhoneCallRandomization){
+                    	((PhoneCallRandomization)epoch.getRandomization()).setPhoneNumber(null);
+                    }
+                }
+            }
+        }
+
         if (study.getEpochs() instanceof List) {
             List epochList = study.getEpochs();
             Epoch tEpoch;

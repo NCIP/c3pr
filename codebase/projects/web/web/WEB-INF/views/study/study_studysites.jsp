@@ -1,15 +1,45 @@
 <%@ include file="taglibs.jsp"%>
-
+<link href="themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}" /></title>
    
 <%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
+<script type="text/javascript">
+var win;
+function selectStudySites(studyId, parentAssociationId, parentIndex){
+	win = new Window({title: "Select Study Sites", 
+			scrollbar: false, zIndex:100, width:700, height:325 ,
+			recenterAuto:true, className :"mac_os_x",
+			url: "<c:url value='/pages/study/selectStudySites?decorator=noheaderDecorator&parentAssociationId='/>" + parentAssociationId  +"&parentIndex=" + parentIndex  +"&studyId=" + studyId , 
+			showEffectOptions: {duration:1.5}
+				}
+			) 
+	win.showCenter()
+}
 
+function closePopup() {
+	win.close();
+}
+
+function reloadParentStudySites(studyId , studyAssociationId , nciCodes , parentIndex){
+	$('nciCodes').value=nciCodes;
+	$('studyAssociationId').value=studyAssociationId;
+	<tags:tabMethod method="associateParentStudySites" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection"/>
+}
+</script>
 </head>
 
 <body>
+<form:form id="parentStudySiteForm">
+<input type="hidden" id="nciCodes" name="nciCodes"/>
+<input type="hidden" id="studyAssociationId" name="studyAssociationId"/>
+<input type="hidden" id="studyId" name="studyId"/>
+<input type="hidden" name="_target${tab.number}" id="_target"/>
+<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
+<input type="hidden" name="_doNotSave" value="true" id="_doNotSave"/>"
+</form:form>
 <tags:panelBox>
 <form:form>
 	<input type="hidden" name="submitted" value="true"/>
@@ -205,7 +235,9 @@ var instanceRowInserterProps = {
 };
 RowManager.addRowInseter(instanceRowInserterProps);
 </script>
-        
+<c:if test="${fn:length(command.study.companionStudyAssociations) != 0}">
+	<p id="flashMessage" style="display: none">Please add study sites to associated companion studies.</p>
+</c:if>
 <tags:errors path="study.studySites" />
 
 <table border="0" cellspacing="0" cellpadding="0">
@@ -219,7 +251,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <th><b>Activation Date</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
                     <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
                     <th><b>Target Accrual Number</b><tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
-                    <th><b>Hosted Mode</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
+                    <th><b>Hosted Mode</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.hostedMode"/></th>
                     <th></th>
                 </tr>
                     
@@ -274,12 +306,12 @@ RowManager.addRowInseter(instanceRowInserterProps);
   </c:choose>
 
 <div class="content buttons autoclear">
-        <div class="flow-buttons">
-            <span class="next">
+       <div class="flow-buttons">
+           <span class="next">
 				<input type="submit" value="Save" id="saveAdvanceConfig""/>
- 			</span>
-        </div>
-    </div>
+			</span>
+       </div>
+   </div>
 </form:form>
 </tags:panelBox>
 <div id="dummy-row" style="display:none;">

@@ -42,7 +42,7 @@
         }
 
         ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-                 if((formElement.id=="command" || formElement.id=="embedStudyForm" )&&continueSubmission){
+                 if(formElement.id=="command" && continueSubmission){
                  	box1=document.getElementById('healthcareSite-hidden');
                	    if(document.getElementById('study.randomizedIndicator').value =='false'){
                	    new Element.update('randomizationTypeDiv','');
@@ -61,10 +61,7 @@
 	                   	document.getElementById('deletedSponsorIdentifier').value="delete";
 	               }
 	             }
-	             if(formElement.id=="embedStudyForm"){
-           			embedCompanionStudy();
-           			return false;
-           		}
+	             
              }
              
              return continueSubmission;
@@ -87,13 +84,6 @@
             }
         }
         
-        function embedCompanionStudy(){
-			<tags:tabMethod method="embedCompanion" onComplete="copyToParent" divElement="'emptyDivCompanion'" formName="'embedStudyForm'"/>
-		}
-        
-        function copyToParent(){
-        	parent.createCompanion($('_shortTitle').value);
-        }
         var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
             populator: function(autocompleter, text) {
@@ -166,21 +156,11 @@
         AutocompleterManager.addAutocompleter(piCoCenterAutocompleterProps);
 	    AutocompleterManager.addAutocompleter(principalInvestigatorAutocompleterProps);
 
-		function disableRandomizationForCompanion(companionIndicator){
-		  	var bIndicator=document.getElementById('study.blindedIndicator');
-	    	var rIndicator=document.getElementById('study.randomizedIndicator');
-	    	var rType=document.getElementById('randomizationType');
-			if(companionIndicator){
-	    		rType.value=""; 
-	    		rIndicator.value = "false" ;
-	    		rIndicator.disabled = true;
-	    		bIndicator.disabled = true;
-			}	
-		}
+		
     </script>
 </head>
 <body>
-<div id="emptyDivCompanion" style="display: none;"></div>
+
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
 <form:form id="${!empty param.embeddedStudy?'embedStudyForm':'command'}" method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
@@ -508,23 +488,11 @@
 	                 </div>            
 	    </div>
     </div>
-</chrome:division>
+	</chrome:division>
 
-<div <c:if test="${(!empty param.embeddedStudy)}">style="display:none;"</c:if>>
 	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
-</div>
-<div <c:if test="${empty param.embeddedStudy}">style="display:none;"</c:if>>
-	<div class="content buttons autoclear">
-	<div class="flow-buttons"><span class="next"> 
-		<input type="submit" value="Create Companion Study" id="embedCompanionStudyDiv"/>
-		<input type="button" value="Close" onClick="parent.closePopup();"/>
-		</span></div>
-	</div>
-</div>
+	
 </chrome:box>
 </form:form>
-<script>
-	disableRandomizationForCompanion(${command.study.companionIndicator})
-</script>
 </body>
 </html>

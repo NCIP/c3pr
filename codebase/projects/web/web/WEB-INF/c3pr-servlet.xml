@@ -190,6 +190,11 @@
           <property name="companionIndicator" value="false" />
     </bean>
     
+    <bean name="/study/selectStudySites" id="selectStudySitesController"
+          class="edu.duke.cabig.c3pr.web.study.SelectStudySiteController"
+          autowire="byName">
+    </bean>
+    
     <bean name="/study/createCompanionStudy" id="createCompanionStudyController"
           class="edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController"
           autowire="byName">
@@ -663,5 +668,4 @@
     <bean name="/dashboard" id="dashboardController" class="edu.duke.cabig.c3pr.web.DashboardController" autowire="byName">
         <property name="viewName"><value>dashboard</value></property>
     </bean>
-    
 </beans>

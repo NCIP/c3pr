@@ -1,15 +1,28 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
+
+import edu.duke.cabig.c3pr.dao.OrganizationDao;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
-import org.springframework.validation.Errors;
-import org.springframework.web.util.WebUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 1:39:34 PM To change this template
@@ -20,8 +33,18 @@ public class StudySitesTab extends StudyTab {
     private StudyValidator studyValidator;
     
     protected Configuration configuration;
+    
+    protected OrganizationDao organizationDao;
 
-    public void setConfiguration(Configuration configuration) {
+    public OrganizationDao getOrganizationDao() {
+		return organizationDao;
+	}
+
+	public void setOrganizationDao(OrganizationDao organizationDao) {
+		this.organizationDao = organizationDao;
+	}
+
+	public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
     }
 
@@ -65,5 +88,41 @@ public class StudySitesTab extends StudyTab {
     public void setStudyValidator(StudyValidator studyValidator) {
         this.studyValidator = studyValidator;
     }
+    
+    public ModelAndView associateParentStudySites(HttpServletRequest request, Object obj, Errors errors) {
 
+		HashMap map = new HashMap();
+		List<StudySite> studySites = new ArrayList<StudySite>();
+
+		StudyWrapper wrapper = (StudyWrapper) obj;
+		Study study = wrapper.getStudy();
+
+		String parentAssociationId = request.getParameter("studyAssociationId");
+		String nciCodes = request.getParameter("nciCodes");
+
+		List<String> nciCodeList = getNciCodeList(nciCodes);
+
+		for (CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()) {
+			if (StringUtils.equals(parentAssociationId, parentStudyAssociation.getId().toString())) {
+				for (String nciCode : nciCodeList) {
+					StudySite studySite = new StudySite();
+					studySite.setHealthcareSite((HealthcareSite) organizationDao.getByNciIdentifier(nciCode).get(0));
+					studySite.setStudy(study);
+					parentStudyAssociation.addStudySite(studySite);
+				}
+				map.put("parentStudyAssociation", parentStudyAssociation);
+				break;
+			}
+		}
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+	}
+
+	private static List<String> getNciCodeList(String nciCodes) {
+		List<String> nciCodeList = new ArrayList<String>();
+		StringTokenizer st = new StringTokenizer(nciCodes,"|");
+	     while (st.hasMoreTokens()) {
+	         nciCodeList.add(st.nextToken());
+	     }
+		return nciCodeList;
+	}
 }

@@ -18,6 +18,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/study/editStudy" value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
         <entry key="/pages/study/editCompanionStudy" value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
         <entry key="/pages/study/createStudy" value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
+        <entry key="/pages/study/selectStudySites" value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
         <entry key="/pages/study/createCompanionStudy" value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
 
         <entry key="/pages/personAndOrganization/participant/searchParticipant" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>

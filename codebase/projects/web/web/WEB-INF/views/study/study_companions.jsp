@@ -1,5 +1,5 @@
 <%@ include file="taglibs.jsp"%>
-
+<link href="themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}" /></title>
@@ -10,82 +10,101 @@
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm" displayErrors="false">
 
 	<jsp:attribute name="singleFields">
-    <tags:instructions code="study_companions" />
+     <tags:instructions code="study_companions" />
     <script language="JavaScript" type="text/JavaScript"><!--
+
+	function addRow(action){
+    	if(action == 'createCompanionStudy'){
+    		$('dummy-row').innerHTML=$('dummy-row-create').innerHTML;
+    	}else{
+    		$('dummy-row').innerHTML=$('dummy-row-add').innerHTML;
+        }
+    	 javascript:RowManager.addRow(instanceRowInserterProps);
+    }
     
     var currentRow = -1;
     
 	var companionStudyAssociationsAutocompleterProps = {
-    basename: "companionStudy",
-    populator: function(autocompleter, text) {
-
-        StudyAjaxFacade.matchComapanionStudies( text, function(values) {
-            autocompleter.setChoices(values)
-        })
-    },
-    valueSelector: function(obj) {
-        return obj.shortTitleText
-    },
-    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
-	    							$(hiddenField).value=selectedChoice.id;
-	    							companionStatus=inputElement.id.split("-")[0]+"-companionStudyStatus";
-	    							$(companionStatus).innerHTML=selectedChoice.coordinatingCenterStudyStatus.displayName;
-								}
-}
-	var instanceRowInserterProps = {
-
-    add_row_division_id: "companionTable", 	        
-    skeleton_row_division_id: "dummy-row",
-    initialIndex: ${fn:length(command.study.companionStudyAssociations)},
-    softDelete: false,
-    isAdmin: ${isAdmin == 'true'},
-    path: "study.companionStudyAssociations",
-    postProcessRowInsertion: function(object){
-		currentRow = object.localIndex;
-        clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
-		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
-		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
-    },
-    onLoadRowInitialize: function(object, currentRowIndex){
-		clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
-		clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
-    }
-};
-RowManager.addRowInseter(instanceRowInserterProps);
-var win
-Event.observe(window, "load", function() {
-
-    $('createCompanion').observe('click', function(event) {
-       	var table = document.getElementById("companionTable") ;
-       	var length = table.rows.length;
-		var rowCount = 0;
-       	for(var i=1 ; i < length; i++){
-	  		if(table.rows[i].id.indexOf('deleted') == -1){
-	  			++ rowCount ;
+	    basename: "companionStudy",
+	    populator: function(autocompleter, text) {
+	
+	        StudyAjaxFacade.matchComapanionStudies( text, function(values) {
+	            autocompleter.setChoices(values)
+	        })
+	    },
+	    valueSelector: function(obj) {
+	        return obj.shortTitleText
+	    },
+	    afterUpdateElement: 
+		    function(inputElement, selectedElement, selectedChoice) {
+				hiddenField=inputElement.id.split("-")[0]+"-hidden";
+				$(hiddenField).value=selectedChoice.id;
+				companionStatus=inputElement.id.split("-")[0]+"-companionStudyStatus";
+				$(companionStatus).innerHTML=selectedChoice.coordinatingCenterStudyStatus.displayName;
 			}
-         }
-		win = new Window(
-				{title: "Create Companion Study", top:35, left:35, width:1000, height:400, zIndex:100,
-				url: "<c:url value='/pages/study/createCompanionStudy?decorator=noheaderDecorator&embeddedStudy=true&flowType=${flowType}&rowCount='/>"+ rowCount, showEffectOptions: {duration:1.5}}
-				) 
-		win.showCenter(true);
-    });
-})
+	}
+var contentWin;
+	var statusIndex;
+	
+	var instanceRowInserterProps = {
+	    add_row_division_id: "companionTable", 	        
+	    skeleton_row_division_id: "dummy-row",
+	    initialIndex: ${fn:length(command.study.companionStudyAssociations)},
+	    softDelete: false,
+	    isAdmin: ${isAdmin == 'true'},
+	    path: "study.companionStudyAssociations",
+	    postProcessRowInsertion: function(object){
+			statusIndex = object.localIndex;
+		    var arr=$$("#companionTable-"+statusIndex+" #dummy-row-createStudy");
+			if(arr.length==1){
+				contentWin = new Window({className :"mac_os_x", closable: false, title: "Create Companion Study", top:35, left:35, width:1000, height:400, zIndex:100, hideEffect:Element.hide, showEffect:Element.show, destroyOnClose: true}) 
+				contentWin.setContent(arr[0]) 
+				contentWin.showCenter(); 
+				myObserver = {
+			    	onDestroy: function(eventName, win) {
+				      if (win == contentWin) {
+				    	  $$("#companionTable-"+statusIndex+" #container")[0].appendChild($(arr[0]));
+				        contentWin = null;
+				        Windows.removeObserver(this);
+				      }
+				    }
+				  }
+				  Windows.addObserver(myObserver);
+			}
+			currentRow = object.localIndex;
+	        clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
+			clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+	    },
+	    onLoadRowInitialize: function(object, currentRowIndex){
+			clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
+			clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+	    }
+	};
+	
+
+	RowManager.addRowInseter(instanceRowInserterProps);
 
 function createCompanion(shortTitle){
-	RowManager.addRow(instanceRowInserterProps);
+	//RowManager.addRow(instanceRowInserterProps);
 	$('companionStudy' + currentRow + '-input').value = shortTitle;
 	$('companionStudy' + currentRow + '-hidden').name = "some_dummy_name";
 	$('companionStudy' + currentRow + '-input').disabled=true;
 	$('companionStudy' + currentRow+'-companionStudyStatus').innerHTML="Pending";
-	closePopup();
+	closePopup(false);
 }
 
-function closePopup() {
-	win.close();
+function closePopup(deleteRow) {
+	if(deleteRow){
+		javascript:RowManager.deleteRow(instanceRowInserterProps,currentRow, -1);
+	}
+	contentWin.close();
 }
+
+
+// SCRIPTS FOR COMPANION
+
 
 --></script>
         
@@ -147,8 +166,8 @@ function closePopup() {
     </tr>
 </table>
 <div align="right">
-		<input id="addCompanion" type="button" value="Add Companion Study" onClick="javascript:RowManager.addRow(instanceRowInserterProps);" />
-		<input id="createCompanion" type="button" value="Create Companion Study" />
+		<input id="addCompanion" type="button" value="Add Companion Study" onclick="addRow('addExistingCompanionStudy')" />
+		<input id="createCompanion" type="button" value="Create Companion Study" onclick="addRow('createCompanionStudy')"/>
 </div>
 
 </jsp:attribute>
@@ -156,38 +175,80 @@ function closePopup() {
 </jsp:attribute>
 </tags:tabForm>
 <div id="dummy-row" style="display:none;">
-    <table>
-        <tr id="companionTable-PAGE.ROW.INDEX">
-                       
-            <td>
-                <input type="hidden" id="companionStudyPAGE.ROW.INDEX-hidden"
-                        name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy"/>
-                <input class="autocomplete validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-input"
-                       size="40"
-                       value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText}"/>
-                <input type="button" id="companionStudyPAGE.ROW.INDEX-clear"
-                        value="Clear"/>
-                   <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
-                  <div id="companionStudyPAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
-            </td>
-			<td >
-				<div id="companionStudyPAGE.ROW.INDEX-companionStudyStatus" >
-				</div>
-			</td>
-            <td>
-                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="validate-notEmpty">
-                    <option value="">Please Select</option>
-                    <c:forEach items="${yesNo}" var="status">
-                        <option value="${status.code}">${status.desc}</option>
-                    </c:forEach>
-                </select>
-            </td>
-            <td>
-                <a
+   
+</div>
+<div id="dummy-row-add" style="display:none;">
+	 <table>
+	        <tr id="companionTable-PAGE.ROW.INDEX">
+	                       
+	            <td>
+	                <input type="hidden" id="companionStudyPAGE.ROW.INDEX-hidden"
+	                        name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy"/>
+	                <input class="autocomplete validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-input"
+	                       size="40"
+	                       value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText}"/>
+	                <input type="button" id="companionStudyPAGE.ROW.INDEX-clear"
+	                        value="Clear"/>
+	                   <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
+	                  <div id="companionStudyPAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
+	            </td>
+				<td >
+					<div id="companionStudyPAGE.ROW.INDEX-companionStudyStatus" >
+					</div>
+				</td>
+	            <td>
+	                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="validate-notEmpty">
+	                    <option value="">Please Select</option>
+	                    <c:forEach items="${yesNo}" var="status">
+	                        <option value="${status.code}">${status.desc}</option>
+	                    </c:forEach>
+	                </select>
+	            </td>
+	            <td>
+	                <a
                     href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-        </tr>
-    </table>
+	        </tr>
+	    </table>
+</div>
+
+<div id="dummy-row-create" style="display:none;">
+	 	<table>
+	        <tr id="companionTable-PAGE.ROW.INDEX">
+	            <td>
+	                <input type="hidden" id="companionStudyPAGE.ROW.INDEX-hidden" />
+	                <input class="validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-input" 
+	                       size="40" disabled="true"
+	                       value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText}"/>
+	                <input type="button" id="companionStudyPAGE.ROW.INDEX-clear" disabled="true"
+	                        value="Clear"/>
+	                   <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
+	                  <div id="companionStudyPAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
+	            </td>
+				<td >
+					<div id="companionStudyPAGE.ROW.INDEX-companionStudyStatus" >
+					</div>
+				</td>
+	            <td>
+	                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="validate-notEmpty" >
+	                    <option value="">Please Select</option>
+	                    <c:forEach items="${yesNo}" var="status">
+	                        <option value="${status.code}">${status.desc}</option>
+	                    </c:forEach>
+	                </select>
+	            </td>
+	            <td>
+	                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
+                    src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+                    <div id="container" style="display:none;">
+	                    <div id="dummy-row-createStudy">
+					    	<%@ include file="study_create_companion.jsp"%>
+					    	
+					    </div>
+				    </div>
+                </td>
+	        </tr>
+	    </table>
 </div>
 </body>
 </html>
