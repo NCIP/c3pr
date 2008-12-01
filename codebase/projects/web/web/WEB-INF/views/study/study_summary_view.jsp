@@ -48,7 +48,7 @@
         }
 
         function reloadCompanion() {
-        <tags:tabMethod method="reloadCompanion" divElement="'companionAssociationsDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/>
+        <tags:tabMethod method="reloadCompanion" divElement="'companionDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/>
         }
 
         function changeStudyStatus(status) {
@@ -328,6 +328,7 @@
         </c:forEach>
     </table>
 </chrome:division>
+<div id="companionDiv">
 <div id="companionAssociationsDiv"
      <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
     <chrome:division title="Companion Studies">
@@ -365,6 +366,7 @@
             </c:forEach>
         </table>
     </chrome:division>
+</div>
 </div>
 <div
         <c:if test="${command.study.companionIndicator=='false' || (command.study.companionIndicator=='true' && command.study.standaloneIndicator=='true')}">style="display:none;"</c:if>>
