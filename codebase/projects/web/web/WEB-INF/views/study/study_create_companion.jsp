@@ -3,71 +3,6 @@
      function copyToParent(){
      	parent.createCompanion($('_shortTitle').value);
      };
-
-     var coCenterAutocompleterProps = {
-             basename: "coCenter",
-             populator: function(autocompleter, text) {
-                 StudyAjaxFacade.matchHealthcareSites(text,function(values) {
-                     autocompleter.setChoices(values)
-                 })
-             },
-             valueSelector: function(obj) {
-             	 return (obj.name+" ("+obj.nciInstituteCode+")")
-             },
-              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-     								hiddenField=coCenterAutocompleterProps.basename+"-hidden"
-     								hiddenField1=coCenterAutocompleterProps.basename+"-hidden1"
- 	    							$(hiddenField).value=selectedChoice.id;
- 	    							$(hiddenField1).value=selectedChoice.id;
- 			}
- 		}
-
-     AutocompleterManager.addAutocompleter(coCenterAutocompleterProps);
-
- /*    manageRandomizedIndicatorSelectBox(this, statusIndex){
-		alert(statusIndex);
-     };
-
-     isBlindedStudy(this, statusIndex){
-		if($('companionStudy'+statusIndex+'-blindedIndicator').value==true){
-			return true ;
-		}else{
-        	return false;
-        }
-     }
-
-     function blindedRandomization(){
-     	var bIndicator=$('companionStudy'+statusIndex+'-blindedIndicator') ;
-     	var rIndicator=$('companionStudy'+statusIndex+'-randomizedIndicator');
-     	var rType=$('companionStudy'+statusIndex+'-randomizationType');;
-     	var rTypeDiv=document.getElementById('randomizationTypeDiv');
-
-     	if(bIndicator.value == 'true'){
-     		rIndicator.value = 'true';
-     		rIndicator.disabled = true;
-     		rTypeDiv.style.display = "";
-     		rType.value="PHONE_CALL";
-     		rType.disabled = true;
-     	} else {
-     		rIndicator.value = 'false';
-     		rIndicator.disabled = false;
-     		rTypeDiv.style.display = "none";
-     		rType.value="";
-     		rType.disabled = false;
-     	}
-     }
-     */
-
-     inputDateElementLocal="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion";
-     inputDateElementLink="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion-calbutton";
-      Calendar.setup(
-      {
-          inputField  : inputDateElementLocal,         // ID of the input field
-          ifFormat    : "%m/%d/%Y",    // the date format
-          button      : inputDateElementLink       // ID of the button
-      }
-     );
-      
 </script>
 <chrome:box title="${tab.shortTitle}">
 	<c:set var="statusIndex" value="PAGE.ROW.INDEX"></c:set>
@@ -165,6 +100,7 @@
 	             	<tags:hoverHint keyProp="study.multiInstitutionIndicator"/>
 	            </div>
 	        </div>
+	        <!-- 
 	        <div class="row">
              	<div class="label required-indicator">Consent Version/Date:</div>
              	<div class="value">
@@ -173,10 +109,19 @@
                     	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 	</a>
                 	<script type="text/javascript">
-	                	
+                	inputDateElementLocal="study.companionStudyAssociations["+${statusIndex}+"].companionStudy.consentVersion";
+                    inputDateElementLink="study.companionStudyAssociations["+${statusIndex}+"].companionStudy.consentVersion-calbutton";
+                     Calendar.setup(
+                     {
+                         inputField  : inputDateElementLocal,         // ID of the input field
+                         ifFormat    : "%m/%d/%Y",    // the date format
+                         button      : inputDateElementLink       // ID of the button
+                     }
+                    );
                 	</script>
              		<tags:hoverHint keyProp="study.consentVersion"/></div>
          		</div>
+         		 -->
         	<div class="row" style="display:none;">
 	        	<div class="label required-indicator">Standalone Study:</div>
 	        	<div class="value">
