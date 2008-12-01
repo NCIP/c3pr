@@ -211,9 +211,9 @@
         		<div class="row">
             		<div class="label">Name:</div>
 		            <div class="value">
-		            	<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite"  value="${dataFromParent.fundingSponsorsList[0].healthcareSite.id}"/>
-		            	<input type="text" id="companionStudyPAGE.ROW.INDEX-healthcareSite-input" size="38" name="aaaxxx" class="autocomplete" disabled="disabled"  value="${dataFromParent.fundingSponsorsList[0].healthcareSite.name}"/>
-						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyFundingSponsors[0].healthcareSite"  value="${dataFromParent.fundingSponsorsList[0].healthcareSite.id}"/>            		
+		            	<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite"  <c:if test="${fn:length(dataFromParent.fundingSponsorsList) > 0}">value="${dataFromParent.fundingSponsorsList[0].healthcareSite.id}" </c:if> />
+		            	<input type="text" id="companionStudyPAGE.ROW.INDEX-healthcareSite-input" size="38" name="aaaxxx" class="autocomplete" disabled="disabled"  <c:if test="${fn:length(dataFromParent.fundingSponsorsList) > 0}">value="${dataFromParent.fundingSponsorsList[0].healthcareSite.name}" </c:if>/>
+						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyFundingSponsors[0].healthcareSite"  <c:if test="${fn:length(dataFromParent.fundingSponsorsList) > 0}">value="${dataFromParent.fundingSponsorsList[0].healthcareSite.id}"</c:if>/>            		
 						<tags:indicator id="healthcareSite-indicator" />
 						<tags:hoverHint keyProp="study.studyFundingSponsor"/>
 						<div id="healthcareSite-choices" class="autocomplete" style="display:none;"></div>
