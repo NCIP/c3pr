@@ -25,6 +25,7 @@
     		<fileset file="${basedir}/ivy-build.xml" />
       		<fileset file="${projects.dir}/esb-client/ivy-build.xml" />
     		<fileset file="${projects.dir}/grid/StudyService/ivy-build.xml" />
+    		<fileset file="${projects.dir}/grid/RegistrationService/ivy-build.xml" />
     		<fileset file="${projects.dir}/core/ivy-build.xml" />
 			<fileset file="${projects.dir}/rules/ivy-build.xml" />
     		<fileset file="${projects.dir}/web/ivy-build.xml" />
@@ -141,7 +142,7 @@
     </target>
 
 	 <!--Does a local build. For Developers use only -->
-    <target name="deploy-webapp-local" depends="build-core, build-rules"
+    <target name="deploy-webapp-local" depends="build-rules"
             description="Builds all c3pr modules and deploys webapp on your web/web local">
     	<ant target="deployLocal" antfile="${projects.dir}/web/ivy-build.xml" dir="${projects.dir}/web" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
@@ -149,7 +150,7 @@
     	</ant>
     </target>
 	
-    <target name="deploy-webapp" depends="build-core, build-rules"
+    <target name="deploy-webapp" depends="build-rules"
             description="Builds all c3pr modules and deploys webapp on your web/web local">
     	<ant target="deploy" antfile="${projects.dir}/web/ivy-build.xml" dir="${projects.dir}/web" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
@@ -157,7 +158,7 @@
     	</ant>
     </target>
 	
-	<target name="deploy-studyServiceImpl" depends="build-core, build-rules"
+	<target name="deploy-studyServiceImpl" depends="build-rules"
 		description="Builds all c3pr modules and deploys webapp on your web/web local">
 		<ant target="deployStudyServiceImpl" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/StudyServiceImpl" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
@@ -181,6 +182,41 @@
 	
 	<target name="deploy-c3prStudyService" depends="deploy-studyService, deploy-studyServiceImpl"/>
 	
+	<target name="deploy-registrationServiceImpl" depends="build-rules"
+		description="Builds all c3pr modules and deploys webapp on your web/web local">
+		<ant target="deployRegistrationServiceImpl" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/RegistrationServiceImpl" inheritall="false">
+			<property name="env.skip.test" value="true"></property>
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+		</ant>
+	</target>
+	
+	<target name="undeploy-registrationService">
+		<ant target="undeployTomcat" antfile="${projects.dir}/grid/RegistrationService/build.xml" dir="${projects.dir}/grid/RegistrationService" inheritall="false">
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+			<property name="webapp.localtion" value="aaa" />
+			<property name="service.deployment.dir.name" value="abc" />
+		</ant>
+	</target>
+
+	<target name="deploy-registrationService">
+		<ant target="deployTomcat" antfile="${projects.dir}/grid/RegistrationService/build.xml" dir="${projects.dir}/grid/RegistrationService" inheritall="false">
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+		</ant>
+	</target>
+	
+	<target name="deploy-c3prregistrationService" depends="deploy-registrationService, deploy-registrationServiceImpl"/>
+	
+	<target name="deploy-c3prGridService" depends="deploy-registrationService, deploy-studyService, build-rules">
+		<ant target="deployRegistrationServiceImpl" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/RegistrationServiceImpl" inheritall="false">
+			<property name="env.skip.test" value="true"></property>
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+		</ant>
+		<ant target="deployStudyServiceImpl" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/StudyServiceImpl" inheritall="false">
+			<property name="env.skip.test" value="true"></property>
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+		</ant>
+	</target>
+	
 	<!-- ==========================================================
 		target : tomcat.security
 		This will delegate the call to c3pr-core:tomcat.security.
@@ -203,12 +239,15 @@
 		<ant target="publish-local" antfile="${projects.dir}/grid/StudyService/ivy-build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>
+		<ant target="publish-local" antfile="${projects.dir}/grid/RegistrationService/ivy-build.xml" dir="${projects.dir}/grid/RegistrationService" inheritall="false">
+    		<property name="env.skip.test" value="true"></property>
+    	</ant>
 		<ant target="publish-local" antfile="${projects.dir}/core/ivy-build.xml" dir="${projects.dir}/core" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>
     </target>
 	
-	<target name="build-rules" depends="clean-repo, build-core" description="Builds rules">
+	<target name="build-rules" depends="build-core" description="Builds rules">
 		<ant target="publish-local" antfile="${projects.dir}/rules/ivy-build.xml" dir="${projects.dir}/rules" inheritall="false">
 		    		<property name="env.skip.test" value="true"></property>
 	    </ant>
