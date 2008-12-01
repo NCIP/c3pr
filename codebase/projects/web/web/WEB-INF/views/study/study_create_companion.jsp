@@ -1,4 +1,4 @@
- <%@ include file="taglibs.jsp"%>
+<%@ include file="taglibs.jsp"%>
 <script type="text/javascript">
      function copyToParent(){
      	parent.createCompanion($('_shortTitle').value);
