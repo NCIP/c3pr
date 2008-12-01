@@ -62,9 +62,15 @@
 <script>
 $('siteIRB-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-IRB').innerHTML;
 $('Messages-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-message').innerHTML;
-<c:if test="${action}">
+<c:choose>
+<c:when test="${action}">
 $('actions-${site.healthcareSite.nciInstituteCode }').innerHTML=$('actions').innerHTML;
-</c:if>
+</c:when>
+<c:otherwise>
+$('actions-${site.healthcareSite.nciInstituteCode }').innerHTML='';
+</c:otherwise>
+</c:choose>
+
 $('siteStatus-${site.healthcareSite.nciInstituteCode }').innerHTML='${site.siteStudyStatus.code}';
 new Effect.Highlight($('siteIRB-${site.healthcareSite.nciInstituteCode }'), { startcolor: '#ffff99',
 endcolor: '#ffffff' });
