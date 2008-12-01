@@ -2,7 +2,7 @@
 <ivy-module version="1.4">
 		
     	<info organisation="edu.duke.cabig.c3pr"
-          	module="StudyServiceImpl"
+          	module="RegistrationServiceImpl"
           	status="integration" revision="${c3pr.version}"/>
         
         <configurations>
