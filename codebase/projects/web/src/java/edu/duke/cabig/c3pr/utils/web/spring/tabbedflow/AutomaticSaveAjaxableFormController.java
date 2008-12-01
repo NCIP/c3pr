@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
@@ -57,16 +58,17 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
             ModelAndView modelAndView = ajaxTab.postProcessAsynchronous(request, (C) command,
                             errors);
             AjaxableUtils.setAjaxModelAndView(request, modelAndView);
-            if (!errors.hasErrors() && shouldPersist(request, (C) command, getTab((C) command, page))) {
-                C newCommand = save((C) command, errors);
-                if (newCommand != null) {
-                    request.getSession().setAttribute(
-                                    getReplacedCommandSessionAttributeName(request), newCommand);
-                }
-            }
         }
         else {
+        	request.setAttribute("OVERRIDDEN_SAVE_BEHAVIOR", "TRUE");
             super.postProcessPage(request, command, errors, page);
+        }
+        if (!errors.hasErrors() && shouldPersist(request, (C) command, getTab((C) command, page))) {
+            C newCommand = save((C) command, errors);
+            if (newCommand != null) {
+                request.getSession().setAttribute(
+                                getReplacedCommandSessionAttributeName(request), newCommand);
+            }
         }
     }
     
@@ -76,6 +78,10 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
     
     @Override
     protected final boolean shouldSave(HttpServletRequest arg0, C arg1, Tab<C> arg2) {
+    	if(arg0.getAttribute("OVERRIDDEN_SAVE_BEHAVIOR")!=null){
+    		arg0.removeAttribute("OVERRIDDEN_SAVE_BEHAVIOR");
+    		return false;
+    	}
     	return isNextPageSavable(arg0, arg1, arg2);
     }
 
