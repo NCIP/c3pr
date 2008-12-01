@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.factory.StudyFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
 import edu.duke.cabig.c3pr.service.StudyService;
@@ -399,7 +400,12 @@ public class StudyRepositoryImpl implements StudyRepository {
             if(study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
                 studyService.createStudyAtAffiliates(study.getIdentifiers());
             }else{
-                study.getStudySite(studyService.getLocalNCIInstituteCode()).setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                try{
+                	StudySite studySite = study.getStudySite(studyService.getLocalNCIInstituteCode());
+                	studySite.setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                }catch(C3PRCodedRuntimeException ex){
+                	// catching exception
+                }
                 study=this.merge(study);
             }
         }
@@ -423,7 +429,12 @@ public class StudyRepositoryImpl implements StudyRepository {
             if(study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
                 studyService.openStudyAtAffiliates(studyIdentifiers);
             }else{
-                study.getStudySite(studyService.getLocalNCIInstituteCode()).setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+            	try{
+                	StudySite studySite = study.getStudySite(studyService.getLocalNCIInstituteCode());
+                	studySite.setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                }catch(C3PRCodedRuntimeException ex){
+                	// catching exception
+                }
                 study=this.merge(study);
             }
         }
