@@ -106,7 +106,7 @@
 		<echo message="${datasource.url}"/>    
 		<echo message="${datasource.username}"/>    
 		<echo message="${datasource.password}"/>  
-		<sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}" url="jdbc:postgresql://localhost:5432/postgres"  
+		<sql userid="${datasource.username}" password="${datasource.password}" url="jdbc:postgresql://localhost:5432/postgres"  driver="${datasource.driver}"
 			classpathref="main.classpath" onerror="abort" autocommit="true">
 			DROP DATABASE IF EXISTS ${datasource.schema} ;
 			CREATE DATABASE ${datasource.schema};
