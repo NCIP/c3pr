@@ -105,7 +105,6 @@ Event.observe(window, "load", function() {
                     <th><b>Activation Date</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
                     <th><b>IRB Approval Date</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
                     <th><b>Target Accrual Number</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
-                    <th><b>Hosted Mode</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
                 </tr>
                 
                     <tr>
@@ -149,10 +148,6 @@ Event.observe(window, "load", function() {
                          <input id="studySites[0].targetAccrualNumber" name="study.studySites[0].targetAccrualNumber" value="${fn:length(command.study.studySites)>0?command.study.studySites[0].targetAccrualNumber:""}"
 				 				size="6" type="text" maxlength="6" cssClass="validate-NUMERIC&&NONZERO_NUMERIC"
                           />
-                     </td>
-                     <td>
-                         <input id="study.studySites[0].hostedMode"
-                       			name="study.studySites[0].hostedMode" type="checkbox" disabled="disabled"/>
                      </td>
                     </tr>
             </table>
@@ -251,7 +246,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <th><b>Activation Date</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
                     <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
                     <th><b>Target Accrual Number</b><tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
-                    <th><b>Hosted Mode</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.hostedMode"/></th>
+                    <c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}"><th><b>Hosted Mode</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.hostedMode"/></th></c:if>
                     <th></th>
                 </tr>
                     
@@ -281,13 +276,12 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         </td>
                         <td valign="top"> <form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC" size="6"/>
             			</td> 
-            			<td><form:checkbox path="study.studySites[${status.index}].hostedMode"/>
+            			<td>
+            			<c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
+            			<form:checkbox path="study.studySites[${status.index}].hostedMode"/>
             				<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.nciInstituteCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
-            			<script>
-					        <c:if test="${!(command.study.multiInstitutionIndicator && multisiteEnv)}">$('study.studySites[${status.index}].hostedMode').disabled = true;
-					        </c:if>
-					    </script>
             			</td> 
+            			</c:if>
                         <td><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${site.id==null?'HC#':'ID#'}${site.id==null?site.hashCode:site.id}');"><img
                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -316,7 +310,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 	                    <th><b>Activation Date</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
 	                    <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
 	                    <th><b>Target Accrual Number</b><tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
-	                    <th><b>Hosted Mode</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.hostedMode"/></th>
 	                    <th></th>
 	                </tr>
 	                <c:forEach items="${parentStudyAssociation.studySites}" var="companionStudySite" varStatus="status">
@@ -339,9 +332,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		                	</td>
 		                	<td> 
 		                		<input type="text" value="${companionStudySite.targetAccrualNumber}" class="validate-NUMERIC" size="6" />
-		            		</td> 
-		            		<td>
-		            			<input size="10" type="checkbox" checked="${companionStudySite.hostedMode}" value="${companionStudySite.hostedMode}" disabled="disabled" />
 		            		</td> 
 		                	<td>
 		            
@@ -431,14 +421,13 @@ RowManager.addRowInseter(instanceRowInserterProps);
                        name="study.studySites[PAGE.ROW.INDEX].targetAccrualNumber" maxlength="6" size="6"
                        type="text" class="validate-NUMERIC"/>
             </td>
+            <c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
             <td>
                 <input id="studySites[PAGE.ROW.INDEX].hostedMode"
                        name="study.studySites[PAGE.ROW.INDEX].hostedMode" type="checkbox" checked/>
-                       <input type="hidden" value="1" name="_study.studySites[PAGE.ROW.INDEX].hostedMode" id="_studySites[PAGE.ROW.INDEX].hostedMode"/>
-                       <script>
-                       <c:if test="${!(command.study.multiInstitutionIndicator && multisiteEnv)}">$('studySites[PAGE.ROW.INDEX].hostedMode').disabled = true;
-					        </c:if></script>
+                       <input type="hidden" value="1" name="_study.studySites[PAGE.ROW.INDEX].hostedMode"/>
             </td>
+            </c:if>
             <td>
                 <a
                     href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
