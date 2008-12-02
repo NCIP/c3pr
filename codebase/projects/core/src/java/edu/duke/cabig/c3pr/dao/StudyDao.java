@@ -148,13 +148,26 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		getHibernateTemplate().initialize(study.getIdentifiers());
 		getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
 		getHibernateTemplate().initialize(study.getParentStudyAssociations());
+		getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
+		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
+			this.initialize(companionStudyAssociation.getCompanionStudy());
+	}
 		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
 			getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
 		}
-		getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
+		
 		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
 			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
 		}
+		
+		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
+			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
+		}
+		
+		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy().getStudyOrganizations());
+		}
+		
 		for (PlannedNotification plannedNotification : study.getPlannedNotificationsInternal()) {
 			if (plannedNotification != null) {
 				getHibernateTemplate().initialize(plannedNotification.getUserBasedRecipientInternal());
@@ -176,11 +189,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 				    getHibernateTemplate().initialize(endPoint.getErrors());
 			}
 		}
-		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
-			if (companionStudyAssociation != null) {
-				this.initialize(companionStudyAssociation.getCompanionStudy());
-			}
-		}
+		
 	}
     public List<Study> getBySubnames(String[] subnames) {
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);

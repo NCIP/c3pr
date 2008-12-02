@@ -10,7 +10,7 @@
 var win;
 function selectStudySites(studyId, parentAssociationId, parentIndex){
 	win = new Window({title: "Select Study Sites", 
-			scrollbar: false, zIndex:100, width:700, height:325 ,
+			scrollbar: false, zIndex:100, width:900, height:325 ,
 			recenterAuto:true, className :"mac_os_x",
 			url: "<c:url value='/pages/study/selectStudySites?decorator=noheaderDecorator&parentAssociationId='/>" + parentAssociationId  +"&parentIndex=" + parentIndex  +"&studyId=" + studyId , 
 			showEffectOptions: {duration:1.5}
@@ -23,8 +23,9 @@ function closePopup() {
 	win.close();
 }
 
-function reloadParentStudySites(studyId , studyAssociationId , nciCodes , parentIndex){
+function reloadParentStudySites(studyId , studyAssociationId , nciCodes , parentIndex, irbApprovalSites){
 	$('nciCodes').value=nciCodes;
+	$('irbApprovalSites').value=irbApprovalSites;
 	$('studyAssociationId').value=studyAssociationId;
 	<tags:tabMethod method="associateParentStudySites" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection"/>
 }
@@ -34,6 +35,7 @@ function reloadParentStudySites(studyId , studyAssociationId , nciCodes , parent
 <body>
 <form:form id="parentStudySiteForm">
 <input type="hidden" id="nciCodes" name="nciCodes"/>
+<input type="hidden" id="irbApprovalSites" name="irbApprovalSites"/>
 <input type="hidden" id="studyAssociationId" name="studyAssociationId"/>
 <input type="hidden" id="studyId" name="studyId"/>
 <input type="hidden" name="_target${tab.number}" id="_target"/>

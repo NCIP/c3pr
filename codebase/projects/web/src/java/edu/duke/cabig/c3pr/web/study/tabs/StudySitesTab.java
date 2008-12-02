@@ -96,18 +96,23 @@ public class StudySitesTab extends StudyTab {
 
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
-
 		String parentAssociationId = request.getParameter("studyAssociationId");
 		String nciCodes = request.getParameter("nciCodes");
+		String irbApprovalSites = request.getParameter("irbApprovalSites");
 
 		List<String> nciCodeList = getNciCodeList(nciCodes);
+		List<String> irbApprovalList = getNciCodeList(irbApprovalSites);
 
 		for (CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()) {
 			if (StringUtils.equals(parentAssociationId, parentStudyAssociation.getId().toString())) {
 				for (String nciCode : nciCodeList) {
+					HealthcareSite healthcareSite = (HealthcareSite) organizationDao.getByNciIdentifier(nciCode).get(0);
 					StudySite studySite = new StudySite();
-					studySite.setHealthcareSite((HealthcareSite) organizationDao.getByNciIdentifier(nciCode).get(0));
+					studySite.setHealthcareSite(healthcareSite);
 					studySite.setStudy(study);
+					if(irbApprovalList.contains(nciCode)){
+						studySite.setIrbApprovalDate(getParentStudySite(parentStudyAssociation, nciCode).getIrbApprovalDate());	
+					}
 					parentStudyAssociation.addStudySite(studySite);
 				}
 				map.put("parentStudyAssociation", parentStudyAssociation);
@@ -115,6 +120,11 @@ public class StudySitesTab extends StudyTab {
 			}
 		}
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+	}
+
+	private StudySite getParentStudySite(CompanionStudyAssociation parentStudyAssociation, String nciCode) {
+		Study study = parentStudyAssociation.getParentStudy();
+		return study.getStudySite(nciCode);
 	}
 
 	private static List<String> getNciCodeList(String nciCodes) {

@@ -6,7 +6,6 @@
                   <th><b>Activation Date</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
                   <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
                   <th><b>Target Accrual Number</b><tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
-                  <th><b>Hosted Mode</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.hostedMode"/></th>
                   <th></th>
               </tr>
               <c:forEach items="${parentStudyAssociation.studySites}" var="companionStudySite" varStatus="status">
@@ -29,9 +28,6 @@
                	</td>
                	<td> 
                		<input type="text" value="${companionStudySite.targetAccrualNumber}" class="validate-NUMERIC" size="6" />
-           		</td> 
-           		<td>
-           			<input size="10" type="checkbox" checked="${companionStudySite.hostedMode}" value="${companionStudySite.hostedMode}" disabled="disabled" />
            		</td> 
                	<td>
            
@@ -62,7 +58,7 @@
 	<br>
 	<div class="flow-buttons">
            <span class="next">
-			<input type="button" value="Select Study Site to Associate From Parent Study" onclick="selectStudySites(${command.study.id},${parentStudyAssociation.id}, ${parentStudySiteStaus.index})" align="right"/>
+			<input type="button" value="Select From Parent" onclick="selectStudySites(${command.study.id},${parentStudyAssociation.id}, ${parentStudySiteStaus.index})" align="right"/>
 			</span>
       	</div>
 	<br>
