@@ -854,6 +854,12 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
                 if(studySite.getHostedMode() || studySite.getIsCoordinatingCenter())
                     studySite.setCoordinatingCenterStudyStatus(coordinatingCenterStudyStatus);
             }
+            for(CompanionStudyAssociation parentStudyAssociation : this.getParentStudyAssociations()){
+            	for(StudySite studySite : parentStudyAssociation.getStudySites()){
+                    if(studySite.getHostedMode() || studySite.getIsCoordinatingCenter())
+                        studySite.setCoordinatingCenterStudyStatus(coordinatingCenterStudyStatus);
+                }
+            }
             this.setCoordinatingCenterStudyStatusInternal(coordinatingCenterStudyStatus);
 	}
 	
@@ -1061,7 +1067,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 									.getCoordinatingCenterStudyStatus()
 									.getDisplayName() });
 		}
-		if (this.companionIndicator) {
+		if (this.companionIndicator && !this.standaloneIndicator) {
 			for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
 				if (this.parentStudyAssociations.get(i).getParentStudy()
 						.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
@@ -1417,12 +1423,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			if (this.companionIndicator) {
 				statuses.add(CoordinatingCenterStudyStatus.READY_TO_OPEN);
 				boolean flag = true;
-				for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
-					if (this.parentStudyAssociations.get(i).getParentStudy()
-							.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
-						flag = false;
-					}
-				}
+				flag = isParentStudyOpen(flag);
 				if (flag)
 					statuses.add(CoordinatingCenterStudyStatus.OPEN);
 			} else {
@@ -1431,14 +1432,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			return statuses;
 		}
 		if (this.coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.READY_TO_OPEN) {
-			if (this.companionIndicator) {
+			if (this.companionIndicator && !this.standaloneIndicator) {
 				boolean flag = true;
-				for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
-					if (this.parentStudyAssociations.get(i).getParentStudy()
-							.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
-						flag = false;
-					}
-				}
+				flag = isParentStudyOpen(flag);
 				if (flag)
 					statuses.add(CoordinatingCenterStudyStatus.OPEN);
 			} else {
@@ -1469,6 +1465,16 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			return statuses;
 		}
 		return statuses;
+	}
+
+	private boolean isParentStudyOpen(boolean flag) {
+		for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
+			if (this.parentStudyAssociations.get(i).getParentStudy()
+					.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
+				flag = false;
+			}
+		}
+		return flag;
 	}
 
 }

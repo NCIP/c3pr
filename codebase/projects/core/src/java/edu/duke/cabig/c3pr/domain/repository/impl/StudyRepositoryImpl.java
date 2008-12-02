@@ -149,8 +149,7 @@ public class StudyRepositoryImpl implements StudyRepository {
     @Transactional
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode){
         Study study = getUniqueStudy(studyIdentifiers);
-        StudySite studySite = study.getStudySite(
-                        nciInstituteCode);
+        StudySite studySite = study.getStudySite(nciInstituteCode);
         if (!studySite.getHostedMode()
                         && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())
                         && studySite.getSiteStudyStatus()!=SiteStudyStatus.APPROVED_FOR_ACTIVTION) {

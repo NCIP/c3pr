@@ -65,15 +65,26 @@ public class StudySitesTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
                     Errors errors) {
-        for(StudySite studySite: wrapper.getStudy().getStudySites()){
-            if(studySite.getIsCoordinatingCenter() || studySite.getHostedMode())
-                studySite.setCoordinatingCenterStudyStatus(wrapper.getStudy().getCoordinatingCenterStudyStatus());
-            else if(WebUtils.hasSubmitParameter(request, "submitted") &&
-                            (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted") || 
-                             request.getParameter(studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted").equalsIgnoreCase("true")))
-                studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+    	Study study = wrapper.getStudy();
+        for(StudySite studySite: study.getStudySites()){
+            setCoordinatingCenterStudyStatus(request, study, studySite);
+        }
+        for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
+        	for(StudySite studySite: parentStudyAssociation.getStudySites()){
+                setCoordinatingCenterStudyStatus(request, study, studySite);
+            }
         }
     }
+
+	private void setCoordinatingCenterStudyStatus(HttpServletRequest request,
+			Study study, StudySite studySite) {
+		if(studySite.getIsCoordinatingCenter() || studySite.getHostedMode()){
+		    studySite.setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+		}else if(WebUtils.hasSubmitParameter(request, "submitted") && (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted") || request.getParameter(studySite.getHealthcareSite().getNciInstituteCode()+"-wasHosted").equalsIgnoreCase("true"))){
+		    studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		}
+	}
+   
     
     @Override
     public void validate(StudyWrapper wrapper, Errors errors) {
@@ -96,13 +107,18 @@ public class StudySitesTab extends StudyTab {
 
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
+		
 		String parentAssociationId = request.getParameter("studyAssociationId");
 		String nciCodes = request.getParameter("nciCodes");
 		String irbApprovalSites = request.getParameter("irbApprovalSites");
-
+		
 		List<String> nciCodeList = getNciCodeList(nciCodes);
 		List<String> irbApprovalList = getNciCodeList(irbApprovalSites);
-
+		
+		if(irbApprovalList.size() > 0){
+			studyDao.initialize(study);
+		}
+		
 		for (CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()) {
 			if (StringUtils.equals(parentAssociationId, parentStudyAssociation.getId().toString())) {
 				for (String nciCode : nciCodeList) {
