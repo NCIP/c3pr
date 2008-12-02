@@ -20,6 +20,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </script>
 </head>
 <body>
+<tags:instructions code="reg_submit" />
 <tags:formPanelBox tab="${tab}" flow="${flow}" continueLabel="${registerable?'Register':''}">
 	<input type="hidden" name="_finish" value="true"/>
 	<chrome:division id="Subject Information" title="Subject">

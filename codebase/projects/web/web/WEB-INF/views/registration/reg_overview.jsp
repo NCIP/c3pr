@@ -241,7 +241,7 @@
                 <td class="alt">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}</td>
 				<td class="alt">${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}</td>
                 <td class="alt">
-                	<input type="button" id="manageParentRegistration" value="Manage" onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.studySubject.parentStudySubject.id}' />'"/>
+                	<input type="button" id="manageParentRegistration" value="Manage" onClick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.studySubject.parentStudySubject.id}' />'"/>
                 </td>
    	        </tr>	           
     </table>
@@ -279,7 +279,7 @@
 	                        <tags:dateInput path="studySubject.offStudyDate" cssClass="validate-notEmpty&&DATE"/>
 	                        <em> (mm/dd/yyyy)</em><br /><br />
 	                        <c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
-	                            <input type="button" value="cancel" onclick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
+	                            <input type="button" value="cancel" onClick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
 	                    </form:form>
 	                </div>
                 	<script type="text/javascript">new Element.hide('OffStudyStatus');</script>

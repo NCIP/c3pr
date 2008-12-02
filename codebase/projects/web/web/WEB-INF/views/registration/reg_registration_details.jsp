@@ -66,7 +66,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 </script>
 </head>
 <body>
-
+<tags:instructions code="enrollment_details" />
 <registrationTags:goToTab currentTab="1" registration="${command.studySubject}" />
 <registrationTags:backToTab currentTab="1" registration="${command.studySubject}" />
 <c:set var="custonButton" value ="${param.customButton}" ></c:set>
@@ -154,7 +154,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<td>
 			<form:input id="diseaseSite-input" path="studySubject.diseaseHistory.otherPrimaryDiseaseSiteCode" cssClass="autocomplete"/>
 			<form:hidden id="diseaseSite-hidden" path="studySubject.diseaseHistory.anatomicSite"/>
-			<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
+			<input type="button" id="diseaseSite-clear" value="Clear" onClick="$('diseaseSite-hidden').value='';"/>
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
 			<tags:hoverHint keyProp="studySubject.diseaseSite"/>

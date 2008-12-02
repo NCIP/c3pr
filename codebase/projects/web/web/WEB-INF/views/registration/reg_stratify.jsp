@@ -11,6 +11,7 @@ function navRollOver(obj, state) {
 </script>
 </head>
 <body>
+<tags:instructions code="reg_stratify" />
 <registrationTags:goToTab currentTab="3" registration="${command.studySubject}" />
 <registrationTags:backToTab currentTab="3" registration="${command.studySubject}" />
 <c:set var="custonButton" value ="${param.customButton}" ></c:set>
