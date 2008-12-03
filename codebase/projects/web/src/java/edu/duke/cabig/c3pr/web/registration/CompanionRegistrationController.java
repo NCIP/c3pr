@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.quartz.utils.ExceptionHelper;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,87 +28,44 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
  * 
  */
 
-public class CreateRegistrationController<C extends StudySubjectWrapper> extends RegistrationController<C> {
+public class CompanionRegistrationController<C extends StudySubjectWrapper> extends RegistrationController<C> {
     /**
      * Logger for this class
      */
-    private static final Logger logger = Logger.getLogger(CreateRegistrationController.class);
+    private static final Logger logger = Logger.getLogger(CompanionRegistrationController.class);
 
-    private RegistrationControllerUtils registrationControllerUtils;
-    public void setRegistrationControllerUtils(
-			RegistrationControllerUtils registrationControllerUtils) {
-		this.registrationControllerUtils = registrationControllerUtils;
-	}
-
-	public CreateRegistrationController() {
+	public CompanionRegistrationController() {
         super("Create Registration");
     }
 
-    @Override
-    protected boolean isFormSubmission(HttpServletRequest request) {
-    	if(WebUtils.hasSubmitParameter(request, "studySubject.studySite") && WebUtils.hasSubmitParameter(request, "studySubject.participant") && WebUtils.hasSubmitParameter(request, "studySubject.parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
-    		return false;
-    	}
-        return super.isFormSubmission(request);
-    }
+//    @Override
+//    protected boolean isFormSubmission(HttpServletRequest request) {
+//    	if(WebUtils.hasSubmitParameter(request, "studySubject.studySite") && WebUtils.hasSubmitParameter(request, "studySubject.participant") && WebUtils.hasSubmitParameter(request, "studySubject.parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
+//    		return false;
+//    	}
+//        return super.isFormSubmission(request);
+//    }
     
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
     	if(WebUtils.hasSubmitParameter(request, "studySubject.studySite") && WebUtils.hasSubmitParameter(request, "studySubject.participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
-    		StudySubjectWrapper wrapper = new StudySubjectWrapper() ;
-    		StudySubject studySubject = new StudySubject();
-    		studySubject.setParentStudySubject(studySubjectDao.getById(Integer.parseInt(request.getParameter("parentRegistrationId")), true));
-    		studySubjectDao.initialize(studySubject.getParentStudySubject());
-    		wrapper.setStudySubject(studySubject) ;
+    		StudySubjectWrapper wrapper = (StudySubjectWrapper)super.formBackingObject(request);
+    		wrapper.getStudySubject().setParentStudySubject(studySubjectDao.getById(Integer.parseInt(request.getParameter("parentRegistrationId")), true));
+    		studySubjectDao.initialize(wrapper.getStudySubject().getParentStudySubject());
     		return  wrapper;	
     	}else{
-    		return super.formBackingObject(request);
+    		throw new RuntimeException("Cannot create command object instance");
     	}
     }
     
     @Override
     protected void intializeFlows(Flow flow) {
-        flow.addTab(new SearchStudySubjectTab());
         flow.addTab(new EnrollmentDetailsTab());
         flow.addTab(new EligibilityCriteriaTab());
         flow.addTab(new StratificationTab());
         flow.addTab(new AssignArmTab());
         flow.addTab(new ReviewSubmitTab());
         setFlow(flow);
-    }
-
-    @Override
-    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
-                    int page) throws Exception {
-        // TODO Auto-generated method stub
-    	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
-        StudySubject studySubject = wrapper.getStudySubject();
-    	super.postProcessPage(request, command, errors, page);
-	  if(shouldSave(request, (C) command, getTab((C) command, page))){
-      	studySubject = (StudySubject) request.getSession().getAttribute(getReplacedCommandSessionAttributeName(request));
-      }
-    	
-        if (studySubject.getScheduledEpoch() != null) {
-            studySubject.updateDataEntryStatus();
-        }
-        wrapper.setStudySubject(studySubject);
-        if(shouldSave(request, (C) wrapper, getTab((C) wrapper, page))){
-	        request.getSession().setAttribute(
-	                getReplacedCommandSessionAttributeName(request), save((C)wrapper, errors));
-        }
-       
-    }
-    
-    @Override
-    protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page)
-                    throws Exception {
-        // Currently the static data is a hack, once DB design is approved for
-        // an LOV this will be
-        // replaced with LOVDao to get the static data from individual tables
-        Map<String, Object> refdata = new HashMap<String, Object>();
-        Map configMap = configurationProperty.getMap();
-        refdata.put("paymentMethods", configMap.get("paymentMethods"));
-        return refdata;
     }
 
     @Override
@@ -130,5 +88,4 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
         	return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());	
         }
     }
-    
 }

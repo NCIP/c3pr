@@ -2,18 +2,26 @@ package edu.duke.cabig.c3pr.web.registration;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratumGroup;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -21,6 +29,9 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 public class RegistrationControllerUtils {
 
 	private StudySubjectService studySubjectService;
+	private StudyDao studyDao;
+	private ParticipantDao participantDao;
+	
 	private Configuration configuration;
 
 	
@@ -245,4 +256,56 @@ public class RegistrationControllerUtils {
         }
         return flag;
     }
+	
+	public void buildCommandObject(StudySubject studySubject) {
+		Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
+	    studyDao.initialize(study);
+	    participantDao.initialize(studySubject.getParticipant());
+        if (studySubject.getScheduledEpoch()!=null) {
+            ScheduledEpoch scheduledEpoch = studySubject
+                            .getScheduledEpoch();
+            List criterias = scheduledEpoch.getEpoch()
+                            .getInclusionEligibilityCriteria();
+            for (int i = 0; i < criterias.size(); i++) {
+                SubjectEligibilityAnswer subjectEligibilityAnswer = new SubjectEligibilityAnswer();
+                subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria) criterias
+                                .get(i));
+                scheduledEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+            }
+            criterias = scheduledEpoch.getEpoch()
+                            .getExclusionEligibilityCriteria();
+            for (int i = 0; i < criterias.size(); i++) {
+                SubjectEligibilityAnswer subjectEligibilityAnswer = new SubjectEligibilityAnswer();
+                subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria) criterias
+                                .get(i));
+                scheduledEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+            }
+            List<StratificationCriterion> stratifications = scheduledEpoch
+                            .getEpoch().getStratificationCriteria();
+            for (StratificationCriterion stratificationCriterion : stratifications) {
+                stratificationCriterion.getPermissibleAnswers().size();
+                SubjectStratificationAnswer subjectStratificationAnswer = new SubjectStratificationAnswer();
+                subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
+                scheduledEpoch
+                                .addSubjectStratificationAnswers(subjectStratificationAnswer);
+            }
+            scheduledEpoch.getScheduledArms().size();
+            scheduledEpoch.getEpoch().getStratumGroups().size();
+            Iterator<StratumGroup> iter = scheduledEpoch.getEpoch()
+                            .getStratumGroups().iterator();
+            while (iter.hasNext()) {
+                StratumGroup stratumGroup = iter.next();
+                stratumGroup.getStratificationCriterionAnswerCombination().size();
+                stratumGroup.getBookRandomizationEntry().size();
+            }
+        }
+    }
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
+
+	public void setParticipantDao(ParticipantDao participantDao) {
+		this.participantDao = participantDao;
+	}
 }

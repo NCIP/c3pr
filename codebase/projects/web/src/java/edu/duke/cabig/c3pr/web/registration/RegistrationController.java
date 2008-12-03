@@ -49,6 +49,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
@@ -97,6 +98,21 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
 
     protected StudySubjectRepository studySubjectRepository;
     
+    protected RegistrationControllerUtils registrationControllerUtils;
+    
+    protected C3PRExceptionHelper exceptionHelper;
+    
+    public void setExceptionHelper(C3PRExceptionHelper exceptionHelper) {
+		this.exceptionHelper = exceptionHelper;
+	}
+
+
+	public void setRegistrationControllerUtils(
+			RegistrationControllerUtils registrationControllerUtils) {
+		this.registrationControllerUtils = registrationControllerUtils;
+	}
+
+    
     public void setStudySubjectRepository(StudySubjectRepository studySubjectRepository) {
         this.studySubjectRepository = studySubjectRepository;
     }
@@ -135,20 +151,20 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         intializeFlows(flow);
     }
 
-    @Override
-    protected boolean isFormSubmission(HttpServletRequest request) {
-    	if (WebUtils.hasSubmitParameter(request, "registrationId")&& WebUtils.hasSubmitParameter(request, "goToTab")) {
-            try {
-                request.getSession(false).setAttribute(getFormSessionAttributeName(),
-                                formBackingObject(request));
-                return true;
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    	return super.isFormSubmission(request);
-    }
+//    @Override
+//    protected boolean isFormSubmission(HttpServletRequest request) {
+//    	if (WebUtils.hasSubmitParameter(request, "registrationId")&& WebUtils.hasSubmitParameter(request, "goToTab")) {
+//            try {
+//                request.getSession(false).setAttribute(getFormSessionAttributeName(),
+//                                formBackingObject(request));
+//                return true;
+//            }
+//            catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    	return super.isFormSubmission(request);
+//    }
     
     @Override
     protected Object currentFormObject(HttpServletRequest request,
@@ -159,13 +175,12 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     @Override
     protected boolean shouldPersist(HttpServletRequest request, C command, Tab<C> tab) {
         if (WebUtils.hasSubmitParameter(request, "dontSave")) return false;
-        if (getPrimaryDomainObject(command) == null) return false;
-        return getPrimaryDomainObject(command).getId() != null;
+        return true;
     }
     
     @Override
     protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
-    	return shouldPersist(request, command, tab);
+    	return true;
     }
 
     abstract protected void intializeFlows(Flow<StudySubject> flow);
@@ -177,7 +192,11 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
 
     @Override
     protected C save(C command, Errors arg1) {
-        StudySubject merged = (StudySubject) getDao().merge(getPrimaryDomainObject(command));
+    	StudySubject merged =null;
+    	if(getPrimaryDomainObject(command).getId()==null)
+    		merged=studySubjectRepository.create(getPrimaryDomainObject(command));
+    	else
+    		merged = (StudySubject) getDao().merge(getPrimaryDomainObject(command));
         studyDao.initialize(merged.getStudySite().getStudy());
         studySiteDao.initialize(merged.getStudySite());
         command.setStudySubject(merged);
@@ -208,18 +227,30 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     	    for(CompanionStudyAssociation companionStudyAssoc : study.getCompanionStudyAssociations()){
     	    	Study companionStudy = companionStudyAssoc.getCompanionStudy();
     	    	studyDao.initialize(companionStudy);
-    	    	
     	    }
         }
         else {
             studySubject = new StudySubject();
             log.debug("------------Command set to new Command------------------");
         }
-        request.getSession().removeAttribute(getReplacedCommandSessionAttributeName(request));
+        studySubject = new StudySubject();
         wrapper.setStudySubject(studySubject);
         return wrapper;
     }
 
+    
+    @Override
+    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
+                    int page) throws Exception {
+        // TODO Auto-generated method stub
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
+        StudySubject studySubject = wrapper.getStudySubject();
+    	super.postProcessPage(request, command, errors, page);
+        if (studySubject.getScheduledEpoch() != null) {
+            studySubject.updateDataEntryStatus();
+        }
+    }
+    
     protected void updateRegistration(StudySubject registration) {
         studySubjectDao.save(registration);
     }
@@ -237,21 +268,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
             log.debug("Requested Remove Identifier");
             registration.getIdentifiers().remove(Integer.parseInt(selected));
         }
-    }
-
-    @Override
-    protected Map<String, Object> referenceData(HttpServletRequest request, int page)
-                    throws Exception {
-        // Currently the static data is a hack, once DB design is approved for
-        // an LOV this will be
-        // replaced with LOVDao to get the static data from individual tables
-        Map<String, Object> refdata = new HashMap<String, Object>();
-        Map<String, List<Lov>> configMap = configurationProperty.getMap();
-        refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
-        refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
-        refdata.put("companions", getCompanionStudySubject(request));
-
-        return refdata;
     }
 
     @Override
@@ -366,34 +382,4 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         this.studyDao = studyDao;
     }
     
-    private List<Companion> getCompanionStudySubject(HttpServletRequest request){
-    	List<Companion> companions = new ArrayList<Companion>();
-    	String registrationId = request.getParameter("registrationId");
-    	if(!StringUtils.isBlank(registrationId)){
-    		StudySubject studySubject = studySubjectDao.getById(Integer.parseInt(registrationId));
-    		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()){
-    			Companion companion = new Companion();
-    			Study companionStudy = companionStudyAssoc.getCompanionStudy();
-    			companion.setCompanionStudyShortTitle(companionStudy.getShortTitleText());
-    			companion.setCompanionStudyPrimaryIdentifier(companionStudy.getPrimaryIdentifier());
-    			companion.setMandatoryIndicator(companionStudyAssoc.getMandatoryIndicator());
-    			for(StudySite studySite : companionStudy.getStudySites()){
-    				if(studySite.getHealthcareSite() == studySubject.getStudySite().getHealthcareSite()){
-    					companion.setStudySiteId(studySite.getId());
-    					for(StudySubject cStudySubject : studySubject.getChildStudySubjects()){
-    						if(studySite == cStudySubject.getStudySite()){
-    							companion.setRegistrationId(cStudySubject.getId());
-    							companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
-    						}
-    					}
-    				}
-    				
-    				
-    			}
-    			companions.add(companion);
-    		}
-    	}
-    	return companions;
-    }
-
 }
