@@ -119,7 +119,7 @@
 			return false;
 		}
 		if(flag){
-			new Ajax.Updater('temp','../participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
+			new Ajax.Updater('temp','../personAndOrganization/participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
 		}
 		return false;
 		}else{
