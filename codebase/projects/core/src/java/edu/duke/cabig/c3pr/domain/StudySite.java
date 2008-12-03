@@ -2,11 +2,9 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -341,8 +339,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                             new String[] { this.getSiteStudyStatus().getDisplayName() });
         }
         if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
-
-            Date currentDate = new Date();
+        	
+        	Date currentDate = new Date();
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(currentDate);
             calendar.add(calendar.YEAR, -1);
@@ -358,7 +356,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                 getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"),
                                 new String[] { this.getHealthcareSite().getName() });
             }
-
+ 
             if (this.getIrbApprovalDate() == null) {
                 throw getC3PRExceptionHelper()
                                 .getRuntimeException(
@@ -387,7 +385,16 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             }
 
             this.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
-
+            Study study = this.getStudy();
+            if(!study.getCompanionIndicator()){
+            	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+            		for(StudySite studySite : companionStudyAssociation.getStudySites()){
+            			if(studySite.getHealthcareSite().getNciInstituteCode() == this.getHealthcareSite().getNciInstituteCode()){
+            				studySite.activate();
+            			}
+            		}
+            	}
+            }
         }
         else {
             throw getC3PRExceptionHelper()
@@ -404,7 +411,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     }
 
-    public void closeToAccrual() throws C3PRCodedRuntimeException {
+	public void closeToAccrual() throws C3PRCodedRuntimeException {
         if (this.siteStudyStatus == SiteStudyStatus.CLOSED_TO_ACCRUAL) throw getC3PRExceptionHelper()
                     .getRuntimeException(
                         getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_ALREADY_CLOSED_TO_ACCRUAL.CODE"));
@@ -481,6 +488,16 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                             new String[] { this.getSiteStudyStatus().getDisplayName() });
         }
         this.setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
+        Study study = this.getStudy();
+        if(!study.getCompanionIndicator()){
+        	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+        		for(StudySite studySite : companionStudyAssociation.getStudySites()){
+        			if(studySite.getHealthcareSite().getNciInstituteCode() == this.getHealthcareSite().getNciInstituteCode()){
+        				studySite.approveForActivation();
+        			}
+        		}
+        	}
+        }
     }
 
     private void checkForActivation() {

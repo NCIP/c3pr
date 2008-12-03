@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,15 +10,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.APIName;
-import edu.duke.cabig.c3pr.domain.EndPoint;
-import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
-import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -63,8 +57,9 @@ public class ManageStudySitesTab extends StudyTab {
 
     public ModelAndView changeStatus(HttpServletRequest request, Object obj,
                     Errors errors) {
-        StudyWrapper wrapper=((StudyWrapper)obj);
-        Study study=((StudyWrapper)wrapper).getStudy();
+        StudyWrapper wrapper = (StudyWrapper)obj ;
+        Study study = wrapper.getStudy();
+        
         String nciInstituteCode=request.getParameter("nciCode");
         StudySite studySite=study.getStudySite(nciInstituteCode);
         List<Identifier> studyIdentifiers=study.getIdentifiers();
