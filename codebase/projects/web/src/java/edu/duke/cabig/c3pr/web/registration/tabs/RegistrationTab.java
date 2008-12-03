@@ -1,5 +1,11 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
+import edu.duke.cabig.c3pr.dao.EpochDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
@@ -22,6 +28,17 @@ public abstract class RegistrationTab<C extends StudySubjectWrapper> extends InP
     
     protected RegistrationControllerUtils registrationControllerUtils;
     
+    protected EpochDao epochDao;
+    
+    protected StudyDao studyDao;
+    
+    protected ParticipantDao participantDao;
+
+    protected StudySubjectDao studySubjectDao;
+
+    protected HealthcareSiteDao healthcareSiteDao;
+    
+    protected StudySiteDao studySiteDao;
 
     public RegistrationControllerUtils getRegistrationControllerUtils() {
 		return registrationControllerUtils;
@@ -60,4 +77,28 @@ public abstract class RegistrationTab<C extends StudySubjectWrapper> extends InP
     public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
         this.configurationProperty = configurationProperty;
     }
+
+	public void setEpochDao(EpochDao epochDao) {
+		this.epochDao = epochDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
+
+	public void setParticipantDao(ParticipantDao participantDao) {
+		this.participantDao = participantDao;
+	}
+
+	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
+	}
 }

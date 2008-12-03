@@ -1,11 +1,15 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
@@ -17,6 +21,15 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 
     public EnrollmentDetailsTab() {
         super("Enrollment Details", "Enrollment Details", "registration/reg_registration_details");
+    }
+    
+    @Override
+    public Map referenceData(HttpServletRequest request,
+    		StudySubjectWrapper command) {
+    	Map refdata=super.referenceData(request, command);
+    	Map<String, List<Lov>> configMap = configurationProperty.getMap();
+    	refdata.put("paymentMethods", configMap.get("paymentMethods"));
+    	return refdata;
     }
     
     @Override
