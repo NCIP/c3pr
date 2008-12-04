@@ -680,4 +680,14 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	public void setTreatmentIndicator(Boolean treatmentIndicator) {
 		this.treatmentIndicator = treatmentIndicator;
 	}
+	
+	@Transient
+	public Arm getArmByName(Arm arm){
+		for(Arm localArm:this.getArms()){
+			if(arm.getName().equals(localArm.getName())){
+				return localArm;
+			}
+		}
+		return null;
+	}
 }
