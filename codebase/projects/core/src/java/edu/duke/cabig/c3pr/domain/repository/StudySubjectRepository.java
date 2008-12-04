@@ -53,4 +53,6 @@ public interface StudySubjectRepository {
     
     public StudySubject reserve(List<Identifier> studySubjectIdentifiers);
     
+    public StudySubject getUniqueStudySubjects(List<Identifier> studySubjectIdentifiers);
+    
 }

@@ -467,6 +467,13 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
                         && this.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE ? "Complete"
                         : "Incomplete";
     }
+    
+    @Transient
+    public boolean getDataEntryStatus() {
+        return this.regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
+                        && this.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE ? true
+                        : false;
+    }
 
     @Transient
     public String getCoOrdinatingCenterIdentifier() {
@@ -776,7 +783,10 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
 	}
 	
 	public StudySubject enroll(){
+		//repo
 		if (getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.REGISTERED) {
+			
+			//method in domain
 			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
 				register();
 			}
@@ -796,33 +806,25 @@ public class StudySubject extends InteroperableAbstractMutableDeletableDomainObj
 	    		 }
 	    	 }
 			 
+			 //repo
 			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED) {
 				if (!isRandomizedOnScheduledEpoch()) {
 					if (!getStudySite().getHostedMode()
-							&& !this.getStudySite().getStudy()
-									.getStudyCoordinatingCenter()
-									.getHostedMode()
-							&& (!getStudySite().getHealthcareSite().equals(
-									this.getStudySite().getStudy()
-											.getStudyCoordinatingCenter()
-											.getHealthcareSite()))) {
+							&& !getStudySite().getIsCoordinatingCenter()) {
 						doCoordinatingCenterRandomization(); // The coordinating center should do the randomization if not in hosted mode or not at the same site.
 						
 					} else {
+						//from repo call studysubject.doLocalRandomization
 						doLocalRandomization(); //If in hosted mode or if the study site is same as the coordinating center site, it happens locally.
 					}
 
 				}
 			}
 			if (!getStudySite().getHostedMode()
-					&& !this.getStudySite().getStudy()
-							.getStudyCoordinatingCenter().getHostedMode()
-					&& (!getStudySite().getHealthcareSite().equals(
-							this.getStudySite().getStudy()
-									.getStudyCoordinatingCenter()
-									.getHealthcareSite()))) {
+					&& !getStudySite().getIsCoordinatingCenter()) {
 				assignCoordinatingCenterIdentifier(this); // The coordinating center should assign the identifier if not in hosted mode or not at the same site.
 			} else {
+				//break this method in repo
 				assignLocalIdentifier(this); //If in hosted mode or if the study site is same as the coordinating center site, identifier is assigned locally.
 			}
 			getScheduledEpoch().setScEpochWorkflowStatus(
