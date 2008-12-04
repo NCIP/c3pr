@@ -1242,11 +1242,4 @@ public class StudySubject extends
 		return errors;
 	}
 	
-	  @Transient
-	    public String getDataEntryStatusString() {
-	        return this.regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
-	                        && this.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE ? "Complete"
-	                        : "Incomplete";
-	    }
-
 }
