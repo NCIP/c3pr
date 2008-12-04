@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
@@ -49,19 +50,16 @@ public class CreateEditRegistrationController<C extends StudySubjectWrapper> ext
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if(registrationControllerUtils.isRegisterableOnPage(studySubject))
-        	studySubject = studySubjectService.register(studySubject);
-        else{
-            registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
-            studySubject=studySubjectRepository.save(studySubject);
+        if(wrapper.getIsRegisterable()==null){
+        	studySubject=studySubjectRepository.save(studySubject);
+        }else if(wrapper.getIsRegisterable()){
+        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        }else{
+        	studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
         }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
-        if(WebUtils.hasSubmitParameter(request, "decorator") && "noheaderDecorator".equals(request.getParameter("decorator"))){
-        	 return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId() +"&decorator=" + request.getParameter("decorator"));
-        }else{
-        	return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());	
-        }
+        return new ModelAndView("redirect:confirm?"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));	
     }
 }

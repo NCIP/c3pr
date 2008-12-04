@@ -34,6 +34,7 @@ import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
@@ -54,6 +55,7 @@ import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
@@ -217,10 +219,13 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         StudySubject studySubject = null;
         StudySubjectWrapper wrapper = new StudySubjectWrapper();
-        if ((request.getParameter("registrationId") != null)
-                        && (request.getParameter("registrationId") != "")) {
-            studySubject = studySubjectDao.getById(Integer.parseInt(request
-                            .getParameter("registrationId")), true);
+        if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
+        	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+        	List<Identifier> identifiers=new ArrayList<Identifier>();
+        	identifiers.add(identifier);
+        	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+//            studySubject = studySubjectDao.getById(Integer.parseInt(request
+//                            .getParameter("registrationId")), true);
             studySubjectDao.initialize(studySubject);
             Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
     	    studyDao.initialize(study);
