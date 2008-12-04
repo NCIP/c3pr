@@ -25,7 +25,7 @@ class CustomFieldTables extends edu.northwestern.bioinformatics.bering.Migration
             t.addColumn("cust_field_def_id", "integer")
         }
         
-        createTable("custom_field") { t ->
+        createTable("custom_fields") { t ->
         	t.addColumn('retired_indicator', 'string', nullable:true)
        		t.addColumn('grid_id' , 'string' , nullable:true)
        		t.addVersionColumn()
