@@ -227,16 +227,14 @@
 	     	
 	</chrome:division>
 		<chrome:division title="Funding Sponsor">
-		<tags:errors path="study.fundingSponsorAssignedIdentifier"/>
-   		<div id="fundingSponsor">
+		<div id="fundingSponsor">
      		<div class="leftpanel">
         		<div class="row">
-        		
             		<div class="label">Name:</div>
 		            <div class="value">
-		            	<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="${study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite}"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.id : ''}" />
+		            	<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite : 'abcdef' }"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.id : ''}" />
 		            	<input type="text" id="companionStudyPAGE.ROW.INDEX-healthcareSite-input" size="38" name="aaaxxx" class="autocomplete" disabled="disabled"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.name : ''}" />
-						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden"  name="${study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyFundingSponsors[0].healthcareSite}"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.id : ''}"/>            		
+						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden"  name="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyFundingSponsors[0].healthcareSite : 'qwerty' }"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.id : ''}"/>            		
 						<tags:indicator id="healthcareSite-indicator" />
 						<tags:hoverHint keyProp="study.studyFundingSponsor"/>
 						<div id="healthcareSite-choices" class="autocomplete" style="display:none;"></div>
@@ -247,9 +245,9 @@
         		<div class="row">
             		<div class="label">Study Identifier:</div>
             		<div class="value">
-	            		<input type="text" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].value" size="30" maxlength="30" id="companionStudyPAGE.ROW.INDEX-fundingSponsorIdentifier" name="abcxyz" />
-						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite"/>
-						<input type="hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].type" id="companionStudyPAGE.ROW.INDEX-fundingSponIdentifierType" value="Protocol Authority Identifier" />
+	            		<input type="text" name="${fn:length(dataFromParent.fundingSponsorsList) > 0 ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].value : 'qwer'}" size="30" maxlength="30" id="companionStudyPAGE.ROW.INDEX-fundingSponsorIdentifier" />
+						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="${fn:length(dataFromParent.fundingSponsorsList) > 0 ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite : 'poiuy'}"/>
+						<input type="hidden" name="${fn:length(dataFromParent.fundingSponsorsList) > 0 ?  study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].type : 'trewq'}" id="companionStudyPAGE.ROW.INDEX-fundingSponIdentifierType" value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? 'Protocol Authority Identifier' : ''}" />
 						<tags:hoverHint keyProp="study.fundingsponsor.identifier"/>
 					</div>
         		</div>

@@ -57,7 +57,8 @@ public class CompanionStudyTab extends StudyTab {
     	Study study = wrapper.getStudy();
     	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
     		if(companionStudyAssociation.getId() == null ){
-    			updateBlindedRandomization(companionStudyAssociation.getCompanionStudy());
+    			Study companionStudy = companionStudyAssociation.getCompanionStudy() ; 
+    			updateBlindedRandomization(companionStudy);
     		}
     	}
     	super.postProcessOnValidation(request, wrapper, errors);
