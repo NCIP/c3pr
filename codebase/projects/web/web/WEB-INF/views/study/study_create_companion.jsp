@@ -2,7 +2,29 @@
 <script type="text/javascript">
      function copyToParent(){
      	parent.createCompanion($('_shortTitle').value);
-     };
+     }
+
+     function blindedRandomization(index){
+    	var bIndicator=$('companionStudy'+index+'-blindedIndicator');
+      	var rIndicator=$('companionStudy'+index+'-randomizedIndicator');
+      	var rType=$('companionStudy'+index+'-randomizationType');
+      	var rTypeDiv=$('randomizationTypeDiv');
+
+      	if(bIndicator.value == 'true'){
+      		rIndicator.value = 'true';
+      		rIndicator.disabled = true;
+      		rTypeDiv.style.display = "";
+      		rType.value="PHONE_CALL";
+      		rType.disabled = true;
+      	} else {
+      		rIndicator.value = 'false';
+      		rIndicator.disabled = false;
+      		rTypeDiv.style.display = "none";
+      		rType.value="BOOK";
+      		rType.disabled = false;
+      	}
+     }
+
 </script>
 <chrome:box title="${tab.shortTitle}">
 	<c:set var="statusIndex" value="PAGE.ROW.INDEX"></c:set>
@@ -79,7 +101,7 @@
 			<div class="row">
 	            <div class="label">Blinded:</div>
 	            <div class="value">
-	            	<select id="companionStudyPAGE.ROW.INDEX-blindedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.blindedIndicator" class="validate-notEmpty" >
+	            	<select id="companionStudyPAGE.ROW.INDEX-blindedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.blindedIndicator" class="validate-notEmpty" onchange="blindedRandomization(PAGE.ROW.INDEX);">
 		                 <option value="">Please Select</option>
 		                 <c:forEach items="${yesNo}" var="status">
 		                     <option value="${status.code}">${status.desc}</option>
@@ -209,11 +231,12 @@
    		<div id="fundingSponsor">
      		<div class="leftpanel">
         		<div class="row">
+        		
             		<div class="label">Name:</div>
 		            <div class="value">
-		            	<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite"  <c:if test="${fn:length(dataFromParent.fundingSponsorsList) > 0}">value="${dataFromParent.fundingSponsorsList[0].healthcareSite.id}" </c:if> />
-		            	<input type="text" id="companionStudyPAGE.ROW.INDEX-healthcareSite-input" size="38" name="aaaxxx" class="autocomplete" disabled="disabled"  <c:if test="${fn:length(dataFromParent.fundingSponsorsList) > 0}">value="${dataFromParent.fundingSponsorsList[0].healthcareSite.name}" </c:if>/>
-						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyFundingSponsors[0].healthcareSite"  <c:if test="${fn:length(dataFromParent.fundingSponsorsList) > 0}">value="${dataFromParent.fundingSponsorsList[0].healthcareSite.id}"</c:if>/>            		
+		            	<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="${study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite}"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.id : ''}" />
+		            	<input type="text" id="companionStudyPAGE.ROW.INDEX-healthcareSite-input" size="38" name="aaaxxx" class="autocomplete" disabled="disabled"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.name : ''}" />
+						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden"  name="${study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyFundingSponsors[0].healthcareSite}"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.id : ''}"/>            		
 						<tags:indicator id="healthcareSite-indicator" />
 						<tags:hoverHint keyProp="study.studyFundingSponsor"/>
 						<div id="healthcareSite-choices" class="autocomplete" style="display:none;"></div>

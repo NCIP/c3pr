@@ -5,9 +5,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.validation.Errors;
+
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 public class CompanionStudyTab extends StudyTab {
@@ -50,4 +51,15 @@ public class CompanionStudyTab extends StudyTab {
 		map.put("coordinatingCenterList", study.getStudyCoordinatingCenters());
     	return map;
 	}
+    
+    @Override
+    public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
+    	Study study = wrapper.getStudy();
+    	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+    		if(companionStudyAssociation.getId() == null ){
+    			updateBlindedRandomization(companionStudyAssociation.getCompanionStudy());
+    		}
+    	}
+    	super.postProcessOnValidation(request, wrapper, errors);
+    }
 }

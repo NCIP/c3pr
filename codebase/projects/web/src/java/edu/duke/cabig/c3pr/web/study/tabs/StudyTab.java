@@ -88,7 +88,7 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
      */
     public void updateRandomization(Study study) {
 
-        if (study.getBlindedIndicator()) {
+    	if (study.getBlindedIndicator()) {
             study.setRandomizedIndicator(true);
             study.setRandomizationType(RandomizationType.PHONE_CALL);
         }
@@ -153,7 +153,17 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
         }
     }
 
-    public void updateStratification(Study study) {
+    public void updateBlindedRandomization(Study study) {
+    	if (study.getBlindedIndicator()) {
+            study.setRandomizedIndicator(true);
+            study.setRandomizationType(RandomizationType.PHONE_CALL);
+        }	
+    	if (!study.getRandomizedIndicator()) {
+            study.setRandomizationType(null);
+        }
+	}
+
+	public void updateStratification(Study study) {
         if (!study.getStratificationIndicator()) {
             List<Epoch> epochs = study.getEpochs();
             for (Epoch epoch : epochs) {
