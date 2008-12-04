@@ -234,5 +234,12 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public StudySubject getArmAndCoordinatingAssignedIdentifier(StudySubject studySubject) {
+    	
+    	//TODO add the coordinating center code. Return ScheduledEpoch after randomization
+        return null;
+    }
     
 }

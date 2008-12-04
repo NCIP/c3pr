@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObj
 import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.factory.EndPointFactory;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
@@ -274,6 +275,8 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     }
     
     public abstract ServiceName getMultisiteServiceName();
+    
+    public abstract StudySubject getArmAndCoordinatingAssignedIdentifier(StudySubject studySubject);
 
     public boolean canMultisiteBroadcast(StudyOrganization studyOrganization){
         return !studyOrganization.getHostedMode() && this.configuration.get(Configuration.MULTISITE_ENABLE).equalsIgnoreCase("true");
