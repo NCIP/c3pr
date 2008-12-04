@@ -492,6 +492,13 @@ public class StudySubject extends
 				&& this.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE ? "Complete"
 				: "Incomplete";
 	}
+	
+	@Transient
+    public boolean getDataEntryStatus() {
+        return this.regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
+                        && this.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE ? true
+                        : false;
+    }
 
 	@Transient
 	public OrganizationAssignedIdentifier getCoOrdinatingCenterIdentifier() {
