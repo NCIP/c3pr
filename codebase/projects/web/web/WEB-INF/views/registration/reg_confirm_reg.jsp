@@ -211,10 +211,6 @@ function manageCompanions(registrationId){
 		</c:if>
 	</div>
 
-<c:choose>
-	<c:when test="${param.create_companion != 'true'}">
-	</div>
-	
 	<c:if test="${hotlinkEnable}">
 	<%--<table width="60%">
 		<c:if test="${!empty caaersBaseUrl}">
@@ -263,10 +259,6 @@ function manageCompanions(registrationId){
 	    </c:if>
 	  </ul>
 	</c:if>
-</c:when>
-<c:otherwise>
-</c:otherwise>
-</c:choose>
 </tags:panelBox>
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.studySubject.gridId }"/>
