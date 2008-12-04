@@ -101,11 +101,18 @@ public class StudySubjectCreatorHelper {
     }
 
     public StudySite getLocalRandomizedStudySite(RandomizationType randomizationType,
-                    boolean makeStudysiteCoCenter) throws Exception {
+        boolean makeStudysiteCoCenter) throws Exception {
         Study study = studyCreationHelper.getLocalRandomizedStudy(randomizationType);
         addStudySiteAndCoCenter(study, makeStudysiteCoCenter);
         return study.getStudySites().get(0);
     }
+    
+    public StudySite getLocalRandomizedStudySiteWith2EnrollingEpochs(RandomizationType randomizationType,
+	    boolean makeStudysiteCoCenter) throws Exception {
+		Study study = studyCreationHelper.getLocalStudyWith1stEpochRandomized2ndNonRandomized(randomizationType);
+		addStudySiteAndCoCenter(study, makeStudysiteCoCenter);
+		return study.getStudySites().get(0);
+	}
 
     public StudySite getLocalNonRandomizedStudySite(Boolean reserving, Boolean enrolling,
                     boolean makeStudysiteCoCenter) {
@@ -285,9 +292,21 @@ public class StudySubjectCreatorHelper {
         return epoch;
     }
 
+    public void addScheduledEnrollingEpochFromStudyEpochs(StudySubject studySubject) {
+    	ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+        scheduledEpoch.setEpoch(studySubject.getStudySite().getStudy().getEpochs().get(0));
+        studySubject.addScheduledEpoch(scheduledEpoch);
+    }
+    
     public void addScheduledNonEnrollingEpochFromStudyEpochs(StudySubject studySubject) {
     	ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
         scheduledEpoch.setEpoch(studySubject.getStudySite().getStudy().getEpochs().get(0));
+        studySubject.addScheduledEpoch(scheduledEpoch);
+    }
+    
+    public void addScheduled2ndNonRandomizedEnrollingEpochFromStudyEpochs(StudySubject studySubject) {
+    	ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+        scheduledEpoch.setEpoch(studySubject.getStudySite().getStudy().getEpochs().get(1));
         studySubject.addScheduledEpoch(scheduledEpoch);
     }
     

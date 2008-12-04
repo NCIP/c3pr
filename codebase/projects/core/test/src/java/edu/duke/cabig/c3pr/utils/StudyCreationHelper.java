@@ -54,12 +54,24 @@ public class StudyCreationHelper {
         study.addEpoch(epoch);
         return study;
     }
-
+    
     public Study getLocalRandomizedStudy(RandomizationType randomizationType) throws Exception {
         Study study = buildBasicStudy(false, randomizationType);
         Epoch epoch = getTreatmentEpochWithArm();
         addRandomization(randomizationType, epoch);
         study.addEpoch(epoch);
+        return study;
+    }
+
+    public Study getLocalStudyWith1stEpochRandomized2ndNonRandomized(RandomizationType randomizationType) throws Exception {
+        Study study = buildBasicStudy(false, randomizationType);
+        Epoch epoch = getTreatmentEpochWithArm();
+        addRandomization(randomizationType, epoch);
+        epoch.setEpochOrder(1);
+        study.addEpoch(epoch);
+        Epoch epoch1 = getNonRandomizedNonStratifiedEnrollingEpochWithoutArm();
+        epoch1.setEpochOrder(2);
+        study.addEpoch(epoch1);
         return study;
     }
 
@@ -100,6 +112,15 @@ public class StudyCreationHelper {
         aList.add(armA);
         epoch.getArms().addAll(aList);
         epoch.setName("epoch1");
+        epoch.setRandomizedIndicator(false);
+        epoch.setEnrollmentIndicator(true);
+        return epoch;
+    }
+    
+    private Epoch getNonRandomizedNonStratifiedEnrollingEpochWithoutArm() {
+
+        Epoch epoch = new Epoch();
+        epoch.setName("epoch2");
         epoch.setRandomizedIndicator(false);
         epoch.setEnrollmentIndicator(true);
         return epoch;
