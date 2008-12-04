@@ -235,7 +235,6 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
         return null;
     }
 
-    @Override
     public StudySubject getArmAndCoordinatingAssignedIdentifier(StudySubject studySubject) {
     	
     	//TODO add the coordinating center code. Return ScheduledEpoch after randomization

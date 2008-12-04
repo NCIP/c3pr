@@ -276,8 +276,6 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     
     public abstract ServiceName getMultisiteServiceName();
     
-    public abstract StudySubject getArmAndCoordinatingAssignedIdentifier(StudySubject studySubject);
-
     public boolean canMultisiteBroadcast(StudyOrganization studyOrganization){
         return !studyOrganization.getHostedMode() && this.configuration.get(Configuration.MULTISITE_ENABLE).equalsIgnoreCase("true");
     }
