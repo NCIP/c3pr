@@ -20,6 +20,8 @@ import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.IdentifierGenerator;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -33,6 +35,8 @@ import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
+import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 @Transactional
@@ -52,6 +56,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
     private StudySubjectFactory studySubjectFactory;
     
+    private StudySubjectServiceImpl studySubjectServiceImpl;
+    
+    private StudyServiceImpl studyServiceImpl;
+    
     private Logger log = Logger.getLogger(StudySubjectRepositoryImpl.class.getName());
 
 	public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue) {
@@ -60,7 +68,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         studySubjectDao.save(loadedSubject);
     }
 
-    public void assignCoOrdinatingCenterIdentifier(StudySubject studySubject, String identifierValue) {
+    public void setStudySubjectServiceImpl(
+			StudySubjectServiceImpl studySubjectServiceImpl) {
+		this.studySubjectServiceImpl = studySubjectServiceImpl;
+	}
+
+	public void assignCoOrdinatingCenterIdentifier(StudySubject studySubject, String identifierValue) {
         StudySubject loadedSubject = studySubjectDao.getByGridId(studySubject.getGridId());
         loadedSubject.setCoOrdinatingCenterIdentifier(identifierValue);
         studySubjectDao.save(loadedSubject);
@@ -329,7 +342,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
 	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
-		studySubject.enroll();
+		this.continueEnrollment(studySubject);
 		return save(studySubject);
 	}
 
@@ -339,8 +352,22 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		if (studySubjects.size() > 1) {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
-		studySubject.enroll();
+		this.continueEnrollment(studySubject);
 		return save(studySubject);
+	}
+	
+	public void continueEnrollment(StudySubject studySubject) {
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
+			studySubject.prepareForEnrollment();
+		}
+		
+		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studyServiceImpl.getLocalNCIInstituteCode())){
+			StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
+			
+			studySubject.doMutiSiteEnrollment(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
+		}else{
+			studySubject.doLocalEnrollment();
+		}
 	}
 
 	public StudySubject register(StudySubject studySubject) {
@@ -368,7 +395,17 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
 	public StudySubject transferSubject(List<Identifier> studySubjectIdentifiers) {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
-		studySubject = studySubject.transfer();
+		
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
+			studySubject.prepareForTransfer();
+		}
+		
+		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studyServiceImpl.getLocalNCIInstituteCode())){
+			StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
+			studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
+		}else{
+			studySubject.doLocalTransfer();
+		}
 		
 		return save(studySubject);
 	}
@@ -376,14 +413,13 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public StudySubject create(StudySubject studySubject) {
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 		studySubjects=findRegistrations(studySubject);
-		if (studySubjects.size() > 1) {
+		if (studySubjects.size() > 0) {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
-		SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
-		sysIdentifier.setSystemName("C3PR");
-		sysIdentifier.setType("Study Subject Identifier");
-		sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getParticipant().getPrimaryIdentifier());
-		studySubject.addIdentifier(sysIdentifier);
+		
+		if (!studySubject.hasC3PRSystemIdentifier()){
+			studySubject.addIdentifier(IdentifierGenerator.generateSystemAssignedIdentifier(studySubject));
+		}
 		
 		return save(studySubject);
 	}
@@ -394,8 +430,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		if (studySubjects.size() > 1) {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
-		
-		return studySubject.reserve();
+		studySubject.reserve();
+		return studySubject;
 	}
 
 	public StudySubject reserve(List<Identifier> studySubjectIdentifiers) {
