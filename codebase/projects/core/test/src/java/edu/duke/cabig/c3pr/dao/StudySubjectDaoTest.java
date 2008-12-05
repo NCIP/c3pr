@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.jdom.output.XMLOutputter;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -294,6 +296,33 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
         assertContains("Missing expected Study Participant Identifier", ids, 1000);
         assertContains("Missing expected Study Participant Identifier", ids, 1001);
+    }
+    
+    public void testGetStudySubjectsByIdentifiers() throws Exception {
+    /*	
+    	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+    	sysIdentifier.setSystemName("nci");
+    	sysIdentifier.setType("local");
+    	sysIdentifier.setValue("grid");
+    	List<Identifier> studySubjectSysIdentifiers = new ArrayList<Identifier>();
+    	studySubjectSysIdentifiers.add(sysIdentifier);
+    	
+        List<StudySubject> studyPartsBySys = studySubjectDao.getByIdentifiers(studySubjectSysIdentifiers);
+        assertSame("Wrong number of Study Participants", 1, studyPartsBySys.size());*/
+        
+        
+        HealthcareSite hcs = healthcareSiteDao.getById(1000);
+        OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+        orgIdentifier.setHealthcareSite(hcs);
+        orgIdentifier.setType("Coordinating Center Identifier");
+        orgIdentifier.setValue("nci1");
+    	
+    	List<Identifier> studySubjectOrgIdentifiers = new ArrayList<Identifier>();
+    	studySubjectOrgIdentifiers.add(orgIdentifier);
+    	
+        List<StudySubject> studyPartsByOrg = studySubjectDao.getByIdentifiers(studySubjectOrgIdentifiers);
+        assertSame("Wrong number of Study Participants", 1, studyPartsByOrg.size());
+        
     }
 
     public void testCreateRegistrationWithAllAssociations() throws Exception {
