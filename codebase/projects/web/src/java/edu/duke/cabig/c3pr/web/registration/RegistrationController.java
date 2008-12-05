@@ -238,7 +238,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
             studySubject = new StudySubject();
             log.debug("------------Command set to new Command------------------");
         }
-        studySubject = new StudySubject();
         wrapper.setStudySubject(studySubject);
         return wrapper;
     }
@@ -256,25 +255,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         }
     }
     
-    protected void updateRegistration(StudySubject registration) {
-        studySubjectDao.save(registration);
-    }
-
-    protected void handleIdentifierAction(StudySubject registration, String action, String selected) {
-        if ("addIdentifier".equals(action)) {
-            log.debug("Requested Add Identifier");
-            SystemAssignedIdentifier id = new SystemAssignedIdentifier();
-            id.setSystemName("<enter value>");
-            id.setType("<enter value>");
-            id.setValue("<enter value>");
-            registration.addIdentifier(id);
-        }
-        else if ("removeIdentifier".equals(action)) {
-            log.debug("Requested Remove Identifier");
-            registration.getIdentifiers().remove(Integer.parseInt(selected));
-        }
-    }
-
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
                     throws Exception {
