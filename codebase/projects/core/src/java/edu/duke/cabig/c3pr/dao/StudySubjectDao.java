@@ -458,10 +458,13 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     public List<StudySubject> getByIdentifiers(List<Identifier> studySubjectIdentifiers) {
         List<StudySubject> studySubjects = new ArrayList<StudySubject>();
         for (Identifier identifier : studySubjectIdentifiers) {
-            if (identifier instanceof SystemAssignedIdentifier) studySubjects
-                            .addAll(searchBySysIdentifier((SystemAssignedIdentifier) identifier));
-            else if (identifier instanceof OrganizationAssignedIdentifier) studySubjects
-                            .addAll(searchByOrgIdentifier((OrganizationAssignedIdentifier) identifier));
+            if (identifier instanceof SystemAssignedIdentifier){ 
+            	studySubjects.addAll(searchBySysIdentifier((SystemAssignedIdentifier) identifier));
+            }
+            else if (identifier instanceof OrganizationAssignedIdentifier) {
+            	studySubjects.addAll(searchByOrgIdentifier((OrganizationAssignedIdentifier) identifier));
+            }
+                            
         }
         Set<StudySubject> set = new LinkedHashSet<StudySubject>();
         set.addAll(studySubjects);
