@@ -1,16 +1,10 @@
 package edu.duke.cabig.c3pr.web.registration;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.quartz.utils.ExceptionHelper;
 import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
@@ -19,7 +13,6 @@ import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ReviewSubmitTab;
-import edu.duke.cabig.c3pr.web.registration.tabs.SearchStudySubjectTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.StratificationTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
@@ -38,14 +31,6 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
         super("Create Registration");
     }
 
-//    @Override
-//    protected boolean isFormSubmission(HttpServletRequest request) {
-//    	if(WebUtils.hasSubmitParameter(request, "studySubject.studySite") && WebUtils.hasSubmitParameter(request, "studySubject.participant") && WebUtils.hasSubmitParameter(request, "studySubject.parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
-//    		return false;
-//    	}
-//        return super.isFormSubmission(request);
-//    }
-    
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
     	if(WebUtils.hasSubmitParameter(request, "studySubject.studySite") && WebUtils.hasSubmitParameter(request, "studySubject.participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){

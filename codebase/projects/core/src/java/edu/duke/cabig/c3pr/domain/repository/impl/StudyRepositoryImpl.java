@@ -150,29 +150,7 @@ public class StudyRepositoryImpl implements StudyRepository {
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode){
         Study study = getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(nciInstituteCode);
-        if (!studySite.getHostedMode()
-                        && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())
-                        && studySite.getSiteStudyStatus()!=SiteStudyStatus.APPROVED_FOR_ACTIVTION) {
-            throw c3PRExceptionHelper.getRuntimeException(
-                            getCode("C3PR.EXCEPTION.STUDYSITE.NEED_APPROVAL_FROM_CO_CENTER.CODE"));
-        }
-        studySite.activate();
-        if (study.canMultisiteBroadcast() && !studySite.getStudy().getStudyCoordinatingCenter().getHostedMode()
-                        && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())) {
-            List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
-            domainObjects.addAll(studyIdentifiers);
-            domainObjects.add(study.getStudySite(nciInstituteCode));
-            studyService.handleCoordinatingCenterBroadcast(study, APIName.ACTIVATE_STUDY_SITE,
-                            domainObjects);
-            EndPoint endpoint=study.getStudyCoordinatingCenter().getEndPoint(ServiceName.STUDY, APIName.ACTIVATE_STUDY_SITE);
-            if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
-                studySite=studySiteDao.merge(studySite);
-            }else{
-                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
-            }
-        }
-        studySite=studySiteDao.merge(studySite);
-        return studySite;
+        return activateStudySite(studyIdentifiers, studySite);
     }
 
     @Transactional
@@ -184,24 +162,8 @@ public class StudyRepositoryImpl implements StudyRepository {
     public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
                     String nciInstituteCode){
         Study study=getUniqueStudy(studyIdentifiers);
-        StudySite studySite = study.getStudySite(
-                        nciInstituteCode);
-        studySite.approveForActivation();
-        if(study.canMultisiteBroadcast() && !studySite.getHostedMode() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
-            List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
-            domainObjects.addAll(studyIdentifiers);
-            domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
-            studyService.handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION, domainObjects);
-            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION);
-            if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
-                studySite=studySiteDao.merge(studySite);
-            }else{
-                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
-            }
-        }else{
-            studySite=studySiteDao.merge(studySite);
-        }
-        return studySite;
+        StudySite studySite = study.getStudySite(nciInstituteCode);
+        return approveStudySiteForActivation(studyIdentifiers, studySite);
     }
 
     @Transactional
@@ -494,4 +456,56 @@ public class StudyRepositoryImpl implements StudyRepository {
     public void setC3prErrorMessages(MessageSource errorMessages) {
         c3prErrorMessages = errorMessages;
     }
+    
+    @Transactional
+    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers, StudySite studySite){
+        Study study=getUniqueStudy(studyIdentifiers);
+        String nciInstituteCode = studySite.getHealthcareSite().getNciInstituteCode();
+        studySite.approveForActivation();
+        if(study.canMultisiteBroadcast() && !studySite.getHostedMode() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+            List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.addAll(studyIdentifiers);
+            domainObjects.add(studySite.getHealthcareSite());
+            studyService.handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION, domainObjects);
+            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION);
+            if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
+                studySite=studySiteDao.merge(studySite);
+            }else{
+                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
+            }
+        }else{
+            studySite=studySiteDao.merge(studySite);
+        }
+        return studySite;
+    }
+
+
+
+    public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySite){
+        Study study = getUniqueStudy(studyIdentifiers);
+        if (!studySite.getHostedMode()
+                        && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())
+                        && studySite.getSiteStudyStatus()!=SiteStudyStatus.APPROVED_FOR_ACTIVTION) {
+            throw c3PRExceptionHelper.getRuntimeException(
+                            getCode("C3PR.EXCEPTION.STUDYSITE.NEED_APPROVAL_FROM_CO_CENTER.CODE"));
+        }
+        studySite.activate();
+        if (study.canMultisiteBroadcast() && !studySite.getStudy().getStudyCoordinatingCenter().getHostedMode()
+                        && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())) {
+            List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.addAll(studyIdentifiers);
+            domainObjects.add(studySite);
+            studyService.handleCoordinatingCenterBroadcast(study, APIName.ACTIVATE_STUDY_SITE,
+                            domainObjects);
+            EndPoint endpoint=study.getStudyCoordinatingCenter().getEndPoint(ServiceName.STUDY, APIName.ACTIVATE_STUDY_SITE);
+            if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
+                studySite=studySiteDao.merge(studySite);
+            }else{
+                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
+            }
+        }
+        studySite=studySiteDao.merge(studySite);
+        return studySite;
+    }
+
 }

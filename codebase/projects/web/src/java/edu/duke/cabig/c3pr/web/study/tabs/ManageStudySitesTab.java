@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,10 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
+import edu.nwu.bioinformatics.commons.WebUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 1:39:34 PM To change this template
@@ -60,28 +63,31 @@ public class ManageStudySitesTab extends StudyTab {
         StudyWrapper wrapper = (StudyWrapper)obj ;
         Study study = wrapper.getStudy();
         
-        String nciInstituteCode=request.getParameter("nciCode");
-        StudySite studySite=study.getStudySite(nciInstituteCode);
-        List<Identifier> studyIdentifiers=study.getIdentifiers();
+        String nciInstituteCode = request.getParameter("nciCode");
+        String studySiteType = request.getParameter("studySiteType"); ;
+        List<Identifier> studyIdentifiers = study.getIdentifiers();
+        StudySite studySite = getStudySite(study, nciInstituteCode, studySiteType );
+        
+        // don't change this common for companion as well as normal study
         APIName apiName=APIName.valueOf(request.getParameter("action"));
         if(apiName==APIName.CREATE_STUDY){
             studyService.createStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.OPEN_STUDY){
             studyService.openStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.AMEND_STUDY){
-            studyService.amendStudyAtAffiliates(studyIdentifiers, wrapper.getStudy());
+            studyService.amendStudyAtAffiliates(studyIdentifiers, study);
         }else if(apiName==APIName.CLOSE_STUDY){
             studyService.closeStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION){
             try {
-                studyRepository.approveStudySiteForActivation(studyIdentifiers, nciInstituteCode);
+                studyRepository.approveStudySiteForActivation(studyIdentifiers, studySite);
             }
             catch (C3PRCodedRuntimeException e) {
                 e.printStackTrace();
             }
         }else if(apiName==APIName.ACTIVATE_STUDY_SITE){
             try {
-                studyRepository.activateStudySite(studyIdentifiers, nciInstituteCode);
+                studyRepository.activateStudySite(studyIdentifiers, studySite);
             }
             catch (C3PRCodedRuntimeException e) {
                 e.printStackTrace();
@@ -96,8 +102,17 @@ public class ManageStudySitesTab extends StudyTab {
         } 
         Map map=new HashMap();
         wrapper.setStudy(studyRepository.getUniqueStudy(study.getIdentifiers()));
-        studyDao.initialize(wrapper.getStudy());
-        map.put("site", wrapper.getStudy().getStudySite(nciInstituteCode));
+        studyDao.initialize(study);
+        map.put("site", studySite);
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }
+
+	private StudySite getStudySite(Study study, String nciCode, String studySiteType) {
+		if(StringUtils.isBlank(studySiteType)){
+			return study.getStudySite(nciCode);
+		}else{
+			return study.getCompanionStudySite(nciCode);
+		}
+	}
+	
 }

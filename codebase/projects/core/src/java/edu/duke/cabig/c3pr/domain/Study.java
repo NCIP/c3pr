@@ -1476,5 +1476,17 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		return flag;
 	}
+	
+	@Transient
+	public StudySite getCompanionStudySite(String nciCode) {
+		for(CompanionStudyAssociation parentStudyAssociation : this.getParentStudyAssociations()){
+			for(StudySite studySite : parentStudyAssociation.getStudySites()){
+				if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciInstituteCode())){
+					return studySite ;
+				}
+			}
+		}
+		return null;
+	}
 
 }

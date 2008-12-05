@@ -25,6 +25,26 @@
       	}
      }
 
+     function manageRandomizedIndicatorSelectBox(box) {
+    	 var rType=$('companionStudy'+index+'-randomizationType');
+         if (box.value == 'true') {
+             Effect.OpenUp('randomizationTypeDiv');
+             rType.className="validate-notEmpty";
+         }
+         if (box.value == 'false') {
+             Effect.CloseDown('randomizationTypeDiv');
+             rType.className="";
+         }
+     }
+     
+     function manageRandomizationTypeSelectBox(box) {
+         var rIndicator = $('companionStudy'+index+'-randomizedIndicator') ;
+         var rType=$('companionStudy'+index+'-randomizationType');
+         if (box.value == '' && rIndicator.value =='true') {
+        	 rType.className="validate-notEmpty";
+         }
+     }
+
 </script>
 <chrome:box title="${tab.shortTitle}">
 	<c:set var="statusIndex" value="PAGE.ROW.INDEX"></c:set>
@@ -186,7 +206,7 @@
 	            <div class="row">
     	            <div class="label required-indicator">Type:</div>
         	        <div class="value">
-	        	       	<select id="companionStudyPAGE.ROW.INDEX-randomizationType" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizationType" class="validate-notEmpty" ;">
+	        	       	<select id="companionStudyPAGE.ROW.INDEX-randomizationType" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizationType" class="validate-notEmpty" onchange="manageRandomizationTypeSelectBox(this);">
 		                    <option value="">Please Select</option>
 		                    <option value="BOOK">Book</option>
 		                    <option value="PHONE_CALL">Phone Call</option>

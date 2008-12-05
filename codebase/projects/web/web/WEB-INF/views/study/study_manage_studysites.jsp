@@ -11,8 +11,14 @@ function takeAction(nciCode){
 	action=$("siteAction-"+nciCode).value;
 	<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/sites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+'&DO_NOT_SAVE=true'" />
 	Element.show('sendingMessage-'+nciCode);
-	
 }
+
+function changeCompanionStudySiteStatus(nciCode){
+	action=$("siteAction-"+nciCode).value;
+	<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/sites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+ '&studySiteType=companionSite&DO_NOT_SAVE=true'" />
+	Element.show('sendingMessage-'+nciCode);
+}
+
 function showEndpointError(nciCode, localNciCode){
 	Dialog.alert({url: $('command').action, options: {method: 'post', parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=showEndpointMessage&_asyncViewName=/study/asynchronous/manage_sites&_target${tab.number}=${tab.number}&_page=${tab.number}&nciCode="+nciCode+"&localNciCode="+localNciCode, asynchronous:true, evalScripts:true}},              
 					{className: "alphacube", width:540, okLabel: "Done"});
@@ -198,7 +204,7 @@ failedStatusChange= function (responseXML){
 								</c:choose>
 			            		</c:forEach>
 			            	</select>
-			            	<input type="button" value="Go" onclick="takeAction('${site.healthcareSite.nciInstituteCode }');"/>
+			            	<input type="button" value="Go" onclick="changeCompanionStudySiteStatus('${site.healthcareSite.nciInstituteCode}');"/>
 							</c:if>
 							<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
 								Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>

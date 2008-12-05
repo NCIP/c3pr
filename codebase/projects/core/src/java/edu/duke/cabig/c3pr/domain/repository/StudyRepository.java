@@ -47,6 +47,11 @@ public interface StudyRepository {
                     String nciInstituteCode);
 
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    
+    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
+            StudySite studySite);
+
+    public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySite);
 
     public Study amendStudy(List<Identifier> studyIdentifiers, Study amendedStudyDetails);
 

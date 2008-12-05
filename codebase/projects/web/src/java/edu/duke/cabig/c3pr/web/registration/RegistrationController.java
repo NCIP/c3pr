@@ -152,21 +152,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         Flow<StudySubject> flow = new Flow<StudySubject>(flowName);
         intializeFlows(flow);
     }
-
-//    @Override
-//    protected boolean isFormSubmission(HttpServletRequest request) {
-//    	if (WebUtils.hasSubmitParameter(request, "registrationId")&& WebUtils.hasSubmitParameter(request, "goToTab")) {
-//            try {
-//                request.getSession(false).setAttribute(getFormSessionAttributeName(),
-//                                formBackingObject(request));
-//                return true;
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    	return super.isFormSubmission(request);
-//    }
     
     @Override
     protected Object currentFormObject(HttpServletRequest request,

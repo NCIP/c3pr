@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -42,7 +44,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private String roleCode;
     
     private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
-
+    
+    private CompanionStudyAssociation companionStudyAssociation ;
+    
     public StudySite() {
         coordinatingCenterStudyStatus=CoordinatingCenterStudyStatus.PENDING;
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -690,4 +694,16 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                     CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
         this.coordinatingCenterStudyStatus = coordinatingCenterStudyStatus;
     }
+    
+    @ManyToOne
+	@Cascade( { CascadeType.LOCK})
+	@JoinColumn(name = "comp_assoc_id" , insertable=false, updatable=false)
+	public CompanionStudyAssociation getCompanionStudyAssociation() {
+		return companionStudyAssociation;
+	}
+
+	public void setCompanionStudyAssociation(
+			CompanionStudyAssociation companionStudyAssociation) {
+		this.companionStudyAssociation = companionStudyAssociation;
+	}
 }
