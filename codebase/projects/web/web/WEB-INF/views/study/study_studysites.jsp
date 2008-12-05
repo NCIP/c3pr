@@ -320,20 +320,20 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		             			<input size="40"  type="text" value="${companionStudySite.healthcareSite.name} (${companionStudySite.healthcareSite.nciInstituteCode})" disabled="disabled" />
 			   				</td>
 		                	<td>
-		                		<input size="12"  type="text" id="companionStudySites[${status.index}].startDate" class="date validate-DATE" value="${companionStudySite.startDateStr}" />
+		                		<input size="12"  type="text" name="study.parentStudyAssociations[${parentStudySiteStaus.index}].studySites[${status.index}].startDate" id="companionStudySites[${status.index}].startDate" class="date validate-DATE" value="${companionStudySite.startDateStr}" />
 		                		<a href="#" id="companionStudySites[${status.index}].startDate-calbutton">
 	                		    	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
 	                			</a>
 		            
 		                	</td>
 		                	<td>
-		                		<input size="12" type="text" id="companionStudySites[${status.index}].irbApprovalDate" class="date validate-DATE" value="${companionStudySite.irbApprovalDateStr}" />
+		                		<input size="12" type="text" name="study.parentStudyAssociations[${parentStudySiteStaus.index}].studySites[${status.index}].irbApprovalDate" id="companionStudySites[${status.index}].irbApprovalDate" class="date validate-DATE" value="${companionStudySite.irbApprovalDateStr}" />
 		                		<a href="#" id="companionStudySites[${status.index}].irbApprovalDate-calbutton">
 	                		    	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
 	                			</a>
 		                	</td>
 		                	<td> 
-		                		<input type="text" value="${companionStudySite.targetAccrualNumber}" class="validate-NUMERIC" size="6" />
+		                		<input type="text" name="study.parentStudyAssociations[${parentStudySiteStaus.index}].studySites[${status.index}].targetAccrualNumber" value="${companionStudySite.targetAccrualNumber}" class="validate-NUMERIC" size="6" />
 		            		</td> 
 		                	<td>
 		            
