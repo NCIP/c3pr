@@ -59,39 +59,17 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
             return null;
         }
 
-        return super.handleRequestInternal(request, response); // To change
-                                                                                        // body of
-                                                                                        // overridden
-                                                                                        // methods
-                                                                                        // use File
-                                                                                        // |
-                                                                                        // Settings
-                                                                                        // | File
-                                                                                        // Templates.
+        return super.handleRequestInternal(request, response); 
     }
 
     @Override
-    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
-                    Object command, BindException errors) throws Exception {
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         return null;
     }
 
-//    public StudySubject createNewScheduledEpochSubject(HttpServletRequest request,
-//                    StudySubject command, Errors error) {
-//        Map map = new HashMap();
-//        Integer id = Integer.parseInt(request.getParameter("epoch"));
-//        Epoch epoch = epochDao.getById(id);
-//        ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
-//        scheduledEpoch.setEpoch(epoch);
-//        scheduledEpoch.setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(command));
-//        command.addScheduledEpoch(scheduledEpoch);
-//        return command;
-//    }
-
     @Override
 	protected C save(C command, Errors arg1) {
-		StudySubject merged = (StudySubject) getDao().merge(
-				getPrimaryDomainObject(command));
+		StudySubject merged = (StudySubject) getDao().merge(getPrimaryDomainObject(command));
 		command.setStudySubject(merged);
 		return command;
 	}
