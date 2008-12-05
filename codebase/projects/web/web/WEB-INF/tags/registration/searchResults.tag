@@ -74,7 +74,9 @@ function submitLocalForm(formName, idParamStr){
                                                       hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
 
             <% String currClass=i%2==0? "odd":"even"; %>
-            <c:set var="paramString" value="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>"/>
+            	<script>
+					paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
+				</script>
 				<c:choose>
 				<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
 					<c:set var="formType"
@@ -91,7 +93,7 @@ function submitLocalForm(formName, idParamStr){
 				</c:choose>
 				<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
-					onClick='submitLocalForm("${formType}","${paramString }")'>
+					onClick='submitLocalForm("${formType}",paramString_${status.index })'>
 					<td>${registration.studySite.study.trimmedShortTitleText}</td>
 					<td>${registration.studySite.study.primaryIdentifier}</td>
 					<td>${registration.participant.lastName}</td>

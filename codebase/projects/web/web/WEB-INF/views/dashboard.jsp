@@ -109,7 +109,7 @@ top:90px;
 					$(formName).submit();
 				}	
 			</script>
-			<form id="manage" name="manage" action="../pages/registration/manageRegistration" method="get">
+			<%--<form id="manage" name="manage" action="../pages/registration/manageRegistration" method="get">
 				<input type="hidden" name="registrationId" id="manage_registrationId" value=""/>
 			</form>
 			<form action="../pages/registration/createRegistration" method="post" id="create">
@@ -117,7 +117,7 @@ top:90px;
 				<input type="hidden" name="_target1" id="_target1" value="1"/>
 				<input type="hidden" name="registrationId" id="create_registrationId" value=""/>
 				<input type="hidden" name="goToTab" id="goToTab" value="true"/>
-			</form>
+			</form>--%>
 			<c:if
 				test="${uRegistrations != null && fn:length(uRegistrations) > 0}">
 				<table width="100%" cellspacing="1" cellpadding="2">
@@ -129,13 +129,24 @@ top:90px;
 					</tr>
 					<c:forEach var="registration" items="${uRegistrations}"
 						varStatus="status">
+						<csmauthz:accesscontrol domainObject="${registration.studySite.healthcareSite}"
+                                                      hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
+						<script>
+							paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
+						</script>
 						<c:choose>
-							<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
-								<c:set var="formType" value="create" />
-							</c:when>
-							<c:otherwise>
-								<c:set var="formType" value="manage" />				
-							</c:otherwise>
+						<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
+							<c:set var="reg_url"
+							value="../pages/registration/createRegistration" />
+						</c:when>
+						<c:when test="${registration.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED_BUT_NOT_RANDOMIZED'}">
+							<c:set var="reg_url"
+							value="../pages/registration/confirm" />
+						</c:when>
+						<c:otherwise>
+							<c:set var="reg_url"
+							value="../pages/registration/manageRegistration" />	
+						</c:otherwise>
 						</c:choose>
 						<c:if test="${status.count % 2 == 1}">
 							<c:set var="bg" value="${bgcolor}" />
@@ -145,7 +156,7 @@ top:90px;
 						</c:if>
 				
 						<chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}"
-							rowNumber="${status.count}" _onclick="submitLocalForm('${formType}','${registration.id}','${registration.currentScheduledEpoch.id}')" >
+							rowNumber="${status.count}" _onclick="document.location='${reg_url}?'+paramString_${status.index };" >
 							<chrome:td bgcolor="${bg}">
 								<c:out
 									value="${registration.participant.firstName} ${registration.participant.lastName}" />
@@ -160,7 +171,7 @@ top:90px;
 								<c:out value="${registration.regWorkflowStatus.displayName}" />
 							</chrome:td>
 						</chrome:tr>
-
+						</csmauthz:accesscontrol>
 					</c:forEach>
 				</table>
 			</c:if>
