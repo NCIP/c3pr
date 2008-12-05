@@ -50,5 +50,6 @@
 	
 	<target name="clean-lib"/>
 	<target name="clean-dist" />
+	<target name="clean" />
 
 </project>
