@@ -1,24 +1,36 @@
 package edu.duke.cabig.c3pr.web.registration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.impl.Log4JLogger;
+import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.ArmDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 public class RegistrationConfirmAndRandomizeController extends
@@ -31,6 +43,13 @@ public class RegistrationConfirmAndRandomizeController extends
 	private ArmDao armDao;
 
 	private RegistrationControllerUtils registrationControllerUtils;
+	
+	private StudySubjectRepository studySubjectRepository;
+	
+	private StudyDao studyDao;
+	
+	private Logger log = Logger.getLogger(RegistrationConfirmAndRandomizeController.class);
+	
     public void setRegistrationControllerUtils(
 			RegistrationControllerUtils registrationControllerUtils) {
 		this.registrationControllerUtils = registrationControllerUtils;
@@ -91,12 +110,37 @@ public class RegistrationConfirmAndRandomizeController extends
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
+		StudySubject studySubject = null;
 		StudySubjectWrapper wrapper = new StudySubjectWrapper();
-		StudySubject studySubject = studySubjectDao.getById(Integer.parseInt(request.getParameter("registrationId")));
+		 if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
+	        	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+	        	List<Identifier> identifiers=new ArrayList<Identifier>();
+	        	identifiers.add(identifier);
+	        	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+//	            studySubject = studySubjectDao.getById(Integer.parseInt(request
+//	                            .getParameter("registrationId")), true);
+	            studySubjectDao.initialize(studySubject);
+	            Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
+	    	    studyDao.initialize(study);
+	    	    for(CompanionStudyAssociation companionStudyAssoc : study.getCompanionStudyAssociations()){
+	    	    	Study companionStudy = companionStudyAssoc.getCompanionStudy();
+	    	    	studyDao.initialize(companionStudy);
+	    	    }
+	        }
+	        else {
+	            throw new C3PRBaseRuntimeException("Could not load the study subject. Make sure the identifier is correct");
+	        }
 		wrapper.setStudySubject(studySubject);
 		return wrapper ;
 	}
 
+	public void setStudySubjectRepository(
+			StudySubjectRepository studySubjectRepository) {
+		this.studySubjectRepository = studySubjectRepository;
+	}
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
 	@Override
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
