@@ -46,7 +46,7 @@ public class StudyServiceImpl extends WorkflowServiceImpl implements StudyServic
         Study study=getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(
                         nciInstituteCode);
-        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(getLocalNCIInstituteCode())  && canMultisiteBroadcast(studySite)){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.add(study);
             handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY, domainObjects);
@@ -65,7 +65,7 @@ public class StudyServiceImpl extends WorkflowServiceImpl implements StudyServic
         Study study=getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(
                         nciInstituteCode);
-        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(getLocalNCIInstituteCode()) && canMultisiteBroadcast(studySite)){
             handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.OPEN_STUDY, studyIdentifiers);
             EndPoint endPoint=studySite.getLastAttemptedEndpoint();
             if(endPoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED ){
@@ -91,7 +91,7 @@ public class StudyServiceImpl extends WorkflowServiceImpl implements StudyServic
         Study study=getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(
                         nciInstituteCode);
-        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(getLocalNCIInstituteCode())){
+        if(study.canMultisiteBroadcast() && study.isCoOrdinatingCenter(getLocalNCIInstituteCode())  && canMultisiteBroadcast(studySite)){
             handleAffiliateSitesBroadcast(study, APIName.CLOSE_STUDY, studyIdentifiers);
             updateCoordinatingCenterStatusForStudySite(studySite, APIName.CLOSE_STUDY, CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
         }
