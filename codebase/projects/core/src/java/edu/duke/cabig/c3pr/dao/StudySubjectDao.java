@@ -439,7 +439,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     public List<StudySubject> searchBySysIdentifier(SystemAssignedIdentifier id) {
         return (List<StudySubject>) getHibernateTemplate()
                         .find(
-                                        "select S from StudySubject S, Identifier I where I.systemName=?"
+                                        "select S from StudySubject S, SystemAssignedIdentifier I where I.systemName=?"
                                                         + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
                                         new Object[] { id.getSystemName(),
                                                 id.getValue(), id.getType() });
@@ -449,7 +449,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     public List<StudySubject> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
         return (List<StudySubject>) getHibernateTemplate()
                         .find(
-                                        "select S from StudySubject S, Identifier I where I.healthcareSite.nciInstituteCode=?"
+                                        "select S from StudySubject S, OrganizationAssignedIdentifier I where I.healthcareSite.nciInstituteCode=?"
                                                         + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
                                         new Object[] { id.getHealthcareSite().getNciInstituteCode(),
                                                 id.getValue(), id.getType() });
