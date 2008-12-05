@@ -7,17 +7,22 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import net.handle.hdllib4.HandleConfiguration;
+
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.dao.EndpointDao;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.APIName;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
+import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.IdentifierGenerator;
@@ -38,6 +43,7 @@ import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 @Transactional
 public class StudySubjectRepositoryImpl implements StudySubjectRepository {
@@ -362,8 +368,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		}
 		
 		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studyServiceImpl.getLocalNCIInstituteCode())){
-			StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
-			
+			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.add(studySubject);
+            studySubjectServiceImpl.handleCoordinatingCenterBroadcast(studySubject.getStudySite().getStudy(), APIName.ENROLL_SUBJECT, domainObjects);
+            EndPoint endPoint=studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getLastAttemptedEndpoint();
+            StudySubject multisiteReturnedStudySubject=(StudySubject) endPoint.getReturnValue();
+			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
 			studySubject.doMutiSiteEnrollment(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
 		}else{
 			studySubject.doLocalEnrollment();
