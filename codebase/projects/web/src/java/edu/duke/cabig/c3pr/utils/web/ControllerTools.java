@@ -81,7 +81,7 @@ public class ControllerTools {
     			throw new RuntimeException("Incomplete URL. The identifier information in the URL is incomplete.");
     		}
     		identifier.setValue(request.getParameter(IDENTIFIER_VALUE_PARAM_NAME));
-    		identifier.setType(request.getParameter(request.getParameter(IDENTIFIER_TYPE_PARAM_NAME)));
+    		identifier.setType(request.getParameter(IDENTIFIER_TYPE_PARAM_NAME));
     	}
     	return identifier;
     }
