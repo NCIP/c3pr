@@ -234,10 +234,10 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         // TODO Auto-generated method stub
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-    	super.postProcessPage(request, command, errors, page);
         if (studySubject.getScheduledEpoch() != null) {
             studySubject.updateDataEntryStatus();
         }
+        super.postProcessPage(request, command, errors, page);
     }
     
     @Override
