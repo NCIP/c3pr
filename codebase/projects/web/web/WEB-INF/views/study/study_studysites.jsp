@@ -361,16 +361,16 @@ RowManager.addRowInseter(instanceRowInserterProps);
 						</script>	
 					</c:forEach>
 				</table>
-				<br>
+			</chrome:division>
+			<br>
+		</div>
+		<br>
 				<div class="flow-buttons">
 		            <span class="next">
 						<input type="button" value="Select From Parent" onclick="selectStudySites(${command.study.id},${parentStudyAssociation.id}, ${parentStudySiteStaus.index})" align="right"/>
 		 			</span>
 	        	</div>
 				<br>
-			</chrome:division>
-			<br>
-		</div>
 	</c:forEach>
 </div>
 
