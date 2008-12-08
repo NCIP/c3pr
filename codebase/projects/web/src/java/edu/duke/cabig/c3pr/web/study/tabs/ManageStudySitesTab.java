@@ -64,9 +64,13 @@ public class ManageStudySitesTab extends StudyTab {
         String nciInstituteCode = request.getParameter("nciCode");
         String studySiteType = request.getParameter("studySiteType"); ;
         List<Identifier> studyIdentifiers = study.getIdentifiers();
-        StudySite studySite = getStudySite(study, nciInstituteCode, studySiteType );
-        
-        // don't change this common for companion as well as normal study
+        StudySite studySite ;
+        if(StringUtils.isBlank(studySiteType)){
+			studySite = study.getStudySite(nciInstituteCode);
+		}else{
+			studySite = study.getCompanionStudySite(nciInstituteCode);
+		}
+
         APIName apiName=APIName.valueOf(request.getParameter("action"));
         if(apiName==APIName.CREATE_STUDY){
             studyService.createStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
@@ -105,12 +109,4 @@ public class ManageStudySitesTab extends StudyTab {
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }
 
-	private StudySite getStudySite(Study study, String nciCode, String studySiteType) {
-		if(StringUtils.isBlank(studySiteType)){
-			return study.getStudySite(nciCode);
-		}else{
-			return study.getCompanionStudySite(nciCode);
-		}
-	}
-	
 }
