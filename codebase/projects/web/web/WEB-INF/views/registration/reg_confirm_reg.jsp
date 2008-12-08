@@ -56,7 +56,6 @@ function manageCompanions(registrationId){
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 
 <br/>
-
 <!--  newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
@@ -75,10 +74,13 @@ function manageCompanions(registrationId){
 	isDataEntryComplete:${isDataEntryComplete }<br>
 	epoch_unrandomized:${ epoch_unrandomized}<br>
 	actionRequired :${actionRequired}
-	registerableWithCompanions :${registerableWithCompanions}  --> 
+	registerableWithCompanions :${registerableWithCompanions}  -->
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
+		<c:when test="${command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && !hasParent && !hasCompanions}">
+			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.ENROLLED"/></strong></font>
+		</c:when>
 		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font>
 		</c:when>
