@@ -1479,10 +1479,20 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	
 	@Transient
 	public StudySite getCompanionStudySite(String nciCode) {
-		for(CompanionStudyAssociation parentStudyAssociation : this.getParentStudyAssociations()){
-			for(StudySite studySite : parentStudyAssociation.getStudySites()){
-				if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciInstituteCode())){
-					return studySite ;
+		if(this.getCompanionIndicator()){
+			for(CompanionStudyAssociation parentStudyAssociation : this.getParentStudyAssociations()){
+				for(StudySite studySite : parentStudyAssociation.getStudySites()){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciInstituteCode())){
+						return studySite ;
+					}
+				}
+			}
+		}else{
+			for(CompanionStudyAssociation companionStudyAssociation : this.getCompanionStudyAssociations()){
+				for(StudySite studySite : companionStudyAssociation.getStudySites()){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciInstituteCode())){
+						return studySite ;
+					}
 				}
 			}
 		}

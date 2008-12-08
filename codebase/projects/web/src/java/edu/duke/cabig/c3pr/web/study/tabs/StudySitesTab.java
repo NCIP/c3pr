@@ -124,7 +124,7 @@ public class StudySitesTab extends StudyTab {
 					studySite.setHealthcareSite(healthcareSite);
 					studySite.setStudy(study);
 					if(irbApprovalList.contains(nciCode)){
-						studySite.setIrbApprovalDate(getParentStudySite(parentStudyAssociation, nciCode).getIrbApprovalDate());	
+						studySite.setIrbApprovalDate(parentStudyAssociation.getParentStudy().getStudySite(nciCode).getIrbApprovalDate());	
 					}
 					parentStudyAssociation.addStudySite(studySite);
 				}
@@ -134,11 +134,6 @@ public class StudySitesTab extends StudyTab {
 			}
 		}
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
-	}
-
-	private StudySite getParentStudySite(CompanionStudyAssociation parentStudyAssociation, String nciCode) {
-		Study study = parentStudyAssociation.getParentStudy();
-		return study.getStudySite(nciCode);
 	}
 
 	private static List<String> getNciCodeList(String nciCodes) {
@@ -153,14 +148,13 @@ public class StudySitesTab extends StudyTab {
 	 public ModelAndView removeCompanionStudyAssociation(HttpServletRequest request, Object obj, Errors errors) {
 			StudyWrapper wrapper = (StudyWrapper) obj;
 			Study study = wrapper.getStudy();
-			
 			HashMap map = new HashMap();
 			String studySiteId = request.getParameter("studySiteId");
 			if(!StringUtils.isBlank(studySiteId)){
 				StudySite studySite = studySiteDao.getById(Integer.parseInt(studySiteId));
-				CompanionStudyAssociation companionStudyAssociation = studySite.getCompanionStudyAssociation();
+				String nciCode = studySite.getHealthcareSite().getNciInstituteCode();
+				CompanionStudyAssociation companionStudyAssociation = study.getCompanionStudySite(nciCode).getCompanionStudyAssociation(); 
 				companionStudyAssociation.removeStudySite(studySite);
-				//studyDao.merge(study);
 				map.put("parentStudyAssociation", companionStudyAssociation);
 				map.put("parentIndex",request.getParameter("parentIndex"));
 			}
