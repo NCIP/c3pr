@@ -11,27 +11,27 @@
               <c:forEach items="${parentStudyAssociation.studySites}" var="companionStudySite" varStatus="status">
 		  	<tr>
 		  		<td>
-            			<input size="40"  type="text" value="${companionStudySite.healthcareSite.name} (${companionStudySite.healthcareSite.nciInstituteCode})" disabled="disabled" />
+            		<input size="40"  type="text" value="${companionStudySite.healthcareSite.name} (${companionStudySite.healthcareSite.nciInstituteCode})" disabled="disabled" />
    				</td>
                	<td>
-               		<input size="12"  type="text" id="companionStudySites[${status.index}].startDate" class="date validate-DATE" value="${companionStudySite.startDateStr}" />
+               		<input size="12"  type="text" name="study.parentStudyAssociations[${parentIndex}].studySites[${status.index}].startDate" id="companionStudySites[${status.index}].startDate" class="date validate-DATE" value="${companionStudySite.startDateStr}" />
                		<a href="#" id="companionStudySites[${status.index}].startDate-calbutton">
               		    	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
               			</a>
            
                	</td>
                	<td>
-               		<input size="12" type="text" id="companionStudySites[${status.index}].irbApprovalDate" class="date validate-DATE" value="${companionStudySite.irbApprovalDateStr}" />
+               		<input size="12" type="text" name="study.parentStudyAssociations[${parentIndex}].studySites[${status.index}].irbApprovalDate" id="companionStudySites[${status.index}].irbApprovalDate" class="date validate-DATE" value="${companionStudySite.irbApprovalDateStr}" />
                		<a href="#" id="companionStudySites[${status.index}].irbApprovalDate-calbutton">
               		    	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
               			</a>
                	</td>
                	<td> 
-               		<input type="text" value="${companionStudySite.targetAccrualNumber}" class="validate-NUMERIC" size="6" />
+               		<input type="text" name="study.parentStudyAssociations[${parentIndex}].studySites[${status.index}].targetAccrualNumber" value="${companionStudySite.targetAccrualNumber}" class="validate-NUMERIC" size="6" />
            		</td> 
-               	<td>
-           
-               	</td>
+               	 <td>
+               	 	<a href="#" onclick="deleteCompanionStudySiteAssociation('${companionStudySite.id}');"><img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+               	 </td>
           		</tr> 
 			<script>
 				inputDateElementLocal1="companionStudySites["+${status.index}+"].startDate";

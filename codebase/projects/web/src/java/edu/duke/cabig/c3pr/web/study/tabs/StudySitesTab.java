@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -132,6 +133,7 @@ public class StudySitesTab extends StudyTab {
 					parentStudyAssociation.addStudySite(studySite);
 				}
 				map.put("parentStudyAssociation", parentStudyAssociation);
+				map.put("parentIndex",request.getParameter("parentIndex"));
 				break;
 			}
 		}
@@ -151,4 +153,20 @@ public class StudySitesTab extends StudyTab {
 	     }
 		return nciCodeList;
 	}
+	
+	 public ModelAndView removeCompanionStudyAssociation(HttpServletRequest request, Object obj, Errors errors) {
+			StudyWrapper wrapper = (StudyWrapper) obj;
+			Study study = wrapper.getStudy();
+			
+			HashMap map = new HashMap();
+			String studySiteId = request.getParameter("studySiteId");
+			if(!StringUtils.isBlank(studySiteId)){
+				StudySite studySite = studySiteDao.getById(Integer.parseInt(studySiteId));
+				CompanionStudyAssociation companionStudyAssociation = studySite.getCompanionStudyAssociation();
+				companionStudyAssociation.removeStudySite(studySite);
+				map.put("parentStudyAssociation", companionStudyAssociation);
+			}
+			return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+		}
+	
 }

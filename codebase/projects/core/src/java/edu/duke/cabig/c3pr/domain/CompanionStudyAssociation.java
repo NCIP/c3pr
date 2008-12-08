@@ -116,6 +116,12 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 		}
 	}
 	
+	public void removeStudySite(StudySite studySite) {
+		if(studySite != null){
+			getStudySites().remove(studySite);
+		}
+	}
+	
 	@Transient
 	public boolean contains(StudySite studySite){
 		return this.getStudySites().contains(studySite);

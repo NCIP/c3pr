@@ -16,6 +16,7 @@ import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -40,6 +41,8 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
     protected StudyRepository studyRepository;
 
     protected StudyService studyService;
+    
+    protected StudySiteDao studySiteDao;
     
     protected StudyDao studyDao;
 
@@ -256,5 +259,13 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
     }
+
+	public StudySiteDao getStudySiteDao() {
+		return studySiteDao;
+	}
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
+	}
 
 }

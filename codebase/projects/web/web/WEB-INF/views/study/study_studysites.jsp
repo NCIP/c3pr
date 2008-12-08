@@ -27,7 +27,11 @@ function reloadParentStudySites(studyId , studyAssociationId , nciCodes , parent
 	$('nciCodes').value=nciCodes;
 	$('irbApprovalSites').value=irbApprovalSites;
 	$('studyAssociationId').value=studyAssociationId;
-	<tags:tabMethod method="associateParentStudySites" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection"/>
+	<tags:tabMethod method="associateParentStudySites" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'parentIndex='+parentIndex"/>
+}
+
+function deleteCompanionStudySiteAssociation(studySiteId, parentIndex){
+	<tags:tabMethod method="removeCompanionStudyAssociation" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'studySiteId='+studySiteId+'&parentIndex='+parentIndex"/>
 }
 </script>
 </head>
@@ -335,9 +339,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		                	<td> 
 		                		<input type="text" name="study.parentStudyAssociations[${parentStudySiteStaus.index}].studySites[${status.index}].targetAccrualNumber" value="${companionStudySite.targetAccrualNumber}" class="validate-NUMERIC" size="6" />
 		            		</td> 
-		                	<td>
-		            
-		                	</td>
+		                	 <td>
+		                	 	<a href="javascript:deleteCompanionStudySiteAssociation(${companionStudySite.id},${parentStudySiteStaus.index});" ><img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+		                	 </td>
 	            		</tr> 
 						<script>
 							inputDateElementLocal1="companionStudySites["+${status.index}+"].startDate";
