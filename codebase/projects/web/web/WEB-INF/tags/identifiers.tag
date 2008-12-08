@@ -86,7 +86,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <c:if test="${empty displayOrgs || displayOrgs!='false'}">
 	
 <br>
-<chrome:division title="<a href='#' onclick='toggleIdSection()'>Organization Assigned Identifiers</a>">
+<chrome:division title="Organization Assigned Identifiers" minimize="true" divIdToBeMinimized="idSection">
 <div id="idSection" style="display:none;">
 <table id="mytable-organizationIdentifier" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	<tr>

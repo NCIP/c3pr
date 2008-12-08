@@ -71,7 +71,7 @@
 			<c:when test="${!empty url}">document.location='${url}'</c:when>
 			<c:otherwise>PanelCombo('${id }');</c:otherwise>
 		</c:choose>
-				"><img id="${id }-image" src="<tags:imageUrl name="${display=='false'||!empty url?'maximize':'minimize' }.gif"/>" border="0" alt="toggle button" height="14"></a>
+				"><img id="${id }-image" src="<tags:imageUrl name="${display=='false'||!empty url?'minimize':'maximize' }.gif"/>" border="0" alt="toggle button" style="margin-right:10px;"></a>
                     <c:if test="${isDeletable}">
                     	<c:if test="${empty onDelete}"><c:set var="onDelete" value="onDelete('${id }')"></c:set></c:if>
                         <a href="javascript:${onDelete}"><img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="close button"></a>&nbsp;&nbsp;
