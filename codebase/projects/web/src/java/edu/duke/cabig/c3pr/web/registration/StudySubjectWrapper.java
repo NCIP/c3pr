@@ -21,10 +21,18 @@ public class StudySubjectWrapper {
 		this.studySubject = studySubject;
 	}
 	
-	public Boolean getIsRegisterable(){
+	public Boolean getIsEnrollable(){
 		if(!this.studySubject.getDataEntryStatus())
 			return null;
 		if(this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator() || this.getStudySubject().getScheduledEpoch().getRequiresRandomization())
+			return true;
+		return false;
+	}
+	
+	public Boolean getIsRegisterable(){
+		if(!this.studySubject.getDataEntryStatus())
+			return null;
+		if(!this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator())
 			return true;
 		return false;
 	}
