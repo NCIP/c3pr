@@ -398,6 +398,7 @@
     			<property name="ifsUrl"><value>${ifs.url}</value></property>
     		</bean>
     	</property>
+    	<!-- <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider" />-->
     </bean>
     
     <bean id="multisiteDelegatedCredentialProvider" class="edu.duke.cabig.c3pr.infrastructure.MultisiteDelegatedCredentialProvider">
