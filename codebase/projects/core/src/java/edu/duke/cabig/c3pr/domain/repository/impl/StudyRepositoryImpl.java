@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.APIName;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -461,51 +462,67 @@ public class StudyRepositoryImpl implements StudyRepository {
     public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers, StudySite studySite){
         Study study=getUniqueStudy(studyIdentifiers);
         String nciInstituteCode = studySite.getHealthcareSite().getNciInstituteCode();
-        studySite.approveForActivation();
-        if(study.canMultisiteBroadcast() && !studySite.getHostedMode() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+        StudySite studySiteObj ;
+        CompanionStudyAssociation companionStudyAssociaton = studySite.getCompanionStudyAssociation() ;
+        if(companionStudyAssociaton != null ){
+        	studySiteObj = study.getCompanionStudySite(studySite.getHealthcareSite().getNciInstituteCode());
+        }else{
+        	studySiteObj = study.getStudySite(studySite.getHealthcareSite().getNciInstituteCode());
+        }
+        studySiteObj.approveForActivation();
+        if(study.canMultisiteBroadcast() && !studySiteObj.getHostedMode() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
-            domainObjects.add(studySite.getHealthcareSite());
+            domainObjects.add(studySiteObj.getHealthcareSite());
             studyService.handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION, domainObjects);
-            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION);
+            EndPoint endpoint=studySiteObj.getEndPoint(ServiceName.STUDY, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION);
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
-                studySite=studySiteDao.merge(studySite);
+                studySiteObj=studySiteDao.merge(studySiteObj);
             }else{
                 throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
             }
         }else{
-            studySite=studySiteDao.merge(studySite);
+            studySiteObj=studySiteDao.merge(studySiteObj);
         }
-        return studySite;
+        return studySiteObj;
     }
 
 
 
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySite){
         Study study = getUniqueStudy(studyIdentifiers);
-        if (!studySite.getHostedMode()
+        String nciInstituteCode = studySite.getHealthcareSite().getNciInstituteCode();
+        StudySite studySiteObj ;
+        CompanionStudyAssociation companionStudyAssociaton = studySite.getCompanionStudyAssociation() ;
+        if(companionStudyAssociaton != null ){
+        	studySiteObj = study.getCompanionStudySite(nciInstituteCode);
+        }else{
+        	studySiteObj = study.getStudySite(nciInstituteCode);
+        }
+        
+        if (!studySiteObj.getHostedMode()
                         && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())
-                        && studySite.getSiteStudyStatus()!=SiteStudyStatus.APPROVED_FOR_ACTIVTION) {
+                        && studySiteObj.getSiteStudyStatus()!=SiteStudyStatus.APPROVED_FOR_ACTIVTION) {
             throw c3PRExceptionHelper.getRuntimeException(
                             getCode("C3PR.EXCEPTION.STUDYSITE.NEED_APPROVAL_FROM_CO_CENTER.CODE"));
         }
-        studySite.activate();
-        if (study.canMultisiteBroadcast() && !studySite.getStudy().getStudyCoordinatingCenter().getHostedMode()
+        studySiteObj.activate();
+        if (study.canMultisiteBroadcast() && !studySiteObj.getStudy().getStudyCoordinatingCenter().getHostedMode()
                         && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())) {
             List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
-            domainObjects.add(studySite);
+            domainObjects.add(studySiteObj);
             studyService.handleCoordinatingCenterBroadcast(study, APIName.ACTIVATE_STUDY_SITE,
                             domainObjects);
             EndPoint endpoint=study.getStudyCoordinatingCenter().getEndPoint(ServiceName.STUDY, APIName.ACTIVATE_STUDY_SITE);
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
-                studySite=studySiteDao.merge(studySite);
+                studySiteObj=studySiteDao.merge(studySiteObj);
             }else{
                 throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
             }
         }
-        studySite=studySiteDao.merge(studySite);
-        return studySite;
+        studySiteObj=studySiteDao.merge(studySiteObj);
+        return studySiteObj;
     }
 
 }

@@ -82,21 +82,21 @@ public class ManageStudySitesTab extends StudyTab {
             studyService.closeStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION){
             try {
-                studyRepository.approveStudySiteForActivation(studyIdentifiers, studySite);
+            	studySite = studyRepository.approveStudySiteForActivation(studyIdentifiers, studySite);
             }
             catch (C3PRCodedRuntimeException e) {
                 e.printStackTrace();
             }
         }else if(apiName==APIName.ACTIVATE_STUDY_SITE){
             try {
-                studyRepository.activateStudySite(studyIdentifiers, studySite);
+            	studySite = studyRepository.activateStudySite(studyIdentifiers, studySite);
             }
             catch (C3PRCodedRuntimeException e) {
                 e.printStackTrace();
             }
         }else if(apiName==APIName.CLOSE_STUDY_SITE){
             try {
-                studyRepository.closeStudySite(studyIdentifiers, nciInstituteCode);
+            	studySite = studyRepository.closeStudySite(studyIdentifiers, nciInstituteCode);
             }
             catch (C3PRCodedRuntimeException e) {
                 e.printStackTrace();
@@ -104,7 +104,7 @@ public class ManageStudySitesTab extends StudyTab {
         } 
         Map map=new HashMap();
         wrapper.setStudy(studyRepository.getUniqueStudy(study.getIdentifiers()));
-        studyDao.initialize(study);
+        //studyDao.initialize(study);
         map.put("site", studySite);
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }

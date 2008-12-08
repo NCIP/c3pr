@@ -116,10 +116,6 @@ public class StudySitesTab extends StudyTab {
 		List<String> nciCodeList = getNciCodeList(nciCodes);
 		List<String> irbApprovalList = getNciCodeList(irbApprovalSites);
 		
-		if(irbApprovalList.size() > 0){
-			studyDao.initialize(study);
-		}
-		
 		for (CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()) {
 			if (StringUtils.equals(parentAssociationId, parentStudyAssociation.getId().toString())) {
 				for (String nciCode : nciCodeList) {
@@ -164,7 +160,9 @@ public class StudySitesTab extends StudyTab {
 				StudySite studySite = studySiteDao.getById(Integer.parseInt(studySiteId));
 				CompanionStudyAssociation companionStudyAssociation = studySite.getCompanionStudyAssociation();
 				companionStudyAssociation.removeStudySite(studySite);
+				//studyDao.merge(study);
 				map.put("parentStudyAssociation", companionStudyAssociation);
+				map.put("parentIndex",request.getParameter("parentIndex"));
 			}
 			return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 		}
