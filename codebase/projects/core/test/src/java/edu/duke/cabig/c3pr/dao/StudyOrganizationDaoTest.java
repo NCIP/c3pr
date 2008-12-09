@@ -3,13 +3,18 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.APIName;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.GridEndPoint;
-import edu.duke.cabig.c3pr.domain.APIName;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ServiceName;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
+import edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
 /**
@@ -27,6 +32,9 @@ public class StudyOrganizationDaoTest extends DaoTestCase {
      * 
      * @throws Exception
      */
+    
+    private HealthcareSiteDao healthcareSiteDao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
+    private StudyDao studyDao = (StudyDao) getApplicationContext().getBean("studyDao");
     
     protected void setUp() throws Exception {
         super.setUp();
@@ -146,5 +154,28 @@ public class StudyOrganizationDaoTest extends DaoTestCase {
         interruptSession();
         studySite=dao.getById(studySite.getId());
         assertEquals("Wrong Size", 1, studySite.getEndpoints().get(0).getErrors().size());
+    }
+    
+    public void testCreateCustomField(){
+    	StudyOrganization coordinatingCenter = dao.getById(1002);
+    	
+    	CustomFieldDefinition studyCustFieldDef = new StudyCustomFieldDefinition();
+    	studyCustFieldDef.setDisplayLabel("Parent Concent");
+    	studyCustFieldDef.setDisplayName("parent_concent");
+    	studyCustFieldDef.setMandatoryIndicator(false);
+    	studyCustFieldDef.setFieldType("Text");
+    	studyCustFieldDef.setDataType("String");
+    	studyCustFieldDef.setDisplayPage("STUDY_DETAILS");
+    	studyCustFieldDef.setMaxLength(15);
+    	coordinatingCenter.addCustomFieldDefinition(studyCustFieldDef);
+    	studyCustFieldDef.setStudyOrganization(coordinatingCenter);
+    	
+    	interruptSession() ;
+    	
+    	Study study = studyDao.getById(1000);
+    	List<CustomFieldDefinition> custFieldDefns = study.getStudyCoordinatingCenter().getCustomFieldDefinitions();
+    	assertEquals("Wrong Size", 1, custFieldDefns.size());
+		assertNotNull("Null Definition", custFieldDefns.get(0));
+	    assertEquals("Correct Label", "Parent Concent", custFieldDefns.get(0).getDisplayLabel());
     }
 }

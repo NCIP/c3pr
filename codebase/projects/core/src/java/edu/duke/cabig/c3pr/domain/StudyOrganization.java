@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -19,6 +20,10 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
+import edu.duke.cabig.c3pr.domain.customfield.CustomField;
+import edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable;
+import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
+
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
@@ -32,7 +37,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_ORGANIZATIONS_ID_SEQ") })
-public abstract class StudyOrganization extends InteroperableAbstractMutableDeletableDomainObject {
+public abstract class StudyOrganization extends InteroperableAbstractMutableDeletableDomainObject implements CustomFieldAuthorable{
 
     protected Study study;
 
@@ -64,6 +69,7 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
         lazyListHelper.add(StudyPersonnel.class,
                         new BiDirectionalInstantiateFactory<StudyPersonnel>(StudyPersonnel.class,
                                         this, "StudyOrganization", StudyOrganization.class));
+        lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
     }
 
     public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
@@ -222,4 +228,27 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     public boolean getIsCoordinatingCenter(){
         return this.study.isCoOrdinatingCenter(this.getHealthcareSite().getNciInstituteCode());
     }
+    
+    
+    
+    
+    @OneToMany(mappedBy = "studyOrganization", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<CustomFieldDefinition> getCustomFieldDefinitionsInternal() {
+		return lazyListHelper.getInternalList(CustomFieldDefinition.class);
+	}
+
+	@Transient
+	public List<CustomFieldDefinition> getCustomFieldDefinitions() {
+		return lazyListHelper.getLazyList(CustomFieldDefinition.class);
+	}
+
+	public void setCustomFieldDefinitionsInternal(List<CustomFieldDefinition> customFieldDefinitions) {
+		lazyListHelper.setInternalList(CustomFieldDefinition.class,customFieldDefinitions);
+	}
+
+	public void addCustomFieldDefinition(CustomFieldDefinition customFieldDefinition) {
+		this.getCustomFieldDefinitions().add(customFieldDefinition);
+		customFieldDefinition.setStudyOrganization(this);
+	}
 }

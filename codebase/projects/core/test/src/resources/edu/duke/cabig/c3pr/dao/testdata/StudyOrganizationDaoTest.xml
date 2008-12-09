@@ -24,7 +24,8 @@
     hcs_id="1000" type="SST" retired_indicator = "false" />
     <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
     hcs_id="1001" type="SST" retired_indicator = "false" />  
-  
+    <STUDY_ORGANIZATIONS id="1002" version="1" study_id="1000" hcs_id="1001" type="SCC" retired_indicator = "false" />  
+ 	
   <ENDPOINTS id="1000" version="0" service_name="STUDY" api_name="OPEN_STUDY" endpoint_prop_id="1000" dtype="GRID"/>
               
    	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1000"  retired_indicator = "false" />

@@ -24,6 +24,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
+import edu.duke.cabig.c3pr.domain.customfield.CustomField;
+import edu.duke.cabig.c3pr.domain.customfield.Customizable;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -36,7 +38,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @Table(name = "participants")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "participants_id_seq") })
-public class Participant extends Person implements Comparable<Participant> {
+public class Participant extends Person implements Comparable<Participant> , Customizable{
 
 	private Date birthDate;
 
@@ -71,6 +73,7 @@ public class Participant extends Person implements Comparable<Participant> {
 		setIdentifiers(new ArrayList<Identifier>());
 		raceCodes =  new ArrayList<RaceCode>();
 		healthcareSites = new ArrayList<HealthcareSite>();
+		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
 
 	public void addIdentifier(Identifier identifier) {
@@ -321,5 +324,24 @@ public class Participant extends Person implements Comparable<Participant> {
     public void setHealthcareSites(List<HealthcareSite> healthcareSites) {
     	this.healthcareSites = healthcareSites;
     }
+    
+    @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<CustomField> getCustomFieldsInternal() {
+		return lazyListHelper.getInternalList(CustomField.class);
+	}
 
+	@Transient
+	public List<CustomField> getCustomFields() {
+		return lazyListHelper.getLazyList(CustomField.class);
+	}
+
+	public void setCustomFieldsInternal(List<CustomField> customFields) {
+		lazyListHelper.setInternalList(CustomField.class,customFields);
+	}
+
+	public void addCustomField(CustomField customField) {
+		this.getCustomFields().add(customField);
+		customField.setParticipant(this);
+	}
 }

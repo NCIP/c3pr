@@ -25,7 +25,6 @@ import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.apache.log4j.Logger;
-import org.aspectj.apache.bcel.generic.CASTORE;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -35,6 +34,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
+import edu.duke.cabig.c3pr.domain.customfield.CustomField;
+import edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable;
+import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
+import edu.duke.cabig.c3pr.domain.customfield.Customizable;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -42,8 +45,6 @@ import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-
-import edu.duke.cabig.c3pr.domain.Error;
 
 /**
  * A systematic evaluation of an observation or an intervention (for example,
@@ -63,7 +64,7 @@ import edu.duke.cabig.c3pr.domain.Error;
 @Table(name = "STUDIES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDIES_ID_SEQ") })
 public class Study extends InteroperableAbstractMutableDeletableDomainObject
-		implements Comparable<Study> {
+		implements Comparable<Study> , Customizable, CustomFieldAuthorable{
 
 	private Boolean blindedIndicator;
 
@@ -185,6 +186,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 								CompanionStudyAssociation.class, this,
 								"ParentStudy"));
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
+		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
+		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 
 	}
 
@@ -235,7 +238,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			multiInstitutionIndicator = false;
 			stratificationIndicator = true;
 		}
-
+		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
+		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
 
 	public List<Error> canOpen() {
@@ -1497,6 +1501,47 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			}
 		}
 		return null;
+	}
+	
+	
+	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<CustomFieldDefinition> getCustomFieldDefinitionsInternal() {
+		return lazyListHelper.getInternalList(CustomFieldDefinition.class);
+	}
+
+	@Transient
+	public List<CustomFieldDefinition> getCustomFieldDefinitions() {
+		return lazyListHelper.getLazyList(CustomFieldDefinition.class);
+	}
+
+	public void setCustomFieldDefinitionsInternal(List<CustomFieldDefinition> customFieldDefinitions) {
+		lazyListHelper.setInternalList(CustomFieldDefinition.class,customFieldDefinitions);
+	}
+
+	public void addCustomFieldDefinition(CustomFieldDefinition customFieldDefinition) {
+		this.getCustomFieldDefinitions().add(customFieldDefinition);
+		customFieldDefinition.setStudy(this);
+	}
+	
+	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<CustomField> getCustomFieldsInternal() {
+		return lazyListHelper.getInternalList(CustomField.class);
+	}
+
+	@Transient
+	public List<CustomField> getCustomFields() {
+		return lazyListHelper.getLazyList(CustomField.class);
+	}
+
+	public void setCustomFieldsInternal(List<CustomField> customFields) {
+		lazyListHelper.setInternalList(CustomField.class,customFields);
+	}
+
+	public void addCustomField(CustomField customField) {
+		this.getCustomFields().add(customField);
+		customField.setStudy(this);
 	}
 
 }

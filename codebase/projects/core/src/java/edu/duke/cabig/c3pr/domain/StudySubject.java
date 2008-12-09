@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -32,6 +33,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
+import edu.duke.cabig.c3pr.domain.customfield.CustomField;
+import edu.duke.cabig.c3pr.domain.customfield.Customizable;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
@@ -53,7 +56,7 @@ import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 @Table(name = "STUDY_SUBJECTS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SUBJECTS_ID_SEQ") })
 public class StudySubject extends
-		InteroperableAbstractMutableDeletableDomainObject {
+		InteroperableAbstractMutableDeletableDomainObject implements Customizable{
 	private LazyListHelper lazyListHelper;
 
 	private List<ScheduledEpoch> scheduledEpochs = new ArrayList<ScheduledEpoch>();
@@ -130,6 +133,7 @@ public class StudySubject extends
 				new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
 						SystemAssignedIdentifier.class));
 		setIdentifiers(new ArrayList<Identifier>());
+		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 		// mandatory, so that the lazy-projected list is managed properly.
 	}
 
@@ -153,6 +157,7 @@ public class StudySubject extends
 			this.startDate = new Date();
 			this.primaryIdentifier = "SysGen";
 		}
+		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
 
 	@OneToMany
@@ -1249,4 +1254,23 @@ public class StudySubject extends
 		return errors;
 	}
 	
+	@OneToMany(mappedBy = "studySubject", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<CustomField> getCustomFieldsInternal() {
+		return lazyListHelper.getInternalList(CustomField.class);
+	}
+
+	@Transient
+	public List<CustomField> getCustomFields() {
+		return lazyListHelper.getLazyList(CustomField.class);
+	}
+
+	public void setCustomFieldsInternal(List<CustomField> customFields) {
+		lazyListHelper.setInternalList(CustomField.class,customFields);
+	}
+
+	public void addCustomField(CustomField customField) {
+		this.getCustomFields().add(customField);
+		customField.setStudySubject(this);
+	}
 }

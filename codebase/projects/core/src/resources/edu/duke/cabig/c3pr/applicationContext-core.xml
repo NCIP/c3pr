@@ -127,6 +127,16 @@
                 <value>edu.duke.cabig.c3pr.domain.GridEndPoint</value>
                 <value>edu.duke.cabig.c3pr.domain.EndPoint</value>
                 <value>edu.duke.cabig.c3pr.domain.Error</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.CustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.StringCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.DateCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.IntegerCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -253,6 +263,16 @@
                     <value>edu.duke.cabig.c3pr.domain.GridEndPoint</value>
                     <value>edu.duke.cabig.c3pr.domain.EndPoint</value>
                     <value>edu.duke.cabig.c3pr.domain.Error</value>
+                    <value>edu.duke.cabig.c3pr.domain.customfield.CustomField</value>
+                    <value>edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.StringCustomField</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.DateCustomField</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.IntegerCustomField</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
               </list>
         </property> 
         <!--  <property name="auditAll">
