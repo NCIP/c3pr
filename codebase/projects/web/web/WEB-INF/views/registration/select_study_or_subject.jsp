@@ -2,7 +2,7 @@
 <html>
     <head>
         <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
-		<jwr:style src="/css/subtabbedflow.css" />
+		<%--<jwr:style src="/css/subtabbedflow.css" />--%>
         <script>
             function navRollOver(obj, state){
                 document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -54,17 +54,26 @@
                 background-position: -17px;
                 text-decoration: none;
                 color: white;
-				border: 2px solid #666;
             } .current {
                 background-image: url(../../templates/mocha/images/select_subject_tab_selected.png);
 				padding: 5px;
                 margin-left: 5px;
-                background-position: top;
+                background-position: bottom;
+				background-repeat:repeat-x;
+				background-color:#202020;
                 text-decoration: none;
                 color: white;
-				border: 2px solid #666;
-            }
-        </style>
+				}
+		</style>
+		
+            <!--[if IE]>
+			<style>
+			.fifthlevelTab img, .current img {
+				vertical-align:middle;
+			}
+			</style>
+<![endif]-->
+
     </head>
     <body>
         <div id="Subject">

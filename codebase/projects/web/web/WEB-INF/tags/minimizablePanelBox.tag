@@ -9,7 +9,7 @@
 
 <chrome:minimizableBox title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}" url="${url}" display="${display}" helpUrl="${helpUrl}">
     <chrome:flashMessage/>
-        <chrome:division id="single-fields">
+        <chrome:division id="${boxId}">
             <jsp:doBody/>
         </chrome:division>
 </chrome:minimizableBox>

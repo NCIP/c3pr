@@ -40,7 +40,7 @@ function toggleImage(id){
 				onClick="
 					<c:choose>
 						<c:when test="${fn:length(study.studySites) > 1}">
-							new Element.toggle('studySites-table-${statusStudy.index }');toggleImage('image-open-${statusStudy.index }');
+							new Element.toggle('studySites-table-${statusStudy.index }'); toggleImage('image-open-${statusStudy.index }');
 						</c:when>
 						<c:otherwise>
 						    <c:set var="singleQuote" value="'" />
@@ -95,7 +95,7 @@ function toggleImage(id){
 		                            <% System.out.println("11----"); %>
 									<% String currClassJ=j%2==0? "odd":"even"; %>
 									<tr align="center" id="row<%= j++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
-												onMouseOut="this.className='<%= currClass %>'" 
+												style="cursor:pointer;" onMouseOut="this.className='<%= currClass %>'" 
 										onClick="${javLink }">
 										<td>${site.healthcareSite.name}</td>
 										<td>${site.irbApprovalDateStr}<c:if test="${expiredIrb}"><font color='Red'><i>(expired)</i></font></c:if></td>

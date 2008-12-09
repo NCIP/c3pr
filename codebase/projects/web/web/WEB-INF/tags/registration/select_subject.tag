@@ -172,7 +172,7 @@
                         <span class="label">Search Criteria:</span>
                     </div>
                     <div class="value">
-                        <input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="value" /><input type="button" value="Search" onclick="searchParticipant()"/><img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="absmiddle">
+                        <input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="value" /><input type="button" value="Search" onclick="searchParticipant()"/>&nbsp;<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="absmiddle">
                         <script>
                             new Element.hide('searchSubjectInd');
                         </script>

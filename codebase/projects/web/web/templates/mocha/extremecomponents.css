@@ -66,7 +66,10 @@
 }
 
 .eXtremeTable .tableHeader {
-	background-color: #ccc;
+	background-color: #e6e6e6;
+	background-image:url(images/extremeTableheader_bg.png);
+	background-position:bottom;
+	background-repeat:repeat-x;
 	color: black;
 	font-family: verdana, arial, helvetica, sans-serif;
 	font-size: 11px;
@@ -77,9 +80,6 @@
 	padding-top: 4px;
 	padding-bottom: 4px;
 	margin: 0px;
-	border-right-style: solid;
-	border-right-width: 1px;
-	border-color: white;
 }
 
 .eXtremeTable .tableHeaderSort {

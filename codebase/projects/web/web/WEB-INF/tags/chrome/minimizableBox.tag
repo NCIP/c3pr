@@ -17,14 +17,20 @@
         panelDiv = $(element+"-interior");
         imageId= element+'-image';
         imageSource=document.getElementById(imageId).src;
-        if (panelDiv.style.display == 'none') {
+		if (panelDiv.style.display == 'none') {
             new Effect.OpenUp(panelDiv, arguments[1] || {});
             document.getElementById(imageId).src=imageSource.replace('minimize','maximize');
+			document.getElementById(element + "hr").style.display = "block";
+
         } else {
             new Effect.CloseDown(panelDiv, arguments[1] || {});
             document.getElementById(imageId).src=imageSource.replace('maximize','minimize');
+			window.setTimeout(killHRonMin, 1000, element);
         }
     }
+	function killHRonMin(element) {
+		document.getElementById(element + "hr").style.display = "none"
+	}
     Effect.OpenUp = function(element) {
         element = $(element);
         new Effect.BlindDown(element, arguments[1] || {});
@@ -71,17 +77,17 @@
 			<c:when test="${!empty url}">document.location='${url}'</c:when>
 			<c:otherwise>PanelCombo('${id }');</c:otherwise>
 		</c:choose>
-				"><img id="${id }-image" src="<tags:imageUrl name="${display=='false'||!empty url?'minimize':'maximize' }.gif"/>" border="0" alt="toggle button" style="margin-right:10px;"></a>
+				"><img id="${id }-image" src="<tags:imageUrl name="${display=='false'||!empty url?'minimize':'maximize' }.gif"/>" border="0" alt="Minimize" style="margin-right:10px;"></a>
                     <c:if test="${isDeletable}">
                     	<c:if test="${empty onDelete}"><c:set var="onDelete" value="onDelete('${id }')"></c:set></c:if>
-                        <a href="javascript:${onDelete}"><img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="close button"></a>&nbsp;&nbsp;
+                        <a href="javascript:${onDelete}"><img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="Close"></a>&nbsp;&nbsp;
                     </c:if>
                 </div>
             </td>
         </tr>
         <tr>
 		  <td colspan="3">
-			<div class="hr" />
+			<div id="${id}hr" class="hr" style="display:block;"/>
 		  </td>
 	    </tr>
         </table>
@@ -90,7 +96,7 @@
 
     <!-- inner border -->
     <div class="border-T"><div class="border-L"><div class="border-R"><div class="border-B"><div class="border-BL"><div class="border-BR">
-        <div id="${id }-interior" class="interior">
+        <div class="interior">
             <c:if test="${autopad}"><div class="content"></c:if>
             <jsp:doBody/>
             <c:if test="${autopad}"></div></c:if>

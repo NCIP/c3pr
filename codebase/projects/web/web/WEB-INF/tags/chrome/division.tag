@@ -42,7 +42,7 @@
         </c:if>
     </c:otherwise>
 </c:choose>
-<div style="padding:2px 1px 3px 1px;" class="content">
+<div style="padding:2px 1px 3px 1px;" class="content" id="${id}-interior">
     <jsp:doBody/>
 </div>
 </div>
