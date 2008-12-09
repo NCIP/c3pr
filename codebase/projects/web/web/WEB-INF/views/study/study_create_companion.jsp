@@ -20,14 +20,16 @@
       		rIndicator.value = 'false';
       		rIndicator.disabled = false;
       		rTypeDiv.style.display = "none";
-      		rType.value="BOOK";
+      		rType.value="";   // temp set
       		rType.disabled = false;
       	}
      }
 
-     function manageRandomizedIndicatorSelectBox(box) {
+     function manageRandomizedIndicatorSelectBox(box, index) {
     	 var rType=$('companionStudy'+index+'-randomizationType');
+    	 var rTypeDiv=$('randomizationTypeDiv');
          if (box.value == 'true') {
+        	 rTypeDiv.style.display = "";
              Effect.OpenUp('randomizationTypeDiv');
              rType.className="validate-notEmpty";
          }
@@ -191,7 +193,7 @@
 	        <div class="row">
 	           	<div class="label required-indicator">Randomized:</div>
 		        <div class="value">
-		        	<select id="companionStudyPAGE.ROW.INDEX-randomizedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizedIndicator" class="validate-notEmpty" >
+		        	<select id="companionStudyPAGE.ROW.INDEX-randomizedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizedIndicator" class="validate-notEmpty" onchange="manageRandomizedIndicatorSelectBox(this, PAGE.ROW.INDEX)">
 		                 <option value="">Please Select</option>
 		                 <c:forEach items="${yesNo}" var="status">
 		                     <option value="${status.code}">${status.desc}</option>
