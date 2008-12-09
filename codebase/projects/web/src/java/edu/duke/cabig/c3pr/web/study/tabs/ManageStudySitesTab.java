@@ -103,8 +103,9 @@ public class ManageStudySitesTab extends StudyTab {
             }
         } 
         Map map=new HashMap();
-        wrapper.setStudy(studyRepository.getUniqueStudy(study.getIdentifiers()));
-        //studyDao.initialize(study);
+        study = studyRepository.getUniqueStudy(study.getIdentifiers());
+        wrapper.setStudy(study);
+        studyDao.initialize(study);
         map.put("site", studySite);
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }
