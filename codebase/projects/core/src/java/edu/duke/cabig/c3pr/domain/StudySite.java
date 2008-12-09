@@ -394,7 +394,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
             		for(StudySite studySite : companionStudyAssociation.getStudySites()){
             			if(studySite.getHealthcareSite().getNciInstituteCode() == this.getHealthcareSite().getNciInstituteCode()){
-            				studySite.activate();
+            				if(studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){
+            					studySite.activate();
+            				}
             			}
             		}
             	}
@@ -497,7 +499,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
         		for(StudySite studySite : companionStudyAssociation.getStudySites()){
         			if(studySite.getHealthcareSite().getNciInstituteCode() == this.getHealthcareSite().getNciInstituteCode()){
-        				studySite.approveForActivation();
+        				if(studySite.getSiteStudyStatus() != SiteStudyStatus.APPROVED_FOR_ACTIVTION || studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){
+        					studySite.approveForActivation();		
+        				}
         			}
         		}
         	}
