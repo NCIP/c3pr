@@ -3,6 +3,8 @@
  */
 package edu.duke.cabig.c3pr.web.registration;
 
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
@@ -21,19 +23,27 @@ public class StudySubjectWrapper {
 		this.studySubject = studySubject;
 	}
 	
-	public Boolean getIsEnrollable(){
+	public Boolean getShouldReserve(){
 		if(!this.studySubject.getDataEntryStatus())
 			return null;
-		if(this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator() || this.getStudySubject().getScheduledEpoch().getRequiresRandomization())
-			return true;
-		return false;
+		return(this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator()&& (this.studySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING) &&(this.studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.PENDING));
 	}
 	
-	public Boolean getIsRegisterable(){
+	public Boolean getShouldRegister(){
 		if(!this.studySubject.getDataEntryStatus())
 			return null;
-		if(!this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator())
-			return true;
-		return false;
+		return(!this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() && !this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
+	}
+	
+	public Boolean getShouldEnroll(){
+		if(!this.studySubject.getDataEntryStatus())
+			return null;
+		return(this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
+	}
+	
+	public Boolean getShouldRandomize(){
+		if(!this.studySubject.getDataEntryStatus())
+			return null;
+		return(this.getStudySubject().getScheduledEpoch().getRequiresRandomization());
 	}
 }

@@ -48,11 +48,13 @@ public class CreateEditRegistrationController<C extends StudySubjectWrapper> ext
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if(wrapper.getIsRegisterable()==null){
-        	studySubject=studySubjectRepository.save(studySubject);
-        }else if(wrapper.getIsRegisterable()){
+        if(wrapper.getShouldReserve()==null){
+        	studySubject=studySubjectRepository.create(studySubject);
+        }else if(wrapper.getShouldReserve()){
+        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
         	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
-        }else{
+        }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
         	studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
         }
         if (logger.isDebugEnabled()) {
