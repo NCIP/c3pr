@@ -20,7 +20,7 @@
       		rIndicator.value = 'false';
       		rIndicator.disabled = false;
       		rTypeDiv.style.display = "none";
-      		rType.value="";   // temp set
+      		rType.value="BOOK";   
       		rType.disabled = false;
       	}
      }
