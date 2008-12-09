@@ -56,7 +56,7 @@ function manageCompanions(registrationId){
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 
 <br/>
-<!--  newRegistration: ${newRegistration}<br>
+<!-- 	 newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
 	reg_pending:${reg_pending }<br>
@@ -78,8 +78,11 @@ function manageCompanions(registrationId){
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
-		<c:when test="${command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && !hasParent && !hasCompanions}">
+		<c:when test="${command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'true' && !hasParent && !hasCompanions}">
 			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.ENROLLED"/></strong></font>
+		</c:when>
+		<c:when test="${command.studySubject.regWorkflowStatus == 'REGISTERED_BUT_NOT_ENROLLED' && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'false' && !hasParent && !hasCompanions}">
+			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.SUCCESS"/></strong></font>
 		</c:when>
 		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font>
@@ -192,12 +195,37 @@ function manageCompanions(registrationId){
 	<br>
 	</div>
 
-	
+	<script>
+		function doManage(formName, idParamStr){
+			if(formName=='manage'){
+				document.location="../registration/manageRegistration?"+idParamStr;
+			}else if(formName=='create'){
+				document.location="../registration/createRegistration?"+idParamStr;
+			}else if(formName=='confirm'){
+				document.location="../registration/confirm?"+idParamStr;
+			}
+		}
+		paramString="<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
+	</script>
+	<c:choose>
+				<c:when test="${command.studySubject.dataEntryStatusString=='Incomplete'}">
+					<c:set var="formType"
+					value="create" />
+				</c:when>
+				<c:when test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED_BUT_NOT_RANDOMIZED'}">
+					<c:set var="formType"
+					value="confirm" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="formType"
+					value="manage" />	
+				</c:otherwise>
+	</c:choose>
 	<c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' && empty command.studySubject.parentStudySubject}">
 		<div align="right">
 			<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
-				<input type="hidden" name="registrationId" value="${command.studySubject.id }"/>
-				<input type="submit" value="Manage this registration"/>
+				<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
+				<input type="button" value="Manage this registration" onClick='doManage("${formType}",paramString)'/>
 			</form>
 		</div>
 	</c:if>
