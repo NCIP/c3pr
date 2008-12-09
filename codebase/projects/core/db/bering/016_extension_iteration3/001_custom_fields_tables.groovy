@@ -42,8 +42,8 @@ class CustomFieldTables extends edu.northwestern.bioinformatics.bering.Migration
     }
 
     void down() {
-        dropTable("custom_field")
-        dropTable("cust_field_perm_value")
+        dropTable("custom_fields")
+        dropTable("cust_field_perm_values")
         dropTable("cust_field_defns")
     }
 }
