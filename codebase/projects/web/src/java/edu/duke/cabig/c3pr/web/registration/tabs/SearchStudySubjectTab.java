@@ -65,6 +65,9 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
 
     @Override
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors error) {
+    	if (WebUtils.hasSubmitParameter(request, "epochId")) {
+            return;
+        }
         if (command.getStudySubject().getParticipant() == null || command.getStudySubject().getStudySite() == null) {
             request.setAttribute("alreadyRegistered", new Boolean(true));
             return;
