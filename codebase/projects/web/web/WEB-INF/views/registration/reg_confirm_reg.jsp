@@ -56,7 +56,7 @@ function manageCompanions(registrationId){
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 
 <br/>
-	 newRegistration: ${newRegistration}<br>
+<!-- 	 newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
 	reg_pending:${reg_pending }<br>
@@ -76,7 +76,7 @@ function manageCompanions(registrationId){
 	actionRequired :${actionRequired}
 	actionLabel:${actionLabel}
 	registerableWithCompanions :${registerableWithCompanions}
-	requiresMultiSite:${requiresMultiSite}
+	requiresMultiSite:${requiresMultiSite}   -->
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
