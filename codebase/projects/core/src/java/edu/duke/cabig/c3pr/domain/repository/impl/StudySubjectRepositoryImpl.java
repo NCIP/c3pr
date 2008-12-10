@@ -134,33 +134,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     }
 
     public StudySubject doLocalRegistration(StudySubject studySubject) throws C3PRCodedException {
-        studySubject.updateDataEntryStatus();
-        if (!studySubject.isDataEntryComplete()) return studySubject;
-        ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
-        if (studySubject.getScheduledEpoch().getRequiresRandomization()) {
-            try {
-                this.doRandomization(studySubject);
-            }
-            catch (Exception e) {
-                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
-                throw exceptionHelper.getException(
-                                getCode("C3PR.EXCEPTION.REGISTRATION.RANDOMIZATION.CODE"));
-            }
-            if ((studySubject.getScheduledEpoch()).getScheduledArm() == null) {
-                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
-               throw exceptionHelper
-                                .getException(getCode("C3PR.EXCEPTION.REGISTRATION.CANNOT_ASSIGN_ARM.CODE"));
-            }
-            else {
-                // logic for accrual ceiling check
-                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
-            }
-        }
-        else {
-            // logic for accrual ceiling check
-            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
-        }
-        return this.save(studySubject);
+    	continueEnrollment(studySubject);
+    	return studySubject;
     }
 
     /**
