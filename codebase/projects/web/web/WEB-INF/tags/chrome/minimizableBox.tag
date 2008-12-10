@@ -20,12 +20,18 @@
 		if (panelDiv.style.display == 'none') {
             new Effect.OpenUp(panelDiv, arguments[1] || {});
             document.getElementById(imageId).src=imageSource.replace('minimize','maximize');
+			document.getElementById(imageId).alt = ("Minimize");
 			document.getElementById(element + "hr").style.display = "block";
 
         } else {
             new Effect.CloseDown(panelDiv, arguments[1] || {});
             document.getElementById(imageId).src=imageSource.replace('maximize','minimize');
-			window.setTimeout(killHRonMin, 1000, element);
+			document.getElementById(imageId).alt = ("Maximize");
+			if (!is_ie) {
+				window.setTimeout(killHRonMin, 1000, element);
+			} else {
+				document.getElementById(element + "hr").style.display = "none"
+				}
         }
     }
 	function killHRonMin(element) {
@@ -77,7 +83,7 @@
 			<c:when test="${!empty url}">document.location='${url}'</c:when>
 			<c:otherwise>PanelCombo('${id }');</c:otherwise>
 		</c:choose>
-				"><img id="${id }-image" src="<tags:imageUrl name="${display=='false'||!empty url?'minimize':'maximize' }.gif"/>" border="0" alt="Minimize" style="margin-right:10px;"></a>
+				"><img id="${id }-image" src="<tags:imageUrl name="${display=='false'||!empty url?'minimize':'maximize' }.gif"/>" border="0" alt="Minimize" style="margin-right:10px; margin-top:7px;"></a>
                     <c:if test="${isDeletable}">
                     	<c:if test="${empty onDelete}"><c:set var="onDelete" value="onDelete('${id }')"></c:set></c:if>
                         <a href="javascript:${onDelete}"><img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="Close"></a>&nbsp;&nbsp;

@@ -291,17 +291,23 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align="right">
-                                                <span class="required-indicator">Race(s):</span>&nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
-                                            </td>
                                             <td align="left">
-                                                <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/>Asian<input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/>Black or African American
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required-indicator">Race(s):</span>&nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
+                                            </td>
+                                            <td align="left" class="race">
+                                                <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/>Asian
+												<br>
+												<input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/>Black or African American
                                                 <br>
-                                                <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/>White<input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native
+                                                <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/>White
+												<br>
+												<input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native
                                                 <br>
                                                 <input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/>Native Hawaiian or Pacific Islander
                                                 <br>
-                                                <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/>Not Reported<input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/>Unknown
+                                                <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/>Not Reported
+												<br>
+												<input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/>Unknown
                                             </td><td align="left" id="raceCodes" style="display:inline"/>
                                         </tr>
                                     </table>
