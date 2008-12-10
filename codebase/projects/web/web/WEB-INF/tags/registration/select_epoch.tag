@@ -23,18 +23,16 @@
 		displayEpochMessage(message, true);
 	}
 	function postProcessEpochSelection(id, name, type,isReserving){
-		if(!isReserving){
 			$("epochElement").value = id;
 			var message = "Selected epoch: " +name+ " (" +type+ ") ";
 			minimizeEpochBox();
 			displayEpochMessage(message, true);
 			return;
-		}
-		epochId=id;
-		epochName=name;
-		epochType=type;
-		displayEpochMessage("<img align='absmiddle' src='/c3pr/images/indicator.white.gif'/>Processing..", false);
-		<tags:tabMethod method="checkEpochAccrualCeiling" viewName="/registration/asynchronous/checkCeiling" divElement="'epochAccrualCeilingResponse'" javaScriptParam="'epochId='+id"  formName="'accrualForm'"/>
+//		epochId=id;
+//		epochName=name;
+//		epochType=type;
+//		displayEpochMessage("<img align='absmiddle' src='/c3pr/images/indicator.white.gif'/>Processing..", false);
+//		<tags:tabMethod method="checkEpochAccrualCeiling" viewName="/registration/asynchronous/checkCeiling" divElement="'epochAccrualCeilingResponse'" javaScriptParam="'epochId='+id"  formName="'accrualForm'"/>
 	}
 	function minimizeEpochBox(){
 		PanelCombo('Epochbox');

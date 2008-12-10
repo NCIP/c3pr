@@ -24,12 +24,14 @@ function submitRandomization(){
 		if(!confirmFlag)
 			return;
 	}
+	$('randomization').action = "confirm?" + "<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0]}'/>" ;
 	$('randomization').submit();
 }
+paramString="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0]}'/>";
 </script>
-	<form id="randomization" action="confirm?registrationId=${registration.id}" method="post">
+	<form id="randomization" action="" method="post">  
 	<c:choose>
-	<c:when test="${actionRequired}">
+	<c:when test="true">
 		<c:choose>
 		<c:when test="${requiresMultiSite}">
 			<strong>Subject ${newRegistration?"registration":"transfer"} requires co-ordinationg 
@@ -84,7 +86,7 @@ function submitRandomization(){
 		<br> Please click on the button to register the subject on the study and the companion studies. </br>
 	</c:otherwise>
 	</c:choose>
-	<div align="right"><input type="button" value="${actionLabel}" onClick="submitRandomization();"/></div>
+	<div align="right"><input type="button" value="Enroll & Randomize" onClick="submitRandomization();"/></div>
 		<br>
 		
 	</form>
