@@ -59,7 +59,7 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
         //the user can resume the incomplete registration.
         studySubject=studySubjectRepository.save(studySubject);
         if(!studySubject.isDataEntryComplete()) return studySubject;
-        if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED) {
+        if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED) {
             studySubject=manageRegistration(studySubject);
         }
         return studySubject;
@@ -86,7 +86,9 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
                 throw new RuntimeException(e);
             }
         }
-        return updateRegistrationStatus(studySubject);
+        
+        return studySubject;
+      //  return updateRegistrationStatus(studySubject);
     }
     
     private StudySubject updateRegistrationStatus(StudySubject studySubject){
