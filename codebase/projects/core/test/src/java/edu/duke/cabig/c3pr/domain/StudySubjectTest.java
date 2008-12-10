@@ -134,7 +134,7 @@ public class StudySubjectTest extends AbstractTestCase {
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         
         assertEquals("Wrong isRegisterable return", true,
-                        studySubject.isRegisterable());
+                        studySubject.getIsRegisterable());
     }
     
     public void testIsRegisterableFalse(){
@@ -145,7 +145,7 @@ public class StudySubjectTest extends AbstractTestCase {
         studySubject.addScheduledEpoch(sc);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         assertEquals("Wrong isRegisterable return", false,
-                        studySubject.isRegisterable());
+                        studySubject.getIsRegisterable());
     }
     
     public void testRequiresCoordinatingCenterApprovalTrue(){
