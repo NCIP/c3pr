@@ -144,7 +144,6 @@
 	             	<tags:hoverHint keyProp="study.multiInstitutionIndicator"/>
 	            </div>
 	        </div>
-	        <!-- 
 	        <div class="row">
              	<div class="label required-indicator">Consent Version/Date:</div>
              	<div class="value">
@@ -152,20 +151,9 @@
              		<a href="#" id="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion-calbutton">
                     	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 	</a>
-                	<script type="text/javascript">
-                	inputDateElementLocal="study.companionStudyAssociations["+${statusIndex}+"].companionStudy.consentVersion";
-                    inputDateElementLink="study.companionStudyAssociations["+${statusIndex}+"].companionStudy.consentVersion-calbutton";
-                     Calendar.setup(
-                     {
-                         inputField  : inputDateElementLocal,         // ID of the input field
-                         ifFormat    : "%m/%d/%Y",    // the date format
-                         button      : inputDateElementLink       // ID of the button
-                     }
-                    );
-                	</script>
-             		<tags:hoverHint keyProp="study.consentVersion"/></div>
-         		</div>
-         		 -->
+             		<tags:hoverHint keyProp="study.consentVersion"/>
+             	</div>
+         	</div>
         	<div class="row" style="display:none;">
 	        	<div class="label required-indicator">Standalone Study:</div>
 	        	<div class="value">

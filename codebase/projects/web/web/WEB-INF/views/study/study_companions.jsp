@@ -75,6 +75,15 @@ var contentWin;
 	        clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
 			clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
 			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+			inputDateElementLocal="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion";
+	         inputDateElementLink="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion-calbutton";
+	          Calendar.setup(
+	          {
+	              inputField  : inputDateElementLocal,         // ID of the input field
+	              ifFormat    : "%m/%d/%Y",    // the date format
+	              button      : inputDateElementLink       // ID of the button
+	          }
+	       	);
 	    },
 	    onLoadRowInitialize: function(object, currentRowIndex){
 			clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
