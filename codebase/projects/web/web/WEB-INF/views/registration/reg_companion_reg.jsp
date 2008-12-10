@@ -26,7 +26,7 @@
 	</script>
 </head>
 <body>
-<form action="../registration/createEmbeddedCompanionRegistration?registrationId=${command.studySubject.systemAssignedIdentifiers[0] }" method="post" id="manageCompanion">
+<form action="../registration/createEmbeddedCompanionRegistration?registrationId=${command.studySubject.id }" method="post" id="manageCompanion">
 	<input type="hidden" name="_page0" id="_page0" value="0" /> 
 	<input type="hidden" name="_target2" id="_target2" value="2" /> 
 </form>

@@ -67,10 +67,6 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 </head>
 <body>
 <tags:instructions code="enrollment_details" />
-<registrationTags:goToTab currentTab="1" registration="${command.studySubject}" />
-<registrationTags:backToTab currentTab="1" registration="${command.studySubject}" />
-<c:set var="custonButton" value ="${param.customButton}" ></c:set>
-
 <c:choose>
 <c:when test="${alreadyRegistered!=null}">
 	<tags:panelBox>

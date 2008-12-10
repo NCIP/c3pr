@@ -20,9 +20,6 @@
 </script>
 </head>
 <body>
-<registrationTags:goToTab currentTab="4" registration="${command.studySubject}" />
-<registrationTags:backToTab currentTab="4" registration="${command.studySubject}" />
-<c:set var="custonButton" value ="${param.customButton}" ></c:set>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 	<c:choose>
 	<c:when test="${empty command.studySubject.scheduledEpoch.epoch.arms}">
