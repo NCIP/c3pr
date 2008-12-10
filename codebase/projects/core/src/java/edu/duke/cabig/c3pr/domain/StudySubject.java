@@ -630,7 +630,7 @@ public class StudySubject extends
 	 * epoch is enrolling
 	 */
 	@Transient
-	public boolean isRegisterable() {
+	public boolean getIsRegisterable() {
 		if (this.isDataEntryComplete()
 				&& this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED
 				&& this.getScheduledEpoch().getEpoch().isEnrolling()) {
@@ -638,9 +638,9 @@ public class StudySubject extends
 		}
 		return false;
 	}
-
+	
 	@Transient
-	public boolean isReservable() {
+	public boolean getIsReservable() {
 		if (this.isDataEntryComplete()
 				&& this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED
 				&& this.getScheduledEpoch().getEpoch().isReserving()) {
@@ -899,6 +899,7 @@ public class StudySubject extends
 		switch (this.getStudySite().getStudy().getRandomizationType()) {
 		case PHONE_CALL:
 			doPhoneCallRandomization();
+			break;
 		case BOOK:
 			doBookRandomization();
 			break;
@@ -928,6 +929,7 @@ public class StudySubject extends
 
 	private void doPhoneCallRandomization() {
 		if (this.getScheduledEpoch().getScheduledArm() == null) {
+			if(!this.getStudySite().getStudy().getBlindedIndicator())
 			throw new C3PRBaseRuntimeException(
 					"The subject should have been already assigned to a Scheduled Arm for the Scheduled Epoch :"
 							+ getScheduledEpoch().getEpoch().getName());
