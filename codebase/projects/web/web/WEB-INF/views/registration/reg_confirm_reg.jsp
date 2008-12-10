@@ -30,7 +30,7 @@ function manageCompanions(registrationId){
 </script>
 </head>
 <body>
-<form action="../registration/manageRegistration?registrationId=${command.studySubject.id }" method="post" id="manageCompanion">
+<form action="../registration/manageRegistration?registrationId=${command.studySubject.systemAssignedIdentifiers[0]}" method="post" id="manageCompanion">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target2" id="_target2" value="2"/>
 	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
@@ -56,7 +56,7 @@ function manageCompanions(registrationId){
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 
 <br/>
-<!-- 	 newRegistration: ${newRegistration}<br>
+	 newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
 	reg_pending:${reg_pending }<br>
@@ -74,7 +74,9 @@ function manageCompanions(registrationId){
 	isDataEntryComplete:${isDataEntryComplete }<br>
 	epoch_unrandomized:${ epoch_unrandomized}<br>
 	actionRequired :${actionRequired}
-	registerableWithCompanions :${registerableWithCompanions}  -->
+	actionLabel:${actionLabel}
+	registerableWithCompanions :${registerableWithCompanions}
+	requiresMultiSite:${requiresMultiSite}
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
@@ -293,9 +295,9 @@ function manageCompanions(registrationId){
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.studySubject.gridId }"/>
 </form>
-<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Unapproved'}">
-<tags:panelBox title="${actionLabel}">
-	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
+<c:if test="${registerableWithCompanions &&(command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
+<tags:panelBox title="Enroll & Randomize">
+	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll & Randomize" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
 </c:if>
 </body>
