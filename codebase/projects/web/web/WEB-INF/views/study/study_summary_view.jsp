@@ -116,7 +116,7 @@
     <td class="alt" align="left">${command.study.coordinatingCenterStudyStatus.code}
         <c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
             <c:if test="${coCenterStatus=='READY_TO_OPEN'}">
-                <c:set var="readyToOpen" value="Ready to open this study"></c:set>
+                <c:set var="readyToOpen" value="Create"></c:set>
             </c:if>
             <c:if test="${coCenterStatus=='OPEN'}">
                 <c:set var="open" value="Open Study"></c:set>
