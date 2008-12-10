@@ -14,9 +14,9 @@ function takeAction(nciCode){
 }
 
 function changeCompanionStudySiteStatus(nciCode){
-	action=$("siteAction-"+nciCode).value;
-	<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/sites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+ '&studySiteType=companionSite&DO_NOT_SAVE=true'" />
-	Element.show('sendingMessage-'+nciCode);
+	action=$("companionSiteAction-"+nciCode).value;
+	<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/companionSites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+ '&studySiteType=companionSite&DO_NOT_SAVE=true'" />
+	Element.show('companionSendingMessage-'+nciCode);
 }
 
 function showEndpointError(nciCode, localNciCode){
@@ -142,24 +142,24 @@ failedStatusChange= function (responseXML){
 			        <th><b>Actions</b></th>
 			    </tr>
 			    <c:forEach items="${parentStudyAssociation.studySites}" varStatus="status" var="site">
-				    <c:set var="siteEndpoint" value="${site}"/>
-					<c:if test="${localNCICode==site.healthcareSite.nciInstituteCode}"><c:set var="siteEndpoint" value="${site.study.studyCoordinatingCenters[0]}"/></c:if>
+				    <c:set var="companionSiteEndpoint" value="${site}"/>
+					<c:if test="${localNCICode==site.healthcareSite.nciInstituteCode}"><c:set var="companionSiteEndpoint" value="${site.study.studyCoordinatingCenters[0]}"/></c:if>
 			        <tr id="siteTable-${site.healthcareSite.nciInstituteCode }">
 			        	<td>${site.healthcareSite.name }</td>
-			        	<td><div id="siteStatus-${site.healthcareSite.nciInstituteCode }">${site.siteStudyStatus.code}</div></td>
-			            <td><div id="siteIRB-${site.healthcareSite.nciInstituteCode }"><tags:formatDate value="${site.irbApprovalDate}"></tags:formatDate></div></td>
+			        	<td><div id="companionSiteStatus-${site.healthcareSite.nciInstituteCode }">${site.siteStudyStatus.code}</div></td>
+			            <td><div id="companionSiteIRB-${site.healthcareSite.nciInstituteCode }"><tags:formatDate value="${site.irbApprovalDate}"></tags:formatDate></div></td>
 						<td>
-							<div id="Messages-${site.healthcareSite.nciInstituteCode }">
+							<div id="companionMessages-${site.healthcareSite.nciInstituteCode }">
 							<c:choose>
-								<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
+								<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(companionSiteEndpoint.endpoints)>0}">
 									<c:choose>
-										<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
-											<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-											Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
+										<c:when test="${companionSiteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
+											<font color="red">${companionSiteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
+											Click <a href="javascript:showEndpointError('${companionSiteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
 										</c:when>
 										<c:otherwise>
-											<font color="green">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-											Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the messages
+											<font color="green">${companionSiteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
+											Click <a href="javascript:showEndpointError('${companionSiteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the messages
 										</c:otherwise>
 									</c:choose>
 								</c:when>
@@ -170,7 +170,7 @@ failedStatusChange= function (responseXML){
 							</div>
 						</td>
 			            <td>
-			            <div id="actions-${site.healthcareSite.nciInstituteCode }">
+			            <div id="companionActions-${site.healthcareSite.nciInstituteCode }">
 			            	<%-- %>1.[${siteEndpoint.healthcareSite.nciInstituteCode}]<br>
 			            	2.${site.hostedMode || (!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode)}<br>
 			            	3.${site.hostedMode}<br>
@@ -182,7 +182,7 @@ failedStatusChange= function (responseXML){
 			            	9.${fn:length(siteEndpoint.possibleEndpoints)==0}<br>--%>
 			            	<c:set var="noAction" value="true"/>
 			            	<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
-			            	<select id="siteAction-${site.healthcareSite.nciInstituteCode }">
+			            	<select id="companionSiteAction-${site.healthcareSite.nciInstituteCode }">
 			            		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
 			            		<c:choose>
 			   					<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
@@ -206,13 +206,13 @@ failedStatusChange= function (responseXML){
 			            	</select>
 			            	<input type="button" value="Go" onclick="changeCompanionStudySiteStatus('${site.healthcareSite.nciInstituteCode}');"/>
 							</c:if>
-							<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
+							<div id="companionSendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
 								Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
 							</div>
 							</div>
 							<c:if test="${noAction}">
 							<script>
-								Element.hide("actions-${site.healthcareSite.nciInstituteCode }");
+								Element.hide("companionActions-${site.healthcareSite.nciInstituteCode }");
 							</script>
 							</c:if>
 			            </td>

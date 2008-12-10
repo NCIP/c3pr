@@ -112,13 +112,14 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 	
 	public void addStudySite(StudySite studySite) {
 		if(studySite != null){
-			getStudySites().add(studySite);
+			this.getStudySites().add(studySite);
+			studySite.setCompanionStudyAssociation(this);
 		}
 	}
 	
 	public void removeStudySite(StudySite studySite) {
 		if(studySite != null){
-			getStudySites().remove(studySite);
+			this.getStudySites().remove(studySite);
 		}
 	}
 	
