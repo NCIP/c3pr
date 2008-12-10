@@ -33,7 +33,7 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-    	if(WebUtils.hasSubmitParameter(request, "studySubject.studySite") && WebUtils.hasSubmitParameter(request, "studySubject.participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
+    	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
     		StudySubjectWrapper wrapper = (StudySubjectWrapper)super.formBackingObject(request);
     		wrapper.getStudySubject().setParentStudySubject(studySubjectDao.getById(Integer.parseInt(request.getParameter("parentRegistrationId")), true));
     		studySubjectDao.initialize(wrapper.getStudySubject().getParentStudySubject());

@@ -24,13 +24,13 @@ function createReg(studySite, participant, parentRegistrationId){
 	$('create').submit();
 }
 
-function manageCompanions(registrationId){
+function manageCompanions(){
 	$('manageCompanion').submit();
 }
 </script>
 </head>
 <body>
-<form action="../registration/manageRegistration?registrationId=${command.studySubject.systemAssignedIdentifiers[0]}" method="post" id="manageCompanion">
+<form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="manageCompanion">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target2" id="_target2" value="2"/>
 	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
@@ -234,7 +234,7 @@ function manageCompanions(registrationId){
 	<br>
 	<div align="right">
 		<c:if test="${hasCompanions && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
-			<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions('${command.studySubject.id}');"/>
+			<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions();"/>
 		</c:if>	
 	</div>
 	<div align="right">

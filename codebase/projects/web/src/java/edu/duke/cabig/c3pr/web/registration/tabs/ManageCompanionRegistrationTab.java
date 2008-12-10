@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.Companion;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -18,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> extends RegistrationTab<C> {
@@ -55,9 +57,11 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
 	
 	private List<Companion> getCompanionStudySubject(HttpServletRequest request){
     	List<Companion> companions = new ArrayList<Companion>();
-    	String registrationId = request.getParameter("registrationId");
-    	if(!StringUtils.isBlank(registrationId)){
-    		StudySubject studySubject = studySubjectDao.getById(Integer.parseInt(registrationId));
+    	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+    	if(identifier != null){
+    		List<Identifier> identifiers=new ArrayList<Identifier>();
+    		identifiers.add(identifier);
+    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
     		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()){
     			Companion companion = new Companion();
     			Study companionStudy = companionStudyAssoc.getCompanionStudy();
@@ -74,8 +78,6 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
     						}
     					}
     				}
-    				
-    				
     			}
     			companions.add(companion);
     		}
