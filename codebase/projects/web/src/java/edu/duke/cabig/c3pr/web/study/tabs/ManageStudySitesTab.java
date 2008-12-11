@@ -73,13 +73,13 @@ public class ManageStudySitesTab extends StudyTab {
 
         APIName apiName=APIName.valueOf(request.getParameter("action"));
         if(apiName==APIName.CREATE_STUDY){
-            studyService.createStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
+        	studyRepository.createStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.OPEN_STUDY){
-            studyService.openStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
+        	studyRepository.openStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.AMEND_STUDY){
-            studyService.amendStudyAtAffiliates(studyIdentifiers, study);
+        	studyRepository.amendStudyAtAffiliates(studyIdentifiers, study);
         }else if(apiName==APIName.CLOSE_STUDY){
-            studyService.closeStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
+        	studyRepository.closeStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION){
             try {
             	studySite = studyRepository.approveStudySiteForActivation(studyIdentifiers, studySite);
@@ -103,11 +103,18 @@ public class ManageStudySitesTab extends StudyTab {
             }
         } 
         Map map=new HashMap();
-        study = studyRepository.getUniqueStudy(study.getIdentifiers());
-        wrapper.setStudy(study);
-        studyDao.initialize(study);
-        map.put("site", studySite);
+        wrapper.setStudy(studyRepository.getUniqueStudy(study.getIdentifiers()));
+        studyDao.initialize(wrapper.getStudy());
+        map.put("site", wrapper.getStudy().getStudySite(studySite.getHealthcareSite().getNciInstituteCode()));
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }
 
+	private StudySite getStudySite(Study study, String nciCode, String studySiteType) {
+		if(StringUtils.isBlank(studySiteType)){
+			return study.getStudySite(nciCode);
+		}else{
+			return study.getCompanionStudySite(nciCode);
+		}
+	}
+	
 }
