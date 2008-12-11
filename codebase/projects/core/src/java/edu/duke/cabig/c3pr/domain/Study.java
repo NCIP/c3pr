@@ -1543,5 +1543,15 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.getCustomFields().add(customField);
 		customField.setStudy(this);
 	}
+	
+	@Transient
+	public CompanionStudyAssociation getParentStudyAssociation(int parentStudyId){
+		for(CompanionStudyAssociation companionStudyAssociation : this.getParentStudyAssociations()){
+			if(companionStudyAssociation.getParentStudy().getId() == parentStudyId){
+				return companionStudyAssociation;
+			}
+		}
+		return null;
+	}
 
 }

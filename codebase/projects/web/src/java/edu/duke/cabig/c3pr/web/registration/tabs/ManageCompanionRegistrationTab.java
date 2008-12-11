@@ -67,6 +67,7 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
     			Study companionStudy = companionStudyAssoc.getCompanionStudy();
     			companion.setCompanionStudyShortTitle(companionStudy.getShortTitleText());
     			companion.setCompanionStudyPrimaryIdentifier(companionStudy.getPrimaryIdentifier());
+    			companion.setCompanionStudyId(companionStudy.getId());
     			companion.setMandatoryIndicator(companionStudyAssoc.getMandatoryIndicator());
     			for(StudySite studySite : companionStudy.getStudySites()){
     				if(studySite.getHealthcareSite() == studySubject.getStudySite().getHealthcareSite()){
