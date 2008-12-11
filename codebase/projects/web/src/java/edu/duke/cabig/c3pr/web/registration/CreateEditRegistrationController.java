@@ -49,7 +49,7 @@ public class CreateEditRegistrationController<C extends StudySubjectWrapper> ext
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
         if(wrapper.getShouldReserve()==null){
-        	studySubject=studySubjectRepository.create(studySubject);
+        	studySubject=studySubjectRepository.save(studySubject);
         }else if(wrapper.getShouldReserve()){
         	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
         }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
