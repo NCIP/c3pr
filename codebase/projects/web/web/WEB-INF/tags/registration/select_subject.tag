@@ -211,13 +211,13 @@
                 <input type="hidden" name="validate" id="validate" value="true"/><input type="hidden" name="_finish" id="_action" value=""><input type="hidden" name="_page" value="0"><input type="hidden" name="async" id="async" value="async">
                 <div class="division " id="single-fields">
                     <div class="content">
-                        <table width="75%" border="0" cellspacing="0" cellpadding="0" id="details">
+                        <table border="0" cellspacing="0" cellpadding="0" id="details">
                             <tr>
-                                <td width="45%" valign="top">
+                                <td width="40%" valign="top">
                                     <table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
                                         <tr>
                                             <td align="right">
-                                                <span class="required-indicator">First Name:&nbsp;</span>
+                                                <tags:requiredIndicator />First Name:&nbsp;
                                             </td>
                                             <td align="left">
                                                 <input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
@@ -225,7 +225,7 @@
                                         </tr>
                                         <tr>
                                             <td align="right">
-                                                <span class="required-indicator">Last Name:&nbsp;</span>
+                                                <tags:requiredIndicator />Last Name:&nbsp;
                                             </td>
                                             <td align="left">
                                                 <input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
@@ -249,7 +249,7 @@
                                         </tr>
                                         <tr>
                                             <td align="right">
-                                                <span class="required-indicator">Gender:</span>&nbsp;
+                                                <tags:requiredIndicator />Gender:&nbsp;
                                             </td>
                                             <td align="left">
                                                 <select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
@@ -268,7 +268,7 @@
                                     <table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
                                         <tr>
                                             <td align="right">
-                                                <span class="required-indicator">Birth Date:</span>&nbsp;
+                                                <tags:requiredIndicator />Birth Date:&nbsp;
                                             </td>
                                             <td align="left">
                                                 <input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
@@ -276,7 +276,7 @@
                                         </tr>
                                         <tr>
                                             <td align="right">
-                                                <span class="required-indicator">Ethnicity:</span>&nbsp;
+                                                <tags:requiredIndicator />Ethnicity:&nbsp;
                                             </td>
                                             <td align="left">
                                                 <select id="ethnicGroupCode" name="ethnicGroupCode" class="validate-notEmpty">
@@ -292,7 +292,7 @@
                                         </tr>
                                         <tr>
                                             <td align="left">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required-indicator">Race(s):</span>&nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<tags:requiredIndicator />Race(s):&nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
                                             </td>
                                             <td align="left" class="race">
                                                 <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/>Asian

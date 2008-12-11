@@ -804,7 +804,11 @@ table.tablecontent { border-collapse: collapse; }
 }
 .red { color: #EE3324; }
 .required-indicator:before {
-	content: "* ";
+	content: "REPLACE * WITH requiredIndicator.tag! ";
+	color: #900;
+	font-family: serif;
+}
+.requiredIndicator {
 	color: #900;
 	font-family: serif;
 }
