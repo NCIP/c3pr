@@ -8,6 +8,7 @@ public class Companion {
 	private Boolean mandatoryIndicator ;
 	private int registrationId ;
 	private int studySiteId ;
+	private int companionStudyId;
 	
 	public String getCompanionStudyPrimaryIdentifier() {
 		return companionStudyPrimaryIdentifier;
@@ -47,6 +48,12 @@ public class Companion {
 	}
 	public Boolean getMandatoryIndicator() {
 		return mandatoryIndicator;
+	}
+	public void setCompanionStudyId(int companionStudyId) {
+		this.companionStudyId = companionStudyId;
+	}
+	public int getCompanionStudyId() {
+		return companionStudyId;
 	}
 
 }
