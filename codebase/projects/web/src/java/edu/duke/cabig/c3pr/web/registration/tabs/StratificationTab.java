@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.web.registration.tabs;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 
@@ -70,4 +72,14 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
             }
         }
     }
+
+	@Override
+	public void postProcess(HttpServletRequest request,
+			StudySubjectWrapper command, Errors errors) {
+		super.postProcess(request, command, errors);
+		StudySubject studySubject = ((StudySubjectWrapper) command).getStudySubject();
+		studySubject.getScheduledEpoch().setStratumGroupNumber(studySubject.getStratumGroup().getStratumGroupNumber());
+	}
+    
+    
 }
