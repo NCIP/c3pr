@@ -141,7 +141,7 @@
         <property name="viewName" value="/admin/notification_search"/>
     </bean>
     
-    <bean name="/registration/testPage" id="testPage"
+    <bean name="/registration/createCompanionRegistration" id="createCompanionRegistration"
           class="edu.duke.cabig.c3pr.web.registration.ChangeEpochController" autowire="byName">
         <property name="studySiteDao" ref="studySiteDao"/>
     </bean>

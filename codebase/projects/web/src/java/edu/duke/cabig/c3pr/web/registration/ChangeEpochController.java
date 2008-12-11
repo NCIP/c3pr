@@ -36,7 +36,7 @@ public class ChangeEpochController extends AbstractController{
 		map.put("studySite", request.getParameter("studySite"));
 		map.put("parentRegistrationId", request.getParameter("parentRegistrationId"));
 		
-		ModelAndView mav = new ModelAndView("registration/testPage", map);
+		ModelAndView mav = new ModelAndView("registration/createCompanionRegistration", map);
 		
 		return mav;
 	}

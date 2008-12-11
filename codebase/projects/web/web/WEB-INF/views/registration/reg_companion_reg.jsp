@@ -7,9 +7,9 @@
 <link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
 		var win;
-		function openPopup(studySite, participant, parentRegistrationId){
+		function openPopup(companionStudy, participant, parentRegistrationId){
 			win = new Window(
-					{onClose: function() {$('manageCompanion').submit()},title: "Registration", top:35, scrollbar: false, left:100, zIndex:100, width:700, height:325 , url: "<c:url value='/pages/registration/testPage?decorator=noheaderDecorator&customButton=true&create_companion=true&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&studySite=" + studySite, 
+					{onClose: function() {$('manageCompanion').submit()},title: "Registration", top:35, scrollbar: false, left:100, zIndex:100, width:700, height:325 , url: "<c:url value='/pages/registration/createCompanionRegistration?decorator=noheaderDecorator&customButton=true&create_companion=true&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
 					  showEffectOptions: {duration:1.5}
 					}
 				) 
@@ -26,7 +26,7 @@
 	</script>
 </head>
 <body>
-<form action="../registration/createEmbeddedCompanionRegistration?registrationId=${command.studySubject.id }" method="post" id="manageCompanion">
+<form action="../registration/createEmbeddedCompanionRegistration?registrationId=${command.studySubject.id}" method="post" id="manageCompanion">
 	<input type="hidden" name="_page0" id="_page0" value="0" /> 
 	<input type="hidden" name="_target2" id="_target2" value="2" /> 
 </form>
@@ -65,7 +65,7 @@
 									authorizationCheckName="domainObjectAuthorizationCheck">
 									<input type="button" id="registerCompanionStudy"
 										value="Register"
-										onclick="openPopup('${ companion.studySiteId}','${command.studySubject.participant.id}','${command.studySubject.id}');" />
+										onclick="openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}');" />
 								</csmauthz:accesscontrol>
 							</c:otherwise>
 						</c:choose></td>

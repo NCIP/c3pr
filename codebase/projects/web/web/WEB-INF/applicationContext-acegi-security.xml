@@ -205,7 +205,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
         <entry key="/pages/registration/create.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
-		<entry key="/pages/registration/testPage.*"
+		<entry key="/pages/registration/createCompanionRegistration.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
         <entry key="/pages/registration/confirm.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
