@@ -33,6 +33,8 @@ import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.ServiceName;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
@@ -40,6 +42,8 @@ import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.grid.studyservice.stubs.service.StudyService;
+import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -62,9 +66,9 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
     private StudySubjectFactory studySubjectFactory;
     
-    private StudySubjectServiceImpl studySubjectServiceImpl;
+    private StudySubjectService studySubjectService;
     
-    private StudyServiceImpl studyServiceImpl;
+    //private StudyService studyService;
     
     private Logger log = Logger.getLogger(StudySubjectRepositoryImpl.class.getName());
 
@@ -73,11 +77,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         loadedSubject.setC3DIdentifier(c3dIdentifierValue);
         studySubjectDao.save(loadedSubject);
     }
-
-    public void setStudySubjectServiceImpl(
-			StudySubjectServiceImpl studySubjectServiceImpl) {
-		this.studySubjectServiceImpl = studySubjectServiceImpl;
-	}
 
 	public void assignCoOrdinatingCenterIdentifier(StudySubject studySubject, String identifierValue) {
         StudySubject loadedSubject = studySubjectDao.getByGridId(studySubject.getGridId());
@@ -342,10 +341,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			studySubject.prepareForEnrollment();
 		}
 		
-		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studyServiceImpl.getLocalNCIInstituteCode())){
+		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studySubjectService.getLocalNCIInstituteCode())){
 			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
             domainObjects.add(studySubject);
-            studySubjectServiceImpl.handleCoordinatingCenterBroadcast(studySubject.getStudySite().getStudy(), APIName.ENROLL_SUBJECT, domainObjects);
+            handleCoordinatingCenterBroadcast(studySubject.getStudySite().getStudy(), APIName.ENROLL_SUBJECT, domainObjects);
             EndPoint endPoint=studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getLastAttemptedEndpoint();
             StudySubject multisiteReturnedStudySubject=(StudySubject) endPoint.getReturnValue();
 			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
@@ -385,8 +384,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			studySubject.prepareForTransfer();
 		}
 		
-		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studyServiceImpl.getLocalNCIInstituteCode())){
-			StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
+		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studySubjectService.getLocalNCIInstituteCode())){
+			StudySubject multisiteReturnedStudySubject = studySubjectService.getArmAndCoordinatingAssignedIdentifier(studySubject);
 			studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
 		}else{
 			studySubject.doLocalTransfer();
@@ -435,4 +434,19 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	        }
 	        return studySubjects.get(0);
 	    }
+	 
+	 public EndPoint handleCoordinatingCenterBroadcast(Study study,
+				APIName multisiteAPIName, List domainObjects) {
+			for(EndPoint endPoint: study.getStudyCoordinatingCenters().get(0).getEndpoints()){
+				endPoint.getErrors().size();
+	        	studySubjectDao.evict(endPoint);
+	        }
+			return studySubjectService.handleMultiSiteBroadcast(study.getStudyCoordinatingCenters()
+					.get(0), ServiceName.STUDY, multisiteAPIName,
+					domainObjects);
+		}
+
+	public void setStudySubjectService(StudySubjectService studySubjectService) {
+		this.studySubjectService = studySubjectService;
+	}
 }

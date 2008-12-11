@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.dao;
 
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
@@ -202,6 +203,10 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 		query.append(')');
 	}
 
+	public void evict(Object domainObject){
+		getHibernateTemplate().evict(domainObject);
+	}
+	
 	private boolean hasAny(List<String> properties) {
 		return properties != null && properties.size() > 0;
 	}

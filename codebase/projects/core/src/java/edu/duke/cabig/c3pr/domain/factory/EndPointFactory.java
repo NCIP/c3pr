@@ -30,6 +30,7 @@ public class EndPointFactory {
         if(endPoint==null){
             endPoint=this.newInstance(multisiteServiceName, multisiteAPIName, endPointProperty);
             studyOrganization.addEndPoint(endPoint);
+            endPoint.setStudyOrganization(studyOrganization);
         }else{
             if(endPoint instanceof GridEndPoint){
                 ((GridEndPoint)endPoint).setGlobusCredential(getCredential());

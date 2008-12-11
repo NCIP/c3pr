@@ -32,7 +32,7 @@ public abstract class AbstractRequestHandler<C extends InteroperableAbstractMuta
         WebRequest webRequest=preProcess();
         try{
         C messageObject=messageAsObject(registrationXML);
-        messageObject.setMultisiteWorkflowStatus(multisiteWorkflowStatus());
+        //messageObject.setMultisiteWorkflowStatus(multisiteWorkflowStatus());
         handlerRequest(messageObject);
         }catch(RuntimeException e){
             throw e;

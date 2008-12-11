@@ -18,8 +18,6 @@ public abstract class InteroperableAbstractMutableDeletableDomainObject extends 
 
     private WorkFlowStatusType cctsWorkflowStatus;
 
-    private WorkFlowStatusType multisiteWorkflowStatus;
-    
     private boolean importErrorFlag;
 
     private String importErrorString;
@@ -79,13 +77,9 @@ public abstract class InteroperableAbstractMutableDeletableDomainObject extends 
         this.importErrorString = importErrorString;
     }
 
-    @Enumerated(EnumType.STRING)
+    @Transient
     public WorkFlowStatusType getMultisiteWorkflowStatus() {
-        return multisiteWorkflowStatus;
-    }
-
-    public void setMultisiteWorkflowStatus(WorkFlowStatusType multisiteWorkflowStatus) {
-        this.multisiteWorkflowStatus = multisiteWorkflowStatus;
+        return getLastAttemptedEndpoint()!=null?getLastAttemptedEndpoint().getStatus():null;
     }
 
     @Transient

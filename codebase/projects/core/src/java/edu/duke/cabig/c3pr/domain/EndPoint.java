@@ -16,6 +16,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -54,8 +55,9 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     private Date attemptDate;
     protected List<Error> errors= new ArrayList<Error>();
     protected Object returnValue;
+    protected StudyOrganization studyOrganization;
 
-    public EndPoint(){
+	public EndPoint(){
         
     }
     
@@ -145,7 +147,7 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         this.endPointProperty = endPointProperty;
     }
 
-    @OneToMany
+    @OneToMany(fetch=FetchType.EAGER)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "endpoint_id", nullable=false)
     public List<Error> getErrors() {
@@ -229,4 +231,15 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     public Object getReturnValue() {
         return returnValue;
     }
+
+    @ManyToOne
+    //@Cascade(value = { CascadeType.LOCK})
+    @JoinColumn(name = "sto_id", nullable = false)
+	public StudyOrganization getStudyOrganization() {
+		return studyOrganization;
+	}
+
+	public void setStudyOrganization(StudyOrganization studyOrganization) {
+		this.studyOrganization = studyOrganization;
+	}
 }

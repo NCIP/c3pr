@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,16 +7,14 @@ import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.dao.EndpointDao;
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
-import edu.duke.cabig.c3pr.dao.StudyOrganizationDao;
 import edu.duke.cabig.c3pr.domain.APIName;
 import edu.duke.cabig.c3pr.domain.EndPoint;
-import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.factory.EndPointFactory;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
@@ -25,13 +22,11 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.CCTSWorkflowService;
 import edu.duke.cabig.c3pr.service.MultiSiteWorkflowService;
-import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XMLTransformer;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
@@ -44,6 +39,8 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     private Logger log = Logger.getLogger(CCTSWorkflowService.class);
 
     protected GridIdentifiableDao dao;
+    
+    protected EndpointDao endpointDao;
 
     private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
     
@@ -66,8 +63,6 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     private XMLTransformer xmlTransformer; 
     
     private EndPointFactory endPointFactory;
-    
-    protected StudyOrganizationDao studyOrganizationDao;
     
     public void setCctsXSLTName(String cctsXSLTName) {
         this.cctsXSLTName = cctsXSLTName;
@@ -230,62 +225,38 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
         this.xmlTransformer = xmlTransformer;
     }
 
-    public void handleMultiSiteBroadcast(List studyOrganizations, ServiceName multisiteServiceName, APIName multisiteAPIName, List domainObjects) {
-        if(studyOrganizations.size()==0){
-            log.error("There are no study organizations to bradcast to.");
-        }
-        for(int i=0 ; i<studyOrganizations.size() ; i++){
-            StudyOrganization studyOrganization=(StudyOrganization)studyOrganizations.get(i);
-            handleMultiSiteBroadcast(studyOrganization, multisiteServiceName, multisiteAPIName, domainObjects);
-        }
-    }
-    
-    public void handleMultiSiteBroadcast(StudyOrganization studyOrganization, ServiceName multisiteServiceName, APIName multisiteAPIName, List domainObjects) {
+    @Transactional(propagation=Propagation.REQUIRES_NEW)
+    public EndPoint handleMultiSiteBroadcast(StudyOrganization studyOrganization, ServiceName multisiteServiceName, APIName multisiteAPIName, List domainObjects) {
         if(!this.canMultisiteBroadcast(studyOrganization)){
-            return;
+            throw exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.MULTISITE.NOT_HOSTED_MODE.CODE"));
         }
-        StudyOrganization freshStudyOrganization=studyOrganizationDao.getById(studyOrganization.getId());
+        EndPoint endPoint=endPointFactory.getEndPoint(multisiteServiceName, multisiteAPIName, studyOrganization);
         try {
-            //multiSiteHandlerService.handle(multisiteServiceName, multisiteAPIName, endPointProperty, domainObjects);
-            EndPoint endPoint=endPointFactory.getEndPoint(multisiteServiceName, multisiteAPIName, freshStudyOrganization);
             endPoint.invoke(domainObjects);
-            studyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
+        }catch(Exception e){
+        	
         }
-        catch (Exception e) {
-        	freshStudyOrganization.setMultisiteWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
-        	studyOrganizationDao.save(freshStudyOrganization);
+        finally{
+        	endpointDao.save(endPoint);
+        	return endPoint;
+        	
         }
     }
-    
-    @Transactional(propagation=Propagation.REQUIRES_NEW)
-    public void handleAffiliateSiteBroadcast(String nciInstituteCode, Study study, APIName multisiteAPIName, List domainObjects){
-        List<AbstractMutableDomainObject> studyOrganizations=new ArrayList<AbstractMutableDomainObject>();
-        studyOrganizations.add(study.getStudySite(nciInstituteCode));
-        handleMultiSiteBroadcast(studyOrganizations, getMultisiteServiceName(), multisiteAPIName, domainObjects);
-    }
-    
-    @Transactional(propagation=Propagation.REQUIRES_NEW)
-    public void handleAffiliateSitesBroadcast(Study study, APIName multisiteAPIName, List domainObjects){
-        handleMultiSiteBroadcast(study.getAffiliateStudySites(), getMultisiteServiceName(), multisiteAPIName, domainObjects);
-    }
-    
-    @Transactional(propagation=Propagation.REQUIRES_NEW)
-    public void handleCoordinatingCenterBroadcast(Study study, APIName multisiteAPIName, List domainObjects){
-        handleMultiSiteBroadcast(study.getStudyCoordinatingCenters(), getMultisiteServiceName(), multisiteAPIName, domainObjects);
-    }
-    
-    public abstract ServiceName getMultisiteServiceName();
     
     public boolean canMultisiteBroadcast(StudyOrganization studyOrganization){
-        return !studyOrganization.getHostedMode() && this.configuration.get(Configuration.MULTISITE_ENABLE).equalsIgnoreCase("true");
+        return !studyOrganization.getHostedMode() && isMultisiteEnable();
+    }
+    
+    public boolean isMultisiteEnable(){
+        return this.configuration.get(Configuration.MULTISITE_ENABLE).equalsIgnoreCase("true");
     }
     
     public void setEndPointFactory(EndPointFactory endPointFactory) {
         this.endPointFactory = endPointFactory;
     }
 
-    public void setStudyOrganizationDao(StudyOrganizationDao studyOrganizationDao) {
-        this.studyOrganizationDao = studyOrganizationDao;
-    }
+	public void setEndpointDao(EndpointDao endpointDao) {
+		this.endpointDao = endpointDao;
+	}
     
 }

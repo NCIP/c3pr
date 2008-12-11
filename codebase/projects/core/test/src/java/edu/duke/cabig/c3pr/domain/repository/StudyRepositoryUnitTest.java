@@ -94,7 +94,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
  //       EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.COMPLETE);
  //       study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(false);
+        EasyMock.expect(study.isMultisite()).andReturn(false);
         study.readyToOpen();
         replayMocks();
         studyRepository.createStudy(study);
@@ -107,12 +107,12 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
      //   EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.COMPLETE);
      //   study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true);
+        EasyMock.expect(study.isMultisite()).andReturn(true);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("CC");
     //    EasyMock.expect(study.isCoOrdinatingCenter("CC")).andReturn(true);
         List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
         domainObjects.add(study);
-        studyService.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY,
+        studyRepository.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY,
                         domainObjects);
         replayMocks();
         studyRepository.createStudy(study);
@@ -199,15 +199,15 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         EasyMock.expect(study.getDataEntryStatus()).andReturn(StudyDataEntryStatus.COMPLETE);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
         EasyMock.expect(studyDao.merge(study)).andReturn(study).times(2);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true).times(2);
+        EasyMock.expect(study.isMultisite()).andReturn(true).times(2);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("CC").times(2);
         EasyMock.expect(study.isCoOrdinatingCenter("CC")).andReturn(true).times(2);
         List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
         domainObjects.add(study);
-        studyService.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY,
+        studyRepository.handleAffiliateSitesBroadcast(study, APIName.CREATE_STUDY,
                         domainObjects);
         study.open();
-        studyService.handleAffiliateSitesBroadcast(study, APIName.OPEN_STUDY, ids);
+        studyRepository.handleAffiliateSitesBroadcast(study, APIName.OPEN_STUDY, ids);
         replayMocks();
         studyRepository.openStudy(ids);
         verifyMocks();
@@ -220,10 +220,10 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.READY_TO_OPEN);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true);
+        EasyMock.expect(study.isMultisite()).andReturn(true);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Test");
         EasyMock.expect(study.isCoOrdinatingCenter("Test")).andReturn(true);
-        studyService.handleAffiliateSitesBroadcast(study, APIName.OPEN_STUDY, ids);
+        studyRepository.handleAffiliateSitesBroadcast(study, APIName.OPEN_STUDY, ids);
         replayMocks();
         studyRepository.openStudy(ids);
         verifyMocks();
@@ -326,7 +326,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         EasyMock.expect(study.getStudySite("CC")).andReturn(studySite);
         studySite.approveForActivation();
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true);
+        EasyMock.expect(study.isMultisite()).andReturn(true);
         EasyMock.expect(studyService.isStudyOrganizationLocal("CC")).andReturn(true);
         replayMocks();
         studyRepository.approveStudySiteForActivation(ids, "CC");
@@ -338,7 +338,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         EasyMock.expect(study.getStudySite("Test")).andReturn(studySite).times(2);
         studySite.approveForActivation();
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true);
+        EasyMock.expect(study.isMultisite()).andReturn(true);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("CC");
         EasyMock.expect(studyService.isStudyOrganizationLocal("Test")).andReturn(false);
         EasyMock.expect(study.isCoOrdinatingCenter("CC")).andReturn(true);
@@ -346,7 +346,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
         domainObjects.addAll(ids);
         domainObjects.add(healthcareSite);
-        studyService.handleAffiliateSiteBroadcast("Test", study,
+        studyRepository.handleAffiliateSiteBroadcast("Test", study,
                         APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION, domainObjects);
         replayMocks();
         studyRepository.approveStudySiteForActivation(ids, "Test");
@@ -356,7 +356,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void testActivateStudySitePendingStudy() {
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(study.getStudySite("Test")).andReturn(studySite);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true);
+        EasyMock.expect(study.isMultisite()).andReturn(true);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Test");
         EasyMock.expect(study.isCoOrdinatingCenter("Test")).andReturn(false);
         EasyMock.expect(studySite.getSiteStudyStatus()).andReturn(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
@@ -386,7 +386,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void testActivateStudySiteClosedStudySite() {
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(study.getStudySite("Test")).andReturn(studySite);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(false);
+        EasyMock.expect(study.isMultisite()).andReturn(false);
         studySite.activate();
         EasyMock.expectLastCall().andThrow(this.c3PRExceptionHelper.getRuntimeException(
                         getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE")));
@@ -412,7 +412,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void testActivateAffiliateStudySitePendingStudySite() {
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(study.getStudySite("Test")).andReturn(studySite);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true);
+        EasyMock.expect(study.isMultisite()).andReturn(true);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Test");
         EasyMock.expect(study.isCoOrdinatingCenter("Test")).andReturn(false);
         EasyMock.expect(studySite.getSiteStudyStatus()).andReturn(SiteStudyStatus.PENDING);
@@ -438,7 +438,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void testActivateCoordinatingCenterStudySite() throws C3PRCodedException {
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(study.getStudySite("CC")).andReturn(studySite);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true).times(2);
+        EasyMock.expect(study.isMultisite()).andReturn(true).times(2);
         EasyMock.expect(study.isCoOrdinatingCenter("CC")).andReturn(true).times(2);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("CC").times(2);
         studySite.activate();
@@ -451,7 +451,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void testActivateAffiliateStudySite() throws C3PRCodedException {
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(study.getStudySite("Test")).andReturn(studySite).times(2);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true).times(2);
+        EasyMock.expect(study.isMultisite()).andReturn(true).times(2);
         EasyMock.expect(study.isCoOrdinatingCenter("Test")).andReturn(false).times(2);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Test").times(2);
         EasyMock.expect(studySite.getSiteStudyStatus()).andReturn(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
@@ -461,7 +461,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
         domainObjects.addAll(ids);
         domainObjects.add(healthcareSite);
-        studyService.handleCoordinatingCenterBroadcast(study, APIName.ACTIVATE_STUDY_SITE,
+        studyRepository.handleCoordinatingCenterBroadcast(study, APIName.ACTIVATE_STUDY_SITE,
                         domainObjects);
         replayMocks();
         studyRepository.activateStudySite(ids, "Test");
@@ -472,7 +472,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         study.closeToAccrual();
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(false);
+        EasyMock.expect(study.isMultisite()).andReturn(false);
         replayMocks();
         studyRepository.closeStudy(ids);
         verifyMocks();
@@ -483,7 +483,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         EasyMock.expect(study.getStudySite("Test")).andReturn(studySite).times(2);
         studySite.closeToAccrual();
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
-        EasyMock.expect(study.canMultisiteBroadcast()).andReturn(true);
+        EasyMock.expect(study.isMultisite()).andReturn(true);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("CC");
         EasyMock.expect(studyService.isStudyOrganizationLocal("Test")).andReturn(false);
         EasyMock.expect(study.isCoOrdinatingCenter("CC")).andReturn(true);
@@ -491,7 +491,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
         domainObjects.addAll(ids);
         domainObjects.add(healthcareSite);
-        studyService.handleAffiliateSiteBroadcast("Test", study, APIName.CLOSE_STUDY_SITE,
+        studyRepository.handleAffiliateSiteBroadcast("Test", study, APIName.CLOSE_STUDY_SITE,
                         domainObjects);
         replayMocks();
         studyRepository.closeStudySite(ids, "Test");

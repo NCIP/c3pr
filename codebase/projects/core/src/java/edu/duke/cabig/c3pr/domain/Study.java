@@ -1352,7 +1352,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	@Transient
-	public boolean canMultisiteBroadcast() {
+	public boolean isMultisite() {
 		return this.getMultiInstitutionIndicator() && !this.companionIndicator;
 	}
 

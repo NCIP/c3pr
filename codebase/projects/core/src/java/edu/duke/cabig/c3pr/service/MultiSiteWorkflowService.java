@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
@@ -17,23 +18,11 @@ import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
  * use File | Settings | File Templates.
  */
 public interface MultiSiteWorkflowService<C extends InteroperableAbstractMutableDeletableDomainObject> {
-
-//    public void sendRegistrationRequest(StudySubject studySubject);
-//    
-//    public void sendRegistrationResponse(StudySubject studySubject);
-//    
-//    public CCTSWorkflowStatusType getMultiSiteWofkflowStatus(C cctsObject);
     
     public boolean canMultisiteBroadcast(StudyOrganization studyOrganization);
     
-    public void handleAffiliateSiteBroadcast(String nciInstituteCode, Study study, APIName multisiteAPIName, List<? extends AbstractMutableDomainObject> domainObjects);
+    public boolean isMultisiteEnable();
     
-    public void handleAffiliateSitesBroadcast(Study study, APIName multisiteAPIName, List<? extends AbstractMutableDomainObject> domainObjects);
-    
-    public void handleCoordinatingCenterBroadcast(Study study, APIName multisiteAPIName, List<? extends AbstractMutableDomainObject> domainObjects);
-    
-    public <T extends AbstractMutableDomainObject> void handleMultiSiteBroadcast(List<StudyOrganization> studyOrganizations, ServiceName multisiteServiceName, APIName multisiteAPIName, List<T> domainObjects);
-    
-    public <T extends AbstractMutableDomainObject> void handleMultiSiteBroadcast(StudyOrganization studyOrganization, ServiceName multisiteServiceName, APIName multisiteAPIName, List<T> domainObjects);
+    public <T extends AbstractMutableDomainObject> EndPoint handleMultiSiteBroadcast(StudyOrganization studyOrganization, ServiceName multisiteServiceName, APIName multisiteAPIName, List<T> domainObjects);
 
 }

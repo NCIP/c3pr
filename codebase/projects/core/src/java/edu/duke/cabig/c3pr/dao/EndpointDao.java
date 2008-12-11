@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.EndPoint;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
 /**
  * Hibernate implementation of ArmDao
@@ -25,5 +26,12 @@ public class EndpointDao extends GridIdentifiableDao<EndPoint> {
      */
     public List<EndPoint> getAll() {
         return getHibernateTemplate().find("from EndPoint");
+    }
+    
+    @Override
+    public void save(DomainObject domainObject) {
+    	// TODO Auto-generated method stub
+    	super.save(domainObject);
+    	getHibernateTemplate().initialize(((EndPoint)domainObject).getErrors());
     }
 }

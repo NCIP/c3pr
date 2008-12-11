@@ -198,9 +198,8 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
         this.studyInvestigatorIds = studyInvestigatorIds;
     }
     
-    @OneToMany
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    @JoinColumn(name = "sto_id", nullable = false)
+    @OneToMany(mappedBy="studyOrganization")
+    @Cascade(value = { CascadeType.DELETE, CascadeType.DELETE_ORPHAN })
     public List<EndPoint> getEndpoints() {
         return endpoints;
     }

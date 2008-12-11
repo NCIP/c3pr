@@ -21,19 +21,17 @@ public interface StudySubjectService extends CCTSWorkflowService, MultiSiteWorkf
      * @throws Runtime
      *                 exception
      */
+	
+	public String getLocalNCIInstituteCode();
 
     public void setHostedMode(boolean hostedMode);
 
-    public StudySubject register(StudySubject studySubject);
-    
-    public void processAffliateSiteRegistrationRequest(StudySubject studySubject);
-    
-    public void processCoOrdinatingCenterResponse(StudySubject deserializedStudySubject);
-    
     public boolean requiresExternalApprovalForRegistration(StudySubject studySubject);
 
     public List<StudySubject> searchByExample(StudySubject ss, int maxResults);
     
     public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults);
+    
+    public StudySubject getArmAndCoordinatingAssignedIdentifier(StudySubject studySubject);
     
 }
