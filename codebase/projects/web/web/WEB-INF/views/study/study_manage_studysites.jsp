@@ -94,7 +94,7 @@ failedStatusChange= function (responseXML){
 	            		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
 	            		<c:choose>
 	   					<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
-	   						<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && site.siteStudyStatus=='APPROVED_FOR_ACTIVTION')}">
+	   						<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode))}">
 	   						<option value="${possibleAction}">${possibleAction.displayName }</option>
 	   						<c:set var="noAction" value="false"/>
 	   						</c:if>
