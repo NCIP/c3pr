@@ -78,7 +78,7 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
         if(registrationControllerUtils.isRegisterableOnPage(studySubject))
-        	studySubject = studySubjectService.register(studySubject);
+        	studySubject = studySubjectRepository.transferSubject(studySubject.getIdentifiers());
         else{
             registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
             studySubject=studySubjectRepository.save(studySubject);
