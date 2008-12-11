@@ -154,7 +154,7 @@ public class RegistrationConfirmAndRandomizeController extends
 		Map map = new HashMap();
 		map.put("actionRequired", false);
 		try {
-			studySubject = studySubjectService.register(studySubject);
+			studySubject = studySubjectRepository.enroll(studySubject);
 		} catch (Exception e) {
 			map.put("registrationException", e);
 			return new ModelAndView(getSuccessView(), map);

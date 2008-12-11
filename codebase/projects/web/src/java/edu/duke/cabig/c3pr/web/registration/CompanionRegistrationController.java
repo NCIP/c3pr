@@ -58,12 +58,12 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if(registrationControllerUtils.isRegisterableOnPage(studySubject))
-        	studySubject = studySubjectService.register(studySubject);
-        else{
-            registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
-            studySubject=studySubjectRepository.save(studySubject);
-        }
+//        if(registrationControllerUtils.isRegisterableOnPage(studySubject))
+//        	studySubject = studySubjectService.register(studySubject);
+//        else{
+//            registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
+//            studySubject=studySubjectRepository.save(studySubject);
+//        }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
