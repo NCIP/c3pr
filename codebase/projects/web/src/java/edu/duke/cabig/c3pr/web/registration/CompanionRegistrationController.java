@@ -32,18 +32,6 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
     }
 
     @Override
-    protected Object formBackingObject(HttpServletRequest request) throws Exception {
-    	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
-    		StudySubjectWrapper wrapper = (StudySubjectWrapper)super.formBackingObject(request);
-    		wrapper.getStudySubject().setParentStudySubject(studySubjectDao.getById(Integer.parseInt(request.getParameter("parentRegistrationId")), true));
-    		studySubjectDao.initialize(wrapper.getStudySubject().getParentStudySubject());
-    		return  wrapper;	
-    	}else{
-    		throw new RuntimeException("Cannot create command object instance");
-    	}
-    }
-    
-    @Override
     protected void intializeFlows(Flow flow) {
         flow.addTab(new EnrollmentDetailsTab());
         flow.addTab(new EligibilityCriteriaTab());
@@ -52,7 +40,7 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
         flow.addTab(new ReviewSubmitTab());
         setFlow(flow);
     }
-
+    
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
@@ -72,5 +60,17 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
         }else{
         	return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());	
         }
+    }
+    
+    @Override
+    protected Object formBackingObject(HttpServletRequest request) throws Exception {
+    	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
+    		StudySubjectWrapper wrapper = (StudySubjectWrapper)super.formBackingObject(request);
+    		wrapper.getStudySubject().setParentStudySubject(studySubjectDao.getById(Integer.parseInt(request.getParameter("parentRegistrationId")), true));
+    		studySubjectDao.initialize(wrapper.getStudySubject().getParentStudySubject());
+    		return  wrapper;	
+    	}else{
+    		throw new RuntimeException("Cannot create command object instance");
+    	}
     }
 }
