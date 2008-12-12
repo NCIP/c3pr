@@ -22,19 +22,18 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
  * 
  */
 
-public class CreateEditRegistrationController<C extends StudySubjectWrapper> extends RegistrationController<C> {
+public class EditRegistrationController<C extends StudySubjectWrapper> extends RegistrationController<C> {
     /**
      * Logger for this class
      */
-    private static final Logger logger = Logger.getLogger(CreateEditRegistrationController.class);
+    private static final Logger logger = Logger.getLogger(EditRegistrationController.class);
 
-	public CreateEditRegistrationController() {
-        super("Create Registration");
+	public EditRegistrationController() {
+        super("Edit Registration");
     }
     
     @Override
     protected void intializeFlows(Flow flow) {
-        flow.addTab(new SearchStudySubjectTab());
         flow.addTab(new EnrollmentDetailsTab());
         flow.addTab(new EligibilityCriteriaTab());
         flow.addTab(new StratificationTab());
