@@ -467,7 +467,7 @@ public class StudySubject extends
 	@Transient
 	public StratumGroup getStratumGroup() {
 		StratumGroup stratumGroup = null;
-		if (this.stratumGroupNumber != null) {
+		if (this.getScheduledEpoch().getStratumGroupNumber() != null) {
 			stratumGroup = ((ScheduledEpoch) getScheduledEpoch()).getEpoch()
 					.getStratumGroupByNumber(this.stratumGroupNumber);
 		} else {
