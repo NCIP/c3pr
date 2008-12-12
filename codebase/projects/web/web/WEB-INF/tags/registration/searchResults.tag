@@ -19,8 +19,8 @@ function navRollOver(obj, state) {
 function submitLocalForm(formName, idParamStr){
 	if(formName=='manage'){
 		document.location="../registration/manageRegistration?"+idParamStr;
-	}else if(formName=='create'){
-		document.location="../registration/createRegistration?"+idParamStr;
+	}else if(formName=='edit'){
+		document.location="../registration/editRegistration?"+idParamStr;
 	}else if(formName=='confirm'){
 		document.location="../registration/confirm?"+idParamStr;
 	}
@@ -80,7 +80,7 @@ function submitLocalForm(formName, idParamStr){
 				<c:choose>
 				<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
 					<c:set var="formType"
-					value="create" />
+					value="edit" />
 				</c:when>
 				<c:when test="${registration.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED_BUT_NOT_RANDOMIZED'}">
 					<c:set var="formType"
