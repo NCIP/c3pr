@@ -43,7 +43,7 @@
 					<div>${command.studySubject.participant.firstName} ${command.studySubject.participant.lastName }</div>
 				</div>
 			</div>
-			<c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+			<c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
 				<script type="text/javascript">subjectDragger=new Draggable('participant1', {revert:false});</script>
 			</c:if>
 		</c:when>
@@ -71,7 +71,7 @@
 							<!--  input type="button" onClick="registerSubject('manage','${epoch.id }')" value="Ok"><input type="button" onClick="reloadPage('${epoch.id }')" value="Cancel" -->
 						</c:otherwise>
 					</c:choose>
-					<input type="button" onClick="registerSubject('create','${epoch.id }')" value="Ok"><input type="button" onClick="reloadPage('${epoch.id }')" value="Cancel">
+					<input type="button" onClick="registerSubject('edit','${epoch.id }')" value="Ok"><input type="button" onClick="reloadPage('${epoch.id }')" value="Cancel">
 					</div>
 					<div id="epochUpdate-${epoch.id }" style="display:none"><img src="<tags:imageUrl name="indicator.white.gif"/>"
 									alt="Indicator" align="absmiddle">Updating...</div>
