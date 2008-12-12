@@ -20,9 +20,9 @@ assignParticipant=function(element,epoch,event){
 	new Effect.SlideDown("epochConfirmation-"+epochId);
 }
 function registerSubject(flowName,epochId){
-	if(flowName=="create"){
-		$("create_epoch").value=epochId;
-		$("create").submit();
+	if(flowName=="edit"){
+		$("edit_epoch").value=epochId;
+		$("edit").submit();
 	}else{
 		new Element.hide('epochConfirmation-buttons-'+epochId);
 		new Element.show('epochUpdate-'+epochId);		
@@ -43,11 +43,11 @@ function reloadPage(Id){
 </script>
 </head>
 <body>
-<form action="../registration/createRegistration" method="post" id="create">
+<form action="../registration/editRegistration" method="post" id="edit">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target2" id="_target2" value="2"/>
 	<input type="hidden" name="registrationId" value="${command.studySubject.id }"/>
-	<input type="hidden" name="epoch" id="create_epoch"/>
+	<input type="hidden" name="epoch" id="edit_epoch"/>
 </form>
 <form:form action="../registration/manageRegistration">
 <tags:tabFields tab="${tab}"/>
@@ -87,7 +87,7 @@ function reloadPage(Id){
 		</c:forEach>
 	</table>
 </tags:panelBox>
-<c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+<c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
 <div id="mockDrag" style="display:none">
 	<div id="participant1" class="participants" align="center" style="display:none">
 		<div><img src="<tags:imageUrl name="Subject.gif"/>"
