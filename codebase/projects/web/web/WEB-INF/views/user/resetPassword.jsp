@@ -22,7 +22,7 @@
 	    <form:form action="${action}">
 			<p class="errors">${reset_pwd_error}</p>
 	      <div class="row">
-				<div class="label required-indicator">Username &nbsp;&nbsp;</div> 
+				<div class="label"><tags:requiredIndicator />Username &nbsp;&nbsp;</div> 
 				<td class="label"><form:input cssClass="validate-notEmpty" path="userName"/></td>
 		  </div>
 		  <div class="row"  align="center">
