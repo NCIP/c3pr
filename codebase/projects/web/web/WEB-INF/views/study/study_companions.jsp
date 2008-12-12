@@ -117,7 +117,7 @@ function closePopup(deleteRow) {
             <br>
 					<table id="companionTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 		                <tr>
-		                    <th><b><span class="required-indicator">Short Title</span></b>
+		                    <th><b><tags:requiredIndicator />Short Title</b>
 		                    <tags:hoverHint keyProp="study.companionstudy.name" /></th>
 		                    <th><b>Status</b>
 		                    <tags:hoverHint keyProp="study.companionstudy.status" /></th>
