@@ -874,8 +874,11 @@ public class StudySubject extends
 
 		if (this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.PENDING) {
 			throw new C3PRBaseRuntimeException(
-					"The subject cannot be reserved a spot on the study site. The subject is already registered on the study site.");
-		} else {
+					"The subject cannot be reserved a spot on the study site. The subject is already registered or enrolled on the study site.");
+		} else if (!this.getScheduledEpoch().getEpoch().getReservationIndicator()) {
+			throw new C3PRBaseRuntimeException(
+			"The epoch has to be reserving in order to reserve a spot for the subject");
+		}else {
 			List<Error> errors = new ArrayList<Error>();
 			errors = canReserve();
 			if (errors.size() > 0) {
@@ -883,6 +886,7 @@ public class StudySubject extends
 						" Cannot reserve a spot because data entry is not complete",
 						errors);
 			} else {
+				this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 				this.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 			}
 		}
