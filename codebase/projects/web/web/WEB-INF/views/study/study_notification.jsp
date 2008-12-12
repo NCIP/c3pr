@@ -51,7 +51,7 @@ function saveStudy() {
 			<div id="notificationHeader"
 				style=<c:if test="${fn:length(command.study.plannedNotifications) == 0}">"display:none"</c:if>>
 			<tr>
-				<th><span class="required-indicator">Threshold</span><tags:hoverHint
+				<th><tags:requiredIndicator />Threshold<tags:hoverHint
 					keyProp="study.notification.threshold" /></th>
 				<th>Email</th>
 				<th>Role</th>

@@ -66,7 +66,7 @@
 <chrome:division id="site" title="Organization">
     <div class="leftpanel">
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                Organization:
             </div>
             <div class="value">
@@ -99,7 +99,7 @@
 <chrome:division id="staff-details" title="Basic Details">
     <div class="leftpanel">
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 First Name:</div>
             <div class="value">
                 <form:input size="25" path="firstName"
@@ -107,7 +107,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 Last Name:</div>
             <div class="value">
                 <form:input path="lastName" cssClass="validate-notEmpty" size="25" />
@@ -131,7 +131,7 @@
 
     <div class="rightpanel">
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 NCI Identifier:
             </div>
             <div class="value">
@@ -140,7 +140,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                     ${command.contactMechanisms[0].type.displayName} (Username):
             </div>
             <div class="value">

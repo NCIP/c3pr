@@ -20,11 +20,11 @@
 	        		<td>
 	        			<table>
 	        				<tr>
-	        					<td align="right"><span class="required-indicator"></span><b>Name:</b></td>
+	        					<td align="right"><tags:requiredIndicator /><b>Name:</b></td>
 	        					<td><input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" class="validate-notEmpty"/><tags:hoverHint keyProp="investigatorGroup.name"/></td>
 	        				</tr>
 	        				<tr>
-	        					<td align="right"><span class="required-indicator"></span><b>Start Date:</b></td> 
+	        					<td align="right"><tags:requiredIndicator /><b>Start Date:</b></td> 
 	        					<td><input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}" class="validate-notEmpty&&DATE"/>
 	        					 <a href="#" id="linkStartDate">
 			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
@@ -48,8 +48,8 @@
 		           <br><br>Existing Investigators <br>
 				<table width="50%" class="tablecontent">
 					<tr>
-			            <th><span class="required-indicator"></span>Investigator</th>
-			            <th><span class="required-indicator"></span>Start Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+			            <th><tags:requiredIndicator />Investigator</th>
+			            <th><tags:requiredIndicator />Start Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
 			            <th>End Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
 	        		</tr>
 				<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" var="aff" varStatus="status">
@@ -81,8 +81,8 @@
       <br><br><b>New Investigators </b><br /><br/>
      <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
-            <th><span class="required-indicator"></span>Investigator</th>
-            <th><span class="required-indicator"></span>Start Date<tags:hoverHint id="1" keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+            <th><tags:requiredIndicator />Investigator</th>
+            <th><tags:requiredIndicator />Start Date<tags:hoverHint id="1" keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
             <th>End Date<tags:hoverHint id="2" keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
             <th></th>
         </tr>

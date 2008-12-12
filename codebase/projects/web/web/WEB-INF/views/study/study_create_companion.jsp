@@ -53,7 +53,7 @@
 	<chrome:division id="study-details" title="Basic Details">
 	    <div class="leftpanel">
 	        <div class="row">
-	            <div class="label required-indicator">Short Title:</div>
+	            <div class="label"><tags:requiredIndicator />Short Title:</div>
 	            <div class="value">
 	            	<input class="validate-notEmpty" type="text" id="_shortTitle" size="35" maxlength="30" 
 	            		name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText" value="${dataFromParent.shortTitle}"/>
@@ -61,7 +61,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-	            <div class="label required-indicator">Long Title:</div>
+	            <div class="label"><tags:requiredIndicator />Long Title:</div>
 	            <div class="value">
 	            	<textarea class="validate-notEmpty&&maxlength1024" rows="2" cols="33" id="companionStudyPAGE.ROW.INDEX-longTitleText"
 		                       name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.longTitleText" >${dataFromParent.longTitle}</textarea>
@@ -88,7 +88,7 @@
 	
 	    <div class="rightpanel">
 	        <div class="row">
-	            <div class="label required-indicator">Target Accrual:</div>
+	            <div class="label"><tags:requiredIndicator />Target Accrual:</div>
 	            <div class="value">
 	            	<input class="validate-notEmpty&&numeric&&nonzero_numeric" type="text" id="companionStudyPAGE.ROW.INDEX-targetAccrualNumber"  name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.targetAccrualNumber"
 	            			size="10" maxlength="6" value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.targetAccrualNumber}"/>
@@ -96,7 +96,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-	            <div class="label required-indicator">Type:</div>
+	            <div class="label"><tags:requiredIndicator />Type:</div>
 	            <div class="value">
 	            	<select id="companionStudyPAGE.ROW.INDEX-type" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.type" class="validate-notEmpty">
 	                    <option value="">Please Select</option>
@@ -108,7 +108,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-	            <div class="label required-indicator">Phase:</div>
+	            <div class="label"><tags:requiredIndicator />Phase:</div>
 	            <div class="value">
 	            	<select id="companionStudyPAGE.ROW.INDEX-phaseCode" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.phaseCode" 
 	            		class="validate-notEmpty">
@@ -133,7 +133,7 @@
 	      		</div>
 	        </div>
 	        <div class="row">
-	            <div class="label required-indicator">Multi-Institutional:</div>
+	            <div class="label"><tags:requiredIndicator />Multi-Institutional:</div>
 	            <div class="value">
 	            	<select id="companionStudyPAGE.ROW.INDEX-multiInstitutionIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.multiInstitutionIndicator" class="validate-notEmpty">
 	                  	<option value="">Please Select</option>
@@ -145,7 +145,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-             	<div class="label required-indicator">Consent Version/Date:</div>
+             	<div class="label"><tags:requiredIndicator />Consent Version/Date:</div>
              	<div class="value">
              		<input name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion" class="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
              		<a href="#" id="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion-calbutton">
@@ -155,7 +155,7 @@
              	</div>
          	</div>
         	<div class="row" style="display:none;">
-	        	<div class="label required-indicator">Standalone Study:</div>
+	        	<div class="label"><tags:requiredIndicator />Standalone Study:</div>
 	        	<div class="value">
 	        		<input class="validate-notEmpty" type="hidden" id="companionStudyPAGE.ROW.INDEX-standaloneIndicator"  
 	            		name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.standaloneIndicator" value="false"/>
@@ -167,7 +167,7 @@
 	<chrome:division title="Stratification & Randomization">
     	<div class="leftpanel">
     		<div class="row">
-         		<div class="label required-indicator">Stratified:</div>	
+         		<div class="label"><tags:requiredIndicator />Stratified:</div>	
          		<div class="value">
          			<select id="companionStudyPAGE.ROW.INDEX-stratificationIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.stratificationIndicator" class="validate-notEmpty">
 		                 <option value="">Please Select</option>
@@ -179,7 +179,7 @@
          		</div>
          	</div>
 	        <div class="row">
-	           	<div class="label required-indicator">Randomized:</div>
+	           	<div class="label"><tags:requiredIndicator />Randomized:</div>
 		        <div class="value">
 		        	<select id="companionStudyPAGE.ROW.INDEX-randomizedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizedIndicator" class="validate-notEmpty" onchange="manageRandomizedIndicatorSelectBox(this, PAGE.ROW.INDEX)">
 		                 <option value="">Please Select</option>
@@ -194,7 +194,7 @@
 		<div class="rightpanel">
         	<div id="randomizationTypeDiv">
 	            <div class="row">
-    	            <div class="label required-indicator">Type:</div>
+    	            <div class="label"><tags:requiredIndicator />Type:</div>
         	        <div class="value">
 	        	       	<select id="companionStudyPAGE.ROW.INDEX-randomizationType" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizationType" class="validate-notEmpty" onchange="manageRandomizationTypeSelectBox(this);">
 		                    <option value="">Please Select</option>
@@ -212,7 +212,7 @@
          <div id="coordinatingCenter">
            	  <div class="leftpanel">
               	      <div class="row">
-                    <div class="label required-indicator">Name:</div>
+                    <div class="label"><tags:requiredIndicator />Name:</div>
 			        <div class="value">
 						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-coCenter-hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyCoordinatingCenters[0].healthcareSite" value="${dataFromParent.coordinatingCenterList[0].healthcareSite.id}"/>
 						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-coCenter-hidden1" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].healthcareSite"  value="${dataFromParent.coordinatingCenterList[0].healthcareSite.id}"/>
@@ -225,7 +225,7 @@
 		  	  </div>
 		  	   <div class="rightpanel">
                   <div class="row">
-                      <div class="label required-indicator">Study Identifier:</div>
+                      <div class="label"><tags:requiredIndicator />Study Identifier:</div>
                       <div class="value">
                       	<input type="text" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="validate-notEmpty" />
 						<input type="hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].type" value="Coordinating Center Identifier"/>

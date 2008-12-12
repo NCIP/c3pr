@@ -8,7 +8,7 @@
 <form:form>
     <div class="leftpanel">
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 Hosted Mode:
             </div>
             <div class="value"><form:checkbox id="hostedMode" path="study.hostedMode"/>

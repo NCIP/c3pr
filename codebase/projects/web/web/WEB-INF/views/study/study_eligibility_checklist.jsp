@@ -60,7 +60,7 @@
 		enctype="multipart/form-data">
 		<table border="0" width="50%" id="table0" cellspacing="5">
 			<tr>
-				<td width="35%" align="right" class="required-indicator"><b>Select
+				<td width="35%" align="right" class=""><tags:requiredIndicator /><b>Select
 				Epoch:</b></td>
 				<td width="65%"><select name="name" class="validate-notEmpty">
 					<option value="">Please Select</option>
@@ -117,7 +117,7 @@
 							class="tablecontent">
 							<tr id="hInclusionEligibility--${epochCount.index}"
 								<c:if test="${fn:length(epoch.inclusionEligibilityCriteria) == 0}">style="display:none;"</c:if>>
-								<th><span class="label required-indicator">Question</span>&nbsp;<tags:hoverHint
+								<th><span class="label"><tags:requiredIndicator />Question</span>&nbsp;<tags:hoverHint
 									id="study.inclusionEligibilityCriteria.questionText-${epochCount.index}"
 									keyProp="study.inclusionEligibilityCriteria.questionText" /></th>
 								<th><span class="label">N/A</span>&nbsp;<tags:hoverHint
@@ -165,7 +165,7 @@
 							id="addExclusionRowTable-${epochCount.index}">
 							<tr id="hExclusionEligibility-${epochCount.index}"
 								<c:if test="${fn:length(epoch.exclusionEligibilityCriteria) == 0}">style="display:none;"</c:if>>
-								<th><span class="label required-indicator">Question</span>&nbsp;<tags:hoverHint
+								<th><span class="label"><tags:requiredIndicator />Question</span>&nbsp;<tags:hoverHint
 									id="study.exclusionEligibilityCriteria.questionText-${epochCount.index}"
 									keyProp="study.exclusionEligibilityCriteria.questionText" /></th>
 								<th>N/A</th>

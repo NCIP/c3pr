@@ -62,8 +62,8 @@ function fireAction(action, selected){
 <chrome:division id="site" title="Organization">
 	<table class="tablecontent" width="60%" border="0" cellspacing="0" id="invesitgatorTable" cellpadding="0">
 		<tr>
-			<th class="label required-indicator" scope="col" align="left"><b>Organization</b><tags:hoverHint keyProp="healthcareSiteInvestigator.organization"/></th>
-			<th class="label required-indicator" scope="col" align="left"><b>Investigator Status</b><tags:hoverHint keyProp="healthcareSiteInvestigator.statusCode"/></th>
+			<th class="label" scope="col" align="left"><tags:requiredIndicator /><b>Organization</b><tags:hoverHint keyProp="healthcareSiteInvestigator.organization"/></th>
+			<th class="label" scope="col" align="left"><tags:requiredIndicator /><b>Investigator Status</b><tags:hoverHint keyProp="healthcareSiteInvestigator.statusCode"/></th>
 			<th>&nbsp;</th>
 		</tr>
 
@@ -108,7 +108,7 @@ function fireAction(action, selected){
 <chrome:division id="staff-details" title="Basic Details">
     <div class="leftpanel">
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 First Name:</div>
             <div class="value">
                 <form:input size="25" path="firstName"
@@ -116,7 +116,7 @@ function fireAction(action, selected){
             </div>
         </div>
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 Last Name:</div>
             <div class="value">
                 <form:input path="lastName" cssClass="validate-notEmpty" size="25" />
@@ -140,7 +140,7 @@ function fireAction(action, selected){
 
     <div class="rightpanel">
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 NCI Identifier:
             </div>
             <div class="value">
@@ -150,7 +150,7 @@ function fireAction(action, selected){
         </div>
 
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                     ${command.contactMechanisms[0].type.displayName} (Username):
             </div>
             <div class="value">

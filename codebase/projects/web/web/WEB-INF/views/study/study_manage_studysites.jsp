@@ -43,7 +43,7 @@ failedStatusChange= function (responseXML){
 	<br>
 	<table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 	     <tr id="h-multiSite" <c:if test="${fn:length(command.study.studySites) == 0}">style="display:none;"</c:if>>
-	        <th><b><span class="required-indicator">Organization</span></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+	        <th><b><tags:requiredIndicator />Organization</b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
 	        <th><b>Status</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
 	        <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
 	        <th><b>Messages</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
@@ -135,7 +135,7 @@ failedStatusChange= function (responseXML){
 			<chrome:division title="${parentStudyAssociation.parentStudy.shortTitleText}">
 				<table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 			     <tr id="h-multiSite" <c:if test="${fn:length(command.study.studySites) == 0}">style="display:none;"</c:if>>
-			        <th><b><span class="required-indicator">Organization</span></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+			        <th><b><tags:requiredIndicator />Organization</b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
 			        <th><b>Status</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
 			        <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
 			        <th><b>Messages</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>

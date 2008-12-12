@@ -43,7 +43,7 @@
 <div class="leftpanel">
 
     <div class="row">
-        <div class="label required-indicator">
+        <div class="label"><tags:requiredIndicator />
             Name:
         </div>
         <div class="value">
@@ -62,7 +62,7 @@
     </div>
 
     <div class="row">
-        <div class="label required-indicator">
+        <div class="label"><tags:requiredIndicator />
             NCI Institute Code:
         </div>
         <div class="value">
@@ -91,7 +91,7 @@
     <chrome:division id="multisite-config" title="Multisite configuration">
     <div class="leftpanel">
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 Study service url:
             </div>
             <div class="value">
@@ -100,7 +100,7 @@
         </div>
 
         <div class="row">
-            <div class="label required-indicator"">
+            <div class="label"><tags:requiredIndicator />
                 Registration service url:
             </div>
             <div class="value">

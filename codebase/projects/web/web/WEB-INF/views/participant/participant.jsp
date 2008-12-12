@@ -129,12 +129,12 @@ top:70px;
 <chrome:division id="participant-details" title="Basic Details">
 				<div class="leftpanel">
 					<div class="row">
-						<div class="label required-indicator">First Name:</div>
+						<div class="label"><tags:requiredIndicator />First Name:</div>
 						<div class="value"><form:input path="firstName"
 							cssClass="validate-notEmpty" /></div>
 					</div>
 					<div class="row">
-						<div class="label required-indicator">Last Name:</div>
+						<div class="label"><tags:requiredIndicator />Last Name:</div>
 						<div class="value"><form:input path="lastName"
 							cssClass="validate-notEmpty" /></div>
 					</div>
@@ -147,7 +147,7 @@ top:70px;
 						<div class="value"><form:input path="maidenName" /></div>
 					</div>
 					<div class="row">
-						<div class="label required-indicator">Gender:</div>
+						<div class="label"><tags:requiredIndicator />Gender:</div>
 						<div class="value"><form:select path="administrativeGenderCode"
 							cssClass="validate-notEmpty">
 							<option value="">Please Select</option>
@@ -159,11 +159,11 @@ top:70px;
 				</div>
 				<div class="rightpanel">
 					<div class="row">
-						<div class="label required-indicator">Birth Date:</div>
+						<div class="label"><tags:requiredIndicator />Birth Date:</div>
 						<div class="value"><form:input path="birthDate" cssClass="validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
 					</div>
 					<div class="row">
-						<div class="label required-indicator">Ethnicity:</div>
+						<div class="label"><tags:requiredIndicator />Ethnicity:</div>
 						<div class="value"><form:select path="ethnicGroupCode"
 							cssClass="validate-notEmpty">
 							<option value="">Please Select</option>
@@ -172,7 +172,7 @@ top:70px;
 						</form:select><tags:hoverHint keyProp="subject.ethnicGroupCode"/></div>
 					</div>
 					<div class="row">
-						<div class="label required-indicator">Races: </div>
+						<div class="label"><tags:requiredIndicator />Races: </div>
 						<table>
 						<tr><td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Asian"/> Asian</div></td>
 							<td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Black_or_African_American"/> Black or African American</div></td>
@@ -207,7 +207,7 @@ top:70px;
 								<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.nciInstituteCode})" />
 								<c:set var="_name" value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" />
 								</c:if>
-		                        <div class="label required-indicator">Organization:</div>
+		                        <div class="label"><tags:requiredIndicator />Organization:</div>
 		                        <div class="value">
 								<input type="hidden" id="mrnOrganization-hidden"
 									name="organizationAssignedIdentifiers[0].healthcareSite"
@@ -222,7 +222,7 @@ top:70px;
 							    </div>
                     </div>
                     <div class="row">
-		                        <div class="label required-indicator">Medical Record Number:</div>
+		                        <div class="label"><tags:requiredIndicator />Medical Record Number:</div>
 		                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 								size="30" maxlength="30"
 								value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
@@ -242,10 +242,10 @@ top:70px;
 					cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr id="hOrganizationAssignedIdentifier" <c:if test="${fn:length(command.organizationAssignedIdentifiers) < 2}">style="display:none;"</c:if>>
 						<th><span
-							class="required-indicator">Assigning Organization</span><tags:hoverHint keyProp="identifier.organization"/></th>
-						<th><span class="required-indicator">Identifier
+							class=""><tags:requiredIndicator />Assigning Organization</span><tags:hoverHint keyProp="identifier.organization"/></th>
+						<th><span class=""><tags:requiredIndicator />Identifier
 						Type</span><tags:hoverHint keyProp="identifier.type"/></th>
-						<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="identifier.value"/></th>
+						<th><span class=""><tags:requiredIndicator />Identifier</span><tags:hoverHint keyProp="identifier.value"/></th>
 						<th><span>Primary Indicator</span><tags:hoverHint keyProp="identifier.primary"/></th>
 						<th ></th>
 					</tr>
@@ -303,9 +303,9 @@ top:70px;
 					class="tablecontent">
 					<tr id="hSystemAssignedIdentifier" <c:if test="${fn:length(command.systemAssignedIdentifiers) == 0}">style="display:none;"</c:if>>
 						<th><span
-							class="required-indicator">System Name</span><tags:hoverHint keyProp="identifier.systemName"/></th>
-						<th><span class="required-indicator">Identifier Type</span><tags:hoverHint id="1" keyProp="identifier.type"/></th>
-						<th><span class="required-indicator">Identifier</span><tags:hoverHint id="2" keyProp="identifier.value"/></th>
+							class=""><tags:requiredIndicator />System Name</span><tags:hoverHint keyProp="identifier.systemName"/></th>
+						<th><span class=""><tags:requiredIndicator />Identifier Type</span><tags:hoverHint id="1" keyProp="identifier.type"/></th>
+						<th><span class=""><tags:requiredIndicator />Identifier</span><tags:hoverHint id="2" keyProp="identifier.value"/></th>
 						<th>Primary&nbsp;Indicator<tags:hoverHint id="3" keyProp="identifier.primary"/></th>
 						<th></th>
 					</tr>

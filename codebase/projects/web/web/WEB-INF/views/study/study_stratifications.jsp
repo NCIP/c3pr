@@ -129,8 +129,8 @@
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
 			<div id="criteriaHeader">
 				 <tr id="hInclusionEligibility--${epochCount.index}" <c:if test="${fn:length(epoch.stratificationCriteria) == 0}">style="display:none;"</c:if>>					
-					<th><span class="required-indicator">Question</span><tags:hoverHint id="study.treatmentEpochs.stratificationCriteria-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria"/></th>
-					<th><span class="required-indicator">Answer</span><tags:hoverHint id="study.treatmentEpochs.stratificationCriteria.permissibleAnswers-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria.permissibleAnswers"/></th>
+					<th><tags:requiredIndicator />Question<tags:hoverHint id="study.treatmentEpochs.stratificationCriteria-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria"/></th>
+					<th><tags:requiredIndicator />Answer<tags:hoverHint id="study.treatmentEpochs.stratificationCriteria.permissibleAnswers-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria.permissibleAnswers"/></th>
 					<th></th>
 				</tr>
 			</div>

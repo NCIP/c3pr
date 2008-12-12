@@ -174,7 +174,7 @@
 
     <div class="leftpanel">
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 Short Title:</div>
             <div class="value"><form:input path="study.shortTitleText" size="35"
                                            maxlength="30" cssClass="validate-notEmpty" id="_shortTitle"/>
@@ -183,7 +183,7 @@
         </div>
 
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 Long Title:</div>
             <div class="value"><form:textarea path="study.longTitleText" rows="2"
                                               cols="33" cssClass="validate-notEmpty&&maxlength1024" />
@@ -210,14 +210,14 @@
 
     <div class="rightpanel">
         <div class="row">
-            <div class="label required-indicator">Target Accrual:</div>
+            <div class="label"><tags:requiredIndicator />Target Accrual:</div>
             <div class="value"><form:input path="study.targetAccrualNumber" size="10" maxlength="6"
                                            cssClass="validate-notEmpty&&numeric&&nonzero_numeric" />
             <tags:hoverHint keyProp="study.targetAccrualNumber"/></div>
         </div>
 
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 Type:</div>
             <div class="value"><form:select path="study.type"
                                             cssClass="validate-notEmpty" >
@@ -229,7 +229,7 @@
         </div>
       
         <div class="row">
-            <div class="label required-indicator">
+            <div class="label"><tags:requiredIndicator />
                 Phase:</div>
             <div class="value"><form:select path="study.phaseCode"
                                             cssClass="validate-notEmpty" >
@@ -261,14 +261,14 @@
          <c:choose>
             <c:when test="${not empty command.study.id}">
                 <div class="row">
-                    <div class="label required-indicator">
+                    <div class="label"><tags:requiredIndicator />
                         Multi-Institutional:</div>
                     <div class="value">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.multiInstitutionIndicator"/></div>
                 </div>
             </c:when>
             <c:otherwise>
                 <div class="row">
-                    <div class="label required-indicator">
+                    <div class="label"><tags:requiredIndicator />
                         Multi-Institutional:</div>
                     <div class="value"><form:select path="study.multiInstitutionIndicator"
                                                    cssClass="validate-notEmpty" >
@@ -279,13 +279,13 @@
          </c:choose>
 
          <div class="row">
-             <div class="label required-indicator">Consent Version/Date:</div>
+             <div class="label"><tags:requiredIndicator />Consent Version/Date:</div>
              <div class="value">
              <tags:dateInput path="study.consentVersion" validateDate="false" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
              <tags:hoverHint keyProp="study.consentVersion"/></div>
          </div>
         <div class="row" <c:if test="${ (empty command.study.companionIndicator) || command.study.companionIndicator=='false' ||((!empty param.embeddedStudy) && command.study.companionIndicator=='true' && param.embeddedStudy=='true')}">style="display:none;"</c:if>>
-	        <div class="label required-indicator">Standalone Study:</div>
+	        <div class="label"><tags:requiredIndicator />Standalone Study:</div>
 	        <div class="value">
 	        	<form:select path="study.standaloneIndicator" cssClass="validate-notEmpty" >
 	            	<option value="">Please Select</option>
@@ -300,7 +300,7 @@
     <div class="leftpanel">
     
     		<div class="row">
-         		<div class="label required-indicator">Stratified:</div>	
+         		<div class="label"><tags:requiredIndicator />Stratified:</div>	
          		<div class="value"><form:select path="study.stratificationIndicator" cssClass="validate-notEmpty">
          		<option value="">Please Select</option>
          		<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
@@ -310,7 +310,7 @@
          	</div>
          	
 	        <div class="row">
-		            <div class="label required-indicator">
+		            <div class="label"><tags:requiredIndicator />
 		                Randomized:</div>
 		            <div class="value"><form:select path="study.randomizedIndicator"
 		                                            onchange="manageRandomizedIndicatorSelectBox(this);" 
@@ -329,7 +329,7 @@
                 						command.study.blindedIndicator == 'false'}">style="display:none;"</c:if>>
 
             <div class="row">
-                <div class="label required-indicator">Type:</div>
+                <div class="label"><tags:requiredIndicator />Type:</div>
                 <div class="value"><form:select id="randomizationType" path="study.randomizationType" onchange="manageRandomizationTypeSelectBox(this);"  disabled="${command.study.blindedIndicator == 'true'}">
                     <form:option label="Please Select" value=""/>
                     <form:option label="Book" value="BOOK"/>
@@ -348,7 +348,7 @@
          <div id="coordinatingCenter">
             	<div class="leftpanel">
                 	 <div class="row">
-		                        <div class="label required-indicator">Name:</div>
+		                        <div class="label"><tags:requiredIndicator />Name:</div>
 						                        <div class="value">
 									<c:set var="_codeCoord" value="" />
 									<c:set var="_nameCoord" value="" />
@@ -373,7 +373,7 @@
 			    
 				<div class="rightpanel">
                     <div class="row">
-                        <div class="label required-indicator">Study Identifier:</div>
+                        <div class="label"><tags:requiredIndicator />Study Identifier:</div>
                         <div class="value">
                         	<input type="text" name="study.organizationAssignedIdentifiers[0].value" 
 								size="30" maxlength="30"
@@ -457,7 +457,7 @@
 								<c:set var="_codeOrgPI" value="(${command.study.principalInvestigatorStudyOrganization.healthcareSite.nciInstituteCode})" />
 								<c:set var="_nameOrgPI" value="${command.study.principalInvestigatorStudyOrganization.healthcareSite.name}" />
 							</c:if>
-	                        <div class="label required-indicator">Organization:</div>
+	                        <div class="label"><tags:requiredIndicator />Organization:</div>
 	                        <div class="value"><input type="hidden" id="piCoCenter-hidden"
 							name="piCoCenter-hidden" value="${command.study.id==null?"":command.study.principalInvestigatorStudyOrganization.healthcareSite.id}"/>
 							<input id="piCoCenter-input" size="38" type="text"
@@ -478,7 +478,7 @@
 									<c:set var="_codePI" value="(${command.study.principalInvestigator.investigator.nciIdentifier})" />
 									<c:set var="_namePI" value="${command.study.principalInvestigatorFullName}" />
 								</c:if>
-		                        <div class="label required-indicator">Principal Investigator:</div>
+		                        <div class="label"><tags:requiredIndicator />Principal Investigator:</div>
 		                        <div class="value"> <input type="hidden" id="hcsInvestigator-hidden"
 	                               name="hcsInvestigator-hidden" value="${command.study.id==null?"":command.study.principalInvestigator.id}"/>
 			                   <input type="text" id="hcsInvestigator-input" size="30"
