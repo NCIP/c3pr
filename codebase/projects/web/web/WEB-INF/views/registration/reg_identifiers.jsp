@@ -75,9 +75,9 @@ function manageIdentifierRadio(element){
 		
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
-					<th><span class="required-indicator">Assigning Organization</span></th>
-					<th><span class="required-indicator">Identifier Type</span></th>
-					<th><span class="required-indicator">Identifier</span></th>
+					<th><tags:requiredIndicator />Assigning Organization</th>
+					<th><tags:requiredIndicator />Identifier Type</th>
+					<th><tags:requiredIndicator />Identifier</th>
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>
@@ -104,9 +104,9 @@ function manageIdentifierRadio(element){
 		<chrome:division title="System Assigned Identifiers">
 			<table id="systemIdentifier" class="tablecontent">
 				<tr>
-					<th><span class="required-indicator">System Name</span></th>
-					<th><span class="required-indicator">Identifier Type</span></th>
-					<th><span class="required-indicator">Identifier</span></th>
+					<th><tags:requiredIndicator />System Name</th>
+					<th><tags:requiredIndicator />Identifier Type</th>
+					<th><tags:requiredIndicator />Identifier</th>
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>

@@ -59,7 +59,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <chrome:division title="Assigned Identifier">
 	<table width="61%" border="0" cellspacing="1" cellpadding="1" id="table1">
 		<tr>
-			<td align="right" width="19%"><span class="required-indicator">Organization:</span></td>
+			<td align="right" width="19%"><tags:requiredIndicator />Organization:</td>
 			<td align="left"><input type="hidden" id="mrnOrganization-hidden"
 					name="organizationAssignedIdentifiers[0].healthcareSite" />
 				<input id="mrnOrganization-input" size="50" type="text" name="abcxyz"
@@ -70,7 +70,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			</td>
 		</tr>
 		<tr>
-			<td align="right"><span class="required-indicator">Medical Record Number:</span></td>
+			<td align="right"><tags:requiredIndicator />Medical Record Number:</td>
 			<td align="left"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 				size="30" maxlength="30" class="validate-notEmpty" />
 			     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
@@ -90,11 +90,9 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <div id="idSection" style="display:none;">
 <table id="mytable-organizationIdentifier" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	<tr>
-		<th><span
-			class="required-indicator">Assigning Authority</span><tags:hoverHint keyProp="identifier.organization"/></th>
-		<th><span class="required-indicator">Identifier
-		Type</span><tags:hoverHint keyProp="identifier.type"/></th>
-		<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="identifier.value"/></th>
+		<th><tags:requiredIndicator />Assigning Authority<tags:hoverHint keyProp="identifier.organization"/></th>
+		<th><tags:requiredIndicator />Identifier Type<tags:hoverHint keyProp="identifier.type"/></th>
+		<th><tags:requiredIndicator />Identifier<tags:hoverHint keyProp="identifier.value"/></th>
 		<th><span>Primary Indicator</span><tags:hoverHint keyProp="identifier.primary"/></th>
 		<th ></th>
 	</tr>
