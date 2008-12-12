@@ -331,7 +331,14 @@
 
     <bean name="/registration/createRegistration"
           id="createRegistrationController"
-          class="edu.duke.cabig.c3pr.web.registration.CreateEditRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.CreateRegistrationController"
+          parent="parentRegistrationController"
+          autowire="byName">
+    </bean>
+    
+     <bean name="/registration/editRegistration"
+          id="editRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.EditRegistrationController"
           parent="parentRegistrationController"
           autowire="byName">
     </bean>
