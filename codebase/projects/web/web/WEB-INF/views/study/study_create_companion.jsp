@@ -46,7 +46,17 @@
         	 rType.className="validate-notEmpty";
          }
      }
-
+/*
+     inputDateElementLocal="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion";
+     inputDateElementLink="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion-calbutton";
+     Calendar.setup(
+       {
+           inputField  : inputDateElementLocal,         // ID of the input field
+           ifFormat    : "%m/%d/%Y",    // the date format
+           button      : inputDateElementLink       // ID of the button
+       }
+    );
+ */	
 </script>
 <chrome:box title="${tab.shortTitle}">
 	<c:set var="statusIndex" value="PAGE.ROW.INDEX"></c:set>
