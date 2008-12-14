@@ -92,7 +92,7 @@
     <div class="leftpanel">
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Study service url:
+                Study service URL:
             </div>
             <div class="value">
                 <input type="text" size="60" id="studyServiceURL" name="studyServiceURL" value="${command.hasEndpointProperty?command.studyEndPointProperty.url:''}" class="validate-notEmpty"/>
@@ -101,7 +101,7 @@
 
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Registration service url:
+                Registration service URL:
             </div>
             <div class="value">
                 <input type="text" size="60" id="registrationServiceURL" name="registrationServiceURL" value="${command.hasEndpointProperty?command.registrationEndPointProperty.url:''}" class="validate-notEmpty"/>
