@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.grid.studyservice.client;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.rmi.RemoteException;
 
@@ -19,6 +21,7 @@ import org.globus.gsi.GlobusCredential;
 import edu.duke.cabig.c3pr.grid.studyservice.stubs.StudyServicePortType;
 import edu.duke.cabig.c3pr.grid.studyservice.stubs.service.StudyServiceAddressingLocator;
 import edu.duke.cabig.c3pr.grid.studyservice.common.StudyServiceI;
+import gov.nih.nci.cabig.ccts.domain.Message;
 import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
 
 /**
@@ -56,10 +59,13 @@ public class StudyServiceClient extends StudyServiceClientBase implements StudyS
 	
 	public static void main(String [] args){
 	    System.out.println("Running the Grid Service Client");
+	    String credentialFile="/Users/kruttikagarwal/Multisite-Tomcats/smoke-test-cred";
 		try{
 		if(!(args.length < 2)){
 			if(args[0].equals("-url")){
-			  StudyServiceClient client = new StudyServiceClient(args[1]);
+			  StudyServiceClient client = new StudyServiceClient(args[1], new GlobusCredential(new FileInputStream(new File(credentialFile))));
+			  Message message=new Message();
+			  client.createStudy(message);
 			  // place client calls here if you want to use this main as a
 			  // test....
 			} else {
