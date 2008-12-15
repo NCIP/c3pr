@@ -37,6 +37,7 @@ import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -344,9 +345,11 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studySubjectService.getLocalNCIInstituteCode())){
 			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
             domainObjects.add(studySubject);
-            handleCoordinatingCenterBroadcast(studySubject.getStudySite().getStudy(), APIName.ENROLL_SUBJECT, domainObjects);
-            EndPoint endPoint=studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getLastAttemptedEndpoint();
-            StudySubject multisiteReturnedStudySubject=(StudySubject) endPoint.getReturnValue();
+            EndPoint endPoint=handleCoordinatingCenterBroadcast(studySubject.getStudySite().getStudy(), APIName.ENROLL_SUBJECT, domainObjects);
+            if(endPoint.getStatus()!=WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
+                throw this.exceptionHelper.getRuntimeException(endPoint.getLastAttemptError());
+            }
+            StudySubject multisiteReturnedStudySubject=(StudySubject)((List) endPoint.getReturnValue()).get(0);
 			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
 			studySubject.doMutiSiteEnrollment(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
 		}else{
@@ -442,7 +445,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	        	studySubjectDao.evict(endPoint);
 	        }
 			return studySubjectService.handleMultiSiteBroadcast(study.getStudyCoordinatingCenters()
-					.get(0), ServiceName.STUDY, multisiteAPIName,
+					.get(0), ServiceName.REGISTRATION, multisiteAPIName,
 					domainObjects);
 		}
 

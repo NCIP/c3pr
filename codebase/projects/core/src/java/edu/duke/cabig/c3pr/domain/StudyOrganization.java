@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.DiscriminatorColumn;
@@ -202,6 +204,34 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     @Cascade(value = { CascadeType.DELETE, CascadeType.DELETE_ORPHAN })
     public List<EndPoint> getEndpoints() {
         return endpoints;
+    }
+    
+    @Transient
+    public List<EndPoint> getStudyEndpoints() {
+    	List<EndPoint> studyEndpoints=new ArrayList<EndPoint>();
+    	for(EndPoint endPoint: endpoints){
+    		if(endPoint.getServiceName()==ServiceName.STUDY)
+    			studyEndpoints.add(endPoint);
+    	}
+        return studyEndpoints;
+    }
+    
+    @Transient
+    public List<EndPoint> getRegistrationEndpoints() {
+    	List<EndPoint> regEndpoints=new ArrayList<EndPoint>();
+    	for(EndPoint endPoint: endpoints){
+    		if(endPoint.getServiceName()==ServiceName.REGISTRATION)
+    			regEndpoints.add(endPoint);
+    	}
+        return regEndpoints;
+    }
+    
+    @Transient
+    public EndPoint getLastAttemptedRegistrationEndpoint(){
+    	List<EndPoint> reList=getRegistrationEndpoints();
+    	if(reList.size()==0) return null;
+    	Collections.sort(reList);
+    	return reList.get(0);
     }
     
     @Transient
