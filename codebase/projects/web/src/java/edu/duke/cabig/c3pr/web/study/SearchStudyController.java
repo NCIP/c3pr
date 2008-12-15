@@ -124,7 +124,9 @@ public class SearchStudyController extends SimpleFormController {
 					}
 				}
 			} else {
-				//super admin case. Dont do anything
+				//super admin case.
+				//copy the list as is
+	        	studiesViewableFromRegFlow = studies;
 			}
         } else {
         	//copy the list as is
