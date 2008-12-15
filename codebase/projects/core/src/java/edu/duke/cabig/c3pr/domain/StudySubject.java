@@ -1109,13 +1109,18 @@ public class StudySubject extends
 				if (getMatchingCompanionStudyAssociation(childStudySubject)
 						.getMandatoryIndicator()) {
 					if (childStudySubject.getScheduledEpoch()
-							.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+							.getScEpochWorkflowStatus()!= ScheduledEpochWorkFlowStatus.REGISTERED || childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED) {
 						throw new C3PRBaseRuntimeException(
-								" First complete the workflow on the mandatory companions before enrolling on the parent");
+								" First register on the mandatory companions before enrolling on the parent");
+					}
+					if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
+						throw new C3PRBaseRuntimeException(
+								" First register the subject on the enrolling epoch of the mandatory companions before proceeding with enrollment");
 					}
 				}
 			}
 		}
+		
 
 		if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
 			register();
@@ -1141,7 +1146,7 @@ public class StudySubject extends
 		// 'REGISTERED_BUT_NOT_ENROLLED' state to enrolled"
 
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
-			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED) {
+			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.REGISTERED) {
 				childStudySubject
 						.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 			}
@@ -1278,5 +1283,20 @@ public class StudySubject extends
 	public void addCustomField(CustomField customField) {
 		this.getCustomFields().add(customField);
 		customField.setStudySubject(this);
+	}
+	
+	@Transient
+	public boolean getWorkPendingOnMandatoryCompanionRegistrations(){
+		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
+			if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
+				if (getMatchingCompanionStudyAssociation(childStudySubject)
+						.getMandatoryIndicator()) {
+					if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.REGISTERED){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
