@@ -69,7 +69,7 @@ function submitLocalForm(formName, idParamStr){
 			</thead>
             <tbody class="tableBody">
 			<%int i=0; %>
-			<c:forEach items="${registrations}" var="registration">
+			<c:forEach items="${registrations}" var="registration" varStatus="status">
                 <csmauthz:accesscontrol domainObject="${registration.studySite.healthcareSite}"
                                                       hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
 
