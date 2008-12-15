@@ -1289,13 +1289,18 @@ public class StudySubject extends
 	@Transient
 	public boolean getWorkPendingOnMandatoryCompanionRegistrations(){
 		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getCompanionStudyAssociations()){
-			boolean hasCorrespondingStudySubject = false;
-			for(StudySubject childStudySubject : this.getChildStudySubjects()){
-				if(childStudySubject.getStudySite().getStudy().equals(companionStudyAssociation.getCompanionStudy())){
-					hasCorrespondingStudySubject = true;
+			if (companionStudyAssociation.getMandatoryIndicator()) {
+				boolean hasCorrespondingStudySubject = false;
+				for (StudySubject childStudySubject : this
+						.getChildStudySubjects()) {
+					if (childStudySubject.getStudySite().getStudy().equals(
+							companionStudyAssociation.getCompanionStudy())) {
+						hasCorrespondingStudySubject = true;
+					}
 				}
+				if (!hasCorrespondingStudySubject)
+					return true;
 			}
-			if (!hasCorrespondingStudySubject) return true;
 		}
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
