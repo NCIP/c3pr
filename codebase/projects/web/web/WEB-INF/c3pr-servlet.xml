@@ -346,7 +346,7 @@
     <bean name="/registration/createEmbeddedCompanionRegistration"
           id="createEmbeddedCompanionRegistrationController"
           class="edu.duke.cabig.c3pr.web.registration.CompanionRegistrationController"
-          autowire="byName">
+          autowire="byName" parent="parentRegistrationController">
         <property name="bindOnNewForm" value="true" />
     </bean>
     

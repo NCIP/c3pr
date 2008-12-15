@@ -8,7 +8,12 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
@@ -41,36 +46,76 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
         setFlow(flow);
     }
     
+//    @Override
+//    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+//    	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
+//        StudySubject studySubject = wrapper.getStudySubject();
+//        if (logger.isDebugEnabled()) {
+//            logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
+//        }
+//        if(WebUtils.hasSubmitParameter(request, "decorator") && "noheaderDecorator".equals(request.getParameter("decorator"))){
+//        	 return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId() +"&decorator=" + request.getParameter("decorator"));
+//        }else{
+//        	return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());	
+//        }
+//    }
+    
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-//        if(registrationControllerUtils.isRegisterableOnPage(studySubject))
-//        	studySubject = studySubjectService.register(studySubject);
-//        else{
-//            registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
-//            studySubject=studySubjectRepository.save(studySubject);
-//        }
+        if(wrapper.getShouldReserve()==null){
+        	studySubject=studySubjectRepository.save(studySubject);
+        }else if(wrapper.getShouldReserve()){
+        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
+        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
+        	studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+        }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
-        if(WebUtils.hasSubmitParameter(request, "decorator") && "noheaderDecorator".equals(request.getParameter("decorator"))){
-        	 return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId() +"&decorator=" + request.getParameter("decorator"));
-        }else{
-        	return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());	
-        }
+        return new ModelAndView("redirect:confirm?"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));	
     }
     
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-    	if(WebUtils.hasSubmitParameter(request, "studySite") && WebUtils.hasSubmitParameter(request, "participant") && WebUtils.hasSubmitParameter(request, "parentRegistrationId") && WebUtils.hasSubmitParameter(request, "create_companion")){
-    		StudySubjectWrapper wrapper = (StudySubjectWrapper)super.formBackingObject(request);
-    		wrapper.getStudySubject().setParentStudySubject(studySubjectDao.getById(Integer.parseInt(request.getParameter("parentRegistrationId")), true));
-    		studySubjectDao.initialize(wrapper.getStudySubject().getParentStudySubject());
+    		StudySubjectWrapper wrapper = (StudySubjectWrapper) super.formBackingObject(request);
+    		StudySubject studySubject = wrapper.getStudySubject();
+    		
+    		String participantId = request.getParameter("studySubject.participant");
+    		String studySiteId = request.getParameter("studySubject.studySite");
+    		String parentRegistrationId = request.getParameter("parentRegistrationId");
+    		String epochId = request.getParameter("epoch");
+    		
+    		Participant participant = participantDao.getById(Integer.parseInt(participantId));
+    		StudySite studySite =  studySiteDao.getById(Integer.parseInt(studySiteId));
+    		Epoch epoch = epochDao.getById(Integer.parseInt(epochId));
+    		StudySubject parentStudySubject = studySubjectDao.getById(Integer.parseInt(parentRegistrationId));
+    		
+    		studySubject.setParticipant(participant);
+    		studySubject.setStudySite(studySite);
+    		studySubject.setParentStudySubject(parentStudySubject);
+    		
+            epochDao.initialize(epoch);
+            ScheduledEpoch scheduledEpoch;
+            if (epoch.getTreatmentIndicator()) {
+                (epoch).getArms().size();
+                scheduledEpoch = new ScheduledEpoch();
+            }else {
+                scheduledEpoch = new ScheduledEpoch();
+            }
+            scheduledEpoch.setEpoch(epoch);
+            if(studySubject.getScheduledEpochs().size() == 0){
+            	studySubject.getScheduledEpochs().add(0,scheduledEpoch);
+            }else{
+            	studySubject.getScheduledEpochs().set(0, scheduledEpoch);
+            }
+            registrationControllerUtils.buildCommandObject(studySubject);
+            studySiteDao.initialize(studySubject.getStudySite());
+    		studySubjectDao.initialize(studySubject.getParentStudySubject());
     		return  wrapper;	
-    	}else{
-    		throw new RuntimeException("Cannot create command object instance");
-    	}
     }
 }
