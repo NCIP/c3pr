@@ -1104,15 +1104,16 @@ public class StudySubject extends
 			throw new C3PRBaseRuntimeException(
 					" Cannot directly register on the embedded study. The registration can happen only through the parent");
 		}
+		
+		
+		if(getWorkPendingOnMandatoryCompanionRegistrations()){
+			throw new C3PRBaseRuntimeException(
+			" First register on the mandatory companions before enrolling on the parent");
+		}
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
 				if (getMatchingCompanionStudyAssociation(childStudySubject)
 						.getMandatoryIndicator()) {
-					if (childStudySubject.getScheduledEpoch()
-							.getScEpochWorkflowStatus()!= ScheduledEpochWorkFlowStatus.REGISTERED || childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED) {
-						throw new C3PRBaseRuntimeException(
-								" First register on the mandatory companions before enrolling on the parent");
-					}
 					if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
 						throw new C3PRBaseRuntimeException(
 								" First register the subject on the enrolling epoch of the mandatory companions before proceeding with enrollment");
@@ -1287,16 +1288,30 @@ public class StudySubject extends
 	
 	@Transient
 	public boolean getWorkPendingOnMandatoryCompanionRegistrations(){
+		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getCompanionStudyAssociations()){
+			boolean hasCorrespondingStudySubject = false;
+			for(StudySubject childStudySubject : this.getChildStudySubjects()){
+				if(childStudySubject.getStudySite().getStudy().equals(companionStudyAssociation.getCompanionStudy())){
+					hasCorrespondingStudySubject = true;
+				}
+			}
+			if (!hasCorrespondingStudySubject) return true;
+		}
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
 				if (getMatchingCompanionStudyAssociation(childStudySubject)
 						.getMandatoryIndicator()) {
-					if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.REGISTERED){
+					if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
+						return true;
+					}
+					if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
 						return true;
 					}
 				}
 			}
 		}
 		return false;
+		
+		
 	}
 }
