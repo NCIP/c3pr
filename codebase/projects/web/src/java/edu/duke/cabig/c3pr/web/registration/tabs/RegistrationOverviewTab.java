@@ -11,14 +11,18 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
@@ -91,7 +95,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends Regi
         map.put("registerableWithCompanions", registrationControllerUtils.registerableAsorWithCompanion(studySubject));
         map.put("requiresMultiSite", studySubjectService
                         .requiresExternalApprovalForRegistration(studySubject));
-        map.put("multisiteEnable", new Boolean(this.configuration.get(Configuration.MULTISITE_ENABLE)));
+        map.put("hasEndpointMessages", new Boolean(studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getRegistrationEndpoints().size()>0));
         registrationControllerUtils.addAppUrls(map);
         return map;
     }
@@ -127,26 +131,14 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends Regi
         }
     }
     
-//    public ModelAndView broadcastMultiSiteRegistration(HttpServletRequest request, Object commandObj,
-//                    Errors error) {
-//    	StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj ;
-//    	StudySubject command = wrapper.getStudySubject();
-//        String responseMessage = null;
-//        try {
-//            if(command.getMultisiteWorkflowStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED)
-//                this.studySubjectService.sendRegistrationRequest(command);
-//            else
-//                this.studySubjectService.sendRegistrationResponse(command);
-//            responseMessage = studySubjectService.getMultiSiteWofkflowStatus(command).getDisplayName();
-//        }
-//        catch (Exception e) {
-//            responseMessage=e.getMessage();
-//        }finally{
-//            Map<String, Object> map = new HashMap<String, Object>();
-//            map.put("responseMessage", responseMessage);
-//            return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
-//        }
-//    }
+    public ModelAndView showEndpointMessage(HttpServletRequest request, Object obj, Errors errors) {
+        StudySubjectWrapper wrapper=((StudySubjectWrapper)obj);
+        StudySubject studySubject=wrapper.getStudySubject();
+        StudyOrganization studyOrganization=studySubject.getStudySite().getStudy().getStudyCoordinatingCenter();
+        Map map=new HashMap();
+        map.put("site", studyOrganization);
+        return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
+    }
 
     public StudySubjectService getStudySubjectService() {
         return studySubjectService;
