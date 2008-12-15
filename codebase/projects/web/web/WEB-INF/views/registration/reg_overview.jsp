@@ -21,6 +21,10 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <script>
+    	function showEndpointError(){
+			Dialog.alert({url: $('command').action, options: {method: 'post', parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=showEndpointMessage&_asyncViewName=/registration/asynchronous/endpoint_display&_target${tab.number}=${tab.number}&_page=${tab.number}", asynchronous:true, evalScripts:true}},              
+							{className: "alphacube", width:540, okLabel: "Done"});
+		}
         function activateInPlaceEditing(localEditEvent) {
             for (aE = 0; aE < eArray.length; aE++) {
                 eArray[aE].enterEditMode(localEditEvent);
@@ -62,20 +66,6 @@
         function onBroadcastComplete() {
             $('viewDetails').enable('broadcastBtn');
             $('viewDetails').enable('broadcastStatusBtn');
-        }
-        
-        function doMultiSiteBroadcast() {
-          $('multiSiteResponse').innerHTML = 'Sending Message...';
-
-          $('multisiteDetails').disable('broadcastMultiSiteBtn');
-
-        <tags:tabMethod method="broadcastMultiSiteRegistration"
-       viewName="/ajax/broadcast_multisite_res" onComplete="onMultiSiteBroadcastComplete"
-       divElement="'multiSiteResponse'" formName="'tabMethodForm'"params="dontSave=true"/>
-        }
-
-        function onMultiSiteBroadcastComplete() {
-            $('multisiteDetails').enable('broadcastMultiSiteBtn');
         }
         
 		function accessApp(url,targetWindow){
@@ -565,30 +555,29 @@
 </c:if>
 
 <%--<c:if test='${(command.studySubject.multisiteWorkflowStatus=="MESSAGE_SEND_FAILED" || command.studySubject.multisiteWorkflowStatus=="MESSAGE_REPLY_FAILED") && multisiteEnable}'>--%>
-<c:if test='${command.studySubject.scheduledEpoch.scEpochWorkflowStatus=="PENDING" && multisiteEnable}'>
-    <chrome:division title="MultiSite Workflow">
+<div id="Endpoint-Msgs">
+<c:if test='${hasEndpointMessages}'>
+	<c:set var="siteEndpoint" value="${command.studySubject.studySite.study.studyCoordinatingCenter}" />
+    <chrome:division title="MultiSite Messages">
         <form:form id="multisiteDetails" name="multisiteDetails">
             <div class="content">
                 <div class="row">
-                    <div class="label">
-                        Broadcast Status:
-                    </div>
-
-                    <div class="value">
-                        <span id="multiSiteResponse">
-                                ${command.studySubject.multisiteWorkflowStatus.displayName}
-                        </span>
-                        <c:if test='${command.studySubject.multisiteWorkflowStatus.code=="MESSAGE_SEND_FAILED" || command.studySubject.multisiteWorkflowStatus.code=="MESSAGE_REPLY_FAILED"}'>
-                        	<c:set var="multiSiteLabel" value='${command.studySubject.multisiteWorkflowStatus.code=="MESSAGE_SEND_FAILED"?"Send request":"Send Response"}' />
-	                        <input type="button" id="broadcastMultiSiteBtn" value="${multiSiteLabel }"
-	                               onclick="doMultiSiteBroadcast();"/>
-                        </c:if>
-                    </div>
+					<c:choose>
+						<c:when test="${siteEndpoint.lastAttemptedRegistrationEndpoint.status=='MESSAGE_SEND_FAILED'}">
+							<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
+							Click <a href="javascript:showEndpointError();">here</a> to see the error messages
+						</c:when>
+						<c:otherwise>
+							<font color="green">${siteEndpoint.lastAttemptedRegistrationEndpoint.status.code}</font><br>
+							Click <a href="javascript:showEndpointError();">here</a> to see the messages
+						</c:otherwise>
+					</c:choose>
                 </div>
             </div>
         </form:form>
     </chrome:division>
 </c:if>
+</div>
 
 <div align="right">
 	<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>

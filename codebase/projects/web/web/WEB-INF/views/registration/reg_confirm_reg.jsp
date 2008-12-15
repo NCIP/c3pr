@@ -77,6 +77,22 @@ function manageCompanions(){
 	registerableWithCompanions :${registerableWithCompanions}
 	requiresMultiSite:${requiresMultiSite}   -->
 	<c:choose>
+	<c:when test="${fn:length(command.studySubject.studySite.registrationEndpoints)>0 && command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status=='MESSAGE_SEND_FAILED'} ">
+		<font color='<fmt:message key="REGISTRATION.MULTISITE.ERROR.COlOR"/>'><strong><fmt:message key="REGISTRATION.MULTISITE.ERROR"/> Please <a href="javascript:showEndpointError();">click</a> here to see the detail error message.</strong></font>
+		<div id="endpoint-error" style="display: none;">
+			<chrome:box title="Multisite registration messages for ${command.studySubject.studySite.healthcareSite.name}">
+			<chrome:division title="${command.studySubject.studySite.lastAttemptedRegistrationEndpoint.apiName.displayName } at ${command.studySubject.studySite.healthcareSite.name }" style="text-align: left;">
+			<div align="left" style="font-size: 1.4em; color: red">${command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status.code }</div>
+			<tags:displayErrors id="endpoint-errors" errors="${command.studySubject.studySite.lastAttemptedRegistrationEndpoint.errors}"></tags:displayErrors>
+			</chrome:division>
+			</chrome:box>
+			<script>
+				function showEndpointError(){
+					Dialog.alert($("endpoint-error").innerHTML,{className: "alphacube", width:540, okLabel: "Done"});
+				}
+			</script>
+		</div>
+	</c:when>
 	<c:when test="${newRegistration}">
 		<c:choose>
 		<c:when test="${command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'true' && !hasParent && !hasCompanions}">
