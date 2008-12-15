@@ -69,17 +69,12 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
     			companion.setCompanionStudyPrimaryIdentifier(companionStudy.getPrimaryIdentifier());
     			companion.setCompanionStudyId(companionStudy.getId());
     			companion.setMandatoryIndicator(companionStudyAssoc.getMandatoryIndicator());
-    			for(StudySite studySite : companionStudy.getStudySites()){
-    				if(studySite.getHealthcareSite() == studySubject.getStudySite().getHealthcareSite()){
-    					companion.setStudySiteId(studySite.getId());
-    					for(StudySubject cStudySubject : studySubject.getChildStudySubjects()){
-    						if(studySite == cStudySubject.getStudySite()){
-    							companion.setRegistrationId(cStudySubject.getId());
-    							companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
-    						}
-    					}
-    				}
-    			}
+				for (StudySubject cStudySubject : studySubject.getChildStudySubjects()) {
+					if (companionStudy.getId() == cStudySubject.getStudySite().getStudy().getId()) {
+						companion.setRegistrationId(cStudySubject.getId());
+						companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
+					}
+				}
     			companions.add(companion);
     		}
     	}
