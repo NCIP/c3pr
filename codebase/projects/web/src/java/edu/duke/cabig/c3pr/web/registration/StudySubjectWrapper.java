@@ -32,6 +32,7 @@ public class StudySubjectWrapper {
 	public Boolean getShouldRegister(){
 		if(!this.studySubject.getDataEntryStatus())
 			return null;
+		if(this.studySubject.getParentStudySubject()!=null) return true;
 		return this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() || (!this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() && !this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
 	}
 	
