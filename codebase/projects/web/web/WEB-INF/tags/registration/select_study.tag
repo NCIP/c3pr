@@ -60,7 +60,7 @@
 
     function searchStudy() {
         new Element.show('searchStudyInd');
-        new Ajax.Updater('studySearchResults','../registration/searchStudy',
+        new Ajax.Updater('studySearchResults','../registration/searchStudy?fromRegistration=true&decorator=nullDecorator',
         {
             method:'post',
             postBody:Form.serialize('searchstudyForm'), 

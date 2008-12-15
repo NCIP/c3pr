@@ -1,8 +1,12 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
@@ -17,6 +21,8 @@ import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +36,8 @@ public class SearchStudyController extends SimpleFormController {
     private StudyDao studyDao;
 
     private StudyAjaxFacade studyAjaxFacade;
+    
+    private ResearchStaffDao researchStaffDao;
 
     @Override
     protected boolean isFormSubmission(HttpServletRequest request) {
@@ -68,11 +76,67 @@ public class SearchStudyController extends SimpleFormController {
         } else {
             studies = studyDao.searchByExample(study, true);
         }
+        
+        
+        //This will get me all the studies that have the logged in user's organization as a studyOrganization.
+        //However in the REG flow we should only show studies that have the logged in user's organization as
+        //the coordinating center of the study site. 
+        //In other words a funding sponsor org which would otherwise be able to see the study in the other flows 
+        //should not be able to see the study in the REG flow unless its a studySite
+        String fromRegistration = "";
+        List<Study> studiesViewableFromRegFlow = new ArrayList<Study>();
+        if (WebUtils.hasSubmitParameter(request, "fromRegistration")) {
+        	fromRegistration = request.getParameter("fromRegistration").toString();
+        }
+        if(fromRegistration.equalsIgnoreCase("true")){
+        	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
+					.getSession().getAttribute("userObject");
+			List<ResearchStaff> rsList = researchStaffDao
+					.getByEmailAddress(user.getEmailId());
+			ResearchStaff rStaff = null;
+			if (rsList.size() == 1) {
+				rStaff = rsList.get(0);
+				String nciCodeOfUserOrg = rStaff.getHealthcareSite()
+						.getNciInstituteCode();
+				Boolean shouldDelete;
+				for (Study filteredStudy : studies) {
+					shouldDelete = Boolean.TRUE;
+					for (StudyCoordinatingCenter scc : filteredStudy
+							.getStudyCoordinatingCenters()) {
+						if (scc.getHealthcareSite().getNciInstituteCode()
+								.equals(nciCodeOfUserOrg)) {
+							//if users Org is coordinating center dont delete study
+							shouldDelete = Boolean.FALSE;
+						}
+					}
+
+					for (StudySite ss : filteredStudy.getStudySites()) {
+						if (ss.getHealthcareSite().getNciInstituteCode()
+								.equals(nciCodeOfUserOrg)) {
+							//if users Org is one of the  study sites dont delete study
+							shouldDelete = Boolean.FALSE;
+						}
+					}
+
+					// if users org is neither scc nor ss then add study to the list to be displayed
+					if(!shouldDelete){
+						studiesViewableFromRegFlow.add(filteredStudy);
+					}
+				}
+			} else {
+				//super admin case. Dont do anything
+			}
+        } else {
+        	//copy the list as is
+        	studiesViewableFromRegFlow = studies;
+        }
+        
+
         log.debug("Search results size " + studies.size());
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
 
         Map map = errors.getModel();
-        map.put("studyResults", studies);
+        map.put("studyResults", studiesViewableFromRegFlow);
         map.put("searchTypeRefData", configMap.get("studySearchType"));
         Object viewData = studyAjaxFacade.getTableForExport(map, request);
         request.setAttribute("studies", viewData);
@@ -113,4 +177,12 @@ public class SearchStudyController extends SimpleFormController {
     public void setStudyAjaxFacade(StudyAjaxFacade studyAjaxFacade) {
         this.studyAjaxFacade = studyAjaxFacade;
     }
+
+	public ResearchStaffDao getResearchStaffDao() {
+		return researchStaffDao;
+	}
+
+	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
+		this.researchStaffDao = researchStaffDao;
+	}
 }
