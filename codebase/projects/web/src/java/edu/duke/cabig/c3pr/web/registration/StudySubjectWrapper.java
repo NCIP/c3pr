@@ -30,21 +30,26 @@ public class StudySubjectWrapper {
 	}
 	
 	public Boolean getShouldRegister(){
-		if(!this.studySubject.getDataEntryStatus())
+		if(!this.studySubject.getDataEntryStatus()){
 			return null;
-		if(this.studySubject.getParentStudySubject()!=null) return true;
+		}
+		if(this.studySubject.getParentStudySubject()!=null){
+			return true;
+		}
 		return this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() || (!this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() && !this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
 	}
 	
 	public Boolean getShouldEnroll(){
-		if(!this.studySubject.getDataEntryStatus())
+		if(!this.studySubject.getDataEntryStatus()){
 			return null;
+		}
 		return(!this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() && this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
 	}
 	
 	public Boolean getShouldRandomize(){
-		if(!this.studySubject.getDataEntryStatus())
+		if(!this.studySubject.getDataEntryStatus()){
 			return null;
+		}
 		return(this.getStudySubject().getScheduledEpoch().getRequiresRandomization());
 	}
 }
