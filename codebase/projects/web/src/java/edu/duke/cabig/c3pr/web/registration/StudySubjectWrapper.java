@@ -32,13 +32,13 @@ public class StudySubjectWrapper {
 	public Boolean getShouldRegister(){
 		if(!this.studySubject.getDataEntryStatus())
 			return null;
-		return(!this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() && !this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
+		return this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() || (!this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() && !this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
 	}
 	
 	public Boolean getShouldEnroll(){
 		if(!this.studySubject.getDataEntryStatus())
 			return null;
-		return(this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
+		return(!this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() && this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
 	}
 	
 	public Boolean getShouldRandomize(){
