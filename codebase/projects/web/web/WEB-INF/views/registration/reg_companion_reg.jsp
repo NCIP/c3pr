@@ -48,12 +48,12 @@
 						<td class="alt">${companion.registrationId == 0?"Not
 						Started":companion.registrationStatus}</td>
 						<td class="alt"><c:choose>
-							<c:when test="${companion.childStudySubject != null}">
+							<c:when test="${companion.registrationId != 0}">
 								<csmauthz:accesscontrol domainObject="${command.studySubject}"
 									hasPrivileges="UPDATE"
 									authorizationCheckName="domainObjectAuthorizationCheck">
 									<input type="button" value="Manage"
-										onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?<tags:identifierParameterString identifier="${companion.childStudySubject.systemAssignedIdentifiers[0] }"/> />'" />
+										onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${ companion.registrationId}' />'" />
 								</csmauthz:accesscontrol>
 							</c:when>
 							<c:otherwise>
