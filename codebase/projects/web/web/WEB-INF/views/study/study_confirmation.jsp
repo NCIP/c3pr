@@ -9,9 +9,18 @@
 	<script>
 	</script>
 	    <chrome:box title="Confirmation" autopad="true">
-	            	<div class="row" >
-	                    <h2><font color="green">Study successfully created.</font></h2>
-	                </div>
+					<c:choose>
+						<c:when test ="${command.study.coordinatingCenterStudyStatus.displayName == 'Open'}">
+			            	<div class="row" >
+			                    <h2><font color="green">Study successfully opened.</font></h2>
+			                </div>
+						</c:when>
+						<c:otherwise>
+			            	<div class="row" >
+			                    <h2><font color="green">Study successfully created.</font></h2>
+			                </div>
+						</c:otherwise>
+					</c:choose>
 	                 <div class="row" >
 	                 	<table class="tablecontent" width="60%">
 							<tr>
