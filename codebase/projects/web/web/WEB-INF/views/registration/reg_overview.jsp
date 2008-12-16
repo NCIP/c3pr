@@ -97,12 +97,24 @@
 <form:form method="post">
     <tags:tabFields tab="${tab}"/>
 </form:form>
-<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Unapproved'}">
-<tags:panelBox title="${actionLabel}">
-    <registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
-                               requiresMultiSite="${requiresMultiSite}"/>
+<c:if test="${command.shouldRegister && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending'}">
+<tags:panelBox title="Register">
+	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Register" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
 </c:if>
+
+<c:if test="${registerableWithCompanions &&(command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
+<tags:panelBox title="Enroll & Randomize">
+	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll & Randomize" requiresMultiSite="${requiresMultiSite}"/>
+</tags:panelBox>
+</c:if>
+
+<c:if test="${registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered'}">
+<tags:panelBox title="Enroll>
+	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll" requiresMultiSite="${requiresMultiSite}"/>
+</tags:panelBox>
+</c:if>
+
 <tags:panelBox>
 <br/>
 <div id="printable">
