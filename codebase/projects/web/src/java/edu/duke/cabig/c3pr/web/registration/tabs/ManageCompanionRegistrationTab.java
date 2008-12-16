@@ -6,19 +6,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
-
 import edu.duke.cabig.c3pr.domain.Companion;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
@@ -33,7 +27,7 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
     		StudySubjectWrapper wrapper) {
     	StudySubject studySubject = wrapper.getStudySubject();
 		Map map = registrationControllerUtils.buildMap(studySubject);
-		map.put("companions", getCompanionStudySubject(request));
+		map.put("companions", getCompanionStudySubject(request, studySubject));
 		boolean actionRequired = false;
 		String actionLabel = "";
 		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED && studySubject.isDataEntryComplete()) {
@@ -52,16 +46,17 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
 		map.put("actionRequired", actionRequired);
 		map.put("actionLabel", actionLabel);
 		map.put("requiresMultiSite", studySubjectService.requiresExternalApprovalForRegistration(studySubject));
+		wrapper.setStudySubject(studySubject);
 		return map;
 	}
 	
-	private List<Companion> getCompanionStudySubject(HttpServletRequest request){
+	private List<Companion> getCompanionStudySubject(HttpServletRequest request, StudySubject studySubject){
     	List<Companion> companions = new ArrayList<Companion>();
     	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
     	if(identifier != null){
     		List<Identifier> identifiers=new ArrayList<Identifier>();
     		identifiers.add(identifier);
-    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+//    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
     		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()){
     			Companion companion = new Companion();
     			Study companionStudy = companionStudyAssoc.getCompanionStudy();
@@ -72,7 +67,7 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
 				for (StudySubject cStudySubject : studySubject.getChildStudySubjects()) {
 					if (companionStudy.getId() == cStudySubject.getStudySite().getStudy().getId()) {
 						companion.setRegistrationId(cStudySubject.getId());
-						companion.setChildStudySubject(cStudySubject);
+						companion.setCompanionRegistrationUrl(ControllerTools.createParameterString(cStudySubject.getSystemAssignedIdentifiers().get(0)));
 						companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
 					}
 				}

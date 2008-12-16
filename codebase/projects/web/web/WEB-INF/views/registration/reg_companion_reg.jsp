@@ -9,7 +9,7 @@
 		var win;
 		function openPopup(companionStudy, participant, parentRegistrationId){
 			win = new Window(
-					{onClose: function() {},title: "Registration", top:35, scrollbar: false, left:100, zIndex:100, width:700, height:325 , url: "<c:url value='/pages/registration/createCompanionRegistration?decorator=noheaderDecorator&customButton=true&create_companion=true&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
+					{onClose: function() {$('refreshPage').submit();},title: "Registration", top:35, scrollbar: false, left:100, zIndex:100, width:700, height:325 , url: "<c:url value='/pages/registration/createCompanionRegistration?decorator=noheaderDecorator&customButton=true&create_companion=true&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
 					  showEffectOptions: {duration:1.5}
 					}
 				) 
@@ -22,9 +22,21 @@
 		}
 
 		function reloadCompanion(){
-			$('manageCompanion').submit();
+			$('refreshPage').submit();
    		}
+
+   		function manageCompanionRegistration(url){
+   			document.location="../registration/manageRegistration?"+url;
+   	   	}
 	</script>
+	<form action='../registration/manageRegistration?<tags:identifierParameterString identifier="${command.studySubject.systemAssignedIdentifiers[0]}"/>' method="post" id="refreshPage">
+		<input type="hidden" name="_page0" id="_page0" value="0" /> 
+		<input type="hidden" name="_target2" id="_target2" value="2" /> 
+	</form>
+	<form action='../registration/manageRegistration?<tags:identifierParameterString identifier="${childStudySubject.systemAssignedIdentifiers[0]}"/>' method="post" id="manageCompanion">
+		<input type="hidden" name="_page0" id="_page0" value="0" /> 
+		<input type="hidden" name="_target2" id="_target2" value="2" /> 
+	</form>
 </head>
 <body>
 <c:choose>
@@ -45,15 +57,14 @@
 					<tr>
 						<td class="alt">${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
-						<td class="alt">${companion.registrationId == 0?"Not
-						Started":companion.registrationStatus}</td>
+						<td class="alt">${companion.registrationId == 0?"Not Started":companion.registrationStatus}</td>
 						<td class="alt"><c:choose>
 							<c:when test="${companion.registrationId != 0}">
 								<csmauthz:accesscontrol domainObject="${command.studySubject}"
 									hasPrivileges="UPDATE"
 									authorizationCheckName="domainObjectAuthorizationCheck">
 									<input type="button" value="Manage"
-										onclick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${ companion.registrationId}' />'" />
+										onclick='manageCompanionRegistration("${companion.companionRegistrationUrl}");' />
 								</csmauthz:accesscontrol>
 							</c:when>
 							<c:otherwise>

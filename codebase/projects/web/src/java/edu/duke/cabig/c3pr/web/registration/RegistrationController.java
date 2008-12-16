@@ -209,8 +209,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         	List<Identifier> identifiers=new ArrayList<Identifier>();
         	identifiers.add(identifier);
         	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
-//            studySubject = studySubjectDao.getById(Integer.parseInt(request
-//                            .getParameter("registrationId")), true);
             studySubjectDao.initialize(studySubject);
             Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
     	    studyDao.initialize(study);

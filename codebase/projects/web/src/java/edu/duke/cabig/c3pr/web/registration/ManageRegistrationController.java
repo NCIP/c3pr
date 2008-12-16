@@ -43,7 +43,6 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request,
                     HttpServletResponse response) throws Exception {
-        // study export
         if (request.getParameterMap().keySet().contains("_action")
                         && StringUtils.getBlankIfNull(request.getParameter("_action"))
                                         .equalsIgnoreCase("export")) {
