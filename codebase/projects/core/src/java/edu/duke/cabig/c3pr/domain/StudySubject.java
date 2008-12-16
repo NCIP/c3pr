@@ -1101,8 +1101,7 @@ public class StudySubject extends
 
 	public void prepareForEnrollment() {
 
-		if (this.getParentStudySubject() != null
-				&& !this.isStandAloneStudySubject()) {
+		if (!this.getStudySite().getStudy().getStandaloneIndicator() && this.getParentStudySubject() != null && this.getParentStudySubject().regWorkflowStatus!=RegistrationWorkFlowStatus.ENROLLED) {
 			throw new C3PRBaseRuntimeException(
 					" Cannot directly register on the embedded study. The registration can happen only through the parent");
 		}
