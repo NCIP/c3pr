@@ -6,7 +6,7 @@ public class IdentifierGenerator {
 		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy()
 				.getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
-		orgIdentifier.setType("Study Subject Identifier");
+		orgIdentifier.setType("Coordinating Center Assigned Study Subject Identifier");
 		orgIdentifier.setValue(studySubject.getStudySite().getStudy()
 				.getCoordinatingCenterAssignedIdentifier().getValue()
 				+ "_" + studySubject.getParticipant().getPrimaryIdentifier());
