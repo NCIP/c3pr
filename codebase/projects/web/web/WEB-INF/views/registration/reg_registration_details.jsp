@@ -66,7 +66,6 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 </script>
 </head>
 <body>
-<tags:instructions code="enrollment_details" />
 <c:choose>
 <c:when test="${alreadyRegistered!=null}">
 	<tags:panelBox>
@@ -83,7 +82,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
 <form:hidden path="studySubject.informedConsentVersion"/>
-
+<tags:instructions code="enrollment_details" />
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>

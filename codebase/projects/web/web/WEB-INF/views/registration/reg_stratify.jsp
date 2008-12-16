@@ -11,9 +11,9 @@ function navRollOver(obj, state) {
 </script>
 </head>
 <body>
-<tags:instructions code="reg_stratify" />
-<tags:formPanelBox tab="${tab}" flow="${flow}">
 
+<tags:formPanelBox tab="${tab}" flow="${flow}">
+<tags:instructions code="reg_stratify" />
 	<c:choose>
 	<c:when test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator == 'false' || fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers)==0}">
 		<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_STRATIFICATION"/></div><br><br>

@@ -43,12 +43,12 @@
 		</c:when>
 		<c:when test="${command.studySubject.studySite.study.blindedIndicator}">
 			<tr>
-				<td><strong><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></strong></td>
+				<td><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></td>
 			</tr>
 		</c:when>
 		<c:otherwise>
 			<tr>
-				<td><strong><fmt:message key="REGISTRATION.RANDOMIZED_ARM_ASSIGNMENT"/></strong></td>
+				<td><fmt:message key="REGISTRATION.RANDOMIZED_ARM_ASSIGNMENT"/></td>
 			</tr>
 		</c:otherwise>
 		</c:choose>

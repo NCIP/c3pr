@@ -11,10 +11,10 @@ function navRollOver(obj, state) {
 </script>
 </head>
 <body>
-<tags:instructions code="reg_check_eligibility" />
 <c:choose>
 	<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectEligibilityAnswers) == 0}">
-			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></div><br><br>
+			<tags:formPanelBox tab="${tab}" flow="${flow}">
+				<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></div><br><br>
 			</tags:formPanelBox>
 	</c:when>
 	<c:otherwise>
@@ -24,6 +24,7 @@ function navRollOver(obj, state) {
 			<tr>
 				<td>
 				<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criteria (<i>Expected answer 'yes'</i>)">
+					<tags:instructions code="reg_check_eligibility" />
 					<table width="100%" border="0" class="tablecontent">
 						<tr>
 							<th align="left"><b>Question</b></th>

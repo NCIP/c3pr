@@ -13,7 +13,7 @@
 					</c:if>
                     <c:if test="${siteName ne '<SITE_NAME>'}">
                       <div id="instName">
-                        <img src="${siteName}" height="35px" border="1">
+                        <img src="${siteName}" height="35px" />
                         <c:out value="${instName}" />
                       </div>
                     </c:if>
