@@ -83,7 +83,7 @@
 			</div>
 		</tags:panelBox>
 		
-		<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Unapproved'}">
+		<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
 			<tags:panelBox title="Parent Registration"><br>
 				<font color="GREEN"> <strong>Data entry is complete
 				for all mandatory companion registrations, Click on '${actionLabel}'
