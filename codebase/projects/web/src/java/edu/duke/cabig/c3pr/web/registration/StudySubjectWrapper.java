@@ -33,6 +33,12 @@ public class StudySubjectWrapper {
 		if(!this.studySubject.getDataEntryStatus()){
 			return null;
 		}
+		
+		if(this.studySubject.getParentStudySubject()!=null && this.studySubject.getParentStudySubject().getRegWorkflowStatus()== RegistrationWorkFlowStatus.ENROLLED && !this.studySubject.getMatchingCompanionStudyAssociation(studySubject).getMandatoryIndicator()){
+			return false;
+		}
+		
+		
 		if(this.studySubject.getParentStudySubject()!=null){
 			return true;
 		}
