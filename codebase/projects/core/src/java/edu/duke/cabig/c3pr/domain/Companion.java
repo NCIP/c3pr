@@ -7,8 +7,8 @@ public class Companion {
 	private String registrationStatus ;
 	private Boolean mandatoryIndicator ;
 	private int registrationId ;
-	private StudySubject childStudySubject ;
 	private int companionStudyId;
+	private String companionRegistrationUrl;
 	
 	public String getCompanionStudyPrimaryIdentifier() {
 		return companionStudyPrimaryIdentifier;
@@ -50,11 +50,11 @@ public class Companion {
 	public int getCompanionStudyId() {
 		return companionStudyId;
 	}
-	public void setChildStudySubject(StudySubject childStudySubject) {
-		this.childStudySubject = childStudySubject;
+	public void setCompanionRegistrationUrl(String companionRegistrationUrl) {
+		this.companionRegistrationUrl = companionRegistrationUrl;
 	}
-	public StudySubject getChildStudySubject() {
-		return childStudySubject;
+	public String getCompanionRegistrationUrl() {
+		return companionRegistrationUrl;
 	}
 
 }
