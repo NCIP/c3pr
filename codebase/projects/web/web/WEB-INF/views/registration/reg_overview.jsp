@@ -379,8 +379,8 @@
                 <td>${sysIdentifier.type}</td>
                 <td>${sysIdentifier.value}</td>
                 <td>${sysIdentifier.primaryIndicator}
-                    <form:radiobutton value="true" cssClass="identifierRadios"
-                                      path="command.studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
+                    <%-- <form:radiobutton value="true" cssClass="identifierRadios"
+                                      path="command.studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>--%>
             </tr>
         </c:forEach>
     </table>
