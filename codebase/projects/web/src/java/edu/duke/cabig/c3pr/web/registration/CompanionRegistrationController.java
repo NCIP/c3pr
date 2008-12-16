@@ -46,20 +46,6 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
         setFlow(flow);
     }
     
-//    @Override
-//    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-//    	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
-//        StudySubject studySubject = wrapper.getStudySubject();
-//        if (logger.isDebugEnabled()) {
-//            logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
-//        }
-//        if(WebUtils.hasSubmitParameter(request, "decorator") && "noheaderDecorator".equals(request.getParameter("decorator"))){
-//        	 return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId() +"&decorator=" + request.getParameter("decorator"));
-//        }else{
-//        	return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());	
-//        }
-//    }
-    
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {

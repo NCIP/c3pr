@@ -674,11 +674,8 @@ public class StudySubject extends
 	public List<Error> updateDataEntryStatus() {
 		List<Error> errors = new ArrayList<Error>();
 		this.evaluateRegistrationDataEntryStatus(errors);
-		this
-				.setRegDataEntryStatus((errors.size() > 0) ? RegistrationDataEntryStatus.INCOMPLETE
-						: RegistrationDataEntryStatus.COMPLETE);
-		this.getScheduledEpoch().setScEpochDataEntryStatus(
-				this.evaluateScheduledEpochDataEntryStatus(errors));
+		this.setRegDataEntryStatus((errors.size() > 0) ? RegistrationDataEntryStatus.INCOMPLETE : RegistrationDataEntryStatus.COMPLETE);
+		this.getScheduledEpoch().setScEpochDataEntryStatus(this.evaluateScheduledEpochDataEntryStatus(errors));
 		return errors;
 	}
 

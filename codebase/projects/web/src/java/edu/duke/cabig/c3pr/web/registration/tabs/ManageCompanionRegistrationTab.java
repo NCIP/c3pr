@@ -72,6 +72,7 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
 				for (StudySubject cStudySubject : studySubject.getChildStudySubjects()) {
 					if (companionStudy.getId() == cStudySubject.getStudySite().getStudy().getId()) {
 						companion.setRegistrationId(cStudySubject.getId());
+						companion.setChildStudySubject(cStudySubject);
 						companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
 					}
 				}

@@ -102,10 +102,13 @@ public class ManageStudySitesTab extends StudyTab {
                 e.printStackTrace();
             }
         } 
+        if(studySite == null){
+        	studySite =  wrapper.getStudy().getStudySite(studySite.getHealthcareSite().getNciInstituteCode());
+        }
         Map map=new HashMap();
         wrapper.setStudy(studyRepository.getUniqueStudy(study.getIdentifiers()));
         studyDao.initialize(wrapper.getStudy());
-        map.put("site", wrapper.getStudy().getStudySite(studySite.getHealthcareSite().getNciInstituteCode()));
+        map.put("site",studySite);
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }
 

@@ -7,7 +7,7 @@ public class Companion {
 	private String registrationStatus ;
 	private Boolean mandatoryIndicator ;
 	private int registrationId ;
-	private int studySiteId ;
+	private StudySubject childStudySubject ;
 	private int companionStudyId;
 	
 	public String getCompanionStudyPrimaryIdentifier() {
@@ -19,9 +19,6 @@ public class Companion {
 	}
 	public void setRegistrationId(int registrationId) {
 		this.registrationId = registrationId;
-	}
-	public void setStudySiteId(int studySiteId) {
-		this.studySiteId = studySiteId;
 	}
 	
 	public String getCompanionStudyShortTitle() {
@@ -40,9 +37,7 @@ public class Companion {
 	public int getRegistrationId() {
 		return registrationId;
 	}
-	public int getStudySiteId() {
-		return studySiteId;
-	}
+
 	public void setMandatoryIndicator(Boolean mandatoryIndicator) {
 		this.mandatoryIndicator = mandatoryIndicator;
 	}
@@ -54,6 +49,12 @@ public class Companion {
 	}
 	public int getCompanionStudyId() {
 		return companionStudyId;
+	}
+	public void setChildStudySubject(StudySubject childStudySubject) {
+		this.childStudySubject = childStudySubject;
+	}
+	public StudySubject getChildStudySubject() {
+		return childStudySubject;
 	}
 
 }
