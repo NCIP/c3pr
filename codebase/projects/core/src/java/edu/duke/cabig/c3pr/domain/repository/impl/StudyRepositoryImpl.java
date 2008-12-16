@@ -232,8 +232,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
-            handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
-            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.CLOSE_STUDY_SITE);
+            EndPoint endpoint=handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
                 studySite=studySiteDao.merge(studySite);
             }else{
@@ -604,7 +603,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         this.studySiteDao = studySiteDao;
     }
     public Study getUniqueStudy(List<Identifier> studyIdentifiers) {
-        List<Study> studies = studyDao.getByIdentifiers(studyIdentifiers);
+	        List<Study> studies = studyDao.getByIdentifiers(studyIdentifiers);
         if (studies.size() == 0) {
             throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.NOT_FOUND_GIVEN_IDENTIFIERS.CODE"));
         }
