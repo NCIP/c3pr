@@ -509,7 +509,7 @@ public class StudySubject extends
 	public OrganizationAssignedIdentifier getCoOrdinatingCenterIdentifier() {
 		for (OrganizationAssignedIdentifier organizationAssignedIdentifier : getOrganizationAssignedIdentifiers()) {
 			if (organizationAssignedIdentifier.getType().equalsIgnoreCase(
-					"Coordinating Center Identifier")) {
+					"Coordinating Center Assigned Study Subject Identifier")) {
 				return organizationAssignedIdentifier;
 			}
 		}
@@ -850,8 +850,10 @@ public class StudySubject extends
 					}
 
 				} else {
-					getScheduledEpoch().setScEpochWorkflowStatus(
+					if(!getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
+						getScheduledEpoch().setScEpochWorkflowStatus(
 							ScheduledEpochWorkFlowStatus.REGISTERED);
+					}
 					// only if the study subject is still unregistered(i.e. for
 					// the 1st epoch), we update it's status.
 					// else, the study subject continues to have his/her
@@ -899,6 +901,9 @@ public class StudySubject extends
 	}
 
 	private void doLocalRandomization() {
+		for(StudySubject childStudySubject: this.getChildStudySubjects()){
+			childStudySubject.doLocalRandomization();
+		}
 		// randomize subject
 		switch (this.getStudySite().getStudy().getRandomizationType()) {
 		case PHONE_CALL:
