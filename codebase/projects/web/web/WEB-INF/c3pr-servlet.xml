@@ -350,7 +350,7 @@
         <property name="bindOnNewForm" value="true" />
     </bean>
     
-    <bean name="/registration/transferEpochRegistrationController"
+    <bean name="/registration/transferEpochRegistration"
           id="transferEpochRegistrationController"
           class="edu.duke.cabig.c3pr.web.registration.TransferEpochRegistrationController"
           autowire="byName">
