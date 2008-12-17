@@ -961,7 +961,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
-	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(2);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	        studySubjects.add(studySubject);
