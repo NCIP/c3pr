@@ -2,12 +2,11 @@ package edu.duke.cabig.c3pr.infrastructure;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.axis.message.MessageElement;
-import org.easymock.classextension.EasyMock;
 import org.globus.gsi.GlobusCredential;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
@@ -17,6 +16,7 @@ import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.GridEndPoint;
 import edu.duke.cabig.c3pr.domain.ServiceName;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.grid.studyservice.client.StudyServiceClient;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
@@ -41,8 +41,11 @@ public class EndPointTestCase extends AbstractTestCase {
         List<? extends AbstractMutableDomainObject> domainObjects=xmUtils.extractDomainObjectsFromXML(xml);
         EndPointConnectionProperty endPointProperty=new EndPointConnectionProperty(url,true,EndPointType.GRID);
         endPoint=new GridEndPoint(endPointProperty,ServiceName.STUDY,APIName.CREATE_STUDY,new GlobusCredential(new FileInputStream(new File(proxyFilePath))));
-        endPoint.invoke(domainObjects);
-      
+        try {
+			endPoint.invoke(domainObjects);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
     }
     
     public void testGetService(){
@@ -69,7 +72,6 @@ public class EndPointTestCase extends AbstractTestCase {
     public void testGetArgumentsEmptyArgument(){
         endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY, null);
         List<AbstractMutableDomainObject> list=new ArrayList<AbstractMutableDomainObject>();
-        EasyMock.expect(xmlUtils.getMessageElementsForDomainObjects(list)).andReturn(new ArrayList<MessageElement>());
         replayMocks();
         Object[] args=null;
         try {
@@ -86,16 +88,12 @@ public class EndPointTestCase extends AbstractTestCase {
     public void testGetArguments(){
         endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY, null);
         List<AbstractMutableDomainObject> list=new ArrayList<AbstractMutableDomainObject>();
-        List<MessageElement> messList=new ArrayList<MessageElement>();
-        messList.add(new MessageElement());
-        EasyMock.expect(xmlUtils.getMessageElementsForDomainObjects(list)).andReturn(messList);
-        replayMocks();
+        list.add(new Study());	
         Object[] args=endPoint.getArguments(list);
         assertNotNull(args);
         assertEquals("Wrong args length", args.length, 1);
         assertEquals("wrong argument type", Message.class, args[0].getClass());
         assertEquals("wrong size of message elemets in side the message", 1, ((Message)args[0]).get_any().length);
-        verifyMocks();
     }
     
 //    public void testInvoke(){

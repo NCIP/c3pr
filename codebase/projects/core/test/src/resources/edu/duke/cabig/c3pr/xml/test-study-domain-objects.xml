@@ -9,7 +9,7 @@
         <precisText>Study with randomization</precisText>
         <phaseCode>PhaseCode1</phaseCode>
         <dataEntryStatus>COMPLETE</dataEntryStatus>
-        <coordinatingCenterStudyStatus>ACTIVE</coordinatingCenterStudyStatus>
+        <coordinatingCenterStudyStatus>OPEN</coordinatingCenterStudyStatus>
         <type>Type</type>
         <targetAccrualNumber>500</targetAccrualNumber>
         <organizationAssignedIdentifier>
