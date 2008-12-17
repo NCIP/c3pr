@@ -90,8 +90,8 @@ function toggleImage(id){
 								<c:if test="${expiredIrb}">
 									<c:set var="javLink" value="alert('The IRB approval date for this site has expired. Its more than an year old');"/>
 								</c:if>
-								<csmauthz:accesscontrol domainObject="${site.healthcareSite}"
-		                                                  hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
+								<csmauthz:accesscontrol domainObject="${site}"
+		                                                  hasPrivileges="ACCESS"  authorizationCheckName="studySiteAuthorizationCheck">
 		                            <% System.out.println("11----"); %>
 									<% String currClassJ=j%2==0? "odd":"even"; %>
 									<tr align="center" id="row<%= j++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
