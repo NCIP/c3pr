@@ -31,7 +31,7 @@ function manageCompanions(){
 </head>
 <body>
 <form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="manageCompanion">
-	<input type="hidden" name="_page0" id="_page0" value="0"/>
+	<input type="hidden" name="_page2" id="_page2" value="2"/>
 	<input type="hidden" name="_target2" id="_target2" value="2"/>
 </form>
 <form action="../registration/createRegistration" method="post" id="create">
@@ -216,8 +216,8 @@ function manageCompanions(){
 		function doManage(formName, idParamStr){
 			if(formName=='manage'){
 				document.location="../registration/manageRegistration?"+idParamStr;
-			}else if(formName=='create'){
-				document.location="../registration/createRegistration?"+idParamStr;
+			}else if(formName=='edit'){
+				document.location="../registration/editRegistration?"+idParamStr;
 			}else if(formName=='confirm'){
 				document.location="../registration/confirm?"+idParamStr;
 			}
@@ -227,11 +227,7 @@ function manageCompanions(){
 	<c:choose>
 				<c:when test="${command.studySubject.dataEntryStatusString=='Incomplete'}">
 					<c:set var="formType"
-					value="create" />
-				</c:when>
-				<c:when test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED_BUT_NOT_RANDOMIZED'}">
-					<c:set var="formType"
-					value="confirm" />
+					value="edit" />
 				</c:when>
 				<c:otherwise>
 					<c:set var="formType"
@@ -310,7 +306,7 @@ function manageCompanions(){
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.studySubject.gridId }"/>
 </form>
-<c:if test="${registerableWithCompanions &&(command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
+<c:if test="${registerableWithCompanions &&(command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized' && command.studySubject.parentStudySubject == null}">
 <tags:panelBox title="Enroll & Randomize">
 	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll & Randomize" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
