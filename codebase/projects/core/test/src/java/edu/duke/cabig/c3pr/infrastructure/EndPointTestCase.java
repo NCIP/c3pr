@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.infrastructure;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class EndPointTestCase extends AbstractTestCase {
     
     private EndPoint endPoint;
     private XMLUtils xmlUtils;
-    private String proxyFilePath="DummyProxy.proxy";
+    private String proxyFilePath="edu/duke/cabig/c3pr/testdata/DummyProxy.xml";
     private String url="https://localhost:28443/wsrf/services/cagrid/StudyService";
     
     public EndPointTestCase() {
@@ -42,7 +41,8 @@ public class EndPointTestCase extends AbstractTestCase {
         EndPointConnectionProperty endPointProperty=new EndPointConnectionProperty(url,true,EndPointType.GRID);
 //        File file=new File(proxyFilePath);
 //        System.out.println(file.getAbsolutePath());
-        endPoint=new GridEndPoint(endPointProperty,ServiceName.STUDY,APIName.CREATE_STUDY,new GlobusCredential(this.getClass().getClassLoader().getResourceAsStream("edu/duke/cabig/c3pr/testdata/DummyProxy")));
+        InputStream stream=this.getClass().getClassLoader().getResourceAsStream(proxyFilePath);
+        endPoint=new GridEndPoint(endPointProperty,ServiceName.STUDY,APIName.CREATE_STUDY,new GlobusCredential(stream));
         try {
 			endPoint.invoke(domainObjects);
 		} catch (InvocationTargetException e) {
