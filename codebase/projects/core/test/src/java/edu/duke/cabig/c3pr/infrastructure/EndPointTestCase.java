@@ -28,7 +28,7 @@ public class EndPointTestCase extends AbstractTestCase {
     
     private EndPoint endPoint;
     private XMLUtils xmlUtils;
-    private String proxyFilePath="/Users/kruttikagarwal/KrLocalProxy";
+    private String proxyFilePath="DummyProxy.proxy";
     private String url="https://localhost:28443/wsrf/services/cagrid/StudyService";
     
     public EndPointTestCase() {
@@ -40,7 +40,9 @@ public class EndPointTestCase extends AbstractTestCase {
         String xml=StringUtils.readFile("edu/duke/cabig/c3pr/xml/test-study-domain-objects.xml");
         List<? extends AbstractMutableDomainObject> domainObjects=xmUtils.extractDomainObjectsFromXML(xml);
         EndPointConnectionProperty endPointProperty=new EndPointConnectionProperty(url,true,EndPointType.GRID);
-        endPoint=new GridEndPoint(endPointProperty,ServiceName.STUDY,APIName.CREATE_STUDY,new GlobusCredential(new FileInputStream(new File(proxyFilePath))));
+//        File file=new File(proxyFilePath);
+//        System.out.println(file.getAbsolutePath());
+        endPoint=new GridEndPoint(endPointProperty,ServiceName.STUDY,APIName.CREATE_STUDY,new GlobusCredential(this.getClass().getClassLoader().getResourceAsStream("edu/duke/cabig/c3pr/testdata/DummyProxy")));
         try {
 			endPoint.invoke(domainObjects);
 		} catch (InvocationTargetException e) {
