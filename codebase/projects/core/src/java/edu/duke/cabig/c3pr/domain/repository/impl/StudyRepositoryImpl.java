@@ -93,10 +93,6 @@ public class StudyRepositoryImpl implements StudyRepository {
                 throw new StudyValidationException("Study exists");
             }
 
-            if ((study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN)) {
-                throw new StudyValidationException("Study cannot be imported in ACTIVE status");
-            }
-
             for (StudyOrganization organization : study.getStudyOrganizations()) {
                 if (healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite()
                                 .getNciInstituteCode()) == null) {
