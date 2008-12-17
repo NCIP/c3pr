@@ -16,13 +16,21 @@ import edu.duke.cabig.c3pr.utils.DaoTestCase;
  * @testType unit
  */
 public class StudySiteDaoTest extends DaoTestCase {
-    private StudySiteDao dao = (StudySiteDao) getApplicationContext().getBean("studySiteDao");
+    private StudySiteDao dao;
+    private EndpointDao endpointDao;
 
     /**
      * Test for loading a Study by Id
      * 
      * @throws Exception
      */
+    
+    protected void setUp() throws Exception {
+    	super.setUp();
+    	dao = (StudySiteDao) getApplicationContext().getBean("studySiteDao");
+    	endpointDao = (EndpointDao) getApplicationContext().getBean("endpointDao");
+    }
+    
     public void testGetById() throws Exception {
         StudySite studySite = dao.getById(1000);
         assertNotNull("StudySite 1000 not found", studySite);
@@ -44,15 +52,16 @@ public class StudySiteDaoTest extends DaoTestCase {
         }
         StudySite studySite=sites.get(0);
         EndPoint endPoint=new GridEndPoint();
+        endPoint.setStudyOrganization(studySite);
         endPoint.setEndPointProperty(studySite.getHealthcareSite().getStudyEndPointProperty());
         endPoint.setApiName(APIName.OPEN_STUDY);
         endPoint.setServiceName(ServiceName.STUDY);
         studySite.getEndpoints().add(endPoint);
-        dao.save(studySite);
+        endpointDao.save(endPoint);
         interruptSession();
-        studySite=dao.getById(studySite.getId());
-        assertNotNull("Empty Endpoint", studySite.getEndpoints().get(0));
-        assertEquals("Wrong Service", ServiceName.STUDY, studySite.getEndpoints().get(0).getServiceName());
-        assertEquals("Wrong Service", APIName.OPEN_STUDY, studySite.getEndpoints().get(0).getApiName());
+        endPoint=endpointDao.getById(endPoint.getId());
+        assertNotNull("Empty Endpoint", endPoint);
+        assertEquals("Wrong Service", ServiceName.STUDY, endPoint.getServiceName());
+        assertEquals("Wrong Service", APIName.OPEN_STUDY, endPoint.getApiName());
     }
 }
