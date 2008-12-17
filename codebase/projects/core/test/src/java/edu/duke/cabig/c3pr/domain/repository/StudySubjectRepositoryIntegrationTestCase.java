@@ -111,7 +111,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         studySubjectRepository.doLocalRegistration(studySubject);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
     
     public void testDoLocalRegistrationNonRandomizedTreatmentStudyWithArm() throws Exception{
@@ -124,7 +124,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         persistedStudySubjectCreator.bindStratification(studySubject);
         persistedStudySubjectCreator.bindArm(studySubject);
         studySubjectRepository.doLocalRegistration(studySubject);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
     
     public void testDoLocalRegistrationRandomizedStudyArmNotAssigned() throws Exception{
