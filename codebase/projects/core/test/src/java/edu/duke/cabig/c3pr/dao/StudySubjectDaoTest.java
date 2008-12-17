@@ -310,17 +310,20 @@ public class StudySubjectDaoTest extends DaoTestCase {
         List<StudySubject> studyPartsBySys = studySubjectDao.getByIdentifiers(studySubjectSysIdentifiers);
         assertSame("Wrong number of Study Participants", 1, studyPartsBySys.size());*/
         
-        
-        HealthcareSite hcs = healthcareSiteDao.getById(1000);
+    	StudySubject studySubject = studySubjectDao.getById(1000);
+    	
         OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
-        orgIdentifier.setHealthcareSite(hcs);
+        orgIdentifier.setHealthcareSite(studySubject.getStudySite().getHealthcareSite());
         orgIdentifier.setType("Coordinating Center Identifier");
         orgIdentifier.setValue("nci1");
     	
-    	List<Identifier> studySubjectOrgIdentifiers = new ArrayList<Identifier>();
-    	studySubjectOrgIdentifiers.add(orgIdentifier);
+    	studySubject.addIdentifier(orgIdentifier);
+    	studySubjectDao.save(studySubject);
     	
-        List<StudySubject> studyPartsByOrg = studySubjectDao.getByIdentifiers(studySubjectOrgIdentifiers);
+    	List<Identifier> iList = new ArrayList<Identifier>();
+    	iList.add((Identifier) orgIdentifier);
+
+    	List<StudySubject> studyPartsByOrg = studySubjectDao.getByIdentifiers(iList);
         assertSame("Wrong number of Study Participants", 1, studyPartsByOrg.size());
         
     }
