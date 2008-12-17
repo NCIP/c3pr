@@ -118,7 +118,7 @@ public class SearchStudyController extends SimpleFormController {
 						}
 					}
 
-					// if users org is neither scc nor ss then add study to the list to be displayed
+					// if users org is either scc or ss then add study to the list to be displayed
 					if(!shouldDelete){
 						studiesViewableFromRegFlow.add(filteredStudy);
 					}
