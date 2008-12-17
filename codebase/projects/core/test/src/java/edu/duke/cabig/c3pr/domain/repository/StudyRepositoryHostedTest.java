@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain.repository;
 
-import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +31,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
-import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
@@ -79,6 +78,9 @@ public class StudyRepositoryHostedTest extends DaoTestCase {
         diseaseTermDao = (DiseaseTermDao) applicationContext.getBean("diseaseTermDao");
 
         diseaseCategoryDao = (DiseaseCategoryDao) applicationContext.getBean("diseaseCategoryDao");
+        
+        Configuration configuration=(Configuration) applicationContext.getBean("configuration");
+        configuration.set(Configuration.MULTISITE_ENABLE, "false");
 
     }
 
@@ -87,6 +89,7 @@ public class StudyRepositoryHostedTest extends DaoTestCase {
         // false).getStudySite().getStudy();
         study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
+        studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         study = studyRepository.createStudy(study);
         interruptSession();
         study = studyDao.getById(study.getId());
@@ -101,9 +104,7 @@ public class StudyRepositoryHostedTest extends DaoTestCase {
         try {
             studyRepository.createStudy(study);
         }
-        catch (C3PRCodedRuntimeException e) {
-            assertEquals("Wrong exception message", e.getExceptionCode(),
-                            301);
+        catch (C3PRInvalidDataEntryException e) {
         }
         catch (Exception e) {
             fail("Wrong Exception thrown");
