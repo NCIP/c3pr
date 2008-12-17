@@ -4,6 +4,7 @@ import java.util.Date;
 
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -135,8 +136,9 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratification(studySubject);
+ //       studySubject.setStratumGroupNumber(studySubject.getStratumGroup().getStratumGroupNumber());
         try {
-            studySubjectRepository.doLocalRegistration(studySubject);
+            studySubjectRepository.register(studySubject);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -144,7 +146,9 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
             assertEquals("Wrong exception mesage", 200, ((C3PRCodedException)e).getExceptionCode());
             return;
         }
-        assertFalse("Should have thrown exception",true);
+        
+        assertEquals("Wrong registration status",RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED,studySubject.getRegWorkflowStatus());
+        assertEquals("Wrong scheduled epoch status",ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED,studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
     
     public void testDoLocalRegistrationRandomizedStudyArmAssignedPhoneCall() throws Exception{
@@ -165,7 +169,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
             assertFalse("Shouldnt have thrown exception",true);
             return;
         }
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
     
     public void testDoLocalRegistrationRandomizedStudyBookStratumGroupAbsent() throws Exception{
@@ -177,7 +181,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
         try {
-            studySubjectRepository.doLocalRegistration(studySubject);
+            studySubjectRepository.enroll(studySubject);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -185,7 +189,8 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
             assertEquals("Wrong exception mesage", 202, ((C3PRCodedException)e).getExceptionCode());
             return;
         }
-        assertFalse("Should have thrown exception",true);
+        assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());
+        assertEquals("Wrong scheduled epoch status",ScheduledEpochWorkFlowStatus.REGISTERED,studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
     
     public void testDoLocalRegistrationRandomizedStudyBookStratumGroupPresent() throws Exception{
@@ -204,7 +209,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
             assertFalse("Shouldnt have thrown exception",true);
             return;
         }
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
     
     public void testDoLocalRegistrationRandomizedStudyBookStratumGroupNumberPresent() throws Exception{
@@ -224,6 +229,6 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
             assertFalse("Shouldnt have thrown exception",true);
             return;
         }
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
 }
