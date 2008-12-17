@@ -26,7 +26,7 @@
 			<div class="flow-buttons">
 		        <span class="prev">
 		            <c:if test="${tabNumber > 0 && tabNumber != backToTab }">
-		                <input type="submit" id="flow-prev" class="tab${backToTab}" value="&laquo; ${willSave ? 'Save &amp; ' : ''}Back"/>
+		                <input type="image" id="flow-prev" class="tab${backToTab}" value="&laquo; ${willSave ? 'Save &amp; ' : ''}Back" src="/c3pr/images/flow-buttons/${willSave ? 'save' : ''}back_btn.png"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
@@ -35,18 +35,18 @@
 						<input type="hidden" name="_finish" value="true">
 					</c:if>	
 		        	 <c:if test="${not isLast && willSave}">
-		                <input type="submit" id="flow-update" class="tab${tabNumber}" value="Save"/>
+		                <input type="image" id="flow-update" class="tab${tabNumber}" value="Save" src="/c3pr/images/flow-buttons/save_btn.png"/>
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
-			            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
+			            <c:set var="continueLabel" value="${isLast || willSave ? 'save' : ''}"/>
 					</c:if>			        
-    				<c:if test="${not empty continueLabel && not isLast && goToTab > tabNumber}">
+    				<%--<c:if test="${not empty continueLabel && not isLast && goToTab > tabNumber}">
 		                <c:set var="continueLabel" value="${continueLabel} &amp; "/>
-		            </c:if>
+		            </c:if>--%>
 		            <c:if test="${not isLast }">
-		                <c:set var="continueLabel" value="${continueLabel}Continue"/>
+		                <c:set var="continueLabel" value="${continueLabel}continue"/>
 		            </c:if>
-		            <input type="submit" id="${isLast == 'true'?'flow-finish':'flow-next'}" class="tab${goToTab}" value="${continueLabel} &raquo;"/>
+		            <input type="image" id="${isLast == 'true'?'flow-finish':'flow-next'}" class="tab${goToTab}" value="${continueLabel} &raquo;" src="/c3pr/images/flow-buttons/${continueLabel}_btn.png"/>
 		        </span>
 		    </div> 
 		</c:when>
@@ -54,7 +54,7 @@
 			<div class="flow-buttons">
 		        <span class="prev">
 		            <c:if test="${tabNumber > 0}">
-		                <input type="submit" id="flow-prev" class="tab${tabNumber - 1}" value="&laquo; ${willSave ? 'Save &amp; ' : ''}Back"/>
+		                <input type="image" id="flow-prev" class="tab${tabNumber - 1}" value="&laquo; ${willSave ? 'Save &amp; ' : ''}Back" src="/c3pr/images/flow-buttons/${willSave ? 'save' : ''}back_btn.png"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
@@ -63,18 +63,18 @@
 		            <c:if test="${not isLast}">
 		                <input type="submit" id="flow-update" class="tab${tabNumber}" value="${willSave ? 'Save' : 'Update'}"/>--%>
 		            <c:if test="${not isLast && willSave}">
-			            <input type="submit" id="flow-update" class="tab${tabNumber}" value="Save"/>
+			            <input type="image" id="flow-update" class="tab${tabNumber}" value="Save" src="/c3pr/images/flow-buttons/save_btn.png"/>
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
-			            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
-			            <c:if test="${not empty continueLabel && not isLast}">
+			            <c:set var="continueLabel" value="${isLast || willSave ? 'save' : ''}"/>
+			            <%--<c:if test="${not empty continueLabel && not isLast}">
 			                <c:set var="continueLabel" value="${continueLabel} &amp; "/>
-			            </c:if>
+			            </c:if>--%>
 			            <c:if test="${not isLast}">
-			                <c:set var="continueLabel" value="${continueLabel}Continue"/>
+			                <c:set var="continueLabel" value="${continueLabel}continue"/>
 			            </c:if>
 					</c:if>            
-		            <input type="submit" id="flow-next"  value="${continueLabel} &raquo;"/>
+		            <input type="image" id="flow-next"  value="${continueLabel}" src="/c3pr/images/flow-buttons/${continueLabel}_btn.png"/>
 		        </span>
 			</div>
 		</c:otherwise>
