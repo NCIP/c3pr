@@ -171,6 +171,10 @@ function manageCompanions(){
 			<td>${command.studySubject.studySite.study.organizationAssignedIdentifiers[0].value}</td>
 		</tr>
 		<tr>
+            <td align="left"><b>Registration Identifier</b></td>
+            <td>${command.studySubject.coOrdinatingCenterIdentifier.value}</td>
+        </tr>
+		<tr>
 			<td align="left"><b>Study Short Title</b></td>
 			<td valign="top">${command.studySubject.studySite.study.shortTitleText}</td>
 		</tr>
