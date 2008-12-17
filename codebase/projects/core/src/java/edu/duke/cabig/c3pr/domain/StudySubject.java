@@ -335,7 +335,7 @@ public class StudySubject extends
 
 	@OneToMany
 	@Cascade( { CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "SPA_ID", nullable = false)
+	@JoinColumn(name = "SPA_ID")
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy
 	public List<Identifier> getIdentifiers() {
