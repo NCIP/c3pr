@@ -213,6 +213,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/registration/edit.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
+        <entry key="/pages/registration/transfer.*"
+               value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
         <entry key="/pages/registration/search.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/registration/registrationDetails.*"
