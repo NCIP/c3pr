@@ -40,13 +40,13 @@ function reloadPage(Id){
 	new Draggable('participant1', {revert:false});
 	new Effect.SlideUp('epochConfirmation-'+Id);
 }
+paramString="<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
 </script>
 </head>
 <body>
-<form action="../registration/editRegistration" method="post" id="edit">
+<form action="../registration/editRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="edit">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
-	<input type="hidden" name="_target2" id="_target2" value="2"/>
-	<input type="hidden" name="registrationId" value="${command.studySubject.id }"/>
+	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="epoch" id="edit_epoch"/>
 </form>
 <form:form action="../registration/manageRegistration">
@@ -63,8 +63,8 @@ function reloadPage(Id){
 		<c:when test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">
 			<fmt:message key="REGISTRATION.OFF_STUDY"/>
 		</c:when>
-		<c:when test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus!='APPROVED'}">
-			<fmt:message key="REGISTRATION.UNAPPROVED_CURRENT_EPOCH"/>
+		<c:when test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus!='REGISTERED'}">
+			<fmt:message key="MANAGEREGISTRATION.UNAPPROVED_CURRENT_EPOCH"/>
 		</c:when>
 		<c:otherwise>To move subject between epochs, drag and drop the subject to the appropriate epoch</c:otherwise>
 	</c:choose>
