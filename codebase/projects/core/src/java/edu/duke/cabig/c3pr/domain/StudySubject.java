@@ -521,7 +521,7 @@ public class StudySubject extends
 				.get(0);
 		identifier.setHealthcareSite(this.getStudySite().getStudy()
 				.getStudyCoordinatingCenters().get(0).getHealthcareSite());
-		identifier.setType("Coordinating Center Identifier");
+		identifier.setType("Coordinating Center Assigned Study Subject Identifier");
 		identifier.setValue(value);
 	}
 
