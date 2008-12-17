@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -252,6 +253,7 @@ public class StudyCreationHelper {
         study.setTargetAccrualNumber(150);
         study.setType("Type");
         study.setMultiInstitutionIndicator(Boolean.TRUE);
+        study.setStratificationIndicator(Boolean.FALSE);
 
         return study;
     }
@@ -298,8 +300,10 @@ public class StudyCreationHelper {
 
     public Study addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(
                     Study study) {
-
-        study.addStudySite(new StudySite());
+    	StudySite studySite = new StudySite();
+    	studySite.setIrbApprovalDate(Calendar.getInstance().getTime());
+    	studySite.setStartDate(Calendar.getInstance().getTime());
+        study.addStudySite(studySite);
         Epoch treatmentEpoch = new Epoch();
         treatmentEpoch.setName("Treatment Epoch1");
         Arm arm1 = new Arm();

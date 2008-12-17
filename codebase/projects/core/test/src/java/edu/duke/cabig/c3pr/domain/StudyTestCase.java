@@ -8,6 +8,7 @@ import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
@@ -32,15 +33,15 @@ public class StudyTestCase extends AbstractTestCase{
 	}
 
 	public void testDataEntryStatusIncompleteCase1() throws Exception {
-		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STUDY_SITE.CODE", null, null)).andReturn("301");
-		EasyMock.expect(c3prExceptionHelper.getException(301)).andReturn(new C3PRCodedException(301, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE", null, null)).andReturn("300");
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(300)).andReturn(new C3PRCodedRuntimeException(300, "exception message"));
 		replayMocks();
 		try {
 			List<Error> errors = new ArrayList<Error>();
 			basicStudy.evaluateDataEntryStatus(errors);
-			fail("Should have thrown C3PRCodedException");
-		} catch (Exception e) {
-			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
+			//fail("Should have thrown C3PRCodedException");
+		} catch (C3PRCodedRuntimeException e) {
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
 		}
 		verifyMocks();
 	}
@@ -48,14 +49,14 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testDataEntryStatusIncompleteCase2() throws Exception {
 		basicStudy.addStudySite(new StudySite());
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE", null, null)).andReturn("300");
-		EasyMock.expect(c3prExceptionHelper.getException(300)).andReturn(new C3PRCodedException(300, "exception message"));
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(300)).andReturn(new C3PRCodedRuntimeException(300, "exception message"));
 		replayMocks();
 		try {
 			List<Error> errors = new ArrayList<Error>();
 			basicStudy.evaluateDataEntryStatus(errors);
-			fail("Should have thrown C3PRCodedException");
-		} catch (Exception e) {
-			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
+//			fail("Should have thrown C3PRCodedException");
+		} catch (C3PRCodedRuntimeException e) {
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
 		}
 		verifyMocks();
 		
@@ -66,14 +67,14 @@ public class StudyTestCase extends AbstractTestCase{
 		Epoch nonTreatmentEpoch = new Epoch();
 		basicStudy.addEpoch(nonTreatmentEpoch);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE", null, null)).andReturn("302");
-		EasyMock.expect(c3prExceptionHelper.getException(302)).andReturn(new C3PRCodedException(302, "exception message"));
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(302)).andReturn(new C3PRCodedRuntimeException(302, "exception message"));
 		replayMocks();
 		try {
 			List<Error> errors = new ArrayList<Error>();
 			basicStudy.evaluateDataEntryStatus(errors);
-			fail("Should have thrown C3PRCodedException");
-		} catch (Exception e) {
-			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
+//			fail("Should have thrown C3PRCodedException");
+		} catch (C3PRCodedRuntimeException e) {
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
 		}
 		verifyMocks();
 	}
@@ -84,14 +85,14 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
 		basicStudy.setStratificationIndicator(false);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("306");
-		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(306),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(306, "exception message"));
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(306),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(306, "exception message"));
 		replayMocks();	
 		try {
 			List<Error> errors = new ArrayList<Error>();
 			basicStudy.evaluateDataEntryStatus(errors);
-			fail("Should have thrown C3PRCodedException");
-		} catch (Exception e) {
-			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
+//			fail("Should have thrown C3PRCodedRuntimeException");
+		} catch (C3PRCodedRuntimeException e) {
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
 		}
 		verifyMocks();
 	}
@@ -101,16 +102,16 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
 		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("304");
-		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(304),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(304, "exception message"));
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(304),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(304, "exception message"));
 		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		replayMocks();	
 		try {
 			List<Error> errors = new ArrayList<Error>();
 			basicStudy.evaluateDataEntryStatus(errors);
-			fail("Should have thrown C3PRCodedException");
-		} catch (Exception e) {
-			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
+//			fail("Should have thrown C3PRCodedRuntimeException");
+		} catch (C3PRCodedRuntimeException e) {
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
 		}
 		verifyMocks();
 	}
@@ -122,14 +123,14 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("307");
-		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(307),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(307, "exception message"));
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(307),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(307, "exception message"));
 		replayMocks();	
 		try {
 			List<Error> errors = new ArrayList<Error>();
 			basicStudy.evaluateDataEntryStatus(errors);
-			fail("Should have thrown C3PRCodedException");
-		} catch (Exception e) {
-			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
+//			fail("Should have thrown C3PRCodedException");
+		} catch (C3PRCodedRuntimeException e) {
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
 		}
 		verifyMocks();
 	}
