@@ -30,15 +30,15 @@ public class XMLTransformerTest extends AbstractXMLMarshalling{
         String sampleXml="ccts-sample-study.xml";
         try {
             // validate the marshalled message
-        	 byte[] messageBytes = new XMLTransformer().transform(readFile(xslName), readFile(sampleXml)).getBytes();
-             parser.parse(new ByteArrayInputStream(messageBytes), new MyHandler());
+//        	 byte[] messageBytes = new XMLTransformer().transform(readFile(xslName), readFile(sampleXml)).getBytes();
+//             parser.parse(new ByteArrayInputStream(messageBytes), new MyHandler());
              
              // Added these after multi-site
              
-              InputStream xslInputStream=getClass().getClassLoader().getResourceAsStream(xslName);
-        InputStream xmlInputStream=getClass().getClassLoader().getResourceAsStream(sampleXml);
-        OutputStream outputStream=new ByteArrayOutputStream();
-        new XMLTransformer().transform(new StreamSource(xslInputStream), new StreamSource(xmlInputStream), new StreamResult(outputStream));
+	        InputStream xslInputStream=getClass().getClassLoader().getResourceAsStream(xslName);
+	        InputStream xmlInputStream=getClass().getClassLoader().getResourceAsStream(sampleXml);
+	        OutputStream outputStream=new ByteArrayOutputStream();
+	        new XMLTransformer().transform(new StreamSource(xslInputStream), new StreamSource(xmlInputStream), new StreamResult(outputStream));
         }
         catch (Exception x) {
             fail(x.getMessage());
@@ -77,10 +77,4 @@ public class XMLTransformerTest extends AbstractXMLMarshalling{
         }
     }
     
-    public void testDeserialization() throws Exception {
-        XmlMarshaller xmlMarshaller=new XmlMarshaller("c3pr-registration-xml-castor-mapping.xml");
-        
-        Participant participant=(Participant)xmlMarshaller.fromXML(new StringReader(readFile("samples/sample-participant.xml")));
-        assertNotNull(participant);
-    }
 }
