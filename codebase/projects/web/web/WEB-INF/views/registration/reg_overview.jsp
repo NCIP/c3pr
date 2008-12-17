@@ -109,7 +109,7 @@
 </tags:panelBox>
 </c:if>
 
-<c:if test="${registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered'}">
+<c:if test="${registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending'}">
 <tags:panelBox title="Enroll">
 	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
@@ -333,7 +333,7 @@
         <tr>
             <td width="35%" class="label">Registration Identifier</td>
             <td>
-                <tags:inPlaceEdit value="${command.studySubject.coOrdinatingCenterIdentifier}" path="studySubject.coOrdinatingCenterIdentifier" id="coOrdinatingCenterIdentifier"
+                <tags:inPlaceEdit value="${command.studySubject.coOrdinatingCenterIdentifier.value}" path="studySubject.coOrdinatingCenterIdentifier" id="coOrdinatingCenterIdentifier"
                                   validations="validate-notEmpty"/>
                 &nbsp;</td>
         </tr>
