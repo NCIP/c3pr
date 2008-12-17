@@ -54,8 +54,7 @@ public class StudySubjectTest extends AbstractTestCase {
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
         studySubjectCreatorHelper.bindEligibility(studySubject);
-        assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.INCOMPLETE,
-                        studySubject.evaluateScheduledEpochDataEntryStatus());
+        assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.COMPLETE, studySubject.evaluateScheduledEpochDataEntryStatus());
     }
 
     /**
