@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.easymock.classextension.EasyMock;
 import org.springframework.context.ApplicationContext;
 
 import edu.duke.cabig.c3pr.dao.DiseaseCategoryDao;
@@ -32,8 +31,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
-import edu.duke.cabig.c3pr.grid.studyservice.stubs.service.StudyService;
-import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
+import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.MockableDaoTestCase;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
@@ -70,9 +68,8 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         studyDao = (StudyDao) applicationContext.getBean("studyDao");
         studySiteDao = (StudySiteDao) applicationContext.getBean("studySiteDao");
         studyRepository = (StudyRepository) applicationContext.getBean("studyRepository");
-        configuration=registerMockFor(Configuration.class);
-        StudyServiceImpl studyService=(StudyServiceImpl)applicationContext.getBean("studyService");
-        studyService.setConfiguration(configuration);
+        configuration=(Configuration) applicationContext.getBean("configuration");
+        configuration.set(Configuration.MULTISITE_ENABLE, "true");
         studyCreationHelper = new StudyCreationHelper();
         healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
                         .getBean("healthcareSiteDao");
@@ -86,7 +83,6 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
         diseaseCategoryDao = (DiseaseCategoryDao) applicationContext.getBean("diseaseCategoryDao");
 
-        EasyMock.expect(configuration.get(Configuration.MULTISITE_ENABLE)).andReturn("true");
     }
 
     public void testCreateStudyCompleteDataEntry() {
@@ -94,6 +90,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         // false).getStudySite().getStudy();
         study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
+        studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         study = studyRepository.createStudy(study);
         interruptSession();
         study = studyDao.getById(study.getId());
@@ -108,11 +105,11 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         try {
             studyRepository.createStudy(study);
         }
-        catch (C3PRCodedRuntimeException e) {
-            assertEquals("Wrong exception message", e.getExceptionCode(),
-                            301);
+        catch (C3PRInvalidDataEntryException e) {
+            
         }
         catch (Exception e) {
+        	e.printStackTrace();
             fail("Wrong Exception thrown");
         }
     }
@@ -264,6 +261,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
     
     public void testCloseStudyLocal() throws Exception {
         study=getOpenedStudy();
+        study.getStudySites().get(0).getHealthcareSite().setNciInstituteCode("CRB");
         studyRepository.closeStudy(study.getIdentifiers());
         assertEquals("Wrong Coordinating center status", study.getCoordinatingCenterStudyStatus(),
                         CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
