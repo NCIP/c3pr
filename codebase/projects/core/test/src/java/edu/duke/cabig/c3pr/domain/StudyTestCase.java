@@ -121,17 +121,16 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
 		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
 		basicStudy.setStratificationIndicator(true);
+		basicStudy.setRandomizedIndicator(true);
+		basicStudy.setRandomizationType(RandomizationType.PHONE_CALL);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
-		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("307");
-		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(307),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(307, "exception message"));
+		basicStudy.getEpochs().get(0).setRandomization(new PhoneCallRandomization());
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("308");
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(308),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(308, "exception message"));
 		replayMocks();	
-		try {
-			List<Error> errors = new ArrayList<Error>();
-			basicStudy.evaluateDataEntryStatus(errors);
-//			fail("Should have thrown C3PRCodedException");
-		} catch (C3PRCodedRuntimeException e) {
-			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
-		}
+		List<Error> errors = new ArrayList<Error>();
+		basicStudy.evaluateDataEntryStatus(errors);
+		assertEquals("Wrong number of errors returned ",1, errors.size()); 
 		verifyMocks();
 	}
 	
