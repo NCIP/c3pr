@@ -40,7 +40,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         studySubjectRepository.assignCoOrdinatingCenterIdentifier(studySubject, "test co-ordinating center identifier");
         interruptSession();
         studySubject=studySubjectDao.getById(1100);
-        assertEquals("Wrong C3D Identifier", "test co-ordinating center identifier", studySubject.getCoOrdinatingCenterIdentifier());
+        assertEquals("Wrong C3D Identifier", "test co-ordinating center identifier", studySubject.getCoOrdinatingCenterIdentifier().getValue());
     }
     
     public void testIsEpochAccrualCeilingReachedNonReserving(){
