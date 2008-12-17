@@ -528,6 +528,12 @@
         <property name="pathSeperator" value="."/>
     </bean>
     
+     <bean id="studyOrganizationPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.StudyOrganizationPrivilegeAndObjectIdGenerator">
+    	<property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
+        <property name="pathSeperator" value="."/>
+    </bean>
+
+    
     <!--Utilities-->
     <bean id="mailSender" class="edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl"> 
     	<property name="configuration" ref="configuration" />
