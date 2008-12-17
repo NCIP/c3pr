@@ -84,13 +84,10 @@
 		</tags:panelBox>
 		
 		<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
-			<tags:panelBox title="Parent Registration"><br>
-				<font color="GREEN"> <strong>Data entry is complete
-				for all mandatory companion registrations, Click on '${actionLabel}'
-				button to register subject on parent and companion studies.</strong></font><br><br>
-				<registrationTags:register registration="${command.studySubject}"
-					newReg="${newRegistration}" actionButtonLabel="${actionLabel}"
-					requiresMultiSite="${requiresMultiSite}" />
+			<tags:panelBox title="Parent Registration">
+				<br> 
+				<font color="GREEN"> <strong>Data entry is complete for all mandatory companion registrations, Click on '${actionLabel}' button to register subject on parent and companion studies.</strong></font><br><br>
+				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}" />
 			</tags:panelBox>
 		</c:if>
 	</c:when>

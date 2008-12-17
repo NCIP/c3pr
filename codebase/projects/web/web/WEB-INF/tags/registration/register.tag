@@ -40,11 +40,9 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 			Please click on the button to send registration request. 
 		</c:when>
 		<c:otherwise>
-
             <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
                 <strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
             </c:if>
-
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
             <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'&& registration.scheduledEpoch.epoch.randomizedIndicator}">
                 <tr><td align="left" colspan="2"></td></tr>
@@ -77,6 +75,45 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 				</c:if>
 			</c:if>
 			</table>
+			<c:forEach items="${registration.childStudySubjects}" var="childStudySubject" varStatus="status">
+				<chrome:division title="${childStudySubject.studySite.study.shortTitleText}">
+					<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'PHONE_CALL' && childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
+		                <strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
+		            </c:if>
+		            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+		            <c:if test="${childStudySubject.studySite.study.randomizationType.name == 'PHONE_CALL'&& childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
+		                <tr><td align="left" colspan="2"></td></tr>
+						<tr><td class="labelR" width="150">Phone Number:</td><td >${childStudySubject.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
+						<tr>
+						<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
+						<td class="labelR">Stratum Group:</td><td> ${childStudySubject.stratumGroup}</td>
+						</c:if>
+						<tr>
+						<c:choose>
+							<c:when test="${childStudySubject.studySite.study.blindedIndicator}">
+								<td class="labelR">Enter Kit Number</td><td><input type="text" name="studySubject.scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
+							</c:when>
+							<c:otherwise>
+								<td class="labelR">Select Arm:</td><td>
+								<select name ="studySubject.scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
+									<option value="" selected>Please Select</option>
+									<c:forEach items="${childStudySubject.scheduledEpoch.epoch.arms}" var="arm">
+									<option value="${arm.id}">${arm.name }</option>
+									</c:forEach>
+								</select></td>
+							</c:otherwise>
+						</c:choose>
+						</tr>
+					</c:if>
+					<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'BOOK' && childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
+						<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
+						<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
+						<tr><td class="labelR">Stratum Group:</td><td>${childStudySubject.stratumGroup}</td></tr>
+						</c:if>
+					</c:if>
+					</table>
+				</chrome:division>
+			</c:forEach>
 		</c:otherwise>
 		</c:choose>
 		</strong>
