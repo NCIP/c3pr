@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.domain.repository.impl;
+uplpackage edu.duke.cabig.c3pr.domain.repository.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -190,9 +190,9 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		if (studySubject.getScheduledEpoch().isReserving()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 		} else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
-			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 		} else {
-			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 		}
 		studySubjectDao.save(studySubject);
 		log.debug("Registration saved with grid ID" + studySubject.getGridId());
@@ -264,54 +264,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
     public void setParticipantDao(ParticipantDao participantDao) {
 	this.participantDao = participantDao;
-    }
-
-    public StudySubject updateLocalRegistration(StudySubject updatedStudySubject) {
-        StudySubject referencedStudySubject=null;
-        StudySubject studySubject=null;
-        try {
-            referencedStudySubject=studySubjectFactory.buildReferencedStudySubject(updatedStudySubject);
-        }
-        catch (C3PRCodedException e) {
-            throw new RuntimeException(e);
-        }
-        if (referencedStudySubject.getParticipant().getId() != null) {
-            List<StudySubject> registrations = findRegistrations(referencedStudySubject);
-            if (registrations.size() == 1) {
-                studySubject=registrations.get(0);
-            }
-        }
-        if(studySubject==null){
-            throw new RuntimeException("Error finding reistration record in database.");
-        }
-        if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.PENDING){
-            throw new RuntimeException("Schedule epoch not in pending status.");
-        }
-        ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
-        if(referencedStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.APPROVED){
-            String disapprovalReason="";
-            if(StringUtils.getBlankIfNull(referencedStudySubject.getScheduledEpoch().getDisapprovalReasonText()).equals(""))
-                disapprovalReason="Registration was not approved by co-ordinating center. No error message was provided.";
-            else
-                disapprovalReason=updatedStudySubject.getScheduledEpoch().getDisapprovalReasonText();
-            studySubject.disapprove(disapprovalReason);
-        }else{
-            if (studySubject.getScheduledEpoch().getRequiresRandomization()) {
-                if ((referencedStudySubject.getScheduledEpoch()).getScheduledArm() == null) {
-                    studySubject.disapprove("Registration was approved by co-ordinating center. However no arm was assigned.");
-                }
-                else {
-                    ScheduledArm assignedScheduledArm=(referencedStudySubject.getScheduledEpoch()).getScheduledArm();
-                    (scheduledEpoch).getScheduledArms().add(0,assignedScheduledArm);
-                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
-                }
-            }
-            else {
-                // logic for accrual ceiling check
-                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
-            }
-        }
-        return this.save(studySubject);
     }
 
     public List<StudySubject> findRegistrations(StudySubject exampleStudySubject) {

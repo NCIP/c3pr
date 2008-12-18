@@ -387,9 +387,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     		studySubjectCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
     		studySubjectCriteria.addOrder(Order.desc("id"));
     		studySubjectCriteria.add( Restrictions.disjunction()
-    				.add(Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.DISAPPROVED ) )
-		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.PENDING ) )
-		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.UNREGISTERED ) )
+    				.add(Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.PENDING ) )
+		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED ) )
 		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.RESERVED ) ));
     	    
     		if (maxResults > 0) {

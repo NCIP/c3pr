@@ -623,32 +623,6 @@ public class StudySubject extends
 		return regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
 				&& getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE;
 	}
-
-	/**
-	 * This methods computes if a a study subject instance is registerable which
-	 * is true if the data entry is complete, not alrerady registered and the
-	 * epoch is enrolling
-	 */
-	@Transient
-	public boolean getIsRegisterable() {
-		if (this.isDataEntryComplete()
-				&& this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED
-				&& this.getScheduledEpoch().getEpoch().isEnrolling()) {
-			return true;
-		}
-		return false;
-	}
-	
-	@Transient
-	public boolean getIsReservable() {
-		if (this.isDataEntryComplete()
-				&& this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED
-				&& this.getScheduledEpoch().getEpoch().isReserving()) {
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * Computes if co-ordinating center needs to approve a record for successful
 	 * registration. which is true if the study is multisite and the epoch is
@@ -685,16 +659,6 @@ public class StudySubject extends
 
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
-	}
-
-	public void disapprove(String disapprovalReasonText) {
-		if (this.regWorkflowStatus != RegistrationWorkFlowStatus.REGISTERED) {
-			this.regWorkflowStatus = RegistrationWorkFlowStatus.DISAPPROVED;
-			this.disapprovalReasonText = disapprovalReasonText;
-		}
-		getScheduledEpoch().setScEpochWorkflowStatus(
-				ScheduledEpochWorkFlowStatus.DISAPPROVED);
-		getScheduledEpoch().setDisapprovalReasonText(disapprovalReasonText);
 	}
 
 	public boolean requiresAffiliateSiteResponse() {

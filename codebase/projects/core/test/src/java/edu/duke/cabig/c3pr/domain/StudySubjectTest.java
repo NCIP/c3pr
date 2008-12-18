@@ -122,30 +122,30 @@ public class StudySubjectTest extends AbstractTestCase {
                         studySubject.evaluateScheduledEpochDataEntryStatus());
     }
     
-    public void testIsRegisterableTrue(){
-        StudySubject studySubject = new StudySubject();
-        studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        ScheduledEpoch sc=new ScheduledEpoch();
-        Epoch nt=new Epoch();
-        nt.setEnrollmentIndicator(true);
-        sc.setEpoch(nt);
-        studySubject.addScheduledEpoch(sc);
-        studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        
-        assertEquals("Wrong isRegisterable return", true,
-                        studySubject.getIsRegisterable());
-    }
-    
-    public void testIsRegisterableFalse(){
-        StudySubject studySubject = new StudySubject();
-        studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        ScheduledEpoch sc=new ScheduledEpoch();
-        sc.setEpoch(new Epoch());
-        studySubject.addScheduledEpoch(sc);
-        studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        assertEquals("Wrong isRegisterable return", false,
-                        studySubject.getIsRegisterable());
-    }
+//    public void testIsRegisterableTrue(){
+//        StudySubject studySubject = new StudySubject();
+//        studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
+//        ScheduledEpoch sc=new ScheduledEpoch();
+//        Epoch nt=new Epoch();
+//        nt.setEnrollmentIndicator(true);
+//        sc.setEpoch(nt);
+//        studySubject.addScheduledEpoch(sc);
+//        studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
+//        
+//        assertEquals("Wrong isRegisterable return", true,
+//                        studySubject.getIsRegisterable());
+//    }
+//    
+//    public void testIsRegisterableFalse(){
+//        StudySubject studySubject = new StudySubject();
+//        studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
+//        ScheduledEpoch sc=new ScheduledEpoch();
+//        sc.setEpoch(new Epoch());
+//        studySubject.addScheduledEpoch(sc);
+//        studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
+//        assertEquals("Wrong isRegisterable return", false,
+//                        studySubject.getIsRegisterable());
+//    }
     
     public void testRequiresCoordinatingCenterApprovalTrue(){
         StudySubject studySubject = new StudySubject();

@@ -274,7 +274,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
         dataAuditEventQuery.filterByEndDateBefore(now.getTime());
         dataAuditEventQuery.filterByStartDateAfter(prev.getTime());
         //where the status has changed to REGISTERED
-        dataAuditEventQuery.filterByValue("regWorkflowStatus", null, RegistrationWorkFlowStatus.REGISTERED.toString());
+        dataAuditEventQuery.filterByValue("regWorkflowStatus", null, RegistrationWorkFlowStatus.ENROLLED.toString());
         
         final List<DataAuditEvent> dataAuditEvents = auditHistoryRepository.findDataAuditEvents(dataAuditEventQuery);
         return dataAuditEvents;

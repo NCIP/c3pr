@@ -607,9 +607,9 @@ public class StudySubjectDaoTest extends DaoTestCase {
         if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED) {
             manageSchEpochWorkFlowStatusIfUnApp(studySubject);
         }
-        if (studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.UNREGISTERED) {
-            manageRegWorkFlowIfUnReg(studySubject);
-        }
+//        if (studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.UNREGISTERED) {
+//            manageRegWorkFlowIfUnReg(studySubject);
+//        }
         studySubject = studySubjectDao.merge(studySubject);
         return studySubject;
     }
@@ -695,10 +695,10 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     private void manageRegWorkFlowIfUnReg(StudySubject studySubject) {
         ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
-        if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.DISAPPROVED) {
-            studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
-        }
-        else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+//        if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.DISAPPROVED) {
+//            studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
+//        }
+        if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
             studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
         }
         else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.APPROVED) {
@@ -706,7 +706,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
                 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
             }
             else {
-                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
             }
         }
     }

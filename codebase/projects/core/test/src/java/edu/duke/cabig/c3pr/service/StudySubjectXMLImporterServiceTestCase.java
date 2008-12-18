@@ -116,7 +116,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
             assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.REGISTERED, loaded.getRegWorkflowStatus());
+                            RegistrationWorkFlowStatus.ENROLLED, loaded.getRegWorkflowStatus());
             assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
@@ -207,8 +207,6 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
                             RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
-            assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.UNREGISTERED, loaded.getRegWorkflowStatus());
             assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
@@ -263,7 +261,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
             assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.REGISTERED, loaded.getRegWorkflowStatus());
+                            RegistrationWorkFlowStatus.ENROLLED, loaded.getRegWorkflowStatus());
             assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
@@ -401,7 +399,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
             assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.REGISTERED, loaded.getRegWorkflowStatus());
+                            RegistrationWorkFlowStatus.ENROLLED, loaded.getRegWorkflowStatus());
             assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
@@ -452,8 +450,6 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
                             RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
-            assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.UNREGISTERED, loaded.getRegWorkflowStatus());
             assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
@@ -509,7 +505,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
             assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.REGISTERED, loaded.getRegWorkflowStatus());
+                            RegistrationWorkFlowStatus.ENROLLED, loaded.getRegWorkflowStatus());
             assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
