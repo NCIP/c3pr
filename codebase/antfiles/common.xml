@@ -595,7 +595,7 @@
 	<!-- ============================================================== 
 			target: test-report                                                
 		============================================================== -->
-		<target name="test-report" if="run.test" depends="test, corbetura-init">
+		<target name="test-report" if="run.test" depends="test">
 			<echo message="Executing in ${ant.project.name}" />
 			<mkdir dir="${test.reports.dir}" />
 			<junitreport todir="${test.reports.dir}">
