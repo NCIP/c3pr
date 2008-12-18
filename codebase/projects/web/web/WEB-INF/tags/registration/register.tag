@@ -76,6 +76,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 			</c:if>
 			</table>
 			<c:forEach items="${registration.childStudySubjects}" var="childStudySubject" varStatus="status">
+				<c:if test="${childStudySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
 				<chrome:division title="${childStudySubject.studySite.study.shortTitleText}">
 					<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'PHONE_CALL' && childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
 		                <strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
@@ -113,6 +114,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 					</c:if>
 					</table>
 				</chrome:division>
+				</c:if>
 			</c:forEach>
 		</c:otherwise>
 		</c:choose>
