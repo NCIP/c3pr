@@ -1,4 +1,4 @@
-onSUpackage edu.duke.cabig.c3pr.web.registration;
+package edu.duke.cabig.c3pr.web.registration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
