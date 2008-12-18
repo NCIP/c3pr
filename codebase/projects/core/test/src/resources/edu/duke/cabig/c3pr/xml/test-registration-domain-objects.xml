@@ -42,7 +42,7 @@
         <informedConsentFormSignedDate>2008-08-28</informedConsentFormSignedDate>
         <informedConsentVersion>1.0</informedConsentVersion>
         <regDataEntryStatus>INCOMPLETE</regDataEntryStatus>
-        <regWorkflowStatus>UNREGISTERED</regWorkflowStatus>
+        <regWorkflowStatus>PENDING</regWorkflowStatus>
         <scheduledEpoch>
             <startDate>2008-08-28</startDate>
             <epoch gridId="b4008e6a-d25c-44d0-8929-4cc83bafa602">
