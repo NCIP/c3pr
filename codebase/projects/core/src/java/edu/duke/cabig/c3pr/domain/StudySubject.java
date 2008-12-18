@@ -1113,7 +1113,7 @@ public class StudySubject extends
 		// 'REGISTERED_BUT_NOT_ENROLLED' state to enrolled"
 
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
-			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.REGISTERED) {
+			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
 				childStudySubject
 						.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 			}
