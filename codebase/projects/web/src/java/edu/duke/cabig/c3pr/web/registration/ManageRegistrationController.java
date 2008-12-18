@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.web.registration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,8 +10,10 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.ManageCompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ManageEpochTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationOverviewTab;
@@ -60,7 +65,19 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
 
         return super.handleRequestInternal(request, response); 
     }
-
+    
+    @Override
+    protected void postProcessPage(HttpServletRequest request, Object command,Errors errors, int page) throws Exception {
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper)command ;
+    	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+    	if(identifier != null){
+    		List<Identifier> identifiers=new ArrayList<Identifier>();
+    		identifiers.add(identifier);
+    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    		wrapper.setStudySubject(studySubject);
+    	}
+    	super.postProcessPage(request, command, errors, page);
+    }
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         return null;

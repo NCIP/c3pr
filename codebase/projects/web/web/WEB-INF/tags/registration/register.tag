@@ -19,7 +19,7 @@
 </style>
 <script>
 function submitRandomization(){
-	if(${registration.regWorkflowStatus!='REGISTERERD' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount}){
+	if(${registration.regWorkflowStatus!='ENROLLED' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount}){
 		confirmFlag=confirm("This registration will exceed the accrual ceiling at ${command.studySubject.studySite.healthcareSite.name}. Do you want to continue?");
 		if(!confirmFlag)
 			return;
