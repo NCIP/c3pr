@@ -34,7 +34,7 @@ public class StudySubjectWrapper {
 			return null;
 		}
 		
-		if(this.studySubject.getParentStudySubject()!=null && this.studySubject.getParentStudySubject().getRegWorkflowStatus()== RegistrationWorkFlowStatus.ENROLLED && !this.studySubject.getMatchingCompanionStudyAssociation(studySubject).getMandatoryIndicator()){
+		if(this.studySubject.getParentStudySubject()!=null && this.studySubject.getParentStudySubject().getRegWorkflowStatus()== RegistrationWorkFlowStatus.ENROLLED && this.studySubject.getMatchingCompanionStudyAssociation(studySubject) != null && !this.studySubject.getMatchingCompanionStudyAssociation(studySubject).getMandatoryIndicator()){
 			return false;
 		}
 		
