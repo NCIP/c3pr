@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.xml;
 import static edu.duke.cabig.c3pr.C3PRUseCase.EXPORT_STUDY;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -69,14 +70,23 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
      * Tests if the message generated can be validated against the schema
      */
     private void schemaValidationTest() {
-
+    	byte[] messageBytes = marshalledStudy.getBytes();
+        ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(messageBytes);
+        System.out.println(byteArrayInputStream.read());
         try {
             // validate the marshalled message
-            byte[] messageBytes = marshalledStudy.getBytes();
-            parser.parse(new ByteArrayInputStream(messageBytes), new MyHandler());
+            byteArrayInputStream.reset();
+            parser.parse(byteArrayInputStream, new MyHandler());
         }
         catch (Exception x) {
             fail(x.getMessage());
+        }finally{
+        	try {
+				byteArrayInputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				fail(e.getMessage());
+			}
         }
     }
 
