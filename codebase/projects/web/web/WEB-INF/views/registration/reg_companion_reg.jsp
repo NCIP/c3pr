@@ -87,7 +87,7 @@
 			<tags:panelBox title="Parent Registration">
 				<br> 
 				<font color="GREEN"> <strong>Data entry is complete for all mandatory companion registrations, Click on '${actionLabel}' button to register subject on parent and companion studies.</strong></font><br><br>
-				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}" />
+				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll & Randomize" requiresMultiSite="${requiresMultiSite}" />
 			</tags:panelBox>
 		</c:if>
 	</c:when>
