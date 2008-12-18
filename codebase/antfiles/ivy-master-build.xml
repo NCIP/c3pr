@@ -4,17 +4,6 @@
 	<property file="c3pr-ivy.properties" />
     <import file="${basedir}/common.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
-	<property name="reports.dir" value="${basedir}/../reports" />
-	<!-- List of modules that need checkstyle reporting done -->
-	<property name="reportable.projects.list" value="core,web" />
-	<property name="javadoc-reportable.projects.list" value="core,web" />
-	<condition property="ivy.available">
-			<available file="${ivy.jar.file}" />
-	</condition>
-	
-	<!--CSM Tomcat dirs-->
-	<property name="conf.dir" value="${projects.dir}/core/conf/"/>
-	<property name="csm.conf.dir" value="${conf.dir}/csm"/>
 	
 	
 	<!-- ==================================================================
@@ -24,10 +13,7 @@
     	<ivy:buildlist reference="build-path">
     		<fileset file="${basedir}/ivy-build.xml" />
       		<fileset file="${projects.dir}/esb-client/ivy-build.xml" />
-    		<fileset file="${projects.dir}/grid/StudyService/ivy-build.xml" />
-    		<fileset file="${projects.dir}/grid/RegistrationService/ivy-build.xml" />
     		<fileset file="${projects.dir}/core/ivy-build.xml" />
-			<fileset file="${projects.dir}/rules/ivy-build.xml" />
     		<fileset file="${projects.dir}/web/ivy-build.xml" />
     	</ivy:buildlist>
   		<property name="buildlist.done" value="true" />
@@ -37,7 +23,7 @@
 	<!-- ==================================================================
 		target : publish-all
 	====================================================================== -->
-  	<target name="publish-all" depends="buildlist, clean, reports-style" 
+  	<target name="publish-all" depends="buildlist" 
   			description="compile, jar and publish all projects in the right order, publishes them into local repository">
    		 <subant target="publish-local" buildpathref="build-path" />
   	</target>
@@ -87,28 +73,9 @@
 		to do migrate and build as a single job using hudson. 
 	=============================================================-->
 	<target name="migrate">
-		<ant target="migrate" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
-			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-		</ant>
+		<subant target="migrate" buildpath="${projects.dir}/core/ivy-build.xml" />
 	</target>
 
-	<!-- ==========================================================
-		target : drop-and-create-existing-database
-		This will drop the existing database and create a new database by deligating call to c3pr-core:drop-and-create-existing-database, this is added
-		as a single job using hudson. 
-	=============================================================-->
-	<target name="drop-and-create-existing-database">
-		<subant target="drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml" />
-	</target>
-
-	<!-- ==========================================================
-		target : prepare-fresh-database
-		This will drop the existing database and create a new database by deligating call to c3pr-core:drop-and-create-existing-database, this is added
-		as a single job using hudson. It will run migrate target
-	=============================================================-->
-	<target name="prepare-fresh-database" depends="drop-and-create-existing-database, migrate">
-	</target>
-	
 	<!-- ==========================================================
 		target : migrate-test
 		This will delegate the call to c3pr-core:migrate-test, this is added
@@ -142,7 +109,7 @@
     </target>
 
 	 <!--Does a local build. For Developers use only -->
-    <target name="deploy-webapp-local" depends="build-rules"
+    <target name="deploy-webapp-local" depends="build-core"
             description="Builds all c3pr modules and deploys webapp on your web/web local">
     	<ant target="deployLocal" antfile="${projects.dir}/web/ivy-build.xml" dir="${projects.dir}/web" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
@@ -150,72 +117,13 @@
     	</ant>
     </target>
 	
-    <target name="deploy-webapp" depends="build-rules"
+    <target name="deploy-webapp" depends="build-core"
             description="Builds all c3pr modules and deploys webapp on your web/web local">
     	<ant target="deploy" antfile="${projects.dir}/web/ivy-build.xml" dir="${projects.dir}/web" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
     	</ant>
     </target>
-	
-	<target name="deploy-studyServiceImpl" depends="build-rules"
-		description="Builds all c3pr modules and deploys webapp on your web/web local">
-		<ant target="deployStudyServiceImpl" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/StudyServiceImpl" inheritall="false">
-			<property name="env.skip.test" value="true"></property>
-			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-		</ant>
-	</target>
-	
-	<target name="undeploy-studyService">
-		<ant target="undeployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
-			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-			<property name="webapp.localtion" value="aaa" />
-			<property name="service.deployment.dir.name" value="abc" />
-		</ant>
-	</target>
-
-	<target name="deploy-studyService">
-		<ant target="deployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
-			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-		</ant>
-	</target>
-	
-	<target name="deploy-c3prStudyService" depends="deploy-studyService, deploy-studyServiceImpl"/>
-	
-	<target name="deploy-registrationServiceImpl" depends="build-rules"
-		description="Builds all c3pr modules and deploys webapp on your web/web local">
-		<ant target="deployRegistrationServiceImpl" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/RegistrationServiceImpl" inheritall="false">
-			<property name="env.skip.test" value="true"></property>
-			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-		</ant>
-	</target>
-	
-	<target name="undeploy-registrationService">
-		<ant target="undeployTomcat" antfile="${projects.dir}/grid/RegistrationService/build.xml" dir="${projects.dir}/grid/RegistrationService" inheritall="false">
-			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-			<property name="webapp.localtion" value="aaa" />
-			<property name="service.deployment.dir.name" value="abc" />
-		</ant>
-	</target>
-
-	<target name="deploy-registrationService">
-		<ant target="deployTomcat" antfile="${projects.dir}/grid/RegistrationService/build.xml" dir="${projects.dir}/grid/RegistrationService" inheritall="false">
-			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-		</ant>
-	</target>
-	
-	<target name="deploy-c3prregistrationService" depends="deploy-registrationService, deploy-registrationServiceImpl"/>
-	
-	<target name="deploy-c3prGridService" depends="deploy-registrationService, deploy-studyService, build-rules">
-		<ant target="deployRegistrationServiceImpl" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/RegistrationServiceImpl" inheritall="false">
-			<property name="env.skip.test" value="true"></property>
-			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-		</ant>
-		<ant target="deployStudyServiceImpl" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/StudyServiceImpl" inheritall="false">
-			<property name="env.skip.test" value="true"></property>
-			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-		</ant>
-	</target>
 	
 	<!-- ==========================================================
 		target : tomcat.security
@@ -227,8 +135,7 @@
 		</ant>
 	</target>
 	
-	
-	<target name="build-core" depends="clean-repo"
+	<target name="build-core" depends="clean-repo, debug-database-info"
             description="Builds all c3pr modules that core depends on and create the core jar">
 		<ant target="publish-local" antfile="${basedir}/ivy-build.xml" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
@@ -236,23 +143,12 @@
     	<ant target="publish-local" antfile="${projects.dir}/esb-client/ivy-build.xml" dir="${projects.dir}/esb-client" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>
-		<ant target="publish-local" antfile="${projects.dir}/grid/StudyService/ivy-build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
-    		<property name="env.skip.test" value="true"></property>
-    	</ant>
-		<ant target="publish-local" antfile="${projects.dir}/grid/RegistrationService/ivy-build.xml" dir="${projects.dir}/grid/RegistrationService" inheritall="false">
-    		<property name="env.skip.test" value="true"></property>
-    	</ant>
 		<ant target="publish-local" antfile="${projects.dir}/core/ivy-build.xml" dir="${projects.dir}/core" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>
     </target>
 	
-	<target name="build-rules" depends="build-core" description="Builds rules">
-		<ant target="publish-local" antfile="${projects.dir}/rules/ivy-build.xml" dir="${projects.dir}/rules" inheritall="false">
-		    		<property name="env.skip.test" value="true"></property>
-	    </ant>
-    </target>
-	
+
 	<!-- ==========================================================
 		target : Installer targets
 	=============================================================-->
@@ -268,29 +164,19 @@
         <subant target="build-offline-installer" buildpath="${projects.dir}/installer/ivy-build.xml"/>
     </target>
 	
-	<target name="build-war" depends="deploy-webapp-local"
-            description="Builds the war for the installer">
-		<ant target="war" antfile="${projects.dir}/web/ivy-build.xml" inheritall="false" dir="${projects.dir}/web">
-			<property name="env.skip.test" value="true"></property>
-		</ant>
-    </target>
 	<!-- =============================================================== -->
     <!-- create target to create a release of Installer  project          -->
     <!-- =============================================================== -->
     <target name="prepareInstallerForRelease" depends="clean">
         <property name="project.archive" value="c3prv2-installpack.zip"/>
-    	<delete dir="${projects.dir}/installer/installpack"/>
-        <mkdir dir="${projects.dir}/installer/installpack"/>
-        <zip destfile="${projects.dir}/installer/installpack/${project.archive}">
+        <mkdir dir="${projects.dir}/installer/ext"/>
+        <zip destfile="${projects.dir}/installer/ext/${project.archive}">
             <zipfileset dir="${basedir}" prefix="antfiles"/>
             <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
             <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
             <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
-			<zipfileset dir="${projects.dir}/rules" prefix="projects/rules"/>
-        </zip>
-        <zip destfile="${projects.dir}/installer/installpack/ivy2.zip">
-            <zipfileset dir="${ivy.cache}" prefix="${ivy.cache.name}"/>
-        	<zipfileset dir="${ivy.jar.dir}" prefix="ivy-jars"/>
+            <zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
+            <zipfileset dir="${projects.dir}/../share" prefix="share"/>
         </zip>
     </target>
 
@@ -300,7 +186,7 @@
    <target name="report-all" depends="buildlist" description="--> Generate report of all the project dependencies">
      <subant target="report" buildpathref="build-path" />
    </target>
- 
+
 	<!-- ================================= 
 	      target: cobertura coverage report            
 	     ================================= -->	
@@ -308,135 +194,18 @@
     	<ivy:resolve inline="true" organisation="cobertura" module="cobertura" revision="1.8" />
     	<ivy:cachepath organisation="cobertura" module="cobertura" revision="1.8" inline="true" pathid="cobertura.classpath"/>
     	<mkdir dir="${cobertura.report.dir}" />
-		<echo message="Coverage Report for project Core" />
-    	<taskdef resource="tasks.properties" classpathref="cobertura.classpath" />
+    	<taskdef  resource="tasks.properties" classpathref="cobertura.classpath" />
     	<cobertura-merge datafile="${cobertura.report.dir}/cobertura.ser">
     		<fileset dir="." includes="**/cobertura.ser" />
-    		<fileset dir="${projects.dir}/core" includes="**/cobertura.ser" />
 		</cobertura-merge>
     	<echo>================================================================</echo>
     	<echo>Code Coverage Report available at </echo>
     	<echo>${cobertura.report.dir}/index.html</echo>
     	<echo>================================================================</echo>
-    	<cobertura-report format="xml" destdir="${cobertura.report.dir}"  datafile="${cobertura.report.dir}/cobertura.ser" >
+    	<cobertura-report format="html" destdir="${cobertura.report.dir}"  datafile="${cobertura.report.dir}/cobertura.ser" >
     	    <fileset dir=".">
     	        <include name="**/src/main/java/**/*.java" />
     	    </fileset>
     	</cobertura-report>
 	</target>
-	
-	<!-- =============================================================== -->
-    <!-- Call check-style for each project log results                   -->
-    <!-- =============================================================== -->
-    <target name="reports-style" depends="resolve,download-ant-contrib" description="Check the style of all the projects.">
-        <taskdef resource="checkstyletask.properties"  classpathref="main.classpath" />
-    	<taskdef resource="net/sf/antcontrib/antlib.xml">
-            <classpath>
-                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
-            </classpath>
-        </taskdef>
-	
-        <!-- call run-report-style for each project or call checkstyle directly -->
-        <for list="${reportable.projects.list}" parallel="false" param="project.name" trim="true">
-            <sequential>
-                <echo message="Reporting style for project @{project.name}." />
-	
-				<mkdir dir="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report" />
-            	<property name="antfiles.dir" location="${basedir}/../../codebase/antfiles" />
-            					
-    			<checkstyle config="${antfiles.dir}/c3pr_checks.xml" failOnViolation="false">
-    	            <fileset dir="src" includes="**/*.java"/>
-    	            <formatter type="plain" toFile="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.txt"/>
-    	            <formatter type="xml" toFile="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.xml"/>
-    	        </checkstyle>
-    			<xslt in="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.xml" 
-    		      out="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.html"
-    	              style="${antfiles.dir}/checkstyle.xsl">
-    	            <param name="project" expression="@{project.name}"/>
-    	        </xslt>
-    			
-    			<echo>================================================================</echo>
-    	    	<echo>CheckStyle Report available at </echo>
-    	    	<echo>${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report</echo>
-    	    	<echo>================================================================</echo>	
-            </sequential>
-        </for>		
-    </target>
-    
-	<target name="reports-javadoc" depends="download-ant-contrib" description="Generates javadoc">
-			<taskdef resource="net/sf/antcontrib/antlib.xml">
-	            <classpath>
-	                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
-	            </classpath>
-	        </taskdef>
-			
-			<property name="javadoc.dir" value="${reports.dir}/javadoc"/>
-			<delete dir="${javadoc.dir}"/>
-			<mkdir dir="${javadoc.dir}"/>
-			
-			<for list="${javadoc-reportable.projects.list}" parallel="false" param="project.name" trim="true">
-				<sequential>
-					<echo message="Generating javadoc for project @{project.name}"/>
-					<javadoc packagenames="edu.duke.cabig.c3pr.d*" 
-							 sourcepath="${projects.dir}/@{project.name}/src/java" 
-							 destdir="${reports.dir}/javadoc/@{project.name}"
-							 author="true"
-							 version="true"
-							 use="true"
-							 access="private"
-							 windowtitle="C3PRV2 API">
-					 		<classpath>	 
-		                        <fileset dir="${projects.dir}/@{project.name}/build/lib">
-		                            <include name="*.jar"/>
-		                        </fileset>
-		                        <fileset dir="${projects.dir}/@{project.name}/build/testlib">
-		                            <include name="*.jar"/>
-		                        </fileset>
-		                        <fileset dir="${projects.dir}/@{project.name}/test/lib">
-		                            <include name="*.jar"/>
-		                        </fileset>
-		                    </classpath>
-					  </javadoc>
-				  </sequential>
-			 </for>
-		 </target>
-		
-	<target name="reports-javadoc-tests" depends="download-ant-contrib" description="Generates javadoc">
-				<taskdef resource="net/sf/antcontrib/antlib.xml">
-		            <classpath>
-		                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
-		            </classpath>
-		        </taskdef>
-				
-				<property name="javadoc.dir" value="${reports.dir}/test-javadoc"/>
-				<echo message="${javadoc.dir}"/>
-				<delete dir="${javadoc.dir}"/>
-				<mkdir dir="${javadoc.dir}"/>
-				
-				<for list="${javadoc-reportable.projects.list}" parallel="false" param="project.name" trim="true"  >
-					<sequential>
-						<echo message="Generating javadoc for project @{project.name}"/>
-						<javadoc packagenames="edu.duke.cabig.c3pr.*" 
-								 sourcepath="${projects.dir}/@{project.name}/test/src/java" 
-								 destdir="${reports.dir}/javadoc/@{project.name}"
-								 author="true"
-								 version="true"
-								 use="true"
-								 access="private"
-								 windowtitle="C3PRV2 API">
-									<classpath path="${jar.file}" />
-									<classpath refid="main.classpath" />
-									<fileset dir="${projects.dir}/@{project.name}/build/testlib">
-			                            <include name="*.jar"/>
-			                        </fileset>
-									
-						  </javadoc>
-					  </sequential>
-				 </for>
-			 </target>
-	
-	
-			<target name="reports-junit" depends="buildlist, test-report" description="Generates javadoc">
-				
-			</target>
-	</project>
+</project>
