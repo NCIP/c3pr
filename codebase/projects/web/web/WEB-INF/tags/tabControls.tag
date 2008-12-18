@@ -73,8 +73,15 @@
 			            <c:if test="${not isLast}">
 			                <c:set var="continueLabel" value="${continueLabel}continue"/>
 			            </c:if>
-					</c:if>            
-		            <input type="image" id="flow-next"  value="${continueLabel}" src="/c3pr/images/flow-buttons/${continueLabel}_btn.png"/>
+					</c:if>
+					<c:choose>
+						<c:when	test="${continueLabel == 'save' || continueLabel == 'back' || continueLabel == 'saveback' || continueLabel == 'savecontinue'}">            
+		           		 <input type="image" id="flow-next"  value="${continueLabel}" src="/c3pr/images/flow-buttons/${continueLabel}_btn.png"/>
+						</c:when>
+						<c:otherwise>
+							<input type="submit" id="flow-next"  value="${continueLabel}" />
+						</c:otherwise>
+					</c:choose>
 		        </span>
 			</div>
 		</c:otherwise>
