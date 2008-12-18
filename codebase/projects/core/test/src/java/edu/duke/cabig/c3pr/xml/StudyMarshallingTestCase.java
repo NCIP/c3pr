@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.xml.sax.InputSource;
+
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
@@ -76,7 +77,8 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         try {
             // validate the marshalled message
             byteArrayInputStream.reset();
-            parser.parse(byteArrayInputStream, new MyHandler());
+            parser.parse(new InputSource(new StringReader(marshalledStudy)), new MyHandler());
+            //parser.parse(byteArrayInputStream, new MyHandler());
         }
         catch (Exception x) {
             fail(x.getMessage());
