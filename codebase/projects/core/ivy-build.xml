@@ -112,6 +112,37 @@
 			CREATE DATABASE ${datasource.schema};
 		</sql>
 	</target>
+	
+	<target name="recreate-db-hudson" description="drop the database and create new database" depends="resolve, find-datasource">
+		<property file="${dsFile}"/>   
+		<echo message="${datasource.driver}"/>   
+		<echo message="${datasource.url}"/>   
+		<echo message="${datasource.username}"/>   
+		<echo message="${datasource.password}"/> 
+		<sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}" url="${datasource.url}" 
+		classpathref="main.classpath" onerror="abort" autocommit="true">
+			<if>
+				<equals arg1="${datasource.driver}" arg2="org.postgresql.Driver"/>
+				<then>
+					DROP DATABASE IF EXISTS ${datasource.schema} ;
+					CREATE DATABASE ${datasource.schema};
+				</then>
+			</if>
+			<elseif>
+				<equals arg1="${datasource.driver}" arg2="oracle.jdbc.OracleDriver"/>
+				<then>
+					DROP USER ${datasource.username} CASCADE;
+					CREATE USER ${datasource.username} IDENTIFIED BY ${datasource.username}  DEFAULT TABLESPACE users TEMPORARY TABLESPACE temp QUOTA UNLIMITED ON users;
+					drop role ${datasource.username}_role cascade;
+					CREATE ROLE ${datasource.username}_role;
+					GRANT create session, create table , drop any table, create sequence, drop any sequence, create trigger, drop any trigger, create type , drop any type, create view, drop any view , create procedure, drop any procedure , create any  index , drop any index TO ${datasource.username}_role;
+					GRANT ${datasource.username}_role TO c3pr_hudson;
+				</then>
+			</elseif>
+		</sql>
+	</target>
+
+
 		
 	
     <target name="prepare-bering" depends="find-datasource">
