@@ -74,11 +74,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 	            scheduledEpoch = new ScheduledEpoch();
 	        }
 	        scheduledEpoch.setEpoch(epoch);
-	        if (studySubject.getScheduledEpochs().size() == 0)studySubject.getScheduledEpochs().add(0,
-	                        scheduledEpoch);
-	        else {
-	        	studySubject.getScheduledEpochs().set(0, scheduledEpoch);
-	        }
+	        studySubject.getScheduledEpochs().add(scheduledEpoch);
 	   //     registrationControllerUtils.buildCommandObject(studySubject);
 	        studySiteDao.initialize(studySubject.getStudySite());
         }
