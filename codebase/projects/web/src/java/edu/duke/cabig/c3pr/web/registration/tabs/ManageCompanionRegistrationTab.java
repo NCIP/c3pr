@@ -35,9 +35,9 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
 		String actionLabel = "";
 		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED && studySubject.isDataEntryComplete()) {
 			actionRequired = true;
-			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED) {
+			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
 				if (studySubject.getScheduledEpoch().getEpoch().isEnrolling())
-					actionLabel = "Register";
+					actionLabel = "Enroll";
 				else
 					actionLabel = "Save";
 			} else

@@ -88,9 +88,9 @@ public class RegistrationConfirmAndRandomizeController extends
 		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED
 				&& studySubject.isDataEntryComplete()) {
 			actionRequired = true;
-			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED) {
+			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
 				if (studySubject.getScheduledEpoch().getEpoch().isEnrolling())
-					actionLabel = "Register";
+					actionLabel = "Enroll";
 				else
 					actionLabel = "Save";
 			} else

@@ -106,10 +106,7 @@ public class RegistrationControllerUtils {
 			epoch_unrandomized = true;
 		}
 		switch (studySubject.getRegWorkflowStatus()) {
-		case UNREGISTERED:
-			reg_unregistered = true;
-			break;
-		case REGISTERED:
+		case ENROLLED:
 			reg_registered = true;
 			break;
 		case PENDING:
@@ -117,9 +114,6 @@ public class RegistrationControllerUtils {
 			break;
 		case RESERVED:
 			reg_reserved = true;
-			break;
-		case DISAPPROVED:
-			reg_disapproved = true;
 			break;
 		}
 		switch (studySubject.getScheduledEpoch().getScEpochWorkflowStatus()) {
@@ -201,8 +195,8 @@ public class RegistrationControllerUtils {
 				}
 			}
 			Set<RegistrationWorkFlowStatus> status = new HashSet<RegistrationWorkFlowStatus>();
-			status.add(RegistrationWorkFlowStatus.READY_FOR_REGISTRATION);
-			status.add(RegistrationWorkFlowStatus.REGISTERED);
+			status.add(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+			status.add(RegistrationWorkFlowStatus.ENROLLED);
 			for (StudySubject stSubject : studySubject.getChildStudySubjects()) {
 				if (!status.contains(stSubject.getRegWorkflowStatus())) {
 					return false;
@@ -221,7 +215,7 @@ public class RegistrationControllerUtils {
 		studySubject.getScheduledEpoch().setEligibilityIndicator(evaluateEligibilityIndicator(studySubject));
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(studySubject.evaluateScheduledEpochDataEntryStatus());
 		if(studySubject.getParentStudySubject()!=null && studySubject.isDataEntryComplete()){
-        	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.READY_FOR_REGISTRATION);
+        	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
         	studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
 		}
 	}
