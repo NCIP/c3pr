@@ -72,23 +72,24 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
      */
     private void schemaValidationTest() {
     	byte[] messageBytes = marshalledStudy.getBytes();
-        ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(messageBytes);
-        System.out.println(byteArrayInputStream.read());
+        //ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(messageBytes);
+        //System.out.println(byteArrayInputStream.read());
+    	System.out.println("Using input source...");
         try {
             // validate the marshalled message
-            byteArrayInputStream.reset();
+            //byteArrayInputStream.reset();
             parser.parse(new InputSource(new StringReader(marshalledStudy)), new MyHandler());
             //parser.parse(byteArrayInputStream, new MyHandler());
         }
         catch (Exception x) {
             fail(x.getMessage());
         }finally{
-        	try {
-				byteArrayInputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-				fail(e.getMessage());
-			}
+//        	try {
+//				byteArrayInputStream.close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				fail(e.getMessage());
+//			}
         }
     }
 
