@@ -28,8 +28,6 @@ public interface StudySubjectRepository {
     
     public StudySubject doLocalRegistration(StudySubject studySubject) throws C3PRCodedException;
     
-    public StudySubject updateLocalRegistration(StudySubject studySubject);
-    
     public StudySubject importStudySubject(StudySubject deserialedStudySubject)
 	throws C3PRCodedException;
     
