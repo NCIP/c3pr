@@ -23,7 +23,7 @@
 		</sftp>
 				<!--  Northwestern RHLCCC Bioinformatics  -->
 			<ibiblio name="maven2-northwestern" m2compatible="true"
-				root="http://download.bioinformatics.northwestern.edu/maven2"
+				root="http://download.bioinformatics.northwestern.edu/download/maven2"
 				changingPattern=".*SNAPSHOT" 
 				/>
 
