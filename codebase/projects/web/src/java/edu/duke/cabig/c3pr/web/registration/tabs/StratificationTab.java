@@ -79,7 +79,12 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
 		super.postProcess(request, command, errors);
 		StudySubject studySubject = ((StudySubjectWrapper) command).getStudySubject();
 		if(studySubject.getScheduledEpoch().getEpoch().getStratificationIndicator()){
-			studySubject.getScheduledEpoch().setStratumGroupNumber(studySubject.getStratumGroup().getStratumGroupNumber());
+			try {
+				studySubject.getScheduledEpoch().setStratumGroupNumber(studySubject.getScheduledEpoch().getStratumGroup().getStratumGroupNumber());
+			} catch (C3PRBaseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
     
