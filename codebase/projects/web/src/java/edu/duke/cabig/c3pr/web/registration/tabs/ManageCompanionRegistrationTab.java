@@ -26,8 +26,11 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
 	public Map<String,Object> referenceData(HttpServletRequest request,
     		StudySubjectWrapper wrapper) {
     	StudySubject studySubject = wrapper.getStudySubject();
+    	List<Identifier> identifiers=new ArrayList<Identifier>();
+    	identifiers.add(studySubject.getSystemAssignedIdentifiers().get(0));
+    	studySubject = studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
 		Map map = registrationControllerUtils.buildMap(studySubject);
-		map.put("companions", getCompanionStudySubject(request, studySubject));
+		map.put("companions", getCompanionStudySubject(request));
 		boolean actionRequired = false;
 		String actionLabel = "";
 		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED && studySubject.isDataEntryComplete()) {
@@ -50,13 +53,13 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
 		return map;
 	}
 	
-	private List<Companion> getCompanionStudySubject(HttpServletRequest request, StudySubject studySubject){
+	private List<Companion> getCompanionStudySubject(HttpServletRequest request){
     	List<Companion> companions = new ArrayList<Companion>();
     	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
     	if(identifier != null){
     		List<Identifier> identifiers=new ArrayList<Identifier>();
     		identifiers.add(identifier);
-//    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
     		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()){
     			Companion companion = new Companion();
     			Study companionStudy = companionStudyAssoc.getCompanionStudy();
