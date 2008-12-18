@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web.registration;
+onSUpackage edu.duke.cabig.c3pr.web.registration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -147,10 +147,11 @@ public class RegistrationConfirmAndRandomizeController extends
 			throws Exception {
 		StudySubjectWrapper wrapper= (StudySubjectWrapper) command;
 		StudySubject studySubject = wrapper.getStudySubject();
-		if (!validSubmit(studySubject)) {
-			throw new Exception(
-					"Subject is either already registered or the subject registration requires QC");
-		}
+		//commeneted after discussion with RK, no need to this validation since we are calling this controller for normal scenario also
+//		if (!validSubmit(studySubject)) {
+//			throw new Exception(
+//					"Subject is either already registered or the subject registration requires QC");
+//		}
 		Map map = new HashMap();
 		map.put("actionRequired", false);
 		try {
