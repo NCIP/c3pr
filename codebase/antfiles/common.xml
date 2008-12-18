@@ -581,6 +581,7 @@
 					<exclude name="edu/duke/cabig/**/WebTestCase.class"/>	
 					<exclude name="edu/duke/cabig/**/StudySubjectXMLImporterServiceTestCase.class"/>	
 					<exclude name="edu/duke/cabig/**/XCCTSRegistrationMessageTest.class"/>
+					<exclude name="edu/duke/cabig/**/TestESBClient.class"/>
 					<!-- we have commented couple of test cases in StudySubjectServiceIntegrationTestCase , we need to fix them later-->
 				</fileset>
 			</batchtest>
