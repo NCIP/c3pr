@@ -1114,8 +1114,8 @@ public class StudySubject extends
 
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
-				childStudySubject
-						.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+				childStudySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+				childStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 			}
 		}
 	}

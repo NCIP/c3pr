@@ -8,7 +8,6 @@ import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
