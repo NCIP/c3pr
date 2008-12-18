@@ -75,6 +75,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 				</c:if>
 			</c:if>
 			</table>
+			<br>
 			<c:forEach items="${registration.childStudySubjects}" var="childStudySubject" varStatus="status">
 				<c:if test="${childStudySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
 				<chrome:division title="${childStudySubject.studySite.study.shortTitleText}">
@@ -92,11 +93,11 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 						<tr>
 						<c:choose>
 							<c:when test="${childStudySubject.studySite.study.blindedIndicator}">
-								<td class="labelR">Enter Kit Number</td><td><input type="text" name="studySubject.scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
+								<td class="labelR">Enter Kit Number</td><td><input type="text" name="studySubject.childStudySubjects[${status.index}].scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
 							</c:when>
 							<c:otherwise>
 								<td class="labelR">Select Arm:</td><td>
-								<select name ="studySubject.scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
+								<select name ="studySubject.childStudySubjects[${status.index}].scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
 									<option value="" selected>Please Select</option>
 									<c:forEach items="${childStudySubject.scheduledEpoch.epoch.arms}" var="arm">
 									<option value="${arm.id}">${arm.name }</option>
@@ -114,6 +115,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 					</c:if>
 					</table>
 				</chrome:division>
+					<br>
 				</c:if>
 			</c:forEach>
 		</c:otherwise>
