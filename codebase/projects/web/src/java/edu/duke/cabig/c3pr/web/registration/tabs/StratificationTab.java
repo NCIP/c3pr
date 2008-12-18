@@ -53,7 +53,7 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
                     }
                 }
                 try {
-                    if (ss.getStratumGroup() != null) {
+                    if (ss.getScheduledEpoch().getStratumGroup() != null) {
                         logger.debug("Valid Stratification Answer selected.");
                     }
                     else {
