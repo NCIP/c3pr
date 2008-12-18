@@ -821,7 +821,10 @@ public class StudySubject extends
 					// previous registration status.
 					if (this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING) {
 						this
-								.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+								.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED); 
+						if(this.getParentStudySubject()!=null){
+							this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+						}
 					}
 				}
 			} else {
@@ -863,7 +866,9 @@ public class StudySubject extends
 
 	private void doLocalRandomization() {
 		for(StudySubject childStudySubject: this.getChildStudySubjects()){
-			childStudySubject.doLocalRandomization();
+			if(childStudySubject.getScheduledEpoch().getRequiresRandomization()){
+				childStudySubject.doLocalRandomization();
+			}
 		}
 		// randomize subject
 		switch (this.getStudySite().getStudy().getRandomizationType()) {
@@ -1066,22 +1071,18 @@ public class StudySubject extends
 	public void prepareForEnrollment() {
 
 		if (!this.getStudySite().getStudy().getStandaloneIndicator() && this.getParentStudySubject() != null && this.getParentStudySubject().regWorkflowStatus!=RegistrationWorkFlowStatus.ENROLLED) {
-			throw new C3PRBaseRuntimeException(
-					" Cannot directly register on the embedded study. The registration can happen only through the parent");
+			throw new C3PRBaseRuntimeException(" Cannot directly register on the embedded study. The registration can happen only through the parent");
 		}
 		
 		
 		if(getWorkPendingOnMandatoryCompanionRegistrations()){
-			throw new C3PRBaseRuntimeException(
-			" First register on the mandatory companions before enrolling on the parent");
+			throw new C3PRBaseRuntimeException(" First register on the mandatory companions before enrolling on the parent");
 		}
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
-				if (getMatchingCompanionStudyAssociation(childStudySubject)
-						.getMandatoryIndicator()) {
+				if (getMatchingCompanionStudyAssociation(childStudySubject).getMandatoryIndicator()) {
 					if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
-						throw new C3PRBaseRuntimeException(
-								" First register the subject on the enrolling epoch of the mandatory companions before proceeding with enrollment");
+						throw new C3PRBaseRuntimeException(" First register the subject on the enrolling epoch of the mandatory companions before proceeding with enrollment");
 					}
 				}
 			}
