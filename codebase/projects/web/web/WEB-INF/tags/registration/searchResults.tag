@@ -82,10 +82,6 @@ function submitLocalForm(formName, idParamStr){
 					<c:set var="formType"
 					value="edit" />
 				</c:when>
-				<c:when test="${registration.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED_BUT_NOT_RANDOMIZED'}">
-					<c:set var="formType"
-					value="confirm" />
-				</c:when>
 				<c:otherwise>
 					<c:set var="formType"
 					value="manage" />	
