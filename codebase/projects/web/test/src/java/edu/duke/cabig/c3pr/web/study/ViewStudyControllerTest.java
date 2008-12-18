@@ -74,7 +74,7 @@ public class ViewStudyControllerTest extends AbstractStudyControllerTest {
         request.addParameter("_action", "export");
 
         EasyMock.expect(command.getStudy().getId()).andReturn((Integer) 2);
-        mockMarshaller.toXML(command, response.getWriter());
+        mockMarshaller.toXML(command.getStudy(), response.getWriter());
 
         replayMocks();
 
