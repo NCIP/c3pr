@@ -79,7 +79,7 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 
     public void testViewOnGet() throws Exception {
     	
-    	expect(healthcareSiteDao.getAll()).andReturn(null).times(2);
+    	//expect(healthcareSiteDao.getAll()).andReturn(null).times(2);
         replayMocks();
         ModelAndView mv = controller.handleRequest(request, response);
         assertNotNull("Command not present in model: ", mv);
@@ -98,7 +98,7 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
         request.addParameter("raceCode", "Not Reported");
         request.setParameter("_target1", "");
     	
-    	expect(healthcareSiteDao.getAll()).andReturn(null).times(2);
+    	//expect(healthcareSiteDao.getAll()).andReturn(null).times(2);
         replayMocks();
         ModelAndView mv = controller.handleRequest(request, response);
         assertNotNull("Command not present in model: ", mv);
