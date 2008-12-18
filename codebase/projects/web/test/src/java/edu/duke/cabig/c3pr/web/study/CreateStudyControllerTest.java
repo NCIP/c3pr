@@ -48,6 +48,8 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
     
     private StudyDetailsTab studyDetailsTab;
     
+    private StudyRepository studyRepository;
+    
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -64,6 +66,8 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
 
         controller.setStudyDao(studyDao);
 
+        studyRepository=registerMockFor(StudyRepository.class);
+        controller.setStudyRepository(studyRepository);
         // setup controller
         healthcareSiteDao = registerMockFor(HealthCareSiteDaoMock.class);
         controller.setHealthcareSiteDao(healthcareSiteDao);
@@ -89,9 +93,13 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
     }
 
     public void testPostProcessFinishStudy() throws Exception {
+    	request.setParameter("_action", "open");
+    	List list=new ArrayList();
+    	expect(study.getIdentifiers()).andReturn(list);
+    	expect(studyRepository.openStudy(list)).andReturn(study);
         request.setMethod("POST");
-    	expect(command.getId()).andReturn(1);
-        expect(studyRepository.merge(command)).andReturn((Study) command);
+    	expect(command.getStudy().getId()).andReturn(1);
+        //expect(studyRepository.merge(command.getStudy())).andReturn((Study) command.getStudy());
         replayMocks();
         ModelAndView mv = controller.processFinish(request, response, command, errors);
         assertNull("Command not present in model: ", mv);

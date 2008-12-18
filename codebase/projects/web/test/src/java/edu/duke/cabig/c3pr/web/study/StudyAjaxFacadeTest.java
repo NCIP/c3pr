@@ -35,7 +35,7 @@ public class StudyAjaxFacadeTest extends AbstractStudyControllerTest {
 
     public void testTableTest() {
         List<Study> dummyList = new ArrayList<Study>();
-        dummyList.add(command);
+        dummyList.add(command.getStudy());
 
         Map map = errors.getModel();
         map.put("searchType", new ArrayList<String>() {
@@ -49,7 +49,7 @@ public class StudyAjaxFacadeTest extends AbstractStudyControllerTest {
             }
         });
 
-        expect(command.getId()).andReturn(new Integer("1"));
+        expect(command.getStudy().getId()).andReturn(new Integer("1"));
         expect(studyDao.searchByExample(isA(Study.class), eq(true))).andReturn(dummyList);
         replayMocks();
 

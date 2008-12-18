@@ -73,7 +73,7 @@ public class ViewStudyControllerTest extends AbstractStudyControllerTest {
     public void testFileExport() throws Exception {
         request.addParameter("_action", "export");
 
-        EasyMock.expect(command.getId()).andReturn((Integer) 2);
+        EasyMock.expect(command.getStudy().getId()).andReturn((Integer) 2);
         mockMarshaller.toXML(command, response.getWriter());
 
         replayMocks();

@@ -12,7 +12,9 @@ import edu.duke.cabig.c3pr.web.ControllerTestCase;
  * @author kherm manav.kher@semanticbits.com
  */
 public class AbstractStudyControllerTest extends ControllerTestCase {
-    protected Study command;
+    protected StudyWrapper command;
+    
+    protected Study study;
 
     protected StudyDao studyDao;
 
@@ -22,7 +24,9 @@ public class AbstractStudyControllerTest extends ControllerTestCase {
     protected void setUp() throws Exception {
         super.setUp(); // To change body of overridden methods use File | Settings | File
                         // Templates.
-        command = registerMockFor(Study.class);
+        command = new StudyWrapper();
+        study = registerMockFor(Study.class);
+        command.setStudy(study);
         studyDao = registerDaoMockFor(StudyDao.class);
         studyRepository = registerMockFor(StudyRepository.class);
 
