@@ -865,11 +865,6 @@ public class StudySubject extends
 	}
 
 	private void doLocalRandomization() {
-		for(StudySubject childStudySubject: this.getChildStudySubjects()){
-			if(childStudySubject.getScheduledEpoch().getRequiresRandomization()){
-				childStudySubject.doLocalRandomization();
-			}
-		}
 		// randomize subject
 		switch (this.getStudySite().getStudy().getRandomizationType()) {
 		case PHONE_CALL:
@@ -1114,6 +1109,9 @@ public class StudySubject extends
 
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
+				if (childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
+					doLocalRandomization();
+				}
 				childStudySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 				childStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 			}
