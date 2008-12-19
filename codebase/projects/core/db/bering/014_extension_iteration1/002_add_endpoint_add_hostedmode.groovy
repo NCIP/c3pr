@@ -33,15 +33,15 @@ class AddEndpointAndHostedMode extends edu.northwestern.bioinformatics.bering.Mi
             t.addColumn("endpoint_id", "integer")
         }   
         if (databaseMatches('oracle')) {
-	    	execute("rename ENDPOINTS_PROPS_ID_SEQ to seq_ENDPOINTS_PROPS_ID")
-	    	execute("rename ENDPOINTS_ID_SEQ to seq_ENDPOINTS_ID")
-	    	execute("rename ERRORS_ID_SEQ to seq_ERRORS_ID")
+	    	execute("rename SEQ_ENDPOINT_PROPS_ID to ENDPOINTS_PROPS_ID_SEQ")
+	    	execute("rename SEQ_ENDPOINTS_ID to ENDPOINTS_ID_SEQ")
+	    	execute("rename SEQ_ERRORS_ID to ERRORS_ID_SEQ")
 	 	}     
 	 	addColumn("organizations","study_endpoint_props_id","integer")
 	 	addColumn("organizations","reg_endpoint_props_id","integer")
-        execute("ALTER TABLE organizations ADD CONSTRAINT FK_STUDY_ENDPOINT_ORG FOREIGN KEY (study_endpoint_props_id) REFERENCES ENDPOINT_PROPS(ID)")
+        execute("ALTER TABLE organizations ADD CONSTRAINT FK_ENDPOINT_STUDY_ORG FOREIGN KEY (study_endpoint_props_id) REFERENCES ENDPOINT_PROPS(ID)")
         execute("ALTER TABLE organizations ADD CONSTRAINT FK_REG_ENDPOINT_ORG FOREIGN KEY (reg_endpoint_props_id) REFERENCES ENDPOINT_PROPS(ID)")
-        execute("ALTER TABLE endpoints ADD CONSTRAINT FK_STUDY_ENDPOINT_ORG FOREIGN KEY (stu_id) REFERENCES STUDIES(ID)")
+        execute("ALTER TABLE endpoints ADD CONSTRAINT FK_STUDY_ENDPOINT FOREIGN KEY (stu_id) REFERENCES STUDIES(ID)")
         execute("ALTER TABLE endpoints ADD CONSTRAINT FK_STUDY_ORG_ENDPOINT FOREIGN KEY (sto_id) REFERENCES STUDY_ORGANIZATIONS(ID)")
         execute("ALTER TABLE endpoints ADD CONSTRAINT FK_STUDY_SUB_ENDPOINT FOREIGN KEY (stu_id) REFERENCES STUDY_SUBJECTS(ID)")
         execute("ALTER TABLE errors ADD CONSTRAINT FK_ENDPOINT_ERROR FOREIGN KEY (endpoint_id) REFERENCES ENDPOINTS(ID)")
