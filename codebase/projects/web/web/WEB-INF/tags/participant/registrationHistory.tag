@@ -24,11 +24,14 @@ function navRollOver(obj, state) {
 		</tr>
 			
 		<c:set var="i" value="0"/>
-		<c:forEach items="${command.studySubjects}" var="registration">
+		<c:forEach items="${command.studySubjects}" var="registration" varStatus="status">
+			<script>
+					paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
+			</script>
 			<tr align="center" id="row${i}" class="results"
 				onMouseOver="navRollOver('row${i}', 'on')"
 				onMouseOut="navRollOver('row${i}', 'off')"
-				onClick="document.location='../registration/registrationDetails?registrationId=${registration.id}'">
+				onClick="document.location='../registration/registrationDetails?'+paramString_${status.index }">
 				<td width="11">&nbsp;</td>
 				<td>${registration.primaryIdentifier}</td>
 				<td>${registration.studySite.study.trimmedShortTitleText}</td>
