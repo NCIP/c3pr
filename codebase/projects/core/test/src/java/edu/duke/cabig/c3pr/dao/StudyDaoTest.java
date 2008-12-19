@@ -64,28 +64,32 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 @C3PRUseCases( { CREATE_STUDY, UPDATE_STUDY, SEARCH_STUDY, CREATE_STUDY_INVESTIGATOR,
         ADD_STRATIFICATION, ADD_DISEASE, VERIFY_SUBJECT })
 public class StudyDaoTest extends DaoTestCase {
-    private StudyDao dao = (StudyDao) getApplicationContext().getBean("studyDao");
+    private StudyDao dao;
 
-    private HealthcareSiteDao healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
-                    .getBean("healthcareSiteDao");
+    private HealthcareSiteDao healthcareSitedao;
 
-    private HealthcareSiteInvestigatorDao hcsidao = (HealthcareSiteInvestigatorDao) getApplicationContext()
-                    .getBean("healthcareSiteInvestigatorDao");
+    private HealthcareSiteInvestigatorDao hcsidao;
 
-    private InvestigatorDao investigatorDao = (InvestigatorDao) getApplicationContext().getBean(
-                    "investigatorDao");
+    private InvestigatorDao investigatorDao;
 
-    private DiseaseTermDao diseaseTermDao = (DiseaseTermDao) getApplicationContext().getBean(
-                    "diseaseTermDao");
+    private DiseaseTermDao diseaseTermDao;
 
-    private DiseaseCategoryDao diseaseCategoryDao = (DiseaseCategoryDao) getApplicationContext()
-                    .getBean("diseaseCategoryDao");
+    private DiseaseCategoryDao diseaseCategoryDao;
 
     private XmlMarshaller xmlUtility;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        dao = (StudyDao) getApplicationContext().getBean("studyDao");
+        healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
+        	.getBean("healthcareSiteDao");
+        hcsidao = (HealthcareSiteInvestigatorDao) getApplicationContext()
+        	.getBean("healthcareSiteInvestigatorDao");
+        investigatorDao = (InvestigatorDao) getApplicationContext().getBean("investigatorDao");
+        diseaseTermDao = (DiseaseTermDao) getApplicationContext().getBean("diseaseTermDao");
+        diseaseCategoryDao = (DiseaseCategoryDao) getApplicationContext()
+        	.getBean("diseaseCategoryDao");        
         xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean(
                         "c3pr-study-xml-castorMapping"));
     }
