@@ -56,19 +56,21 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     	// TODO Auto-generated method stub
     	StudySubjectWrapper wrapper= (StudySubjectWrapper)super.formBackingObject(request);
     	ScheduledEpoch scheduledEpoch;
-        Integer id = Integer.parseInt(request.getParameter("epoch"));
-        Epoch epoch = epochDao.getById(id);
-        epochDao.initialize(epoch);
-        if (epoch.getTreatmentIndicator()) {
-            (epoch).getArms().size();
-            scheduledEpoch = new ScheduledEpoch();
-        }
-        else {
-            scheduledEpoch = new ScheduledEpoch();
-        }
-        scheduledEpoch.setEpoch(epoch);
-        wrapper.getStudySubject().addScheduledEpoch(scheduledEpoch);
-        registrationControllerUtils.buildCommandObject(wrapper.getStudySubject());
+    	if(WebUtils.hasSubmitParameter(request, "epoch")){
+	        Integer id = Integer.parseInt(request.getParameter("epoch"));
+	        Epoch epoch = epochDao.getById(id);
+	        epochDao.initialize(epoch);
+	        if (epoch.getTreatmentIndicator()) {
+	            (epoch).getArms().size();
+	            scheduledEpoch = new ScheduledEpoch();
+	        }
+	        else {
+	            scheduledEpoch = new ScheduledEpoch();
+	        }
+	        scheduledEpoch.setEpoch(epoch);
+	        wrapper.getStudySubject().addScheduledEpoch(scheduledEpoch);
+	        registrationControllerUtils.buildCommandObject(wrapper.getStudySubject());
+    	}
     	return wrapper;
     }
 
