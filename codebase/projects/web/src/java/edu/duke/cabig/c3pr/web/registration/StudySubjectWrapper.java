@@ -61,10 +61,10 @@ public class StudySubjectWrapper {
 	
 	public Boolean getShouldTransfer(){
 		if (this.studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.ENROLLED){
-			if(!this.studySubject.getDataEntryStatus() || this.getStudySubject().getScheduledEpoch().getRequiresRandomization()){
-				return false;
+			if(this.studySubject.getDataEntryStatus() || !this.getStudySubject().getScheduledEpoch().getRequiresRandomization()){
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 }
