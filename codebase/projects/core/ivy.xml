@@ -115,6 +115,7 @@
         	<dependency org="javax.mail" name="mail" rev="1.4" />
         	<dependency org="javax.activation" name="activation" rev="1.1" />
         	
+        	<dependency org="ant-contrib" name="ant-contrib" rev="1.0b2" force="true" />
     		<!-- compile only dependencies -->
         	<dependency org="javax.servlet" name="jstl" rev="1.1.2" conf="build->default(*)" />
 <!--
