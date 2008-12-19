@@ -39,7 +39,7 @@ public class StudySubjectWrapper {
 		}
 		
 		
-		if(this.studySubject.getParentStudySubject()!=null){
+		if(this.studySubject.getParentStudySubject()!=null || this.studySubject.getParentStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
 			return true;
 		}
 		return this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() || (!this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() && !this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());

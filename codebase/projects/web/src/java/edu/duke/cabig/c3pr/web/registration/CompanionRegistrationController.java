@@ -12,6 +12,8 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
@@ -57,12 +59,17 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
         }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
         	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
         }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
-        	studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+        	try{
+        		studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+        	}catch (C3PRCodedRuntimeException e) {
+			
+        	}
         }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
-        return new ModelAndView("redirect:confirm?"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));	
+        return new ModelAndView("redirect:confirm?decorator=noheaderDecorator&"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
+        
     }
     
     @Override
