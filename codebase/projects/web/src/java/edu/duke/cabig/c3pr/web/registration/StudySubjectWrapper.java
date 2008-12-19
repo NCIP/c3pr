@@ -39,7 +39,7 @@ public class StudySubjectWrapper {
 		}
 		
 		
-		if(this.studySubject.getParentStudySubject()!=null || this.studySubject.getParentStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
+		if(this.studySubject.getParentStudySubject()!=null && this.studySubject.getParentStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
 			return true;
 		}
 		return this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() || (!this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() && !this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
@@ -57,5 +57,14 @@ public class StudySubjectWrapper {
 			return null;
 		}
 		return(this.getStudySubject().getScheduledEpoch().getRequiresRandomization());
+	}
+	
+	public Boolean getShouldTransfer(){
+		if (this.studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.ENROLLED){
+			if(!this.studySubject.getDataEntryStatus() || this.getStudySubject().getScheduledEpoch().getRequiresRandomization()){
+				return false;
+			}
+		}
+		return true;
 	}
 }
