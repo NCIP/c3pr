@@ -9,11 +9,11 @@
 		var win;
 		function openPopup(companionStudy, participant, parentRegistrationId){
 			win = new Window(
-					{onClose: function() {$('refreshPage').submit();},title: "Registration", top:35, scrollbar: false, left:100, zIndex:100, width:700, height:325 , url: "<c:url value='/pages/registration/createCompanionRegistration?decorator=noheaderDecorator&customButton=true&create_companion=true&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
+					{onClose: function() {$('refreshPage').submit();},title: "Registration", top:35, scrollbar: false, left:100, zIndex:100, width:700, height:525 , url: "<c:url value='/pages/registration/createCompanionRegistration?decorator=noheaderDecorator&customButton=true&create_companion=true&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
 					  showEffectOptions: {duration:1.5}
 					}
 				) 
-			win.showCenter()
+			win.showCenter(true)
 		}
 
 		function closePopup() {
@@ -82,12 +82,21 @@
 			</table>
 			</div>
 		</tags:panelBox>
-		
-		<c:if test="${registerableWithCompanions &&(actionRequired || hasCompanions) && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
-			<tags:panelBox title="Parent Registration">
-				<br> 
-				<font color="GREEN"> <strong>Data entry is complete for all mandatory companion registrations, Click on '${actionLabel}' button to register subject on parent and companion studies.</strong></font><br><br>
-				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll & Randomize" requiresMultiSite="${requiresMultiSite}" />
+		<c:if test="${command.shouldRegister && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending'}">
+			<tags:panelBox title="Register">
+				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Register" requiresMultiSite="${requiresMultiSite}"/>
+			</tags:panelBox>
+		</c:if>
+			
+		<c:if test="${registerableWithCompanions &&(command.shouldRandomize) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
+			<tags:panelBox title="Enroll & Randomize">
+				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll & Randomize" requiresMultiSite="${requiresMultiSite}"/>
+			</tags:panelBox>
+		</c:if>
+			
+		<c:if test="${registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending'}">
+			<tags:panelBox title="Enroll">
+				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll" requiresMultiSite="${requiresMultiSite}"/>
 			</tags:panelBox>
 		</c:if>
 	</c:when>
