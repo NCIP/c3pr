@@ -16,6 +16,7 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
@@ -79,19 +80,24 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if(registrationControllerUtils.isRegisterableOnPage(studySubject))
+        if(wrapper.getShouldTransfer())
         	studySubject = studySubjectRepository.transferSubject(studySubject.getIdentifiers());
-        else{
-            registrationControllerUtils.updateStatusForEmbeddedStudySubjet(studySubject);
+        else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
+        	studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
+        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldReserve()){
+        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        }else{
             studySubject=studySubjectRepository.save(studySubject);
         }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
         if(WebUtils.hasSubmitParameter(request, "decorator") && "noheaderDecorator".equals(request.getParameter("decorator"))){
-        	 return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId() +"&decorator=" + request.getParameter("decorator"));
+        	 return new ModelAndView("redirect:confirm?" + ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0))+"&decorator=" + request.getParameter("decorator"));
         }else{
-        	return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());	
+        	return new ModelAndView("redirect:confirm?" + ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));	
         }
     }
 }
