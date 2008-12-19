@@ -97,7 +97,7 @@
 <form:form method="post">
     <tags:tabFields tab="${tab}"/>
 </form:form>
-<c:if test="${command.shouldRegister && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending'}">
+<c:if test="${command.shouldRegister && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending' && !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator  && !command.studySubject.scheduledEpoch.epoch.reservationIndicator}">
 <tags:panelBox title="Register">
 	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Register" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
