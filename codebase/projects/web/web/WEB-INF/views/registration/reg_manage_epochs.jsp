@@ -44,7 +44,7 @@ paramString="<tags:identifierParameterString identifier='${command.studySubject.
 </script>
 </head>
 <body>
-<form action="../registration/editRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="edit">
+<form action="../registration/transferEpochRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="edit">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="epoch" id="edit_epoch"/>
