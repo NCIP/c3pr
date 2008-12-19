@@ -353,8 +353,8 @@
     <bean name="/registration/transferEpochRegistration"
           id="transferEpochRegistrationController"
           class="edu.duke.cabig.c3pr.web.registration.TransferEpochRegistrationController"
+          parent="parentRegistrationController"
           autowire="byName">
-        <property name="bindOnNewForm" value="true" />
     </bean>
     
     <bean name="/registration/manageRegistration" id="manageRegistrationController"
