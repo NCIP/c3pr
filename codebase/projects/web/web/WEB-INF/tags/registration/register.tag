@@ -49,7 +49,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 				<tr><td class="labelR" width="150">Phone Number:</td><td >${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
 				<tr>
 				<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
-				<td class="labelR">Stratum Group:</td><td> ${registration.stratumGroup}</td>
+				<td class="labelR">Stratum Group:</td><td> ${registration.scheduledEpoch.stratumGroup}</td>
 				</c:if>
 				<tr>
 				<c:choose>
@@ -71,7 +71,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 			<c:if test="${registration.studySite.study.randomizationType.name == 'BOOK' && registration.scheduledEpoch.epoch.randomizedIndicator}">
 				<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
 				<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
-				<tr><td class="labelR">Stratum Group:</td><td>${registration.stratumGroup}</td></tr>
+				<tr><td class="labelR">Stratum Group:</td><td>${registration.scheduledEpoch.stratumGroup}</td></tr>
 				</c:if>
 			</c:if>
 			</table>
@@ -88,7 +88,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 						<tr><td class="labelR" width="150">Phone Number:</td><td >${childStudySubject.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
 						<tr>
 						<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
-						<td class="labelR">Stratum Group:</td><td> ${childStudySubject.stratumGroup}</td>
+						<td class="labelR">Stratum Group:</td><td> ${childStudySubject.scheduledEpoch.stratumGroup}</td>
 						</c:if>
 						<tr>
 						<c:choose>
@@ -110,7 +110,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 					<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'BOOK' && childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
 						<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
 						<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
-						<tr><td class="labelR">Stratum Group:</td><td>${childStudySubject.stratumGroup}</td></tr>
+						<tr><td class="labelR">Stratum Group:</td><td>${childStudySubject.scheduledEpoch.stratumGroup}</td></tr>
 						</c:if>
 					</c:if>
 					</table>
