@@ -27,7 +27,9 @@ import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
+import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 
 public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     private StudySubjectDao studySubjectDao;
@@ -48,7 +50,11 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     private StudySubject studySubject;
     
+    private StudySubjectService studySubjectService;
+    
     private StudySubjectCreatorHelper studySubjectCreatorHelper;
+    
+    private StudyTargetAccrualNotificationEmail notificationEmailer;
     
     private Logger log = Logger.getLogger(StudySubjectRepositoryTestCase.class.getName());
     
@@ -60,6 +66,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         stratumGroupDao=registerDaoMockFor(StratumGroupDao.class);
         participantDao=registerDaoMockFor(ParticipantDao.class); 
         studySubjectFactory=registerMockFor(StudySubjectFactory.class);
+        studySubjectService=registerMockFor(StudySubjectService.class);
+        notificationEmailer=registerMockFor(StudyTargetAccrualNotificationEmail.class);
         exceptionHelper=registerMockFor(C3PRExceptionHelper.class);
         c3prErrorMessages=registerMockFor(MessageSource.class);
         StudySubjectRepositoryImpl studySubjectRepositoryImpl=new StudySubjectRepositoryImpl();
@@ -867,6 +875,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        
+	        studySubjectService.broadcastMessage(studySubject);
+	        notificationEmailer.sendEmail(studySubject);
+	        
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -887,6 +899,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+
+	        studySubjectService.broadcastMessage(studySubject);
+	        notificationEmailer.sendEmail(studySubject);
+	        
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -908,6 +924,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+
+	        studySubjectService.broadcastMessage(studySubject);
+	        notificationEmailer.sendEmail(studySubject);
+	        
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -923,6 +943,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+
+	        studySubjectService.broadcastMessage(studySubject);
+	        notificationEmailer.sendEmail(studySubject);
+	        
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -941,6 +965,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+
+	        studySubjectService.broadcastMessage(studySubject);
+	        notificationEmailer.sendEmail(studySubject);
+	        
 	        replayMocks();
 	        studySubject = studySubjectRepository.enroll(studySubject);
 	        try{
@@ -966,6 +994,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	        studySubjects.add(studySubject);
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(studySubjects);
+
+	        studySubjectService.broadcastMessage(studySubject);
+	        notificationEmailer.sendEmail(studySubject);
+	        
 	        replayMocks();
 	        studySubject = studySubjectRepository.enroll(studySubject);
 	        try{
@@ -991,6 +1023,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	        studySubjects.add(studySubject);
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(studySubjects);
+
+	        studySubjectService.broadcastMessage(studySubject);
+	        notificationEmailer.sendEmail(studySubject);
+	        
 	        replayMocks();
 	        studySubject = studySubjectRepository.enroll(studySubject);
 	        studySubjectCreatorHelper.addScheduled2ndNonRandomizedEnrollingEpochFromStudyEpochs(studySubject);
@@ -1001,4 +1037,12 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        assertSame("The subject should have been successfully transferred",ScheduledEpochWorkFlowStatus.REGISTERED,studySubject.getScheduledEpochs().get(1).getScEpochWorkflowStatus());
 	        verifyMocks();
 	    }
+
+	public StudySubjectService getStudySubjectService() {
+		return studySubjectService;
+	}
+
+	public void setStudySubjectService(StudySubjectService studySubjectService) {
+		this.studySubjectService = studySubjectService;
+	}
 }
