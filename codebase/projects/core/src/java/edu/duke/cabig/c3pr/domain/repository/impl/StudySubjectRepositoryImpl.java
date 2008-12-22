@@ -47,7 +47,9 @@ import edu.duke.cabig.c3pr.grid.studyservice.stubs.service.StudyService;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
+import edu.duke.cabig.c3pr.service.impl.WorkflowServiceImpl;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 @Transactional
@@ -68,6 +70,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     private StudySubjectFactory studySubjectFactory;
     
     private StudySubjectService studySubjectService;
+    
+    private StudyTargetAccrualNotificationEmail notificationEmailer;
+    
+    private WorkflowServiceImpl workflowServiceImpl;
     
     //private StudyService studyService;
     
@@ -276,7 +282,40 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
 		this.continueEnrollment(studySubject);
-		return save(studySubject);
+		StudySubject studySubjectAfterSave = save(studySubject);
+		
+		sendStudyAccrualNotification(studySubjectAfterSave);
+		broadcastMessage(studySubjectAfterSave);
+        
+		return studySubjectAfterSave;
+	}
+	
+	//Send out the CCTS broadcast Message
+	private void broadcastMessage(StudySubject studySubjectAfterSave) {
+		try {
+            workflowServiceImpl.broadcastMessage(studySubjectAfterSave);
+        }
+        catch (C3PRCodedException e) {
+            log.error(e.getMessage());
+            studySubjectAfterSave.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+        }
+        catch (Exception e) {
+         // TODO throw a C3PRCodedUncheckedException
+        	log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+	}
+
+	//Send out the study accrual notification.
+	private void sendStudyAccrualNotification(StudySubject studySubjectAfterSave) {
+		try {
+            this.notificationEmailer.sendEmail(studySubjectAfterSave);
+        }
+        catch (Exception e) {
+        	// TODO throw a C3PRCodedUncheckedException
+        	log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
 	}
 
 	public StudySubject enroll(StudySubject studySubject) {
@@ -286,7 +325,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
 		this.continueEnrollment(studySubject);
-		return save(studySubject);
+		StudySubject studySubjectAfterSave = save(studySubject);
+		
+		sendStudyAccrualNotification(studySubjectAfterSave);
+		broadcastMessage(studySubjectAfterSave);
+        
+		return studySubjectAfterSave;
 	}
 	
 	public void continueEnrollment(StudySubject studySubject) {
@@ -403,5 +447,22 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
 	public void setStudySubjectService(StudySubjectService studySubjectService) {
 		this.studySubjectService = studySubjectService;
+	}
+
+	public StudyTargetAccrualNotificationEmail getNotificationEmailer() {
+		return notificationEmailer;
+	}
+
+	public void setNotificationEmailer(
+			StudyTargetAccrualNotificationEmail notificationEmailer) {
+		this.notificationEmailer = notificationEmailer;
+	}
+
+	public WorkflowServiceImpl getWorkflowServiceImpl() {
+		return workflowServiceImpl;
+	}
+
+	public void setWorkflowServiceImpl(WorkflowServiceImpl workflowServiceImpl) {
+		this.workflowServiceImpl = workflowServiceImpl;
 	}
 }
