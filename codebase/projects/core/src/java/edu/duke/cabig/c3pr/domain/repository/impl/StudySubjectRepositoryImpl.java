@@ -64,8 +64,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     
     private StudyTargetAccrualNotificationEmail notificationEmailer;
     
-    private WorkflowServiceImpl workflowService;
-    
     //private StudyService studyService;
     
     private Logger log = Logger.getLogger(StudySubjectRepositoryImpl.class.getName());
@@ -284,7 +282,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	//Send out the CCTS broadcast Message
 	private void broadcastMessage(StudySubject studySubjectAfterSave) {
 		try {
-            workflowService.broadcastMessage(studySubjectAfterSave);
+			studySubjectService.broadcastMessage(studySubjectAfterSave);
         }
         catch (C3PRCodedException e) {
             log.error(e.getMessage());
@@ -447,14 +445,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public void setNotificationEmailer(
 			StudyTargetAccrualNotificationEmail notificationEmailer) {
 		this.notificationEmailer = notificationEmailer;
-	}
-
-	public WorkflowServiceImpl getWorkflowService() {
-		return workflowService;
-	}
-
-	public void setWorkflowService(WorkflowServiceImpl workflowService) {
-		this.workflowService = workflowService;
 	}
 
 }
