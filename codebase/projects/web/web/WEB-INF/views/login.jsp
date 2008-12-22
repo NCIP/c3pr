@@ -9,7 +9,7 @@
         </script>
         <style type="text/css">
             body {
-                background: #333333 url(/c3pr/templates/mocha/images/lines_bg.png) scroll;
+                background: #333333 url(../templates/mocha/images/lines_bg.png) scroll;
                 background-repeat: repeat;
                 color: white;
                 font-family: Arial, Verdana, Helvetica, sans-serif;
@@ -90,13 +90,13 @@
         </style>
 <SCRIPT language="JavaScript">
     upImage = new Image();
-    upImage.src = "/c3pr/templates/mocha/images/power-btn-up.png";
+    upImage.src = "../templates/mocha/images/power-btn-up.png";
 	var up = upImage.src;
     downImage = new Image();
-    downImage.src = "/c3pr/templates/mocha/images/power-btn-down.png"
+    downImage.src = "../templates/mocha/images/power-btn-down.png"
 	var down = downImage.src;
     hoverImage = new Image();
-    hoverImage.src = "/c3pr/templates/mocha/images/power-btn-hover.png";
+    hoverImage.src = "../templates/mocha/images/power-btn-hover.png";
 	var hover = hoverImage.src;
     var loginimg = document.getElementById("power_btn");
     
@@ -125,7 +125,7 @@
     <body>
     </div>
 </div>
-<img id="login-logo" src="/c3pr/templates/mocha/images/login-logo.png" alt="C3PR - Cancer Clinical Central Participant Registry" />
+<img id="login-logo" src="../templates/mocha/images/login-logo.png" alt="C3PR - Cancer Clinical Central Participant Registry" />
 <div id="login-form">
     <form method="POST" id="loginForm" action="<c:url value="/j_acegi_security_check"/>">
         <div class="login-header">
@@ -156,7 +156,7 @@
             <a href='<c:url value="/public/user/resetPassword" />'>Forgot Password?</a>
         </div>
         <div class="submit">
-            <input id="power_btn" type="image" value="Log in" src="/c3pr/templates/mocha/images/power-btn-up.png"
+            <input id="power_btn" type="image" value="Log in" src="../templates/mocha/images/power-btn-up.png"
 			onMouseOver="return changeImage()" onMouseOut= "return changeImageBack()" onMouseDown="return handleMDown()" onMouseUp="return handleMUp()" />
         	Enter
 		</div>
