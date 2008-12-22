@@ -7,13 +7,10 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-import net.handle.hdllib4.HandleConfiguration;
-
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.dao.EndpointDao;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
@@ -26,7 +23,6 @@ import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.IdentifierGenerator;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -36,19 +32,14 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
-import edu.duke.cabig.c3pr.grid.studyservice.stubs.service.StudyService;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
-import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
-import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.service.impl.WorkflowServiceImpl;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
@@ -73,7 +64,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     
     private StudyTargetAccrualNotificationEmail notificationEmailer;
     
-    private WorkflowServiceImpl workflowServiceImpl;
+    private WorkflowServiceImpl workflowService;
     
     //private StudyService studyService;
     
@@ -293,7 +284,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	//Send out the CCTS broadcast Message
 	private void broadcastMessage(StudySubject studySubjectAfterSave) {
 		try {
-            workflowServiceImpl.broadcastMessage(studySubjectAfterSave);
+            workflowService.broadcastMessage(studySubjectAfterSave);
         }
         catch (C3PRCodedException e) {
             log.error(e.getMessage());
@@ -458,11 +449,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		this.notificationEmailer = notificationEmailer;
 	}
 
-	public WorkflowServiceImpl getWorkflowServiceImpl() {
-		return workflowServiceImpl;
+	public WorkflowServiceImpl getWorkflowService() {
+		return workflowService;
 	}
 
-	public void setWorkflowServiceImpl(WorkflowServiceImpl workflowServiceImpl) {
-		this.workflowServiceImpl = workflowServiceImpl;
+	public void setWorkflowService(WorkflowServiceImpl workflowService) {
+		this.workflowService = workflowService;
 	}
+
 }
