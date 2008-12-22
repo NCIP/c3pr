@@ -21,9 +21,12 @@
 	<!-- <import resource="/Users/kruttikagarwal/Documents/workspace/c3pr/codebase/projects/core/src/resources/edu/duke/cabig/c3pr/applicationContext*.xml"/>-->
 	
 	<bean id="c3prRegistrationService" class="edu.duke.cabig.c3pr.grid.registrationservice.service.impl.C3PRRegistrationServiceImpl">
-		<property name="xmlMarshaller" ref="studyXmlUtility"/>
+		<property name="xmlMarshaller" ref="registrationXmlUtility"/>
 		<property name="interceptor" ref="openSessionInViewInterceptor"/>
-		<property name="studyRepository" ref="studyRepository"/>
-		<property name="studyFactory" ref="studyFactory"/>
+		<property name="studySubjectRepository" ref="studySubjectRepository"/>
+		<property name="studySubjectFactory" ref="studySubjectFactory"/>
+		<property name="participantDao" ref="participantDao"/>
+		<property name="c3prErrorMessages" ref="c3prErrorMessages"/>
+		<property name="exceptionHelper" ref="exceptionHelper"/>
 	</bean>
 </beans>
