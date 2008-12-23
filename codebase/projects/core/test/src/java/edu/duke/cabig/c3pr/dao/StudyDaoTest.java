@@ -833,7 +833,7 @@ public class StudyDaoTest extends DaoTestCase {
         Study studySearchCriteria = new Study(true);
         studySearchCriteria.setShortTitleText("short_title_text");
         List<Study> results = dao.searchByExample(studySearchCriteria);
-        assertEquals("Wrong number of Studies", 2, results.size());
+        assertEquals("Wrong number of Studies", 3, results.size());
         assertEquals("short_title_text", results.get(0).getShortTitleText());
         assertEquals("short_title_text", results.get(1).getShortTitleText());
     }
@@ -1108,7 +1108,7 @@ public class StudyDaoTest extends DaoTestCase {
         Study studySearchCriteria = new Study(true);
         studySearchCriteria.setShortTitleText("ti%e");
         List<Study> results = dao.searchByExample(studySearchCriteria, true);
-        assertEquals("Wrong number of Studies", 3, results.size());
+        assertEquals("Wrong number of Studies", 4, results.size());
     }
 
     /**
@@ -1450,7 +1450,14 @@ public class StudyDaoTest extends DaoTestCase {
             identifiers.addAll(study.getIdentifiers());
         interruptSession();
         List<Study> studies=dao.getByIdentifiers(identifiers);
-        assertEquals("Wrong size of list", 3, studies.size());
+        assertEquals("Wrong size of list",3, studies.size());
+    }
+    
+    public void testSearchByExampleUsingStudyStatus(){
+        Study exampleStudy = new Study();
+        List<Study> studySearchResults = dao.searchByExample(exampleStudy, "Amendment pending", true);
+        assertEquals("Wrong Number of studies retrieved",1,studySearchResults.size());
+        
     }
     
 }
