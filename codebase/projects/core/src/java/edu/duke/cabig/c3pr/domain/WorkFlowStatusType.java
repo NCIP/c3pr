@@ -11,7 +11,7 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
  */
 public enum WorkFlowStatusType implements CodedEnum<String> {
 
-    MESSAGE_SEND("Message sent"), MESSAGE_SEND_CONFIRMED("Message send confirmed"), MESSAGE_SEND_FAILED(
+    MESSAGE_SEND("Message sent"), MESSAGE_SEND_CONFIRMED("Message successfully sent"), MESSAGE_SEND_FAILED(
                     "Message send failed"), MESSAGE_RECIEVED("Message has been receved"),
                     MESSAGE_REPLY_CONFIRMED("Message reply confirmed"), MESSAGE_REPLY_FAILED("Message failed while replying to the registration request"),
                     MESSAGE_RESPONSE_RECIEVED("Message response recieved");
