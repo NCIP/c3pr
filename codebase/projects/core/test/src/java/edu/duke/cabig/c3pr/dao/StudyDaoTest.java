@@ -169,7 +169,7 @@ public class StudyDaoTest extends DaoTestCase {
      */
     public void testGetAll() throws Exception {
         List<Study> actual = dao.getAll();
-        assertEquals(3, actual.size());
+        assertEquals(4, actual.size());
         List<Integer> ids = collectIds(actual);
         assertContains("Wrong study found", ids, 1000);
         assertContains("Wrong study found", ids, 1001);
