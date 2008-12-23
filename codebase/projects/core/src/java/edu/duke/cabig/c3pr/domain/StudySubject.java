@@ -1110,7 +1110,7 @@ public class StudySubject extends
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
 				if (childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
-					doLocalRandomization();
+					childStudySubject.doLocalRandomization();
 				}
 				childStudySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 				childStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
