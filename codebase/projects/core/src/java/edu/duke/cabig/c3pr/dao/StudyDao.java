@@ -272,6 +272,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public List<Study> searchByExample(Study study, String searchText, boolean isWildCard) {
 
         List<Study> result = new ArrayList<Study>();
+        	searchText = searchText.replace(" ", "_");
         if (isWildCard) {
             result = (List<Study>) getHibernateTemplate().find(
                             "from Study where status like '%" + searchText.toUpperCase() + "%'");
