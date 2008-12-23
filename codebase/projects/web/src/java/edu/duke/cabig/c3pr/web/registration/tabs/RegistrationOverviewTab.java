@@ -66,7 +66,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends Regi
                             .getScheduledArm().getArm().getName();
             armAssignedLabel = "Arm Assigned";
         }
-        if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED
+        if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING
                         && studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
                         && studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE) {
             actionRequired = true;

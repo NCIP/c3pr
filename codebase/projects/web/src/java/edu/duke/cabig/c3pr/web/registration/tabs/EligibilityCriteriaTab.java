@@ -7,7 +7,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
+import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
@@ -36,8 +38,36 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubjectWrapper>
 
     @Override
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors error) {
-        if (command.getStudySubject().getScheduledEpoch()!=null) {
-            (command.getStudySubject().getScheduledEpoch()).setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(command.getStudySubject()));
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
+    	StudySubject studySubject = wrapper.getStudySubject();
+        if (studySubject.getScheduledEpoch()!=null) {
+            (studySubject.getScheduledEpoch()).setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(command.getStudySubject()));
+        }
+        
+        // The following code for building scheduled epoch after moving subject to a new epoch.
+        if(WebUtils.hasSubmitParameter(request, "epoch")){
+        	Integer id;
+	        try {
+	            id = Integer.parseInt(request.getParameter("epoch"));
+	        }
+	        catch (RuntimeException e) {
+	            return;
+	        }
+	      
+	        Epoch epoch = epochDao.getById(id);
+	        epochDao.initialize(epoch);
+	        ScheduledEpoch scheduledEpoch;
+	        if (epoch.getTreatmentIndicator()) {
+	            (epoch).getArms().size();
+	            scheduledEpoch = new ScheduledEpoch();
+	        }
+	        else {
+	            scheduledEpoch = new ScheduledEpoch();
+	        }
+	        scheduledEpoch.setEpoch(epoch);
+	        studySubject.getScheduledEpochs().add(scheduledEpoch);
+	   //     registrationControllerUtils.buildCommandObject(studySubject);
+	        studySiteDao.initialize(studySubject.getStudySite());
         }
     }
 

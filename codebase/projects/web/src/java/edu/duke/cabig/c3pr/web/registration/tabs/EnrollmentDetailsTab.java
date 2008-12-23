@@ -53,30 +53,5 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
         		command.getStudySubject().getDiseaseHistory().setOtherPrimaryDiseaseSiteCode("");
         	}
         }
-        // The following code for building scheduled epoch after moving subject to a new epoch.
-        if(WebUtils.hasSubmitParameter(request, "epoch")){
-        	Integer id;
-	        try {
-	            id = Integer.parseInt(request.getParameter("epoch"));
-	        }
-	        catch (RuntimeException e) {
-	            return;
-	        }
-	      
-	        Epoch epoch = epochDao.getById(id);
-	        epochDao.initialize(epoch);
-	        ScheduledEpoch scheduledEpoch;
-	        if (epoch.getTreatmentIndicator()) {
-	            (epoch).getArms().size();
-	            scheduledEpoch = new ScheduledEpoch();
-	        }
-	        else {
-	            scheduledEpoch = new ScheduledEpoch();
-	        }
-	        scheduledEpoch.setEpoch(epoch);
-	        studySubject.getScheduledEpochs().add(scheduledEpoch);
-	   //     registrationControllerUtils.buildCommandObject(studySubject);
-	        studySiteDao.initialize(studySubject.getStudySite());
-        }
     }
 }
