@@ -805,7 +805,7 @@ public class StudySubject extends
 					// the 1st epoch), we update it's status.
 					// else, the study subject continues to have his/her
 					// previous registration status.
-					if (this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING) {
+					if (this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING || this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED) {
 						this
 								.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
 					}
@@ -819,7 +819,7 @@ public class StudySubject extends
 					// the 1st epoch), we update it's status.
 					// else, the study subject continues to have his/her
 					// previous registration status.
-					if (this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING) {
+					if (this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING || this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED) {
 						this
 								.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED); 
 						if(this.getParentStudySubject()!=null){

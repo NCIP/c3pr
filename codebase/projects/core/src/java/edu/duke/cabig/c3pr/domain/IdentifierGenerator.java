@@ -17,7 +17,7 @@ public class IdentifierGenerator {
 		SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
 		sysIdentifier.setSystemName("C3PR");
 		sysIdentifier.setType("Study Subject Identifier");
-		sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getParticipant().getPrimaryIdentifier());
+		sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + studySubject.getParticipant().getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getNciInstituteCode()+"_" +studySubject.getParticipant().getPrimaryIdentifier());
 		return sysIdentifier;
 	}
 
