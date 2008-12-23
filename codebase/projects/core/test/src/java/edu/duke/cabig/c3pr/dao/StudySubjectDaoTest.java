@@ -604,7 +604,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             }
         }
         // evaluate status
-        if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED) {
+        if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
             manageSchEpochWorkFlowStatusIfUnApp(studySubject);
         }
 //        if (studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.UNREGISTERED) {
@@ -672,7 +672,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
                 catch (Exception e) {
                     e.printStackTrace();
                     scheduledEpoch
-                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.DISAPPROVED);
+                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
                 }
             }
             else {
@@ -680,16 +680,16 @@ public class StudySubjectDaoTest extends DaoTestCase {
                                 && (studySubject.getScheduledEpoch())
                                                 .getScheduledArm() == null) {
                     scheduledEpoch
-                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
                 }
                 else {
                     // logic for accrual ceiling check
-                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
                 }
             }
         }
         else {
-            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         }
     }
 
@@ -701,7 +701,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
             studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
         }
-        else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.APPROVED) {
+        else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) {
             if (scheduledEpoch.isReserving()) {
                 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
             }
