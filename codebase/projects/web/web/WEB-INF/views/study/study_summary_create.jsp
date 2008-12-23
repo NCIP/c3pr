@@ -7,7 +7,7 @@
 <script>
 function activateAndSaveStudy(){
 	if (${fn:length(errors)} > 0){
-		var d = $('errorsDiv');
+		var d = $('errorsOpenDiv');
 		Dialog.alert(d.innerHTML, 
 		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
 	} else {
@@ -19,7 +19,7 @@ function activateAndSaveStudy(){
 
 function createStudy(){
 	if (${fn:length(errors)} > 0){
-		var d = $('errorsDiv');
+		var d = $('errorsCreateDiv');
 		Dialog.alert(d.innerHTML, 
 		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
 	} else {
@@ -245,7 +245,24 @@ function createStudy(){
 			</span></div>
 			</div>
 </chrome:box>
-<div id="errorsDiv" style="display:none">
+<div id="errorsOpenDiv" style="display:none">
+	<div class="value" align="left">
+		<font size="2" face="Verdana" color="red">
+			Cannot Open Study. Please review the data.
+		</font>
+	</div>
+	
+	<br>
+	
+	<c:forEach items="${errors}" var="error" >
+		<div class="value" align="left">
+			<font size="1" face="Verdana" color="black">
+				${error.errorMessage}
+			</font>
+		</div>
+	</c:forEach>
+</div>
+<div id="errorsCreateDiv" style="display:none">
 	<div class="value" align="left">
 		<font size="2" face="Verdana" color="red">
 			Cannot Create Study. Please review the data.
@@ -262,6 +279,7 @@ function createStudy(){
 		</div>
 	</c:forEach>
 </div>
+
 </form:form>
 </body>
 </html>
