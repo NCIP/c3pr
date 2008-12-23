@@ -109,9 +109,27 @@
 </tags:panelBox>
 </c:if>
 
-<c:if test="${!command.shouldRegister && registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending'}">
+<c:if test="${!command.shouldRegister && registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending' && command.studySubject.scheduledEpoch.epoch.enrollmentIndicator}">
 <tags:panelBox title="Enroll">
 	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll" requiresMultiSite="${requiresMultiSite}"/>
+</tags:panelBox>
+</c:if>
+
+<c:if test="${command.shouldReserve}">
+<tags:panelBox title="Reserve">
+	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Reserve" requiresMultiSite="${requiresMultiSite}"/>
+</tags:panelBox>
+</c:if>
+
+<c:if test="${registerableWithCompanions &&(command.shouldRandomize) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized' && command.studySubject.regWorkflowStatus.code == 'Enrolled'}">
+<tags:panelBox title="Transfer & Randomize">
+	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Transfer & Randomize" requiresMultiSite="${requiresMultiSite}"/>
+</tags:panelBox>
+</c:if>
+
+<c:if test="${!command.shouldRegister && registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending' && command.studySubject.regWorkflowStatus.code == 'Enrolled'}">
+<tags:panelBox title="Transfer">
+	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Transfer" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
 </c:if>
 
@@ -265,7 +283,7 @@
             	
             	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE"
                             authorizationCheckName="domainObjectAuthorizationCheck">
-	                <c:if test="${command.studySubject.regWorkflowStatus=='REGISTERED' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+	                <c:if test="${command.studySubject.regWorkflowStatus=='REGISTERED' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
 	                    <input type="button" value="Take subject off study"
 	                           onclick="new Effect.SlideDown('OffStudyStatus')">
 	                </c:if><br/><br/>
