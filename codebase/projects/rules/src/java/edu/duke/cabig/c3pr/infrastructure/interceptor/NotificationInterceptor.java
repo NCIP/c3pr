@@ -314,18 +314,21 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		}
 		
 		//figure out the event and then fire the rules
-		if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING) ||
-				(previousCoordinatingCenterStudyStatus != null && previousCoordinatingCenterStudyStatus.equals(currentCoordinatingCenterStudyStatus))){
-			//do nothing if the final status is pending coz this isnt open study nor is it study status change.
-			//also do nothing is there is no status change.
+		//removed......currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING) ||
+		if(currentCoordinatingCenterStudyStatus != null && currentCoordinatingCenterStudyStatus.equals(previousCoordinatingCenterStudyStatus)){
+			log.debug("There is no change in the study's status");
+			//do nothing if the final status is same as the previous status.
 		} else {
-			//if the prev status is null or pending and current status is active then its a new study
+			//if the prev status is ready to open and current status is active then its a new study
 			//else its a study status change.
-			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.OPEN) &&
-				(previousCoordinatingCenterStudyStatus == null || previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING)) ){
+			//removed ....(previousCoordinatingCenterStudyStatus == null || previousCoordinatingCenterStudyStatus == PENDING)
+			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.OPEN) &&   
+				previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.READY_TO_OPEN) ){ 
 				event = NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT;
+				log.debug("Creating a new study event in the interceptor");
 			} else {
 				event = NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT;
+				log.debug("Creating a study status changed event in the interceptor");
 			}
 			List <HealthcareSite> hcsList = getSites(entity);
 			for(PlannedNotification pn: getPlannedNotifications(hcsList)){
