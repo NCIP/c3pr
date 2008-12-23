@@ -78,6 +78,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectRepositoryImpl.setStudySubjectDao(studySubjectDao);
         studySubjectRepositoryImpl.setStudySubjectFactory(studySubjectFactory);
         studySubjectRepositoryImpl.setParticipantDao(participantDao);
+        studySubjectRepositoryImpl.setStudySubjectService(studySubjectService);
+        studySubjectRepositoryImpl.setNotificationEmailer(notificationEmailer);
         studySubjectRepository=studySubjectRepositoryImpl;
         studySubject=new StudySubject();
         studySubjectCreatorHelper=new StudySubjectCreatorHelper();
@@ -1044,5 +1046,14 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 
 	public void setStudySubjectService(StudySubjectService studySubjectService) {
 		this.studySubjectService = studySubjectService;
+	}
+
+	public StudyTargetAccrualNotificationEmail getNotificationEmailer() {
+		return notificationEmailer;
+	}
+
+	public void setNotificationEmailer(
+			StudyTargetAccrualNotificationEmail notificationEmailer) {
+		this.notificationEmailer = notificationEmailer;
 	}
 }
