@@ -3,9 +3,7 @@ package edu.duke.cabig.c3pr.web.registration;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,7 +27,6 @@ import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.Companion;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -48,13 +45,11 @@ import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
@@ -178,10 +173,14 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     }
 
     @Override
-    protected C save(C command, Errors arg1) {
+    protected C save(C command, Errors errors) {
     	StudySubject merged =null;
     	if(getPrimaryDomainObject(command).getId()==null)
-    		merged=studySubjectRepository.create(getPrimaryDomainObject(command));
+    		try{
+    			merged=studySubjectRepository.create(getPrimaryDomainObject(command));
+    		} catch(C3PRCodedRuntimeException ex){
+    			errors.reject("tempVariable",ex.getCodedExceptionMesssage());
+    		}
     	else
     		merged = (StudySubject) getDao().merge(getPrimaryDomainObject(command));
         studyDao.initialize(merged.getStudySite().getStudy());
@@ -235,7 +234,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         if (studySubject.getScheduledEpoch() != null) {
             studySubject.updateDataEntryStatus();
         }
-        super.postProcessPage(request, command, errors, page);
+        super.postProcessPage(request, wrapper, errors, page);
     }
     
     @Override

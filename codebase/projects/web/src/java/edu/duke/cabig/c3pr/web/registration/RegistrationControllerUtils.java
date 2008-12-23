@@ -92,7 +92,7 @@ public class RegistrationControllerUtils {
 		}
 		if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
 			count--;
-		} else if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.APPROVED) {
+		} else if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) {
 			reg_nonenrolled = true;
 			epoch_nonenrolled = true;
 		}
@@ -101,7 +101,7 @@ public class RegistrationControllerUtils {
 		if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getRequiresRandomization()
-				&& studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED) {
+				&& studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
 			reg_unrandomized = true;
 			epoch_unrandomized = true;
 		}
@@ -117,17 +117,14 @@ public class RegistrationControllerUtils {
 			break;
 		}
 		switch (studySubject.getScheduledEpoch().getScEpochWorkflowStatus()) {
-		case UNAPPROVED:
+		case PENDING:
 			epoch_unapproved = true;
 			break;
-		case APPROVED:
-			epoch_approved = true;
-			break;
-		case PENDING:
-			epoch_pending = true;
-			break;
-		case DISAPPROVED:
+		case REGISTERED_BUT_NOT_RANDOMIZED:
 			epoch_disapproved = true;
+			break;
+		case REGISTERED:
+			epoch_approved = true;
 			break;
 		}
 		map.put("reg_unregistered", reg_unregistered);
@@ -216,7 +213,7 @@ public class RegistrationControllerUtils {
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(studySubject.evaluateScheduledEpochDataEntryStatus());
 		if(studySubject.getParentStudySubject()!=null && studySubject.isDataEntryComplete()){
         	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
-        	studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        	studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 		}
 	}
 	

@@ -43,7 +43,6 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
 
     @Override
     protected void intializeFlows(Flow flow) {
-        flow.addTab(new EnrollmentDetailsTab());
         flow.addTab(new EligibilityCriteriaTab());
         flow.addTab(new StratificationTab());
         flow.addTab(new AssignArmTab());
@@ -80,7 +79,7 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if(wrapper.getShouldTransfer())
+        if(wrapper.getShouldTransfer() && !wrapper.getShouldRandomize())
         	studySubject = studySubjectRepository.transferSubject(studySubject.getIdentifiers());
         else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
         	studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());

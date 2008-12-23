@@ -76,7 +76,15 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
     		wrapper.setStudySubject(studySubject);
     	}
-    	super.postProcessPage(request, command, errors, page);
+        StudySubject studySubject = wrapper.getStudySubject();
+        if(wrapper.getShouldReserve()){
+        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        }if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
+        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
+        	studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+        }
+    	super.postProcessPage(request, wrapper, errors, page);
     }
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {

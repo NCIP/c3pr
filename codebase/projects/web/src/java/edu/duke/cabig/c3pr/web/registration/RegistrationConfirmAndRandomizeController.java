@@ -85,7 +85,7 @@ public class RegistrationConfirmAndRandomizeController extends
 		Map map = registrationControllerUtils.buildMap(studySubject);
 		boolean actionRequired = false;
 		String actionLabel = "";
-		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING
 				&& studySubject.isDataEntryComplete()) {
 			actionRequired = true;
 			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
