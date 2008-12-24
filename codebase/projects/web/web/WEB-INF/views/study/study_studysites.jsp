@@ -44,7 +44,7 @@ function deleteCompanionStudySiteAssociation(studySiteId, parentIndex){
 <input type="hidden" id="studyId" name="studyId"/>
 <input type="hidden" name="_target${tab.number}" id="_target"/>
 <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
-<input type="hidden" name="_doNotSave" value="true" id="_doNotSave"/>"
+<input type="hidden" name="_doNotSave" value="true" id="_doNotSave"/>
 </form:form>
 <tags:panelBox>
 <form:form>
