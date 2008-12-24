@@ -412,13 +412,13 @@
     </bean>
     
     <bean id="endPointFactory" class="edu.duke.cabig.c3pr.domain.factory.EndPointFactory">
-    	<property name="delegatedCredentialProvider">
+    	<!--<property name="delegatedCredentialProvider">
     		<bean class="edu.duke.cabig.c3pr.infrastructure.MultisiteDelegatedCredentialProvider">
     			<property name="idpUrl"><value>${idp.url}</value></property>
     			<property name="ifsUrl"><value>${ifs.url}</value></property>
     		</bean>
-    	</property>
-    	<!-- <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider" />-->
+    	</property>-->
+    	 <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider" />
     </bean>
     
     <bean id="multisiteDelegatedCredentialProvider" class="edu.duke.cabig.c3pr.infrastructure.MultisiteDelegatedCredentialProvider">
