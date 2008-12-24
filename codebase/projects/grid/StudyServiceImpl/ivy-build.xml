@@ -69,6 +69,8 @@
         		<exclude name="wsdl*" />
         		<exclude name="xercesImpl*" />
         		<exclude name="xalan*" />
+        		<exclude name="StudyService-*" />
+        		<exclude name="RegistrationService-*" />
 		    </fileset>
 		</copy>
 
