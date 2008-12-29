@@ -478,7 +478,15 @@
                 </c:choose>
             	<c:if test="${empty flowType}">
 	                <csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
-	                    <input type="button" value="Edit Study" onclick="document.location='../study/editStudy?studyId=${command.study.id}'"/>
+	                	<c:choose>
+		                    <c:when test="${command.study.companionIndicator=='true'}">
+		                        <input type="button" value="Edit Study" onclick="document.location='../study/editCompanionStudy?studyId=${command.study.id}'"/>
+		                    </c:when>
+		                    <c:otherwise>
+		                        <input type="button" value="Edit Study" onclick="document.location='../study/editStudy?studyId=${command.study.id}'"/>
+		                    </c:otherwise>
+		                </c:choose>
+	                    
 	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv" 
 	                    	<c:if test="${command.study.coordinatingCenterStudyStatus != 'OPEN' && command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
 	                                                            onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'"/>
