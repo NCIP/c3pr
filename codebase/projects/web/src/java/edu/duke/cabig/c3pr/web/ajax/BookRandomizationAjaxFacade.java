@@ -387,7 +387,7 @@ public class BookRandomizationAjaxFacade {
                 }
             }
         }
-        log.debug("Invalid Stratum Group Number Entered.");
+        //log.debug("Invalid Stratum Group Number Entered.");
         return selectedStratumGroup;
     }
 
