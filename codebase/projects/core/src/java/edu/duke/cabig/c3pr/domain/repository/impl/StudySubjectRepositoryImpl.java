@@ -271,12 +271,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
 		this.continueEnrollment(studySubject);
-		StudySubject studySubjectAfterSave = save(studySubject);
+		studySubjectDao.save(studySubject);
 		
-		sendStudyAccrualNotification(studySubjectAfterSave);
-		broadcastMessage(studySubjectAfterSave);
+		sendStudyAccrualNotification(studySubject);
+		broadcastMessage(studySubject);
         
-		return studySubjectAfterSave;
+		return studySubject;
 	}
 	
 	//Send out the CCTS broadcast Message
@@ -314,12 +314,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
 		this.continueEnrollment(studySubject);
-		StudySubject studySubjectAfterSave = save(studySubject);
+		 studySubjectDao.save(studySubject);
 		
-		sendStudyAccrualNotification(studySubjectAfterSave);
-		broadcastMessage(studySubjectAfterSave);
+		sendStudyAccrualNotification(studySubject);
+		broadcastMessage(studySubject);
         
-		return studySubjectAfterSave;
+		return studySubject;
 	}
 	
 	public void continueEnrollment(StudySubject studySubject) {
