@@ -137,7 +137,7 @@ top:90px;
 						<c:choose>
 						<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
 							<c:set var="reg_url"
-							value="../pages/registration/createRegistration" />
+							value="../pages/registration/editRegistration" />
 						</c:when>
 						<c:when test="${registration.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED_BUT_NOT_RANDOMIZED'}">
 							<c:set var="reg_url"
