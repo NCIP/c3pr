@@ -60,7 +60,7 @@ public class NotificationEmailService implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
     
-    private Boolean linkBack = Boolean.FALSE;
+    private String linkBack = null;
     
     public static final String STUDY_INVESTIGATOR = "SI";
     
@@ -112,7 +112,7 @@ public class NotificationEmailService implements ApplicationContextAware {
 
             MimeMessage message = new MimeMessage(mailSession);
             
-            if(linkBack.equals(Boolean.TRUE)){
+            if(linkBack.equalsIgnoreCase("true")){
             	message.setSubject(LINK_BACK_SUBJECT);
                 message.setFrom(new InternetAddress("c3prproject@gmail.com"));
                 
@@ -175,7 +175,7 @@ public class NotificationEmailService implements ApplicationContextAware {
         
         for (String emailAddress : emailList) {
         SimpleMailMessage msg = new SimpleMailMessage(this.accountCreatedTemplateMessage);
-	        if(linkBack.equals(Boolean.TRUE)){
+	        if(linkBack.equalsIgnoreCase("true")){
 	        	msg.setSubject(LINK_BACK_SUBJECT);
                 msg.setTo(emailAddress);
                 msg.setText(LINK_BACK_TEXT);
@@ -419,6 +419,22 @@ public class NotificationEmailService implements ApplicationContextAware {
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
+
+
+
+
+	public String getLinkBack() {
+		return linkBack;
+	}
+
+
+
+
+	public void setLinkBack(String linkBack) {
+		this.linkBack = linkBack;
+	}
+
+
 
 
 }
