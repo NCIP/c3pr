@@ -75,6 +75,9 @@
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
 <chrome:box title="Study Summary">
+<c:if test="${not empty studyMessage}">
+<font color='<fmt:message key="${ studyMessage}.COLOR"/>'><strong><fmt:message key="${studyMessage}"/></strong></font>
+</c:if>
 <div>
     <input type="hidden" name="_finish" value="true"/> <input
         type="hidden" name="_action" value=""></div>

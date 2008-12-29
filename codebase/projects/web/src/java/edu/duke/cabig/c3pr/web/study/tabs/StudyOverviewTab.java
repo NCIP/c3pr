@@ -52,10 +52,13 @@ public class StudyOverviewTab extends StudyTab {
         if(WebUtils.hasSubmitParameter(request, "statusChange")){
             if(request.getParameter("statusChange").equals("readyToOpen")){
                 study = studyRepository.createStudy(study.getIdentifiers());
+                request.setAttribute("studyMessage", "STUDY.CREATED_SUCCESSFULLY");
             }else if(request.getParameter("statusChange").equals("open")){
             	study = studyRepository.openStudy(study.getIdentifiers());
+            	request.setAttribute("studyMessage", "STUDY.OPENED_SUCCESSFULLY");
             }else if(request.getParameter("statusChange").equals("close")){
                 study = studyRepository.closeStudy(study.getIdentifiers());
+                request.setAttribute("studyMessage", "STUDY.CLOSED_SUCCESSFULLY");
             }
             wrapper.setStudy(study);
         }
