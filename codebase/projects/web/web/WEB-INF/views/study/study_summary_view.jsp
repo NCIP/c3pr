@@ -503,7 +503,7 @@
 <div id="errorsDiv" style="display:none">
 	<div class="value" align="left">
 		<font size="2" face="Verdana" color="red">
-			Cannot Create Study. Please review the data.
+			Cannot Open Study. Please review the data.
 		</font>
 	</div>
 	
