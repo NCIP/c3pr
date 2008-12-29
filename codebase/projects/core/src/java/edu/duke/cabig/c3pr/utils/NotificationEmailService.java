@@ -60,20 +60,20 @@ public class NotificationEmailService implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
     
-    private String linkBack = null;
+    private Boolean linkBack = Boolean.FALSE;
     
     public static final String STUDY_INVESTIGATOR = "SI";
     
     public static final String LINK_BACK_SUBJECT = "Notification from C3PR";
     
     public static final String LINK_BACK_TEXT = "To view this message click on https://localhost:8443/c3pr/pages/admin/viewInbox   You may be asked to login.";
+   
     /**
      * This method is reponsible for figuring out the email address from notifications and sending
      * out the notification email using Javamail.
      * This is only used for REPORT BASED EMAILS
      * 
-     * @param study*/
-    
+     */
     public void sendReportEmail(RecipientScheduledNotification recipientScheduledNotification) throws MessagingException {
     	log.debug(this.getClass().getName() + ": Entering sendReportEmail()");
     	List<String> emailList = null;
@@ -112,7 +112,7 @@ public class NotificationEmailService implements ApplicationContextAware {
 
             MimeMessage message = new MimeMessage(mailSession);
             
-            if(linkBack.equalsIgnoreCase("true")){
+            if(linkBack.equals(Boolean.TRUE)){
             	message.setSubject(LINK_BACK_SUBJECT);
                 message.setFrom(new InternetAddress("c3prproject@gmail.com"));
                 
@@ -175,7 +175,7 @@ public class NotificationEmailService implements ApplicationContextAware {
         
         for (String emailAddress : emailList) {
         SimpleMailMessage msg = new SimpleMailMessage(this.accountCreatedTemplateMessage);
-	        if(linkBack.equalsIgnoreCase("true")){
+	        if(linkBack.equals(Boolean.TRUE)){
 	        	msg.setSubject(LINK_BACK_SUBJECT);
                 msg.setTo(emailAddress);
                 msg.setText(LINK_BACK_TEXT);
@@ -412,32 +412,13 @@ public class NotificationEmailService implements ApplicationContextAware {
 		this.configuration = configuration;
 	}
 
-
-
-
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
-
-
-
 
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
 
-
-
-
-	public String getLinkBack() {
-		return linkBack;
-	}
-
-
-
-
-	public void setLinkBack(String linkBack) {
-		this.linkBack = linkBack;
-	}
 
 }
