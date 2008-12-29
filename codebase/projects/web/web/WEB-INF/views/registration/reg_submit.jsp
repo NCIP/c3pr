@@ -8,6 +8,7 @@
 </style>
 <style type="text/css">
         .label { text-align: left; padding: 4px; font-weight: bold;}
+		.instructions .summaryvalue {width:85%;}
 </style>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -20,9 +21,9 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </script>
 </head>
 <body>
-<tags:instructions code="reg_submit" />
 <tags:formPanelBox tab="${tab}" flow="${flow}" continueLabel="${empty command.shouldReserve? 'Save':command.shouldReserve?'Reserve':command.shouldRegister?'Register':command.shouldRandomize?'Register':command.shouldTransfer?'Transfer':'Enroll'}">
 	<input type="hidden" name="_finish" value="true"/>
+	<tags:instructions code="reg_submit" />
 	<chrome:division id="Subject Information" title="Subject">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
