@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.IdentifierGenerator;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -773,5 +774,24 @@ public class StudySubjectDaoTest extends DaoTestCase {
         scheduledEpoch.setEpoch(epochDao.getById(1005));
         List<StudySubject> list = studySubjectDao.searchByScheduledEpoch(scheduledEpoch);
         assertEquals("Wrong number of study subjects", 1, list.size());
+    }
+    
+    public void testSaveStudySubjectWithOrganizationAssignedIdentifier() throws Exception {
+       StudySubject studySubject = studySubjectDao.getById(1000);
+       OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+       orgIdentifier.setHealthcareSite(studySubject.getStudySite().getHealthcareSite());
+       orgIdentifier.setType("Coordinating Center Identifier");
+       orgIdentifier.setValue("CoordinatingCenterIdValue");
+       Study study = studySubject.getStudySite().getStudy();
+       study.addIdentifier(orgIdentifier);
+       studyDao.save(study);
+       
+       int numberOfIdentifiers = studySubject.getIdentifiers().size();
+       
+       studySubject.addIdentifier(IdentifierGenerator
+					.generateOrganizationAssignedIdentifier(studySubject));
+       studySubjectDao.save(studySubject);
+       StudySubject updatedStudySubject = studySubjectDao.getById(1000);
+       assertEquals("Wrong number of study subject identifiers retrieved", numberOfIdentifiers+1, updatedStudySubject.getIdentifiers().size());
     }
 }
