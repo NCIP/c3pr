@@ -54,7 +54,11 @@
         function changeStudyStatus(status) {
 
         	if (${fn:length(errors)} > 0){
-        		var d = $('errorsDiv');
+                if(status=='open'){
+        			var d = $('errorsOpenDiv');
+                }else  if(status=='readyToOpen'){
+                	var d = $('errorsReadyToOpenDiv');
+                }
         		Dialog.alert(d.innerHTML, 
         		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
         	} else {
@@ -511,10 +515,28 @@
 </c:if>
 </chrome:box>
 
-<div id="errorsDiv" style="display:none">
+<div id="errorsOpenDiv" style="display:none">
 	<div class="value" align="left">
 		<font size="2" face="Verdana" color="red">
 			Cannot Open Study. Please review the data.
+		</font>
+	</div>
+	
+	<br>
+	
+	<c:forEach items="${errors}" var="error" >
+		<div class="value" align="left">
+			<font size="1" face="Verdana" color="black">
+				${error.errorMessage}
+			</font>
+		</div>
+	</c:forEach>
+</div>
+
+<div id="errorsReadyToOpenDiv" style="display:none">
+	<div class="value" align="left">
+		<font size="2" face="Verdana" color="red">
+			Cannot Create Study. Please review the data.
 		</font>
 	</div>
 	
