@@ -40,9 +40,9 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubjectWrapper>
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors error) {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
     	StudySubject studySubject = wrapper.getStudySubject();
-        if (studySubject.getScheduledEpoch()!=null) {
-            (studySubject.getScheduledEpoch()).setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(command.getStudySubject()));
-        }
+//        if (studySubject.getScheduledEpoch()!=null) {
+//            (studySubject.getScheduledEpoch()).setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(command.getStudySubject()));
+//        }
         
         // The following code for building scheduled epoch after moving subject to a new epoch.
         if(WebUtils.hasSubmitParameter(request, "epoch")){
