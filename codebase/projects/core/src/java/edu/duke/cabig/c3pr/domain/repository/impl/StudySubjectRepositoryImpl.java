@@ -115,10 +115,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         ScheduledArm sa = new ScheduledArm();
         ScheduledEpoch ste = studySubject.getScheduledEpoch();
         if (ste.getEpoch().getStratificationIndicator()){
-	        	sa.setArm(studySubject.getStratumGroup().getNextArm());
+	        	sa.setArm(studySubject.getScheduledEpoch().getStratumGroup().getNextArm());
 	        if (sa.getArm() != null) {
 	            ste.addScheduledArm(sa);
-	            stratumGroupDao.merge(studySubject.getStratumGroup());
+	            stratumGroupDao.merge(studySubject.getScheduledEpoch().getStratumGroup());
 	        }
         } else {
         	sa.setArm(getNextArmForUnstratifiedStudy(studySubject));
