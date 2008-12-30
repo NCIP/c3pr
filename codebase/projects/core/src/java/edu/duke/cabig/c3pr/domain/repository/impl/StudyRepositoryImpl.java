@@ -231,7 +231,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
                 studySite=studySiteDao.merge(studySite);
             }else{
-                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
+                throw c3PRExceptionHelper.getMultisiteException(endpoint.getLastAttemptError());
             }
         }else{
             studySite=studySiteDao.merge(studySite);
@@ -255,7 +255,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
                 studySite=studySiteDao.merge(studySite);
             }else{
-                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
+                throw c3PRExceptionHelper.getMultisiteException(endpoint.getLastAttemptError());
             }
         }else{
             studySite=studySiteDao.merge(studySite);
@@ -279,7 +279,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
                 studySite=studySiteDao.merge(studySite);
             }else{
-                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
+                throw c3PRExceptionHelper.getMultisiteException(endpoint.getLastAttemptError());
             }
         }else{
             studySite=studySiteDao.merge(studySite);
@@ -303,7 +303,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
                 studySite=studySiteDao.merge(studySite);
             }else{
-                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
+                throw c3PRExceptionHelper.getMultisiteException(endpoint.getLastAttemptError());
             }
         }else{
             studySite=studySiteDao.merge(studySite);
@@ -401,7 +401,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             domainObjects.add(studySite.getHealthcareSite());
             EndPoint endpoint=handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION, domainObjects);
             if(endpoint.getStatus()!=WorkFlowStatusType.MESSAGE_SEND_CONFIRMED)
-                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
+                throw c3PRExceptionHelper.getMultisiteException(endpoint.getLastAttemptError());
         }
         return studySiteDao.merge(studySite);
     }
@@ -431,7 +431,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             EndPoint endpoint=handleCoordinatingCenterBroadcast(study, APIName.ACTIVATE_STUDY_SITE,
                             domainObjects);
             if(endpoint.getStatus()!=WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
-                throw c3PRExceptionHelper.getRuntimeException(endpoint.getLastAttemptError());
+                throw c3PRExceptionHelper.getMultisiteException(endpoint.getLastAttemptError());
             }
         }
         studySite=studySiteDao.merge(studySite);

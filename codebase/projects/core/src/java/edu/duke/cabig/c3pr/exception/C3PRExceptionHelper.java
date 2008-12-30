@@ -79,9 +79,14 @@ public class C3PRExceptionHelper {
                         throwable);
     }
     
-    public C3PRCodedRuntimeException getRuntimeException(Error error) {
+//    public C3PRCodedRuntimeException getRuntimeException(Error error) {
+//        int code=Integer.parseInt(error.getErrorCode());
+//        return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, null, null)+error.getErrorMessage());
+//    }
+    
+    public C3PRCodedRuntimeException getMultisiteException(Error error) {
         int code=Integer.parseInt(error.getErrorCode());
-        return new C3PRCodedRuntimeException(code, getExceptionMessageFromCode(code, null, null)+error.getErrorMessage());
+        return new MultisiteException(code, getExceptionMessageFromCode(code, null, null)+error.getErrorMessage());
     }
 
     private String getExceptionMessageFromCode(int code, Object[] params, Locale locale) {

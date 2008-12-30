@@ -332,7 +332,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             domainObjects.add(studySubject);
             EndPoint endPoint=handleCoordinatingCenterBroadcast(studySubject.getStudySite().getStudy(), APIName.ENROLL_SUBJECT, domainObjects);
             if(endPoint.getStatus()!=WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
-                throw this.exceptionHelper.getRuntimeException(endPoint.getLastAttemptError());
+                throw this.exceptionHelper.getMultisiteException(endPoint.getLastAttemptError());
             }
             StudySubject multisiteReturnedStudySubject=(StudySubject)((List) endPoint.getReturnValue()).get(0);
 			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
