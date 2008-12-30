@@ -23,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.IdentifierGenerator;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -36,6 +37,7 @@ import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
@@ -271,6 +273,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
 		this.continueEnrollment(studySubject);
+		this.saveStratumGroup(studySubject);
 		studySubjectDao.save(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
@@ -314,7 +317,9 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
 		this.continueEnrollment(studySubject);
-		 studySubjectDao.save(studySubject);
+		
+		this.saveStratumGroup(studySubject);
+		studySubjectDao.save(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
 		broadcastMessage(studySubject);
@@ -378,7 +383,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		}else{
 			studySubject.doLocalTransfer();
 		}
-		
+		this.saveStratumGroup(studySubject);
 		return save(studySubject);
 	}
 	
@@ -445,6 +450,27 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public void setNotificationEmailer(
 			StudyTargetAccrualNotificationEmail notificationEmailer) {
 		this.notificationEmailer = notificationEmailer;
+	}
+	
+	public void saveStratumGroup(StudySubject studySubject){
+		if(studySubject.getScheduledEpoch().getEpoch().getRandomizedIndicator() && studySubject.getStudySite().getStudy().getRandomizationType()==RandomizationType.BOOK){
+			try {
+				stratumGroupDao.merge(studySubject.getScheduledEpoch().getStratumGroup());
+			} catch (C3PRBaseException e) {
+				e.printStackTrace();
+				throw new C3PRBaseRuntimeException(e.getMessage());
+			}
+		} 
+		for(StudySubject childStudySubject: studySubject.getChildStudySubjects()){
+			if(childStudySubject.getScheduledEpoch().getEpoch().getRandomizedIndicator() && childStudySubject.getStudySite().getStudy().getRandomizationType()==RandomizationType.BOOK){
+				try {
+					stratumGroupDao.merge(childStudySubject.getScheduledEpoch().getStratumGroup());
+				} catch (C3PRBaseException e) {
+					e.printStackTrace();
+					throw new C3PRBaseRuntimeException(e.getMessage());
+				}
+			}
+		}
 	}
 
 }
