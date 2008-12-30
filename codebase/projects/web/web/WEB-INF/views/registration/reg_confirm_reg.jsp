@@ -55,7 +55,7 @@ function manageCompanions(){
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 
 <br/>
-<!-- 	 newRegistration: ${newRegistration}<br>
+ <!--   newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
 	reg_pending:${reg_pending }<br>
@@ -75,7 +75,7 @@ function manageCompanions(){
 	actionRequired :${actionRequired}
 	actionLabel:${actionLabel}
 	registerableWithCompanions :${registerableWithCompanions}
-	requiresMultiSite:${requiresMultiSite}   -->
+	requiresMultiSite:${requiresMultiSite} -->	
 	<c:choose>
 	<c:when test="${fn:length(command.studySubject.studySite.registrationEndpoints)>0 && command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status=='MESSAGE_SEND_FAILED'} ">
 		<font color='<fmt:message key="REGISTRATION.MULTISITE.ERROR.COlOR"/>'><strong><fmt:message key="REGISTRATION.MULTISITE.ERROR"/> Please <a href="javascript:showEndpointError();">click</a> here to see the detail error message.</strong></font>
@@ -104,7 +104,7 @@ function manageCompanions(){
 		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font>
 		</c:when>
-		<c:when test="${reg_registered && hasCompanions}">
+		<c:when test="${reg_registered && hasCompanions && has_child_registrations}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
 		<c:when test="${reg_registered}">
