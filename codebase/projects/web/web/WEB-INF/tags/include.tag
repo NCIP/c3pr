@@ -10,6 +10,6 @@
 <jwr:style src="/css/commonui.zcss" />
 
 <!--[if IE]>
-<%--<jwr:style src="/csslib/ie.zcss" />--%>
+<jwr:style src="/csslib/ie.zcss" />
 <![endif]-->
 
