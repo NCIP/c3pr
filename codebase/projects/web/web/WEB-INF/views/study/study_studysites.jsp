@@ -126,8 +126,6 @@ Event.observe(window, "load", function() {
                       				 value='<c:out value="${_nameSite} ${_codeSite}" />'/>
 								<input type="hidden" id="healthcareSite-hidden"
                         			name="study.studySites[0].healthcareSite" value="${fn:length(command.study.studySites)>0?command.study.studySites[0].healthcareSite.id:""}" />
-                				<input type="button" id="healthcareSite-clear"
-                       				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite-indicator"/>
                   			<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
 							<input type="hidden" name="study.studySites[0].roleCode" value="Affiliate Site"/>
@@ -267,8 +265,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input"
                        				size="40"
                       				 value="${command.study.studySites[status.index].healthcareSite.name} (${command.study.studySites[status.index].healthcareSite.nciInstituteCode})"/>
-                				<input type="button" id="healthcareSite${status.index}-clear"
-                       				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite${status.index}-indicator"/>
                   			<div id="healthcareSite${status.index}-choices" class="autocomplete" style="display: none;"></div>
            			 </td>
@@ -397,8 +393,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input"
                        size="40"
                        value="${command.study.studySites[PAGE.ROW.INDEX].healthcareSite.name}"/>
-                <input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
-                        value="Clear"/>
                    <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
                   <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete" style="display: none;"></div>
             </td>
