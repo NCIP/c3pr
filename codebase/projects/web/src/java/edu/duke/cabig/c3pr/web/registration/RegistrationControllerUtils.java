@@ -70,6 +70,7 @@ public class RegistrationControllerUtils {
 		boolean epoch_unrandomized = false;
 		boolean epoch_disapproved = false;
 		boolean newRegistration = true;
+		boolean has_mandatory_companions = false;
 		
 		String armAssigned = "";
 		String armAssignedLabel = "";
@@ -148,6 +149,8 @@ public class RegistrationControllerUtils {
 		map.put("hasCompanions", studySubject.getStudySite().getStudy().getCompanionStudyAssociations().size()>0);
 		map.put("registerableWithCompanions", registerableAsorWithCompanion(studySubject));
 		map.put("isDataEntryComplete", studySubject.isDataEntryComplete());
+		map.put("has_mandatory_companions", studySubject.hasMandatoryCompanions());
+		map.put("has_child_registrations", studySubject.getChildStudySubjects()==null?false:studySubject.getChildStudySubjects().size()>0?true:false);
 		return map;
 	}
 
