@@ -17,7 +17,7 @@ public class StratumGroupFieldHandler implements FieldHandler {
     public Object getValue(Object object) throws IllegalStateException {
         StudySubject registration = (StudySubject) object;
         try {
-            return registration.getStratumGroup().toString();
+            return registration.getScheduledEpoch().getStratumGroup().toString();
         }
         catch (Exception e) {
             log.warn(e);
