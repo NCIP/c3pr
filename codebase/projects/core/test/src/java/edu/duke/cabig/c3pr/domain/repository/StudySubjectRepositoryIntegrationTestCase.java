@@ -182,11 +182,10 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
         try {
             studySubjectRepository.enroll(studySubject);
+            fail("Should have thrown an exception for missing stratum group");
         }
         catch (Exception e){
-            e.printStackTrace();
-            assertTrue("Wrong Exception", e instanceof C3PRCodedException);
-            assertEquals("Wrong exception mesage", 202, ((C3PRCodedException)e).getExceptionCode());
+            assertTrue("Wrong exception mesage", e.getMessage().contains("No stratum group found. Maybe the answer combination does not have a valid startum group"));
             return;
         }
         assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());

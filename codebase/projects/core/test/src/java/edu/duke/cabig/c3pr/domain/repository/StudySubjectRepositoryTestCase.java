@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
@@ -949,6 +950,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        EasyMock.expect(stratumGroupDao.merge(studySubject.getScheduledEpoch().getStratumGroup())).andReturn(new StratumGroup());
 	        studySubjectDao.save(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
@@ -970,6 +972,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setId(1);
 	        EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.REGISTRATION.NOT_FOUND_GIVEN_IDENTIFIERS.CODE",null,null)).andReturn("1");
 	        EasyMock.expect(exceptionHelper.getRuntimeException(1)).andReturn(new C3PRCodedRuntimeException(1,"Cannot find a registration with the given identifier(s)"));
+	        EasyMock.expect(stratumGroupDao.merge(studySubject.getScheduledEpoch().getStratumGroup())).andReturn(new StratumGroup());
 	        studySubjectDao.save(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
@@ -997,6 +1000,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        EasyMock.expect(stratumGroupDao.merge(studySubject.getScheduledEpoch().getStratumGroup())).andReturn(new StratumGroup()).times(2);
 	        studySubjectDao.save(studySubject);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
@@ -1027,6 +1031,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        EasyMock.expect(stratumGroupDao.merge(studySubject.getScheduledEpoch().getStratumGroup())).andReturn(new StratumGroup());
 	        studySubjectDao.save(studySubject);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
