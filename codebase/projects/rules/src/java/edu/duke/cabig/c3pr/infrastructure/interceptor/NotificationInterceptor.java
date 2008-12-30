@@ -324,9 +324,10 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//if the prev status is ready to open and current status is active then its a new study
 			//else its a study status change.
 			//removed ....(previousCoordinatingCenterStudyStatus == null || previousCoordinatingCenterStudyStatus == PENDING)
-			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.OPEN) &&   
-				previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.READY_TO_OPEN) ||
-				previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING) ){ 
+			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.OPEN) &&  
+			   ( previousCoordinatingCenterStudyStatus == null ||
+				 previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.READY_TO_OPEN) ||
+				 previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING) )){ 
 				event = NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT;
 				log.debug("Creating a new study event in the interceptor");
 			} else {
