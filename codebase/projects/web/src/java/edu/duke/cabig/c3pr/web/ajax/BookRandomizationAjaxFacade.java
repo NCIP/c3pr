@@ -32,6 +32,7 @@ import edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController;
 import edu.duke.cabig.c3pr.web.study.CreateStudyController;
 import edu.duke.cabig.c3pr.web.study.EditCompanionStudyController;
 import edu.duke.cabig.c3pr.web.study.EditStudyController;
+import edu.duke.cabig.c3pr.web.study.StudyController;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 public class BookRandomizationAjaxFacade {
@@ -140,42 +141,47 @@ public class BookRandomizationAjaxFacade {
     
     private StudyWrapper getCommandOnly(String flowType, HttpServletRequest req){
     	StudyWrapper wrapper = null;
-    	if (flowType.equals("CREATE_STUDY")) {
-    		wrapper = (StudyWrapper) req.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM.command");
-    		if (wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())) {
-    			wrapper = (StudyWrapper) req.getSession().getAttribute(CreateCompanionStudyController.class.getName() + ".FORM.command");
-    		}
-    	} else if (flowType.equals("AMEND_STUDY")) {
-            wrapper = (StudyWrapper) req.getSession().getAttribute(AmendStudyController.class.getName() + ".FORM.command");
-            if(wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())){
-            	wrapper = (StudyWrapper) req.getSession().getAttribute(AmendCompanionStudyController.class.getName() + ".FORM.command");
-            }
-        } else {
-            wrapper = (StudyWrapper) req.getSession().getAttribute(EditStudyController.class.getName() + ".FORM.command");
-            if(wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())){
-            	wrapper = (StudyWrapper) req.getSession().getAttribute(EditCompanionStudyController.class.getName() + ".FORM.command");
-            }
+    	if (flowType.equals(StudyController.CREATE_STUDY)) {
+    		return (StudyWrapper) req.getSession().getAttribute(CreateStudyController.class.getName() + ".FORM.command");
+    	}
+    	if (flowType.equals(StudyController.CREATE_COMPANION_STUDY)) {
+    		return (StudyWrapper) req.getSession().getAttribute(CreateCompanionStudyController.class.getName() + ".FORM.command");
+		}
+    	if (flowType.equals(StudyController.AMEND_STUDY)) {
+    		return (StudyWrapper) req.getSession().getAttribute(AmendStudyController.class.getName() + ".FORM.command");
+        } 
+    	if(flowType.equals(StudyController.AMEND_COMPANION_STUDY)){
+    		return (StudyWrapper) req.getSession().getAttribute(AmendCompanionStudyController.class.getName() + ".FORM.command");
+        }
+    	if(flowType.equals(StudyController.EDIT_STUDY)){
+    		return (StudyWrapper) req.getSession().getAttribute(EditStudyController.class.getName() + ".FORM.command");
+        }
+    	if(flowType.equals(StudyController.EDIT_COMPANION_STUDY)){
+    		return (StudyWrapper) req.getSession().getAttribute(EditCompanionStudyController.class.getName() + ".FORM.command");
         }
     	return wrapper;
     }
     
+    
     private String getAction(String flowType, StudyWrapper wrapper){
     	String action ="";
-    	if (flowType.equals("CREATE_STUDY")) {
-            action = "/pages/study/createStudy";
-    		if (wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())) {
-    			action = "/pages/study/createCompanionStudy";
-    		}
-    	} else if (flowType.equals("AMEND_STUDY")) {
-            action = "/pages/study/amendStudy";
-            if(wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())){
-            	action = "/pages/study/amendCompanionStudy";
-            }
-        } else {
-            action = "/pages/study/editStudy";
-            if(wrapper == null || (wrapper != null && wrapper.getStudy().getCompanionIndicator())){
-            	action = "/pages/study/editCompanionStudy";
-            }
+    	if (flowType.equals(StudyController.CREATE_STUDY)) {
+    		return "/pages/study/createStudy";
+    	}
+    	if (flowType.equals(StudyController.CREATE_COMPANION_STUDY)) {
+    		return "/pages/study/createCompanionStudy";
+		}
+    	if (flowType.equals(StudyController.AMEND_STUDY)) {
+    		return "/pages/study/amendStudy";
+        } 
+    	if(flowType.equals(StudyController.AMEND_COMPANION_STUDY)){
+    		return "/pages/study/amendCompanionStudy";
+        }
+    	if(flowType.equals(StudyController.EDIT_STUDY)){
+    		return "/pages/study/editStudy";
+        }
+    	if(flowType.equals(StudyController.EDIT_COMPANION_STUDY)){
+    		return "/pages/study/editCompanionStudy";
         }
     	return action;
     }
