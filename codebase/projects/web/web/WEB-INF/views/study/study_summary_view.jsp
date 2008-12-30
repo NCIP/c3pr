@@ -125,11 +125,11 @@
             <c:if test="${coCenterStatus=='READY_TO_OPEN'}">
                 <c:set var="readyToOpen" value="Create"></c:set>
             </c:if>
-            <c:if test="${coCenterStatus=='OPEN'}">
-                <c:set var="open" value="Open Study"></c:set>
+            <c:if test="${coCenterStatus=='OPEN' && !(command.study.companionIndicator && !command.study.standaloneIndicator)}">
+                <c:set var="open" value="Open"></c:set>
             </c:if>
             <c:if test="${coCenterStatus=='CLOSED_TO_ACCRUAL'}">
-                <c:set var="closed" value="Close Study"></c:set>
+                <c:set var="closed" value="Close"></c:set>
                 <c:set var="commanSepOptVal"
                        value="[['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],
                    		['Closed To Accrual','Closed To Accrual']]">
@@ -500,7 +500,7 @@
 	                </csmauthz:accesscontrol>
                 </c:if> 
                 <c:if test="${not empty flowType}">
-                	<input type="button" value="Manage Study" onclick="document.location='../study/viewStudy?studyId=${command.study.id}'"/>
+                	<input type="button" value="Manage" onclick="document.location='../study/viewStudy?studyId=${command.study.id}'"/>
                 </c:if>
         </span>
         </div>
