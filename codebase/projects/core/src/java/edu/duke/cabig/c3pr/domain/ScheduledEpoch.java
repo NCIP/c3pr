@@ -77,7 +77,7 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 	        }
 	        if (stratumGroup == null) {
 	            throw new C3PRBaseException(
-	                            "No startum group found. Maybe the answer combination does not have a valid startum group");
+	                            "No stratum group found. Maybe the answer combination does not have a valid startum group");
 	        }
 	        return stratumGroup;
 	    }
