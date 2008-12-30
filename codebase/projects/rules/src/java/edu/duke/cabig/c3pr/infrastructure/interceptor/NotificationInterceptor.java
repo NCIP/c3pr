@@ -137,16 +137,18 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		
 		//Study status changes are spotted here for activating rules.
 		if(entity instanceof Study ){
-			if(String.valueOf(entity.hashCode()).equals(studyId)){
+			if(String.valueOf(((Study)entity).getVersion()).equals(studyId)){
 				//while saving the scheduled notifications, the interceptor is fired again
 				//to prevent an infinite loop..we check to see if the study obj involved is the same
 				//if so exit the interceptor immediately else continue processing
+				log.error("********  NotificationInterceptor.onFlushDirty(): same hashcode - ");
+				log.error(" entity.hashCode() ="+ entity.hashCode() + "studyId" +studyId);
 				log.debug("exiting to prevent looping");
 				return false;
 			}else{
-				studyId = String.valueOf(entity.hashCode());
+				studyId = String.valueOf(((Study)entity).getVersion());
 				for (int i = 0; i < propertyNames.length; i++) {
-					if (propertyNames[i].equals("coordinatingCenterStudyStatus") && previousState != null && currentState != null ){		
+					if (propertyNames[i].equals("coordinatingCenterStudyStatusInternal") && previousState != null && currentState != null ){		
 							handleStudyStatusChange(previousState[i], currentState[i], entity);
 					}
 				}
@@ -155,14 +157,14 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		
 		//StudySite status changes are spotted here for activating rules.
 		if(entity instanceof StudySite){
-			if(String.valueOf(entity.hashCode()).equals(studySiteId)){
+			if(String.valueOf(((StudySite)entity).getVersion()).equals(studySiteId)){
 				//while saving the scheduled notifications, the interceptor is fired again
 				//to prevent an infinite loop..we check to see if the studySite obj involved is the same
 				//if so exit the interceptor immediately else continue processing
 				log.debug("exiting to prevent looping");
 				return false;
 			}else{
-				studySiteId = String.valueOf(entity.hashCode());
+				studySiteId = String.valueOf(((StudySite)entity).getVersion());
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (propertyNames[i].equals("siteStudyStatus")){
 						if(previousState != null && currentState != null ){
@@ -175,14 +177,14 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		
 		//When Reg status changes to Reserved or Registered
 		if(entity instanceof StudySubject){	
-			if(String.valueOf(entity.hashCode()).equals(studySubjectId)){
+			if(String.valueOf(((StudySubject)entity).getVersion()).equals(studySubjectId)){
 				//while saving the scheduled notifications, the interceptor is fired again
 				//to prevent an infinite loop..we check to see if the studySite obj involved is the same
 				//if so exit the interceptor immediately else continue processing
 				log.debug("exiting to prevent looping");
 				return false;
 			}else{
-				studySubjectId = String.valueOf(entity.hashCode());
+				studySubjectId = String.valueOf(((StudySubject)entity).getVersion());
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (propertyNames[i].equals("regWorkflowStatus")){
 						if( currentState != null ){
@@ -323,7 +325,8 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			//else its a study status change.
 			//removed ....(previousCoordinatingCenterStudyStatus == null || previousCoordinatingCenterStudyStatus == PENDING)
 			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.OPEN) &&   
-				previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.READY_TO_OPEN) ){ 
+				previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.READY_TO_OPEN) ||
+				previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.PENDING) ){ 
 				event = NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT;
 				log.debug("Creating a new study event in the interceptor");
 			} else {
