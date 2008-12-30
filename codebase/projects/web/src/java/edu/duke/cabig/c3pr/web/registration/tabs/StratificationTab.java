@@ -49,6 +49,7 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
                 // ensuring an answer has been selected for every qs before calling getGroups.
                 for (SubjectStratificationAnswer ssa : ste.getSubjectStratificationAnswers()) {
                     if (ssa.getStratificationCriterionAnswer() == null) {
+                    	errors.reject("NullSubjectStratificationAnswer","Stratification answer has to be selected");
                         return;
                     }
                 }
@@ -78,12 +79,14 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
 			StudySubjectWrapper command, Errors errors) {
 		super.postProcess(request, command, errors);
 		StudySubject studySubject = ((StudySubjectWrapper) command).getStudySubject();
-		if(studySubject.getScheduledEpoch().getEpoch().getStratificationIndicator()){
-			try {
-				studySubject.getScheduledEpoch().setStratumGroupNumber(studySubject.getScheduledEpoch().getStratumGroup().getStratumGroupNumber());
-			} catch (C3PRBaseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if(!errors.hasErrors()){
+			if(studySubject.getScheduledEpoch().getEpoch().getStratificationIndicator()){
+				try {
+					studySubject.getScheduledEpoch().setStratumGroupNumber(studySubject.getScheduledEpoch().getStratumGroup().getStratumGroupNumber());
+				} catch (C3PRBaseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
