@@ -57,9 +57,7 @@
 	}
 	</script>
 </head>
-
 <body>
-<tags:instructions code="study_stratifications" />
 <c:choose>
 <c:when test="${command.study.stratificationIndicator =='false' }">
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>
@@ -124,6 +122,7 @@
 		<br/>
 		
 		<chrome:division title="Questions and Answers">
+			<tags:instructions code="study_stratifications" />
 		<br/>
 			<table id="epoch-${epochCount.index }" class="tablecontent">
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
