@@ -100,7 +100,7 @@ public class EditStudyController extends StudyController<StudyWrapper> {
         // TODO Auto-generated method stub
 
         String softDelete = "false";
-        request.setAttribute("flowType", "EDIT_STUDY");
+        request.setAttribute(FLOW_TYPE, EDIT_STUDY);
         request.setAttribute("editFlow", "true");
 
         SecurityContext context = SecurityContextHolder.getContext();

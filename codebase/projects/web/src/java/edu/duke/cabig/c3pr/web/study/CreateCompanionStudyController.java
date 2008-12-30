@@ -7,6 +7,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller class to handle the work flow in the Creation of a Study Design This uses
@@ -24,6 +25,13 @@ public class CreateCompanionStudyController<C extends StudyWrapper> extends Crea
         flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new StudyOverviewTab("Overview", "Overview", "study/study_summary_create"));
+    }
+    
+    @Override
+    protected Map referenceData(HttpServletRequest request, int arg1)
+            throws Exception {
+        request.setAttribute(FLOW_TYPE, CREATE_COMPANION_STUDY);
+        return super.referenceData(request, arg1);
     }
 
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {

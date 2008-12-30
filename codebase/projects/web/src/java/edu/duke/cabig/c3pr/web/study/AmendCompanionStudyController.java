@@ -1,5 +1,9 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import edu.duke.cabig.c3pr.web.study.tabs.StudyAmendmentTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
@@ -34,6 +38,13 @@ public class AmendCompanionStudyController extends AmendStudyController {
         flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
+    }
+    
+    @Override
+    protected Map referenceData(HttpServletRequest request, int arg1)
+            throws Exception {
+        request.setAttribute(FLOW_TYPE, AMEND_COMPANION_STUDY);
+        return super.referenceData(request, arg1);
     }
 
 }

@@ -89,7 +89,7 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
     @Override
     protected Map referenceData(HttpServletRequest request, int arg1)
             throws Exception {
-        request.setAttribute("flowType", "CREATE_STUDY");
+        request.setAttribute(FLOW_TYPE, CREATE_STUDY);
         return super.referenceData(request, arg1);
     }
 

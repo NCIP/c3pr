@@ -63,7 +63,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
 
     @Override
     protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
-        request.setAttribute("flowType", "AMEND_STUDY");
+        request.setAttribute(FLOW_TYPE, AMEND_STUDY);
         request.setAttribute("amendFlow", "true");
 
         SecurityContext context = SecurityContextHolder.getContext();

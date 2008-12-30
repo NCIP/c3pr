@@ -63,6 +63,16 @@ public abstract class StudyController<C extends StudyWrapper> extends
     protected StudyValidator studyValidator;
 
     protected Boolean companionIndicator;
+    
+    //used for flowType refData var
+    public static final String FLOW_TYPE = "flowType";
+    public static final String CREATE_STUDY = "CREATE_STUDY";
+    public static final String EDIT_STUDY = "EDIT_STUDY";
+    public static final String AMEND_STUDY = "AMEND_STUDY";
+    public static final String CREATE_COMPANION_STUDY = "CREATE_COMPANION_STUDY";
+    public static final String EDIT_COMPANION_STUDY = "EDIT_COMPANION_STUDY";
+    public static final String AMEND_COMPANION_STUDY = "AMEND_COMPANION_STUDY";
+    
 
     protected CompanionStudyAssociationDao companionStudyAssociationDao;
     protected static List<HealthcareSite> healthcareSites;
