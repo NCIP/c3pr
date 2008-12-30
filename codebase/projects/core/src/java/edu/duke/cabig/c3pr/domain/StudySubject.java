@@ -35,6 +35,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
@@ -463,34 +464,6 @@ public class StudySubject extends
 		this.regDataEntryStatus = registrationDataEntryStatus;
 	}
 
-	// TODO will be deprecated moved to ScheduledEpoch
-	@Transient
-	public StratumGroup getStratumGroup() {
-		StratumGroup stratumGroup = null;
-		if (this.getScheduledEpoch().getStratumGroupNumber() != null) {
-			stratumGroup = ((ScheduledEpoch) getScheduledEpoch()).getEpoch()
-					.getStratumGroupByNumber(this.stratumGroupNumber);
-		} else {
-			List<SubjectStratificationAnswer> ssaList = ((ScheduledEpoch) getScheduledEpoch())
-					.getSubjectStratificationAnswers();
-			if (ssaList != null) {
-				Iterator iter = ssaList.iterator();
-				List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
-				while (iter.hasNext()) {
-					scacList.add(new StratificationCriterionAnswerCombination(
-							(SubjectStratificationAnswer) iter.next()));
-				}
-				stratumGroup = (getScheduledEpoch()).getEpoch()
-						.getStratumGroupForAnsCombination(scacList);
-			}
-		}
-		if (stratumGroup == null) {
-			throw new C3PRBaseRuntimeException(
-					"No startum group found. Maybe the answer combination does not have a valid startum group");
-		}
-		return stratumGroup;
-	}
-
 	@Transient
 	public String getDataEntryStatusString() {
 		return this.regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
@@ -884,7 +857,11 @@ public class StudySubject extends
 		ScheduledArm sa = new ScheduledArm();
 		ScheduledEpoch ste = getScheduledEpoch();
 		if (getScheduledEpoch().getEpoch().getStratificationIndicator()) {
-			sa.setArm(getStratumGroup().getNextArm());
+			try {
+				sa.setArm(getScheduledEpoch().getStratumGroup().getNextArm());
+			} catch (C3PRBaseException e) {
+				throw new C3PRBaseRuntimeException(e.getMessage());
+			}
 			if (sa.getArm() != null) {
 				ste.addScheduledArm(sa);
 				// stratumGroupDao.merge(studySubject.getStratumGroup());
@@ -1282,5 +1259,16 @@ public class StudySubject extends
 		return false;
 		
 		
+	}
+	
+	@Transient
+	public boolean hasMandatoryCompanions(){
+		
+		for(CompanionStudyAssociation companionStudyAssociation:this.getStudySite().getStudy().getCompanionStudyAssociations()){
+			if(companionStudyAssociation.getMandatoryIndicator()){
+				return true;
+			}
+		}
+		return false;
 	}
 }
