@@ -10,11 +10,13 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.APIName;
+import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
+import edu.duke.cabig.c3pr.exception.MultisiteException;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -65,6 +67,7 @@ public class ManageStudySitesTab extends StudyTab {
         String studySiteType = request.getParameter("studySiteType"); ;
         List<Identifier> studyIdentifiers = study.getIdentifiers();
         StudySite studySite ;
+        EndPoint endPoint=null;
         if(StringUtils.isBlank(studySiteType)){
 			studySite = study.getStudySite(nciInstituteCode);
 		}else{
@@ -73,33 +76,42 @@ public class ManageStudySitesTab extends StudyTab {
 
         APIName apiName=APIName.valueOf(request.getParameter("action"));
         if(apiName==APIName.CREATE_STUDY){
-        	studyRepository.createStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
+        	endPoint=studyRepository.createStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.OPEN_STUDY){
-        	studyRepository.openStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
+        	endPoint=studyRepository.openStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.AMEND_STUDY){
         	studyRepository.amendStudyAtAffiliates(studyIdentifiers, study);
         }else if(apiName==APIName.CLOSE_STUDY){
-        	studyRepository.closeStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
+        	endPoint=studyRepository.closeStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
         }else if(apiName==APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION){
             try {
             	studySite = studyRepository.approveStudySiteForActivation(studyIdentifiers, studySite);
             }
-            catch (C3PRCodedRuntimeException e) {
+            catch (MultisiteException e) {
                 e.printStackTrace();
+            }
+            catch (C3PRCodedRuntimeException e) {
+                request.setAttribute("actionError", e);
             }
         }else if(apiName==APIName.ACTIVATE_STUDY_SITE){
             try {
             	studySite = studyRepository.activateStudySite(studyIdentifiers, studySite);
             }
-            catch (C3PRCodedRuntimeException e) {
+            catch (MultisiteException e) {
                 e.printStackTrace();
+            }
+            catch (C3PRCodedRuntimeException e) {
+                request.setAttribute("actionError", e);
             }
         }else if(apiName==APIName.CLOSE_STUDY_SITE){
             try {
             	studySite = studyRepository.closeStudySite(studyIdentifiers, nciInstituteCode);
             }
-            catch (C3PRCodedRuntimeException e) {
+            catch (MultisiteException e) {
                 e.printStackTrace();
+            }
+            catch (C3PRCodedRuntimeException e) {
+                request.setAttribute("actionError", e);
             }
         } 
         if(studySite == null){
@@ -108,7 +120,15 @@ public class ManageStudySitesTab extends StudyTab {
         Map map=new HashMap();
         wrapper.setStudy(studyRepository.getUniqueStudy(study.getIdentifiers()));
         studyDao.initialize(wrapper.getStudy());
+        //map.put("site",studySite);
+        //using the nci code to load the fresh studysite from the study. Himanshu to review it.
+        if(StringUtils.isBlank(studySiteType)){
+			studySite = wrapper.getStudy().getStudySite(nciInstituteCode);
+		}else{
+			studySite = wrapper.getStudy().getCompanionStudySite(nciInstituteCode);
+		}
         map.put("site",studySite);
+        
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request),map);
     }
 

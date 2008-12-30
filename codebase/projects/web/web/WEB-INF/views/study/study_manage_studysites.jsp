@@ -23,6 +23,9 @@ function showEndpointError(nciCode, localNciCode){
 	Dialog.alert({url: $('command').action, options: {method: 'post', parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=showEndpointMessage&_asyncViewName=/study/asynchronous/manage_sites&_target${tab.number}=${tab.number}&_page=${tab.number}&nciCode="+nciCode+"&localNciCode="+localNciCode, asynchronous:true, evalScripts:true}},              
 					{className: "alphacube", width:540, okLabel: "Done"});
 }
+function showLocalActionError(errorDiv){
+	Dialog.alert($(errorDiv).innerHTML,{className: "alphacube", width:540, okLabel: "Done"});
+}
 failedStatusChange= function (responseXML){
 									Dialog.alert(responseXML.responseText, 
 						             {width:600, height:600, okLabel: "Close", 
@@ -78,6 +81,8 @@ failedStatusChange= function (responseXML){
 					</div>
 				</td>
 	            <td>
+	            <%-- ${fn:length(site.possibleTransitions)}
+	            	[${site.possibleTransitions}]--%>
 	            <div id="actions-${site.healthcareSite.nciInstituteCode }">
 	            	<%-- %>1.[${siteEndpoint.healthcareSite.nciInstituteCode}]<br>
 	            	2.${site.hostedMode || (!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode)}<br>
@@ -171,7 +176,7 @@ failedStatusChange= function (responseXML){
 						</td>
 			            <td>
 			            <div id="companionActions-${site.healthcareSite.nciInstituteCode }">
-			            	<%-- %>1.[${siteEndpoint.healthcareSite.nciInstituteCode}]<br>
+			            	<%-- 1.[${siteEndpoint.healthcareSite.nciInstituteCode}]<br>
 			            	2.${site.hostedMode || (!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode)}<br>
 			            	3.${site.hostedMode}<br>
 			            	4.${(!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode)}<br>

@@ -22,6 +22,13 @@
 			</c:otherwise>
 		</c:choose>
 	</c:when>
+	<c:when test="${not empty actionError}">
+		<font color="red">Error</font><br>
+				Click <a href="javascript:showLocalActionError('errorDiv-${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
+				<div id="errorDiv-${site.healthcareSite.nciInstituteCode }" style="display: none;">
+					${actionError.message }
+				</div>
+	</c:when>
 	<c:otherwise>
 		None
 	</c:otherwise>
