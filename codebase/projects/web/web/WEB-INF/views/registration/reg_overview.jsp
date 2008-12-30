@@ -283,7 +283,7 @@
             	
             	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE"
                             authorizationCheckName="domainObjectAuthorizationCheck">
-	                <c:if test="${command.studySubject.regWorkflowStatus=='REGISTERED' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
+	                <c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
 	                    <input type="button" value="Take subject off study"
 	                           onclick="new Effect.SlideDown('OffStudyStatus')">
 	                </c:if><br/><br/>
