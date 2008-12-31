@@ -31,10 +31,10 @@
 	</script>
 </head>
 <body>
-<form action='../registration/manageRegistration' method="post" id="refreshPage">
+<form:form id="refreshPage">
 	<input type="hidden" name="_page0" id="_page0" value="0" /> 
 	<input type="hidden" name="_target2" id="_target2" value="2" /> 
-</form>
+</form:form>
 <c:choose>
 	<c:when test="${fn:length(companions)>0}">
 		<tags:panelBox>
