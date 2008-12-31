@@ -26,9 +26,13 @@
 </head>
 
 <body>
-
+	<c:set var="roboHelpKey">ROBOHELP_${tab.class.name}</c:set>
+    <spring:message var="roboHelpLink" code="${roboHelpKey}" text="NO_${roboHelpKey}"/>
 <div id="all">
 <layout:header/>
+	<script>
+    $('help').href="${_c3prHelpURL}#${roboHelpLink}.htm";
+    </script>
 <c:set var="studySubject" value="${command}" scope="request"/>
 <div class="tabpane">
 <c:choose>

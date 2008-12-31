@@ -9,7 +9,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
-
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
     <title><decorator:title /></title>
@@ -22,10 +22,13 @@
 </head>
 
 <body>
-
+	<c:set var="roboHelpKey">ROBOHELP_${tab.class.name}</c:set>
+    <spring:message var="roboHelpLink" code="${roboHelpKey}" text="NO_${roboHelpKey}"/>
 <div id="all">
 <layout:header/>
-
+	<script>
+    $('help').href="${_c3prHelpURL}#${roboHelpLink}.htm";
+    </script>
 <div class="tabpane">
 
     <chrome:workflowTabs tab="${tab}" flow="${flow}"/>
