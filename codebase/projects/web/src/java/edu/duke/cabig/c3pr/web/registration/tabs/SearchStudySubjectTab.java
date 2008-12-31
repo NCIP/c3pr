@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -62,7 +64,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
         }
     	return refdata;
     }
-
+    
     @Override
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors error) {
     	if (WebUtils.hasSubmitParameter(request, "epochId")) {
@@ -109,7 +111,20 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
         studySiteDao.initialize(command.getStudySubject().getStudySite());
     }
 
-    public ModelAndView checkEpochAccrualCeiling(HttpServletRequest request, Object commandObj,
+    @Override
+	public void validate(StudySubjectWrapper command, Errors errors) {
+		super.validate(command, errors);
+		StudySubject studySubject = ((StudySubjectWrapper)command).getStudySubject();
+		if(studySubject.getId()==null){
+    			List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    			studySubjects=studySubjectRepository.findRegistrations(studySubject);
+    			if (studySubjects.size() > 0) {
+    				errors.reject("duplicateRegistration","Subject already registered on this study");
+    	        }
+		}
+	}
+
+	public ModelAndView checkEpochAccrualCeiling(HttpServletRequest request, Object commandObj,
                     Errors error) {
         Map<String, Boolean> map = new HashMap<String, Boolean>();
         int id = Integer.parseInt(request.getParameter("epochId"));
