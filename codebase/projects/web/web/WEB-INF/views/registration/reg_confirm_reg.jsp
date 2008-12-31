@@ -75,7 +75,9 @@ function manageCompanions(){
 	actionRequired :${actionRequired}
 	actionLabel:${actionLabel}
 	registerableWithCompanions :${registerableWithCompanions}
-	requiresMultiSite:${requiresMultiSite} -->	
+	requiresMultiSite:${requiresMultiSite}
+	has_mandatory_companions:${has_mandatory_companions}
+	has_child_registrations:${has_child_registrations}   -->
 	<c:choose>
 	<c:when test="${fn:length(command.studySubject.studySite.registrationEndpoints)>0 && command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status=='MESSAGE_SEND_FAILED'} ">
 		<font color='<fmt:message key="REGISTRATION.MULTISITE.ERROR.COlOR"/>'><strong><fmt:message key="REGISTRATION.MULTISITE.ERROR"/> Please <a href="javascript:showEndpointError();">click</a> here to see the detail error message.</strong></font>
@@ -95,7 +97,7 @@ function manageCompanions(){
 	</c:when>
 	<c:when test="${newRegistration}">
 		<c:choose>
-		<c:when test="${command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'true' && !hasParent && !hasCompanions}">
+		<c:when test="${command.studySubject.regWorkflowStatus == 'ENROLLED' && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'true' && !hasParent && !has_mandatory_companions}">
 			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.ENROLLED"/></strong></font>
 		</c:when>
 		<c:when test="${command.studySubject.regWorkflowStatus == 'REGISTERED_BUT_NOT_ENROLLED' && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'false' && !hasParent && !hasCompanions}">
@@ -107,6 +109,8 @@ function manageCompanions(){
 		<c:when test="${reg_registered && hasCompanions && has_child_registrations}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
+		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.randomizationType == 'BOOK' && !has_mandatory_companions && registerableWithCompanions}">
+			<font color='<fmt:message key="REGISTRATION.RANDOMIZATION.BOOK.COLOR"/>'><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></strong></font></c:when>
 		<c:when test="${reg_registered}">
 			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.SUCCESS"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
@@ -135,21 +139,23 @@ function manageCompanions(){
 		<c:choose>
 		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:when>
-		<c:when test="${reg_registered && hasCompanions}">
+		<c:when test="${ command.studySubject.regWorkflowStatus.code == 'Enrolled' && has_mandatory_companions && registerableWithCompanions}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
+		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.blindedIndicator && registerableWithCompanions }">
+			<font color='<fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT.COLOR"/>'><strong><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></strong></font></c:when>
+		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.randomizationType == 'BOOK' && registerableWithCompanions}">
+			<font color='<fmt:message key="REGISTRATION.RANDOMIZATION.BOOK.COLOR"/>'><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></strong></font></c:when>
 		<c:when test="${hasCompanions && !registerableWithCompanions}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></strong></font></c:when>
 		<c:when test="${hasCompanions && registerableWithCompanions}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></strong></font></c:when>
+			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION.COLOR"/>'><strong><fmt:message key="REGISTRREGISTRATION.COMPANION.PARENT.REGISTEREDATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></strong></font></c:when>
 		<c:when test="${isDataEntryComplete && hasParent}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></strong></font></c:when>	
 		<c:when test="${epoch_approved}">
 			<font color='<fmt:message key="TRANSFER.SUCCESS.COLOR"/>'><strong><fmt:message key="TRANSFER.SUCCESS"/></strong></font></c:when>
 		<c:when test="${epoch_pending}">
 			<font color='<fmt:message key="TRANSFER.PENDING.COLOR"/>'><strong><fmt:message key="TRANSFER.PENDING"/></strong></font></c:when>
-		<c:when test="${epoch_disapproved}">
-			<font color='<fmt:message key="TRANSFER.DISAPPROVED.COLOR"/>'><strong><fmt:message key="TRANSFER.DISAPPROVED"/></strong></font></c:when>
 		<c:when test="${epoch_nonenrolled}">
 			<font color='<fmt:message key="TRANSFER.NONENROLLED.COLOR"/>'><strong><fmt:message key="TRANSFER.NONENROLLED"/></strong></font></c:when>
 		<c:when test="${epoch_unrandomiized}">
