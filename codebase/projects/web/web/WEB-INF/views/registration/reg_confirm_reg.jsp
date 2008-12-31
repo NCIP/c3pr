@@ -55,7 +55,7 @@ function manageCompanions(){
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 
 <br/>
- <!--   newRegistration: ${newRegistration}<br>
+    newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
 	reg_pending:${reg_pending }<br>
@@ -77,7 +77,7 @@ function manageCompanions(){
 	registerableWithCompanions :${registerableWithCompanions}
 	requiresMultiSite:${requiresMultiSite}
 	has_mandatory_companions:${has_mandatory_companions}
-	has_child_registrations:${has_child_registrations}   -->
+	has_child_registrations:${has_child_registrations}  
 	<c:choose>
 	<c:when test="${fn:length(command.studySubject.studySite.registrationEndpoints)>0 && command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status=='MESSAGE_SEND_FAILED'} ">
 		<font color='<fmt:message key="REGISTRATION.MULTISITE.ERROR.COlOR"/>'><strong><fmt:message key="REGISTRATION.MULTISITE.ERROR"/> Please <a href="javascript:showEndpointError();">click</a> here to see the detail error message.</strong></font>
@@ -109,7 +109,9 @@ function manageCompanions(){
 		<c:when test="${reg_registered && hasCompanions && has_child_registrations}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
-		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.randomizationType == 'BOOK' && !has_mandatory_companions && registerableWithCompanions}">
+		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.blindedIndicator && registerableWithCompanions }">
+			<font color='<fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT.COLOR"/>'><strong><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></strong></font></c:when>
+		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.randomizationType == 'BOOK' && registerableWithCompanions}">
 			<font color='<fmt:message key="REGISTRATION.RANDOMIZATION.BOOK.COLOR"/>'><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></strong></font></c:when>
 		<c:when test="${reg_registered}">
 			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.SUCCESS"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
