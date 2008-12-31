@@ -55,7 +55,7 @@ function manageCompanions(){
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 
 <br/>
-    newRegistration: ${newRegistration}<br>
+   <!--  newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
 	reg_pending:${reg_pending }<br>
@@ -77,7 +77,7 @@ function manageCompanions(){
 	registerableWithCompanions :${registerableWithCompanions}
 	requiresMultiSite:${requiresMultiSite}
 	has_mandatory_companions:${has_mandatory_companions}
-	has_child_registrations:${has_child_registrations}  
+	has_child_registrations:${has_child_registrations}  -->
 	<c:choose>
 	<c:when test="${fn:length(command.studySubject.studySite.registrationEndpoints)>0 && command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status=='MESSAGE_SEND_FAILED'} ">
 		<font color='<fmt:message key="REGISTRATION.MULTISITE.ERROR.COlOR"/>'><strong><fmt:message key="REGISTRATION.MULTISITE.ERROR"/> Please <a href="javascript:showEndpointError();">click</a> here to see the detail error message.</strong></font>
