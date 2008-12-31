@@ -53,7 +53,7 @@
     <informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>	<!-- Informed Consent Signed Date is mandatory-->
     <informedConsentVersion>1.0</informedConsentVersion>						<!-- Informed Consent Version is mandatory-->
     <regDataEntryStatus>COMPLETE</regDataEntryStatus>							<!-- Data entry status is optional as it is determined from above fields-->
-    <regWorkflowStatus>REGISTERED</regWorkflowStatus>							<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+    <regWorkflowStatus>ENROLLED</regWorkflowStatus>							<!-- Work flow status is optional and goes as ENROLLED if other validations are met-->
     <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledTreatmentEpochType">	<!-- Exactly one Scheduled Epoch is required-->
         <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
         <epoch xsi:type="TreatmentEpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
@@ -121,7 +121,7 @@
     <informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>	<!-- Informed Consent Signed Date is mandatory-->
     <informedConsentVersion>1.0</informedConsentVersion>						<!-- Informed Consent Version is mandatory-->
     <regDataEntryStatus>COMPLETE</regDataEntryStatus>							<!-- Data entry status is optional as it is determined from above fields-->
-    <regWorkflowStatus>REGISTERED</regWorkflowStatus>							<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+    <regWorkflowStatus>ENROLLED</regWorkflowStatus>							<!-- Work flow status is optional and goes as ENROLLED if other validations are met-->
     <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledTreatmentEpochType">	<!-- Exactly one Scheduled Epoch is required-->
         <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
         <epoch xsi:type="TreatmentEpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
@@ -190,7 +190,7 @@
     <informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>	<!-- Informed Consent Signed Date is mandatory-->
     <informedConsentVersion>1.0</informedConsentVersion>						<!-- Informed Consent Version is mandatory-->
     <regDataEntryStatus>COMPLETE</regDataEntryStatus>							<!-- Data entry status is optional as it is determined from above fields-->
-    <regWorkflowStatus>REGISTERED</regWorkflowStatus>							<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+    <regWorkflowStatus>ENROLLED</regWorkflowStatus>							<!-- Work flow status is optional and goes as ENROLLED if other validations are met-->
     <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledTreatmentEpochType">	<!-- Exactly one Scheduled Epoch is required-->
         <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
         <epoch xsi:type="TreatmentEpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
@@ -258,7 +258,7 @@
     <informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>	<!-- Informed Consent Signed Date is mandatory-->
     <informedConsentVersion>1.0</informedConsentVersion>						<!-- Informed Consent Version is mandatory-->
     <regDataEntryStatus>COMPLETE</regDataEntryStatus>							<!-- Data entry status is optional as it is determined from above fields-->
-    <regWorkflowStatus>REGISTERED</regWorkflowStatus>							<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+    <regWorkflowStatus>ENROLLED</regWorkflowStatus>							<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
     <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledTreatmentEpochType">	<!-- Exactly one Scheduled Epoch is required-->
         <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
         <epoch xsi:type="TreatmentEpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->

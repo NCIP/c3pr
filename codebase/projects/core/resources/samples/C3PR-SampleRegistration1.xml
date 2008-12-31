@@ -46,7 +46,7 @@
 		</informedConsentFormSignedDate>
 		<informedConsentVersion>1.0</informedConsentVersion>
 		<regDataEntryStatus>COMPLETE</regDataEntryStatus>
-		<regWorkflowStatus>REGISTERED</regWorkflowStatus>
+		<regWorkflowStatus>ENROLLED</regWorkflowStatus>
 		<scheduledEpoch gridId="afc36095-d48e-4206-9316-836e0fc87b8b">
 			<startDate>2008-10-02</startDate>
 			<epoch gridId="06cc586f-3a43-4617-ae93-e5a8dd962dc4">
