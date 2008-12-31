@@ -57,14 +57,9 @@
 	}
 	</script>
 </head>
+
 <body>
-<%
-String ua = request.getHeader( "User-Agent" );
-boolean isFirefox = ( ua != null && ua.indexOf( "Firefox/" ) != -1 );
-boolean isMSIE = ( ua != null && ua.indexOf( "MSIE" ) != -1 );
-request.setAttribute("isMSIE", isMSIE);
-response.setHeader( "Vary", "User-Agent" );
-%>
+<tags:instructions code="study_stratifications" />
 <c:choose>
 <c:when test="${command.study.stratificationIndicator =='false' }">
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>
@@ -129,7 +124,6 @@ response.setHeader( "Vary", "User-Agent" );
 		<br/>
 		
 		<chrome:division title="Questions and Answers">
-			<tags:instructions code="study_stratifications" />
 		<br/>
 			<table id="epoch-${epochCount.index }" class="tablecontent">
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
@@ -228,11 +222,7 @@ response.setHeader( "Vary", "User-Agent" );
 				</tr>
 				</table>
 				<table id="sgCombinationsTable_${epochCount.index}" border="1" class="tablecontent"  width="60%">
-					<!-- we dont display tBody for IE browser as it distorts the display
-						this means that the drag drop wont work in IE...this will be addressed in future releases -->
-					<c:if test="${!isMSIE}">
-						<tbody id="sortablelist_${epochCount.index}">
-					</c:if>
+					<tbody id="sortablelist_${epochCount.index}">
 						
 						<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
 							items="${command.study.epochs[epochCount.index].stratumGroups}">	
@@ -249,9 +239,7 @@ response.setHeader( "Vary", "User-Agent" );
 							</tr>
 							</c:if>
 						</c:forEach>					
-					<c:if test="${!isMSIE}">
-						</tbody>
-					</c:if>
+					</tbody>
 				</table>
 
 			</c:if> <!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
