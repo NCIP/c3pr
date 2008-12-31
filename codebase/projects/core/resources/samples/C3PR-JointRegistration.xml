@@ -77,8 +77,8 @@
 		<!-- Informed Consent Version is mandatory-->
 		<regDataEntryStatus>COMPLETE</regDataEntryStatus>
 		<!-- Data entry status is optional as it is determined from above fields-->
-		<regWorkflowStatus>REGISTERED</regWorkflowStatus>
-		<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+		<regWorkflowStatus>ENROLLED</regWorkflowStatus>
+		<!-- Work flow status is optional and goes as ENROLLED if other validations are met-->
 		<scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">
 			<!-- Exactly one Scheduled Epoch is required-->
 			<startDate>2007-10-01</startDate>
@@ -181,8 +181,8 @@
 		<!-- Informed Consent Version is mandatory-->
 		<regDataEntryStatus>COMPLETE</regDataEntryStatus>
 		<!-- Data entry status is optional as it is determined from above fields-->
-		<regWorkflowStatus>REGISTERED</regWorkflowStatus>
-		<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+		<regWorkflowStatus>ENROLLED</regWorkflowStatus>
+		<!-- Work flow status is optional and goes as ENROLLED if other validations are met-->
 		<scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">
 			<!-- Exactly one Scheduled Epoch is required-->
 			<startDate>2007-10-01</startDate>
@@ -280,8 +280,8 @@
 		<!-- Informed Consent Version is mandatory-->
 		<regDataEntryStatus>COMPLETE</regDataEntryStatus>
 		<!-- Data entry status is optional as it is determined from above fields-->
-		<regWorkflowStatus>REGISTERED</regWorkflowStatus>
-		<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+		<regWorkflowStatus>ENROLLED</regWorkflowStatus>
+		<!-- Work flow status is optional and goes as ENROLLED if other validations are met-->
 		<scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">
 			<!-- Exactly one Scheduled Epoch is required-->
 			<startDate>2007-10-01</startDate>
@@ -379,8 +379,8 @@
 		<!-- Informed Consent Version is mandatory-->
 		<regDataEntryStatus>COMPLETE</regDataEntryStatus>
 		<!-- Data entry status is optional as it is determined from above fields-->
-		<regWorkflowStatus>REGISTERED</regWorkflowStatus>
-		<!-- Work flow status is optional and goes as REGISTERED if other validations are met-->
+		<regWorkflowStatus>ENROLLED</regWorkflowStatus>
+		<!-- Work flow status is optional and goes as ENROLLED if other validations are met-->
 		<scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledEpochType">
 			<!-- Exactly one Scheduled Epoch is required-->
 			<startDate>2007-10-01</startDate>
