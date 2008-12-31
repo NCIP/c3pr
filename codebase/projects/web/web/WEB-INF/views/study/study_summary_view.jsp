@@ -61,7 +61,12 @@
                 }
         		Dialog.alert(d.innerHTML, 
         		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
-        	} else {
+        	} else if(status=='close') {
+				Dialog.confirm("Are you sure you want to close the study?", 
+				               {width:300, height:85, okLabel: "Ok",
+				               ok:function(win) {$('statusChange').value = 'close';  $('command').submit();}
+				              });
+        	}else {
 	            $('statusChange').value = status;
 	            $('command').submit();
         	}
