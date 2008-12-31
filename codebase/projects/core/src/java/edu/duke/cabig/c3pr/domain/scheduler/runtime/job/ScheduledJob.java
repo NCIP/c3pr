@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain.scheduler.runtime.job;
 
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.Job;
@@ -70,13 +72,12 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
             Integer plannedNotificationId = jobDataMap.getInt("plannedNotificationId");            
             PlannedNotification plannedNotification = plannedNotificationDao.getInitializedPlannedNotificationById(plannedNotificationId);
             
-            
+            setAuditInfo();
             RecipientScheduledNotification recipientScheduledNotification = null;
             if(jobDataMap.containsKey("recipientScheduledNotificationId")){
             	Integer recipientScheduledNotificationId = jobDataMap.getInt("recipientScheduledNotificationId");            
             	recipientScheduledNotification = recipientScheduledNotificationDao.getInitializedRecipientScheduledNotificationById(recipientScheduledNotificationId);
             }
-            
             
             if(plannedNotification.getEventName() != null){
             	try{
@@ -134,5 +135,10 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
+	
+	public void setAuditInfo(){
+    	gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+        		"C3PR Admin", "C3PR Scheduled Notification Job", new Date(), "C3PR Scheduled Notification Job"));
+    }
 
 }

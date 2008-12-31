@@ -114,11 +114,6 @@ public class ScheduledNotificationJob extends ScheduledJob {
         logger.debug("Exiting ScheduledNotification Job");
     }
     
-    public void setAuditInfo(){
-    	gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
-        		"C3PR Admin", "C3PR Scheduled Notification Job", new Date(), "C3PR Scheduled Notification Job"));
-    }
-    
     public ScheduledNotification handleReportGeneration(PlannedNotification plannedNotification){
     	
     	plannedNotificationDao = (PlannedNotificationDao) applicationContext.getBean("plannedNotificationDao");
