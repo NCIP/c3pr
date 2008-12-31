@@ -90,6 +90,7 @@
             <registrationTags:select_epoch/>
         </div>
         <form:form method="post">
+		<tags:errors path="*"/>
             <tags:tabFields tab="${tab}"/>
             <div style="display:none">
                 <form:input path="studySubject.studySite" cssClass="validate-notEmpty"/><form:input path="studySubject.participant" cssClass="validate-notEmpty" /><input type="text" id="epochElement" name="epoch" value="${!empty command.studySubject.scheduledEpoch?command.studySubject.scheduledEpoch.epoch.id:''}" class="validate-notEmpty"/>
