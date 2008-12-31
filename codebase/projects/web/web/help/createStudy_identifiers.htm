@@ -46,8 +46,7 @@ if (window.gbWhTopic)
 {
 	if (window.addTocInfo)
 	{
-	addTocInfo("Studies\nCreate Study\nIdentifiers ");
-addTocInfo("Studies\nCreate Companion Study\nIdentifiers ");
+	addTocInfo("Studies\nEdit Study\nStudy Identifiers ");
 addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 
 	}
@@ -61,7 +60,7 @@ addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 	{
 	document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Identifiers </p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Identifiers </p>");
 
 	}
 
@@ -80,13 +79,23 @@ else
 
 //-->
 </script>
-<h3>Identifiers &nbsp;</h3>
-<p class="whs1"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">A</font></span>ll 
- fields with a red asterisk <span style="color: #ff0000; font-size: 18pt;"><font size=5 color=red style="font-size:18.000000pt;">*</font></span> 
- are required.</font></span></p>
-<p class="whs1"><br>
-<span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">To add an <b style="font-size: 11pt;">Organization 
- Assigned Identifier</b>: </font></span></p>
+<h3>Study Identifiers &nbsp;</h3>
+<p class="whs1">All fields with a red asterisk <span style="color: #ff0000; font-size: 18pt;"><font size=5 color=red style="font-size:18.000000pt;">*</font></span> 
+ are required.</p>
+<p class="whs1">There are two types of study identifiers used 
+ in C3PR, Organization Assigned Identifiers and System Assigned Identifiers. 
+ Organization Assigned Identifiers are a number or code assigned by an 
+ Organization (such as Mayo Clinic, Wake Forest or Duke University). System 
+ Assigned Identifiers are a number or code assigned by a System (such as 
+ caAERS, C3PR or PSC). C3PR will automatically add two Identifiers for 
+ Organization, based on what was entered for the Coordinating Center and 
+ the Funding Sponsor on the initial Details page when the study was created. 
+ The Coordinating Center will be listed as the primary indicator. You can 
+ add as many Organization and System Assigned Identifiers as you would 
+ like. </p>
+&nbsp;
+<p class="whs1"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">To add an <b 
+ style="font-size: 11pt;">Organization Assigned Identifier</b>: </font></span></p>
 <ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
  <b style="font-size: 11pt;">Add Another Identifier</b>. </font></span></li>
 	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
@@ -103,9 +112,7 @@ else
  the <b style="font-size: 11pt;">Identifier</b>. This is the actual identifier 
  number or text. </font></span></li>
 	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
- <b style="font-size: 11pt;">Primary Indicator</b>, if applicable. </font></span><span 
- style="font-size: 11pt;"><font size=3 style="font-size:11pt;"><br>
-	</font></span></li>
+ <b style="font-size: 11pt;">Primary Indicator</b>, if applicable. </font></span></li>
 </ol>
 <span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">To add a <b style="font-size: 11pt;">System 
  Assigned Identifier</b>: </font></span>
@@ -136,7 +143,7 @@ if(0)
 {
 document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Identifiers </p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Identifiers </p>");
 
 }
 //-->

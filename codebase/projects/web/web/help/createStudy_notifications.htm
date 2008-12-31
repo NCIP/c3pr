@@ -46,7 +46,7 @@ if (window.gbWhTopic)
 {
 	if (window.addTocInfo)
 	{
-	addTocInfo("Studies\nCreate Study\nNotifications ");
+	addTocInfo("Studies\nEdit Study\nStudy Notifications ");
 addTocInfo("Studies\nCreate Companion Study\nNotifications ");
 addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 
@@ -61,7 +61,7 @@ addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 	{
 	document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Notifications </p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Notifications </p>");
 
 	}
 
@@ -80,29 +80,40 @@ else
 
 //-->
 </script>
-<h3>Notifications </h3>
+<h3>Study Notifications </h3>
 <p class="whs1"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">All fields with 
- a red asterisk * are required.<br>&nbsp;</font></span></p>
-<p class="whs1">This page creates e-mail notifications based 
- on specified Threshold criteria. If you do not need to set notifications 
- you can click <b>Save &amp; Continue</b> to go to the next task page. 
- </p>
+ a red asterisk </font></span><span style="font-size: 11pt; color: #ff0000;"><font size=3 color=red style="font-size:11.000000pt;">*</font></span><span 
+ style="font-size: 11pt;"><font size=3 style="font-size:11pt;"> are required.<br>
+&nbsp;</font></span></p>
+<p class="whs1">You can create e-mail notifications based on 
+ specified Threshold criteria that relates to the number that was entered 
+ for Target Accrual (the total number of subjects/patients/participants 
+ needed for protocol enrollment) &nbsp;in the Details 
+ page. </p>
+<p class="whs1">&nbsp;</p>
 <ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
  <b style="font-size: 11pt;">Add Notification</b>. </font></span></li>
 	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
- the <b style="font-size: 11pt;">Threshold</b>. This is the number of subjects 
+ the <b style="font-size: 11pt;">Threshold</b>. This is the number of subjects/patients/participants 
  that need to be registered in order to trigger an e-mail notification. 
- </font></span></li>
+ </font></span><span style="font-size: 11pt; font-weight: bold;"><font size=3 style="font-size:11pt;"><B><br>
+	For Example:</B></font></span><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;"> If the Target Accrual 
+ that was entered on the Details page was 30 and you enter 25 into the 
+ Threshold field, an e-mail notification will be sent when the accrual 
+ reaches 25.</font></span></li>
 	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
  <b style="font-size: 11pt;">Add Email</b> and enter the appropriate e-mail 
  address. </font></span></li>
 	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
  the <b style="font-size: 11pt;">Add Role</b> button and select the appropriate 
- Role from the drop down menu. </font></span></li>
+ Role from the drop down list. </font></span></li>
 	<li><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click <b style="font-size: 11pt;">Save</b> 
  or <b style="font-size: 11pt;">Save &amp; Continue</b> to go to the next 
  task page.</font></span> </li>
 </ol>
+<span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">If you do not need to set notifications 
+ you can click <b>Save &amp; Continue</b> to go to the next task page. 
+ </font></span>
 <script type="text/javascript" language="javascript1.2">
 <!--
 highlightSearch();
@@ -112,7 +123,7 @@ if(0)
 {
 document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Notifications </p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Notifications </p>");
 
 }
 //-->

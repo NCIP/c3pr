@@ -13,7 +13,7 @@ if (navigator.appName !="Netscape")
 <style type="text/css">
 <!--
 p.whs1 { font-size:11pt; }
-li.whs2 { font-size:11pt; }
+p.whs2 { font-size:11pt; font-weight:bold; }
 li.whs3 { font-size:11pt; }
 -->
 </style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
@@ -47,7 +47,7 @@ if (window.gbWhTopic)
 {
 	if (window.addTocInfo)
 	{
-	addTocInfo("Studies\nCreate Study\nInvestigators ");
+	addTocInfo("Studies\nEdit Study\nStudy Investigators ");
 addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 
 	}
@@ -61,7 +61,7 @@ addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 	{
 	document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Investigators </p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Investigators </p>");
 
 	}
 
@@ -80,23 +80,30 @@ else
 
 //-->
 </script>
-<h3>Investigators </h3>
+<h3>Study Investigators </h3>
 <p class="whs1">All fields with a red asterisk <span style="color: #ff0000;"><font color=red >*</font></span> 
  are required.</p>
 <p class="whs1">&nbsp;</p>
-<ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
+<p class="whs1">You can add Investigators from the Organizations 
+ that were entered for the Coordinating Center, &nbsp;Funding 
+ Sponsor and Study Site in the previous pages.</p>
+<p class="whs1">&nbsp;</p>
+<p class="whs2">To add an investigator:</p>
+<p class="whs1">&nbsp;</p>
+<ol><li class="whs3"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
  an <b style="font-size: 11pt;">Organization</b> from the drop down list. 
- </font></span></li>
-	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
+ Organizations that have been entered for the Coordinating Center, Funding 
+ Sponsor and Site will be listed.</font></span></li>
+	<li class="whs3"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
  a <b style="font-size: 11pt;">Group</b>. </font></span></li>
-	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
+	<li class="whs3"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
  <b style="font-size: 11pt;">Investigators.</b> <b style="font-size: 11pt;">Note:</b> 
  To select multiple Investigators, hold down the </font></span><span style="font-weight: bold; font-size: 11pt;"><font size=3 style="font-size:11pt;"><B>Ctrl</B></font></span><span 
  style="font-size: 11pt;"><font size=3 style="font-size:11pt;"> button on your keyboard and click on any names 
  listed. </font></span></li>
-	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
+	<li class="whs3"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
  <b style="font-size: 11pt;">Add Investigators</b>. </font></span></li>
-	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Investigators 
+	<li class="whs3"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Investigators 
  will appear in a box in the right hand side of the page. Use the <b style="font-size: 11pt;">Status</b> 
  drop down list to select the status of each investigator. </font></span></li>
 	<li class="whs3"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
@@ -114,7 +121,7 @@ if(0)
 {
 document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Investigators </p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Investigators </p>");
 
 }
 //-->

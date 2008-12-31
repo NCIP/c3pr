@@ -14,8 +14,20 @@ if (navigator.appName !="Netscape")
 <!--
 p.whs1 { font-size:11pt; }
 li.whs2 { font-size:11pt; }
+li.whs3 { margin-left:-20px; font-size:11pt; }
 -->
-</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+</style><script type="text/javascript" language="JavaScript">
+<!--
+if ((navigator.appName == "Netscape") && (parseInt(navigator.appVersion) == 4))
+{
+  var strNSS = "<style type='text/css'>";
+  strNSS += "li.whs3 {margin-left:1pt; }";
+  strNSS +="</style>";
+  document.write(strNSS);
+}
+//-->
+</script>
+<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
 <!--
 function reDo() {
   if (innerWidth != origWidth || innerHeight != origHeight)
@@ -97,46 +109,22 @@ else
 </ol>
 <span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">All fields with a red asterisk </font></span><span 
  style="color: #ff0000; font-size: 18pt;"><font size=5 color=red style="font-size:18.000000pt;">*</font></span><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;"> 
- are required.<br>
-</font></span>
+ are required.</font></span> 
+<br>&nbsp;
 <p class="whs1"><span style="font-weight: bold;"><B>To create 
- a new registration:</B></span> <br>&nbsp;</p>
+ a new registration:</B></span> <br>
+<br>&nbsp;</p>
 <ol><li class="whs2">
 	<b style="font-weight: bold;"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Complete 
- the Select Subject &amp; Study task page:</b> </font></span>
+ the Select Subject &amp; Study task page:</b> </font></span><b style="font-weight: normal;"><span 
+ style="font-size: 11pt;"><font size=3 style="font-size:11pt;"><br>
+	T</b>here are two ways for a subject to be selected for registration. 
+ You can either enter information for a new subject or select a subject 
+ already in the system by clicking the &nbsp;</font></span>
 	<ol><li class="whs2">
-		<b style="font-weight: bold;"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
- a Subject:</b> There are two ways for a subject to be selected. It can 
- be either (1) select an existing subject using the search subject feature, 
- or (2) create a new subject. </font></span>
-		<ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">On 
- the <b style="font-size: 11pt;">Search Subject</b> tab of the <b style="font-size: 11pt;">Select 
- a Subject</b> section, select one of the options from the <b style="font-size: 11pt;">Search 
- Subjects By</b> drop down list. </font></span></li>
-			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
- <b style="font-size: 11pt;">Search Criteria</b>. <b style="font-size: 11pt;"><br>
-			Note:</b> You can enter a <b style="font-size: 11pt;">%</b> 
- symbol as a wild card to return search results for all available subjects. 
- </font></span></li>
-			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
- the <b style="font-size: 11pt;">Search</b> button. C3PR displays the results. 
- Select the subject from the results by moving the cursor to the name and 
- click the mouse. C3PR displays the selected subject. To restore the <b 
- style="font-size: 11pt;">Select a Subject</b> screen to full screen size, 
- click on the icon under the <b style="font-size: 11pt;">Select a Subject</b> 
- screen.<br>
-			<br>
-			OR </font></span></li>
-		</ol>
-		</li>
-		<li class="whs2">
-		<span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Create a <b style="font-size: 11pt;">New 
- Subject:</b> </font></span>
-		<ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
- the <b style="font-size: 11pt;">Create Subject</b> tab in the <b style="font-size: 11pt;">Select 
- a subject</b> section of the <b style="font-size: 11pt;">Create Registration</b> 
- page. </font></span></li>
-			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
+		<span style="font-size: 11pt; font-weight: bold;"><font size=3 style="font-size:11pt;"><B>Create</B></font></span><span 
+ style="font-size: 11pt;"> <font size=3 style="font-size:11pt;"><b style="font-size: 11pt;">Subject:</b> </font></span>
+		<ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
  the <b style="font-size: 11pt;">First Name</b> for the subject. </font></span></li>
 			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
  the <b style="font-size: 11pt;">Last Name</b> for the subject. </font></span></li>
@@ -152,8 +140,8 @@ else
  should be mm/dd/yyyy. </font></span></li>
 			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
  the <b style="font-size: 11pt;">Ethnicity</b> for the subject. This field 
- indicates the person&rsquo;s self declared ethnic origination, independent 
- of racial origination. </font></span></li>
+ indicates the person’s self declared ethnic origination, independent of 
+ racial origination. </font></span></li>
 			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
  the<b style="font-size: 11pt;"> Race(s)</b> for the subject. </font></span></li>
 			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
@@ -209,21 +197,46 @@ else
  gets highlighted and C3PR displays the selected subject. To restore to 
  a <b style="font-size: 11pt;">Select a Subject</b> screen to full screen 
  size, click on the icon under the <b style="font-size: 11pt;">Select a 
- Subject</b> screen. </font></span></li>
+ Subject</b> screen. <br>
+			OR</font></span></li>
 		</ol>
 		</li>
 		<li class="whs2">
+		<b style="font-weight: bold;"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Search 
+ for a Subject:</b> </font></span>
+		<ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
+ the </font></span><span style="font-size: 11pt; font-weight: bold;"><font size=3 style="font-size:11pt;"><B>Search for 
+ Subject</B></font></span><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;"> button in the <b style="font-size: 11pt;">Select 
+ a Subject</b> section of the page. Select one of the options from the 
+ <b style="font-size: 11pt;">Search Subjects By</b> drop down list. </font></span></li>
+			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
+ <b style="font-size: 11pt;">Search Criteria</b>. </font></span></li>
+			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
+ the <b style="font-size: 11pt;">Search</b> button. </font></span><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;"><b 
+ style="font-size: 11pt;"><br>
+			Note:</b> You can leave the Search Criteria field blank and 
+ click the Search button to list all subjects in the system. </font></span></li>
+			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">C3PR 
+ displays the results. Select the subject from the results by moving the 
+ cursor to the name and click the mouse. C3PR displays the selected subject. 
+ To restore the <b style="font-size: 11pt;">Select a Subject</b> screen 
+ to full screen size, click on the icon under the <b style="font-size: 11pt;">Select 
+ a Subject</b> screen.</font></span></li>
+		</ol>
+		</li>
+		<li class="whs3">
 		<b style="font-weight: bold;"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
  a study:</b> </font></span>
 		<ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
  an option from the <b style="font-size: 11pt;">Search Studies By</b> drop 
  down list. </font></span></li>
 			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
- <b style="font-size: 11pt;">Search Criteria</b>. <b style="font-size: 11pt;">Note:</b> 
- You can enter a <b style="font-size: 11pt;">%</b> symbol as a wild card 
- to return search results for all the available studies. </font></span></li>
+ <b style="font-size: 11pt;">Search Criteria</b>. </font></span></li>
 			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
- the <b style="font-size: 11pt;">Search</b> button. </font></span></li>
+ the <b style="font-size: 11pt;">Search</b> button. </font></span><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;"><b 
+ style="font-size: 11pt;"><br>
+			Note:</b> You can leave the Search Criteria field blank and 
+ click the Search button to list all studies in the system. </font></span></li>
 			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
  on a study to select it from the search results. If the Study has more 
  than one site, then select the Site, along with the Study. <b style="font-size: 11pt;">Warning:</b> 
@@ -235,13 +248,34 @@ else
  epoch treatments. Click on an epoch treatment to select it from the list. 
  </font></span></li>
 			<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Click 
- the <b style="font-size: 11pt;">Continue</b> button to go to the next 
- page.</font></span> </li>
+ the </font></span><span style="font-size: 11pt; font-weight: bold;"><font size=3 style="font-size:11pt;"><B>Save &amp; 
+ <b style="font-size: 11pt; font-weight: bold;">Continue</b></B></font></span><span 
+ style="font-size: 11pt;"><font size=3 style="font-size:11pt;"> button to go to the next page.</font></span> </li>
 		</ol>
+		&nbsp;
 		</li>
 	</ol>
+	&nbsp;
 	</li>
 </ol>
+&nbsp;
+<br><object x-maintain-ratio=TRUE classid="CLSID:d27cdb6e-ae6d-11cf-96b8-444553540000" 
+ codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,12,0" 
+ type="application/x-oleobject" standby="Loading multimedia control..." 
+ style="width: 701px; height: 526px; border-left-style: Solid; border-left-width: 1px;
+											border-right-style: Solid; border-right-width: 1px; border-top-style: Solid;
+											border-top-width: 1px; border-bottom-style: Solid; border-bottom-width: 1px;
+											float: none;" width=701 height=526>
+<param name="movie" value="test_2_demo.swf">
+<param name="quality" value="high" >
+<embed x-maintain-ratio=TRUE src="test_2_demo.swf" alt="Loading multimedia control..." 
+ pluginspage="http://www.adobe.com/shockwave/download/" type="application/x-shockwave-flash" 
+ controller=false ShowControls=0 style="width: 701px; height: 526px; border-left-style: Solid; border-left-width: 1px;
+		border-right-style: Solid; border-right-width: 1px; border-top-style: Solid;
+		border-top-width: 1px; border-bottom-style: Solid; border-bottom-width: 1px;
+		float: none;" width=701 height=526>
+</embed></object>
+<br>&nbsp;
 <script type="text/javascript" language="javascript1.2">
 <!--
 highlightSearch();

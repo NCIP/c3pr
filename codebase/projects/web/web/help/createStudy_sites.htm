@@ -14,7 +14,7 @@ if (navigator.appName !="Netscape")
 <!--
 p.whs1 { font-size:11pt; }
 li.whs2 { font-size:11pt; }
-img_whs3 { border:none; width:25px; height:23px; float:none; }
+img_whs3 { border:none; width:25px; height:23px; float:none; border-style:none; }
 -->
 </style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
 <!--
@@ -47,8 +47,7 @@ if (window.gbWhTopic)
 {
 	if (window.addTocInfo)
 	{
-	addTocInfo("Studies\nCreate Study\nSites");
-addTocInfo("Studies\nCreate Companion Study\nSites");
+	addTocInfo("Studies\nEdit Study\nStudy Sites");
 addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 
 	}
@@ -62,7 +61,7 @@ addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 	{
 	document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Sites</p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Sites</p>");
 
 	}
 
@@ -81,28 +80,34 @@ else
 
 //-->
 </script>
-<h3>Sites</h3>
-<p class="whs1"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">All fields with 
- a red asterisk <span style="color: #ff0000; font-size: 18pt;"><font size=5 color=red style="font-size:18.000000pt;">*</font></span> 
- are required.</font></span></p>
+<h3>Study Sites</h3>
+<p class="whs1">All fields with a red asterisk <span style="color: #ff0000; font-size: 18pt;"><font size=5 color=red style="font-size:18.000000pt;">*</font></span> 
+ are required.</p>
+<p class="whs1">&nbsp;</p>
+<p class="whs1"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">To enter the 
+ study site, enter the first few letters of the name of the Organization 
+ conducting the trial and select it from the drop down list that appears. 
+ If this is a Multi-Institutional: study, enter all the Organization sites 
+ for the study on this page. </font></span></p>
 <p>&nbsp;</p>
 <ol><li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
  the <b style="font-size: 11pt;">Organization</b> conducting the trial. 
  This is a prepopulated field. Enter the first few letters of the name 
- of the Disease Category and select it from the drop down list that appears. 
- <b style="font-size: 11pt;">Note:</b> If you are entering a multi-site 
- study, click <b style="font-size: 11pt;">Add Organization</b> and enter 
- the name of another site. Repeat until all sites for the study have been 
- added. </font></span></li>
+ of the Disease Catego</font></span></li>
+	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">ry and 
+ select it from the drop down list that appears. <b style="font-size: 11pt;">Note:</b> 
+ If you are entering a multi-site study, click <b style="font-size: 11pt;">Add 
+ Organization</b> and enter the name of another site. Repeat until all 
+ sites for the study have been added. </font></span></li>
 	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
  the <b style="font-size: 11pt;">Activation Date</b> (mm/dd/yyyy). You 
- can also click on the Calendar icon <img src="Calendar_icon.jpg" x-maintain-ratio="TRUE" width="25px" height="23px" border="0" class="img_whs3"> to select a date. This is the date that a site begins 
- participation in a Study. </font></span></li>
+ can also click on the Calendar icon <img src="Calendar_icon.jpg" x-maintain-ratio="TRUE" width="25px" height="23px" border="0" class="img_whs3"> to select a date. This is the date that a 
+ site begins participation in a Study. </font></span></li>
 	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
  the <b style="font-size: 11pt;">IRB Approval Date </b>(mm/dd/yyyy). You 
- can also click on the Calendar icon <img src="Calendar_icon.jpg" x-maintain-ratio="TRUE" width="25px" height="23px" border="0" class="img_whs3"> to select a date. This is the date that the institutional 
- review board or research ethics board authorized approval or most recent 
- approval of the Study protocol for that site. </font></span></li>
+ can also click on the Calendar icon <img src="Calendar_icon.jpg" x-maintain-ratio="TRUE" width="25px" height="23px" border="0" class="img_whs3"> to select a date. This is the date that the 
+ institutional review board or research ethics board authorized approval 
+ or most recent approval of the Study protocol for that site. </font></span></li>
 	<li class="whs2"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Enter 
  the <b style="font-size: 11pt;">Target Accrual Number</b>. This is the 
  total number of patients/subjects/participants needed for protocol enrollment 
@@ -121,7 +126,7 @@ if(0)
 {
 document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Sites</p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Sites</p>");
 
 }
 //-->

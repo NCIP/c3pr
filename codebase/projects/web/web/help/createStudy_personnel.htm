@@ -13,7 +13,7 @@ if (navigator.appName !="Netscape")
 <style type="text/css">
 <!--
 p.whs1 { font-size:11pt; }
-li.whs2 { font-size:11pt; }
+p.whs2 { font-size:11pt; font-weight:bold; }
 li.whs3 { font-size:11pt; }
 -->
 </style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
@@ -47,8 +47,7 @@ if (window.gbWhTopic)
 {
 	if (window.addTocInfo)
 	{
-	addTocInfo("Studies\nCreate Study\nPersonnel ");
-addTocInfo("Studies\nCreate Companion Study\nPersonnel ");
+	addTocInfo("Studies\nEdit Study\nStudy Personnel ");
 addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 
 	}
@@ -62,7 +61,7 @@ addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
 	{
 	document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Personnel </p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Personnel </p>");
 
 	}
 
@@ -81,11 +80,16 @@ else
 
 //-->
 </script>
-<h3>Personnel </h3>
-<p class="whs1">All fields with a red asterisk <span style="color: #ff0000; font-size: 18pt;"><font size=5 color=red style="font-size:18.000000pt;">*</font></span> 
+<h3>Study Personnel </h3>
+<p class="whs1">You can add Personnel from the Organizations 
+ that were entered for the Coordinating Center, &nbsp;Funding 
+ Sponsor and Study Site in the previous pages.<br>&nbsp;</p>
+<p class="whs1">All fields with a red asterisk <span style="color: #ff0000;"><font color=red >*</font></span> 
  are required.</p>
+<p class="whs1">&nbsp;</p>
+<p class="whs2">To add Personnel:</p>
 <p>&nbsp;</p>
-<ol><li class="whs2"><b style="font-size: 11pt;"><span 
+<ol><li class="whs3"><b style="font-weight: bold;"><span 
  style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select an Organization</b>. Make a selection 
  from the drop down menu. </font></span></li>
 	<li class="whs3"><span style="font-size: 11pt;"><font size=3 style="font-size:11pt;">Select 
@@ -113,7 +117,7 @@ if(0)
 {
 document.write("<p style=\"text-align:right\"> ");
 AddMasterBreadcrumbs("Sample_project.htm", "", ">", "Home", "Welcome.htm");
-document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy.htm\">Create Study</a> > Personnel </p>");
+document.write("<a href=\"searchStudy.htm\">Studies</a> > <a href=\"createStudy_sites.htm\">Edit Study</a> > Study Personnel </p>");
 
 }
 //-->
