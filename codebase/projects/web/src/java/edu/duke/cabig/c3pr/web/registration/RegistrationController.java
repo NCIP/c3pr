@@ -175,18 +175,23 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     @Override
     protected C save(C command, Errors errors) {
     	StudySubject merged =null;
-    	if(getPrimaryDomainObject(command).getId()==null)
+    	if(getPrimaryDomainObject(command).getId()==null){
     		try{
     			merged=studySubjectRepository.create(getPrimaryDomainObject(command));
-    		} catch(C3PRCodedRuntimeException ex){
-    			errors.reject("tempVariable",ex.getCodedExceptionMesssage());
-    		}
-    	else
-    		merged = (StudySubject) getDao().merge(getPrimaryDomainObject(command));
+	    		} catch(C3PRCodedRuntimeException ex){
+	    			errors.reject("tempVariable",ex.getCodedExceptionMesssage());
+	    		}
+	    	}else{
+	    		merged = (StudySubject) getDao().merge(getPrimaryDomainObject(command));
+	    	}
+    	if(merged==null){
+    		return null;
+    	}
         studyDao.initialize(merged.getStudySite().getStudy());
         studySiteDao.initialize(merged.getStudySite());
         command.setStudySubject(merged);
         return command;
+ 
     }
 
     @Override
