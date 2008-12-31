@@ -453,7 +453,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	}
 	
 	public void saveStratumGroup(StudySubject studySubject){
-		if(studySubject.getScheduledEpoch().getEpoch().getRandomizedIndicator() && studySubject.getStudySite().getStudy().getRandomizationType()==RandomizationType.BOOK){
+		if(studySubject.getScheduledEpoch().getEpoch().getRandomizedIndicator() && studySubject.getScheduledEpoch().getEpoch().getStratificationIndicator() && studySubject.getStudySite().getStudy().getRandomizationType()==RandomizationType.BOOK){
 			try {
 				stratumGroupDao.merge(studySubject.getScheduledEpoch().getStratumGroup());
 			} catch (C3PRBaseException e) {
@@ -462,7 +462,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			}
 		} 
 		for(StudySubject childStudySubject: studySubject.getChildStudySubjects()){
-			if(childStudySubject.getScheduledEpoch().getEpoch().getRandomizedIndicator() && childStudySubject.getStudySite().getStudy().getRandomizationType()==RandomizationType.BOOK){
+			if(childStudySubject.getScheduledEpoch().getEpoch().getRandomizedIndicator() && childStudySubject.getScheduledEpoch().getEpoch().getStratificationIndicator() && childStudySubject.getStudySite().getStudy().getRandomizationType()==RandomizationType.BOOK){
 				try {
 					stratumGroupDao.merge(childStudySubject.getScheduledEpoch().getStratumGroup());
 				} catch (C3PRBaseException e) {
