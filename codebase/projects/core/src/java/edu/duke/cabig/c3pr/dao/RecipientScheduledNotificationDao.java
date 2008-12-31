@@ -30,7 +30,8 @@ public class RecipientScheduledNotificationDao extends GridIdentifiableDao<Recip
         return getHibernateTemplate().find("from RecipientScheduledNotification");
     }
     
-    @Transactional(readOnly=true)
+    //readOnly was chnaged from true to false to get notifications to work on ORacle 
+    @Transactional(readOnly=false)
     public RecipientScheduledNotification getInitializedRecipientScheduledNotificationById(int id){
     	RecipientScheduledNotification recipientScheduledNotification = getById(id);
     	return recipientScheduledNotification;
