@@ -39,11 +39,5 @@ buildMenu(<c:out value="${tab.number}" />, "<c:out value='${currentTask.displayN
 </c:forEach>
 </ul>    
 
-
-<%--<c:forEach items="${flow.tabs}" var="atab" varStatus="status">
-    <c:set var="selected" value="${atab.number == tab.number}"/>
-	<c:if test="${selected}">
-		<tags:pageHelp propertyKey="${tab.class.name}" />
-	</c:if>
-</c:forEach> --%>
+<tags:pageHelp propertyKey="${tab.class.name}" />
 <!--END workflowTabs.tag-->
