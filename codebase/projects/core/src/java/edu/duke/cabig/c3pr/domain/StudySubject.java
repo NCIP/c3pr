@@ -1242,16 +1242,18 @@ public class StudySubject extends
 				if (!hasCorrespondingStudySubject)
 					return true;
 			}
-		}
+		}	
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
-			if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
-				if (getMatchingCompanionStudyAssociation(childStudySubject)
-						.getMandatoryIndicator()) {
-					if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
-						return true;
-					}
-					if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
-						return true;
+			if(childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.ENROLLED){
+				if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
+					if (getMatchingCompanionStudyAssociation(childStudySubject)
+							.getMandatoryIndicator()) {
+						if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
+							return true;
+						}
+						if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
+							return true;
+						}
 					}
 				}
 			}
