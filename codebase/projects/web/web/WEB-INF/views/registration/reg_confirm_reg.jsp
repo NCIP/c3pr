@@ -55,7 +55,7 @@ function manageCompanions(){
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 
 <br/>
-   <!--  newRegistration: ${newRegistration}<br>
+  <!--  newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
 	reg_pending:${reg_pending }<br>
@@ -77,7 +77,8 @@ function manageCompanions(){
 	registerableWithCompanions :${registerableWithCompanions}
 	requiresMultiSite:${requiresMultiSite}
 	has_mandatory_companions:${has_mandatory_companions}
-	has_child_registrations:${has_child_registrations}  -->
+	has_child_registrations:${has_child_registrations} 
+	mandatoryCompanionsNotCreated:${command.studySubject.workPendingOnMandatoryCompanionRegistrations}  --> 
 	<c:choose>
 	<c:when test="${fn:length(command.studySubject.studySite.registrationEndpoints)>0 && command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status=='MESSAGE_SEND_FAILED'} ">
 		<font color='<fmt:message key="REGISTRATION.MULTISITE.ERROR.COlOR"/>'><strong><fmt:message key="REGISTRATION.MULTISITE.ERROR"/> Please <a href="javascript:showEndpointError();">click</a> here to see the detail error message.</strong></font>
@@ -106,7 +107,7 @@ function manageCompanions(){
 		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font>
 		</c:when>
-		<c:when test="${reg_registered && hasCompanions && has_child_registrations}">
+		<c:when test="${reg_registered && hasCompanions && has_child_registrations && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED'}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
 		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.blindedIndicator && registerableWithCompanions }">
@@ -133,6 +134,8 @@ function manageCompanions(){
 			<font color='<fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></strong></font></c:when>	
 		<c:when test="${reg_unrandomized}">
 			<font color='<fmt:message key="REGISTRATION.UNRANDOMIZED.COLOR"/>'><strong><fmt:message key="REGISTRATION.UNRANDOMIZED"/></strong></font></c:when>
+		<c:when test="${command.studySubject.workPendingOnMandatoryCompanionRegistrations}">
+			<font color='<fmt:message key="REGISTRATION.COMPANIONS.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANIONS.INCOMPLETE"/></strong></font></c:when>
 		<c:otherwise>
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:otherwise>
 		</c:choose>
@@ -141,7 +144,7 @@ function manageCompanions(){
 		<c:choose>
 		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
 			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:when>
-		<c:when test="${ command.studySubject.regWorkflowStatus.code == 'Enrolled' && has_mandatory_companions && registerableWithCompanions}">
+		<c:when test="${ command.studySubject.regWorkflowStatus.code == 'Enrolled' && has_mandatory_companions && registerableWithCompanions && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED'}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
 		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.blindedIndicator && registerableWithCompanions }">
@@ -151,7 +154,7 @@ function manageCompanions(){
 		<c:when test="${hasCompanions && !registerableWithCompanions}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></strong></font></c:when>
 		<c:when test="${hasCompanions && registerableWithCompanions}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION.COLOR"/>'><strong><fmt:message key="REGISTRREGISTRATION.COMPANION.PARENT.REGISTEREDATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></strong></font></c:when>
+			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></strong></font></c:when>
 		<c:when test="${isDataEntryComplete && hasParent}">
 			<font color='<fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></strong></font></c:when>	
 		<c:when test="${epoch_approved}">
