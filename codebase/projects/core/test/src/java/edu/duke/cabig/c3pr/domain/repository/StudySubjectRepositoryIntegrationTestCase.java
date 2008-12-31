@@ -172,7 +172,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
     
-    public void testDoLocalRegistrationRandomizedStudyBookStratumGroupAbsent() throws Exception{
+    public void testDoLocalRegistrationStraightRandomizedBookStudyStratumGroupAbsent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
@@ -182,11 +182,9 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
         try {
             studySubjectRepository.enroll(studySubject);
-            fail("Should have thrown an exception for missing stratum group");
         }
         catch (Exception e){
-            assertTrue("Wrong exception mesage", e.getMessage().contains("No stratum group found. Maybe the answer combination does not have a valid startum group"));
-            return;
+           e.printStackTrace();
         }
         assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());
         assertEquals("Wrong scheduled epoch status",ScheduledEpochWorkFlowStatus.REGISTERED,studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
