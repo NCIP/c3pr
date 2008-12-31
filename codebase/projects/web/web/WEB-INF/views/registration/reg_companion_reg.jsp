@@ -29,16 +29,12 @@
    			document.location="../registration/manageRegistration?"+url;
    	   	}
 	</script>
-	<form action='../registration/manageRegistration?<tags:identifierParameterString identifier="${command.studySubject.systemAssignedIdentifiers[0]}"/>' method="post" id="refreshPage">
-		<input type="hidden" name="_page0" id="_page0" value="0" /> 
-		<input type="hidden" name="_target2" id="_target2" value="2" /> 
-	</form>
-	<form action='../registration/manageRegistration?<tags:identifierParameterString identifier="${childStudySubject.systemAssignedIdentifiers[0]}"/>' method="post" id="manageCompanion">
-		<input type="hidden" name="_page0" id="_page0" value="0" /> 
-		<input type="hidden" name="_target2" id="_target2" value="2" /> 
-	</form>
 </head>
 <body>
+<form action='../registration/manageRegistration' method="post" id="refreshPage">
+	<input type="hidden" name="_page0" id="_page0" value="0" /> 
+	<input type="hidden" name="_target2" id="_target2" value="2" /> 
+</form>
 <c:choose>
 	<c:when test="${fn:length(companions)>0}">
 		<tags:panelBox>
