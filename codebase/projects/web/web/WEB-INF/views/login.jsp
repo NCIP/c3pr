@@ -83,6 +83,7 @@
 			}
 			.submit input {
 				margin-bottom:30px;
+				outline:none;
 			}
 			p.errors {
 				color:#FF9933;

@@ -65,8 +65,6 @@ boolean isMSIE = ( ua != null && ua.indexOf( "MSIE" ) != -1 );
 request.setAttribute("isMSIE", isMSIE);
 response.setHeader( "Vary", "User-Agent" );
 %>
-
-<tags:instructions code="study_stratifications" />
 <c:choose>
 <c:when test="${command.study.stratificationIndicator =='false' }">
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>
