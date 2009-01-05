@@ -218,7 +218,7 @@ top:70px;
 								class="autocomplete validate-notEmpty" />
 								<tags:hoverHint keyProp="subject.MRN.organization"/>
 								<tags:indicator id="mrnOrganization-indicator" />
-								<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"></div>
+								<div id="mrnOrganization-choices" class="autocomplete" style="display:none;"></div>
 							    </div>
                     </div>
                     <div class="row">
@@ -269,7 +269,7 @@ top:70px;
 								value="Clear" /> <tags:indicator
 								id="healthcareSite${organizationStatus.index}-indicator" />
 							<div id="healthcareSite${organizationStatus.index}-choices"
-								class="autocomplete"></div>
+								class="autocomplete"  style="display: none;"></div>
 							</td>
 							<td class="alt"><form:select
 								path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
@@ -398,7 +398,7 @@ top:70px;
 		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
 			value="Clear" /> <tags:indicator
 			id="healthcareSitePAGE.ROW.INDEX-indicator" />
-		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
+		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"  style="display: none;"></div>
 		</td>
 
 		<td class="alt"><select
