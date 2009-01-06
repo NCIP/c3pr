@@ -97,39 +97,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         return false;
     }
 
-    private StudySubject doRandomization(StudySubject studySubject) throws C3PRBaseException {
-        // randomize subject
-        switch (studySubject.getStudySite().getStudy().getRandomizationType()) {
-            case PHONE_CALL:
-                break;
-            case BOOK:
-                doBookRandomization(studySubject);
-                break;
-            case CALL_OUT:
-                break;
-            default:
-                break;
-        }
-        return studySubject;
-    }
-
-    private void doBookRandomization(StudySubject studySubject) throws C3PRBaseException {
-        ScheduledArm sa = new ScheduledArm();
-        ScheduledEpoch ste = studySubject.getScheduledEpoch();
-        if (ste.getEpoch().getStratificationIndicator()){
-	        	sa.setArm(studySubject.getScheduledEpoch().getStratumGroup().getNextArm());
-	        if (sa.getArm() != null) {
-	            ste.addScheduledArm(sa);
-	            stratumGroupDao.merge(studySubject.getScheduledEpoch().getStratumGroup());
-	        }
-        } else {
-        	sa.setArm(getNextArmForUnstratifiedStudy(studySubject));
-	        if (sa.getArm() != null) {
-	            ste.addScheduledArm(sa);
-	        }
-        }
-    }
-
     public StudySubject doLocalRegistration(StudySubject studySubject) throws C3PRCodedException {
     	continueEnrollment(studySubject);
     	return studySubject;
