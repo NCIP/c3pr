@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.service.ScheduledNotificationService;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
@@ -41,7 +42,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     private Logger log = Logger.getLogger(ScheduledNotificationServiceImpl.class);
 
     private PlannedNotificationDao plannedNotificationDao;
-    private ScheduledNotificationDao scheduledNotificationDao;
+//    private ScheduledNotificationDao scheduledNotificationDao;
     ApplicationContext applicationContext;
     
     /* Study Status Changed case     */
@@ -149,6 +150,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
      */
     private String applyRuntimeReplacementsForEmailMessage(String rawText, Map<Object, Object> map) {
         freemarker.template.Configuration cfg = new freemarker.template.Configuration();
+        rawText = StringUtils.getBlankIfNull(rawText);
         try {
             Template t = new Template("message", new StringReader(rawText), cfg);
             StringWriter writer = new StringWriter();
@@ -173,7 +175,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 	}
 
 
-	public ScheduledNotificationDao getScheduledNotificationDao() {
+	/*public ScheduledNotificationDao getScheduledNotificationDao() {
 		return scheduledNotificationDao;
 	}
 
@@ -181,7 +183,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 	public void setScheduledNotificationDao(
 			ScheduledNotificationDao scheduledNotificationDao) {
 		this.scheduledNotificationDao = scheduledNotificationDao;
-	}
+	}*/
 
 
 	public ApplicationContext getApplicationContext() {
