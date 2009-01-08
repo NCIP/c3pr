@@ -25,7 +25,8 @@ public class RecipientScheduledNotificationDao extends GridIdentifiableDao<Recip
      * 
      * @see edu.duke.cabig.c3pr.dao.Arm#getAll()
      */
-    @Transactional(readOnly=true)
+    // For Oracle test-build, the readOnly has been changed from true to false;
+    @Transactional(readOnly=false)
     public List<RecipientScheduledNotification> getAll() {
         return getHibernateTemplate().find("from RecipientScheduledNotification");
     }
