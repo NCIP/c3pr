@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -109,6 +110,7 @@ public class ParticipantDaoTest extends DaoTestCase {
         participant.setLastName("Lewis");
         participant.setFirstName("Carrol");
         participant.setAdministrativeGenderCode("Male");
+        participant.setRaceCode("Unknown");
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         participant.getAddress().setCity("Charlotte");
@@ -142,6 +144,7 @@ public class ParticipantDaoTest extends DaoTestCase {
         participant.setLastName("Ben");
         participant.setFirstName("Afflek");
         participant.setAdministrativeGenderCode("Male");
+        participant.setRaceCode("Unknown");
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         SystemAssignedIdentifier systemIdentifier = new SystemAssignedIdentifier();
@@ -165,6 +168,7 @@ public class ParticipantDaoTest extends DaoTestCase {
         participant.setLastName("Barry");
         participant.setFirstName("Bonds");
         participant.setAdministrativeGenderCode("Male");
+        participant.setRaceCode("Unknown");
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
