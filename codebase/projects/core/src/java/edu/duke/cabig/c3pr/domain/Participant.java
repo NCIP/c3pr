@@ -184,11 +184,14 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 
 	public void setRaceCode(String raceCode) {
 		raceCodes = new ArrayList<RaceCode>();
-		StringTokenizer tokenizer = new StringTokenizer(raceCode," : ");
-		while (tokenizer.hasMoreTokens()) {
-			RaceCode r = (RaceCode) Enum.valueOf(RaceCode.class, tokenizer.nextToken());
-			raceCodes.add(r);
-		};
+		if (!StringUtils.isBlank(raceCode)) {
+			StringTokenizer tokenizer = new StringTokenizer(raceCode, " : ");
+			while (tokenizer.hasMoreTokens()) {
+				RaceCode r = (RaceCode) Enum.valueOf(RaceCode.class, tokenizer
+						.nextToken());
+				raceCodes.add(r);
+			};
+		}
 	}
 
 	@Transient
