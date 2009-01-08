@@ -976,11 +976,11 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
-
             study.addEpoch(Epoch.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
                             "Arm C"));
+            study.getEpochs().get(0).setEpochOrder(0);
             study.addEpoch(Epoch.createEpoch("TestTreatmentEpoch2"));
-
+            study.getEpochs().get(1).setEpochOrder(1);
             dao.save(study);
 
             savedId = study.getId();
@@ -1070,11 +1070,13 @@ public class StudyDaoTest extends DaoTestCase {
 
             study.addEpoch(Epoch.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
                             "Arm C"));
+            study.getEpochs().get(0).setEpochOrder(0);
             Epoch epoch = new Epoch();
             epoch.setName("TestTreatmentEpoch2");
             Arm arm = new Arm();
             arm.setName("Test Arm");
             epoch.addArm(arm);
+            epoch.setEpochOrder(1);
             study.addEpoch(epoch);
 
             dao.save(study);
