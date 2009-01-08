@@ -69,7 +69,7 @@ public class EndpointDaoTest extends DaoTestCase {
         assertNotNull("Empty Endpoint", studySite.getEndpoints().get(0));
         assertEquals("Wrong Service", ServiceName.STUDY, studySite.getEndpoints().get(0).getServiceName());
         assertEquals("Wrong Service", APIName.OPEN_STUDY, studySite.getEndpoints().get(0).getApiName());
-        assertEquals("Wrong Date", date2, studySite.getLastAttemptedEndpoint().getAttemptDate());
+        assertEquals("Wrong Date", date2.toLocaleString(), studySite.getLastAttemptedEndpoint().getAttemptDate().toLocaleString());
     }
     
     public void testSaveStudySiteWithEndPoint2() throws Exception {
@@ -108,7 +108,7 @@ public class EndpointDaoTest extends DaoTestCase {
         assertNotNull("Empty Endpoint", studySite.getEndpoints().get(0));
         assertEquals("Wrong Service", ServiceName.STUDY, studySite.getEndpoints().get(0).getServiceName());
         assertEquals("Wrong Service", APIName.OPEN_STUDY, studySite.getEndpoints().get(0).getApiName());
-        assertEquals("Wrong Date", date2, studySite.getLastAttemptedEndpoint().getAttemptDate());
+        assertEquals("Wrong Date", date2.toLocaleString(), studySite.getLastAttemptedEndpoint().getAttemptDate().toLocaleString());
     }
     
     public void testMergeStudySiteWithEndPoint() throws Exception {
