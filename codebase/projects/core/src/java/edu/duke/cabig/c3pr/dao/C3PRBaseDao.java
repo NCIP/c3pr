@@ -35,27 +35,6 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 		this.maxSearchResultsForAutocompleter = maxSearchResultsForAutocompleter;
 	}
 
-	/**
-	 * Get Object by Id (based on domain class) with eager fetch of a single association
-	 * 
-	 * @param id
-	 *                object id
-	 * @param isEager
-	 *                true if eager fetch is needed
-	 * @param associationPath
-	 *                the association 'name' needed to be loaded
-	 * @return loaded persistent object
-	 */
-	public T getById(int id, boolean isEager, String associationPath) {
-		if (isEager) {
-			Criterion idCr = Restrictions.eq("id", id);
-			Criteria criteria = getSession().createCriteria(domainClass()).setFetchMode(
-					associationPath, FetchMode.JOIN).add(idCr);
-			return (T) criteria.list().get(0);
-		}
-		return getById(id);
-	}
-
 	/*
 	 * Must override in subclass to return the domain class reference in the dao
 	 */

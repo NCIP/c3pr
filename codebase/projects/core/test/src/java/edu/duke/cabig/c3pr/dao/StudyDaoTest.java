@@ -1636,13 +1636,6 @@ public class StudyDaoTest extends DaoTestCase {
     	endCalendar.set(2000, Calendar.JANUARY, 2);
     	int accruals=dao.countAcrrualsByDate(study, startCalendar.getTime(), endCalendar.getTime());
     	
-//    	Calendar cal = Calendar.getInstance();
-//        Date endDate = new Date(System.currentTimeMillis());
-//        cal.setTime(endDate);
-//        cal.roll(Calendar.DATE, -6);
-//        Date startDate = new Date(cal.getTime().getTime());
-//        int accruals=dao.countAcrrualsByDate(study, startDate, endDate);
-        
     	assertEquals("Wrong acrual count", 1, accruals);
     }
     
