@@ -135,10 +135,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * 
      * @param study the study
      * 
-     * @throws DataAccessException the data access exception
      */
     @Transactional(readOnly = false)
-    public void initialize(Study study) throws DataAccessException {
+    public void initialize(Study study) 	{
     	getHibernateTemplate().initialize(study.getEpochsInternal());
 		for (Epoch epoch : study.getEpochsInternal()) {
 			if (epoch != null) {
@@ -240,52 +239,40 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         List<Study> result = new ArrayList<Study>();
 
         Example example = Example.create(study).excludeZeroes().ignoreCase();
-        try {
-            Criteria studyCriteria = getSession().createCriteria(Study.class);
+        Criteria studyCriteria = getSession().createCriteria(Study.class);
 
-            if ("ascending".equals(order)) {
-                studyCriteria.addOrder(Order.asc(orderBy));
+        if ("ascending".equals(order)) {
+            studyCriteria.addOrder(Order.asc(orderBy));
+        }
+        else if ("descending".equals(order)) {
+            studyCriteria.addOrder(Order.desc(orderBy));
+        }
+
+        studyCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+
+        if (maxResults > 0) studyCriteria.setMaxResults(maxResults);
+
+        if (isWildCard) {
+            example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
+            studyCriteria.add(example);
+            if (study.getIdentifiers().size() > 1) {
+                studyCriteria.createCriteria("identifiers").add(
+                                Restrictions.ilike("value", "%"
+                                                + study.getIdentifiers().get(0).getValue()
+                                                + "%")).add(
+                                Restrictions.ilike("value", "%"
+                                                + study.getIdentifiers().get(1).getValue()
+                                                + "%"));
             }
-            else if ("descending".equals(order)) {
-                studyCriteria.addOrder(Order.desc(orderBy));
+            else if (study.getIdentifiers().size() > 0) {
+                studyCriteria.createCriteria("identifiers").add(
+                                Restrictions.ilike("value", "%"
+                                                + study.getIdentifiers().get(0).getValue()
+                                                + "%"));
             }
-
-            studyCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-
-            if (maxResults > 0) studyCriteria.setMaxResults(maxResults);
-
-            if (isWildCard) {
-                example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
-                studyCriteria.add(example);
-                if (study.getIdentifiers().size() > 1) {
-                    studyCriteria.createCriteria("identifiers").add(
-                                    Restrictions.ilike("value", "%"
-                                                    + study.getIdentifiers().get(0).getValue()
-                                                    + "%")).add(
-                                    Restrictions.ilike("value", "%"
-                                                    + study.getIdentifiers().get(1).getValue()
-                                                    + "%"));
-                }
-                else if (study.getIdentifiers().size() > 0) {
-                    studyCriteria.createCriteria("identifiers").add(
-                                    Restrictions.ilike("value", "%"
-                                                    + study.getIdentifiers().get(0).getValue()
-                                                    + "%"));
-                }
-                result = studyCriteria.list();
-            }
-            result = studyCriteria.add(example).list();
+            result = studyCriteria.list();
         }
-        catch (DataAccessResourceFailureException e) {
-            log.error(e.getMessage());
-        }
-        catch (IllegalStateException e) {
-            e.printStackTrace(); // To change body of catch statement use File | Settings | File
-            // Templates.
-        }
-        catch (HibernateException e) {
-            log.error(e.getMessage());
-        }
+        result = studyCriteria.add(example).list();
         return result;
 
     }
