@@ -185,18 +185,28 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
     
     
     public void testSaveScheduledNotification(){
-    
+    	int savedId;
     	{
     		HealthcareSite org = getDao().getById(1000);
     		PlannedNotification plannedNotification = buildNotificationWithRecepientsAndMesssageDetails(org);
-    		ScheduledNotification scheduledNotification = addScheduledNotification(plannedNotification, "composedMessage");
+    		addScheduledNotification(plannedNotification, "composedMessage");
     		plannedNotificationDao.saveOrUpdate(plannedNotification);//merge(plannedNotification);
+    		savedId = plannedNotification.getId();
     	}
     	interruptSession();
 	
-    	List<RecipientScheduledNotification> rsn = rsnDao.getAll();
-    	assertNotNull(rsn);
-    	
+    	PlannedNotification plannedNotification = plannedNotificationDao.getById(savedId);
+    	assertNotNull(plannedNotification);
+    	assertEquals(plannedNotification.getScheduledNotifications().get(0).getMessage(), "composedMessage");
+    	for(RecipientScheduledNotification rsn : plannedNotification.getScheduledNotifications().get(0).getRecipientScheduledNotification()){
+    		assertNotNull(rsn.getRecipient());
+    		if(rsn.getRecipient() instanceof RoleBasedRecipient){
+    			assertEquals(((RoleBasedRecipient)rsn.getRecipient()).getRole(), "admin");
+    		}
+    		if(rsn.getRecipient() instanceof UserBasedRecipient){
+    			assertEquals(((UserBasedRecipient)rsn.getRecipient()).getResearchStaff().getFirstName(), "Research Bill");
+    		}
+    	}
     }
     
     public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String composedMessage){

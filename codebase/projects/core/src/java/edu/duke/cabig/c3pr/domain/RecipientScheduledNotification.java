@@ -71,7 +71,7 @@ public class RecipientScheduledNotification extends AbstractMutableDeletableDoma
 
     @ManyToOne
     @Cascade(value = { CascadeType.LOCK})
-    @JoinColumn(name = "schld_notfns_id")
+    @JoinColumn(name = "schld_notfns_id", nullable = false)
     @OrderBy(clause="date_sent desc")
 	public ScheduledNotification getScheduledNotification() {
 		return scheduledNotification;

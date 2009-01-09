@@ -1,31 +1,47 @@
 package edu.duke.cabig.c3pr.dao;
 
+import org.hibernate.HibernateException;
+
 import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
+import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
  * JUnit Tests for recipientScheduledNotificationDao
  * 
  * @author Vinay Gangoli
- * @testType unit
+ * @testType Integration
  */
 public class RecipientScheduledNotificationDaoTest extends ContextDaoTestCase<RecipientScheduledNotificationDao> {
-
     /**
-     * Test for loading a recipientScheduledNotification by Id
+     * Test for loading a recipientScheduledNotification by Id and ensure the lists which are consequently accessed
+     * are initialized.
      * @throws Exception
      */
     public void testGetById() throws Exception {
     	RecipientScheduledNotification recipientScheduledNotification = getDao().getById(1000);
         assertEquals("Title", recipientScheduledNotification.getScheduledNotification().getTitle());
+        try{
+	        for(StudyPersonnel sp: recipientScheduledNotification.getScheduledNotification().getStudyOrganization().getStudyPersonnel()){
+	        	assertNotNull("ResearchStaff is null", sp.getResearchStaff());
+	        }
+	        for(StudyInvestigator si: recipientScheduledNotification.getScheduledNotification().getStudyOrganization().getStudyInvestigators()){
+	        	assertNotNull("Investigator is null", si.getHealthcareSiteInvestigator().getInvestigator());
+	        }
+        } catch(NullPointerException npe){
+        	fail("Null pointer is thrown due to lazy initialization.");
+        }
     }
+
 
     /**
      * Test for Persisting recipientScheduledNotification
      * @throws Exception
      */
-    public void testSaveRecipientScheduledNotification() throws Exception {
+    public void testSaveOrUpdateRecipientScheduledNotification() throws Exception {
     	Integer savedId;
         {
         	RecipientScheduledNotification recipientScheduledNotification = getDao().getById(1000);
@@ -44,7 +60,36 @@ public class RecipientScheduledNotificationDaoTest extends ContextDaoTestCase<Re
             assertEquals(EmailNotificationDeliveryStatusEnum.COMPLETE, recipientScheduledNotification.getDeliveryStatus());
         }
     }
-
+    
+    
+    /**
+     * Test save or update recipient scheduled notification without scheduled notification.
+     * Ensures that the constraint ViolationException is thrown.
+     * 
+     * @throws Exception the exception
+     */
+    public void testSaveOrUpdateRecipientScheduledNotificationWithoutScheduledNotification() throws Exception {
+    	RecipientScheduledNotification recipientScheduledNotification = new RecipientScheduledNotification();
+    	recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.COMPLETE);
+    	recipientScheduledNotification.setIsRead(Boolean.TRUE);
+//    	recipientScheduledNotification.setRecipient(getRoleBasedRecipient());
+    	recipientScheduledNotification.setScheduledNotification(null);
+        try{
+    		getDao().saveOrUpdate(recipientScheduledNotification);
+    		fail("Should have thrown Hibernate Exception");
+        } catch(Exception e){
+        	assertTrue(e.getCause().getMessage().contains("ScheduledNotification"));
+        }
+    }
+    
+    
+    private RoleBasedRecipient getRoleBasedRecipient(){
+    	RoleBasedRecipient roleBasedRecipient = new RoleBasedRecipient();
+    	roleBasedRecipient.setRole("Registrar");
+    	return roleBasedRecipient;
+    }
+    
+    
 }
 
 

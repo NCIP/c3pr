@@ -1,17 +1,14 @@
 package edu.duke.cabig.c3pr.dao;
 
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 
 /**
- * Hibernate implementation of ArmDao
+ * Hibernate implementation of RecipientScheduledNotificationDao
  * 
  * @see edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao
- * @author Priyatam
+ * @author Vinay Gangoli
  */
 public class RecipientScheduledNotificationDao extends GridIdentifiableDao<RecipientScheduledNotification> {
 
@@ -20,11 +17,13 @@ public class RecipientScheduledNotificationDao extends GridIdentifiableDao<Recip
         return RecipientScheduledNotification.class;
     }
 
-    /*
-     * Returns all Arm objects (non-Javadoc)
+    /**
+     * Save or update.
      * 
-     * @see edu.duke.cabig.c3pr.dao.Arm#getAll()
+     * @param recipientScheduledNotification the recipient scheduled notification
      */
+<<<<<<< .mine
+=======
     // For Oracle test-build, the readOnly has been changed from true to false;
     @Transactional(readOnly=false)
     public List<RecipientScheduledNotification> getAll() {
@@ -32,16 +31,13 @@ public class RecipientScheduledNotificationDao extends GridIdentifiableDao<Recip
     }
     
     //readOnly was chnaged from true to false to get notifications to work on ORacle 
-    @Transactional(readOnly=false)
-    public RecipientScheduledNotification getInitializedRecipientScheduledNotificationById(int id){
-    	RecipientScheduledNotification recipientScheduledNotification = getById(id);
-    	return recipientScheduledNotification;
-    }
-    
+>>>>>>> .r7323
     @Transactional(readOnly=false)
     public void saveOrUpdate(RecipientScheduledNotification recipientScheduledNotification){
-    	//do not remove the flush...imperative for the notifications flow.
+    	
     	getHibernateTemplate().saveOrUpdate(recipientScheduledNotification);
+    	
+    	//Do not remove the flush...imperative for the notifications flow.
     	getHibernateTemplate().flush();
     }
 }

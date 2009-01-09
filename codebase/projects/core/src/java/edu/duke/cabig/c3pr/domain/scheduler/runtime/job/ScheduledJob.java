@@ -76,7 +76,8 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
             RecipientScheduledNotification recipientScheduledNotification = null;
             if(jobDataMap.containsKey("recipientScheduledNotificationId")){
             	Integer recipientScheduledNotificationId = jobDataMap.getInt("recipientScheduledNotificationId");            
-            	recipientScheduledNotification = recipientScheduledNotificationDao.getInitializedRecipientScheduledNotificationById(recipientScheduledNotificationId);
+            	//recipientScheduledNotification = recipientScheduledNotificationDao.getInitializedRecipientScheduledNotificationById(recipientScheduledNotificationId);
+            	recipientScheduledNotification = recipientScheduledNotificationDao.getById(recipientScheduledNotificationId);
             }
             
             if(plannedNotification.getEventName() != null){
