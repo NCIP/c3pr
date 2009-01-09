@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl;
@@ -22,7 +23,7 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> {
 
     private StudyXMLImporterServiceImpl studyImporter;
-
+    
     XmlMarshaller marshaller;
 
     protected void setUp() throws Exception {
@@ -42,9 +43,19 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
     public void testGetStudies() throws Exception {
         for (int i = 1000; i < 1003; i++) {
             Study study = getDao().getById(i);
+            getDao().initialize(study);
+            interruptSession();
             // have to set the coordinating center identifier to something differnt to prevent duplicate study exception. 
             // The studies in daoTest.xml have already been inserted into database.
             study.getCoordinatingCenterAssignedIdentifier().setValue("abc" + i);
+            if(study.getFundingSponsorAssignedIdentifier()!=null)
+            	study.getFundingSponsorAssignedIdentifier().setValue("abc"+i);
+            for(CompanionStudyAssociation companionStudyAssociation: study.getCompanionStudyAssociations()){
+            	Study companionStudy=companionStudyAssociation.getCompanionStudy();
+            	companionStudy.getCoordinatingCenterAssignedIdentifier().setValue("pqr" + i);
+                if(companionStudy.getFundingSponsorAssignedIdentifier()!=null)
+                	companionStudy.getFundingSponsorAssignedIdentifier().setValue("pqr"+i);
+            }
             String[] xmlStudy = (marshaller.toXML(study)).split(">", 2);
             String studyXml = xmlStudy[0] + "><studies>" + xmlStudy[1] + "</studies> ";  
             
