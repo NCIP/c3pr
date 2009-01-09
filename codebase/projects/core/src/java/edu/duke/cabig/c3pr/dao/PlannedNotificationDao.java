@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 
 /**
- * Hibernate implementation of ArmDao
+ * Hibernate implementation of PlannedNotificationDao
  * 
  * @see edu.duke.cabig.c3pr.dao.PlannedNotificationDao
- * @author Priyatam
+ * @author Vinay Gangoli
  */
 public class PlannedNotificationDao extends GridIdentifiableDao<PlannedNotification> {
 
@@ -19,36 +19,27 @@ public class PlannedNotificationDao extends GridIdentifiableDao<PlannedNotificat
         return PlannedNotification.class;
     }
 
-    /*
-     * Returns all Arm objects (non-Javadoc)
+
+    /**
+     * Gets all the PlannedNotifications.
      * 
-     * @see edu.duke.cabig.c3pr.dao.Arm#getAll()
+     * @return the list of PlannedNotifications
      */
     public List<PlannedNotification> getAll() {
         return getHibernateTemplate().find("from PlannedNotification");
     }
     
-
-    public PlannedNotification getInitializedPlannedNotificationById(int id){
-    	PlannedNotification plannedNotification = getById(id);
-    	return plannedNotification;
-    }
     
-    public void reassociate(PlannedNotification plannedNotification){
-    	getHibernateTemplate().update(plannedNotification);
-    }
-    
-    @Transactional(readOnly=false)
+    /**
+	 * Save or update.
+	 * 
+	 * @param plannedNotification the planned notification
+	 */
+	@Transactional(readOnly=false)
     public void saveOrUpdate(PlannedNotification plannedNotification){
     	//do not remove the flush...imperative for the notifications flow.
     	getHibernateTemplate().saveOrUpdate(plannedNotification);
     	getHibernateTemplate().flush();
     }
     
-    @Transactional(readOnly=false)
-    public void delete(PlannedNotification plannedNotification){
-    	//do not remove the flush...imperative for the notifications flow.
-    	getHibernateTemplate().delete(plannedNotification);
-    	getHibernateTemplate().flush();
-    }
 }

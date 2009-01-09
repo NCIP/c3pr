@@ -15,7 +15,7 @@ import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
  * JUnit Tests for PlannedNotificationDao
  * 
  * @author Vinay Gangoli
- * @testType unit
+ * @testType integration
  */
 public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotificationDao> {
 
@@ -30,6 +30,11 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
         assertEquals("STUDY_STATUS_CHANGED_EVENT", plannedNotification.getEventName().toString());
     }
 
+    public void testGetAll(){
+    	List<PlannedNotification> plannedNotificationsList = getDao().getAll();
+    	assertEquals(2, plannedNotificationsList.size());
+    }
+    
     /**
      * Test for Persisting PlannedNotfns
      * @throws Exception
@@ -112,10 +117,6 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
     		scheduledNotification.getRecipientScheduledNotification().add(rsn);
     	}
     	return;
-    }
-
-    public void testGetInitializedById(){
-    	this.getDao().getInitializedPlannedNotificationById(1000);
     }
 
 }

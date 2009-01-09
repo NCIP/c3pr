@@ -70,7 +70,8 @@ public abstract class ScheduledJob implements Job, ApplicationContextAware {
         	
             JobDataMap jobDataMap = jobDetail.getJobDataMap();
             Integer plannedNotificationId = jobDataMap.getInt("plannedNotificationId");            
-            PlannedNotification plannedNotification = plannedNotificationDao.getInitializedPlannedNotificationById(plannedNotificationId);
+            //PlannedNotification plannedNotification = plannedNotificationDao.getInitializedPlannedNotificationById(plannedNotificationId);
+            PlannedNotification plannedNotification = plannedNotificationDao.getById(plannedNotificationId);
             
             setAuditInfo();
             RecipientScheduledNotification recipientScheduledNotification = null;
