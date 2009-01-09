@@ -228,7 +228,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * Search by example.
      * 
      * @param study the exmple study
-     * @param isWildCard the is wild card
+     * @param isWildCard the wild card
      * @param maxResults the max results
      * @param order the order
      * @param orderBy the order by
@@ -294,7 +294,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * Search by example.
      * 
      * @param study the study
-     * @param isWildCard the is wild card
+     * @param isWildCard the wild card
      * @param maxResults the max results
      * 
      * @return the list< study>
@@ -308,7 +308,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * 
      * @param study the study
      * @param searchText the search text
-     * @param isWildCard the is wild card
+     * @param isWildCard the wild card
      * 
      * @return the list< study>
      */
@@ -328,14 +328,13 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     }
 
     /**
-     * Gets the coordinating center identifiers with value.
+     * Gets the coordinating center identifiers with the given value.
      * 
-     * @param coordinatingCetnerIdentifierValue the coordinating cetner identifier value
+     * @param coordinatingCetnerIdentifierValue the coordinating center identifier value
      * @param site the site
      * 
-     * @return the coordinating center identifiers with value
+     * @return the coordinating center identifiers
      * 
-     * @throws DataAccessException the data access exception
      */
     public List<OrganizationAssignedIdentifier> getCoordinatingCenterIdentifiersWithValue(
                     String coordinatingCetnerIdentifierValue, HealthcareSite site) {
@@ -353,18 +352,16 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     }
 
     /**
-     * Gets the funding sponsor identifiers with value.
+     * Gets the funding sponsor identifiers with given value.
      * 
      * @param fundingSponsorIdentifierValue the funding sponsor identifier value
      * @param site the site
      * 
-     * @return the funding sponsor identifiers with value
+     * @return the funding sponsor identifiers
      * 
-     * @throws DataAccessException the data access exception
      */
     public List<OrganizationAssignedIdentifier> getFundingSponsorIdentifiersWithValue(
-                    String fundingSponsorIdentifierValue, HealthcareSite site)
-                    throws DataAccessException {
+                    String fundingSponsorIdentifierValue, HealthcareSite site) {
         List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
                         .find(
                                         "from Identifier I where I.type='Protocol Authority Identifier' and I.healthcareSite = ?",
@@ -396,7 +393,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * @param startDate the start date
      * @param endDate the end date
      * 
-     * @return the int
+     * @return the accural
      */
     public int countAcrrualsByDate(Study study, Date startDate, Date endDate) {
         Criteria regCriteria = getHibernateTemplate().getSessionFactory().getCurrentSession()
@@ -438,9 +435,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     /**
      * Gets the study diseases by disease term id.
      * 
-     * @param dTermId the d term id
+     * @param dTermId the disease term id
      * 
-     * @return the by disease term id
+     * @return list study diseases
      */
     public List<StudyDisease> getByDiseaseTermId(Integer dTermId) {
         return getHibernateTemplate().find("from StudyDisease sd where sd.diseaseTerm.id = ?",
@@ -499,7 +496,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     /**
      * Search by identifier.
      * 
-     * @param id the id
+     * @param id the identifier
      * 
      * @return the list< study>
      */
