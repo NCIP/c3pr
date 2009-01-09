@@ -39,38 +39,49 @@ import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
+// TODO: Auto-generated Javadoc
 /**
- * Hibernate implementation of StudyDao
+ * Hibernate implementation of StudyDao.
  * 
  * @author Priyatam
  */
 
 public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomainObjectDao<Study> {
 
+    /** The Constant SUBSTRING_MATCH_PROPERTIES. */
     private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("shortTitleText");
 
+    /** The Constant EXACT_MATCH_PROPERTIES. */
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
+    /** The log. */
     private static Log log = LogFactory.getLog(StudyDao.class);
     
+    /** The epoch dao. */
     private EpochDao epochDao;
 
-    public void detach(Study study) {
-        getHibernateTemplate().evict(study);
-    }
-
+    /**
+     * Clears the Hibernate Session.
+     */
     public void clear() {
         getHibernateTemplate().clear();
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
+     */
     @Override
     public Class<Study> domainClass() {
         return Study.class;
     }
 
-    public Study getStudyDesignById(int id) {
-        return (Study) getHibernateTemplate().get(domainClass(), id);
-    }
+    /**
+     * Search by system identifier.
+     * 
+     * @param id the id
+     * 
+     * @return the list< study>
+     */
     @SuppressWarnings("unchecked")
     public List<Study> searchBySysIdentifier(SystemAssignedIdentifier id) {
         return (List<Study>) getHibernateTemplate()
@@ -81,6 +92,13 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                                                 id.getValue(), id.getType() });
     }
 
+    /**
+     * Search by organization identifier.
+     * 
+     * @param id the id
+     * 
+     * @return the list< study>
+     */
     @SuppressWarnings("unchecked")
     public List<Study> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
         return (List<Study>) getHibernateTemplate()
@@ -91,49 +109,34 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                                                 id.getValue(), id.getType() });
     }
 
+    /**
+     * Merges the study with the persistence store
+     * 
+     * @param study the study
+     * 
+     * @return the study
+     */
     @Transactional(readOnly = false)
     public Study merge(Study study) {
-    	study = modifyStudy(study);
     	return (Study) getHibernateTemplate().merge(study);
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao#save(gov.nih.nci.cabig.ctms.domain.MutableDomainObject)
+     */
     @Transactional(readOnly = false)
     public void save(Study study) {
-    	study = modifyStudy(study);
         getHibernateTemplate().saveOrUpdate(study);
     }
     
 
-    private Study modifyStudy(Study study) {
-//    	if(study.hasCompanions()){
-//    		List<StudySite> studySites = study.getStudySites();
-//    		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
-//    			Study companionStudy = companionStudyAssociation.getCompanionStudy();
-//    			for(StudySite studySite : studySites){
-//    				List<StudySite> companionStudySites = companionStudy.getStudySites();
-//    				List<HealthcareSite> healthcareSiteList = new ArrayList<HealthcareSite>();
-//    				for(StudySite companionStudySite : companionStudySites){
-//    					healthcareSiteList.add(companionStudySite.getHealthcareSite());
-//    				}
-//    				if(!healthcareSiteList.contains(studySite.getHealthcareSite())){
-//    					StudySite newStudySite = new StudySite();
-//						newStudySite.setHealthcareSite(studySite.getHealthcareSite());
-//						newStudySite.setStudy(companionStudy);
-//						newStudySite.setIrbApprovalDate(studySite.getIrbApprovalDate());
-//						newStudySite.setStartDate(studySite.getStartDate());
-//						companionStudySites.add(newStudySite);
-//    				}
-//    			}
-//    		}
-//    	}
-    	return study;
-	}
-    
-    @Transactional(readOnly = false)
-    public void load(Study study, int i ) {
-        getHibernateTemplate().load(study, i);
-    }
-        
+    /**
+     * Initializes the study.
+     * 
+     * @param study the study
+     * 
+     * @throws DataAccessException the data access exception
+     */
     @Transactional(readOnly = false)
     public void initialize(Study study) throws DataAccessException {
     	getHibernateTemplate().initialize(study.getEpochsInternal());
@@ -185,15 +188,18 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 				getHibernateTemplate().initialize(studyOrganization.getStudyInvestigatorsInternal());
 				getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
 				getHibernateTemplate().initialize(studyOrganization.getEndpoints());
-//				for(EndPoint endPoint: studyOrganization.getEndpoints())
-//				    getHibernateTemplate().initialize(endPoint.getErrors());
-//				getHibernateTemplate().evict(studyOrganization.getEndpoints());
-//				getHibernateTemplate().getSessionFactory().evictCollection(StudyOrganization.class.getName()+".endpoints");
-//				getHibernateTemplate().getSessionFactory().evictCollection(EndPoint.class.getName()+".errors");
 			}
 		}
 		
 	}
+    
+    /**
+     * Gets the study by subnames.
+     * 
+     * @param subnames the subnames
+     * 
+     * @return List of studies
+     */
     public List<Study> getBySubnames(String[] subnames) {
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
@@ -206,10 +212,29 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * objects based on your sample study object
      */
 
+    /**
+     * Searches by example.
+     * 
+     * @param study the example study
+     * @param isWildCard the is wild card
+     * 
+     * @return the list< study>
+     */
     public List<Study> searchByExample(Study study, boolean isWildCard) {
         return searchByExample(study, isWildCard, 0);
     }
 
+    /**
+     * Search by example.
+     * 
+     * @param study the exmple study
+     * @param isWildCard the is wild card
+     * @param maxResults the max results
+     * @param order the order
+     * @param orderBy the order by
+     * 
+     * @return the list< study>
+     */
     public List<Study> searchByExample(Study study, boolean isWildCard, int maxResults,
                     String order, String orderBy) {
         List<Study> result = new ArrayList<Study>();
@@ -265,10 +290,28 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 
     }
 
+    /**
+     * Search by example.
+     * 
+     * @param study the study
+     * @param isWildCard the is wild card
+     * @param maxResults the max results
+     * 
+     * @return the list< study>
+     */
     public List<Study> searchByExample(Study study, boolean isWildCard, int maxResults) {
         return searchByExample(study, isWildCard, maxResults, "ascending", "shortTitleText");
     }
 
+    /**
+     * Search by example.
+     * 
+     * @param study the study
+     * @param searchText the search text
+     * @param isWildCard the is wild card
+     * 
+     * @return the list< study>
+     */
     public List<Study> searchByExample(Study study, String searchText, boolean isWildCard) {
 
         List<Study> result = new ArrayList<Study>();
@@ -284,9 +327,18 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         return result;
     }
 
+    /**
+     * Gets the coordinating center identifiers with value.
+     * 
+     * @param coordinatingCetnerIdentifierValue the coordinating cetner identifier value
+     * @param site the site
+     * 
+     * @return the coordinating center identifiers with value
+     * 
+     * @throws DataAccessException the data access exception
+     */
     public List<OrganizationAssignedIdentifier> getCoordinatingCenterIdentifiersWithValue(
-                    String coordinatingCetnerIdentifierValue, HealthcareSite site)
-                    throws DataAccessException {
+                    String coordinatingCetnerIdentifierValue, HealthcareSite site) {
         List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
                         .find(
                                         "from Identifier I where I.type='Coordinating Center Identifier' and I.healthcareSite = ?",
@@ -300,6 +352,16 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         return ccIdentifiers;
     }
 
+    /**
+     * Gets the funding sponsor identifiers with value.
+     * 
+     * @param fundingSponsorIdentifierValue the funding sponsor identifier value
+     * @param site the site
+     * 
+     * @return the funding sponsor identifiers with value
+     * 
+     * @throws DataAccessException the data access exception
+     */
     public List<OrganizationAssignedIdentifier> getFundingSponsorIdentifiersWithValue(
                     String fundingSponsorIdentifierValue, HealthcareSite site)
                     throws DataAccessException {
@@ -317,19 +379,25 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     }
 
     /**
-     * Default Search without a Wildchar
+     * Default Search without a Wildchar.
      * 
-     * @param study
+     * @param study the study
+     * 
      * @return Search Results
      */
     public List<Study> searchByExample(Study study) {
         return searchByExample(study, false, 0);
     }
 
-    public List<Study> searchByExample(Study study, int maxResults) {
-        return searchByExample(study, false, maxResults);
-    }
-
+    /**
+     * Counts acrruals by date.
+     * 
+     * @param study the study
+     * @param startDate the start date
+     * @param endDate the end date
+     * 
+     * @return the int
+     */
     public int countAcrrualsByDate(Study study, Date startDate, Date endDate) {
         Criteria regCriteria = getHibernateTemplate().getSessionFactory().getCurrentSession()
                         .createCriteria(StudySubject.class);
@@ -343,7 +411,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     }
 
     /**
-     * Returns all study objects
+     * Returns all study objects.
      * 
      * @return list of study objects
      */
@@ -352,23 +420,10 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     }
 
     /**
-     * Get all Arms associated with all of this study's epochs
+     * Get all Assignments associated with the given study.
      * 
-     * @param studyId
-     *                the study id
-     * @return list of Arm objects given a study id
-     */
-    public List<Arm> getArmsForStudy(Integer studyId) {
-        return getHibernateTemplate().find(
-                        "select a from Study s join s.epochs e join e.arms a " + "where s.id = ?",
-                        studyId);
-    }
-
-    /**
-     * Get all Assignments associated with the given study
+     * @param studyId the study id
      * 
-     * @param studyId
-     *                the study id
      * @return list of StudySubjects
      */
     public List<StudySubject> getStudySubjectsForStudy(Integer studyId) {
@@ -380,21 +435,45 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     /*
      * Primarily created for Generating test reports.
      */
+    /**
+     * Gets the study diseases by disease term id.
+     * 
+     * @param dTermId the d term id
+     * 
+     * @return the by disease term id
+     */
     public List<StudyDisease> getByDiseaseTermId(Integer dTermId) {
         return getHibernateTemplate().find("from StudyDisease sd where sd.diseaseTerm.id = ?",
                         dTermId);
     }
 
+    /**
+     * Reassociate.
+     * 
+     * @param s the s
+     */
     @Transactional(readOnly = false)
     public void reassociate(Study s) {
         getHibernateTemplate().update(s);
     }
 
+    /**
+     * Refresh.
+     * 
+     * @param s the s
+     */
     @Transactional(readOnly = false)
     public void refresh(Study s) {
         getHibernateTemplate().refresh(s);
     }
 
+    /**
+     * Gets the studies by identifiers.
+     * 
+     * @param studyIdentifiers the study identifiers
+     * 
+     * @return List of studies
+     */
     public List<Study> getByIdentifiers(List<Identifier> studyIdentifiers) {
         List<Study> studies = new ArrayList<Study>();
         for (Identifier identifier : studyIdentifiers) {
@@ -408,9 +487,22 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         return new ArrayList<Study>(set);
     }
 
+    /**
+     * Sets the epoch dao.
+     * 
+     * @param epochDao the new epoch dao
+     */
     public void setEpochDao(EpochDao epochDao) {
         this.epochDao = epochDao;
     }
+    
+    /**
+     * Search by identifier.
+     * 
+     * @param id the id
+     * 
+     * @return the list< study>
+     */
     @SuppressWarnings("unchecked")
     public List<Study> searchByIdentifier(int id) {
         return (List<Study>) getHibernateTemplate().find(

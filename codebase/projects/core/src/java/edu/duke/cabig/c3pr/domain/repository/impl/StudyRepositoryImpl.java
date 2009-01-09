@@ -122,10 +122,6 @@ public class StudyRepositoryImpl implements StudyRepository {
         return studyDao.searchByOrgIdentifier(identifier);
     }
 
-    public List<Study> searchByExample(Study study, int maxResults) {
-        return studyDao.searchByExample(study, maxResults);
-    }
-
     public int countAcrrualsByDate(Study study, Date startDate, Date endDate) {
         return studyDao.countAcrrualsByDate(study, startDate, endDate);
     }

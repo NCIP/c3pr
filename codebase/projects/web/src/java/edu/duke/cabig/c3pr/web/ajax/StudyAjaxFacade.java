@@ -220,15 +220,15 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         return "";
     }
 
-    public List<Study> matchStudies(String text) {
-        List<Study> studies = studyDao.getBySubnames(extractSubnames(text));
-        // cut down objects for serialization
-        List<Study> reducedStudies = new ArrayList<Study>(studies.size());
-        for (Study study : studies) {
-            reducedStudies.add(buildReduced(study, Arrays.asList("id", "shortTitleText")));
-        }
-        return reducedStudies;
-    }
+//    public List<Study> matchStudies(String text) {
+//        List<Study> studies = studyDao.getBySubnames(extractSubnames(text));
+//        // cut down objects for serialization
+//        List<Study> reducedStudies = new ArrayList<Study>(studies.size());
+//        for (Study study : studies) {
+//            reducedStudies.add(buildReduced(study, Arrays.asList("id", "shortTitleText")));
+//        }
+//        return reducedStudies;
+//    }
 
     public List<HealthcareSiteInvestigator> matchStudyOrganizationInvestigators(String text,
                     int siteIndex, HttpServletRequest request) throws Exception {

@@ -33,8 +33,6 @@ public interface StudyRepository {
 
     public void clear();
 
-    public List<Study> searchByExample(Study study, int maxResults);
-
     public int countAcrrualsByDate(Study study, Date startDate, Date endDate);
 
     public List<Study> searchByExample(Study study, boolean isWildCard, int maxResults,
