@@ -30,13 +30,15 @@ public class OrganizationServiceTest extends AbstractAnnotationAwareTransactiona
     private HealthcareSite dummySite;
 
     private OrganizationDao organizationDao;
+    
+    public static final String HCS_NAME = "Duke";
 
     public OrganizationServiceTest() {
         setAutowireMode(AUTOWIRE_BY_NAME);
         String strValue = "test" + String.valueOf(Math.random());
 
         dummySite = new HealthcareSite();
-        dummySite.setName(strValue);
+        dummySite.setName(HCS_NAME);
         dummySite.setDescriptionText(strValue);
         dummySite.setNciInstituteCode(strValue);
 
@@ -56,9 +58,13 @@ public class OrganizationServiceTest extends AbstractAnnotationAwareTransactiona
     }
 
     public void testCreateOrganization() throws Exception {
-        int initialSize = organizationDao.getAll().size();
+//        int initialSize = organizationDao.getAll().size();
         organizationService.save(dummySite);
-        assertEquals(initialSize, organizationDao.getAll().size() - 1);
+        int savedId = dummySite.getId();
+        HealthcareSite hcs = organizationDao.getById(savedId);
+        assertNotNull("site was not saved", hcs);
+        assertEquals(HCS_NAME, hcs.getName());
+//        assertEquals(initialSize, organizationDao.getAll().size() - 1);
     }
 
     public void testUPM() throws Exception {

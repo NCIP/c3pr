@@ -7,7 +7,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
@@ -15,13 +14,14 @@ import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
 /**
+ * The Class OrganizationDao.
+ * 
  * @author Vinay Gangoli
  * @version 1.0
  */
@@ -34,15 +34,14 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
         return HealthcareSite.class;
     }
 
-    /*
-     * Returns all Organizations objects (non-Javadoc)
+    /**
+     * Search by example.
      * 
-     * @see edu.duke.cabig.c3pr.dao.OrganizationDao#getAll()
+     * @param hcs the hcs
+     * @param isWildCard the is wild card
+     * 
+     * @return the list< healthcare site>
      */
-    public List<HealthcareSite> getAll() {
-        return getHibernateTemplate().find("from HealthcareSite");
-    }
-
     public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard) {
         List<HealthcareSite> result = new ArrayList<HealthcareSite>();
         Example example = Example.create(hcs).excludeZeroes().ignoreCase();
@@ -62,8 +61,7 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
             log.error(e.getMessage());
         }
         catch (IllegalStateException e) {
-            e.printStackTrace(); // To change body of catch statement use File | Settings | File
-                                    // Templates.
+            e.printStackTrace();                                    
         }
         catch (HibernateException e) {
             log.error(e.getMessage());
@@ -71,6 +69,13 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
         return result;
     }
 
+    /**
+     * Gets the by nci identifier.
+     * 
+     * @param nciIdentifier the nci identifier
+     * 
+     * @return the by nci identifier
+     */
     public List<HealthcareSite> getByNciIdentifier(String nciIdentifier) {
 
         List<HealthcareSite> result = new ArrayList<HealthcareSite>();
@@ -93,20 +98,19 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
         return result;
     }
     
-    @Transactional(readOnly = false)
-    public void reassociate(HealthcareSite p) {
-        getHibernateTemplate().lock(p, LockMode.NONE);
-    }
 
+    /* Saves a domain object
+     * @see gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao#save(gov.nih.nci.cabig.ctms.domain.MutableDomainObject)
+     */
     @Transactional(readOnly = false)
     public void save(HealthcareSite obj) {
         getHibernateTemplate().saveOrUpdate(obj);
     }
     
-    /*
-	 * Saves a domain object
-	 */
-	@Transactional(readOnly = false)
+	/* Saves a domain object
+     * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#merge(gov.nih.nci.cabig.ctms.domain.DomainObject)
+     */
+    @Transactional(readOnly = false)
 	public Organization merge(DomainObject domainObject) {
 		return (Organization)getHibernateTemplate().merge(domainObject);
 	}

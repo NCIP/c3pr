@@ -17,33 +17,122 @@ import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
+import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
+/**
+ * Test for loading an Organization by Id
+ * @throws Exception
+ */
 @C3PRUseCases( { CREATE_ORGANIZATION })
 public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
-    /**
-     * Test for loading an Organization by Id
-     * @throws Exception
-     */
 	
 	public static final String MESSAGE_BODY = "You get this message and your domain model is working";
 	public static final String TITLE = "Vanguard";
 	
-    private ResearchStaffDao researchStaffDao = (ResearchStaffDao) getApplicationContext().getBean("researchStaffDao");
-    private PlannedNotificationDao plannedNotificationDao= (PlannedNotificationDao) getApplicationContext().getBean("plannedNotificationDao");
-    private RecipientScheduledNotificationDao rsnDao= (RecipientScheduledNotificationDao) getApplicationContext().getBean("recipientScheduledNotificationDao");
+    private ResearchStaffDao researchStaffDao;
+    private PlannedNotificationDao plannedNotificationDao;
+    private InvestigatorGroupDao investigatorGroupDao;
+    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
     
+    public OrganizationDaoTest() {
+    	researchStaffDao = (ResearchStaffDao) getApplicationContext().getBean("researchStaffDao");
+        plannedNotificationDao= (PlannedNotificationDao) getApplicationContext().getBean("plannedNotificationDao");
+        investigatorGroupDao = (InvestigatorGroupDao) getApplicationContext().getBean("investigatorGroupDao");
+        healthcareSiteInvestigatorDao = (HealthcareSiteInvestigatorDao) getApplicationContext().getBean("healthcareSiteInvestigatorDao");
+	}
+    /**
+     * Test get by id.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetById() throws Exception {
         HealthcareSite org = getDao().getById(1000);
         assertEquals("Duke Comprehensive Cancer Center", org.getName());
     }
 
+    /**
+     * Test get by nci identifier.
+     * 
+     * @throws Exception the exception
+     */
+    public void testGetByNciIdentifier() throws Exception {
+        List<HealthcareSite> orgList = getDao().getByNciIdentifier("du code");
+        assertEquals("Duke Comprehensive Cancer Center", orgList.get(0).getName());
+    }
+    
+    
+    /**
+     * Test search by example with wild card true.
+     */
+    public void testSearchByExampleWithWildCardTrue(){
+    	//HealthcareSite org = getDao().getById(1000);
+    	HealthcareSite org  = new HealthcareSite();
+    	org.setNciInstituteCode("du code");
+    	org.setName("Duke");
+    	List<HealthcareSite> hcsList = getDao().searchByExample(org, true);
+    	assertNotNull(hcsList);
+    	assertEquals(1, hcsList.size());
+    }
+    
+    
+    /**
+     * Test search by example with wild card false.
+     */
+    public void testSearchByExampleWithWildCardFalse(){
+    	//HealthcareSite org = getDao().getById(1000);
+    	HealthcareSite org  = new HealthcareSite();
+    	org.setNciInstituteCode("du code");
+    	org.setName("Duke Comprehensive Cancer Center");
+    	List<HealthcareSite> hcsList = getDao().searchByExample(org, false);
+    	assertNotNull(hcsList);
+    	assertEquals(1, hcsList.size());
+    }
+    
+    
+    
+    public void testMergeNewOrganization() {
+        Integer savedId;
+        {
+        	HealthcareSite healthcaresite = getDao().getById(1000);
+
+            Address address = new Address();
+            address.setCity("Chicago");
+            address.setCountryCode("USA");
+            address.setPostalCode("83929");
+            address.setStateCode("IL");
+            address.setStreetAddress("123 Lake Shore Dr");
+
+            healthcaresite.setAddress(address);
+            healthcaresite.setName("Northwestern Memorial Hospital");
+            healthcaresite.setDescriptionText("NU healthcare");
+            healthcaresite.setNciInstituteCode("NCI northwestern");
+            Organization org = this.getDao().merge(healthcaresite);
+
+            savedId = org.getId();
+            assertNotNull("The saved organization didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+            HealthcareSite loaded = this.getDao().getById(savedId);
+            assertNotNull("Could not reload organization with id " + savedId, loaded);
+            assertEquals("Wrong name", "Northwestern Memorial Hospital", loaded.getName());
+            assertEquals("Wrong city", "Chicago", loaded.getAddress().getCity());
+        }
+    }
+    
+    
     public void testSaveNewOrganization() {
         Integer savedId;
         {
@@ -111,20 +200,41 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
         }
     }
 
-    public void testNumberOfInvestigatorGroups() throws Exception {
+    public void testGetByIdForInvestigatorGroups() throws Exception {
         HealthcareSite org = getDao().getById(1000);
         assertEquals("Expected 2 investigator groups", 2, org.getInvestigatorGroups().size());
     }
 
     public void testAddInvestigatorGroupToHealthcareSite() throws Exception {
-        {
+        Integer savedId;
+    	{
             HealthcareSite org = getDao().getById(1000);
-            org.getInvestigatorGroups().get(1).setName("Physicians Group");
+            InvestigatorGroup investigatorGroup = new InvestigatorGroup();
+            investigatorGroup.setHealthcareSite(org);
+            investigatorGroup.setDescriptionText("InvestigatorGroupDescription");
+            investigatorGroup.setName("inv_grp");
+            
+           
+            HealthcareSiteInvestigator healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(1001);
+            
+            SiteInvestigatorGroupAffiliation siga = new SiteInvestigatorGroupAffiliation();
+            siga.setHealthcareSiteInvestigator(healthcareSiteInvestigator);
+            siga.setInvestigatorGroup(investigatorGroup);
+            
+            investigatorGroup.getSiteInvestigatorGroupAffiliations().add(siga);
+            org.getInvestigatorGroups().add(investigatorGroup);
+            //investigatorGroupDao.save(investigatorGroup);
+            getDao().save(org);
+            savedId = investigatorGroup.getId();
+            //org.getInvestigatorGroups().get(1).setName("Physicians Group");
         }
+        
         interruptSession();
         HealthcareSite loadedOrg = getDao().getById(1000);
-
-        assertEquals("Expected 3 investigator groups", 2, loadedOrg.getInvestigatorGroups().size());
+        assertEquals("Expected 3 investigator groups", 3, loadedOrg.getInvestigatorGroups().size());
+        InvestigatorGroup investigatorGroup = investigatorGroupDao.getById(savedId);
+        assertEquals("inv_grp", investigatorGroup.getName());
+        assertEquals("InvestigatorGroupDescription", investigatorGroup.getDescriptionText());
     }
     
     public void testSaveNotificationWithMessageDetailsAndRecepients() throws Exception {
