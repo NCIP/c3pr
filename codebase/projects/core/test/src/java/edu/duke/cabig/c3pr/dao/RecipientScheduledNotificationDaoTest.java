@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.dao;
 
-import org.hibernate.HibernateException;
-
 import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
