@@ -54,5 +54,13 @@ public class AnatomicSiteDaoTest extends DaoTestCase {
 		List<AnatomicSite> anatomicSites=anatomicSiteDao.getBySubnames(new String[] { "%" });
 		assertEquals("Wrong size", 2, anatomicSites.size());
 	}
+	
+	/**
+	 * Test evict.
+	 */
+	public void testEvict() {
+		List<AnatomicSite> anatomicSites=anatomicSiteDao.getBySubnames(new String[] { "%" });
+		anatomicSiteDao.evict(anatomicSites.get(0));
+	}
 
 }
