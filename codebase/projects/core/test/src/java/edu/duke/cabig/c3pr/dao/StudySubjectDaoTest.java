@@ -954,7 +954,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     }
     
     public void testDomainClass() throws Exception{
-    	assertEquals("Wrong domain class",StudySubjectDao.class, studySubjectDao.domainClass());
+    	assertEquals("Wrong domain class",StudySubject.class, studySubjectDao.domainClass());
     }
     
     public void testStartDateNotNullable() throws Exception{
