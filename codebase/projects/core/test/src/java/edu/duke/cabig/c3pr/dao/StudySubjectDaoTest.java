@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -88,6 +89,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
         epochDao = (EpochDao) getApplicationContext().getBean("epochDao");
         anatomicSiteDao = (AnatomicSiteDao) getApplicationContext().getBean("anatomicSiteDao");
         studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
+        studySubjectDao.setStudySiteDao(studySiteDao);
+        studySubjectDao.setParticipantDao(dao);
         scheduledEpochDao = (ScheduledEpochDao) getApplicationContext()
                         .getBean("scheduledEpochDao");
         studyDao = (StudyDao) getApplicationContext().getBean("studyDao");
@@ -104,7 +107,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
      */
     public void testForReport() {
         // Fetch the subject with firstName Rudolph
-        List<Participant> participantList = dao.getByFirstName("Rudolph");
+        List<Participant> participantList = studySubjectDao.getParticipantDao().getByFirstName("Rudolph");
         Participant participant = participantList.get(0);
         try {
             String outputFileName = "TestReport.txt";
@@ -301,7 +304,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
     }
     
     public void testGetStudySubjectsByIdentifiers() throws Exception {
-    /*	
     	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
     	sysIdentifier.setSystemName("nci");
     	sysIdentifier.setType("local");
@@ -310,7 +312,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubjectSysIdentifiers.add(sysIdentifier);
     	
         List<StudySubject> studyPartsBySys = studySubjectDao.getByIdentifiers(studySubjectSysIdentifiers);
-        assertSame("Wrong number of Study Participants", 1, studyPartsBySys.size());*/
+        assertSame("Wrong number of Study Participants", 1, studyPartsBySys.size());
         
     	StudySubject studySubject = studySubjectDao.getById(1000);
     	
@@ -335,7 +337,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         {
             StudySubject studySubject = new StudySubject();
             Participant participant = dao.getById(1001);
-            StudySite studySite = studySiteDao.getById(1001);
+            StudySite studySite = studySubjectDao.getStudySiteDao().getById(1001);
             studySubject.setParticipant(participant);
             studySubject.setStudySite(studySite);
             ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
@@ -796,18 +798,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
        assertEquals("Wrong number of study subject identifiers retrieved", numberOfIdentifiers+1, updatedStudySubject.getIdentifiers().size());
     }
     
-    public void testForLazyInitialization() throws Exception{
-    	StudySubject studySubject = studySubjectDao.getById(1000);
-    	super.interruptSession();
-    	assertNotNull("Study Subject cannot be null",studySubject);
-    	try{
-    		studySubject.getSystemAssignedIdentifiers().get(0).getType();
-    		fail("Test should not have reached this line");
-    	}catch(org.hibernate.LazyInitializationException ex){
-    		
-    	}
-    }
-    
     public void testSearchByStudy() throws Exception{
     	Study study = new Study(true);
     	study.setShortTitleText("short_title_text");
@@ -869,5 +859,124 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubjects = studySubjectDao.searchByExample(studySubject, true, 10);
     	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
     }
+    
+    public void testForLazyInitialization() throws Exception{
+    	StudySubject studySubject = studySubjectDao.getById(1000);
+    	super.interruptSession();
+    	assertNotNull("Study Subject cannot be null",studySubject);
+    	try{
+    		studySubject.getSystemAssignedIdentifiers().get(0).getType();
+    		fail("Test should not have reached this line");
+    	}catch(org.hibernate.LazyInitializationException ex){
+    		
+    	}
+    }
+    
+    public void testInitialize() throws Exception{
+    	StudySubject studySubject = studySubjectDao.getById(1000);
+    	studySubjectDao.initialize(studySubject);
+    	super.interruptSession();
+    	assertNotNull("Study Subject cannot be null",studySubject);
+    	try{
+    		studySubject.getSystemAssignedIdentifiers().get(0).getType();
+    	}catch(org.hibernate.LazyInitializationException ex){
+    		fail("Should not have thrown lazy initialization error as the object is initialized");
+    	}
+    }
+    
+    public void testAdvancedSearch() throws Exception{
+    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    	
+    	Study study = new Study(true);
+        SystemAssignedIdentifier id = new SystemAssignedIdentifier();
+        id.setValue(null);
+        study.addIdentifier(id);
+        study.setShortTitleText(" ");
+        
+    	Participant participant = new Participant();
+    	participant.setRaceCode("White");
+    	participant.setBirthDate(simpleDateFormat.parse("01/01/2000"));
+		id = new SystemAssignedIdentifier();
+	    id.setValue(null);
+	    participant.addIdentifier(id);
+  
+    	StudySubject studySubject = new StudySubject(true);
+    	StudySite studySite = new StudySite();
+    	HealthcareSite site = healthcareSiteDao.getById(1000);
+    	studySite.setHealthcareSite(site);
+    	studySite.setStudy(study);
+    	studySubject.setStudySite(studySite);
+    	studySubject.setParticipant(participant);
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	
+    	studySubjects = studySubjectDao.advancedSearch(studySubject,simpleDateFormat.parse("01/01/1999"),simpleDateFormat.parse("01/01/2001"),"nci");
+    	assertEquals("Wrong number or study subjects retrieved",0,studySubjects.size());
+    }
+    
+    public void testIncompleteRegistrations() throws Exception{
+    	
+    	StudySubject studySubject = new StudySubject(true);
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	
+    	studySubjects = studySubjectDao.getIncompleteRegistrations(studySubject, 15);
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    }
+    
+    public void testSearchByIdentifier() throws Exception{
+    	
+    	StudySubject studySubject = new StudySubject(true);
+    	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+    	sysIdentifier.setValue("nci");
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	
+    	studySubjects = studySubjectDao.getIncompleteRegistrations(studySubject, 15);
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    }
+    
+    public void testSearchByExampleWithWildCard() throws Exception{
+    	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+    	sysIdentifier.setValue("nci");
+    	StudySubject studySubject = new StudySubject(true);
+    	studySubject.addIdentifier(sysIdentifier);
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchByExample(studySubject, true);
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    }
+    
+    public void testSearchByExampleWithMaxResults() throws Exception{
+    	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+    	sysIdentifier.setValue("nci");
+    	StudySubject studySubject = new StudySubject(true);
+    	studySubject.addIdentifier(sysIdentifier);
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchByExample(studySubject, 15);
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    }
+    
+    public void testDomainClass() throws Exception{
+    	assertEquals("Wrong domain class",StudySubjectDao.class, studySubjectDao.domainClass());
+    }
+    
+    public void testStartDateNotNullable() throws Exception{
+    	StudySubject studySubject = new StudySubject();
+    	studySubject.setInformedConsentSignedDate(new Date());
+        studySubject.setInformedConsentVersion("1.0");
+        StudySite studySite = studySiteDao.getById(1000);
+        Participant participant = dao.getById(1000);
+        studySubject.setStudySite(studySite);
+        studySubject.setParticipant(participant);
+        // Have to explicitly set start date to null because it may be initialized
+        studySubject.setStartDate(null);
+        
+        try{
+        	studySubjectDao.save(studySubject);
+        	fail("Should have failed due to not null constraint on start date");
+        }catch(Exception ex){
+        	
+        }
+    	
+    }
+    
+    
     		
 }
