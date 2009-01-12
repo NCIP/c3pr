@@ -138,10 +138,10 @@
         <tr>
             <td width="100%" id="tabDisplay">
                 <a href="javascript:moveToCreateSubject()" id="createSubject_btn" class="current">
-                	<span><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>"/>Create Subject</span>
+                	<span><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>" alt="" />Create Subject</span>
 				</a>
 				<a href="javascript:moveToSearchSubject()" id="searchSubject_btn" class="fifthlevelTab">
-					<span id="searchSubjectSpan"><img src="<tags:imageUrl name="icons/search.png"/>" /> Search for Subject</span>
+					<span id="searchSubjectSpan"><img src="<tags:imageUrl name="icons/search.png"/>" alt="" /> Search for Subject</span>
 				</a>
             </td>
             <td>
