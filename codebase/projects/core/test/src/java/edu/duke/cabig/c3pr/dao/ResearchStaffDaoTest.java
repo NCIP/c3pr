@@ -7,6 +7,7 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 import java.util.List;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
@@ -15,14 +16,29 @@ import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
  * JUnit Tests for ResearchStaffDao
  * 
  * @author Priyatam
- * @testType unit
+ * @testType integration
  */
 @C3PRUseCases( { VERIFY_SUBJECT, SEARCH_SUBJECT })
 public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 
-    private HealthcareSiteDao healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
-                    .getBean("healthcareSiteDao");
+    private HealthcareSiteDao healthcareSiteDao;
 
+    
+    /**
+     * Instantiates a new research staff dao test.
+     */
+    public ResearchStaffDaoTest() {
+    	healthcareSiteDao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
+    }
+    
+    
+    /**
+	 * Test domain class.
+	 */
+	public void testDomainClass() {
+		assertEquals("Wrong Domain Class", ResearchStaff.class, getDao().domainClass());
+	}
+    
     /**
      * Test for loading an a Research Staff by Id
      * 
@@ -35,7 +51,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 
     public void testFailureAddingSameResearchStaffMemberTwice() {
 
-        HealthcareSite site = healthcareSitedao.getById(1000);
+        HealthcareSite site = healthcareSiteDao.getById(1000);
         ResearchStaff rs1 = new ResearchStaff();
         rs1.setFirstName("Brad");
         rs1.setLastName("Johnson");
@@ -94,7 +110,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     }
 
     /**
-     * Test for loading of Site Investigators based on mathing pattern on Investigator name
+     * Test for loading of Site Investigators based on matching pattern on Investigator name
      * 
      * @throws Exception
      */
@@ -102,6 +118,76 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         List<ResearchStaff> actual = getDao().getBySubnames(new String[] { "Resea", "Geo" }, 1000);
         assertEquals("Wrong number of matches", 1, actual.size());
         assertEquals("Wrong match", 1001, (int) actual.get(0).getId());
+    }
+    
+    /**
+     * Test for loading of Site Investigators based on matching pattern on Investigator email
+     * 
+     * @throws Exception
+     */
+    public void testGetBySubnameMatchesIntersectionOfSubnamesAndSubemail() throws Exception {
+        List<ResearchStaff> actual = getDao().getBySubNameAndSubEmail(new String[] { "test" }, "code");
+        assertEquals("Wrong number of matches", 1, actual.size());
+        assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
+    }
+    
+    
+    /**
+     * Test search by example with wildcard.
+     * 
+     * @throws Exception the exception
+     */
+    public void testSearchByExampleWithWildcard() throws Exception{
+    	ResearchStaff researchStaff = new ResearchStaff();
+    	researchStaff.setFirstName("Research");
+    	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
+    	assertEquals("Incorrect Size of retrieved list", researchStaffList.size(), 4);
+    }
+    
+    /**
+     * Test search by example without wildcard.
+     * 
+     * @throws Exception the exception
+     */
+    public void testSearchByExampleWithoutWildcard() throws Exception{
+    	ResearchStaff researchStaff = new ResearchStaff();
+    	researchStaff.setFirstName("Research Bill");
+    	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
+    	assertEquals("Incorrect Size of retrieved list", researchStaffList.size(), 1);
+    }
+    
+    /**
+     * Test get by email address.
+     * 
+     * @throws Exception the exception
+     */
+    public void testGetByEmailAddress() throws Exception {
+    	List <ResearchStaff> researchStaffList = getDao().getByEmailAddress("test@mail.com");
+    	assertEquals(researchStaffList.size(), 1);
+    	assertEquals("Incorrect staff retrieved", researchStaffList.get(0).getFirstName(), "Research Bill");
+    }
+    
+    /**
+     * Test get by nci id.
+     * 
+     * @throws Exception the exception
+     */
+    public void testGetByNciId() throws Exception {
+        ResearchStaff staff = getDao().getByNciIdentifier("rjfk_1003");
+        assertEquals("Research Bill", staff.getFirstName());
+    }
+    
+    
+    /**
+     * Test search research staff by query.
+     * 
+     * @throws Exception the exception
+     */
+    public void testSearchResearchStaffByQuery() throws Exception{
+    	ResearchStaffQuery researchStaffQuery = new ResearchStaffQuery();
+        researchStaffQuery.filterByEmailAddress("test@mail.com");
+        List<ResearchStaff> researchStaffList = getDao().searchResearchStaff(researchStaffQuery);
+        assertEquals("Incorrect size", 1, researchStaffList.size());
     }
 
 }
