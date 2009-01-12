@@ -48,6 +48,16 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         ResearchStaff staff = getDao().getById(1000);
         assertEquals("Research Bill", staff.getFirstName());
     }
+    
+    /**
+     * Test for loading an a Research Staff by Id
+     * 
+     * @throws Exception
+     */
+    public void testGetByIdForException() throws Exception {
+        ResearchStaff staff = getDao().getByNciIdentifier("9999");
+        assertNull(staff);
+    }
 
     public void testFailureAddingSameResearchStaffMemberTwice() {
 
