@@ -20,9 +20,8 @@ public class EndpointDao extends GridIdentifiableDao<EndPoint> {
     }
 
     /*
-     * Returns all Arm objects (non-Javadoc)
+     * Returns all Endpoint objects (non-Javadoc)
      * 
-     * @see edu.duke.cabig.c3pr.dao.Arm#getAll()
      */
     public List<EndPoint> getAll() {
         return getHibernateTemplate().find("from EndPoint");
