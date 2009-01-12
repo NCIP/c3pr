@@ -22,6 +22,7 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.springframework.test.annotation.ExpectedException;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
@@ -73,7 +74,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     private ScheduledEpochDao scheduledEpochDao;
 
-    private HealthcareSiteDao healthcareSiteDao;
+	private HealthcareSiteDao healthcareSiteDao;
 
     private XmlMarshaller xmlUtility;
 
@@ -794,4 +795,79 @@ public class StudySubjectDaoTest extends DaoTestCase {
        StudySubject updatedStudySubject = studySubjectDao.getById(1000);
        assertEquals("Wrong number of study subject identifiers retrieved", numberOfIdentifiers+1, updatedStudySubject.getIdentifiers().size());
     }
+    
+    public void testForLazyInitialization() throws Exception{
+    	StudySubject studySubject = studySubjectDao.getById(1000);
+    	super.interruptSession();
+    	assertNotNull("Study Subject cannot be null",studySubject);
+    	try{
+    		studySubject.getSystemAssignedIdentifiers().get(0).getType();
+    		fail("Test should not have reached this line");
+    	}catch(org.hibernate.LazyInitializationException ex){
+    		
+    	}
+    }
+    
+    public void testSearchByStudy() throws Exception{
+    	Study study = new Study(true);
+    	study.setShortTitleText("short_title_text");
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchByStudy(study);
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    }
+    
+    public void testSearchByStudyId() throws Exception{
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchByStudyId(1000);
+    	List<StudySubject> studySubjects1 = new ArrayList<StudySubject>();
+    	studySubjects1 = studySubjectDao.searchByStudyId(1002);
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",0,studySubjects1.size());
+    }
+    
+    public void testSearchBySubject() throws Exception{
+    	Participant subject = new Participant();
+    	subject.setLastName("Clooney");
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchByParticipant(subject);
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    }
+    
+    public void testSearchBySubjectId() throws Exception{
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchByParticipantId(1000);
+    	List<StudySubject> studySubjects1 = new ArrayList<StudySubject>();
+    	studySubjects1 = studySubjectDao.searchByParticipantId(1002);
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",0,studySubjects1.size());
+    }
+    
+    public void testSearchByScheduledEpoch() throws Exception{
+    	ScheduledEpoch scheduledEpoch = scheduledEpochDao.getById(1001);
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchByScheduledEpoch(scheduledEpoch);
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    }
+    
+    public void testSearchBySubjectAndStudySite() throws Exception{
+    	Participant subject = dao.getById(1000);
+    	StudySite studySite = studySiteDao.getById(1000);
+    	StudySubject studySubject = new StudySubject(true);
+    	studySubject.setStudySite(studySite);
+    	studySubject.setParticipant(subject);
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchBySubjectAndStudySite(studySubject);
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    }
+    
+    public void testSearchByExample() throws Exception{
+    	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+    	sysIdentifier.setValue("nci");
+    	StudySubject studySubject = new StudySubject(true);
+    	studySubject.addIdentifier(sysIdentifier);
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchByExample(studySubject, true, 10);
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    }
+    		
 }
