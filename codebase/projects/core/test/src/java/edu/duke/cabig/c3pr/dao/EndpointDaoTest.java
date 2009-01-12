@@ -12,20 +12,29 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
+// TODO: Auto-generated Javadoc
 /**
- * JUnit Tests for StudySiteDao
+ * JUnit Tests for StudySiteDao.
  * 
  * @author Priyatam
  * @testType unit
  */
+/**
+ * @author kruttikagarwal
+ *
+ */
 public class EndpointDaoTest extends DaoTestCase {
+    
+    /** The dao. */
     private EndpointDao dao;
+    
+    /** The study site dao. */
     private StudySiteDao studySiteDao;
 
     /**
-     * Test for loading a Study by Id
+     * Test for loading a Study by Id.
      * 
-     * @throws Exception
+     * @throws Exception the exception
      */
     
     protected void setUp() throws Exception {
@@ -34,7 +43,12 @@ public class EndpointDaoTest extends DaoTestCase {
         studySiteDao = (StudySiteDao) getApplicationContext().getBean("studySiteDao");
     }
     
-    public void testSaveStudySiteWithEndPoint1() throws Exception {
+    /**
+     * Test save end point.
+     * 
+     * @throws Exception the exception
+     */
+    public void testSaveEndPoint() throws Exception {
         List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
@@ -72,7 +86,12 @@ public class EndpointDaoTest extends DaoTestCase {
         assertEquals("Wrong Date", date2.toLocaleString(), studySite.getLastAttemptedEndpoint().getAttemptDate().toLocaleString());
     }
     
-    public void testSaveStudySiteWithEndPoint2() throws Exception {
+    /**
+     * Test save two end points with different attempted dates.
+     * 
+     * @throws Exception the exception
+     */
+    public void testSaveTwoEndPointsWithDifferentAttemptedDates() throws Exception {
         List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
@@ -111,7 +130,12 @@ public class EndpointDaoTest extends DaoTestCase {
         assertEquals("Wrong Date", date2.toLocaleString(), studySite.getLastAttemptedEndpoint().getAttemptDate().toLocaleString());
     }
     
-    public void testMergeStudySiteWithEndPoint() throws Exception {
+    /**
+     * Test merge end point.
+     * 
+     * @throws Exception the exception
+     */
+    public void testMergeEndPoint() throws Exception {
         List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
@@ -133,7 +157,12 @@ public class EndpointDaoTest extends DaoTestCase {
         assertEquals("Wrong Service", APIName.OPEN_STUDY, studySite.getEndpoints().get(0).getApiName());
     }
     
-    public void testMergeStudySiteWithEndPointAndErrors() throws Exception {
+    /**
+     * Test merge end point and errors.
+     * 
+     * @throws Exception the exception
+     */
+    public void testMergeEndPointAndErrors() throws Exception {
         List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
@@ -165,5 +194,15 @@ public class EndpointDaoTest extends DaoTestCase {
         interruptSession();
         studySite=studySiteDao.getById(studySite.getId());
         assertEquals("Wrong Size", 1, studySite.getEndpoints().get(0).getErrors().size());
+    }
+    
+    /**
+     * Test get all endpoints.
+     */
+    public void testGetAll(){
+    	List<EndPoint> endpoints=dao.getAll();
+    	assertNotNull("List should not be null"+endpoints);
+    	assertEquals("Shouldnt be empty", false, endpoints.isEmpty());
+    	assertEquals("Size should be 1", 1, endpoints.size());
     }
 }
