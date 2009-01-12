@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 
 /**
- * Hibernate implementation of EpochDao
+ * Hibernate implementation of ScheduledEpoch
  * 
- * @see edu.duke.cabig.c3pr.dao.ScheduledEpochDao
+ * @see edu.duke.cabig.c3pr.dao.ScheduledEpoch
  * @author Priyatam
  */
 public class ScheduledEpochDao extends GridIdentifiableDao<ScheduledEpoch> {
@@ -18,19 +18,5 @@ public class ScheduledEpochDao extends GridIdentifiableDao<ScheduledEpoch> {
     @Override
     public Class<ScheduledEpoch> domainClass() {
         return ScheduledEpoch.class;
-    }
-
-    /*
-     * Returns all Epoch objects (non-Javadoc)
-     * 
-     * @see edu.duke.cabig.c3pr.dao.Epoch#getAll()
-     */
-    public List<ScheduledEpoch> getAll() {
-        return getHibernateTemplate().find("from ScheduledEpoch");
-    }
-
-    @Transactional(readOnly = false)
-    public void reassociate(ScheduledEpoch sch) {
-        getHibernateTemplate().lock(sch, LockMode.NONE);
     }
 }

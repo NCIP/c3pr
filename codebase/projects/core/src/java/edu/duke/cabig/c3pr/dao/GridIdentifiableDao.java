@@ -11,11 +11,9 @@ import gov.nih.nci.cabig.ctms.domain.GridIdentifiable;
 public abstract class GridIdentifiableDao<T extends DomainObject & GridIdentifiable> extends
                 C3PRBaseDao<T> implements gov.nih.nci.cabig.ctms.dao.GridIdentifiableDao<T> {
 
-    @SuppressWarnings("unchecked")
-    public T getByGridId(T template) {
-        return (T) CollectionUtils.firstElement(getHibernateTemplate().findByExample(template));
-    }
-
+    /* (non-Javadoc)
+     * @see gov.nih.nci.cabig.ctms.dao.GridIdentifiableDao#getByGridId(java.lang.String)
+     */
     public T getByGridId(String gridId) {
         StringBuilder query = new StringBuilder("from ").append(domainClass().getName()).append(
                         " o where gridId = ?");
