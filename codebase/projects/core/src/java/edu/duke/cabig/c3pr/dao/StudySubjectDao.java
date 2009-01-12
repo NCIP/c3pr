@@ -343,7 +343,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         return searchByExample(registration, true, maxResults);
     }
 
-    public StudySubject getById(int id, boolean withIdentifiers) {
+    /*public StudySubject getById(int id, boolean withIdentifiers) {
 
         StudySubject registration = (StudySubject) getHibernateTemplate().get(domainClass(), id);
         if (withIdentifiers) {
@@ -352,9 +352,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         }
         return registration;
 
-    }
+    }*/
 
-    public List<StudySubject> getBySubnames(String[] subnames, int criterionSelector) {
+    /*public List<StudySubject> getBySubnames(String[] subnames, int criterionSelector) {
 
         switch (criterionSelector) {
             case 0:
@@ -378,7 +378,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         }
 
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
-    }
+    }*/
     
     public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults){
     	List<StudySubject> result = new ArrayList<StudySubject>();
@@ -471,10 +471,10 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     }
 
 
-    @Transactional(readOnly = false)
+   /* @Transactional(readOnly = false)
     public void reassociate(StudySubject spa) {
         getHibernateTemplate().lock(spa, LockMode.NONE);
-    }
+    }*/
 
     @Transactional(readOnly = false)
     public void save(StudySubject obj) {
@@ -486,9 +486,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         return (StudySubject) getHibernateTemplate().merge(obj);
     }
 
-    public List<StudySubject> searchByExample(StudySubject ss) {
+    /*public List<StudySubject> searchByExample(StudySubject ss) {
         return searchByExample(ss, false, 0);
-    }
+    }*/
 
     public List<StudySubject> searchByExample(StudySubject ss, boolean isWildCard) {
         return searchByExample(ss, isWildCard, 0);
