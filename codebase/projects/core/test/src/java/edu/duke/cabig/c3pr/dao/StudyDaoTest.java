@@ -1327,7 +1327,6 @@ public class StudyDaoTest extends DaoTestCase {
         }
         catch (RuntimeException e) {
         }
-        interruptSession();
 
     }
 
@@ -1390,11 +1389,14 @@ public class StudyDaoTest extends DaoTestCase {
         OrganizationAssignedIdentifier orgId2 = new OrganizationAssignedIdentifier();
         orgId2.setHealthcareSite(site);
         orgId2.setType("Study Funding Sponsor");
-        orgId2.setValue("abc");
+        orgId2.setValue("abcd");
         loadedStudy1.addIdentifier(orgId1);
-        loadedStudy2.addIdentifier(orgId2);
-
+        
+        loadedStudy1.getSystemAssignedIdentifiers();
         dao.save(loadedStudy1);
+        
+        loadedStudy2.addIdentifier(orgId2);
+        dao.save(loadedStudy2);
 
     }
 
@@ -1663,4 +1665,26 @@ public class StudyDaoTest extends DaoTestCase {
     	List<Study> studies=dao.searchByIdentifier(1000);
     	assertEquals("Wronf number of studies", 1, studies.size());
     }
+    
+    public void testSaveOneOrganizationIdentifiersAndOneSystemAssignedIdentifier() throws Exception {
+        Study loadedStudy = dao.getById(1000);
+        
+        OrganizationAssignedIdentifier identifier1 = new OrganizationAssignedIdentifier();
+        HealthcareSite loadedSite = healthcareSitedao.getById(1000);
+        identifier1.setHealthcareSite(loadedSite);
+        identifier1.setType("Coordinating Center Assigned Identifier");
+        identifier1.setValue("123");
+
+        SystemAssignedIdentifier sysId = new SystemAssignedIdentifier();
+        sysId.setSystemName("sys_name");
+        sysId.setValue("123");
+        sysId.setType("Coordinating Center Assigned Identifier");
+       
+        loadedStudy.addIdentifier(identifier1);
+        loadedStudy.addIdentifier(sysId);
+        dao.save(loadedStudy);
+        Study reloadedStudy = dao.getById(1000);
+        assertEquals("Wrong number of identifiers for study",4,reloadedStudy.getIdentifiers().size());
+    }
+
 }
