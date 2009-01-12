@@ -1,11 +1,12 @@
 package edu.duke.cabig.c3pr.dao.query;
 
+
 /**
  * @author Saurabh Agrawal
  */
 public class ResearchStaffQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT distinct rs from ResearchStaff rs left join fetch rs.organization order by rs.id";
+    private static String queryString = "SELECT distinct rs from ResearchStaff rs left join fetch rs.healthcareSite order by rs.id";
 
     private static String FIRST_NAME = "firstName";
 
@@ -16,7 +17,7 @@ public class ResearchStaffQuery extends AbstractQuery {
     private static String EMAIL_ADDRESS = "emailAddress";
 
     private static String NCI_IDENTIFIER = "nciIdentifier";
-
+    
     public ResearchStaffQuery() {
 
         super(queryString);
@@ -42,7 +43,7 @@ public class ResearchStaffQuery extends AbstractQuery {
 
     public void filterByEmailAddress(final String emailAddress) {
         String searchString = "%" + emailAddress.trim().toLowerCase() + "%";
-        andWhere("lower(rs.emailAddress) LIKE :" + EMAIL_ADDRESS);
+        andWhere("lower(rs.contactMechanisms.value) LIKE :" + EMAIL_ADDRESS);
         setParameter(EMAIL_ADDRESS, searchString);
     }
 
