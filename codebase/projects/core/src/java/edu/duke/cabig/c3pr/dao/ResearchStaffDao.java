@@ -121,13 +121,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
                 result = criteria.add(example).list();
             }
         }
-        catch (DataAccessResourceFailureException e) {
-            log.error(e.getMessage());
-        }
-        catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-        catch (HibernateException e) {
+        catch (Exception e) {
+        	e.printStackTrace();
             log.error(e.getMessage());
         }
         return result;
