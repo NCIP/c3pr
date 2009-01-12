@@ -100,7 +100,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     public WorkFlowStatusType getCCTSWofkflowStatus(
                     InteroperableAbstractMutableDeletableDomainObject cctsObject) {
         InteroperableAbstractMutableDeletableDomainObject loadedCCTSObject = (InteroperableAbstractMutableDeletableDomainObject) dao
-                        .getByGridId(cctsObject);
+                        .getByGridId(cctsObject.getGridId());
         return loadedCCTSObject.getCctsWorkflowStatus();
     }
 
