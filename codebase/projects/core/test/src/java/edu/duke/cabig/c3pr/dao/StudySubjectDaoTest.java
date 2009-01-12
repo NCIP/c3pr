@@ -636,7 +636,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
             if (command.getId() != null) {
                 return studySubjectDao.merge(command);
             }
-            if (command.getParticipant() != null) dao.reassociate(command.getParticipant());
             if (command.getStudySite() != null) {
                 studySiteDao.reassociate(command.getStudySite());
                 studyDao.reassociate(command.getStudySite().getStudy());
@@ -913,6 +912,20 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	assertEquals("Wrong number or study subjects retrieved",0,studySubjects.size());
     }
     
+    public void testAdvancedStudySearchAfterInitializationWithObjectsFromDatabase() throws Exception{
+    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    	StudySubject studySubject = new StudySubject(true);
+    	
+    	Participant participant = dao.getById(1000);
+    	StudySite studySite = studySiteDao.getById(1000);
+    	studySubject.setStudySite(studySite);
+    	studySubject.setParticipant(participant);
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	
+    	studySubjects = studySubjectDao.advancedStudySearch(studySubject);
+    	assertEquals("Wrong number or study subjects retrieved",0,studySubjects.size());
+    }
+    
     public void testIncompleteRegistrations() throws Exception{
     	
     	StudySubject studySubject = new StudySubject(true);
@@ -924,12 +937,10 @@ public class StudySubjectDaoTest extends DaoTestCase {
     
     public void testSearchByIdentifier() throws Exception{
     	
-    	StudySubject studySubject = new StudySubject(true);
-    	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
-    	sysIdentifier.setValue("nci");
+    	StudySubject studySubject = studySubjectDao.getById(1000);
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
     	
-    	studySubjects = studySubjectDao.getIncompleteRegistrations(studySubject, 15);
+    	studySubjects = studySubjectDao.searchByIdentifier(studySubject.getSystemAssignedIdentifiers().get(0).getId());
     	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
     }
     
@@ -974,9 +985,32 @@ public class StudySubjectDaoTest extends DaoTestCase {
         }catch(Exception ex){
         	
         }
-    	
     }
     
-    
+    public void testSaveStudySubjectAndStudyWithSameIdentifiers() throws Exception{
+    	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+    	sysIdentifier.setType("type");
+    	sysIdentifier.setValue("nci");
+    	sysIdentifier.setSystemName("system_name");
+    	
+    	SystemAssignedIdentifier sysIdentifier1 =new SystemAssignedIdentifier();
+    	sysIdentifier1.setType("type");
+    	sysIdentifier1.setValue("nci");
+    	sysIdentifier1.setSystemName("system_name");
+    	
+    	StudySubject studySubject = studySubjectDao.getById(1000);
+    	Study study = studyDao.getById(1000);
+    	
+    	studySubject.addIdentifier(sysIdentifier);
+    	studySubjectDao.save(studySubject);
+    	StudySubject loadedStudySubject = studySubjectDao.getById(1000);
+    	
+    	study.addIdentifier(sysIdentifier1);
+    	studyDao.save(study);
+    	Study loadedStudy = studyDao.getById(1000);
+    	
+    	assertEquals("Wrong number of study identifiers retrieved",1,loadedStudy.getIdentifiers().size());
+    	assertEquals("Wrong number of study subject identifiers retrieved",2,loadedStudySubject.getIdentifiers().size());
+    }
     		
 }
