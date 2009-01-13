@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.dao;
 
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.StratumGroup;
@@ -17,13 +15,6 @@ public class StratumGroupDao extends GridIdentifiableDao<StratumGroup> {
     @Override
     public Class<StratumGroup> domainClass() {
         return StratumGroup.class;
-    }
-
-    /*
-     * Returns all StratificationCriterion objects
-     */
-    public List<StratumGroup> getAll() {
-        return getHibernateTemplate().find("from StratumGroup");
     }
     
     @Transactional(readOnly = false)
