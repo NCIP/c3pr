@@ -18,34 +18,30 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 /**
+ * The Class ParticipantDao.
+ * 
  * @author Priyatam, kulasekaran
  */
 public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                 MutableDomainObjectDao<Participant> {
 
+    /** The SUBSTRING_match_properties. */
     private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("lastName");
 
+    /** The EXACT_ match_properties. */
     private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
+    /** The log. */
     private static Log log = LogFactory.getLog(ParticipantDao.class);
 
-    private HealthcareSiteDao healthcareSiteDao;
-
-    public HealthcareSiteDao getHealthcareSiteDao() {
-        return healthcareSiteDao;
-    }
-
-    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-        this.healthcareSiteDao = healthcareSiteDao;
-    }
-
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
+     */
     public Class<Participant> domainClass() {
         return Participant.class;
     }
@@ -59,17 +55,19 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * <li>code>participantDao.searchByExample(study)</li>
      * </code>
      * 
+     * @param participant the participant
+     * @param isWildCard the is wild card
+     * 
      * @return list of matching participant objects based on your sample participant object
-     * @param participant
-     * @return
      */
     
     public List<Participant> searchByExample(Participant participant, boolean isWildCard) {
         Example example = Example.create(participant).excludeZeroes().ignoreCase();
-        Criteria participantCriteria = getSession().createCriteria(Participant.class);
+        Criteria participantCriteria = getSession().createCriteria(Participant.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) ;
+        example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
         if (isWildCard) {
-            example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
             participantCriteria.add(example);
+            
             if (participant.getIdentifiers().size() > 1) {
                 participantCriteria.createCriteria("identifiers").add(
                                 Restrictions.ilike("value", "%"
@@ -86,12 +84,30 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                                                 + "%"));
             }
             return participantCriteria.list();
-
         }
         return participantCriteria.add(example).list();
-
+    }
+    
+    /**
+     * Default Search without a Wildchar.
+     * 
+     * @param participant the participant
+     * 
+     * @return Search results
+     * 
+     * @see edu.duke.cabig.c3pr.dao.searchByExample(Participant participant, boolean isWildCard)
+     */
+    public List<Participant> searchByExample(Participant participant) {
+        return searchByExample(participant, true);
     }
 
+    /**
+     * Search by org identifier.
+     * 
+     * @param id the id
+     * 
+     * @return the list< participant>
+     */
     @SuppressWarnings("unchecked")
     public List<Participant> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
     	
@@ -106,10 +122,16 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                                                 id.getValue(), id.getType() });
     	} 
     	return new ArrayList<Participant>();
-    
     }
     
     
+    /**
+     * Search by system assigned identifier.
+     * 
+     * @param id the id
+     * 
+     * @return the list< participant>
+     */
     @SuppressWarnings("unchecked")
     public List<Participant> searchBySystemAssignedIdentifier(SystemAssignedIdentifier id) {
     	
@@ -126,39 +148,54 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     	return new ArrayList<Participant>();
     }
 
+    
     /**
-     * Default Search without a Wildchar
+     * Search by identifier.
      * 
-     * @see edu.duke.cabig.c3pr.dao.searchByExample(Participant participant, boolean isWildCard)
-     * @param participant
-     * @return Search results
+     * @param id the id
+     * 
+     * @return the list< participant>
      */
-    public List<Participant> searchByExample(Participant participant) {
-        return searchByExample(participant, true);
+    @SuppressWarnings("unchecked")
+    public List<Participant> searchByIdentifier(int id) {
+        return (List<Participant>) getHibernateTemplate().find(
+                                        "select P from Participant P, Identifier I where I.id=? and I=any elements(P.identifiers)",
+                                        new Object[] {id});
     }
 
     /**
+     * Gets all Participants.
      * 
-     * @return
-     * @throws DataAccessException
+     * @return the Participants
+     * 
+     * @throws DataAccessException the data access exception
      */
     public List<Participant> getAll() throws DataAccessException {
         return getHibernateTemplate().find("from Participant");
     }
 
     /**
+     * Gets the by first name.
      * 
-     * @return
-     * @throws DataAccessException
+     * @param name the name
+     * 
+     * @return the by first name
+     * 
+     * @throws DataAccessException the data access exception
      */
     public List<Participant> getByFirstName(String name) throws DataAccessException {
         return getHibernateTemplate().find("from Participant p where p.firstName = ?", name);
     }
 
     /**
+     * Gets the subject identifiers with mrn.
      * 
-     * @return
-     * @throws DataAccessException
+     * @param MRN the mRN
+     * @param site the site
+     * 
+     * @return the subject identifiers with mrn
+     * 
+     * @throws DataAccessException the data access exception
      */
     public List<OrganizationAssignedIdentifier> getSubjectIdentifiersWithMRN(String MRN,
                     HealthcareSite site) throws DataAccessException {
@@ -175,11 +212,14 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 
     /**
      * An overloaded method to return Participant Object along with the collection of associated
-     * identifiers
+     * identifiers.
+     * 
+     * @param id the id
+     * @param withIdentifiers the with identifiers
      * 
      * @return Participant Object based on the id
-     * @throws DataAccessException
-     */
+     * 
+     * @throws DataAccessException      */
     public Participant getById(int id, boolean withIdentifiers) {
 
         Participant participant = (Participant) getHibernateTemplate().get(domainClass(), id);
@@ -191,22 +231,24 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         contactMechanisms.size();
 
         return participant;
-
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao#getById(int)
+     */
     @Override
     public Participant getById(int id) {
-        // TODO Auto-generated method stub
-        Participant participant = super.getById(id);
-        // participant.getStudySubjects().size();
-        return participant;
+        return super.getById(id);
     }
 
-    @Transactional(readOnly = false)
-    public void refresh(Participant participant) {
-        getHibernateTemplate().refresh(participant);
-    }
-
+    /**
+     * Gets by the subnames.
+     * 
+     * @param subnames the subnames
+     * @param criterionSelector the criterion selector
+     * 
+     * @return the by subnames
+     */
     public List<Participant> getBySubnames(String[] subnames, int criterionSelector) {
 
         switch (criterionSelector) {
@@ -222,6 +264,13 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
+    /**
+     * Initialize.
+     * 
+     * @param participant the participant
+     * 
+     * @throws DataAccessException the data access exception
+     */
     @Transactional(readOnly = false)
     public void initialize(Participant participant) throws DataAccessException {
         getHibernateTemplate().initialize(participant.getIdentifiers());
@@ -229,30 +278,46 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         getHibernateTemplate().initialize(participant.getRaceCodes());
     }
     
+    /**
+     * Initialize study subjects.
+     * 
+     * @param participant the participant
+     * 
+     * @throws DataAccessException the data access exception
+     */
     @Transactional(readOnly = false)
     public void initializeStudySubjects(Participant participant) throws DataAccessException {
         getHibernateTemplate().initialize(participant.getStudySubjects());
     }
     
+    /**
+     * Reassociate.
+     * 
+     * @param p the participant
+     */
     @Transactional(readOnly = false)
     public void reassociate(Participant p) {
         getHibernateTemplate().update(p);
     }
 
+    /* (non-Javadoc)
+     * @see gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao#save(gov.nih.nci.cabig.ctms.domain.MutableDomainObject)
+     */
     @Transactional(readOnly = false)
     public void save(Participant obj) {
         getHibernateTemplate().saveOrUpdate(obj);
     }
 
+    /**
+     * Merge.
+     * 
+     * @param participant the participant
+     * 
+     * @return the participant
+     */
     @Transactional(readOnly = false)
     public Participant merge(Participant participant) {
         return (Participant) getHibernateTemplate().merge(participant);
     }
     
-    @SuppressWarnings("unchecked")
-    public List<Participant> searchByIdentifier(int id) {
-        return (List<Participant>) getHibernateTemplate().find(
-                                        "select P from Participant P, Identifier I where I.id=? and I=any elements(P.identifiers)",
-                                        new Object[] {id});
-    }
 }
