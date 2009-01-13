@@ -109,7 +109,7 @@ function manageIdentifierRadio(element){
 </script>
 <style>
 #workflow-tabs {
-top:62px;
+top:77px;
 }
 </style>
     <!--[if IE]>
