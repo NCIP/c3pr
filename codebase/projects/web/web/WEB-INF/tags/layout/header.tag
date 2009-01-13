@@ -6,6 +6,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <div id="header">
+	<a id="skipnav" href="#skipnav">Skip Navigation</a>
 	<a id="logo" href="<c:url value='/pages/dashboard' />">C3PR Dashboard</a>
     <div class="background-R">
             <c:if test="${userObject != null}">
@@ -91,7 +92,7 @@
     </div>
 </div>
 <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="loginAuthorizationCheck">
-
+<a name="skipnav"></a>
 <script>
 
     if ($('changeSkin')) {
