@@ -56,10 +56,6 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
         return inv;
     }
 
-    public List<Investigator> getBySubnames(String[] subnames) {
-        return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
-    }
-
     public List<Investigator> searchByExample(Investigator inv, boolean isWildCard) {
         List<Investigator> result = new ArrayList<Investigator>();
 
@@ -98,7 +94,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
         return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
     }
     
-    public List<Investigator> getInvestigatorsByNciInstituteCode(String nciIdentifier) {
+    public List<Investigator> getInvestigatorsByNciIdentifier(String nciIdentifier) {
         return ((List<Investigator>) getHibernateTemplate().find(
                         "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
     }
