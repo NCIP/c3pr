@@ -298,6 +298,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     @Transactional(readOnly = false)
     public void reassociate(Participant p) {
         getHibernateTemplate().update(p);
+        
     }
 
     /* (non-Javadoc)

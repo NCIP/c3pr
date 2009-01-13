@@ -16,10 +16,12 @@ import org.drools.lang.DRLParser.identifier_return;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
@@ -308,22 +310,8 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
      */
 
     public void testCreateParticipantWithOrganizationAssignedIdentifier() throws Exception {
-        Participant participant = new Participant();
-        participant.setLastName("Barry");
-        participant.setFirstName("Bonds");
-        participant.setRaceCode("Asian");
-        participant.setAdministrativeGenderCode("Male");
-        Date birthDate = new Date();
-        participant.setBirthDate(birthDate);
-        OrganizationAssignedIdentifier orgAssignedIdentifier = new OrganizationAssignedIdentifier();
-        HealthcareSite healthcareSite = healthcareSiteDao.getById(1001);
-        orgAssignedIdentifier.setHealthcareSite(healthcareSite);
-        orgAssignedIdentifier.setValue("Identifier Value");
-        orgAssignedIdentifier.setType("MRN");
-        participant.addIdentifier(orgAssignedIdentifier);
-
+        Participant participant = buildParticipantWithOrganizationAssignedIdentifier();
         participantDao.save(participant);
-
         interruptSession();
 
         Participant savedParticipant = participantDao.getById(participant.getId());
@@ -332,7 +320,26 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         assertEquals("duke healthcare", savedParticipant
                         .getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getName());
     }
-
+    
+    
+    public Participant buildParticipantWithOrganizationAssignedIdentifier() {
+		
+	    Participant participant = new Participant();
+	    participant.setLastName("Barry");
+	    participant.setFirstName("Bonds");
+	    participant.setRaceCode("Asian");
+	    participant.setAdministrativeGenderCode("Male");
+	    Date birthDate = new Date();
+	    participant.setBirthDate(birthDate);
+	    OrganizationAssignedIdentifier orgAssignedIdentifier = new OrganizationAssignedIdentifier();
+	    HealthcareSite healthcareSite = healthcareSiteDao.getById(1001);
+	    orgAssignedIdentifier.setHealthcareSite(healthcareSite);
+	    orgAssignedIdentifier.setValue("Identifier Value");
+	    orgAssignedIdentifier.setType("MRN");
+	    participant.addIdentifier(orgAssignedIdentifier);
+	    
+	    return participant;
+    }
     /**
      * Test for Retrieving Participant with organization assigned identifier
      * 
@@ -370,5 +377,60 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         List<Participant> participants2 = participantDao.searchBySystemAssignedIdentifier(systemAssignedIdentifier2);
         assertEquals("Expected to get 0 participant",0, participants2.size());
     }
+    
+    
+    /**
+     * Test initialize and ensure lazylists are initialized.
+     */
+    public void testInitialize() {
+		Participant participant = getDao().getById(1000);
+		getDao().initialize(participant);
+		try{
+			participant.getIdentifiers().get(0);
+			participant.getContactMechanisms().size();
+			participant.getRaceCodes().size();
+		} catch(Exception e){
+			fail();
+		}
+	}
+    
+    /**
+     * Test initialize and ensure studySubjects are initalized.
+     */
+    public void testInitializeStudySubjects() {
+		Participant participant = getDao().getById(1000);
+		getDao().initializeStudySubjects(participant);
+		try{
+			participant.getStudySubjects().get(0);
+		} catch(Exception e){
+			fail();
+		}
+	}
+    
+    /**
+     * Test merge.
+     */
+    public void testMerge() {
+    	Participant participant = buildParticipantWithOrganizationAssignedIdentifier();
+    	participant = getDao().merge(participant);
+    	int savedId = participant.getId();
+    	interruptSession();
+
+        Participant savedParticipant = participantDao.getById(savedId);
+        assertEquals("Identifier Value", savedParticipant.getOrganizationAssignedIdentifiers().get(
+                        0).getValue());
+        assertEquals("duke healthcare", savedParticipant
+                        .getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getName());
+	}
+    
+    public void testReassociate() {
+    	Participant participant = getDao().getById(1000);
+    	participant.setMaidenName("mani");
+    	getDao().reassociate(participant);
+    	interruptSession();
+
+        Participant savedParticipant = participantDao.getById(participant.getId());
+        assertEquals("mani", savedParticipant.getMaidenName());
+	}
 
 }
