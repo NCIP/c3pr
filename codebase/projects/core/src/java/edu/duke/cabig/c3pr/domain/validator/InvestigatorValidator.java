@@ -25,7 +25,7 @@ public class InvestigatorValidator implements Validator {
     	Investigator inv = (Investigator)target;
     	
     	List<Investigator> investigatorsbyNCICode = new ArrayList<Investigator>();
-    	investigatorsbyNCICode =  investigatorDao.getInvestigatorsByNciInstituteCode(inv.getNciIdentifier());
+    	investigatorsbyNCICode =  investigatorDao.getInvestigatorsByNciIdentifier(inv.getNciIdentifier());
     	if (investigatorsbyNCICode.size()>1){
     		errors.reject("tempProperty",
                             "Investigator with this NCI Identifier already exists");
