@@ -1,9 +1,46 @@
 <dataset>    
-    <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" retired_indicator = "false" />
-    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" retired_indicator = "false" />
-    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" retired_indicator = "false" />
-    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4" retired_indicator = "false" />
+    <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" nci_identifier="NCI_1232" retired_indicator = "false" />
+    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" nci_identifier="NCI_1232a" retired_indicator = "false" />
+    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" nci_identifier="NCI_c45a" retired_indicator = "false" />
+    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4" nci_identifier="NCI_c238" retired_indicator = "false" />
 
-    <CONTACT_MECHANISMS id="1000" version="1" retired_indicator = "false" />
+    <CONTACT_MECHANISMS id="1000" inv_id ="1000" version="1" type="EMAIL" value="test@mail.com" retired_indicator = "false" />
+    
+    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA"
+               postal_code="20191" country_code="USA" retired_indicator="false"/>
+    <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171"
+               country_code="USA" retired_indicator="false"/>
+    
+   	<ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000"
+                   nci_institute_code="Duke" retired_indicator="false"/>
+    <ORGANIZATIONS id="1001" version="1" name="National Cancer Institute" description_text="National Cancer Institute"
+                   address_id="1001" nci_institute_code="NCI" retired_indicator="false"/>
+    
+    <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1000"
+                           hcs_id="1000" retired_indicator="false"/>
+    <HC_SITE_INVESTIGATORS id="1001" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1001"
+                           hcs_id="1000" retired_indicator="false"/>
+                           
+    <INVESTIGATOR_GROUPS id="1000" version="1" name="Leukemia group" start_date="01-01-2000" end_date="01-01-2010"
+                           hcs_id="1000" retired_indicator="false"/>
+    <INVESTIGATOR_GROUPS id="1001" version="1" name="Oncology group" start_date="01-01-1990" end_date="01-01-2010"
+                           hcs_id="1001" retired_indicator="false"/>
+                           
+    <ORG_INV_GR_AFFILIATIONS id="1000" version="1"  ing_id="1000" hsi_id="1000" retired_indicator="false"/>
+    <ORG_INV_GR_AFFILIATIONS id="1001" version="1" ing_id="1001" hsi_id="1001" retired_indicator="false"/>
+    
+    <STUDIES id="1000" version="1" blinded_indicator="1" long_title_text="long_title_text"
+             multi_institution_indicator="1"
+             phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123"
+             type="ty"
+             description_text="description" precis_text="precis_text" status="OPEN" data_entry_status="COMPLETE"
+             randomization_type="2" retired_indicator="false"/>
+    
+    <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role"
+                         site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+                         hcs_id="1000" type="SST" retired_indicator="false"/>
+                         
+    <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sto_id="1000" start_date="01-01-2000" end_date="01-01-2000"
+                         role_code="role1" status_code="Active" retired_indicator="false"/>
 
 </dataset>
