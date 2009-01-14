@@ -26,8 +26,7 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
     /**
      * Save or update the user in the db.
      * 
-     * @param The
-     *                user.
+     * @param The user.
      */
     @Transactional(readOnly = false)
     public void save(final User user) {
@@ -37,8 +36,7 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
     /**
      * Get the user who has specified email address.
      * 
-     * @param emailAddress
-     *                The email address of the user.
+     * @param emailAddress  The email address of the user.
      * @return The user.
      */
     public User getByEmailAddress(String emailAddress) {
