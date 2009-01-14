@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
@@ -44,12 +45,14 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
     private PlannedNotificationDao plannedNotificationDao;
     private InvestigatorGroupDao investigatorGroupDao;
     private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
+    private HealthcareSiteDao healthcareSiteDao;
     
     public OrganizationDaoTest() {
     	researchStaffDao = (ResearchStaffDao) getApplicationContext().getBean("researchStaffDao");
         plannedNotificationDao= (PlannedNotificationDao) getApplicationContext().getBean("plannedNotificationDao");
         investigatorGroupDao = (InvestigatorGroupDao) getApplicationContext().getBean("investigatorGroupDao");
         healthcareSiteInvestigatorDao = (HealthcareSiteInvestigatorDao) getApplicationContext().getBean("healthcareSiteInvestigatorDao");
+        healthcareSiteDao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
 	}
     /**
      * Test get by id.
@@ -345,6 +348,33 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
     		scheduledNotification.getRecipientScheduledNotification().add(rsn);
     	}
     	return scheduledNotification;
+    }
+    
+    public void testGetAll() throws Exception{
+    	assertEquals("wrong number of organizations",2,healthcareSiteDao.getAll().size());
+    }
+    
+    public void testForClear() throws Exception{
+    	HealthcareSite organization = healthcareSiteDao.getById(1000);
+    	assertNotNull("organization is null",organization);
+    	assertEquals("Duke Comprehensive Cancer Center",organization.getName());
+    	healthcareSiteDao.clear();
+    	try{
+    	organization.getHealthcareSiteInvestigators().get(0);
+    	fail("Should throw lazy initialization");
+    	}catch(org.hibernate.LazyInitializationException ex){
+    		
+    	}
+    }
+    
+    public void testGetBySubname() throws Exception {
+        List<HealthcareSite> actual = healthcareSiteDao.getBySubnames(new String[] { "Du" });
+        assertEquals("Wrong number of matches", 1, actual.size());
+        assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
+    }
+    
+    public void testDomainClass() throws Exception{
+    	assertEquals("Wrong domain class",HealthcareSite.class, healthcareSiteDao.domainClass());
     }
 
 }

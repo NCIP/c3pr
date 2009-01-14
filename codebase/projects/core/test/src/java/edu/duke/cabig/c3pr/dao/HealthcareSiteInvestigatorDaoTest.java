@@ -4,6 +4,7 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
@@ -141,6 +142,15 @@ public class HealthcareSiteInvestigatorDaoTest extends
         HealthcareSiteInvestigator siteInvestigator = getDao().getById(1000);
         assertEquals("Wrong number of matches", 1, siteInvestigator
                         .getSiteInvestigatorGroupAffiliations().size());
+    }
+    
+    public void testGetBySubNameAndSubEmail() throws Exception{
+    	List<HealthcareSiteInvestigator> healthcareSiteInvestigators = dao.getBySubNameAndSubEmail(new String[]{"Bi"},"NCI_1232");
+    	assertEquals("Wrong numbers of investigators retrieved",1, healthcareSiteInvestigators.size());
+    }
+    
+    public void testDomainClass() throws Exception{
+    	assertEquals("Wrong domain class",HealthcareSiteInvestigator.class, dao.domainClass());
     }
 
 }

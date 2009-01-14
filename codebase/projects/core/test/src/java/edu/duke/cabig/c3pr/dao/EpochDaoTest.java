@@ -13,12 +13,14 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
@@ -378,7 +380,23 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         interruptSession();
 
         }
-
     }
-
-}
+    
+    public void testDomainClass() throws Exception{
+    	assertEquals("Wrong domain class",Epoch.class, epochDao.domainClass());
+    }
+    
+    
+    public void testInitialize() throws Exception{
+    	Epoch epoch = epochDao.getById(1000);
+    	epochDao.initialize(epoch);
+    	super.interruptSession();
+    	assertNotNull("Epoch cannot be null",epoch);
+    	try{
+    		epoch.getEligibilityCriteria().get(0).getQuestionText();
+    	}catch(org.hibernate.LazyInitializationException ex){
+    		fail("Should not have thrown lazy initialization error as the object is initialized");
+    	}
+    }
+    
+}	
