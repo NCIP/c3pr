@@ -27,17 +27,8 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
         return StudyPersonnel.class;
     }
 
-    /*
-     * Returns all HealthcarSite objects (non-Javadoc)
-     * 
-     * @see edu.duke.cabig.c3pr.dao.HealthcareSiteDao#getAll()
-     */
-    public List<StudyPersonnel> getAll() {
-        return getHibernateTemplate().find("from StudyPersonnel");
-    }
-
     public List<StudyPersonnel> getBySubnames(String[] subnames, int healthcareSite) {
-        return findBySubname(subnames, "o.studySite.site.id = '" + healthcareSite + "'",
+        return findBySubname(subnames, "o.studyOrganization.healthcareSite.id = '" + healthcareSite + "'",
                         EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 }

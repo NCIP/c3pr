@@ -35,11 +35,6 @@ public class EpochDao extends GridIdentifiableDao<Epoch> {
     }
 
     @Transactional(readOnly = false)
-    public void reassociate(Epoch epoch) {
-        getHibernateTemplate().lock(epoch, LockMode.NONE);
-    }
-
-    @Transactional(readOnly = false)
     public void initialize(Epoch epoch) throws DataAccessException {
         getHibernateTemplate().initialize(epoch.getArmsInternal());
         getHibernateTemplate().initialize(epoch.getEligibilityCriteria());

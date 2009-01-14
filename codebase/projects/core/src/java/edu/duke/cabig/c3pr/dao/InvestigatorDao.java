@@ -75,13 +75,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
             }
 
         }
-        catch (DataAccessResourceFailureException e) {
-            log.error(e.getMessage());
-        }
-        catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-        catch (HibernateException e) {
+        catch (Exception e) {
             log.error(e.getMessage());
         }
         return result;
