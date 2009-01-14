@@ -14,11 +14,6 @@ public class DiseaseTermDao extends GridIdentifiableDao<DiseaseTerm> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<DiseaseTerm> getAll() {
-        return getHibernateTemplate().find("from DiseaseTerm");
-    }
-
-    @SuppressWarnings("unchecked")
     public List<DiseaseTerm> getByCategoryId(Integer parentId) {
         return getHibernateTemplate().find("from DiseaseTerm dt where dt.category.id =?",
                         new Object[] { parentId });
