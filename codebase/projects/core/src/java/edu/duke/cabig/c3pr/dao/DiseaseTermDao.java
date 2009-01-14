@@ -13,6 +13,13 @@ public class DiseaseTermDao extends GridIdentifiableDao<DiseaseTerm> {
         return DiseaseTerm.class;
     }
 
+    /**
+     * Gets by category id.
+     * 
+     * @param parentId the parent id
+     * 
+     * @return DiseaseTerm
+     */
     @SuppressWarnings("unchecked")
     public List<DiseaseTerm> getByCategoryId(Integer parentId) {
         return getHibernateTemplate().find("from DiseaseTerm dt where dt.category.id =?",
@@ -21,6 +28,13 @@ public class DiseaseTermDao extends GridIdentifiableDao<DiseaseTerm> {
 
     /*
      * Primarily created for Generating test reports.
+     */
+    /**
+     * Gets by ctepTerm .
+     * 
+     * @param parentId the parent id
+     * 
+     * @return DiseaseTerm
      */
     @SuppressWarnings("unchecked")
     public List<DiseaseTerm> getByCtepTerm(String ctepTerm) {

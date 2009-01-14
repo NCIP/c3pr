@@ -34,6 +34,13 @@ public class EpochDao extends GridIdentifiableDao<Epoch> {
         return getHibernateTemplate().find("from Epoch");
     }
 
+    /**
+     * Initialize.
+     * 
+     * @param epoch the epoch
+     * 
+     * @throws DataAccessException the data access exception
+     */
     @Transactional(readOnly = false)
     public void initialize(Epoch epoch) throws DataAccessException {
         getHibernateTemplate().initialize(epoch.getArmsInternal());

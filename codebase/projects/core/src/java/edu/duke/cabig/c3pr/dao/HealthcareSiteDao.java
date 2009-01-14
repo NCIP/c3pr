@@ -7,17 +7,25 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class HealthcareSiteDao.
+ * 
  * @author Ramakrishna
  * @author kherm
  * @version 1.0
  */
 public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 
+    /** The SUBSTRIN g_ matc h_ properties. */
     private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name");
 
+    /** The EXAC t_ matc h_ properties. */
     private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
+     */
     public Class<HealthcareSite> domainClass() {
         return HealthcareSite.class;
     }
@@ -27,14 +35,29 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
      * 
      * @see edu.duke.cabig.c3pr.dao.HealthcareSiteDao#getAll()
      */
+    /**
+     * Gets the all.
+     * 
+     * @return HealthcareSite
+     */
     public List<HealthcareSite> getAll() {
         return getHibernateTemplate().find("from HealthcareSite");
     }
     
+    /**
+     * Clear.
+     */
     public void clear() {
         getHibernateTemplate().clear();
     }
 
+    /**
+     * Gets by subnames.
+     * 
+     * @param subnames the subnames
+     * 
+     * @return the subnames
+     */
     public List<HealthcareSite> getBySubnames(String[] subnames) {
 
         SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name");
@@ -42,6 +65,13 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
+    /**
+     * Gets by nci institute code.
+     * 
+     * @param nciInstituteCode the nci institute code
+     * 
+     * @return the HealthcareSite
+     */
     public HealthcareSite getByNciInstituteCode(String nciInstituteCode) {
         return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate().find(
                         "from HealthcareSite h where h.nciInstituteCode = ?", nciInstituteCode));
