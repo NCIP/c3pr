@@ -83,7 +83,7 @@ public class C3PRAuthorizationDao extends DIAuthorizationDao {
             }
             return user;
         }
-        if(obj instanceof Application){
+        /*if(obj instanceof Application){
             Application application = (Application)obj;
             if(isEncryptionEnabled && StringUtilities.initTrimmedString(application.getDatabasePassword()).length() > 0){
                 StringEncrypter stringEncrypter = new StringEncrypter();
@@ -94,7 +94,8 @@ public class C3PRAuthorizationDao extends DIAuthorizationDao {
                 }
             }
             return application;
-        } else {
+        }*/ 
+        else {
             return obj;
         }
     }
