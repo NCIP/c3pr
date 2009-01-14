@@ -10,19 +10,23 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
 /**
- * JUnit Tests for StudySiteDao
+ * JUnit Tests for StudySiteDao.
  * 
  * @author Priyatam
  * @testType unit
  */
 public class StudySiteDaoTest extends DaoTestCase {
+    
+    /** The dao. */
     private StudySiteDao dao;
+    
+    /** The endpoint dao. */
     private EndpointDao endpointDao;
 
     /**
-     * Test for loading a Study by Id
+     * Test for loading a Study by Id.
      * 
-     * @throws Exception
+     * @throws Exception the exception
      */
     
     protected void setUp() throws Exception {
@@ -31,11 +35,21 @@ public class StudySiteDaoTest extends DaoTestCase {
     	endpointDao = (EndpointDao) getApplicationContext().getBean("endpointDao");
     }
     
+    /**
+     * Test get by id.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetById() throws Exception {
         StudySite studySite = dao.getById(1000);
         assertNotNull("StudySite 1000 not found", studySite);
     }
 
+    /**
+     * Test get by nci institute code.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetByNciInstituteCode() throws Exception {
         List<StudySite> sites = dao.getByNciInstituteCode("code");
         assertTrue(sites.size() == 2);
@@ -44,6 +58,11 @@ public class StudySiteDaoTest extends DaoTestCase {
         }
     }
     
+    /**
+     * Test save study site with end point.
+     * 
+     * @throws Exception the exception
+     */
     public void testSaveStudySiteWithEndPoint() throws Exception {
         List<StudySite> sites = dao.getByNciInstituteCode("code");
         assertTrue(sites.size() == 2);

@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
  * Hibernate implementation of StudySiteDao
@@ -17,36 +15,56 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
  */
 public class StudySiteDao extends GridIdentifiableDao<StudySite> {
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
+     */
     @Override
     public Class<StudySite> domainClass() {
         return StudySite.class;
     }
 
-    /*
-     * Returns all StudySite objects (non-Javadoc)
+    /**
+     * Reassociate.
      * 
-     * @see edu.duke.cabig.c3pr.dao.StudySite#getAll()
+     * @param ss the ss
      */
-    public List<StudySite> getAll() {
-        return getHibernateTemplate().find("from StudySite");
-    }
-
     @Transactional(readOnly = false)
     public void reassociate(StudySite ss) {
         getHibernateTemplate().update(ss);
     }
 
+    /**
+     * Gets the by nci institute code.
+     * 
+     * @param nciInstituteCode the nci institute code
+     * 
+     * @return the by nci institute code
+     */
     public List<StudySite> getByNciInstituteCode(String nciInstituteCode) {
         return getHibernateTemplate().find(
                         "from StudySite s where s.healthcareSite.nciInstituteCode = ?",
                         nciInstituteCode);
     }
     
+    /**
+     * Initialize.
+     * 
+     * @param studySite the study site
+     * 
+     * @throws DataAccessException the data access exception
+     */
     @Transactional(readOnly = false)
     public void initialize(StudySite studySite) throws DataAccessException {
     	getHibernateTemplate().initialize(studySite.getStudySubjects());
     }
 
+    /**
+     * Merge.
+     * 
+     * @param studySite the study site
+     * 
+     * @return the study site
+     */
     @Transactional(readOnly = false)
     public StudySite merge(StudySite studySite) {
         return (StudySite) getHibernateTemplate().merge(studySite);

@@ -14,12 +14,23 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 
+/**
+ * The Class C3PRAuthorizationDao.
+ */
 public class C3PRAuthorizationDao extends DIAuthorizationDao {
 	
+	/** The Constant log. */
 	static final Logger log = Logger.getLogger(C3PRAuthorizationDao.class);
+	
+	/** The is encryption enabled. */
 	boolean isEncryptionEnabled = true ;
+	
+	/** The session factory. */
 	private SessionFactory sessionFactory;
 	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.DIAuthorizationDao#getUser(java.lang.String)
+	 */
 	@Override
 	public User getUser(String loginName) 
 	{
@@ -47,6 +58,16 @@ public class C3PRAuthorizationDao extends DIAuthorizationDao {
 	        return user;
 	}
 	
+	/**
+	 * Perform encrytion decryption.
+	 * 
+	 * @param obj the obj
+	 * @param encrypt the encrypt
+	 * 
+	 * @return the object
+	 * 
+	 * @throws EncryptionException the encryption exception
+	 */
 	private Object performEncrytionDecryption(Object obj, boolean encrypt) 
 					throws gov.nih.nci.security.util.StringEncrypter.EncryptionException
     {
@@ -78,10 +99,16 @@ public class C3PRAuthorizationDao extends DIAuthorizationDao {
         }
     }
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.DIAuthorizationDao#getSessionFactory()
+	 */
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.DIAuthorizationDao#setSessionFactory(org.hibernate.SessionFactory)
+	 */
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}}
