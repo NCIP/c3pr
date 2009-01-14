@@ -13,8 +13,12 @@ import gov.nih.nci.security.authorization.domainobjects.User;
  */
 public class C3PRAuthorizationDaoTest extends ContextDaoTestCase<HibernateDaoSupport> {
     
+	/** The c3pr authorization dao. */
 	C3PRAuthorizationDao c3prAuthorizationDao;
 	
+	/**
+	 * Instantiates a new c3 pr authorization dao test.
+	 */
 	public C3PRAuthorizationDaoTest(){
 		c3prAuthorizationDao = (C3PRAuthorizationDao) getApplicationContext().getBean("csmAuthorizationDao");
 	}
