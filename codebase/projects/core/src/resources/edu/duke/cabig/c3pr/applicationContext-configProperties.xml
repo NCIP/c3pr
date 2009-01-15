@@ -483,7 +483,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="Ad" />
-                            <property name="desc" value="C3pr Admin" />
+                            <property name="desc" value="C3PR Admin" />
                         </bean>                     
                		</list>
                	</entry>
