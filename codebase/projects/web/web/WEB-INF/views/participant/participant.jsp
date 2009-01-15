@@ -174,29 +174,30 @@ top:70px;
 					<div class="row">
 						<div class="label"><tags:requiredIndicator />Races: </div>
 						<table>
-						<tr><td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Asian"/> Asian</div></td>
-							<td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Black_or_African_American"/> Black or African American</div></td>
-							<td><tags:hoverHint keyProp="subject.raceCode"/></td>
-						</tr>
-						<tr><td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="White"/> White</div></td>
-							<td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native</div></td>
-							<td></td>
-						</tr>
-						<tr><td colspan=2><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander</div></td>
-							
-							<td></td>
-						</tr>
-						<tr><td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Not_Reported"/> Not Reported</div></td>
-							<td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Unknown"/> Unknown</div></td>
-							<td> </td>
-						</tr>
+						<tr>
+                            <td align="left" class="race">
+		                        <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/>Asian
+								<br>
+								<input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/>Black or African American 
+	                            <br>
+                                <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/>White
+								<br>
+								<input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native &nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
+		                        <br>
+		                        <input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/>Native Hawaiian or Pacific Islander
+		                        <br>
+		                        <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/>Not Reported
+					            <br>
+	 							<input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/>Unknown
+		                    </td><td align="left" id="raceCodes" style="display:inline"/>
+		                </tr>
 						</table>
 					</div>
 					
 				</div>
 		</chrome:division>
 		
-		<chrome:division title="MRN">
+		<chrome:division title="Assigned Identifier">
 		<tags:errors path="primaryIdentifier"/>
     		<div class="leftpanel">
          		<div id="mrnDetails">
@@ -222,7 +223,7 @@ top:70px;
 							    </div>
                     </div>
                     <div class="row">
-		                        <div class="label"><tags:requiredIndicator />Medical Record Number:</div>
+		                        <div class="label"><tags:requiredIndicator />Identifier:</div>
 		                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 								size="30" maxlength="30"
 								value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
