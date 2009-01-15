@@ -34,6 +34,21 @@
   		<echo message="buildList : ${build-path}" />
   	</target>
 	
+	
+	<!-- ==================================================================
+			target : recreate-db-and-publish-all
+			note: Created as a central target for Continuous Integration (Hudson)
+		====================================================================== -->
+	  	<target name="recreate-db-and-publish-all" depends="buildlist, clean" 
+	  			description="compile, jar and publish all projects in the right order, publishes them into local repository">
+	  		 <subant target="drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml"  />
+			 <ant target="migrate" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
+					<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+			 </ant>	
+	   		 <subant target="publish-local" buildpathref="build-path" />
+	  	</target>
+		
+	
 	<!-- ==================================================================
 		target : publish-all
 	====================================================================== -->
