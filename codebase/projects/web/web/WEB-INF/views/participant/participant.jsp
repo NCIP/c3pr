@@ -199,41 +199,53 @@ top:70px;
 		
 		<chrome:division title="Assigned Identifier">
 		<tags:errors path="primaryIdentifier"/>
-    		<div class="leftpanel">
          		<div id="mrnDetails">
-                	 <div class="row">
-								<c:set var="_code" value="" />
-								<c:set var="_name" value="" />
-								<c:if test="${fn:length(command.organizationAssignedIdentifiers)>0}">				
-								<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.nciInstituteCode})" />
-								<c:set var="_name" value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" />
-								</c:if>
-		                        <div class="label"><tags:requiredIndicator />Organization:</div>
-		                        <div class="value">
-								<input type="hidden" id="mrnOrganization-hidden"
-									name="organizationAssignedIdentifiers[0].healthcareSite"
-									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-								<input id="mrnOrganization-input" size="38" type="text"
-								name="xyz"
-								value='<c:out value="${_name} ${_code}" />'
-								class="autocomplete validate-notEmpty" />
-								<tags:hoverHint keyProp="subject.MRN.organization"/>
-								<tags:indicator id="mrnOrganization-indicator" />
-								<div id="mrnOrganization-choices" class="autocomplete" style="display:none;"></div>
-							    </div>
-                    </div>
-                    <div class="row">
-		                        <div class="label"><tags:requiredIndicator />Identifier:</div>
-		                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
-								size="30" maxlength="30"
-								value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
-								<tags:hoverHint keyProp="subject.MRN.value"/>
-							     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
-								value="MRN"/>
-								<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
+					 <div class="rightpanel">
+	                	 <div class="row">
+									<c:set var="_code" value="" />
+									<c:set var="_name" value="" />
+									<c:if test="${fn:length(command.organizationAssignedIdentifiers)>0}">				
+									<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.nciInstituteCode})" />
+									<c:set var="_name" value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" />
+									</c:if>
+			                        <div class="label"><tags:requiredIndicator />Organization:</div>
+			                        <div class="value">
+									<input type="hidden" id="mrnOrganization-hidden"
+										name="organizationAssignedIdentifiers[0].healthcareSite"
+										value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+									<input id="mrnOrganization-input" size="38" type="text"
+									name="xyz"
+									value='<c:out value="${_name} ${_code}" />'
+									class="autocomplete validate-notEmpty" />
+									<tags:hoverHint keyProp="subject.MRN.organization"/>
+									<tags:indicator id="mrnOrganization-indicator" />
+									<div id="mrnOrganization-choices" class="autocomplete" style="display:none;"></div>
+								    </div>
+	                    </div>
+						<div class="row">
+			                        <div class="label"><tags:requiredIndicator />Identifier:</div>
+			                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
+									size="30" maxlength="30"
+									value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+									<tags:hoverHint keyProp="subject.MRN.value"/>
+								     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
+									value="MRN"/>
+									<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
+						</div>
+					</div>
+
+					 <div class="rightpanel">
+						<div class="row">
+								<div class="label"><tags:requiredIndicator />Identifier Type:</div>
+								<form:select
+									path="organizationAssignedIdentifiers[0].type"
+									cssClass="validate-notEmpty">
+									<form:options items="${participantIdentifiersType}" itemLabel="desc"
+										itemValue="desc" />
+								</form:select>
+						</div>
 					</div>
           		</div>
-    		</div>
 		</chrome:division>
 		
 		<chrome:division title="Organization Assigned Identifiers">
