@@ -45,7 +45,7 @@
 			 <ant target="migrate" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
 					<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 			 </ant>	
-	   		 <subant target="publish-all" buildpathref="build-path" />
+	   		 <subant target="publish-local" buildpathref="build-path" />
 	  	</target>
 		
 	
