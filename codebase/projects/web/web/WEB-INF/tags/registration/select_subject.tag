@@ -262,18 +262,6 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                    </table>
-                                </td>
-                                <td width="55%" valign="top">
-                                    <table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
-                                        <tr>
-                                            <td align="right">
-                                                <tags:requiredIndicator />Birth Date:&nbsp;
-                                            </td>
-                                            <td align="left">
-                                                <input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
-                                            </td>
-                                        </tr>
                                         <tr>
                                             <td align="right">
                                                 <tags:requiredIndicator />Ethnicity:&nbsp;
@@ -290,7 +278,19 @@
                                                 <tags:hoverHint keyProp="subject.ethnicGroupCode"/>
                                             </td>
                                         </tr>
-                                        <tr>
+                                    </table>
+                                </td>
+                                <td width="55%" valign="top">
+                                    <table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
+                                         <tr>
+                                            <td align="right">
+                                                <tags:requiredIndicator />Birth Date:&nbsp;
+                                            </td>
+                                            <td align="left">
+                                                <input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
+                                            </td>
+                                        </tr>
+                                         <tr>
                                             <td align="left">
                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<tags:requiredIndicator />Race(s):
                                             </td>
