@@ -123,8 +123,8 @@ top:90px;
 				<table width="100%" cellspacing="1" cellpadding="2">
 					<tr bgcolor="${bgcolorAlternate}">
 						<td width="25%"><b>Subject Name</b></td>
-						<td width="25%"><b>Subject Medical Record #</b></td>
-						<td width="30%"><b>Study Short Title</b></td>
+						<td width="25%"><b>Primary Identifier</b></td>
+						<td width="30%"><b>Short Title</b></td>
 						<td width="20%"><b>Registration Status</b></td>
 					</tr>
 					<c:forEach var="registration" items="${uRegistrations}"
