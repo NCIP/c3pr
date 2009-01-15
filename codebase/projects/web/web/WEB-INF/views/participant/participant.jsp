@@ -172,23 +172,23 @@ top:70px;
 						</form:select><tags:hoverHint keyProp="subject.ethnicGroupCode"/></div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Races: </div>
+						<div class="label"><tags:requiredIndicator />Race(s): </div>
 						<table>
 						<tr>
                             <td align="left" class="race">
-		                        <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/>Asian
+		                        <form:checkbox id="raceCodes1" path="raceCodes" value="Asian"/>Asian
 								<br>
-								<input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/>Black or African American 
+								<form:checkbox id="raceCodes2" path="raceCodes" value="Black_or_African_American"/>Black or African American 
 	                            <br>
-                                <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/>White
+                                <form:checkbox id="raceCodes3" path="raceCodes" value="White"/>White
 								<br>
-								<input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native &nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
+								<form:checkbox id="raceCodes4" path="raceCodes" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native &nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
 		                        <br>
-		                        <input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/>Native Hawaiian or Pacific Islander
+		                        <form:checkbox id="raceCodes5" path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/>Native Hawaiian or Pacific Islander
 		                        <br>
-		                        <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/>Not Reported
+		                        <form:checkbox id="raceCodes6" path="raceCodes" value="Not_Reported"/>Not Reported
 					            <br>
-	 							<input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/>Unknown
+	 							<form:checkbox id="raceCodes7" path="raceCodes" value="Unknown"/>Unknown
 		                    </td><td align="left" id="raceCodes" style="display:inline"/>
 		                </tr>
 						</table>
@@ -228,20 +228,17 @@ top:70px;
 									size="30" maxlength="30"
 									value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
 									<tags:hoverHint keyProp="subject.MRN.value"/>
-								     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
-									value="MRN"/>
 									<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
 						</div>
 					</div>
 
 					 <div class="rightpanel">
 						<div class="row">
-								<div class="label"><tags:requiredIndicator />Identifier Type:</div>
+								<div class="label">Identifier Type:</div>
 								<form:select
 									path="organizationAssignedIdentifiers[0].type"
-									cssClass="validate-notEmpty">
-									<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-										itemValue="desc" />
+									cssClass="validate-notEmpty"> value="${command.organizationAssignedIdentifiers[0].type}"
+									<form:options items="${identifiersTypeRefData}" itemLabel="desc" itemValue="desc" />
 								</form:select>
 						</div>
 					</div>
