@@ -776,12 +776,12 @@ div.row div.label {
 	float: left;
 	margin-left: 0.5em;
 	text-align: right; /* default width; pages might override */
-	width: 11em;
-
+	width: 13em;
+	font-weight:bold;
 }
 div.row div.value {
 	font-weight: normal; /* default; should be changed whenever .label width is changed */
-	margin-left: 11em;
+	margin-left: 14em;
 }
 img.indicator { visibility: hidden; }
 .downloadLinks {

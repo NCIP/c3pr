@@ -50,17 +50,17 @@
             } .fifthlevelTab {
                 padding: 5px;
                 margin-left: 5px;
-                background-image: url(../../templates/mocha/images/taskbar_bg.png);
+                background-image: url(../../templates/mocha/images/select_subject_tab_selected.png);
                 background-position: -17px;
                 text-decoration: none;
                 color: white;
             } .current {
-                background-image: url(../../templates/mocha/images/select_subject_tab_selected.png);
+                background-image: url(../../templates/mocha/images/taskbar_bg.png);
 				padding: 5px;
                 margin-left: 5px;
-                background-position: bottom;
+                background-position: top;
 				background-repeat:repeat-x;
-				background-color:#202020;
+				background-color:#A07731;
                 text-decoration: none;
                 color: white;
 				}

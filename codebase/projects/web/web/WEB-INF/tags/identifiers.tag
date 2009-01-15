@@ -57,29 +57,28 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 </script>
 
 <chrome:division title="Assigned Identifier">
-	<table width="61%" border="0" cellspacing="1" cellpadding="1" id="table1">
-		<tr>
-			<td align="right" width="19%"><tags:requiredIndicator />Organization:</td>
-			<td align="left"><input type="hidden" id="mrnOrganization-hidden"
+	<div class="row">
+			<div class="label"><tags:requiredIndicator />Organization</div>
+			<div class="value"><input type="hidden" id="mrnOrganization-hidden"
 					name="organizationAssignedIdentifiers[0].healthcareSite" />
 				<input id="mrnOrganization-input" size="50" type="text" name="abcxyz"
 				 class="autocomplete validate-notEmpty" />
 				<tags:hoverHint keyProp="subject.MRN.organization"/>
 				<tags:indicator id="mrnOrganization-indicator" />
 				<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"></div>
-			</td>
-		</tr>
-		<tr>
-			<td align="right"><tags:requiredIndicator />Identifier:</td>
-			<td align="left"><input type="text" name="organizationAssignedIdentifiers[0].value" 
+			</div>
+		</div>
+		<div class="row">
+			<div class="label"><tags:requiredIndicator />Medical Record Number</div>
+			<div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 				size="30" maxlength="30" class="validate-notEmpty" />
 			     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
 				value="MRN"/>
 				<tags:hoverHint keyProp="subject.MRN.value"/>
 				<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
-			</td>
-		</tr>
-	</table>  		
+			</div>
+		</div>
+	 		
 </chrome:division>
 
 
