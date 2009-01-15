@@ -200,7 +200,7 @@ top:70px;
 		<chrome:division title="Assigned Identifier">
 		<tags:errors path="primaryIdentifier"/>
          		<div id="mrnDetails">
-					 <div class="rightpanel">
+					 <div class="leftpanel">
 	                	 <div class="row">
 									<c:set var="_code" value="" />
 									<c:set var="_name" value="" />
@@ -240,7 +240,7 @@ top:70px;
 								<form:select
 									path="organizationAssignedIdentifiers[0].type"
 									cssClass="validate-notEmpty">
-									<form:options items="${participantIdentifiersType}" itemLabel="desc"
+									<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 										itemValue="desc" />
 								</form:select>
 						</div>
