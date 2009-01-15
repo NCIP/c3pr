@@ -70,7 +70,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			</td>
 		</tr>
 		<tr>
-			<td align="right"><tags:requiredIndicator />Medical Record Number:</td>
+			<td align="right"><tags:requiredIndicator />Identifier:</td>
 			<td align="left"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 				size="30" maxlength="30" class="validate-notEmpty" />
 			     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
