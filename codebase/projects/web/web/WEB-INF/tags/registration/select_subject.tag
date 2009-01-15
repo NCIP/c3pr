@@ -292,16 +292,16 @@
                                         </tr>
                                         <tr>
                                             <td align="left">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<tags:requiredIndicator />Race(s):&nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<tags:requiredIndicator />Race(s):
                                             </td>
                                             <td align="left" class="race">
                                                 <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/>Asian
 												<br>
-												<input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/>Black or African American
+												<input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/>Black or African American 
                                                 <br>
                                                 <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/>White
 												<br>
-												<input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native
+												<input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native &nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
                                                 <br>
                                                 <input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/>Native Hawaiian or Pacific Islander
                                                 <br>
