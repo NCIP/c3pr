@@ -8,9 +8,9 @@
 	<c:when test="${isNullDisplay!='true'&&(value==null||value=='')}">
 	</c:when>
 	<c:otherwise>
-		<tr>
-			<td ${columnAttrName }>${name }:&nbsp;</td>
-			<td ${columnAttrValue }>${value }</td>
-		</tr>
+		<div class="row">
+			<div class="label">${name }</div>
+			<div class="value">${value }</div>
+		</div>
 	</c:otherwise>
 </c:choose>

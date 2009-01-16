@@ -680,7 +680,7 @@ p { margin: 1em 0; }
 	margin-left: 2px;
 	padding-top: 2px;
 	padding-right: 10px;
-	padding-bottom: 6px;
+	padding-bottom: 10px;
 	padding-left: 10px;
 }
 .box.tabbed .interior { }
@@ -782,6 +782,7 @@ div.row div.label {
 div.row div.value {
 	font-weight: normal; /* default; should be changed whenever .label width is changed */
 	margin-left: 14em;
+	margin-top:3px;
 }
 img.indicator { visibility: hidden; }
 .downloadLinks {
@@ -879,4 +880,11 @@ width:75%;
 }
 #genericEpoch h3 {
 	background-color:#e6e6e6;
+}
+#registrationSummary {
+	background-image:url(images/summary_box_bg.png);
+	border:1px solid #CCCCCC;
+	margin-bottom:10px;
+	background-color:#faebc2;
+	background-repeat:repeat-x;
 }

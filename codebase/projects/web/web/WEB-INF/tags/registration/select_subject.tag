@@ -4,133 +4,133 @@
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script type="text/javascript">
-            		function minimizeSubjectBox(msg){
-            		PanelCombo('SubjectBox');
-            		displaySubjectMessage(msg,true);
-            	}
-            	
-            	function displaySubjectMessage(message,pulsateFlag){
-            		element=$$("#Subject .header h2")[0];
-            		new Element.update(element,message);
-            		pulsateFlag?(!is_ie?new Effect.Pulsate(element):null):null;
-            	}
-            	
-              	function clearField(field) {
-                	field.value = "";
-                }
-                    
-            //  	var instanceRowInserterProps = {
-            //       add_row_division_id: "mytable", 	        		/* this id belongs to element where the row would be appended to */
-            //        skeleton_row_division_id: "dummy-row",
-            //        initialIndex: 1,    /* this is the initial count of the rows when the page is loaded  */
-            //        path: "identifiers",                                /* this is the path of the collection that holds the rows  */
-            //    };
-            //   RowManager.addRowInseter(instanceRowInserterProps);
-              	
-              	function moveToSearchSubject(){
-              		document.getElementById('searchSubject_btn').className="current";
-              		document.getElementById('createSubject_btn').className="fifthlevelTab";
-              	
-              		document.getElementById('searchSubjectDiv').style.display="";
-              		document.getElementById('createSubjectDiv').style.display="none";
-              	}
-              	
-              	function moveToCreateSubject(){
-              	  	document.getElementById('searchSubject_btn').className="fifthlevelTab";
-              		document.getElementById('createSubject_btn').className="current";
-              		
-              		document.getElementById('searchSubjectDiv').style.display="none";
-              		document.getElementById('createSubjectDiv').style.display="";
-              		<!--sending a blank request to createParticipantController which bombs the first time-->
-              		<!--coz the command isnt instantiated. Workaround is to send a dummy request in advance and get-->
-              		<!--it to instantiate it in advance so the createSubject wont fail the first time-->
-              		new Ajax.Request('../participant/createParticipant', {method:'get', asynchronous:true});
-              	}
-              	
-             	
-              	/* handlers for  create Subject flow */
-            	var handlerFunc = function(t) {
-            		if(t.responseText != null && t.responseText != ''){
-            			var ret=t.responseText
-            		    var name=ret.substr(0,ret.indexOf("||"));
-            		    var id=ret.substr(ret.indexOf("||")+2);
-            			$('studySubject.participant').value = id;	
-            			document.getElementById("subject-message").innerHTML = "Selected subject: " +name;
-            			message="Selected subject: " +name;
-            			minimizeSubjectBox(message);
-            			var elMsg = document.getElementById('succesfulCreateDiv');
-            			var elDetails = document.getElementById('createSubjectDetailsDiv');
-            			new Element.hide(elDetails);
-            			new Effect.Grow(elMsg);
-            		} else {
-            			alert("handlerFunc: Subject Creation Failed. Please Try Again");
-            		}		
-            	}
-            	
-            	function toggleAddressSection(){
-            	 var el = document.getElementById('addressSection');
-            		if ( el.style.display != 'none' ) {
-            			new Effect.BlindUp(el);
-            		}
-            		else {
-            			new Effect.BlindDown(el);
-            		}
-            	}
-            	
-            	var handlerFail = function(t) {
-            		alert("handlerFail: Subject Creation Failed. Please Try Again");
-            	}
-            	/* handlers for  create Subject flow */
-            	
-            	/* handlers for searchSubject flwo */
-            	function callbackSubject(t){
-            		new Element.hide('searchSubjectInd');
-            		var resultDiv = document.getElementById("subjectSearchResults");
-            		resultDiv.innerHTML = t.responseText;
-            		new Effect.SlideDown(resultDiv);
-            	}	
-            	
-            	function callbackSubjectFail(t){
-            		alert("subject search failed");
-            	}
-            	
-            	/* handlers for searchSubject flwo */
-            	  	
-            	function postProcessSubjectSelection(id, name, identifier){
-            		$('studySubject.participant').value = id;
-            		minimizeSubjectBox("Selected subject: " +name+ " (" + identifier + ")");	
-            	}  	
-            	
-            	ValidationManager.submitPostProcess= function(formElement, flag){
-            		
-            		if(formElement.name == 'createSubForm'){
-            			//for the create subject form we make an ajax submit and return false to avoid the html submit
-            			var raceCodeFlag=false;
-            		for(i=1 ; i<8 ; i++){
-            			if($('raceCodes'+i).checked){
-            				raceCodeFlag=true;
-            				break;
-            			}
-            		}
-            		if(!raceCodeFlag){
-            			ValidationManager.removeError($("raceCodes"))
-            			ValidationManager.showError($("raceCodes"), "required")	
-            			return false;
-            		}
-            		if(flag){
-            			new Ajax.Updater('temp','../personAndOrganization/participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
-            		}
-            		return false;
-            		}else{
-            			//for all other forms(i.e. the main form on select_study_or_subject) we return true to ensure the html submit
-            			return flag;
-            		}		
-            	}
-            	
-            	function searchParticipant(){
-            			new Element.show('searchSubjectInd');
-            			new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});	
-            	}
+                                                            		function minimizeSubjectBox(msg){
+                                                            		PanelCombo('SubjectBox');
+                                                            		displaySubjectMessage(msg,true);
+                                                            	}
+                                                            	
+                                                            	function displaySubjectMessage(message,pulsateFlag){
+                                                            		element=$$("#Subject .header h2")[0];
+                                                            		new Element.update(element,message);
+                                                            		pulsateFlag?(!is_ie?new Effect.Pulsate(element):null):null;
+                                                            	}
+                                                            	
+                                                              	function clearField(field) {
+                                                                	field.value = "";
+                                                                }
+                                                                    
+                                                            //  	var instanceRowInserterProps = {
+                                                            //       add_row_division_id: "mytable", 	        		/* this id belongs to element where the row would be appended to */
+                                                            //        skeleton_row_division_id: "dummy-row",
+                                                            //        initialIndex: 1,    /* this is the initial count of the rows when the page is loaded  */
+                                                            //        path: "identifiers",                                /* this is the path of the collection that holds the rows  */
+                                                            //    };
+                                                            //   RowManager.addRowInseter(instanceRowInserterProps);
+                                                              	
+                                                              	function moveToSearchSubject(){
+                                                              		document.getElementById('searchSubject_btn').className="current";
+                                                              		document.getElementById('createSubject_btn').className="fifthlevelTab";
+                                                              	
+                                                              		document.getElementById('searchSubjectDiv').style.display="";
+                                                              		document.getElementById('createSubjectDiv').style.display="none";
+                                                              	}
+                                                              	
+                                                              	function moveToCreateSubject(){
+                                                              	  	document.getElementById('searchSubject_btn').className="fifthlevelTab";
+                                                              		document.getElementById('createSubject_btn').className="current";
+                                                              		
+                                                              		document.getElementById('searchSubjectDiv').style.display="none";
+                                                              		document.getElementById('createSubjectDiv').style.display="";
+                                                              		<!--sending a blank request to createParticipantController which bombs the first time-->
+                                                              		<!--coz the command isnt instantiated. Workaround is to send a dummy request in advance and get-->
+                                                              		<!--it to instantiate it in advance so the createSubject wont fail the first time-->
+                                                              		new Ajax.Request('../participant/createParticipant', {method:'get', asynchronous:true});
+                                                              	}
+                                                              	
+                                                             	
+                                                              	/* handlers for  create Subject flow */
+                                                            	var handlerFunc = function(t) {
+                                                            		if(t.responseText != null && t.responseText != ''){
+                                                            			var ret=t.responseText
+                                                            		    var name=ret.substr(0,ret.indexOf("||"));
+                                                            		    var id=ret.substr(ret.indexOf("||")+2);
+                                                            			$('studySubject.participant').value = id;	
+                                                            			document.getElementById("subject-message").innerHTML = "Selected subject: " +name;
+                                                            			message="Selected subject: " +name;
+                                                            			minimizeSubjectBox(message);
+                                                            			var elMsg = document.getElementById('succesfulCreateDiv');
+                                                            			var elDetails = document.getElementById('createSubjectDetailsDiv');
+                                                            			new Element.hide(elDetails);
+                                                            			new Effect.Grow(elMsg);
+                                                            		} else {
+                                                            			alert("handlerFunc: Subject Creation Failed. Please Try Again");
+                                                            		}		
+                                                            	}
+                                                            	
+                                                            	function toggleAddressSection(){
+                                                            	 var el = document.getElementById('addressSection');
+                                                            		if ( el.style.display != 'none' ) {
+                                                            			new Effect.BlindUp(el);
+                                                            		}
+                                                            		else {
+                                                            			new Effect.BlindDown(el);
+                                                            		}
+                                                            	}
+                                                            	
+                                                            	var handlerFail = function(t) {
+                                                            		alert("handlerFail: Subject Creation Failed. Please Try Again");
+                                                            	}
+                                                            	/* handlers for  create Subject flow */
+                                                            	
+                                                            	/* handlers for searchSubject flwo */
+                                                            	function callbackSubject(t){
+                                                            		new Element.hide('searchSubjectInd');
+                                                            		var resultDiv = document.getElementById("subjectSearchResults");
+                                                            		resultDiv.innerHTML = t.responseText;
+                                                            		new Effect.SlideDown(resultDiv);
+                                                            	}	
+                                                            	
+                                                            	function callbackSubjectFail(t){
+                                                            		alert("subject search failed");
+                                                            	}
+                                                            	
+                                                            	/* handlers for searchSubject flwo */
+                                                            	  	
+                                                            	function postProcessSubjectSelection(id, name, identifier){
+                                                            		$('studySubject.participant').value = id;
+                                                            		minimizeSubjectBox("Selected subject: " +name+ " (" + identifier + ")");	
+                                                            	}  	
+                                                            	
+                                                            	ValidationManager.submitPostProcess= function(formElement, flag){
+                                                            		
+                                                            		if(formElement.name == 'createSubForm'){
+                                                            			//for the create subject form we make an ajax submit and return false to avoid the html submit
+                                                            			var raceCodeFlag=false;
+                                                            		for(i=1 ; i<8 ; i++){
+                                                            			if($('raceCodes'+i).checked){
+                                                            				raceCodeFlag=true;
+                                                            				break;
+                                                            			}
+                                                            		}
+                                                            		if(!raceCodeFlag){
+                                                            			ValidationManager.removeError($("raceCodes"))
+                                                            			ValidationManager.showError($("raceCodes"), "required")	
+                                                            			return false;
+                                                            		}
+                                                            		if(flag){
+                                                            			new Ajax.Updater('temp','../personAndOrganization/participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
+                                                            		}
+                                                            		return false;
+                                                            		}else{
+                                                            			//for all other forms(i.e. the main form on select_study_or_subject) we return true to ensure the html submit
+                                                            			return flag;
+                                                            		}		
+                                                            	}
+                                                            	
+                                                            	function searchParticipant(){
+                                                            			new Element.show('searchSubjectInd');
+                                                            			new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});	
+                                                            	}
 </script>
 <tags:minimizablePanelBox title="Select a subject" boxId="SubjectBox">
     <!-- subTabbedflow--><a href="javascript:moveToCreateSubject()" id="createSubject_btn" class="current"><span><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>" alt="" />Create Subject</span></a><a href="javascript:moveToSearchSubject()" id="searchSubject_btn" class="fifthlevelTab"><span id="searchSubjectSpan"><img src="<tags:imageUrl name="icons/search.png"/>" alt="" /> Search for Subject</span></a>
@@ -199,180 +199,186 @@
                     <input type="hidden" name="validate" id="validate" value="true"/><input type="hidden" name="_finish" id="_action" value=""><input type="hidden" name="_page" value="0"><input type="hidden" name="async" id="async" value="async">
                     <div class="division " id="single-fields">
                         <div class="content">
-                        	<table>
-                        		<tr>
-									<td>
-                            <div class="row">
-                                <div class="label">
-                                    <tags:requiredIndicator/>First Name
-                                </div>
-                                <div class="value">
-                                    <input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="label">
-                                    <tags:requiredIndicator/>Last Name
-                                </div>
-                                <div class="value">
-                                    <input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="label">
-                                    Middle Name
-                                </div>
-                                <div class="value">
-                                    <input id="middleName" name="middleName" type="text" value=""/>&nbsp;&nbsp;&nbsp;
-                                </div>
-                            </div
-                            <div class="row">
-                                <div class="label">
-                                    Maiden Name
-                                </div>
-                                <div class="value">
-                                    <input id="maidenName" name="maidenName" type="text" value=""/>&nbsp;&nbsp;&nbsp;
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="label">
-                                    <tags:requiredIndicator/>Gender
-                                </div>
-                                <div class="value">
-                                    <select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
-                                        <option value="">Please select</option>
-                                        <c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode" varStatus="loop">
-                                            <c:if test="${!empty administrativeGenderCode.desc}">
-                                                <option value="${administrativeGenderCode.code}">${administrativeGenderCode.desc}</option>
-                                            </c:if>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>						
-                            <div class="row">
-                                <div class="label">
-                                    <tags:requiredIndicator/>Birth Date
-                                </div>
-                                <div class="value">
-                                    <input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
-                                </div>
-                            </div>
-							</td>
-							<td>
-                            <div class="row">
-                                <div class="label">
-                                    <tags:requiredIndicator/>Ethnicity
-                                </div>
-                                <div class="value">
-                                    <select id="ethnicGroupCode" name="ethnicGroupCode" class="validate-notEmpty">
-                                        <option value="">Please select</option>
-                                        <c:forEach items="${ethnicGroupCode}" var="ethnicGroupCode" varStatus="loop">
-                                            <c:if test="${!empty ethnicGroupCode.desc}">
-                                                <option value="${ethnicGroupCode.code}">${ethnicGroupCode.desc}</option>
-                                            </c:if>
-                                        </c:forEach>
-                                    </select>
-                                    <tags:hoverHint keyProp="subject.ethnicGroupCode"/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="label">
-                                    <tags:requiredIndicator/>Race(s)<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
-                                </div>
-                                <div class="value">
-                                    <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/> Asian
-                                    <br>
-                                    <input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/> Black or African American
-                                    <br>
-                                    <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/> White
-                                    <br>
-                                    <input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
-                                    <br>
-                                    <input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
-                                    <br>
-                                    <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/> Not Reported
-                                    <br>
-                                    <input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/> Unknown
-                                </div>
-                            </div>
-							</td>
-							</tr>
-							</table><!--start of adding identifiers-->
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <div class="label">
+                                                <tags:requiredIndicator/>First Name
+                                            </div>
+                                            <div class="value">
+                                                <input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="label">
+                                                <tags:requiredIndicator/>Last Name
+                                            </div>
+                                            <div class="value">
+                                                <input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="label">
+                                                Middle Name
+                                            </div>
+                                            <div class="value">
+                                                <input id="middleName" name="middleName" type="text" value=""/>&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                        </div
+                                        <div class="row">
+                                            <div class="label">
+                                                Maiden Name
+                                            </div>
+                                            <div class="value">
+                                                <input id="maidenName" name="maidenName" type="text" value=""/>&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="label">
+                                                <tags:requiredIndicator/>Gender
+                                            </div>
+                                            <div class="value">
+                                                <select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
+                                                    <option value="">Please select</option>
+                                                    <c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode" varStatus="loop">
+                                                        <c:if test="${!empty administrativeGenderCode.desc}">
+                                                            <option value="${administrativeGenderCode.code}">${administrativeGenderCode.desc}</option>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="label">
+                                                <tags:requiredIndicator/>Birth Date
+                                            </div>
+                                            <div class="value">
+                                                <input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="label">
+                                                <tags:requiredIndicator/>Ethnicity
+                                            </div>
+                                            <div class="value">
+                                                <select id="ethnicGroupCode" name="ethnicGroupCode" class="validate-notEmpty">
+                                                    <option value="">Please select</option>
+                                                    <c:forEach items="${ethnicGroupCode}" var="ethnicGroupCode" varStatus="loop">
+                                                        <c:if test="${!empty ethnicGroupCode.desc}">
+                                                            <option value="${ethnicGroupCode.code}">${ethnicGroupCode.desc}</option>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </select>
+                                                <tags:hoverHint keyProp="subject.ethnicGroupCode"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="label">
+                                                <tags:requiredIndicator/>Race(s)<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
+                                            </div>
+                                            <div class="value">
+                                                <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/>Asian
+                                                <br>
+                                                <input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/>Black or African American
+                                                <br>
+                                                <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/>White
+                                                <br>
+                                                <input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native
+                                                <br>
+                                                <input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/>Native Hawaiian or Pacific Islander
+                                                <br>
+                                                <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/>Not Reported
+                                                <br>
+                                                <input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/>Unknown
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table><!--start of adding identifiers-->
                             <br>
                             <tags:identifiers identifiersTypes="${identifiersTypeRefData}" displaySys="false" /><!--end of adding identifiers--><!--start of address section
                             <p id="instructions"><a href="#" onclick="toggleAddressSection()">Address & Contact Info</a></p>-->
                             <chrome:division title="Address & Contact Info" minimize="true" divIdToBeMinimized="addressSection">
                                 <div id="addressSection" style="display:none;">
                                     <div class="division " id="single-fields">
-                                        <table width="75%" border="0" cellspacing="1" cellpadding="1" id="table1">
+                                        <table>
                                             <tr>
-                                                <td width="125" align="right">
-                                                    Street Address
-                                                </td>
-                                                <td align="left">
-                                                    <input id="streetAddress" name="streetAddress" type="text" value="" size="45"/>&nbsp;&nbsp;&nbsp;
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <table width="58%" border="0" cellspacing="1" cellpadding="1" id="table1">
-                                            <tr>
-                                                <td width="125" align="right">
-                                                    City
-                                                </td>
-                                                <td align="left">
-                                                    <input id="city" name="city" type="text" value=""/>&nbsp;&nbsp;&nbsp;
-                                                </td>
-                                                <td width="30" align="right">
-                                                    <span class="data">State</span>
-                                                </td>
-                                                <td align="left">
-                                                <input id="stateCode" name="stateCode" type="text" value=""/>
-                                            </tr>
-                                            <tr>
-                                                <td width="125" align="right">
-                                                    Country
-                                                </td>
-                                                <td align="left">
-                                                    <input id="countryCode" name="countryCode" type="text" value=""/>&nbsp;&nbsp;&nbsp;
-                                                </td>
-                                                <td width="30" align="right">
-                                                    Zip
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="label">
+                                                            Street Address
+                                                        </div>
+                                                        <div class="value">
+                                                            <input id="streetAddress" name="streetAddress" type="text" value="" size="45"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="label">
+                                                            City
+                                                        </div>
+                                                        <div class="value">
+                                                            <input id="city" name="city" type="text" value=""/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="label">
+                                                            <span class="data">State</span>
+                                                        </div>
+                                                        <div class="value">
+                                                            <input id="stateCode" name="stateCode" type="text" value=""/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="label">
+                                                            Zip
+                                                        </div>
+                                                        <div class="value">
+                                                            <input id="postalCode" name="postalCode" type="text" value=""/>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <input id="postalCode" name="postalCode" type="text" value=""/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td width="125" align="right">
-                                                    Fax
-                                                </td>
-                                                <td align="left">
-                                                    <input id="fax" name="fax" type="text" value=""/>&nbsp;&nbsp;&nbsp;
-                                                </td>
-                                                <td width="30" align="right">
-                                                    Phone
-                                                </td>
-                                                <td align="left">
-                                                    <input id="phone" name="phone" type="text" value=""/>&nbsp;&nbsp;&nbsp;
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td width="125" align="right">
-                                                    Email
-                                                </td>
-                                                <td align="left">
-                                                    <input id="email" name="email" type="text" value=""/>&nbsp;&nbsp;&nbsp;
-                                                </td>
-                                                <td width="30" align="right">
-                                                </td>
-                                                <td align="left">
+                                                    <div class="row">
+                                                        <div class="label">
+                                                            Country
+                                                        </div>
+                                                        <div class="value">
+                                                            <input id="countryCode" name="countryCode" type="text" value=""/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="label">
+                                                            Fax
+                                                        </div>
+                                                        <div class="value">
+                                                            <input id="fax" name="fax" type="text" value=""/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="label">
+                                                            Phone
+                                                        </div>
+                                                        <div class="value">
+                                                            <input id="phone" name="phone" type="text" value=""/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="label">
+                                                            Email
+                                                        </div>
+                                                        <div class="value">
+                                                            <input id="email" name="email" type="text" value=""/>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
-                            </chrome:division>
-                            <!--end of div id="addressSection"-->
+                            </chrome:division><!--end of div id="addressSection"-->
                             <div align="right">
                                 <input type="button" class="tab0" value="Save" onclick="document.createSubForm.submit();"/>
                             </div>

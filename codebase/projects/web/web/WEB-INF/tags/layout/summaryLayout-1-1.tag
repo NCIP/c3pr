@@ -15,9 +15,9 @@
             <c:otherwise>
                 <tr>
                     <td>
-                        <tags:panelBox title="Summary" boxId="RegSummary">
+                        <div id="registrationSummary">
                             <registrationTags:registrationSummary/>
-                        </tags:panelBox>
+                        </div>
                     </td>
                 </tr>
                 <tr>

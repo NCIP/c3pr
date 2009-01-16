@@ -9,6 +9,7 @@
 	opacity:1.0;
 	z-index:30;
 	background: #ffc url(images/pointer.gif) no-repeat -10px 5px;
+	font-weight:normal;
 }
 
 /* The pointer image is hadded by using another span */

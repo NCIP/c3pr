@@ -64,6 +64,14 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	        }       
 	    }    						
 </script>
+<style>
+	#single-fields-interior div.row div.label {
+		width:22em;
+	}
+	#single-fields-interior div.row div.value {
+		margin-left:23em;
+	}
+</style>
 </head>
 <body>
 <c:choose>
@@ -73,7 +81,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<input type="hidden" name="registrationId" id="manage_registrationId" value=""/>
 	</form>
 	<font color="red">The participant is already registered on this epoch. If you want to move this subject to another epoch of this study, 
-	please use Manage Registration module.You can navigate to Manage Registration by searching the registration and then clicking on the registration record.
+	please use Manage Registration module. You can navigate to Manage Registration by searching the registration and then clicking on the registration record.
 	</font>
 	</tags:panelBox>
 </c:when>
@@ -82,25 +90,24 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
 <form:hidden path="studySubject.informedConsentVersion"/>
-<tags:instructions code="enrollment_details" />
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr>
-		<td class="label" width="50%"><tags:requiredIndicator />Informed Consent Signed Date:</td>
-		<td><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></td>
-	</tr>
-	<tr>
-		<td class="label"><tags:requiredIndicator />Current Consent Version is <em>${command.studySubject.studySite.study.consentVersion}</em>:</td>
-		<td><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
-				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></td>
-	</tr>
-	<tr>
-		<td class="label" width="50%">Registration Start Date:</td>
-		<td><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></td>
-	</tr>
-	<tr>
-		<td class="label" width="50%"><em></em>Enrolling Physician:</td>
-		<td>
+<%--<tags:instructions code="enrollment_details" />--%>
+
+	<div class="row">
+		<div class="label"><tags:requiredIndicator />Informed Consent Signed Date</div>
+		<div class="value"><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
+	</div>
+	<div class="row">
+		<div class="label"><tags:requiredIndicator />Current Consent Version is <em>${command.studySubject.studySite.study.consentVersion}</em></div>
+		<div class="value"><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
+				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
+	</div>
+	<div class="row">
+		<div class="label">Registration Start Date</div>
+		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
+	</div>
+	<div class="row">
+		<div class="label"><em></em>Enrolling Physician</div>
+		<div class="value">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.studySite.activeStudyInvestigators)>0}">
 			<select id ="treatingPhysician" name="studySubject.treatingPhysicianInternal">
@@ -124,11 +131,11 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		</c:otherwise>
 		</c:choose>
 		<tags:hoverHint keyProp="studySubject.treatingPhysician"/>
-		</td>
-	</tr>
-	<tr>
-		<td class="label" width="40%">Primary Disease:</td>
-		<td>
+		</div>
+	</div>
+	<div class="row">
+		<div class="label">Primary Disease</div>
+		<div class="value">
 			<form:select id="stuydDiseaseSelect" path="studySubject.diseaseHistory.studyDisease" onchange="manageField(this);">
 				<option value="">Please Select</option>
 				<form:options items="${command.studySubject.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
@@ -142,30 +149,30 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 				<form:input id="otherDisease" path="studySubject.diseaseHistory.otherPrimaryDiseaseCode" />
 				<tags:hoverHint keyProp="studySubject.otherDisease"/>
 			</span>
-		<td>
-	</tr>
-	<tr>
-		<td class="label" width="40%">Primary Disease Site:</td>
-		<td>
+		</div>
+	</div>
+	<div class="row">
+		<div class="label">Primary Disease Site</div>
+		<div class="value">
 			<form:input id="diseaseSite-input" path="studySubject.diseaseHistory.otherPrimaryDiseaseSiteCode" cssClass="autocomplete"/>
 			<form:hidden id="diseaseSite-hidden" path="studySubject.diseaseHistory.anatomicSite"/>
 			<input type="button" id="diseaseSite-clear" value="Clear" onClick="$('diseaseSite-hidden').value='';"/>
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
 			<tags:hoverHint keyProp="studySubject.diseaseSite"/>
-		</td>
-	</tr>
-	<tr>
-		<td class="label" width="40%">Payment Method:</td>
-		<td>
+		</div>
+	</div>
+	<div class="row">
+		<div class="label">Payment Method</div>
+		<div class="value">
 			<form:select id="paymentMethod" path="studySubject.paymentMethod">
 				<option value="">Please Select</option>
 				<form:options items="${paymentMethods}" itemLabel="desc" itemValue="code"/>
 			</form:select>
 			<tags:hoverHint keyProp="studySubject.primaryDisease"/>
-		</td>
-	</tr>
-</table>
+		</div>
+	</div>
+
 
 <!-- MAIN BODY ENDS HERE -->
 </tags:formPanelBox>
