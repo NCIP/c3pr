@@ -12,8 +12,12 @@
 		<available file="${ivy.jar.file}" />
 	</condition>
 	
-	<!-- The default DB setting to be used
-		 can be overriden using -Ddb=xxxx runtime option. 
+	<!-- created database type var for CI to make single target independant of database type
+			provide -Ddatabase.type=oracle for ORACLE and  -Ddatabase.type=postgres for POSTGRES    -->
+	<property name="database.type" value="postgres" />
+	
+	<!-- The default DB setting to be used can be overriden using -Ddb=xxxx runtime option.
+		Helps pick the datasource.properties file. 
 	-->
 	<condition property="databaseConfigurationName" else="datasource" value="${db}">
 		<isset property="db"/>
@@ -27,7 +31,23 @@
 		<available file="${lib.dir}/ant-contrib-1.0b2.jar" />
 	</condition>
 	
-	
+	<!--===========================================================================
+	   Condition which determines the type of database and sets the corresponding property to true.
+	   So for postgres: postgres.true is set while oracle.true is not set.
+	   Note that if condition checks to see whether the property is set and not if property value
+	   is true. so a target would run even if the property in the if condition was set to false
+	=========================================================================-->
+	<target name="check-database-type">
+		<condition property="oracle.true">
+			<equals arg1="${database.type}" arg2="oracle" />
+		</condition>
+		<condition property="postgres.true">
+			<equals arg1="${database.type}" arg2="postgres" />
+		</condition>
+		<echo message="postgres.true is ${postgres.true}" />
+		<echo message="oracle.true is ${oracle.true}" />
+	</target>
+
 	<!-- ===================================================================
 		copy-resources : This task, copy files from source to destination, with filtering on
 	======================================================================= -->

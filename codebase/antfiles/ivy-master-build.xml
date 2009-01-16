@@ -5,6 +5,9 @@
     <import file="${basedir}/common.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
 	<property name="reports.dir" value="${basedir}/../reports" />
+	<!-- created database type var for CI to make single target independant of database type
+		provide -Ddatabase.type=oracle for ORACLE and  -Ddatabase.type=postgres for POSTGRES    -->
+	<property name="database.type" value="postgres" />
 	<!-- List of modules that need checkstyle reporting done -->
 	<property name="reportable.projects.list" value="core,web" />
 	<property name="javadoc-reportable.projects.list" value="core,web" />
@@ -34,20 +37,22 @@
   		<echo message="buildList : ${build-path}" />
   	</target>
 	
-	
 	<!-- ==================================================================
-			target : recreate-db-and-publish-all
-			note: Created as a central target for Continuous Integration (Hudson)
-		====================================================================== -->
-	  	<target name="recreate-db-and-publish-all" depends="buildlist, clean" 
-	  			description="compile, jar and publish all projects in the right order, publishes them into local repository">
-	  		 <subant target="drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml"  />
-			 <ant target="migrate" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
-					<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-			 </ant>	
-	   		 <subant target="publish-local" buildpathref="build-path" />
-	  	</target>
+		target : autobuild-ci-c3pr
+		note: Created as a central target for Continuous Integration (Hudson)
+		checks the database.type parameter (internally) and runs the db scripts for oracle OR postgres.
+	====================================================================== -->
+  	<target name="autobuild-ci-c3pr" depends="buildlist, clean" 
+  			description="compile, jar and publish all projects in the right order, publishes them into local repository">
 		
+  		<ant target="autobuild-ci-drop-and-create-existing-database" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
+		<ant target="autobuild-ci-recreate-db-hudson" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
+		
+		<ant target="migrate" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
+				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+		</ant>	
+   		<subant target="publish-local" buildpathref="build-path" />
+  	</target>
 	
 	<!-- ==================================================================
 		target : publish-all
@@ -115,16 +120,16 @@
 	<target name="drop-and-create-existing-database">
 		<subant target="drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml" />
 	</target>
-	
-	<!-- ==========================================================
-			target : recreate-db-hudson
-			This will drop the existing database and create a new database by deligating call to c3pr-core:drop-and-create-existing-database, this is added
-			as a single job using hudson. 
-		=============================================================-->
-		<target name="recreate-db-hudson">
-			<subant target="recreate-db-hudson" buildpath="${projects.dir}/core/ivy-build.xml" />
-		</target>
 
+	<!-- ==========================================================
+		target : recreate-db-hudson
+		This will drop the existing database and create a new database by deligating call to c3pr-core:drop-and-create-existing-database, this is added
+		as a single job using hudson. 
+	=============================================================-->
+	<target name="recreate-db-hudson">
+		<subant target="recreate-db-hudson" buildpath="${projects.dir}/core/ivy-build.xml" />
+	</target>
+	
 	<!-- ==========================================================
 		target : prepare-fresh-database
 		This will drop the existing database and create a new database by deligating call to c3pr-core:drop-and-create-existing-database, this is added
