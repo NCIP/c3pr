@@ -100,6 +100,10 @@
 		<echo message="bering.dialect : ${bering.dialect}" />
 	</target>
 	
+	<target name="autobuild-ci-drop-and-create-existing-database" depends="check-database-type" if="postgres.true">
+		<ant target="drop-and-create-existing-database" antfile="ivy-build.xml" inheritall="false"/>
+	</target>
+	
 	<target name="drop-and-create-existing-database" description="drop the database and create new database" depends="resolve, find-datasource">
 		<property file="${dsFile}"/>    
 		<echo message="${datasource.driver}"/>    
@@ -111,6 +115,10 @@
 			DROP DATABASE IF EXISTS ${datasource.schema} ;
 			CREATE DATABASE ${datasource.schema};
 		</sql>
+	</target>
+	
+	<target name="autobuild-ci-recreate-db-hudson" depends="check-database-type" if="oracle.true">
+		<ant target="recreate-db-hudson" antfile="ivy-build.xml" inheritall="false"/>
 	</target>
 	
 	<target name="recreate-db-hudson" description="drop the database and create new database" depends="resolve, find-datasource">
