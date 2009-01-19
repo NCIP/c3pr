@@ -33,8 +33,8 @@
     <table>
         <tr>
             <td class="alt">
-                <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite"/><input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="50" value="${command.studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}"/><%--<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
-                value="Clear"/>- -%>
+                <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite"/><input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="50" value="${command.studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}"/>
+				<%-- <input type="button" id="healthcareSitePAGE.ROW.INDEX-clear" value="Clear"/> --%>
                 <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
                 <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete">
                 </div>
