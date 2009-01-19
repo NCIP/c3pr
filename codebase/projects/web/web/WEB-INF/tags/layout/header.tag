@@ -72,19 +72,19 @@
           </div>
           <c:if test="${not empty currentTask.subTasks}">
              <div id="subTasks">
-				<csmauthz:accesscontrol domainObject="${subtask}" authorizationCheckName="taskAuthorizationCheck">
-			      <c:forEach items="${currentTask.subTasks}" var="subtask">
-                    <c:set var="i" value="${i + 1}" />
-					<c:choose>
-                            <c:when test="${subtask == currentSubTask}">
-                                <a href="<c:url value="${subtask.url}"/>" id="current">${subtask.displayName}</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="<c:url value="${subtask.url}"/>">${subtask.displayName}</a>
-                            </c:otherwise>
-                        </c:choose>
+				  <c:forEach items="${currentTask.subTasks}" var="subtask">
+                    <csmauthz:accesscontrol domainObject="${subtask}" authorizationCheckName="taskAuthorizationCheck">
+	                    <c:set var="i" value="${i + 1}" />
+						<c:choose>
+	                            <c:when test="${subtask == currentSubTask}">
+	                                <a href="<c:url value="${subtask.url}"/>" id="current">${subtask.displayName}</a>
+	                            </c:when>
+	                            <c:otherwise>
+	                                <a href="<c:url value="${subtask.url}"/>">${subtask.displayName}</a>
+	                            </c:otherwise>
+	                    </c:choose>
+                    </csmauthz:accesscontrol>
                   </c:forEach>
-				</csmauthz:accesscontrol>
               </div>
               <div id="linebelowsubtasks">&nbsp;</div>
             </c:if>
