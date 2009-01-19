@@ -10,7 +10,10 @@ position:relative;
 width:950px;
 z-index:0;
 clear:both;
-top:46px;
+top:41px;
+background-image:url(images/thirdlevelnav_grey_gradient.png);
+background-position:center bottom;
+background-repeat:repeat-x;
 }
 
 #workflow-tabs li {
@@ -19,11 +22,10 @@ font-size: 10pt;
 }
 
 #workflow-tabs li.selected a {
-	background-image: url(images/thirdlevelnav_grey_gradient.png);
-	color: #FFFFFF;
-	background-color: #333333;
+	color: #000;
+	background-color: #E4C48F;
 	background-repeat: repeat-x;
-	background-position: bottom;
+	background-position: top;
 	padding-top: 2px;
 	padding-right: 5px;
 	padding-bottom: 2px;
@@ -46,7 +48,7 @@ text-decoration:none;
 
 #workflow-tabs a {
   text-decoration: none;
-  color: #333333;
+  color: white;
 }
 
 #workflow-tabs a:hover {
