@@ -96,8 +96,8 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		<th ></th>
 	</tr>
 </table>
-<div align="right">
-<input id="addIdentifier" type="button" value="Add Another Identifier"
+<div style="padding:10px 0;">
+<input id="addIdentifier" type="button" value="Add Identifier"
 	onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);"  />
 </div>
 </div>
@@ -118,8 +118,8 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		<th class="specalt" scope="col" align="left"></th>
 	</tr>
 </table>
-	<div align="right">
-		<input id="addIdentifier" type="button" value="Add Another Identifier"
+	<div style="padding:10px 0;">
+		<input id="addIdentifier" type="button" value="Add Identifier"
 		onclick="javascript:RowManager.addRow(systemIdentifierRowInserterProps);"  />
 	</div>
 </chrome:division>

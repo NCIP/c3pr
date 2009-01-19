@@ -68,6 +68,9 @@
 					margin-right:5px;
 					margin-bottom:5px;
 				}
+				#main {
+					top:37px;
+				}
 		</style>
 		
             <!--[if IE]>
