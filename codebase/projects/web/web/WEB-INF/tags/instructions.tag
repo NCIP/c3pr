@@ -4,4 +4,5 @@
 <div class="instructions">
   <div class="summarylabel">${not empty heading ? heading : 'Instructions '}</div>
   <div class="summaryvalue"><spring:message code="${code}" text="There are no instructions for this section." /></div>
+  <!-- instructionCode="${code}" -->
 </div>

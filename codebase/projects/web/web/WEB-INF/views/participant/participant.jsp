@@ -109,7 +109,7 @@ function manageIdentifierRadio(element){
 </script>
 <style>
 #workflow-tabs {
-top:77px;
+top:83px;
 }
 </style>
     <!--[if IE]>
@@ -129,25 +129,25 @@ top:70px;
 <chrome:division id="participant-details" title="Basic Details">
 				<div class="leftpanel">
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />First Name:</div>
+						<div class="label"><tags:requiredIndicator />First Name</div>
 						<div class="value"><form:input path="firstName"
 							cssClass="validate-notEmpty" /></div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Last Name:</div>
+						<div class="label"><tags:requiredIndicator />Last Name</div>
 						<div class="value"><form:input path="lastName"
 							cssClass="validate-notEmpty" /></div>
 					</div>
 					<div class="row">
-						<div class="label">Middle Name:</div>
+						<div class="label">Middle Name</div>
 						<div class="value"><form:input path="middleName" /></div>
 					</div>
 					<div class="row">
-						<div class="label">Maiden Name:</div>
+						<div class="label">Maiden Name</div>
 						<div class="value"><form:input path="maidenName" /></div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Gender:</div>
+						<div class="label"><tags:requiredIndicator />Gender</div>
 						<div class="value"><form:select path="administrativeGenderCode"
 							cssClass="validate-notEmpty">
 							<option value="">Please Select</option>
@@ -159,11 +159,11 @@ top:70px;
 				</div>
 				<div class="rightpanel">
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Birth Date:</div>
+						<div class="label"><tags:requiredIndicator />Birth Date</div>
 						<div class="value"><form:input path="birthDate" cssClass="validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Ethnicity:</div>
+						<div class="label"><tags:requiredIndicator />Ethnicity</div>
 						<div class="value"><form:select path="ethnicGroupCode"
 							cssClass="validate-notEmpty">
 							<option value="">Please Select</option>
@@ -172,23 +172,23 @@ top:70px;
 						</form:select><tags:hoverHint keyProp="subject.ethnicGroupCode"/></div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Race(s): </div>
+						<div class="label"><tags:requiredIndicator />Race(s) <span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span></div>
 						<table>
 						<tr>
                             <td align="left" class="race">
-		                        <form:checkbox id="raceCodes1" path="raceCodes" value="Asian"/>Asian
+		                        <form:checkbox id="raceCodes1" path="raceCodes" value="Asian"/> Asian
 								<br>
-								<form:checkbox id="raceCodes2" path="raceCodes" value="Black_or_African_American"/>Black or African American 
+								<form:checkbox id="raceCodes2" path="raceCodes" value="Black_or_African_American"/> Black or African American 
 	                            <br>
-                                <form:checkbox id="raceCodes3" path="raceCodes" value="White"/>White
+                                <form:checkbox id="raceCodes3" path="raceCodes" value="White"/> White
 								<br>
-								<form:checkbox id="raceCodes4" path="raceCodes" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native &nbsp;<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
+								<form:checkbox id="raceCodes4" path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native &nbsp;
 		                        <br>
-		                        <form:checkbox id="raceCodes5" path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/>Native Hawaiian or Pacific Islander
+		                        <form:checkbox id="raceCodes5" path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
 		                        <br>
-		                        <form:checkbox id="raceCodes6" path="raceCodes" value="Not_Reported"/>Not Reported
+		                        <form:checkbox id="raceCodes6" path="raceCodes" value="Not_Reported"/> Not Reported
 					            <br>
-	 							<form:checkbox id="raceCodes7" path="raceCodes" value="Unknown"/>Unknown
+	 							<form:checkbox id="raceCodes7" path="raceCodes" value="Unknown"/> Unknown
 		                    </td><td align="left" id="raceCodes" style="display:inline"/>
 		                </tr>
 						</table>
@@ -208,7 +208,7 @@ top:70px;
 									<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.nciInstituteCode})" />
 									<c:set var="_name" value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" />
 									</c:if>
-			                        <div class="label"><tags:requiredIndicator />Organization:</div>
+			                        <div class="label"><tags:requiredIndicator />Organization</div>
 			                        <div class="value">
 									<input type="hidden" id="mrnOrganization-hidden"
 										name="organizationAssignedIdentifiers[0].healthcareSite"
@@ -223,7 +223,7 @@ top:70px;
 								    </div>
 	                    </div>
 						<div class="row">
-			                        <div class="label"><tags:requiredIndicator />Identifier:</div>
+			                        <div class="label"><tags:requiredIndicator />Identifier</div>
 			                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 									size="30" maxlength="30"
 									value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
@@ -234,7 +234,7 @@ top:70px;
 
 					 <div class="rightpanel">
 						<div class="row">
-								<div class="label">Identifier Type:</div>
+								<div class="label">Identifier Type</div>
 								<form:select
 									path="organizationAssignedIdentifiers[0].type"
 									cssClass="validate-notEmpty"> value="${command.organizationAssignedIdentifiers[0].type}"
