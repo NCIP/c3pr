@@ -13,7 +13,8 @@
 	</condition>
 	
 	<!-- created database type var for CI to make single target independant of database type
-			provide -Ddatabase.type=oracle for ORACLE and  -Ddatabase.type=postgres for POSTGRES    -->
+		 provide -Ddatabase.type=oracle for ORACLE and  -Ddatabase.type=postgres for POSTGRES
+		defaults to postgres    -->
 	<property name="database.type" value="postgres" />
 	
 	<!-- The default DB setting to be used can be overriden using -Ddb=xxxx runtime option.
