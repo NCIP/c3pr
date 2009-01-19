@@ -31,7 +31,7 @@ function manageCompanions(){
 </head>
 <body>
 <form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="manageCompanion">
-	<input type="hidden" name="_page2" id="_page2" value="2"/>
+	<input type="hidden" name="_page" id="_page2" value="2"/>
 	<input type="hidden" name="_target2" id="_target2" value="2"/>
 </form>
 <form action="../registration/createRegistration" method="post" id="create">
