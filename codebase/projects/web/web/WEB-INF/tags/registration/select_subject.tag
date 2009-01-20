@@ -204,7 +204,7 @@
                                     <td>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>First Name
+                                                <tags:requiredIndicator/>First name
                                             </div>
                                             <div class="value">
                                                 <input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
@@ -212,7 +212,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>Last Name
+                                                <tags:requiredIndicator/>Last name
                                             </div>
                                             <div class="value">
                                                 <input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
@@ -220,18 +220,18 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                Middle Name
+                                                Middle name
                                             </div>
                                             <div class="value">
-                                                <input id="middleName" name="middleName" type="text" value=""/>&nbsp;&nbsp;&nbsp;
+                                                <input id="middleName" name="middleName" type="text" value=""/>
                                             </div>
                                         </div
                                         <div class="row">
                                             <div class="label">
-                                                Maiden Name
+                                                Maiden name
                                             </div>
                                             <div class="value">
-                                                <input id="maidenName" name="maidenName" type="text" value=""/>&nbsp;&nbsp;&nbsp;
+                                                <input id="maidenName" name="maidenName" type="text" value=""/>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -251,7 +251,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>Birth Date
+                                                <tags:requiredIndicator/>Birth date
                                             </div>
                                             <div class="value">
                                                 <input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
@@ -280,19 +280,19 @@
                                                 <tags:requiredIndicator/>Race(s)<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
                                             </div>
                                             <div class="value">
-                                                <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/>Asian
+                                                <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/> Asian
                                                 <br>
-                                                <input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/>Black or African American
+                                                <input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/> Black or African American
                                                 <br>
-                                                <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/>White
+                                                <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/> White
                                                 <br>
-                                                <input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/>American Indian or Alaska Native
+                                                <input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
                                                 <br>
-                                                <input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/>Native Hawaiian or Pacific Islander
+                                                <input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
                                                 <br>
-                                                <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/>Not Reported
+                                                <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/> Not reported
                                                 <br>
-                                                <input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/>Unknown
+                                                <input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/> Unknown
                                             </div>
                                         </div>
                                     </td>
@@ -309,7 +309,7 @@
                                                 <td>
                                                     <div class="row">
                                                         <div class="label">
-                                                            Street Address
+                                                            Street address
                                                         </div>
                                                         <div class="value">
                                                             <input id="streetAddress" name="streetAddress" type="text" value="" size="45"/>
@@ -349,15 +349,7 @@
                                                             <input id="countryCode" name="countryCode" type="text" value=""/>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="label">
-                                                            Fax
-                                                        </div>
-                                                        <div class="value">
-                                                            <input id="fax" name="fax" type="text" value=""/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
+													<div class="row">
                                                         <div class="label">
                                                             Phone
                                                         </div>
@@ -367,10 +359,18 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="label">
+                                                            Fax
+                                                        </div>
+                                                        <div class="value">
+                                                            <input id="fax" name="fax" type="text" value=""/>
+                                                        </div>
+                                                    </div>
+													<div class="row">
+                                                        <div class="label">
                                                             Email
                                                         </div>
                                                         <div class="value">
-                                                            <input id="email" name="email" type="text" value=""/>
+                                                            <input id="email" name="email" type="text" value="" size="35"/>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -380,7 +380,8 @@
                                 </div>
                             </chrome:division><!--end of div id="addressSection"-->
                             <div align="right">
-                                <input type="button" class="tab0" value="Save" onclick="document.createSubForm.submit();"/>
+                            	<button><img src="<tags:imageUrl name="../templates/mocha/images/subject_24px.png"/>" alt="" />Create this Subject</button>
+                                <!--<input type="button" class="tab0" value="Create this Subject" onclick="document.createSubForm.submit();"/>-->
                             </div>
                         </div>
                     </div>

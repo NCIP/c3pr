@@ -69,7 +69,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			</div>
 		</div>
 		<div class="row">
-			<div class="label"><tags:requiredIndicator />Medical Record Number</div>
+			<div class="label"><tags:requiredIndicator />Medical record number</div>
 			<div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 				size="30" maxlength="30" class="validate-notEmpty" />
 			     <input type="hidden" name="organizationAssignedIdentifiers[0].type"

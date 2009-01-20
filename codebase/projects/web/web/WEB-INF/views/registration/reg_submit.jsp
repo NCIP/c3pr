@@ -15,6 +15,9 @@
 		div.row div.value {
 			margin-left:16em;
 		}
+		#main {
+			top:35px;
+		}
 </style>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -31,36 +34,41 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<input type="hidden" name="_finish" value="true"/>
 	<tags:instructions code="reg_submit" />
 	<chrome:division id="Subject Information" title="Subject">
+	<table width="90%">
+		<tr>
+			<td>
 	<div class="row">
-			<div class="label">First Name</div>
+			<div class="label">First name:</div>
 			<div class="value">${command.studySubject.participant.firstName}</div>
 	</div>
 	<div class="row">
-		<div class="label">Last Name</div>
+		<div class="label">Last name:</div>
 		<div class="value">${command.studySubject.participant.lastName}</div>
 	</div>
 	<div class="row">
-		<div class="label">Gender</div>
+		<div class="label">Gender:</div>
 		<div class="value">${command.studySubject.participant.administrativeGenderCode}</div>
 	</div>
 	<div class="row">
-		<div class="label">MRN</div>
+		<div class="label">MRN:</div>
 		<div class="value">${command.studySubject.participant.medicalRecordNumber.value }</div>
 	</div>
+	</td>
+	<td width="50%">
 	<div class="row">
-		<div class="label">Assigning Authority</div>
+		<div class="label">Assigning authority:</div>
 		<div class="value">${command.studySubject.participant.medicalRecordNumber.healthcareSite.name }</div>
 	</div>
 	<div class="row">
-		<div class="label">Birth Date</div>
+		<div class="label">Birth date:</div>
 		<div class="value">${command.studySubject.participant.birthDateStr}</div>
 	</div>
 	<div class="row">
-		<div class="label">Ethnicity</div>
+		<div class="label">Ethnicity:</div>
 		<div class="value">${command.studySubject.participant.ethnicGroupCode}</div>
 	</div>
 	<div class="row">
-		<div class="label">Race(s)</div>
+		<div class="label">Race(s):</div>
 		<div class="value">
 			<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
 	            <div class="row">
@@ -70,119 +78,142 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</div>
 		</div>
 	</div>
+	</td>
+	</tr>
+	</table>
 	</chrome:division>
 	<chrome:division id="Study Information" title="Study">
-		<div class="row">
-			<div class="label">Status</div>
+	<table width="90%">
+		<tr>
+			<td>
+	<div class="row">
+			<div class="label">Status:</div>
 			<div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
 	</div>
 	<div class="row">
-		<div class="label">Short Title</div>
+		<div class="label">Short title:</div>
 		<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
 	</div>
 	<div class="row">
-		<div class="label">Long Title</div>
+		<div class="label">Long title:</div>
 		<div class="value">${command.studySubject.studySite.study.longTitleText}</div>
 	</div>
 	<div class="row">
-		<div class="label">Randomized</div>
+		<div class="label">Randomized:</div>
 		<div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
 	</div>
+	</td>
+	<td width="50%">
 	<div class="row">
-		<div class="label">Multi Institutional</div>
+		<div class="label">Multi institutional:</div>
 		<div class="value">${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</div>
 	</div>
 	<div class="row">
-		<div class="label">Phase</div>
+		<div class="label">Phase:</div>
 		<div class="value">${command.studySubject.studySite.study.phaseCode}</div>
 	</div>
 	<div class="row">
-		<div class="label">Coordinating Center Identifier</div>
+		<div class="label">Coordinating center identifier:</div>
 		<div class="value">${command.studySubject.studySite.study.identifiers[0].value}</div>
 		</div>
-	
+	</td>
+	</tr>
+	</table>
 	</chrome:division>
 	<chrome:division id="Study Site Information" title="Study Site">
+		<table width="90%">
+		<tr>
+			<td>
 		<div class="row">
-			<div class="label">Name</div>
+			<div class="label">Name:</div>
 			<div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
 	</div>
 	<div class="row">
-		<div class="label">Address</div>
+		<div class="label">Address:</div>
 		<div class="value">${command.studySubject.studySite.healthcareSite.address.streetAddress},
 	${command.studySubject.studySite.healthcareSite.address.city},
 	${command.studySubject.studySite.healthcareSite.address.stateCode},
 	${command.studySubject.studySite.healthcareSite.address.postalCode}</div>
 	</div>
 	<div class="row">
-		<div class="label">Status</div>
+		<div class="label">Status:</div>
 		<div class="value">${command.studySubject.studySite.siteStudyStatus.code}</div>
 	</div>
+	</td>
+	<td width="50%">
 	<div class="row">
-		<div class="label">NCI Institution Code</div>
+		<div class="label">NCI institution code:</div>
 		<div class="value">${command.studySubject.studySite.healthcareSite.nciInstituteCode}</div>
 	</div>
 	<div class="row">
-		<div class="label">IRB Approval Date</div>
+		<div class="label">IRB approval date:</div>
 		<div class="value">${command.studySubject.studySite.irbApprovalDateStr}</div>
 		</div>
-	
+	</td>
+	</tr>
+	</table>
 	</chrome:division>
 	<chrome:division id="Current Epoch Information" title="Current Epoch">
 		<div class="row">
-			<div class="label">Current Epoch</div>
+			<div class="label">Current epoch:</div>
 			<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
 	</div>
 	<div class="row">
-		<div class="label">Enrolling</div>
+		<div class="label">Enrolling:</div>
 		<div class="value">${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</div>
 	</div>
 	<div class="row">
-		<div class="label">Epoch Status</div>
+		<div class="label">Epoch status:</div>
 		<div class="value">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</div>
 	</div>
 	
 	</chrome:division>
 	<chrome:division id="enrollment" title="Enrollment Details">
+	<table width="90%">
+		<tr>
+			<td>
 	<div class="row">
-		<div class="label">Registration Start Date</div>
+		<div class="label">Registration start date:</div>
 		<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.startDateStr }' workflow='registration'/></div>
 	</div>
 	<div class="row">
-		<div class="label">Informed Consent Signed Date</div>
+		<div class="label">Informed consent signed date:</div>
 		<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentSignedDateStr}' workflow='registration'/></div>
 	</div>
 	<div class="row">
-		<div class="label">Informed Consent Version</div>
+		<div class="label">Informed consent version:</div>
 		<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentVersion}' workflow='registration'/></div>
 	</div>
+	</td>
+	<td width="50%">
 	<div class="row">
-		<div class="label">Treating Physician</div>
+		<div class="label">Treating physician:</div>
 		<div class="value">${command.studySubject.treatingPhysicianFullName}&nbsp;</div>
 	</div>
 	<div class="row">
-		<div class="label">Primary Disease</div>
+		<div class="label">Primary disease:</div>
 		<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr }</div>
 	</div>
 	<div class="row">
-		<div class="label">Primary Disease Site</div>
+		<div class="label">Primary disease site:</div>
 		<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
 	</div>
 	<div class="row">
-		<div class="label">Payment Method</div>
+		<div class="label">Payment method:</div>
 		<div class="value">${command.studySubject.paymentMethod}</div>
 	</div>
-	
-	
+	</td>
+	</tr>
+	</table>
 	</chrome:division>
 		<chrome:division id="Eligibility" title="Eligibility">
 			<div class="row">
-				<div class="label">Eligible</div>
+				<div class="label">Eligible?</div>
 				<div class="value"><tags:requiredFieldInvalidIndicator value='${command.studySubject.scheduledEpoch.eligibilityIndicator?"Yes":"No" }' workflow='registration' compareWith='Yes'/></div>
 			</div>
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.studySubject.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
-		There is no eligibility check list available for this epoch
+		<div style="margin-left:155px;">There is no eligibility check list available for this epoch.</div>
 		</c:when>
 		<c:otherwise>
 		<br>

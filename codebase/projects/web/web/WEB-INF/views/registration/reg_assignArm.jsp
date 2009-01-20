@@ -18,6 +18,11 @@
 	}
 	
 </script>
+<style>
+	#main {
+		top:35px;
+	}
+</style>
 </head>
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">

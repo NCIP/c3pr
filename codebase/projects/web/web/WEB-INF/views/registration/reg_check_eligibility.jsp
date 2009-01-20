@@ -9,6 +9,11 @@ function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
 </script>
+<style>
+	#main {
+		top:35px;
+	}
+</style>
 </head>
 <body>
 <c:choose>
