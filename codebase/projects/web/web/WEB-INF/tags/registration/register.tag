@@ -129,7 +129,11 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 		<br> Please click on the button to register the subject on the study and the companion studies. </br>
 	</c:otherwise>
 	</c:choose>
-	<div align="right"><input type="button" value="${actionButtonLabel}" onClick="submitRandomization();"/></div>
-		<br>
-		
-	</form>
+	<div align="right">
+		<c:if test="${actionButtonLabel == 'Enroll' }">
+			<font color="Green"><strong>Click on the enroll button to complete the registration</strong></font>
+		</c:if>
+		<input type="button" value="${actionButtonLabel}" onClick="submitRandomization();"/>
+	</div>
+	<br>
+</form>
