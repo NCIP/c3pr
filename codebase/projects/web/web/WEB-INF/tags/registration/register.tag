@@ -1,4 +1,5 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
@@ -40,7 +41,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 			Please click on the button to send registration request. 
 		</c:when>
 		<c:otherwise>
-		<chrome:division title="${registration.studySite.study.shortTitleText}">
+		<chrome:division title="${(fn:length(registration.childStudySubjects) > 0 && registration.scheduledEpoch.scEpochWorkflowStatus.code != 'Registered But Not Randomized')?'':registration.studySite.study.shortTitleText}">
             <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
                 <strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
             </c:if>
