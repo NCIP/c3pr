@@ -53,10 +53,10 @@ function manageEpochSelection(element){
 						<input class="studySiteSelection" type="radio" value="${studySite.id}" onclick="manageStudySiteSelection(this);" />
 					</td>
                		<td>
-               			<input size="40" type="text" value="${studySite.healthcareSite.name}" disabled="disabled" />
+               			${studySite.healthcareSite.name}
                		</td>
                		<td>
-               			<input size="20"  type="text" value="${studySite.healthcareSite.nciInstituteCode}" disabled="disabled" />
+               			${studySite.healthcareSite.nciInstituteCode}
                		</td>
                	 </tr>
                </c:forEach>
@@ -76,13 +76,13 @@ function manageEpochSelection(element){
 						<input class="epochSelection" type="radio" value="${epoch.id}" onclick="manageEpochSelection(this);"/>
 					</td>
              		<td>
-             			<input size="30" type="text" value="${epoch.name}" disabled="disabled" />
+             			${epoch.name}
              		</td>
              		<td>
-             			<input size="30"  type="text" value="${epoch.descriptionText}" disabled="disabled" />
+             			${epoch.descriptionText}
              		</td>
              		<td>
-             			<input size="15"  type="text" value="${epoch.enrollmentIndicator}" disabled="disabled" />
+             			${(epoch.enrollmentIndicator)?'Yes':'No'}
              		</td>
              	 </tr>
               </c:forEach>
