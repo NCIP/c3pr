@@ -28,10 +28,10 @@
                	</td>
                	<td> 
                		<input type="text" name="study.parentStudyAssociations[${parentIndex}].studySites[${status.index}].targetAccrualNumber" value="${companionStudySite.targetAccrualNumber}" class="validate-NUMERIC" size="6" />
-           		</td> 
-               	 <td>
-               	 	<a href="#" onclick="deleteCompanionStudySiteAssociation('${companionStudySite.id}');"><img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-               	 </td>
+           		</td>
+           		<td>
+               	 	<a href="javascript:deleteCompanionStudySiteAssociation(${companionStudySite.id},${status.index});" ><img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+               	</td> 
           		</tr> 
 			<script>
 				inputDateElementLocal1="companionStudySites["+${status.index}+"].startDate";
