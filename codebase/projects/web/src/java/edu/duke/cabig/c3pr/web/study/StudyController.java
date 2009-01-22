@@ -167,6 +167,7 @@ public abstract class StudyController<C extends StudyWrapper> extends
     protected C save(C command, Errors errors) {
     	StudyWrapper wrapper = (StudyWrapper) command ;
         Study study = studyDao.merge(wrapper.getStudy());
+        studyDao.initialize(study);
         study.getParentStudyAssociations().size();
         wrapper.setStudy(study);
         return (C) wrapper;
