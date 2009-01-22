@@ -3,7 +3,7 @@
 <head>
 <title><studyTags:htmlTitle study="${command.study}" /></title>
 <script>		           
-
+    var firstVisit = true;
 	function preProcessGenerateGroups(epochCountIndex){
 		var x = document.getElementById('generateGroups');
 		x.value=epochCountIndex;
@@ -12,7 +12,7 @@
 	}
 	     
 	function clear(epochCountIndex){
-		<tags:tabMethod method="clearStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
+		<tags:tabMethod method="clearBookEntriesAndStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
 		                javaScriptParam="'epochCountIndex=' + epochCountIndex" formName="'tabMethodForm'"/> 
 	}
 
@@ -21,25 +21,28 @@
 		var id = e.id;
 		var pos = id.indexOf("_");
 		var epochCountIndex = id.substring(pos + 1, id.length);
-		
-		//calling the function that will rearrange the numbers against the stratum groups
-		reorderStratumGroupNumbers(epochCountIndex);
-		
-		var serializedString = escape(Sortable.serialize('sortablelist_'+epochCountIndex));
-		<tags:tabMethod method="reorderStratumGroups"  divElement="'dummyDiv'" 
-						javaScriptParam="'serializedString='+serializedString" formName="'tabMethodForm'"/>
-	}
-			
-	function reorderStratumGroupNumbers(epochCountIndex){
-		var table = document.getElementById('sgCombinationsTable_'+epochCountIndex);
-		var length = table.rows.length;
-		var newIndex = 0;
-		for(var i = 0; i < length; i++){
-			if(table.rows[i].id.indexOf('deleted') == -1){
-				table.rows[i].cells[0].innerHTML = newIndex;
-				newIndex++;
-			}
+		var answer;
+		if(firstVisit){
+		  //only show the reorder confirm pop-up the first time.
+		  answer = confirm("Book Randomization Entries(if any) will be deleted. Do you want to proceed?");
+		  new Element.show('reorderGroupsInd-'+epochCountIndex);
+		  firstVisit = false;
+		} else{
+		  answer = true;
 		}
+		
+		if(answer){
+			var serializedString = escape(Sortable.serialize('sortablelist_'+epochCountIndex));
+			<tags:tabMethod method="reorderStratumGroups" viewName="/study/asynchronous/reordered_strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
+							javaScriptParam="'serializedString='+serializedString+ '&epochCountIndex=' + epochCountIndex" formName="'tabMethodForm'"/>
+		} else {
+		    //calling the reorderStratumGroups mthod without the serializedString so that the groups are re-loaded with orignal values
+		    //doig this as the revert option in the Sortable.create does not work
+		    var serializedString = '';
+			<tags:tabMethod method="reorderStratumGroups" viewName="/study/asynchronous/reordered_strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
+							javaScriptParam="'serializedString='+serializedString+ '&epochCountIndex=' + epochCountIndex" formName="'tabMethodForm'"/>
+		}
+		//new Element.hide('reorderGroupsInd-'+epochCountIndex);
 	}
 	
 	function stratumGroupAlert(epochCountIndex){
@@ -50,7 +53,7 @@
 		}
 		
 		if(length > 0){
-			return confirm("Stratum Groups and Book Randomization Entries(if any) will be deleted. Do you want to proceed.");
+			return confirm("Stratum Groups and Book Randomization Entries(if any) will be deleted. Do you want to proceed?");
 		} else {
 			return true;
 		}
@@ -125,7 +128,7 @@
 		
 		<chrome:division title="Questions and Answers">
 		<br/>
-			<table id="epoch-${epochCount.index }" class="tablecontent">
+			<table id="epoch-${epochCount.index}" class="tablecontent">
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
 			<div id="criteriaHeader">
 				 <tr id="hInclusionEligibility--${epochCount.index}" <c:if test="${fn:length(epoch.stratificationCriteria) == 0}">style="display:none;"</c:if>>					
@@ -190,74 +193,17 @@
 			</div>
 			</chrome:division>
 			<br/>
-			<!--stratum groups combinations display section-->
-			<chrome:division title="Stratum Groups (Drag/Drop the groups to re-order.)">
-			<script>
-			var stratumGroupRowInserter_${epochCount.index} = {
-			    add_row_division_id: "stratumGroupTable1_${epochCount.index}", 	        
-			    skeleton_row_division_id: "dummy-strat-strGrp-${epochCount.index}",
-			    initialIndex: -1,
-			    callRemoveFromCommand:"true",
-			    deleteMsgPrefix: "Book Randomization Entries(if any) will be deleted.",
-			    postProcessRowDeletion: function(t){
-	                reorderStratumGroupNumbers(${epochCount.index});                	
-			    },
-			    path: "study.epochs[${epochCount.index}].stratumGroups"
-			};
-			</script>
-			
-			<br />
-			<div id="sgCombinations_${epochCount.index}"><!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
-			<c:if test="${fn:length(epoch.stratificationCriteria) > 0}">
-				<script>
-					stratumGroupRowInserter_${epochCount.index}.initialIndex= ${fn:length(command.study.epochs[epochCount.index].stratumGroups)};
-					RowManager.registerRowInserter(stratumGroupRowInserter_${epochCount.index});
-				</script>				
-				<table border="1" class="tablecontent"  width="60%">
-				<tr>
-					<th width="30%">Group Number&nbsp;<tags:hoverHint id="study.stratumGroup.stratumGroupNumber-${epochCount.index}" keyProp="study.stratumGroup.stratumGroupNumber"/></th>					
-					<th width="65%">Answer Combination&nbsp;<tags:hoverHint id="study.stratumGroup.answerCombinations-${epochCount.index}" keyProp="study.stratumGroup.answerCombinations"/></th>
-<!--  				<th width="20%">Stratum Group#</th>-->
-					<th width="5%"></th>
-				</tr>
-				</table>
-				<table id="sgCombinationsTable_${epochCount.index}" border="1" class="tablecontent"  width="60%">
-					<tbody id="sortablelist_${epochCount.index}">
-						
-						<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
-							items="${command.study.epochs[epochCount.index].stratumGroups}">	
-							<c:if test="${epoch.stratificationIndicator == 'true' }">					
-							<tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index}" style="cursor:move">
-								<td width="30%">${stratumGroup.stratumGroupNumber}</td>					
-								<td width="65%">${stratumGroup.answerCombinations}</td>
-								<!-- <td>${stratumGroup.stratumGroupNumber}</td> -->
-								<td width="5%">
-								<a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},'${stratumGroup.id==null?'HC#':'ID#'}${stratumGroup.id==null?stratumGroup.hashCode:stratumGroup.id}');">
-									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-									
-								</td>					
-							</tr>
-							</c:if>
-						</c:forEach>					
-					</tbody>
-				</table>
-
-			</c:if> <!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
-			</div>
-			<br>
+			<jsp:include page="../study/asynchronous/reordered_strat_combinations.jsp">
+				<jsp:param name="epochCountIndex" value="${epochCount.index}" />
+			</jsp:include>
 			<div id="stratumButton" align="right">
 				<input type='submit' onClick="preProcessGenerateGroups(${epochCount.index})" value='Generate Stratum Groups' />
 			</div>
-			<script type="text/javascript" language="javascript">
-		  		Sortable.create('sortablelist_${epochCount.index}',{tag:'TR',constraint:false,onUpdate:postProcessDragDrop});
-			</script>
-			</chrome:division>
 		</tags:minimizablePanelBox>
 		</c:if>
 	</c:forEach>
 	</c:if>
-	<div id="dummyDiv" style="display:none">
-	</div>
+
 	<input type="hidden" name="flowType" value="${flowType}">
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" />
 </form:form>

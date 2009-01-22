@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Randomization;
-import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
@@ -32,345 +31,308 @@ import edu.duke.cabig.c3pr.web.study.StudyWrapper;
  */
 public class StudyStratificationTab extends StudyTab {
 
-    public List<List<StratumGroup>> tEpochsListForReorderedGroups = new ArrayList<List<StratumGroup>>();
+	public StudyStratificationTab() {
+		super("Stratification Factors", "Stratification",
+				"study/study_stratifications");
+	}
 
-    public StudyStratificationTab() {
-        super("Stratification Factors", "Stratification", "study/study_stratifications");
-    }
+	@Override
+	public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
+		Map<String, Object> refdata = super.referenceData(wrapper);
+		boolean isAdmin = isAdmin();
+		if ((request.getAttribute("amendFlow") != null && request.getAttribute(
+				"amendFlow").toString().equals("true"))
+				|| (request.getAttribute("editFlow") != null && request
+						.getAttribute("editFlow").toString().equals("true"))) {
+			if (request.getSession().getAttribute(DISABLE_FORM_STRATIFICATION) != null
+					&& !isAdmin) {
+				refdata.put("disableForm", request.getSession().getAttribute(
+						DISABLE_FORM_STRATIFICATION));
+			} else {
+				refdata.put("disableForm", new Boolean(false));
+				refdata.put("mandatory", "true");
+			}
+		}
+		return refdata;
+	}
 
-    @Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
-        boolean isAdmin = isAdmin();
-        if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                .toString().equals("true"))
-                || (request.getAttribute("editFlow") != null && request.getAttribute(
-                "editFlow").toString().equals("true"))) {
-            if (request.getSession().getAttribute(DISABLE_FORM_STRATIFICATION) != null && !isAdmin) {
-                refdata.put("disableForm", request.getSession().getAttribute(
-                        DISABLE_FORM_STRATIFICATION));
-            } else {
-                refdata.put("disableForm", new Boolean(false));
-                refdata.put("mandatory", "true");
-            }
-        }
-        return refdata;
-    }
+	/**
+	 * This method gets the serialized string that has the order of the re-ordered Stratum Groups.
+	 * Use this to update the str grp number of the str groups in the collection. We chose to do
+	 * this instead of deleting and creating new ones as this would cascade and delete the book
+	 * randomization entries.
+	 */
+	public ModelAndView reorderStratumGroups(HttpServletRequest request,
+			Object commandObj, Errors error) {
 
-    /*
-     * This method gets the serialized string that has the order of the re-ordered Stratum Groups.
-     * Use this to update the str grp number of the str groups in the collection. We chose to do
-     * this instead of deleting and creating new ones as this would cascade and delete the book
-     * randomization entries.
-     */
-    public ModelAndView reorderStratumGroups(HttpServletRequest request, Object commandObj,
-                                             Errors error) {
+		Study study = ((StudyWrapper) commandObj).getStudy();
+		String serializedString = request.getParameter("serializedString")
+				.toString();
+		int indexOfEpochNumber = Integer.parseInt(request.getParameter("epochCountIndex").toString());
+		if(StringUtils.isBlank(serializedString) || StringUtils.isEmpty(serializedString) ){
+			//no legal serialized string....dont do anything just reload the page.
+			//used for reverting the drag drop if cancel is selected on confirm
+		} else {
+			String[] serStrArr = serializedString.split("&");
+			//int indexOfEpochNumber = Integer.parseInt(serStrArr[0].substring(serStrArr[0].indexOf("_") + 1, serStrArr[0].indexOf("[")));
+			Epoch tEpoch = study.getEpochs().get(indexOfEpochNumber);
+	
+			List<Integer> positionList = new ArrayList<Integer>();
+			for (int i = 0; i < serStrArr.length; i++) {
+				positionList.add(i, new Integer(serStrArr[i].substring(serStrArr[i].indexOf("-") + 1)));
+			}
+			// so if the order initially was 0123 and was changed to 1023 then the position list
+			// will contain 1023.
+			
+			for (int i = 0; i < positionList.size(); i++) {
+				// get each group in serial order and update their stratum groups using the position list.
+				tEpoch.getStratumGroups().get(i).setStratumGroupNumber(positionList.indexOf(new Integer(i)));
+			}
+			//clear the book entries for the epoch and sort the groups
+			clearBookEntriesForEpoch(tEpoch);
+			Collections.sort(tEpoch.getStratumGroups());
+		}
+		request.setAttribute("epochCountIndex", indexOfEpochNumber);
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
+	}
 
-        Study study = ((StudyWrapper) commandObj).getStudy();
-        String serializedString = request.getParameter("serializedString").toString();
-        String[] serStrArr = serializedString.split("&");
-        int indexOfEpochNumber = new Integer(String.valueOf(serStrArr[0].charAt(serStrArr[0]
-                .indexOf("_") + 1))).intValue();
-        Epoch tEpoch = study.getEpochs().get(indexOfEpochNumber);
+	/**
+	 * Clear the stratum groups and the book entries (if any)corresponding to the tratemtn epoch.
+	 * called by the rowInserter from the row manager
+	 */
+	public ModelAndView clearBookEntriesAndStratumGroups(HttpServletRequest request,
+			Object commandObj, Errors error) {
+		String message = "";
+		Study study = ((StudyWrapper) commandObj).getStudy();
+		int epochCountIndex = Integer.parseInt(request
+				.getParameter("epochCountIndex"));
+		Epoch epoch = study.getEpochs().get(epochCountIndex);
+		
+		clearBookEntriesForEpoch(epoch);
+		clearStratumGroupsForEpoch(epoch);
+		
+		Map <String, String> map = new HashMap<String, String>();
+		message = "Generate stratum groups again.";
+		map.put(AjaxableUtils.getFreeTextModelName(), message);
+		return new ModelAndView("", map);
+	}
+	
+	/**
+	 * Clear book entries for epoch.
+	 * 
+	 * @param epoch the te
+	 */
+	private void clearBookEntriesForEpoch(Epoch epoch){
+		if (!epoch.getStratumGroups().isEmpty()) {
+			// clearing the bre's
+			Randomization randomization = epoch.getRandomization();
+			if (randomization instanceof BookRandomization) {
+				BookRandomization bRandomization = (BookRandomization) randomization;
+				bRandomization.getBookRandomizationEntry().clear();
+			}
+		}
+		for(StratumGroup stratumGroup: epoch.getStratumGroups()){
+			stratumGroup.getBookRandomizationEntry().clear();
+		}
+	}
+	
+	/**
+	 * Clear stratum groups for epoch.
+	 * 
+	 * @param epoch the te
+	 */
+	private void clearStratumGroupsForEpoch(Epoch epoch){
+		if(epoch != null){
+			// clearing the stratum groups.
+			epoch.getStratumGroups().clear();
+		}
+	}
 
-        List<Integer> positionList = new ArrayList<Integer>();
-        for (int i = 0; i < serStrArr.length; i++) {
-            positionList.add(i, new Integer(String.valueOf(serStrArr[i].charAt(serStrArr[i]
-                    .length() - 1))));
-        }
-        // so if the order initially was 0123 and was changed to 1023 then the position list
-        // will contain 1023.
+	/**
+	 * Clear the stratum groups and the book entries (if any)corresponding to the tratemtn epoch.
+	 * Call by the deleteRow of the row manager.
+	 */
+	@Override
+	public ModelAndView deleteRow(HttpServletRequest request, Object command,
+			Errors error) throws Exception {
+		Study study = ((StudyWrapper) command).getStudy();
+		String listPath = request.getParameter(getCollectionParamName());
+		// run this piece of code only if str Qs or Ans are being deleted.
 
-        List<StratumGroup> sgList = new ArrayList<StratumGroup>();
-        // create a new list of stratum groups that contain dummy sg objects
-        // which only have stratumGroupNumber and AnswerCOmbinations as attributes.
-        // This sgList will have the cloned groups in the new order.
-        // this list is re-created everytime the user updates (i.e reorders) the groups.
-        // It is then stored in the tEpochsListForReorderedGroups list which is maintained as an
-        // instance var.
-        // on save the studyObject(command obj) is updated with the final order which is maintained
-        // in the sglist
-        // in the tEpochsListForReorderedGroups
-        for (int i = 0; i < positionList.size(); i++) {
-            // get the group and put it as per the new order in the sg list
-            sgList.add(i, tEpoch.getStratumGroupByNumber(positionList.get(i)).clone());
-        }
-        if (tEpochsListForReorderedGroups.size() > indexOfEpochNumber
-                && tEpochsListForReorderedGroups.get(indexOfEpochNumber) != null) {
-            tEpochsListForReorderedGroups.remove(indexOfEpochNumber);
-        }
-        tEpochsListForReorderedGroups.add(indexOfEpochNumber, sgList);
+		StringTokenizer tokenizer = new StringTokenizer(listPath, ".");
+		String[] list = new String[tokenizer.countTokens()];
+		int i = 0;
+		while (tokenizer.hasMoreElements()) {
+			list[i] = tokenizer.nextElement().toString();
+			i++;
+		}
 
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put(AjaxableUtils.getFreeTextModelName(), serializedString);
-        return new ModelAndView("", map);
-    }
+		listPath = list[1];
+		Epoch epoch = (Epoch) new DefaultObjectPropertyReader(study, listPath)
+				.getPropertyValueFromPath();
 
-    /*
-     * In this method we update the stratumGroupsNumbers based on the new order(after re-ordering)
-     * that is maintained in the tEpochsListForReorderedGroups list.
-     */
-    public void finalizeReoderedGroups(Study study, boolean isCreate) {
-        List<StratumGroup> sgList;
-        Epoch tEpoch;
-        StratumGroup sg = null;
-        List<StratumGroup> sgListTemp = new ArrayList<StratumGroup>();
-        for (int i = 0; i < tEpochsListForReorderedGroups.size(); i++) {
-            tEpoch = study.getEpochs().get(i);
-            sgList = tEpochsListForReorderedGroups.get(i);
-            for (int j = 0; j < sgList.size(); j++) {
-                // get the group and update its number as per the for loop iter
-                sg = tEpoch.getStratumGroupForAnsCombination(sgList.get(j)
-                        .getStratificationCriterionAnswerCombination());
-                if (sg != null) {
-                    sg.setStratumGroupNumber(new Integer(j));
-                }
-                sgListTemp.add(sg);
-            }
-            Collections.sort(tEpoch.getStratumGroups());
-        }
-    }
+		// Clearing the book entries from Randomization object.
+		Randomization randomization = epoch.getRandomization();
+		if (randomization instanceof BookRandomization) {
+			BookRandomization bRandomization = (BookRandomization) randomization;
+			bRandomization.getBookRandomizationEntry().clear();
+		}
 
-    /*
-     * Clear the stratum groups and the book entries (if any)corresponding to the tratemtn epoch.
-     * called by the rowInserter from the row manager
-     */
-    public ModelAndView clearStratumGroups(HttpServletRequest request, Object commandObj,
-                                           Errors error) {
-        String message = "";
-        Study study = ((StudyWrapper) commandObj).getStudy();
-        int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
-        Epoch te = study.getEpochs().get(epochCountIndex);
-        if (!te.getStratumGroups().isEmpty()) {
-            // clearing the bre's
-            Randomization randomization = te.getRandomization();
-            if (randomization instanceof BookRandomization) {
-                BookRandomization bRandomization = (BookRandomization) randomization;
-                bRandomization.getBookRandomizationEntry().clear();
-            }
-            // clearing the stratum groups.
-            te.getStratumGroups().clear();
+		if (request.getParameter(getCollectionParamName()).toString().endsWith(
+				"stratumGroups")) {
+			// clearing all the Book entries from the scac so that they are not re-saved by cascade
+			List<StratumGroup> sgList = epoch.getStratumGroups();
+			for (StratumGroup sg : sgList) {
+				sg.getBookRandomizationEntry().clear();
+			}
+		} else if (!epoch.getStratumGroups().isEmpty()) {
+			// clearing all the qs and ans references from the scac so that they are not re-saved by
+			// cascade
+			List<StratumGroup> sgList = epoch.getStratumGroups();
+			for (StratumGroup sg : sgList) {
+				List<StratificationCriterionAnswerCombination> scacList = sg
+						.getStratificationCriterionAnswerCombination();
+				for (StratificationCriterionAnswerCombination scac : scacList) {
+					scac.setStratificationCriterion(null);
+					scac.setStratificationCriterionPermissibleAnswer(null);
+				}
+			}
+			// finally clearing the stratum groups
+			epoch.getStratumGroups().clear();
+		}
 
-            // reassociating the object.(Should try to remove this from here.)
-            if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                    .toString().equals("true"))
-                    || (request.getAttribute("editFlow") != null && request.getAttribute(
-                    "editFlow").toString().equals("true"))) {
-                if (study != null) {
-                    getStudyRepository().reassociate(study);
-                    getStudyRepository().refresh(study);
-                }
-            }
-            message = "Generate stratum groups again.";
-        }
+		return super.deleteRow(request, command, error);
+	}
 
-        Map map = new HashMap();
-        map.put(AjaxableUtils.getFreeTextModelName(), message);
-        return new ModelAndView("", map);
-    }
+	@Override
+	public void postProcessOnValidation(HttpServletRequest req,
+			StudyWrapper wrapper, Errors errors) {
+		int epochCountIndex = -1;
+		super.postProcessOnValidation(req, wrapper, errors);
+		if (req.getParameter("epochCountIndex") != null
+				&& !req.getParameter("generateGroups").toString()
+						.equalsIgnoreCase("false")) {
+			epochCountIndex = Integer.parseInt(req
+					.getParameter("generateGroups"));
+			generateStratumGroups(req, wrapper, errors, epochCountIndex);
+		}
 
-    /*
-     * Clear the stratum groups and the book entries (if any)corresponding to the tratemtn epoch.
-     * Call by the deleteRow of the row manager.
-     */
-    @Override
-    public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)
-            throws Exception {
-    	Study study = ((StudyWrapper) command).getStudy();
-        String listPath = request.getParameter(getCollectionParamName());
-        // run this piece of code only if str Qs or Ans are being deleted.
-        
-        StringTokenizer tokenizer = new StringTokenizer(listPath, ".");
-        String[] list = new String[tokenizer.countTokens()] ;
-        int i = 0  ;
-        while (tokenizer.hasMoreElements()){
-       	 	list[i] =	tokenizer.nextElement().toString();
-        	 i ++ ;
-        }
-        
-        listPath = list[1];
-        Epoch te = (Epoch) new DefaultObjectPropertyReader(study, listPath)
-                .getPropertyValueFromPath();
+	}
 
-        // Clearing the book entries from Randomization object.
-        Randomization randomization = te.getRandomization();
-        if (randomization instanceof BookRandomization) {
-            BookRandomization bRandomization = (BookRandomization) randomization;
-            bRandomization.getBookRandomizationEntry().clear();
-        }
 
-        if (request.getParameter(getCollectionParamName()).toString().endsWith("stratumGroups")) {
-            // clearing all the Book entries from the scac so that they are not re-saved by cascade
-            List<StratumGroup> sgList = te.getStratumGroups();
-            for (StratumGroup sg : sgList) {
-                sg.getBookRandomizationEntry().clear();
-            }
-        } else if (!te.getStratumGroups().isEmpty()) {
-            // clearing all the qs and ans references from the scac so that they are not re-saved by
-            // cascade
-            List<StratumGroup> sgList = te.getStratumGroups();
-            for (StratumGroup sg : sgList) {
-                List<StratificationCriterionAnswerCombination> scacList = sg
-                        .getStratificationCriterionAnswerCombination();
-                for (StratificationCriterionAnswerCombination scac : scacList) {
-                    scac.setStratificationCriterion(null);
-                    scac.setStratificationCriterionPermissibleAnswer(null);
-                }
-            }
-            // finally clearing the stratum groups
-            te.getStratumGroups().clear();
-        }
+	/**
+	 * Generate stratum groups.
+	 * 
+	 * @param request the request
+	 * @param commandObj the command obj
+	 * @param error the error
+	 * @param epochCountIndex the epoch count index
+	 */
+	private void generateStratumGroups(HttpServletRequest request,
+			Object commandObj, Errors error, int epochCountIndex) {
+		ArrayList<StratumGroup> stratumGroupList;
+		Study study = ((StudyWrapper) commandObj).getStudy();
+		request.setAttribute("epochCountIndex", epochCountIndex);
 
-        return super.deleteRow(request, command, error);
-    }
+		// creating groups from the questions & answers for the selected treatemtn epoch
+		Epoch epoch = study.getEpochs().get(epochCountIndex);
 
-    @Override
-    public void postProcessOnValidation(HttpServletRequest req, StudyWrapper wrapper, Errors errors) {
-        int epochCountIndex = -1;
-        super.postProcessOnValidation(req, wrapper, errors);
-        if (req.getParameter("epochCountIndex") != null
-                && !req.getParameter("generateGroups").toString().equalsIgnoreCase("false")) {
-            epochCountIndex = Integer.parseInt(req.getParameter("generateGroups"));
-            generateStratumGroups(req, wrapper, errors, epochCountIndex);
-        }
-        boolean isCreate = false;
+		// clear the existing groups first.(incase the user cilcks on generate twice)
+		epoch.getStratumGroups().clear();
 
-        if (req.getParameter("flowType") != null
-                && req.getParameter("flowType").toString().equalsIgnoreCase("CREATE_STUDY")) {
-            isCreate = true;
-        }
-        finalizeReoderedGroups(wrapper.getStudy(), isCreate);
+		int stratificationCriterionSize = epoch.getStratificationCriteria().size();
+		if (stratificationCriterionSize > 0) {
+			StratificationCriterionPermissibleAnswer permissibleAnswersArray[][] = new StratificationCriterionPermissibleAnswer[stratificationCriterionSize][];
+			List<StratificationCriterionPermissibleAnswer> tempAnswersList;
 
-        // just renumber the groups as something may have been deleted.
-        List<Epoch> teList = wrapper.getStudy().getEpochs();
-        for (Epoch te : teList) {
-            List<StratumGroup> sgList = te.getStratumGroups();
-            for (int i = 0; i < sgList.size(); i++) {
-                sgList.get(i).setStratumGroupNumber(new Integer(i));
-            }
-        }
+			// creating a 2d array of answers for every treatment epoch
+			for (int i = 0; i < stratificationCriterionSize; i++) {
+				tempAnswersList = epoch.getStratificationCriteria().get(i)
+						.getPermissibleAnswers();
+				permissibleAnswersArray[i] = new StratificationCriterionPermissibleAnswer[tempAnswersList
+						.size()];
+				for (int j = 0; j < tempAnswersList.size(); j++) {
+					permissibleAnswersArray[i][j] = tempAnswersList.get(j);
+				}
+			}
 
-    }
+			stratumGroupList = stratumGroupCombinationGenerator(epoch, permissibleAnswersArray, 0, new ArrayList<StratumGroup>(),
+					new ArrayList<StratificationCriterionAnswerCombination>());
+			epoch.getStratumGroups().addAll(stratumGroupList);
+		}
+	}
 
-    public void generateStratumGroups(HttpServletRequest request, Object commandObj, Errors error,
-                                      int epochCountIndex) {
-        int scSize;
-        Epoch te;
-        ArrayList<StratumGroup> sgList;
-        Study study = ((StudyWrapper) commandObj).getStudy();
-        // int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
-        request.setAttribute("epochCountIndex", epochCountIndex);
 
-        // creating groups from the questions & answers for the selected treatemtn epoch
-        te = study.getEpochs().get(epochCountIndex);
+	/**
+	 * Stratum group combination generator.
+	 * recursive method which computes all possible combinations
+	 * of sc and scpa and creates a list of stratum Groups for the same.
+	 * 
+	 * @param epoch the epoch
+	 * @param permissibleAnswersArray the permissible answers array
+	 * @param intRecurseLevel the int recurse level
+	 * @param stratumGroupList the stratum group list
+	 * @param generatedAnswerCombinationList the generated answer combination list
+	 * 
+	 * @return the array list< stratum group>
+	 */
+	private ArrayList<StratumGroup> stratumGroupCombinationGenerator(Epoch epoch,
+			StratificationCriterionPermissibleAnswer[][] permissibleAnswersArray,
+			int intRecurseLevel, ArrayList<StratumGroup> stratumGroupList,
+			ArrayList<StratificationCriterionAnswerCombination> generatedAnswerCombinationList) {
+		StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination ;
+		ArrayList<StratificationCriterionAnswerCombination> stratificationCriterionAnswerCombinationList;
+		int numberOfStratumGroups = 0;
+		
+		for (int i = 0; i < permissibleAnswersArray[intRecurseLevel].length; i++) {
+			stratificationCriterionAnswerCombination = new StratificationCriterionAnswerCombination();
+			stratificationCriterionAnswerCombinationList = new ArrayList<StratificationCriterionAnswerCombination>();
+			stratificationCriterionAnswerCombination
+					.setStratificationCriterionPermissibleAnswer(permissibleAnswersArray[intRecurseLevel][i]);
+			stratificationCriterionAnswerCombination.setStratificationCriterion(epoch
+					.getStratificationCriteria().get(intRecurseLevel));
 
-        // clear the existing groups first.(incase the user cilcks on generate twice)
-        te.getStratumGroups().clear();
+			if (!generatedAnswerCombinationList.isEmpty()) {
+				stratificationCriterionAnswerCombinationList.addAll(generatedAnswerCombinationList);
+			}
+			stratificationCriterionAnswerCombinationList.add(stratificationCriterionAnswerCombination);
 
-        scSize = te.getStratificationCriteria().size();
-        if (scSize > 0) {
-            StratificationCriterionPermissibleAnswer doubleArr[][] = new StratificationCriterionPermissibleAnswer[scSize][];
-            List<StratificationCriterionPermissibleAnswer> tempList;
+			if (intRecurseLevel < permissibleAnswersArray.length - 1) {
+				// stepping into the next question
+				stratumGroupList = stratumGroupCombinationGenerator(epoch, permissibleAnswersArray, intRecurseLevel + 1, stratumGroupList,
+						stratificationCriterionAnswerCombinationList);
+			} else {
+				// ran out of questions and hence now i have a combination of answers to save.
+				numberOfStratumGroups = stratumGroupList.size();
+				stratumGroupList.add(numberOfStratumGroups, new StratumGroup());
+				stratumGroupList.get(numberOfStratumGroups)
+						.getStratificationCriterionAnswerCombination().addAll(
+								cloneStratificationCriterionAnswerCombination(stratificationCriterionAnswerCombinationList));
+				stratumGroupList.get(numberOfStratumGroups).setStratumGroupNumber(numberOfStratumGroups);
+			}
+		}
+		return stratumGroupList;
+	}
 
-            // creating a 2d array of answers for every treatment epoch
-            for (int i = 0; i < scSize; i++) {
-                tempList = te.getStratificationCriteria().get(i).getPermissibleAnswers();
-                doubleArr[i] = new StratificationCriterionPermissibleAnswer[tempList.size()];
-                for (int j = 0; j < tempList.size(); j++) {
-                    doubleArr[i][j] = tempList.get(j);
-                }
-            }
 
-            sgList = comboGenerator(te, doubleArr, 0, new ArrayList<StratumGroup>(),
-                    new ArrayList<StratificationCriterionAnswerCombination>());
-            te.getStratumGroups().addAll(sgList);
-        }
-        if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                .toString().equals("true"))
-                || (request.getAttribute("editFlow") != null && request.getAttribute(
-                "editFlow").toString().equals("true"))) {
-            if (study != null) {
-                getStudyRepository().reassociate(study);
-                getStudyRepository().refresh(study);
-            }
-        }
-    }
+	/**
+	 * Clones the StratificationCriterionAnswerCombination for the comboGenerator.
+	 * 
+	 * @param stratificationCriterionAnswerCombinationList the stratification criterion answer combination list
+	 * 
+	 * @return the list< stratification criterion answer combination>
+	 */
+	private List<StratificationCriterionAnswerCombination> cloneStratificationCriterionAnswerCombination(
+			List<StratificationCriterionAnswerCombination> stratificationCriterionAnswerCombinationList) {
 
-    // recursive method which computes all possible combinations
-    // of sc and scpa and creates a list of stratum Groups for the same.
-    public ArrayList<StratumGroup> comboGenerator(Epoch te,
-                                                  StratificationCriterionPermissibleAnswer[][] myArr, int intRecurseLevel,
-                                                  ArrayList<StratumGroup> sgList,
-                                                  ArrayList<StratificationCriterionAnswerCombination> strLine) {
-        StratificationCriterionAnswerCombination strPositionVal;// = new
-        // StratificationCriterionAnswerCombination();
-        ArrayList<StratificationCriterionAnswerCombination> strMyLine;// = new
-        // ArrayList<StratificationCriterionAnswerCombination>();
-        int numOfSG = 0;
-        for (int i = 0; i < myArr[intRecurseLevel].length; i++) {
-            strPositionVal = new StratificationCriterionAnswerCombination();
-            strMyLine = new ArrayList<StratificationCriterionAnswerCombination>();
-            strPositionVal.setStratificationCriterionPermissibleAnswer(myArr[intRecurseLevel][i]);
-            strPositionVal.setStratificationCriterion(te.getStratificationCriteria().get(
-                    intRecurseLevel));
-
-            if (!strLine.isEmpty()) {
-                strMyLine.addAll(strLine);
-            }
-            strMyLine.add(strPositionVal);
-
-            if (intRecurseLevel < myArr.length - 1) {
-                // stepping into the next question
-                sgList = comboGenerator(te, myArr, intRecurseLevel + 1, sgList, strMyLine);
-            } else {
-                // ran out of questions and hence now i have a combination of answers to save.
-                // StratumGroup sg = new StratumGroup();
-                // sg.getStratificationCriterionAnswerCombination().addAll(strMyLine);
-                // sgList.add(sg);
-
-                numOfSG = sgList.size();
-                sgList.add(numOfSG, new StratumGroup());
-                sgList.get(numOfSG).getStratificationCriterionAnswerCombination().addAll(
-                        cloneScac(strMyLine));
-                sgList.get(numOfSG).setStratumGroupNumber(numOfSG);
-            }
-        }
-        return sgList;
-    }
-
-    public boolean hasBlankQuestionOrAnswer(Epoch te) {
-        List<StratificationCriterion> scList = te.getStratificationCriteria();
-        List<StratificationCriterionPermissibleAnswer> scpaList;
-        Iterator scIter = scList.iterator();
-        Iterator scpaIter;
-        StratificationCriterion sc;
-        StratificationCriterionPermissibleAnswer scpa;
-        while (scIter.hasNext()) {
-            sc = (StratificationCriterion) scIter.next();
-            if (StringUtils.isEmpty(sc.getQuestionText())) {
-                return true;
-            }
-            scpaList = sc.getPermissibleAnswers();
-            scpaIter = scpaList.iterator();
-            while (scpaIter.hasNext()) {
-                scpa = (StratificationCriterionPermissibleAnswer) scpaIter.next();
-                if (StringUtils.isEmpty(scpa.getPermissibleAnswer())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public List<StratificationCriterionAnswerCombination> cloneScac(
-            List<StratificationCriterionAnswerCombination> scacList) {
-
-        List<StratificationCriterionAnswerCombination> clonedList = new ArrayList<StratificationCriterionAnswerCombination>();
-        Iterator<StratificationCriterionAnswerCombination> iter = scacList.iterator();
-        while (iter.hasNext()) {
-            clonedList.add(new StratificationCriterionAnswerCombination(iter.next()));
-        }
-        return clonedList;
-    }
+		List<StratificationCriterionAnswerCombination> clonedList = new ArrayList<StratificationCriterionAnswerCombination>();
+		Iterator<StratificationCriterionAnswerCombination> iter = stratificationCriterionAnswerCombinationList
+				.iterator();
+		while (iter.hasNext()) {
+			clonedList.add(new StratificationCriterionAnswerCombination(iter
+					.next()));
+		}
+		return clonedList;
+	}
 
 }
