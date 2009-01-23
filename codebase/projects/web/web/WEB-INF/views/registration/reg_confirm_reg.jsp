@@ -208,6 +208,14 @@ function manageCompanions(){
 			<td>${command.studySubject.startDateStr }</td>
 		</tr>
 		<tr>
+			<td align="left"><b>Consent Signed Date</b></td>
+			<td>${command.studySubject.informedConsentSignedDateStr}</td>
+		</tr>
+		<tr>
+			<td align="left"><b>Consent Version</b></td>
+			<td>${command.studySubject.informedConsentVersion}</td>
+		</tr>
+		<tr>
 			<td align="left"><b>Enrolling Physician</b></td>
 			<td>${command.studySubject.treatingPhysicianFullName}</td>
 		</tr>
