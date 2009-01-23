@@ -36,7 +36,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="Subject Information" title="Subject">
 	<table width="90%">
 		<tr>
-			<td>
+			<div class="leftpanel">
 	<div class="row">
 			<div class="label">First name:</div>
 			<div class="value">${command.studySubject.participant.firstName}</div>
@@ -53,8 +53,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<div class="label">MRN:</div>
 		<div class="value">${command.studySubject.participant.medicalRecordNumber.value }</div>
 	</div>
-	</td>
-	<td width="50%">
+	</div>
+	<div class="rightpanel">
 	<div class="row">
 		<div class="label">Assigning authority:</div>
 		<div class="value">${command.studySubject.participant.medicalRecordNumber.healthcareSite.name }</div>
@@ -78,114 +78,108 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</div>
 		</div>
 	</div>
-	</td>
+	</div>
 	</tr>
 	</table>
 	</chrome:division>
 	<chrome:division id="Study Information" title="Study">
 	<table width="90%">
 		<tr>
-			<td>
-	<div class="row">
-			<div class="label">Status:</div>
-			<div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
-	</div>
-	<div class="row">
-		<div class="label">Short title:</div>
-		<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
-	</div>
-	<div class="row">
-		<div class="label">Long title:</div>
-		<div class="value">${command.studySubject.studySite.study.longTitleText}</div>
-	</div>
-	<div class="row">
-		<div class="label">Randomized:</div>
-		<div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
-	</div>
-	</td>
-	<td width="50%">
-	<div class="row">
-		<div class="label">Multi institutional:</div>
-		<div class="value">${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</div>
-	</div>
-	<div class="row">
-		<div class="label">Phase:</div>
-		<div class="value">${command.studySubject.studySite.study.phaseCode}</div>
-	</div>
-	<div class="row">
-		<div class="label">Coordinating center identifier:</div>
-		<div class="value">${command.studySubject.studySite.study.identifiers[0].value}</div>
-		</div>
-	</td>
+			<div class="leftpanel">
+				<div class="row">
+					<div class="label">Short title:</div>
+					<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
+				</div>
+				<div class="row">
+					<div class="label">Long title:</div>
+					<div class="value">${command.studySubject.studySite.study.longTitleText}</div>
+				</div>
+				<div class="row">
+					<div class="label">Randomized:</div>
+					<div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
+				</div>
+			</div>
+			<div class="rightpanel">
+				<div class="row">
+					<div class="label">Multi institutional:</div>
+					<div class="value">${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</div>
+				</div>
+				<div class="row">
+					<div class="label">Coordinating center identifier:</div>
+					<div class="value">${command.studySubject.studySite.study.identifiers[0].value}</div>
+				</div>
+			</div>
 	</tr>
 	</table>
 	</chrome:division>
 	<chrome:division id="Study Site Information" title="Study Site">
 		<table width="90%">
 		<tr>
-			<td>
-		<div class="row">
-			<div class="label">Name:</div>
-			<div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
-	</div>
-	<div class="row">
-		<div class="label">Address:</div>
-		<div class="value">${command.studySubject.studySite.healthcareSite.address.streetAddress},
-	${command.studySubject.studySite.healthcareSite.address.city},
-	${command.studySubject.studySite.healthcareSite.address.stateCode},
-	${command.studySubject.studySite.healthcareSite.address.postalCode}</div>
-	</div>
-	<div class="row">
-		<div class="label">Status:</div>
-		<div class="value">${command.studySubject.studySite.siteStudyStatus.code}</div>
-	</div>
-	</td>
-	<td width="50%">
-	<div class="row">
-		<div class="label">NCI institution code:</div>
-		<div class="value">${command.studySubject.studySite.healthcareSite.nciInstituteCode}</div>
-	</div>
-	<div class="row">
-		<div class="label">IRB approval date:</div>
-		<div class="value">${command.studySubject.studySite.irbApprovalDateStr}</div>
-		</div>
-	</td>
-	</tr>
+			<div class="leftpanel">
+				<div class="row">
+					<div class="label">Name:</div>
+					<div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
+				</div>
+				<div class="row">
+					<div class="label">Address:</div>
+					<div class="value">${command.studySubject.studySite.healthcareSite.address.streetAddress},
+							${command.studySubject.studySite.healthcareSite.address.city},
+							${command.studySubject.studySite.healthcareSite.address.stateCode},
+							${command.studySubject.studySite.healthcareSite.address.postalCode}
+					</div>
+				</div>
+			</div>
+			<div class="rightpanel">
+				<div class="row">
+					<div class="label">NCI institution code:</div>
+					<div class="value">${command.studySubject.studySite.healthcareSite.nciInstituteCode}</div>
+				</div>
+				<div class="row">
+					<div class="label">IRB approval date:</div>
+					<div class="value">${command.studySubject.studySite.irbApprovalDateStr}
+					</div>
+				</div>
+				<div class="row">
+					<div class="label">Activation date:</div>
+					<div class="value">${command.studySubject.studySite.startDateStr}
+					</div>
+				</div>
+			</div>
+		</tr>
 	</table>
 	</chrome:division>
 	<chrome:division id="Current Epoch Information" title="Current Epoch">
+		<div class="leftpanel">
 		<div class="row">
 			<div class="label">Current epoch:</div>
 			<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
-	</div>
-	<div class="row">
-		<div class="label">Enrolling:</div>
-		<div class="value">${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</div>
-	</div>
-	<div class="row">
-		<div class="label">Epoch status:</div>
-		<div class="value">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</div>
-	</div>
-	
+		</div>
+		</div>
+		<div class="rightpanel">
+		<div class="row">
+			<div class="label">Enrolling:</div>
+			<div class="value">${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</div>
+		</div>
+		</div>
 	</chrome:division>
 	<chrome:division id="enrollment" title="Enrollment Details">
 	<table width="90%">
 		<tr>
-			<td>
+			<div class="leftpanel">
 	<div class="row">
 		<div class="label">Registration start date:</div>
 		<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.startDateStr }' workflow='registration'/></div>
 	</div>
 	<div class="row">
-		<div class="label">Informed consent signed date:</div>
+		<div class="label">Consent signed date:</div>
 		<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentSignedDateStr}' workflow='registration'/></div>
 	</div>
 	<div class="row">
-		<div class="label">Informed consent version:</div>
+		<div class="label">Consent version:</div>
 		<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentVersion}' workflow='registration'/></div>
 	</div>
-	</td>
-	<td width="50%">
+	</div>
+	<div class="rightpanel">
 	<div class="row">
 		<div class="label">Treating physician:</div>
 		<div class="value">${command.studySubject.treatingPhysicianFullName}&nbsp;</div>
@@ -202,18 +196,14 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<div class="label">Payment method:</div>
 		<div class="value">${command.studySubject.paymentMethod}</div>
 	</div>
-	</td>
+	</div>
 	</tr>
 	</table>
 	</chrome:division>
 		<chrome:division id="Eligibility" title="Eligibility">
-			<div class="row">
-				<div class="label">Eligible?</div>
-				<div class="value"><tags:requiredFieldInvalidIndicator value='${command.studySubject.scheduledEpoch.eligibilityIndicator?"Yes":"No" }' workflow='registration' compareWith='Yes'/></div>
-			</div>
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.studySubject.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
-		<div style="margin-left:155px;">There is no eligibility check list available for this epoch.</div>
+		<div align="left">There is no eligibility check list available for this epoch.</div>
 		</c:when>
 		<c:otherwise>
 		<br>
@@ -258,7 +248,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
 		<table width="70%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<tr>
-				<td class="label" align=left>The Selected Epoch does not have any stratification factors</td>
+				<td align=left>The Selected Epoch does not have any stratification factors</td>
 			</tr>
 		</table>
 		</c:when>
