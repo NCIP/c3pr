@@ -178,10 +178,6 @@ function manageCompanions(){
 			<td>${command.studySubject.participant.primaryIdentifier}</td>
 		</tr>
 		<tr>
-			<td align="left"><b>Study Sponsor Identifier</b></td>
-			<td>${command.studySubject.studySite.study.organizationAssignedIdentifiers[0].value}</td>
-		</tr>
-		<tr>
             <td align="left"><b>Registration Identifier</b></td>
             <td>${command.studySubject.coOrdinatingCenterIdentifier.value}</td>
         </tr>
@@ -197,20 +193,12 @@ function manageCompanions(){
 			<td align="left"><b>Current Epoch</b></td>
 			<td valign="top">${command.studySubject.scheduledEpoch.epoch.name}</td>
 		</tr>
-		<tr>
-			<td align="left"><b>Current Epoch Status</b></td>
-			<td valign="top">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</td>
-		</tr>
 		<c:if test="${!empty armAssigned}">
 			<tr>
 				<td align="left"><b>${armAssignedLabel }</b></td>
 				<td valign="top">${armAssigned}</td>
 			</tr>
 		</c:if>
-		<tr>
-			<td align="left"><b>Data Entry Status</b></td>
-			<td valign="top">${command.studySubject.dataEntryStatusString }</td>
-		</tr>
 		<tr>
 			<td align="left"><b>Site</b></td>
 			<td>${command.studySubject.studySite.healthcareSite.name}</td>
