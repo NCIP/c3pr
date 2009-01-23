@@ -3,7 +3,7 @@
 <registration>
     <studySite>																<!-- One study site is mandatory -->
         <healthcareSite>
-            <nciInstituteCode>Duke</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
+            <nciInstituteCode>NC010</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
         </healthcareSite>
        <irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>		<!-- The IRB approval date is optional -->
         <roleCode>Affiliate Site</roleCode>
@@ -15,10 +15,10 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
         xsi:type="OrganizationAssignedIdentifierType">						
             <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>2390</value>									<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
+            <value>1111</value>									<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>Warren</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
+                <nciInstituteCode>NC010</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
             </healthcareSite>
         </identifier>
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980"
@@ -45,7 +45,7 @@
             <value>mrn0044</value>									<!-- Participant with this MRN should not already exist in the database-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>Duke</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
+                <nciInstituteCode>NC010</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
             </healthcareSite>
         </identifier>
     </participant>
@@ -57,21 +57,15 @@
     <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledTreatmentEpochType">	<!-- Exactly one Scheduled Epoch is required-->
         <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
         <epoch xsi:type="TreatmentEpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
-            <name>epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
+            <name>enrolling epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
             <descriptionText/>
         </epoch>
-        <scheduledArm>															<!-- The Scheduled Arm is mandatory for Scheduled Treatment Epoch -->
-            <arm>
-                <name>Arm A</name>										<!-- The Arm name should exist in the database for the given study/treatment epoch-->
-                <targetAccrualNumber>300</targetAccrualNumber>
-            </arm>
-        </scheduledArm>
     </scheduledEpoch>									<!-- The stratum group is optional--> 
 </registration>
 <registration>
     <studySite>																<!-- One study site is mandatory -->
         <healthcareSite>
-            <nciInstituteCode>Duke</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
+            <nciInstituteCode>NC010</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
         </healthcareSite>
        <irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>		<!-- The IRB approval date is optional -->
         <roleCode>Affiliate Site</roleCode>
@@ -83,10 +77,10 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
         xsi:type="OrganizationAssignedIdentifierType">						
             <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>2390</value>									<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
+            <value>11111</value>									<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>Warren</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
+                <nciInstituteCode>NC010</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
             </healthcareSite>
         </identifier>
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980"
@@ -113,7 +107,7 @@
             <value>mrn0045</value>									<!-- Participant with this MRN should not already exist in the database-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>Duke</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
+                <nciInstituteCode>NC010</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
             </healthcareSite>
         </identifier>
     </participant>
@@ -125,22 +119,16 @@
     <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledTreatmentEpochType">	<!-- Exactly one Scheduled Epoch is required-->
         <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
         <epoch xsi:type="TreatmentEpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
-            <name>epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
+            <name>enrolling epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
             <descriptionText/>
         </epoch>
-        <scheduledArm>												<!-- The Scheduled Arm is mandatory for Scheduled Treatment Epoch -->
-            <arm>
-                <name>Arm A</name>										<!-- The Arm name should exist in the database for the given study/treatment epoch-->
-                <targetAccrualNumber>300</targetAccrualNumber>
-            </arm>
-        </scheduledArm>
     </scheduledEpoch>									<!-- The stratum group is optional--> 
 </registration>
 
 <registration>
     <studySite>																<!-- One study site is mandatory -->
         <healthcareSite>
-            <nciInstituteCode>Duke</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
+            <nciInstituteCode>NC010</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
         </healthcareSite>
        <irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>		<!-- The IRB approval date is optional -->
         <roleCode>Affiliate Site</roleCode>
@@ -152,10 +140,10 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
         xsi:type="OrganizationAssignedIdentifierType">						
             <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>2390</value>									<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
+            <value>11111</value>									<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>Warren</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
+                <nciInstituteCode>NC010</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
             </healthcareSite>
         </identifier>
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980"
@@ -182,7 +170,7 @@
             <value>mrn0046</value>									<!-- Participant with this MRN should not already exist in the database-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>Duke</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
+                <nciInstituteCode>NC010</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
             </healthcareSite>
         </identifier>
     </participant>
@@ -194,21 +182,15 @@
     <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledTreatmentEpochType">	<!-- Exactly one Scheduled Epoch is required-->
         <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
         <epoch xsi:type="TreatmentEpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
-            <name>epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
+            <name>enrolling epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
             <descriptionText/>
         </epoch>
-        <scheduledArm>															<!-- The Scheduled Arm is mandatory for Scheduled Treatment Epoch -->
-            <arm>
-                <name>Arm A</name>										<!-- The Arm name should exist in the database for the given study/treatment epoch-->
-                <targetAccrualNumber>300</targetAccrualNumber>
-            </arm>
-        </scheduledArm>
     </scheduledEpoch>									<!-- The stratum group is optional--> 
 </registration>
 <registration>
     <studySite>																<!-- One study site is mandatory -->
         <healthcareSite>
-            <nciInstituteCode>Duke</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
+            <nciInstituteCode>NC010</nciInstituteCode>				<!-- This Institute code should already exist in the database -->
         </healthcareSite>
        <irbApprovalDate>2008-01-05T00:00:00.000-01:00</irbApprovalDate>		<!-- The IRB approval date is optional -->
         <roleCode>Affiliate Site</roleCode>
@@ -220,10 +202,10 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
         xsi:type="OrganizationAssignedIdentifierType">						
             <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>2390</value>									<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
+            <value>11111</value>									<!-- The study with this cooridnating center identifier has to be in 'OPEN' status-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>Warren</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
+                <nciInstituteCode>NC010</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
             </healthcareSite>
         </identifier>
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980"
@@ -250,7 +232,7 @@
             <value>mrn0047</value>									<!-- Participant with this MRN should not already exist in the database-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
-                <nciInstituteCode>Duke</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
+                <nciInstituteCode>NC010</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
             </healthcareSite>
         </identifier>
     </participant>
@@ -262,15 +244,9 @@
     <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ScheduledTreatmentEpochType">	<!-- Exactly one Scheduled Epoch is required-->
         <startDate>2007-10-01</startDate>										<!-- The start date is required for Scheduled Epoch and the format can be either YYYY-MM-DD or with timestamp (1967-01-11T00:00:00.000-02:00)-->
         <epoch xsi:type="TreatmentEpochType">									<!-- Epoch is mandatory for Scheduled Epoch-->
-            <name>epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
+            <name>enrolling epoch</name>											<!-- The Epoch name should exist in the database for the given study-->
             <descriptionText/>
         </epoch>
-        <scheduledArm>												<!-- The Scheduled Arm is mandatory for Scheduled Treatment Epoch -->
-            <arm>
-                <name>Arm A</name>										<!-- The Arm name should exist in the database for the given study/treatment epoch-->
-                <targetAccrualNumber>300</targetAccrualNumber>
-            </arm>
-        </scheduledArm>
     </scheduledEpoch>									<!-- The stratum group is optional--> 
 </registration>
 </registrations>
