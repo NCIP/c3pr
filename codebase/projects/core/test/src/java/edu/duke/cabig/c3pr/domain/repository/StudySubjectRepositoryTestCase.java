@@ -181,7 +181,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
-	        studySubjectDao.merge(studySubject);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        
 	        studySubjectService.broadcastMessage(studySubject);
@@ -205,7 +205,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
-	        studySubjectDao.merge(studySubject);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
@@ -230,7 +230,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
-	        studySubjectDao.merge(studySubject);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
@@ -249,7 +249,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
-	        studySubjectDao.merge(studySubject);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
@@ -270,7 +270,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setId(1);
 	        EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.REGISTRATION.NOT_FOUND_GIVEN_IDENTIFIERS.CODE",null,null)).andReturn("1");
 	        EasyMock.expect(exceptionHelper.getRuntimeException(1)).andReturn(new C3PRCodedRuntimeException(1,"Cannot find a registration with the given identifier(s)"));
-	        studySubjectDao.merge(studySubject);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
@@ -297,8 +297,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
-	        studySubjectDao.merge(studySubject);
-	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+	       // studySubjectDao.merge(studySubject);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(2);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	        studySubjects.add(studySubject);
@@ -327,8 +327,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
-	        studySubjectDao.merge(studySubject);
-	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+	       // studySubjectDao.merge(studySubject);
+	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(2);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	        studySubjects.add(studySubject);
