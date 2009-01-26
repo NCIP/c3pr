@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.impl.Log4JLogger;
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -23,7 +22,6 @@ import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -83,26 +81,7 @@ public class RegistrationConfirmAndRandomizeController extends
 		StudySubjectWrapper wrapper= (StudySubjectWrapper) command;
 		StudySubject studySubject = wrapper.getStudySubject();
 		Map map = registrationControllerUtils.buildMap(studySubject);
-		boolean actionRequired = false;
-		String actionLabel = "";
-		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING
-				&& studySubject.isDataEntryComplete()) {
-			actionRequired = true;
-			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
-				if (studySubject.getScheduledEpoch().getEpoch().isEnrolling())
-					actionLabel = "Enroll";
-				else
-					actionLabel = "Save";
-			} else
-				actionLabel = "Transfer Subject";
-			if (studySubject.getScheduledEpoch().getRequiresRandomization()) {
-				actionLabel += " & Randomize";
-			}
-		}
-		map.put("actionRequired", actionRequired);
-		map.put("actionLabel", actionLabel);
-		map.put("requiresMultiSite", studySubjectService
-				.requiresExternalApprovalForRegistration(studySubject));
+		map.put("requiresMultiSite", studySubjectService.requiresExternalApprovalForRegistration(studySubject));
 		registrationControllerUtils.addAppUrls(map);
 		return map;
 	}
@@ -117,8 +96,6 @@ public class RegistrationConfirmAndRandomizeController extends
 	        	List<Identifier> identifiers=new ArrayList<Identifier>();
 	        	identifiers.add(identifier);
 	        	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
-//	            studySubject = studySubjectDao.getById(Integer.parseInt(request
-//	                            .getParameter("registrationId")), true);
 	            studySubjectDao.initialize(studySubject);
 	            Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
 	    	    studyDao.initialize(study);
@@ -147,11 +124,6 @@ public class RegistrationConfirmAndRandomizeController extends
 			throws Exception {
 		StudySubjectWrapper wrapper= (StudySubjectWrapper) command;
 		StudySubject studySubject = wrapper.getStudySubject();
-		//commeneted after discussion with RK, no need to do this validation since we are calling this controller for normal scenario also
-//		if (!validSubmit(studySubject)) {
-//			throw new Exception(
-//					"Subject is either already registered or the subject registration requires QC");
-//		}
 		Map map = new HashMap();
 		map.put("actionRequired", false);
 		try {

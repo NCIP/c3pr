@@ -45,19 +45,18 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
     }
 
     @Override
-    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
-                    Object command, BindException errors) throws Exception {
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
         if(wrapper.getShouldReserve()==null){
         	studySubject=studySubjectRepository.save(studySubject);
         }else if(wrapper.getShouldReserve()){
         	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
-        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
+        }else if(wrapper.getShouldRegister()){
         	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
-        }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
+        }else if(wrapper.getShouldEnroll()){
         	try {
-				studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+				studySubject=studySubjectRepository.enroll(studySubject);
 			} catch (C3PRCodedRuntimeException e) {
 				// TODO Handle multisite error seperately and elegantly. for now eat the error
 			}
@@ -67,4 +66,5 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
         }
         return new ModelAndView("redirect:confirm?"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));	
     }
+    
 }

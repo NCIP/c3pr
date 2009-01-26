@@ -1,5 +1,4 @@
 <%@ include file="taglibs.jsp"%>
-
 <html>
 <head>
 <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
@@ -23,68 +22,62 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
 ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-	if(formElement.id=='command' && ${registerable && !empty command.studySubject.studySite.targetAccrualNumber && command.studySubject.studySite.targetAccrualNumber <= command.studySubject.studySite.currentAccrualCount})
+	if(formElement.id=='command' && ${registerable && !empty command.studySubject.studySite.targetAccrualNumber && command.studySubject.studySite.targetAccrualNumber <= command.studySubject.studySite.currentAccrualCount}){
 		return confirm("This registration will exceed the accrual ceiling at ${command.studySubject.studySite.healthcareSite.name}. Do you want to continue?");
+	}
 	return continueSubmission;
 }
 </script>
 </head>
 <body>
-<tags:formPanelBox tab="${tab}" flow="${flow}" continueLabel="${empty command.shouldReserve? 'Save':command.shouldReserve?'Reserve':command.shouldRegister?'Register':command.shouldRandomize?'Register':command.shouldTransfer?'Transfer':'Enroll'}">
+<tags:formPanelBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? 'Save' : actionLabel}">
 	<input type="hidden" name="_finish" value="true"/>
 	<tags:instructions code="reg_submit" />
 	<chrome:division id="Subject Information" title="Subject">
-	<table width="90%">
-		<tr>
 			<div class="leftpanel">
-	<div class="row">
-			<div class="label">First name:</div>
-			<div class="value">${command.studySubject.participant.firstName}</div>
-	</div>
-	<div class="row">
-		<div class="label">Last name:</div>
-		<div class="value">${command.studySubject.participant.lastName}</div>
-	</div>
-	<div class="row">
-		<div class="label">Gender:</div>
-		<div class="value">${command.studySubject.participant.administrativeGenderCode}</div>
-	</div>
-	<div class="row">
-		<div class="label">MRN:</div>
-		<div class="value">${command.studySubject.participant.medicalRecordNumber.value }</div>
-	</div>
-	</div>
-	<div class="rightpanel">
-	<div class="row">
-		<div class="label">Assigning authority:</div>
-		<div class="value">${command.studySubject.participant.medicalRecordNumber.healthcareSite.name }</div>
-	</div>
-	<div class="row">
-		<div class="label">Birth date:</div>
-		<div class="value">${command.studySubject.participant.birthDateStr}</div>
-	</div>
-	<div class="row">
-		<div class="label">Ethnicity:</div>
-		<div class="value">${command.studySubject.participant.ethnicGroupCode}</div>
-	</div>
-	<div class="row">
-		<div class="label">Race(s):</div>
-		<div class="value">
-			<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
-	            <div class="row">
-	                <div class="left">${raceCode.displayName}</div>
-	            </div>
-	        </c:forEach>
-		</div>
-		</div>
-	</div>
-	</div>
-	</tr>
-	</table>
+				<div class="row">
+						<div class="label">First name:</div>
+						<div class="value">${command.studySubject.participant.firstName}</div>
+				</div>
+				<div class="row">
+					<div class="label">Last name:</div>
+					<div class="value">${command.studySubject.participant.lastName}</div>
+				</div>
+				<div class="row">
+					<div class="label">Gender:</div>
+					<div class="value">${command.studySubject.participant.administrativeGenderCode}</div>
+				</div>
+				<div class="row">
+					<div class="label">MRN:</div>
+					<div class="value">${command.studySubject.participant.medicalRecordNumber.value }</div>
+				</div>
+			</div>
+			<div class="rightpanel">
+				<div class="row">
+					<div class="label">Assigning authority:</div>
+					<div class="value">${command.studySubject.participant.medicalRecordNumber.healthcareSite.name }</div>
+				</div>
+				<div class="row">
+					<div class="label">Birth date:</div>
+					<div class="value">${command.studySubject.participant.birthDateStr}</div>
+				</div>
+				<div class="row">
+					<div class="label">Ethnicity:</div>
+					<div class="value">${command.studySubject.participant.ethnicGroupCode}</div>
+				</div>
+				<div class="row">
+					<div class="label">Race(s):</div>
+					<div class="value">
+						<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
+				            <div class="row">
+				                <div class="left">${raceCode.displayName}</div>
+				            </div>
+				        </c:forEach>
+					</div>
+				</div>
+			</div>
 	</chrome:division>
 	<chrome:division id="Study Information" title="Study">
-	<table width="90%">
-		<tr>
 			<div class="leftpanel">
 				<div class="row">
 					<div class="label">Short title:</div>
@@ -109,12 +102,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					<div class="value">${command.studySubject.studySite.study.identifiers[0].value}</div>
 				</div>
 			</div>
-	</tr>
-	</table>
 	</chrome:division>
 	<chrome:division id="Study Site Information" title="Study Site">
-		<table width="90%">
-		<tr>
 			<div class="leftpanel">
 				<div class="row">
 					<div class="label">Name:</div>
@@ -145,130 +134,123 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					</div>
 				</div>
 			</div>
-		</tr>
-	</table>
 	</chrome:division>
 	<chrome:division id="Current Epoch Information" title="Current Epoch">
 		<div class="leftpanel">
-		<div class="row">
-			<div class="label">Current epoch:</div>
-			<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
-		</div>
+			<div class="row">
+				<div class="label">Current epoch:</div>
+				<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
+			</div>
 		</div>
 		<div class="rightpanel">
-		<div class="row">
-			<div class="label">Enrolling:</div>
-			<div class="value">${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</div>
-		</div>
+			<div class="row">
+				<div class="label">Enrolling:</div>
+				<div class="value">${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</div>
+			</div>
 		</div>
 	</chrome:division>
 	<chrome:division id="enrollment" title="Enrollment Details">
-	<table width="90%">
-		<tr>
 			<div class="leftpanel">
-	<div class="row">
-		<div class="label">Registration start date:</div>
-		<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.startDateStr }' workflow='registration'/></div>
-	</div>
-	<div class="row">
-		<div class="label">Consent signed date:</div>
-		<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentSignedDateStr}' workflow='registration'/></div>
-	</div>
-	<div class="row">
-		<div class="label">Consent version:</div>
-		<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentVersion}' workflow='registration'/></div>
-	</div>
-	</div>
-	<div class="rightpanel">
-	<div class="row">
-		<div class="label">Treating physician:</div>
-		<div class="value">${command.studySubject.treatingPhysicianFullName}&nbsp;</div>
-	</div>
-	<div class="row">
-		<div class="label">Primary disease:</div>
-		<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr }</div>
-	</div>
-	<div class="row">
-		<div class="label">Primary disease site:</div>
-		<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
-	</div>
-	<div class="row">
-		<div class="label">Payment method:</div>
-		<div class="value">${command.studySubject.paymentMethod}</div>
-	</div>
-	</div>
-	</tr>
-	</table>
+				<div class="row">
+					<div class="label">Registration start date:</div>
+					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.startDateStr }' workflow='registration'/></div>
+				</div>
+				<div class="row">
+					<div class="label">Consent signed date:</div>
+					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentSignedDateStr}' workflow='registration'/></div>
+				</div>
+				<div class="row">
+					<div class="label">Consent version:</div>
+					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentVersion}' workflow='registration'/></div>
+				</div>
+			</div>
+			<div class="rightpanel">
+				<div class="row">
+					<div class="label">Treating physician:</div>
+					<div class="value">${command.studySubject.treatingPhysicianFullName}&nbsp;</div>
+				</div>
+				<div class="row">
+					<div class="label">Primary disease:</div>
+					<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr }</div>
+				</div>
+				<div class="row">
+					<div class="label">Primary disease site:</div>
+					<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
+				</div>
+				<div class="row">
+					<div class="label">Payment method:</div>
+					<div class="value">${command.studySubject.paymentMethod}</div>
+				</div>
+			</div>
 	</chrome:division>
-		<chrome:division id="Eligibility" title="Eligibility">
+	<chrome:division id="Eligibility" title="Eligibility">
 		<c:choose>
-		<c:when test="${fn:length(command.studySubject.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.studySubject.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
-		<div align="left">There is no eligibility check list available for this epoch.</div>
-		</c:when>
-		<c:otherwise>
-		<br>
-			<strong>Inclusion Criteria</strong>
-			
-			<div class="review">
-			<table width="70%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+			<c:when test="${fn:length(command.studySubject.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.studySubject.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
+				<div align="left">There is no eligibility check list available for this epoch.</div>
+			</c:when>
+			<c:otherwise>
+				<br>
+				<strong>Inclusion Criteria</strong>
+				<div class="review">
+				<table width="70%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr>
 					<th scope="col" align="left">Question</th>
 					<th scope="col" align="left">Answer</th>
 				</tr>
 				<c:forEach items="${command.studySubject.scheduledEpoch.inclusionEligibilityAnswers}" var="criteria">
-			<tr class="results">
-				<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
-				<td class="alt" align="left"><tags:requiredFieldEmptyIndicator value='${criteria.answerText}' workflow='registration'/></td>
-			</tr>
-		</c:forEach>
-		</table>
-		</div>
-		<br>
-		<strong>Exclusion Criteria</strong>
-		
-		<div class="review">
-		<table border="0" cellspacing="0" cellpadding="0"  width="70%" class="tablecontent">
-			<tr>
-				<th scope="col" align="left">Question</th>
-				<th scope="col" align="left">Answer</th>
-			</tr>
-			<c:forEach items="${command.studySubject.scheduledEpoch.exclusionEligibilityAnswers}" var="criteria">
-			<tr class="results">
-				<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
-				<td class="alt" align="left"><tags:requiredFieldEmptyIndicator value='${criteria.answerText}' workflow='registration'/></td>
-			</tr>
-		</c:forEach>
-		</table>
-		</div>
-		</c:otherwise>
+					<tr class="results">
+						<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
+						<td class="alt" align="left"><tags:requiredFieldEmptyIndicator value='${criteria.answerText}' workflow='registration'/></td>
+					</tr>
+				</c:forEach>
+				</table>
+				</div>
+				<br>
+				<strong>Exclusion Criteria</strong>
+				<div class="review">
+					<table border="0" cellspacing="0" cellpadding="0"  width="70%" class="tablecontent">
+					<tr>
+						<th scope="col" align="left">Question</th>
+						<th scope="col" align="left">Answer</th>
+					</tr>
+					<c:forEach items="${command.studySubject.scheduledEpoch.exclusionEligibilityAnswers}" var="criteria">
+						<tr class="results">
+							<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
+							<td class="alt" align="left"><tags:requiredFieldEmptyIndicator value='${criteria.answerText}' workflow='registration'/></td>
+						</tr>
+					</c:forEach>
+					</table>
+				</div>
+			</c:otherwise>
 		</c:choose>
-		</chrome:division>
-		<chrome:division id="stratification" title="Stratification Information">
+	</chrome:division>
+	<chrome:division id="stratification" title="Stratification Information">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
-		<table width="70%" border="0" cellspacing="0" cellpadding="0" id="table1">
-			<tr>
-				<td align=left>The Selected Epoch does not have any stratification factors</td>
-			</tr>
-		</table>
+			<table width="70%" border="0" cellspacing="0" cellpadding="0" id="table1">
+				<tr>
+					<td align=left>The Selected Epoch does not have any stratification factors</td>
+				</tr>
+			</table>
 		</c:when>
 		<c:otherwise>
-		<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="70%">
-			<tr>
-				<th width="35%" scope="col" align="left">Strata</th>
-				<th scope="col" align="left"><b>Answer</th>
-			</tr>
-			<c:forEach items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
-				<tr class="results">
-					<td class="alt" align="left">${criteria.stratificationCriterion.questionText}</td>
-					<td class="alt" align="left">
-					<tags:requiredFieldEmptyIndicator value='${criteria.stratificationCriterionAnswer.permissibleAnswer}' workflow='registration'/></td>
+			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="70%">
+				<tr>
+					<th width="35%" scope="col" align="left">Strata</th>
+					<th scope="col" align="left"><b>Answer</th>
 				</tr>
-			</c:forEach>
-		</table>
+				<c:forEach items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
+					<tr class="results">
+						<td class="alt" align="left">${criteria.stratificationCriterion.questionText}</td>
+						<td class="alt" align="left">
+						<tags:requiredFieldEmptyIndicator value='${criteria.stratificationCriterionAnswer.permissibleAnswer}' workflow='registration'/></td>
+					</tr>
+				</c:forEach>
+			</table>
 		</c:otherwise>
 		</c:choose>
-		</chrome:division>
+	</chrome:division>
+	<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
 </tags:formPanelBox>
 </body>
 </html>

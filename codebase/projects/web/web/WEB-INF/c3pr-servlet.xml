@@ -17,6 +17,7 @@
 		        <value>edu.duke.cabig.c3pr.messages</value>
 		        <value>edu.duke.cabig.c3pr.hints</value>
 		        <value>edu.duke.cabig.c3pr.help</value>
+				<value>edu.duke.cabig.c3pr.labels</value>
 	        </list>
         </property>
     </bean>
