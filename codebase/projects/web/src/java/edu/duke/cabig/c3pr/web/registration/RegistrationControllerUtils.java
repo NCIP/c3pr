@@ -45,7 +45,6 @@ public class RegistrationControllerUtils {
 
 	public boolean isRegisterableOnPage(StudySubject studySubject) {
         return studySubject.isDataEntryComplete()
-                        && !studySubject.getScheduledEpoch().getRequiresRandomization()
                         && !studySubjectService.requiresExternalApprovalForRegistration(studySubject)
                         && (studySubject.getScheduledEpoch().getEpoch().isEnrolling()?registrableStandalone(studySubject):true);
     }
