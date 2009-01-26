@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +11,6 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
-import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 /**
@@ -40,10 +37,6 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubjectWrapper>
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors error) {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
     	StudySubject studySubject = wrapper.getStudySubject();
-//        if (studySubject.getScheduledEpoch()!=null) {
-//            (studySubject.getScheduledEpoch()).setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(command.getStudySubject()));
-//        }
-        
         // The following code for building scheduled epoch after moving subject to a new epoch.
         if(WebUtils.hasSubmitParameter(request, "epoch")){
         	Integer id;
@@ -66,7 +59,6 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubjectWrapper>
 	        }
 	        scheduledEpoch.setEpoch(epoch);
 	        studySubject.getScheduledEpochs().add(scheduledEpoch);
-	   //     registrationControllerUtils.buildCommandObject(studySubject);
 	        studySiteDao.initialize(studySubject.getStudySite());
         }
     }
