@@ -215,10 +215,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     }
 
     public StudySubject save(StudySubject studySubject) {
- //       studySubject.updateDataEntryStatus();
-//        if (studySubject.getId() != null) return studySubjectDao.merge(studySubject);
-//        studySubjectDao.save(studySubject);
-//        return studySubject;
         return studySubjectDao.merge(studySubject);
     }
     
@@ -241,7 +237,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
 		this.continueEnrollment(studySubject);
 		this.saveStratumGroup(studySubject);
-		studySubjectDao.save(studySubject);
+		studySubjectDao.merge(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
 		broadcastMessage(studySubject);
@@ -286,7 +282,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		this.continueEnrollment(studySubject);
 		
 		this.saveStratumGroup(studySubject);
-		studySubjectDao.save(studySubject);
+		studySubjectDao.merge(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
 		broadcastMessage(studySubject);
