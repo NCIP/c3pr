@@ -350,6 +350,26 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		return save(studySubject);
 	}
 	
+	public StudySubject transferSubject(StudySubject studySubject) {
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects=findRegistrations(studySubject);
+		if (studySubjects.size() > 1) {
+            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
+        }
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
+			studySubject.prepareForTransfer();
+		}
+		
+		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studySubjectService.getLocalNCIInstituteCode())){
+			StudySubject multisiteReturnedStudySubject = studySubjectService.getArmAndCoordinatingAssignedIdentifier(studySubject);
+			studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
+		}else{
+			studySubject.doLocalTransfer();
+		}
+		this.saveStratumGroup(studySubject);
+		return save(studySubject);
+	}
+	
 	public StudySubject create(StudySubject studySubject) {
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 		studySubjects=findRegistrations(studySubject);

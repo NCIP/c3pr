@@ -43,6 +43,8 @@ public interface StudySubjectRepository {
     
     public StudySubject transferSubject(List<Identifier> studySubjectIdentifiers);
     
+    public StudySubject transferSubject(StudySubject studySubject);
+    
     public void takeSubjectOffStudy(List<Identifier> studySubjectIdentifiers,String offStudyReasonText,Date offStudyDate);
     
     public StudySubject create(StudySubject studySubject);
