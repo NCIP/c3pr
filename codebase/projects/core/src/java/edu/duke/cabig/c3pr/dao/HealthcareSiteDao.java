@@ -7,7 +7,6 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class HealthcareSiteDao.
  * 
@@ -17,10 +16,10 @@ import edu.nwu.bioinformatics.commons.CollectionUtils;
  */
 public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 
-    /** The SUBSTRIN g_ matc h_ properties. */
-    private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name");
+    /** The SUBSTRING_ match_ properties. */
+    private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name", "nciInstituteCode");
 
-    /** The EXAC t_ matc h_ properties. */
+    /** The EXACT_ match_ properties. */
     private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
     /* (non-Javadoc)
@@ -59,8 +58,6 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
      * @return the subnames
      */
     public List<HealthcareSite> getBySubnames(String[] subnames) {
-
-        SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name");
 
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
