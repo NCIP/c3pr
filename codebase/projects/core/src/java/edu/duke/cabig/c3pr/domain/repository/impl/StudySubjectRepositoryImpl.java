@@ -237,7 +237,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
 		this.continueEnrollment(studySubject);
 		this.saveStratumGroup(studySubject);
-		studySubjectDao.merge(studySubject);
+		studySubject = studySubjectDao.merge(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
 		broadcastMessage(studySubject);
@@ -282,7 +282,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		this.continueEnrollment(studySubject);
 		
 		this.saveStratumGroup(studySubject);
-		studySubjectDao.merge(studySubject);
+		studySubject = studySubjectDao.merge(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
 		broadcastMessage(studySubject);
