@@ -16,7 +16,6 @@ import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
-import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -78,7 +77,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
         }
         else {
-            rs = new LocalResearchStaff();
+            rs = new ResearchStaff();
             rs.setVersion(Integer.parseInt("1"));
 
             addContactsToResearchStaff(rs);
