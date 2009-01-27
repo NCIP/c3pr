@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Required;
 import edu.duke.cabig.c3pr.annotations.UniqueEmailAddressForResearchStaff;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 
 public class UniqueEmailAddressForResearchStaffValidator implements
                 Validator<UniqueEmailAddressForResearchStaff> {
@@ -21,7 +21,7 @@ public class UniqueEmailAddressForResearchStaffValidator implements
 
             ResearchStaffQuery researchStaffQuery = new ResearchStaffQuery();
             researchStaffQuery.filterByEmailAddress((String) value);
-            List<ResearchStaff> researchStaffList = researchStaffDao
+            List<LocalResearchStaff> researchStaffList = researchStaffDao
                             .searchResearchStaff(researchStaffQuery);
             return (researchStaffList == null || researchStaffList.isEmpty()) ? true : false;
         }
