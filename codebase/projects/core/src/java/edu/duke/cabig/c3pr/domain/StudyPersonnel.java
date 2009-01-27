@@ -6,7 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -19,7 +22,9 @@ import org.hibernate.annotations.Parameter;
 public class StudyPersonnel extends AbstractMutableDeletableDomainObject implements
                 Comparable<StudyPersonnel> {
 
-    private ResearchStaff researchStaff;
+    private LocalResearchStaff localResearchStaff;
+    
+    private RemoteResearchStaff remoteResearchStaff;
 
     private StudyOrganization studyOrganization;
 
@@ -33,12 +38,30 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
 
     @ManyToOne
     @JoinColumn(name = "research_staff_id")
-    public ResearchStaff getResearchStaff() {
-        return researchStaff;
+    public LocalResearchStaff getLocalResearchStaff() {
+        return localResearchStaff;
     }
 
-    public void setResearchStaff(ResearchStaff researchStaff) {
-        this.researchStaff = researchStaff;
+    public void setLocalResearchStaff(LocalResearchStaff localResearchStaff) {
+        this.localResearchStaff = localResearchStaff;
+    }
+    
+    @Transient
+    public ResearchStaff getResearchStaff() {
+        return remoteResearchStaff!=null?remoteResearchStaff:localResearchStaff;
+    }
+    
+    
+    
+    @ManyToOne
+    @Cascade(value = { CascadeType.SAVE_UPDATE})
+    @JoinColumn(name = "rrs_id")
+    public RemoteResearchStaff getRemoteResearchStaff() {
+        return (RemoteResearchStaff) remoteResearchStaff;
+    }
+
+    public void setRemoteResearchStaff(RemoteResearchStaff remoteResearchStaff) {
+        this.remoteResearchStaff = remoteResearchStaff;
     }
 
     @ManyToOne
@@ -92,7 +115,7 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((researchStaff == null) ? 0 : researchStaff.hashCode());
+        result = PRIME * result + ((localResearchStaff == null) ? 0 : localResearchStaff.hashCode());
         result = PRIME * result + ((roleCode == null) ? 0 : roleCode.hashCode());
         result = PRIME * result + ((studyOrganization == null) ? 0 : studyOrganization.hashCode());
         return result;
@@ -103,10 +126,10 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
         if (this == obj) return true;
         if (getClass() != obj.getClass()) return false;
         final StudyPersonnel other = (StudyPersonnel) obj;
-        if (researchStaff == null) {
-            if (other.researchStaff != null) return false;
+        if (localResearchStaff == null) {
+            if (other.localResearchStaff != null) return false;
         }
-        else if (!researchStaff.equals(other.researchStaff)) return false;
+        else if (!localResearchStaff.equals(other.localResearchStaff)) return false;
         if (roleCode == null) {
             if (other.roleCode != null) return false;
         }
