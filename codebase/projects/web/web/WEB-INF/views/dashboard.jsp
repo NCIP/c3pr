@@ -69,14 +69,20 @@ top:90px;
 			htmlContent="<a href='../pages/admin/viewInbox'>My Inbox</a>"
 			url="../pages/admin/viewInbox" /> <chrome:box
 			title="C3PR Development Notes">
-			<br>
-			<div id="c3pr-wiki"><a
+			
+			<div id="c3pr-wiki">
+			<img src="<c:url value="/images/chrome/li_item.jpg" />">&nbsp;&nbsp;
+			<a
 				href='<fmt:message key="DASHBOARD.C3PR.DEVELOPMENT.WIKI"/>'
 				target="_blank"><b>C3PR Wiki</b></a></div>
-			<div id="c3pr-userguide"><a
+			<div id="c3pr-userguide">
+			<img src="<c:url value="/images/chrome/li_item.jpg" />">&nbsp;&nbsp;
+			<a
 				href="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide"
 				target="_blank"><b>C3PR User Guide</b></a></div>
-			<div id="c3pr-deployment-status"><a
+			<div id="c3pr-deployment-status">
+			<img src="<c:url value="/images/chrome/li_item.jpg" />">&nbsp;&nbsp;
+			<a
 				href="javascript: Effect.Combo('deployment-modules')"><b>Check
 			Deployment Status</b></a>
 			<div id="deployment-modules" style="display: none"><c:if
@@ -84,7 +90,7 @@ top:90px;
 				<div id="SmokeTestSerive">Authentication : ${authentication }
 				</div>
 			</c:if>
-			<div id="SMTPTestSerive"><b>SMTP Status</b> : <c:choose>
+			<div id="SMTPTestSerive">&nbsp;&nbsp;&nbsp;&nbsp;<b>SMTP Status</b> : <c:choose>
 				<c:when test="${smtpConnectionSuccess}">
 								Connected
 							</c:when>
@@ -96,6 +102,7 @@ top:90px;
 			</c:choose></div>
 			</div>
 			</div>
+			<br />
 			<div id="build-name">Build Number: ${buildInfo.buildName}</div>
 		</chrome:box></td>
 		<td valign="top"><chrome:box
