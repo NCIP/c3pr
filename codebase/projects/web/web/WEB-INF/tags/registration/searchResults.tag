@@ -47,31 +47,21 @@ function submitLocalForm(formName, idParamStr){
 		<thead>
 			<c:if test="${registrations!=null}">
 				<tr>
-					<td class="tableHeader">Study <br>
-					Short Title</td>
-					<td class="tableHeader">Study <br>
-					Identifier</td>
-					<td class="tableHeader">Subject <br>
-					Last Name</b></td>
-					<td class="tableHeader">Subject <br>
-					Primary Identifier</td>
-					<td class="tableHeader">Subject <br>
-					Medical Record Number</td>
+					<td class="tableHeader">Subject <br>Last Name</td>
+					<td class="tableHeader">Subject <br>Primary Identifier</td>
+					<td class="tableHeader">Study <br>Short Title</td>
+					<td class="tableHeader">Study <br>Identifier</td>
 					<td class="tableHeader">Site</td>
-					<td class="tableHeader">Registration <br>
-					Status</td>
-					<td class="tableHeader">Registration <br>
-					Date</td>
-					<td class="tableHeader">Treating <br>
-					Physician</td>
+					<td class="tableHeader">Registration <br>Status</td>
+					<td class="tableHeader">Registration <br>Date</td>
+					<td class="tableHeader">Registration <br>Identifier</td>
 				</tr>
 			</c:if>
 			</thead>
             <tbody class="tableBody">
 			<%int i=0; %>
 			<c:forEach items="${registrations}" var="registration" varStatus="status">
-                <csmauthz:accesscontrol domainObject="${registration.studySite.healthcareSite}"
-                                                      hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
+                <csmauthz:accesscontrol domainObject="${registration.studySite.healthcareSite}" hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
 
             <% String currClass=i%2==0? "odd":"even"; %>
             	<script>
@@ -90,15 +80,14 @@ function submitLocalForm(formName, idParamStr){
 				<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
 					onClick='submitLocalForm("${formType}",paramString_${status.index })'>
-					<td>${registration.studySite.study.trimmedShortTitleText}</td>
-					<td>${registration.studySite.study.primaryIdentifier}</td>
 					<td>${registration.participant.lastName}</td>
 					<td>${registration.participant.primaryIdentifier}</td>
-					<td>${registration.participant.MRN.value}</td>
+					<td>${registration.studySite.study.trimmedShortTitleText}</td>
+					<td>${registration.studySite.study.primaryIdentifier}</td>
 					<td>${registration.studySite.healthcareSite.name}</td>
 					<td>${registration.regWorkflowStatus.code}</td>
 					<td>${registration.startDateStr}</td>
-					<td>${registration.treatingPhysicianFullName}</td>
+					<td>${registration.coOrdinatingCenterIdentifier.value}</td>
 				</tr>
 				<c:set var="i" value="${i+1}"></c:set>
                     
