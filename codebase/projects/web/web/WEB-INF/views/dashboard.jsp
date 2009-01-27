@@ -132,7 +132,7 @@ top:90px;
 						<td width="25%"><b>Subject Name</b></td>
 						<td width="25%"><b>Primary Identifier</b></td>
 						<td width="30%"><b>Short Title</b></td>
-						<td width="20%"><b>Registration Status</b></td>
+						<td width="20%"><b><fmt:message key="registration.registrationStatus"/></b></td>
 					</tr>
 					<c:forEach var="registration" items="${uRegistrations}"
 						varStatus="status">

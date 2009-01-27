@@ -77,12 +77,12 @@ public class RegistrationControllerUtils {
 			if (studySubject.getStudySite().getStudy().getBlindedIndicator()) {
 				armAssigned = (studySubject.getScheduledEpoch())
 						.getScheduledArm().getKitNumber();
-				armAssignedLabel = "Kit Assigned";
+				armAssignedLabel = "Kit assigned";
 			} else if ((studySubject.getScheduledEpoch()).getScheduledArm()
 					.getArm() != null) {
 				armAssigned = (studySubject.getScheduledEpoch())
 						.getScheduledArm().getArm().getName();
-				armAssignedLabel = "Arm Assigned";
+				armAssignedLabel = "Arm assigned";
 			}
 
 		}
@@ -301,4 +301,57 @@ public class RegistrationControllerUtils {
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
 	}
+	
+   public String getActionButtonLabel(StudySubjectWrapper wrapper){
+    	StudySubject studySubject = wrapper.getStudySubject();
+    	
+    	String actionLabel = "" ;
+    	if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+    		if(wrapper.getShouldReserve()){
+	    		actionLabel = "Reserve" ;
+	    	}else if(wrapper.getShouldRegister()){
+	    		actionLabel = "Register" ;
+	    	}else if(wrapper.getShouldRandomize()){
+	    		actionLabel = "Enroll & Randomize" ;
+	    	}else if(wrapper.getShouldEnroll()){
+	    		actionLabel = "Enroll" ;
+	    	}
+    	}else{
+    		actionLabel = "Transfer" ;
+    		if(wrapper.getShouldReserve()){
+	    		actionLabel += " & Reserve" ;
+	    	}else if(wrapper.getShouldRegister()){
+	    		actionLabel += " & Register" ;
+	    	}else if(wrapper.getShouldRandomize()){
+	    		actionLabel += " & Randomize" ;
+	    	}
+    	}
+    	return actionLabel ;
+    }
+    
+    public String getTabTitle(StudySubjectWrapper wrapper){
+    	StudySubject studySubject = wrapper.getStudySubject();
+    	String tabTitle = "" ;
+    	if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+    		if(wrapper.getShouldReserve()){
+	    		tabTitle = "Review & Reserve" ;
+	    	}else if(wrapper.getShouldRegister()){
+	    		tabTitle = "Review & Register" ;
+	    	}else if(wrapper.getShouldRandomize()){
+	    		tabTitle = "Enroll & Randomize" ;
+	    	}else if(wrapper.getShouldEnroll()){
+	    		tabTitle = "Review & Enroll" ;
+	    	}
+    	}else{
+    		tabTitle = "Transfer" ;
+    		if(wrapper.getShouldReserve()){
+	    		tabTitle += " & Reserve" ;
+	    	}else if(wrapper.getShouldRegister()){
+	    		tabTitle += " & Register" ;
+	    	}else if(wrapper.getShouldRandomize()){
+	    		tabTitle += " & Randomize" ;
+	    	}
+    	}
+    	return tabTitle ;
+    }
 }

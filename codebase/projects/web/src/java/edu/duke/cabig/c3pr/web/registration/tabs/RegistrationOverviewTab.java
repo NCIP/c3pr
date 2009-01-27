@@ -11,18 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
-import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To change this template
@@ -32,13 +28,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends Regi
 
     private StudySubjectService studySubjectService;
 
-    private Configuration configuration;
-
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
     private RegistrationControllerUtils registrationControllerUtils;
+   
     public void setRegistrationControllerUtils(RegistrationControllerUtils registrationControllerUtils) {
         this.registrationControllerUtils = registrationControllerUtils;
     }

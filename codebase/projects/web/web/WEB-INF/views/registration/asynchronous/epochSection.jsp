@@ -30,7 +30,7 @@
 					Requires randomization: ${requiresRandomization?"Yes":"No"}<br>
 				</c:if>
 		<c:if test="${isCurrentScheduledEpoch}">
-			Registration Status: <strong>${command.studySubject.regWorkflowStatus}</strong><br>
+			<fmt:message key="registration.registrationStatus"/>: <strong>${command.studySubject.regWorkflowStatus}</strong><br>
 			<span class="red"><strong>Current Registration</strong></span>
 		</c:if>
 	</div>

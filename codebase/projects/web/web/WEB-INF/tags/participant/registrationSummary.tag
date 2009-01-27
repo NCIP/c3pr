@@ -44,7 +44,7 @@
 			}</td>
 		</tr>  
 		<tr>
-			<td valign="top" width="35%" align="right"><b>Registration Status:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="registration.registrationStatus"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubjects[0].registrationStatus}</td>
 		</tr>
 		<tr>

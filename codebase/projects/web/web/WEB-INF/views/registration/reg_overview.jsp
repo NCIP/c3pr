@@ -233,10 +233,10 @@
         </tr>
     </table>
 </chrome:division>
-<chrome:division id="Current Epoch Information" title="Current Epoch">
+<chrome:division id="Current Epoch Information" title="<fmt:message key="registration.currentEpoch"/>">
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
-            <td width="35%" class="label">Current Epoch</td>
+            <td width="35%" class="label"><fmt:message key="registration.currentEpoch"/></td>
             <td>${command.studySubject.scheduledEpoch.epoch.name}</td>
         </tr>
         <tr>
@@ -272,13 +272,13 @@
 <chrome:division id="enrollment" title="Enrollment Details">
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
-            <td class="label">Registration Start Date</td>
+            <td class="label"><fmt:message key="registration.startDate"/></td>
             <td> 
             <tags:inPlaceEdit value="${command.studySubject.startDateStr }" path="studySubject.startDate" id="startDate" validations="validate-notEmpty&&DATE"/>
             </td>
         </tr>
         <tr>
-            <td width="35%" class="label">Registration Status</td>
+            <td width="35%" class="label"><fmt:message key="registration.registrationStatus"/></td>
             <td>${command.studySubject.regWorkflowStatus.code}&nbsp;
             	
             	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE"
@@ -317,14 +317,14 @@
             </tr>
         </c:if>
         <tr>
-            <td class="label">Informed Consent Signed Date</td>
+            <td class="label"><fmt:message key="registration.consentSignedDate"/></td>
             <td>
                 <tags:inPlaceEdit value="${command.studySubject.informedConsentSignedDateStr }" path="studySubject.informedConsentSignedDate" id="informedConsentSignedDate"
                                   validations="validate-notEmpty&&DATE"/>
             </td>
         </tr>
         <tr>
-            <td class="label">Informed Consent Version</td>
+            <td class="label"><fmt:message key="registration.consentVesion"/></td>
             <td>
                 <tags:inPlaceEdit value="${command.studySubject.informedConsentVersion}" path="studySubject.informedConsentVersion" id="informedConsentVersion"
                                   validations="validate-notEmpty"/>

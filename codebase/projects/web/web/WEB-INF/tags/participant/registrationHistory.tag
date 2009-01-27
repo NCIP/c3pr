@@ -18,8 +18,8 @@ function navRollOver(obj, state) {
 			<td>Short Title</td>
 			<td>Study Identifier</td>
 			<td>Site</td>
-			<td>Registration Status</td>
-			<td>Registration Date</td>
+			<td><fmt:message key="registration.registrationStatus"/></td>
+			<td><fmt:message key="registration.startDate"/></td>
 			<td>Treating Physician</td>
 		</tr>
 			

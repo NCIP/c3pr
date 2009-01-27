@@ -135,10 +135,10 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 			</div>
 	</chrome:division>
-	<chrome:division id="Current Epoch Information" title="Current Epoch">
+	<chrome:division id="Current Epoch Information" title="<fmt:message key="registration.currentEpoch"/>">
 		<div class="leftpanel">
 			<div class="row">
-				<div class="label">Current epoch:</div>
+				<div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
 				<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
 			</div>
 		</div>
@@ -156,11 +156,11 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.startDateStr }' workflow='registration'/></div>
 				</div>
 				<div class="row">
-					<div class="label">Consent signed date:</div>
+					<div class="label"><fmt:message key="registration.consentSignedDate"/>:</div>
 					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentSignedDateStr}' workflow='registration'/></div>
 				</div>
 				<div class="row">
-					<div class="label">Consent version:</div>
+					<div class="label"><fmt:message key="registration.consentVesion"/>:</div>
 					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentVersion}' workflow='registration'/></div>
 				</div>
 			</div>
@@ -224,14 +224,10 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</c:otherwise>
 		</c:choose>
 	</chrome:division>
-	<chrome:division id="stratification" title="Stratification Information">
+	<chrome:division id="stratification" title="Stratification">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
-			<table width="70%" border="0" cellspacing="0" cellpadding="0" id="table1">
-				<tr>
-					<td align=left>The Selected Epoch does not have any stratification factors</td>
-				</tr>
-			</table>
+			<div align="left">There are no stratification factors available for this epoch.</div>
 		</c:when>
 		<c:otherwise>
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="70%">

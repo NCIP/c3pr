@@ -96,7 +96,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <%--<tags:instructions code="enrollment_details" />--%>
 
 	<div class="row">
-		<div class="label"><tags:requiredIndicator />Informed Consent Signed Date</div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
 	</div>
 	<div class="row">
@@ -105,11 +105,11 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
 	</div>
 	<div class="row">
-		<div class="label">Registration Start Date</div>
+		<div class="label"><fmt:message key="registration.startDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
 	</div>
 	<div class="row">
-		<div class="label"><em></em>Enrolling Physician</div>
+		<div class="label"><em></em><fmt:message key="registration.enrollingPhysician"/></div>
 		<div class="value">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.studySite.activeStudyInvestigators)>0}">

@@ -172,54 +172,52 @@ function manageCompanions(){
 	</c:choose>
 	<br><br>
 	<div id="printable">
-	<table width="50%" class="tablecontent">
-		<tr>
-			<td width="35%" align="left"><b>Subject MRN</b></td>
-			<td>${command.studySubject.participant.primaryIdentifier}</td>
-		</tr>
-		<tr>
-            <td align="left"><b>Registration Identifier</b></td>
-            <td>${command.studySubject.coOrdinatingCenterIdentifier.value}</td>
-        </tr>
-		<tr>
-			<td align="left"><b>Study Short Title</b></td>
-			<td valign="top">${command.studySubject.studySite.study.shortTitleText}</td>
-		</tr>
-		<tr>
-			<td align="left"><b>Registration Status</b></td>
-			<td valign="top">${command.studySubject.regWorkflowStatus.code }</td>
-		</tr>		
-		<tr>
-			<td align="left"><b>Current Epoch</b></td>
-			<td valign="top">${command.studySubject.scheduledEpoch.epoch.name}</td>
-		</tr>
+		<div class="row">
+			<div class="label"><b><fmt:message key="participant.subjectMRN"/></b> &nbsp; :&nbsp;</div>
+			<div class="value">${command.studySubject.participant.primaryIdentifier}</div>
+		</div>
+		<div class="row">
+            <div class="label"><b><fmt:message key="registration.registrationIdentifier"/></b>&nbsp; :&nbsp;</div>
+            <div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
+        </div>
+		<div class="row">
+			<div class="label"><b><fmt:message key="study.shortTitle"/></b>&nbsp; :&nbsp;</div>
+			<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
+		</div>
+		<div class="row">
+			<div class="label"><b><fmt:message key="registration.registrationStatus"/></b>&nbsp; :&nbsp;</div>
+			<div class="value">${command.studySubject.regWorkflowStatus.code }</div>
+		</div>		
+		<div class="row">
+			<div class="label"><b><fmt:message key="registration.currentEpoch"/></b>&nbsp; :&nbsp;</div>
+			<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
+		</div>
 		<c:if test="${!empty armAssigned}">
-			<tr>
-				<td align="left"><b>${armAssignedLabel }</b></td>
-				<td valign="top">${armAssigned}</td>
-			</tr>
+			<div class="row">
+				<div class="label"><b>${armAssignedLabel }</b>&nbsp; :&nbsp;</div>
+				<div class="value">${armAssigned}</div>
+			</div>
 		</c:if>
-		<tr>
-			<td align="left"><b>Site</b></td>
-			<td>${command.studySubject.studySite.healthcareSite.name}</td>
-		</tr>
-		<tr>
-			<td align="left"><b>Registration Date</b></td>
-			<td>${command.studySubject.startDateStr }</td>
-		</tr>
-		<tr>
-			<td align="left"><b>Consent Signed Date</b></td>
-			<td>${command.studySubject.informedConsentSignedDateStr}</td>
-		</tr>
-		<tr>
-			<td align="left"><b>Consent Version</b></td>
-			<td>${command.studySubject.informedConsentVersion}</td>
-		</tr>
-		<tr>
-			<td align="left"><b>Enrolling Physician</b></td>
-			<td>${command.studySubject.treatingPhysicianFullName}</td>
-		</tr>
-	</table>
+		<div class="row">
+			<div class="label"><b><fmt:message key="registration.site"/></b>&nbsp; :&nbsp;</div>
+			<div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
+		</div>
+		<div class="row">
+			<div class="label"><b><fmt:message key="registration.startDate"/></b>&nbsp; :&nbsp;</div>
+			<div class="value">${command.studySubject.startDateStr }</div>
+		</div>
+		<div class="row">
+			<div class="label"><b><fmt:message key="registration.consentSignedDate"/></b>&nbsp; :&nbsp;</div>
+			<div class="value">${command.studySubject.informedConsentSignedDateStr}</div>
+		</div>
+		<div class="row">
+			<div class="label"><b><fmt:message key="registration.consentVesion"/></b>&nbsp; :&nbsp;</div>
+			<div class="value">${command.studySubject.informedConsentVersion}</div>
+		</div>
+		<div class="row">
+			<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>&nbsp; :&nbsp;</div>
+			<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+		</div>
 	<br>
 	</div>
 
@@ -268,37 +266,37 @@ function manageCompanions(){
 	<c:if test="${hotlinkEnable}">
 	<%--<table width="60%">
 		<c:if test="${!empty caaersBaseUrl}">
-		<tr>
-			<td align="left"><a
+		<div class="row">
+			<div align="left"><a
 				href="javascript:accessApp('${caaersBaseUrl }','_caaers');">
-			<b>Adverse Event Reporting</b></a> </td>
-		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-		</tr>
+			<b>Adverse Event Reporting</b></a> </div>
+		</div>
+		<div class="row">
+			<div><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></div>
+			<div><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></div>
+		</div>
 		</c:if>
 		<c:if test="${!empty pscBaseUrl}">
-		<tr>
-			<td align="left"><a
+		<div class="row">
+			<div align="left"><a
 				href="javascript:accessApp('${pscBaseUrl }','_psc');">
-			<b>Study Calendar</b></a></td>
-		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-		</tr>
+			<b>Study Calendar</b></a></div>
+		</div>
+		<div class="row">
+			<div><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></div>
+			<div><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></div>
+		</div>
 		</c:if>
 		<c:if test="${!empty c3dBaseUrl}">
-		<tr>
-			<td align="left"><a
+		<div class="row">
+			<div align="left"><a
 				href="javascript:accessApp('${c3dBaseUrl }','_c3d');">
-			<b>Clinical Database</b></a></td>
-		</tr>
+			<b>Clinical Database</b></a></div>
+		</div>
 		</c:if>
 	</table>--%>
 	  <ul>

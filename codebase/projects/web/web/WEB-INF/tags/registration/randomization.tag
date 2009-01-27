@@ -17,7 +17,7 @@
 	<c:choose>
 		<c:when test="${registration.scheduledEpoch.requiresRandomization}">
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
-		      	<strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
+		      	<fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/>
 			</c:if>
 		    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 				<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'&& registration.scheduledEpoch.epoch.randomizedIndicator}">
@@ -25,22 +25,22 @@
 						<td align="left" colspan="2"></td>
 					</tr>
 					<tr>
-						<td class="labelR" width="150">Phone Number:</td>
+						<td class="labelR" width="150">Phone number:</td>
 						<td >${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td>
 					</tr>
 					<tr>
 						<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
-							<td class="labelR">Stratum Group:</td>
+							<td class="labelR">Stratum group:</td>
 							<td> ${registration.scheduledEpoch.stratumGroup}</td>
 						</c:if>
 					<tr>
 						<c:choose>
 							<c:when test="${registration.studySite.study.blindedIndicator}">
-								<td class="labelR">Enter Kit Number</td>
+								<td class="labelR">Enter kit number</td>
 								<td><input type="text" name="studySubject.scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
 							</c:when>
 							<c:otherwise>
-								<td class="labelR">Select Arm:</td><td>
+								<td class="labelR">Select arm</td><td>
 									<select name ="studySubject.scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
 										<option value="" selected>Please Select</option>
 										<c:forEach items="${registration.scheduledEpoch.epoch.arms}" var="arm">
@@ -56,7 +56,7 @@
 					<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
 					<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
 						<tr>
-							<td class="labelR">Stratum Group:</td>
+							<td class="labelR">Stratum group:</td>
 							<td>${registration.scheduledEpoch.stratumGroup}</td>
 						</tr>
 					</c:if>
@@ -64,7 +64,7 @@
 			</table>
 		</c:when>
 		<c:otherwise>
-			This epoch does not require randomization. 
+			<div align="left">Randomization is not required for this epoch.</div>
 		</c:otherwise>
 	</c:choose>
 	
