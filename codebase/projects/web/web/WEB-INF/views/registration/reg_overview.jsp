@@ -233,7 +233,7 @@
         </tr>
     </table>
 </chrome:division>
-<chrome:division id="Current Epoch Information" title="<fmt:message key="registration.currentEpoch"/>">
+<chrome:division id="Current Epoch Information" title='<fmt:message key="registration.currentEpoch"/>'>
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td width="35%" class="label"><fmt:message key="registration.currentEpoch"/></td>

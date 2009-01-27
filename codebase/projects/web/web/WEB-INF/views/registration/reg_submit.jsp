@@ -135,7 +135,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 			</div>
 	</chrome:division>
-	<chrome:division id="Current Epoch Information" title="<fmt:message key="registration.currentEpoch"/>">
+	<chrome:division id="Current Epoch Information" title='<fmt:message key="registration.currentEpoch"/>'>
 		<div class="leftpanel">
 			<div class="row">
 				<div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
