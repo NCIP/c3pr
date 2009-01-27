@@ -37,6 +37,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -205,7 +206,7 @@ public class CreateNotificationController extends SimpleFormController {
 	        			invList = investigatorDao.getByEmailAddress(ubr.getEmailAddress());
 	        		}
 	        		if(rsList.size() > 0){
-	        			ubr.setResearchStaff(rsList.get(0));
+	        			ubr.setLocalResearchStaff((LocalResearchStaff)rsList.get(0));
 	        		}else if(invList.size() > 0){
 	        			ubr.setInvestigator(invList.get(0));
 	        		}
