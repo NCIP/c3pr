@@ -40,8 +40,7 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
     public void removeContactMechanism(ContactMechanism contactMechanism) {
         contactMechanisms.remove(contactMechanism);
     }
-    
-    @Transient
+
     public String getFirstName() {
         return firstName;
     }
@@ -49,8 +48,7 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
-    @Transient
+
     public String getLastName() {
         return lastName;
     }
@@ -103,7 +101,6 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
         return contactMechanisms;
     }
 
-    @Transient
     public String getMaidenName() {
         return maidenName;
     }
@@ -112,7 +109,6 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
         this.maidenName = maidenName;
     }
 
-    @Transient
     public String getMiddleName() {
         return middleName;
     }
@@ -160,16 +156,6 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
         }
         else if (!middleName.equals(other.middleName)) return false;
         return true;
-    }
-    
-    @Transient
-    public String getEmailAsString(){
-    	for (ContactMechanism contactMechanism:getContactMechanisms()){
-    		if(contactMechanism.getType()==ContactMechanismType.EMAIL){
-    			return contactMechanism.getValue();
-    		}
-    	}
-    	return null;
     }
 
 }

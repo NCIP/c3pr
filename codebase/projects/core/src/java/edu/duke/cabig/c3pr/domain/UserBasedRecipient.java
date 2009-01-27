@@ -15,7 +15,7 @@ import org.hibernate.annotations.CascadeType;
 @DiscriminatorValue(value = "ER")
 public class UserBasedRecipient extends Recipient {
 
-    private LocalResearchStaff localResearchStaff;
+    private ResearchStaff researchStaff;
     private Investigator investigator;
     
     private String emailAddress;
@@ -35,12 +35,12 @@ public class UserBasedRecipient extends Recipient {
 	@ManyToOne
     @JoinColumn(name = "research_staff_id")
     @Cascade(value = { CascadeType.LOCK })
-	public LocalResearchStaff getLocalResearchStaff() {
-		return localResearchStaff;
+	public ResearchStaff getResearchStaff() {
+		return researchStaff;
 	}
 
-	public void setLocalResearchStaff(LocalResearchStaff LocalResearchStaff) {
-		this.localResearchStaff = localResearchStaff;
+	public void setResearchStaff(ResearchStaff researchStaff) {
+		this.researchStaff = researchStaff;
 	}
     
     @Transient
@@ -49,8 +49,8 @@ public class UserBasedRecipient extends Recipient {
     		return this.emailAddress;
     	}
 		List<ContactMechanism> cmList = null;		
-		if(localResearchStaff != null){
-			cmList = localResearchStaff.getContactMechanisms();
+		if(researchStaff != null){
+			cmList = researchStaff.getContactMechanisms();
 		} else {
 			if(investigator != null){
 				cmList = investigator.getContactMechanisms();
@@ -75,8 +75,8 @@ public class UserBasedRecipient extends Recipient {
 	public String getFullName(){		
  
 		String fullName = "";		
-		if(localResearchStaff != null){
-			fullName = localResearchStaff.getFirstName() +" "+ localResearchStaff.getLastName();
+		if(researchStaff != null){
+			fullName = researchStaff.getFirstName() +" "+ researchStaff.getLastName();
 		} else {
 			if(investigator != null){
 				fullName = investigator.getFirstName() +" "+ investigator.getLastName();
