@@ -21,7 +21,7 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 
     /** The Constant SUBSTRING_MATCH_PROPERTIES. */
     private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList(
-                    "researchStaff.firstName", "researchStaff.lastName");
+                    "localResearchStaff.firstName", "localResearchStaff.lastName");
 
     /** The Constant EXACT_MATCH_PROPERTIES. */
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
