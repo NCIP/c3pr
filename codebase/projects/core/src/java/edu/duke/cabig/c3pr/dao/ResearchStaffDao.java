@@ -4,10 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,12 +17,11 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
-import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.service.impl.CoppaResearchStaffServiceImpl;
 
 /**
  * Hibernate implementation of ResearchStaffDao.
@@ -32,7 +29,7 @@ import edu.duke.cabig.c3pr.service.impl.CoppaResearchStaffServiceImpl;
  * @see edu.duke.cabig.c3pr.dao.ResearchStaffDao
  * @author Priyatam
  */
-public class ResearchStaffDao extends GridIdentifiableDao<LocalResearchStaff> {
+public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
     /** The log. */
     private static Log log = LogFactory.getLog(InvestigatorDao.class);
@@ -53,11 +50,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<LocalResearchStaff> {
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
      */
     @Override
-    public Class<LocalResearchStaff> domainClass() {
-        return LocalResearchStaff.class;
+    public Class<ResearchStaff> domainClass() {
+        return ResearchStaff.class;
     }
-    
-    private CoppaResearchStaffServiceImpl coppaResearchStaffServiceImpl = new CoppaResearchStaffServiceImpl();
 
     /**
      * Gets  all ResearchStaff.
@@ -65,23 +60,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<LocalResearchStaff> {
      * @return all ResearchStaff
      */
     public List<ResearchStaff> getAll() {
-    	
-        List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
-        researchStaffList.addAll(coppaResearchStaffServiceImpl.getAll());
-        researchStaffList.addAll(getHibernateTemplate().find("from LocalResearchStaff"));
-        return getUniqueResearchStaffPersonnel(researchStaffList);
+        return getHibernateTemplate().find("from ResearchStaff");
     }
 
-    public CoppaResearchStaffServiceImpl getCoppaResearchStaffServiceImpl() {
-		return coppaResearchStaffServiceImpl;
-	}
-
-	public void setCoppaResearchStaffServiceImpl(
-			CoppaResearchStaffServiceImpl coppaResearchStaffServiceImpl) {
-		this.coppaResearchStaffServiceImpl = coppaResearchStaffServiceImpl;
-	}
-
-	/**
+    /**
      * Gets the by subnames.
      * 
      * @param subnames the subnames
@@ -89,7 +71,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<LocalResearchStaff> {
      * 
      * @return the by subnames
      */
-    public List<LocalResearchStaff> getBySubnames(String[] subnames, int healthcareSite) {
+    public List<ResearchStaff> getBySubnames(String[] subnames, int healthcareSite) {
         return findBySubname(subnames, "o.healthcareSite.id = '" + healthcareSite + "'",
                         EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
@@ -102,7 +84,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<LocalResearchStaff> {
      * 
      * @return the by sub name and sub email
      */
-    public List<LocalResearchStaff> getBySubNameAndSubEmail(String[] subnames, String nciInstituteCode) {
+    public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames, String nciInstituteCode) {
         return findBySubname(subnames, "o.healthcareSite.nciInstituteCode = '" + nciInstituteCode + "'",
                         EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
@@ -115,14 +97,14 @@ public class ResearchStaffDao extends GridIdentifiableDao<LocalResearchStaff> {
      * 
      * @return the list< research staff>
      */
-    public List<LocalResearchStaff> searchByExample(LocalResearchStaff staff, boolean isWildCard) {
-        List<LocalResearchStaff> result = new ArrayList<LocalResearchStaff>();
+    public List<ResearchStaff> searchByExample(ResearchStaff staff, boolean isWildCard) {
+        List<ResearchStaff> result = new ArrayList<ResearchStaff>();
 
         Example example = Example.create(staff).excludeZeroes().ignoreCase();
         example.excludeProperty("salt");
         example.excludeProperty("passwordLastSet");
         try {
-            Criteria criteria = getSession().createCriteria(LocalResearchStaff.class);
+            Criteria criteria = getSession().createCriteria(ResearchStaff.class);
             criteria.addOrder(Order.asc("nciIdentifier"));
             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
@@ -155,10 +137,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<LocalResearchStaff> {
      * @return the list< research staff>
      */
     @SuppressWarnings( { "unchecked" })
-    public List<LocalResearchStaff> searchResearchStaff(final ResearchStaffQuery query) {
+    public List<ResearchStaff> searchResearchStaff(final ResearchStaffQuery query) {
         String queryString = query.getQueryString();
         log.debug("::: " + queryString.toString());
-        return (List<LocalResearchStaff>) getHibernateTemplate().execute(new HibernateCallback() {
+        return (List<ResearchStaff>) getHibernateTemplate().execute(new HibernateCallback() {
 
             public Object doInHibernate(final Session session) throws HibernateException,
                             SQLException {
@@ -183,9 +165,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<LocalResearchStaff> {
      * 
      * @return the by nci identifier
      */
-    public LocalResearchStaff getByNciIdentifier(String nciIdentifier) {
-    	LocalResearchStaff result = null;
-        LocalResearchStaff staff = new LocalResearchStaff();
+    public ResearchStaff getByNciIdentifier(String nciIdentifier) {
+        ResearchStaff result = null;
+        ResearchStaff staff = new ResearchStaff();
         staff.setNciIdentifier(nciIdentifier);
 
         try {
@@ -207,18 +189,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<LocalResearchStaff> {
      * @return the ResearchStaff List
      */
     public List<ResearchStaff> getByEmailAddress(String emailAddress) {
-    	 List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
-         researchStaffList.addAll(getHibernateTemplate().find("from LocalResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'"));
-         researchStaffList.addAll(getHibernateTemplate().find("from RemoteResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'"));
-         return researchStaffList;
+        return getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'");
     }
-    
-    public List<ResearchStaff>  getUniqueResearchStaffPersonnel(List<ResearchStaff> researchStaffList){
-    	Set<ResearchStaff> filteredResearchSet = new HashSet<ResearchStaff>();
-    	filteredResearchSet.addAll(researchStaffList);
-    	List<ResearchStaff> uniqueResearchStaff = new ArrayList<ResearchStaff>();
-    	uniqueResearchStaff.addAll(filteredResearchSet);
-    	return uniqueResearchStaff;
-    }
-    
+
+
 }
