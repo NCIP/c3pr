@@ -71,11 +71,11 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if(wrapper.getShouldTransfer() && !wrapper.getShouldRandomize())
-        	studySubject = studySubjectRepository.transferSubject(studySubject.getIdentifiers());
-        else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
-        	studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
-        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
+        if(wrapper.getShouldTransfer())
+        	studySubject = studySubjectRepository.transferSubject(studySubject);
+        else if(wrapper.getShouldEnroll()){
+        	studySubject=studySubjectRepository.enroll(studySubject);
+        }else if(wrapper.getShouldRegister()){
         	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
         }else if(wrapper.getShouldReserve()){
         	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
