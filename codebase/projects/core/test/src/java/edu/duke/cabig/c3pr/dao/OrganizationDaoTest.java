@@ -373,6 +373,12 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
         assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
     }
     
+    public void testGetBySubnameForNciCode() throws Exception {
+        List<HealthcareSite> actual = healthcareSiteDao.getBySubnames(new String[] { "code" });
+        assertEquals("Wrong number of matches", 2, actual.size());
+       // assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
+    }
+    
     public void testDomainClass() throws Exception{
     	assertEquals("Wrong domain class",HealthcareSite.class, healthcareSiteDao.domainClass());
     }
