@@ -501,7 +501,7 @@
                         <list>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Search Registration"
+                                    autowire="byType" p:displayName="Manage Registration"
                                     p:linkName="searchRegistrationController"/>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"

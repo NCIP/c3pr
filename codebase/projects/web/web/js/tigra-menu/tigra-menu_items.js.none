@@ -6,7 +6,7 @@
 var MENU_ITEMS = [
 
         ['Registration', 'http://www.usa.gov', null,
-            ['Search Registration', null, null],
+            ['Manage Registration', null, null],
             ['Create Registration', null, null]
         ],
         ['Studies', 'http://www.usa.gov', null,
