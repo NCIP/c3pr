@@ -20,7 +20,6 @@ import org.extremecomponents.table.core.TableModelImpl;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
 public class SearchResearchStaffAjaxFacade {
@@ -71,7 +70,7 @@ public class SearchResearchStaffAjaxFacade {
     public String getTable(Map<String, List> parameterMap, String[] params,
                     HttpServletRequest request) {
 
-        LocalResearchStaff rStaff = new LocalResearchStaff();
+        ResearchStaff rStaff = new ResearchStaff();
         if (!StringUtils.isEmpty(params[0])) {
             rStaff.setFirstName(params[0]);
         }
@@ -86,7 +85,7 @@ public class SearchResearchStaffAjaxFacade {
             rStaff.setHealthcareSite(healthcareSite);
         }
 
-        List<LocalResearchStaff> rStaffResults = researchStaffDao.searchByExample(rStaff, true);
+        List<ResearchStaff> rStaffResults = researchStaffDao.searchByExample(rStaff, true);
 
         Context context = null;
         if (parameterMap == null) {
