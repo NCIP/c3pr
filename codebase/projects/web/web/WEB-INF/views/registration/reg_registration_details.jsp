@@ -113,7 +113,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<div class="value">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.studySite.activeStudyInvestigators)>0}">
-			<select id ="treatingPhysician" name="studySubject.treatingPhysicianInternal">
+			<select id ="treatingPhysician" name="studySubject.treatingPhysician">
 				<option value="">Please Select</option>
 				<c:forEach items="${command.studySubject.studySite.activeStudyInvestigators}" var="activeInv">
 					<option value="${activeInv.id }" ${!empty command.studySubject.treatingPhysician && command.studySubject.treatingPhysician.id==activeInv.id?'selected':''}>${activeInv.healthcareSiteInvestigator.investigator.fullName }</option>
