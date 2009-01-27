@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -42,11 +43,11 @@ import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
-import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController;
@@ -298,7 +299,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request);
         Study study = wrapper.getStudy();
         int siteId = study.getStudyOrganizations().get(siteIndex).getHealthcareSite().getId();
-        List<LocalResearchStaff> staffCol = researchStaffDao
+        List<ResearchStaff> staffCol = researchStaffDao
                         .getBySubnames(extractSubnames(text), siteId);
         List<ResearchStaff> reducedStaffCol = new ArrayList<ResearchStaff>(staffCol.size());
         for (ResearchStaff staff : staffCol) {
@@ -393,14 +394,14 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         return reducedHcsInvList;
     }
     
-    public List<LocalResearchStaff> getSitePersonnel(Integer hcsId)
+    public List<ResearchStaff> getSitePersonnel(Integer hcsId)
     throws Exception {
     	
 
 	HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
-	List<LocalResearchStaff> hcsRSList = hcs.getLocalResearchStaffs();
-	List<LocalResearchStaff> reducedHcsRsList = new ArrayList<LocalResearchStaff>();
-	for (LocalResearchStaff rs : hcsRSList) {
+	List<ResearchStaff> hcsRSList = hcs.getResearchStaffs();
+	List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
+	for (ResearchStaff rs : hcsRSList) {
 	reducedHcsRsList.add(buildReduced(rs, Arrays.asList("id",
 	                "firstName","lastName","nciIdentifier")));
 	}
