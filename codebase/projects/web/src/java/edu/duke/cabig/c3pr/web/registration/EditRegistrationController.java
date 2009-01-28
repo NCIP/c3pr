@@ -51,10 +51,10 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
         	studySubject=studySubjectRepository.save(studySubject);
         }else if(wrapper.getShouldReserve()){
         	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
-        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
+        }else if(wrapper.getShouldRegister()){
         	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
-        }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
-        	studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldEnroll()){
+        	studySubject=studySubjectRepository.enroll(studySubject);
         }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
