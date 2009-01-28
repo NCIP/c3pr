@@ -173,11 +173,11 @@ function manageCompanions(){
 	<br><br>
 	<div id="printable">
 		<div class="row">
-			<div class="label"><b><fmt:message key="participant.subjectMRN"/></b> &nbsp; :&nbsp;</div>
+			<div class="label"><b><fmt:message key="participant.subjectMRN"/></b>  :</div>
 			<div class="value">${command.studySubject.participant.primaryIdentifier}</div>
 		</div>
 		<div class="row">
-            <div class="label"><b><fmt:message key="registration.registrationIdentifier"/></b>&nbsp; :&nbsp;</div>
+            <div class="label"><b><fmt:message key="registration.registrationIdentifier"/></b> :</div>
 			<c:choose>
 				<c:when test="${!empty command.studySubject.coOrdinatingCenterIdentifier.value}">
 					<div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
@@ -188,41 +188,41 @@ function manageCompanions(){
 			</c:choose>
         </div>
 		<div class="row">
-			<div class="label"><b><fmt:message key="study.shortTitle"/></b>&nbsp; :&nbsp;</div>
+			<div class="label"><b><fmt:message key="study.shortTitle"/></b> :</div>
 			<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
 		</div>
 		<div class="row">
-			<div class="label"><b><fmt:message key="registration.registrationStatus"/></b>&nbsp; :&nbsp;</div>
+			<div class="label"><b><fmt:message key="registration.registrationStatus"/></b> :</div>
 			<div class="value">${command.studySubject.regWorkflowStatus.code }</div>
 		</div>		
 		<div class="row">
-			<div class="label"><b><fmt:message key="registration.currentEpoch"/></b>&nbsp; :&nbsp;</div>
+			<div class="label"><b><fmt:message key="registration.currentEpoch"/></b> :</div>
 			<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
 		</div>
 		<c:if test="${!empty armAssigned}">
 			<div class="row">
-				<div class="label"><b>${armAssignedLabel }</b>&nbsp; :&nbsp;</div>
+				<div class="label"><b>${armAssignedLabel }</b> :</div>
 				<div class="value">${armAssigned}</div>
 			</div>
 		</c:if>
 		<div class="row">
-			<div class="label"><b><fmt:message key="registration.site"/></b>&nbsp; :&nbsp;</div>
+			<div class="label"><b><fmt:message key="registration.site"/></b> :</div>
 			<div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
 		</div>
 		<div class="row">
-			<div class="label"><b><fmt:message key="registration.startDate"/></b>&nbsp; :&nbsp;</div>
+			<div class="label"><b><fmt:message key="registration.startDate"/></b> :</div>
 			<div class="value">${command.studySubject.startDateStr }</div>
 		</div>
 		<div class="row">
-			<div class="label"><b><fmt:message key="registration.consentSignedDate"/></b>&nbsp; :&nbsp;</div>
+			<div class="label"><b><fmt:message key="registration.consentSignedDate"/></b> :</div>
 			<div class="value">${command.studySubject.informedConsentSignedDateStr}</div>
 		</div>
 		<div class="row">
-			<div class="label"><b><fmt:message key="registration.consentVesion"/></b>&nbsp; :&nbsp;</div>
+			<div class="label"><b><fmt:message key="registration.consentVesion"/></b> :</div>
 			<div class="value">${command.studySubject.informedConsentVersion}</div>
 		</div>
 		<div class="row">
-			<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>&nbsp; :&nbsp;</div>
+			<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b> :</div>
 			<c:choose>
 				<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
 					<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
