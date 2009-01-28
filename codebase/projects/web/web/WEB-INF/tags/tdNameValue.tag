@@ -9,7 +9,7 @@
 	</c:when>
 	<c:otherwise>
 		<div class="row">
-			<div class="label">${name }</div>
+			<div class="label">${name }:</div>
 			<div class="value">${value }</div>
 		</div>
 	</c:otherwise>

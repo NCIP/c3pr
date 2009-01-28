@@ -277,7 +277,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>Race(s)<span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span>
+                                                <tags:requiredIndicator/>Race(s)
                                             </div>
                                             <div class="value">
                                                 <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/> Asian
