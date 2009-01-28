@@ -1,15 +1,14 @@
 package edu.duke.cabig.c3pr.domain;
 
+import org.apache.jackrabbit.uuid.UUID;
+
 public class IdentifierGenerator {
 	
 	public static OrganizationAssignedIdentifier generateOrganizationAssignedIdentifier(StudySubject studySubject){
 		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
-		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy()
-				.getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
+		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
 		orgIdentifier.setType("Coordinating Center Assigned Study Subject Identifier");
-		orgIdentifier.setValue(studySubject.getStudySite().getStudy()
-				.getCoordinatingCenterAssignedIdentifier().getValue()
-				+ "_" + studySubject.getParticipant().getPrimaryIdentifier());
+		orgIdentifier.setValue(UUID.randomUUID().toString());
 		return orgIdentifier;
 	}
 	
@@ -17,7 +16,7 @@ public class IdentifierGenerator {
 		SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
 		sysIdentifier.setSystemName("C3PR");
 		sysIdentifier.setType("Study Subject Identifier");
-		sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + studySubject.getParticipant().getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getNciInstituteCode()+"_" +studySubject.getParticipant().getPrimaryIdentifier());
+		sysIdentifier.setValue(UUID.randomUUID().toString());
 		return sysIdentifier;
 	}
 
