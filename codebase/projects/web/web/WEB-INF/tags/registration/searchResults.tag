@@ -47,14 +47,14 @@ function submitLocalForm(formName, idParamStr){
 		<thead>
 			<c:if test="${registrations!=null}">
 				<tr>
-					<td class="tableHeader">Subject <br>Last Name</td>
-					<td class="tableHeader">Subject <br>Primary Identifier</td>
-					<td class="tableHeader">Study <br>Short Title</td>
-					<td class="tableHeader">Study <br>Identifier</td>
+					<td class="tableHeader">Subject <br>last name</td>
+					<td class="tableHeader">Subject <br>primary identifier</td>
+					<td class="tableHeader">Study <br>short title</td>
+					<td class="tableHeader">Study <br>identifier</td>
 					<td class="tableHeader">Site</td>
-					<td class="tableHeader">Registration <br>Status</td>
-					<td class="tableHeader">Registration <br>Date</td>
-					<td class="tableHeader">Registration <br>Identifier</td>
+					<td class="tableHeader">Registration <br>status</td>
+					<td class="tableHeader">Registration <br>date</td>
+					<td class="tableHeader">Registration <br>identifier</td>
 				</tr>
 			</c:if>
 			</thead>
