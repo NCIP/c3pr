@@ -329,6 +329,7 @@ function manageCompanions(){
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.studySubject.gridId }"/>
 </form>
+<!-- 
 <c:if test="${registerableWithCompanions &&(command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized' && command.studySubject.parentStudySubject == null && command.studySubject.regWorkflowStatus.code != 'Enrolled'}">
 <tags:panelBox title="Enroll & Randomize">
 	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll & Randomize" requiresMultiSite="${requiresMultiSite}"/>
@@ -340,6 +341,6 @@ function manageCompanions(){
 	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Transfer & Randomize" requiresMultiSite="${requiresMultiSite}"/>
 </tags:panelBox>
 </c:if>
-
+ -->
 </body>
 </html>
