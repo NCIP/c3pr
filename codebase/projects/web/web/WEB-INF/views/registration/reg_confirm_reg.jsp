@@ -178,7 +178,14 @@ function manageCompanions(){
 		</div>
 		<div class="row">
             <div class="label"><b><fmt:message key="registration.registrationIdentifier"/></b>&nbsp; :&nbsp;</div>
-            <div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
+			<c:choose>
+				<c:when test="${!empty command.studySubject.coOrdinatingCenterIdentifier.value}">
+					<div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
+				</c:when>
+				<c:otherwise>
+					<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notGenerated"/></span></div>
+				</c:otherwise>
+			</c:choose>
         </div>
 		<div class="row">
 			<div class="label"><b><fmt:message key="study.shortTitle"/></b>&nbsp; :&nbsp;</div>
@@ -216,7 +223,14 @@ function manageCompanions(){
 		</div>
 		<div class="row">
 			<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>&nbsp; :&nbsp;</div>
-			<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+			<c:choose>
+				<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
+					<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+				</c:when>
+				<c:otherwise>
+					<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	<br>
 	</div>

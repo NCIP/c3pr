@@ -111,9 +111,10 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 				<div class="row">
 					<div class="label">Address:</div>
-					<div class="value">${command.studySubject.studySite.healthcareSite.address.streetAddress},
-							${command.studySubject.studySite.healthcareSite.address.city},
-							${command.studySubject.studySite.healthcareSite.address.stateCode},
+					<div class="value">
+							<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.streetAddress}">${command.studySubject.studySite.healthcareSite.address.streetAddress},</c:if>
+							<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.city}">${command.studySubject.studySite.healthcareSite.address.city},</c:if>
+							<c:if test="${! empty command.studySubject.studySite.healthcareSite.address.stateCode}">${command.studySubject.studySite.healthcareSite.address.stateCode},</c:if>
 							${command.studySubject.studySite.healthcareSite.address.postalCode}
 					</div>
 				</div>
@@ -135,7 +136,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 			</div>
 	</chrome:division>
-	<chrome:division id="Current Epoch Information" title='<fmt:message key="registration.currentEpoch"/>'>
+	<chrome:division id="Current Epoch Information" title="Current Epoch">
 		<div class="leftpanel">
 			<div class="row">
 				<div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
@@ -167,19 +168,47 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			<div class="rightpanel">
 				<div class="row">
 					<div class="label">Treating physician:</div>
-					<div class="value">${command.studySubject.treatingPhysicianFullName}&nbsp;</div>
+					<c:choose>
+						<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
+							<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+						</c:when>
+						<c:otherwise>
+							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="row">
 					<div class="label">Primary disease:</div>
-					<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr }</div>
+					<c:choose>
+						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseStr}">
+							<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr}</div>
+						</c:when>
+						<c:otherwise>
+							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="row">
 					<div class="label">Primary disease site:</div>
-					<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
+					<c:choose>
+						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseSiteStr }">
+							<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
+						</c:when>
+						<c:otherwise>
+							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="row">
 					<div class="label">Payment method:</div>
-					<div class="value">${command.studySubject.paymentMethod}</div>
+					<c:choose>
+						<c:when test="${!empty command.studySubject.paymentMethod}">
+							<div class="value">${command.studySubject.paymentMethod}</div>
+						</c:when>
+						<c:otherwise>
+							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 	</chrome:division>

@@ -1,6 +1,7 @@
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style type="text/css">
         .labelR { text-align: right; padding: 4px;  font-weight: bold;}
 </style>
@@ -18,7 +19,7 @@
 			<tags:tdNameValue name="Subject Primary Identifier" value="${studySubject.studySubject.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
 			<tags:tdNameValue name="Gender" value="${studySubject.studySubject.participant.administrativeGenderCode }" columnAttrName="class='labelR'"/>
 			<tags:tdNameValue name="Short Title" value="${studySubject.studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
-			<tags:tdNameValue name='<fmt:message key="registration.currentEpoch"/>' value="${studySubject.studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
+			<tags:tdNameValue name="Current Epoch" value="${studySubject.studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
 			<tags:tdNameValue name="Enrolling Epoch" value="${studySubject.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}" columnAttrName="class='labelR'"/>
 			<tags:tdNameValue name="Current Epoch Status" value="${studySubject.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}" columnAttrName="class='labelR'"/>				
 			<tags:tdNameValue name="Study Status" value="${studySubject.studySubject.studySite.study.coordinatingCenterStudyStatus.code }" columnAttrName="class='labelR'"/>
@@ -28,15 +29,15 @@
 		</td>
 		<td valign="top">
 			<table
-			<tags:tdNameValue name='<fmt:message key="registration.consentSignedDate"/>' value="${studySubject.studySubject.informedConsentSignedDateStr }" columnAttrName="class='labelR'"/>
-			<tags:tdNameValue name='<fmt:message key="registration.consentVesion"/>' value="${studySubject.studySubject.informedConsentVersion }" columnAttrName="class='labelR'"/>
-			<tags:tdNameValue name="Registration Start Date" value="${studySubject.studySubject.startDateStr }" columnAttrName="class='labelR'"/>		
+			<tags:tdNameValue name="Consent signed date" value="${studySubject.studySubject.informedConsentSignedDateStr }" columnAttrName="class='labelR'"/>
+			<tags:tdNameValue name="Consent version" value="${studySubject.studySubject.informedConsentVersion }" columnAttrName="class='labelR'"/>
+			<tags:tdNameValue name="Registration start date" value="${studySubject.studySubject.startDateStr }" columnAttrName="class='labelR'"/>		
 			<tags:tdNameValue name="Treating Physician" value="${studySubject.studySubject.treatingPhysicianFullName }" columnAttrName="class='labelR'"/>		
 			<tags:tdNameValue name="Disease" value="${studySubject.studySubject.diseaseHistory.primaryDiseaseStr }" columnAttrName="class='labelR'"/>		
 			<tags:tdNameValue name="Disease Site" value="${studySubject.studySubject.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
 			<tags:tdNameValue name="Eligibility Indicator" value="${studySubject.studySubject.scheduledEpoch.eligibilityIndicator?'Yes':'No' }" columnAttrName="class='labelR'"/>
 			<tags:tdNameValue name="Data Entry Status" value="${studySubject.studySubject.dataEntryStatusString }" columnAttrName="class='labelR'"/>
-			<tags:tdNameValue name='<fmt:message key="registration.registrationStatus"/>' value="${studySubject.studySubject.regWorkflowStatus.code }" columnAttrName="class='labelR'"/>
+			<tags:tdNameValue name="Registration status" value="${studySubject.studySubject.regWorkflowStatus.code }" columnAttrName="class='labelR'"/>
 			</table>
 		</td>
 	</tr>

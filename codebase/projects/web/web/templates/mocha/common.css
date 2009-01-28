@@ -900,3 +900,8 @@ width:75%;
 	background-color:#faebc2;
 	background-repeat:repeat-x;
 }
+.no-selection 
+{
+    font-style:italic;
+    color:#6f6f6f;
+}
