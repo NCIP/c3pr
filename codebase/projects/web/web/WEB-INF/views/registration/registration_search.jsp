@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>Search Registration</title>
+    <title>Manage Registration</title>
 <style type="text/css">
         .label { width: 12em; text-align: right; padding: 4px; }
 </style>
@@ -51,7 +51,8 @@ function studyCriteriaNumber(){
 var registrationAutocompleterProps = {
     basename: "registration",
     isFreeTextAllowed: true,
-    populator: function(autocompleter, text) {if (document.getElementById("select").value=="Study"){if(document.getElementById("studyOption").value=='id') {
+    populator: function(autocompleter, text) {
+    if (document.getElementById("select").value=="Study"){if(document.getElementById("studyOption").value=='id') {
 	(registrationDetails.matchStudyIdentifiers(text,getCriteriaNumber(),function(values) {
 	    autocompleter.setChoices(values)
 	}))
@@ -102,8 +103,7 @@ var registrationAutocompleterProps = {
 function acPostSelect(mode, selectedChoice) {
     Element.update(mode.basename + "-selected-name", mode.valueSelector(selectedChoice))
     $(mode.basename + "-hidden").value = selectedChoice.id;
-    $(mode.basename + '-selected').show()
-    new Effect.Highlight(mode.basename + "-selected")
+    submitPage();
 }
 
 function updateSelectedDisplay(mode) {
@@ -133,7 +133,6 @@ function acCreate(mode) {
 Event.observe(window, "load", function() {
     acCreate(registrationAutocompleterProps)
     updateSelectedDisplay(registrationAutocompleterProps)
-    // Element.update("flow-next", "Continue &raquo;")
 })
 function updateAction(action){
 		document.getElementById("_updateaction").value=action;
@@ -142,35 +141,25 @@ function updateAction(action){
 function manageSelectBox(box){
 	if(box.value=='Subject'){
 		document.getElementById('StudySearch').style.display='none';
-		Effect.SlideDown('SubjectSearch');
-		manageSearchTypeMessage('Subject');
+		document.getElementById('SubjectSearch').style.display='';
 	}else if(box.value=='Study'){
-		Effect.SlideDown('StudySearch');
+		document.getElementById('StudySearch').style.display='';
 		document.getElementById('SubjectSearch').style.display='none';	
-		manageSearchTypeMessage('Study');	
 	}else{
 		document.getElementById('StudySearch').style.display='none';
 		document.getElementById('SubjectSearch').style.display='none';	
-		manageSearchTypeMessage('Identifier');	
-	}
-}
-function manageSearchTypeMessage(message){
-	if(message=='Subject'){
-		document.getElementById('StudySearchMessage').style.display='none';
-		document.getElementById('IdentifierSearchMessage').style.display='none';
-		Effect.SlideDown('SubjectSearchMessage');
-	}else if(message=='Study'){
-		document.getElementById('SubjectSearchMessage').style.display='none';
-		document.getElementById('IdentifierSearchMessage').style.display='none';
-		Effect.SlideDown('StudySearchMessage');
-	}else if(message=='Identifier'){
-		document.getElementById('SubjectSearchMessage').style.display='none';
-		document.getElementById('StudySearchMessage').style.display='none';	
-		Effect.SlideDown('IdentifierSearchMessage');
 	}
 }
 
+function clearSearchCriteria(){
+	$("registration-selected").hide()
+	$("registration-input").value = ""
+	$("registration-hidden").value = ""
+}
+
 function submitPage(){
+	//actvate the processing gif
+	document.getElementById("formSubmit-indicator").style.display="";
 	document.getElementById("selected-id").value =  document.getElementById("registration-hidden").value;
 	document.getElementById("searchForm").submit();
 }
@@ -199,7 +188,7 @@ Event.observe(window, "load", function() {
 				<tr>
 					<td width="20%" valign="top" align="right">Search By:</td>
 					<td align="right" width="15%">
-                        <form:select id="select" path="select" onchange="manageSelectBox(this);">
+                        <form:select id="select" path="select" onchange="clearSearchCriteria();manageSelectBox(this);">
                             <form:option value="Subject" label="Subject" />
                             <form:option value="Study" label="Study" />
                             <form:option value="Id" label="Registration Identifier" />
@@ -226,24 +215,24 @@ Event.observe(window, "load", function() {
 				</tr>
 
 				<tr>
-					<td width="20%" valign="top" align="right"><span class="label">Search Criteria:</span>&nbsp;</td>
+					<td width="20%" valign="top" align="right"><span class="label">Search Criteria:</span>&nbsp;
+					</td>
 					<td colspan="2"><input type="hidden" id="registration-hidden" />
                         <form:input id="registration-input" path="searchText" cssClass="autocomplete" size="52"/>
+                        <img id="formSubmit-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
                         <tags:indicator id="registration-indicator" />
 					<div id="registration-choices" class="autocomplete" style="display: none;"></div>
-					<p id="registration-selected" style="display: none">You've selected
-					<span id="registration-selected-name"></span>.</p>
+					<p id="registration-selected" style="display: none">You've selected<span id="registration-selected-name"></span>.</p>
 					</td>
 				</tr>
 				<tr>
 					<td width="20%"></td>
-					<td><input type="button" value="Search" onClick="submitPage();return false;"> <input type="button"
-						id="registration-clear" value="Clear" /></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td width="20%"></td>
 					<td>
-					<div id="SubjectSearchMessage">
+					<div id="SubjectSearchMessage" style="display:none;">
 					<p id="instructions">Search for Subjects</p>
 					</div>
 					<div id="StudySearchMessage" style="display:none;">
