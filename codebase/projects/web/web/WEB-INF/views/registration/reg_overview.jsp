@@ -5,18 +5,6 @@
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 
     <style type="text/css">
-        .labelR {
-            text-align: right;
-            padding: 4px;
-            font-weight: bold;
-        }
-    </style>
-    <style type="text/css">
-        .label {
-            text-align: left;
-            padding: 4px;
-            font-weight: bold;
-        }
 		#main {
 			top:30px;
 		}
@@ -137,132 +125,141 @@
 </tags:panelBox>
 </c:if>
 
-<tags:panelBox>
+
+	<div id="registrationSummary">
 <br/>
 <div id="printable">
 <chrome:division id="Subject Information" title="Subject">
-    
+    <div class="leftpanel">
         <div class="row">
-            <div class="label">First Name</div>
+            <div class="label">First name:</div>
             <div class="value">${command.studySubject.participant.firstName}</div>
         </div>
         <div class="row">
-            <div class="label">Last Name</div>
+            <div class="label">Last name:</div>
             <div class="value">${command.studySubject.participant.lastName}</div>
         </div>
         <div class="row">
-            <div class="label">Gender</div>
+            <div class="label">Gender:</div>
             <div class="value">${command.studySubject.participant.administrativeGenderCode}</div>
         </div>
         <div class="row">
-            <div class="label">MRN</div>
+            <div class="label">Medical record number:</div>
             <div class="value">${command.studySubject.participant.primaryIdentifier }</div>
         </div>
+	</div>
+	<div class="rightpanel">
         <div class="row">
-            <div class="label">Birth Date</div>
+            <div class="label">Birth date:</div>
             <div class="value">${command.studySubject.participant.birthDateStr}</div>
         </div>
         <div class="row">
-            <div class="label">Ethnicity</div>
+            <div class="label">Ethnicity:</div>
             <div class="value">${command.studySubject.participant.ethnicGroupCode}</div>
         </div>
         <div class="row">
-            <div class="label">Race(s)</div>
+            <div class="label">Race(s):</div>
             	<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
 		                <div class="value">${raceCode.displayName}</div>
 		        </c:forEach>
 
         </div>
-    
+    </div>
 </chrome:division>
 <chrome:division id="Study Information" title="Study">
-    
+    <div class="leftpanel">
         <div class="row">
-            <div class="label">Status</div>
+            <div class="label">Status:</div>
             <div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
         </div>
         <div class="row">
-            <div class="label">Short Title</div>
+            <div class="label">Short title:</div>
             <div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
         </div>
         <div class="row">
-            <div class="label">Long Title</div>
+            <div class="label">Long title:</div>
             <div class="value">${command.studySubject.studySite.study.longTitleText}</div>
         </div>
         <div class="row">
-            <div class="label">Randomized</div>
+            <div class="label">Randomized:</div>
             <div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
         </div>
+	</div>
+	<div class="rightpanel">
         <div class="row">
-            <div class="label">Multi Institutional</div>
+            <div class="label">Multi institutional:</div>
             <div class="value">${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</div>
         </div>
         <div class="row">
-            <div class="label"> Phase</div>
+            <div class="label"> Phase:</div>
             <div class="value">${command.studySubject.studySite.study.phaseCode}</div>
         </div>
         <div class="row">
-            <div class="label">Coordinating Center Identifier</div>
+            <div class="label">Coordinating center identifier:</div>
             <div class="value">${command.studySubject.studySite.study.identifiers[0].value}</div>
         </div>
-   
+   </div>
 </chrome:division>
 <chrome:division id="Study Site Information:" title="Study Site">
-   
+   	<div class="leftpanel">
         <div class="row">
-            <div class="label">Name</div>
+            <div class="label">Name:</div>
             <div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
         </div>
         <div class="row">
-            <div class="label">Address</div>
+            <div class="label">Address:</div>
             <div class="value">${command.studySubject.studySite.healthcareSite.address.streetAddress},
                     ${command.studySubject.studySite.healthcareSite.address.city},
                     ${command.studySubject.studySite.healthcareSite.address.stateCode},
                     ${command.studySubject.studySite.healthcareSite.address.postalCode}</div>
         </div>
         <div class="row">
-            <div class="label">Status</div>
+            <div class="label">Status:</div>
             <div class="value">${command.studySubject.studySite.siteStudyStatus.code}</div>
         </div>
+	</div>
+	<div class="rightpanel">
         <div class="row">
-            <div class="label">NCI Institution Code</div>
+            <div class="label">NCI institution code:</div>
             <div class="value">${command.studySubject.studySite.healthcareSite.nciInstituteCode}</div>
         </div>
         <div class="row">
-            <div class="label">IRB Approval Date</div>
+            <div class="label">IRB approval date:</div>
             <div class="value">${command.studySubject.studySite.irbApprovalDateStr}</div>
         </div>
-  
+  </div>
 </chrome:division>
 <chrome:division id="Current Epoch Information" title="Epoch & Arm">
-    
+    <div class="leftpanel">
         <div class="row">
-            <div class="label"><fmt:message key="registration.currentEpoch"/></div>
+            <div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
             <div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
         </div>
         <c:if test="${!empty armAssigned}">
        	    <div class="row">
-                <div class="label">${armAssignedLabel }</div>
+                <div class="label">${armAssignedLabel}:</div>
                 <div class="value">${armAssigned}</div>
             </div>
    		</c:if>
+	</div>
+	<div class="rightpanel">
         <div class="row">
-            <div class="label">Enrolling</div>
+            <div class="label">Enrolling:</div>
             <div class="value">${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</div>
         </div>
         <div class="row">
-            <div class="label">Epoch Status</div>
+            <div class="label">Epoch status:</div>
             <div class="value">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</div>
         </div>
-    
+    </div>
 </chrome:division>
 
 <div <c:if test="${empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
 <chrome:division title="Parent Study">
     <table class="tablecontent" width="50%">
         <tr>
-            <th width="75%" scope="col" align="left"><b>Short Title</b></th>
-			<th width="75%" scope="col" align="left"><b>Primary Identifier</b></th>
+            <th width="75%" scope="col" align="left"><b>Short title:</b></th>
+			<th width="75%" scope="col" align="left"><b>Primary identifier:</b></th>
         </tr>
             <tr>
                 <td class="alt">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}</td>
@@ -277,9 +274,9 @@
 
 
 <chrome:division id="enrollment" title="Enrollment Details">
-
+<div class="leftpanel">
         <div class="row">
-            <div class="label"><fmt:message key="registration.startDate"/></div>
+            <div class="label"><fmt:message key="registration.startDate"/>:</div>
             <div class="value">${command.studySubject.startDateStr}</div>
         </div>
 		<table>
@@ -315,49 +312,51 @@
 		</table>
         <c:if test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">
             <div class="row">
-                <div class="label">Off Study Reason</div>
+                <div class="label">Off study reason:</div>
                 <div class="value">${command.studySubject.offStudyReasonText }</div>
             </div>
             <div class="row">
-                <div class="label">Off Study Date</div>
+                <div class="label">Off study date:</div>
                 <div class="value">${command.studySubject.offStudyDate }</div>
             </div>
         </c:if>
         <div class="row">
-            <div class="label"><fmt:message key="registration.consentSignedDate"/></div>
+            <div class="label"><fmt:message key="registration.consentSignedDate"/>:</div>
             <div class="value">
                 <tags:inPlaceEdit value="${command.studySubject.informedConsentSignedDateStr }" path="studySubject.informedConsentSignedDate" id="informedConsentSignedDate"
                                   validations="validate-notEmpty&&DATE"/>
             </div>
         </div>
         <div class="row">
-            <div class="label"><fmt:message key="registration.consentVesion"/></div>
+            <div class="label"><fmt:message key="registration.consentVesion"/>:</div>
             <div class="value">
                 <tags:inPlaceEdit value="${command.studySubject.informedConsentVersion}" path="studySubject.informedConsentVersion" id="informedConsentVersion"
                                   validations="validate-notEmpty"/>
             </div>
         </div>
+	</div>
+	<div class="rightpanel">
         <div class="row">
-            <div class="label"><fmt:message key="registration.enrollingPhysician"/></div>
+            <div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
             <div class="value">${command.studySubject.treatingPhysicianFullName}</div>
         </div>
         <div class="row">
-            <div class="label">Registration Identifier</div>
+            <div class="label">Registration identifier:</div>
             <div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
         </div>
         <div class="row">
-            <div class="label">Primary Disease</div>
+            <div class="label">Primary disease:</div>
             <div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr }</div>
         </div>
         <div class="row">
-            <div class="label">Primary Disease Site</div>
+            <div class="label">Primary disease site:</div>
             <div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
         </div>
         <div class="row">
-        <div class="label"><fmt:message key="registration.paymentMethod"/></div>
+        <div class="label"><fmt:message key="registration.paymentMethod"/>:</div>
             <div class="value">${command.studySubject.paymentMethod}</div>
         </div>
-
+</div>
     <c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY'}"><br>
     	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE"
                             authorizationCheckName="domainObjectAuthorizationCheck">
@@ -374,7 +373,7 @@
     </script>
 </chrome:division>
 <chrome:division id="identifiers" title="Identifiers">
-    <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+    <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <th>Assigning Authority</th>
             <th>Identifier Type</th>
@@ -424,7 +423,7 @@
             <c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
                 
                     <div class="row">
-                        <td class="label" align=left>The Selected Epoch does not have any stratification factors</td>
+                        <td class="label" align=left>The selected epoch does not have any stratification factors.</td>
                     </div>
                 
             </c:when>
@@ -448,7 +447,7 @@
     <c:if test="${!empty armAssigned}">
         <chrome:division id="${armAssignedLabel }" title="${armAssignedLabel }">
                 <div class="row">
-                    <div class="label">${armAssignedLabel }</div>
+                    <div class="label">${armAssignedLabel}:</div>
                     <div class="value">${armAssigned}</div>
                 </tr>
         </chrome:division>
@@ -461,7 +460,7 @@
                 <div class="row">
                     <table width="50%"><tr>
                     	<td width="25%" align="right">
-                        <b>Broadcast Status:</b>
+                        <b>Broadcast status:</b>
                         </td>
 						<td width="75%" align="left">
 						<div id="broadcastResponse">
@@ -564,7 +563,7 @@
     <input type="button" value="Export" onClick="$('exportForm')._target.name='xxxx';$('exportForm').submit();"/>
 </div>
 
-</tags:panelBox>
+</div>
 <form:form id="exportForm" method="post">
     <tags:tabFields tab="${tab}"/>
     <input type="hidden" name="_action" value="export"/>

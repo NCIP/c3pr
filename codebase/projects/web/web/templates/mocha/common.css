@@ -697,7 +697,7 @@ p { margin: 1em 0; }
 }
 .box.tabbed .interior { }
 .box .content { padding: 0px 5px 0px 0px; }
-.box h3 {
+/*.box h3 {
 	position: relative;
 	border-bottom:1px solid #999999;
 	margin-bottom: 10px;
@@ -706,7 +706,7 @@ p { margin: 1em 0; }
 	padding-bottom: 4px;
 	padding-left: 8px;
 	margin-top: 5px;
-}
+}*/
 /**** TABS WITHIN A BOX */
 
 .box ul.inner.tabs {
@@ -743,6 +743,14 @@ p { margin: 1em 0; }
 	font-size: 14px;
 	font-weight:bold;
 	color: #333366;
+	position: relative;
+	border-bottom:1px solid #999999;
+	margin-bottom: 10px;
+	padding-top: 4px;
+	padding-right: 8px;
+	padding-bottom: 4px;
+	padding-left: 8px;
+	margin-top: 5px;
 }
 /**** REUSABLE PAGE ELEMENTS/CLASSES */
 
@@ -794,7 +802,6 @@ div.row div.label {
 div.row div.value {
 	font-weight: normal; /* default; should be changed whenever .label width is changed */
 	margin-left: 14em;
-	margin-top:3px;
 }
 img.indicator { visibility: hidden; }
 .downloadLinks {
@@ -899,6 +906,7 @@ width:75%;
 	margin-bottom:10px;
 	background-color:#faebc2;
 	background-repeat:repeat-x;
+	padding-left:5px;
 }
 .no-selection 
 {

@@ -2,11 +2,8 @@
 <html>
 <head>
 <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
+
 <style type="text/css">
-        .labelR { text-align: right; padding: 4px;  font-weight: bold;}
-</style>
-<style type="text/css">
-        .label { text-align: left; padding: 4px; font-weight: bold;}
 		.instructions .summaryvalue {width:85%;}
 		div.row div.label {
 			width:15em;
@@ -30,9 +27,10 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </script>
 </head>
 <body>
-<tags:formPanelBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? 'Save' : actionLabel}">
-	<input type="hidden" name="_finish" value="true"/>
+<%--<tags:formPanelBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? 'Save' : actionLabel}">--%>
 	<tags:instructions code="reg_submit" />
+	<div id="registrationSummary">
+	<input type="hidden" name="_finish" value="true"/>
 	<chrome:division id="Subject Information" title="Subject">
 			<div class="leftpanel">
 				<div class="row">
@@ -67,13 +65,13 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 				<div class="row">
 					<div class="label">Race(s):</div>
-					<div class="value">
+					
 						<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
-				            <div class="row">
-				                <div class="left">${raceCode.displayName}</div>
+				            <div class="value">
+				                ${raceCode.displayName}
 				            </div>
 				        </c:forEach>
-					</div>
+					
 				</div>
 			</div>
 	</chrome:division>
@@ -232,7 +230,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			<div align="left">There are no stratification factors available for this epoch.</div>
 		</c:when>
 		<c:otherwise>
-			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="70%">
+			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="90%">
 				<tr>
 					<th width="35%" scope="col" align="left">Strata</th>
 					<th scope="col" align="left"><b>Answer</th>
@@ -248,7 +246,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:otherwise>
 		</c:choose>
 	</chrome:division>
+	</div>
 	<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
-</tags:formPanelBox>
 </body>
 </html>

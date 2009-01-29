@@ -13,7 +13,7 @@
 <style type="text/css">
         .labelC { text-align: center; padding: 4px; font-weight: bold;}
 </style>
-<chrome:division title="Randomization">
+<chrome:box title="Randomization">
 	<c:choose>
 		<c:when test="${registration.scheduledEpoch.requiresRandomization}">
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
@@ -68,4 +68,4 @@
 		</c:otherwise>
 	</c:choose>
 	
-</chrome:division>
+</chrome:box>

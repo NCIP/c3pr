@@ -21,7 +21,7 @@
     <decorator:head/>
 
     <style type="text/css">
-        .label { width: 20em; text-align: right; padding: 2px;}
+        .label { width: 20em; text-align: right;}
 	</style>
 </head>
 
