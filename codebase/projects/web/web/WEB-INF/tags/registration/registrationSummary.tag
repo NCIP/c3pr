@@ -16,7 +16,7 @@
 		<td valign="top">
 			<table>
 				<tags:tdNameValue name="Name" value="${studySubject.studySubject.participant.firstName} ${studySubject.studySubject.participant.lastName }" columnAttrName="class='labelR'"/>
-				<tags:tdNameValue name="Study" value="${studySubject.studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Study" value="(${command.studySubject.studySite.study.primaryIdentifier}) ${ command.studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
 				<tags:tdNameValue name="Epoch" value="${studySubject.studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
 			</table>
 		</td>
