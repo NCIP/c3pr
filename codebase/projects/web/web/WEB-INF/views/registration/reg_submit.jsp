@@ -216,7 +216,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<div class="row">
 			<div class="label"><fmt:message key="registration.eligibilty"/>:</div>
 			<c:choose>
-				<c:when test="${studySubject.studySubject.scheduledEpoch.eligibilityIndicator}">
+				<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
 					<div class="value"><fmt:message key="c3pr.common.yes"/></div>
 				</c:when>
 				<c:otherwise>
