@@ -905,3 +905,23 @@ width:75%;
     font-style:italic;
     color:#6f6f6f;
 }
+.printPageLink {
+	margin-bottom:10px;
+margin-left:790px;
+}
+
+.printPageLink a{
+	text-decoration:none;
+}
+.printPageLink a:link{
+	color:#333366;
+}
+.printPageLink a:visited{
+	color:#333366;
+}
+.printPageLink a:hover{
+	color:#000;
+}
+.printPageLink a:active{
+	color:#000;
+}

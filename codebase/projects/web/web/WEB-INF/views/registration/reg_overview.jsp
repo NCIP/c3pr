@@ -17,6 +17,9 @@
             padding: 4px;
             font-weight: bold;
         }
+		#main {
+			top:30px;
+		}
     </style>
 
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -82,6 +85,7 @@
     </script>
 </head>
 <body>
+	<tags:printPageLink link="" />
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
