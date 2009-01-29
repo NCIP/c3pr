@@ -337,7 +337,7 @@
             </td>
         </tr>
         <tr>
-            <td width="35%" class="label">Treating Physician</td>
+            <td width="35%" class="label"><fmt:message key="registration.enrollingPhysician"/></td>
             <c:set var="options" value=""></c:set>
             <c:set var="values" value=""></c:set>
             <c:set var="commanSepOptVal" value="["></c:set>
