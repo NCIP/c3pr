@@ -5,7 +5,7 @@
              phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123"
              type="ty"
              description_text="description" precis_text="precis_text" status="OPEN" data_entry_status="COMPLETE"
-             randomization_type="2" retired_indicator="false"/>
+             randomization_type="2" retired_indicator="false" />
     <STUDIES id="1001" version="1" blinded_indicator="0" long_title_text="long_title_text2"
              multi_institution_indicator="1"
              phase_code="Ph2" randomized_indicator="1" short_title_text="short_title_text2"

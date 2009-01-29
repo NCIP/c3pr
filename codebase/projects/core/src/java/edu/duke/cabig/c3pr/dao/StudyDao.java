@@ -10,21 +10,16 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
-import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -36,7 +31,6 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 // TODO: Auto-generated Javadoc
@@ -54,6 +48,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     /** The Constant EXACT_MATCH_PROPERTIES. */
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
+	 /** The Constant extraParameters. */
+    private static final List EXTRA_PARAMETERS = Arrays.asList("%center%");
+    
     /** The log. */
     private static Log log = LogFactory.getLog(StudyDao.class);
     
@@ -204,6 +201,31 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
+    
+    /**
+     * Gets the study by comapring subnames against short title and coordinating center identifiers.
+     * 
+     * @param subnames the enetered string. used by comapnion study autocompleter
+     * 
+     * @return List of studies
+     */
+    public List<Study> getStudiesBySubnamesWithExtraConditionsForPrimaryIdentifier(String[] subnames) {
+    	
+    	List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("shortTitleText","identifiers.value");
+    	
+    	List<Study> studies = findBySubname(subnames, "LOWER(o.identifiers.type) LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    	for(Study study: studies){
+    		getHibernateTemplate().initialize(study.getIdentifiers());
+    	}
+    	//remove duplicates if any
+    	Set setItems = new LinkedHashSet(studies);
+    	studies.clear();
+    	studies.addAll(setItems); 
+    	
+    	return studies;
+    }
+    
+    
     /*
      * Searches based on an example object. Typical usage from your service class: - If you want to
      * search based on diseaseCode, monitorCode, <li><code>Study study = new Study();</li></code>

@@ -54,7 +54,6 @@ import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
-// TODO: Auto-generated Javadoc
 /**
  * JUnit Tests for StudyDao.
  * 
@@ -1573,6 +1572,18 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
         List<Study> studies=dao.getByIdentifiers(identifiers);
         assertEquals("Wrong size of list",4, studies.size());
+    }
+    
+    
+    /**
+     * Test get by sub name with extra conditions for primary identifier.
+     * used by study autocompleters
+     */
+    public void testGetBySubNameWithExtraConditionsForPrimaryIdentifier(){
+    	String[] subName = new String[]{"nci1"};
+    	
+    	List<Study> studies=dao.getStudiesBySubnamesWithExtraConditionsForPrimaryIdentifier(subName);
+    	assertEquals("Wrong number is studies", 1, studies.size());
     }
     
     public void testGetBySubNameMultipleStudies(){
