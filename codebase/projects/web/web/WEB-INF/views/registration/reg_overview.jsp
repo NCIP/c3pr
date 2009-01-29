@@ -405,57 +405,19 @@
         </c:forEach>
     </table>
 </chrome:division>
-    <chrome:division id="Eligibility" title="Eligibility">
-        
-            <div class="row">
-                <div class="label">Eligible
-                </div>
-                <div class="value">${command.studySubject.scheduledEpoch.eligibilityIndicator?'True':'False' }</div>
-            </div>
-      
-        <c:choose>
-            <c:when test="${fn:length(command.studySubject.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.studySubject.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
-                There is no eligibility check list available for this epoch
-            </c:when>
-            <c:otherwise>
-                <br>
-                <strong>Inclusion Criteria</strong>
-
-                <div class="review">
-                    <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-                        <tr>
-                            <th scope="col" align="left">Question</th>
-                            <th scope="col" align="left">Answer</th>
-                        </tr>
-                        <c:forEach items="${command.studySubject.scheduledEpoch.inclusionEligibilityAnswers}" var="criteria">
-                            <tr class="results">
-                                <td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
-                                <td class="alt"
-                                    align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </div>
-                <br>
-                <strong>Exclusion Criteria</strong>
-
-                <div class="review">
-                    <table border="0" cellspacing="0" cellpadding="0" width="50%" class="tablecontent">
-                        <tr>
-                            <th scope="col" align="left">Question</th>
-                            <th scope="col" align="left">Answer</th>
-                        </tr>
-                        <c:forEach items="${command.studySubject.scheduledEpoch.exclusionEligibilityAnswers}" var="criteria">
-                            <tr class="results">
-                                <td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
-                                <td class="alt"
-                                    align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </div>
-            </c:otherwise>
-        </c:choose>
+<chrome:division id="Eligibility" title="Eligibility">
+		<div class="row">
+    		<div class="label"><fmt:message key="registration.eligibilty"/></div>
+        	<c:choose>
+				<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
+					<div class="value"><fmt:message key="c3pr.common.yes"/></div>
+				</c:when>
+				<c:otherwise>
+					<div class="value"><fmt:message key="c3pr.common.no"/></div>
+					<div align="left"><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
+				</c:otherwise>
+			</c:choose>
+         </div>
     </chrome:division>
     <chrome:division id="stratification" title="Stratification">
         <c:choose>
