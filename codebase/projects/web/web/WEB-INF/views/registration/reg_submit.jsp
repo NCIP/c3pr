@@ -213,45 +213,19 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</div>
 	</chrome:division>
 	<chrome:division id="Eligibility" title="Eligibility">
-		<c:choose>
-			<c:when test="${fn:length(command.studySubject.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.studySubject.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
-				<div align="left">There is no eligibility check list available for this epoch.</div>
-			</c:when>
-			<c:otherwise>
-				<br>
-				<strong>Inclusion Criteria</strong>
-				<div class="review">
-				<table width="70%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-				<tr>
-					<th scope="col" align="left">Question</th>
-					<th scope="col" align="left">Answer</th>
-				</tr>
-				<c:forEach items="${command.studySubject.scheduledEpoch.inclusionEligibilityAnswers}" var="criteria">
-					<tr class="results">
-						<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
-						<td class="alt" align="left"><tags:requiredFieldEmptyIndicator value='${criteria.answerText}' workflow='registration'/></td>
-					</tr>
-				</c:forEach>
-				</table>
-				</div>
-				<br>
-				<strong>Exclusion Criteria</strong>
-				<div class="review">
-					<table border="0" cellspacing="0" cellpadding="0"  width="70%" class="tablecontent">
-					<tr>
-						<th scope="col" align="left">Question</th>
-						<th scope="col" align="left">Answer</th>
-					</tr>
-					<c:forEach items="${command.studySubject.scheduledEpoch.exclusionEligibilityAnswers}" var="criteria">
-						<tr class="results">
-							<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
-							<td class="alt" align="left"><tags:requiredFieldEmptyIndicator value='${criteria.answerText}' workflow='registration'/></td>
-						</tr>
-					</c:forEach>
-					</table>
-				</div>
-			</c:otherwise>
-		</c:choose>
+		<div class="row">
+			<div class="label"><fmt:message key="registration.eligibilty"/>:</div>
+			<c:choose>
+				<c:when test="${studySubject.studySubject.scheduledEpoch.eligibilityIndicator}">
+					<div class="value"><fmt:message key="c3pr.common.yes"/></div>
+				</c:when>
+				<c:otherwise>
+					<div class="value"><fmt:message key="c3pr.common.no"/></div>
+					<br>
+					<span class="value"><fmt:message key="registartion.eligibiltyRequired"/></span>
+				</c:otherwise>
+			</c:choose>
+		</div>
 	</chrome:division>
 	<chrome:division id="stratification" title="Stratification">
 		<c:choose>
