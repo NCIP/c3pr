@@ -279,9 +279,7 @@
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td class="label"><fmt:message key="registration.startDate"/></td>
-            <td> 
-            <tags:inPlaceEdit value="${command.studySubject.startDateStr }" path="studySubject.startDate" id="startDate" validations="validate-notEmpty&&DATE"/>
-            </td>
+            <td>${command.studySubject.startDateStr}</td>
         </tr>
         <tr>
             <td width="35%" class="label"><fmt:message key="registration.registrationStatus"/></td>
@@ -338,28 +336,11 @@
         </tr>
         <tr>
             <td width="35%" class="label"><fmt:message key="registration.enrollingPhysician"/></td>
-            <c:set var="options" value=""></c:set>
-            <c:set var="values" value=""></c:set>
-            <c:set var="commanSepOptVal" value="["></c:set>
-            <c:forEach items="${command.studySubject.studySite.activeStudyInvestigators}" var="physician" varStatus="temp">
-                <c:set var="commanSepOptVal"
-                       value="${commanSepOptVal}[${physician.id},'${physician.healthcareSiteInvestigator.investigator.fullName}']"></c:set>
-                <c:if test="${!temp.last}">
-                    <c:set var="commanSepOptVal" value="${commanSepOptVal},"></c:set>
-                </c:if>
-            </c:forEach>
-            <c:set var="commanSepOptVal" value="${commanSepOptVal}]"></c:set>
-            <td>
-                <tags:inPlaceSelect value="${command.studySubject.treatingPhysicianFullName}" path="studySubject.treatingPhysician" id="treatingPhysician"
-                                    commanSepOptVal="${commanSepOptVal}" pathToGet="treatingPhysicianFullName"/>
-                &nbsp;</td>
+            <td>${command.studySubject.treatingPhysicianFullName}</td>
         </tr>
         <tr>
             <td width="35%" class="label">Registration Identifier</td>
-            <td>
-                <tags:inPlaceEdit value="${command.studySubject.coOrdinatingCenterIdentifier.value}" path="studySubject.coOrdinatingCenterIdentifier" id="coOrdinatingCenterIdentifier"
-                                  validations="validate-notEmpty"/>
-                &nbsp;</td>
+            <td>${command.studySubject.coOrdinatingCenterIdentifier.value}</td>
         </tr>
         <tr>
             <td class="label">Primary Disease</td>
