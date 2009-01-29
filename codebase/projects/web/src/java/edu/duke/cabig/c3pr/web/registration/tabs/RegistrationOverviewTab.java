@@ -55,14 +55,14 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends Regi
                                         .getScheduledArm().getArm() != null) {
             armAssigned = (studySubject.getScheduledEpoch())
                             .getScheduledArm().getArm().getName();
-            armAssignedLabel = "Arm Assigned";
+            armAssignedLabel = "Arm";
         }
         if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING
                         && studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
                         && studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE) {
             actionRequired = true;
             if (studySubject.getScheduledEpochs().size() > 1) {
-                actionLabel = "Transfer Subject";
+                actionLabel = "Transfer subject";
             }
             else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
                 actionLabel = "Register";
