@@ -354,7 +354,7 @@
             <div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
         </div>
         <div class="row">
-        <div class="label">Payment Method</div>
+        <div class="label"><fmt:message key="registration.paymentMethod"/></div>
             <div class="value">${command.studySubject.paymentMethod}</div>
         </div>
 

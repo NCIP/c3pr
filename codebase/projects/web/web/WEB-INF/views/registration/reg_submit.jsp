@@ -200,7 +200,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					</c:choose>
 				</div>
 				<div class="row">
-					<div class="label">Payment method:</div>
+					<div class="label"><fmt:message key="registration.paymentMethod"/>:</div>
 					<c:choose>
 						<c:when test="${!empty command.studySubject.paymentMethod}">
 							<div class="value">${command.studySubject.paymentMethod}</div>
