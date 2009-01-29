@@ -8,7 +8,7 @@ public class IdentifierGenerator {
 		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
 		orgIdentifier.setType("Coordinating Center Assigned Study Subject Identifier");
-		orgIdentifier.setValue(UUID.randomUUID().toString());
+		orgIdentifier.setValue(studySubject.getStudySite().getStudy().getCurrentAccrualCount().toString());
 		return orgIdentifier;
 	}
 	
@@ -19,5 +19,4 @@ public class IdentifierGenerator {
 		sysIdentifier.setValue(UUID.randomUUID().toString());
 		return sysIdentifier;
 	}
-
 }
