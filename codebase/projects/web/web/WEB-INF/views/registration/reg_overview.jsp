@@ -233,12 +233,18 @@
         </tr>
     </table>
 </chrome:division>
-<chrome:division id="Current Epoch Information" title="Current Epoch">
+<chrome:division id="Current Epoch Information" title="Epoch & Arm">
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td width="35%" class="label"><fmt:message key="registration.currentEpoch"/></td>
             <td>${command.studySubject.scheduledEpoch.epoch.name}</td>
         </tr>
+        <c:if test="${!empty armAssigned}">
+       	    <tr>
+                <td width="35%" class="label">${armAssignedLabel }</td>
+                <td>${armAssigned}</td>
+            </tr>
+   		</c:if>
         <tr>
             <td class="label">Enrolling</td>
             <td>${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</td>
