@@ -222,7 +222,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				<c:otherwise>
 					<div class="value"><fmt:message key="c3pr.common.no"/></div>
 					<br>
-					<span class="value"><fmt:message key="registartion.eligibiltyRequired"/></span>
+					<span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span>
 				</c:otherwise>
 			</c:choose>
 		</div>
