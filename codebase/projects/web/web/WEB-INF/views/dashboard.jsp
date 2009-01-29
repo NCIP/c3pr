@@ -74,17 +74,17 @@ top:90px;
 			<img src="<c:url value="/images/chrome/li_item.jpg" />">&nbsp;&nbsp;
 			<a
 				href='<fmt:message key="DASHBOARD.C3PR.DEVELOPMENT.WIKI"/>'
-				target="_blank"><b>C3PR Wiki</b></a></div>
+				target="_blank">C3PR Wiki</a></div>
 			<div id="c3pr-userguide">
 			<img src="<c:url value="/images/chrome/li_item.jpg" />">&nbsp;&nbsp;
 			<a
 				href="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide"
-				target="_blank"><b>C3PR User Guide</b></a></div>
+				target="_blank">C3PR User Guide</a></div>
 			<div id="c3pr-deployment-status">
 			<img src="<c:url value="/images/chrome/li_item.jpg" />">&nbsp;&nbsp;
 			<a
-				href="javascript: Effect.Combo('deployment-modules')"><b>Check
-			Deployment Status</b></a>
+				href="javascript: Effect.Combo('deployment-modules')">Check
+			Deployment Status</a>
 			<div id="deployment-modules" style="display: none"><c:if
 				test="${cctsEnv}">
 				<div id="SmokeTestSerive">Authentication : ${authentication }
