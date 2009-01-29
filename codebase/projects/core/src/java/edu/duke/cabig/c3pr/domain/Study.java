@@ -1330,14 +1330,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	 */
 	@Transient
 	public Integer getCurrentAccrualCount() {
-		Integer totalAccrual = 0;
-		Iterator sslIter = getStudySites().iterator();
-		StudySite studySite;
-		while (sslIter.hasNext()) {
-			studySite = (StudySite) sslIter.next();
-			totalAccrual += studySite.getStudySubjects().size();
+		int currentAccrual = 0 ;
+		for(StudySite studySite : this.getStudySites() ){
+			currentAccrual = currentAccrual + studySite.getCurrentAccrualCount();
 		}
-		return totalAccrual;
+		return currentAccrual ;
 	}
 
 	// @Transient
@@ -1553,5 +1550,4 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		return null;
 	}
-
 }
