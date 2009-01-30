@@ -64,6 +64,9 @@
 </head>
 <body>
 	<tags:printPageLink />
+	<tags:controlPanel>
+		<tags:oneControlPanelItem />
+	</tags:controlPanel>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>

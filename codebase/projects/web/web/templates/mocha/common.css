@@ -933,3 +933,94 @@ margin-left:790px;
 .printPageLink a:active{
 	color:#000;
 }
+
+/* BEGIN Control Panel Styles */
+#controlPanel {
+	width:100%;
+	text-align:center;
+	position:relative;
+	display:block;
+	min-height:146px;
+	min-width:150px;
+	margin-bottom:15px;
+}
+#controlPanel #header {
+	height:34px;
+	width:auto;
+	background-image:url(images/controlPanel/header_bg.png);
+	background-repeat:repeat-x;
+	padding:0;
+}
+#controlPanel #header #title {
+	height:32px;
+	width:147px;
+	display:block;
+	float:left;
+	background-image:url(images/controlPanel/header_left.png);
+	background-position:top;
+}
+#controlPanel #header #right {
+	height:34px;
+	width:14px;
+	display:block;
+	float:right;
+	background-image:url(images/controlPanel/header_right.png);
+	background-position:top;
+}
+#controlPanel #bodyleft {
+	width:4px;
+	background-image:url(images/controlPanel/body_left.png);
+	background-repeat:repeat-y;
+	padding:0;
+} 
+#controlPanel #bodyright {
+	width:4px;
+	background-image:url(images/controlPanel/body_right.png);
+	background-repeat:repeat-y;
+	padding:0;
+} 
+#controlPanel #body {
+	background-image:url(images/controlPanel/body_bg.png);
+	background-color:#5c5c5c;
+	background-repeat:repeat-x;
+	height:93px;
+	position:relative;
+	padding:0;
+	padding-left:15px;
+	padding-right:15px;
+	padding-bottom:15px;
+}
+#controlPanel #footer {
+	height:19px;
+	bottom:0;
+	background-image:url(images/controlPanel/footer_bg.png);
+	padding:0;
+}
+#controlPanel #footer #right {
+	height:19px;
+	width:15px;
+	display:block;
+	float:right;
+	background-image:url(images/controlPanel/footer_right.png);
+	background-position:top;
+}
+#controlPanel #footer #left {
+	height:19px;
+	width:16px;
+	display:block;
+	float:left;
+	background-image:url(images/controlPanel/footer_left.png);
+	background-position:top;
+}
+.oneControlPanelItem {
+	float:left;
+	text-align:center;
+
+}
+.oneControlPanelItem img {
+	display:block;
+}
+.oneControlPanelItem a {
+	color:white;
+}
+/* END Control Panel Styles */
