@@ -444,14 +444,6 @@
             </c:otherwise>
         </c:choose>
     </chrome:division>
-    <c:if test="${!empty armAssigned}">
-        <chrome:division id="${armAssignedLabel }" title="${armAssignedLabel }">
-                <div class="row">
-                    <div class="label">${armAssignedLabel}:</div>
-                    <div class="value">${armAssigned}</div>
-                </tr>
-        </chrome:division>
-    </c:if>
 </div>
 <c:if test="${command.studySubject.regWorkflowStatus=='REGISTERED' && hotlinkEnable}">
     <chrome:division title="CCTS Workflow">
