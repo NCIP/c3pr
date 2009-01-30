@@ -228,7 +228,6 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
 			<div align="left"><span class="red"><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
-			<div align="left">The selected epoch do   There are no stratification factors available for this epoch.</div>
 		</c:when>
 		<c:otherwise>
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="90%">
