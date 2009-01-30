@@ -198,10 +198,12 @@
         </div>
         <div class="row">
             <div class="label">Address:</div>
-            <div class="value">${command.studySubject.studySite.healthcareSite.address.streetAddress},
-                    ${command.studySubject.studySite.healthcareSite.address.city},
-                    ${command.studySubject.studySite.healthcareSite.address.stateCode},
-                    ${command.studySubject.studySite.healthcareSite.address.postalCode}</div>
+            <div class="value">
+					<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.streetAddress}">${command.studySubject.studySite.healthcareSite.address.streetAddress},</c:if>
+					<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.city}">${command.studySubject.studySite.healthcareSite.address.city},</c:if>
+					<c:if test="${! empty command.studySubject.studySite.healthcareSite.address.stateCode}">${command.studySubject.studySite.healthcareSite.address.stateCode},</c:if>
+					${command.studySubject.studySite.healthcareSite.address.postalCode}
+			</div>
         </div>
         <div class="row">
             <div class="label">Status:</div>
@@ -399,7 +401,7 @@
                 <td>${sysIdentifier.value}</td>
                 <td>${sysIdentifier.primaryIndicator?'Yes':'No'}
                     <%-- <form:radiobutton value="true" cssClass="identifierRadios"
-                                      path="command.studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>--%>
+                                      path="command.studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/>--%></td>
             </tr>
         </c:forEach>
     </table>
