@@ -303,6 +303,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
                 throw this.exceptionHelper.getMultisiteException(endPoint.getLastAttemptError());
             }
             StudySubject multisiteReturnedStudySubject=(StudySubject)((List) endPoint.getReturnValue()).get(0);
+            studySubjectDao.initialize(multisiteReturnedStudySubject);
 			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
 			studySubject.doMutiSiteEnrollment(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
 		}else{
