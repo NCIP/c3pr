@@ -93,17 +93,19 @@ public class SearchRegistrationController extends SimpleFormController {
                 if (StringUtils.equals(studyOption, "shortTitle")) {
                 	registrations = studySubjectDao.searchByStudyId(id);
                 }
-                else if(StringUtils.equals(studyOption, "Identifier")){
+                else if(StringUtils.equals(studyOption, "id")){
                 	study = studyDao.searchByIdentifier(id).get(0);
                 	registrations = studySubjectDao.searchByStudy(study);
                 }
             }
         }
         else if (request.getParameter("select").equals("Id")) {
-            if (!StringUtils.isBlank(text)) {
-            	registration = studySubjectDao.searchByIdentifier(id).get(0);
-			}
-            registrations = studySubjectDao.searchByExample(registration, true);
+            if(id == null ){
+            	registrations = studySubjectDao.searchByExample(registration, true);
+            }else{
+               	registrations = studySubjectDao.searchByIdentifier(id);
+            }
+            
         }
 
         log.debug("Search registrations result size: " + registrations.size());
