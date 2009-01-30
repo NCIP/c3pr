@@ -357,20 +357,6 @@
             <div class="value">${command.studySubject.paymentMethod}</div>
         </div>
 </div>
-    <c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY'}"><br>
-    	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE"
-                            authorizationCheckName="domainObjectAuthorizationCheck">
-        	<div align="right"><input type="button" value="Edit" id="editInPlace"/></div>
-        </csmauthz:accesscontrol>
-    </c:if>
-    <script>
-        eArray = new Array();
-        eArray.push(editor_startDate);
-        eArray.push(editor_informedConsentSignedDate);
-        eArray.push(editor_informedConsentVersion);
-        eArray.push(editor_treatingPhysician);
-        eArray.push(editor_coOrdinatingCenterIdentifier);
-    </script>
 </chrome:division>
 <chrome:division id="identifiers" title="Identifiers">
     <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
