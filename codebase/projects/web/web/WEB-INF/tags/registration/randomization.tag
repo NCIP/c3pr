@@ -13,9 +13,8 @@
 <style type="text/css">
         .labelC { text-align: center; padding: 4px; font-weight: bold;}
 </style>
+<c:if test="${registration.scheduledEpoch.requiresRandomization}">
 <chrome:box title="Randomization">
-	<c:choose>
-		<c:when test="${registration.scheduledEpoch.requiresRandomization}">
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
 		      	<fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/>
 			</c:if>
@@ -62,10 +61,5 @@
 					</c:if>
 				</c:if>
 			</table>
-		</c:when>
-		<c:otherwise>
-			<div align="left">Randomization is not required for this epoch.</div>
-		</c:otherwise>
-	</c:choose>
-	
 </chrome:box>
+</c:if>

@@ -27,10 +27,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </script>
 </head>
 <body>
-<%--<tags:formPanelBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? 'Save' : actionLabel}">--%>
 	<tags:instructions code="reg_submit" />
 	<div id="registrationSummary">
-	<input type="hidden" name="_finish" value="true"/>
 	<chrome:division id="Subject Information" title="Subject">
 			<div class="leftpanel">
 				<div class="row">
@@ -227,7 +225,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="stratification" title="Stratification">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
-			<div align="left"><span class="red"><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
+			<div align="left"><span><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
 		</c:when>
 		<c:otherwise>
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="90%">
@@ -247,6 +245,10 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:choose>
 	</chrome:division>
 	</div>
-	<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
+	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? 'Save' : actionLabel}" >
+		<input type="hidden" name="_finish" value="true"/>
+		<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
+	</tags:formPanelWithoutBox>
+	
 </body>
 </html>
