@@ -397,7 +397,7 @@
                 <td>${sysIdentifier.systemName}</td>
                 <td>${sysIdentifier.type}</td>
                 <td>${sysIdentifier.value}</td>
-                <td>${sysIdentifier.primaryIndicator}
+                <td>${sysIdentifier.primaryIndicator?'Yes':'No'}
                     <%-- <form:radiobutton value="true" cssClass="identifierRadios"
                                       path="command.studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>--%>
             </tr>
@@ -406,7 +406,7 @@
 </chrome:division>
 <chrome:division id="Eligibility" title="Eligibility">
 		<div class="row">
-    		<div class="label"><fmt:message key="registration.eligibilty"/></div>
+    		<div class="label"><fmt:message key="registration.eligibilty"/>:</div>
         	<c:choose>
 				<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
 					<div class="value"><fmt:message key="c3pr.common.yes"/></div>
@@ -421,11 +421,7 @@
     <chrome:division id="stratification" title="Stratification">
         <c:choose>
             <c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
-                
-                    <div class="row">
-                        <td class="label" align=left>The selected epoch does not have any stratification factors.</td>
-                    </div>
-                
+                <div align="left"><span class="red"><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
             </c:when>
             <c:otherwise>
                 <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="50%">
