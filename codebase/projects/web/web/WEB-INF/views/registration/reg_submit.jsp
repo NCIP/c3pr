@@ -165,7 +165,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</div>
 			<div class="rightpanel">
 				<div class="row">
-					<div class="label">Treating physician:</div>
+					<div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
 					<c:choose>
 						<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
 							<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
@@ -176,7 +176,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					</c:choose>
 				</div>
 				<div class="row">
-					<div class="label">Primary disease:</div>
+					<div class="label"><fmt:message key="registration.primaryDisease"/>:</div>
 					<c:choose>
 						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseStr}">
 							<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr}</div>
@@ -187,7 +187,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					</c:choose>
 				</div>
 				<div class="row">
-					<div class="label">Primary disease site:</div>
+					<div class="label"><fmt:message key="registration.primaryDiseaseSite"/>:</div>
 					<c:choose>
 						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseSiteStr }">
 							<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
@@ -219,7 +219,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</c:when>
 				<c:otherwise>
 					<div class="value"><fmt:message key="c3pr.common.no"/></div>
-					<span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span>
+					<div align="left"><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -227,7 +227,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="stratification" title="Stratification">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
-			<div align="left">There are no stratification factors available for this epoch.</div>
+			<div align="left"><span class="red"><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
+			<div align="left">The selected epoch do   There are no stratification factors available for this epoch.</div>
 		</c:when>
 		<c:otherwise>
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="90%">

@@ -16,16 +16,6 @@
 			Dialog.alert({url: $('command').action, options: {method: 'post', parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=showEndpointMessage&_asyncViewName=/registration/asynchronous/endpoint_display&_target${tab.number}=${tab.number}&_page=${tab.number}", asynchronous:true, evalScripts:true}},              
 							{className: "alphacube", width:540, okLabel: "Done"});
 		}
-        function activateInPlaceEditing(localEditEvent) {
-            for (aE = 0; aE < eArray.length; aE++) {
-                eArray[aE].enterEditMode(localEditEvent);
-            }
-            new Effect.Appear('OffStudyDiv');
-        }
-        
-        Event.observe(window, "load", function() {
-    		Event.observe("editInPlace", "click", activateInPlaceEditing);
-    	})
     	
         function show() {
             new Effect.SlideDown('OffStudyStatus');
@@ -279,37 +269,32 @@
             <div class="label"><fmt:message key="registration.startDate"/>:</div>
             <div class="value">${command.studySubject.startDateStr}</div>
         </div>
-		<table>
-        <tr>
-            <td width="35%" class="label"><fmt:message key="registration.registrationStatus"/></td>
-            <td>${command.studySubject.regWorkflowStatus.code}&nbsp;
-            	
-            	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE"
-                            authorizationCheckName="domainObjectAuthorizationCheck">
+        <div class="row">
+            <div class="label"><fmt:message key="registration.registrationStatus"/>:</div>
+            <div class="value">${command.studySubject.regWorkflowStatus.code}
+            	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 	                <c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
-	                    <input type="button" value="Take subject off study"
-	                           onclick="new Effect.SlideDown('OffStudyStatus')">
-	                </c:if><br/><br/>
+	                    <input type="button" value="Take subject off study" onclick="new Effect.SlideDown('OffStudyStatus')">
+	                </c:if>
+	                <br/><br/>
 	                <div id="OffStudyStatus">
 	                    <form:form id="offStudyStatusForm">
 	                        <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
-	                        <input type="hidden" name="regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>
-	                        Reason:
-	                        <form:textarea path="studySubject.offStudyReasonText" rows="2" cols="40"
-	                                       cssClass="validate-notEmpty"></form:textarea>
+	                        <input type="hidden" name="regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>Reason:
+	                        <form:textarea path="studySubject.offStudyReasonText" rows="2" cols="40" cssClass="validate-notEmpty"></form:textarea>
 	                        <br /><br />
 	                        Date: &nbsp;&nbsp;&nbsp;
 	                        <tags:dateInput path="studySubject.offStudyDate" cssClass="validate-notEmpty&&DATE"/>
 	                        <em> (mm/dd/yyyy)</em><br /><br />
 	                        <c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
-	                            <input type="button" value="cancel" onClick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
+	                            <input type="button" value="cancel" onClick="new Effect.SlideUp('OffStudyStatus')"/>
+	                        </c:if>
 	                    </form:form>
 	                </div>
                 	<script type="text/javascript">new Element.hide('OffStudyStatus');</script>
                </csmauthz:accesscontrol>
-            </td>
-        </tr>
-		</table>
+            </div>
+        </div>
         <c:if test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">
             <div class="row">
                 <div class="label">Off study reason:</div>
@@ -322,39 +307,70 @@
         </c:if>
         <div class="row">
             <div class="label"><fmt:message key="registration.consentSignedDate"/>:</div>
-            <div class="value">
-                <tags:inPlaceEdit value="${command.studySubject.informedConsentSignedDateStr }" path="studySubject.informedConsentSignedDate" id="informedConsentSignedDate"
-                                  validations="validate-notEmpty&&DATE"/>
-            </div>
+            <div class="value">${command.studySubject.informedConsentSignedDateStr }</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="registration.consentVesion"/>:</div>
-            <div class="value">
-                <tags:inPlaceEdit value="${command.studySubject.informedConsentVersion}" path="studySubject.informedConsentVersion" id="informedConsentVersion"
-                                  validations="validate-notEmpty"/>
-            </div>
+            <div class="value">${command.studySubject.informedConsentVersion}</div>
         </div>
 	</div>
 	<div class="rightpanel">
         <div class="row">
             <div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
-            <div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+            	<c:choose>
+					<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
+						<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+					</c:otherwise>
+				</c:choose>
         </div>
         <div class="row">
-            <div class="label">Registration identifier:</div>
-            <div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
+            <div class="label"><fmt:message key="registration.registrationIdentifier"/>:</div>
+            	<c:choose>
+					<c:when test="${!empty command.studySubject.coOrdinatingCenterIdentifier.value}">
+						<div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notGenerated"/></span></div>
+					</c:otherwise>
+				</c:choose>
         </div>
         <div class="row">
-            <div class="label">Primary disease:</div>
-            <div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr }</div>
+            <div class="label"><fmt:message key="registration.primaryDisease"/>:</div>
+            <div class="value">
+            	<c:choose>
+						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseStr}">
+							<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr}</div>
+						</c:when>
+						<c:otherwise>
+							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+						</c:otherwise>
+					</c:choose>
+            </div>
         </div>
         <div class="row">
-            <div class="label">Primary disease site:</div>
-            <div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
+            <div class="label"><fmt:message key="registration.primaryDiseaseSite"/>:</div>
+            <c:choose>
+						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseSiteStr }">
+							<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
+						</c:when>
+						<c:otherwise>
+							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+						</c:otherwise>
+					</c:choose>
         </div>
         <div class="row">
         <div class="label"><fmt:message key="registration.paymentMethod"/>:</div>
-            <div class="value">${command.studySubject.paymentMethod}</div>
+            <c:choose>
+						<c:when test="${!empty command.studySubject.paymentMethod}">
+							<div class="value">${command.studySubject.paymentMethod}</div>
+						</c:when>
+						<c:otherwise>
+							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+						</c:otherwise>
+					</c:choose>
         </div>
 </div>
 </chrome:division>
