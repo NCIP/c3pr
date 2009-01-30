@@ -339,7 +339,6 @@
         </div>
         <div class="row">
             <div class="label"><fmt:message key="registration.primaryDisease"/>:</div>
-            <div class="value">
             	<c:choose>
 						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseStr}">
 							<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr}</div>
@@ -348,7 +347,6 @@
 							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
 						</c:otherwise>
 					</c:choose>
-            </div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="registration.primaryDiseaseSite"/>:</div>
