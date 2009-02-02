@@ -58,9 +58,12 @@ import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SUBJECTS_ID_SEQ") })
 public class StudySubject extends
 		InteroperableAbstractMutableDeletableDomainObject implements Customizable{
+
 	private LazyListHelper lazyListHelper;
 
 	private List<ScheduledEpoch> scheduledEpochs = new ArrayList<ScheduledEpoch>();
+	
+	private List<ConsentHistory> consentHistoryList = new ArrayList<ConsentHistory>();
 
 	private String name;
 
@@ -135,6 +138,7 @@ public class StudySubject extends
 						SystemAssignedIdentifier.class));
 		setIdentifiers(new ArrayList<Identifier>());
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+		lazyListHelper.add(ConsentHistory.class, new ParameterizedBiDirectionalInstantiateFactory<ConsentHistory>(ConsentHistory.class, this));
 		// mandatory, so that the lazy-projected list is managed properly.
 	}
 
@@ -159,6 +163,7 @@ public class StudySubject extends
 			this.primaryIdentifier = "SysGen";
 		}
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+		lazyListHelper.add(ConsentHistory.class, new ParameterizedBiDirectionalInstantiateFactory<ConsentHistory>(ConsentHistory.class, this));
 	}
 
 	@OneToMany
@@ -170,12 +175,8 @@ public class StudySubject extends
 
 	private void setScheduledEpochs(List<ScheduledEpoch> scheduledEpochs) {
 		this.scheduledEpochs = scheduledEpochs;
-		lazyListHelper.setInternalList(ScheduledEpoch.class,
-				new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,
-						ScheduledEpoch.class));
-		lazyListHelper.setInternalList(ScheduledEpoch.class,
-				new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,
-						ScheduledEpoch.class));
+		lazyListHelper.setInternalList(ScheduledEpoch.class,new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,ScheduledEpoch.class));
+		lazyListHelper.setInternalList(ScheduledEpoch.class,new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,ScheduledEpoch.class));
 	}
 
 	public void addScheduledEpoch(ScheduledEpoch scheduledEpoch) {
@@ -248,8 +249,16 @@ public class StudySubject extends
 		return participant;
 	}
 
+//	@Transient
 	public Date getInformedConsentSignedDate() {
-		return informedConsentSignedDate;
+		return informedConsentSignedDate ;
+//		List<ConsentHistory> tempList = new ArrayList<ConsentHistory>();
+//		tempList.addAll(getConsentHistoryList());
+//		Collections.sort(tempList);
+//		if (tempList.size() == 0)
+//			return null;
+//		ConsentHistory consentHistory = tempList.get(tempList.size() - 1);
+//		return consentHistory.getConsentSignedDate();
 	}
 
 	public void setInformedConsentSignedDate(Date informedConsentSignedDate) {
@@ -1259,8 +1268,6 @@ public class StudySubject extends
 			}
 		}
 		return false;
-		
-		
 	}
 	
 	@Transient
@@ -1273,4 +1280,29 @@ public class StudySubject extends
 		}
 		return false;
 	}
+	
+	@OneToMany
+	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "STU_SUB_ID", nullable = false)
+	public List<ConsentHistory> getConsentHistoryList() {
+		return consentHistoryList;
+	}
+
+	private void setConsentHistoryList(List<ConsentHistory> consentHistoryList) {
+		this.consentHistoryList = consentHistoryList;
+		lazyListHelper.setInternalList(ConsentHistory.class,new ProjectedList<ConsentHistory>(this.consentHistoryList,ConsentHistory.class));
+	}
+
+	public void addConsentHistory(ConsentHistory consentHistory) {
+		getConsentHistoryList().add(consentHistory);
+	}
+	
+	@Transient
+	public ConsentHistory getCurrentConsentHistory() {
+		return this.getConsentHistoryList().get(getConsentHistoryList().size() - 1);
+	}
+
+	
+
+	
 }

@@ -137,6 +137,7 @@
                <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
+			   <value>edu.duke.cabig.c3pr.domain.ConsentHistory</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -273,6 +274,7 @@
 	                <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
 	                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
 	                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
+					<value>edu.duke.cabig.c3pr.domain.ConsentHistory</value>
               </list>
         </property> 
         <!--  <property name="auditAll">
