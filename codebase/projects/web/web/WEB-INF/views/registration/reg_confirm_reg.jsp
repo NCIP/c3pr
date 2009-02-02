@@ -52,7 +52,7 @@ function manageCompanions(){
 </c:otherwise>
 </c:choose>
 <form name="navigationForm" id="navigationForm" method="post"></form>
-<tags:panelBox title="Confirmation Message" boxId="ConfMessage">
+<tags:panelBox title="Confirmation" boxId="ConfMessage">
 
 <br/>
   <!--  newRegistration: ${newRegistration}<br>
