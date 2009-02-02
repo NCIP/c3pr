@@ -7,6 +7,8 @@
 <%@attribute name="id" %>
 <%@attribute name="cssClass" %>
 <%@attribute name="style" %>
+<%@attribute name="link" %>
+
 
 <div class="division ${cssClass}"<tags:attribute name="id" value="${id}"/><tags:attribute name="style" value="${style}"/>>
 <c:choose>
@@ -33,12 +35,22 @@
         }
     }
 </script>
-            <h3><a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />" alt="Maximize" style="vertical-align:middle" /></a> ${title}</h3>
+            <h3><a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />" alt="Maximize" style="vertical-align:middle" /></a> ${title}
+             <c:if test="${!empty link}">
+            	<a href="${link}"><img src="<chrome:imageUrl name="../../images/b-edit.gif" />"></a>
+            </c:if>
+            </h3>
+           
         </c:if>
     </c:when>
     <c:otherwise>
         <c:if test="${not empty title}">
-            <h3>${title}</h3>
+            <h3>${title}
+            <c:if test="${!empty link}">
+            	<a href="${link}"><img src="<chrome:imageUrl name="../../images/b-edit.gif" />"></a>
+            </c:if>
+            </h3>
+            
         </c:if>
     </c:otherwise>
 </c:choose>

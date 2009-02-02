@@ -697,4 +697,16 @@
     <bean name="/dashboard" id="dashboardController" class="edu.duke.cabig.c3pr.web.DashboardController" autowire="byName">
         <property name="viewName"><value>dashboard</value></property>
     </bean>
+
+
+    <bean name="/registration/updateConsentVersion" id="updateConsentVersion"
+          class="edu.duke.cabig.c3pr.web.registration.UpdateConsentVersionController" autowire="byName">
+		<property name="formView" value="registration/update_consent_version" />
+    </bean>
+	<!-- bean name="/registration/updateRegistration" id="updateRegistration"
+          class="edu.duke.cabig.c3pr.web.registration.UpdateRegistrationController" autowire="byName">
+		<property name="formView" value="registration/update_registration" />
+    </bean -->
+    
+
 </beans>

@@ -146,7 +146,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</div>
 		</div>
 	</chrome:division>
-	<chrome:division id="enrollment" title="Enrollment Details">
+	<chrome:division id="enrollment" title="Enrollment Details" link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit();">
 			<div class="leftpanel">
 				<div class="row">
 					<div class="label">Registration start date:</div>
@@ -157,7 +157,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentSignedDateStr}' workflow='registration'/></div>
 				</div>
 				<div class="row">
-					<div class="label"><fmt:message key="registration.consentVesion"/>:</div>
+					<div class="label"><fmt:message key="registration.consentVersion"/>:</div>
 					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentVersion}' workflow='registration'/></div>
 				</div>
 			</div>
@@ -208,7 +208,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 			</div>
 	</chrome:division>
-	<chrome:division id="Eligibility" title="Eligibility">
+	<chrome:division id="Eligibility" title="Eligibility" link="javascript:document.getElementById('flowredirect-target').name='_target2';document.getElementById('flowredirect').submit();">
 		<div class="row">
 			<div class="label"><fmt:message key="registration.eligibilty"/>:</div>
 			<c:choose>
@@ -222,7 +222,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</c:choose>
 		</div>
 	</chrome:division>
-	<chrome:division id="stratification" title="Stratification">
+	<chrome:division id="stratification" title="Stratification" link="javascript:document.getElementById('flowredirect-target').name='_target3';document.getElementById('flowredirect').submit();">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
 			<div align="left"><span><fmt:message key="registartion.stratificationNotAvailable"/></span></div>

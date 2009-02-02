@@ -6,11 +6,7 @@
 <%@attribute name="registration" required="true" type="edu.duke.cabig.c3pr.domain.StudySubject"%>
 <style type="text/css">
         .labelR { text-align: right; padding: 4px;  font-weight: bold;}
-</style>
-<style type="text/css">
         .labelL { text-align: left; padding: 4px; font-weight: bold;}
-</style>
-<style type="text/css">
         .labelC { text-align: center; padding: 4px; font-weight: bold;}
 </style>
 <c:if test="${registration.scheduledEpoch.requiresRandomization}">
