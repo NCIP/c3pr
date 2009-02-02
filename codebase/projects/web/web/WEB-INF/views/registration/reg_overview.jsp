@@ -64,6 +64,21 @@
 			var windowRef = window.open("/c3pr/print_view.jsp", "Print Window", "scrollbars=yes,menubar=no,width=730,height=600,toolbar=no");
 			windowRef.focus()
 		}
+
+		function updateConsentVersion(registartionId){
+			win = new Window({title: "Reconsent", 
+				zIndex:100, width:500, height:200 ,
+				recenterAuto:true, className :"mac_os_x",
+				url: "<c:url value='/pages/registration/updateConsentVersion?decorator=noheaderDecorator&registartionId='/>" + registartionId, 
+				showEffectOptions: {duration:1.5}
+					}
+				) 
+			win.showCenter(true)
+		}
+	
+		function closePopup() {
+			win.close();
+		}
     </script>
 </head>
 <body>
@@ -283,10 +298,7 @@
             <div class="label"><fmt:message key="registration.registrationStatus"/>:</div>
             <div class="value">${command.studySubject.regWorkflowStatus.code}
             	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-	                <c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
-	                    <input type="button" value="Take subject off study" onclick="new Effect.SlideDown('OffStudyStatus')">
-	                </c:if>
-	                <br/><br/>
+					<br>
 	                <div id="OffStudyStatus">
 	                    <form:form id="offStudyStatusForm">
 	                        <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
@@ -320,7 +332,7 @@
             <div class="value">${command.studySubject.informedConsentSignedDateStr }</div>
         </div>
         <div class="row">
-            <div class="label"><fmt:message key="registration.consentVesion"/>:</div>
+            <div class="label"><fmt:message key="registration.consentVersion"/>:</div>
             <div class="value">${command.studySubject.informedConsentVersion}</div>
         </div>
 	</div>
@@ -555,6 +567,14 @@
     </chrome:division>
 </c:if>
 </div>
+</div>
+<div align="right">
+    <input type="button" value="update consent version" onClick="updateConsentVersion(${command.studySubject.id});"/>
+    <csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+	    <c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
+	        <input type="button" value="Take subject off study" onclick="new Effect.SlideDown('OffStudyStatus')">
+	    </c:if>
+    </csmauthz:accesscontrol>
 </div>
 <form:form id="exportForm" method="post">
     <tags:tabFields tab="${tab}"/>
