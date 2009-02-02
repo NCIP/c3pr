@@ -60,12 +60,17 @@
 			$('create_parent_id').value=parentRegistrationId;
 			$('create').submit();
 		}
+		function launchPrint(){
+			var windowRef = window.open("/c3pr/print_view.jsp", "Print Window", "scrollbars=yes,menubar=no,width=730,height=600,toolbar=no");
+			windowRef.focus()
+		}
     </script>
 </head>
 <body>
-	<tags:printPageLink />
 	<tags:controlPanel>
-		<tags:oneControlPanelItem />
+		<tags:oneControlPanelItem linkhref="#" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pen.png" linktext="Edit" />
+		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
+		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
@@ -251,7 +256,7 @@
 
 <div <c:if test="${empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
 <chrome:division title="Parent Study">
-    <table class="tablecontent" width="50%">
+    <table class="tablecontent" width="90%">
         <tr>
             <th width="75%" scope="col" align="left"><b>Short title:</b></th>
 			<th width="75%" scope="col" align="left"><b>Primary identifier:</b></th>
@@ -426,10 +431,10 @@
     <chrome:division id="stratification" title="Stratification">
         <c:choose>
             <c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
-                <div align="left"><span class="red"><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
+                <div align="left"><span class="no-selection"><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
             </c:when>
             <c:otherwise>
-                <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="50%">
+                <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="90%">
                     <tr>
                         <th width="35%" scope="col" align="left">Strata</th>
                         <th scope="col" align="left"><b>Answer</b></th>
@@ -550,12 +555,6 @@
     </chrome:division>
 </c:if>
 </div>
-
-<div align="right">
-	<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
-    <input type="button" value="Export" onClick="$('exportForm')._target.name='xxxx';$('exportForm').submit();"/>
-</div>
-
 </div>
 <form:form id="exportForm" method="post">
     <tags:tabFields tab="${tab}"/>
