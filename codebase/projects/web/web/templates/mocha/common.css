@@ -918,35 +918,37 @@ width:75%;
 /* BEGIN Control Panel Styles */
 #controlPanel {
 	width:100%;
-	text-align:center;
+	text-align:right;
 	position:relative;
 	display:block;
-	min-height:120px;
+	min-height:38px;
 	min-width:150px;
 	margin-bottom:15px;
 }
 #controlPanel #header {
-	height:34px;
+	height:0px;
 	width:auto;
 	background-image:url(images/controlPanel/header_bg.png);
 	background-repeat:repeat-x;
 	padding:0;
 }
 #controlPanel #header #title {
-	height:32px;
-	width:147px;
+	height:8px;
+	width:9px;
 	display:block;
 	float:left;
 	background-image:url(images/controlPanel/header_left.png);
 	background-position:top;
+	background-repeat:no-repeat;
 }
 #controlPanel #header #right {
-	height:34px;
-	width:14px;
+	height:10px;
+	width:9px;
 	display:block;
 	float:right;
 	background-image:url(images/controlPanel/header_right.png);
 	background-position:top;
+	background-repeat:no-repeat;
 }
 #controlPanel #bodyleft {
 	width:4px;
@@ -999,8 +1001,7 @@ width:75%;
 
 }
 .oneControlPanelItem img {
-	display:block;
-	margin:0 auto;
+
 }
 .oneControlPanelItem a {
 	color:white;

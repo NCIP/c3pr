@@ -10,17 +10,12 @@
             </td>
         </tr>
         <tr>
-            <td id="bodyleft"></td>
+            
             <td id="body">
                 <jsp:doBody/>
             </td>
-            <td id="bodyright"></td>
+            
         </tr>
-        <tr>
-            <td id="footer" colspan="3">
-                <div id="left"></div>
-                <div id="right"></div>
-            </td>
-        </tr>
+     
     </table>
 </div>

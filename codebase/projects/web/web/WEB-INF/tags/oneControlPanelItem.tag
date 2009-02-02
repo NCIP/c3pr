@@ -5,5 +5,5 @@
 <%@attribute name="linkhref" required="true" %>
 <%@attribute name="imgsrc" required="true" %>
 <div class="oneControlPanelItem">
-	<a href="${linkhref}"><img src="${imgsrc}" alt="" />${linktext}</a>
+	<a href="${linkhref}"><img src="${imgsrc}" alt="" /> ${linktext}</a>
 </div>
