@@ -4,6 +4,6 @@ class ConsentVersionMigration extends edu.northwestern.bioinformatics.bering.Mig
     }
 
     void down() {
-    	execute(insert into 'study_subjects' ('informed_consent_version','informed_consent_signed_date') select 'consent_version','consent_signed_date' from consent_history where id = 'stu_sub_id'")
+    	execute("insert into 'study_subjects' ('informed_consent_version','informed_consent_signed_date') select 'consent_version','consent_signed_date' from consent_history where id = 'stu_sub_id'")
     }
 }
