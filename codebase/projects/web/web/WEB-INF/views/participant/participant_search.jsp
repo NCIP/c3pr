@@ -37,7 +37,7 @@ function submitPage(){
 								</form:select></td>
 							</tr>
 							<tr>
-								<td align="right"><span class="label">Search Criteria:</span></td>
+								<td align="right"><span class="label"><fmt:message key="c3pr.common.searchCriteria"/>:</span></td>
 								<td align="left"><form:input path="searchText" cssClass="value"/></td>
 							</tr>
 							<tr>
