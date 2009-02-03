@@ -12,7 +12,7 @@
 <c:if test="${registration.scheduledEpoch.requiresRandomization}">
 <chrome:box title="Randomization">
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
-		      	<fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/>
+		      	<tags:instructions code="REGISTRATION.RANDOMIZATION.PHONE_CALL"/>
 			</c:if>
 		    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 				<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'&& registration.scheduledEpoch.epoch.randomizedIndicator}">
@@ -21,7 +21,7 @@
 					</tr>
 					<tr>
 						<td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td>
-						<td >${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td>
+						<td>${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td>
 					</tr>
 					<tr>
 						<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
@@ -48,7 +48,7 @@
 					</tr>
 				</c:if>
 				<c:if test="${registration.studySite.study.randomizationType.name == 'BOOK' && registration.scheduledEpoch.epoch.randomizedIndicator}">
-					<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
+					<tags:instructions code="REGISTRATION.RANDOMIZATION.BOOK"/>
 					<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
 						<tr>
 							<td class="labelR"><fmt:message key="registration.stratumGroup"/>:</td>

@@ -114,7 +114,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.studySite.activeStudyInvestigators)>0}">
 			<select id ="treatingPhysician" name="studySubject.treatingPhysician">
-				<option value="">Please Select</option>
+				<option value="">Please select...</option>
 				<c:forEach items="${command.studySubject.studySite.activeStudyInvestigators}" var="activeInv">
 					<option value="${activeInv.id }" ${!empty command.studySubject.treatingPhysician && command.studySubject.treatingPhysician.id==activeInv.id?'selected':''}>${activeInv.healthcareSiteInvestigator.investigator.fullName }</option>
 				</c:forEach>
@@ -140,7 +140,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<div class="label"><fmt:message key="registration.primaryDisease"/></div>
 		<div class="value">
 			<form:select id="stuydDiseaseSelect" path="studySubject.diseaseHistory.studyDisease" onchange="manageField(this);">
-				<option value="">Please Select</option>
+				<option value="">Please select...</option>
 				<form:options items="${command.studySubject.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
 				<option value="">Other</option>
 			</form:select>
@@ -169,7 +169,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<div class="label"><fmt:message key="registration.paymentMethod"/></div>
 		<div class="value">
 			<form:select id="paymentMethod" path="studySubject.paymentMethod">
-				<option value="">Please Select</option>
+				<option value="">Please select...</option>
 				<form:options items="${paymentMethods}" itemLabel="desc" itemValue="code"/>
 			</form:select>
 			<tags:hoverHint keyProp="studySubject.primaryDisease"/>

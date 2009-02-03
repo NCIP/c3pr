@@ -99,6 +99,12 @@
 	<tags:controlPanel>
 		<tags:oneControlPanelItem linkhref="#" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
+		<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
+		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+	    	<c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
+				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudy(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
+			</c:if>
+    	</csmauthz:accesscontrol>
 		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>
 <form action="../registration/createRegistration" method="post" id="create">
@@ -563,14 +569,6 @@
     </chrome:division>
 </c:if>
 </div>
-</div>
-<div align="right">
-    <input type="button" value="update consent version" onClick="updateConsentVersion(${command.studySubject.id});"/>
-    <csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-	    <c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
-	        <input type="button" value="Take subject off study" onclick="takeSubjectOffStudy(${command.studySubject.id});">
-	    </c:if>
-    </csmauthz:accesscontrol>
 </div>
 <form:form id="exportForm" method="post">
     <tags:tabFields tab="${tab}"/>

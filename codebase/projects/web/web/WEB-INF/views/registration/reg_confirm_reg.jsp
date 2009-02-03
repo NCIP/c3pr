@@ -28,8 +28,16 @@ function manageCompanions(){
 	$('manageCompanion').submit();
 }
 </script>
+<style>
+	#main {
+		top:35px;
+	}
+</style>
 </head>
 <body>
+	<tags:controlPanel>
+		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
+	</tags:controlPanel>
 <form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="manageCompanion">
 	<input type="hidden" name="_page2" id="_page" value="2"/>
 	<input type="hidden" name="_target2" id="_target" value="2"/>
@@ -54,7 +62,7 @@ function manageCompanions(){
 <form name="navigationForm" id="navigationForm" method="post"></form>
 <tags:panelBox title="Confirmation" boxId="ConfMessage">
 
-<br/>
+
   <!--  newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
@@ -170,7 +178,7 @@ function manageCompanions(){
 		</c:choose>
 	</c:otherwise>
 	</c:choose>
-	<br><br>
+	
 	<div id="printable">
 		<div class="row">
 			<div class="label"><b><fmt:message key="participant.subjectMRN"/></b>:</div>
@@ -232,7 +240,7 @@ function manageCompanions(){
 				</c:otherwise>
 			</c:choose>
 		</div>
-	<br>
+	
 	</div>
 
 	<script>
