@@ -310,9 +310,9 @@
     <br>
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left">Assigning Authority</th>
-            <th width="35%" scope="col" align="left">Identifier Type</th>
-            <th scope="col" align="left">Identifier</th>
+            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
+            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
+            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
         </tr>
         <c:forEach items="${command.study.organizationAssignedIdentifiers}" var="orgIdentifier">
             <tr class="results">
@@ -327,9 +327,9 @@
     <br>
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left">System Name</th>
-            <th width="35%" scope="col" align="left">Identifier Type</th>
-            <th scope="col" align="left">Identifier</th>
+            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.systemName"/></th>
+            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
+            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
         </tr>
         <c:forEach items="${command.study.systemAssignedIdentifiers}" var="identifier">
             <tr class="results">
