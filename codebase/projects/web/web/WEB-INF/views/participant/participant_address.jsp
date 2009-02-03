@@ -36,22 +36,22 @@ top:83px;
 			</p>
 	<table width="80%" border="0" cellspacing="1" cellpadding="1" id="table1">
 		<tr>
-			<td width="150" align="right"><em></em> <b>Street Address:</b>&nbsp;</td>
+			<td width="150" align="right"><em></em> <b><fmt:message key="c3pr.common.streetAddress"/></b>&nbsp;</td>
 			<td width align="left"><form:input size="58"
 				path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
-			<td width="150" align="right"><em></em> <b>City:</b>&nbsp;</td>
+			<td width="150" align="right"><em></em> <b><fmt:message key="c3pr.common.city"/></b>&nbsp;</td>
 			<td align="left"><form:input path="address.city" />&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
-			<td width="150" align="right"><span class="data"><em></em> <b>State:</b>&nbsp;</span></td>
+			<td width="150" align="right"><span class="data"><em></em> <b><fmt:message key="c3pr.common.state"/></b>&nbsp;</span></td>
 			<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<b>Zip:</b>&nbsp;<form:input path="address.postalCode" id="postalCode" cssClass="validate-ZIPCODE" /></td>
+			<b><fmt:message key="c3pr.common.zip"/></b>&nbsp;<form:input path="address.postalCode" id="postalCode" cssClass="validate-ZIPCODE" /></td>
 		</tr>
         
         <tr>
-			<td width="150" align="right"><em></em><em></em> <b>Country:</b>&nbsp;</td>
+			<td width="150" align="right"><em></em><em></em> <b><fmt:message key="c3pr.common.country"/></b>&nbsp;</td>
 			<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 	</table>
