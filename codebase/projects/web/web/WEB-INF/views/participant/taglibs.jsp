@@ -8,3 +8,4 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@taglib prefix="participanttags" tagdir="/WEB-INF/tags/participant"%>
 <%@taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
