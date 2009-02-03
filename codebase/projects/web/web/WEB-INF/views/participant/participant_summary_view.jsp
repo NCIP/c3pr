@@ -31,35 +31,35 @@ function updateTargetPage(target){
 		<chrome:division id="subject-details" title="Basic Details">
 			<table class="tablecontent" width="60%">
 				<tr>
-					<td width="35%" class="alt" align="left"><b>First Name</b></td>
+					<td width="35%" class="alt" align="left"><b><fmt:message key="participant.firstName"/></b></td>
 					<td class="alt" align="left">${command.firstName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Last Name</b></td>
+					<td class="alt" align="left"><b><fmt:message key="participant.lastName"/></b></td>
 					<td class="alt" align="left">${command.lastName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Middle Name</b></td>
+					<td class="alt" align="left"><b><fmt:message key="participant.middleName"/></b></td>
 					<td class="alt" align="left">${command.middleName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Maiden Name</b></td>
+					<td class="alt" align="left"><b><fmt:message key="participant.maidenName"/></b></td>
 					<td class="alt" align="left">${command.maidenName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Gender</b></td>
+					<td class="alt" align="left"><b><fmt:message key="participant.gender"/></b></td>
 					<td class="alt" align="left">${command.administrativeGenderCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Birth Date</b></td>
+					<td class="alt" align="left"><b><fmt:message key="participant.birthDate"/></b></td>
 					<td class="alt" align="left">${command.birthDateStr}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Ethnicity</b></td>
+					<td class="alt" align="left"><b><fmt:message key="participant.ethnicity"/></b></td>
 					<td class="alt" align="left">${command.ethnicGroupCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Races</b></td>
+					<td class="alt" align="left"><b><fmt:message key="participant.race"/></b></td>
 						<td class="alt" align="left">
 						<c:forEach items="${command.raceCodes}" var="raceCode">
 				            <div class="row">
@@ -76,23 +76,23 @@ function updateTargetPage(target){
 		<chrome:division title="Address">
 			<table class="tablecontent" width="60%">
 				<tr>
-					<td width="35%" class="alt" align="left"><b>Street Address</b></td>
+					<td width="35%" class="alt" align="left"><b><fmt:message key="c3pr.common.streetAddress"/></b></td>
 					<td class="alt" align="left">${command.address.streetAddress}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>City</b></td>
+					<td class="alt" align="left"><b><fmt:message key="c3pr.common.city"/></b></td>
 					<td class="alt" align="left">${command.address.city}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>State</b></td>
+					<td class="alt" align="left"><b><fmt:message key="c3pr.common.state"/></b></td>
 					<td class="alt" align="left">${command.address.stateCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Country</b></td>
+					<td class="alt" align="left"><b>fmt:message key="c3pr.common.country"/></b></td>
 					<td class="alt" align="left">${command.address.countryCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Zip</b></td>
+					<td class="alt" align="left"><b><fmt:message key="c3pr.common.zip"/></b></td>
 					<td class="alt" align="left">${command.address.postalCode}</td>
 				</tr>
 			</table>
@@ -100,9 +100,9 @@ function updateTargetPage(target){
 		<chrome:division title="Contact Information">
 			<table class="tablecontent" width="60%">
 				<tr>
-					<th width="40%" scope="col" align="left">Email</th>
-					<th width="30%" scope="col" align="left">Phone</th>
-					<th width="30%" scope="col" align="left">Fax</th>
+					<th width="40%" scope="col" align="left"><fmt:message key="c3pr.common.email"/></th>
+					<th width="30%" scope="col" align="left"><fmt:message key="c3pr.common.phone"/></th>
+					<th width="30%" scope="col" align="left"><fmt:message key="c3pr.common.fax"/></th>
 				</tr>
 				<tr class="results">
 					<c:forEach items="${command.contactMechanisms}"
@@ -120,9 +120,9 @@ function updateTargetPage(target){
 
 			<table class="tablecontent" width="60%">
 				<tr>
-					<th width="50%" scope="col" align="left">Assigning Authority</th>
-					<th width="35%" scope="col" align="left">Identifier Type</th>
-					<th width="15%" scope="col" align="left">Identifier</th>
+					<th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.systemName"/></th>
+					<th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
+					<th width="15%" scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
 				</tr>
 				<c:forEach items="${command.organizationAssignedIdentifiers}"
 					var="orgIdentifier">
@@ -140,9 +140,9 @@ function updateTargetPage(target){
 
 			<table class="tablecontent" width="60%">
 				<tr>
-					<th width="50%" scope="col" align="left">System Name</th>
-					<th width="35%" scope="col" align="left">Identifier Type</th>
-					<th width="15%" scope="col" align="left">Identifier</th>
+					<th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.systemName"/></th>
+					<th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
+					<th width="15%" scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
 				</tr>
 				<c:forEach items="${command.systemAssignedIdentifiers}"
 					var="identifier">
