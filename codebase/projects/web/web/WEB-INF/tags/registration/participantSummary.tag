@@ -4,6 +4,7 @@
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script>
 function accessApp(url,app,targetWindow){
@@ -24,23 +25,23 @@ function submitlinksPage(){
 	<table width="100%" height="100%" border="0" cellspacing="0"
 		cellpadding="0" id="table1">
 		<tr>
-			<td valign="top" width="40%" align="right"><b>First Name:&nbsp;</b></td>
+			<td valign="top" width="40%" align="right"><b><fmt:message key="participant.firstName"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.participant.firstName}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="40%" align="right"><b>Last Name:&nbsp;</b></td>
+			<td valign="top" width="40%" align="right"><b><fmt:message key="participant.lastName"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.participant.lastName}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="40%" align="right"><b>Gender:&nbsp;</b></td>
+			<td valign="top" width="40%" align="right"><b><fmt:message key="participant.gender"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.participant.administrativeGenderCode}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="40%" align="right"><b>Ethnicity:&nbsp;</b></td>
+			<td valign="top" width="40%" align="right"><b><fmt:message key="participant.ethnicity"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.participant.ethnicGroupCode}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="40%" align="right"><b>Races(s):&nbsp;</b></td>
+			<td valign="top" width="40%" align="right"><b><fmt:message key="participant.race"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">
 				<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
 		            <div class="row">
