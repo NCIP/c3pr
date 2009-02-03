@@ -159,33 +159,33 @@
 <chrome:division id="Subject Information" title="Subject">
     <div class="leftpanel">
         <div class="row">
-            <div class="label">First name:</div>
+            <div class="label"><fmt:message key="participant.firstName"/>:</div>
             <div class="value">${command.studySubject.participant.firstName}</div>
         </div>
         <div class="row">
-            <div class="label">Last name:</div>
+            <div class="label"><fmt:message key="participant.lastName"/>:</div>
             <div class="value">${command.studySubject.participant.lastName}</div>
         </div>
         <div class="row">
-            <div class="label">Gender:</div>
+            <div class="label"><fmt:message key="participant.gender"/>:</div>
             <div class="value">${command.studySubject.participant.administrativeGenderCode}</div>
         </div>
         <div class="row">
-            <div class="label">Medical record number:</div>
+            <div class="label"><fmt:message key="participant.medicalRecordNumber"/>:</div>
             <div class="value">${command.studySubject.participant.primaryIdentifier }</div>
         </div>
 	</div>
 	<div class="rightpanel">
         <div class="row">
-            <div class="label">Birth date:</div>
+            <div class="label"><fmt:message key="participant.birthDate"/>:</div>
             <div class="value">${command.studySubject.participant.birthDateStr}</div>
         </div>
         <div class="row">
-            <div class="label">Ethnicity:</div>
+            <div class="label"><fmt:message key="participant.ethnicity"/>:</div>
             <div class="value">${command.studySubject.participant.ethnicGroupCode}</div>
         </div>
         <div class="row">
-            <div class="label">Race(s):</div>
+            <div class="label"><fmt:message key="participant.race"/>:</div>
             	<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
 		                <div class="value">${raceCode.displayName}</div>
 		        </c:forEach>
@@ -196,33 +196,33 @@
 <chrome:division id="Study Information" title="Study">
     <div class="leftpanel">
         <div class="row">
-            <div class="label">Status:</div>
+            <div class="label"><fmt:message key="study.status"/>:</div>
             <div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
         </div>
         <div class="row">
-            <div class="label">Short title:</div>
+            <div class="label"><fmt:message key="study.shortTitle"/>:</div>
             <div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
         </div>
         <div class="row">
-            <div class="label">Long title:</div>
+            <div class="label"><fmt:message key="study.longTitle"/>:</div>
             <div class="value">${command.studySubject.studySite.study.longTitleText}</div>
         </div>
         <div class="row">
-            <div class="label">Randomized:</div>
+            <div class="label"><fmt:message key="study.randomized"/>:</div>
             <div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
         </div>
 	</div>
 	<div class="rightpanel">
         <div class="row">
-            <div class="label">Multi institutional:</div>
+            <div class="label"><fmt:message key="study.multiInstitutional"/>:</div>
             <div class="value">${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</div>
         </div>
         <div class="row">
-            <div class="label"> Phase:</div>
+            <div class="label"> <fmt:message key="study.phase"/>:</div>
             <div class="value">${command.studySubject.studySite.study.phaseCode}</div>
         </div>
         <div class="row">
-            <div class="label">Coordinating center identifier:</div>
+            <div class="label"><fmt:message key="study.coordinatingCenterIdentifier"/>:</div>
             <div class="value">${command.studySubject.studySite.study.identifiers[0].value}</div>
         </div>
    </div>
@@ -230,11 +230,11 @@
 <chrome:division id="Study Site Information:" title="Study Site">
    	<div class="leftpanel">
         <div class="row">
-            <div class="label">Name:</div>
+            <div class="label"><fmt:message key="site.name"/>:</div>
             <div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
         </div>
         <div class="row">
-            <div class="label">Address:</div>
+            <div class="label"><fmt:message key="site.address"/>:</div>
             <div class="value">
 					<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.streetAddress}">${command.studySubject.studySite.healthcareSite.address.streetAddress},</c:if>
 					<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.city}">${command.studySubject.studySite.healthcareSite.address.city},</c:if>
@@ -243,17 +243,17 @@
 			</div>
         </div>
         <div class="row">
-            <div class="label">Status:</div>
+            <div class="label"><fmt:message key="site.status"/>:</div>
             <div class="value">${command.studySubject.studySite.siteStudyStatus.code}</div>
         </div>
 	</div>
 	<div class="rightpanel">
         <div class="row">
-            <div class="label">NCI institution code:</div>
+            <div class="label"><fmt:message key="site.NCIInstitutionCode"/>:</div>
             <div class="value">${command.studySubject.studySite.healthcareSite.nciInstituteCode}</div>
         </div>
         <div class="row">
-            <div class="label">IRB approval date:</div>
+            <div class="label"><fmt:message key="site.IRBApprovalDate"/>:</div>
             <div class="value">${command.studySubject.studySite.irbApprovalDateStr}</div>
         </div>
   </div>
@@ -273,11 +273,11 @@
 	</div>
 	<div class="rightpanel">
         <div class="row">
-            <div class="label">Enrolling:</div>
+            <div class="label"><fmt:message key="registration.enrolling"/>:</div>
             <div class="value">${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</div>
         </div>
         <div class="row">
-            <div class="label">Epoch status:</div>
+            <div class="label"><fmt:message key="registration.epochStatus"/>:</div>
             <div class="value">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</div>
         </div>
     </div>
@@ -287,8 +287,8 @@
 <chrome:division title="Parent Study">
     <table class="tablecontent" width="90%">
         <tr>
-            <th width="75%" scope="col" align="left"><b>Short title:</b></th>
-			<th width="75%" scope="col" align="left"><b>Primary identifier:</b></th>
+            <th width="75%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/>:</b></th>
+			<th width="75%" scope="col" align="left"><b><fmt:message key="study.primaryIdentifier"/>:</b></th>
         </tr>
             <tr>
                 <td class="alt">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}</td>
@@ -333,11 +333,11 @@
         </div>
         <c:if test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">
             <div class="row">
-                <div class="label">Off study reason:</div>
+                <div class="label"><fmt:message key="registration.offStudyReason"/>::</div>
                 <div class="value">${command.studySubject.offStudyReasonText }</div>
             </div>
             <div class="row">
-                <div class="label">Off study date:</div>
+                <div class="label"><fmt:message key="registration.offStudyDate"/>:</div>
                 <div class="value">${command.studySubject.offStudyDateStr }</div>
             </div>
         </c:if>
