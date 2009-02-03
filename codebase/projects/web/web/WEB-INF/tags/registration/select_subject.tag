@@ -3,6 +3,7 @@
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script type="text/javascript">
                                                             		function minimizeSubjectBox(msg){
                                                             		PanelCombo('SubjectBox');
@@ -143,7 +144,7 @@
                 <div class="content">
                     <div class="row">
                         <div class="label">
-                            Search Subjects By:
+                            <fmt:message key="registration.searchSubjectsBy"/>
                         </div>
                         <div class="value">
                             <select id="searchType" name="searchType">
@@ -155,7 +156,7 @@
                     </div>
                     <div class="row">
                         <div class="label">
-                            <span class="label">Search Criteria:</span>
+                            <span class="label"><fmt:message key="c3pr.common.searchCriteria"/></span>
                         </div>
                         <div class="value">
                             <input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="value" /><input type="button" value="Search" onclick="searchParticipant()"/>&nbsp;<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="absmiddle">
@@ -204,7 +205,7 @@
                                     <td>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>First name
+                                                <tags:requiredIndicator/><fmt:message key="participant.firstName"/>
                                             </div>
                                             <div class="value">
                                                 <input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
@@ -212,7 +213,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>Last name
+                                                <tags:requiredIndicator/><fmt:message key="participant.lastName"/>
                                             </div>
                                             <div class="value">
                                                 <input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
@@ -220,7 +221,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                Middle name
+                                                <fmt:message key="participant.middleName"/>
                                             </div>
                                             <div class="value">
                                                 <input id="middleName" name="middleName" type="text" value=""/>
@@ -228,7 +229,7 @@
                                         </div
                                         <div class="row">
                                             <div class="label">
-                                                Maiden name
+                                                <fmt:message key="participant.maidenName"/>
                                             </div>
                                             <div class="value">
                                                 <input id="maidenName" name="maidenName" type="text" value=""/>
@@ -236,7 +237,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>Gender
+                                                <tags:requiredIndicator/><fmt:message key="participant.gender"/>
                                             </div>
                                             <div class="value">
                                                 <select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
@@ -251,7 +252,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>Birth date
+                                                <tags:requiredIndicator/><fmt:message key="participant.birthDate"/>
                                             </div>
                                             <div class="value">
                                                 <input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
@@ -261,7 +262,7 @@
                                     <td>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>Ethnicity
+                                                <tags:requiredIndicator/><fmt:message key="participant.ethnicity"/>
                                             </div>
                                             <div class="value">
                                                 <select id="ethnicGroupCode" name="ethnicGroupCode" class="validate-notEmpty">
@@ -277,7 +278,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/>Race(s)
+                                                <tags:requiredIndicator/><fmt:message key="participant.race"/>
                                             </div>
                                             <div class="value">
                                                 <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/> Asian
@@ -309,7 +310,7 @@
                                                 <td>
                                                     <div class="row">
                                                         <div class="label">
-                                                            Street address
+                                                            <fmt:message key="c3pr.common.streetAddress"/>
                                                         </div>
                                                         <div class="value">
                                                             <input id="streetAddress" name="streetAddress" type="text" value="" size="45"/>
@@ -317,7 +318,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="label">
-                                                            City
+                                                            <fmt:message key="c3pr.common.city"/>
                                                         </div>
                                                         <div class="value">
                                                             <input id="city" name="city" type="text" value=""/>
@@ -325,7 +326,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="label">
-                                                            <span class="data">State</span>
+                                                            <span class="data"><fmt:message key="c3pr.common.state"/></span>
                                                         </div>
                                                         <div class="value">
                                                             <input id="stateCode" name="stateCode" type="text" value=""/>
@@ -333,7 +334,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="label">
-                                                            Zip
+                                                            <fmt:message key="c3pr.common.zip"/>
                                                         </div>
                                                         <div class="value">
                                                             <input id="postalCode" name="postalCode" type="text" value=""/>
@@ -343,7 +344,7 @@
                                                 <td>
                                                     <div class="row">
                                                         <div class="label">
-                                                            Country
+                                                            <fmt:message key="c3pr.common.country"/>
                                                         </div>
                                                         <div class="value">
                                                             <input id="countryCode" name="countryCode" type="text" value=""/>
@@ -351,7 +352,7 @@
                                                     </div>
 													<div class="row">
                                                         <div class="label">
-                                                            Phone
+                                                            <fmt:message key="c3pr.common.phone"/>
                                                         </div>
                                                         <div class="value">
                                                             <input id="phone" name="phone" type="text" value=""/>
@@ -359,7 +360,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="label">
-                                                            Fax
+                                                            <fmt:message key="c3pr.common.fax"/>
                                                         </div>
                                                         <div class="value">
                                                             <input id="fax" name="fax" type="text" value=""/>
@@ -367,7 +368,7 @@
                                                     </div>
 													<div class="row">
                                                         <div class="label">
-                                                            Email
+                                                            <fmt:message key="c3pr.common.email"/>
                                                         </div>
                                                         <div class="value">
                                                             <input id="email" name="email" type="text" value="" size="35"/>
