@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Randomization;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
@@ -52,6 +53,11 @@ public class StudyStratificationTab extends StudyTab {
 				refdata.put("disableForm", new Boolean(false));
 				refdata.put("mandatory", "true");
 			}
+		}
+		if(wrapper.getStudy().getRandomizationType().equals(RandomizationType.BOOK)){
+			refdata.put("isBookRandomized", "true");
+		}else{
+			refdata.put("isBookRandomized", "false");
 		}
 		return refdata;
 	}
