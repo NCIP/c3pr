@@ -49,7 +49,7 @@
             </div>
             <div class="row">
                 <div class="label">
-                    Search Criteria:
+                    <fmt:message key="c3pr.common.searchCriteria"/>
                 </div>
                 <div class="value">
                     <form:input path="searchText" cssClass="value"/>
