@@ -215,7 +215,7 @@ Event.observe(window, "load", function() {
 				</tr>
 
 				<tr>
-					<td width="20%" valign="top" align="right"><span class="label">Search criteria</span>&nbsp;
+					<td width="20%" valign="top" align="right"><span class="label"><fmt:message key="c3pr.common.searchCriteria"/></span>&nbsp;
 					</td>
 					<td colspan="2"><input type="hidden" id="registration-hidden" />
                         <form:input id="registration-input" path="searchText" cssClass="autocomplete" size="52"/>
