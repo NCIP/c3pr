@@ -4,6 +4,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@attribute name="identifiersTypes" required="true" type="java.util.Collection"%>
 <%@attribute name="displayOrgs"%>
 <%@attribute name="displaySys"%>
@@ -58,7 +59,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 
 <chrome:division title="Assigned Identifier">
 	<div class="row">
-			<div class="label"><tags:requiredIndicator />Organization</div>
+			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
 			<div class="value"><input type="hidden" id="mrnOrganization-hidden"
 					name="organizationAssignedIdentifiers[0].healthcareSite" />
 				<input id="mrnOrganization-input" size="50" type="text" name="abcxyz"
@@ -69,7 +70,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			</div>
 		</div>
 		<div class="row">
-			<div class="label"><tags:requiredIndicator />Medical record number</div>
+			<div class="label"><tags:requiredIndicator /><fmt:message key="participant.medicalRecordNumber"/></div>
 			<div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 				size="30" maxlength="30" class="validate-notEmpty" />
 			     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
