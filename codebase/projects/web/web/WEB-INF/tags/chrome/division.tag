@@ -46,7 +46,7 @@
             	${title} 
            	</c:if>
              <c:if test="${!empty link}">
-            	<a href="${link}"><img src="<chrome:imageUrl name="../../images/controlPanel/controlPanel_pencil.png" />"></a>
+            	<a href="${link}"><img src="<chrome:imageUrl name="../../templates/mocha/images/controlPanel/controlPanel_pencil.png" />"></a>
             </c:if>
             </h3>
            
@@ -63,7 +63,7 @@
             	${title} 
            	</c:if>
            	 <c:if test="${!empty link}">
-            	<a href="${link}"><img src="<chrome:imageUrl name="../../images/controlPanel/controlPanel_pencil.png" />"></a>
+            	<a href="${link}"><img src="<chrome:imageUrl name="../../templates/mocha/images/controlPanel/controlPanel_pencil.png" />"></a>
             </c:if>
             </h3>
             

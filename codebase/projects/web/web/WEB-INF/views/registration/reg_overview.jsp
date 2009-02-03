@@ -427,6 +427,7 @@
     </table>
 </chrome:division>
 <chrome:division id="Eligibility" title="Eligibility">
+	<div class="leftpanel">
 		<div class="row">
     		<div class="label"><fmt:message key="registration.eligibilty"/>:</div>
         	<c:choose>
@@ -439,6 +440,7 @@
 				</c:otherwise>
 			</c:choose>
          </div>
+		 </div>
     </chrome:division>
     <chrome:division id="stratification" title="Stratification">
         <c:choose>
