@@ -88,7 +88,7 @@ function updateTargetPage(target){
 					<td class="alt" align="left">${command.address.stateCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>fmt:message key="c3pr.common.country"/></b></td>
+					<td class="alt" align="left"><b><fmt:message key="c3pr.common.country"/></b></td>
 					<td class="alt" align="left">${command.address.countryCode}</td>
 				</tr>
 				<tr>
@@ -120,7 +120,7 @@ function updateTargetPage(target){
 
 			<table class="tablecontent" width="60%">
 				<tr>
-					<th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.systemName"/></th>
+					<th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
 					<th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
 					<th width="15%" scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
 				</tr>
