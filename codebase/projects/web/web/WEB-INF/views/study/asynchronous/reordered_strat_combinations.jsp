@@ -15,7 +15,7 @@
 	    skeleton_row_division_id: "dummy-strat-strGrp-${epochCountIndex}",
 	    initialIndex: -1,
 	    callRemoveFromCommand:"true",
-	    deleteMsgPrefix: "Book Randomization Entries(if any) will be deleted.",
+	    deleteMsgPrefix:  ${isBookRandomized == 'true'}? "Book Randomization Entries(if any) will be deleted." : " ",
 	    postProcessRowDeletion: function(t){
                reorderStratumGroupNumbers(${epochCountIndex});                	
 	    },
