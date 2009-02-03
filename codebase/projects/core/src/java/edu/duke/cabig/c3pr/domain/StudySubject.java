@@ -327,7 +327,22 @@ public class StudySubject extends
 		}
 		return null;
 	}
-
+	
+	@Transient
+	public String getOffStudyDateStr() {
+		if (offStudyDate == null) {
+			return "";
+		} else if (offStudyDate.equals("")) {
+			return "";
+		}
+		try {
+			return DateUtil.formatDate(offStudyDate, "MM/dd/yyyy");
+		} catch (ParseException e) {
+			// do nothing
+		}
+		return null;
+	}
+	
 	@Transient
 	public String getStartDateStr() {
 		if (startDate == null) {
