@@ -61,15 +61,15 @@ top:83px;
 			<p id="instructions"><h2>Contact Information</h2><br>
 			</p>
 		<tr>
-			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName }:</b>&nbsp;</td>
+			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName }</b>&nbsp;</td>
 			<td align="left"><form:input path="contactMechanisms[0].value"  cssClass="validate-EMAIL" size="30" /><tags:hoverHint keyProp="contactMechanism.email"/></td>
 		</tr>
 		<tr>
-			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type.displayName }:</b>&nbsp;</td>
+			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type.displayName }</b>&nbsp;</td>
 			<td align="left"><form:input path="contactMechanisms[1].value"  cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.phone"/> e.g. 7035600296 or 703-560-0296</td>
 		</tr>
 		<tr>
-			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type.displayName }:</b>&nbsp;</td>
+			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type.displayName }</b>&nbsp;</td>
 			<td align="left"><form:input path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.fax"/> e.g. 7035600296 or 703-560-0296</td>
 		</tr>
 
