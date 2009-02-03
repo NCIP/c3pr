@@ -100,7 +100,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<div class="value"><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
 	</div>
 	<div class="row">
-		<div class="label"><tags:requiredIndicator />Current Consent Version is <em>${command.studySubject.studySite.study.consentVersion}</em></div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySite.study.consentVersion}</em></div>
 		<div class="value"><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
 				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
 	</div>
@@ -137,7 +137,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		</div>
 	</div>
 	<div class="row">
-		<div class="label">Primary Disease</div>
+		<div class="label"><fmt:message key="registration.primaryDisease"/></div>
 		<div class="value">
 			<form:select id="stuydDiseaseSelect" path="studySubject.diseaseHistory.studyDisease" onchange="manageField(this);">
 				<option value="">Please Select</option>
@@ -155,7 +155,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		</div>
 	</div>
 	<div class="row">
-		<div class="label">Primary Disease Site</div>
+		<div class="label"><fmt:message key="registration.primaryDiseaseSite"/></div>
 		<div class="value">
 			<form:input id="diseaseSite-input" path="studySubject.diseaseHistory.otherPrimaryDiseaseSiteCode" cssClass="autocomplete"/>
 			<form:hidden id="diseaseSite-hidden" path="studySubject.diseaseHistory.anatomicSite"/>
