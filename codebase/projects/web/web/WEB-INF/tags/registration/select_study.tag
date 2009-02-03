@@ -4,6 +4,7 @@
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript">
 
@@ -81,7 +82,7 @@
         <div class="content">
             <div class="row">
                 <div class="label">
-                    Search studies by
+                    <fmt:message key="registration.searchStudiesBy"/>
                 </div>
                 <div class="value">
                 	<select id="searchType" name="searchType">
@@ -95,7 +96,7 @@
             </div>
             <div class="row">
                 <div class="label">
-                    Search criteria
+                    <fmt:message key="c3pr.common.searchCriteria"/>
                 </div>
                 <div class="value">
                 	<input type="hidden" id="activeOnly" name="activeOnly" value="true"/>
