@@ -16,7 +16,7 @@ function closePopup(){
 }
 
 function setVersion(box){
-	cv = document.getElementById('consentVersion');
+	cv = $('consentVersion');
 	icv = document.getElementById('studySubject.informedConsentVersion');
 	if (box.checked) {
 		icv.value=cv.value;       
@@ -26,31 +26,31 @@ function setVersion(box){
 }
 
 function updateConsentVersion(){
-	document.getElementById("consentVersionForm").submit();
+	$("consentVersionForm").submit();
+	//parent.refreshEnrollmentSection();
 	closePopup();	
 }
 
 
 </script>
 <form:form id="consentVersionForm">
-<input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${studySubject.studySite.study.consentVersion}"/>
-<form:hidden path="studySubject.informedConsentVersion"/>
-<chrome:box title="Update Consent Version">
+<input type="hidden" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
+<input type="hidden" name="studySubject.informedConsentVersion" id="studySubject.informedConsentVersion" value="${studySubject.informedConsentVersion}"/>
+<chrome:box title="Reconsent">
 	<div class="row">
 		<div class="label"><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value">
-			<input type="text" name="command.studySubject.informedConsentSignedDate" id="consentSignedDate" class="date validate-DATE" value="${command.studySubject.informedConsentSignedDateStr}" />
-              	<a href="#" id="consentSignedDate-calbutton">
-             	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
-             	</a>
+			<input type="text" name="studySubject.informedConsentSignedDate" id="consentSignedDate" class="date validate-DATE" />
+            <a href="#" id="consentSignedDate-calbutton">
+           	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+           	</a>
 				<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
 			</div>
 	</div>
 	<div class="row">
 		<div class="label"><tags:requiredIndicator />Current Consent Version is ${command.studySubject.studySite.study.consentVersion}</div>
 		<div class="value">
-			<input align="left"  type="checkbox" name="command.studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
-				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked</c:if>/>
+			<input align="left"  type="checkbox" name="studySubject.currentVersionIndicator" onclick="setVersion(this);" />
 			<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/>
 		</div>
 	</div>
@@ -58,8 +58,8 @@ function updateConsentVersion(){
 		
 	<div class="flow-buttons">
          <span class="next">
-			<input type="button" value="Update" onclick="updateConsentVersion();"/>
-			<input type="button" value="Close" onclick="closePopup();"/>
+			<input type="button" value="Save" onclick="updateConsentVersion();"/>
+			<input type="button" value="Cancel" onclick="closePopup();"/>
 		</span>
      </div>
      <br>
