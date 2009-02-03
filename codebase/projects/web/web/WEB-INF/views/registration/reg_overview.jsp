@@ -571,14 +571,6 @@
 </c:if>
 </div>
 </div>
-<div align="right">
-    <input type="button" value="update consent version" onclick="updateConsentVersion(${command.studySubject.id});"/>
-    <csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-	    <c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
-	        <input type="button" value="Take subject off study" onclick="takeSubjectOffStudy(${command.studySubject.id});">
-	    </c:if>
-    </csmauthz:accesscontrol>
-</div>
 <form:form id="exportForm" method="post">
     <tags:tabFields tab="${tab}"/>
     <input type="hidden" name="_action" value="export"/>
