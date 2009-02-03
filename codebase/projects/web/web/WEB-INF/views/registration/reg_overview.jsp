@@ -287,8 +287,8 @@
 <chrome:division title="Parent Study">
     <table class="tablecontent" width="90%">
         <tr>
-            <th width="75%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/>:</b></th>
-			<th width="75%" scope="col" align="left"><b><fmt:message key="study.primaryIdentifier"/>:</b></th>
+            <th width="75%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
+			<th width="75%" scope="col" align="left"><b><fmt:message key="study.primaryIdentifier"/></b></th>
         </tr>
             <tr>
                 <td class="alt">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}</td>
@@ -393,10 +393,10 @@
 <chrome:division id="identifiers" title="Identifiers">
     <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
-            <th>Assigning Authority</th>
-            <th>Identifier Type</th>
-            <th>Identifier</th>
-            <th>Primary&nbsp;Indicator</th>
+            <th><fmt:message key="c3pr.common.assigningAuthority"/></th>
+            <th><fmt:message key="c3pr.common.identifierType"/></th>
+            <th><fmt:message key="c3pr.common.identifier"/></th>
+            <th><fmt:message key="c3pr.common.primaryIndicator"/></th>
             <th></th>
         </tr>
         <c:forEach var="orgIdentifier" items="${command.studySubject.organizationAssignedIdentifiers}"
@@ -444,8 +444,8 @@
             <c:otherwise>
                 <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="90%">
                     <tr>
-                        <th width="35%" scope="col" align="left">Strata</th>
-                        <th scope="col" align="left"><b>Answer</b></th>
+                        <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.strata"/></th>
+                        <th scope="col" align="left"><b><fmt:message key="c3pr.common.answer"/></b></th>
                     </tr>
                     <c:forEach items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
                         <tr class="results">
