@@ -4,6 +4,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@taglib uri="http://www.extremecomponents.org" prefix="ec"%>
@@ -89,14 +90,14 @@ function showTable(table) {
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs">First Name
+		        <div class="row" name="inputs"><fmt:message key="participant.firstName"/>
 	            	<form:input path="firstName" size="20"/>
 	            </div>
 		        </td>
 	        </tr>
 	        <tr>
 	            <td align="left">
-	            <div class="row" name="inputs">Last Name
+	            <div class="row" name="inputs"><fmt:message key="participant.lastName"/>
 	            	<form:input path="lastName" size="20"/>
 	            </div>
 		        </td>
