@@ -9,12 +9,12 @@
 		<thead>
 			<c:if test="${participants!=null}">
 				<tr>
-					<td class="tableHeader">Last Name, First Name</td>
-					<td class="tableHeader">Medical Record Number</td>
-					<td class="tableHeader">Assigning Authority</td>
-					<td class="tableHeader">Gender</td>
-					<td class="tableHeader">Race</td>
-					<td class="tableHeader">Birth Date</td>
+					<td class="tableHeader"><fmt:message key="participant.lastName"/>, <fmt:message key="participant.firstName"/></td>
+					<td class="tableHeader"><fmt:message key="participant.medicalRecordNumber"/></td>
+					<td class="tableHeader"><fmt:message key="c3pr.common.assigningAuthority"/></td>
+					<td class="tableHeader"><fmt:message key="participant.gender"/></td>
+					<td class="tableHeader"><fmt:message key="participant.race"/></td>
+					<td class="tableHeader"><fmt:message key="participant.birthDate"/></td>
     			</tr>
 			</c:if>
 			</thead>
