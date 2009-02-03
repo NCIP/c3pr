@@ -35,7 +35,7 @@
 		<c:choose>
 		<c:when test="${!command.studySubject.scheduledEpoch.requiresRandomization}">
 			<tr>
-			<td class="label" width="80%">Select arm</td>
+			<td class="label" width="80%"><fmt:message key="registration.selectArm"/></td>
 				<td>
 					<select name="studySubject.scheduledEpoch.scheduledArms[0].arm">
 						<option value="" selected>Please Select</option>
