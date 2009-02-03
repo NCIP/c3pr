@@ -17,12 +17,6 @@
 							{className: "alphacube", width:540, okLabel: "Done"});
 		}
     	
-        function show() {
-            new Effect.SlideDown('OffStudyStatus');
-        }
-        function hide() {
-            new Effect.SlideUp('OffStudyStatus');
-        }
         function getBroadcastStatus() {
 
             $('viewDetails').disable('broadcastBtn');
@@ -93,6 +87,9 @@
 			win.showCenter(true)
 		}
 
+		function refreshEnrollmentSection(regId){
+			<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'command'"  viewName="/registration/enrollmentSection" javaScriptParam="'registrationId='+regId"/>
+		}
     </script>
 </head>
 <body>
@@ -119,7 +116,7 @@
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.studySubject.gridId }"/>
 </form>
-<form:form method="post">
+<form:form method="post" action="manageRegistration">
     <tags:tabFields tab="${tab}"/>
 </form:form>
 <c:if test="${command.shouldRegister && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending' && !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator  && !command.studySubject.scheduledEpoch.epoch.reservationIndicator}">
@@ -307,7 +304,7 @@
 </chrome:division>
 </div>
 
-
+<div id="enrollmentSection">
 <chrome:division id="enrollment" title="Enrollment Details">
 <div class="leftpanel">
         <div class="row">
@@ -396,6 +393,7 @@
         </div>
 </div>
 </chrome:division>
+</div>
 <chrome:division id="identifiers" title="Identifiers">
     <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
@@ -464,6 +462,7 @@
             </c:otherwise>
         </c:choose>
     </chrome:division>
+
 </div>
 <c:if test="${command.studySubject.regWorkflowStatus=='REGISTERED' && hotlinkEnable}">
     <chrome:division title="CCTS Workflow">
@@ -569,6 +568,14 @@
     </chrome:division>
 </c:if>
 </div>
+</div>
+<div align="right">
+    <input type="button" value="update consent version" onclick="updateConsentVersion(${command.studySubject.id});"/>
+    <csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+	    <c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
+	        <input type="button" value="Take subject off study" onclick="takeSubjectOffStudy(${command.studySubject.id});">
+	    </c:if>
+    </csmauthz:accesscontrol>
 </div>
 <form:form id="exportForm" method="post">
     <tags:tabFields tab="${tab}"/>

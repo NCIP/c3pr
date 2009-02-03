@@ -147,7 +147,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends Regi
     public ModelAndView refreshEnrollmentSection(HttpServletRequest request, Object obj, Errors errors) {
 		StudySubjectWrapper wrapper = (StudySubjectWrapper) obj;
 		String regId = request.getParameter("registrationId");
-		StudySubject studySubject = studySubjectDao.getById(Integer.parseInt(regId)); 
+		StudySubject studySubject = studySubjectDao.getById(Integer.parseInt(regId));
+		studySubjectDao.initialize(studySubject);
 		wrapper.setStudySubject(studySubject);
 		HashMap map = new HashMap();
 		map.put("command",wrapper);

@@ -35,9 +35,18 @@
         }
     }
 </script>
-            <h3><a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />" alt="Maximize" style="vertical-align:middle" /></a> ${title}
+            <h3><a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />" alt="Maximize" style="vertical-align:middle" /></a> 
+            
+            <c:if test="${!empty link}">
+            	<a href="${link}">
+          			 ${title} 
+          		 </a>
+           	</c:if>
+           	<c:if test="${empty link}">
+            	${title} 
+           	</c:if>
              <c:if test="${!empty link}">
-            	<a href="${link}"><img src="<chrome:imageUrl name="../../images/b-edit.gif" />"></a>
+            	<a href="${link}"><img src="<chrome:imageUrl name="../../images/controlPanel/controlPanel_pencil.png" />"></a>
             </c:if>
             </h3>
            
@@ -45,9 +54,16 @@
     </c:when>
     <c:otherwise>
         <c:if test="${not empty title}">
-            <h3>${title}
-            <c:if test="${!empty link}">
-            	<a href="${link}"><img src="<chrome:imageUrl name="../../images/b-edit.gif" />"></a>
+            <h3><c:if test="${!empty link}">
+            	<a href="${link}">
+          			 ${title} 
+          		 </a>
+           	</c:if>
+           	<c:if test="${empty link}">
+            	${title} 
+           	</c:if>
+           	 <c:if test="${!empty link}">
+            	<a href="${link}"><img src="<chrome:imageUrl name="../../images/controlPanel/controlPanel_pencil.png" />"></a>
             </c:if>
             </h3>
             

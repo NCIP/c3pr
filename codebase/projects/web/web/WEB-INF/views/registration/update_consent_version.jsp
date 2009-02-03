@@ -25,9 +25,9 @@ function setVersion(box){
     }       
 }
 
-function updateConsentVersion(){
+function updateConsentVersion(id){
 	$("consentVersionForm").submit();
-	//parent.refreshEnrollmentSection(id);
+	parent.refreshEnrollmentSection(id);
 	closePopup();
 }
 
@@ -57,7 +57,7 @@ function updateConsentVersion(){
 	<br>
 	<div class="flow-buttons">
          <span class="next">
-			<input type="button" value="Save" onclick="updateConsentVersion();"/>
+			<input type="button" value="Save" onclick="updateConsentVersion(${command.studySubject.id});"/>
 			<input type="button" value="Cancel" onclick="closePopup();"/>
 		</span>
      </div>
