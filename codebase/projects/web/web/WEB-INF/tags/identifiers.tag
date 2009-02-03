@@ -90,10 +90,10 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <div id="idSection" style="display:none;">
 <table id="mytable-organizationIdentifier" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	<tr>
-		<th><tags:requiredIndicator />Assigning Authority<tags:hoverHint keyProp="identifier.organization"/></th>
-		<th><tags:requiredIndicator />Identifier Type<tags:hoverHint keyProp="identifier.type"/></th>
-		<th><tags:requiredIndicator />Identifier<tags:hoverHint keyProp="identifier.value"/></th>
-		<th><span>Primary Indicator</span><tags:hoverHint keyProp="identifier.primary"/></th>
+		<th><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/><tags:hoverHint keyProp="identifier.organization"/></th>
+		<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/><tags:hoverHint keyProp="identifier.type"/></th>
+		<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/><tags:hoverHint keyProp="identifier.value"/></th>
+		<th><span><fmt:message key="c3pr.common.primaryIndicator"/></span><tags:hoverHint keyProp="identifier.primary"/></th>
 		<th ></th>
 	</tr>
 </table>
@@ -112,10 +112,10 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <table id="mytable-system" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	<tr>
 		<th class="scope=" col" align="left"><b><span
-			class="red">*</span>System Name</b></th>
-		<th scope="col" align="left"><b><span class="red">*</span>Identifier Type</b></th>
-		<th scope="col" align="left"><b><span class="red">*</span>Identifier</b></th>
-		<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></th>
+			class="red">*</span><fmt:message key="c3pr.common.systemName"/></b></th>
+		<th scope="col" align="left"><b><span class="red">*</span><fmt:message key="c3pr.common.identifierType"/></b></th>
+		<th scope="col" align="left"><b><span class="red">*</span><fmt:message key="c3pr.common.identifier"/></b></th>
+		<th scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIndicator"/></b></th>
 		<th class="specalt" scope="col" align="left"></th>
 	</tr>
 </table>
