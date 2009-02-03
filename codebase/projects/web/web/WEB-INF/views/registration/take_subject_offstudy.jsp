@@ -1,10 +1,10 @@
 <%@ include file="taglibs.jsp"%>
 <style type="text/css">
 		div.row div.label {
-			width:8em;
+			width:5em;
 		}
 		div.row div.value {
-			margin-left:1em;
+			margin-left:6em;
 		}
 		#main {
 			top:35px;
@@ -22,12 +22,11 @@ function takeSubjectOffStudy(){
 	closePopup();
 }
 </script>
-<br>
 <div id="OffStudyStatus">
 <form:form id="offStudyStatusForm">
+<chrome:box title="Take subject off study">
      <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
      <input type="hidden" name="studySubject.regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>
-     <br>
      <div class=row>
      	<div class="label">Reason</div>
      	<div class="value">
@@ -43,12 +42,15 @@ function takeSubjectOffStudy(){
            	</a>
      	</div>
      </div>
-     <br><br>
-     <c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY'}">
+     <br>
+     <div class="flow-buttons">
+         <span class="next">
      	<input type="button" value="Save" onclick="takeSubjectOffStudy()"/>
         <input type="button" value="Cancel" onClick="closePopup();"/>
-     </c:if>
-     
+	        </span>
+    	</div>  
+    	<br>  
+</chrome:box>     
 </form:form>
 </div>
 <script>

@@ -19,6 +19,9 @@ body {
 	position:relative;
 	padding-right:1px;
 }
+.noheader-body {
+	text-align:left;
+	}
 #skipnav {
 	height:0;
 	overflow:hidden;

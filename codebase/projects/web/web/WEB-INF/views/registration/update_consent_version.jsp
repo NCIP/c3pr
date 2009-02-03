@@ -4,7 +4,7 @@
 			width:15em;
 		}
 		div.row div.value {
-			margin-left:1em;
+			margin-left:16em;
 		}
 		#main {
 			top:35px;
@@ -27,8 +27,8 @@ function setVersion(box){
 
 function updateConsentVersion(){
 	$("consentVersionForm").submit();
-	//parent.refreshEnrollmentSection();
-	closePopup();	
+	//parent.refreshEnrollmentSection(id);
+	closePopup();
 }
 
 
@@ -38,7 +38,7 @@ function updateConsentVersion(){
 <input type="hidden" name="studySubject.informedConsentVersion" id="studySubject.informedConsentVersion" value="${studySubject.informedConsentVersion}"/>
 <chrome:box title="Reconsent">
 	<div class="row">
-		<div class="label"><fmt:message key="registration.consentSignedDate"/></div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value">
 			<input type="text" name="studySubject.informedConsentSignedDate" id="consentSignedDate" class="date validate-DATE" />
             <a href="#" id="consentSignedDate-calbutton">
@@ -50,12 +50,11 @@ function updateConsentVersion(){
 	<div class="row">
 		<div class="label"><tags:requiredIndicator />Current Consent Version is ${command.studySubject.studySite.study.consentVersion}</div>
 		<div class="value">
-			<input align="left"  type="checkbox" name="studySubject.currentVersionIndicator" onclick="setVersion(this);" />
+			<input type="checkbox" name="studySubject.currentVersionIndicator" onclick="setVersion(this);" />
 			<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/>
 		</div>
 	</div>
 	<br>
-		
 	<div class="flow-buttons">
          <span class="next">
 			<input type="button" value="Save" onclick="updateConsentVersion();"/>
@@ -63,7 +62,6 @@ function updateConsentVersion(){
 		</span>
      </div>
      <br>
-	<br>
 </chrome:box>
 </form:form>
 <script>

@@ -69,7 +69,7 @@
 
 		function updateConsentVersion(registartionId){
 			win = new Window({title: "Reconsent", 
-				zIndex:100, width:500, height:200 ,
+				zIndex:100, width:500, height:200 , minimizable:false, maximizable:false,
 				recenterAuto:true, className :"mac_os_x",
 				url: "<c:url value='/pages/registration/updateConsentVersion?decorator=noheaderDecorator&registartionId='/>" + registartionId, 
 				showEffectOptions: {duration:1.5}
@@ -84,7 +84,7 @@
 
 		function takeSubjectOffStudy(registartionId){
 			win = new Window({title: "Take subject off study", 
-				zIndex:100, width:500, height:200 ,
+				zIndex:100, width:400, height:200 ,minimizable:false, maximizable:false,
 				recenterAuto:true, className :"mac_os_x",
 				url: "<c:url value='/pages/registration/takeSubjectOffStudy?decorator=noheaderDecorator&registartionId='/>" + registartionId, 
 				showEffectOptions: {duration:1.5}
@@ -92,6 +92,7 @@
 				) 
 			win.showCenter(true)
 		}
+
     </script>
 </head>
 <body>
@@ -100,7 +101,6 @@
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>
-	<div id="takeSubjectOffStudy"></div>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
@@ -311,24 +311,6 @@
         <div class="row">
             <div class="label"><fmt:message key="registration.registrationStatus"/>:</div>
             <div class="value">${command.studySubject.regWorkflowStatus.code}
-            	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-					<br>
-	                <div id="OffStudyStatus">
-	                    <form:form id="offStudyStatusForm">
-	                        <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
-	                        <input type="hidden" name="regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>Reason:
-	                        <form:textarea path="studySubject.offStudyReasonText" rows="2" cols="40" cssClass="validate-notEmpty"></form:textarea>
-	                        <br /><br />
-	                        Date: &nbsp;&nbsp;&nbsp;
-	                        <tags:dateInput path="studySubject.offStudyDate" cssClass="validate-notEmpty&&DATE"/>
-	                        <em> (mm/dd/yyyy)</em><br /><br />
-	                        <c:if test="${command.studySubject.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
-	                            <input type="button" value="cancel" onClick="new Effect.SlideUp('OffStudyStatus')"/>
-	                        </c:if>
-	                    </form:form>
-	                </div>
-                	<script type="text/javascript">new Element.hide('OffStudyStatus');</script>
-               </csmauthz:accesscontrol>
             </div>
         </div>
         <c:if test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">

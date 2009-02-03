@@ -28,8 +28,6 @@
     <decorator:body/>
 </chrome:noheaderbody>
 
-    <layout:footer/>
-
     <tags:jsLogs debug="false"/>
     <tags:enableRowDeletion/>
     <tags:tabMethodForm/>
