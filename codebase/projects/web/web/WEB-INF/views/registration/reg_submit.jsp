@@ -209,6 +209,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</div>
 	</chrome:division>
 	<chrome:division id="Eligibility" title="Eligibility" link="javascript:document.getElementById('flowredirect-target').name='_target2';document.getElementById('flowredirect').submit();">
+		<div class="leftpanel">
 		<div class="row">
 			<div class="label"><fmt:message key="registration.eligibilty"/>:</div>
 			<c:choose>
@@ -217,9 +218,10 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</c:when>
 				<c:otherwise>
 					<div class="value"><fmt:message key="c3pr.common.no"/></div>
-					<div align="left"><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
+					<div style="margin-left: 144px;"><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
 				</c:otherwise>
 			</c:choose>
+			</div>
 		</div>
 	</chrome:division>
 	<chrome:division id="stratification" title="Stratification" link="javascript:document.getElementById('flowredirect-target').name='_target3';document.getElementById('flowredirect').submit();">

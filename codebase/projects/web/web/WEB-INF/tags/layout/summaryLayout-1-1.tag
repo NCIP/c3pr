@@ -4,6 +4,19 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@attribute name="tab" type="edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.WorkFlowTab" required="true" %>
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" required="true" %>
+<style>
+#registrationSummary div.row div.label {
+	float:left;
+	font-weight:bold;
+	margin-left:0em;
+	text-align:right;
+	width:8em;
+}
+#registrationSummary div.row div.value {
+	font-weight:normal;
+	margin-left:8.3em;
+}
+</style>
 <table width="100%" border="0" cellspacing="0" cellpadding="3" class="body">
     <tr>
         <c:choose>
