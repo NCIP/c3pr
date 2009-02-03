@@ -19,6 +19,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
 		<entry key="/pages/registration/updateConsentVersion"
 			value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE" />
+		<entry key="/pages/registration/takeSubjectOffStudy"
+			value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE" />
 
 		<entry key="/pages/study/searchStudy"
 			value="edu.duke.cabig.c3pr.domain.Study:READ" />
