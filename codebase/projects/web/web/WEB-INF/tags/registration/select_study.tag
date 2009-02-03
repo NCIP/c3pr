@@ -81,7 +81,7 @@
         <div class="content">
             <div class="row">
                 <div class="label">
-                    Search Studies By:
+                    Search studies by
                 </div>
                 <div class="value">
                 	<select id="searchType" name="searchType">
@@ -95,7 +95,7 @@
             </div>
             <div class="row">
                 <div class="label">
-                    Search Criteria:
+                    Search criteria
                 </div>
                 <div class="value">
                 	<input type="hidden" id="activeOnly" name="activeOnly" value="true"/>

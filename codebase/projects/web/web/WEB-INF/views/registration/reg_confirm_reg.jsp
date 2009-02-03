@@ -99,74 +99,74 @@ function manageCompanions(){
 	<c:when test="${newRegistration}">
 		<c:choose>
 		<c:when test="${command.studySubject.regWorkflowStatus == 'ENROLLED' && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'true' && !hasParent && !has_mandatory_companions}">
-			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.ENROLLED"/></strong></font>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.ENROLLED"/></div>
 		</c:when>
 		<c:when test="${command.studySubject.regWorkflowStatus == 'REGISTERED_BUT_NOT_ENROLLED' && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'false' && !hasParent && !hasCompanions}">
-			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.SUCCESS"/></strong></font>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.SUCCESS"/></div>
 		</c:when>
 		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
-			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.INCOMPLETE"/></div>
 		</c:when>
 		<c:when test="${reg_registered && hasCompanions && has_child_registrations && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED'}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
-			and save this confirmation in the subject study records </strong></font></c:when>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please print.
+			and save this confirmation in the subject study records </div></c:when>
 		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.blindedIndicator && registerableWithCompanions }">
-			<font color='<fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT.COLOR"/>'><strong><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></strong></font></c:when>
+			<div id="flash-message"><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></div></c:when>
 		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.randomizationType == 'BOOK' && registerableWithCompanions}">
-			<font color='<fmt:message key="REGISTRATION.RANDOMIZATION.BOOK.COLOR"/>'><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></strong></font></c:when>
+			<div id="flash-message"><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></div></c:when>
 		<c:when test="${reg_registered}">
-			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.SUCCESS"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
-			and save this confirmation in the subject study records </strong></font></c:when>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.SUCCESS"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
+			and save this confirmation in the subject study records </div></c:when>
 		<c:when test="${reg_pending}">
-			<font color='<fmt:message key="REGISTRATION.PENDING.COLOR"/>'><strong><fmt:message key="REGISTRATION.PENDING"/> </strong></font></c:when>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.PENDING"/> </div></c:when>
 		<c:when test="${reg_disapproved}">
-			<font color='<fmt:message key="REGISTRATION.DISAPPROVED.COLOR"/>'><strong><fmt:message key="REGISTRATION.DISAPPROVED"/> </strong></font></c:when>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.DISAPPROVED"/> </div></c:when>
 		<c:when test="${reg_reserved}">
-			<font color='<fmt:message key="REGISTRATION.RESERVED.COLOR"/>'><strong><fmt:message key="REGISTRATION.RESERVED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
-			and save this confirmation in the subject study records </strong></font></c:when>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.RESERVED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
+			and save this confirmation in the subject study records.</div></c:when>
 		<c:when test="${reg_nonenrolled }">
-			<font color='<fmt:message key="REGISTRATION.NONENROLLED.COLOR"/>'><strong><fmt:message key="REGISTRATION.NONENROLLED"/></strong></font></c:when>			
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.NONENROLLED"/></div></c:when>			
 		<c:when test="${reg_unregistered && hasCompanions && !registerableWithCompanions}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></strong></font></c:when>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></div></c:when>
 		<c:when test="${reg_unregistered && hasCompanions && registerableWithCompanions}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></strong></font></c:when>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></div></c:when>
 		<c:when test="${isDataEntryComplete && hasParent}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></strong></font></c:when>	
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></div></c:when>	
 		<c:when test="${reg_unrandomized}">
-			<font color='<fmt:message key="REGISTRATION.UNRANDOMIZED.COLOR"/>'><strong><fmt:message key="REGISTRATION.UNRANDOMIZED"/></strong></font></c:when>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.UNRANDOMIZED"/></div></c:when>
 		<c:when test="${command.studySubject.workPendingOnMandatoryCompanionRegistrations}">
-			<font color='<fmt:message key="REGISTRATION.COMPANIONS.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANIONS.INCOMPLETE"/></strong></font></c:when>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANIONS.INCOMPLETE"/></div></c:when>
 		<c:otherwise>
-			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:otherwise>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.INCOMPLETE"/></div></c:otherwise>
 		</c:choose>
 	</c:when>
 	<c:otherwise>
 		<c:choose>
 		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
-			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:when>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.INCOMPLETE"/></div></c:when>
 		<c:when test="${ command.studySubject.regWorkflowStatus.code == 'Enrolled' && has_mandatory_companions && registerableWithCompanions && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED'}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
-			and save this confirmation in the subject study records </strong></font></c:when>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
+			and save this confirmation in the subject study records </div></c:when>
 		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.blindedIndicator && registerableWithCompanions }">
-			<font color='<fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT.COLOR"/>'><strong><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></strong></font></c:when>
+			<div id="flash-message"><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></div></c:when>
 		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.randomizationType == 'BOOK' && registerableWithCompanions}">
-			<font color='<fmt:message key="REGISTRATION.RANDOMIZATION.BOOK.COLOR"/>'><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></strong></font></c:when>
+			<div id="flash-message"><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></div></c:when>
 		<c:when test="${hasCompanions && !registerableWithCompanions}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></strong></font></c:when>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></div></c:when>
 		<c:when test="${hasCompanions && registerableWithCompanions}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></strong></font></c:when>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></div></c:when>
 		<c:when test="${isDataEntryComplete && hasParent}">
-			<font color='<fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></strong></font></c:when>	
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></div></c:when>	
 		<c:when test="${epoch_approved}">
-			<font color='<fmt:message key="TRANSFER.SUCCESS.COLOR"/>'><strong><fmt:message key="TRANSFER.SUCCESS"/></strong></font></c:when>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="TRANSFER.SUCCESS"/></div></c:when>
 		<c:when test="${epoch_pending}">
-			<font color='<fmt:message key="TRANSFER.PENDING.COLOR"/>'><strong><fmt:message key="TRANSFER.PENDING"/></strong></font></c:when>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="TRANSFER.PENDING"/></div></c:when>
 		<c:when test="${epoch_nonenrolled}">
-			<font color='<fmt:message key="TRANSFER.NONENROLLED.COLOR"/>'><strong><fmt:message key="TRANSFER.NONENROLLED"/></strong></font></c:when>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="TRANSFER.NONENROLLED"/></div></c:when>
 		<c:when test="${epoch_unrandomiized}">
-			<font color='<fmt:message key="TRANSFER.UNRANDOMIZED.COLOR"/>'><strong><fmt:message key="TRANSFER.UNRANDOMIZED"/></strong></font></c:when>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="TRANSFER.UNRANDOMIZED"/></div></c:when>
 		<c:otherwise>
-			<font color='<fmt:message key="TRANSFER.INCOMPLETE.COLOR"/>'><strong><fmt:message key="TRANSFER.INCOMPLETE"/></strong></font></c:otherwise>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="TRANSFER.INCOMPLETE"/></div></c:otherwise>
 		</c:choose>
 	</c:otherwise>
 	</c:choose>
