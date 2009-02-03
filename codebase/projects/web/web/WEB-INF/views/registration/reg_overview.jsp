@@ -33,6 +33,8 @@
         formName="'viewDetails'" params="dontSave=true"/>
         }
 
+        paramString="<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
+        
       function doSendMessageToESB() {
           $('broadcastResponse').innerHTML = 'Sending Message...';
 
@@ -79,6 +81,17 @@
 		function closePopup() {
 			win.close();
 		}
+
+		function takeSubjectOffStudy(registartionId){
+			win = new Window({title: "Take subject off study", 
+				zIndex:100, width:500, height:200 ,
+				recenterAuto:true, className :"mac_os_x",
+				url: "<c:url value='/pages/registration/takeSubjectOffStudy?decorator=noheaderDecorator&registartionId='/>" + registartionId, 
+				showEffectOptions: {duration:1.5}
+					}
+				) 
+			win.showCenter(true)
+		}
     </script>
 </head>
 <body>
@@ -87,6 +100,7 @@
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>
+	<div id="takeSubjectOffStudy"></div>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
@@ -324,7 +338,7 @@
             </div>
             <div class="row">
                 <div class="label">Off study date:</div>
-                <div class="value">${command.studySubject.offStudyDate }</div>
+                <div class="value">${command.studySubject.offStudyDateStr }</div>
             </div>
         </c:if>
         <div class="row">
@@ -572,7 +586,7 @@
     <input type="button" value="update consent version" onClick="updateConsentVersion(${command.studySubject.id});"/>
     <csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 	    <c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
-	        <input type="button" value="Take subject off study" onclick="new Effect.SlideDown('OffStudyStatus')">
+	        <input type="button" value="Take subject off study" onclick="takeSubjectOffStudy(${command.studySubject.id});">
 	    </c:if>
     </csmauthz:accesscontrol>
 </div>
