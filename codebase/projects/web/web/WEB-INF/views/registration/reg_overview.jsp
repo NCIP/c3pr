@@ -109,7 +109,7 @@
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="studySite" id="create_studySite" value=""/>
 	<input type="hidden" name="participant" id="create_participant" value=""/>
-	<input type="hidden" name=parentRegistrationId id="create_parent_id" value=""/>
+	<input type="hidden" name="parentRegistrationId" id="create_parent_id" value=""/>
 	<input type="hidden" name="create_companion" value=""/>
 	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
 </form>
