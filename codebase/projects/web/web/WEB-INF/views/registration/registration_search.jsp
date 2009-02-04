@@ -186,7 +186,7 @@ Event.observe(window, "load", function() {
 			<td>
 			<table border="0">
 				<tr>
-					<td width="20%" valign="top" align="right">Search by</td>
+					<td width="20%" valign="top" align="right"><fmt:message key="c3pr.common.searchBy"/></td>
 					<td align="right" width="15%">
                         <form:select id="select" path="select" onchange="clearSearchCriteria();manageSelectBox(this);">
                             <form:option value="Subject" label="Subject" />
