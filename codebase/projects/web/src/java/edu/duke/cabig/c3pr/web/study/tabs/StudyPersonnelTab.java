@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
@@ -109,7 +110,7 @@ public class StudyPersonnelTab extends StudyTab {
                         StudyPersonnel sPersonnel = new StudyPersonnel();
                         researchStaff = researchStaffDao.getById(new Integer(rsId).intValue());
                         if (researchStaff != null) {
-                            sPersonnel.setResearchStaff(researchStaff);
+                            sPersonnel.setResearchStaff((LocalResearchStaff) researchStaff);
                             sPersonnel.setRoleCode(getGroups(researchStaff).get(0).getDisplayName());
                             sPersonnel.setStatusCode("Active");
                             sPersonnel.setStudyOrganization(studyOrganization);
