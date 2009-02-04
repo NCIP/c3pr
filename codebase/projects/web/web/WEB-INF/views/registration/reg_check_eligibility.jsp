@@ -32,8 +32,8 @@ function navRollOver(obj, state) {
 					<tags:instructions code="reg_check_eligibility" />
 					<table width="100%" border="0" class="tablecontent">
 						<tr>
-							<th align="left"><b>Question</b></th>
-							<th align="left"><b>Answer</b></th>
+							<th align="left"><b><fmt:message key="study.criterion"/></b></th>
+							<th align="left"><b><fmt:message key="study.answers"/></b></th>
 						</tr>
 						<c:set var="index" value="0"/>
 						<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.inclusionEligibilityCriteria}">
@@ -62,8 +62,8 @@ function navRollOver(obj, state) {
 				<tags:minimizablePanelBox boxId="Exclusion" title="Exclusion Criteria (<i>Expected answer 'no'</i>)">
 					<table width="100%" border="0" class="tablecontent">
 						<tr>
-							<th align="left"><b>Question</b></th>
-							<th align="left"><b>Answer</b></th>
+							<th align="left"><b><fmt:message key="study.criterion"/></b></th>
+							<th align="left"><b><fmt:message key="study.answers"/></b></th>
 						</tr>
 						<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.exclusionEligibilityCriteria}">
 							<tr>
