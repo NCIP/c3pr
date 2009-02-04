@@ -62,12 +62,12 @@ field.value="";
 									id="table1">
 									<tr align="center" class="label">
 										<th width="10%" align="left" class="label"></th>
-										<th width="15%" align="left" class="label"><span class="red">*</span>Assigning
-										Organization</th>
 										<th width="15%" align="left" class="label"><span class="red">*</span>
-										Identifier Type</th>
-										<th width="15%" align="left" class="label"><span class="red">*</span>Identifier</th>
-										<th width="15%" align="left" class="label">Primary Indicator</th>
+										<fmt:message key="c3pr.common.assigningAuthority"/></th>
+										<th width="15%" align="left" class="label"><span class="red">*</span>
+										<fmt:message key="c3pr.common.identifierType"/></th>
+										<th width="15%" align="left" class="label"><span class="red">*</span><fmt:message key="c3pr.common.identifier"/></th>
+										<th width="15%" align="left" class="label"><fmt:message key="c3pr.common.primaryIndicator"/></th>
 										<th width="15%" align="left" class="label"></th>
 									</tr>
 									<c:forEach items="${command.studySubject.identifiers}" varStatus="status">
