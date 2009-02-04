@@ -255,7 +255,9 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	</div>
 	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? 'Save' : actionLabel}" >
 		<input type="hidden" name="_finish" value="true"/>
-		<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
+		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete'}">
+			<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
+		</c:if> 
 	</tags:formPanelWithoutBox>
 	
 </body>
