@@ -94,8 +94,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					<div class="value">${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</div>
 				</div>
 				<div class="row">
-					<div class="label"><fmt:message key="study.coordinatingCenterIdentifier"/>:</div>
-					<div class="value">${command.studySubject.studySite.study.identifiers[0].value}</div>
+					<div class="label"><fmt:message key="study.primaryIdentifier"/>:</div>
+					<div class="value">${command.studySubject.studySite.study.primaryIdentifier}</div>
 				</div>
 			</div>
 	</chrome:division>
