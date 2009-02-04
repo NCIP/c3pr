@@ -73,7 +73,7 @@
 </script>
 
 <!--tags:minimizablePanelBox title="${epoch.name} : ${epoch.descriptionText }"	boxId="${epoch.name}"-->
-<tags:minimizablePanelBox	title="Select a study" boxId="Studybox">
+<tags:minimizablePanelBox	title="Select Study" boxId="Studybox">
 <tags:instructions code="select_study" />
         <form id="searchstudyForm" action="" method="post">
             <input type="hidden" name="_selected" id="_selected" value="">
