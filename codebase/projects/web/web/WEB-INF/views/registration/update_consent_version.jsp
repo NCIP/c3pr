@@ -31,6 +31,15 @@ function updateConsentVersion(id){
 	closePopup();
 }
 
+ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+	var id = ${command.studySubject.id}
+    if(formElement.id=="consentVersionForm" && continueSubmission){
+    	parent.refreshEnrollmentSection(id);
+  	};
+	return continueSubmission;
+} 
+
+
 
 </script>
 <form:form id="consentVersionForm">

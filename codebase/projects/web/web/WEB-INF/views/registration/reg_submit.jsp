@@ -138,6 +138,12 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				<div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
 				<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
 			</div>
+			 <c:if test="${!empty armAssigned}">
+       	    <div class="row">
+                <div class="label">${armAssignedLabel}:</div>
+                <div class="value">${armAssigned}</div>
+            </div>
+   		</c:if>
 		</div>
 		<div class="rightpanel">
 			<div class="row">

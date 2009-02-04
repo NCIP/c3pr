@@ -21,6 +21,14 @@ function takeSubjectOffStudy(id){
 	parent.refreshEnrollmentSection(id);
 	closePopup();
 }
+
+ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+	var id = ${command.studySubject.id}
+    if(formElement.id=="offStudyStatusForm" && continueSubmission){
+    	parent.refreshEnrollmentSection(id);
+  	};
+	return continueSubmission;
+} 
 </script>
 <div id="OffStudyStatus">
 <form:form id="offStudyStatusForm">
