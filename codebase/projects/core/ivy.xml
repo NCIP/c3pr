@@ -185,6 +185,8 @@
 			<dependency name="jackrabbit-jcr-commons" org="org.apache.jackrabbit" rev="1.2.1" />
 			<dependency name="jackrabbit-jcr-rmi" org="org.apache.jackrabbit" rev="1.2.1" />
 			<dependency name="jackrabbit-jcr-server" org="org.apache.jackrabbit" rev="1.2.1" />		
-			<!-- DROOLS -->
+			<!-- COPPA Common dependencies --> 
+			<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="latest.integration" />
+
         </dependencies>
 </ivy-module>
