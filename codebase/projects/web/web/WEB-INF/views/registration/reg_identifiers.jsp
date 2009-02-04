@@ -75,10 +75,10 @@ function manageIdentifierRadio(element){
 		
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
-					<th><tags:requiredIndicator />Assigning Organization</th>
-					<th><tags:requiredIndicator />Identifier Type</th>
-					<th><tags:requiredIndicator />Identifier</th>
-					<th>Primary&nbsp;Indicator</th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></th>
+					<th><fmt:message key="c3pr.common.primaryIndicator"/></th>
 					<th></th>
 				</tr>
 				<c:forEach var="orgIdentifier" items="${command.studySubject.organizationAssignedIdentifiers}"
@@ -104,10 +104,10 @@ function manageIdentifierRadio(element){
 		<chrome:division title="System Assigned Identifiers">
 			<table id="systemIdentifier" class="tablecontent">
 				<tr>
-					<th><tags:requiredIndicator />System Name</th>
-					<th><tags:requiredIndicator />Identifier Type</th>
-					<th><tags:requiredIndicator />Identifier</th>
-					<th>Primary&nbsp;Indicator</th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.systemName"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></th>
+					<th><fmt:message key="c3pr.common.primaryIndicator"/></th>
 					<th></th>
 				</tr>
 				<c:forEach items="${command.studySubject.systemAssignedIdentifiers}"	varStatus="status" var="sysIdentifier">
