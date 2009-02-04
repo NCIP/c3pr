@@ -9,9 +9,9 @@
 		<thead>
 			<c:if test="${epochResults!=null}">
 				<tr>
-					<td class="tableHeader">Name</td>
-					<td class="tableHeader">Description</td>
-					<td class="tableHeader">Enrolling</td>
+					<td class="tableHeader"><fmt:message key="c3pr.common.name"/></td>
+					<td class="tableHeader"><fmt:message key="c3pr.common.description"/></td>
+					<td class="tableHeader"><fmt:message key="registration.enrolling"/></td>
     			</tr>
 			</c:if>
 			</thead>
