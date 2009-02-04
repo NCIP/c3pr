@@ -110,15 +110,15 @@
                                 			<c:when test="${!empty command.studySubject.scheduledEpoch}"> 
                                 				new Element.show('Epoch'); 
                                 				minimizeEpochBox(); 
-                                				displayEpochMessage("Selected epoch: ${command.studySubject.scheduledEpoch.epoch.name}",true); 
+                                				displayEpochMessage("Selected Epoch: ${command.studySubject.scheduledEpoch.epoch.name}",true); 
                                 			</c:when> 
                                 			<c:otherwise> 
                                 				var url1 = "../registration/searchEpoch?studySiteId="+${command.studySubject.studySite.id}; 
                                 				new Ajax.Updater('epochResults',url1, {onSuccess:callbackEpoch, onFailure:callbackEpochFail}); 
                                 			</c:otherwise> 
                                 		</c:choose> 
-                                		minimizeStudyBox("Selected study: ${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.coordinatingCenterAssignedIdentifier.value}) at ${command.studySubject.studySite.healthcareSite.name}"); 
-                                		minimizeSubjectBox("Selected subject: ${command.studySubject.participant.fullName} ");
+                                		minimizeStudyBox("Selected Study: ${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.coordinatingCenterAssignedIdentifier.value}) at ${command.studySubject.studySite.healthcareSite.name}"); 
+                                		minimizeSubjectBox("Selected Subject: ${command.studySubject.participant.fullName} ");
                                 	
                             
             </script>
