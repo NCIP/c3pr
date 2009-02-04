@@ -18,13 +18,13 @@
 	epochType="";
 	function afterCheckEpochAccrual(){
 		$("epochElement").value = epochId;
-		var message = "Selected epoch: " +epochName+ " (" +epochType+ ") ";
+		var message = "Selected Epoch: " +epochName+ " (" +epochType+ ") ";
 		minimizeEpochBox();
 		displayEpochMessage(message, true);
 	}
 	function postProcessEpochSelection(id, name, type,isReserving){
 			$("epochElement").value = id;
-			var message = "Selected epoch: " +name+ " (" +type+ ") ";
+			var message = "Selected Epoch: " +name+ " (" +type+ ") ";
 			minimizeEpochBox();
 			displayEpochMessage(message, true);
 			return;
@@ -45,7 +45,7 @@
 	}
 </script>
 
-<tags:minimizablePanelBox title="Select an epoch" boxId="Epochbox">
+<tags:minimizablePanelBox title="Select Epoch" boxId="Epochbox">
 <div id="epochResults">
 <!--In order to ensure that the decorator is not applied to the dynamically (AJAX)inserted jsp
 	add the mapping to the excludes section of decorators.xml -->
