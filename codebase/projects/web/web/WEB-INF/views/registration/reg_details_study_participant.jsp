@@ -57,21 +57,21 @@ field.value="";
 								<table width="650" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 									<tr>
-										<td width="200" align="right"><em></em><b> Primary Identifier:<b>&nbsp;</td>
+										<td width="200" align="right"><em></em><b> <fmt:message key="c3pr.common.primaryIdentifier"/>:<b>&nbsp;</td>
 										<td align="left">${command.studySubject.primaryIdentifier}</td>
 									</tr>
 									<tr>
-										<td width="200" align="right"><em></em><b>Informed Consent
-										Version:<b>&nbsp;</td>
+										<td width="200" align="right"><em></em><b><fmt:message key="registration.consentVersion"/>
+										:<b>&nbsp;</td>
 										<td align="left">${command.studySubject.informedConsentVersion}</td>
 									</tr>
 									<tr>
-										<td width="200" align="right"><em></em><b>Informed Consent
-										Signed Date:<b>&nbsp;</td>
+										<td width="200" align="right"><em></em><b><fmt:message key="registration.consentSignedDate"/>
+										:<b>&nbsp;</td>
 										<td align="left" valign="top">${command.studySubject.informedConsentSignedDateStr}</td>
 									</tr>
 									<tr>
-										<td width="200" align="right"><em></em><b> Treating Physician:<b>&nbsp;</td>
+										<td width="200" align="right"><em></em><b> <fmt:message key="registration.enrollingPhysician"/>:<b>&nbsp;</td>
 										<td align="left">${command.studySubject.treatingPhysicianFullName}</td>
 									</tr>
 								</table>
