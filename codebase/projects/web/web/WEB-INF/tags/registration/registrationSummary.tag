@@ -16,14 +16,14 @@
 		<td valign="top">
 			<table>
 				<tags:tdNameValue name="Name" value="${studySubject.studySubject.participant.firstName} ${studySubject.studySubject.participant.lastName }" columnAttrName="class='labelR'"/>
-				<tags:tdNameValue name="Study" value="(${command.studySubject.studySite.study.primaryIdentifier}) ${ command.studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Study" value="(${studySubject.studySubject.studySite.study.primaryIdentifier}) ${ studySubject.studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
 				<tags:tdNameValue name="Epoch" value="${studySubject.studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
 			</table>
 		</td>
 		<td valign="top">
 			<table
 				<tags:tdNameValue name="Subject MRN" value="${studySubject.studySubject.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
-				<tags:tdNameValue name="Enrolling site" value="${studySubject.studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Enrolling site" value="(${studySubject.studySubject.studySite.healthcareSite.nciInstituteCode}) ${studySubject.studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
 				<tags:tdNameValue name="Consent version" value="${studySubject.studySubject.informedConsentVersion }" columnAttrName="class='labelR'"/>
 			</table>
 		</td>
