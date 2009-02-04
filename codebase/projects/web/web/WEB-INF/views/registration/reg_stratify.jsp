@@ -26,8 +26,8 @@ function navRollOver(obj, state) {
 	<c:otherwise>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<th align="left"><b>Criteria</b></th>
-			<th align="left"><b>Answers</b></th>
+			<th align="left"><b><fmt:message key="study.stratificationCriterion"/></b></th>
+			<th align="left"><b><fmt:message key="study.answers"/></b></th>
 		</tr>
 		<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}">
 			<tr>
