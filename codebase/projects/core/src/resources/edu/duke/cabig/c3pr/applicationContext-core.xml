@@ -83,7 +83,8 @@
                 <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
                 <value>edu.duke.cabig.c3pr.domain.Participant</value>
-                <value>edu.duke.cabig.c3pr.domain.ResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
                 <value>edu.duke.cabig.c3pr.domain.Investigator</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
                 <value>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</value>
@@ -221,7 +222,8 @@
 	                <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
 	                <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
 	                <value>edu.duke.cabig.c3pr.domain.Participant</value>
-	                <value>edu.duke.cabig.c3pr.domain.ResearchStaff</value>
+	                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
+	                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
 	                <value>edu.duke.cabig.c3pr.domain.Investigator</value>
 	                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
 	                <value>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</value>
@@ -274,7 +276,6 @@
 	                <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
 	                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
 	                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
-					<value>edu.duke.cabig.c3pr.domain.ConsentHistory</value>
               </list>
         </property> 
         <!--  <property name="auditAll">
