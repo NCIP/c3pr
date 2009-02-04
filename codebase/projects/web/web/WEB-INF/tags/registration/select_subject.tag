@@ -200,9 +200,7 @@
                     <input type="hidden" name="validate" id="validate" value="true"/><input type="hidden" name="_finish" id="_action" value=""><input type="hidden" name="_page" value="0"><input type="hidden" name="async" id="async" value="async">
                     <div class="division " id="single-fields">
                         <div class="content">
-                            <table>
-                                <tr>
-                                    <td>
+                            <div class="leftpanel">
                                         <div class="row">
                                             <div class="label">
                                                 <tags:requiredIndicator/><fmt:message key="participant.firstName"/>
@@ -226,7 +224,7 @@
                                             <div class="value">
                                                 <input id="middleName" name="middleName" type="text" value=""/>
                                             </div>
-                                        </div
+                                        </div>
                                         <div class="row">
                                             <div class="label">
                                                 <fmt:message key="participant.maidenName"/>
@@ -241,7 +239,7 @@
                                             </div>
                                             <div class="value">
                                                 <select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
-                                                    <option value="">Please select</option>
+                                                    <option value="">Please select...</option>
                                                     <c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode" varStatus="loop">
                                                         <c:if test="${!empty administrativeGenderCode.desc}">
                                                             <option value="${administrativeGenderCode.code}">${administrativeGenderCode.desc}</option>
@@ -258,15 +256,15 @@
                                                 <input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td>
+                                    </div>
+                                    <div class="rightpanel">
                                         <div class="row">
                                             <div class="label">
                                                 <tags:requiredIndicator/><fmt:message key="participant.ethnicity"/>
                                             </div>
                                             <div class="value">
                                                 <select id="ethnicGroupCode" name="ethnicGroupCode" class="validate-notEmpty">
-                                                    <option value="">Please select</option>
+                                                    <option value="">Please select...</option>
                                                     <c:forEach items="${ethnicGroupCode}" var="ethnicGroupCode" varStatus="loop">
                                                         <c:if test="${!empty ethnicGroupCode.desc}">
                                                             <option value="${ethnicGroupCode.code}">${ethnicGroupCode.desc}</option>
@@ -296,9 +294,8 @@
                                                 <input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/> Unknown
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            </table><!--start of adding identifiers-->
+                                    </div>
+									<!--start of adding identifiers-->
                             <br>
                             <tags:identifiers identifiersTypes="${identifiersTypeRefData}" displaySys="false" /><!--end of adding identifiers--><!--start of address section
                             <p id="instructions"><a href="#" onclick="toggleAddressSection()">Address & Contact Info</a></p>-->

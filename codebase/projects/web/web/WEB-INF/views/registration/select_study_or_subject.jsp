@@ -51,7 +51,9 @@
                 padding: 5px;
                 margin-left: 5px;
                 background-image: url(../../templates/mocha/images/select_subject_tab_selected.png);
-                background-position: -17px;
+                background-position: top;
+				background-color:#202020;
+				background-repeat:repeat-x;
                 text-decoration: none;
                 color: white;
             } .current {

@@ -25,7 +25,7 @@
     }		
     
     function callbackStudyFail(t ){
-		alert("Search Failed");
+		alert("Oops! The search failed. Please refresh and try again.");
 	}
 	
 	function callbackStudy(t){
@@ -37,7 +37,7 @@
 	
 	function postProcessStudySelection(isActive, id, siteName, studyName, identifier){
 		if(!isActive){
-			alert("Study is not active at "+siteName);
+			alert("Sorry, this study is not currently active.");
 			return;
 		}
 		document.getElementById("studySubject.studySite").value = id;
