@@ -231,7 +231,7 @@
             <div class="value">${command.studySubject.studySite.study.phaseCode}</div>
         </div>
         <div class="row">
-            <div class="label"><fmt:message key="study.primaryIdentifier"/>:</div>
+            <div class="label"><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
             <div class="value">${command.studySubject.studySite.study.primaryIdentifier}</div>
         </div>
    </div>
@@ -297,7 +297,7 @@
     <table class="tablecontent" width="90%">
         <tr>
             <th width="75%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
-			<th width="75%" scope="col" align="left"><b><fmt:message key="study.primaryIdentifier"/></b></th>
+			<th width="75%" scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></th>
         </tr>
             <tr>
                 <td class="alt">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}</td>
