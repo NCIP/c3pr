@@ -44,8 +44,8 @@ function manageEpochSelection(element){
 		<table id="studySites" class="tablecontent" border="0" cellspacing="0" cellpadding="0"	>
                <tr>
                		<th></th>
-                   <th><b>Organization</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-                   <th><b>NCI Identifier</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.nciInstituteCode"/></th>
+                   <th><b><fmt:message key="c3pr.common.organization"/></b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+                   <th><b><fmt:message key="c3pr.common.NCIIdentifier"/></b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.nciInstituteCode"/></th>
                </tr>
                <c:forEach items="${studySites}" var="studySite" varStatus="status">
                	 <tr>
@@ -66,9 +66,9 @@ function manageEpochSelection(element){
 		<table id="epochs" class="tablecontent" border="0" cellspacing="0" cellpadding="0"	>
               <tr>
               		<th></th>
-                  <th><b>Name</b></th>
-                  <th><b>Description</b></th>
-                  <th><b>Enrolling</b></th>
+                  <th><b><fmt:message key="c3pr.common.name"/></b></th>
+                  <th><b><fmt:message key="c3pr.common.description"/></b></th>
+                  <th><b><fmt:message key="registration.enrolling"/></b></th>
               </tr>
               <c:forEach items="${epochs}" var="epoch" varStatus="epochStatus">
               	 <tr>
