@@ -67,9 +67,6 @@
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
 			            <c:set var="continueLabel" value="${isLast || willSave ? 'save' : ''}"/>
-			            <%--<c:if test="${not empty continueLabel && not isLast}">
-			                <c:set var="continueLabel" value="${continueLabel} &amp; "/>
-			            </c:if>--%>
 			            <c:if test="${not isLast}">
 			                <c:set var="continueLabel" value="${continueLabel}continue"/>
 			            </c:if>

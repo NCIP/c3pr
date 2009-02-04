@@ -34,7 +34,11 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
     	StudySubject studySubject = command.getStudySubject();
         Map ref = new HashMap();
         boolean requiresStratification = false;
-        if (studySubject.getScheduledEpoch()!=null) if ((studySubject.getScheduledEpoch().getEpoch()).getStratificationCriteria().size() > 0) requiresStratification = true;
+        if (studySubject.getScheduledEpoch()!=null){ 
+        	if (studySubject.getScheduledEpoch().getEpoch().getStratificationCriteria().size() > 0){
+        		requiresStratification = true;	
+        	}
+        }
         ref.put("requiresStratification", requiresStratification);
         return ref;
     }

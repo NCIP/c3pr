@@ -62,6 +62,9 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
         else {
         	request.setAttribute("OVERRIDDEN_SAVE_BEHAVIOR", "TRUE");
             super.postProcessPage(request, command, errors, page);
+            if(errors.hasErrors()){
+        		request.removeAttribute("OVERRIDDEN_SAVE_BEHAVIOR");       	
+            }
         }
         if (!errors.hasErrors() && shouldPersist(request, (C) command, getTab((C) command, page))) {
             C newCommand = save((C) command, errors);
@@ -77,12 +80,12 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
     }
     
     @Override
-    protected final boolean shouldSave(HttpServletRequest arg0, C arg1, Tab<C> arg2) {
-    	if(arg0.getAttribute("OVERRIDDEN_SAVE_BEHAVIOR")!=null){
-    		arg0.removeAttribute("OVERRIDDEN_SAVE_BEHAVIOR");
+    protected final boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
+    	if(request.getAttribute("OVERRIDDEN_SAVE_BEHAVIOR")!=null){
+    		request.removeAttribute("OVERRIDDEN_SAVE_BEHAVIOR");
     		return false;
     	}
-    	return isNextPageSavable(arg0, arg1, arg2);
+    	return isNextPageSavable(request, command, tab);
     }
 
     protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {

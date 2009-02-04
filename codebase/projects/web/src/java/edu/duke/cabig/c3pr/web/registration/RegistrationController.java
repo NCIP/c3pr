@@ -156,7 +156,9 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     
     @Override
     protected boolean shouldPersist(HttpServletRequest request, C command, Tab<C> tab) {
-        if (WebUtils.hasSubmitParameter(request, "dontSave")) return false;
+        if (WebUtils.hasSubmitParameter(request, "dontSave")) {
+        	return false;
+        }
         return true;
     }
     
