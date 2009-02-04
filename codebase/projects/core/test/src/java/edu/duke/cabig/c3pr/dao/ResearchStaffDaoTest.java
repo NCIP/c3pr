@@ -4,11 +4,13 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.SEARCH_SUBJECT;
 import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
@@ -62,7 +64,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     public void testFailureAddingSameResearchStaffMemberTwice() {
 
         HealthcareSite site = healthcareSiteDao.getById(1000);
-        ResearchStaff rs1 = new ResearchStaff();
+        ResearchStaff rs1 = new LocalResearchStaff();
         rs1.setFirstName("Brad");
         rs1.setLastName("Johnson");
         rs1.setMaidenName("Bradster");
@@ -76,7 +78,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         ResearchStaff loadedRS1 = getDao().getById(savedId1);
         assertNotNull("Unable to save research staff member with" + savedId1, loadedRS1);
 
-        ResearchStaff rs2 = new ResearchStaff();
+        ResearchStaff rs2 = new LocalResearchStaff();
         rs2.setFirstName("Brad");
         rs2.setLastName("Johnson");
         rs2.setMaidenName("Bradster");
@@ -100,7 +102,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      */
     public void testGetAll() throws Exception {
         List<ResearchStaff> actual = getDao().getAll();
-        assertEquals(4, actual.size());
+        assertEquals(5, actual.size());
         List<Integer> ids = collectIds(actual);
         assertContains("Wrong ResearchStaff found", ids, 1000);
         assertContains("Wrong ResearchStaff found", ids, 1001);
@@ -148,10 +150,10 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testSearchByExampleWithWildcard() throws Exception{
-    	ResearchStaff researchStaff = new ResearchStaff();
+    	ResearchStaff researchStaff = new LocalResearchStaff();
     	researchStaff.setFirstName("Research");
     	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
-    	assertEquals("Incorrect Size of retrieved list", researchStaffList.size(), 4);
+    	assertEquals("Incorrect Size of retrieved list",4,researchStaffList.size());
     }
     
     /**
@@ -160,7 +162,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testSearchByExampleWithoutWildcard() throws Exception{
-    	ResearchStaff researchStaff = new ResearchStaff();
+    	ResearchStaff researchStaff = new LocalResearchStaff();
     	researchStaff.setFirstName("Research Bill");
     	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
     	assertEquals("Incorrect Size of retrieved list", researchStaffList.size(), 1);
@@ -198,6 +200,28 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         researchStaffQuery.filterByEmailAddress("test@mail.com");
         List<ResearchStaff> researchStaffList = getDao().searchResearchStaff(researchStaffQuery);
         assertEquals("Incorrect size", 1, researchStaffList.size());
+    }
+    
+    /**
+     * Test search research staff by query.
+     * 
+     * @throws Exception the exception
+     */
+    public void testLoadRemoteResearchStaffByUniqueIdentifier() throws Exception{
+    	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
+    	researchStaffList = getDao().getByUniqueIdentifier("bob@gmail.com");
+        assertEquals("Incorrect size", 1, researchStaffList.size());
+     }
+    
+    /**
+     * Test search research staff by query.
+     * 
+     * @throws Exception the exception
+     */
+    public void testSearchRemoteResearchStaffByOrganizationInstituteCode() throws Exception{
+    	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
+    	researchStaffList = getDao().getResearchStaffByOrganizationNCIInstituteCode("code");
+        assertEquals("Incorrect size", 5, researchStaffList.size());
     }
 
 }
