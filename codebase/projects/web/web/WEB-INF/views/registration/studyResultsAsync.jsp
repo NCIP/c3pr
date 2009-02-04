@@ -18,11 +18,11 @@ function toggleImage(id){
 		<c:if test="${studyResults!=null}">
 		<tr align="center" class="label">
 			<td class="tableHeader"></td>
-			<td class="tableHeader">Primary Identifier</td>				
-			<td class="tableHeader">Short Title</td>
-			<td class="tableHeader">Sponsor</td>
-			<td class="tableHeader">Phase</td>			
-			<td class="tableHeader">Target Accrual</td>
+			<td class="tableHeader"><fmt:message key="c3pr.common.primaryIdentifier"/></td>				
+			<td class="tableHeader"><fmt:message key="study.shortTitle"/></td>
+			<td class="tableHeader"><fmt:message key="study.sponsor"/></td>
+			<td class="tableHeader"><fmt:message key="study.phase"/></td>			
+			<td class="tableHeader"><fmt:message key="c3pr.common.targetAccrual"/></td>
 		</tr>
 		</c:if>
 	</thead>	
@@ -68,8 +68,8 @@ function toggleImage(id){
 						<table width="50%" height="0" border="0" cellspacing="0" cellpadding="0" class="tableRegion">
 							<thead>
 							<tr>
-								<td class="tableHeader">Site</td>
-								<td class="tableHeader">IRB Approval Date</td>
+								<td class="tableHeader"><fmt:message key="study.site"/></td>
+								<td class="tableHeader"><fmt:message key="site.IRBApprovalDate"/></td>
 							</tr>
 							</thead>
 							<%int j=i*100; %>
