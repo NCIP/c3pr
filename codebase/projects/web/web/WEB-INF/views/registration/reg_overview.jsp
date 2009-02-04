@@ -56,10 +56,6 @@
 			$('create_parent_id').value=parentRegistrationId;
 			$('create').submit();
 		}
-		function launchPrint(){
-			var windowRef = window.open("/c3pr/print_view.jsp", "Print Window", "scrollbars=yes,menubar=no,width=730,height=600,toolbar=no");
-			windowRef.focus()
-		}
 
 		function updateConsentVersion(registartionId){
 			win = new Window({title: "Reconsent", 

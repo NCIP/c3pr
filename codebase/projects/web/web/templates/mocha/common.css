@@ -743,7 +743,7 @@ p { margin: 1em 0; }
 }
 .division { clear: both; }
 .division h3 {
-	font-size: 14px;
+	font-size: 16px;
 	font-weight:bold;
 	color: #333366;
 	position: relative;
@@ -829,7 +829,7 @@ table.tablecontent { border-collapse: collapse; }
 }
 .tablecontent td {
 	border-color: #888 #ddd;
-	border-bottom: 1px solid #C1DAD7; /*background-color: #fff;*/
+	/* border-bottom: 1px solid #C1DAD7; */
 	font-size:12px
 }
 .red { color: #EE3324; }
