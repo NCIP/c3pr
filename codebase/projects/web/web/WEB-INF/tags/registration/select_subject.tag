@@ -56,8 +56,8 @@
                                                             		    var name=ret.substr(0,ret.indexOf("||"));
                                                             		    var id=ret.substr(ret.indexOf("||")+2);
                                                             			$('studySubject.participant').value = id;	
-                                                            			document.getElementById("subject-message").innerHTML = "Selected subject: " +name;
-                                                            			message="Selected subject: " +name;
+                                                            			document.getElementById("subject-message").innerHTML = "Selected Subject: " +name;
+                                                            			message="Selected Subject: " +name;
                                                             			minimizeSubjectBox(message);
                                                             			var elMsg = document.getElementById('succesfulCreateDiv');
                                                             			var elDetails = document.getElementById('createSubjectDetailsDiv');
@@ -99,7 +99,7 @@
                                                             	  	
                                                             	function postProcessSubjectSelection(id, name, identifier){
                                                             		$('studySubject.participant').value = id;
-                                                            		minimizeSubjectBox("Selected subject: " +name+ " (" + identifier + ")");	
+                                                            		minimizeSubjectBox("Selected Subject: " +name+ " (" + identifier + ")");	
                                                             	}  	
                                                             	
                                                             	ValidationManager.submitPostProcess= function(formElement, flag){
