@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -88,6 +89,9 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends Regi
         map.put("newRegistration", newRegistration);
         map.put("armAssigned", armAssigned);
         map.put("armAssignedLabel", armAssignedLabel);
+        map.put("takeSubjectOffStudy", canTakeSubjectOffStudy(studySubject));
+        map.put("canEdit", canEditRegistration(studySubject));
+        map.put("reconsentRequired", reconsentRequired(studySubject));
         map.put("registerableWithCompanions", registrationControllerUtils.registerableAsorWithCompanion(studySubject));
         map.put("requiresMultiSite", studySubjectService
                         .requiresExternalApprovalForRegistration(studySubject));
@@ -154,5 +158,25 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends Regi
 		map.put("command",wrapper);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
-
+    
+    private boolean canEditRegistration(StudySubject studySubject){
+    	if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY){
+    		return true ;
+    	}
+    	return false ;
+    }
+    
+    private boolean reconsentRequired(StudySubject studySubject){
+    	if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && studySubject.getInformedConsentVersion() != studySubject.getStudySite().getStudy().getConsentVersion()){
+    		return true ;
+    	}
+    	return false;
+    }
+    
+    private boolean canTakeSubjectOffStudy(StudySubject studySubject){
+    	if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED && studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
+    		return true ;
+    	}
+    	return false ;
+    }
 }

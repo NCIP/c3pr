@@ -57,7 +57,7 @@ RowManager.addRowInseter(systemIdentifierRowInserterProps);
 RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 </script>
 
-<chrome:division title="Assigned Identifier">
+<chrome:division title="Subject Identifier">
 	<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
 			<div class="value"><input type="hidden" id="mrnOrganization-hidden"
@@ -70,7 +70,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			</div>
 		</div>
 		<div class="row">
-			<div class="label"><tags:requiredIndicator /><fmt:message key="participant.medicalRecordNumber"/></div>
+			<div class="label"><tags:requiredIndicator /><fmt:message key="participant.MRN"/></div>
 			<div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 				size="30" maxlength="30" class="validate-notEmpty" />
 			     <input type="hidden" name="organizationAssignedIdentifiers[0].type"

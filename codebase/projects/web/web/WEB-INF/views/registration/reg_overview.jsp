@@ -94,11 +94,17 @@
 </head>
 <body>
 	<tags:controlPanel>
-		<tags:oneControlPanelItem linkhref="#" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
-		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
-		<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-	    	<c:if test="${command.studySubject.regWorkflowStatus.code=='Enrolled' && command.studySubject.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED'}">
+			<c:if test="${canEdit}">
+				<tags:oneControlPanelItem linkhref="#" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+			</c:if>
+		</csmauthz:accesscontrol>
+		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
+		<c:if test="${reconsentRequired}">
+			<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
+		</c:if>
+		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+	    	<c:if test="${takeSubjectOffStudy}">
 				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudy(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
 			</c:if>
     	</csmauthz:accesscontrol>
