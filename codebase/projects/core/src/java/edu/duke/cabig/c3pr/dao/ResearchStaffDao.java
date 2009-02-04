@@ -17,12 +17,13 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
+import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
+// TODO: Auto-generated Javadoc
 /**
  * Hibernate implementation of ResearchStaffDao.
  * 
@@ -167,7 +168,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      */
     public ResearchStaff getByNciIdentifier(String nciIdentifier) {
         ResearchStaff result = null;
-        ResearchStaff staff = new ResearchStaff();
+        ResearchStaff staff = new LocalResearchStaff();
         staff.setNciIdentifier(nciIdentifier);
 
         try {
@@ -190,6 +191,31 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      */
     public List<ResearchStaff> getByEmailAddress(String emailAddress) {
         return getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'");
+    }
+    
+    /**
+     * Gets the by unique identifier. Created for the remote research staff use case.
+     * 
+     * @param emailAddress the email address
+     * 
+     * @return the ResearchStaff List
+     */
+    public List<ResearchStaff> getByUniqueIdentifier(String emailAddress) {
+    	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
+    	researchStaffList.addAll(getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'"));
+    	researchStaffList.addAll(getHibernateTemplate().find("from RemoteResearchStaff rs where rs.uniqueIdentifier = '" +emailAddress+ "'"));
+        return researchStaffList;
+    }
+    
+    /**
+     * Gets the research staff by organization nci institute code.
+     * 
+     * @param nciInstituteCode the nci institute code
+     * 
+     * @return the research staff by organization nci institute code
+     */
+    public List<ResearchStaff> getResearchStaffByOrganizationNCIInstituteCode(String nciInstituteCode) {
+        return getHibernateTemplate().find("from ResearchStaff rs where rs.healthcareSite.nciInstituteCode = '" +nciInstituteCode+ "'");
     }
 
 
