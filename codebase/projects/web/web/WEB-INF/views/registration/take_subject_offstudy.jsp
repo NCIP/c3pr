@@ -50,15 +50,13 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
            	</a>
      	</div>
      </div>
-     <br>
-     <div class="flow-buttons">
-         <span class="next">
-     	<input type="button" value="Save" onclick="takeSubjectOffStudy(${command.studySubject.id})"/>
+</chrome:box>   
+<div class="flow-buttons">
+	<span class="next">
+	 	<input type="button" value="Save" onclick="takeSubjectOffStudy(${command.studySubject.id})"/>
         <input type="button" value="Cancel" onClick="closePopup();"/>
-	        </span>
-    	</div>  
-    	<br>  
-</chrome:box>     
+    </span>
+</div>  
 </form:form>
 </div>
 <script>

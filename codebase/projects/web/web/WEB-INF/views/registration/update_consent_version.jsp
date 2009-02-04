@@ -63,15 +63,13 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/>
 		</div>
 	</div>
-	<br>
-	<div class="flow-buttons">
-         <span class="next">
-			<input type="button" value="Save" onclick="updateConsentVersion(${command.studySubject.id});"/>
-			<input type="button" value="Cancel" onclick="closePopup();"/>
-		</span>
-     </div>
-     <br>
 </chrome:box>
+<div class="flow-buttons">
+   	<span class="next">
+		<input type="button" value="Save" onclick="updateConsentVersion(${command.studySubject.id});"/>
+		<input type="button" value="Cancel" onclick="closePopup();"/>
+	</span>
+</div>
 </form:form>
 <script>
 inputDateElementLocal1="consentSignedDate";
