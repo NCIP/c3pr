@@ -43,7 +43,7 @@
 		document.getElementById("studySubject.studySite").value = id;
 		var url = "../registration/searchEpoch?studySiteId="+id;
 		new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
-		var message = "Selected study: " +studyName+ " (" +identifier+ ") "  + " at " +siteName;
+		var message = "Selected Study: " +studyName+ " (" +identifier+ ") "  + " at " +siteName;
 		minimizeStudyBox(message);
 
 	}
