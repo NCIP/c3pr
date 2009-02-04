@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -15,13 +17,16 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.semanticbits.coppa.domain.annotations.RemoteProperty;
+
 /**
  * @author Priyatam
  */
 @Entity
 @Table(name = "research_staff")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "research_staff_id_seq") })
-public class ResearchStaff extends User {
+public abstract class ResearchStaff extends User {
 
     private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
 
@@ -128,6 +133,7 @@ public class ResearchStaff extends User {
         return true;
     }
 
+    @RemoteProperty
     public String getNciIdentifier() {
         return nciIdentifier;
     }

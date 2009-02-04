@@ -11,6 +11,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.semanticbits.coppa.domain.annotations.RemoteProperty;
+
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
@@ -40,7 +42,8 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
     public void removeContactMechanism(ContactMechanism contactMechanism) {
         contactMechanisms.remove(contactMechanism);
     }
-
+    
+    @RemoteProperty
     public String getFirstName() {
         return firstName;
     }
@@ -48,7 +51,8 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    
+    @RemoteProperty
     public String getLastName() {
         return lastName;
     }
@@ -100,7 +104,8 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
     public List<ContactMechanism> getContactMechanisms() {
         return contactMechanisms;
     }
-
+    
+    @RemoteProperty
     public String getMaidenName() {
         return maidenName;
     }
@@ -108,7 +113,8 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
     public void setMaidenName(String maidenName) {
         this.maidenName = maidenName;
     }
-
+    
+    @RemoteProperty
     public String getMiddleName() {
         return middleName;
     }

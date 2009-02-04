@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -33,6 +35,7 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
 
     @ManyToOne
     @JoinColumn(name = "research_staff_id")
+    @Cascade(value= {CascadeType.SAVE_UPDATE})
     public ResearchStaff getResearchStaff() {
         return researchStaff;
     }
