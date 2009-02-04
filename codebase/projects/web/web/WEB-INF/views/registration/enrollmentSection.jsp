@@ -12,11 +12,11 @@
         </div>
         <c:if test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">
             <div class="row">
-                <div class="label">Off study reason:</div>
+                <div class="label"><fmt:message key="registration.offStudyReason"/>:</div>
                 <div class="value">${command.studySubject.offStudyReasonText }</div>
             </div>
             <div class="row">
-                <div class="label">Off study date:</div>
+                <div class="label"><fmt:message key="registration.offStudyDate"/>:</div>
                 <div class="value">${command.studySubject.offStudyDateStr }</div>
             </div>
         </c:if>
