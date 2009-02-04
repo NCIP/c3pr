@@ -235,7 +235,7 @@
 <chrome:division id="Study Site Information:" title="Study Site">
    	<div class="leftpanel">
         <div class="row">
-            <div class="label"><fmt:message key="site.name"/>:</div>
+            <div class="label"><fmt:message key="c3pr.common.name"/>:</div>
             <div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
         </div>
         <div class="row">
