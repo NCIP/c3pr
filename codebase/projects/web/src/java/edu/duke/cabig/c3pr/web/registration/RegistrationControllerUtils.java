@@ -312,7 +312,7 @@ public class RegistrationControllerUtils {
 	    	}else if(wrapper.getShouldRegister()){
 	    		actionLabel = "Register" ;
 	    	}else if(wrapper.getShouldRandomize()){
-	    		actionLabel = "Enroll & Randomize" ;
+	    		actionLabel = "Randomize & Enroll" ;
 	    	}else if(wrapper.getShouldEnroll()){
 	    		actionLabel = "Enroll" ;
 	    	}
@@ -323,7 +323,7 @@ public class RegistrationControllerUtils {
 	    	}else if(wrapper.getShouldRegister()){
 	    		actionLabel += " & Register" ;
 	    	}else if(wrapper.getShouldRandomize()){
-	    		actionLabel += " & Randomize" ;
+	    		actionLabel = "Randomize & Transfer" ;
 	    	}
     	}
     	return actionLabel ;
@@ -338,7 +338,7 @@ public class RegistrationControllerUtils {
 	    	}else if(wrapper.getShouldRegister()){
 	    		tabTitle = "Review & Register" ;
 	    	}else if(wrapper.getShouldRandomize()){
-	    		tabTitle = "Enroll & Randomize" ;
+	    		tabTitle = "Randomize & Enroll" ;
 	    	}else if(wrapper.getShouldEnroll()){
 	    		tabTitle = "Review & Enroll" ;
 	    	}
@@ -349,7 +349,7 @@ public class RegistrationControllerUtils {
 	    	}else if(wrapper.getShouldRegister()){
 	    		tabTitle += " & Register" ;
 	    	}else if(wrapper.getShouldRandomize()){
-	    		tabTitle += " & Randomize" ;
+	    		tabTitle = "Randomize & Transfer" ;
 	    	}
     	}
     	return tabTitle ;
