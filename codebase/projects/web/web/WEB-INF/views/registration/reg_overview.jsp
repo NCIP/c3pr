@@ -231,7 +231,7 @@
             <div class="value">${command.studySubject.studySite.study.phaseCode}</div>
         </div>
         <div class="row">
-            <div class="label"><fmt:message key="study.study.primaryIdentifier"/>:</div>
+            <div class="label"><fmt:message key="study.primaryIdentifier"/>:</div>
             <div class="value">${command.studySubject.studySite.study.primaryIdentifier}</div>
         </div>
    </div>
