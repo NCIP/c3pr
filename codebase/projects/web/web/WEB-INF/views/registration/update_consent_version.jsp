@@ -48,7 +48,7 @@ function updateConsentVersion(id){
 			</div>
 	</div>
 	<div class="row">
-		<div class="label"><tags:requiredIndicator />Current Consent Version is ${command.studySubject.studySite.study.consentVersion}</div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> ${command.studySubject.studySite.study.consentVersion}</div>
 		<div class="value">
 			<input type="checkbox" name="studySubject.currentVersionIndicator" onclick="setVersion(this);" />
 			<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/>
