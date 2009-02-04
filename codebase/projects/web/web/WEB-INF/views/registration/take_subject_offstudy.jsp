@@ -53,8 +53,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </chrome:box>   
 <div class="flow-buttons">
 	<span class="next">
-	 	<input type="button" value="Save" onclick="takeSubjectOffStudy(${command.studySubject.id})"/>
-        <input type="button" value="Cancel" onClick="closePopup();"/>
+	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="takeSubjectOffStudy(${command.studySubject.id})"/>
+        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
     </span>
 </div>  
 </form:form>
