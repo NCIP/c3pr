@@ -402,14 +402,14 @@
             <th></th>
         </tr>
         <c:forEach var="orgIdentifier" items="${command.studySubject.organizationAssignedIdentifiers}"
-                   begin="1" varStatus="organizationStatus">
+                  varStatus="organizationStatus">
             <tr>
                 <td>${orgIdentifier.healthcareSite.name}</td>
                 <td>${orgIdentifier.type}</td>
                 <td>${orgIdentifier.value}</td>
-                <td>${orgIdentifier.primaryIndicator}
-                    <form:radiobutton value="true" cssClass="identifierRadios"
-                                      path="command.studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
+                <td>${orgIdentifier.primaryIndicator?'Yes':'No'}
+                    <%--<form:radiobutton value="true" cssClass="identifierRadios"
+                                      path="command.studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td> --%>
             </tr>
         </c:forEach>
         <c:forEach items="${command.studySubject.systemAssignedIdentifiers}" varStatus="status" var="sysIdentifier">
