@@ -96,6 +96,7 @@
 			</c:if>
 		</csmauthz:accesscontrol>
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
+		<tags:oneControlPanelItem linkhref="javascript:transferEpoch();" imgsrc="" linktext="Change Epoch" />
 		<c:if test="${reconsentRequired}">
 			<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
 		</c:if>
@@ -240,12 +241,7 @@
         </div>
         <div class="row">
             <div class="label"><fmt:message key="site.address"/>:</div>
-            <div class="value">
-					<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.streetAddress}">${command.studySubject.studySite.healthcareSite.address.streetAddress},</c:if>
-					<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.city}">${command.studySubject.studySite.healthcareSite.address.city},</c:if>
-					<c:if test="${! empty command.studySubject.studySite.healthcareSite.address.stateCode}">${command.studySubject.studySite.healthcareSite.address.stateCode},</c:if>
-					${command.studySubject.studySite.healthcareSite.address.postalCode}
-			</div>
+            <div class="value">${command.studySubject.studySite.healthcareSite.address.addressString}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="site.status"/>:</div>
@@ -450,6 +446,13 @@
                 <div align="left"><span class="no-selection"><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
             </c:when>
             <c:otherwise>
+	          	<c:if test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator}">
+					<div class="row">
+						<div class="label"><fmt:message key="registration.stratumGroup"/>:</div>
+						<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroup}</div>
+					</div>
+				</c:if>
+				<br>
                 <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="90%">
                     <tr>
                         <th width="35%" scope="col" align="left"><fmt:message key="study.criterion"/></th>

@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.StringTokenizer;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -83,4 +85,29 @@ public class Address extends AbstractMutableDeletableDomainObject {
         return false;
 
     }
+    
+    @Transient
+    public String getAddressString(){
+    	String addressStr = getStreetAddress() + "," + getCity()+ "," + getStateCode()+ "," + getPostalCode()+  "," + getCountryCode();
+    	addressStr = formatAddress(addressStr)  ;
+    	return addressStr ;
+    }
+
+	private String formatAddress(String addressStr) {
+		String address = "" ;
+		StringTokenizer st = new StringTokenizer(addressStr, ",");
+		int count = 0 ;
+	     while (st.hasMoreTokens()) {
+	    	 String token = st.nextToken() ;
+	    	 if(token != null && token != "null"){
+		    	 if(count == 0){
+		    		 address +=  token;
+		    	 }else{
+		    		 address += "," + token ;
+		    	 }
+		    	 count ++ ;
+	    	 }
+	     }
+		return address ;
+	}
 }

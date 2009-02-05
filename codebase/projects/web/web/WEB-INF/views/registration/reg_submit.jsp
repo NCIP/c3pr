@@ -118,12 +118,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="site.address"/>:</div>
-					<div class="value">
-							<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.streetAddress}">${command.studySubject.studySite.healthcareSite.address.streetAddress},</c:if>
-							<c:if test="${!empty command.studySubject.studySite.healthcareSite.address.city}">${command.studySubject.studySite.healthcareSite.address.city},</c:if>
-							<c:if test="${! empty command.studySubject.studySite.healthcareSite.address.stateCode}">${command.studySubject.studySite.healthcareSite.address.stateCode},</c:if>
-							${command.studySubject.studySite.healthcareSite.address.postalCode}
-					</div>
+					<div class="value">${command.studySubject.studySite.healthcareSite.address.addressString}</div>
 				</div>
 			</div>
 			<div class="rightpanel">
@@ -143,7 +138,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 			</div>
 	</chrome:division>
-	<chrome:division id="Current Epoch Information" title="Current Epoch">
+	<chrome:division id="Current Epoch Information" title="Epoch & Arm">
 		<div class="leftpanel">
 			<div class="row">
 				<div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
@@ -247,6 +242,13 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			<div align="left"><span><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
 		</c:when>
 		<c:otherwise>
+			<c:if test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator}">
+				<div class="row">
+					<div class="label"><fmt:message key="registration.stratumGroup"/>:</div>
+					<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroup}</div>
+				</div>
+			</c:if>
+			<br>
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="90%">
 				<tr>
 					<th width="35%" scope="col" align="left"><fmt:message key="study.criterion"/></th>
