@@ -394,18 +394,22 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         return reducedHcsInvList;
     }
     
+    
     public List<ResearchStaff> getSitePersonnel(Integer hcsId)
     throws Exception {
-    	
+		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
 
-	HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
-	List<ResearchStaff> hcsRSList = hcs.getResearchStaffs();
-	List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
-	for (ResearchStaff rs : hcsRSList) {
-	reducedHcsRsList.add(buildReduced(rs, Arrays.asList("id",
-	                "firstName","lastName","nciIdentifier")));
-	}
-	return reducedHcsRsList;
+		//replaced the following method with a dao call and a resolver call....for coppa data
+		//List<ResearchStaff> hcsRSList = hcs.getResearchStaffs();
+		List<ResearchStaff> hcsRSList = researchStaffDao.getResearchStaffByOrganizationNCIInstituteCode(hcs);
+//		hcsRSList.addAll(researchStaffDao.);
+		
+		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
+		for (ResearchStaff rs : hcsRSList) {
+		reducedHcsRsList.add(buildReduced(rs, Arrays.asList("id",
+		                "firstName","lastName","nciIdentifier")));
+		}
+		return reducedHcsRsList;
 	}
 
     public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {

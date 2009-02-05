@@ -256,7 +256,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                <table border="1" class="tablecontent" >
 			                    <tr>
 			                        <th scope="col">Name</th>
-									<th width="20%">Role<tags:hoverHint keyProp="study.personnel.role"/></th>
+									<%-- <th width="20%">Role<tags:hoverHint keyProp="study.personnel.role"/></th>  --%>
 			                        <th width="20%">Status<tags:hoverHint keyProp="study.personnel.status"/></th>
 			                        <th width="5%"></th>
 			                    </tr>
@@ -266,11 +266,11 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		                            <td>
 		                              ${studyPersonnel.researchStaff.lastName}&nbsp;${studyPersonnel.researchStaff.firstName}
 		                            </td>
-									<td>
+									<%--  <td>
 		                            <form:select path="study.studyOrganizations[${selected_site}].studyPersonnel[${status.index}].roleCode" cssClass="validate-notEmpty">
 				                       <form:options items="${studyPersonnel.researchStaff.groups}" itemLabel="displayName" itemValue="code"/>
 				                    </form:select>
-		                            </td>
+		                            </td> --%>
 		                            <td>
 		                            <form:select path="study.studyOrganizations[${selected_site}].studyPersonnel[${status.index}].statusCode" cssClass="validate-notEmpty">
 				                        <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
