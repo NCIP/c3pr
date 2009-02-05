@@ -4,6 +4,7 @@
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" %>
 <%@attribute name="tabNumber"%>
 <%@attribute name="isLast"%>
+<%@attribute name="isSummaryPage"%>
 <%@attribute name="willSave"%>
 <%@attribute name="goToTab"%>
 <%@attribute name="backToTab"%>
@@ -53,15 +54,11 @@
 		<c:otherwise>
 			<div class="flow-buttons">
 		        <span class="prev">
-		            <c:if test="${tabNumber > 0}">
+		            <c:if test="${tabNumber > 0 && (!empty isSummaryPage && !isSummaryPage) }">
 		                <input type="image" id="flow-prev" class="tab${tabNumber - 1}" value="&laquo; ${willSave ? 'Save &amp; ' : ''}Back" src="/c3pr/images/flow-buttons/${willSave ? 'save' : ''}back_btn.png"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
-		            <%-- <input type="reset" value="Reset tab"/> 
-		
-		            <c:if test="${not isLast}">
-		                <input type="submit" id="flow-update" class="tab${tabNumber}" value="${willSave ? 'Save' : 'Update'}"/>--%>
 		            <c:if test="${not isLast && willSave}">
 			            <input type="image" id="flow-update" class="tab${tabNumber}" value="Save" src="/c3pr/images/flow-buttons/save_btn.png"/>
 		            </c:if>

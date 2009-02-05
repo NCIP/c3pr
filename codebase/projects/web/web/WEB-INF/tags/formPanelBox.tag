@@ -9,6 +9,7 @@
 <%@attribute name="enctype"%>
 <%@attribute name="boxId"%>
 <%@attribute name="boxClass" %>
+<%@attribute name="isSummaryPage"%>
 <%@attribute name="action" %>
 <%@attribute name="localButtons" fragment="true" %>
 <%@attribute name="continueLabel"%>
@@ -24,5 +25,5 @@
             <jsp:doBody/>
         </chrome:division>
 </chrome:box>
-<tags:tabControls continueLabel="${continueLabel}" tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+<tags:tabControls continueLabel="${continueLabel}" tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" isSummaryPage="${isSummaryPage}"/>
 </form:form>

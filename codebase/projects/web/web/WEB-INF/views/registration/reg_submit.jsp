@@ -268,7 +268,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:choose>
 	</chrome:division>
 	</div>
-	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? '' : actionLabel}" >
+	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? '' : actionLabel}"  isSummaryPage="true">
 		<input type="hidden" name="_finish" value="true"/>
 		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete'}">
 			<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>

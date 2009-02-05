@@ -10,6 +10,7 @@
 <%@attribute name="boxId"%>
 <%@attribute name="boxClass" %>
 <%@attribute name="action" %>
+<%@attribute name="isSummaryPage"%>
 <%@attribute name="localButtons" fragment="true" %>
 <%@attribute name="continueLabel"%>
 <c:if test="${not empty action}"><c:set var="actionString" value="action='${action}'"></c:set></c:if>
@@ -17,5 +18,5 @@
 <tags:tabFields tab="${tab}"/>
 <c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
     <jsp:doBody/>
-<tags:tabControls continueLabel="${continueLabel}" tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+<tags:tabControls continueLabel="${continueLabel}" tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" isSummaryPage="${isSummaryPage}"/>
 </form:form>

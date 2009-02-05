@@ -107,22 +107,6 @@ top:90px;
 		</chrome:box></td>
 		<td valign="top"><chrome:box
 			title="Incomplete Registrations - Most Recent">
-			<script>
-				function submitLocalForm(formName, regId ,schEphId){
-					registrationElement=formName+'_registrationId';
-					$(registrationElement).value=regId;
-					$(formName).submit();
-				}	
-			</script>
-			<%--<form id="manage" name="manage" action="../pages/registration/manageRegistration" method="get">
-				<input type="hidden" name="registrationId" id="manage_registrationId" value=""/>
-			</form>
-			<form action="../pages/registration/createRegistration" method="post" id="create">
-				<input type="hidden" name="_page" id="_page0" value="0"/>
-				<input type="hidden" name="_target1" id="_target1" value="1"/>
-				<input type="hidden" name="registrationId" id="create_registrationId" value=""/>
-				<input type="hidden" name="goToTab" id="goToTab" value="true"/>
-			</form>--%>
 			<c:if
 				test="${uRegistrations != null && fn:length(uRegistrations) > 0}">
 				<table width="100%" cellspacing="1" cellpadding="2">
@@ -141,16 +125,13 @@ top:90px;
 						</script>
 						<c:choose>
 							<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
-								<c:set var="reg_url"
-								value="../pages/registration/editRegistration" />
+								<c:set var="reg_url" value="../pages/registration/editRegistration" />
 							</c:when>
 							<c:when test="${registration.dataEntryStatusString=='Complete' && (registration.regWorkflowStatus.code == 'Pending' || registration.regWorkflowStatus.code == 'Registered but not enrolled') }">
-								<c:set var="reg_url"
-								value="../pages/registration/editRegistration" />
+								<c:set var="reg_url" value="../pages/registration/editRegistration" />
 							</c:when>
 							<c:otherwise>
-								<c:set var="reg_url"
-								value="../pages/registration/manageRegistration" />	
+								<c:set var="reg_url" value="../pages/registration/manageRegistration" />	
 							</c:otherwise>
 						</c:choose>
 						<c:if test="${status.count % 2 == 1}">
