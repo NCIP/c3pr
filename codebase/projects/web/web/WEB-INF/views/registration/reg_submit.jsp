@@ -28,6 +28,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </head>
 <body>
 	<tags:instructions code="reg_submit" />
+	<c:if test="${command.studySubject.scheduledEpoch.requiresRandomization && command.studySubject.dataEntryStatusString == 'Complete'}">
 	<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
 		<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
 		<div style="font-size:20px; margin-bottom:5px;">Almost done...</div>
@@ -39,6 +40,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</ul>
 		</div>
 	</div>
+	</c:if>
 	<div id="registrationSummary">
 	<chrome:division id="Subject Information" title="Subject">
 			<div class="leftpanel">
@@ -266,7 +268,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:choose>
 	</chrome:division>
 	</div>
-	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? 'Save' : actionLabel}" >
+	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? '' : actionLabel}" >
 		<input type="hidden" name="_finish" value="true"/>
 		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete'}">
 			<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
