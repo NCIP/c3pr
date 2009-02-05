@@ -99,7 +99,7 @@ public class Address extends AbstractMutableDeletableDomainObject {
 		int count = 0 ;
 	     while (st.hasMoreTokens()) {
 	    	 String token = st.nextToken() ;
-	    	 if(token != null && token != "null"){
+	    	 if(!"null".equalsIgnoreCase(token)){
 		    	 if(count == 0){
 		    		 address +=  token;
 		    	 }else{
