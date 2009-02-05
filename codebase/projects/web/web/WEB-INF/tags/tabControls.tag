@@ -54,7 +54,7 @@
 		<c:otherwise>
 			<div class="flow-buttons">
 		        <span class="prev">
-		            <c:if test="${tabNumber > 0 && (!empty isSummaryPage && !isSummaryPage) }">
+		            <c:if test="${tabNumber > 0 && (empty isSummaryPage || (empty isSummaryPage && !isSummaryPage)) }">
 		                <input type="image" id="flow-prev" class="tab${tabNumber - 1}" value="&laquo; ${willSave ? 'Save &amp; ' : ''}Back" src="/c3pr/images/flow-buttons/${willSave ? 'save' : ''}back_btn.png"/>
 		            </c:if>
 		        </span>
