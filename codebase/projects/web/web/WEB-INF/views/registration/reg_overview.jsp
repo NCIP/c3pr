@@ -74,7 +74,7 @@
 
 		function takeSubjectOffStudy(registartionId){
 			win = new Window({title: "Take subject off study", 
-				zIndex:100, width:400, height:200 ,minimizable:false, maximizable:false,
+				zIndex:100, width:450, height:250 ,minimizable:false, maximizable:false,
 				recenterAuto:true, className :"mac_os_x",
 				url: "<c:url value='/pages/registration/takeSubjectOffStudy?decorator=noheaderDecorator&registartionId='/>" + registartionId, 
 				showEffectOptions: {duration:1.5}
