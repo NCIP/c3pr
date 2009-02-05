@@ -293,7 +293,11 @@
         </property>
         <property name="remoteResolvers">
             <list>
-                <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver"/>
+                <bean class="edu.duke.cabig.c3pr.domain.RemoteResearchStaffResolver">
+                	<property name="researchStaffService">
+                		<bean class="com.semanticbits.coppasimulator.service.ResearchStaffService" />
+                	</property>
+                </bean>
             </list>
         </property>
     </bean>

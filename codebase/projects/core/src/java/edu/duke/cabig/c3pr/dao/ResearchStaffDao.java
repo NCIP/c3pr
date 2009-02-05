@@ -19,11 +19,14 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
+import com.semanticbits.coppa.infrastructure.RemoteSession;
+
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
-// TODO: Auto-generated Javadoc
 /**
  * Hibernate implementation of ResearchStaffDao.
  * 
@@ -46,6 +49,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
     /** The Constant EXTRA_PARAMS. */
     private static final List<Object> EXTRA_PARAMS = Collections.emptyList();
+    
+    private RemoteSession remoteSession;
 
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
@@ -208,15 +213,67 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     }
     
     /**
-     * Gets the research staff by organization nci institute code.
+     * Gets the research staff by organization nci institute code from the database and the remote datastore.
      * 
      * @param nciInstituteCode the nci institute code
      * 
      * @return the research staff by organization nci institute code
      */
-    public List<ResearchStaff> getResearchStaffByOrganizationNCIInstituteCode(String nciInstituteCode) {
-        return getHibernateTemplate().find("from ResearchStaff rs where rs.healthcareSite.nciInstituteCode = '" +nciInstituteCode+ "'");
+    public List<ResearchStaff> getResearchStaffByOrganizationNCIInstituteCode(HealthcareSite healthcareSite) {
+    	//First get the remote content
+    	List<RemoteResearchStaff> remoteResearchStaffList =  getFromResolverUsingOrganization(healthcareSite);
+    	//update the database with the remote content
+    	updateDatabaseWithRemoteContent(remoteResearchStaffList);
+    	
+    	//run a query against the updated database to get all research staff
+    	List<ResearchStaff> completeResearchStaffListFromDatabase =  
+    		getHibernateTemplate().find("from ResearchStaff rs where rs.healthcareSite.nciInstituteCode = '" +healthcareSite.getNciInstituteCode()+ "'");
+    	return completeResearchStaffListFromDatabase;
     }
+    
+    /**
+     * Gets the research staff by organization nci institute code from the resolver.
+     * 
+     * @param nciInstituteCode the nci institute code
+     * 
+     * @return the research staff by organization nci institute code
+     */
+    public List<RemoteResearchStaff> getFromResolverUsingOrganization(HealthcareSite healthcareSite){
+    	
+    	RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+    	remoteResearchStaff.setHealthcareSite(healthcareSite);
+    	
+    	List<Object> objectList = remoteSession.find(remoteResearchStaff);
+    	List<RemoteResearchStaff> researchStaffList = new ArrayList<RemoteResearchStaff>();
+    	
+    	RemoteResearchStaff tempRemoteResearchStaff;
+    	for(Object object: objectList){
+    		tempRemoteResearchStaff = (RemoteResearchStaff)object;
+    		tempRemoteResearchStaff.setHealthcareSite(healthcareSite);
+    		researchStaffList.add(tempRemoteResearchStaff);
+    	}
+    	return researchStaffList;
+    }
+    
+
+    /**
+     * Update database with remote content.
+     * 
+     * @param remoteResearchStaffList the remote research staff list
+     */
+    public void updateDatabaseWithRemoteContent(List<RemoteResearchStaff> remoteResearchStaffList){
+    	for (ResearchStaff remoteResearchStaff: remoteResearchStaffList) {
+    		ResearchStaff researchStaffFromDatabase = getByNciIdentifier(remoteResearchStaff.getNciIdentifier());
+    		if (researchStaffFromDatabase == null) {
+    			save(remoteResearchStaff);
+    		}
+    	}
+    }
+    
+    
+	public void setRemoteSession(RemoteSession remoteSession) {
+		this.remoteSession = remoteSession;
+	}
 
 
 }
