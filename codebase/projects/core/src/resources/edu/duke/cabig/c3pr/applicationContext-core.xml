@@ -199,6 +199,7 @@
 			<list>
 				<ref local="gridIdentifierInterceptor"/>
 				<ref local="auditInterceptor"/> 
+				<ref local="remoteEntityInterceptor"/>
 			</list>
 		</property>
 	</bean>
@@ -292,7 +293,7 @@
         </property>
         <property name="remoteResolvers">
             <list>
-                <bean class="edu.duke.cabig.c3pr.domain.RemoteResearchStaffResolver"/>
+                <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver"/>
             </list>
         </property>
     </bean>
@@ -313,6 +314,9 @@
     <!-- auditing beans definition end here -->
 
     <bean id="gridIdentifierInterceptor" class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
+          autowire="byName"/>
+          
+    <bean id="remoteEntityInterceptor" class="com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor"
           autowire="byName"/>
           
     <bean id="hibernateTemplate"
