@@ -282,6 +282,20 @@
             <value>true</value>
         </property> -->
     </bean> 
+    
+    <bean id="remoteSession" class="com.semanticbits.coppa.infrastructure.RemoteSession" init-method="init">
+        <property name="enableCaching" value="true"/>
+        <property name="remoteEntities">
+            <list>
+                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+            </list>
+        </property>
+        <property name="remoteResolvers">
+            <list>
+                <bean class="edu.duke.cabig.c3pr.domain.RemoteResearchStaffResolver"/>
+            </list>
+        </property>
+    </bean>
 
     <bean name="dataAuditRepository" class="gov.nih.nci.cabig.ctms.audit.dao.DataAuditRepository">
         <property name="sessionFactory">
