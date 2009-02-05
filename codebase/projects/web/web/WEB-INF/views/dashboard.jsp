@@ -111,8 +111,6 @@ top:90px;
 				function submitLocalForm(formName, regId ,schEphId){
 					registrationElement=formName+'_registrationId';
 					$(registrationElement).value=regId;
-				//	schEphElement=formName+'_scheduledEpoch';
-				//	$(schEphElement).value=schEphId;
 					$(formName).submit();
 				}	
 			</script>
@@ -142,18 +140,18 @@ top:90px;
 							paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
 						</script>
 						<c:choose>
-						<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
-							<c:set var="reg_url"
-							value="../pages/registration/editRegistration" />
-						</c:when>
-						<c:when test="${registration.scheduledEpoch.scEpochWorkflowStatus=='REGISTERED_BUT_NOT_RANDOMIZED'}">
-							<c:set var="reg_url"
-							value="../pages/registration/confirm" />
-						</c:when>
-						<c:otherwise>
-							<c:set var="reg_url"
-							value="../pages/registration/manageRegistration" />	
-						</c:otherwise>
+							<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
+								<c:set var="reg_url"
+								value="../pages/registration/editRegistration" />
+							</c:when>
+							<c:when test="${registration.dataEntryStatusString=='Complete' && (registration.regWorkflowStatus.code == 'Pending' || registration.regWorkflowStatus.code == 'Registered but not enrolled') }">
+								<c:set var="reg_url"
+								value="../pages/registration/editRegistration" />
+							</c:when>
+							<c:otherwise>
+								<c:set var="reg_url"
+								value="../pages/registration/manageRegistration" />	
+							</c:otherwise>
 						</c:choose>
 						<c:if test="${status.count % 2 == 1}">
 							<c:set var="bg" value="${bgcolor}" />
