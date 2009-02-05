@@ -32,9 +32,29 @@ public class ReviewSubmitTab extends RegistrationTab<StudySubjectWrapper> {
     @Override
     public Map referenceData(StudySubjectWrapper command) {
 		Map map = new HashMap();
+		
+		StudySubject studySubject = command.getStudySubject();
+		String armAssigned = "";
+		String armAssignedLabel = "";
+		if ((studySubject.getScheduledEpoch()).getScheduledArm() != null) {
+			if (studySubject.getStudySite().getStudy().getBlindedIndicator()) {
+				armAssigned = (studySubject.getScheduledEpoch())
+						.getScheduledArm().getKitNumber();
+				armAssignedLabel = "Kit assigned";
+			} else if ((studySubject.getScheduledEpoch()).getScheduledArm()
+					.getArm() != null) {
+				armAssigned = (studySubject.getScheduledEpoch())
+						.getScheduledArm().getArm().getName();
+				armAssignedLabel = "Arm assigned";
+			}
+
+		}
+		
 		map.put("actionLabel", registrationControllerUtils.getActionButtonLabel(command));
 		map.put("tabTitle", registrationControllerUtils.getTabTitle(command));
 		map.put("registerable", registrationControllerUtils.isRegisterableOnPage(command.getStudySubject()));
+		map.put("armAssigned", armAssigned);
+		map.put("armAssignedLabel", armAssignedLabel);
         return map;
     }
 }
