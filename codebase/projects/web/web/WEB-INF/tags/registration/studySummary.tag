@@ -4,6 +4,7 @@
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <tabs:division id="Summary" title="Study Summary">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"
@@ -16,29 +17,29 @@
 		</tr>
 		
 		<tr>
-			<td valign="top" width="35%" align="right"><b>Short
-			Title:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="study.shortTitle"/>
+			:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.trimmedShortTitleText}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b>Primary
-			Identifier:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="c3pr.common.primaryIdentifier"/>
+			:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.primaryIdentifier}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b>Phase:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="study.phase"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.phaseCode}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b>Status:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="study.status"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.status}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b>Sponsor:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="study.sponsor"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.identifiers[0].value}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b>Type:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="study.type"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.type}</td>
 		</tr>
 		<c:forEach begin="1" end="10">
