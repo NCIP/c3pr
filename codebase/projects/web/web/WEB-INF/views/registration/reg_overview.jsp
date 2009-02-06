@@ -86,6 +86,28 @@
 		function refreshEnrollmentSection(regId){
 			<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'command'"  viewName="/registration/enrollmentSection" javaScriptParam="'registrationId='+regId"/>
 		}
+
+		function changeEpoch(){
+			var arr= $$("#changeEpoch");
+			contentWin = new Window({maximizable: false, className :"mac_os_x", title: "Change Epoch", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:800, height:600 , minimizable:false, maximizable:false,
+									showEffect:Element.show, 
+									destroyOnClose: true}) 
+			contentWin.setContent(arr[0]) ;
+			contentWin.showCenter(true);
+			 // Set up a windows observer, check ou debug window to get messages 
+			 myObserver = { 
+					 onDestroy: function(eventName, win) { 
+				 					if (win == contentWin) { 
+					 					$('container').appendChild($('changeEpoch')); 
+					 					contentWin = null; 
+					 					Windows.removeObserver(this); 
+					 				} 
+					 				debug(eventName + " on " + win.getId()) 
+					 			} 
+	 			} 
+	 			Windows.addObserver(myObserver); }
     </script>
 </head>
 <body>
@@ -96,7 +118,7 @@
 			</c:if>
 		</csmauthz:accesscontrol>
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
-		<tags:oneControlPanelItem linkhref="javascript:transferEpoch();" imgsrc="" linktext="Change Epoch" />
+		<tags:oneControlPanelItem linkhref="javascript:changeEpoch();" imgsrc="" linktext="Change Epoch" />
 		<c:if test="${reconsentRequired}">
 			<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
 		</c:if>
@@ -574,6 +596,11 @@
         </form:form>
     </chrome:division>
 </c:if>
+</div>
+</div>
+<div id="epochSelection" style="display:none;">
+<div id="changeEpoch" >
+	<%@ include file="reg_change_epoch.jsp"%>
 </div>
 </div>
 <form:form id="exportForm" method="post">
