@@ -4,6 +4,7 @@
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -14,13 +15,13 @@ function navRollOver(obj, state) {
 		id="additionalList">
 		<tr align="center" class="label">
 			<td width="11">&nbsp;</td>
-			<td>Registration Identifier</td>
-			<td>Short Title</td>
-			<td>Study Identifier</td>
-			<td>Site</td>
+			<td><fmt:message key="registration.registrationIdentifier"/></td>
+			<td><fmt:message key="study.shortTitle"/></td>
+			<td><fmt:message key="study.studyIdentifier"/></td>
+			<td><fmt:message key="study.site"/></td>
 			<td><fmt:message key="registration.registrationStatus"/></td>
 			<td><fmt:message key="registration.startDate"/></td>
-			<td>Treating Physician</td>
+			<td><fmt:message key="registration.enrollingPhysician"/></td>
 		</tr>
 		<c:set var="i" value="0"/>
 		<c:forEach items="${command.studySubject.participant.studySubjects}" var="registration">
