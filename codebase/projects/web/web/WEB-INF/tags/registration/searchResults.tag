@@ -3,6 +3,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@attribute name="registrations" required="true"
 	type="java.util.Collection"%>
@@ -47,14 +48,14 @@ function submitLocalForm(formName, idParamStr){
 		<thead>
 			<c:if test="${registrations!=null}">
 				<tr>
-					<td class="tableHeader">Subject <br>last name</td>
-					<td class="tableHeader">Subject <br>primary identifier</td>
-					<td class="tableHeader">Study <br>short title</td>
-					<td class="tableHeader">Study <br>identifier</td>
-					<td class="tableHeader">Site</td>
-					<td class="tableHeader">Registration <br>status</td>
-					<td class="tableHeader">Registration <br>date</td>
-					<td class="tableHeader">Registration <br>identifier</td>
+					<td class="tableHeader"><fmt:message key="participant.subjectLastName"/></td>
+					<td class="tableHeader"><fmt:message key="participant.subjectPrimaryidentifier"/></td>
+					<td class="tableHeader"><fmt:message key="study.studyShortTitle"/></td>
+					<td class="tableHeader"><fmt:message key="study.studyIdentifier"/></td>
+					<td class="tableHeader"><fmt:message key="study.site"/></td>
+					<td class="tableHeader"><fmt:message key="registration.registrationStatus"/></td>
+					<td class="tableHeader"><fmt:message key="registration.startDate"/></td>
+					<td class="tableHeader"><fmt:message key="registration.registrationIdentifier"/></td>
 				</tr>
 			</c:if>
 			</thead>
