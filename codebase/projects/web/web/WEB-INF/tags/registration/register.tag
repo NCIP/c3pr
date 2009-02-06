@@ -48,18 +48,18 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
             <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'&& registration.scheduledEpoch.epoch.randomizedIndicator}">
                 <tr><td align="left" colspan="2"></td></tr>
-				<tr><td class="labelR" width="150">Phone Number:</td><td >${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
+				<tr><td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td><td >${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
 				<tr>
 				<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
-				<td class="labelR">Stratum Group:</td><td> ${registration.scheduledEpoch.stratumGroup}</td>
+				<td class="labelR"><fmt:message key="registration.stratumGroup"/>:</td><td> ${registration.scheduledEpoch.stratumGroup}</td>
 				</c:if>
 				<tr>
 				<c:choose>
 					<c:when test="${registration.studySite.study.blindedIndicator}">
-						<td class="labelR">Enter Kit Number</td><td><input type="text" name="studySubject.scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
+						<td class="labelR"><fmt:message key="registration.enterKitNumber"/></td><td><input type="text" name="studySubject.scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
 					</c:when>
 					<c:otherwise>
-						<td class="labelR">Select Arm:</td><td>
+						<td class="labelR"><fmt:message key="registration.selectArm"/></td><td>
 						<select name ="studySubject.scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
 							<option value="" selected>Please Select</option>
 							<c:forEach items="${registration.scheduledEpoch.epoch.arms}" var="arm">
@@ -73,7 +73,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 			<c:if test="${registration.studySite.study.randomizationType.name == 'BOOK' && registration.scheduledEpoch.epoch.randomizedIndicator}">
 				<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
 				<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
-				<tr><td class="labelR">Stratum Group:</td><td>${registration.scheduledEpoch.stratumGroup}</td></tr>
+				<tr><td class="labelR"><fmt:message key="registration.stratumGroup"/>:</td><td>${registration.scheduledEpoch.stratumGroup}</td></tr>
 				</c:if>
 			</c:if>
 			</table>
@@ -88,18 +88,18 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 		            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		            <c:if test="${childStudySubject.studySite.study.randomizationType.name == 'PHONE_CALL'&& childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
 		                <tr><td align="left" colspan="2"></td></tr>
-						<tr><td class="labelR" width="150">Phone Number:</td><td >${childStudySubject.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
+						<tr><td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td><td >${childStudySubject.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
 						<tr>
 						<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
-						<td class="labelR">Stratum Group:</td><td> ${childStudySubject.scheduledEpoch.stratumGroup}</td>
+						<td class="labelR"><fmt:message key="registration.stratumGroup"/>:</td><td> ${childStudySubject.scheduledEpoch.stratumGroup}</td>
 						</c:if>
 						<tr>
 						<c:choose>
 							<c:when test="${childStudySubject.studySite.study.blindedIndicator}">
-								<td class="labelR">Enter Kit Number</td><td><input type="text" name="studySubject.childStudySubjects[${status.index}].scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
+								<td class="labelR"><fmt:message key="registration.enterKitNumber"/></td><td><input type="text" name="studySubject.childStudySubjects[${status.index}].scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
 							</c:when>
 							<c:otherwise>
-								<td class="labelR">Select Arm:</td><td>
+								<td class="labelR"><fmt:message key="registration.selectArm"/></td><td>
 								<select name ="studySubject.childStudySubjects[${status.index}].scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
 									<option value="" selected>Please Select</option>
 									<c:forEach items="${childStudySubject.scheduledEpoch.epoch.arms}" var="arm">
@@ -113,7 +113,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 					<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'BOOK' && childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
 						<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
 						<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
-						<tr><td class="labelR">Stratum Group:</td><td>${childStudySubject.scheduledEpoch.stratumGroup}</td></tr>
+						<tr><td class="labelR"><fmt:message key="registration.stratumGroup"/>:</td><td>${childStudySubject.scheduledEpoch.stratumGroup}</td></tr>
 						</c:if>
 					</c:if>
 					</table>
