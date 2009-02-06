@@ -211,6 +211,8 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
     	researchStaffList = getDao().getByUniqueIdentifier("bob@gmail.com");
         assertEquals("Incorrect size", 1, researchStaffList.size());
+      //  assertEquals("wrong first name", "march holberg", researchStaffList.get(0).getFirstName());
+      //  assertEquals("Wrong last name", "keanu reaves", researchStaffList.get(0).getLastName());
      }
     
     /**
@@ -219,8 +221,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testSearchRemoteResearchStaffByOrganizationInstituteCode() throws Exception{
-    	HealthcareSite healthcareSite = new HealthcareSite();
-    	healthcareSite.setNciInstituteCode("code");
+    	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
     	researchStaffList = getDao().getResearchStaffByOrganizationNCIInstituteCode(healthcareSite);
         assertEquals("Incorrect size", 5, researchStaffList.size());
