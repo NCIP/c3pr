@@ -165,7 +165,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     
     
     /**
-     * Gets the by nci identifier.
+     * Gets the by nci identifier. Looks for local and remote
      * 
      * @param nciIdentifier the nci identifier
      * 
@@ -173,11 +173,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      */
     public ResearchStaff getByNciIdentifier(String nciIdentifier) {
         ResearchStaff result = null;
-        ResearchStaff staff = new LocalResearchStaff();
-        staff.setNciIdentifier(nciIdentifier);
 
         try {
-            result = searchByExample(staff, false).get(0);
+            result = (ResearchStaff)(getHibernateTemplate().find("from ResearchStaff rs where rs.nciIdentifier = '" +nciIdentifier+ "'").get(0));
         }
         catch (Exception e) {
             log.debug("User with nciIdentifier " + nciIdentifier
@@ -185,7 +183,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         }
         return result;
     }
-    
+
     
     /**
      * Gets the by email address. Created for the notifications use case.
@@ -207,7 +205,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      */
     public List<ResearchStaff> getByUniqueIdentifier(String emailAddress) {
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
-    	researchStaffList.addAll(getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'"));
+    	researchStaffList.addAll(getHibernateTemplate().find("from LocalResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'"));
     	researchStaffList.addAll(getHibernateTemplate().find("from RemoteResearchStaff rs where rs.uniqueIdentifier = '" +emailAddress+ "'"));
         return researchStaffList;
     }
@@ -262,11 +260,15 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * @param remoteResearchStaffList the remote research staff list
      */
     public void updateDatabaseWithRemoteContent(List<RemoteResearchStaff> remoteResearchStaffList){
-    	for (ResearchStaff remoteResearchStaff: remoteResearchStaffList) {
-    		ResearchStaff researchStaffFromDatabase = getByNciIdentifier(remoteResearchStaff.getNciIdentifier());
-    		if (researchStaffFromDatabase == null) {
-    			save(remoteResearchStaff);
-    		}
+    	
+    	for (RemoteResearchStaff remoteResearchStaff: remoteResearchStaffList) {
+    		List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifier(remoteResearchStaff.getUniqueIdentifier());
+   			if(researchStaffFromDatabase.size() > 0){
+   				//this guy exists....copy latest remote data into the existing object...which is done by the interceptor
+   			} else{
+   				//this guy doesnt exist
+   				getHibernateTemplate().save(remoteResearchStaff);
+   			}
     	}
     }
     
