@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%-- must specify either tab & flow or tabNumber and isLast --%>
 <%@attribute name="tab" type="gov.nih.nci.cabig.ctms.web.tabs.Tab" %>
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" %>
@@ -27,7 +28,7 @@
 			<div class="flow-buttons">
 		        <span class="prev">
 		            <c:if test="${tabNumber > 0 && tabNumber != backToTab }">
-		                <input type="image" id="flow-prev" class="tab${backToTab}" value="&laquo; ${willSave ? 'Save &amp; ' : ''}Back" src="/c3pr/images/flow-buttons/${willSave ? 'save' : ''}back_btn.png"/>
+		                <tags:button type="button" id="flow-prev" cssClass="tab${backToTab}" value="${willSave ? 'Save &amp; ' : ''}Back" icon="${willSave ? 'Save &amp; ' : ''}Back"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
@@ -36,18 +37,18 @@
 						<input type="hidden" name="_finish" value="true">
 					</c:if>	
 		        	 <c:if test="${not isLast && willSave}">
-		                <input type="image" id="flow-update" class="tab${tabNumber}" value="Save" src="/c3pr/images/flow-buttons/save_btn.png"/>
+		                <tags:button type="button" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="Save"/>
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
-			            <c:set var="continueLabel" value="${isLast || willSave ? 'save' : ''}"/>
+			            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
 					</c:if>			        
-    				<%--<c:if test="${not empty continueLabel && not isLast && goToTab > tabNumber}">
+    				<c:if test="${not empty continueLabel && not isLast && goToTab > tabNumber}">
 		                <c:set var="continueLabel" value="${continueLabel} &amp; "/>
-		            </c:if>--%>
-		            <c:if test="${not isLast }">
-		                <c:set var="continueLabel" value="${continueLabel}continue"/>
 		            </c:if>
-		            <input type="image" id="${isLast == 'true'?'flow-finish':'flow-next'}" class="tab${goToTab}" value="${continueLabel} &raquo;" src="/c3pr/images/flow-buttons/${continueLabel}_btn.png"/>
+		            <c:if test="${not isLast }">
+		                <c:set var="continueLabel" value="${continueLabel}Continue"/>
+		            </c:if>
+		            <tags:button type="button" id="${isLast == 'true'?'flow-finish':'flow-next'}" cssClass="tab${goToTab}" value="${continueLabel}" icon="${continueLabel}"/>
 		        </span>
 		    </div> 
 		</c:when>
@@ -55,25 +56,25 @@
 			<div class="flow-buttons">
 		        <span class="prev">
 		            <c:if test="${tabNumber > 0 && (empty isSummaryPage || (empty isSummaryPage && !isSummaryPage)) }">
-		                <input type="image" id="flow-prev" class="tab${tabNumber - 1}" value="&laquo; ${willSave ? 'Save &amp; ' : ''}Back" src="/c3pr/images/flow-buttons/${willSave ? 'save' : ''}back_btn.png"/>
+		                <tags:button type="button" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave ? 'Save &amp; ' : ''}Back" icon="${willSave ? 'Save &amp; ' : ''}Back"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
 		            <c:if test="${not isLast && willSave}">
-			            <input type="image" id="flow-update" class="tab${tabNumber}" value="Save" src="/c3pr/images/flow-buttons/save_btn.png"/>
+			            <tags:button type="button" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="Save"/>
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
-			            <c:set var="continueLabel" value="${isLast || willSave ? 'save' : ''}"/>
+			            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
 			            <c:if test="${not isLast}">
-			                <c:set var="continueLabel" value="${continueLabel}continue"/>
+			                <c:set var="continueLabel" value="${continueLabel} &amp; Continue"/>
 			            </c:if>
 					</c:if>
 					<c:choose>
-						<c:when	test="${continueLabel == 'save' || continueLabel == 'back' || continueLabel == 'saveback' || continueLabel == 'savecontinue'}">            
-		           		 <input type="image" id="flow-next"  value="${continueLabel}" src="/c3pr/images/flow-buttons/${continueLabel}_btn.png"/>
+						<c:when	test="${continueLabel == 'Save' || continueLabel == 'Back' || continueLabel == 'Save &amp; Back' || continueLabel == 'Save &amp; Continue'}">            
+		           		 <tags:button type="button" id="flow-next"  value="${continueLabel}" icon="${continueLabel}"/>
 						</c:when>
 						<c:otherwise>
-							<input type="submit" id="flow-next"  value="${continueLabel}" />
+							<tags:button type="button" id="flow-next"  value="${continueLabel}" />
 						</c:otherwise>
 					</c:choose>
 		        </span>

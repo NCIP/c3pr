@@ -118,7 +118,7 @@
 			</c:if>
 		</csmauthz:accesscontrol>
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
-		<tags:oneControlPanelItem linkhref="javascript:changeEpoch();" imgsrc="" linktext="Change Epoch" />
+		<tags:oneControlPanelItem linkhref="javascript:transferEpoch();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
 		<c:if test="${reconsentRequired}">
 			<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
 		</c:if>
