@@ -3,10 +3,10 @@
 <table border="0" cellspacing="0" cellpadding="5px" class="tablecontent"  width="100%">
 	<tr>
 		<th></th>
-		<th scope="col"><fmt:message key="registration.epochName"/></th>
-		<th scope="col" ><b><fmt:message key="c3pr.common.description"/></th>
-		<th scope="col" ><b><fmt:message key="c3pr.common.type"/></th>
-		<th scope="col" ><b><fmt:message key="c3pr.common.additionalInfo"/></th>
+		<th scope="col" ><b><fmt:message key="registration.epochName"/></b></th>
+		<th scope="col" ><b><fmt:message key="c3pr.common.description"/></b></th>
+		<th scope="col" ><b><fmt:message key="c3pr.common.type"/></b></th>
+		<th scope="col" ><b><fmt:message key="c3pr.common.additionalInfo"/></b></th>
 		
 	</tr>
 	<c:forEach items="${command.studySubject.studySite.study.epochs}" var="epoch" varStatus="epochStatus">
