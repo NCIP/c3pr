@@ -9,7 +9,6 @@ import com.semanticbits.coppasimulator.service.ResearchStaffService;
 
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RemoteResearchStaffResolver.
  */
@@ -49,7 +48,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			remoteResearchStaff.setFirstName(researchStaffDTO.getFirstName());
 			remoteResearchStaff.setLastName(researchStaffDTO.getLastName());
 			remoteResearchStaff.setNciIdentifier(researchStaffDTO.getNciIdentifier());
-			
+			remoteResearchStaff.setUniqueIdentifier(researchStaffDTO.getEmailAddress());
 			researchStaffList.add(remoteResearchStaff);
 		}
 		
