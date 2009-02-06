@@ -219,8 +219,10 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testSearchRemoteResearchStaffByOrganizationInstituteCode() throws Exception{
+    	HealthcareSite healthcareSite = new HealthcareSite();
+    	healthcareSite.setNciInstituteCode("code");
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
-    	researchStaffList = getDao().getResearchStaffByOrganizationNCIInstituteCode("code");
+    	researchStaffList = getDao().getResearchStaffByOrganizationNCIInstituteCode(healthcareSite);
         assertEquals("Incorrect size", 5, researchStaffList.size());
     }
 
