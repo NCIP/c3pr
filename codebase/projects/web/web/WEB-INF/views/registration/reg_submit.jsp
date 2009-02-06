@@ -244,13 +244,15 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			<div align="left"><span><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
 		</c:when>
 		<c:otherwise>
+			<div class="leftpanel">
 			<c:if test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator}">
 				<div class="row">
 					<div class="label"><fmt:message key="registration.stratumGroup"/>:</div>
 					<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroup}</div>
 				</div>
 			</c:if>
-			<br>
+			</div>
+			<div class="rightpanel">&nbsp;</div>
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="90%">
 				<tr>
 					<th width="35%" scope="col" align="left"><fmt:message key="study.criterion"/></th>

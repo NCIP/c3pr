@@ -469,12 +469,14 @@
             </c:when>
             <c:otherwise>
 	          	<c:if test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator}">
+	          		<div class="leftpanel">
 					<div class="row">
 						<div class="label"><fmt:message key="registration.stratumGroup"/>:</div>
 						<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroup}</div>
 					</div>
 				</c:if>
-				<br>
+				</div>
+				<div class="rightpanel">&nbsp;</div>
                 <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="90%">
                     <tr>
                         <th width="35%" scope="col" align="left"><fmt:message key="study.criterion"/></th>
