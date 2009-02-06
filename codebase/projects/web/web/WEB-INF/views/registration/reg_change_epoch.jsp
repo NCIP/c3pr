@@ -12,7 +12,7 @@
 	<c:forEach items="${command.studySubject.studySite.study.epochs}" var="epoch" varStatus="epochStatus">
 		<tr>
 			<td>
-				<input type="radio" value="" style="margin:0 5px;"/> 
+				<input type="radio" value="" /> 
 			</td>
 			<td align="left">${epoch.name}</td>
 			<td align="left">${epoch.descriptionText}</td>
