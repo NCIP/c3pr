@@ -31,7 +31,7 @@
 		<c:when test="${command.studySubject.studySite.study.randomizedIndicator == 'false'}">
 			<c:if test="${fn:length(command.studySubject.scheduledEpoch.epoch.arms) > 0}">
 				<tr>
-				<td class="label" width="80%"><fmt:message key="registration.selectArm"/>:</td>
+				<td class="label" width="80%"><fmt:message key="registration.selectArm"/></td>
 					<td>
 						<select name ="scheduledEpoch.scheduledArms[0].arm">
 							<option value="" selected>--Please Select--</option>
@@ -67,7 +67,7 @@
 			<td>${command.studySubject.stratumGroup}</td>
 			</tr>
 			<tr>
-				<td class="label" width="80%"><fmt:message key="registration.selectArm"/>:</td>
+				<td class="label" width="80%"><fmt:message key="registration.selectArm"/></td>
 				<td>
 					<select name ="scheduledEpoch.scheduledArms[0].arm">
 						<option value="" selected>--Please Select--</option>
