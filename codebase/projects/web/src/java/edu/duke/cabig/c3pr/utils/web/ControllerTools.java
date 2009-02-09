@@ -11,8 +11,8 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
@@ -70,7 +70,7 @@ public class ControllerTools {
     	if(WebUtils.hasSubmitParameter(request, IDENTIFIER_VALUE_PARAM_NAME)){
     		if(request.getParameter(ASSIGNED_BY_PARAM_NAME).equals(ASSIGNED_BY_ORG_VALUE)){
     			OrganizationAssignedIdentifier orgAssignedIdentifier = new OrganizationAssignedIdentifier();
-    			orgAssignedIdentifier.setHealthcareSite(new HealthcareSite());
+    			orgAssignedIdentifier.setHealthcareSite(new LocalHealthcareSite());
     			orgAssignedIdentifier.getHealthcareSite().setNciInstituteCode(request.getParameter(ORG_NCI_PARAM_NAME));
     			identifier=orgAssignedIdentifier;
     		}else if(request.getParameter(ASSIGNED_BY_PARAM_NAME).equals(ASSIGNED_BY_SYS_VALUE)){
