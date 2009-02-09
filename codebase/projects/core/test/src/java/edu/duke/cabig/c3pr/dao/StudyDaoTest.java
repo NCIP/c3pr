@@ -30,6 +30,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Randomization;
@@ -679,7 +680,7 @@ public class StudyDaoTest extends DaoTestCase {
         Integer savedId;
         {
             // healthcare site
-            HealthcareSite healthcaresite = new HealthcareSite();
+            HealthcareSite healthcaresite = new LocalHealthcareSite();
             Address address = new Address();
             address.setCity("Reston");
             address.setCountryCode("USA");
@@ -889,7 +890,7 @@ public class StudyDaoTest extends DaoTestCase {
             investigatorDao.save(invSave);
 
             // healthcare site
-            HealthcareSite healthcaresite = new HealthcareSite();
+            HealthcareSite healthcaresite = new LocalHealthcareSite();
             Address address = new Address();
             address.setCity("Reston");
             address.setCountryCode("USA");
@@ -1553,7 +1554,7 @@ public class StudyDaoTest extends DaoTestCase {
     
     public void testGetStudyByOrganizationAssignedIdentifier(){
         OrganizationAssignedIdentifier organizationAssignedId=new OrganizationAssignedIdentifier();
-        organizationAssignedId.setHealthcareSite(new HealthcareSite());
+        organizationAssignedId.setHealthcareSite(new LocalHealthcareSite());
         organizationAssignedId.getHealthcareSite().setNciInstituteCode("Duke");
         organizationAssignedId.setValue("nci1");
         organizationAssignedId.setType("Coordinating Center Identifier");

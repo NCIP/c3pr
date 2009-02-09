@@ -23,7 +23,6 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.springframework.test.annotation.ExpectedException;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
@@ -31,6 +30,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.IdentifierGenerator;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
@@ -184,7 +184,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySite studySite = new StudySite();
             studySite.setStudy(study);
-            studySite.setHealthcareSite(new HealthcareSite());
+            studySite.setHealthcareSite(new LocalHealthcareSite());
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
