@@ -15,7 +15,6 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.ManageCompanionRegistrationTab;
-import edu.duke.cabig.c3pr.web.registration.tabs.ManageEpochTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationOverviewTab;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
@@ -40,7 +39,6 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     @Override
     protected void intializeFlows(Flow flow) {
         flow.addTab(new RegistrationOverviewTab<StudySubjectWrapper>());
-        flow.addTab(new ManageEpochTab<StudySubjectWrapper>());
         flow.addTab(new ManageCompanionRegistrationTab<StudySubjectWrapper>());
         setFlow(flow);
     }

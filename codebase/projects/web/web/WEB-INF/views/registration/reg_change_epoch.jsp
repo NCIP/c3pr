@@ -10,6 +10,13 @@ function manageEpochSelection(element){
 	element.checked=true;
 	transferToStatus = element.id ;
 	transferEpochId=element.value;
+	if(transferEpochId != '${command.studySubject.currentScheduledEpoch.epoch.id}'){
+		$$(".transferEpochButton")[0].src="/c3pr/images/flow-buttons/save_btn.png";
+		$$(".transferEpochButton")[0].disabled="";
+	}else{
+		$$(".transferEpochButton")[0].src="/c3pr/images/flow-buttons/save_btn_disabled.png";
+		$$(".transferEpochButton")[0].disabled="disabled";
+	}
 }
 function transfer(){
 	if(transferEpochId == '${command.studySubject.currentScheduledEpoch.epoch.id}'){
@@ -66,11 +73,9 @@ function registerSubject(transferEpochId, transferToStatus){
 	</c:forEach>
 </table>
 </chrome:box>
-<c:if test="${transferEpochId != 'command.studySubject.currentScheduledEpoch.epoch.id'}">
 <div class="flow-buttons">
 	<span class="next">
-	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="transfer();"/>
+	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn_disabled.png" onclick="transfer();"  disabled="disabled" class="transferEpochButton"/>
         <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="parent.closePopup();"/>
     </span>
 </div>  
-</c:if>
