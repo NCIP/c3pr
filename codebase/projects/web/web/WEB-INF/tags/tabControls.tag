@@ -28,7 +28,7 @@
 			<div class="flow-buttons">
 		        <span class="prev">
 		            <c:if test="${tabNumber > 0 && tabNumber != backToTab }">
-		                <tags:button type="button" id="flow-prev" cssClass="tab${backToTab}" value="${willSave ? 'Save &amp; ' : ''}Back" icon="${willSave ? 'Save &amp; ' : ''}Back"/>
+		                <tags:button type="button" id="flow-prev" cssClass="tab${backToTab}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
@@ -55,8 +55,8 @@
 		<c:otherwise>
 			<div class="flow-buttons">
 		        <span class="prev">
-		            <c:if test="${tabNumber > 0 && (empty isSummaryPage || (empty isSummaryPage && !isSummaryPage)) }">
-		                <tags:button type="button" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave ? 'Save &amp; ' : ''}Back" icon="${willSave ? 'Save &amp; ' : ''}Back"/>
+		            <c:if test="${tabNumber > 0 }">
+		                <tags:button type="button" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
