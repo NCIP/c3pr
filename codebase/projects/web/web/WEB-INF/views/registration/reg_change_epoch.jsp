@@ -1,26 +1,25 @@
 <%@ include file="taglibs.jsp"%>
 <script>
 var transferEpochId = '${command.studySubject.currentScheduledEpoch.epoch.id}' ;
-var transferToStatus = '' ;
+var transferToStatus = 'flow' ;
 function manageEpochSelection(element){
 	$$(".epochCheck").each(function(e){
-				transferToStatus = '' ;
 				e.checked=false;
 			}
 		);
 	element.checked=true;
-	transferToStatus = element.id.value ;
+	transferToStatus = element.id ;
 	transferEpochId=element.value;
 }
 function transfer(){
 	if(transferEpochId == '${command.studySubject.currentScheduledEpoch.epoch.id}'){
 		alert("Already Registered");
 	}else{
-		registerSubject(transferEpochId);
+		registerSubject(transferEpochId, transferToStatus);
 	}
 }
 
-function registerSubject(transferEpochId){
+function registerSubject(transferEpochId, transferToStatus){
 	parent.closePopup();
 	if(transferToStatus == 'flow'){
 		$("edit_epoch").value=transferEpochId;
@@ -28,11 +27,11 @@ function registerSubject(transferEpochId){
 	}else{
 		$("regWorkflowStatus").value=transferToStatus;
 		$("m_manage_epoch").value=transferEpochId;
-		$("manage").submit();
+		$("manageTransferEpoch").submit();
 	}
 }
 </script>
-<form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" id="manage" method="post">
+<form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" id="manageTransferEpoch" >
 	<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 	<input type="hidden" name="_finish" id="_finish"/>
 	<input type="hidden" name="epoch" id="m_manage_epoch"/>

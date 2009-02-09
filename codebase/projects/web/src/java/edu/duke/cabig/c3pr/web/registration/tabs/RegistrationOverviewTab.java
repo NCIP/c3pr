@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.dao.EpochDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
@@ -36,6 +37,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	private RegistrationControllerUtils registrationControllerUtils;
 
 	private EpochDao epochDao;
+	
+	private StudyDao studyDao ;
 
 	public EpochDao getEpochDao() {
 		return epochDao;
@@ -202,9 +205,6 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 			Object commandObj, Errors error) {
 		C command = (C) commandObj;
 		StudySubject studySubject = command.getStudySubject();
-		studySubjectDao.initialize(studySubject);
-		Study study = studySubject.getStudySite().getStudy();
-		studyDao.initialize(study);
 		int id = -1;
 		Map<String, Object> map = new HashMap<String, Object>();
 		id = Integer.parseInt(request.getParameter("epochId"));
@@ -284,5 +284,13 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		}else{
 			return "Not Required" ;
 		}
+	}
+
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
 	}
 }

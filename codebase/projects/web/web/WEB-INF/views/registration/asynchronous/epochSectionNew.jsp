@@ -17,7 +17,7 @@
 	</c:when>
 	<c:otherwise>
 		<td>
-			<input class="epochCheck" type="radio" id="${transferToStatus}" value="${epoch.id}" <c:if test="${isCurrentScheduledEpoch}"> checked disabled='disabled'</c:if> onclick="manageEpochSelection(this);" />
+			<input class="epochCheck" type="radio" id="${transferToStatus}" value="${epoch.id}" onclick="manageEpochSelection(this);" <c:if test="${isCurrentScheduledEpoch}"> checked disabled='disabled'</c:if>/>
 		</td>
 		<td align="left">${epoch.name}</td>
 		<td align="left">${epoch.descriptionText}</td>
