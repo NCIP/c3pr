@@ -3,8 +3,8 @@
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1001" version="1" street_address="123 Main Street" city="Reston" state_code="VA" postal_code="20190" country_code="USA"  retired_indicator = "false" />
    
-    <ORGANIZATIONS id="1000" version="1" name="Duke Comprehensive Cancer Center" description_text="duke healthcare" address_id="1000" nci_institute_code="du code"  retired_indicator = "false" />
-    <ORGANIZATIONS id="1001" version="1" name="Wake Forest Comprehensive Cancer Center" description_text="wake healthcare" address_id="1001" nci_institute_code="wf code"  retired_indicator = "false" />
+    <ORGANIZATIONS id="1000" version="1" name="Duke Comprehensive Cancer Center" description_text="duke healthcare" dtype="Local" address_id="1000" nci_institute_code="du code"  retired_indicator = "false" />
+    <ORGANIZATIONS id="1001" version="1" name="Wake Forest Comprehensive Cancer Center" description_text="wake healthcare" dtype="Local" address_id="1001" nci_institute_code="wf code"  retired_indicator = "false" />
     
     <RESEARCH_STAFF id="1000" version="1" first_name="Research Bill" last_name="Dahr" dtype="Local" hcs_id="1000" retired_indicator = "false" />
     
