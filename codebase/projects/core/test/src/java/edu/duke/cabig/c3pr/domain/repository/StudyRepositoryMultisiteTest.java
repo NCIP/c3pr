@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
@@ -295,7 +296,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
             investigatorDao.save(invSave);
 
             // healthcare site
-            HealthcareSite healthcaresite = new HealthcareSite();
+            HealthcareSite healthcaresite = new LocalHealthcareSite();
             Address address = new Address();
             address.setCity("Reston");
             address.setCountryCode("USA");
@@ -423,7 +424,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
     public void addNewCooordinatingCenter(Study study) {
         StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
                         .get(0);
-        HealthcareSite healthcaresite = new HealthcareSite();
+        HealthcareSite healthcaresite = new LocalHealthcareSite();
         Address address = new Address();
         address.setCity("Reston");
         address.setCountryCode("USA");

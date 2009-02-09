@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.messaging.Endpoint;
-
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -28,7 +26,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -45,7 +43,6 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 public class StudyRepositoryUnitTest extends AbstractTestCase {
 
@@ -448,7 +445,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public HealthcareSite buildHealthcareSite() {
-        HealthcareSite hcs = new HealthcareSite();
+        HealthcareSite hcs = new LocalHealthcareSite();
         hcs.setNciInstituteCode("hcs-001");
         return hcs;
     }
@@ -482,7 +479,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         invSave.setFirstName("Investigator first name");
 
         // healthcare site
-        HealthcareSite healthcaresite = new HealthcareSite();
+        HealthcareSite healthcaresite = new LocalHealthcareSite();
         Address address = new Address();
         address.setCity("Reston");
         address.setCountryCode("USA");
@@ -567,7 +564,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void addNewCooordinatingCenter(Study study) {
         StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
                         .get(0);
-        HealthcareSite healthcaresite = new HealthcareSite();
+        HealthcareSite healthcaresite = new LocalHealthcareSite();
         Address address = new Address();
         address.setCity("Reston");
         address.setCountryCode("USA");
