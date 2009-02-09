@@ -88,18 +88,7 @@ public class PersonnelServiceImpl implements PersonnelService {
     }
 
     public void save(ResearchStaff staff) throws C3PRBaseException {
-        save(staff, null);
-
-        try {
-            User csmUser = getCSMUser(staff);
-            csmUser.setOrganization(staff.getHealthcareSite().getNciInstituteCode());
-            assignUserToGroup(csmUser, siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
-            log.debug("Successfully assigned user to organization group"
-                            + siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
-        }
-        catch (CSObjectNotFoundException e) {
-            new C3PRBaseException("Could not assign user to organization group.");
-        }
+        researchStaffDao.saveResearchStaff(staff);
     }
 
     public Investigator merge(Investigator user) throws C3PRBaseException {

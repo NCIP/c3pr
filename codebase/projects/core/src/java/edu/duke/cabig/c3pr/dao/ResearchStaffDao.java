@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,15 +19,28 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.mail.MailException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
+import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
+import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.dao.GroupSearchCriteria;
+import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
+import gov.nih.nci.security.exceptions.CSTransactionException;
 
 /**
  * Hibernate implementation of ResearchStaffDao.
@@ -51,6 +66,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     private static final List<Object> EXTRA_PARAMS = Collections.emptyList();
     
     private RemoteSession remoteSession;
+    
+    private UserProvisioningManager userProvisioningManager;
+    
+    private CSMObjectIdGenerator siteObjectIdGenerator;
 
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
@@ -104,6 +123,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * @return the list< research staff>
      */
     public List<ResearchStaff> searchByExample(ResearchStaff staff, boolean isWildCard) {
+    	getAndUpdateRemoteResearchStaff(null);
+    	
         List<ResearchStaff> result = new ArrayList<ResearchStaff>();
 
         Example example = Example.create(staff).excludeZeroes().ignoreCase();
@@ -218,15 +239,20 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * @return the research staff by organization nci institute code
      */
     public List<ResearchStaff> getResearchStaffByOrganizationNCIInstituteCode(HealthcareSite healthcareSite) {
-    	//First get the remote content
-    	List<RemoteResearchStaff> remoteResearchStaffList =  getFromResolverUsingOrganization(healthcareSite);
-    	//update the database with the remote content
-    	updateDatabaseWithRemoteContent(remoteResearchStaffList);
+    	getAndUpdateRemoteResearchStaff(healthcareSite);
     	
     	//run a query against the updated database to get all research staff
     	List<ResearchStaff> completeResearchStaffListFromDatabase =  
     		getHibernateTemplate().find("from ResearchStaff rs where rs.healthcareSite.nciInstituteCode = '" +healthcareSite.getNciInstituteCode()+ "'");
     	return completeResearchStaffListFromDatabase;
+    }
+    
+    
+    private void getAndUpdateRemoteResearchStaff(HealthcareSite healthcareSite){
+    	//First get the remote content
+    	List<RemoteResearchStaff> remoteResearchStaffList =  getFromResolverUsingOrganization(healthcareSite);
+    	//update the database with the remote content
+    	updateDatabaseWithRemoteContent(remoteResearchStaffList);
     }
     
     /**
@@ -267,15 +293,150 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
    				//this guy exists....copy latest remote data into the existing object...which is done by the interceptor
    			} else{
    				//this guy doesnt exist
-   				getHibernateTemplate().save(remoteResearchStaff);
+   				try{
+   					saveRemoteResearchStaff(remoteResearchStaff);
+   				} catch (C3PRBaseException cbe){
+   					log.error(cbe.getMessage());
+   				}
    			}
     	}
     }
     
     
+    /*
+	 * Moved to here from personnelServiceImpl for coppa integration
+	 */
+    public void saveRemoteResearchStaff(ResearchStaff staff) throws C3PRBaseException {
+        save(staff, null);
+
+        try {
+            User csmUser = getCSMUser(staff);
+            csmUser.setOrganization(staff.getHealthcareSite().getNciInstituteCode());
+            assignUserToGroup(csmUser, siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
+            log.debug("Successfully assigned user to organization group"
+                            + siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
+        }
+        catch (CSObjectNotFoundException e) {
+            new C3PRBaseException("Could not assign user to organization group.");
+        }
+    }
+
+	
+    private User getCSMUser(C3PRUser user) throws CSObjectNotFoundException {
+        return userProvisioningManager.getUserById(user.getLoginId());
+    }
+
+    
+	private void save(C3PRUser c3prUser,
+            gov.nih.nci.security.authorization.domainobjects.User csmUser)
+            throws C3PRBaseException, MailException {
+		try {
+		    if (csmUser == null) {
+		        csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
+		        populateCSMUser(c3prUser, csmUser);
+		        userProvisioningManager.createUser(csmUser);
+		    }
+		    else {
+		        populateCSMUser(c3prUser, csmUser);
+		        userProvisioningManager.modifyUser(csmUser);
+		    }
+		
+		    log.debug("Saving c3pr user");
+		    this.save(c3prUser);
+		    c3prUser.setLoginId(csmUser.getUserId().toString());
+		
+		    assignUsersToGroup(csmUser, c3prUser.getGroups());
+		}
+		catch (CSTransactionException e) {
+		    throw new C3PRBaseException("Could not create user", e);
+		}
+	}
+	
+	
+	private void populateCSMUser(C3PRUser c3prUser,
+            gov.nih.nci.security.authorization.domainobjects.User csmUser) {
+		csmUser.setFirstName(c3prUser.getFirstName());
+		csmUser.setLastName(c3prUser.getLastName());
+		csmUser.setPassword(c3prUser.getLastName());
+		
+		for (ContactMechanism cm : c3prUser.getContactMechanisms()) {
+		    if (cm.getType().equals(ContactMechanismType.EMAIL)) {
+		        csmUser.setLoginName(cm.getValue().toLowerCase());
+		        csmUser.setEmailId(cm.getValue());
+		    }
+		}
+	}
+
+	public UserProvisioningManager getUserProvisioningManager() {
+		return userProvisioningManager;
+	}
+
+	public void setUserProvisioningManager(
+			UserProvisioningManager userProvisioningManager) {
+		this.userProvisioningManager = userProvisioningManager;
+	}
+	
+	/*
+     * Takes the whole list of groups instead of one ata time .Thsi was crated so the unchecked
+     * groups could be deleted.
+     */
+    private void assignUsersToGroup(User csmUser, List<C3PRUserGroupType> groupList)
+                    throws C3PRBaseException {
+        Set<String> groups = new HashSet<String>();
+        try {
+            for (C3PRUserGroupType group : groupList) {
+                groups.add(getGroupIdByName(group.getCode()));
+            }
+
+            userProvisioningManager.assignGroupsToUser(csmUser.getUserId().toString(), groups
+                            .toArray(new String[groups.size()]));
+        }
+        catch (Exception e) {
+            throw new C3PRBaseException("Could not add user to group", e);
+        }
+    }
+    
+    private void assignUserToGroup(User csmUser, String groupName) throws C3PRBaseException {
+        Set<String> groups = new HashSet<String>();
+        try {
+            Set<Group> existingSet = userProvisioningManager.getGroups(csmUser.getUserId()
+                            .toString());
+            for (Group existingGroup : existingSet) {
+                groups.add(existingGroup.getGroupId().toString());
+            }
+            groups.add(getGroupIdByName(groupName));
+            userProvisioningManager.assignGroupsToUser(csmUser.getUserId().toString(), groups
+                            .toArray(new String[groups.size()]));
+        }
+        catch (Exception e) {
+            throw new C3PRBaseException("Could not add user to group", e);
+        }
+    }
+    
+    
+    private String getGroupIdByName(String groupName) {
+        Group search = new Group();
+        search.setGroupName(groupName);
+        GroupSearchCriteria sc = new GroupSearchCriteria(search);
+        Group returnGroup = (Group) userProvisioningManager.getObjects(sc).get(0);
+        return returnGroup.getGroupId().toString();
+    }
+    /*
+	 * Moved to here from personnelServiceImpl for coppa integration
+	 */
+    
+
+    
 	public void setRemoteSession(RemoteSession remoteSession) {
 		this.remoteSession = remoteSession;
 	}
 
+	public CSMObjectIdGenerator getSiteObjectIdGenerator() {
+		return siteObjectIdGenerator;
+	}
+
+	public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
+		this.siteObjectIdGenerator = siteObjectIdGenerator;
+	}
 
 }

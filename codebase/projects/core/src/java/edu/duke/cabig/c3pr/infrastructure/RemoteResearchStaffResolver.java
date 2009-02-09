@@ -22,7 +22,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	public List<Object> find(Object arg0) {
 		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff) arg0;
 		
-		ResearchStaffDTO researchStaffDTO = researchStaffService.getClinicalResearchStaffPerson("LPage@nci.org");
+		ResearchStaffDTO researchStaffDTO = researchStaffService.getClinicalResearchStaffPerson("SBine@nci.org");
 		List<ResearchStaffDTO> researchStaffDTOList  = new ArrayList<ResearchStaffDTO>();
 		researchStaffDTOList.add(researchStaffDTO);
 		
