@@ -75,7 +75,8 @@
                 <value>edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyFundingSponsor</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyOrganization</value>
-                <value>edu.duke.cabig.c3pr.domain.HealthcareSite</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalHealthcareSite</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
                 <value>edu.duke.cabig.c3pr.domain.Organization</value>
                 <value>edu.duke.cabig.c3pr.domain.Address</value>
                 <value>edu.duke.cabig.c3pr.domain.StudySubject</value>
@@ -215,7 +216,8 @@
 	                <value>edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter</value>
 	                <value>edu.duke.cabig.c3pr.domain.StudyFundingSponsor</value>
 	                <value>edu.duke.cabig.c3pr.domain.StudyOrganization</value>
-	                <value>edu.duke.cabig.c3pr.domain.HealthcareSite</value>
+	                <value>edu.duke.cabig.c3pr.domain.LocalHealthcareSite</value>
+	                <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
 	                <value>edu.duke.cabig.c3pr.domain.Organization</value>
 	                <value>edu.duke.cabig.c3pr.domain.Address</value>
 	                <value>edu.duke.cabig.c3pr.domain.StudySubject</value>
@@ -286,9 +288,11 @@
     
     <bean id="remoteSession" class="com.semanticbits.coppa.infrastructure.RemoteSession" init-method="init">
         <property name="enableCaching" value="true"/>
+        
         <property name="remoteEntities">
             <list>
                 <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
             </list>
         </property>
         <property name="remoteResolvers">
@@ -296,6 +300,11 @@
                 <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver">
                 	<property name="researchStaffService">
                 		<bean class="com.semanticbits.coppasimulator.service.ResearchStaffService" />
+                	</property>
+                </bean>
+                <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver">
+                	<property name="organizationService">
+                		<bean class="com.semanticbits.coppasimulator.service.OrganizationService" />
                 	</property>
                 </bean>
             </list>
@@ -381,8 +390,18 @@
     <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byName"/>
     <bean id="endpointDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EndpointDao" autowire="byName"/>
     <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byName"/>
-    <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao"
-          autowire="byName"/>
+    <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byName">
+          	<property name="csmApplicationContextName" ref="csmApplicationContextName"/>
+        	<property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        	<property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+        	<property name="siteProtectionGroupId">
+	            <!--id for site protection group-->
+	            <value>6</value>
+        	</property>
+        	<property name="siteAccessRoleId">
+            	<value>19</value>
+        	</property>
+    </bean>
     <bean id="healthcareSiteInvestigatorDao" parent="daoTemplate"
           class="edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao" autowire="byName"/>
     <bean id="studyPersonnelDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyPersonnelDao"
