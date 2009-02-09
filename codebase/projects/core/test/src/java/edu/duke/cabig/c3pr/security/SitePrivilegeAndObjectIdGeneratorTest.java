@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.security;
 import org.springframework.test.annotation.ExpectedException;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 
 /**
@@ -19,7 +20,7 @@ public class SitePrivilegeAndObjectIdGeneratorTest extends ApplicationTestCase {
         sitePrivilegeAndObjectIdGenerator = (SitePrivilegeAndObjectIdGenerator) getDeployedCoreApplicationContext()
                         .getBean("sitePrivilegeAndObjectIdGenerator");
 
-        site = new HealthcareSite();
+        site = new LocalHealthcareSite();
         site.setNciInstituteCode("testSite");
     }
 
