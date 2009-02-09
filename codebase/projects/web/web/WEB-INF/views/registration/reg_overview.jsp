@@ -240,12 +240,17 @@
             <div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
             <div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
         </div>
-        <c:if test="${!empty armAssigned}">
-       	    <div class="row">
-                <div class="label">${armAssignedLabel}:</div>
-                <div class="value">${armAssigned}</div>
-            </div>
-   		</c:if>
+       	<div class="row">
+            <div class="label"><fmt:message key="study.epoch.arm"/>:</div>
+            <c:choose>
+            	<c:when test="${empty armAssignedLabel}">
+            		<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notApplicable"/></span></div>
+            	</c:when>
+            	<c:otherwise>
+            		<div class="value">${armAssigned}</div>
+            	</c:otherwise>
+            </c:choose>
+        </div>
 	</div>
 	<div class="rightpanel">
         <div class="row">
@@ -307,8 +312,6 @@
             <div class="label"><fmt:message key="registration.consentVersion"/>:</div>
             <div class="value">${command.studySubject.informedConsentVersion}</div>
         </div>
-	</div>
-	<div class="rightpanel">
         <div class="row">
             <div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
             	<c:choose>
@@ -320,6 +323,8 @@
 					</c:otherwise>
 				</c:choose>
         </div>
+	</div>
+	<div class="rightpanel">
         <div class="row">
             <div class="label"><fmt:message key="registration.registrationIdentifier"/>:</div>
             	<c:choose>

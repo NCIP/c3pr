@@ -119,15 +119,15 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					<div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
 				</div>
 				<div class="row">
+					<div class="label"><fmt:message key="site.NCIInstitutionCode"/>:</div>
+					<div class="value">${command.studySubject.studySite.healthcareSite.nciInstituteCode}</div>
+				</div>
+				<div class="row">
 					<div class="label"><fmt:message key="site.address"/>:</div>
 					<div class="value">${command.studySubject.studySite.healthcareSite.address.addressString}</div>
 				</div>
 			</div>
 			<div class="rightpanel">
-				<div class="row">
-					<div class="label"><fmt:message key="site.NCIInstitutionCode"/>:</div>
-					<div class="value">${command.studySubject.studySite.healthcareSite.nciInstituteCode}</div>
-				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="site.IRBApprovalDate"/>:</div>
 					<div class="value">${command.studySubject.studySite.irbApprovalDateStr}
@@ -146,12 +146,17 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				<div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
 				<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
 			</div>
-			 <c:if test="${!empty armAssigned}">
-       	    <div class="row">
-                <div class="label">${armAssignedLabel}:</div>
-                <div class="value">${armAssigned}</div>
-            </div>
-   		</c:if>
+			<div class="row">
+	            <div class="label"><fmt:message key="study.epoch.arm"/>:</div>
+	            <c:choose>
+	            	<c:when test="${empty armAssignedLabel}">
+	            		<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notApplicable"/></span></div>
+	            	</c:when>
+	            	<c:otherwise>
+	            		<div class="value">${armAssigned}</div>
+	            	</c:otherwise>
+	            </c:choose>
+        	</div>
 		</div>
 		<div class="rightpanel">
 			<div class="row">
@@ -174,8 +179,6 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					<div class="label"><fmt:message key="registration.consentVersion"/>:</div>
 					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentVersion}' workflow='registration'/></div>
 				</div>
-			</div>
-			<div class="rightpanel">
 				<div class="row">
 					<div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
 					<c:choose>
@@ -187,6 +190,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 						</c:otherwise>
 					</c:choose>
 				</div>
+			</div>
+			<div class="rightpanel">
 				<div class="row">
 					<div class="label"><fmt:message key="registration.primaryDisease"/>:</div>
 					<c:choose>
