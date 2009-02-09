@@ -54,7 +54,7 @@ public class StudyStratificationTab extends StudyTab {
 				refdata.put("mandatory", "true");
 			}
 		}
-		if(wrapper.getStudy().getRandomizationType().equals(RandomizationType.BOOK)){
+		if(wrapper.getStudy().getRandomizedIndicator() && wrapper.getStudy().getRandomizationType().equals(RandomizationType.BOOK)){
 			refdata.put("isBookRandomized", "true");
 		}else{
 			refdata.put("isBookRandomized", "false");
