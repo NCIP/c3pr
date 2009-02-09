@@ -15,6 +15,7 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 
 /*
@@ -49,7 +50,7 @@ public class CreateOrganizationController extends SimpleFormController {
             log.info(" HCS's ID is:" + hcs.getId());
         }
         else {
-            hcs = new HealthcareSite();
+            hcs = new LocalHealthcareSite();
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
         }
         return hcs;
