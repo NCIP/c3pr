@@ -306,7 +306,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     /*
 	 * Moved to here from personnelServiceImpl for coppa integration
 	 */
-    public void saveRemoteResearchStaff(ResearchStaff staff) throws C3PRBaseException {
+    public void saveResearchStaff(ResearchStaff staff) throws C3PRBaseException {
         save(staff, null);
 
         try {
