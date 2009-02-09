@@ -2,8 +2,6 @@ package edu.duke.cabig.c3pr.xml;
 
 import static edu.duke.cabig.c3pr.C3PRUseCase.EXPORT_STUDY;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -17,6 +15,7 @@ import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -180,7 +179,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         studyObject.addEpoch(Epoch.createEpoch("Follow up"));*/
 
         // healthcare site
-        HealthcareSite healthcaresite = new HealthcareSite();
+        HealthcareSite healthcaresite = new LocalHealthcareSite();
 
         healthcaresite.setAddress(getAddress());
         healthcaresite.setName("duke healthcare");

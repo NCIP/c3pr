@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -149,7 +150,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         studyObject.addEpoch(Epoch.createEpoch("Follow up"));
 
         // healthcare site
-        HealthcareSite healthcaresite = new HealthcareSite();
+        HealthcareSite healthcaresite = new LocalHealthcareSite();
 
         healthcaresite.setAddress(getAddress());
         healthcaresite.setName("duke healthcare");
