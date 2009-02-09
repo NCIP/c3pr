@@ -13,6 +13,7 @@ import org.hibernate.criterion.Order;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
@@ -71,7 +72,7 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
     public List<HealthcareSite> getByNciIdentifier(String nciIdentifier) {
 
         List<HealthcareSite> result = new ArrayList<HealthcareSite>();
-        HealthcareSite hcs = new HealthcareSite();
+        HealthcareSite hcs = new LocalHealthcareSite();
         hcs.setNciInstituteCode(nciIdentifier);
         Example example = Example.create(hcs).excludeZeroes().ignoreCase();
         try {
