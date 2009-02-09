@@ -9,8 +9,8 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
@@ -332,7 +332,7 @@ public class StudySubjectCreatorHelper {
     public void addStudySiteAndCoCenter(Study study, boolean makeStudysiteCoCenter) {
         StudySite studySite = new StudySite();
         
-        HealthcareSite healthcaresite = new HealthcareSite();
+        HealthcareSite healthcaresite = new LocalHealthcareSite();
         Address address = new Address();
         address.setCity("Chicago");
         address.setCountryCode("USA");
@@ -353,7 +353,7 @@ public class StudySubjectCreatorHelper {
         if (makeStudysiteCoCenter){
             stC.setHealthcareSite(healthcaresite);
         }else{
-            healthcaresite = new HealthcareSite();
+            healthcaresite = new LocalHealthcareSite();
             address = new Address();
             address.setCity("Charlotte");
             address.setCountryCode("USA");
