@@ -4,6 +4,7 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
@@ -32,7 +33,7 @@ public class HealthCareSiteGridIdFieldHandler implements FieldHandler {
         }
         HealthcareSite site = studySite.getHealthcareSite();
         if (site == null) {
-            site = new HealthcareSite();
+            site = new LocalHealthcareSite();
             studySite.setHealthcareSite(site);
         }
         site.setGridId((String) value);
