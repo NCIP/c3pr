@@ -19,6 +19,7 @@ import org.extremecomponents.table.core.TableModelImpl;
 
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 
 public class SearchOrganizationAjaxFacade {
     private static Log log = LogFactory.getLog(SearchOrganizationAjaxFacade.class);
@@ -62,7 +63,7 @@ public class SearchOrganizationAjaxFacade {
     public String getTable(Map<String, List> parameterMap, String[] params,
                     HttpServletRequest request) {
 
-        HealthcareSite hcs = new HealthcareSite();
+        HealthcareSite hcs = new LocalHealthcareSite();
         if (!StringUtils.isEmpty(params[0])) {
             hcs.setName(params[0]);
         }
