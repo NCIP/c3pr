@@ -74,7 +74,7 @@
 
 		function takeSubjectOffStudy(registartionId){
 			win = new Window({title: "Take subject off study", 
-				zIndex:100, width:450, height:250 ,minimizable:false, maximizable:false,
+				zIndex:100, width:400, height:200 ,minimizable:false, maximizable:false,
 				recenterAuto:true, className :"mac_os_x",
 				url: "<c:url value='/pages/registration/takeSubjectOffStudy?decorator=noheaderDecorator&registartionId='/>" + registartionId, 
 				showEffectOptions: {duration:1.5}
@@ -89,25 +89,14 @@
 
 		function changeEpoch(){
 			var arr= $$("#changeEpoch");
-			contentWin = new Window({maximizable: false, className :"mac_os_x", title: "Change Epoch", 
+			win = new Window({maximizable: false, className :"mac_os_x", title: "Change Epoch", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:800, height:600 , minimizable:false, maximizable:false,
+									zIndex:100, width:850, height:300 , minimizable:false, maximizable:false,
 									showEffect:Element.show, 
-									destroyOnClose: true}) 
-			contentWin.setContent(arr[0]) ;
-			contentWin.showCenter(true);
-			 // Set up a windows observer, check ou debug window to get messages 
-			 myObserver = { 
-					 onDestroy: function(eventName, win) { 
-				 					if (win == contentWin) { 
-					 					$('container').appendChild($('changeEpoch')); 
-					 					contentWin = null; 
-					 					Windows.removeObserver(this); 
-					 				} 
-					 				debug(eventName + " on " + win.getId()) 
-					 			} 
-	 			} 
-	 			Windows.addObserver(myObserver); }
+									}) 
+			win.setContent(arr[0]) ;
+			win.showCenter(true);
+	 			}
     </script>
 </head>
 <body>
@@ -118,7 +107,7 @@
 			</c:if>
 		</csmauthz:accesscontrol>
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
-		<tags:oneControlPanelItem linkhref="javascript:transferEpoch();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
+		<tags:oneControlPanelItem linkhref="javascript:changeEpoch();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
 		<c:if test="${reconsentRequired}">
 			<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
 		</c:if>
@@ -144,42 +133,6 @@
 <form:form method="post" action="manageRegistration">
     <tags:tabFields tab="${tab}"/>
 </form:form>
-<c:if test="${command.shouldRegister && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending' && !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator  && !command.studySubject.scheduledEpoch.epoch.reservationIndicator}">
-<tags:panelBox title="Register">
-	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Register" requiresMultiSite="${requiresMultiSite}"/>
-</tags:panelBox>
-</c:if>
-
-<c:if test="${registerableWithCompanions &&(command.shouldRandomize) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized' && command.studySubject.regWorkflowStatus.code != 'Enrolled'}">
-<tags:panelBox title="Enroll & Randomize">
-	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll & Randomize" requiresMultiSite="${requiresMultiSite}"/>
-</tags:panelBox>
-</c:if>
-
-<c:if test="${!command.shouldRegister && registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending' && command.studySubject.scheduledEpoch.epoch.enrollmentIndicator}">
-<tags:panelBox title="Enroll">
-	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll" requiresMultiSite="${requiresMultiSite}"/>
-</tags:panelBox>
-</c:if>
-
-<c:if test="${command.shouldReserve}">
-<tags:panelBox title="Reserve">
-	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Reserve" requiresMultiSite="${requiresMultiSite}"/>
-</tags:panelBox>
-</c:if>
-
-<c:if test="${registerableWithCompanions &&(command.shouldRandomize) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized' && command.studySubject.regWorkflowStatus.code == 'Enrolled'}">
-<tags:panelBox title="Transfer & Randomize">
-	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Transfer & Randomize" requiresMultiSite="${requiresMultiSite}"/>
-</tags:panelBox>
-</c:if>
-
-<c:if test="${!command.shouldRegister && registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending' && command.studySubject.regWorkflowStatus.code == 'Enrolled'}">
-<tags:panelBox title="Transfer">
-	<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Transfer" requiresMultiSite="${requiresMultiSite}"/>
-</tags:panelBox>
-</c:if>
-
 
 	<div id="registrationSummary">
 <br/>
