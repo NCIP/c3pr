@@ -72,6 +72,7 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     		List<Identifier> identifiers=new ArrayList<Identifier>();
     		identifiers.add(identifier);
     		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    		studySubjectDao.initialize(studySubject);
     		wrapper.setStudySubject(studySubject);
     	}
     	super.postProcessPage(request, command, errors, page);
@@ -84,6 +85,7 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     @Override
 	protected C save(C command, Errors arg1) {
 		StudySubject merged = (StudySubject) getDao().merge(getPrimaryDomainObject(command));
+		studySubjectDao.initialize(merged);
 		command.setStudySubject(merged);
 		return command;
 	}
