@@ -9,6 +9,7 @@ import org.springframework.test.annotation.ExpectedException;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.ContextTools;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
@@ -37,7 +38,7 @@ public class OrganizationServiceTest extends AbstractAnnotationAwareTransactiona
         setAutowireMode(AUTOWIRE_BY_NAME);
         String strValue = "test" + String.valueOf(Math.random());
 
-        dummySite = new HealthcareSite();
+        dummySite = new LocalHealthcareSite();
         dummySite.setName(HCS_NAME);
         dummySite.setDescriptionText(strValue);
         dummySite.setNciInstituteCode(strValue);

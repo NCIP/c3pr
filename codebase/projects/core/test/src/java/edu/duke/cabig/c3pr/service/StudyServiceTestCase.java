@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.service;
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
 
 public class StudyServiceTestCase extends AbstractTestCase{
@@ -19,7 +20,7 @@ public class StudyServiceTestCase extends AbstractTestCase{
     }
     
     public void testHandleMultiSiteBroadcast(){
-        HealthcareSite healthcareSite=new HealthcareSite();
+        HealthcareSite healthcareSite=new LocalHealthcareSite();
         healthcareSite.setStudyEndPointProperty(new EndPointConnectionProperty());
         healthcareSite.setStudyEndPointProperty(new EndPointConnectionProperty());
     }

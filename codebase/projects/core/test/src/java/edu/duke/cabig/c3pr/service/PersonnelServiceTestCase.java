@@ -1,19 +1,20 @@
 package edu.duke.cabig.c3pr.service;
 
-import java.util.Calendar;
-
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.annotation.AbstractAnnotationAwareTransactionalTests;
-
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ContextTools;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.security.UserProvisioningManager;
+
+import java.util.Calendar;
+
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.annotation.AbstractAnnotationAwareTransactionalTests;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 7, 2007 Time: 2:06:36 PM To change this template
@@ -44,7 +45,7 @@ public class PersonnelServiceTestCase extends AbstractAnnotationAwareTransaction
     
     public void testCreateReasearchStaff() throws Exception {
         // first create the organization
-        HealthcareSite site = new HealthcareSite();
+        HealthcareSite site = new LocalHealthcareSite();
         site.setNciInstituteCode(strValue);
         site.setName(strValue);
         site.setDescriptionText(strValue);
