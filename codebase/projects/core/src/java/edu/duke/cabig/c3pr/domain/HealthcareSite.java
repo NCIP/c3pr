@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,8 +27,9 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
  */
 @Entity
 @Table(name = "organizations")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "organizations_id_seq") })
-public class HealthcareSite extends Organization implements Comparable<HealthcareSite> {
+public abstract class HealthcareSite extends Organization implements Comparable<HealthcareSite> {
 
     private String nciInstituteCode;
 
@@ -96,7 +99,8 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
     public void removeResearchStaff(ResearchStaff rs) {
         researchStaffs.remove(rs);
     }
-
+    
+    @Transient
     public String getNciInstituteCode() {
         return nciInstituteCode;
     }

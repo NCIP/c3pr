@@ -15,6 +15,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 
+import com.semanticbits.coppa.domain.annotations.RemoteProperty;
+
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
@@ -54,6 +56,7 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         address = new Address();
     }
 
+    @RemoteProperty
     public String getName() {
         return name;
     }
