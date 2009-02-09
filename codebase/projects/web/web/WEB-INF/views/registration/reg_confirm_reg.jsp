@@ -123,14 +123,14 @@ function manageCompanions(){
 		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.randomizationType == 'BOOK' && registerableWithCompanions}">
 			<div id="flash-message"><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></div></c:when>
 		<c:when test="${reg_registered}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.SUCCESS"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.SUCCESS"/> You may <a href="javascript:launchPrint();">print</a>
 			and save this confirmation in the subject study records </div></c:when>
 		<c:when test="${reg_pending}">
 			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.PENDING"/> </div></c:when>
 		<c:when test="${reg_disapproved}">
 			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.DISAPPROVED"/> </div></c:when>
 		<c:when test="${reg_reserved}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.RESERVED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.RESERVED"/> You may <a href="javascript:launchPrint();">print</a>
 			and save this confirmation in the subject study records.</div></c:when>
 		<c:when test="${reg_nonenrolled }">
 			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.NONENROLLED"/></div></c:when>			
@@ -153,7 +153,7 @@ function manageCompanions(){
 		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
 			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.INCOMPLETE"/></div></c:when>
 		<c:when test="${ command.studySubject.regWorkflowStatus.code == 'Enrolled' && has_mandatory_companions && registerableWithCompanions && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED'}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> You may <a href="javascript:launchPrint();">print</a>
 			and save this confirmation in the subject study records </div></c:when>
 		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.blindedIndicator && registerableWithCompanions }">
 			<div id="flash-message"><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></div></c:when>

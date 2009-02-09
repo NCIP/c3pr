@@ -424,8 +424,8 @@
 	          	<c:if test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator}">
 	          		<div class="leftpanel">
 					<div class="row">
-						<div class="label"><fmt:message key="registration.stratumGroup"/>:</div>
-						<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroup}</div>
+						<div class="label"><fmt:message key="registration.stratumGroupNumber"/>:</div>
+						<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroupNumber}</div>
 					</div>
 				</c:if>
 				</div>

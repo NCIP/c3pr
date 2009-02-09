@@ -103,7 +103,7 @@ public class Address extends AbstractMutableDeletableDomainObject {
 		    	 if(count == 0){
 		    		 address +=  token;
 		    	 }else{
-		    		 address += "," + token ;
+		    		 address += ", " + token ;
 		    	 }
 		    	 count ++ ;
 	    	 }

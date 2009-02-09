@@ -25,8 +25,14 @@
 					</tr>
 					<tr>
 						<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
-							<td class="labelR"><fmt:message key="registration.stratumGroup"/>:</td>
-							<td> ${registration.scheduledEpoch.stratumGroup}</td>
+							<tr>
+								<td class="labelR"><fmt:message key="registration.stratumGroupNumber"/>:</td>
+								<td> ${command.studySubject.scheduledEpoch.stratumGroupNumber}</td>
+							</tr>
+							<tr>
+								<td class="labelR"><fmt:message key="registration.stratumGroupAnswers"/>:</td>
+								<td> ${command.studySubject.scheduledEpoch.stratumGroup.answerCombinations}</td>
+							</tr>
 						</c:if>
 					<tr>
 						<c:choose>

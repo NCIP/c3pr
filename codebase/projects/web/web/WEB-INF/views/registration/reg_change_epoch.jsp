@@ -52,11 +52,11 @@ function registerSubject(transferEpochId, transferToStatus){
 <br><br> 
 <table border="0" cellspacing="5px" cellpadding="5px" class="tablecontent"  width="100%">
 	<tr>
-		<th width="2%"></th>
+		<th width="5%">Select</th>
 		<th scope="col" width="20%"><b><fmt:message key="registration.epochName"/></b></th>
-		<th scope="col" ><b><fmt:message key="c3pr.common.description"/></b></th>
+		<th scope="col"><b><fmt:message key="c3pr.common.description"/></b></th>
 		<th scope="col" width="12%"><b><fmt:message key="c3pr.common.type"/></b></th>
-		<th scope="col" width="25%"><b><fmt:message key="c3pr.common.additionalInfo"/></b></th>
+		<th scope="col" width="25%"><b><fmt:message key="c3pr.common.notes"/></b></th>
 	</tr>
 	<c:forEach items="${command.studySubject.studySite.study.epochs}" var="epoch" varStatus="epochStatus">
 			<tr id="epochsSection-${epoch.id }"></tr>
