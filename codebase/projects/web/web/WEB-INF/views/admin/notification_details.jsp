@@ -82,7 +82,13 @@
                 })
             },
             valueSelector: function(obj) {
-                return (obj.firstName +" " +obj.lastName + " (" +obj.contactMechanisms[0].value+ ")")
+            	if(obj.uniqueIdentifier != null){
+            		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
+            	} else {
+            		image = '';
+            	}
+            	
+                return (obj.firstName +" " +obj.lastName + " (" +obj.contactMechanisms[0].value+ ") " + image)
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								//hiddenField=userEmailAutocompleterProps.basename+"-hidden"

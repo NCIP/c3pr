@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.Person;
+import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.tools.Configuration;
 
@@ -114,7 +115,12 @@ public class UserAjaxFacade {
         
         List<ResearchStaff> reducedResearchStaffList = new ArrayList<ResearchStaff>(researchStaffList.size());
         for (ResearchStaff researchStaff : researchStaffList) {
-        	reducedResearchStaffList.add(buildReduced(researchStaff, Arrays.asList("id", "firstName", "lastName", "contactMechanisms[0].value")));
+        	if(researchStaff instanceof RemoteResearchStaff){
+        		reducedResearchStaffList.add(buildReduced(researchStaff, Arrays.asList("id", "firstName", "lastName", "contactMechanisms[0].value", "uniqueIdentifier")));
+        	} else {
+        		reducedResearchStaffList.add(buildReduced(researchStaff, Arrays.asList("id", "firstName", "lastName", "contactMechanisms[0].value")));
+        	}
+        	
         }        
         
         List<Investigator> reducedInvestigatorList = new ArrayList<Investigator>(investigatorsList.size());
