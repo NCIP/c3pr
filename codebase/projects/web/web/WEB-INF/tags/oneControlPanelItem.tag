@@ -4,6 +4,7 @@
 <%@attribute name="linktext" required="true" %>
 <%@attribute name="linkhref" required="true" %>
 <%@attribute name="imgsrc" required="true" %>
+<%@attribute name="id"%>
 <div class="oneControlPanelItem">
-	<a href="${linkhref}"><img src="${imgsrc}" alt="" /> ${linktext}</a>
+	<a href="${linkhref}" <c:if test="${id}">id="${id}"</c:if>><img src="${imgsrc}" alt="" /> ${linktext}</a>
 </div>

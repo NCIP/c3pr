@@ -1012,6 +1012,10 @@ width:75%;
 /* END Control Panel Styles */
 .division h3 a {
 	color:#333366;
+	text-decoration:none;
+}
+.division h3 a:hover {
+	text-decoration:underline;
 }
 /* BEGIN c3pr button type="anchor" */
 a.c3pr-button {
@@ -1099,3 +1103,15 @@ button.c3pr-button img {
 	vertical-align:middle;
 }
 /* END c3pr button type="button" */
+
+/* Gray out a box */
+.box.grayed-out {
+	opacity:0.5;
+	filter:alpha(opacity=50);
+}
+.box.grayed-out .header h2 {
+	color:#666;
+}
+.box.grayed-out .content {
+	font-style:italic;
+}

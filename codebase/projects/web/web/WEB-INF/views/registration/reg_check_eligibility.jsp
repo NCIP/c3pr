@@ -18,8 +18,8 @@ function navRollOver(obj, state) {
 <body>
 <c:choose>
 	<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectEligibilityAnswers) == 0}">
-			<tags:formPanelBox tab="${tab}" flow="${flow}">
-				<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></div><br><br>
+			<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
+				<div><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></div><br>
 			</tags:formPanelBox>
 	</c:when>
 	<c:otherwise>

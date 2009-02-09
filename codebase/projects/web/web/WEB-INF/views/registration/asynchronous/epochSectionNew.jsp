@@ -7,13 +7,13 @@
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <c:choose>
 	<c:when test="${notRegistrable}">
-		<td class="grey">
+		<td class="no-selection">
 			<input class="epochCheck" type="radio" value="${epoch.id}" disabled="disabled" id="${transferToStatus}"/>
 		</td>
-		<td align="left" class="grey">${epoch.name}</td>
-		<td align="left" class="grey">${epoch.descriptionText}</td>
-		<td align="left" class="grey">${epoch.treatmentIndicator?'Treatment':'Non Treatment'}</td>
-		<td align="left" class="grey">${additionalInformation}</td>
+		<td align="left" class="no-selection">${epoch.name}</td>
+		<td align="left" class="no-selection">${epoch.descriptionText}</td>
+		<td align="left" class="no-selection">${epoch.treatmentIndicator?'Treatment':'Non Treatment'}</td>
+		<td align="left" class="no-selection">${additionalInformation}</td>
 	</c:when>
 	<c:otherwise>
 		<td>

@@ -100,9 +100,6 @@
 
 .mac_os_x_content {
 	overflow:auto;
-	color: #222;
-	font-family: Tahoma, Arial, sans-serif;
-	font-size: 10px;
 	background:#FFF;
 }
 .mac_os_x_s .status_bar {
@@ -257,8 +254,6 @@
 .blur_os_x_title {
 	float:left;
 	height:14px;
-	font-family: Tahoma, Arial, sans-serif;
-	font-size:12px;
 	text-align:center;
 	margin-top:8px;
 	width:100%;
@@ -268,8 +263,7 @@
 .blur_os_x_content {
 	overflow:auto;
 	color: #222;
-	font-family: Tahoma, Arial, sans-serif;
-	font-size: 10px;
+
 	background:#FFF;
 }
 .blur_os_x_s .status_bar {

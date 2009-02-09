@@ -17,13 +17,15 @@ function navRollOver(obj, state) {
 </head>
 <body>
 
-<tags:formPanelBox tab="${tab}" flow="${flow}">
+
 	<c:choose>
 	<c:when test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator == 'false' || fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers)==0}">
-		<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_STRATIFICATION"/></div><br><br>
+		<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
+		<div><fmt:message key="REGISTRATION.NO_STRATIFICATION"/></div><br>
+		</tags:formPanelBox>
 	</c:when>
 	<c:otherwise>
-	<tags:instructions code="reg_stratify" />
+	<tags:formPanelBox tab="${tab}" flow="${flow}">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
 			<th align="left"><b><fmt:message key="study.criterion"/></b></th>
@@ -46,9 +48,9 @@ function navRollOver(obj, state) {
 			
 		</c:forEach>
 		</table>
+		</tags:formPanelBox>
 	</c:otherwise>
 	</c:choose>
-</tags:formPanelBox>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

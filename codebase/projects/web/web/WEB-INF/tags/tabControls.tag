@@ -74,7 +74,7 @@
 		           		 <tags:button type="button" id="flow-next"  value="${continueLabel}" icon="${continueLabel}"/>
 						</c:when>
 						<c:otherwise>
-							<tags:button type="button" id="flow-next"  value="${continueLabel}" />
+							<tags:button type="button" id="flow-next"  value="${continueLabel}" icon="check"/>
 						</c:otherwise>
 					</c:choose>
 		        </span>

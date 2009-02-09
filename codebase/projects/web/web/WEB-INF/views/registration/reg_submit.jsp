@@ -33,8 +33,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
 		<div style="font-size:20px; margin-bottom:5px;">Almost done...</div>
 		<div>
-			You still need to randomize!<br/>
-			<ul>
+			You still need to <a href="#randomize">randomize</a>!<br/>
+			<ul style="padding-left:230px;">
 			<li>Please review the information below then randomize at the bottom of the page.</li>
 			<li>When you're done, click the Randomize & Enroll button.</li>
 			</ul>
@@ -280,6 +280,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${empty actionLabel? '' : actionLabel}"  isSummaryPage="true">
 		<input type="hidden" name="_finish" value="true"/>
 		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete'}">
+			<a name="randomize"></a>
 			<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
 		</c:if> 
 	</tags:formPanelWithoutBox>

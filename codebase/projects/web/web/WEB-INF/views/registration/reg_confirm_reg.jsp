@@ -35,8 +35,30 @@ function manageCompanions(){
 </style>
 </head>
 <body>
+	<c:choose>
+				<c:when test="${command.studySubject.dataEntryStatusString=='Incomplete'}">
+					<c:set var="formType"
+					value="edit" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="formType"
+					value="manage" />	
+				</c:otherwise>
+	</c:choose>
 	<tags:controlPanel>
-		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
+	  <c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' && empty command.studySubject.parentStudySubject}">
+			<form id="manage" name="manage" action="../registration/manageRegistration" method="get" style="display:inline;">
+				<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
+				<tags:oneControlPanelItem imgsrc="" linktext="Manage This Registration" linkhref="javascript:doManage('${formType}',paramString)"/>
+			</form>
+	  </c:if>
+	  <c:if test="${hasCompanions && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
+			<tags:oneControlPanelItem imgsrc="" id="manageCompanionStudy" linktext="Manage Companion Registration" linkhref="javascript:manageCompanions();"/>
+	  </c:if>	
+	  <c:if test="${not empty command.studySubject.parentStudySubject}">
+			<tags:oneControlPanelItem imgsrc="" linktext="Close" linkhref="javascript:parent.closePopup();"/>
+	  </c:if>
+	  <tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>
 <form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="manageCompanion">
 	<input type="hidden" name="_page2" id="_page" value="2"/>
@@ -255,35 +277,7 @@ function manageCompanions(){
 		}
 		paramString="<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
 	</script>
-	<c:choose>
-				<c:when test="${command.studySubject.dataEntryStatusString=='Incomplete'}">
-					<c:set var="formType"
-					value="edit" />
-				</c:when>
-				<c:otherwise>
-					<c:set var="formType"
-					value="manage" />	
-				</c:otherwise>
-	</c:choose>
-	<c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' && empty command.studySubject.parentStudySubject}">
-		<div align="right">
-			<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
-				<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
-				<input type="button" value="Manage this registration" onClick='doManage("${formType}",paramString)'/>
-			</form>
-		</div>
-	</c:if>
-	<br>
-	<div align="right">
-		<c:if test="${hasCompanions && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
-			<input type="button" id="manageCompanionStudy" value="Manage Companion Registration" onclick="manageCompanions();"/>
-		</c:if>	
-	</div>
-	<div align="right">
-		<c:if test="${not empty command.studySubject.parentStudySubject}">
-			<input type="button" name="close" value="Close" onclick="parent.closePopup();">
-		</c:if>
-	</div>
+
 
 	<c:if test="${hotlinkEnable}">
 	<%--<table width="60%">

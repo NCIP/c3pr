@@ -33,7 +33,11 @@
         </c:if>
         <c:if test="${icon=='window'}">
             <img src="<tags:imageUrl name="icons/window_icon.png"/>" alt="" />
-        </c:if>${value}
+        </c:if>
+		<c:if test="${icon=='check'}">
+            <img src="<tags:imageUrl name="icons/check_icon.png"/>" alt="" />
+        </c:if>
+		${value}
         <c:if test="${icon=='Save &amp; Continue'}">
             <img src="<tags:imageUrl name="icons/savecontinue_icon.png"/>" alt="" />
         </c:if>
@@ -70,7 +74,11 @@
         </c:if>
         <c:if test="${icon=='window'}">
             <img src="<tags:imageUrl name="icons/window_icon.png"/>" alt="" />
-        </c:if>${value}
+        </c:if>
+		<c:if test="${icon=='check'}">
+            <img src="<tags:imageUrl name="icons/check_icon.png"/>" alt="" />
+        </c:if>
+		${value}
         <c:if test="${icon=='Save &amp; Continue'}">
             <img src="<tags:imageUrl name="icons/savecontinue_icon.png"/>" alt="" />
         </c:if>
