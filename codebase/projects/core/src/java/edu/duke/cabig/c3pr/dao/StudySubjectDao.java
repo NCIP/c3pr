@@ -496,6 +496,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyInvestigatorsInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyPersonnelInternal());
         
+        getHibernateTemplate().initialize(studySubject.getConsentHistoryList());
+        
         getHibernateTemplate().initialize(studySubject.getParticipant().getIdentifiers());
         getHibernateTemplate().initialize(studySubject.getParticipant().getRaceCodes());
         getHibernateTemplate().initialize(studySubject.getParticipant().getContactMechanisms());
