@@ -73,7 +73,7 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
     	HibernateTemplate hibernateTemplate = getHibernateTemplate();
     	hibernateTemplate.setFetchSize(30);
     	return ((List<HealthcareSite>) hibernateTemplate
-				.find("from HealthcareSite h where h.nciInstituteCode like '" + nciIdentifier.toUpperCase() + "'"));
+				.find("from HealthcareSite h where h.nciInstituteCode like '" + nciIdentifier + "'"));
     	
     }
     
