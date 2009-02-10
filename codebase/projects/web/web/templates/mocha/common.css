@@ -28,18 +28,8 @@ body {
 	position:absolute;
 }
 a img { border:0px; }
-button {
-	background-color:#417691;
-border:1px outset #003D73;
-color:white;
-font-family:Verdana,Arial,Helvetica,sans-serif;
-font-size:11px;
-margin-left:2pt;
-vertical-align:middle;
-}
-button img {
-	vertical-align:middle;
-}
+
+
 /*h1 { margin: 0px 0px 12px 0px; color: #2E3257; font-weight: 600; font-size: 16px; }*/
 
 h2 {
@@ -1017,92 +1007,6 @@ width:75%;
 .division h3 a:hover {
 	text-decoration:underline;
 }
-/* BEGIN c3pr button type="anchor" */
-a.c3pr-button {
-	height: 40px;
-	padding:8px;
-	background-image:url(images/mocha_btn_bg.png);
-	background-position:left;
-	background-repeat:no-repeat;
-	border:none;
-	background-color:transparent;
-	position:relative;
-	font-size:1.4em;
-	color:#491F0A;
-	text-decoration:none;
-}
-a.c3pr-button:hover {
-	background-image:url(images/mocha_btn_bg_hover.png);
-}
-a.c3pr-button:hover .right {
-	background-image:url(images/mocha_btn_bg_hover.png);
-}
-a.c3pr-button:active {
-	background-image:url(images/mocha_btn_bg_active.png);
-}
-a.c3pr-button:active .right {
-	background-image:url(images/mocha_btn_bg_active.png);
-}
-a.c3pr-button .right {
-	background-color:white;
-background-image:url(images/mocha_btn_bg.png);
-background-position:right center;
-background-repeat:no-repeat;
-display:block;
-height:40px;
-position:absolute;
-right:6px;
-top:0px;
-width:3px;
-}
-a.c3pr-button img {
-	vertical-align:middle;
-}
-/* END c3pr button type="anchor" */
-
-/* Begin c3pr button type="button" */
-button.c3pr-button {
-	behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');
-	height: 40px;
-	padding:8px;
-	background-image:url(images/mocha_btn_bg.png);
-	background-position:left;
-	background-repeat:no-repeat;
-	border:none;
-	background-color:transparent;
-	position:relative;
-	font-size:1.4em;
-	color:#491F0A;
-	text-decoration:none;
-}
-button.c3pr-button:hover, button.c3pr-button.hover {
-	background-image:url(images/mocha_btn_bg_hover.png);
-}
-button.c3pr-button:hover .right, button.c3pr-button.hover .right {
-	background-image:url(images/mocha_btn_bg_hover.png);
-}
-button.c3pr-button:active, button.c3pr-button.active {
-	background-image:url(images/mocha_btn_bg_active.png);
-}
-button.c3pr-button:active .right, button.c3pr-button.active .right {
-	background-image:url(images/mocha_btn_bg_active.png);
-}
-button.c3pr-button .right {
-	background-color:white;
-	background-image:url(images/mocha_btn_bg.png);
-	background-position:right center;
-	background-repeat:no-repeat;
-	display:block;
-	height:40px;
-	position:absolute;
-	right:11px;
-	top:-9px;
-	width:3px;
-}
-button.c3pr-button img {
-	vertical-align:middle;
-}
-/* END c3pr button type="button" */
 
 /* Gray out a box */
 .box.grayed-out {

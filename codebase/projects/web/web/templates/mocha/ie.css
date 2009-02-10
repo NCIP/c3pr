@@ -6,14 +6,3 @@
 	POSITION: absolute;
 	TOP: 54px
 }
-button.c3pr-button {
-	padding:8px 0;
-}
-a.c3pr-button .right {
-	right:0px;
-	top:1px;
-}
-button.c3pr-button .right {
-	right:0px;
-	top:0px;
-}

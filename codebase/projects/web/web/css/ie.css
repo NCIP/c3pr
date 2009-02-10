@@ -7,3 +7,23 @@ body {
 /* Force hasLayout */
 * html div.row, * html .autoclear { height: 1% }
 #workflow-tabs { height: 1%; }
+
+button.c3pr-button {
+	padding:2px 0 0 0;
+	margin-left:5px;
+}
+a.c3pr-button .right {
+	right:0px;
+	top:1px;
+}
+button.c3pr-button .right {
+	right:0px;
+	top:0px;
+}
+button.c3pr-button.small .right {
+	right:0;
+	top:0;
+}
+button.c3pr-button.small.no-icon {
+	padding:1px 5px 1px;
+}

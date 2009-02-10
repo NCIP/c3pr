@@ -38,6 +38,15 @@ function registerSubject(transferEpochId, transferToStatus){
 	}
 }
 </script>
+<style>
+.dialog table.tablecontent td, .dialog table.tablecontent th {
+    padding: 5px;
+}
+input[disabled] {
+    background-color: transparent;
+    border-color: transparent;
+}
+</style>
 <form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" id="manageTransferEpoch" method="post" >
 	<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 	<input type="hidden" name="_finish" id="_finish"/>
@@ -53,12 +62,12 @@ function registerSubject(transferEpochId, transferToStatus){
 <chrome:box title="Change Epoch">
 <c:choose>
 	<c:when test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus!='REGISTERED'}">
-		<fmt:message key="MANAGEREGISTRATION.UNAPPROVED_CURRENT_EPOCH"/>
+		<tags:instructions code="MANAGEREGISTRATION.UNAPPROVED_CURRENT_EPOCH"/>
 	</c:when>
-	<c:otherwise><fmt:message key="MANAGEREGISTRATION.CHANGE_CURRENT_EPOCH"/></c:otherwise>
+	<c:otherwise><tags:instructions code="MANAGEREGISTRATION.CHANGE_CURRENT_EPOCH"/></c:otherwise>
 </c:choose>
-<br><br> 
-<table border="0" cellspacing="5px" cellpadding="5px" class="tablecontent"  width="100%">
+<span class="no-selection">Gray</span> = Unable to register on this epoch.
+<table border="0" cellspacing="5px" cellpadding="5" class="tablecontent"  width="100%">
 	<tr>
 		<th width="5%"><fmt:message key="c3pr.common.select"/>&nbsp;</th>
 		<th scope="col" width="20%"><b><fmt:message key="registration.epochName"/></b></th>
@@ -76,7 +85,7 @@ function registerSubject(transferEpochId, transferToStatus){
 </chrome:box>
 <div class="flow-buttons">
 	<span class="next">
+		<input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
 	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn_disabled.png" onclick="transfer();"  disabled="disabled" class="transferEpochButton"/>
-        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
     </span>
 </div>  

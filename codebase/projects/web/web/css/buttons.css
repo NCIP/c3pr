@@ -1,0 +1,257 @@
+/* BEGIN c3pr button type="anchor" core CSS */
+a.c3pr-button {
+	height: 31px;
+	padding:8px;
+	background-position:left;
+	background-repeat:no-repeat;
+	border:none;
+	background-color:transparent;
+	position:relative;
+	font-size:19px;
+	color:white;
+	text-decoration:none;
+}
+a.c3pr-button .right {
+	background-color:white;
+	background-position:right center;
+	background-repeat:no-repeat;
+	display:block;
+	height:31px;
+	position:absolute;
+	right:3px;
+	top:3px;
+	width:3px;
+}
+a.c3pr-button img {
+	vertical-align:middle;
+}
+a.c3pr-button:hover {
+	color:#2f2f2f;
+}
+a.c3pr-button:active {
+	color:white;
+}
+
+/* END c3pr button type="anchor" core CSS */
+
+/* BEGIN c3pr button type="anchor" color="red" */
+a.c3pr-button.red, a.c3pr-button.red .right {
+	background-image:url(../images/buttons/button-red-link.png);
+}
+a.c3pr-button.red:hover, a.c3pr-button.red:hover .right {
+	background-image:url(../images/buttons/button-red-hover.png);
+}
+a.c3pr-button.red:active, a.c3pr-button.red:active .right {
+	background-image:url(../images/buttons/button-red-active.png);
+}
+/* END c3pr button type="anchor" color="red" */
+
+/* BEGIN c3pr button type="anchor" color="green" */
+a.c3pr-button.green, a.c3pr-button.green .right {
+	background-image:url(../images/buttons/button-green-link.png);
+}
+a.c3pr-button.green:hover, a.c3pr-button.green:hover .right {
+	background-image:url(../images/buttons/button-green-hover.png);
+}
+a.c3pr-button.green:active, a.c3pr-button.green:active .right {
+	background-image:url(../images/buttons/button-green-active.png);
+}
+/* END c3pr button type="anchor" color="green" */
+
+/* BEGIN c3pr button type="anchor" color="blue" */
+a.c3pr-button.blue, a.c3pr-button.blue .right {
+	background-image:url(../images/buttons/button-blue-link.png);
+}
+a.c3pr-button.blue:hover, a.c3pr-button.blue:hover .right {
+	background-image:url(../images/buttons/button-blue-hover.png);
+}
+a.c3pr-button.blue:active, a.c3pr-button.blue:active .right {
+	background-image:url(../images/buttons/button-blue-active.png);
+}
+/* END c3pr button type="anchor" color="blue" */
+
+/* BEGIN c3pr button type="anchor" color="orange" */
+a.c3pr-button.orange, a.c3pr-button.orange .right {
+	background-image:url(../images/buttons/button-orange-link.png);
+}
+a.c3pr-button.orange:hover, a.c3pr-button.orange:hover .right {
+	background-image:url(../images/buttons/button-orange-hover.png);
+}
+a.c3pr-button.orange:active, a.c3pr-button.orange:active .right {
+	background-image:url(../images/buttons/button-orange-active.png);
+}
+/* END c3pr button type="anchor" color="orange" */
+
+/* #--------------------------------------------------------------------------
+
+/* Begin c3pr button type="button" core CSS*/
+button.c3pr-button {
+	behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');
+	height: 31px;
+	padding:3px 6px;
+	background-position:left;
+	background-repeat:no-repeat;
+	border:none;
+	background-color:transparent;
+	position:relative;
+	font-size:19px;
+	color:white;
+	text-decoration:none;
+}
+button.c3pr-button.no-icon {
+	padding:3px 6px 4px;
+}
+button.c3pr-button .right {
+	background-color:white;
+	background-position:right center;
+	background-repeat:no-repeat;
+	display:block;
+	height:31px;
+	position:absolute;
+	right:9px;
+	top:-4px;
+	width:3px;
+}
+button.c3pr-button img {
+	vertical-align:middle;
+}
+button.c3pr-button:hover, button.c3pr-button.hover {
+	color:#2f2f2f;
+}
+button.c3pr-button:active, button.c3pr-button.active {
+	color:white;
+}
+/* END c3pr button type="button" core CSS*/
+
+/* BEGIN c3pr button type="button" color="red" */
+button.c3pr-button.red, button.c3pr-button.red .right {
+	background-image:url(../images/buttons/button-red-link.png);
+}
+button.c3pr-button.red:hover, button.c3pr-button.red.hover, button.c3pr-button.red:hover .right, button.c3pr-button.red.hover .right {
+	background-image:url(../images/buttons/button-red-hover.png);
+}
+button.c3pr-button.red:active, button.c3pr-button.red.active, button.c3pr-button.red:active .right, button.c3pr-button.red.active .right {
+	background-image:url(../images/buttons/button-red-active.png);
+}
+/* END c3pr button type="button" color="red" */
+
+/* BEGIN c3pr button type="button" color="green" */
+button.c3pr-button.green, button.c3pr-button.green .right {
+	background-image:url(../images/buttons/button-green-link.png);
+}
+button.c3pr-button.green:hover, button.c3pr-button.green.hover, button.c3pr-button.green:hover .right, button.c3pr-button.green.hover .right {
+	background-image:url(../images/buttons/button-green-hover.png);
+}
+button.c3pr-button.green:active, button.c3pr-button.green.active, button.c3pr-button.green:active .right, button.c3pr-button.green.active .right {
+	background-image:url(../images/buttons/button-green-active.png);
+}
+/* END c3pr button type="button" color="green" */
+
+/* BEGIN c3pr button type="button" color="blue" */
+button.c3pr-button.blue, button.c3pr-button.blue .right {
+	background-image:url(../images/buttons/button-blue-link.png);
+}
+button.c3pr-button.blue:hover, button.c3pr-button.blue.hover, button.c3pr-button.blue:hover .right, button.c3pr-button.blue.hover .right {
+	background-image:url(../images/buttons/button-blue-hover.png);
+}
+button.c3pr-button.blue:active, button.c3pr-button.blue.active, button.c3pr-button.blue:active .right, button.c3pr-button.blue.active .right {
+	background-image:url(../images/buttons/button-blue-active.png);
+}
+/* END c3pr button type="button" color="blue" */
+	
+/* BEGIN c3pr button type="button" color="orange" */
+button.c3pr-button.orange, button.c3pr-button.orange .right {
+	background-image:url(../images/buttons/button-orange-link.png);
+}
+button.c3pr-button.orange:hover, button.c3pr-button.orange.hover, button.c3pr-button.orange:hover .right, button.c3pr-button.orange.hover .right {
+	background-image:url(../images/buttons/button-orange-hover.png);
+}
+button.c3pr-button.orange:active, button.c3pr-button.orange.active, button.c3pr-button.orange:active .right, button.c3pr-button.orange.active .right {
+	background-image:url(../images/buttons/button-orange-active.png);
+}
+/* END c3pr button type="button" color="orange" */
+
+
+
+
+
+/* Begin c3pr button type="button" size="small" core CSS*/
+button.c3pr-button.small {
+	behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');
+	height: 20px;
+	padding:1px 5px;
+	background-position:left;
+	background-repeat:no-repeat;
+	border:none;
+	background-color:transparent;
+	position:relative;
+	font-size:11px;
+	color:white;
+	text-decoration:none;
+	vertical-align:middle;
+}
+button.c3pr-button.small.no-icon {
+	padding:1px 5px 4px;
+}
+
+button.c3pr-button.small .right {
+	background-color:white;
+	background-position:right top;
+	background-repeat:no-repeat;
+	display:block;
+	height:20px;
+	position:absolute;
+	right:8px;
+	top:-3px;
+	width:3px;
+}
+/* END c3pr button type="button" size="small" core CSS*/
+
+/* BEGIN c3pr button type="button" size="small" color="red" */
+button.c3pr-button.small.red, button.c3pr-button.small.red .right {
+	background-image:url(../images/buttons/small/button-red-small-link.png);
+}
+button.c3pr-button.small.red:hover, button.c3pr-button.small.red.hover, button.c3pr-button.small.red:hover .right, button.c3pr-button.small.red.hover .right {
+	background-image:url(../images/buttons/small/button-red-small-hover.png);
+}
+button.c3pr-button.small.red:active, button.c3pr-button.small.red.active, button.c3pr-button.small.red:active .right, button.c3pr-button.small.red.active .right {
+	background-image:url(../images/buttons/small/button-red-small-active.png);
+}
+/* END c3pr button type="button" size="small" color="red" */
+
+/* BEGIN c3pr button type="button" size="small" color="green" */
+button.c3pr-button.small.green, button.c3pr-button.small.green .right {
+	background-image:url(../images/buttons/small/button-green-small-link.png);
+}
+button.c3pr-button.small.green:hover, button.c3pr-button.small.green.hover, button.c3pr-button.small.green:hover .right, button.c3pr-button.small.green.hover .right {
+	background-image:url(../images/buttons/small/button-green-small-hover.png);
+}
+button.c3pr-button.small.green:active, button.c3pr-button.small.green.active, button.c3pr-button.small.green:active .right, button.c3pr-button.small.green.active .right {
+	background-image:url(../images/buttons/small/button-green-small-active.png);
+}
+/* END c3pr button type="button" size="small" color="green" */
+
+/* BEGIN c3pr button type="button" size="small" color="blue" */
+button.c3pr-button.small.blue, button.c3pr-button.small.blue .right {
+	background-image:url(../images/buttons/small/button-blue-small-link.png);
+}
+button.c3pr-button.small.blue:hover, button.c3pr-button.small.blue.hover, button.c3pr-button.small.blue:hover .right, button.c3pr-button.small.blue.hover .right {
+	background-image:url(../images/buttons/small/button-blue-small-hover.png);
+}
+button.c3pr-button.small.blue:active, button.c3pr-button.small.blue.active, button.c3pr-button.small.blue:active .right, button.c3pr-button.small.blue.active .right {
+	background-image:url(../images/buttons/small/button-blue-small-active.png);
+}
+/* END c3pr button type="button" size="small" color="blue" */
+
+/* BEGIN c3pr button type="button" size="small" color="orange" */
+button.c3pr-button.small.orange, button.c3pr-button.small.orange .right {
+	background-image:url(../images/buttons/small/button-orange-small-link.png);
+}
+button.c3pr-button.small.orange:hover, button.c3pr-button.small.orange.hover, button.c3pr-button.small.orange:hover .right, button.c3pr-button.small.orange.hover .right {
+	background-image:url(../images/buttons/small/button-orange-small-hover.png);
+}
+button.c3pr-button.small.orange:active, button.c3pr-button.small.orange.active, button.c3pr-button.small.orange:active .right, button.c3pr-button.small.orange.active .right {
+	background-image:url(../images/buttons/small/button-orange-small-active.png);
+}
+/* END c3pr button type="button" size="small" color="orange" */
+ */

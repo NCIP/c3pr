@@ -28,7 +28,7 @@
 			<div class="flow-buttons">
 		        <span class="prev">
 		            <c:if test="${tabNumber > 0 && tabNumber != backToTab }">
-		                <tags:button type="button" id="flow-prev" cssClass="tab${backToTab}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
+		                <tags:button markupWithTag="button" color="blue" id="flow-prev" cssClass="tab${backToTab}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
@@ -37,7 +37,7 @@
 						<input type="hidden" name="_finish" value="true">
 					</c:if>	
 		        	 <c:if test="${not isLast && willSave}">
-		                <tags:button type="button" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="Save"/>
+		                <tags:button markupWithTag="button" color="blue" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="Save"/>
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
 			            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
@@ -48,7 +48,7 @@
 		            <c:if test="${not isLast }">
 		                <c:set var="continueLabel" value="${continueLabel}Continue"/>
 		            </c:if>
-		            <tags:button type="button" id="${isLast == 'true'?'flow-finish':'flow-next'}" cssClass="tab${goToTab}" value="${continueLabel}" icon="${continueLabel}"/>
+		            <tags:button markupWithTag="button" color="green" id="${isLast == 'true'?'flow-finish':'flow-next'}" cssClass="tab${goToTab}" value="${continueLabel}" icon="${continueLabel}"/>
 		        </span>
 		    </div> 
 		</c:when>
@@ -56,12 +56,12 @@
 			<div class="flow-buttons">
 		        <span class="prev">
 		            <c:if test="${tabNumber > 0 }">
-		                <tags:button type="button" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
+		                <tags:button markupWithTag="button" color="blue" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
 		            <c:if test="${not isLast && willSave}">
-			            <tags:button type="button" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="Save"/>
+			            <tags:button markupWithTag="button" color="blue" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="Save"/>
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
 			            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
@@ -71,10 +71,10 @@
 					</c:if>
 					<c:choose>
 						<c:when	test="${continueLabel == 'Save' || continueLabel == 'Back' || continueLabel == 'Save &amp; Back' || continueLabel == 'Save &amp; Continue'}">            
-		           		 <tags:button type="button" id="flow-next"  value="${continueLabel}" icon="${continueLabel}"/>
+		           		 <tags:button markupWithTag="button" color="green" id="flow-next"  value="${continueLabel}" icon="${continueLabel}"/>
 						</c:when>
 						<c:otherwise>
-							<tags:button type="button" id="flow-next"  value="${continueLabel}" icon="check"/>
+							<tags:button markupWithTag="button" color="green" id="flow-next"  value="${continueLabel}" icon="check"/>
 						</c:otherwise>
 					</c:choose>
 		        </span>

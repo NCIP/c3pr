@@ -159,7 +159,7 @@
                             <span class="label"><fmt:message key="c3pr.common.searchCriteria"/></span>
                         </div>
                         <div class="value">
-                            <input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="value" /><input type="button" value="Search" onclick="searchParticipant()"/>&nbsp;<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="absmiddle">
+                            <input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="value" /><tags:button markupWithTag="button" icon="search" type="button" value="Search" size="small" color="blue" onclick="searchParticipant()"/>&nbsp;<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="absmiddle">
                             <script>
                                 new Element.hide('searchSubjectInd');
                             </script>
@@ -378,7 +378,7 @@
                                 </div>
                             </chrome:division><!--end of div id="addressSection"-->
                             <div align="right">
-                            	<button><img src="<tags:imageUrl name="../templates/mocha/images/subject_24px.png"/>" alt="" />Create this Subject</button>
+                            	<tags:button markupWithTag="button" color="green" icon="subject" value="Create This Subject" />
                                 <!--<input type="button" class="tab0" value="Create this Subject" onclick="document.createSubForm.submit();"/>-->
                             </div>
                         </div>
