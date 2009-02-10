@@ -55,7 +55,11 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	        }else {
 	        	icv.value="";             
 	        }       
-	    }    						
+	    }   
+
+	    function editRegistration(id){
+			alert(id);
+		} 						
 </script>
 <form:form id="editRegistration">
 <chrome:box title="Edit Registration">
@@ -139,6 +143,16 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 				<form:options items="${paymentMethods}" itemLabel="desc" itemValue="code"/>
 			</form:select>
 			<tags:hoverHint keyProp="studySubject.primaryDisease"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.epoch.arm"/></div>
+		<div class="value">
+			<form:select id="paymentMethod" path="studySubject.scheduledEpoch.scheduledArms[0].arm">
+				<option value="">Please select</option>
+				<form:options items="${command.studySubject.scheduledEpoch.epoch.arms}" itemLabel="name" itemValue="id"/>
+			</form:select>
+			<tags:hoverHint keyProp="studySubject.selectArm"/>
 		</div>
 	</div>
 </chrome:box>

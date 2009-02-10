@@ -82,7 +82,7 @@
 			win.showCenter(true)
 		}
 
-		function changeEpoch(){
+		function changeEpochPopup(){
 			var arr= $$("#changeEpoch");
 			win = new Window({maximizable: false, className :"mac_os_x", title: "Change Epoch", 
 									hideEffect:Element.hide, 
@@ -93,11 +93,11 @@
 			win.showCenter(true);
 	 	}
 
-		function editRegistration(){
+		function editRegistrationPopup(){
 			var arr= $$("#editRegistration");
 			win = new Window({maximizable: false, className :"mac_os_x", title: "Edit Registration", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:700, height:600 , minimizable:false, maximizable:false,
+									zIndex:100, width:550, height:400 , minimizable:false, maximizable:false,
 									showEffect:Element.show, 
 									}) 
 			win.setContent(arr[0]) ;
@@ -112,10 +112,10 @@
 <body>
 	<tags:controlPanel>
 		<c:if test="${canEdit}">
-			<tags:oneControlPanelItem linkhref="javascript:editRegistration();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+			<tags:oneControlPanelItem linkhref="javascript:editRegistrationPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 		</c:if>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-			<tags:oneControlPanelItem linkhref="javascript:changeEpoch();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
+			<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
 			<c:if test="${reconsentRequired}">
 				<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
 			</c:if>
