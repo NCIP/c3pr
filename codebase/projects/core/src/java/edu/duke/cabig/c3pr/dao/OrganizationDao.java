@@ -10,11 +10,13 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
@@ -70,19 +72,13 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
      * @return the by nci identifier
      */
     public List<HealthcareSite> getByNciIdentifier(String nciIdentifier) {
-
-        List<HealthcareSite> result = new ArrayList<HealthcareSite>();
-        HealthcareSite hcs = new LocalHealthcareSite();
-        hcs.setNciInstituteCode(nciIdentifier);
-        Example example = Example.create(hcs).excludeZeroes().ignoreCase();
-        try {
-            Criteria orgCriteria = getSession().createCriteria(Organization.class);
-            result = orgCriteria.add(example).list();
-        }
-        catch (Exception e) {
-        	log.error(e.getMessage());
-        }
-        return result;
+    	HibernateTemplate hibernateTemplate = getHibernateTemplate();
+    	hibernateTemplate.setFetchSize(30);
+    	return ((List<HealthcareSite>) hibernateTemplate
+				.find(
+						"from HealthcareSite h where h.nciInstituteCode like '?",
+						nciIdentifier.toUpperCase()));
+    	
     }
     
 
