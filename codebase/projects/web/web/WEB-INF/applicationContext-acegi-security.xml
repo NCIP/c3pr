@@ -203,7 +203,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/study/amend.*"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
-        <entry key="/pages/registration/create.*"
+        <entry key="/pages/registration/asynchronous/epochSectionNew.*"
+               value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
+		<entry key="/pages/registration/create.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
 		<entry key="/pages/registration/createCompanionRegistration.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>

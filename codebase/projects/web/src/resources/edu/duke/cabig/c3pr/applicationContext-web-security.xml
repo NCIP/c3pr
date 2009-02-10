@@ -11,6 +11,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	<util:map id="taskObjectPrivilegeMap">
 		<entry key="/pages/registration/searchRegistration"
 			value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
+		<entry key="/pages/registration/asynchronous/epochSectionNew.*"
+               value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
 		<entry key="/pages/registration/createRegistration"
 			value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE" />
 		<entry key="/pages/registration/registrationDetails"
