@@ -154,6 +154,9 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     public void testSearchByExampleWithWildcard() throws Exception{
     	ResearchStaff researchStaff = new LocalResearchStaff();
     	researchStaff.setFirstName("Research");
+    	
+    	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);
+    	researchStaff.setHealthcareSite(healthcareSite);
     	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
     	assertEquals("Incorrect Size of retrieved list",4,researchStaffList.size());
     }
