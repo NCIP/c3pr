@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
@@ -75,9 +73,7 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
     	HibernateTemplate hibernateTemplate = getHibernateTemplate();
     	hibernateTemplate.setFetchSize(30);
     	return ((List<HealthcareSite>) hibernateTemplate
-				.find(
-						"from HealthcareSite h where h.nciInstituteCode like '?",
-						nciIdentifier.toUpperCase()));
+				.find("from HealthcareSite h where h.nciInstituteCode like '" + nciIdentifier.toUpperCase() + "'"));
     	
     }
     
