@@ -17,6 +17,7 @@ import org.springframework.web.HttpSessionRequiredException;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 
 /**
  * @author Priyatam
@@ -58,7 +59,13 @@ public class ParticipantAjaxFacade {
         List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(healthcareSites
                         .size());
         for (HealthcareSite healthcareSite : healthcareSites) {
-            reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name","nciInstituteCode")));
+        	if(healthcareSite instanceof RemoteHealthcareSite){
+        		reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
+                "nciInstituteCode","externalId")));
+        	}
+        	else {reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
+                            "nciInstituteCode")));
+        	}
         }
         return reducedHealthcareSites;
 
