@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.security;
 
 import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 import gov.nih.nci.security.acegi.csm.authorization.CSMPrivilegeGenerator;
 
@@ -28,7 +29,7 @@ public class DomainObjectPrivilegeAndObjectIdGenerator implements CSMPrivilegeGe
      */
     public String generatePrivilege(Object object) {
         assertSupports(object);
-        return object.getClass().getName() + pathSeperator + accessPrivilege;
+        return HealthcareSite.class.getName() + pathSeperator + accessPrivilege;
     }
 
     /**

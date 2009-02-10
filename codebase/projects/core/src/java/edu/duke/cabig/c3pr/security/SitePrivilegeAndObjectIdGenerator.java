@@ -24,7 +24,7 @@ public final class SitePrivilegeAndObjectIdGenerator extends
         assertSupports(object);
         HealthcareSite site = (HealthcareSite) object;
 
-        return object.getClass().getName() + getPathSeperator() + site.getNciInstituteCode();
+        return HealthcareSite.class.getName() + getPathSeperator() + site.getNciInstituteCode();
     }
 
     @Override
