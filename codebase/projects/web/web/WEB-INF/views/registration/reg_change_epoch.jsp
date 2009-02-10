@@ -60,7 +60,7 @@ function registerSubject(transferEpochId, transferToStatus){
 <br><br> 
 <table border="0" cellspacing="5px" cellpadding="5px" class="tablecontent"  width="100%">
 	<tr>
-		<th width="5%">Select</th>
+		<th width="5%"><fmt:message key="c3pr.common.select"/>&nbsp;</th>
 		<th scope="col" width="20%"><b><fmt:message key="registration.epochName"/></b></th>
 		<th scope="col"><b><fmt:message key="c3pr.common.description"/></b></th>
 		<th scope="col" width="12%"><b><fmt:message key="c3pr.common.type"/></b></th>

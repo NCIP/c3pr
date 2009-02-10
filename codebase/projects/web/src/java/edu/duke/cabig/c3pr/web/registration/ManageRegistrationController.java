@@ -83,6 +83,7 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+    	// this condition is added to transfer epoch, if epoch doesn't require additional input from the user.
     	if(WebUtils.hasSubmitParameter(request, "epoch")){
     		StudySubjectWrapper wrapper= (StudySubjectWrapper)command ;
         	StudySubject studySubject = wrapper.getStudySubject();
@@ -99,8 +100,11 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
 	            scheduledEpoch = new ScheduledEpoch();
 	        }
 	        scheduledEpoch.setEpoch(epoch);
+	        scheduledEpoch.setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(studySubject));
+	        scheduledEpoch.setScEpochDataEntryStatus(scheduledEpoch.evaluateScheduledEpochDataEntryStatus(scheduledEpoch.getStratumGroupNumber()));
 	        studySubject.addScheduledEpoch(scheduledEpoch);
-	        registrationControllerUtils.buildCommandObject(wrapper.getStudySubject());
+	        registrationControllerUtils.buildCommandObject(studySubject);
+	        studySubjectDao.initialize(studySubject);
 	        if(wrapper.getShouldTransfer())
 	        	studySubject = studySubjectRepository.transferSubject(studySubject);
 	        else if(wrapper.getShouldEnroll()){
@@ -110,7 +114,6 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
 	        }
 	        return new ModelAndView("redirect:manageRegistration?" + ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
     	}
-    	
     	return null;
     }
 
