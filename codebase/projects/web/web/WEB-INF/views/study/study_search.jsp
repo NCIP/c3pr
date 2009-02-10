@@ -39,7 +39,7 @@
         <div class="content">
             <div class="row">
                 <div class="label">
-                    Search By:
+                    <fmt:message key="c3pr.common.searchBy"/>
                 </div>
                 <div class="value">
                     <form:select path="searchType">
