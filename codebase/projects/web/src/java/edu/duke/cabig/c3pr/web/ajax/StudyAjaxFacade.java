@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -43,11 +42,11 @@ import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController;
@@ -420,8 +419,13 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(healthcareSites
                         .size());
         for (HealthcareSite healthcareSite : healthcareSites) {
-            reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
+        	if(healthcareSite instanceof RemoteHealthcareSite){
+        		reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
+                "nciInstituteCode","externalId")));
+        	}
+        	else {reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
                             "nciInstituteCode")));
+        	}
         }
         return reducedHealthcareSites;
 
