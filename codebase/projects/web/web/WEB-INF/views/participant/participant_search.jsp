@@ -30,14 +30,14 @@ function submitPage(){
 						<table width="100%" border="0" cellspacing="5" cellpadding="0"
 							id="table1">
 							<tr>
-								<td width="30%" align="right" class="label">Search By:</td>
+								<td width="30%" align="right" class="label"><b><fmt:message key="c3pr.common.searchBy"/></b></td>
 								<td align="left"><form:select path="searchType">
 									<form:options items="${searchTypeRefData}" itemLabel="desc"
 										itemValue="code" />
 								</form:select></td>
 							</tr>
 							<tr>
-								<td align="right"><span class="label"><fmt:message key="c3pr.common.searchCriteria"/>:</span></td>
+								<td align="right"><span class="label"><b><fmt:message key="c3pr.common.searchCriteria"/></b></span></td>
 								<td align="left"><form:input path="searchText" cssClass="value"/></td>
 							</tr>
 							<tr>
