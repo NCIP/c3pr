@@ -186,7 +186,7 @@
     <td class="alt" align="left">${command.study.type}</td>
 </tr>
 <tr>
-    <td class="alt" align="left"><b><fmt:message key="study.multiInstitutional"/></b></td>
+    <td class="alt" align="left"><b><fmt:message key="study.multiInstitution"/></b></td>
     <td class="alt" align="left">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}</td>
 </tr>
 
