@@ -18,16 +18,15 @@
 		}
     	
         function getBroadcastStatus() {
-
             $('viewDetails').disable('broadcastBtn');
             $('viewDetails').disable('broadcastStatusBtn');
 
-        <tags:tabMethod method="getMessageBroadcastStatus" onComplete="onBroadcastComplete"
-        viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
-        formName="'viewDetails'" params="dontSave=true"/>
+	        <tags:tabMethod method="getMessageBroadcastStatus" onComplete="onBroadcastComplete"
+	        viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
+	        formName="'viewDetails'" params="dontSave=true"/>
         }
 
-        paramString="<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
+      paramString="<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
         
       function doSendMessageToESB() {
           $('broadcastResponse').innerHTML = 'Sending Message...';
@@ -35,9 +34,9 @@
           $('viewDetails').disable('broadcastBtn');
           $('viewDetails').disable('broadcastStatusBtn');
 
-        <tags:tabMethod method="broadcastRegistration"
-       viewName="/ajax/broadcast_res" onComplete="onBroadcastComplete"
-       divElement="'broadcastResponse'" formName="'tabMethodForm'" params="dontSave=true"/>
+	        <tags:tabMethod method="broadcastRegistration"
+	       viewName="/ajax/broadcast_res" onComplete="onBroadcastComplete"
+	       divElement="'broadcastResponse'" formName="'tabMethodForm'" params="dontSave=true"/>
         }
 
         function onBroadcastComplete() {
@@ -57,6 +56,10 @@
 			$('create').submit();
 		}
 
+		function closePopup() {
+			win.close();
+		}
+
 		function updateConsentVersion(registartionId){
 			win = new Window({title: "Reconsent", 
 				zIndex:100, width:500, height:180 , minimizable:false, maximizable:false,
@@ -68,10 +71,6 @@
 			win.showCenter(true)
 		}
 	
-		function closePopup() {
-			win.close();
-		}
-
 		function takeSubjectOffStudy(registartionId){
 			win = new Window({title: "Take subject off study", 
 				zIndex:100, width:400, height:200 ,minimizable:false, maximizable:false,
@@ -83,10 +82,6 @@
 			win.showCenter(true)
 		}
 
-		function refreshEnrollmentSection(regId){
-			<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'command'"  viewName="/registration/enrollmentSection" javaScriptParam="'registrationId='+regId"/>
-		}
-
 		function changeEpoch(){
 			var arr= $$("#changeEpoch");
 			win = new Window({maximizable: false, className :"mac_os_x", title: "Change Epoch", 
@@ -96,13 +91,28 @@
 									}) 
 			win.setContent(arr[0]) ;
 			win.showCenter(true);
-	 			}
+	 	}
+
+		function editRegistration(){
+			var arr= $$("#editRegistration");
+			win = new Window({maximizable: false, className :"mac_os_x", title: "Edit Registration", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:700, height:600 , minimizable:false, maximizable:false,
+									showEffect:Element.show, 
+									}) 
+			win.setContent(arr[0]) ;
+			win.showCenter(true);
+	 	}
+
+		function refreshEnrollmentSection(regId){
+			<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'command'"  viewName="/registration/enrollmentSection" javaScriptParam="'registrationId='+regId"/>
+		}
     </script>
 </head>
 <body>
 	<tags:controlPanel>
 		<c:if test="${canEdit}">
-			<tags:oneControlPanelItem linkhref="#" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+			<tags:oneControlPanelItem linkhref="javascript:editRegistration();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 		</c:if>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 			<tags:oneControlPanelItem linkhref="javascript:changeEpoch();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
@@ -132,7 +142,7 @@
     <tags:tabFields tab="${tab}"/>
 </form:form>
 
-	<div id="registrationSummary">
+<div id="registrationSummary">
 <br/>
 <div id="printable">
 <chrome:division id="Subject Information" title="Subject">
@@ -559,6 +569,11 @@
 <div id="epochSelection" style="display:none;">
 <div id="changeEpoch" >
 	<%@ include file="reg_change_epoch.jsp"%>
+</div>
+</div>
+<div id="editRegistrationSection" style="display:none;">
+<div id="editRegistration" >
+	<%@ include file="reg_edit_registration.jsp"%>
 </div>
 </div>
 <form:form id="exportForm" method="post">

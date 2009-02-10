@@ -1318,7 +1318,13 @@ public class StudySubject extends
 		return this.getConsentHistoryList().get(getConsentHistoryList().size() - 1);
 	}
 
-	
+	@Transient
+	public boolean getIsDirectArmAssigment(){
+		if(this.getScheduledEpoch().getRequiresArm() && !this.getScheduledEpoch().getRequiresRandomization()){
+			return true ;
+		}
+		return false ;
+	}
 
 	
 }

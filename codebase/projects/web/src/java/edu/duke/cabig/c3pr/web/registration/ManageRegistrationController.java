@@ -112,7 +112,7 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
 	        }else if(wrapper.getShouldReserve()){
 	        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
 	        }
-	        return new ModelAndView("redirect:manageRegistration?" + ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
+	        return new ModelAndView("redirect:confirm?" + ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
     	}
     	return null;
     }

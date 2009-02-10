@@ -27,7 +27,7 @@ function transfer(){
 }
 
 function registerSubject(transferEpochId, transferToStatus){
-	parent.closePopup();
+	closePopup();
 	if(transferToStatus == 'flow'){
 		$("edit_epoch").value=transferEpochId;
 		$("transferEpoch").submit();
@@ -77,6 +77,6 @@ function registerSubject(transferEpochId, transferToStatus){
 <div class="flow-buttons">
 	<span class="next">
 	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn_disabled.png" onclick="transfer();"  disabled="disabled" class="transferEpochButton"/>
-        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="parent.closePopup();"/>
+        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
     </span>
 </div>  
