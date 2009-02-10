@@ -129,25 +129,25 @@ top:70px;
 <chrome:division id="participant-details" title="Basic Details">
 				<div class="leftpanel">
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />First Name</div>
+						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.firstName"/></div>
 						<div class="value"><form:input path="firstName"
 							cssClass="validate-notEmpty" /></div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Last Name</div>
+						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.lastName"/></div>
 						<div class="value"><form:input path="lastName"
 							cssClass="validate-notEmpty" /></div>
 					</div>
 					<div class="row">
-						<div class="label">Middle Name</div>
+						<div class="label"><fmt:message key="participant.middleName"/></div>
 						<div class="value"><form:input path="middleName" /></div>
 					</div>
 					<div class="row">
-						<div class="label">Maiden Name</div>
+						<div class="label"><fmt:message key="participant.maidenName"/></div>
 						<div class="value"><form:input path="maidenName" /></div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Gender</div>
+						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.gender"/></div>
 						<div class="value"><form:select path="administrativeGenderCode"
 							cssClass="validate-notEmpty">
 							<option value="">Please Select</option>
@@ -159,11 +159,11 @@ top:70px;
 				</div>
 				<div class="rightpanel">
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Birth Date</div>
+						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.birthDate"/></div>
 						<div class="value"><form:input path="birthDate" cssClass="validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Ethnicity</div>
+						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.ethnicity"/></div>
 						<div class="value"><form:select path="ethnicGroupCode"
 							cssClass="validate-notEmpty">
 							<option value="">Please Select</option>
@@ -172,7 +172,7 @@ top:70px;
 						</form:select><tags:hoverHint keyProp="subject.ethnicGroupCode"/></div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator />Race(s) <span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span></div>
+						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.race"/> <span style="text-align:left;"><tags:hoverHint keyProp="subject.raceCode"/></span></div>
 						<table>
 						<tr>
                             <td align="left" class="race">
@@ -208,7 +208,7 @@ top:70px;
 									<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.nciInstituteCode})" />
 									<c:set var="_name" value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" />
 									</c:if>
-			                        <div class="label"><tags:requiredIndicator />Organization</div>
+			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
 			                        <div class="value">
 									<input type="hidden" id="mrnOrganization-hidden"
 										name="organizationAssignedIdentifiers[0].healthcareSite"
@@ -223,7 +223,7 @@ top:70px;
 								    </div>
 	                    </div>
 						<div class="row">
-			                        <div class="label"><tags:requiredIndicator />Identifier</div>
+			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 									size="30" maxlength="30"
 									value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
@@ -234,7 +234,7 @@ top:70px;
 
 					 <div class="rightpanel">
 						<div class="row">
-								<div class="label">Identifier Type</div>
+								<div class="label"><fmt:message key="c3pr.common.identifierType"/></div>
 								<form:select
 									path="organizationAssignedIdentifiers[0].type"
 									cssClass="validate-notEmpty"> value="${command.organizationAssignedIdentifiers[0].type}"
@@ -252,11 +252,11 @@ top:70px;
 					cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr id="hOrganizationAssignedIdentifier" <c:if test="${fn:length(command.organizationAssignedIdentifiers) < 2}">style="display:none;"</c:if>>
 						<th><span
-							class=""><tags:requiredIndicator />Assigning Organization</span><tags:hoverHint keyProp="identifier.organization"/></th>
-						<th><span class=""><tags:requiredIndicator />Identifier
-						Type</span><tags:hoverHint keyProp="identifier.type"/></th>
-						<th><span class=""><tags:requiredIndicator />Identifier</span><tags:hoverHint keyProp="identifier.value"/></th>
-						<th><span>Primary Indicator</span><tags:hoverHint keyProp="identifier.primary"/></th>
+							class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/></span><tags:hoverHint keyProp="identifier.organization"/></th>
+						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/>
+						</span><tags:hoverHint keyProp="identifier.type"/></th>
+						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></span><tags:hoverHint keyProp="identifier.value"/></th>
+						<th><span><fmt:message key="c3pr.common.primaryIndicator"/></span><tags:hoverHint keyProp="identifier.primary"/></th>
 						<th ></th>
 					</tr>
 					<c:forEach items="${command.organizationAssignedIdentifiers}" begin="1"
@@ -313,10 +313,10 @@ top:70px;
 					class="tablecontent">
 					<tr id="hSystemAssignedIdentifier" <c:if test="${fn:length(command.systemAssignedIdentifiers) == 0}">style="display:none;"</c:if>>
 						<th><span
-							class=""><tags:requiredIndicator />System Name</span><tags:hoverHint keyProp="identifier.systemName"/></th>
-						<th><span class=""><tags:requiredIndicator />Identifier Type</span><tags:hoverHint id="1" keyProp="identifier.type"/></th>
-						<th><span class=""><tags:requiredIndicator />Identifier</span><tags:hoverHint id="2" keyProp="identifier.value"/></th>
-						<th>Primary&nbsp;Indicator<tags:hoverHint id="3" keyProp="identifier.primary"/></th>
+							class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.systemName"/></span><tags:hoverHint keyProp="identifier.systemName"/></th>
+						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></span><tags:hoverHint id="1" keyProp="identifier.type"/></th>
+						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></span><tags:hoverHint id="2" keyProp="identifier.value"/></th>
+						<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint id="3" keyProp="identifier.primary"/></th>
 						<th></th>
 					</tr>
 					<c:forEach items="${command.systemAssignedIdentifiers}"
