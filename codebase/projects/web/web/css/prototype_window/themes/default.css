@@ -135,6 +135,7 @@
 .dialog {
 	display: block;
 	position: absolute;
+	text-align:left;
 }
 
 .dialog table.table_window  { 
@@ -146,7 +147,7 @@
 }
 
 .dialog table.table_window td , .dialog table.table_window th { 
-  padding: 0; 
+  padding: 0;
 }
 
 .dialog .title_window {
