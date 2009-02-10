@@ -7,6 +7,7 @@ import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.domain.ResearchStaffDTO;
 import com.semanticbits.coppasimulator.service.ResearchStaffService;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 
 /**
@@ -22,25 +23,26 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	public List<Object> find(Object arg0) {
 		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff) arg0;
 		
-		ResearchStaffDTO researchStaffDTO = researchStaffService.getClinicalResearchStaffPerson("SBine@nci.org");
 		List<ResearchStaffDTO> researchStaffDTOList  = new ArrayList<ResearchStaffDTO>();
-		researchStaffDTOList.add(researchStaffDTO);
+		researchStaffDTOList.add(researchStaffService.getClinicalResearchStaffPerson("SBine@nci.org"));
+		researchStaffDTOList.add(researchStaffService.getClinicalResearchStaffPerson("DTrump@nci.org"));
 		
-		List<Object> researchStaffList = convertToResearchStaff(researchStaffDTOList);
-		
-		return researchStaffList;
+		//pass the healthcareSite tht was set in the exmaple object that was sent in....otherwise null
+		return convertToResearchStaff(researchStaffDTOList, remoteResearchStaff.getHealthcareSite());
 	}
 
 	/* (non-Javadoc)
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#getRemoteEntityByUniqueId(java.lang.String)
 	 */
 	public Object getRemoteEntityByUniqueId(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		Object object = researchStaffService.getClinicalResearchStaffPerson(arg0);
+		List<ResearchStaffDTO> researchStaffDTOList = new ArrayList<ResearchStaffDTO>();
+		researchStaffDTOList.add((ResearchStaffDTO)object);
+		return convertToResearchStaff(researchStaffDTOList, null).get(0);
 	}
 
 	
-	private List<Object> convertToResearchStaff(List<ResearchStaffDTO> researchStaffDTOList){
+	private List<Object> convertToResearchStaff(List<ResearchStaffDTO> researchStaffDTOList, HealthcareSite healthcareSite){
 		List<Object> researchStaffList = new ArrayList<Object>();
 		RemoteResearchStaff remoteResearchStaff;
 		for(ResearchStaffDTO researchStaffDTO: researchStaffDTOList){
@@ -48,6 +50,9 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			remoteResearchStaff.setFirstName(researchStaffDTO.getFirstName());
 			remoteResearchStaff.setLastName(researchStaffDTO.getLastName());
 			remoteResearchStaff.setNciIdentifier(researchStaffDTO.getNciIdentifier());
+			//set the healthcare site that was passed in
+			remoteResearchStaff.setHealthcareSite(healthcareSite);
+			
 			remoteResearchStaff.setUniqueIdentifier(researchStaffDTO.getEmailAddress());
 			researchStaffList.add(remoteResearchStaff);
 		}
