@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
@@ -77,9 +80,38 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     	}
     	super.postProcessPage(request, command, errors, page);
     }
+    
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-        return null;
+    	if(WebUtils.hasSubmitParameter(request, "epoch")){
+    		StudySubjectWrapper wrapper= (StudySubjectWrapper)command ;
+        	StudySubject studySubject = wrapper.getStudySubject();
+         	ScheduledEpoch scheduledEpoch;
+         	
+    		Integer id = Integer.parseInt(request.getParameter("epoch"));
+	        Epoch epoch = epochDao.getById(id);
+	        epochDao.initialize(epoch);
+	        if (epoch.getTreatmentIndicator()) {
+	            (epoch).getArms().size();
+	            scheduledEpoch = new ScheduledEpoch();
+	        }
+	        else {
+	            scheduledEpoch = new ScheduledEpoch();
+	        }
+	        scheduledEpoch.setEpoch(epoch);
+	        studySubject.addScheduledEpoch(scheduledEpoch);
+	        registrationControllerUtils.buildCommandObject(wrapper.getStudySubject());
+	        if(wrapper.getShouldTransfer())
+	        	studySubject = studySubjectRepository.transferSubject(studySubject);
+	        else if(wrapper.getShouldEnroll()){
+	        	studySubject=studySubjectRepository.enroll(studySubject);
+	        }else if(wrapper.getShouldReserve()){
+	        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+	        }
+	        return new ModelAndView("redirect:manageRegistration?" + ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
+    	}
+    	
+    	return null;
     }
 
     @Override

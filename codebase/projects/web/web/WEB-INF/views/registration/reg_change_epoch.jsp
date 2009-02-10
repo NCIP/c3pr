@@ -26,12 +26,6 @@ function transfer(){
 	}
 }
 
-function closePopup(){
-	transferEpochId='' ;
-	transferToStatus='' ;
-	parent.closePopup();
-}
-
 function registerSubject(transferEpochId, transferToStatus){
 	parent.closePopup();
 	if(transferToStatus == 'flow'){
@@ -44,9 +38,10 @@ function registerSubject(transferEpochId, transferToStatus){
 	}
 }
 </script>
-<form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" id="manageTransferEpoch" >
+<form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" id="manageTransferEpoch" method="post" >
 	<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 	<input type="hidden" name="_finish" id="_finish"/>
+	<input type="hidden" name="_target0" id="_target0" value="0"/>
 	<input type="hidden" name="epoch" id="m_manage_epoch"/>
 	<input type="hidden" name="studySubject.regWorkflowStatus" id="regWorkflowStatus"/>
 </form>
@@ -82,6 +77,6 @@ function registerSubject(transferEpochId, transferToStatus){
 <div class="flow-buttons">
 	<span class="next">
 	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn_disabled.png" onclick="transfer();"  disabled="disabled" class="transferEpochButton"/>
-        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
+        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="parent.closePopup();"/>
     </span>
 </div>  

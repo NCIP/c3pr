@@ -45,7 +45,6 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     @Override
     protected Object formBackingObject(HttpServletRequest request)
     		throws Exception {
-    	// TODO Auto-generated method stub
     	StudySubjectWrapper wrapper= (StudySubjectWrapper)super.formBackingObject(request);
     	ScheduledEpoch scheduledEpoch;
     	if(WebUtils.hasSubmitParameter(request, "epoch")){

@@ -91,7 +91,7 @@
 			var arr= $$("#changeEpoch");
 			win = new Window({maximizable: false, className :"mac_os_x", title: "Change Epoch", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:850, height:300 , minimizable:false, maximizable:false,
+									zIndex:100, width:850, height:350 , minimizable:false, maximizable:false,
 									showEffect:Element.show, 
 									}) 
 			win.setContent(arr[0]) ;
@@ -101,21 +101,19 @@
 </head>
 <body>
 	<tags:controlPanel>
-		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-			<c:if test="${canEdit}">
-				<tags:oneControlPanelItem linkhref="#" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
-			</c:if>
-		</csmauthz:accesscontrol>
-		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
-		<tags:oneControlPanelItem linkhref="javascript:changeEpoch();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
-		<c:if test="${reconsentRequired}">
-			<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
+		<c:if test="${canEdit}">
+			<tags:oneControlPanelItem linkhref="#" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 		</c:if>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+			<tags:oneControlPanelItem linkhref="javascript:changeEpoch();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
+			<c:if test="${reconsentRequired}">
+				<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
+			</c:if>
 	    	<c:if test="${takeSubjectOffStudy}">
 				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudy(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
 			</c:if>
     	</csmauthz:accesscontrol>
+		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>
 <form action="../registration/createRegistration" method="post" id="create">
