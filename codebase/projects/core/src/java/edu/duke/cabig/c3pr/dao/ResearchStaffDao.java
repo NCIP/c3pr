@@ -294,7 +294,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
    			} else{
    				//this guy doesnt exist
    				try{
-   					saveRemoteResearchStaff(remoteResearchStaff);
+   					saveResearchStaff(remoteResearchStaff);
    				} catch (C3PRBaseException cbe){
    					log.error(cbe.getMessage());
    				}
