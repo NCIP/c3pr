@@ -1190,9 +1190,7 @@ public class StudySubject extends
 				if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
 					doLocalRandomization();
 				}
-				if(this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
 						this.addIdentifier(IdentifierGenerator.generateOrganizationAssignedIdentifier(this));
-				}
 			this.getScheduledEpoch().setScEpochWorkflowStatus(
 					ScheduledEpochWorkFlowStatus.REGISTERED);
 		}
