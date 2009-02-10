@@ -27,7 +27,7 @@ public class SitePrivilegeAndObjectIdGeneratorTest extends ApplicationTestCase {
     public void testPrivilegeGenerator() {
         String privilege = sitePrivilegeAndObjectIdGenerator.generatePrivilege(site);
         assertNotNull(privilege);
-        assertEquals(site.getClass().getName() + ".ACCESS", privilege);
+        assertEquals("edu.duke.cabig.c3pr.domain.HealthcareSite" + ".ACCESS", privilege);
     }
 
     @ExpectedException(Exception.class)
@@ -44,7 +44,7 @@ public class SitePrivilegeAndObjectIdGeneratorTest extends ApplicationTestCase {
     public void testObjectIdGenerator() {
         String id = sitePrivilegeAndObjectIdGenerator.generateId(site);
         assertNotNull(id);
-        assertEquals(id, site.getClass().getName() + "." + site.getNciInstituteCode());
+        assertEquals(id, "edu.duke.cabig.c3pr.domain.HealthcareSite" + "." + site.getNciInstituteCode());
     }
 
 }
