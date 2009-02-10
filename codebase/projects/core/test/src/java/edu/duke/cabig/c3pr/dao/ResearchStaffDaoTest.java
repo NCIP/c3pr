@@ -10,6 +10,7 @@ import java.util.List;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -229,7 +230,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testGetRemoteResearchStaffByOrganizationInstituteCode() throws Exception{
-    	HealthcareSite healthcareSite = new HealthcareSite();
+    	HealthcareSite healthcareSite = new LocalHealthcareSite();
     	healthcareSite.setNciInstituteCode("code");
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
     	researchStaffList = getDao().getResearchStaffByOrganizationNCIInstituteCode(healthcareSite);
