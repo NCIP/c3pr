@@ -271,17 +271,20 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	
 	private String getAdditionalInformation(StudySubject studySubject, Epoch epoch) {
 		if(isAlreadyRegistered(studySubject, epoch)){
-			return "Cannot assign subject to this epoch since he has already been registered once on the epoch." ;
+			//return "Cannot assign subject to this epoch since he has already been registered once on the epoch." ;
+			return "";
 		}else if(isAccrualCeilingReached(epoch.getId())){
-			return "Accrual Ceiling for this Epoch alreay reached. Cannot enroll any more subjects on this epoch." ;
+			//return "Accrual Ceiling for this Epoch alreay reached. Cannot enroll any more subjects on this epoch." ;
+			return "" ;
 		}else if(isNotRegisterable(studySubject, epoch)){
-			return "Cannot assign subject to this epoch." ;
+			//return "Cannot assign subject to this epoch." ;
+			return "" ;
 		}else if(isCurrentScheduledEpoch(studySubject, epoch)){
 			return "Current Registration" ;
 		}else if(isRequiresAdditionalInfo(studySubject, epoch)){
-			return "Required" ;
+			return "Additional information is required to register on this epoch" ;
 		}else{
-			return "Not Required" ;
+			return "Additional information is not required to register on this epoch" ;
 		}
 	}
 

@@ -26,6 +26,12 @@ function transfer(){
 	}
 }
 
+function closePopup(){
+	transferEpochId='' ;
+	transferToStatus='' ;
+	parent.closePopup();
+}
+
 function registerSubject(transferEpochId, transferToStatus){
 	parent.closePopup();
 	if(transferToStatus == 'flow'){
@@ -76,6 +82,6 @@ function registerSubject(transferEpochId, transferToStatus){
 <div class="flow-buttons">
 	<span class="next">
 	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn_disabled.png" onclick="transfer();"  disabled="disabled" class="transferEpochButton"/>
-        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="parent.closePopup();"/>
+        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
     </span>
 </div>  
