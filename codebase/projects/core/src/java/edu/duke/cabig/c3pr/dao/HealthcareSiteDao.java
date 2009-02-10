@@ -13,11 +13,8 @@ import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.security.UserProvisioningManager;
@@ -214,6 +211,7 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 			List<HealthcareSite> remoteHealthcareSiteList) throws C3PRBaseRuntimeException, C3PRBaseException {
 
 		for (HealthcareSite remoteHealthcareSite : remoteHealthcareSiteList) {
+			RemoteHealthcareSite remoteHealthcareSiteTemp = (RemoteHealthcareSite)remoteHealthcareSite;
 			HealthcareSite healthcareSiteFromDatabase = getByUniqueIdentifier(remoteHealthcareSite
 					.getNciInstituteCode());
 			if (healthcareSiteFromDatabase != null) {
@@ -221,8 +219,9 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 				// object...which is done by the interceptor
 			} else {
 				// this guy doesnt exist
-				createGroupForOrganization(remoteHealthcareSite);
-				getHibernateTemplate().save(remoteHealthcareSite);
+				createGroupForOrganization(remoteHealthcareSiteTemp);
+				remoteHealthcareSiteTemp.setExternalId(remoteHealthcareSite.getNciInstituteCode());
+				getHibernateTemplate().save(remoteHealthcareSiteTemp);
 			}
 		}
 	}
