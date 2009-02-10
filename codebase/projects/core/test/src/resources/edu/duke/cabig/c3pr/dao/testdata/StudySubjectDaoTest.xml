@@ -46,10 +46,10 @@
     <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003"  retired_indicator = "false" />
     <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003"  retired_indicator = "false" />
         
-    <RESEARCH_STAFF id="1000" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1000" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1001" version="1" first_name="Research George" last_name="Staff2" hcs_id="1000" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1002" version="1" first_name="Research Benjamin" last_name="Staff3" hcs_id="1001" retired_indicator = "false" />    
-    <RESEARCH_STAFF id="1003" version="1" first_name="Research JFK" last_name="Staff4" hcs_id="1001" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1000" version="1" dtype="Local" first_name="Research Bill" last_name="Staff2" hcs_id="1000" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1001" version="1" dtype="Local" first_name="Research George" last_name="Staff2" hcs_id="1000" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1002" version="1" dtype="Local" first_name="Research Benjamin" last_name="Staff3" hcs_id="1001" retired_indicator = "false" />    
+    <RESEARCH_STAFF id="1003" version="1" dtype="Local" first_name="Research JFK" last_name="Staff4" hcs_id="1001" retired_indicator = "false" />
     
     <INVESTIGATORS id="1000" version="1" first_name="Bill" last_name="Murphy" retired_indicator = "false" />
     <INVESTIGATORS id="1001" version="1" first_name="George" last_name="Claire" retired_indicator = "false" />
