@@ -33,25 +33,22 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#find(java.lang.Object)
 	 */
 	public List<Object> find(Object arg0) {
-//		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff) arg0;
-		
 		RemoteHealthcareSite remoteHealthcareSite = (RemoteHealthcareSite) arg0;
 		
-	//	ResearchStaffDTO researchStaffDTO = researchStaffService.getClinicalResearchStaffPerson("LPage@nci.org");
-		OrganizationDTO organizationDTO = null;
+		List<OrganizationDTO> organizationDTOList  = new ArrayList<OrganizationDTO>();
+		
 		try {
-			organizationDTO = organizationService.getOrganization("RM-TST-ID");
+			organizationDTOList = organizationService.search(new OrganizationDTO());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		List<OrganizationDTO> organizationDTOList  = new ArrayList<OrganizationDTO>();
-		organizationDTOList.add(organizationDTO);
 		
 		List<Object> organizationList = convertToOrganization(organizationDTOList);
 		
 		return organizationList;
 	}
+	
 
 	/* (non-Javadoc)
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#getRemoteEntityByUniqueId(java.lang.String)
