@@ -6,6 +6,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <!-- SUBJECT SEARCH RESULTS START HERE -->
@@ -17,11 +18,11 @@
 		<thead>
 			<c:if test="${participants!=null}">
 				<tr>
-					<td class="tableHeader">Last Name, Middle Name, First Name</td>
-					<td class="tableHeader">Primary Identifier</td>
-					<td class="tableHeader">Gender</td>
-					<td class="tableHeader">Race</td>
-					<td class="tableHeader">Birth Date</td>
+					<td class="tableHeader"><fmt:message key="participant.lastName"/>, <fmt:message key="participant.middleName"/>, <fmt:message key="participant.firstName"/></td>
+					<td class="tableHeader"><fmt:message key="c3pr.common.primaryIdentifier"/></td>
+					<td class="tableHeader"><fmt:message key="participant.gender"/></td>
+					<td class="tableHeader"><fmt:message key="participant.race"/></td>
+					<td class="tableHeader"><fmt:message key="participant.birthDate"/></td>
     			</tr>
 			</c:if>
 			</thead>
