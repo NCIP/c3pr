@@ -47,55 +47,51 @@ function createStudy(){
 <chrome:division id="study-details" title="Basic Details">
     <table class="tablecontent" width="60%">
         <tr>
-            <td width="35%" class="alt" align="left"><b>Short Title</b></td>
+            <td width="35%" class="alt" align="left"><b><fmt:message key="study.shortTitle"/></b></td>
             <td class="alt" align="left">${command.study.shortTitleText}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Primary Identifier</b></td>
+            <td class="alt" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></td>
             <td class="alt" align="left">${command.study.primaryIdentifier}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Target Accrual Number</b></td>
+            <td class="alt" align="left"><b><fmt:message key="c3pr.common.targetAccrual"/></b></td>
             <td class="alt" align="left">${command.study.targetAccrualNumber}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Data Entry Status</b></td>
+            <td class="alt" align="left"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></td>
             <td class="alt" align="left">${command.study.dataEntryStatus.code}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Status</b></td>
+            <td class="alt" align="left"><b><fmt:message key="study.status"/></b></td>
             <td class="alt" align="left">${command.study.coordinatingCenterStudyStatus.displayName}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Phase</b></td>
+            <td class="alt" align="left"><b><fmt:message key="study.phase"/></b></td>
             <td class="alt" align="left">${command.study.phaseCode}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Type</b></td>
+            <td class="alt" align="left"><b><fmt:message key="study.type"/></b></td>
             <td class="alt" align="left">${command.study.type}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Phase</b></td>
-            <td class="alt" align="left">${command.study.phaseCode}</td>
-        </tr>
-        <tr>
-            <td class="alt" align="left"><b>Multi Institution</b></td>
+            <td class="alt" align="left"><b><fmt:message key="study.multiInstitution"/></b></td>
             <td class="alt" align="left">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Blinded</b></td>
+            <td class="alt" align="left"><b><fmt:message key="study.blinded"/></b></td>
             <td class="alt" align="left">${command.study.blindedIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Consent Version/Date</b></td>
+            <td class="alt" align="left"><b><fmt:message key="study.consentVersionDate"/></b></td>
             <td class="alt" align="left">${command.study.consentVersion}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Randomized</b></td>
+            <td class="alt" align="left"><b><fmt:message key="study.randomized"/></b></td>
             <td class="alt" align="left">${command.study.randomizedIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Randomization Type</b></td>
+            <td class="alt" align="left"><b><fmt:message key="study.randomizationType"/></b></td>
             <td class="alt" align="left">${command.study.randomizationType.displayName}</td>
         </tr>
     </table>
@@ -104,8 +100,8 @@ function createStudy(){
 <chrome:division title="Epochs & Arms">
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%"><b>Epochs</b></th>
-            <th><b>Arms</b>
+            <th width="50%"><b><fmt:message key="study.epochs"/></b></th>
+            <th><b><fmt:message key="study.epoch.arms"/></b>
         </tr>
         <c:forEach items="${command.study.epochs}" var="epoch">
             <tr>
@@ -114,8 +110,8 @@ function createStudy(){
                     <td>
                         <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                             <tr>
-                                <th><b>Name</b></th>
-                                <th><b>Target Accrual No.</b>
+                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
+                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b>
                             </tr>
                             <tr>
                                 <c:forEach items="${epoch.arms}" var="arm">
@@ -136,8 +132,8 @@ function createStudy(){
 <chrome:division title="Stratification Factors">
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left"><b>Strata</b></th>
-            <th scope="col" align="left"><b>Permissible Answers</b></th>
+            <th width="50%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
+            <th scope="col" align="left"><b><fmt:message key="study.answers"/></b></th>
 
         </tr>
         <c:forEach items="${command.study.epochs}" var="epoch">
@@ -162,8 +158,8 @@ function createStudy(){
 <chrome:division title="Stratum Groups">
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left"><b>Stratum Group Number</b></th>
-            <th scope="col" align="left"><b>Answer Combination</b></th>
+            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
+            <th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
 
         </tr>
         <c:forEach items="${command.study.epochs}" var="epoch">
@@ -183,10 +179,10 @@ function createStudy(){
     <chrome:division title="Companion Studies">
         <table class="tablecontent" width="60%">
             <tr>
-                <th width="45%" scope="col" align="left"><b>Companion Study Short Title</b></th>
-                <th width="30%" scope="col" align="left"><b>Data Entry Status</b></th>
-                <th width="15%" scope="col" align="left"><b>Status</b></th>
-                <th width="10%" scope="col" align="left"><b>Mandatory</b></th>
+                <th width="45%" scope="col" align="left"><b><fmt:message key="study.companionStudyShortTitle"/></b></th>
+                <th width="30%" scope="col" align="left"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></th>
+                <th width="15%" scope="col" align="left"><b><fmt:message key="study.status"/></b></th>
+                <th width="10%" scope="col" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
             </tr>
             <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
                 <tr>
@@ -205,9 +201,9 @@ function createStudy(){
     <br>
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left">Assigning Organization</th>
-            <th width="35%" scope="col" align="left">Identifier Type</th>
-            <th scope="col" align="left">Identifier</th>
+            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
+            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
+            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
         </tr>
         <c:if test="${command.study.coordinatingCenterAssignedIdentifier != null}">
         <tr class="results">
@@ -222,9 +218,9 @@ function createStudy(){
     <br>
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left">Assigning Organization</th>
-            <th width="35%" scope="col" align="left">Identifier Type</th>
-            <th scope="col" align="left">Identifier</th>
+            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
+            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
+            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
         </tr>
         <c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
             <tr class="results">
