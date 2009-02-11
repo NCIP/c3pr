@@ -135,6 +135,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 				.getRegistrationEndpoints().size() > 0));
 		registrationControllerUtils.addAppUrls(map);
     	map.put("paymentMethods", configMap.get("paymentMethods"));
+    	map.put("canChangeEpoch", canChangeEpoch(studySubject));
 		return map;
 	}
 
@@ -186,6 +187,13 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 
 	private boolean canEditRegistration(StudySubject studySubject) {
 		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && isAdmin()) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean canChangeEpoch(StudySubject studySubject) {
+		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY ) {
 			return true;
 		}
 		return false;
