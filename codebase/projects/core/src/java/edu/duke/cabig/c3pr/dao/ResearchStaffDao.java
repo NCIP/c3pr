@@ -273,7 +273,16 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     	RemoteResearchStaff tempRemoteResearchStaff;
     	for(Object object: objectList){
     		tempRemoteResearchStaff = (RemoteResearchStaff)object;
-    		tempRemoteResearchStaff.setHealthcareSite(healthcareSite);
+    		if(tempRemoteResearchStaff.getHealthcareSite() == null && healthcareSite != null){
+    			//if the resolver hasnt set the hcs then set it if it has been passed in
+    			tempRemoteResearchStaff.setHealthcareSite(healthcareSite);
+    		} else {
+    			//if the resolver hasnt set the hcs and if it hasn't been passed in then..
+    			//get the corresponding hcs from the dto object and save that organization and then save this staff
+    			
+    			//tempRemoteResearchStaff.setHealthcareSite(healthcareSite);
+    		}
+    		
     		researchStaffList.add(tempRemoteResearchStaff);
     	}
     	return researchStaffList;
@@ -290,11 +299,19 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     	for (RemoteResearchStaff remoteResearchStaff: remoteResearchStaffList) {
     		List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifier(remoteResearchStaff.getUniqueIdentifier());
    			if(researchStaffFromDatabase.size() > 0){
-   				//this guy exists....copy latest remote data into the existing object...which is done by the interceptor
+   				//this guy already exists....call mergeResearchStaff
+   				try {
+					merge((ResearchStaff)remoteResearchStaff);
+				} catch (C3PRBaseException e) {
+					log.error(e.getMessage());
+				}
    			} else{
    				//this guy doesnt exist
    				try{
-   					saveResearchStaff(remoteResearchStaff);
+   					//This if condition is temporary. once we have the logic to fetch the org of the retrieved staff then we can remove this.
+   					if(remoteResearchStaff.getHealthcareSite() != null){
+   						saveResearchStaff(remoteResearchStaff);
+   					}
    				} catch (C3PRBaseException cbe){
    					log.error(cbe.getMessage());
    				}
@@ -304,7 +321,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     
     
     /*
-	 * Moved to here from personnelServiceImpl for coppa integration
+	 * Moved save code here from personnelServiceImpl for coppa integration
 	 */
     public void saveResearchStaff(ResearchStaff staff) throws C3PRBaseException {
         save(staff, null);
@@ -422,10 +439,36 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         return returnGroup.getGroupId().toString();
     }
     /*
-	 * Moved to here from personnelServiceImpl for coppa integration
+	 * Moved save code here from personnelServiceImpl for coppa integration
 	 */
     
 
+    /*
+	 * Moved merge code here from personnelServiceImpl for coppa integration
+	 */
+    public void merge(ResearchStaff staff) throws C3PRBaseException {
+        try {
+            User csmUser = getCSMUser(staff);
+            save(staff, csmUser);
+        }
+        catch (CSObjectNotFoundException e) {
+            new C3PRBaseException("Could not save Research staff" + e.getMessage());
+        }
+        try {
+            User csmUser = getCSMUser(staff);
+            csmUser.setOrganization(staff.getHealthcareSite().getNciInstituteCode());
+            assignUserToGroup(csmUser, siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
+            log.debug("Successfully assigned user to organization group"
+                            + siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
+        }
+        catch (CSObjectNotFoundException e) {
+            new C3PRBaseException("Could not assign user to organization group.");
+        }
+
+    }
+    /*
+	 * Moved merge code here from personnelServiceImpl for coppa integration
+	 */
     
 	public void setRemoteSession(RemoteSession remoteSession) {
 		this.remoteSession = remoteSession;
