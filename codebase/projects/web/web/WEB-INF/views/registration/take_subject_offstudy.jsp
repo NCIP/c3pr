@@ -1,6 +1,13 @@
 <%@ include file="taglibs.jsp"%>
+<style type="text/css">
+.takeSubjectOffStudyClass div.row div.label {
+	width:5em;
+}
+.takeSubjectOffStudyClass div.row div.value {
+	margin-left:6em;
+}
+</style>
 <script>
-
 function takeSubjectOffStudy(){
 	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'offStudyStatusForm'"  viewName="/registration/enrollmentSection" />
 	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" />
@@ -29,7 +36,7 @@ function cancelTakeSubjectOffStudy(){
 </script>
 <div id="OffStudyStatus">
 <form:form id="offStudyStatusForm">
-<chrome:box title="Take subject off study">
+<chrome:box title="Take subject off study" cssClass="takeSubjectOffStudyClass">
      <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
      <input type="hidden" name="studySubject.regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>
      <div class="info red"><img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.SUBJECTOFFSTUDY.WARNING"/></div>

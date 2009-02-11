@@ -11,6 +11,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
+import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ReviewSubmitTab;
@@ -40,7 +41,8 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
         flow.addTab(new EligibilityCriteriaTab());
         flow.addTab(new StratificationTab());
         flow.addTab(new AssignArmTab());
-        flow.addTab(new ReviewSubmitTab());
+        flow.addTab(new CompanionRegistrationTab());
+        flow.addTab(new ReviewSubmitTab());	
         setFlow(flow);
     }
 

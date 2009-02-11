@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
+import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ReviewSubmitTab;
@@ -38,6 +39,7 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
         flow.addTab(new EligibilityCriteriaTab());
         flow.addTab(new StratificationTab());
         flow.addTab(new AssignArmTab());
+        flow.addTab(new CompanionRegistrationTab());
         flow.addTab(new ReviewSubmitTab());
         setFlow(flow);
     }

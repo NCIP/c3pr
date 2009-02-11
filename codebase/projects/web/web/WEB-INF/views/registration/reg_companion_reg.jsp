@@ -78,30 +78,11 @@
 			</table>
 			</div>
 		</tags:panelBox>
-		<c:if test="${command.shouldRegister && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending' && !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator  && !command.studySubject.scheduledEpoch.epoch.reservationIndicator}">
-			<tags:panelBox title="Register">
-				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Register" requiresMultiSite="${requiresMultiSite}"/>
-			</tags:panelBox>
-		</c:if>
-			
-		<c:if test="${registerableWithCompanions &&(command.shouldRandomize) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
-			<tags:panelBox title="Enroll & Randomize">
-				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll & Randomize" requiresMultiSite="${requiresMultiSite}"/>
-			</tags:panelBox>
-		</c:if>
-			
-		<c:if test="${registerableWithCompanions &&(!command.shouldRandomize || hasCompanions) && command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending'}">
-			<tags:panelBox title="Enroll">
-				<registrationTags:register registration="${command.studySubject}" newReg="${newRegistration}" actionButtonLabel="Enroll" requiresMultiSite="${requiresMultiSite}"/>
-			</tags:panelBox>
-		</c:if>
 	</c:when>
 	<c:otherwise>
-		<tags:panelBox>
-			<center><b>No Companion Associated with this
-			Registration.</b></center>
-		</tags:panelBox>
-	</c:otherwise>
+		<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
+			<div align="center"><fmt:message key="REGISTRATION.NO_COMAPNION_REGISTRATION_INVOLVED"/></div><br>
+		</tags:formPanelBox>	</c:otherwise>
 </c:choose>
 </body>
 </html>
