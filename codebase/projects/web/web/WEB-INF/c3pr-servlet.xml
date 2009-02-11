@@ -699,20 +699,5 @@
     </bean>
 
 
-    <bean name="/registration/updateConsentVersion" id="updateConsentVersion"
-          class="edu.duke.cabig.c3pr.web.registration.UpdateConsentVersionController" autowire="byName">
-		<property name="formView" value="registration/update_consent_version" />
-		<property name="successView" value="registration/reg_overview"/>
-    </bean>
-	<!-- bean name="/registration/updateRegistration" id="updateRegistration"
-          class="edu.duke.cabig.c3pr.web.registration.UpdateRegistrationController" autowire="byName">
-		<property name="formView" value="registration/update_registration" />
-    </bean -->
-	<bean name="/registration/takeSubjectOffStudy" id="takeSubjectOffStudy"
-          class="edu.duke.cabig.c3pr.web.registration.TakeSubjectOffStudyController" autowire="byName">
-		<property name="formView" value="registration/take_subject_offstudy" />
-		<property name="successView" value="registration/reg_overview"/>
-    </bean>
-    
 
 </beans>
