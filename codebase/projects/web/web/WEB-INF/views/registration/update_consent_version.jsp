@@ -1,19 +1,5 @@
 <%@ include file="taglibs.jsp"%>
-<style type="text/css">
-		div.row div.label {
-			width:15em;
-		}
-		div.row div.value {
-			margin-left:16em;
-		}
-		#main {
-			top:35px;
-		}
-</style>
 <script>
-function closePopup(){
-	parent.closePopup();
-}
 
 function setVersion(box){
 	cv = $('consentVersion');
@@ -26,21 +12,9 @@ function setVersion(box){
 }
 
 function updateConsentVersion(id){
-	$("consentVersionForm").submit();
-	parent.refreshEnrollmentSection(id);
+	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'consentVersionForm'"  viewName="/registration/enrollmentSection" />
 	closePopup();
 }
-
-ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-	var id = ${command.studySubject.id}
-    if(formElement.id=="consentVersionForm" && continueSubmission){
-    	parent.refreshEnrollmentSection(id);
-  	};
-	return continueSubmission;
-} 
-
-
-
 </script>
 <form:form id="consentVersionForm">
 <input type="hidden" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
@@ -66,8 +40,9 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </chrome:box>
 <div class="flow-buttons">
    	<span class="next">
-		<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="updateConsentVersion(${command.studySubject.id});"/>
+		<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="updateConsentVersion();"/>
 		<input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png"  onclick="closePopup();"/>
+		<input type="button" value="Save" onclick="updateConsentVersion();"/>
 	</span>
 </div>
 </form:form>

@@ -1,34 +1,11 @@
 <%@ include file="taglibs.jsp"%>
-<style type="text/css">
-		div.row div.label {
-			width:5em;
-		}
-		div.row div.value {
-			margin-left:6em;
-		}
-		#main {
-			top:35px;
-		}
-</style>
-
 <script>
-function closePopup(){
-	parent.closePopup();
-}
 
-function takeSubjectOffStudy(id){
-	$("offStudyStatusForm").submit();
-	parent.refreshEnrollmentSection(id);
+function takeSubjectOffStudy(){
+	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'offStudyStatusForm'"  viewName="/registration/enrollmentSection" />
 	closePopup();
 }
 
-ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-	var id = ${command.studySubject.id}
-    if(formElement.id=="offStudyStatusForm" && continueSubmission){
-    	parent.refreshEnrollmentSection(id);
-  	};
-	return continueSubmission;
-} 
 </script>
 <div id="OffStudyStatus">
 <form:form id="offStudyStatusForm">
@@ -55,8 +32,9 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </chrome:box>   
 <div class="flow-buttons">
 	<span class="next">
-	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="takeSubjectOffStudy(${command.studySubject.id})"/>
+	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="takeSubjectOffStudy()"/>
         <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
+        <input type="button" value="Save" onclick="takeSubjectOffStudy();"/>
     </span>
 </div>  
 </form:form>

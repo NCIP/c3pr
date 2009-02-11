@@ -56,13 +56,15 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	        	icv.value="";             
 	        }       
 	    }   
+		function editRegistration(){
+	    	<tags:tabMethod method="editRegistration" divElement="'editRegistrationSection'" formName="'editRegistrationForm'"  viewName="/registration/edit_registration_section" />
+	    	closePopup();
+		} 
 
-	    function editRegistration(id){
-			alert(id);
-		} 						
 </script>
-<form:form id="editRegistration">
+<form:form id="editRegistrationForm">
 <chrome:box title="Edit Registration">
+	<tags:tabFields tab="${tab}"/>
 	<input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
 	<form:hidden path="studySubject.informedConsentVersion"/>
 	<div class="row">
@@ -73,6 +75,16 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySite.study.consentVersion}</em></div>
 		<div class="value"><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
 				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.epoch.arm"/></div>
+		<div class="value">
+			<form:select id="paymentMethod" path="studySubject.scheduledEpoch.scheduledArms[0].arm">
+				<option value="">Please select</option>
+				<form:options items="${command.studySubject.scheduledEpoch.epoch.arms}" itemLabel="name" itemValue="id"/>
+			</form:select>
+			<tags:hoverHint keyProp="studySubject.selectArm"/>
+		</div>
 	</div>
 	<div class="row">
 		<div class="label"><fmt:message key="registration.startDate"/></div>
@@ -145,21 +157,12 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 			<tags:hoverHint keyProp="studySubject.primaryDisease"/>
 		</div>
 	</div>
-	<div class="row">
-		<div class="label"><fmt:message key="study.epoch.arm"/></div>
-		<div class="value">
-			<form:select id="paymentMethod" path="studySubject.scheduledEpoch.scheduledArms[0].arm">
-				<option value="">Please select</option>
-				<form:options items="${command.studySubject.scheduledEpoch.epoch.arms}" itemLabel="name" itemValue="id"/>
-			</form:select>
-			<tags:hoverHint keyProp="studySubject.selectArm"/>
-		</div>
-	</div>
 </chrome:box>
 <div class="flow-buttons">
 	<span class="next">
-	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="editRegistration(${command.studySubject.id})"/>
-        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
-    </span>
-</div>  
+		<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="editRegistration();"/>
+		<input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
+		<input type="button" value="Save" onclick="editRegistration();"/>
+	</span>
+</div>
 </form:form>

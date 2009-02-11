@@ -68,20 +68,6 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     }
     
     @Override
-    protected void postProcessPage(HttpServletRequest request, Object command,Errors errors, int page) throws Exception {
-    	StudySubjectWrapper wrapper = (StudySubjectWrapper)command ;
-    	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
-    	if(identifier != null){
-    		List<Identifier> identifiers=new ArrayList<Identifier>();
-    		identifiers.add(identifier);
-    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
-    		studySubjectDao.initialize(studySubject);
-    		wrapper.setStudySubject(studySubject);
-    	}
-    	super.postProcessPage(request, command, errors, page);
-    }
-    
-    @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
     	// this condition is added to transfer epoch, if epoch doesn't require additional input from the user.
     	if(WebUtils.hasSubmitParameter(request, "epoch")){
@@ -128,5 +114,19 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     @Override
     protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
     	return false;
+    }
+    
+    @Override
+    protected void postProcessPage(HttpServletRequest request, Object command,Errors errors, int page) throws Exception {
+    	super.postProcessPage(request, command, errors, page);
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper)command ;
+    	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+    	if(identifier != null){
+    		List<Identifier> identifiers=new ArrayList<Identifier>();
+    		identifiers.add(identifier);
+    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    		studySubjectDao.initialize(studySubject);
+    		wrapper.setStudySubject(studySubject);
+    	}
     }
 }

@@ -55,6 +55,22 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	public RegistrationOverviewTab() {
 		super("Overview", "Overview", "registration/reg_overview");
 	}
+	
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
+	
+	public StudySubjectService getStudySubjectService() {
+		return studySubjectService;
+	}
+
+	public void setStudySubjectService(StudySubjectService studySubjectService) {
+		this.studySubjectService = studySubjectService;
+	}
 
 	@Override
 	public Map<String, Object> referenceData(C command) {
@@ -155,25 +171,9 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 
-	public StudySubjectService getStudySubjectService() {
-		return studySubjectService;
-	}
-
-	public void setStudySubjectService(StudySubjectService studySubjectService) {
-		this.studySubjectService = studySubjectService;
-	}
-
 	public ModelAndView refreshEnrollmentSection(HttpServletRequest request,
 			Object obj, Errors errors) {
-		StudySubjectWrapper wrapper = (StudySubjectWrapper) obj;
-		String regId = request.getParameter("registrationId");
-		StudySubject studySubject = studySubjectDao.getById(Integer
-				.parseInt(regId));
-		studySubjectDao.initialize(studySubject);
-		wrapper.setStudySubject(studySubject);
-		HashMap map = new HashMap();
-		map.put("command", wrapper);
-		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
 
 	private boolean canEditRegistration(StudySubject studySubject) {
@@ -288,11 +288,9 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		}
 	}
 
-	public StudyDao getStudyDao() {
-		return studyDao;
+	
+    public ModelAndView editRegistration(HttpServletRequest request, Object command , Errors error) {
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
 
-	public void setStudyDao(StudyDao studyDao) {
-		this.studyDao = studyDao;
-	}
 }

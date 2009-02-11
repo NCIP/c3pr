@@ -59,7 +59,7 @@
 		function closePopup() {
 			win.close();
 		}
-
+/*
 		function updateConsentVersion(registartionId){
 			win = new Window({title: "Reconsent", 
 				zIndex:100, width:500, height:180 , minimizable:false, maximizable:false,
@@ -71,6 +71,7 @@
 			win.showCenter(true)
 		}
 	
+
 		function takeSubjectOffStudy(registartionId){
 			win = new Window({title: "Take subject off study", 
 				zIndex:100, width:400, height:200 ,minimizable:false, maximizable:false,
@@ -81,7 +82,8 @@
 				) 
 			win.showCenter(true)
 		}
-
+*/
+		
 		function changeEpochPopup(){
 			var arr= $$("#changeEpoch");
 			win = new Window({maximizable: false, className :"mac_os_x", title: "Change Epoch", 
@@ -92,6 +94,17 @@
 			win.setContent(arr[0]) ;
 			win.showCenter(true);
 	 	}
+
+		function takeSubjectOffStudyPopup(){
+			var arr= $$("#takeSubjectOffStudy");
+			win = new Window({maximizable: false, className :"mac_os_x", title: "Take Subject Off Study", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:400, height:225 , minimizable:false, maximizable:false,
+									showEffect:Element.show, 
+									}) 
+			win.setContent(arr[0]) ;
+			win.showCenter(true);
+		}
 
 		function editRegistrationPopup(){
 			var arr= $$("#editRegistration");
@@ -104,9 +117,17 @@
 			win.showCenter(true);
 	 	}
 
-		function refreshEnrollmentSection(regId){
-			<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'command'"  viewName="/registration/enrollmentSection" javaScriptParam="'registrationId='+regId"/>
-		}
+		function reconsentPopup(){
+			var arr= $$("#reconsent");
+			win = new Window({maximizable: false, className :"mac_os_x", title: "Reconsent", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:500, height:180 , minimizable:false, maximizable:false,
+									showEffect:Element.show, 
+									}) 
+			win.setContent(arr[0]) ;
+			win.showCenter(true);
+	 	}
+		
     </script>
 </head>
 <body>
@@ -116,11 +137,9 @@
 		</c:if>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 			<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
-			<c:if test="${reconsentRequired}">
-				<tags:oneControlPanelItem linkhref="javascript:updateConsentVersion(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
-			</c:if>
+				<tags:oneControlPanelItem linkhref="javascript:reconsentPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
 	    	<c:if test="${takeSubjectOffStudy}">
-				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudy(${command.studySubject.id});" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
+				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
 			</c:if>
     	</csmauthz:accesscontrol>
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
@@ -242,6 +261,7 @@
         </div>
   </div>
 </chrome:division>
+<div id="editRegistrationSection">
 <chrome:division id="Current Epoch Information" title="Epoch & Arm">
     <div class="leftpanel">
         <div class="row">
@@ -379,6 +399,7 @@
         </div>
 </div>
 </chrome:division>
+</div>
 </div>
 <chrome:division id="identifiers" title="Identifiers">
     <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
@@ -571,11 +592,22 @@
 	<%@ include file="reg_change_epoch.jsp"%>
 </div>
 </div>
-<div id="editRegistrationSection" style="display:none;">
+<div id="editRegistrationPage" style="display:none;">
 <div id="editRegistration" >
 	<%@ include file="reg_edit_registration.jsp"%>
 </div>
 </div>
+<div id="takeSubjectOffStudyPage" style="display:none;">
+<div id="takeSubjectOffStudy" >
+	<%@ include file="take_subject_offstudy.jsp"%>
+</div>
+</div>
+<div id="reconsentPage" style="display:none;">
+<div id="reconsent" >
+	<%@ include file="update_consent_version.jsp"%>
+</div>
+</div>
+
 <form:form id="exportForm" method="post">
     <tags:tabFields tab="${tab}"/>
     <input type="hidden" name="_action" value="export"/>
