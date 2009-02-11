@@ -60,8 +60,8 @@
 		enctype="multipart/form-data">
 		<table border="0" width="50%" id="table0" cellspacing="5">
 			<tr>
-				<td width="35%" align="right" class=""><tags:requiredIndicator /><b>Select
-				Epoch:</b></td>
+				<td width="35%" align="right" class=""><tags:requiredIndicator /><b><fmt:message key="study.eligibility.selectEpoch"/>
+				</b></td>
 				<td width="65%"><select name="name" class="validate-notEmpty">
 					<option value="">Please Select</option>
 					<c:forEach items="${command.study.epochs}" var="epoch"
@@ -71,8 +71,8 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td width="35%" align="right"><b>Select caDSR File to
-				Import:</b></td>
+				<td width="35%" align="right"><b><fmt:message key="study.eligibility.selectcaDSRFileToImport"/>
+				</b></td>
 				<td><input type="file" name="study.criteriaFile" /> <input
 					type='submit' value='Upload' /> <tags:hoverHint
 					keyProp="study.criteriafile" /></td>
@@ -117,10 +117,10 @@
 							class="tablecontent">
 							<tr id="hInclusionEligibility--${epochCount.index}"
 								<c:if test="${fn:length(epoch.inclusionEligibilityCriteria) == 0}">style="display:none;"</c:if>>
-								<th><span class="label"><tags:requiredIndicator />Question</span>&nbsp;<tags:hoverHint
+								<th><span class="label"><tags:requiredIndicator /><fmt:message key="study.question"/></span>&nbsp;<tags:hoverHint
 									id="study.inclusionEligibilityCriteria.questionText-${epochCount.index}"
 									keyProp="study.inclusionEligibilityCriteria.questionText" /></th>
-								<th><span class="label">N/A</span>&nbsp;<tags:hoverHint
+								<th><span class="label"><fmt:message key="c3pr.common.notApplicable"/></span>&nbsp;<tags:hoverHint
 									id="NA" keyProp="NA" /></th>
 								<th></th>
 							</tr>
@@ -165,10 +165,10 @@
 							id="addExclusionRowTable-${epochCount.index}">
 							<tr id="hExclusionEligibility-${epochCount.index}"
 								<c:if test="${fn:length(epoch.exclusionEligibilityCriteria) == 0}">style="display:none;"</c:if>>
-								<th><span class="label"><tags:requiredIndicator />Question</span>&nbsp;<tags:hoverHint
+								<th><span class="label"><tags:requiredIndicator /><fmt:message key="study.question"/></span>&nbsp;<tags:hoverHint
 									id="study.exclusionEligibilityCriteria.questionText-${epochCount.index}"
 									keyProp="study.exclusionEligibilityCriteria.questionText" /></th>
-								<th>N/A</th>
+								<th><fmt:message key="c3pr.common.notApplicable"/></th>
 								<th></th>
 							</tr>
 							<c:forEach varStatus="status" var="eeCrit"
