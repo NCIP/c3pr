@@ -2,9 +2,9 @@
 <message xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
     <registration>
         <studySite gridId="e8e74068-5a1e-41be-b23f-c59820535e2d">
-            <healthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
+            <localHealthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
                 <nciInstituteCode>NU healthcare</nciInstituteCode>
-            </healthcareSite>
+            </localHealthcareSite>
             <irbApprovalDate>2008-08-28</irbApprovalDate>
             <startDate>2008-08-28</startDate>
         </studySite>
@@ -16,9 +16,9 @@
                 <type>Coordinating Center Identifier</type>
                 <value>test id</value>
                 <primaryIndicator>true</primaryIndicator>
-                <healthcareSite gridId="4bc21edb-04de-4058-8f97-0d89f2164dfd">
+                <localHealthcareSite gridId="4bc21edb-04de-4058-8f97-0d89f2164dfd">
                     <nciInstituteCode>DUKE NCI</nciInstituteCode>
-                </healthcareSite>
+                </localHealthcareSite>
             </identifier>
         </studyRef>
         <participant>
@@ -33,9 +33,9 @@
                 <type>MRN</type>
                 <value>test id0.30306858374150003</value>
                 <primaryIndicator>true</primaryIndicator>
-                <healthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
+                <localHealthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
                     <nciInstituteCode>NU healthcare</nciInstituteCode>
-                </healthcareSite>
+                </localHealthcareSite>
             </identifier>
         </participant>
         <startDate>2008-08-28</startDate>
@@ -96,9 +96,9 @@
             <type>MRN</type>
             <value>test id0.30306858374150003</value>
             <primaryIndicator>true</primaryIndicator>
-            <healthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
+            <localHealthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
                 <nciInstituteCode>NU healthcare</nciInstituteCode>
-            </healthcareSite>
+            </localHealthcareSite>
         </identifier>
     </participant>
     <scheduledArm>

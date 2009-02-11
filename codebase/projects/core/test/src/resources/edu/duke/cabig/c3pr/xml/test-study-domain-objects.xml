@@ -16,12 +16,12 @@
             <value>zzzzzzzzaaaaaazzzz</value>
             <type>Coordinating Center Identifier</type>
             <primaryIndicator>false</primaryIndicator>
-            <healthcareSite>
+            <localHealthcareSite>
                 <name>duke healthcare</name>
                 <descriptionText>duke healthcare</descriptionText>
                 <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
                 <nciInstituteCode>NC010</nciInstituteCode>
-            </healthcareSite>
+            </localHealthcareSite>
         </organizationAssignedIdentifier>
         <epoch>
             <name>epoch1</name>
@@ -44,35 +44,35 @@
             <irbApprovalDate>2008-09-05</irbApprovalDate>
             <startDate>2008-09-05</startDate>
             <siteStudyStatus>PENDING</siteStudyStatus>
-            <healthcareSite>
+            <localHealthcareSite>
                 <name>duke healthcare</name>
                 <descriptionText>duke healthcare</descriptionText>
                 <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
                 <nciInstituteCode>NC010</nciInstituteCode>
-            </healthcareSite>
+            </localHealthcareSite>
         </studySite>
     </study>
     <organizationAssignedIdentifier>
         <value>zzzzzzzzaaaaaazzzz</value>
         <type>Coordinating Center Identifier</type>
         <primaryIndicator>false</primaryIndicator>
-        <healthcareSite>
+        <localHealthcareSite>
             <name>duke healthcare</name>
             <descriptionText>duke healthcare</descriptionText>
             <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
             <nciInstituteCode>NC010</nciInstituteCode>
-        </healthcareSite>
+        </localHealthcareSite>
     </organizationAssignedIdentifier>
     <studySite>
         <irbApprovalDate>2008-09-05</irbApprovalDate>
         <startDate>2008-09-05</startDate>
         <siteStudyStatus>PENDING</siteStudyStatus>
-        <healthcareSite>
+        <localHealthcareSite>
             <name>duke healthcare</name>
             <descriptionText>duke healthcare</descriptionText>
             <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
             <nciInstituteCode>NC010</nciInstituteCode>
-        </healthcareSite>
+        </localHealthcareSite>
     </studySite>
     <studyInvestigator>
         <roleCode>role1</roleCode>
@@ -86,10 +86,10 @@
             </investigator>
         </healthcareSiteInvestigator>
     </studyInvestigator>
-    <healthcareSite>
+    <localHealthcareSite>
         <name>duke healthcare</name>
         <descriptionText>duke healthcare</descriptionText>
         <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
         <nciInstituteCode>NC010</nciInstituteCode>
-    </healthcareSite>
+    </localHealthcareSite>
 </message>

@@ -100,7 +100,7 @@
         </arm>
     </epoch>
     <studySite>
-        <healthcareSite>
+        <localHealthcareSite>
             <name>duke healthcare</name>
             <descriptionText>duke healthcare</descriptionText>
             <address>
@@ -111,14 +111,14 @@
                 <countryCode>USA</countryCode>
             </address>
             <nciInstituteCode>Duke</nciInstituteCode>
-        </healthcareSite>
+        </localHealthcareSite>
         <irbApprovalDate>0006-06-23</irbApprovalDate>
         <roleCode>role</roleCode>
         <startDate>0006-06-24</startDate>
         <endDate>0006-06-25</endDate>
     </studySite>
     <studyFundingSponsor>
-        <healthcareSite>
+        <localHealthcareSite>
             <name>National Cancer Institute</name>
             <descriptionText>National Cancer Institute</descriptionText>
             <address>
@@ -129,10 +129,10 @@
                 <countryCode>USA</countryCode>
             </address>
             <nciInstituteCode>NCI</nciInstituteCode>
-        </healthcareSite>
+        </localHealthcareSite>
     </studyFundingSponsor>
     <studyCoordinatingCenter>
-        <healthcareSite>
+        <localHealthcareSite>
             <name>Duke</name>
             <descriptionText>Duke</descriptionText>
             <address>
@@ -143,7 +143,7 @@
                 <countryCode>USA</countryCode>
             </address>
             <nciInstituteCode>Duke</nciInstituteCode>
-        </healthcareSite>
+        </localHealthcareSite>
         <studyInvestigator>
             <roleCode>Coordinating Site</roleCode>
             <healthcareSiteInvestigator>
