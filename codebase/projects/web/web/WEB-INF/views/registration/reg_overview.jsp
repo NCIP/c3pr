@@ -88,7 +88,7 @@
 			var arr= $$("#changeEpoch");
 			win = new Window({maximizable: false, className :"mac_os_x", title: "Change Epoch", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:850, height:350 , minimizable:false, maximizable:false,
+									zIndex:100, width:850, height:450 , minimizable:false, maximizable:false,
 									showEffect:Element.show, 
 									}) 
 			win.setContent(arr[0]) ;
@@ -99,7 +99,7 @@
 			var arr= $$("#takeSubjectOffStudy");
 			win = new Window({maximizable: false, className :"mac_os_x", title: "Take Subject Off Study", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:400, height:225 , minimizable:false, maximizable:false,
+									zIndex:100, width:450, height:250 , minimizable:false, maximizable:false,
 									showEffect:Element.show, 
 									}) 
 			win.setContent(arr[0]) ;
@@ -131,13 +131,16 @@
     </script>
 </head>
 <body>
+	<div id="controlPanel">
 	<tags:controlPanel>
 		<c:if test="${canEdit}">
 			<tags:oneControlPanelItem linkhref="javascript:editRegistrationPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 		</c:if>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 			<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
+			<c:if test="${reconsentRequired}">	
 				<tags:oneControlPanelItem linkhref="javascript:reconsentPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
+			</c:if>
 	    	<c:if test="${takeSubjectOffStudy}">
 				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
 			</c:if>
@@ -145,6 +148,7 @@
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>
+	</div>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
@@ -160,7 +164,15 @@
 <form:form method="post" action="manageRegistration">
     <tags:tabFields tab="${tab}"/>
 </form:form>
-
+	<div id="flash-message-offstudy" style="display:none;">
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Subject has been taken off study.</div>
+	</div>
+	<div id="flash-message-reconsent" style="display:none;">
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Consent version has ben updated.</div>
+	</div>
+	<div id="flash-message-edit" style="display:none;">
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Registration has been updated.</div>
+	</div>  
 <div id="registrationSummary">
 <br/>
 <div id="printable">

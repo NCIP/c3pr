@@ -13,6 +13,17 @@ function setVersion(box){
 
 function updateConsentVersion(id){
 	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'consentVersionForm'"  viewName="/registration/enrollmentSection" />
+
+	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" />
+/*
+	var flash-message-offstudy = $('flash-message-offstudy');
+	var flash-message-reconsent = $('flash-message-reconsent');
+	var flash-message-edit = $('flash-message-edit');
+	flash-message-edit.style.display = "none";
+	flash-message-reconsent.style.display = "";
+	flash-message-offstudy.style.display = "none";
+*/
+	
 	closePopup();
 }
 </script>

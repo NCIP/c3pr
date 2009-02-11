@@ -57,7 +57,19 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	        }       
 	    }   
 		function editRegistration(){
-	    	<tags:tabMethod method="editRegistration" divElement="'editRegistrationSection'" formName="'editRegistrationForm'"  viewName="/registration/edit_registration_section" />
+	    	<tags:tabMethod method="editRegistration" divElement="'editRegistrationSection'" formName="'editRegistrationForm'"  viewName="/registration/edit_registration_section" /> ;
+
+	    	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" /> ;
+/*
+	    	var flash-message-offstudy = $('flash-message-offstudy');
+	    	var flash-message-reconsent = $('flash-message-reconsent');
+	    	var flash-message-edit = $('flash-message-edit');
+	    	flash-message-edit.style.display = "";
+	    	flash-message-reconsent.style.display = "none";
+	    	flash-message-offstudy.style.display = "none";
+*/
+
+	    	
 	    	closePopup();
 		} 
 

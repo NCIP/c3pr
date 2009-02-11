@@ -3,6 +3,30 @@
 
 function takeSubjectOffStudy(){
 	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'offStudyStatusForm'"  viewName="/registration/enrollmentSection" />
+	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" />
+/*
+	var flash-message-offstudy1 = $('flash-message-offstudy');
+	var flash-message-reconsent1 = $('flash-message-reconsent');
+	var flash-message-edit1 = $('flash-message-edit');
+	flash-message-edit1.style.display = "none";
+	flash-message-reconsent1.style.display = "none";
+	flash-message-offstudy1.style.display = "";
+*/
+	closePopup();
+}
+
+function confirmTakeSubjectOffStudy(){
+	var subjectOffStudySection = $('OffStudyStatus');
+	var confirmationSection = $('confirmTakeSubjectOffStudy');
+	subjectOffStudySection.style.display = "none";
+	confirmationSection.style.display = "";
+}
+
+function cancelTakeSubjectOffStudy(){
+	var subjectOffStudySection = $('OffStudyStatus');
+	var confirmationSection = $('confirmTakeSubjectOffStudy');
+	subjectOffStudySection.style.display = "";
+	confirmationSection.style.display = "none";
 	closePopup();
 }
 
@@ -32,9 +56,9 @@ function takeSubjectOffStudy(){
 </chrome:box>   
 <div class="flow-buttons">
 	<span class="next">
-	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="takeSubjectOffStudy()"/>
+	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="confirmTakeSubjectOffStudy()"/>
         <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
-        <input type="button" value="Save" onclick="takeSubjectOffStudy();"/>
+        <input type="button" value="Save" onclick="confirmTakeSubjectOffStudy();"/>
     </span>
 </div>  
 </form:form>
@@ -50,3 +74,15 @@ Calendar.setup(
 }
 );
 </script>
+<div id="confirmTakeSubjectOffStudy" style="display:none;">
+<chrome:box>
+	<div class="info">You are about to take subject off study. This step is irreversible. Please click OK to confirm.</div>
+	<br>
+	</chrome:box>
+	<div class="flow-buttons">
+	<span class="next">
+	<input type="button" value="OK" onclick="takeSubjectOffStudy();"/>
+	<input type="button" value="Cancel" onclick="cancelTakeSubjectOffStudy();"/>
+	</span>
+	</div>
+</div>
