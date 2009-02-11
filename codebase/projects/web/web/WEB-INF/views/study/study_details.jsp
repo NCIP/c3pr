@@ -187,7 +187,7 @@
     <div class="leftpanel">
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Short Title:</div>
+                <fmt:message key="study.shortTitle"/></div>
             <div class="value"><form:input path="study.shortTitleText" size="35"
                                            maxlength="30" cssClass="validate-notEmpty" id="_shortTitle"/>
             <tags:hoverHint keyProp="study.shortTitleText"/>
@@ -196,7 +196,7 @@
 
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Long Title:</div>
+                <fmt:message key="study.longTitle"/></div>
             <div class="value"><form:textarea path="study.longTitleText" rows="2"
                                               cols="33" cssClass="validate-notEmpty&&maxlength1024" />
             <tags:hoverHint keyProp="study.longTitleText"/>
@@ -205,14 +205,14 @@
         </div>
 
         <div class="row">
-            <div class="label">Description:</div>
+            <div class="label"><fmt:message key="c3pr.common.description"/></div>
             <div class="value"><form:textarea path="study.descriptionText" rows="2"
                                               cols="33" cssClass="validate-maxlength2000" />
             <tags:hoverHint keyProp="study.description"/></div>
         </div>
 
         <div class="row">
-            <div class="label">Precis:</div>
+            <div class="label"><fmt:message key="study.precis"/></div>
             <div class="value"><form:textarea path="study.precisText" rows="2"
                                               cols="33" cssClass="validate-maxlength200" />
             <tags:hoverHint keyProp="study.precisText"/>
@@ -222,7 +222,7 @@
 
     <div class="rightpanel">
         <div class="row">
-            <div class="label"><tags:requiredIndicator />Target Accrual:</div>
+            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.targetAccrual"/></div>
             <div class="value"><form:input path="study.targetAccrualNumber" size="10" maxlength="6"
                                            cssClass="validate-notEmpty&&numeric&&nonzero_numeric" />
             <tags:hoverHint keyProp="study.targetAccrualNumber"/></div>
@@ -230,7 +230,7 @@
 
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Type:</div>
+                <fmt:message key="study.type"/></div>
             <div class="value"><form:select path="study.type"
                                             cssClass="validate-notEmpty" >
                 <option value="">Please Select</option>
@@ -242,7 +242,7 @@
       
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Phase:</div>
+                <fmt:message key="study.phase"/></div>
             <div class="value"><form:select path="study.phaseCode"
                                             cssClass="validate-notEmpty" >
                 <option value="">Please Select</option>
@@ -254,7 +254,7 @@
 
 		<div class="row">
                     <div class="label">
-                        Blinded:</div>
+                        <fmt:message key="study.blinded"/></div>
 		<c:choose>
             <c:when test="${not empty command.study.id}">
                 
@@ -274,14 +274,14 @@
             <c:when test="${not empty command.study.id}">
                 <div class="row">
                     <div class="label"><tags:requiredIndicator />
-                        Multi-Institutional:</div>
+                        <fmt:message key="study.multiInstitution"/></div>
                     <div class="value">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.multiInstitutionIndicator"/></div>
                 </div>
             </c:when>
             <c:otherwise>
                 <div class="row">
                     <div class="label"><tags:requiredIndicator />
-                        Multi-Institutional:</div>
+                        <fmt:message key="study.multiInstitution"/></div>
                     <div class="value"><form:select path="study.multiInstitutionIndicator"
                                                    cssClass="validate-notEmpty" >
                         <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
@@ -291,7 +291,7 @@
          </c:choose>
 
          <div class="row">
-             <div class="label"><tags:requiredIndicator />Consent Version/Date:</div>
+             <div class="label"><tags:requiredIndicator /><fmt:message key="study.consentVersionDate"/></div>
              <div class="value">
              <tags:dateInput path="study.consentVersion" validateDate="false" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
              <tags:hoverHint keyProp="study.consentVersion"/></div>
@@ -312,7 +312,7 @@
     <div class="leftpanel">
     
     		<div class="row">
-         		<div class="label"><tags:requiredIndicator />Stratified:</div>	
+         		<div class="label"><tags:requiredIndicator /><fmt:message key="study.stratified"/></div>	
          		<div class="value"><form:select path="study.stratificationIndicator" cssClass="validate-notEmpty">
          		<option value="">Please Select</option>
          		<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
@@ -323,7 +323,7 @@
          	
 	        <div class="row">
 		            <div class="label"><tags:requiredIndicator />
-		                Randomized:</div>
+		                <fmt:message key="study.randomized"/></div>
 		            <div class="value"><form:select path="study.randomizedIndicator"
 		                                            onchange="manageRandomizedIndicatorSelectBox(this);" 
 		                                            cssClass="validate-notEmpty"
@@ -341,7 +341,7 @@
                 						command.study.blindedIndicator == 'false'}">style="display:none;"</c:if>>
 
             <div class="row">
-                <div class="label"><tags:requiredIndicator />Type:</div>
+                <div class="label"><tags:requiredIndicator /><fmt:message key="study.type"/></div>
                 <div class="value"><form:select id="randomizationType" path="study.randomizationType" onchange="manageRandomizationTypeSelectBox(this);"  disabled="${command.study.blindedIndicator == 'true'}">
                     <form:option label="Please Select" value=""/>
                     <form:option label="Book" value="BOOK"/>
@@ -360,7 +360,7 @@
          <div id="coordinatingCenter">
             	<div class="leftpanel">
                 	 <div class="row">
-		                        <div class="label"><tags:requiredIndicator />Name:</div>
+		                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.name"/></div>
 						                        <div class="value">
 									<c:set var="_codeCoord" value="" />
 									<c:set var="_nameCoord" value="" />
@@ -385,7 +385,7 @@
 			    
 				<div class="rightpanel">
                     <div class="row">
-                        <div class="label"><tags:requiredIndicator />Study Identifier:</div>
+                        <div class="label"><tags:requiredIndicator /><fmt:message key="study.studyIdentifier"/></div>
                         <div class="value">
                         	<input type="text" name="study.organizationAssignedIdentifiers[0].value" 
 								size="30" maxlength="30"
@@ -412,7 +412,7 @@
    <div id="fundingSponsor">
      <div class="leftpanel">
         <div class="row">
-            <div class="label">Name:</div>
+            <div class="label"><fmt:message key="c3pr.common.name"/></div>
             <div class="value">
 
 <c:set var="_code" value="" />
@@ -438,7 +438,7 @@
 	</div>
 	<div class="rightpanel">
         <div class="row">
-            <div class="label">Study Identifier:</div>
+            <div class="label"><fmt:message key="study.studyIdentifier"/></div>
             <div class="value">
             	<div id="fundingSponId">
 	            	<input type="text" name="study.organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="30"
@@ -469,7 +469,7 @@
 								<c:set var="_codeOrgPI" value="(${command.study.principalInvestigatorStudyOrganization.healthcareSite.nciInstituteCode})" />
 								<c:set var="_nameOrgPI" value="${command.study.principalInvestigatorStudyOrganization.healthcareSite.name}" />
 							</c:if>
-	                        <div class="label"><tags:requiredIndicator />Organization:</div>
+	                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
 	                        <div class="value"><input type="hidden" id="piCoCenter-hidden"
 							name="piCoCenter-hidden" value="${command.study.id==null?"":command.study.principalInvestigatorStudyOrganization.healthcareSite.id}"/>
 							<input id="piCoCenter-input" size="38" type="text"
@@ -490,7 +490,7 @@
 									<c:set var="_codePI" value="(${command.study.principalInvestigator.investigator.nciIdentifier})" />
 									<c:set var="_namePI" value="${command.study.principalInvestigatorFullName}" />
 								</c:if>
-		                        <div class="label"><tags:requiredIndicator />Principal Investigator:</div>
+		                        <div class="label"><tags:requiredIndicator /><fmt:message key="study.principalInvestigator"/></div>
 		                        <div class="value"> <input type="hidden" id="hcsInvestigator-hidden"
 	                               name="hcsInvestigator-hidden" value="${command.study.id==null?"":command.study.principalInvestigator.id}"/>
 			                   <input type="text" id="hcsInvestigator-input" size="30"
