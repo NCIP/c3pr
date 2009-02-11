@@ -1,10 +1,15 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.acegisecurity.Authentication;
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +25,7 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
+import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
@@ -77,6 +83,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
 		StudySubject studySubject = wrapper.getStudySubject();
 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, List<Lov>> configMap = configurationProperty.getMap();
 		boolean actionRequired = false;
 		boolean newRegistration = false;
 		String actionLabel = "";
@@ -127,7 +134,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 				.getStudy().getStudyCoordinatingCenter()
 				.getRegistrationEndpoints().size() > 0));
 		registrationControllerUtils.addAppUrls(map);
-    	refdata.put("paymentMethods", configMap.get("paymentMethods"));
+    	map.put("paymentMethods", configMap.get("paymentMethods"));
 		return map;
 	}
 
@@ -178,12 +185,28 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	}
 
 	private boolean canEditRegistration(StudySubject studySubject) {
-		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY) {
+		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && isAdmin()) {
 			return true;
 		}
 		return false;
 	}
+	
+	private Boolean isAdmin() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication auth = context.getAuthentication();
+        if (auth != null) {
+            GrantedAuthority[] groups = auth.getAuthorities();
+            for (GrantedAuthority ga : groups) {
+                if (ga.getAuthority().endsWith("admin")) {
+                    return new Boolean(true);
+                }
+            }
+        }
 
+        return new Boolean(false);
+    }
+
+	
 	private boolean reconsentRequired(StudySubject studySubject) {
 		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY
 				&& !(studySubject.getInformedConsentVersion()).equals(studySubject

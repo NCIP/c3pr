@@ -75,26 +75,40 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<form:hidden path="studySubject.informedConsentVersion"/>
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
-		<div class="value"><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
+		<div class="value">
+			<input type="text" name="studySubject.informedConsentSignedDate" value="${command.studySubject.informedConsentSignedDateStr}" id="consentSignedDate" class="date validate-DATE" />
+            <a href="#" id="consentSignedDate-calbutton">
+           	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+           	</a>
+				<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
+		</div>
 	</div>
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySite.study.consentVersion}</em></div>
 		<div class="value"><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
 				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
 	</div>
+	<c:if test="${command.studySubject.isDirectArmAssigment}">
 	<div class="row">
 		<div class="label"><fmt:message key="study.epoch.arm"/></div>
 		<div class="value">
-			<form:select id="paymentMethod" path="studySubject.scheduledEpoch.scheduledArms[0].arm">
+			<form:select id="ArmSelection" path="studySubject.scheduledEpoch.scheduledArms[0].arm">
 				<option value="">Please select</option>
 				<form:options items="${command.studySubject.scheduledEpoch.epoch.arms}" itemLabel="name" itemValue="id"/>
 			</form:select>
 			<tags:hoverHint keyProp="studySubject.selectArm"/>
 		</div>
 	</div>
+	</c:if>
 	<div class="row">
 		<div class="label"><fmt:message key="registration.startDate"/></div>
-		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
+		<div class="value">
+			<input type="text" name="studySubject.startDate" id="startDate" value="${ command.studySubject.startDateStr}" class="date validate-DATE" />
+            <a href="#" id="startDate-calbutton">
+           	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+           	</a>
+				<tags:hoverHint keyProp="studySubject.startDate"/>
+		</div>
 	</div>
 	<div class="row">
 		<div class="label"><em></em><fmt:message key="registration.enrollingPhysician"/></div>
@@ -180,3 +194,24 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	</span>
 </div>
 </form:form>
+<script>
+inputDateElementLocal1="consentSignedDate";
+inputDateElementLink1="consentSignedDate-calbutton";
+Calendar.setup(
+{
+    inputField  : inputDateElementLocal1,         // ID of the input field
+    ifFormat    : "%m/%d/%Y",    // the date format
+    button      : inputDateElementLink1       // ID of the button
+}
+);
+
+inputDateElementLocal2="startDate";
+inputDateElementLink2="startDate-calbutton";
+Calendar.setup(
+{
+    inputField  : inputDateElementLocal2,         // ID of the input field
+    ifFormat    : "%m/%d/%Y",    // the date format
+    button      : inputDateElementLink2       // ID of the button
+}
+);
+</script>

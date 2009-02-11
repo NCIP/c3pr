@@ -35,7 +35,7 @@ function updateConsentVersion(id){
            	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            	</a>
 				<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
-			</div>
+		</div>
 	</div>
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> ${command.studySubject.studySite.study.consentVersion}</div>
