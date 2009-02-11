@@ -37,8 +37,13 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	public Object getRemoteEntityByUniqueId(String arg0) {
 		Object object = researchStaffService.getClinicalResearchStaffPerson(arg0);
 		List<ResearchStaffDTO> researchStaffDTOList = new ArrayList<ResearchStaffDTO>();
-		researchStaffDTOList.add((ResearchStaffDTO)object);
-		return convertToResearchStaff(researchStaffDTOList, null).get(0);
+		if(object!=null){
+			researchStaffDTOList.add((ResearchStaffDTO)object);
+			return convertToResearchStaff(researchStaffDTOList, null).get(0);
+		}
+		
+		return null;
+		
 	}
 
 	
