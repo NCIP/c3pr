@@ -61,8 +61,8 @@ function manageCompanions(){
 	  <tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>
 <form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="manageCompanion">
-	<input type="hidden" name="_page2" id="_page" value="2"/>
-	<input type="hidden" name="_target2" id="_target" value="2"/>
+	<input type="hidden" name="_page1" id="_page" value="1"/>
+	<input type="hidden" name="_target1" id="_target" value="1"/>
 </form>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>

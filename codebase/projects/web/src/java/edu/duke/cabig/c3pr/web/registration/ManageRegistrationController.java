@@ -116,17 +116,17 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     	return false;
     }
     
-    @Override
-    protected void postProcessPage(HttpServletRequest request, Object command,Errors errors, int page) throws Exception {
-    	super.postProcessPage(request, command, errors, page);
-    	StudySubjectWrapper wrapper = (StudySubjectWrapper)command ;
-    	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
-    	if(identifier != null){
-    		List<Identifier> identifiers=new ArrayList<Identifier>();
-    		identifiers.add(identifier);
-    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
-    		studySubjectDao.initialize(studySubject);
-    		wrapper.setStudySubject(studySubject);
-    	}
-    }
+//    @Override
+//    protected void postProcessPage(HttpServletRequest request, Object command,Errors errors, int page) throws Exception {
+//    	super.postProcessPage(request, command, errors, page);
+//    	StudySubjectWrapper wrapper = (StudySubjectWrapper)command ;
+//    	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+//    	if(identifier != null){
+//    		List<Identifier> identifiers=new ArrayList<Identifier>();
+//    		identifiers.add(identifier);
+//    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+//    		studySubjectDao.initialize(studySubject);
+//    		wrapper.setStudySubject(studySubject);
+//    	}
+//    }
 }

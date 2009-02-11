@@ -58,17 +58,11 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	    }   
 		function editRegistration(){
 	    	<tags:tabMethod method="editRegistration" divElement="'editRegistrationSection'" formName="'editRegistrationForm'"  viewName="/registration/edit_registration_section" /> ;
-
 	    	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" /> ;
-/*
-	    	var flash-message-offstudy = $('flash-message-offstudy');
-	    	var flash-message-reconsent = $('flash-message-reconsent');
-	    	var flash-message-edit = $('flash-message-edit');
-	    	flash-message-edit.style.display = "";
-	    	flash-message-reconsent.style.display = "none";
-	    	flash-message-offstudy.style.display = "none";
-*/
-
+			//$('editRegistrationForm').submit();
+	    	Element.hide('flash-message-offstudy');
+	    	Element.hide('flash-message-reconsent');
+	    	Element.show('flash-message-edit');
 	    	
 	    	closePopup();
 		} 
@@ -170,6 +164,14 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		</div>
 	</div>
 </chrome:box>
+<!-- 
+<div class="flow-buttons">
+	<span class="next">
+		<tags:button markupWithTag="button" color="green" value="Save" onclick="editRegistration();" icon="save" type="button"/>
+		<tags:button markupWithTag="button" color="red" value="Cancel" onclick="closePopup();" icon="x" type="button"/>
+	</span>
+</div>
+ -->
 <div class="flow-buttons">
 	<span class="next">
 		<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="editRegistration();"/>

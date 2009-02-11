@@ -4,14 +4,10 @@
 function takeSubjectOffStudy(){
 	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'offStudyStatusForm'"  viewName="/registration/enrollmentSection" />
 	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" />
-/*
-	var flash-message-offstudy1 = $('flash-message-offstudy');
-	var flash-message-reconsent1 = $('flash-message-reconsent');
-	var flash-message-edit1 = $('flash-message-edit');
-	flash-message-edit1.style.display = "none";
-	flash-message-reconsent1.style.display = "none";
-	flash-message-offstudy1.style.display = "";
-*/
+	//$('offStudyStatusForm').submit();
+	Element.show('flash-message-offstudy');
+	Element.hide('flash-message-reconsent');
+	Element.hide('flash-message-edit');
 	closePopup();
 }
 
@@ -53,14 +49,22 @@ function cancelTakeSubjectOffStudy(){
            	</a>
      	</div>
      </div>
-</chrome:box>   
+</chrome:box>
+<!--    
+<div class="flow-buttons">
+	<span class="next">
+		<tags:button markupWithTag="button" color="green" value="Save" onclick="confirmTakeSubjectOffStudy();" icon="save" type="button"/>
+		<tags:button markupWithTag="button" color="red" value="Cancel" onclick="closePopup();" icon="x" type="button"/>
+    </span>
+</div>
+-->
 <div class="flow-buttons">
 	<span class="next">
 	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="confirmTakeSubjectOffStudy()"/>
         <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
         <input type="button" value="Save" onclick="confirmTakeSubjectOffStudy();"/>
     </span>
-</div>  
+</div>    
 </form:form>
 </div>
 <script>
@@ -79,6 +83,12 @@ Calendar.setup(
 	<div class="info">You are about to take subject off study. This step is irreversible. Please click OK to confirm.</div>
 	<br>
 	</chrome:box>
+	<!-- <div class="flow-buttons">
+	<span class="next">
+		<tags:button markupWithTag="button" color="green" value="OK" onclick="takeSubjectOffStudy();" type="button"/>
+		<tags:button markupWithTag="button" color="red" value="Cancel" onclick="cancelTakeSubjectOffStudy();" type="button"/>
+	</span>
+	</div>-->
 	<div class="flow-buttons">
 	<span class="next">
 	<input type="button" value="OK" onclick="takeSubjectOffStudy();"/>
