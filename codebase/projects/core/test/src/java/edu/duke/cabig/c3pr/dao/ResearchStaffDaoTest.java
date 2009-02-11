@@ -140,7 +140,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception
      */
     public void testGetBySubnameMatchesIntersectionOfSubnamesAndSubemail() throws Exception {
-        List<ResearchStaff> actual = getDao().getBySubNameAndSubEmail(new String[] { "test" }, "code");
+        List<ResearchStaff> actual = getDao().getBySubNameAndSubEmail(new String[] { "test" }, "NC010");
         assertEquals("Wrong number of matches", 1, actual.size());
         assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
     }
@@ -233,8 +233,8 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testGetRemoteResearchStaffByOrganizationInstituteCode() throws Exception{
-    	HealthcareSite healthcareSite = new LocalHealthcareSite();
-    	healthcareSite.setNciInstituteCode("code");
+    	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);// new LocalHealthcareSite();
+//    	healthcareSite.setNciInstituteCode("NC010");
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
     	researchStaffList = getDao().getResearchStaffByOrganizationNCIInstituteCode(healthcareSite);
         assertEquals("Incorrect size", 5, researchStaffList.size());
