@@ -7,6 +7,8 @@ import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.domain.ResearchStaffDTO;
 import com.semanticbits.coppasimulator.service.ResearchStaffService;
 
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 
@@ -25,7 +27,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		
 		List<ResearchStaffDTO> researchStaffDTOList  = new ArrayList<ResearchStaffDTO>();
 		researchStaffDTOList.add(researchStaffService.getClinicalResearchStaffPerson("SBine@nci.org"));
-		researchStaffDTOList.add(researchStaffService.getClinicalResearchStaffPerson("DTrump@nci.org"));
+//		researchStaffDTOList.add(researchStaffService.getClinicalResearchStaffPerson("DTrump@nci.org"));
 		
 		//pass the healthcareSite tht was set in the exmaple object that was sent in....otherwise null
 		return convertToResearchStaff(researchStaffDTOList, remoteResearchStaff.getHealthcareSite());
@@ -57,6 +59,10 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			remoteResearchStaff.setNciIdentifier(researchStaffDTO.getNciIdentifier());
 			//set the healthcare site that was passed in
 			remoteResearchStaff.setHealthcareSite(healthcareSite);
+			ContactMechanism contactMechanism = new ContactMechanism();
+			contactMechanism.setType(ContactMechanismType.EMAIL);
+			contactMechanism.setValue(researchStaffDTO.getEmailAddress());
+			remoteResearchStaff.addContactMechanism(contactMechanism);
 			
 			remoteResearchStaff.setUniqueIdentifier(researchStaffDTO.getEmailAddress());
 			researchStaffList.add(remoteResearchStaff);
