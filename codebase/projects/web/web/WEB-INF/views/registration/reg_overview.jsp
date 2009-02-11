@@ -234,7 +234,7 @@
 	</div>
 	<div class="rightpanel">
         <div class="row">
-            <div class="label"><fmt:message key="study.multiInstitutional"/>:</div>
+            <div class="label"><fmt:message key="study.multiInstitution"/>:</div>
             <div class="value">${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</div>
         </div>
         <div class="row">
