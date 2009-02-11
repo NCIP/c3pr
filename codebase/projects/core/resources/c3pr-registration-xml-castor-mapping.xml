@@ -105,6 +105,11 @@
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
+    
+    <class name="edu.duke.cabig.c3pr.domain.LocalHealthcareSite"
+           extends="edu.duke.cabig.c3pr.domain.HealthcareSite">
+        <map-to xml="localHealthcareSite" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+    </class>
 
     <class name="edu.duke.cabig.c3pr.domain.Identifier">
         <map-to xml="identifer" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
