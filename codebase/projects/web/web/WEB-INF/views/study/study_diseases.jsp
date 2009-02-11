@@ -256,7 +256,7 @@ Event.observe(window, "load", function() {
         </div>
 
         	<tags:errors path="study.studyDiseases"/>
-            Search for a Disease Category<br>
+            <b><fmt:message key="c3pr.common.study.disease.searchForADiseaseCategory"/></b><br>
             
             <input type="hidden" id="disease-hidden"/>
             <form:input size="45" id="disease-input" path="study.diseaseCategoryAsText" cssClass="autocomplete"/>
@@ -267,12 +267,12 @@ Event.observe(window, "load", function() {
 
             <p id="disease-selected" style="display: none"></p>
 
-            <br><br>Select a Sub Category<br>
+            <br><br><b><fmt:message key="study.disease.selectASubCategory"/></b><br>
             <select multiple size="1" onmouseover="javascript:hover()" style="width:400px" id="disease-sub-category">
                 <option value="">Please select a Category first</option>
             </select>
 
-            <br><br>Diseases<br>
+            <br><br><b><fmt:message key="study.diseases"/></b><br>
             <select multiple size="1" style="width:400px" id="disease-term">
                 <option value="">Please select a Category first</option>
             </select> <span id="disease-selected-name"></span>
@@ -297,8 +297,8 @@ Event.observe(window, "load", function() {
             <c:otherwise>
                 <table border="0" width="100%" class="tablecontent">
                     <tr>
-                        <th scope="col">Disease Term</th>
-                        <th scope="col">Primary</th>
+                        <th scope="col"><fmt:message key="study.diseaseTerm"/></th>
+                        <th scope="col"><fmt:message key="c3pr.common.primary"/></th>
                     </tr>
                     <c:forEach items="${command.study.studyDiseases}" var="studyDisease"
                                varStatus="status">
