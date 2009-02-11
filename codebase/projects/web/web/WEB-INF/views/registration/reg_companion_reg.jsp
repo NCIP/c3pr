@@ -33,7 +33,7 @@
 <body>
 <form:form id="refreshPage">
 	<input type="hidden" name="_page0" id="_page0" value="0" /> 
-	<input type="hidden" name="_target2" id="_target2" value="2" /> 
+	<input type="hidden" name="_target1" id="_target1" value="1" /> 
 </form:form>
 <c:choose>
 	<c:when test="${fn:length(companions)>0}">
