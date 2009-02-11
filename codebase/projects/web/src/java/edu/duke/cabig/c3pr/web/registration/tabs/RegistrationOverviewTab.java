@@ -127,6 +127,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 				.getStudy().getStudyCoordinatingCenter()
 				.getRegistrationEndpoints().size() > 0));
 		registrationControllerUtils.addAppUrls(map);
+    	refdata.put("paymentMethods", configMap.get("paymentMethods"));
 		return map;
 	}
 
