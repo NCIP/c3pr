@@ -140,7 +140,7 @@
 
       <table width="100%" border="0" cellspacing="4" cellpadding="2">
       <tr>
-          <td align="right"><tags:requiredIndicator /><b>Name:</b></td>
+          <td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.name"/></b></td>
           <td align="left" valign="top">
               <form:input
 											path="study.epochs[${treatmentEpochCount.index}].name"
@@ -152,7 +152,7 @@
       </tr>
 
       <tr>
-          <td align="right"> <tags:requiredIndicator /><b>Order:</b> </td>
+          <td align="right"> <tags:requiredIndicator /><b><fmt:message key="study.epoch.order"/></b> </td>
           <td>
               <form:input
 											path="study.epochs[${treatmentEpochCount.index}].epochOrder"
@@ -164,7 +164,7 @@
       </tr>
       
       <tr>
-              <td align="right"><tags:requiredIndicator /><b>Treating:</b> </td>
+              <td align="right"><tags:requiredIndicator /><b><fmt:message key="study.epoch.treating"/></b> </td>
               <td>
                   <form:select
 											path="study.epochs[${treatmentEpochCount.index}].treatmentIndicator"
@@ -181,7 +181,7 @@
       </tr>
 
       <tr>
-          <td align="right"><tags:requiredIndicator /><b>Enrolling:</b> </td>
+          <td align="right"><tags:requiredIndicator /><b><fmt:message key="registration.enrolling"/></b> </td>
           <td align="left">
               <form:select
 											id="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator"
@@ -201,7 +201,7 @@
       
       <c:if test="${command.study.randomizedIndicator== true }">
       <tr>
-              <td align="right"><tags:requiredIndicator /><b>Randomized:</b> </td>
+              <td align="right"><tags:requiredIndicator /><b><fmt:message key="study.randomized"/></b> </td>
               <td>
                   <form:select
 												path="study.epochs[${treatmentEpochCount.index}].randomizedIndicator"
@@ -245,7 +245,7 @@ DELETED TD
   <td valign="top">
       <table width="100%" border="0">
       <tr>
-          <td align="right"><b>Description:</b></td>
+          <td align="right"><b><fmt:message key="c3pr.common.description"/></b></td>
           <td align="left" colspan="3"><form:textarea
 											path="study.epochs[${treatmentEpochCount.index}].descriptionText"
 											rows="5" cssClass="descTextarea" />
@@ -255,7 +255,7 @@ DELETED TD
       </tr>
       
       <tr>
-          <td align="right"><b>Accrual Ceiling:</b> </td>
+          <td align="right"><b><fmt:message key="study.accrualCeiling"/></b> </td>
           <td align="left">
               <form:input
 											path="study.epochs[${treatmentEpochCount.index}].accrualCeiling"
@@ -271,7 +271,7 @@ DELETED TD
                         <td align="right">
 										<div
 											id="reservationIndicatorLabel-${treatmentEpochCount.index}"><span
-											class=""><tags:requiredIndicator /><b>Reserving:</b></div></td>
+											class=""><tags:requiredIndicator /><b><fmt:message key="study.epoch.reserving"/></b></div></td>
                         <td align="left">
                            <div
 											id="reservationIndicator-${treatmentEpochCount.index}">
@@ -297,7 +297,7 @@ DELETED TD
         
     <c:if test="${command.study.stratificationIndicator== true }">
       <tr>
-              <td align="right"><tags:requiredIndicator /><b>Stratified:</b></td>
+              <td align="right"><tags:requiredIndicator /><b><fmt:message key="study.stratified"/></b></td>
               <td>
                   <form:select
 												path="study.epochs[${treatmentEpochCount.index}].stratificationIndicator"
@@ -337,13 +337,13 @@ DELETED TD
           
       <tr id="h-${treatmentEpochCount.index}"
 										<c:if test="${fn:length(treatmentEpoch.arms) == 0}">style="display:none;"</c:if>>
-          <th><tags:requiredIndicator />Arm<tags:hoverHint
+          <th><tags:requiredIndicator /><fmt:message key="study.epoch.arm"/><tags:hoverHint
 											id="study.arm.name-${treatmentEpochCount.index}"
 											keyProp="study.arm.name" /></th>
-          <th>Description<tags:hoverHint
+          <th><fmt:message key="c3pr.common.description"/><tags:hoverHint
 											id="study.arm.description-${treatmentEpochCount.index}"
 											keyProp="study.arm.description" /></th>
-          <th>Accrual Ceiling<tags:hoverHint
+          <th><fmt:message key="study.accrualCeiling"/><tags:hoverHint
 											id="study.arm.targetAccrualNumber-${treatmentEpochCount.index}"
 											keyProp="study.arm.targetAccrualNumber" /></th>
           <th></th>
@@ -439,7 +439,7 @@ DELETED TD
 
 					<table width="100%" border="0" cellspacing="4" cellpadding="2">
 						<tr>
-							<td align="right"><tags:requiredIndicator /><b>Name:</b></td>
+							<td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.name"/></b></td>
 							<td align="left"><input type="text"
 								name="study.epochs[PAGE.ROW.INDEX].name" size="43"
 								class="validate-notEmpty"
@@ -449,7 +449,7 @@ DELETED TD
 						</tr>
 
 						<tr>
-							<td align="right"><tags:requiredIndicator /><b>Order:</b></td>
+							<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.epoch.order"/></b></td>
 							<td align="left"><input type="text"
 								name="study.epochs[PAGE.ROW.INDEX].epochOrder" size="5"
 								maxlength="1" class="validate-notEmpty&&numeric" /><tags:hoverHint
@@ -458,7 +458,7 @@ DELETED TD
 						</tr>
 
 						<tr>
-							<td align="right"><tags:requiredIndicator /><b>Treating:</b></td>
+							<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.epoch.treating"/></b></td>
 							<td align="left"><select
 								id="study.epochs[PAGE.ROW.INDEX].treatmentIndicator"
 								name="study.epochs[PAGE.ROW.INDEX].treatmentIndicator"
@@ -473,7 +473,7 @@ DELETED TD
 						</tr>
 
 						<tr>
-							<td align="right"><tags:requiredIndicator /><b>Enrolling:</b></td>
+							<td align="right"><tags:requiredIndicator /><b><fmt:message key="registration.enrolling"/></b></td>
 							<td align="left"><select
 								id="study.epochs[PAGE.ROW.INDEX].enrollmentIndicator"
 								name="study.epochs[PAGE.ROW.INDEX].enrollmentIndicator"
@@ -489,7 +489,7 @@ DELETED TD
 
 						<c:if test="${command.study.randomizedIndicator == true}">
 							<tr>
-								<td align="right"><tags:requiredIndicator /><b>Randomized:</b></td>
+								<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.randomized"/></b></td>
 								<td align="left"><select
 									id="study.epochs[PAGE.ROW.INDEX].randomizedIndicator"
 									name="study.epochs[PAGE.ROW.INDEX].randomizedIndicator"
@@ -531,7 +531,7 @@ DELETED TD
 					<td valign="top">
 					<table width="100%" border="0">
 						<tr>
-							<td align="right"><b>Description:</b></td>
+							<td align="right"><b><fmt:message key="c3pr.common.description"/></b></td>
 							<td align="left" colspan="3"><textarea
 								name="study.epochs[PAGE.ROW.INDEX].descriptionText" rows="5"
 								class="descTextarea"></textarea><tags:hoverHint
@@ -539,7 +539,7 @@ DELETED TD
 								keyProp="study.treatmentEpoch.description" /></td>
 						</tr>
 						<tr>
-							<td align="right"><b>Accrual Ceiling:</b></td>
+							<td align="right"><b><fmt:message key="study.accrualCeiling"/></b></td>
 							<td align="left"><input type="text"
 								id="study.epochs[PAGE.ROW.INDEX].accrualCeiling"
 								name="study.epochs[PAGE.ROW.INDEX].accrualCeiling" size="14"
@@ -549,7 +549,7 @@ DELETED TD
 
 							<td align="right">
 							<div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><span
-								class=""><tags:requiredIndicator /><b>Reserving:</b></div>
+								class=""><tags:requiredIndicator /><b><fmt:message key="study.epoch.reserving"/></b></div>
 							</td>
 							<td align="left">
 							<div id="reservationIndicator-PAGE.ROW.INDEX"><select
@@ -567,7 +567,7 @@ DELETED TD
 						</tr>
 						<c:if test="${command.study.stratificationIndicator == true}">
 							<tr>
-								<td align="right"><tags:requiredIndicator /><b>Stratified:</b></td>
+								<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.stratified"/></b></td>
 								<td align="left"><select
 									name="study.epochs[PAGE.ROW.INDEX].stratificationIndicator"
 									class="validate-notEmpty">
@@ -595,12 +595,12 @@ DELETED TD
 
 					<table id="arm" class="tablecontent">
 						<tr id="h-PAGE.ROW.INDEX" style="display: none;">
-							<th><span class=""><tags:requiredIndicator />Arm</span><tags:hoverHint
+							<th><span class=""><tags:requiredIndicator /><fmt:message key="study.epoch.arm"/></span><tags:hoverHint
 								id="study.arm.name-PAGE.ROW.INDEX" keyProp="study.arm.name" /></th>
-							<th>Description<tags:hoverHint
+							<th><fmt:message key="c3pr.common.description"/><tags:hoverHint
 								id="study.arm.description-PAGE.ROW.INDEX"
 								keyProp="study.arm.description" /></th>
-							<th>Accrual Ceiling<tags:hoverHint
+							<th><fmt:message key="study.accrualCeiling"/><tags:hoverHint
 								id="study.arm.targetAccrualNumber-PAGE.ROW.INDEX"
 								keyProp="study.arm.targetAccrualNumber" /></th>
 							<th></th>
