@@ -1,19 +1,18 @@
 package edu.duke.cabig.c3pr.utils;
 
-import java.io.StringReader;
 import java.util.List;
+
+import junit.framework.TestCase;
 
 import org.apache.axis.message.MessageElement;
 import org.w3c.dom.Document;
 
-import junit.framework.TestCase;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -42,7 +41,7 @@ public class XMLUtilsTestCase extends TestCase {
         assertEquals("Wrong deserialized domain object", OrganizationAssignedIdentifier.class, domainObjects.get(1).getClass());
         assertEquals("Wrong deserialized domain object", StudySite.class, domainObjects.get(2).getClass());
         assertEquals("Wrong deserialized domain object", StudyInvestigator.class, domainObjects.get(3).getClass());
-        assertEquals("Wrong deserialized domain object", HealthcareSite.class, domainObjects.get(4).getClass());
+        assertEquals("Wrong deserialized domain object", LocalHealthcareSite.class, domainObjects.get(4).getClass());
     }
     
     public void testGetXMLElementsForDomainObjects0() throws Exception{
@@ -67,7 +66,7 @@ public class XMLUtilsTestCase extends TestCase {
         assertEquals("Wrong serialized domain object", "organizationAssignedIdentifier", documents.get(1).getDocumentElement().getNodeName());
         assertEquals("Wrong serialized domain object", "studySite", documents.get(2).getDocumentElement().getNodeName());
         assertEquals("Wrong serialized domain object", "studyInvestigator", documents.get(3).getDocumentElement().getNodeName());
-        assertEquals("Wrong serialized domain object", "healthcareSite", documents.get(4).getDocumentElement().getNodeName());
+        assertEquals("Wrong serialized domain object", "localHealthcareSite", documents.get(4).getDocumentElement().getNodeName());
     }
     
     public void testGetMessageElementsForDomainObjects0() throws Exception{
@@ -92,6 +91,6 @@ public class XMLUtilsTestCase extends TestCase {
         assertEquals("Wrong serialized domain object", "organizationAssignedIdentifier", messageElements.get(1).getName());
         assertEquals("Wrong serialized domain object", "studySite", messageElements.get(2).getName());
         assertEquals("Wrong serialized domain object", "studyInvestigator", messageElements.get(3).getName());
-        assertEquals("Wrong serialized domain object", "healthcareSite", messageElements.get(4).getName());
+        assertEquals("Wrong serialized domain object", "localHealthcareSite", messageElements.get(4).getName());
     }
 }
