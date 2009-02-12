@@ -265,8 +265,10 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		if(!isRequiresAdditionalInfo(studySubject, epoch)){
 			if(epoch.getReservationIndicator()){
 				return "RESERVED" ;
-			}else {
+			}else if(epoch.getEnrollmentIndicator()) {
 				return "ENROLLED" ;
+			}else {
+				return "REGISTERED_BUT_NOT_ENROLLED" ;
 			}
 		}
 		return "flow";
