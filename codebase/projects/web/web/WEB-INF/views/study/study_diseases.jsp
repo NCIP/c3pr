@@ -256,7 +256,7 @@ Event.observe(window, "load", function() {
         </div>
 
         	<tags:errors path="study.studyDiseases"/>
-            <b><fmt:message key="c3pr.common.study.disease.searchForADiseaseCategory"/></b><br>
+            <b><fmt:message key="study.disease.searchForADiseaseCategory"/></b><br>
             
             <input type="hidden" id="disease-hidden"/>
             <form:input size="45" id="disease-input" path="study.diseaseCategoryAsText" cssClass="autocomplete"/>
