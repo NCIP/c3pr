@@ -146,6 +146,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				<div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
 				<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
 			</div>
+			<c:if test="${!command.studySubject.scheduledEpoch.requiresRandomization}">
 			<div class="row">
 	            <div class="label"><fmt:message key="study.epoch.arm"/>:</div>
 	            <c:choose>
@@ -157,6 +158,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	            	</c:otherwise>
 	            </c:choose>
         	</div>
+        	</c:if>
 		</div>
 		<div class="rightpanel">
 			<div class="row">
