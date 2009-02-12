@@ -194,7 +194,7 @@
 <chrome:division id="Study Information" title="Study">
     <div class="leftpanel">
         <div class="row">
-            <div class="label"><fmt:message key="study.status"/>:</div>
+            <div class="label"><fmt:message key="c3pr.common.status"/>:</div>
             <div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
         </div>
         <div class="row">
@@ -236,7 +236,7 @@
             <div class="value">${command.studySubject.studySite.healthcareSite.address.addressString}</div>
         </div>
         <div class="row">
-            <div class="label"><fmt:message key="site.status"/>:</div>
+            <div class="label"><fmt:message key="c3pr.common.status"/>:</div>
             <div class="value">${command.studySubject.studySite.siteStudyStatus.code}</div>
         </div>
 	</div>
