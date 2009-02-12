@@ -74,12 +74,12 @@
                 <td>
 	                <c:choose>
 	                <c:when test="${epoch.stratificationIndicator}">
-	                	<b> Randomization Book:</b><tags:hoverHint keyProp="study.bookRandomizations.text"/>
-	                	<br/> eg: Stratum Group Number, Position, Arm Name</td>
+	                	<b> <fmt:message key="study.randomizationBook"/></b><tags:hoverHint keyProp="study.bookRandomizations.text"/>
+	                	<br/> <fmt:message key="study.egBookRandomizationWithStratification"/></td>
 	                </c:when>
 	                <c:otherwise>
-	                	<b> Randomization Book:</b><tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification.text"/>
-	                	<br/> eg: Position, Arm Name</td>
+	                	<b> <fmt:message key="study.randomizationBook"/></b><tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification.text"/>
+	                	<br/> <fmt:message key="study.egBookRandomizationWithoutStratification"/></td>
 	                </c:otherwise>
 	                </c:choose>
 				<td>
@@ -96,7 +96,7 @@
 		    	<input type="hidden" name="index" value="${epochCount.index}"/>
 			        <div class="content">
 			            <div class="row">
-			                <div class="label">Select file to Import:</div>
+			                <div class="label"><fmt:message key="study.selectFileToImport"/></div>
 			                <div class="value">
 			                 <c:choose>
 	                			<c:when test="${epoch.stratificationIndicator}">
@@ -164,7 +164,7 @@
 		<br/>
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
              <tr>
-                <td><b>Phone Number:</b></td>
+                <td><b><fmt:message key="registration.phoneNumber"/></b></td>
 				<td><form:input path="study.epochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/> e.g. 7035600296 or 703-560-0296
 				</td>				
              </tr>
