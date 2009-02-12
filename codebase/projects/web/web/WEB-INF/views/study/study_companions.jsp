@@ -117,11 +117,11 @@ function closePopup(deleteRow) {
             <br>
 					<table id="companionTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 		                <tr>
-		                    <th><b><tags:requiredIndicator />Short Title</b>
+		                    <th><b><tags:requiredIndicator /><fmt:message key="study.shortTitle"/></b>
 		                    <tags:hoverHint keyProp="study.companionstudy.name" /></th>
-		                    <th><b>Status</b>
+		                    <th><b><fmt:message key="c3pr.common.status"/></b>
 		                    <tags:hoverHint keyProp="study.companionstudy.status" /></th>
-		                    <th><b>Mandatory</b>
+		                    <th><b><fmt:message key="c3pr.common.mandatory"/></b>
 		                    <tags:hoverHint keyProp="study.companionstudy.mandatory" /></th>
 		                    <th></th>
 		                </tr>
