@@ -205,7 +205,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			<tags:errors path="study.studyOrganizations[0].studyPersonnel"/> 
 				<chrome:box title="${tab.shortTitle}">
 					<div>
-			            <br/>&nbsp;<b>Select an Organization</b><br>
+			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnOrganization"/></b><br>
 			            <input:hidden id="disease"/>
 			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
 			                    <c:forEach items="${command.study.studyOrganizations}" var="studySite" varStatus="status">
@@ -230,7 +230,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                </select>
 			            <tags:indicator id="disease-indicator"/>
 			            
-			            <br><br><b>&nbsp;Research Staff</b><br>
+			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.researchStaff"/></b><br>
 			            <select multiple size="1" style="width:400px" id="disease-term">
 			            </select> <span id="disease-selected-name"></span>
 			            <select multiple size="10" id="disease-sel">
@@ -255,9 +255,9 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            <c:otherwise>
 			                <table border="1" class="tablecontent" >
 			                    <tr>
-			                        <th scope="col">Name</th>
-									<%-- <th width="20%">Role<tags:hoverHint keyProp="study.personnel.role"/></th>  --%>
-			                        <th width="20%">Status<tags:hoverHint keyProp="study.personnel.status"/></th>
+			                        <th scope="col"><fmt:message key="c3pr.common.name"/></th>
+									<%-- <th width="20%"><fmt:message key="c3pr.common.role"/><tags:hoverHint keyProp="study.personnel.role"/></th>  --%>
+			                        <th width="20%"><fmt:message key="c3pr.common.status"/><tags:hoverHint keyProp="study.personnel.status"/></th>
 			                        <th width="5%"></th>
 			                    </tr>
 			                    <c:forEach items="${command.study.studyOrganizations[selected_site].studyPersonnel}" var="studyPersonnel"
