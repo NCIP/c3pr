@@ -59,30 +59,6 @@
 		function closePopup() {
 			win.close();
 		}
-/*
-		function updateConsentVersion(registartionId){
-			win = new Window({title: "Reconsent", 
-				zIndex:100, width:500, height:180 , minimizable:false, maximizable:false,
-				recenterAuto:true, className :"mac_os_x",
-				url: "<c:url value='/pages/registration/updateConsentVersion?decorator=noheaderDecorator&registartionId='/>" + registartionId, 
-				showEffectOptions: {duration:1.5}
-					}
-				) 
-			win.showCenter(true)
-		}
-	
-
-		function takeSubjectOffStudy(registartionId){
-			win = new Window({title: "Take subject off study", 
-				zIndex:100, width:400, height:200 ,minimizable:false, maximizable:false,
-				recenterAuto:true, className :"mac_os_x",
-				url: "<c:url value='/pages/registration/takeSubjectOffStudy?decorator=noheaderDecorator&registartionId='/>" + registartionId, 
-				showEffectOptions: {duration:1.5}
-					}
-				) 
-			win.showCenter(true)
-		}
-*/
 		
 		function changeEpochPopup(){
 			var arr= $$("#changeEpoch");

@@ -48,7 +48,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 							//if($("treatingPhysician").value!=""){
 							//	$('otherTreatingPhysician').value="";
 							//}
-							if($("stuydDiseaseSelect").value!=""){
+							if($("studyDiseaseSelect").value!=""){
 								$('otherDisease').value="";
 							}
 							return flag;
@@ -139,7 +139,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<div class="row">
 		<div class="label"><fmt:message key="registration.primaryDisease"/></div>
 		<div class="value">
-			<form:select id="stuydDiseaseSelect" path="studySubject.diseaseHistory.studyDisease" onchange="manageField(this);">
+			<form:select id="studyDiseaseSelect" path="studySubject.diseaseHistory.studyDisease" onchange="manageField(this);">
 				<option value="">Please select...</option>
 				<form:options items="${command.studySubject.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
 				<option value="">Other</option>

@@ -89,14 +89,21 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		String actionLabel = "";
 		String armAssigned = "";
 		String armAssignedLabel = "";
-		if (studySubject.getScheduledEpoch() != null
-				&& (studySubject.getScheduledEpoch()).getScheduledArm() != null
-				&& (studySubject.getScheduledEpoch()).getScheduledArm()
-						.getArm() != null) {
-			armAssigned = (studySubject.getScheduledEpoch()).getScheduledArm()
-					.getArm().getName();
-			armAssignedLabel = "Arm";
+		
+		if ((studySubject.getScheduledEpoch()).getScheduledArm() != null) {
+			if (studySubject.getStudySite().getStudy().getBlindedIndicator()) {
+				armAssigned = (studySubject.getScheduledEpoch())
+						.getScheduledArm().getKitNumber();
+				armAssignedLabel = "Kit";
+			} else if ((studySubject.getScheduledEpoch()).getScheduledArm()
+					.getArm() != null) {
+				armAssigned = (studySubject.getScheduledEpoch())
+						.getScheduledArm().getArm().getName();
+				armAssignedLabel = "Arm";
+			}
+
 		}
+		
 		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING
 				&& studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE) {
