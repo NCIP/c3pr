@@ -63,7 +63,7 @@
 	<chrome:division id="study-details" title="Basic Details">
 	    <div class="leftpanel">
 	        <div class="row">
-	            <div class="label"><tags:requiredIndicator />Short Title:</div>
+	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.shortTitle"/></div>
 	            <div class="value">
 	            	<input class="validate-notEmpty" type="text" id="_shortTitle" size="35" maxlength="30" 
 	            		name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText" value="${dataFromParent.shortTitle}"/>
@@ -71,7 +71,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-	            <div class="label"><tags:requiredIndicator />Long Title:</div>
+	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.longTitle"/></div>
 	            <div class="value">
 	            	<textarea class="validate-notEmpty&&maxlength1024" rows="2" cols="33" id="companionStudyPAGE.ROW.INDEX-longTitleText"
 		                       name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.longTitleText" >${dataFromParent.longTitle}</textarea>
@@ -79,7 +79,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-	            <div class="label">Description:</div>
+	            <div class="label"><fmt:message key="c3pr.common.description"/></div>
 	            <div class="value">
 		             <textarea class="validate-maxlength2000" rows="2" cols="33" id="companionStudyPAGE.ROW.INDEX-descriptionText"
 			                       name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.descriptionText"></textarea>
@@ -87,7 +87,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-				<div class="label">Precis:</div>
+				<div class="label"><fmt:message key="study.precis"/></div>
 				<div class="value">
 					<textarea class="validate-maxlength200" rows="2" cols="33" id="companionStudyPAGE.ROW.INDEX-precisText"
 									name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.precisText" ></textarea>
@@ -98,7 +98,7 @@
 	
 	    <div class="rightpanel">
 	        <div class="row">
-	            <div class="label"><tags:requiredIndicator />Target Accrual:</div>
+	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.targetAccrual"/></div>
 	            <div class="value">
 	            	<input class="validate-notEmpty&&numeric&&nonzero_numeric" type="text" id="companionStudyPAGE.ROW.INDEX-targetAccrualNumber"  name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.targetAccrualNumber"
 	            			size="10" maxlength="6" value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.targetAccrualNumber}"/>
@@ -106,7 +106,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-	            <div class="label"><tags:requiredIndicator />Type:</div>
+	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.type"/></div>
 	            <div class="value">
 	            	<select id="companionStudyPAGE.ROW.INDEX-type" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.type" class="validate-notEmpty">
 	                    <option value="">Please Select</option>
@@ -118,7 +118,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-	            <div class="label"><tags:requiredIndicator />Phase:</div>
+	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.phase"/></div>
 	            <div class="value">
 	            	<select id="companionStudyPAGE.ROW.INDEX-phaseCode" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.phaseCode" 
 	            		class="validate-notEmpty">
@@ -131,7 +131,7 @@
 	            </div>
 	        </div>
 			<div class="row">
-	            <div class="label">Blinded:</div>
+	            <div class="label"><fmt:message key="study.blinded"/></div>
 	            <div class="value">
 	            	<select id="companionStudyPAGE.ROW.INDEX-blindedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.blindedIndicator" class="validate-notEmpty" onchange="blindedRandomization(PAGE.ROW.INDEX);">
 		                 <option value="">Please Select</option>
@@ -143,7 +143,7 @@
 	      		</div>
 	        </div>
 	        <div class="row">
-	            <div class="label"><tags:requiredIndicator />Multi-Institutional:</div>
+	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.multiInstitution"/></div>
 	            <div class="value">
 	            	<select id="companionStudyPAGE.ROW.INDEX-multiInstitutionIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.multiInstitutionIndicator" class="validate-notEmpty">
 	                  	<option value="">Please Select</option>
@@ -155,7 +155,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-             	<div class="label"><tags:requiredIndicator />Consent Version/Date:</div>
+             	<div class="label"><tags:requiredIndicator /><fmt:message key="study.consentVersionDate"/></div>
              	<div class="value">
              		<input name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion" class="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
              		<a href="#" id="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion-calbutton">
@@ -165,7 +165,7 @@
              	</div>
          	</div>
         	<div class="row" style="display:none;">
-	        	<div class="label"><tags:requiredIndicator />Standalone Study:</div>
+	        	<div class="label"><tags:requiredIndicator /><fmt:message key="study.standalone"/></div>
 	        	<div class="value">
 	        		<input class="validate-notEmpty" type="hidden" id="companionStudyPAGE.ROW.INDEX-standaloneIndicator"  
 	            		name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.standaloneIndicator" value="false"/>
@@ -177,7 +177,7 @@
 	<chrome:division title="Stratification & Randomization">
     	<div class="leftpanel">
     		<div class="row">
-         		<div class="label"><tags:requiredIndicator />Stratified:</div>	
+         		<div class="label"><tags:requiredIndicator /><fmt:message key="study.stratified"/></div>	
          		<div class="value">
          			<select id="companionStudyPAGE.ROW.INDEX-stratificationIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.stratificationIndicator" class="validate-notEmpty">
 		                 <option value="">Please Select</option>
@@ -189,7 +189,7 @@
          		</div>
          	</div>
 	        <div class="row">
-	           	<div class="label"><tags:requiredIndicator />Randomized:</div>
+	           	<div class="label"><tags:requiredIndicator /> <fmt:message key="study.randomized"/></div>
 		        <div class="value">
 		        	<select id="companionStudyPAGE.ROW.INDEX-randomizedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizedIndicator" class="validate-notEmpty" onchange="manageRandomizedIndicatorSelectBox(this, PAGE.ROW.INDEX)">
 		                 <option value="">Please Select</option>
@@ -204,7 +204,7 @@
 		<div class="rightpanel">
         	<div id="randomizationTypeDiv">
 	            <div class="row">
-    	            <div class="label"><tags:requiredIndicator />Type:</div>
+    	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.type"/></div>
         	        <div class="value">
 	        	       	<select id="companionStudyPAGE.ROW.INDEX-randomizationType" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizationType" class="validate-notEmpty" onchange="manageRandomizationTypeSelectBox(this);">
 		                    <option value="">Please Select</option>
@@ -222,7 +222,7 @@
          <div id="coordinatingCenter">
            	  <div class="leftpanel">
               	      <div class="row">
-                    <div class="label"><tags:requiredIndicator />Name:</div>
+                    <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.name"/></div>
 			        <div class="value">
 						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-coCenter-hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyCoordinatingCenters[0].healthcareSite" value="${dataFromParent.coordinatingCenterList[0].healthcareSite.id}"/>
 						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-coCenter-hidden1" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].healthcareSite"  value="${dataFromParent.coordinatingCenterList[0].healthcareSite.id}"/>
@@ -235,7 +235,7 @@
 		  	  </div>
 		  	   <div class="rightpanel">
                   <div class="row">
-                      <div class="label"><tags:requiredIndicator />Study Identifier:</div>
+                      <div class="label"><tags:requiredIndicator /><fmt:message key="study.studyIdentifier"/></div>
                       <div class="value">
                       	<input type="text" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="validate-notEmpty" />
 						<input type="hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].type" value="Coordinating Center Identifier"/>
@@ -250,7 +250,7 @@
 		<div id="fundingSponsor">
      		<div class="leftpanel">
         		<div class="row">
-            		<div class="label">Name:</div>
+            		<div class="label"><fmt:message key="c3pr.common.name"/></div>
 		            <div class="value">
 		            	<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite : 'abcdef' }"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.id : ''}" />
 		            	<input type="text" id="companionStudyPAGE.ROW.INDEX-healthcareSite-input" size="38" name="aaaxxx" class="autocomplete" disabled="disabled"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.name : ''}" />
@@ -263,7 +263,7 @@
 			</div>
 			<div class="rightpanel">
         		<div class="row">
-            		<div class="label">Study Identifier:</div>
+            		<div class="label"><fmt:message key="study.studyIdentifier"/></div>
             		<div class="value">
 	            		<input type="text" name="${fn:length(dataFromParent.fundingSponsorsList) > 0 ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].value : 'qwer'}" size="30" maxlength="30" id="companionStudyPAGE.ROW.INDEX-fundingSponsorIdentifier" />
 						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="${fn:length(dataFromParent.fundingSponsorsList) > 0 ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite : 'poiuy'}"/>
