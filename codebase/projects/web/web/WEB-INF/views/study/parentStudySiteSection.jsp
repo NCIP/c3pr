@@ -2,10 +2,10 @@
 <chrome:division title="${parentStudyAssociation.parentStudy.shortTitleText}">
 	<table id="companionSiteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
                <tr <c:if test="${fn:length(parentStudyAssociation.studySites) == 0}">style="display:none;"</c:if>>
-                  <th><b>Organization</b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-                  <th><b>Activation Date</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
-                  <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
-                  <th><b>Target Accrual Number</b><tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
+                  <th><b><fmt:message key="c3pr.common.organization"/></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+                  <th><b><fmt:message key="site.activationDate"/></b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
+                  <th><b><fmt:message key="site.IRBApprovalDate"/></b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
+                  <th><b><fmt:message key="c3pr.common.targetAccrual"/></b><tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
                   <th></th>
               </tr>
               <c:forEach items="${parentStudyAssociation.studySites}" var="companionStudySite" varStatus="status">
