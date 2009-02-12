@@ -46,11 +46,11 @@ failedStatusChange= function (responseXML){
 	<br>
 	<table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 	     <tr id="h-multiSite" <c:if test="${fn:length(command.study.studySites) == 0}">style="display:none;"</c:if>>
-	        <th><b><tags:requiredIndicator />Organization</b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-	        <th><b>Status</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
-	        <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
-	        <th><b>Messages</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
-	        <th><b>Actions</b></th>
+	        <th><b><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+	        <th><b><fmt:message key="site.status"/></b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
+	        <th><b><fmt:message key="site.IRBApprovalDate"/></b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
+	        <th><b><fmt:message key="site.messages"/></b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
+	        <th><b><fmt:message key="site.actions"/></b></th>
 	    </tr>
 	    <c:forEach items="${command.study.studySites}" varStatus="status" var="site">
 		    <c:set var="siteEndpoint" value="${site}"/>
@@ -140,11 +140,11 @@ failedStatusChange= function (responseXML){
 			<chrome:division title="${parentStudyAssociation.parentStudy.shortTitleText}">
 				<table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 			     <tr id="h-multiSite" <c:if test="${fn:length(command.study.studySites) == 0}">style="display:none;"</c:if>>
-			        <th><b><tags:requiredIndicator />Organization</b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-			        <th><b>Status</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
-			        <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
-			        <th><b>Messages</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
-			        <th><b>Actions</b></th>
+			        <th><b><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+			        <th><b><fmt:message key="site.status"/></b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
+			        <th><b><fmt:message key="site.IRBApprovalDate"/></b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
+			        <th><b><fmt:message key="site.messages"/></b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
+			        <th><b><fmt:message key="site.actions"/></b></th>
 			    </tr>
 			    <c:forEach items="${parentStudyAssociation.studySites}" varStatus="status" var="site">
 				    <c:set var="companionSiteEndpoint" value="${site}"/>
