@@ -9,7 +9,7 @@
     <div class="leftpanel">
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Hosted Mode:
+                <fmt:message key="c3pr.common.hostedMode"/>
             </div>
             <div class="value"><form:checkbox id="hostedMode" path="study.hostedMode"/>
                 <tags:hoverHint keyProp="study.hostedMode"/>
