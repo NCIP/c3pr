@@ -31,7 +31,7 @@
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.phaseCode}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b><fmt:message key="study.status"/>:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="c3pr.common.status"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.status}</td>
 		</tr>
 		<tr>
