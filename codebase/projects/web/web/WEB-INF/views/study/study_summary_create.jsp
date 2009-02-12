@@ -63,7 +63,7 @@ function createStudy(){
             <td class="alt" align="left">${command.study.dataEntryStatus.code}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b><fmt:message key="study.status"/></b></td>
+            <td class="alt" align="left"><b><fmt:message key="c3pr.common.status"/></b></td>
             <td class="alt" align="left">${command.study.coordinatingCenterStudyStatus.displayName}</td>
         </tr>
         <tr>
@@ -181,7 +181,7 @@ function createStudy(){
             <tr>
                 <th width="45%" scope="col" align="left"><b><fmt:message key="study.companionStudyShortTitle"/></b></th>
                 <th width="30%" scope="col" align="left"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></th>
-                <th width="15%" scope="col" align="left"><b><fmt:message key="study.status"/></b></th>
+                <th width="15%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
                 <th width="10%" scope="col" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
             </tr>
             <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
