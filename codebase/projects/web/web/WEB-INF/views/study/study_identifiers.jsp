@@ -82,10 +82,10 @@ function manageIdentifierRadio(element){
 		
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
-					<th><tags:requiredIndicator />Assigning Organization<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-					<th><tags:requiredIndicator />Identifier Type<tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
-					<th><tags:requiredIndicator />Identifier<tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
-					<th>Primary Indicator<tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/><tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
+					<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
 					<th>&nbsp;</th>
 				</tr>
 				<tr>
@@ -174,10 +174,10 @@ function manageIdentifierRadio(element){
 		<chrome:division title="System Assigned Identifiers">
 			<table id="systemIdentifier" class="tablecontent">
 				<tr id="hSystemAssignedIdentifier" <c:if test="${fn:length(command.study.systemAssignedIdentifiers) == 0}">style="display:none;"</c:if>>
-					<th><tags:requiredIndicator />System Name<tags:hoverHint keyProp="study.systemAssignedIdentifier.systemName"/></th>
-					<th><tags:requiredIndicator />Identifier Type<tags:hoverHint keyProp="study.systemAssignedIdentifier.identifierType"/></th>
-					<th><tags:requiredIndicator />Identifier<tags:hoverHint id="study.systemAssignedIdentifier.identifier" keyProp="study.coordinatingcenter.identifier"/></th>
-					<th>Primary Indicator<tags:hoverHint keyProp="study.systemAssignedIdentifier.primaryIndicator"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.systemName"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.systemName"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.identifierType"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/><tags:hoverHint id="study.systemAssignedIdentifier.identifier" keyProp="study.coordinatingcenter.identifier"/></th>
+					<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.primaryIndicator"/></th>
 					<th></th>
 				</tr>
 				<c:forEach items="${command.study.systemAssignedIdentifiers}" var="sysIdentifier"
