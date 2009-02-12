@@ -82,9 +82,9 @@
 <chrome:division id="study-details" title="Previous Amendments">
 	<table id="study.studyAmendments" class="tablecontent">
 			<tr>
-				<th>Version #</th>
-				<th>Amendment Date</th>
-				<th>Comments</th>
+				<th><fmt:message key="study.amendmentVersion"/></th>
+				<th><fmt:message key="study.amendmentDate"/></th>
+				<th><fmt:message key="c3pr.common.comments"/></th>
 			</tr>
 			<c:forEach items="${command.study.previousStudyAmendments}"  var="studyAmendments" varStatus="status">
 			<tr id="study.studyAmendments-${status.index}">
@@ -120,20 +120,20 @@
 		</div>
 		
     	<div class="row">
-            <div class="label">Version #:</div>
+            <div class="label"><fmt:message key="study.amendmentVersion"/></div>
             <div class="value">
                 <form:input	path="study.currentStudyAmendment.amendmentVersion" size="5" /> 
             </div>
         </div>
         <div class="row">
-            <div class="label">Amendment Date :</div>
+            <div class="label"><fmt:message key="study.amendmentDate"/></div>
             <div class="value">
                 <tags:dateInput path="study.currentStudyAmendment.amendmentDate"/>
             </div>
         </div>
         
         <div class="row">
-            <div class="label">Comments :</div>
+            <div class="label"><fmt:message key="c3pr.common.comments"/></div>
             <div class="value">
                 <form:textarea path="study.currentStudyAmendment.comments" rows="2" cols="44"/>
             </div>
@@ -144,29 +144,29 @@
         <chrome:division id="study-details" title="Reasons for Amendment (Atleast One)">
         <table>
         	<tr>
-        		<td width="25%"><b>Epoch & Arms :</b></td>
+        		<td width="25%"><b><fmt:message key="study.epoch&Arms"/></b></td>
         		<td width="25%"><form:checkbox path="study.currentStudyAmendment.eaChangedIndicator" value="true"/></td>        		
-        		<td width="25%"><b>Eligibility :</b></td>
+        		<td width="25%"><b><fmt:message key="study.eligibility"/></b></td>
         		<td width="25%"><form:checkbox path="study.currentStudyAmendment.eligibilityChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
-        		<td><b>Stratification :</b></td>
+        		<td><b><fmt:message key="study.stratification"/></b></td>
         		<td><form:checkbox path="study.currentStudyAmendment.stratChangedIndicator" value="true"/></td>
-        		<td><b>Diseases :</b></td>
+        		<td><b><fmt:message key="study.diseases"/></b></td>
         		<td><form:checkbox path="study.currentStudyAmendment.diseasesChangedIndicator" value="true"/></td>
         	</tr>
         	
         	<tr>
-        		<td><b>Randomization :</b></td>
+        		<td><b><fmt:message key="study.randomization"/></b></td>
         		<td><form:checkbox path="study.currentStudyAmendment.randomizationChangedIndicator" value="true"/></td>
-        		<td><b>Principal Investigator :</b></td>
+        		<td><b><fmt:message key="study.principalInvestigator"/></b></td>
         		<td><form:checkbox path="study.currentStudyAmendment.piChangedIndicator" value="true"/></td>
         	</tr>
         	
         	<tr>
-        		<td><b>Consent :</b></td>
+        		<td><b><fmt:message key="study.consent"/></b></td>
         		<td><form:checkbox path="study.currentStudyAmendment.consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 1);"/></td>
-				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><b>Companion Study :</b></td>
+				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><b><fmt:message key="study.companionStudy"/></b></td>
         		<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><form:checkbox path="study.currentStudyAmendment.companionChangedIndicator" value="true"/></td>
         	</tr>        	
         </table>
@@ -207,20 +207,20 @@
 		</div>
 		
     	<div class="row">
-            <div class="label">Version #:</div>
+            <div class="label"><fmt:message key="study.amendmentVersion"/></div>
             <div class="value">
                 <input type="text" name="study.studyAmendments[${amendmentSize}].amendmentVersion" id="study.amendmentVersion" size="5" /> 
             </div>
         </div>
         <div class="row">
-            <div class="label">Amendment Date:</div>
+            <div class="label"><fmt:message key="study.amendmentDate"/></div>
             <div class="value">
             	<tags:dateInput path="study.studyAmendments[${amendmentSize}].amendmentDate"/>
             </div>
         </div>
 
         <div class="row">
-            <div class="label">Comments:</div>
+            <div class="label"><fmt:message key="c3pr.common.comments"/></div>
             <div class="value">
                 <textarea name="study.studyAmendments[${amendmentSize}].comments" rows="2" cols="44"></textarea>
             </div>
@@ -232,33 +232,33 @@
         <chrome:division id="study-details" title="Reasons for Amendment (Atleast One)">
         <table>
         	<tr>
-        		<td width="25%"><b>Epoch & Arms :</b></td>
+        		<td width="25%"><b><fmt:message key="study.epoch&Arms"/></b></td>
         		<td width="25%"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].eaChangedIndicator" value="true"/></td>        		
-        		<td width="25%"><b>Eligibility :</b></td>
+        		<td width="25%"><b><fmt:message key="study.eligibility"/></b></td>
         		<td width="25%"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].eligibilityChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
-        		<td><b>Stratification :</b></td>
+        		<td><b><fmt:message key="study.stratification"/></b></td>
         		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].stratChangedIndicator" value="true"/></td>
-        		<td><b>Diseases :</b></td>
+        		<td><b><fmt:message key="study.diseases"/></b></td>
         		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].diseasesChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
-        		<td><b>Randomization :</b></td>
+        		<td><b><fmt:message key="study.randomization"/></b></td>
         		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].randomizationChangedIndicator" value="true"/></td>
-        		<td><b>Principal Investigator :</b></td>
+        		<td><b><fmt:message key="study.principalInvestigator"/></b></td>
         		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].piChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
-        		<td><b>Consent :</b></td>
+        		<td><b><fmt:message key="study.consent"/></b></td>
         		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 2);"/></td>
-				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><b>Companion Study :</b></td>
+				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><b><fmt:message key="study.companionStudy"/></b></td>
 				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><input type="checkbox" name="study.studyAmendments[${amendmentSize}].companionChangedIndicator" value="true"/></td>        	
 			</tr>
         </table> 
 
         <div id="study.consentVersion2" style="display:none;">
-         <b>&nbsp;Consent Version/Date:</b>
+         <b>&nbsp;<fmt:message key="study.consentVersionDate"/></b>
          <input type="text" name="study.consentVersion" id="study.consentVersiony" size="9" value="${command.study.consentVersion}" class="date"/>
          <a href="#" id="consentVersiony-calbutton">
 		    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
