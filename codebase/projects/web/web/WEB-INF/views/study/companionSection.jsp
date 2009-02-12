@@ -4,10 +4,10 @@
     <chrome:division title="Companion Studies">
         <table class="tablecontent" width="60%">
             <tr>
-                <th width="45%" scope="col" align="left"><b>Companion Study Short Title</b></th>
-                <th width="30%" scope="col" align="left"><b>Data Entry Status</b></th>
-                <th width="15%" scope="col" align="left"><b>Status</b></th>
-                <th width="10%" scope="col" align="left"><b>Mandatory</b></th>
+                <th width="45%" scope="col" align="left"><b><fmt:message key="study.companionStudyShortTitle"/></b></th>
+                <th width="30%" scope="col" align="left"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></th>
+                <th width="15%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
+                <th width="10%" scope="col" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
             </tr>
             <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
                 <tr>
