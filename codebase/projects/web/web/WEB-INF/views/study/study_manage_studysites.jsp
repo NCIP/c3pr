@@ -47,7 +47,7 @@ failedStatusChange= function (responseXML){
 	<table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 	     <tr id="h-multiSite" <c:if test="${fn:length(command.study.studySites) == 0}">style="display:none;"</c:if>>
 	        <th><b><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-	        <th><b><fmt:message key="site.status"/></b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
+	        <th><b><fmt:message key="c3pr.common.status"/></b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
 	        <th><b><fmt:message key="site.IRBApprovalDate"/></b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
 	        <th><b><fmt:message key="site.messages"/></b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
 	        <th><b><fmt:message key="site.actions"/></b></th>
@@ -141,7 +141,7 @@ failedStatusChange= function (responseXML){
 				<table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
 			     <tr id="h-multiSite" <c:if test="${fn:length(command.study.studySites) == 0}">style="display:none;"</c:if>>
 			        <th><b><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-			        <th><b><fmt:message key="site.status"/></b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
+			        <th><b><fmt:message key="c3pr.common.status"/></b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
 			        <th><b><fmt:message key="site.IRBApprovalDate"/></b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
 			        <th><b><fmt:message key="site.messages"/></b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
 			        <th><b><fmt:message key="site.actions"/></b></th>
