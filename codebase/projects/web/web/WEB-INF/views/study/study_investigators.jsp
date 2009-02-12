@@ -247,7 +247,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			<tags:errors path="study.studyOrganizations[0].studyInvestigators"/> 
 				<chrome:box title="${tab.shortTitle}">
 					<div>
-			            <br/>&nbsp;<b>Select an Organization</b><br>
+			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnOrganization"/></b><br>
 			            <input:hidden id="disease"/>
 			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
 			                    <c:forEach items="${command.study.studyOrganizations}" var="studySite" varStatus="status">
@@ -273,12 +273,12 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            <tags:indicator id="disease-indicator"/>
 			            
 			            <p id="disease-selected" style="display: none"></p>			
-			            <br><br><b>&nbsp;Select a Group</b><br>
+			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.selectAGroup"/></b><br>
 			            <select multiple size="1" style="width:400px" id="disease-sub-category">
 			                <option value="">Please select a Group first</option>
 			            </select>
 			
-			            <br><br><b>&nbsp;Investigators</b><br>
+			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.investigators"/></b><br>
 			            <select multiple size="1" style="width:400px" id="disease-term">
 			                <option value="">Please select a Group first</option>
 			            </select> <span id="disease-selected-name"></span>
@@ -304,8 +304,8 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            <c:otherwise>
 			                <table border="1" class="tablecontent" >
 			                    <tr>
-			                        <th scope="col">Name</th>
-			                        <th width="20%">Status<tags:hoverHint keyProp="study.investigator.status"/></th>
+			                        <th scope="col"><fmt:message key="c3pr.common.name"/></th>
+			                        <th width="20%"><fmt:message key="c3pr.common.status"/><tags:hoverHint keyProp="study.investigator.status"/></th>
 			                        <th width="5%"></th>
 			                    </tr>
 			                    <c:forEach items="${command.study.studyOrganizations[selected_site].studyInvestigators}" var="studyInvestigator"
