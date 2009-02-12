@@ -21,13 +21,13 @@ public class ConsentHistory extends AbstractMutableDomainObject implements Compa
 		return this.consentSignedDate.compareTo(consentHistory.getConsentSignedDate());
 	}
 	
-	private Integer consentVersion ;
+	private String consentVersion ;
 	private Date consentSignedDate ;
 	
-	public Integer getConsentVersion() {
+	public String getConsentVersion() {
 		return consentVersion;
 	}
-	public void setConsentVersion(Integer consentVesrion) {
+	public void setConsentVersion(String consentVesrion) {
 		this.consentVersion = consentVesrion;
 	}
 	public Date getConsentSignedDate() {
