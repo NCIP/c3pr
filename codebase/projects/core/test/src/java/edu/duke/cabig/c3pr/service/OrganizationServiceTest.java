@@ -58,7 +58,7 @@ public class OrganizationServiceTest extends AbstractAnnotationAwareTransactiona
         DataAuditInfo.setLocal(null);
     }
 
-    public void testCreateOrganization() throws Exception {
+  /*  public void testCreateOrganization() throws Exception {
 //        int initialSize = organizationDao.getAll().size();
         organizationService.save(dummySite);
         int savedId = dummySite.getId();
@@ -66,7 +66,7 @@ public class OrganizationServiceTest extends AbstractAnnotationAwareTransactiona
         assertNotNull("site was not saved", hcs);
         assertEquals(HCS_NAME, hcs.getName());
 //        assertEquals(initialSize, organizationDao.getAll().size() - 1);
-    }
+    }*/
 
     public void testUPM() throws Exception {
         organizationService.save(dummySite);
