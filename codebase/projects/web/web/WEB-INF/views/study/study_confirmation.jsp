@@ -24,15 +24,15 @@
 	                 <div class="row" >
 	                 	<table class="tablecontent" width="60%">
 							<tr>
-								<td width="35%" class="alt" align="left"><b>Short Title</b></td>
+								<td width="35%" class="alt" align="left"><b><fmt:message key="study.shortTitle"/></b></td>
 								<td class="alt" align="left">${command.study.trimmedShortTitleText}</td>
 							</tr>
 							<tr>
-								<td width="35%" class="alt" align="left"><b>Coordinating Center Study Identifier</b></td>
+								<td width="35%" class="alt" align="left"><b><fmt:message key="study.coordinatingCenterStudyIdentifier"/></b></td>
 								<td class="alt" align="left">${command.study.primaryIdentifier}</td>
 							</tr>
 							<tr>
-								<td width="35%" class="alt" align="left"><b>Study Status</b></td>
+								<td width="35%" class="alt" align="left"><b><fmt:message key="study.studyStatus"/></b></td>
 								<td class="alt" align="left">${command.study.coordinatingCenterStudyStatus.displayName}</td>
 							</tr>
 						</table>
@@ -49,9 +49,9 @@
 	    <chrome:box title="Companion Studies" autopad="true">
 		    <table class="tablecontent" width="60%">
 		        <tr>
-		            <th width="50%" scope="col" align="left"><b>Short Title</b></th>
-		            <th width="25%" scope="col" align="left"><b>Status</b></th>
-		            <th width="25%" scope="col" align="left"><b>Mandatory</b></th>
+		            <th width="50%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
+		            <th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
+		            <th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
 		        </tr>
 		        <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
 		            <tr>
@@ -82,8 +82,8 @@
 	    <chrome:box title="Parent Study" autopad="true">
 		    <table class="tablecontent" width="60%">
 		        <tr>
-		            <th width="50%" scope="col" align="left"><b>Short Title</b></th>
-		            <th width="25%" scope="col" align="left"><b>Status</b></th>
+		            <th width="50%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
+		            <th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
 		        </tr>
 		        <c:forEach items="${command.study.parentStudyAssociations}" var="parentStudyAssociation">
 		            <tr>
