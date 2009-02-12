@@ -27,9 +27,9 @@ function closePopup(){
 	<table id="companionSiteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0" align="top">
                  <tr>
                  	 <th></th>
-                    <th><b>Organization</b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-                    <th><b>NCI Identifier</b>&nbsp;<tags:hoverHint keyProp="study.nciIdentifier"/></th>
-                    <th><b>Copy IRB Approval</b>&nbsp;<tags:hoverHint keyProp="study.irbApprovalFlag"/></th>
+                    <th><b><fmt:message key="c3pr.common.organization"/></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+                    <th><b><fmt:message key="c3pr.common.NCIIdentifier"/></b>&nbsp;<tags:hoverHint keyProp="study.nciIdentifier"/></th>
+                    <th><b><fmt:message key="site.copyIRBApproval"/></b>&nbsp;<tags:hoverHint keyProp="study.irbApprovalFlag"/></th>
                    
                 </tr>
                 <c:forEach items="${healthcareSiteList}" var="healthcareSite" >
