@@ -250,12 +250,10 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:when>
 		<c:otherwise>
 			<div class="leftpanel">
-			<c:if test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator}">
-				<div class="row">
+			<c:if test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator && !empty command.studySubject.scheduledEpoch.stratumGroupNumber}">
 					<div class="row">
 						<div class="label"><fmt:message key="registration.stratumGroupNumber"/>:</div>
 						<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroupNumber}</div>
-					</div>
 				</div>
 			</c:if>
 			</div>
