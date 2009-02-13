@@ -474,7 +474,7 @@
 <chrome:division id="Eligibility" title="Eligibility">
 	<div class="leftpanel">
 		<div class="row">
-    		<div class="label"><fmt:message key="registration.eligibile"/>:</div>
+    		<div class="label"><fmt:message key="registration.eligible"/>:</div>
         	<c:choose>
 				<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
 					<div class="value"><fmt:message key="c3pr.common.yes"/></div>
