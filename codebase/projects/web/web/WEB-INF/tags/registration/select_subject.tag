@@ -211,7 +211,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/><fmt:message key="participant.lastName"/>
+                                                <tags:requiredIndicator/><fmt:message key="c3pr.common.lastName"/>
                                             </div>
                                             <div class="value">
                                                 <input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
@@ -219,7 +219,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <fmt:message key="participant.middleName"/>
+                                                <fmt:message key="c3pr.common.middleName"/>
                                             </div>
                                             <div class="value">
                                                 <input id="middleName" name="middleName" type="text" value=""/>
@@ -227,7 +227,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="label">
-                                                <fmt:message key="participant.maidenName"/>
+                                                <fmt:message key="c3pr.common.maidenName"/>
                                             </div>
                                             <div class="value">
                                                 <input id="maidenName" name="maidenName" type="text" value=""/>
