@@ -236,7 +236,7 @@ function manageCompanions(){
 			</div>
 		</c:if>
 		<div class="row">
-			<div class="label"><b><fmt:message key="registration.site"/></b>:</div>
+			<div class="label"><b><fmt:message key="registration.enrollingSite"/></b>:</div>
 			<div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
 		</div>
 		<div class="row">
