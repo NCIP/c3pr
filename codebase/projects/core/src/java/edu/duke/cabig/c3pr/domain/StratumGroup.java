@@ -119,7 +119,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     public String getAnswerCombinations() {
         String result = "";
         for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : this.getStratificationCriterionAnswerCombination()){
-        	result = result + " - " + stratificationCriterionAnswerCombination.getStratificationCriterionPermissibleAnswer().getPermissibleAnswer() ; 
+        	result = result + ", " + stratificationCriterionAnswerCombination.getStratificationCriterionPermissibleAnswer().getPermissibleAnswer() ; 
         }
         if(result.length() != 0 ){
         	result = result.substring(3);

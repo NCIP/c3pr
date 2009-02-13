@@ -260,10 +260,10 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</c:if>
 			</div>
 			<div class="rightpanel">&nbsp;</div>
-			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="90%">
+			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  >
 				<tr>
 					<th width="35%" scope="col" align="left"><fmt:message key="study.criterion"/></th>
-					<th scope="col" align="left"><b><fmt:message key="study.answers"/></th>
+					<th scope="20%" align="left"><b><fmt:message key="study.answers"/></th>
 				</tr>
 				<c:forEach items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
 					<tr class="results">

@@ -317,13 +317,13 @@ public class RegistrationControllerUtils {
 	    		actionLabel = "Enroll" ;
 	    	}
     	}else{
-    		actionLabel = "Transfer" ;
+    		actionLabel = "Change Epoch" ;
     		if(wrapper.getShouldReserve()){
-	    		actionLabel += " & Reserve" ;
+	    		actionLabel = "Reserve & Change Epoch" ;
 	    	}else if(wrapper.getShouldRegister()){
-	    		actionLabel += " & Register" ;
+	    		actionLabel ="Register & Change Epoch" ;
 	    	}else if(wrapper.getShouldRandomize()){
-	    		actionLabel = "Randomize & Transfer" ;
+	    		actionLabel = "Randomize & Change Epoch" ;
 	    	}
     	}
     	return actionLabel ;
@@ -343,13 +343,13 @@ public class RegistrationControllerUtils {
 	    		tabTitle = "Review & Enroll" ;
 	    	}
     	}else{
-    		tabTitle = "Transfer" ;
+    		tabTitle = "Change Epoch" ;
     		if(wrapper.getShouldReserve()){
-	    		tabTitle += " & Reserve" ;
+    			tabTitle = "Reserve & Change Epoch" ;
 	    	}else if(wrapper.getShouldRegister()){
-	    		tabTitle += " & Register" ;
+	    		tabTitle ="Register & Change Epoch" ;
 	    	}else if(wrapper.getShouldRandomize()){
-	    		tabTitle = "Randomize & Transfer" ;
+	    		tabTitle = "Randomize & Change Epoch" ;
 	    	}
     	}
     	return tabTitle ;
