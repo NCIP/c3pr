@@ -129,7 +129,7 @@ top:70px;
 <chrome:division id="participant-details" title="Basic Details">
 				<div class="leftpanel">
 					<div class="row">
-						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.firstName"/></div>
+						<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.firstName"/></div>
 						<div class="value"><form:input path="firstName"
 							cssClass="validate-notEmpty" /></div>
 					</div>
