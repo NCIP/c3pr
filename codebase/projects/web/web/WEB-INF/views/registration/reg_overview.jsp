@@ -1,7 +1,7 @@
 <%@ include file="taglibs.jsp"%>
 <style>
-.div div.row div.label {
-	width:5em;
+.calendar{
+	z-index:200;
 }
 </style>
 <html>
