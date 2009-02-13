@@ -68,7 +68,7 @@ function manageEpochSelection(element){
               		<th></th>
                   <th><b><fmt:message key="c3pr.common.name"/></b></th>
                   <th><b><fmt:message key="c3pr.common.description"/></b></th>
-                  <th><b><fmt:message key="registration.enrolling"/></b></th>
+                  <th><b><fmt:message key="c3pr.common.enrolling"/></b></th>
               </tr>
               <c:forEach items="${epochs}" var="epoch" varStatus="epochStatus">
               	 <tr>
