@@ -134,16 +134,16 @@ top:70px;
 							cssClass="validate-notEmpty" /></div>
 					</div>
 					<div class="row">
-						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.lastName"/></div>
+						<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.lastName"/></div>
 						<div class="value"><form:input path="lastName"
 							cssClass="validate-notEmpty" /></div>
 					</div>
 					<div class="row">
-						<div class="label"><fmt:message key="participant.middleName"/></div>
+						<div class="label"><fmt:message key="c3pr.common.middleName"/></div>
 						<div class="value"><form:input path="middleName" /></div>
 					</div>
 					<div class="row">
-						<div class="label"><fmt:message key="participant.maidenName"/></div>
+						<div class="label"><fmt:message key="c3pr.common.maidenName"/></div>
 						<div class="value"><form:input path="maidenName" /></div>
 					</div>
 					<div class="row">
