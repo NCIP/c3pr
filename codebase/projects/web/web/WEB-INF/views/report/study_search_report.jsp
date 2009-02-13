@@ -90,7 +90,7 @@ function showTable(table) {
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs"><fmt:message key="participant.firstName"/>
+		        <div class="row" name="inputs"><fmt:message key="c3pr.common.firstName"/>
 	            	<form:input path="firstName" size="20"/>
 	            </div>
 		        </td>
