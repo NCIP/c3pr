@@ -159,7 +159,7 @@
                             <span class="label"><fmt:message key="c3pr.common.searchCriteria"/></span>
                         </div>
                         <div class="value">
-                            <input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="value" /><tags:button markupWithTag="button" icon="search" type="button" value="Search" size="small" color="blue" onclick="searchParticipant()"/>&nbsp;<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="absmiddle">
+                            <input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="value" /><tags:button icon="search" type="button" value="Search" size="small" color="blue" onclick="searchParticipant()"/>&nbsp;<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="absmiddle">
                             <script>
                                 new Element.hide('searchSubjectInd');
                             </script>
