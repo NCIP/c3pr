@@ -29,7 +29,7 @@ function submitlinksPage(){
 			<td valign="bottom" align="left">${command.studySubject.participant.firstName}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="40%" align="right"><b><fmt:message key="participant.lastName"/>:&nbsp;</b></td>
+			<td valign="top" width="40%" align="right"><b><fmt:message key="c3pr.common.lastName"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.participant.lastName}</td>
 		</tr>
 		<tr>
