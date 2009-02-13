@@ -39,7 +39,7 @@
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.identifiers[0].value}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b><fmt:message key="study.type"/>:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="c3pr.common.type"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.studySite.study.type}</td>
 		</tr>
 		<c:forEach begin="1" end="10">
