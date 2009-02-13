@@ -1,9 +1,4 @@
 <%@ include file="taglibs.jsp"%>
-<style>
-.calendar{
-	z-index:200;
-}
-</style>
 <html>
 <head>
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>

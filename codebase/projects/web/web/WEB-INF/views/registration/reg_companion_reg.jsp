@@ -18,7 +18,7 @@
 
 		function closePopup() {
 			win.close();
-			reloadCompanion();
+			//reloadCompanion();
 		}
 
 		function reloadCompanion(){
@@ -31,10 +31,7 @@
 	</script>
 </head>
 <body>
-<form:form id="refreshPage">
-	<input type="hidden" name="_page0" id="_page0" value="0" /> 
-	<input type="hidden" name="_target1" id="_target1" value="1" /> 
-</form:form>
+
 <c:choose>
 	<c:when test="${fn:length(companions)>0}">
 		<tags:formPanelBox tab="${tab}" flow="${flow}">
@@ -45,7 +42,7 @@
 					<th width="40%" scope="col" align="center"><b>Short
 					Title-(Identifier)</b></th>
 					<th width="9%" scope="col" align="center"><b>Mandatory</b></th>
-					<th width="20%" scope="col" align="center"><b>Registartion
+					<th width="20%" scope="col" align="center"><b>Registration
 					Status</b></th>
 					<th />
 				</tr>
