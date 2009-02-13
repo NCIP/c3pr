@@ -1,5 +1,9 @@
 <%@ include file="taglibs.jsp"%>
-
+<style>
+.div div.row div.label {
+	width:5em;
+}
+</style>
 <html>
 <head>
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
@@ -77,9 +81,18 @@
 									hideEffect:Element.hide, 
 									zIndex:100, width:450, height:250 , minimizable:false, maximizable:false,
 									showEffect:Element.show, 
-									}) 
+									})
 			win.setContent(arr[0]) ;
 			win.showCenter(true);
+			inputDateElementLocal1="offStudyDate";
+			inputDateElementLink1="offStudyDate-calbutton";
+			Calendar.setup(
+			{
+			    inputField  : inputDateElementLocal1,         // ID of the input field
+			    ifFormat    : "%m/%d/%Y",    // the date format
+			    button      : inputDateElementLink1       // ID of the button
+			}
+			);
 		}
 
 		function editRegistrationPopup(){
@@ -103,6 +116,34 @@
 			win.setContent(arr[0]) ;
 			win.showCenter(true);
 	 	}
+
+		ValidationManager.submitPostProcess=function(formElement, flag){
+			if(formElement.id =='offStudyStatusForm' && flag ){
+				Element.show('confirmTakeSubjectOffStudy');
+				Element.hide('OffStudyStatus');
+				return false;
+			}
+			if(formElement.id =='editRegistrationForm' && flag ){
+				<tags:tabMethod method="editRegistration" divElement="'editRegistrationSection'" formName="'editRegistrationForm'"  viewName="/registration/edit_registration_section" /> ;
+		    	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" /> ;
+		    	Element.hide('flash-message-offstudy');
+		    	Element.hide('flash-message-reconsent');
+		    	Element.show('flash-message-edit');
+		    	closePopup();
+				return false;
+			}
+			if(formElement.id =='consentVersionForm' && flag ){
+				<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'consentVersionForm'"  viewName="/registration/enrollmentSection" />
+				<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" />
+				Element.hide('flash-message-offstudy');
+				Element.show('flash-message-reconsent');
+				Element.hide('flash-message-edit');
+				closePopup();
+				return false;
+			}
+			return flag;
+		}
+
 		
     </script>
 </head>

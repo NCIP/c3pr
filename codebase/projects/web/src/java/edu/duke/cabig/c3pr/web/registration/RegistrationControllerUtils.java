@@ -74,7 +74,7 @@ public class RegistrationControllerUtils {
 		String armAssigned = "";
 		String armAssignedLabel = "";
 		if ((studySubject.getScheduledEpoch()).getScheduledArm() != null) {
-			if (studySubject.getStudySite().getStudy().getBlindedIndicator()) {
+			if (studySubject.getStudySite().getStudy().getBlindedIndicator()  && studySubject.getScheduledEpoch().getRequiresRandomization()) {
 				armAssigned = (studySubject.getScheduledEpoch())
 						.getScheduledArm().getKitNumber();
 				armAssignedLabel = "Kit assigned";

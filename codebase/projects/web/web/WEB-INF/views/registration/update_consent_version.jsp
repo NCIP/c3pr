@@ -12,15 +12,7 @@ function setVersion(box){
 }
 
 function updateConsentVersion(id){
-	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'consentVersionForm'"  viewName="/registration/enrollmentSection" />
-	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" />
-	
-	//$('consentVersionForm').submit();
-	Element.hide('flash-message-offstudy');
-	Element.show('flash-message-reconsent');
-	Element.hide('flash-message-edit');
-	
-	closePopup();
+	$('consentVersionForm').submit();
 }
 </script>
 <form:form id="consentVersionForm">

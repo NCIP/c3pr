@@ -3,11 +3,6 @@ package edu.duke.cabig.c3pr.web.registration.tabs;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.validation.Errors;
-
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
@@ -37,7 +32,7 @@ public class ReviewSubmitTab extends RegistrationTab<StudySubjectWrapper> {
 		String armAssigned = "";
 		String armAssignedLabel = "";
 		if ((studySubject.getScheduledEpoch()).getScheduledArm() != null) {
-			if (studySubject.getStudySite().getStudy().getBlindedIndicator()) {
+			if (studySubject.getStudySite().getStudy().getBlindedIndicator() && studySubject.getScheduledEpoch().getRequiresRandomization()) {
 				armAssigned = (studySubject.getScheduledEpoch())
 						.getScheduledArm().getKitNumber();
 				armAssignedLabel = "Kit assigned";

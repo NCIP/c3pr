@@ -19,17 +19,12 @@ function takeSubjectOffStudy(){
 }
 
 function confirmTakeSubjectOffStudy(){
-	var subjectOffStudySection = $('OffStudyStatus');
-	var confirmationSection = $('confirmTakeSubjectOffStudy');
-	subjectOffStudySection.style.display = "none";
-	confirmationSection.style.display = "";
+	$('offStudyStatusForm').submit();	
 }
 
 function cancelTakeSubjectOffStudy(){
-	var subjectOffStudySection = $('OffStudyStatus');
-	var confirmationSection = $('confirmTakeSubjectOffStudy');
-	subjectOffStudySection.style.display = "";
-	confirmationSection.style.display = "none";
+	Element.hide('confirmTakeSubjectOffStudy');
+	Element.show('OffStudyStatus');
 	closePopup();
 }
 

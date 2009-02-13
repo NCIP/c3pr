@@ -35,17 +35,6 @@ var diseaseSiteAutocompleterProps = {
 								}
 }
 AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
-ValidationManager.submitPostProcess=function(formElement, flag){
-							if(formElement.id!='command' || !flag)
-								return flag;
-							//if($("treatingPhysician").value!=""){
-							//	$('otherTreatingPhysician').value="";
-							//}
-							if($("stuydDiseaseSelect").value!=""){
-								$('otherDisease').value="";
-							}
-							return flag;
-						}
 						
 		function setVersion(box){
 			cv = document.getElementById('consentVersion');
@@ -57,14 +46,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	        }       
 	    }   
 		function editRegistration(){
-	    	<tags:tabMethod method="editRegistration" divElement="'editRegistrationSection'" formName="'editRegistrationForm'"  viewName="/registration/edit_registration_section" /> ;
-	    	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" /> ;
-			//$('editRegistrationForm').submit();
-	    	Element.hide('flash-message-offstudy');
-	    	Element.hide('flash-message-reconsent');
-	    	Element.show('flash-message-edit');
-	    	
-	    	closePopup();
+			$('editRegistrationForm').submit();
 		} 
 
 </script>
