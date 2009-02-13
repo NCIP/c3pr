@@ -10,11 +10,15 @@
 <%@ attribute name="color" required="true" %>
 <%@ attribute name="size" required="false" %>
 <%@ attribute name="type" required="false" %>
+<%@ attribute name="disabled" required="false" %>
 
 <<c:choose><c:when test="${markupWithTag=='a'}">a</c:when><c:otherwise>button</c:otherwise></c:choose>
 	class="omnipotent-button ${color} ${size} ${cssClass}<c:if test="${empty icon}"> no-icon</c:if>"
 	<c:if test="${not empty type && markupWithTag!='a'}">
 		type="${type}"
+	</c:if>
+	<c:if test="${not empty disabled && markupWithTag!='a'}">
+		disabled="${disabled}"
 	</c:if>
 	<c:if test="${not empty href}">
     	href="${href}"

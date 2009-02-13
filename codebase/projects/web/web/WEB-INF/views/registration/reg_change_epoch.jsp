@@ -11,10 +11,8 @@ function manageEpochSelection(element){
 	transferToStatus = element.id ;
 	transferEpochId=element.value;
 	if(transferEpochId != '${command.studySubject.currentScheduledEpoch.epoch.id}'){
-		$$(".transferEpochButton")[0].src="/c3pr/images/flow-buttons/save_btn.png";
 		$$(".transferEpochButton")[0].disabled="";
 	}else{
-		$$(".transferEpochButton")[0].src="/c3pr/images/flow-buttons/save_btn_disabled.png";
 		$$(".transferEpochButton")[0].disabled="disabled";
 	}
 }
@@ -85,7 +83,9 @@ input[disabled] {
 </chrome:box>
 <div class="flow-buttons">
 	<span class="next">
-		<input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
-	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn_disabled.png" onclick="transfer();"  disabled="disabled" class="transferEpochButton"/>
+		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
+		<tags:button type="button" color="green" icon="continue" value="Continue" disabled="disabled" onclick="transfer();" cssClass="transferEpochButton" />
+		<%--<input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
+	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn_disabled.png" onclick="transfer();"  disabled="disabled" class="transferEpochButton"/>--%>
     </span>
 </div>  

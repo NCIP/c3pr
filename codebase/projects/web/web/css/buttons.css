@@ -110,6 +110,25 @@ button.omnipotent-button {
 	color:white;
 	text-decoration:none;
 }
+button.omnipotent-button.red[disabled='disabled'], button.omnipotent-button.red[disabled='disabled'] .right,
+button.omnipotent-button.red[disabled='disabled']:hover, button.omnipotent-button.red[disabled='disabled']:hover .right,
+button.omnipotent-button.red[disabled='disabled']:active, button.omnipotent-button.red[disabled='disabled']:active .right,
+button.omnipotent-button.green[disabled='disabled'], button.omnipotent-button.green[disabled='disabled'] .right,
+button.omnipotent-button.green[disabled='disabled']:hover, button.omnipotent-button.green[disabled='disabled']:hover .right,
+button.omnipotent-button.green[disabled='disabled']:active, button.omnipotent-button.green[disabled='disabled']:active .right,
+button.omnipotent-button.blue[disabled='disabled'], button.omnipotent-button.blue[disabled='disabled'] .right,
+button.omnipotent-button.blue[disabled='disabled']:hover, button.omnipotent-button.blue[disabled='disabled']:hover .right,
+button.omnipotent-button.blue[disabled='disabled']:active, button.omnipotent-button.blue[disabled='disabled']:active .right,
+button.omnipotent-button.orange[disabled='disabled'], button.omnipotent-button.orange[disabled='disabled'] .right,
+button.omnipotent-button.orange[disabled='disabled']:hover, button.omnipotent-button.orange[disabled='disabled']:hover .right,
+button.omnipotent-button.orange[disabled='disabled']:active, button.omnipotent-button.orange[disabled='disabled']:active .right {
+	background-image:url(../images/buttons/button-disabled.png);
+	color:white;
+}
+button.omnipotent-button[disabled='disabled'] img {
+	opacity:0.4;
+	filter:alpha(opacity=40);
+}
 button.omnipotent-button.no-icon {
 	padding:3px 6px 4px;
 }
@@ -129,6 +148,7 @@ button.omnipotent-button .right, x:-moz-any-link {
 }
 button.omnipotent-button .right, x:-moz-any-link, x:default {
 	right:9px;
+	top:-4px;
 }
 button.omnipotent-button img {
 	vertical-align:top;
