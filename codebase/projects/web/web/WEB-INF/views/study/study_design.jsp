@@ -473,7 +473,7 @@ DELETED TD
 						</tr>
 
 						<tr>
-							<td align="right"><tags:requiredIndicator /><b><fmt:message key="registration.enrolling"/></b></td>
+							<td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.enrolling"/></b></td>
 							<td align="left"><select
 								id="study.epochs[PAGE.ROW.INDEX].enrollmentIndicator"
 								name="study.epochs[PAGE.ROW.INDEX].enrollmentIndicator"
