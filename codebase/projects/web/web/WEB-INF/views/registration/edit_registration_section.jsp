@@ -2,7 +2,7 @@
 <chrome:division id="Current Epoch Information" title="Epoch & Arm">
     <div class="leftpanel">
         <div class="row">
-            <div class="label"><fmt:message key="registration.currentEpoch"/>:</div>
+            <div class="label"><fmt:message key="c3pr.common.epoch"/>:</div>
             <div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
         </div>
        	<div class="row">
