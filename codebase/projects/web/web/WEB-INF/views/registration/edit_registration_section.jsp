@@ -6,7 +6,14 @@
             <div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
         </div>
        	<div class="row">
-            <div class="label"><fmt:message key="study.epoch.arm"/>:</div>
+       		<c:choose>
+            	<c:when test="${empty armAssignedLabel}">
+            		<div class="label"><fmt:message key="study.epoch.arm"/>:</div>
+            	</c:when>
+            	<c:otherwise>
+            		<div class="label">${armAssignedLabel}:</div>
+            	</c:otherwise>
+            </c:choose>
             <c:choose>
             	<c:when test="${empty armAssignedLabel}">
             		<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notApplicable"/></span></div>

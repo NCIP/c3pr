@@ -1,4 +1,12 @@
 <%@ include file="taglibs.jsp"%>
+<style type="text/css">
+.updateConsentVersionClass div.row div.label {
+	width:17em;
+}
+.updateConsentVersionClass div.row div.value {
+	margin-left:18em;
+}
+</style>
 <script>
 
 function setVersion(box){
@@ -18,11 +26,11 @@ function updateConsentVersion(id){
 <form:form id="consentVersionForm">
 <input type="hidden" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
 <input type="hidden" name="studySubject.informedConsentVersion" id="studySubject.informedConsentVersion" value="${studySubject.informedConsentVersion}"/>
-<chrome:box title="Reconsent">
+<chrome:box title="Reconsent" id="updateConsentVersionClass">
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value">
-			<input type="text" name="studySubject.informedConsentSignedDate" id="consentSignedDate" class="date validate-DATE" />
+			<input type="text" name="studySubject.informedConsentSignedDate" id="consentSignedDate" class="date validate-DATE&&notEmpty" />
             <a href="#" id="consentSignedDate-calbutton">
            	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            	</a>
@@ -32,24 +40,15 @@ function updateConsentVersion(id){
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> ${command.studySubject.studySite.study.consentVersion}</div>
 		<div class="value">
-			<input type="checkbox" name="studySubject.currentVersionIndicator" onclick="setVersion(this);" />
+			<input type="checkbox" name="studySubject.currentVersionIndicator" onclick="setVersion(this);" class="validate-notEmpty"/>
 			<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/>
 		</div>
 	</div>
 </chrome:box>
-<!-- 
 <div class="flow-buttons">
    	<span class="next">
-		<tags:button markupWithTag="button" color="green" value="Save" onclick="updateConsentVersion();" icon="save" type="button"/>
-		<tags:button markupWithTag="button" color="red" value="Cancel" onclick="closePopup();" icon="x" type="button"/>
-	</span>
-</div>
--->
-<div class="flow-buttons">
-   	<span class="next">
-		<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="updateConsentVersion();"/>
-		<input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png"  onclick="closePopup();"/>
 		<input type="button" value="Save" onclick="updateConsentVersion();"/>
+		<input type="button" value="Cancel" onclick="closePopup();"/>
 	</span>
 </div>
 </form:form>

@@ -45,26 +45,17 @@ function cancelTakeSubjectOffStudy(){
      <div class=row>
      	<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.date"/></div>
      	<div class="value">
-     		<input type="text" name="studySubject.offStudyDate" id="offStudyDate" class="date validate-DATE" />
+     		<input type="text" name="studySubject.offStudyDate" id="offStudyDate" class="date validate-DATE&&notEmpty" />
             <a href="#" id="offStudyDate-calbutton">
            	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            	</a>
      	</div>
      </div>
 </chrome:box>
-<!--    
 <div class="flow-buttons">
 	<span class="next">
-		<tags:button markupWithTag="button" color="green" value="Save" onclick="confirmTakeSubjectOffStudy();" icon="save" type="button"/>
-		<tags:button markupWithTag="button" color="red" value="Cancel" onclick="closePopup();" icon="x" type="button"/>
-    </span>
-</div>
--->
-<div class="flow-buttons">
-	<span class="next">
-	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="confirmTakeSubjectOffStudy()"/>
-        <input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
         <input type="button" value="Save" onclick="confirmTakeSubjectOffStudy();"/>
+        <input type="button" value="Cancel" onclick="closePopup();"/>
     </span>
 </div>    
 </form:form>

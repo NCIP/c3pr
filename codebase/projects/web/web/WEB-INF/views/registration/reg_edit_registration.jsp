@@ -8,6 +8,7 @@ function manageField(box){
 		$('otherDisease').style.display="none";
 	}
 }
+
 function managePhysicianField(box){
 	if(box.value=='' && box.selectedIndex!=0){
 		new Effect.Appear('otherTreatingPhysician');
@@ -36,46 +37,31 @@ var diseaseSiteAutocompleterProps = {
 }
 AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 						
-		function setVersion(box){
-			cv = document.getElementById('consentVersion');
-			icv = document.getElementById('studySubject.informedConsentVersion');
-	    	if (box.checked) {
-	    		icv.value=cv.value;       
-	        }else {
-	        	icv.value="";             
-	        }       
-	    }   
-		function editRegistration(){
-			$('editRegistrationForm').submit();
-		} 
+function editRegistration(){
+	$('editRegistrationForm').submit();
+} 
 
 </script>
 <form:form id="editRegistrationForm">
-<chrome:box title="Edit Registration">
+<chrome:box title="Edit Registration" cssClass="editRegistrationClass">
 	<tags:tabFields tab="${tab}"/>
 	<input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
 	<form:hidden path="studySubject.informedConsentVersion"/>
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value">
-			<input type="text" name="studySubject.informedConsentSignedDate" value="${command.studySubject.informedConsentSignedDateStr}" id="consentSignedDate" class="date validate-DATE" />
+			<input type="text" name="studySubject.informedConsentSignedDate" value="${command.studySubject.informedConsentSignedDateStr}" id="consentSignedDate" class="date validate-DATE&&notEmpty" />
             <a href="#" id="consentSignedDate-calbutton">
            	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            	</a>
 				<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
 		</div>
 	</div>
-	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySite.study.consentVersion}</em></div>
-		<div class="value"><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
-				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
-	</div>
 	<c:if test="${command.studySubject.isDirectArmAssigment}">
 	<div class="row">
-		<div class="label"><fmt:message key="study.epoch.arm"/></div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="study.epoch.arm"/></div>
 		<div class="value">
-			<form:select id="ArmSelection" path="studySubject.scheduledEpoch.scheduledArms[0].arm">
-				<option value="">Please select</option>
+			<form:select id="ArmSelection" path="studySubject.scheduledEpoch.scheduledArms[0].arm" >
 				<form:options items="${command.studySubject.scheduledEpoch.epoch.arms}" itemLabel="name" itemValue="id"/>
 			</form:select>
 			<tags:hoverHint keyProp="studySubject.selectArm"/>
@@ -83,9 +69,9 @@ AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 	</div>
 	</c:if>
 	<div class="row">
-		<div class="label"><fmt:message key="registration.startDate"/></div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 		<div class="value">
-			<input type="text" name="studySubject.startDate" id="startDate" value="${ command.studySubject.startDateStr}" class="date validate-DATE" />
+			<input type="text" name="studySubject.startDate" id="startDate" value="${ command.studySubject.startDateStr}" class="date validate-DATE&&notEmpty" />
             <a href="#" id="startDate-calbutton">
            	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            	</a>
@@ -160,19 +146,10 @@ AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 		</div>
 	</div>
 </chrome:box>
-<!-- 
 <div class="flow-buttons">
 	<span class="next">
-		<tags:button markupWithTag="button" color="green" value="Save" onclick="editRegistration();" icon="save" type="button"/>
-		<tags:button markupWithTag="button" color="red" value="Cancel" onclick="closePopup();" icon="x" type="button"/>
-	</span>
-</div>
- -->
-<div class="flow-buttons">
-	<span class="next">
-		<input type="image" src="/c3pr/images/flow-buttons/save_btn.png" onclick="editRegistration();"/>
-		<input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
 		<input type="button" value="Save" onclick="editRegistration();"/>
+		<input type="button" value="Cancel" onclick="closePopup();"/>
 	</span>
 </div>
 </form:form>
