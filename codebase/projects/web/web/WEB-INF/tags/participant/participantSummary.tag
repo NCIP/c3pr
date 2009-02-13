@@ -29,11 +29,11 @@ function submitlinksPage(){
 			<td valign="bottom" align="left">${command.firstName}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b><fmt:message key="participant.lastName"/>:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="c3pr.common.lastName"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.lastName}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b><fmt:message key="participant.maidenName"/>:&nbsp;</b></td>
+			<td valign="top" width="35%" align="right"><b><fmt:message key="c3pr.common.maidenName"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.maidenName}</td>
 		</tr>
 		<tr>
