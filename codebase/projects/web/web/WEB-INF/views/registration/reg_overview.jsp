@@ -198,7 +198,7 @@
 <chrome:division id="Subject Information" title="Subject">
     <div class="leftpanel">
         <div class="row">
-            <div class="label"><fmt:message key="participant.firstName"/>:</div>
+            <div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
             <div class="value">${command.studySubject.participant.firstName}</div>
         </div>
         <div class="row">
