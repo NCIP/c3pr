@@ -230,7 +230,7 @@
 
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                <fmt:message key="study.type"/></div>
+                <fmt:message key="c3pr.common.type"/></div>
             <div class="value"><form:select path="study.type"
                                             cssClass="validate-notEmpty" >
                 <option value="">Please Select</option>
@@ -341,7 +341,7 @@
                 						command.study.blindedIndicator == 'false'}">style="display:none;"</c:if>>
 
             <div class="row">
-                <div class="label"><tags:requiredIndicator /><fmt:message key="study.type"/></div>
+                <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.type"/></div>
                 <div class="value"><form:select id="randomizationType" path="study.randomizationType" onchange="manageRandomizationTypeSelectBox(this);"  disabled="${command.study.blindedIndicator == 'true'}">
                     <form:option label="Please Select" value=""/>
                     <form:option label="Book" value="BOOK"/>
