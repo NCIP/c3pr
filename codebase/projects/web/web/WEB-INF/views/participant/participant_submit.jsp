@@ -33,15 +33,15 @@ function updateTargetPage(target){
 					<td class="alt" align="left">${command.firstName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b><fmt:message key="participant.lastName"/><b></td>
+					<td class="alt" align="left"><b><fmt:message key="c3pr.common.lastName"/><b></td>
 					<td class="alt" align="left">${command.lastName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b><fmt:message key="participant.middleName"/><b></td>
+					<td class="alt" align="left"><b><fmt:message key="c3pr.common.middleName"/><b></td>
 					<td class="alt" align="left">${command.middleName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b><fmt:message key="participant.maidenName"/><b></td>
+					<td class="alt" align="left"><b><fmt:message key="c3pr.common.maidenName"/><b></td>
 					<td class="alt" align="left">${command.maidenName}</td>
 				</tr>
 				<tr>
