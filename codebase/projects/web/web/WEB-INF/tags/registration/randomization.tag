@@ -5,7 +5,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@attribute name="registration" required="true" type="edu.duke.cabig.c3pr.domain.StudySubject"%>
 <style type="text/css">
-        .labelR { text-align: right; padding: 4px;  font-weight: bold;}
+        .labelR { text-align: right; padding: 4px;  font-weight: bold; width:12em;}
         .labelL { text-align: left; padding: 4px; font-weight: bold;}
         .labelC { text-align: center; padding: 4px; font-weight: bold;}
 </style>
