@@ -11,7 +11,7 @@
 				<tr>
 					<td class="tableHeader"><fmt:message key="c3pr.common.name"/></td>
 					<td class="tableHeader"><fmt:message key="c3pr.common.description"/></td>
-					<td class="tableHeader"><fmt:message key="registration.enrolling"/></td>
+					<td class="tableHeader"><fmt:message key="c3pr.common.enrolling"/></td>
     			</tr>
 			</c:if>
 			</thead>
