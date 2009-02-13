@@ -25,7 +25,7 @@ function submitlinksPage(){
 	<table width="100%" height="100%" border="0" cellspacing="0"
 		cellpadding="0" id="table1">
 		<tr>
-			<td valign="top" width="40%" align="right"><b><fmt:message key="participant.firstName"/>:&nbsp;</b></td>
+			<td valign="top" width="40%" align="right"><b><fmt:message key="c3pr.common.firstName"/>:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySubject.participant.firstName}</td>
 		</tr>
 		<tr>
