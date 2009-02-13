@@ -49,7 +49,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 						<div class="value">${command.studySubject.participant.firstName}</div>
 				</div>
 				<div class="row">
-					<div class="label"><fmt:message key="participant.lastName"/>:</div>
+					<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
 					<div class="value">${command.studySubject.participant.lastName}</div>
 				</div>
 				<div class="row">
