@@ -61,6 +61,7 @@
 		}
 
 		function closePopup() {
+			transferEpochId = '${command.studySubject.currentScheduledEpoch.epoch.id}' ;
 			win.close();
 		}
 		
