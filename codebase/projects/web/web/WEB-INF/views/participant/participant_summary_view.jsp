@@ -31,7 +31,7 @@ function updateTargetPage(target){
 		<chrome:division id="subject-details" title="Basic Details">
 			<table class="tablecontent" width="60%">
 				<tr>
-					<td width="35%" class="alt" align="left"><b><fmt:message key="participant.firstName"/></b></td>
+					<td width="35%" class="alt" align="left"><b><fmt:message key="c3pr.common.firstName"/></b></td>
 					<td class="alt" align="left">${command.firstName}</td>
 				</tr>
 				<tr>
