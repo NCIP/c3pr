@@ -203,7 +203,7 @@
                             <div class="leftpanel">
                                         <div class="row">
                                             <div class="label">
-                                                <tags:requiredIndicator/><fmt:message key="participant.firstName"/>
+                                                <tags:requiredIndicator/><fmt:message key="c3pr.common.firstName"/>
                                             </div>
                                             <div class="value">
                                                 <input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
