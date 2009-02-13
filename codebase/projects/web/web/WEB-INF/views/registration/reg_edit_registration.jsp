@@ -45,8 +45,6 @@ function editRegistration(){
 <form:form id="editRegistrationForm">
 <chrome:box title="Edit Registration" cssClass="editRegistrationClass">
 	<tags:tabFields tab="${tab}"/>
-	<input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
-	<form:hidden path="studySubject.informedConsentVersion"/>
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value">
