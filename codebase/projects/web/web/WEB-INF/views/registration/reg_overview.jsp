@@ -279,7 +279,7 @@
 	</div>
 	<div class="rightpanel">
         <div class="row">
-            <div class="label"><fmt:message key="registration.enrolling"/>:</div>
+            <div class="label"><fmt:message key="c3pr.common.enrolling"/>:</div>
             <div class="value">${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'}</div>
         </div>
         <div class="row">
