@@ -9,7 +9,7 @@
 		<thead>
 			<c:if test="${participants!=null}">
 				<tr>
-					<td class="tableHeader"><fmt:message key="participant.lastName"/>, <fmt:message key="c3pr.common.firstName"/></td>
+					<td class="tableHeader"><fmt:message key="c3pr.common.lastName"/>, <fmt:message key="c3pr.common.firstName"/></td>
 					<td class="tableHeader"><fmt:message key="participant.medicalRecordNumber"/></td>
 					<td class="tableHeader"><fmt:message key="c3pr.common.assigningAuthority"/></td>
 					<td class="tableHeader"><fmt:message key="participant.gender"/></td>
