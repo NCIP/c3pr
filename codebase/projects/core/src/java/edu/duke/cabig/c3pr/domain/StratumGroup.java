@@ -122,7 +122,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         	result = result + ", " + stratificationCriterionAnswerCombination.getStratificationCriterionPermissibleAnswer().getPermissibleAnswer() ; 
         }
         if(result.length() != 0 ){
-        	result = result.substring(3);
+        	result = result.substring(2);
         }
         return result;
     }
