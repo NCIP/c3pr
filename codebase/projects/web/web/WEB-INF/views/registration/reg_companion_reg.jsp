@@ -37,7 +37,7 @@
 </form:form>
 <c:choose>
 	<c:when test="${fn:length(companions)>0}">
-		<tags:panelBox>
+		<tags:formPanelBox tab="${tab}" flow="${flow}">
 			<div id="CompanionRegistration">
 			<table class="tablecontent" width="100%"
 				title="Companion Registration">
@@ -77,7 +77,7 @@
 				</c:forEach>
 			</table>
 			</div>
-		</tags:panelBox>
+		</tags:formPanelBox>
 	</c:when>
 	<c:otherwise>
 		<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
