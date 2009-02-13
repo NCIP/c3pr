@@ -71,7 +71,7 @@ function createStudy(){
             <td class="alt" align="left">${command.study.phaseCode}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b><fmt:message key="study.type"/></b></td>
+            <td class="alt" align="left"><b><fmt:message key="c3pr.common.type"/></b></td>
             <td class="alt" align="left">${command.study.type}</td>
         </tr>
         <tr>
