@@ -18,7 +18,7 @@
 		<thead>
 			<c:if test="${participants!=null}">
 				<tr>
-					<td class="tableHeader"><fmt:message key="participant.lastName"/>, <fmt:message key="participant.middleName"/>, <fmt:message key="participant.firstName"/></td>
+					<td class="tableHeader"><fmt:message key="participant.lastName"/>, <fmt:message key="participant.middleName"/>, <fmt:message key="c3pr.common.firstName"/></td>
 					<td class="tableHeader"><fmt:message key="c3pr.common.primaryIdentifier"/></td>
 					<td class="tableHeader"><fmt:message key="participant.gender"/></td>
 					<td class="tableHeader"><fmt:message key="participant.race"/></td>
