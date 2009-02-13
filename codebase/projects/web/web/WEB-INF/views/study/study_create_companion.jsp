@@ -106,7 +106,7 @@
 	            </div>
 	        </div>
 	        <div class="row">
-	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.type"/></div>
+	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.type"/></div>
 	            <div class="value">
 	            	<select id="companionStudyPAGE.ROW.INDEX-type" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.type" class="validate-notEmpty">
 	                    <option value="">Please Select</option>
@@ -204,7 +204,7 @@
 		<div class="rightpanel">
         	<div id="randomizationTypeDiv">
 	            <div class="row">
-    	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.type"/></div>
+    	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.type"/></div>
         	        <div class="value">
 	        	       	<select id="companionStudyPAGE.ROW.INDEX-randomizationType" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizationType" class="validate-notEmpty" onchange="manageRandomizationTypeSelectBox(this);">
 		                    <option value="">Please Select</option>
