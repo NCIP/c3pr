@@ -226,7 +226,7 @@ function manageCompanions(){
 			<div class="value">${command.studySubject.regWorkflowStatus.code }</div>
 		</div>		
 		<div class="row">
-			<div class="label"><b><fmt:message key="registration.currentEpoch"/></b>:</div>
+			<div class="label"><b><fmt:message key="c3pr.common.epoch"/></b>:</div>
 			<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
 		</div>
 		<c:if test="${!empty armAssigned}">
