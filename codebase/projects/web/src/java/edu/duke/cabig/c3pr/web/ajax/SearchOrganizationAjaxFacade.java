@@ -53,7 +53,7 @@ public class SearchOrganizationAjaxFacade {
         model.addColumn(columnName);
 
         Column columnNci = model.getColumnInstance();
-        columnNci.setTitle("NCI Identifier");
+        columnNci.setTitle("NCI identifier");
         columnNci.setProperty("nciInstituteCode");
         model.addColumn(columnNci);
 
