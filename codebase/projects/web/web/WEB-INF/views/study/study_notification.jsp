@@ -51,7 +51,7 @@ function saveStudy() {
 			<div id="notificationHeader"
 				style=<c:if test="${fn:length(command.study.plannedNotifications) == 0}">"display:none"</c:if>>
 			<tr>
-				<th><tags:requiredIndicator /><fmt:message key="c3pr.common.threshold"/><tags:hoverHint
+				<th><tags:requiredIndicator /><fmt:message key="notification.threshold"/><tags:hoverHint
 					keyProp="study.notification.threshold" /></th>
 				<th><fmt:message key="c3pr.common.email"/></th>
 				<th><fmt:message key="c3pr.common.role"/></th>
