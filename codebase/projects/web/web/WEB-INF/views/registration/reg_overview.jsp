@@ -497,7 +497,8 @@
 				</c:if>
 				</div>
 				<div class="rightpanel">&nbsp;</div>
-                <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="90%">
+                <div class="row">
+                <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" >
                     <tr>
                         <th width="35%" scope="col" align="left"><fmt:message key="study.criterion"/></th>
                         <th scope="col" align="left"><b><fmt:message key="study.answers"/></b></th>
@@ -510,6 +511,7 @@
                         </tr>
                     </c:forEach>
                 </table>
+                </div>
             </c:otherwise>
         </c:choose>
     </chrome:division>
