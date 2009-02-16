@@ -51,7 +51,7 @@ public class SearchInvestigatorAjaxFacade {
         model.addColumn(columnName);
 
         Column columnNci = model.getColumnInstance();
-        columnNci.setTitle("NCI Identifier");
+        columnNci.setTitle("NCI identifier");
         columnNci.setProperty("nciIdentifier");
         model.addColumn(columnNci);
 
