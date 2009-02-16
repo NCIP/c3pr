@@ -61,7 +61,7 @@
         <div class="content">
             <div class="row">
                 <div class="label">
-                    First Name:
+                    <fmt:message key="c3pr.common.firstName"/>
                 </div>
                 <div class="value">
                     <input type="text" name="firstName" id="firstName"/>
@@ -69,7 +69,7 @@
             </div>
             <div class="row">
                 <div class="label">
-                    Last Name:
+                    <fmt:message key="c3pr.common.lastName"/>
                 </div>
                 <div class="value">
                     <input type="text" name="lastName" id="lastName"/>
@@ -77,7 +77,7 @@
             </div>
             <div class="row">
                 <div class="label">
-                    NCI Identifier:
+                    <fmt:message key="c3pr.common.NCIIdentifier"/>
                 </div>
                 <div class="value">
                     <input type="text" name="nciIdentifier" id="nciIdentifier"/>
@@ -86,7 +86,7 @@
             </div>
             <div class="row">
                 <div class="label">
-                    Organization:
+                    <fmt:message key="c3pr.common.organization"/>
                 </div>
                 <div class="value">
                 	 <input type="hidden" id="healthcareSite-hidden"
