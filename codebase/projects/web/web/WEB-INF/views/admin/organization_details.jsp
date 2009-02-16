@@ -44,7 +44,7 @@
 
     <div class="row">
         <div class="label"><tags:requiredIndicator />
-            Name:
+            <fmt:message key="c3pr.common.name"/>
         </div>
         <div class="value">
             <form:input size="37" path="name" cssClass="validate-notEmpty"/>
@@ -54,7 +54,7 @@
 
     <div class="row">
         <div class="label">
-            Description:
+            <fmt:message key="c3pr.common.description"/>
         </div>
         <div class="value">
             <form:textarea rows="3" cols="35" path="descriptionText"/>
@@ -63,7 +63,7 @@
 
     <div class="row">
         <div class="label"><tags:requiredIndicator />
-            NCI Institute Code:
+            <fmt:message key="organization.NCIInstitueCode"/>
         </div>
         <div class="value">
 	        <c:if test="${FLOW == 'EDIT_FLOW'}">
@@ -79,7 +79,7 @@
     
     <div class="row">
         <div class="label">
-            Advanced Property:
+            <fmt:message key="organization.advancedProperty"/>
         </div>
         <div class="value">
 	        <input type="checkbox" id="advance" name="setAdvancedProperty" onChange="new Effect.Combo('multisite-config');">
@@ -92,7 +92,7 @@
     <div class="leftpanel">
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Study service URL:
+                <fmt:message key="organization.studyServiceURL"/>
             </div>
             <div class="value">
                 <input type="text" size="60" id="studyServiceURL" name="studyServiceURL" value="${command.hasEndpointProperty?command.studyEndPointProperty.url:''}" class="validate-notEmpty"/>
@@ -101,7 +101,7 @@
 
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Registration service URL:
+                <fmt:message key="organization.registrationServiceURL"/>
             </div>
             <div class="value">
                 <input type="text" size="60" id="registrationServiceURL" name="registrationServiceURL" value="${command.hasEndpointProperty?command.registrationEndPointProperty.url:''}" class="validate-notEmpty"/>
@@ -110,7 +110,7 @@
 
         <div class="row">
             <div class="label">
-                Authentication required:
+                <fmt:message key="organization.authenticationRequired"/>
             </div>
             <div class="value">
                 <input type="checkbox" id="authenticationRequired" name="authenticationRequired"/>
@@ -135,7 +135,7 @@
 
         <div class="row">
             <div class="label">
-                Street Address:
+                <fmt:message key="c3pr.common.streetAddress"/>
             </div>
             <div class="value">
                 <form:input size="40" path="address.streetAddress"/>
@@ -144,7 +144,7 @@
 
         <div class="row">
             <div class="label">
-                City:
+                <fmt:message key="c3pr.common.city"/>
             </div>
             <div class="value">
                 <form:input path="address.city" size="20"/>
@@ -153,7 +153,7 @@
 
         <div class="row">
             <div class="label">
-                State:
+                <fmt:message key="c3pr.common.state"/>
             </div>
             <div class="value">
                 <form:input path="address.stateCode" size="20"/>
@@ -162,7 +162,7 @@
 
         <div class="row">
             <div class="label">
-                Zip:
+                <fmt:message key="c3pr.common.zip"/>
             </div>
             <div class="value">
                 <form:input path="address.postalCode" size="20"/>
@@ -171,7 +171,7 @@
 
         <div class="row">
             <div class="label">
-                Country:
+                <fmt:message key="c3pr.common.country"/>
             </div>
             <div class="value">
                 <form:input path="address.countryCode" size="20"/>
