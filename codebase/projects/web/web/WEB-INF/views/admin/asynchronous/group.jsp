@@ -5,6 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script language="JavaScript" type="text/JavaScript">
 		instanceRowInserterProps.reset(${newGroup?0:fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)});
 </script>
@@ -20,18 +21,18 @@
 	        		<td>
 	        			<table>
 	        				<tr>
-	        					<td align="right"><tags:requiredIndicator /><b>Name:</b></td>
+	        					<td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.name"/></b></td>
 	        					<td><input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" class="validate-notEmpty"/><tags:hoverHint keyProp="investigatorGroup.name"/></td>
 	        				</tr>
 	        				<tr>
-	        					<td align="right"><tags:requiredIndicator /><b>Start Date:</b></td> 
+	        					<td align="right"><tags:requiredIndicator /><b><fmt:message key="investigatorGroup.startDate"/></b></td> 
 	        					<td><input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}" class="validate-notEmpty&&DATE"/>
 	        					 <a href="#" id="linkStartDate">
 			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
 			                	</a><tags:hoverHint keyProp="investigatorGroup.startDate"/></td>
 			                </tr>
 	        				<tr>
-	        					<td align="right"><b>End Date:</b></td>
+	        					<td align="right"><b><fmt:message key="investigatorGroup.endDate"/></b></td>
 	        					<td><input type="text" id="formEndDate" name="healthcareSite.investigatorGroups[${groupIndex }].endDate" value="${newGroup?'':command.healthcareSite.investigatorGroups[groupIndex].endDateStr}" class="validate-DATE"/>
 	        					 <a href="#" id="linkEndDate">
 			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
@@ -39,7 +40,7 @@
 	        				</tr>
 	        			</table>
 	        		</td> 
-	        		<td align="right"><b>Description:</b></td>
+	        		<td align="right"><b><fmt:message key="c3pr.common.description"/></b></td>
 	        		<td><textarea name="healthcareSite.investigatorGroups[${groupIndex }].descriptionText" rows="5" cols="50"
 	        					 value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}">${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}</textarea><tags:hoverHint keyProp="investigatorGroup.descriptionText"/></td>      
 	        	</tr>
@@ -48,9 +49,9 @@
 		           <br><br>Existing Investigators <br>
 				<table width="50%" class="tablecontent">
 					<tr>
-			            <th><tags:requiredIndicator />Investigator</th>
-			            <th><tags:requiredIndicator />Start Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
-			            <th>End Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
+			            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>
+			            <th><tags:requiredIndicator /><fmt:message key="investigatorGroup.startDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+			            <th><fmt:message key="investigatorGroup.endDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
 	        		</tr>
 				<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" var="aff" varStatus="status">
 			        <tr  id="investigatorsTableGroup">
@@ -81,9 +82,9 @@
       <br><br><b>New Investigators </b><br /><br/>
      <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
-            <th><tags:requiredIndicator />Investigator</th>
-            <th><tags:requiredIndicator />Start Date<tags:hoverHint id="1" keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
-            <th>End Date<tags:hoverHint id="2" keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
+            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>
+            <th><tags:requiredIndicator /><fmt:message key="investigatorGroup.startDate"/><tags:hoverHint id="1" keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+            <th><fmt:message key="investigatorGroup.endDate"/><tags:hoverHint id="2" keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
             <th></th>
         </tr>
 
