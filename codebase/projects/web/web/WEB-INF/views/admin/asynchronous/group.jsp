@@ -25,14 +25,14 @@
 	        					<td><input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" class="validate-notEmpty"/><tags:hoverHint keyProp="investigatorGroup.name"/></td>
 	        				</tr>
 	        				<tr>
-	        					<td align="right"><tags:requiredIndicator /><b><fmt:message key="investigatorGroup.startDate"/></b></td> 
+	        					<td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.startDate"/></b></td> 
 	        					<td><input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}" class="validate-notEmpty&&DATE"/>
 	        					 <a href="#" id="linkStartDate">
 			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
 			                	</a><tags:hoverHint keyProp="investigatorGroup.startDate"/></td>
 			                </tr>
 	        				<tr>
-	        					<td align="right"><b><fmt:message key="investigatorGroup.endDate"/></b></td>
+	        					<td align="right"><b><fmt:message key="c3pr.common.endDate"/></b></td>
 	        					<td><input type="text" id="formEndDate" name="healthcareSite.investigatorGroups[${groupIndex }].endDate" value="${newGroup?'':command.healthcareSite.investigatorGroups[groupIndex].endDateStr}" class="validate-DATE"/>
 	        					 <a href="#" id="linkEndDate">
 			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
@@ -50,8 +50,8 @@
 				<table width="50%" class="tablecontent">
 					<tr>
 			            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>
-			            <th><tags:requiredIndicator /><fmt:message key="investigatorGroup.startDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
-			            <th><fmt:message key="investigatorGroup.endDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
+			            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+			            <th><fmt:message key="c3pr.common.endDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
 	        		</tr>
 				<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" var="aff" varStatus="status">
 			        <tr  id="investigatorsTableGroup">
@@ -83,8 +83,8 @@
      <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
             <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>
-            <th><tags:requiredIndicator /><fmt:message key="investigatorGroup.startDate"/><tags:hoverHint id="1" keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
-            <th><fmt:message key="investigatorGroup.endDate"/><tags:hoverHint id="2" keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
+            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate"/><tags:hoverHint id="1" keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+            <th><fmt:message key="c3pr.common.endDate"/><tags:hoverHint id="2" keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
             <th></th>
         </tr>
 
