@@ -5,6 +5,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	
 <html>
 	<head> 
@@ -332,7 +333,7 @@
 				
 				<table width="100%">
 				<tr>
-					<td width="10%" align="right">Event:</td>
+					<td width="10%" align="right"><b><fmt:message key="notification.event"/></b></td>
 					<td align="left">
 						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="validate-notEmpty" 
 									 onchange="displayAccrualField('${nStatus.index}');runReportBasedLogic('${nStatus.index}');"
@@ -344,7 +345,7 @@
 		                </form:select>
 					</td>
 					<td></td>			
-					<td align="right" valign="top">Message Details:
+					<td align="right" valign="top"><b><fmt:message key="notification.messageDetails"/></b>
 						
 						<!-- liteView popup -->
 						<div id="emailMessageDetails-${nStatus.index}" style="display:none">	
@@ -365,7 +366,7 @@
 		            </td>
 		        </tr>
 		        
-		        <tr><td align="right">Frequency:</td>
+		        <tr><td align="right"><b><fmt:message key="notification.frequency"/></b></td>
 		            <td>
 		            <c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT_REPORT'}">
 						<form:select path="plannedNotifications[${nStatus.index}].frequency" cssClass="validate-notEmpty" disabled="true" onchange="runReportBasedLogic('${nStatus.index}');">
@@ -513,7 +514,7 @@
 		
 		<table width="100%">
 			<tr>
-				<td width="10%" align="right">Event:
+				<td width="10%" align="right"><b><fmt:message key="notification.event"/></b>
 	            </td>
 				<td align="left">
 	                <select id="plannedNotifications[PAGE.ROW.INDEX].eventName"  
@@ -531,7 +532,7 @@
 				</td>
 				<td></td>
 				
-				<td align="right" valign="top">Message Details:
+				<td align="right" valign="top"><b><fmt:message key="notification.messageDetails"/></b>
 					<!-- liteView popup -->
 					<div id="emailMessageDetails-PAGE.ROW.INDEX" style="display:none">	
 						<input type="text" id="plannedNotifications[PAGE.ROW.INDEX].title" name="plannedNotifications[PAGE.ROW.INDEX].title" size="100" class="width:96%;" onFocus="lastElement = this;" />
@@ -545,7 +546,7 @@
 	            </td>
 	        </tr>
 	        
-	        <tr><td align="right">Frequency:</td>
+	        <tr><td align="right"><b><fmt:message key="notification.frequency"/></b></td>
 	            <td>
 		            <select id="plannedNotifications[PAGE.ROW.INDEX].frequency" 
 		            		name="plannedNotifications[PAGE.ROW.INDEX].frequency" class="validate-notEmpty" disabled="disabled">
@@ -561,7 +562,7 @@
 	        
 	        <tr>
 	        	<td align="right"><div id="studyAccrual[PAGE.ROW.INDEX]label" style="display:none">
-	        	Threshold:</div></td>
+	        	<b><fmt:message key="notification.threshold"/></b></div></td>
 	            <td><div id="studyAccrual[PAGE.ROW.INDEX]value" style="display:none">
 						<select id="plannedNotifications[PAGE.ROW.INDEX].studyThreshold" 
 								name="plannedNotifications[PAGE.ROW.INDEX].studyThreshold">
@@ -576,7 +577,7 @@
 	        </tr>
 	        
 	        <tr>
-	        	<td align="right"><div id="studySiteAccrual[PAGE.ROW.INDEX]label" style="display:none">Threshold:</div></td>
+	        	<td align="right"><div id="studySiteAccrual[PAGE.ROW.INDEX]label" style="display:none"><b><fmt:message key="notification.threshold"/></b></div></td>
 	            <td><div id="studySiteAccrual[PAGE.ROW.INDEX]value" style="display:none">
 					<select id="plannedNotifications[PAGE.ROW.INDEX].studySiteThreshold" 
 							name="plannedNotifications[PAGE.ROW.INDEX].studySiteThreshold">
@@ -690,14 +691,14 @@
 		<div id="emailMessageDetails" style="display:none">	
 			<table width="650" style="font-size: 11px;">
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="middle" class="spacer"></td></tr>
-				<tr><td width="17%" align="right" >Subject Line:</td> 								 
+				<tr><td width="17%" align="right" ><b><fmt:message key="notification.subjectLine"/></b></td> 								 
 				<td><input type="text" id="plannedNotifications.title" size="80" class="width:96%;" onFocus="lastElement = this;" />
 				</td></tr>
 				
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
 				
 				<tr>
-					 <td valign="top" align="right">Substitution Variables:</td>
+					 <td valign="top" align="right"><b><fmt:message key="notification.substitutionVariables"/></b></td>
 					 <td>
 						<select id="subVar" name="subVar" onChange="insertAtCursor()" >
 								<option value="" selected="selected">Please Select</option>
@@ -710,7 +711,7 @@
 					
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
 				
-				<tr><td valign="top" align="right">Message:</td>
+				<tr><td valign="top" align="right"><b><fmt:message key="notification.message"/></b></td>
 					<td>
 						<textarea rows="20" cols="77" id="plannedNotifications.message"></textarea>
 					</td>
