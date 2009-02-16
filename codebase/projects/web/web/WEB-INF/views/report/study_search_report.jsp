@@ -66,12 +66,12 @@ function showTable(table) {
             <table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            	<div class="row" name="inputs">Short Title
+	            	<div class="row" name="inputs"><b><fmt:message key="study.shortTitle"/></b>
 	            		<form:input path="studyShortTitle" size="20"/>
 		            </div>
 		        </td>
 		        <td align="left">
-		        	<div class="row" name="inputs">Identifier
+		        	<div class="row" name="inputs"><b><fmt:message key="c3pr.common.identifier"/></b>
 	            		<form:input path="studyIdentifier" size="20"/>
 		            </div>
 		        </td>
@@ -85,19 +85,19 @@ function showTable(table) {
         	<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            <div class="row" name="inputs">Identifier
+	            <div class="row" name="inputs"><b><fmt:message key="c3pr.common.identifier"/></b>
 	            	<form:input path="participantIdentifier" size="20"/>
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs"><fmt:message key="c3pr.common.firstName"/>
+		        <div class="row" name="inputs"><b><fmt:message key="c3pr.common.firstName"/></b>
 	            	<form:input path="firstName" size="20"/>
 	            </div>
 		        </td>
 	        </tr>
 	        <tr>
 	            <td align="left">
-	            <div class="row" name="inputs"><fmt:message key="c3pr.common.lastName"/>
+	            <div class="row" name="inputs"><b><fmt:message key="c3pr.common.lastName"/></b>
 	            	<form:input path="lastName" size="20"/>
 	            </div>
 		        </td>
