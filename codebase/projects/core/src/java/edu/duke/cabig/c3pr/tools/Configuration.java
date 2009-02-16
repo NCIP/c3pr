@@ -119,6 +119,9 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> ESB_TIME_OUT = PROPERTIES
 					.add(new ConfigurationProperty.Text("esb.timeout"));
     
+    public static final ConfigurationProperty<String> COPPA_ENABLE = PROPERTIES
+    .add(new ConfigurationProperty.Text("coppaEnable"));
+    
     
     protected Class<? extends ConfigurationEntry> getConfigurationEntryClass() {
         return C3prConfigurationEntry.class;
