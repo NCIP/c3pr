@@ -39,7 +39,7 @@
 		<tags:formPanelBox tab="${tab}" flow="${flow}">
 			<div id="CompanionRegistration">
 			<table class="tablecontent" width="100%"
-				title="Companion Registration">
+				title="Companions">
 				<tr>
 					<th width="40%" scope="col" align="center"><b>Short
 					Title-(Identifier)</b></th>
