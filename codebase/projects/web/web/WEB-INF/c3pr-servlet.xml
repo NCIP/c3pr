@@ -142,11 +142,8 @@
         <property name="viewName" value="/admin/notification_search"/>
     </bean>
     
-    <bean name="/registration/createCompanionRegistration" id="createCompanionRegistration"
-          class="edu.duke.cabig.c3pr.web.registration.ChangeEpochController" autowire="byName">
-        <property name="studyDao" ref="studyDao"/>
-        <property name="participantDao" ref="participantDao"/>
-        <property name="studySubjectDao" ref="studySubjectDao"/>
+    <bean name="/registration/selectStudySiteAndEpoch" id="selectStudySiteAndEpoch"
+          class="edu.duke.cabig.c3pr.web.registration.SelectStudySiteAndEpochController" autowire="byName">
     </bean>
     
     <bean name="/admin/createNotification" id="createNotificationController"

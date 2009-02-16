@@ -19,7 +19,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
-public class ChangeEpochController extends AbstractController{
+public class SelectStudySiteAndEpochController extends AbstractController{
 
 	private StudyDao studyDao ;
 	private ParticipantDao participantDao ;
@@ -60,7 +60,7 @@ public class ChangeEpochController extends AbstractController{
 		map.put("epochs", epochs);
 		map.put("parentRegistrationId", request.getParameter("parentRegistrationId"));
 		
-		ModelAndView mav = new ModelAndView("registration/createCompanionRegistration", map);
+		ModelAndView mav = new ModelAndView("registration/select_studysite_and _epoch", map);
 		return mav;
 	}
 

@@ -9,7 +9,11 @@
 		var win;
 		function openPopup(companionStudy, participant, parentRegistrationId){
 			win = new Window(
-					{onClose: function() {$('refreshPage').submit();},title: "Registration", top:35, scrollbar: false, left:100, zIndex:100, width:700, height:325 , url: "<c:url value='/pages/registration/createCompanionRegistration?decorator=noheaderDecorator&customButton=true&create_companion=true&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
+					{onClose: function() {$('refreshPage').submit();},
+						title: "Companion Registration", 
+						top:35, scrollbar: false, left:100, 
+						zIndex:100, width:700, height:325 , 
+						url: "<c:url value='/pages/registration/selectStudySiteAndEpoch?decorator=noheaderDecorator&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
 					  showEffectOptions: {duration:1.5}
 					}
 				) 
@@ -18,11 +22,11 @@
 
 		function closePopup() {
 			win.close();
-			//reloadCompanion();
+			reloadCompanion();
 		}
 
 		function reloadCompanion(){
-			$('refreshPage').submit();
+			//$('refreshPage').submit();
    		}
 
    		function manageCompanionRegistration(url){
@@ -31,7 +35,10 @@
 	</script>
 </head>
 <body>
-
+<form:form id="refreshPage">
+	<input type="hidden" name="_target${tab.targetNumber - 1}" id="_target" value="${tab.targetNumber - 1}" />
+	<input type="hidden" name="_page" value="${tab.number - 1}" id="_page" />
+</form:form>
 <c:choose>
 	<c:when test="${fn:length(companions)>0}">
 		<tags:formPanelBox tab="${tab}" flow="${flow}">
@@ -56,7 +63,7 @@
 								<csmauthz:accesscontrol domainObject="${command.studySubject}"
 									hasPrivileges="UPDATE"
 									authorizationCheckName="domainObjectAuthorizationCheck">
-									<input type="button" value="Manage"
+									<input type="button" value="Remove"
 										onclick='manageCompanionRegistration("${companion.companionRegistrationUrl}");' />
 								</csmauthz:accesscontrol>
 							</c:when>

@@ -99,9 +99,7 @@
             <tags:tabFields tab="${tab}"/>
             <div style="display:none">
                 <form:input path="studySubject.studySite" cssClass="validate-notEmpty"/><form:input path="studySubject.participant" cssClass="validate-notEmpty" /><input type="text" id="epochElement" name="epoch" value="${!empty command.studySubject.scheduledEpoch?command.studySubject.scheduledEpoch.epoch.id:''}" class="validate-notEmpty"/>
-            </div><registrationTags:goToTab currentTab="0" registration="${command.studySubject}" /><registrationTags:backToTab currentTab="0" registration="${command.studySubject}" />
-            <c:set var="custonButton" value ="${param.customButton}">
-            </c:set>
+            </div>
             <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
         </form:form>
         <c:if test="${command.studySubject.studySite.id!=null && command.studySubject.participant.id!=null}">

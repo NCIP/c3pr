@@ -30,7 +30,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			value="edu.duke.cabig.c3pr.domain.Study:CREATE" />
 		<entry key="/pages/study/selectStudySites"
 			value="edu.duke.cabig.c3pr.domain.Study:UPDATE" />
-		<entry key="/pages/study/createCompanionStudy"
+		<entry key="/pages/study/selectStudySiteAndEpoch"
 			value="edu.duke.cabig.c3pr.domain.Study:CREATE" />
 
 		<entry
