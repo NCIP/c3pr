@@ -83,7 +83,7 @@
             },
             valueSelector: function(obj) {
             	if(obj.uniqueIdentifier != null){
-            		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
+            		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI data" width="17" height="16" border="0" align="middle"/>';
             	} else {
             		image = '';
             	}
