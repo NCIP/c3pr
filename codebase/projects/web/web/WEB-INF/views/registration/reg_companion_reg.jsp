@@ -22,12 +22,7 @@
 
 		function closePopup() {
 			win.close();
-			reloadCompanion();
 		}
-
-		function reloadCompanion(){
-			//$('refreshPage').submit();
-   		}
 
    		function manageCompanionRegistration(url){
    			document.location="../registration/manageRegistration?"+url;

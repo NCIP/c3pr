@@ -1,29 +1,5 @@
 <%@ include file="taglibs.jsp"%>
 <script>
-
-function minimizeStudyBox(msg){
-	PanelCombo('Studybox');
-	displayStudyMessage(msg,true);
-}
-
-function displayStudyMessage(message,pulsateFlag){
-	localClassString="#Study .header h2";
-	element=$$(localClassString)[0];
-	new Element.update(element,message);
-	pulsateFlag?(!is_ie?new Effect.Pulsate(element):null):null;
-}
-
-function minimizeSubjectBox(msg){
-	PanelCombo('SubjectBox');
-	displaySubjectMessage(msg,true);
-}
-
-function displaySubjectMessage(message,pulsateFlag){
-	element=$$("#Subject .header h2")[0];
-	new Element.update(element,message);
-	pulsateFlag?(!is_ie?new Effect.Pulsate(element):null):null;
-}
-
 var studySiteId="" ;
 var epochId="";
 
@@ -63,10 +39,6 @@ function manageEpochSelection(element){
 </head>
 <body>
 	<tags:panelBox>
-	  <script>
-		minimizeStudyBox("Selected Study: ${studySite.study.shortTitleText} (${studySite.study.coordinatingCenterAssignedIdentifier.value}}"); 
-		minimizeSubjectBox("Selected Subject: ${participant.fullName} ");
-	</script>
 	<chrome:division title="Select Study Site">
 		<table id="studySites" class="tablecontent" border="0" cellspacing="0" cellpadding="0"	>
                <tr>
