@@ -288,6 +288,7 @@
     
     <bean id="remoteSession" class="com.semanticbits.coppa.infrastructure.RemoteSession" init-method="init">
         <property name="enableCaching" value="true"/>
+        <property name="enabled" value="${coppaEnable}"/>
         
         <property name="remoteEntities">
             <list>
@@ -329,8 +330,9 @@
     <bean id="gridIdentifierInterceptor" class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
           autowire="byName"/>
           
-    <bean id="remoteEntityInterceptor" class="com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor"
-          autowire="byName"/>
+    <bean id="remoteEntityInterceptor" class="com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor" autowire="byName">
+    	<property name="enabled" value="${coppaEnable}"/>
+    </bean>
           
     <bean id="hibernateTemplate"
           class="org.springframework.orm.hibernate3.HibernateTemplate">
