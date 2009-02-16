@@ -4,7 +4,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@taglib uri="http://www.extremecomponents.org" prefix="ec"%>
 
@@ -78,12 +78,12 @@ function clearScreen() {
             <table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            	<div class="row" name="inputs"><b>Short Title</b>
+	            	<div class="row" name="inputs"><b><fmt:message key="study.shortTitle"/></b>
 	            		<form:input path="studyShortTitle" size="20"/>
 		            </div>
 		        </td>
 		        <td align="left">
-		        	<div class="row" name="inputs"><b>Identifier</b>
+		        	<div class="row" name="inputs"><b><fmt:message key="c3pr.common.identifier"/></b>
 	            		<form:input path="studyCoordinatingSite" size="20"/>
 		            </div>
 		        </td>
@@ -97,12 +97,12 @@ function clearScreen() {
         	<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            <div class="row" name="inputs"><b>Site Name</b>
+	            <div class="row" name="inputs"><b><fmt:message key="site.siteName"/></b>
 	            	<form:input path="siteName" size="25"/>
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs"><b>NCI ID</b>
+		        <div class="row" name="inputs"><b><fmt:message key="c3pr.common.NCIIdentifier"/></b>
 	            	<form:input path="siteNciId" size="25"/>
 	            </div>
 		        </td>
@@ -122,12 +122,12 @@ function clearScreen() {
         	<tr>
 	        	<td align="left">
 		        	<div class="row" name="inputs">
-		        		<b>Start Date</b><tags:dateInput path="regStartDate"/>
+		        		<b><fmt:message key="c3pr.common.startDate"/></b><tags:dateInput path="regStartDate"/>
 		            </div>
 	            </td>
 	            <td align="left">    
 		            <div class="row" name="inputs">
-		            	<b>End Date</b><tags:dateInput path="regEndDate"/>
+		            	<b><fmt:message key="c3pr.common.endDate"/></b><tags:dateInput path="regEndDate"/>
 		            </div>
 	            </td>
         	</tr>        	
@@ -141,12 +141,12 @@ function clearScreen() {
         	<tr>
 	        	<td align="left">
 					<div class="row" name="inputs">
-						<b>Date of Birth</b><tags:dateInput path="birthDate"/>
+						<b><fmt:message key="search.dateOfBirth"/></b><tags:dateInput path="birthDate"/>
 					</div>
 				</td>
 				<td align="left" width="40%" >
 					<div class="row" name="inputs">
-						<b>Race</b> &nbsp;
+						<b><fmt:message key="search.race"/></b> &nbsp;
 						<form:select path="raceCode" cssStyle="width:205px;">
 							<option value="">Please Select</option>
 							<form:options items="${raceCode}" itemLabel="desc" itemValue="code" />
