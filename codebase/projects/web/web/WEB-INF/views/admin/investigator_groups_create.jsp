@@ -225,7 +225,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		
 
  <chrome:division title="Organization" id="disease">
-          Organization<br>
+          <fmt:message key="c3pr.common.organization"/><br>
           <input type="hidden" id="healthcareSite-hidden"
 					name="healthcareSite" value="${command.healthcareSite.id}" /> <input
 					id="healthcareSite-input" size="60" type="text" name="xyz"
@@ -238,7 +238,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 				 <p id="flashMessage" style="display: none">Search for an Organization first
 					</p>
 
-          <br><br>Select a Group<br>
+          <br><br><fmt:message key="c3pr.common.selectAGroup"/><br>
           		<select multiple size="1" style="width:400px" id="disease-sub-category">
           </select>
 		  <p id="flashMessageForGroup" style="display: none">Please Add a Investigator Group</p>

@@ -7,5 +7,6 @@
 <%@taglib prefix="commons" uri="http://bioinformatics.northwestern.edu/taglibs/commons"%>
 <%@taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="edu.duke.cabig.c3pr.domain.C3PRUserGroupType" %>
 
