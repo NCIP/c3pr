@@ -5,6 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script>
 function navRollOver(obj, state) {
@@ -21,12 +22,12 @@ function navRollOver(obj, state) {
 			<thead>
 
             <tr>
-				<td class="tableHeader">Primary Identifier</td>
-				<td class="tableHeader">Short Title</td>
-				<td class="tableHeader">Status</td>
-				<td class="tableHeader">Sponsor</td>
-				<td class="tableHeader">Phase</td>
-				<td class="tableHeader">Target Accrual</td>
+				<td class="tableHeader"><fmt:message key="c3pr.common.primaryIdentifier"/></td>
+				<td class="tableHeader"><fmt:message key="study.shortTitle"/></td>
+				<td class="tableHeader"><fmt:message key="c3pr.common.status"/></td>
+				<td class="tableHeader"><fmt:message key="study.sponsor"/></td>
+				<td class="tableHeader"><fmt:message key="study.phase"/></td>
+				<td class="tableHeader"><fmt:message key="c3pr.common.targetAccrual"/></td>
 			</tr>
 			 </thead>
             <tbody class="tableBody">
