@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -18,9 +20,7 @@ import org.hibernate.annotations.Parameter;
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 
 /**
- * The Class ResearchStaff.
- * 
- * @author Priyatam, Vinay G
+ * @author Priyatam
  */
 @Entity
 @Table(name = "research_staff")
@@ -28,8 +28,12 @@ import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "research_staff_id_seq") })
 public abstract class ResearchStaff extends User {
 
+    private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
+
     private String nciIdentifier;
     
+    private String fullName;
+
     private HealthcareSite healthcareSite;
     
     private List<UserBasedRecipient> userBasedRecipient;
@@ -38,6 +42,61 @@ public abstract class ResearchStaff extends User {
 		super();
 	}
 	
+	@Transient
+    public String getLastFirst() {
+        StringBuilder name = new StringBuilder();
+        boolean hasFirstName = getFirstName() != null;
+        if (getLastName() != null) {
+            name.append(getLastName());
+            if (hasFirstName) name.append(", ");
+        }
+        if (hasFirstName) {
+            name.append(getFirstName());
+        }
+        return name.toString();
+    }
+
+    @Transient
+    public String getFullName() {
+        StringBuilder name = new StringBuilder();
+        boolean hasLastName = getLastName() != null;
+        if (getFirstName() != null) {
+            name.append(getFirstName());
+            if (hasLastName) name.append(' ');
+        }
+        if (hasLastName) {
+            name.append(getLastName());
+        }
+        return name.toString();
+    }
+
+    public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
+        getStudyPersonnels().add(studyPersonnel);
+    }
+
+    // / BEAN METHODS
+
+    @OneToMany(mappedBy = "researchStaff")
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    public List<StudyPersonnel> getStudyPersonnels() {
+        return studyPersonnels;
+    }
+
+    public void setStudyPersonnels(List<StudyPersonnel> studyPersonnels) {
+        this.studyPersonnels = studyPersonnels;
+    }
+
+    @OneToMany
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name = "RS_ID")
+    public List<ContactMechanism> getContactMechanisms() {
+        return contactMechanisms;
+    }
+
+    public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
+        this.contactMechanisms = contactMechanisms;
+    }
+
     @ManyToOne
     @JoinColumn(name = "HCS_ID")
     public HealthcareSite getHealthcareSite() {
@@ -47,19 +106,7 @@ public abstract class ResearchStaff extends User {
     public void setHealthcareSite(HealthcareSite healthcareSite) {
         this.healthcareSite = healthcareSite;
     }
-    
 
-    @OneToMany
-    @Cascade(value = { CascadeType.LOCK})
-    @JoinColumn(name = "research_staff_id")
-	public List<UserBasedRecipient> getUserBasedRecipient() {
-		return userBasedRecipient;
-	}
-
-	public void setUserBasedRecipient(List<UserBasedRecipient> userBasedRecipient) {
-		this.userBasedRecipient = userBasedRecipient;
-	}
-	
     public int compareTo(Object o) {
         if (this.equals((ResearchStaff) o)) return 0;
         else return 1;
@@ -95,5 +142,15 @@ public abstract class ResearchStaff extends User {
         this.nciIdentifier = nciIdentifier;
     }
 
+    @OneToMany
+    @Cascade(value = { CascadeType.LOCK})
+    @JoinColumn(name = "research_staff_id")
+	public List<UserBasedRecipient> getUserBasedRecipient() {
+		return userBasedRecipient;
+	}
+
+	public void setUserBasedRecipient(List<UserBasedRecipient> userBasedRecipient) {
+		this.userBasedRecipient = userBasedRecipient;
+	}
 
 }

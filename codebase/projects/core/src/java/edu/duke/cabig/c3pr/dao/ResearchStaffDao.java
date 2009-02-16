@@ -70,6 +70,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     private UserProvisioningManager userProvisioningManager;
     
     private CSMObjectIdGenerator siteObjectIdGenerator;
+    
+    private HealthcareSiteDao healthcareSiteDao;
 
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
@@ -123,8 +125,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * @return the list< research staff>
      */
     public List<ResearchStaff> searchByExample(ResearchStaff staff, boolean isWildCard) {
-    	getAndUpdateRemoteResearchStaff(null);
     	
+    	//get the remote staff and update the database first
+        RemoteResearchStaff remoteResearchStaff = convertToRemoteResearchStaff(staff);
+        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
+        
         List<ResearchStaff> result = new ArrayList<ResearchStaff>();
 
         Example example = Example.create(staff).excludeZeroes().ignoreCase();
@@ -193,14 +198,18 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * @return the by nci identifier
      */
     public ResearchStaff getByNciIdentifier(String nciIdentifier) {
+    	//get the remote staff and update the database first
+        RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+        remoteResearchStaff.setNciIdentifier(nciIdentifier);
+        
+        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
+        
         ResearchStaff result = null;
-
         try {
             result = (ResearchStaff)(getHibernateTemplate().find("from ResearchStaff rs where rs.nciIdentifier = '" +nciIdentifier+ "'").get(0));
         }
         catch (Exception e) {
-            log.debug("User with nciIdentifier " + nciIdentifier
-                            + " does not exist. Returning null");
+            log.debug("User with nciIdentifier " + nciIdentifier + " does not exist. Returning null");
         }
         return result;
     }
@@ -214,6 +223,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * @return the ResearchStaff List
      */
     public List<ResearchStaff> getByEmailAddress(String emailAddress) {
+    	//get the remote staff and update the database first
+        RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+        remoteResearchStaff.setUniqueIdentifier(emailAddress);
+        
+        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
+        
         return getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'");
     }
     
@@ -225,21 +240,52 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * @return the ResearchStaff List
      */
     public List<ResearchStaff> getByUniqueIdentifier(String emailAddress) {
+    	//get the remote staff and update the database first
+//        RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+//        remoteResearchStaff.setUniqueIdentifier(emailAddress);
+//        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
+        
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
     	researchStaffList.addAll(getHibernateTemplate().find("from LocalResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'"));
     	researchStaffList.addAll(getHibernateTemplate().find("from RemoteResearchStaff rs where rs.uniqueIdentifier = '" +emailAddress+ "'"));
         return researchStaffList;
     }
     
+    
     /**
-     * Gets the research staff by organization nci institute code from the database and the remote datastore.
+     * Convert to remote research staff. Only include the properties that COPPA understands
+     * 
+     * @param researchStaff the research staff
+     * 
+     * @return the remote research staff
+     */
+    private RemoteResearchStaff convertToRemoteResearchStaff(ResearchStaff researchStaff){
+    	if(researchStaff instanceof RemoteResearchStaff){
+    		return (RemoteResearchStaff)researchStaff;
+    	}
+    	
+    	RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+    	remoteResearchStaff.setAddress(researchStaff.getAddress());
+    	remoteResearchStaff.setFirstName(researchStaff.getFirstName());
+    	remoteResearchStaff.setLastName(researchStaff.getLastName());
+    	remoteResearchStaff.setHealthcareSite(researchStaff.getHealthcareSite());
+    	remoteResearchStaff.setNciIdentifier(researchStaff.getNciIdentifier());
+    	return remoteResearchStaff;
+    }
+    
+    /**
+     * First gets the staff from COPPA based on the hcs.nciCode and saves it to the db.
+     * Since hcs is not transient it is saved along with the staff.
+     * Then gets btoh the local and remote research staff by organization nci institute code from the database.
      * 
      * @param nciInstituteCode the nci institute code
      * 
      * @return the research staff by organization nci institute code
      */
     public List<ResearchStaff> getResearchStaffByOrganizationNCIInstituteCode(HealthcareSite healthcareSite) {
-    	getAndUpdateRemoteResearchStaff(healthcareSite);
+    	RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+    	remoteResearchStaff.setHealthcareSite(healthcareSite);
+    	getAndUpdateRemoteResearchStaff(remoteResearchStaff);
     	
     	//run a query against the updated database to get all research staff
     	List<ResearchStaff> completeResearchStaffListFromDatabase =  
@@ -248,9 +294,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     }
     
     
-    private void getAndUpdateRemoteResearchStaff(HealthcareSite healthcareSite){
+    private void getAndUpdateRemoteResearchStaff(RemoteResearchStaff remoteResearchStaff){
     	//First get the remote content
-    	List<RemoteResearchStaff> remoteResearchStaffList =  getFromResolverUsingOrganization(healthcareSite);
+    	List<RemoteResearchStaff> remoteResearchStaffList =  getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
     	//update the database with the remote content
     	updateDatabaseWithRemoteContent(remoteResearchStaffList);
     }
@@ -262,27 +308,22 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * 
      * @return the research staff by organization nci institute code
      */
-    public List<RemoteResearchStaff> getFromResolverUsingOrganization(HealthcareSite healthcareSite){
-    	
-    	RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
-    	remoteResearchStaff.setHealthcareSite(healthcareSite);
-    	
+    public List<RemoteResearchStaff> getRemoteResearchStaffFromResolverByExample(RemoteResearchStaff remoteResearchStaff){
     	List<Object> objectList = remoteSession.find(remoteResearchStaff);
     	List<RemoteResearchStaff> researchStaffList = new ArrayList<RemoteResearchStaff>();
     	
     	RemoteResearchStaff tempRemoteResearchStaff;
     	for(Object object: objectList){
     		tempRemoteResearchStaff = (RemoteResearchStaff)object;
-    		if(tempRemoteResearchStaff.getHealthcareSite() == null && healthcareSite != null){
+    		if(tempRemoteResearchStaff.getHealthcareSite() == null && remoteResearchStaff.getHealthcareSite() != null){
     			//if the resolver hasnt set the hcs then set it if it has been passed in
-    			tempRemoteResearchStaff.setHealthcareSite(healthcareSite);
+    			tempRemoteResearchStaff.setHealthcareSite(remoteResearchStaff.getHealthcareSite());
     		} else {
     			//if the resolver hasnt set the hcs and if it hasn't been passed in then..
     			//get the corresponding hcs from the dto object and save that organization and then save this staff
-    			
-    			//tempRemoteResearchStaff.setHealthcareSite(healthcareSite);
+    			//for now defaulting to duke
+    			tempRemoteResearchStaff.setHealthcareSite(healthcareSiteDao.getByNciInstituteCode("NC010"));
     		}
-    		
     		researchStaffList.add(tempRemoteResearchStaff);
     	}
     	return researchStaffList;
@@ -302,6 +343,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
    				//this guy already exists....call mergeResearchStaff
    				try {
 					merge((ResearchStaff)remoteResearchStaff);
+					getHibernateTemplate().flush();
 				} catch (C3PRBaseException e) {
 					log.error(e.getMessage());
 				}
@@ -311,6 +353,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
    					//This if condition is temporary. once we have the logic to fetch the org of the retrieved staff then we can remove this.
    					if(remoteResearchStaff.getHealthcareSite() != null){
    						saveResearchStaff(remoteResearchStaff);
+   						getHibernateTemplate().flush();
    					}
    				} catch (C3PRBaseException cbe){
    					log.error(cbe.getMessage());
@@ -318,7 +361,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
    			}
     	}
     }
-    
+
     
     /*
 	 * Moved save code here from personnelServiceImpl for coppa integration
@@ -480,6 +523,14 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
 		this.siteObjectIdGenerator = siteObjectIdGenerator;
+	}
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
 }
