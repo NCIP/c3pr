@@ -73,7 +73,7 @@
     <div class="leftpanel">
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-               Organization:
+               <fmt:message key="c3pr.common.organization"/>
             </div>
             <div class="value">
             
@@ -106,7 +106,7 @@
     <div class="leftpanel">
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                First Name:</div>
+                <fmt:message key="c3pr.common.firstName"/></div>
             <div class="value">
                 <form:input size="25" path="firstName"
                             cssClass="validate-notEmpty" />
@@ -114,21 +114,21 @@
         </div>
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                Last Name:</div>
+                <fmt:message key="c3pr.common.lastName"/></div>
             <div class="value">
                 <form:input path="lastName" cssClass="validate-notEmpty" size="25" />
             </div>
         </div>
         <div class="row">
             <div class="label">
-                Middle Name:</div>
+               <fmt:message key="c3pr.common.middleName"/></div>
             <div class="value">
                 <form:input path="middleName" size="25" />
             </div>
         </div>
         <div class="row">
             <div class="label">
-                Maiden Name:</div>
+                <fmt:message key="c3pr.common.maidenName"/></div>
             <div class="value">
                 <form:input path="maidenName" size="25" />
             </div>
@@ -138,7 +138,7 @@
     <div class="rightpanel">
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                NCI Identifier:
+                 <fmt:message key="c3pr.common.NCIIdentifier"/>
             </div>
             <div class="value">
                 <form:input path="nciIdentifier" size="25" cssClass="validate-notEmpty" />
@@ -147,7 +147,7 @@
         </div>
         <div class="row">
             <div class="label"><tags:requiredIndicator />
-                    ${command.contactMechanisms[0].type.displayName} (Username):
+                    ${command.contactMechanisms[0].type.displayName} (Username)
             </div>
             <div class="value">
                 <form:input size="30"
@@ -156,7 +156,7 @@
         </div>
         <div class="row">
             <div class="label">
-                    ${command.contactMechanisms[1].type.displayName}:
+                    ${command.contactMechanisms[1].type.displayName}
             </div>
             <div class="value">
                 <form:input size="25"
@@ -166,7 +166,7 @@
         </div>
         <div class="row">
             <div class="label">
-                    ${command.contactMechanisms[2].type.displayName}:
+                    ${command.contactMechanisms[2].type.displayName}
             </div>
             <div class="value">
                 <form:input size="25"
@@ -186,7 +186,7 @@
         <c:forEach items="${groups}" var="group" varStatus="status">
             <div class="row">
                 <div class="label">
-                        ${group.displayName}:
+                        ${group.displayName}
                 </div>
                 <div class="value">
                     <form:checkbox id="groups_${status.index}" path="groups" value="${group}" />
