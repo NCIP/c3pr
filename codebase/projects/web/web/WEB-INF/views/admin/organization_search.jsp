@@ -39,7 +39,7 @@
         <div class="content">
             <div class="row">
                 <div class="label">
-                    Name:
+                    <fmt:message key="c3pr.common.name"/>
                 </div>
                 <div class="value">
                     <input type="text" name="name" id="name"/>
@@ -47,7 +47,7 @@
             </div>
             <div class="row">
                 <div class="label">
-                    NCI Identifier:
+                    <fmt:message key="c3pr.common.NCIIdentifier"/>
                 </div>
                 <div class="value">
                     <input type="text" name="nciIdentifier" id="nciIdentifier"/>
