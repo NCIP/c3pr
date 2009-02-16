@@ -13,6 +13,7 @@
     	var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
             populator: function(autocompleter, text) {
+            	$('healthcareSite-indicator').style.display='';
                 OrganizationAjaxFacade.matchHealthcareSites(text,function(values) {
                     autocompleter.setChoices(values)
                 })
@@ -23,6 +24,7 @@
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
 	    							$(hiddenField).value=selectedChoice.id;
+	    							$('healthcareSite-indicator').style.display='none';
 			 }
         }
         AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
@@ -39,7 +41,8 @@
         }
 
         function showTable(table) {
-            document.getElementById('tableDiv').innerHTML=table;
+            $('tableDiv').innerHTML=table;
+            $('search-indicator').style.display="none";
         }
     </script>
 </head>
@@ -91,16 +94,16 @@
 					id="healthcareSite-input" size="60" type="text" name="xyz"
 					value="${command.healthcareSite.name}"
 					class="autocomplete validate-notEmpty" /> 
-					<input type="button" id="healthcareSite-clear"
-                        value="Clear"/>
                     <tags:hoverHint keyProp="researchStaff.organization"/>
-					<tags:indicator	id="healthcareSite-indicator" />
+                    <img id="healthcareSite-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
+					<img id="healthcareSite-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
 				<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="value">
-                    <input type='button' onClick="buildTable('searchForm');" value='Search' title='Search'/>
+                    <input type='button' onClick="$('search-indicator').style.display='';buildTable('searchForm');" value='Search' title='Search'/>
+                    <img id="search-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
                 </div>
             </div>
         </div>
