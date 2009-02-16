@@ -61,7 +61,7 @@
 		        </span>
 		        <span class="next">
 		            <c:if test="${not isLast && willSave}">
-			            <tags:button color="blue" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="Save"/>
+			            <tags:button color="blue" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="save"/>
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
 			            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>

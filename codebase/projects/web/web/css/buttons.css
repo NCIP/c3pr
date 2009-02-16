@@ -29,12 +29,12 @@ a.omnipotent-button .right {
 a.omnipotent-button img {
 	vertical-align:text-top;
 }
-a.omnipotent-button:hover {
+/* a.omnipotent-button:hover {
 	color:#2f2f2f;
 }
 a.omnipotent-button:active {
 	color:white;
-}
+} */
 a.omnipotent-button .right, x:-moz-any-link {
 	right:0px;
 	top:4px;
@@ -110,24 +110,23 @@ button.omnipotent-button {
 	color:white;
 	text-decoration:none;
 }
-button.omnipotent-button.red[disabled='disabled'], button.omnipotent-button.red[disabled='disabled'] .right,
-button.omnipotent-button.red[disabled='disabled']:hover, button.omnipotent-button.red[disabled='disabled']:hover .right,
-button.omnipotent-button.red[disabled='disabled']:active, button.omnipotent-button.red[disabled='disabled']:active .right,
-button.omnipotent-button.green[disabled='disabled'], button.omnipotent-button.green[disabled='disabled'] .right,
-button.omnipotent-button.green[disabled='disabled']:hover, button.omnipotent-button.green[disabled='disabled']:hover .right,
-button.omnipotent-button.green[disabled='disabled']:active, button.omnipotent-button.green[disabled='disabled']:active .right,
-button.omnipotent-button.blue[disabled='disabled'], button.omnipotent-button.blue[disabled='disabled'] .right,
-button.omnipotent-button.blue[disabled='disabled']:hover, button.omnipotent-button.blue[disabled='disabled']:hover .right,
-button.omnipotent-button.blue[disabled='disabled']:active, button.omnipotent-button.blue[disabled='disabled']:active .right,
-button.omnipotent-button.orange[disabled='disabled'], button.omnipotent-button.orange[disabled='disabled'] .right,
-button.omnipotent-button.orange[disabled='disabled']:hover, button.omnipotent-button.orange[disabled='disabled']:hover .right,
-button.omnipotent-button.orange[disabled='disabled']:active, button.omnipotent-button.orange[disabled='disabled']:active .right {
+button.omnipotent-button.red[disabled], button.omnipotent-button.red[disabled] .right,
+button.omnipotent-button.red[disabled]:hover, button.omnipotent-button.red[disabled]:hover .right,
+button.omnipotent-button.red[disabled]:active, button.omnipotent-button.red[disabled]:active .right,
+button.omnipotent-button.green[disabled], button.omnipotent-button.green[disabled] .right,
+button.omnipotent-button.green[disabled]:hover, button.omnipotent-button.green[disabled]:hover .right,
+button.omnipotent-button.green[disabled]:active, button.omnipotent-button.green[disabled]:active .right,
+button.omnipotent-button.blue[disabled], button.omnipotent-button.blue[disabled] .right,
+button.omnipotent-button.blue[disabled]:hover, button.omnipotent-button.blue[disabled]:hover .right,
+button.omnipotent-button.blue[disabled]:active, button.omnipotent-button.blue[disabled]:active .right,
+button.omnipotent-button.orange[disabled], button.omnipotent-button.orange[disabled] .right,
+button.omnipotent-button.orange[disabled]:hover, button.omnipotent-button.orange[disabled]:hover .right,
+button.omnipotent-button.orange[disabled]:active, button.omnipotent-button.orange[disabled]:active .right {
 	background-image:url(../images/buttons/button-disabled.png);
-	color:white;
 }
-button.omnipotent-button[disabled='disabled'] img {
+button.omnipotent-button[disabled] img {
 	opacity:0.4;
-	filter:alpha(opacity=40);
+ 	filter:alpha(opacity=40);
 }
 button.omnipotent-button.no-icon {
 	padding:3px 6px 4px;
@@ -148,17 +147,18 @@ button.omnipotent-button .right, x:-moz-any-link {
 }
 button.omnipotent-button .right, x:-moz-any-link, x:default {
 	right:9px;
-	top:-4px;
+	top:-5px;
 }
 button.omnipotent-button img {
 	vertical-align:top;
 }
+/*
 button.omnipotent-button:hover, button.omnipotent-button.hover {
-	color:#2f2f2f;
-}
+	 color:#2f2f2f;
+} 
 button.omnipotent-button:active, button.omnipotent-button.active {
 	color:white;
-}
+} 
 /* END c3pr button type="button" core CSS*/
 
 /* BEGIN c3pr button type="button" color="red" */
