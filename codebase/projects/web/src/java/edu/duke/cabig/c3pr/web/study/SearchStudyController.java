@@ -72,7 +72,7 @@ public class SearchStudyController extends SimpleFormController {
         }
         List<Study> studies = null;
         if ("status".equals(type)) {
-            studies = studyDao.searchByExample(study, searchtext, true);
+            studies = studyDao.searchByStatus(study, searchtext, true);
         } else {
             studies = studyDao.searchByExample(study, true);
         }
