@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.registration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,8 +10,10 @@ import java.util.Set;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Companion;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -22,13 +25,18 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
+import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 
 public class RegistrationControllerUtils {
 
 	private StudySubjectService studySubjectService;
+	
+	private StudySubjectRepository studySubjectRepository;
+	
 	private StudyDao studyDao;
 	private ParticipantDao participantDao;
 	
@@ -354,4 +362,40 @@ public class RegistrationControllerUtils {
     	}
     	return tabTitle ;
     }
+
+	public StudySubjectRepository getStudySubjectRepository() {
+		return studySubjectRepository;
+	}
+
+	public void setStudySubjectRepository(
+			StudySubjectRepository studySubjectRepository) {
+		this.studySubjectRepository = studySubjectRepository;
+	}
+	
+	public List<Companion> getCompanionStudySubject(Identifier identifier){
+    	List<Companion> companions = new ArrayList<Companion>();
+    	if(identifier != null){
+    		List<Identifier> identifiers=new ArrayList<Identifier>();
+    		identifiers.add(identifier);
+    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()){
+    			Companion companion = new Companion();
+    			Study companionStudy = companionStudyAssoc.getCompanionStudy();
+    			companion.setCompanionStudyShortTitle(companionStudy.getShortTitleText());
+    			companion.setCompanionStudyPrimaryIdentifier(companionStudy.getPrimaryIdentifier());
+    			companion.setCompanionStudyId(companionStudy.getId());
+    			companion.setMandatoryIndicator(companionStudyAssoc.getMandatoryIndicator());
+				for (StudySubject cStudySubject : studySubject.getChildStudySubjects()) {
+					if (companionStudy.getId() == cStudySubject.getStudySite().getStudy().getId()) {
+						companion.setRegistrationId(cStudySubject.getId());
+						companion.setCompanionRegistrationUrl(ControllerTools.createParameterString(cStudySubject.getSystemAssignedIdentifiers().get(0)));
+						companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
+					}
+				}
+    			companions.add(companion);
+    		}
+    	}
+    	return companions;
+    }
+
 }

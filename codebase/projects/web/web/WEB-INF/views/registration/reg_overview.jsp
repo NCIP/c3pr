@@ -515,7 +515,24 @@
             </c:otherwise>
         </c:choose>
     </chrome:division>
-
+	<div id="companionAssociationsDiv" <c:if test="${fn:length(command.studySubject.childStudySubjects) == 0}">style="display:none;"</c:if>>
+		<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:document.getElementById('flowredirect-target').name='_target5';document.getElementById('flowredirect').submit();">
+				<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  >
+					<tr>
+						<th width="50%" scope="col" align="left"><b><fmt:message key="study.studyShortTitle"/>(<fmt:message key="c3pr.common.identifier"/>)</b></th>
+						<th scope="20%" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
+						<th scope="30%" align="left"><b><fmt:message key="registration.registrationStatus"/></b></th>
+					</tr>
+					<c:forEach items="${command.studySubject.childStudySubjects}" var="childStudySubject">
+						<tr class="results">
+							<td class="alt">${childStudySubject.studySite.study.shortTitle}(${childStudySubject.studySite.study.primaryIdentifier})</td>
+							<td class="alt">${childStudySubject.studySite.study.mandatoryIndicator=="true"?"Yes":"No"}</td>
+							<td class="alt">${childStudySubject.regWorkflowStatus}</td>
+						</tr>
+					</c:forEach>
+				</table>
+		</chrome:division>
+	</div>
 </div>
 <c:if test="${command.studySubject.regWorkflowStatus=='REGISTERED' && hotlinkEnable}">
     <chrome:division title="CCTS Workflow">

@@ -6,7 +6,6 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;

@@ -41,11 +41,9 @@
 			<table class="tablecontent" width="100%"
 				title="Companions">
 				<tr>
-					<th width="40%" scope="col" align="center"><b>Short
-					Title-(Identifier)</b></th>
-					<th width="9%" scope="col" align="center"><b>Mandatory</b></th>
-					<th width="20%" scope="col" align="center"><b>Registration
-					Status</b></th>
+					<th width="40%" scope="col" align="center"><b><fmt:message key="study.studyShortTitle"/>(<fmt:message key="c3pr.common.identifier"/>)</b></th>
+					<th width="9%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
+					<th width="20%" scope="col" align="center"><b><fmt:message key="registration.registrationStatus"/></b></th>
 					<th />
 				</tr>
 				<c:forEach items="${companions}" var="companion">

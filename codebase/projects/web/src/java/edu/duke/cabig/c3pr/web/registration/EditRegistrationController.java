@@ -14,7 +14,6 @@ import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ReviewSubmitTab;
-import edu.duke.cabig.c3pr.web.registration.tabs.SearchStudySubjectTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.StratificationTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
