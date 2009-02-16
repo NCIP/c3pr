@@ -15,8 +15,8 @@
             </div>
             <div class="row" >
             <table class="tablecontent" width="60%">
-            	<tr><th width="35%" class="alt" align="left"><b>Event Registered<b></th>
-            		<th width="35%" class="alt" align="left"><b>Frequency<b></th>
+            	<tr><th width="35%" class="alt" align="left"><b><fmt:message key="notification.eventRegistered"/><b></th>
+            		<th width="35%" class="alt" align="left"><b><fmt:message key="notification.frequency"/><b></th>
             	</tr>
             	<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
 				<c:if test="${plannedNotification.retiredIndicator == 'false'}">
