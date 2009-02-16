@@ -1613,7 +1613,7 @@ public class StudyDaoTest extends DaoTestCase {
      */
     public void testSearchByExampleUsingStudyStatus(){
         Study exampleStudy = new Study();
-        List<Study> studySearchResults = dao.searchByExample(exampleStudy, "Amendment pending", true);
+        List<Study> studySearchResults = dao.searchByStatus(exampleStudy, "Amendment pending", true);
         assertEquals("Wrong Number of studies retrieved",1,studySearchResults.size());
         
     }
