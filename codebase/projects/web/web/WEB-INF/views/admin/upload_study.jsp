@@ -33,7 +33,7 @@
         <div class="content">
             <div class="row">
                 <div class="label">
-                    Select XML file to Import:
+                    <fmt:message key="import.selectXMLFileToImport"/>
                 </div>
                 <div class="value">
                     <div class="fileinputs">
