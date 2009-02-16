@@ -49,7 +49,7 @@
       <chrome:division title="Login Policy">
 	<div class="nested_section">
 	  <div class="row">
-	    <div class="required_label">Maximum password age (seconds):</div>
+	    <div class="required_label"><b><fmt:message key="password.maximumPasswordAge"/></b></div>
 	    <div class="required_value">
 	      <form:input path="loginPolicy.maxPasswordAge" size="8"/>
 	    </div>
@@ -57,7 +57,7 @@
 	</div>
 	<div class="nested_section">
 	  <div class="row">
-	    <div class="required_label">Number of allowed failed login attempts:</div>
+	    <div class="required_label"><b><fmt:message key="password.numberOfAllowedFailedLoginAttempts"/></b></div>
 	    <div class="required_value">
 	      <form:input path="loginPolicy.allowedFailedLoginAttempts" size="3"/>
 	    </div>
@@ -66,7 +66,7 @@
 
 	<div class="nested_section">
 	  <div class="row">
-	    <div class="required_label">Lockout duration (seconds):</div>
+	    <div class="required_label"><b><fmt:message key="password.lockoutDuration"/></b></div>
 	    <div class="required_value">
 	      <form:input path="loginPolicy.lockOutDuration" size="8"/>
 	    </div>
@@ -77,7 +77,7 @@
       <chrome:division title="Password Creation Policy">
 	<div class="nested_section">
 	  <div class="row">
-	    <div class="required_label">Minimum password age (seconds):</div>
+	    <div class="required_label"><b><fmt:message key="password.minimumPasswordAge"/></b></div>
 	    <div class="required_value">
 	      <form:input path="passwordCreationPolicy.minPasswordAge" size="8"/>
 	    </div>
@@ -86,7 +86,7 @@
 
 	<div class="nested_section">
 	  <div class="row">
-	    <div class="required_label">Password history size:</div>
+	    <div class="required_label"><b><fmt:message key="password.passwordHistorySize"/></b></div>
 	    <div class="required_value">
 	      <form:input path="passwordCreationPolicy.passwordHistorySize" size="3"/>
 	    </div>
@@ -95,7 +95,7 @@
 
 	<div class="nested_section">
 	  <div class="row">
-	    <div class="required_label">Minimum password length:</div>
+	    <div class="required_label"><b><fmt:message key="password.minimumPasswordLength"/></b></div>
 	    <div class="required_value">	
 	      <form:input path="passwordCreationPolicy.minPasswordLength" size="3"/>
 	    </div>
@@ -106,7 +106,7 @@
 	  
 	  <div class="nested_section">
 	    <div class="row">
-	      <div class="required_label">Meets the following complexity requirements:</div>
+	      <div class="required_label"><b>Meets the following complexity requirements:</b></div>
 	    </div>
 	  </div>
 
@@ -116,7 +116,7 @@
 		<div class="required_value">
 		  <form:checkbox path="passwordCreationPolicy.combinationPolicy.upperCaseAlphabetRequired"/>
 		</div>
-		<div class="required_label">At least one uppercase letter</div>
+		<div class="required_label"><b><fmt:message key="password.atLeastOneUppercaseLetter"/></b></div>
 	      </div>
 	    </div>
 	    
@@ -125,7 +125,7 @@
 		<div class="required_value">
 		  <form:checkbox path="passwordCreationPolicy.combinationPolicy.lowerCaseAlphabetRequired"/>
 		</div>
-		<div class="required_label">At least one lowercase letter</div>
+		<div class="required_label"><b><fmt:message key="password.atLeastOneLowercaseLetter"/></b></div>
 	      </div>
 	    </div>		
 	    
@@ -134,7 +134,7 @@
 		<div class="required_value">
 		  <form:checkbox path="passwordCreationPolicy.combinationPolicy.nonAlphaNumericRequired"/>
 		</div>
-		<div class="required_label">At least one non-alphanumeric character</div>
+		<div class="required_label"><b><fmt:message key="password.atLeastOneNon-alphanumericCharacter"/></b></div>
 	      </div>
 	    </div>
 	    
@@ -143,14 +143,14 @@
 		<div class="required_value">
 		  <form:checkbox path="passwordCreationPolicy.combinationPolicy.baseTenDigitRequired"/>
 		</div>
-		<div class="required_label">At least one digit</div>
+		<div class="required_label"><b><fmt:message key="password.atLeastOneDigit"/></b></div>
 	      </div>
 	    </div>
 	  </div>
 
 	  <div class="nested_section">
 	    <div class="row">
-	      <div class="required_label">Largest substring of username allowed:</div>
+	      <div class="required_label"><b><fmt:message key="password.largestSubstringOfUsernameAllowed"/></b></div>
 	      <div class="required_value">
 		<form:input path="passwordCreationPolicy.combinationPolicy.maxSubstringLength" size="3"/>
 	      </div>
