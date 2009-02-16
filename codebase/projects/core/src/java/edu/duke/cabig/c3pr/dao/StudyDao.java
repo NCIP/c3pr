@@ -322,7 +322,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * 
      * @return the list< study>
      */
-    public List<Study> searchByExample(Study study, String searchText, boolean isWildCard) {
+    public List<Study> searchByStatus(Study study, String searchText, boolean isWildCard) {
 
         List<Study> result = new ArrayList<Study>();
         	searchText = searchText.replace(" ", "_");
