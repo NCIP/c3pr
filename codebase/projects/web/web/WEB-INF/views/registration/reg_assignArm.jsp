@@ -28,7 +28,7 @@
 	<c:choose>
 	 <c:when test="${empty command.studySubject.scheduledEpoch.epoch.arms}">
 		<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
-			<div align="center"><fmt:message key="REGISTRATION.NO_ARM_ASSIGNMENT_INVOLVED"/></div><br>
+			<div><fmt:message key="REGISTRATION.NO_ARM_ASSIGNMENT_INVOLVED"/></div><br>
 		</tags:formPanelBox>
 	 </c:when>
 	<c:otherwise>

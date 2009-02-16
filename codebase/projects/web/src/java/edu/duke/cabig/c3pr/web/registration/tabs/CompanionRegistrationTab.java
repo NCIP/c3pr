@@ -18,7 +18,7 @@ import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 public class CompanionRegistrationTab<C extends StudySubjectWrapper> extends RegistrationTab<C> {
 	
 	public CompanionRegistrationTab() {
-		super("Companion Registrations", "Companion Registrations", "registration/reg_companion_reg");
+		super("Companion Registrations", "Companions", "registration/reg_companion_reg");
 	}
 	
 	@Override

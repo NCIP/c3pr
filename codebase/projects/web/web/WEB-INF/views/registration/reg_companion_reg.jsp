@@ -80,7 +80,7 @@
 	</c:when>
 	<c:otherwise>
 		<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
-			<div align="center"><fmt:message key="REGISTRATION.NO_COMAPNION_REGISTRATION_INVOLVED"/></div><br>
+			<div><fmt:message key="REGISTRATION.NO_COMAPNION_REGISTRATION_INVOLVED"/></div><br>
 		</tags:formPanelBox>	</c:otherwise>
 </c:choose>
 </body>
