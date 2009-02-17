@@ -111,9 +111,9 @@ top:90px;
 				test="${uRegistrations != null && fn:length(uRegistrations) > 0}">
 				<table width="100%" cellspacing="1" cellpadding="2">
 					<tr bgcolor="${bgcolorAlternate}">
-						<td width="25%"><b>Subject Name</b></td>
-						<td width="25%"><b>Primary Identifier</b></td>
-						<td width="30%"><b>Short Title</b></td>
+						<td width="25%"><b><fmt:message key="participant.subjectName"/></b></td>
+						<td width="25%"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></td>
+						<td width="30%"><b><fmt:message key="study.shortTitle"/></b></td>
 						<td width="20%"><b><fmt:message key="registration.registrationStatus"/></b></td>
 					</tr>
 					<c:forEach var="registration" items="${uRegistrations}"
@@ -166,10 +166,10 @@ top:90px;
 				<%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
 				<table width="100%" cellspacing="1" cellpadding="2">
 					<tr bgcolor="${bgcolorAlternate}">
-						<td width="25%"><b>Short Title</b></td>
-						<td width="25%"><b>Primary Identifier</b></td>
-						<td width="30%"><b>Coordinating Center</b></td>
-						<td width="20%"><b>Phase</b></td>
+						<td width="25%"><b><fmt:message key="study.shortTitle"/></b></td>
+						<td width="25%"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></td>
+						<td width="30%"><b><fmt:message key="dashboard.coordinatingCenter"/></b></td>
+						<td width="20%"><b><fmt:message key="study.phase"/></b></td>
 					</tr>
 					<c:forEach var="study" items="${pStudies}" varStatus="status">
 
@@ -208,10 +208,10 @@ top:90px;
 				<%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
 				<table width="100%" cellspacing="1" cellpadding="2">
 					<tr bgcolor="${bgcolorAlternate}">
-						<td width="25%"><b>Short Title</b></td>
-						<td width="25%"><b>Primary Identifier</b></td>
-						<td width="30%"><b>Coordinating Center</b></td>
-						<td width="20%"><b>Accrual w/in Last Week</b></td>
+						<td width="25%"><b><fmt:message key="study.shortTitle"/></b></td>
+						<td width="25%"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></td>
+						<td width="30%"><b><fmt:message key="dashboard.coordinatingCenter"/></b></td>
+						<td width="20%"><b><fmt:message key="dashboard.accrualWithInLastWeek"/></b></td>
 					</tr>
 					<c:forEach var="study" items="${aStudies}" varStatus="status">
 
