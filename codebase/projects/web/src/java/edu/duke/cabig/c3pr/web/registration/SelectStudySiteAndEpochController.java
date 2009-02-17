@@ -57,6 +57,7 @@ public class SelectStudySiteAndEpochController extends AbstractController{
 		
 		map.put("participant", participant);
 		map.put("studySites", studySites);
+		map.put("companionStudy", companionStudy);
 		map.put("epochs", epochs);
 		map.put("parentRegistrationId", request.getParameter("parentRegistrationId"));
 		

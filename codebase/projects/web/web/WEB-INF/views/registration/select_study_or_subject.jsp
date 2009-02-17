@@ -85,14 +85,14 @@
 
     </head>
     <body>
-        <div id="Subject">
-            <registrationTags:select_subject/>
-        </div>
         <div id="Study">
             <registrationTags:select_study/>
         </div>
         <div id="Epoch" style="display:none">
             <registrationTags:select_epoch/>
+        </div>
+        <div id="Subject">
+            <registrationTags:select_subject/>
         </div>
         <form:form method="post">
 		<tags:errors path="*"/>

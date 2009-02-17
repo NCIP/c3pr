@@ -26,6 +26,11 @@ function manageEpochSelection(element){
 }
 
 </script>
+<style>
+	#mybox div.hr{
+		display : none ;
+	}
+</style>
 
 <form action="../registration/createEmbeddedCompanionRegistration?decorator=noheaderRegistrationflow" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
@@ -38,6 +43,9 @@ function manageEpochSelection(element){
 </form>
 </head>
 <body>
+	<br>
+	<tags:panelBox boxId="mybox" title="Selected Subject: ${participant.fullName}"></tags:panelBox>
+	<tags:panelBox boxId="mybox" title="Selected Study: ${companionStudy.shortTitleText} (${companionStudy.coordinatingCenterAssignedIdentifier.value})"></tags:panelBox>
 	<tags:panelBox>
 	<chrome:division title="Select Study Site">
 		<table id="studySites" class="tablecontent" border="0" cellspacing="0" cellpadding="0"	>
@@ -69,7 +77,7 @@ function manageEpochSelection(element){
                   <th><b><fmt:message key="c3pr.common.description"/></b></th>
                   <th><b><fmt:message key="c3pr.common.enrolling"/></b></th>
               </tr>
-              <c:forEach items="${epochs}" var="epoch" varStatus="epochStatus">
+              <c:forEach items="${companionStudy.epochs}" var="epoch" varStatus="epochStatus">
               	 <tr>
 					<td>
 						<input class="epochSelection" type="radio" value="${epoch.id}" onclick="manageEpochSelection(this);"/>
@@ -87,16 +95,13 @@ function manageEpochSelection(element){
               </c:forEach>
            </table>
 	</chrome:division>
-	<br>
+</tags:panelBox>
 	<div class="flow-buttons">
         <span class="next">
-             <input type="button" value="Continue" onclick="startRegistartion();"/>
-             <input type="button" value="Close" onclick="parent.closePopup();"/>
+        	<tags:button type="button" color="red" icon="x" value="Cancel" onclick="parent.closePopup();" />
+			<tags:button type="button" color="green" icon="continue" value="Continue" onclick="startRegistartion();"  />
         </span>
 	</div>
-	<br>
-	<br>
-	</tags:panelBox>
 	
 </body>
 </html>

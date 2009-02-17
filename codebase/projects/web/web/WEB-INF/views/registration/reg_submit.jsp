@@ -42,50 +42,6 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	</div>
 	</c:if>
 	<div id="registrationSummary">
-	<chrome:division id="Subject Information" title="Subject">
-			<div class="leftpanel">
-				<div class="row">
-						<div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
-						<div class="value">${command.studySubject.participant.firstName}</div>
-				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
-					<div class="value">${command.studySubject.participant.lastName}</div>
-				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="participant.gender"/>:</div>
-					<div class="value">${command.studySubject.participant.administrativeGenderCode}</div>
-				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="participant.MRN"/>:</div>
-					<div class="value">${command.studySubject.participant.medicalRecordNumber.value }</div>
-				</div>
-			</div>
-			<div class="rightpanel">
-				<div class="row">
-					<div class="label"><fmt:message key="c3pr.common.assigningAuthority"/>:</div>
-					<div class="value">${command.studySubject.participant.medicalRecordNumber.healthcareSite.name }</div>
-				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="participant.birthDate"/>:</div>
-					<div class="value">${command.studySubject.participant.birthDateStr}</div>
-				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="participant.ethnicity"/>:</div>
-					<div class="value">${command.studySubject.participant.ethnicGroupCode}</div>
-				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="participant.race"/>:</div>
-					
-						<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
-				            <div class="value">
-				                ${raceCode.displayName}
-				            </div>
-				        </c:forEach>
-					
-				</div>
-			</div>
-	</chrome:division>
 	<chrome:division id="Study Information" title="Study">
 			<div class="leftpanel">
 				<div class="row">
@@ -137,6 +93,50 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					<div class="label"><fmt:message key="site.activationDate"/>:</div>
 					<div class="value">${command.studySubject.studySite.startDateStr}
 					</div>
+				</div>
+			</div>
+	</chrome:division>
+	<chrome:division id="Subject Information" title="Subject">
+			<div class="leftpanel">
+				<div class="row">
+						<div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
+						<div class="value">${command.studySubject.participant.firstName}</div>
+				</div>
+				<div class="row">
+					<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
+					<div class="value">${command.studySubject.participant.lastName}</div>
+				</div>
+				<div class="row">
+					<div class="label"><fmt:message key="participant.gender"/>:</div>
+					<div class="value">${command.studySubject.participant.administrativeGenderCode}</div>
+				</div>
+				<div class="row">
+					<div class="label"><fmt:message key="participant.MRN"/>:</div>
+					<div class="value">${command.studySubject.participant.medicalRecordNumber.value }</div>
+				</div>
+			</div>
+			<div class="rightpanel">
+				<div class="row">
+					<div class="label"><fmt:message key="c3pr.common.assigningAuthority"/>:</div>
+					<div class="value">${command.studySubject.participant.medicalRecordNumber.healthcareSite.name }</div>
+				</div>
+				<div class="row">
+					<div class="label"><fmt:message key="participant.birthDate"/>:</div>
+					<div class="value">${command.studySubject.participant.birthDateStr}</div>
+				</div>
+				<div class="row">
+					<div class="label"><fmt:message key="participant.ethnicity"/>:</div>
+					<div class="value">${command.studySubject.participant.ethnicGroupCode}</div>
+				</div>
+				<div class="row">
+					<div class="label"><fmt:message key="participant.race"/>:</div>
+					
+						<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
+				            <div class="value">
+				                ${raceCode.displayName}
+				            </div>
+				        </c:forEach>
+					
 				</div>
 			</div>
 	</chrome:division>

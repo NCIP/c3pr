@@ -29,11 +29,6 @@
 </head>
 
 <body>
-<%--<c:set var="roboHelpKey">ROBOHELP_${tab.class.name}</c:set>
-    <spring:message var="roboHelpLink" code="${roboHelpKey}" text="NO_${roboHelpKey}"/>--%>
-	<%--<script>
-    $('help').href="${_c3prHelpURL}#${roboHelpLink}.htm";
-    </script>--%>
 <c:set var="studySubject" value="${command}" scope="request"/>
 <div class="tabpane">
 <c:choose>
@@ -47,7 +42,7 @@
                 <chrome:box title="Summary">
                     <c:forEach items="${summary}" var="summaryEntry">
                         <div class="row">
-                            <div class="label">${summaryEntry.key}</div>
+                            <div class="label">${summaryEntry.key} 123</div>
                             <div class="value">${empty summaryEntry.value ? '<em class="none">None</em>' : summaryEntry.value}</div>
                         </div>
                     </c:forEach>
