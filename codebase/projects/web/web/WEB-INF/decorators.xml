@@ -27,6 +27,8 @@
     <decorator name="registration" page="registrationflow.jsp">
         <pattern>/pages/registration/*</pattern>
     </decorator>
+	<decorator name="noheaderRegistrationflow" page="noheaderRegistrationflow.jsp">
+    </decorator>
     <decorator name="standardContent" page="standardContent.jsp">
         <pattern>/pages/personAndOrganization/organization/createOrganization</pattern>
         <pattern>/pages/personAndOrganization/organization/searchOrganization</pattern> 

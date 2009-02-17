@@ -27,7 +27,7 @@ function manageEpochSelection(element){
 
 </script>
 
-<form action="../registration/createEmbeddedCompanionRegistration?decorator=noheaderDecorator" method="post" id="create">
+<form action="../registration/createEmbeddedCompanionRegistration?decorator=noheaderRegistrationflow" method="post" id="create">
 	<input type="hidden" name="_page" id="_page1" value="1"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="registrationId" value=""/>
