@@ -28,8 +28,8 @@ function manageEpochSelection(element){
 </script>
 
 <form action="../registration/createEmbeddedCompanionRegistration?decorator=noheaderRegistrationflow" method="post" id="create">
-	<input type="hidden" name="_page" id="_page1" value="1"/>
-	<input type="hidden" name="_target1" id="_target1" value="1"/>
+	<input type="hidden" name="_page" id="_page0" value="0"/>
+	<input type="hidden" name="_target0" id="_target0" value="0"/>
 	<input type="hidden" name="registrationId" value=""/>
 	<input type="hidden" name="epoch" id="create_epoch" value="" />
 	<input type="hidden" name="studySubject.studySite" id="studySite" value="" />

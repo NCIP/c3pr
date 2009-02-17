@@ -12,7 +12,8 @@
 					{onClose: function() {$('refreshPage').submit();},
 						title: "Companion Registration", 
 						top:35, scrollbar: false, left:100, 
-						zIndex:100, width:700, height:325 , 
+						zIndex:100, width:700, height:450 , 
+						minimizable:false, maximizable:false,
 						url: "<c:url value='/pages/registration/selectStudySiteAndEpoch?decorator=noheaderDecorator&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
 					  showEffectOptions: {duration:1.5}
 					}
