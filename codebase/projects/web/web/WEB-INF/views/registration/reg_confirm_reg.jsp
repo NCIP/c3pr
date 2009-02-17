@@ -52,10 +52,7 @@ function manageCompanions(){
 				<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage This Registration" linkhref="javascript:doManage('${formType}',paramString)"/>
 			</form>
 	  </c:if>
-	  <c:if test="${hasCompanions && command.studySubject.dataEntryStatusString=='Complete' && command.studySubject.scheduledEpoch.epoch.enrollmentIndicator=='true'}">
-			<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageCompanionReg.png" id="manageCompanionStudy" linktext="Manage Companion Registration" linkhref="javascript:manageCompanions();"/>
-	  </c:if>	
-	  <c:if test="${not empty command.studySubject.parentStudySubject}">
+	   <c:if test="${not empty command.studySubject.parentStudySubject}">
 			<tags:oneControlPanelItem imgsrc="c3pr/images/icons/button_icons/small/x_icon_small.png" linktext="Close" linkhref="javascript:parent.closePopup();"/>
 	  </c:if>
 	  <tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
