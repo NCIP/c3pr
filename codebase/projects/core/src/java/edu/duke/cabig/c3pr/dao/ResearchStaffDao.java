@@ -150,7 +150,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
             }
         }
         catch (Exception e) {
-        	e.printStackTrace();
             log.error(e.getMessage());
         }
         return result;
@@ -540,9 +539,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * Moved csm related save/merge code here from personnelServiceImpl for coppa integration
 	 */
     
-	public UserProvisioningManager getUserProvisioningManager() {
-		return userProvisioningManager;
-	}
 
 	public void setUserProvisioningManager(
 			UserProvisioningManager userProvisioningManager) {
@@ -553,16 +549,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		this.remoteSession = remoteSession;
 	}
 
-	public CSMObjectIdGenerator getSiteObjectIdGenerator() {
-		return siteObjectIdGenerator;
-	}
-
 	public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
 		this.siteObjectIdGenerator = siteObjectIdGenerator;
-	}
-
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
 	}
 
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
