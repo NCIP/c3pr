@@ -298,15 +298,22 @@
         </property>
         <property name="remoteResolvers">
             <list>
-                <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver">
-                	<property name="researchStaffService">
-                		<bean class="com.semanticbits.coppasimulator.service.ResearchStaffService" />
+                <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver" autowire="byName">
+                	<property name="identifiedOrganizationCorrelationServiceRemote">
+                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedOrganizationCorrelationServiceImpl" />
+                	</property>
+                	<property name="clinicalResearchStaffCorrelationServiceRemote">
+                		<bean class="com.semanticbits.coppasimulator.service.ClinicalResearchStaffCorrelationServiceImpl" />
+                	</property>
+                	<property name="personEntityServiceRemote">
+                		<bean class="com.semanticbits.coppasimulator.service.PersonEntityServiceImpl" />
+                	</property>
+                	<property name="identifiedPersonCorrelationServiceRemote">
+                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedPersonCorrelationServiceImpl" />
                 	</property>
                 </bean>
                 <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver">
-                	<property name="organizationService">
-                		<bean class="com.semanticbits.coppasimulator.service.OrganizationService" />
-                	</property>
+  
                 </bean>
             </list>
         </property>

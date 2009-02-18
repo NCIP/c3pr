@@ -19,6 +19,7 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
@@ -30,7 +31,6 @@ import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -46,7 +46,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
  * Hibernate implementation of ResearchStaffDao.
  * 
  * @see edu.duke.cabig.c3pr.dao.ResearchStaffDao
- * @author Priyatam
+ * @author Vinay Gangoli, Priyatam
  */
 public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
@@ -65,12 +65,16 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     /** The Constant EXTRA_PARAMS. */
     private static final List<Object> EXTRA_PARAMS = Collections.emptyList();
     
+    /** The remote session. */
     private RemoteSession remoteSession;
     
+    /** The user provisioning manager. */
     private UserProvisioningManager userProvisioningManager;
     
+    /** The site object id generator. */
     private CSMObjectIdGenerator siteObjectIdGenerator;
     
+    /** The healthcare site dao. */
     private HealthcareSiteDao healthcareSiteDao;
 
     /* (non-Javadoc)
@@ -81,15 +85,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         return ResearchStaff.class;
     }
 
-    /**
-     * Gets  all ResearchStaff.
-     * 
-     * @return all ResearchStaff
-     */
-    public List<ResearchStaff> getAll() {
-        return getHibernateTemplate().find("from ResearchStaff");
-    }
-
+    
     /**
      * Gets the by subnames.
      * 
@@ -128,7 +124,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     	
     	//get the remote staff and update the database first
         RemoteResearchStaff remoteResearchStaff = convertToRemoteResearchStaff(staff);
-        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
+        getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
         
         List<ResearchStaff> result = new ArrayList<ResearchStaff>();
 
@@ -185,7 +181,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
                 }
                 return hiberanteQuery.list();
             }
-
         });
     }
     
@@ -202,7 +197,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
         remoteResearchStaff.setNciIdentifier(nciIdentifier);
         
-        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
+        getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
         
         ResearchStaff result = null;
         try {
@@ -227,7 +222,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
         remoteResearchStaff.setUniqueIdentifier(emailAddress);
         
-        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
+        getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
         
         return getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'");
     }
@@ -276,16 +271,16 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     /**
      * First gets the staff from COPPA based on the hcs.nciCode and saves it to the db.
      * Since hcs is not transient it is saved along with the staff.
+     * If hcs is null..then gets all the new staff from COPPA and saves them to the database
      * Then gets btoh the local and remote research staff by organization nci institute code from the database.
      * 
      * @param nciInstituteCode the nci institute code
-     * 
      * @return the research staff by organization nci institute code
      */
     public List<ResearchStaff> getResearchStaffByOrganizationNCIInstituteCode(HealthcareSite healthcareSite) {
     	RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
     	remoteResearchStaff.setHealthcareSite(healthcareSite);
-    	getAndUpdateRemoteResearchStaff(remoteResearchStaff);
+    	getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
     	
     	//run a query against the updated database to get all research staff
     	List<ResearchStaff> completeResearchStaffListFromDatabase =  
@@ -294,38 +289,46 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     }
     
     
-    private void getAndUpdateRemoteResearchStaff(RemoteResearchStaff remoteResearchStaff){
-    	//First get the remote content
-    	List<RemoteResearchStaff> remoteResearchStaffList =  getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
-    	//update the database with the remote content
-    	updateDatabaseWithRemoteContent(remoteResearchStaffList);
-    }
+//    private void getAndUpdateRemoteResearchStaff(RemoteResearchStaff remoteResearchStaff){
+//    	List<RemoteResearchStaff> remoteResearchStaffList =  getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
+//    	updateDatabaseWithRemoteContent(remoteResearchStaffList);
+//    }
     
     /**
-     * Gets the research staff by organization nci institute code from the resolver.
+     * Gets the remote research staff by organization nci institute code from the resolver and updates the db.
      * 
      * @param nciInstituteCode the nci institute code
-     * 
      * @return the research staff by organization nci institute code
      */
     public List<RemoteResearchStaff> getRemoteResearchStaffFromResolverByExample(RemoteResearchStaff remoteResearchStaff){
     	List<Object> objectList = remoteSession.find(remoteResearchStaff);
     	List<RemoteResearchStaff> researchStaffList = new ArrayList<RemoteResearchStaff>();
     	
-    	RemoteResearchStaff tempRemoteResearchStaff;
+    	RemoteResearchStaff retrievedRemoteResearchStaff;
     	for(Object object: objectList){
-    		tempRemoteResearchStaff = (RemoteResearchStaff)object;
-    		if(tempRemoteResearchStaff.getHealthcareSite() == null && remoteResearchStaff.getHealthcareSite() != null){
-    			//if the resolver hasnt set the hcs then set it if it has been passed in
-    			tempRemoteResearchStaff.setHealthcareSite(remoteResearchStaff.getHealthcareSite());
-    		} else {
-    			//if the resolver hasnt set the hcs and if it hasn't been passed in then..
+    		retrievedRemoteResearchStaff = (RemoteResearchStaff)object;
+    		if(retrievedRemoteResearchStaff.getHealthcareSite() == null && remoteResearchStaff.getHealthcareSite() != null){
+    			//if the resolver hasnt set the hcs then set it if it has been passed in...this shudnt happen going fwd
+    			retrievedRemoteResearchStaff.setHealthcareSite(remoteResearchStaff.getHealthcareSite());
+    		} else if(retrievedRemoteResearchStaff.getHealthcareSite() != null){
     			//get the corresponding hcs from the dto object and save that organization and then save this staff
-    			//for now defaulting to duke
-    			tempRemoteResearchStaff.setHealthcareSite(healthcareSiteDao.getByNciInstituteCode("NC010"));
+    			HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByNciInstituteCode(retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
+    			if(matchingHealthcareSiteFromDb == null){
+    				//retrieved staff has brand new Org in him...save the new org.
+    				healthcareSiteDao.save(retrievedRemoteResearchStaff.getHealthcareSite());
+    			} else{
+    				//we have the retrieved staff's Org in our db...link up with the same and persist
+    				retrievedRemoteResearchStaff.setHealthcareSite(matchingHealthcareSiteFromDb);
+    			}
+    		} else{
+    			//if the resolver hasnt set the hcs and if it hasn't been passed in then.. I'm lost!
+    			log.error("RemoteResearchStaffResolver returned staff without organization!");
     		}
-    		researchStaffList.add(tempRemoteResearchStaff);
+    		researchStaffList.add(retrievedRemoteResearchStaff);
     	}
+    	//update the database with the remote content
+    	updateDatabaseWithRemoteContent(researchStaffList);
+    	
     	return researchStaffList;
     }
     
@@ -337,35 +340,38 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      */
     public void updateDatabaseWithRemoteContent(List<RemoteResearchStaff> remoteResearchStaffList){
     	
-    	for (RemoteResearchStaff remoteResearchStaff: remoteResearchStaffList) {
-    		List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifier(remoteResearchStaff.getUniqueIdentifier());
-   			if(researchStaffFromDatabase.size() > 0){
-   				//this guy already exists....call mergeResearchStaff
-   				try {
+    	try {
+			for (RemoteResearchStaff remoteResearchStaff: remoteResearchStaffList) {
+				List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifier(remoteResearchStaff.getUniqueIdentifier());
+				if(researchStaffFromDatabase.size() > 0){
+					//this guy already exists....call mergeResearchStaff
 					merge((ResearchStaff)remoteResearchStaff);
-					getHibernateTemplate().flush();
-				} catch (C3PRBaseException e) {
-					log.error(e.getMessage());
+				} else{
+					//this guy doesnt exist
+					//This if condition is temporary. once we have the logic to fetch the org of the retrieved staff then we can remove this.
+					if(remoteResearchStaff.getHealthcareSite() != null){
+						saveResearchStaff(remoteResearchStaff);
+					} else {
+						log.error("Remote Staff does not have a healthcareSite associated with it!");
+					}
 				}
-   			} else{
-   				//this guy doesnt exist
-   				try{
-   					//This if condition is temporary. once we have the logic to fetch the org of the retrieved staff then we can remove this.
-   					if(remoteResearchStaff.getHealthcareSite() != null){
-   						saveResearchStaff(remoteResearchStaff);
-   						getHibernateTemplate().flush();
-   					}
-   				} catch (C3PRBaseException cbe){
-   					log.error(cbe.getMessage());
-   				}
-   			}
-    	}
+			}
+			getHibernateTemplate().flush();
+		} catch (DataAccessException e) {
+			log.error(e.getMessage());
+		} catch (C3PRBaseException e) {
+			log.error(e.getMessage());
+		}
     }
 
     
     /*
-	 * Moved save code here from personnelServiceImpl for coppa integration
+	 * Moved csm related save/save code here from personnelServiceImpl for coppa integration
 	 */
+    /**
+     * @param staff
+     * @throws C3PRBaseException
+     */
     public void saveResearchStaff(ResearchStaff staff) throws C3PRBaseException {
         save(staff, null);
 
@@ -382,11 +388,22 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     }
 
 	
+    /**
+     * @param user
+     * @return
+     * @throws CSObjectNotFoundException
+     */
     private User getCSMUser(C3PRUser user) throws CSObjectNotFoundException {
         return userProvisioningManager.getUserById(user.getLoginId());
     }
 
     
+	/**
+	 * @param c3prUser
+	 * @param csmUser
+	 * @throws C3PRBaseException
+	 * @throws MailException
+	 */
 	private void save(C3PRUser c3prUser,
             gov.nih.nci.security.authorization.domainobjects.User csmUser)
             throws C3PRBaseException, MailException {
@@ -413,6 +430,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 	
 	
+	/**
+	 * @param c3prUser
+	 * @param csmUser
+	 */
 	private void populateCSMUser(C3PRUser c3prUser,
             gov.nih.nci.security.authorization.domainobjects.User csmUser) {
 		csmUser.setFirstName(c3prUser.getFirstName());
@@ -427,14 +448,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		}
 	}
 
-	public UserProvisioningManager getUserProvisioningManager() {
-		return userProvisioningManager;
-	}
-
-	public void setUserProvisioningManager(
-			UserProvisioningManager userProvisioningManager) {
-		this.userProvisioningManager = userProvisioningManager;
-	}
 	
 	/*
      * Takes the whole list of groups instead of one ata time .Thsi was crated so the unchecked
@@ -456,6 +469,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         }
     }
     
+    /**
+     * @param csmUser
+     * @param groupName
+     * @throws C3PRBaseException
+     */
     private void assignUserToGroup(User csmUser, String groupName) throws C3PRBaseException {
         Set<String> groups = new HashSet<String>();
         try {
@@ -474,21 +492,30 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     }
     
     
+    /**
+     * @param groupName
+     * @return
+     */
     private String getGroupIdByName(String groupName) {
         Group search = new Group();
         search.setGroupName(groupName);
         GroupSearchCriteria sc = new GroupSearchCriteria(search);
+        if(userProvisioningManager.getObjects(sc).size() == 0){
+        	try {
+				userProvisioningManager.createGroup(search);
+			} catch (CSTransactionException e) {
+				log.error(e.getMessage());
+			}
+        }
         Group returnGroup = (Group) userProvisioningManager.getObjects(sc).get(0);
         return returnGroup.getGroupId().toString();
     }
-    /*
-	 * Moved save code here from personnelServiceImpl for coppa integration
-	 */
-    
 
-    /*
-	 * Moved merge code here from personnelServiceImpl for coppa integration
-	 */
+    
+    /**
+     * @param staff
+     * @throws C3PRBaseException
+     */
     public void merge(ResearchStaff staff) throws C3PRBaseException {
         try {
             User csmUser = getCSMUser(staff);
@@ -510,10 +537,19 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
     }
     /*
-	 * Moved merge code here from personnelServiceImpl for coppa integration
+	 * Moved csm related save/merge code here from personnelServiceImpl for coppa integration
 	 */
     
-	public void setRemoteSession(RemoteSession remoteSession) {
+	public UserProvisioningManager getUserProvisioningManager() {
+		return userProvisioningManager;
+	}
+
+	public void setUserProvisioningManager(
+			UserProvisioningManager userProvisioningManager) {
+		this.userProvisioningManager = userProvisioningManager;
+	}
+	
+    public void setRemoteSession(RemoteSession remoteSession) {
 		this.remoteSession = remoteSession;
 	}
 

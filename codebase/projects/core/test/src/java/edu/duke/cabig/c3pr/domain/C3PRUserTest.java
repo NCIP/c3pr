@@ -9,8 +9,12 @@ import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
  */
 public class C3PRUserTest extends MasqueradingDaoTestCase<ResearchStaffDao> {
 
-    public void testGetGroups() {
-        for (ResearchStaff staff : getDao().getAll()) {
+    /*the ResearchStaffDao.getAll has been removed. replace with something else.
+     */ 
+      public void testGetGroups() {
+    	ResearchStaff staff  = null;
+        for(int i=1000; i< 1005; i++){
+        	staff = getDao().getById(i);
             assertNotNull(staff.getGroups());
         }
     }

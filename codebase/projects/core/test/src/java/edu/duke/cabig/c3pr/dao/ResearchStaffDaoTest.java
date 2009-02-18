@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.dao;
 
 import static edu.duke.cabig.c3pr.C3PRUseCase.SEARCH_SUBJECT;
 import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
-import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -18,7 +18,7 @@ import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 /**
  * JUnit Tests for ResearchStaffDao
  * 
- * @author Priyatam
+ * @author Priyatam, Vinay G
  * @testType integration
  */
 @C3PRUseCases( { VERIFY_SUBJECT, SEARCH_SUBJECT })
@@ -96,21 +96,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         }
     }
 
-    /**
-     * Test for loading all ResearchStaffs
-     * 
-     * @throws Exception
-     */
-    public void testGetAll() throws Exception {
-        List<ResearchStaff> actual = getDao().getAll();
-        assertEquals(5, actual.size());
-        List<Integer> ids = collectIds(actual);
-        assertContains("Wrong ResearchStaff found", ids, 1000);
-        assertContains("Wrong ResearchStaff found", ids, 1001);
-        assertContains("Wrong ResearchStaff found", ids, 1001);
-        assertContains("Wrong ResearchStaff found", ids, 1001);
-    }
-
+    
     /**
      * Test for loading of Research Staff based on mathing pattern on Staff name
      * 
@@ -226,17 +212,26 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      }
     
     /**
-     * Test search research staff by query.
-     * This should get the new ones and save them to the database too
+     * Test search Remote research staff by healthcareSite.
+     * This should get the new ones and save them to the database too...this includes the associated orgs
      * 
      * @throws Exception the exception
      */
-    public void testGetRemoteResearchStaffByOrganizationInstituteCode() throws Exception{
-    	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);// new LocalHealthcareSite();
-//    	healthcareSite.setNciInstituteCode("NC010");
+    public void testGetRemoteResearchStaffByOrganizationInstituteCodeWithHealthcareSiteSpecified() throws Exception{
+    	HealthcareSite healthcareSite = new LocalHealthcareSite();
+    	healthcareSite.setNciInstituteCode("RM-TST-ID2");
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
     	researchStaffList = getDao().getResearchStaffByOrganizationNCIInstituteCode(healthcareSite);
-        assertEquals("Incorrect size", 6, researchStaffList.size());
+        assertEquals("Incorrect size", 3, researchStaffList.size());
     }
 
+    /**
+     * Gets all the remoteResearchStaff since the hcs is not specified
+     * @throws Exception
+     */
+    public void testGetRemoteResearchStaffFromResolverByExample() throws Exception{
+    	RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+    	List<RemoteResearchStaff> remoteResearchStaffList = getDao().getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
+        assertEquals("Incorrect size", 9, remoteResearchStaffList.size());
+    }
 }
