@@ -1,58 +1,4 @@
-<%@ include file="taglibs.jsp"%>
-<html>
-<head>
-<title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
-<script>
-		var win;
-		function openPopup(companionStudy, participant, parentRegistrationId){
-			win = new Window(
-					{onClose: function() {reloadSection();},
-						title: "Companion Registration", 
-						top:35, scrollbar: false, left:100, 
-						zIndex:100, width:700, height:450 , 
-						minimizable:false, maximizable:false,
-						url: "<c:url value='/pages/registration/selectStudySiteAndEpoch?decorator=noheaderDecorator&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
-					  showEffectOptions: {duration:1.5}
-					}
-				) 
-			win.showCenter(true)
-		}
-
-		function closePopup() {
-			win.close();
-		}
-
-		function editCompanionRegistration(url){
-			win = new Window(
-					{onClose: function() {reloadSection();},
-						title: "Companion Registration", 
-						top:35, scrollbar: false, left:100, 
-						zIndex:100, width:800, height:550 , 
-						minimizable:false, maximizable:false,
-						url: "<c:url value='/pages/registration/editCompanionRegistration?decorator=noheaderRegistrationflow&'/>" + url , 
-					 	 showEffectOptions: {duration:1.5}
-					}
-				) 
-			win.showCenter(true);
-   		//	document.location="../registration/editCompanionRegistration?"+url;
-   	   	}
-
-								
-   		function manageCompanionRegistration(url){
-   			document.location="../registration/manageRegistration?"+url;
-   	   	}
-
-   	   	function reloadSection(){
-   	   		<tags:tabMethod method="refreshCompanionSection" divElement="'CompanionRegistration'" formName="'companionRegForm'"  viewName="/registration/asynchronous/reg_companion_section" />
-   	   	}
-	</script>
-</head>
-<body>
-<form:form id="companionRegForm">
-<div id="CompanionRegistration">
+<%@ include file="../taglibs.jsp"%>
 <c:choose>
 	<c:when test="${fn:length(companions)>0}">
 		<tags:formPanelBox tab="${tab}" flow="${flow}">
@@ -97,15 +43,11 @@
 					</tr>
 				</c:forEach>
 			</table>
+			</div>
 		</tags:formPanelBox>
 	</c:when>
 	<c:otherwise>
 		<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
 			<div><fmt:message key="REGISTRATION.NO_COMAPNION_REGISTRATION_INVOLVED"/></div><br>
-		</tags:formPanelBox>	
-	</c:otherwise>
+		</tags:formPanelBox>	</c:otherwise>
 </c:choose>
-</div>
-</form:form>
-</body>
-</html>

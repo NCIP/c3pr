@@ -347,6 +347,12 @@
           autowire="byName" parent="parentRegistrationController">
         <property name="bindOnNewForm" value="true" />
     </bean>
+	
+	<bean name="/registration/editCompanionRegistration"
+          id="editCompanionRegistration"
+          class="edu.duke.cabig.c3pr.web.registration.EditCompanionRegistrationController"
+          autowire="byName" parent="editRegistrationController">
+    </bean>
     
     <bean name="/registration/transferEpochRegistration"
           id="transferEpochRegistrationController"

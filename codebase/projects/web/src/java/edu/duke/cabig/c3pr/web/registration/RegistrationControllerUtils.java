@@ -390,6 +390,7 @@ public class RegistrationControllerUtils {
 						companion.setRegistrationId(cStudySubject.getId());
 						companion.setCompanionRegistrationUrl(ControllerTools.createParameterString(cStudySubject.getSystemAssignedIdentifiers().get(0)));
 						companion.setRegistrationStatus(cStudySubject.getRegWorkflowStatus().getDisplayName());
+						companion.setRegistrationDataEntryStatus(cStudySubject.getRegDataEntryStatus().getCode());
 					}
 				}
     			companions.add(companion);

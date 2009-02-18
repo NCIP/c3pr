@@ -9,6 +9,7 @@ public class Companion {
 	private int registrationId ;
 	private int companionStudyId;
 	private String companionRegistrationUrl;
+	private String registrationDataEntryStatus ;;
 	
 	public String getCompanionStudyPrimaryIdentifier() {
 		return companionStudyPrimaryIdentifier;
@@ -55,6 +56,12 @@ public class Companion {
 	}
 	public String getCompanionRegistrationUrl() {
 		return companionRegistrationUrl;
+	}
+	public String getRegistrationDataEntryStatus() {
+		return registrationDataEntryStatus;
+	}
+	public void setRegistrationDataEntryStatus(String registrationDataEntryStatus) {
+		this.registrationDataEntryStatus = registrationDataEntryStatus;
 	}
 
 }

@@ -669,7 +669,15 @@ public class StudySubject extends
 	public List<StudySubject> getChildStudySubjects() {
 		return childStudySubjects;
 	}
-
+	
+	public void removeChildStudySubject(StudySubject studySubject) {
+		getChildStudySubjects().remove(studySubject);
+	}
+	
+	public void addChildStudySubject(StudySubject studySubject) {
+		getChildStudySubjects().add(studySubject);
+	}
+	
 	public void setChildStudySubjects(List<StudySubject> childStudySubjects) {
 		this.childStudySubjects = childStudySubjects;
 	}
