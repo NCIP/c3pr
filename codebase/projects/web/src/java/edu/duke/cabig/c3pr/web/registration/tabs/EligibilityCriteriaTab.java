@@ -20,7 +20,7 @@ import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 public class EligibilityCriteriaTab extends RegistrationTab<StudySubjectWrapper> {
 
     public EligibilityCriteriaTab() {
-        super("Check Eligibility", "Check Eligibility", "registration/reg_check_eligibility");
+        super("Eligibility", "Eligibility", "registration/reg_check_eligibility");
     }
 
     @Override

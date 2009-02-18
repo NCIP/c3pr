@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,23 +12,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.dao.EpochDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.StudySiteDao;
-import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.StratificationCriterion;
-import edu.duke.cabig.c3pr.domain.StratumGroup;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
-import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
-import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
-import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
@@ -43,7 +28,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
     private static final Logger logger = Logger.getLogger(SearchStudySubjectTab.class);
 
     public SearchStudySubjectTab() {
-        super("Select Subject & Study", "Select Subject & Study",
+        super("Subject & Study", "Subject & Study",
                         "registration/select_study_or_subject");
         setShowSummary("false");
     }

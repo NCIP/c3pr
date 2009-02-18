@@ -259,9 +259,9 @@ public class RegistrationControllerUtils {
     }
 	
 	public void buildCommandObject(StudySubject studySubject) {
-		Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
-	    studyDao.initialize(study);
-	    participantDao.initialize(studySubject.getParticipant());
+//		Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
+//	    studyDao.initialize(study);
+//	    participantDao.initialize(studySubject.getParticipant());
         if (studySubject.getScheduledEpoch()!=null) {
             ScheduledEpoch scheduledEpoch = studySubject
                             .getScheduledEpoch();

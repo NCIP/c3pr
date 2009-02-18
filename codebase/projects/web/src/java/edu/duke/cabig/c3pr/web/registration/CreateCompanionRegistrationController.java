@@ -7,10 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
@@ -18,6 +15,7 @@ import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ReviewSubmitTab;
+import edu.duke.cabig.c3pr.web.registration.tabs.SelectStudySiteAndEpochTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.StratificationTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
@@ -26,18 +24,19 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
  * 
  */
 
-public class CompanionRegistrationController<C extends StudySubjectWrapper> extends RegistrationController<C> {
+public class CreateCompanionRegistrationController<C extends StudySubjectWrapper> extends RegistrationController<C> {
     /**
      * Logger for this class
      */
-    private static final Logger logger = Logger.getLogger(CompanionRegistrationController.class);
+    private static final Logger logger = Logger.getLogger(CreateCompanionRegistrationController.class);
 
-	public CompanionRegistrationController() {
+	public CreateCompanionRegistrationController() {
         super("Create Registration");
     }
 
     @Override
     protected void intializeFlows(Flow flow) {
+    	flow.addTab(new SelectStudySiteAndEpochTab());
         flow.addTab(new EnrollmentDetailsTab());
         flow.addTab(new EligibilityCriteriaTab());
         flow.addTab(new StratificationTab());
@@ -76,37 +75,15 @@ public class CompanionRegistrationController<C extends StudySubjectWrapper> exte
     		StudySubjectWrapper wrapper = (StudySubjectWrapper) super.formBackingObject(request);
     		StudySubject studySubject = wrapper.getStudySubject();
     		
-    		String participantId = request.getParameter("studySubject.participant");
-    		String studySiteId = request.getParameter("studySubject.studySite");
+    		String participantId = request.getParameter("participant");
     		String parentRegistrationId = request.getParameter("parentRegistrationId");
-    		String epochId = request.getParameter("epoch");
     		
     		Participant participant = participantDao.getById(Integer.parseInt(participantId));
-    		StudySite studySite =  studySiteDao.getById(Integer.parseInt(studySiteId));
-    		Epoch epoch = epochDao.getById(Integer.parseInt(epochId));
     		StudySubject parentStudySubject = studySubjectDao.getById(Integer.parseInt(parentRegistrationId));
     		
     		studySubject.setParticipant(participant);
-    		studySubject.setStudySite(studySite);
     		studySubject.setParentStudySubject(parentStudySubject);
-    		
-            epochDao.initialize(epoch);
-            ScheduledEpoch scheduledEpoch;
-            if (epoch.getTreatmentIndicator()) {
-                (epoch).getArms().size();
-                scheduledEpoch = new ScheduledEpoch();
-            }else {
-                scheduledEpoch = new ScheduledEpoch();
-            }
-            scheduledEpoch.setEpoch(epoch);
-            if(studySubject.getScheduledEpochs().size() == 0){
-            	studySubject.getScheduledEpochs().add(0,scheduledEpoch);
-            }else{
-            	studySubject.getScheduledEpochs().set(0, scheduledEpoch);
-            }
-            registrationControllerUtils.buildCommandObject(studySubject);
-            studySiteDao.initialize(studySubject.getStudySite());
-    		studySubjectDao.initialize(studySubject.getParentStudySubject());
+
     		return  wrapper;	
     }
 }

@@ -49,10 +49,6 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 					<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
 				</div>
 				<div class="row">
-					<div class="label"><fmt:message key="study.longTitle"/>:</div>
-					<div class="value">${command.studySubject.studySite.study.longTitleText}</div>
-				</div>
-				<div class="row">
 					<div class="label"><fmt:message key="study.randomized"/>:</div>
 					<div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
 				</div>

@@ -12,9 +12,9 @@
 					{onClose: function() {reloadSection();},
 						title: "Companion Registration", 
 						top:35, scrollbar: false, left:100, 
-						zIndex:100, width:700, height:450 , 
+						zIndex:100, width:800, height:550 , 
 						minimizable:false, maximizable:false,
-						url: "<c:url value='/pages/registration/selectStudySiteAndEpoch?decorator=noheaderDecorator&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
+						url: "<c:url value='/pages/registration/createEmbeddedCompanionRegistration?decorator=noheaderRegistrationflow&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
 					  showEffectOptions: {duration:1.5}
 					}
 				) 
@@ -51,7 +51,6 @@
 	</script>
 </head>
 <body>
-<form:form id="companionRegForm">
 <div id="CompanionRegistration">
 <c:choose>
 	<c:when test="${fn:length(companions)>0}">
@@ -60,7 +59,6 @@
 				title="Companions">
 				<tr>
 					<th width="40%" scope="col" align="center"><b><fmt:message key="study.studyShortTitle"/>(<fmt:message key="c3pr.common.identifier"/>)</b></th>
-					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></th>
 					<th width="9%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
 					<th width="18%" scope="col" align="center"><b><fmt:message key="registration.registrationStatus"/></b></th>
 					<th />
@@ -68,7 +66,6 @@
 				<c:forEach items="${companions}" var="companion">
 					<tr>
 						<td class="alt">${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
-						<td class="alt">${companion.registrationDataEntryStatus}</td>
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
 						<td class="alt">${companion.registrationId == 0?"Not Started":companion.registrationStatus}</td>
 						<td class="alt">
@@ -106,6 +103,5 @@
 	</c:otherwise>
 </c:choose>
 </div>
-</form:form>
 </body>
 </html>

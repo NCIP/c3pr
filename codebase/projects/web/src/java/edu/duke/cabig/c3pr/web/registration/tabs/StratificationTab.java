@@ -26,7 +26,7 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
     private static final Logger logger = Logger.getLogger(StratificationTab.class);
 
     public StratificationTab() {
-        super("Stratify", "Stratify", "registration/reg_stratify");
+        super("Stratification", "Stratification", "registration/reg_stratify");
     }
 
     @Override

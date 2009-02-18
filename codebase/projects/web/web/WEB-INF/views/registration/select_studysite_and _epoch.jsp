@@ -1,7 +1,5 @@
 <%@ include file="taglibs.jsp"%>
 <script>
-var studySiteId="" ;
-var epochId="";
 
 function startRegistartion(){
 	$("create").submit();
@@ -32,21 +30,12 @@ function manageEpochSelection(element){
 	}
 </style>
 
-<form action="../registration/createEmbeddedCompanionRegistration?decorator=noheaderRegistrationflow" method="post" id="create">
-	<input type="hidden" name="_page" id="_page0" value="0"/>
-	<input type="hidden" name="_target0" id="_target0" value="0"/>
-	<input type="hidden" name="registrationId" value=""/>
-	<input type="hidden" name="epoch" id="create_epoch" value="" />
-	<input type="hidden" name="studySubject.studySite" id="studySite" value="" />
-	<input type="hidden" name="studySubject.participant" id="participant"  value="${participant.id}"/>
-	<input type="hidden" name="parentRegistrationId" id="parentRegistrationId"  value="${parentRegistrationId}"/>
-</form>
 </head>
 <body>
 	<br>
 	<tags:panelBox boxId="mybox" title="Selected Subject: ${participant.fullName}"></tags:panelBox>
 	<tags:panelBox boxId="mybox" title="Selected Study: ${companionStudy.shortTitleText} (${companionStudy.coordinatingCenterAssignedIdentifier.value})"></tags:panelBox>
-	<tags:panelBox>
+	<tags:formPanelBox tab="${tab}" flow="${flow}" >
 	<chrome:division title="Select Study Site">
 		<table id="studySites" class="tablecontent" border="0" cellspacing="0" cellpadding="0"	>
                <tr>
@@ -95,13 +84,17 @@ function manageEpochSelection(element){
               </c:forEach>
            </table>
 	</chrome:division>
-</tags:panelBox>
-	<div class="flow-buttons">
+	<div style="display:none">
+        <input type="text" name="studySite" id="studySite" /> 
+        <input type="text" name="epoch" id="create_epoch"> 
+    </div>
+</tags:formPanelBox>
+	<!-- div class="flow-buttons">
         <span class="next">
         	<tags:button type="button" color="red" icon="x" value="Cancel" onclick="parent.closePopup();" />
 			<tags:button type="button" color="green" icon="continue" value="Continue" onclick="startRegistartion();"  />
         </span>
-	</div>
+	</div -->
 	
 </body>
 </html>
