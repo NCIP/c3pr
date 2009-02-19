@@ -1,6 +1,6 @@
 <%@ include file="../taglibs.jsp"%>
 <c:choose>
-	<c:when test="${fn:length(companions)>0}">
+	<c:when test="${fn:length(companions)>0 && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator}">
 		<tags:formPanelBox tab="${tab}" flow="${flow}">
 			<table class="tablecontent" width="100%"
 				title="Companions">
@@ -28,7 +28,7 @@
 										<input type="button" value="Edit" onclick='editCompanionRegistration("${companion.companionRegistrationUrl}");' />
 									</c:if>
 									<c:if test="${!companion.mandatoryIndicator}">
-										<input type="button" value="Remove" onclick='manageCompanionRegistration("${companion.companionRegistrationUrl}");' />
+										<input type="button" value="Remove" onclick='removeChildStudySubject"${companion.companionRegistrationUrl}");' />
 									</c:if>
 								</csmauthz:accesscontrol>
 							</c:when>
@@ -45,6 +45,11 @@
 				</c:forEach>
 			</table>
 		</tags:formPanelBox>
+	</c:when>
+	<c:when test="${fn:length(companions)>0 && ! command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator}">
+		<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
+			<div><fmt:message key="REGISTRATION.NO_COMAPNION_REGISTRATION_INVOLVED_FOR_EPOCH"/></div><br>
+		</tags:formPanelBox>	
 	</c:when>
 	<c:otherwise>
 		<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
