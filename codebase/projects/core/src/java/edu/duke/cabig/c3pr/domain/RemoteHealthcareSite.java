@@ -17,7 +17,8 @@ import edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver;
 @RemoteEntity(entityResolver = RemoteHealthcareSiteResolver.class)
 public class RemoteHealthcareSite extends HealthcareSite {
 	private String externalId;
-
+	
+	@RemoteUniqueId
 	public String getExternalId() {
 		return externalId;
 	}
@@ -27,7 +28,6 @@ public class RemoteHealthcareSite extends HealthcareSite {
 	}
 	
 	@Override
-	@RemoteUniqueId
     public String getNciInstituteCode() {
         return super.getNciInstituteCode();
     }
