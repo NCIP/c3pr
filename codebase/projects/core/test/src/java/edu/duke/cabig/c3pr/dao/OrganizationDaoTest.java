@@ -406,7 +406,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     	ConfigurationProperty coppaEnable = Configuration.COPPA_ENABLE;
     	assertNotNull("Missing the property 'COPPA_ENABLE'",coppaEnable);
         assertTrue("COPPA_ENABLE should have been true", Boolean.parseBoolean(coppaEnable.getDefault().toString()));
-    	Object object = remoteSession.load(RemoteHealthcareSite.class,"RM-TST-ID2" );
+    	Object object = remoteSession.load(RemoteHealthcareSite.class,"CP-RM-TST-ID2" );
     	assertNotNull("Remote object cannot be null as coppa services are enabled", object);
     	
     }
