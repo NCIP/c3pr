@@ -9,19 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
-import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 public class CompanionRegistrationTab<C extends StudySubjectWrapper> extends RegistrationTab<C> {
 	
@@ -34,7 +27,7 @@ public class CompanionRegistrationTab<C extends StudySubjectWrapper> extends Reg
 	@Override
 	public Map<String,Object> referenceData(HttpServletRequest request, StudySubjectWrapper wrapper) {
 		Map map = new HashMap();
-		map.put("companions", registrationControllerUtils.getCompanionStudySubject(wrapper.getStudySubject().getSystemAssignedIdentifiers().get(0)));
+		map.put("companions", registrationControllerUtils.getCompanionStudySubject(wrapper.getStudySubject().getSystemAssignedIdentifiers().get(0),  wrapper.getStudySubject()));
 		return map;
 	}
 
@@ -43,29 +36,16 @@ public class CompanionRegistrationTab<C extends StudySubjectWrapper> extends Reg
 		this.registrationControllerUtils = registrationControllerUtils;
 	}
 	
-	public ModelAndView refreshCompanionSection(HttpServletRequest request,Object obj, Errors errors) {
+	public ModelAndView refreshCompanionSection(HttpServletRequest request,Object command, Errors errors) {
+		StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
+//		HashMap map = new HashMap();
+//		map.put("companions", registrationControllerUtils.getCompanionStudySubject(wrapper.getStudySubject().getSystemAssignedIdentifiers().get(0)));
+
+		List<Identifier> identifiers=new ArrayList<Identifier>();
+    	identifiers.add(wrapper.getStudySubject().getSystemAssignedIdentifiers().get(0));
+    	StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    	studySubjectDao.initialize(studySubject);
+    	wrapper.setStudySubject(studySubject);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
-	
-//	 public ModelAndView refreshCompanionSection(HttpServletRequest request, Object obj, Errors errors) {
-//			StudySubjectWrapper wrapper = (StudySubjectWrapper) obj;
-//			StudySubject studySubject = wrapper.getStudySubject();
-//			
-//			HashMap map = new HashMap();
-//			
-//        	Identifier identifier=studySubject.getSystemAssignedIdentifiers().get(0);
-//        	List<Identifier> identifiers=new ArrayList<Identifier>();
-//        	identifiers.add(identifier);
-//        	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
-//        	studySubjectDao.initialize(studySubject);
-//            Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
-//    	    studyDao.initialize(study);
-//    	    for(CompanionStudyAssociation companionStudyAssoc : study.getCompanionStudyAssociations()){
-//    	    	Study companionStudy = companionStudyAssoc.getCompanionStudy();
-//    	    	studyDao.initialize(companionStudy);
-//    	    }
-//			return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
-//		}
-
-		
 }

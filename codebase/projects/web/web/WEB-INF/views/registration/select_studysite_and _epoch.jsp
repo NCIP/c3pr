@@ -1,10 +1,6 @@
 <%@ include file="taglibs.jsp"%>
 <script>
 
-function startRegistartion(){
-	$("create").submit();
-}
-
 function manageStudySiteSelection(element){
 	$$('.studySiteSelection').each(function(e){
 				e.checked=false;

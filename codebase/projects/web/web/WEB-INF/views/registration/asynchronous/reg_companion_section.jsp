@@ -6,7 +6,6 @@
 				title="Companions">
 				<tr>
 					<th width="40%" scope="col" align="center"><b><fmt:message key="study.studyShortTitle"/>(<fmt:message key="c3pr.common.identifier"/>)</b></th>
-					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></th>
 					<th width="9%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
 					<th width="18%" scope="col" align="center"><b><fmt:message key="registration.registrationStatus"/></b></th>
 					<th />
@@ -14,7 +13,6 @@
 				<c:forEach items="${companions}" var="companion">
 					<tr>
 						<td class="alt">${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
-						<td class="alt">${companion.registrationDataEntryStatus}</td>
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
 						<td class="alt">${companion.registrationId == 0?"Not Started":companion.registrationStatus}</td>
 						<td class="alt">

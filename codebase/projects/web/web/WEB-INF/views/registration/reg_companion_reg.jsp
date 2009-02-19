@@ -12,7 +12,7 @@
 					{onClose: function() {reloadSection();},
 						title: "Companion Registration", 
 						top:35, scrollbar: false, left:100, 
-						zIndex:100, width:800, height:550 , 
+						zIndex:100, width:850, height:550 , 
 						minimizable:false, maximizable:false,
 						url: "<c:url value='/pages/registration/createEmbeddedCompanionRegistration?decorator=noheaderRegistrationflow&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
 					  showEffectOptions: {duration:1.5}
@@ -30,14 +30,13 @@
 					{onClose: function() {reloadSection();},
 						title: "Companion Registration", 
 						top:35, scrollbar: false, left:100, 
-						zIndex:100, width:800, height:550 , 
+						zIndex:100, width:850, height:550 , 
 						minimizable:false, maximizable:false,
 						url: "<c:url value='/pages/registration/editCompanionRegistration?decorator=noheaderRegistrationflow&'/>" + url , 
 					 	 showEffectOptions: {duration:1.5}
 					}
 				) 
 			win.showCenter(true);
-   		//	document.location="../registration/editCompanionRegistration?"+url;
    	   	}
 
 								
@@ -46,7 +45,7 @@
    	   	}
 
    	   	function reloadSection(){
-   	   		<tags:tabMethod method="refreshCompanionSection" divElement="'CompanionRegistration'" formName="'companionRegForm'"  viewName="/registration/asynchronous/reg_companion_section" />
+   	   		<tags:tabMethod method="refreshCompanionSection" divElement="'CompanionRegistration'" formName="'tabMethodForm'"  viewName="/registration/asynchronous/reg_companion_section" />
    	   	}
 	</script>
 </head>
@@ -58,35 +57,38 @@
 			<table class="tablecontent" width="100%"
 				title="Companions">
 				<tr>
-					<th width="40%" scope="col" align="center"><b><fmt:message key="study.studyShortTitle"/>(<fmt:message key="c3pr.common.identifier"/>)</b></th>
-					<th width="9%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
-					<th width="18%" scope="col" align="center"><b><fmt:message key="registration.registrationStatus"/></b></th>
+					<th width="40%" scope="col" align="center"><b><fmt:message key="c3pr.common.study"/></b></th>
+					<th width="10%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
+					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.status"/></b></th>
 					<th />
 				</tr>
 				<c:forEach items="${companions}" var="companion">
 					<tr>
-						<td class="alt">${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
+						<td class="alt">
+							<c:if test="${companion.mandatoryIndicator}"><tags:requiredIndicator /></c:if>
+							${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})
+						</td>
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
 						<td class="alt">${companion.registrationId == 0?"Not Started":companion.registrationStatus}</td>
 						<td class="alt">
 						<c:choose>
-							<c:when test="${companion.registrationId != 0 && companion.registrationDataEntryStatus == 'Complete'}">
+							<c:when test="${companion.registrationId != 0}">
 								<csmauthz:accesscontrol domainObject="${command.studySubject}"
 									hasPrivileges="UPDATE"
 									authorizationCheckName="domainObjectAuthorizationCheck">
-									<input type="button" value="Edit"
-										onclick='editCompanionRegistration("${companion.companionRegistrationUrl}");' />
-									<input type="button" value="Remove"
-										onclick='manageCompanionRegistration("${companion.companionRegistrationUrl}");' />
-							
+									<c:if test="${companion.registrationStatus != 'Registered but not enrolled'}">
+										<input type="button" value="Edit" onclick='editCompanionRegistration("${companion.companionRegistrationUrl}");' />
+									</c:if>
+									<c:if test="${!companion.mandatoryIndicator}">
+										<input type="button" value="Remove" onclick='manageCompanionRegistration("${companion.companionRegistrationUrl}");' />
+									</c:if>
 								</csmauthz:accesscontrol>
 							</c:when>
 							<c:otherwise>
 								<csmauthz:accesscontrol domainObject="${command.studySubject}"
 									hasPrivileges="UPDATE"
 									authorizationCheckName="domainObjectAuthorizationCheck">
-									<input type="button" id="registerCompanionStudy"
-										value="Register"
+									<input type="button" id="registerCompanionStudy" value="Register"
 										onclick="openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}');" />
 								</csmauthz:accesscontrol>
 							</c:otherwise>

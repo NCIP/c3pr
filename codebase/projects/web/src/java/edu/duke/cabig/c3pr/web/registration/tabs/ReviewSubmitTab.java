@@ -44,7 +44,7 @@ public class ReviewSubmitTab extends RegistrationTab<StudySubjectWrapper> {
 
 		}
 		
-		map.put("companions", registrationControllerUtils.getCompanionStudySubject(studySubject.getSystemAssignedIdentifiers().get(0)));
+		map.put("companions", registrationControllerUtils.getCompanionStudySubject(studySubject.getSystemAssignedIdentifiers().get(0), studySubject));
 		map.put("actionLabel", registrationControllerUtils.getActionButtonLabel(command));
 		map.put("tabTitle", registrationControllerUtils.getTabTitle(command));
 		map.put("registerable", registrationControllerUtils.isRegisterableOnPage(command.getStudySubject()));

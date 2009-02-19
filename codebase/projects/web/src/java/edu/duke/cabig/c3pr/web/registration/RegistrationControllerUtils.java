@@ -372,12 +372,12 @@ public class RegistrationControllerUtils {
 		this.studySubjectRepository = studySubjectRepository;
 	}
 	
-	public List<Companion> getCompanionStudySubject(Identifier identifier){
+	public List<Companion> getCompanionStudySubject(Identifier identifier, StudySubject studySubject){
     	List<Companion> companions = new ArrayList<Companion>();
     	if(identifier != null){
     		List<Identifier> identifiers=new ArrayList<Identifier>();
     		identifiers.add(identifier);
-    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+//    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
     		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()){
     			Companion companion = new Companion();
     			Study companionStudy = companionStudyAssoc.getCompanionStudy();
