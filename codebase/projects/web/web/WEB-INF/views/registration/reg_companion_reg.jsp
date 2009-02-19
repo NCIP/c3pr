@@ -40,7 +40,7 @@
    	   	}
 
 								
-   		function manageCompanionRegistration(url){
+   		function removeChildStudySubject(url){
    			document.location="../registration/manageRegistration?"+url;
    	   	}
 
@@ -80,7 +80,7 @@
 										<input type="button" value="Edit" onclick='editCompanionRegistration("${companion.companionRegistrationUrl}");' />
 									</c:if>
 									<c:if test="${!companion.mandatoryIndicator}">
-										<input type="button" value="Remove" onclick='manageCompanionRegistration("${companion.companionRegistrationUrl}");' />
+										<input type="button" value="Remove" onclick='removeChildStudySubject"${companion.companionRegistrationUrl}");' />
 									</c:if>
 								</csmauthz:accesscontrol>
 							</c:when>

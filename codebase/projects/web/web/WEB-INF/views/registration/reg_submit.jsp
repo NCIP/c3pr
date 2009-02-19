@@ -276,16 +276,30 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:document.getElementById('flowredirect-target').name='_target5';document.getElementById('flowredirect').submit();">
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  >
 				<tr>
-					<th width="50%" scope="col" align="left"><b><fmt:message key="study.studyShortTitle"/>(<fmt:message key="c3pr.common.identifier"/>)</b></th>
-					<th scope="20%" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
-					<th scope="30%" align="left"><b><fmt:message key="registration.registrationStatus"/></b></th>
+					<th width="40%" scope="col" align="left"><b><fmt:message key="c3pr.common.study"/></b></th>
+					<th scope="22%" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
+					<th scope="20%" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
 				</tr>
 				<c:forEach items="${companions}" var="companion">
 					<tr class="results">
-						<td class="alt">${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
+						<td class="alt"><c:if test="${companion.mandatoryIndicator}"><tags:requiredIndicator /></c:if>${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
 						<td class="alt">
-							<tags:requiredFieldEmptyIndicator value='${companion.registrationStatus}' workflow='registration'/>
+							<c:choose>
+								<c:when test="${companion.mandatoryIndicator}">
+									<c:choose>
+										<c:when test="${empty companion.registrationStatus || companion.registrationStatus != 'Registered but not enrolled'}">
+											${companion.registrationStatus} <font color="Red"><i>* test message - need to change this.</i></font>
+										</c:when>
+										<c:otherwise>
+											${companion.registrationStatus}
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise>
+									${empty companion.registrationStatus? 'Not Started': companion.registrationStatus}
+								</c:otherwise>
+							</c:choose>
 						</td>
 					</tr>
 				</c:forEach>
