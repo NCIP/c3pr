@@ -6,12 +6,21 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.springframework.dao.DataAccessException;
 
+import com.semanticbits.coppa.infrastructure.RemoteEntitiesUtils;
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -33,7 +42,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
  * @author kherm
  * @version 1.0
  */
-public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
+public class HealthcareSiteDao extends OrganizationDao {
 
 	/** The SUBSTRING_ match_ properties. */
 	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name",
@@ -126,7 +135,14 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 	 * @return HealthcareSite
 	 */
 	public List<HealthcareSite> getAll() {
-		return getHibernateTemplate().find("from HealthcareSite");
+		
+		List<HealthcareSite> dataBaseHealthcareSites = new ArrayList<HealthcareSite>();
+		dataBaseHealthcareSites = getHibernateTemplate().find("from HealthcareSite");
+		
+		List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
+		remoteHealthcareSites = getFromResolver(new RemoteHealthcareSite());
+		
+		return mergeRemoteWithLocalLists(remoteHealthcareSites, dataBaseHealthcareSites);
 	}
 
 	/**
@@ -147,7 +163,7 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 	 * @throws C3PRBaseRuntimeException 
 	 */
 	public List<HealthcareSite> getBySubnames(String[] subnames) throws C3PRBaseRuntimeException, C3PRBaseException {
-
+		
 		List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
 
 		remoteHealthcareSites
@@ -167,8 +183,17 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 	 *            the nci institute code
 	 * 
 	 * @return the HealthcareSite
+	 * @throws C3PRBaseException 
+	 * @throws C3PRBaseRuntimeException 
 	 */
 	public HealthcareSite getByNciInstituteCode(String nciInstituteCode) {
+		
+		List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
+		remoteHealthcareSites
+		.addAll(getFromResolver(new RemoteHealthcareSite()));
+
+		updateDatabaseWithRemoteContent(remoteHealthcareSites);
+		
 		return CollectionUtils
 				.firstElement((List<HealthcareSite>) getHibernateTemplate()
 						.find(
@@ -196,6 +221,7 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 			tempRemoteHealthcareSite = (HealthcareSite) object;
 			healthcareSiteList.add(tempRemoteHealthcareSite);
 		}
+		
 		return healthcareSiteList;
 	}
 
@@ -208,21 +234,35 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 	 * @throws C3PRBaseRuntimeException 
 	 */
 	public void updateDatabaseWithRemoteContent(
-			List<HealthcareSite> remoteHealthcareSiteList) throws C3PRBaseRuntimeException, C3PRBaseException {
+			List<HealthcareSite> remoteHealthcareSiteList) {
 
-		for (HealthcareSite remoteHealthcareSite : remoteHealthcareSiteList) {
-			RemoteHealthcareSite remoteHealthcareSiteTemp = (RemoteHealthcareSite)remoteHealthcareSite;
-			HealthcareSite healthcareSiteFromDatabase = getByUniqueIdentifier(remoteHealthcareSite
-					.getNciInstituteCode());
-			if (healthcareSiteFromDatabase != null) {
-				// this guy exists....copy latest remote data into the existing
-				// object...which is done by the interceptor
-			} else {
-				// this guy doesnt exist
-				createGroupForOrganization(remoteHealthcareSiteTemp);
-				remoteHealthcareSiteTemp.setExternalId(remoteHealthcareSite.getNciInstituteCode());
-				getHibernateTemplate().save(remoteHealthcareSiteTemp);
+		try {
+			for (HealthcareSite remoteHealthcareSite : remoteHealthcareSiteList) {
+				RemoteHealthcareSite remoteHealthcareSiteTemp = (RemoteHealthcareSite)remoteHealthcareSite;
+				HealthcareSite healthcareSiteFromDatabase = getByUniqueIdentifier(remoteHealthcareSite
+						.getNciInstituteCode());
+				if (healthcareSiteFromDatabase != null) {
+					// this guy exists....copy latest remote data into the existing
+					// object...which is done by the interceptor
+					RemoteEntitiesUtils.copy(remoteHealthcareSiteTemp,healthcareSiteFromDatabase);
+					getHibernateTemplate().merge(healthcareSiteFromDatabase);
+				} else {
+					// this guy doesnt exist
+					createGroupForOrganization(remoteHealthcareSiteTemp);
+					remoteHealthcareSiteTemp.setExternalId(remoteHealthcareSite.getNciInstituteCode());
+					getHibernateTemplate().save(remoteHealthcareSiteTemp);
+				}
 			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		} catch (C3PRBaseRuntimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (C3PRBaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			getHibernateTemplate().flush();
 		}
 	}
 
@@ -233,12 +273,18 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 	 *            the nci institute code
 	 * 
 	 * @return the HealthcareSite
+	 * @throws C3PRBaseException 
+	 * @throws C3PRBaseRuntimeException 
 	 */
 	public HealthcareSite getByUniqueIdentifier(String nciInstituteCode) {
-		return getByNciInstituteCode(nciInstituteCode);
+		return CollectionUtils
+		.firstElement((List<HealthcareSite>) getHibernateTemplate()
+				.find(
+						"from HealthcareSite h where h.nciInstituteCode = ?",
+						nciInstituteCode));
 	}
 
-	private Group createGroupForOrganization(HealthcareSite organization)
+	public Group createGroupForOrganization(HealthcareSite organization)
 			throws C3PRBaseException, C3PRBaseRuntimeException {
 		Group org = new Group();
 		try {
@@ -295,6 +341,55 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 					"Cannot create group for organization.", e);
 		}
 		return org;
+	}
+	
+	  /**
+     * Search by example.
+     * 
+     * @param hcs the hcs
+     * @param isWildCard the is wild card
+     * 
+     * @return the list< healthcare site>
+	 * @throws C3PRBaseException 
+	 * @throws C3PRBaseRuntimeException 
+     */
+    public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard){
+    	
+    	List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
+		remoteHealthcareSites
+		.addAll(getFromResolver(hcs));
+
+		updateDatabaseWithRemoteContent(remoteHealthcareSites);
+        List<HealthcareSite> result = new ArrayList<HealthcareSite>();
+        Example example = Example.create(hcs).excludeZeroes().ignoreCase();
+        try {
+            Criteria orgCriteria = getSession().createCriteria(Organization.class);
+            orgCriteria.addOrder(Order.asc("name"));
+            orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+            orgCriteria.setMaxResults(50);
+            if (isWildCard) {
+                example.enableLike(MatchMode.ANYWHERE);
+            }
+            example.excludeProperty("studyEndPointProperty");
+            example.excludeProperty("registrationEndPointProperty");
+            result = orgCriteria.add(example).list();
+        }
+        catch (Exception e) {
+        	log.error(e.getMessage());
+        }
+        return result;
+    }
+
+	
+	
+	public List<HealthcareSite> mergeRemoteWithLocalLists(List<HealthcareSite> remoteHealthcareSiteList,List<HealthcareSite> localHealthcareSiteList){
+		List<HealthcareSite> mergedHealthcareSiteList = new ArrayList<HealthcareSite>();
+		Set<HealthcareSite> uniqueHealthcareSitesList = new TreeSet<HealthcareSite>();
+		uniqueHealthcareSitesList.addAll(remoteHealthcareSiteList);
+		uniqueHealthcareSitesList.addAll(localHealthcareSiteList);
+		mergedHealthcareSiteList.addAll(uniqueHealthcareSitesList);
+		
+		return mergedHealthcareSiteList;
 	}
 
 }

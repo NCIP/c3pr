@@ -33,14 +33,14 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
         return HealthcareSite.class;
     }
 
-    /**
+ /*   *//**
      * Search by example.
      * 
      * @param hcs the hcs
      * @param isWildCard the is wild card
      * 
      * @return the list< healthcare site>
-     */
+     *//*
     public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard) {
         List<HealthcareSite> result = new ArrayList<HealthcareSite>();
         Example example = Example.create(hcs).excludeZeroes().ignoreCase();
@@ -61,7 +61,7 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
         }
         return result;
     }
-
+*/
     /**
      * Gets the by nci identifier.
      * 
