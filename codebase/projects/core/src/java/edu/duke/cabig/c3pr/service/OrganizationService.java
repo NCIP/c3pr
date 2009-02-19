@@ -2,7 +2,7 @@ package edu.duke.cabig.c3pr.service;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.dao.OrganizationDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -27,7 +27,7 @@ public interface OrganizationService {
     public Organization merge(Organization organization) throws C3PRBaseException,
                     C3PRBaseRuntimeException;
     
-    public OrganizationDao getOrganizationDao();
+    public HealthcareSiteDao getHealthcareSiteDao();
 
     public String getSiteNameByNciIdentifier(String nciId);
     
