@@ -87,11 +87,14 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		ii.setExtension(externalId);
 		try {
 			organizationDto = organizationEntityServiceRemote.getOrganization(ii);
+			return populateRemoteOrganization(organizationDto);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return populateRemoteOrganization(organizationDto);
+		
+		return null;
+		
 	}
 	
 	/* (non-Javadoc)
