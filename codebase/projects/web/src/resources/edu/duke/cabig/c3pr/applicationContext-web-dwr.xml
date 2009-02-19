@@ -9,21 +9,21 @@
 
 	<bean id="bookRandomizationAjaxFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.BookRandomizationAjaxFacade" />
-	<bean id="studyAjaxFacade" autowire="byType"
+	<bean id="studyAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade" />
-	<bean id="participantAjaxFacade" autowire="byType"
+	<bean id="participantAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.ParticipantAjaxFacade" />
-	<bean id="investigatorAjaxFacade" autowire="byType"
+	<bean id="investigatorAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.InvestigatorAjaxFacade" />
-	<bean id="researchStaffAjaxFacade" autowire="byType"
+	<bean id="researchStaffAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.ResearchStaffAjaxFacade" />
-	<bean id="organizationAjaxFacade" autowire="byType"
+	<bean id="organizationAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.OrganizationAjaxFacade" />
-	<bean id="searchOrganizationAjaxFacade" autowire="byType"
+	<bean id="searchOrganizationAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.SearchOrganizationAjaxFacade" />
-	<bean id="searchInvestigatorAjaxFacade" autowire="byType"
+	<bean id="searchInvestigatorAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.SearchInvestigatorAjaxFacade" />
-	<bean id="searchResearchStaffAjaxFacade" autowire="byType"
+	<bean id="searchResearchStaffAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.SearchResearchStaffAjaxFacade" />
 	<bean id="registrationAjaxFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.RegistrationAjaxFacade" />
