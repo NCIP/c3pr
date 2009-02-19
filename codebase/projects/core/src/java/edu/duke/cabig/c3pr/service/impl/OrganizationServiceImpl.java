@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
@@ -29,7 +30,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private UserProvisioningManager userProvisioningManager;
 
-    private OrganizationDao organizationDao;
+    private HealthcareSiteDao healthcareSiteDao;
 
     private String csmApplicationContextName;
 
@@ -43,16 +44,16 @@ public class OrganizationServiceImpl implements OrganizationService {
     
     
     public void saveNotification(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException {
-        organizationDao.save(organization);
+    	healthcareSiteDao.save(organization);
     }
     
     public Organization merge(Organization organization) throws C3PRBaseException, C3PRBaseRuntimeException {
-    	return organizationDao.merge(organization);
+    	return healthcareSiteDao.merge(organization);
     }
     
     public void save(HealthcareSite site) throws C3PRBaseException, C3PRBaseRuntimeException {
         createGroupForOrganization(site);
-        organizationDao.save(site);
+        healthcareSiteDao.save(site);
     }
 
     /*
@@ -150,15 +151,16 @@ public class OrganizationServiceImpl implements OrganizationService {
         this.userProvisioningManager = userProvisioningManager;
     }
 
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
 
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
-    }
+    public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
 
-    public String getCsmApplicationContextName() {
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public String getCsmApplicationContextName() {
         return csmApplicationContextName;
     }
 
@@ -170,7 +172,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (nciId == null || nciId.trim().equals("")) return "";
         
         try {
-            return organizationDao.getByNciIdentifier(nciId).get(0).getName();
+            return healthcareSiteDao.getByNciIdentifier(nciId).get(0).getName();
         } catch (Exception e) {
             log.warn("The site name could not be retrieved by NCI ID Code.");
             return "";
