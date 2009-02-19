@@ -17,6 +17,7 @@ import org.extremecomponents.table.context.HttpServletRequestContext;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
@@ -24,7 +25,7 @@ import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 public class SearchOrganizationAjaxFacade {
     private static Log log = LogFactory.getLog(SearchOrganizationAjaxFacade.class);
 
-    private OrganizationDao organizationDao;
+    private HealthcareSiteDao healthcareSiteDao;
 
     public Object build(TableModel model, Collection studies) throws Exception {
 
@@ -70,7 +71,7 @@ public class SearchOrganizationAjaxFacade {
         if (!StringUtils.isEmpty(params[1])) {
             hcs.setNciInstituteCode(params[1]);
         }
-        List<HealthcareSite> orgResults = organizationDao.searchByExample(hcs, true);
+        List<HealthcareSite> orgResults = healthcareSiteDao.searchByExample(hcs, true);
 
         Context context = null;
         if (parameterMap == null) {
@@ -92,12 +93,13 @@ public class SearchOrganizationAjaxFacade {
         return "";
     }
 
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
 
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
-    }
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
 
 }
