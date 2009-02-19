@@ -14,6 +14,7 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.dao.DataAccessException;
 
 import com.semanticbits.coppa.infrastructure.RemoteEntitiesUtils;
@@ -244,7 +245,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 				if (healthcareSiteFromDatabase != null) {
 					// this guy exists....copy latest remote data into the existing
 					// object...which is done by the interceptor
-					RemoteEntitiesUtils.copy(remoteHealthcareSiteTemp,healthcareSiteFromDatabase);
+					copyRemotePropertiesFromSourceToTarget(healthcareSiteFromDatabase, remoteHealthcareSiteTemp);
 					getHibernateTemplate().merge(healthcareSiteFromDatabase);
 				} else {
 					// this guy doesnt exist
@@ -391,5 +392,20 @@ public class HealthcareSiteDao extends OrganizationDao {
 		
 		return mergedHealthcareSiteList;
 	}
+	
+	
+	public void copyRemotePropertiesFromSourceToTarget(HealthcareSite targetHealthcareSite,HealthcareSite sourceHealthcareSite){
+		List<String> remoteProperties = new ArrayList<String>();
+		remoteProperties = RemoteEntitiesUtils.getRemoteProperties(sourceHealthcareSite.getClass());
+		BeanWrapperImpl beanWrapperSource = new BeanWrapperImpl(sourceHealthcareSite);
+		BeanWrapperImpl beanWrapperTarget = new BeanWrapperImpl(targetHealthcareSite);
+		for (int i=0; i< remoteProperties.size();i++){
+				// copy property value from remote to entity
+				if(beanWrapperSource.isReadableProperty(remoteProperties.get(i))){
+					beanWrapperTarget.setPropertyValue(remoteProperties.get(i), beanWrapperSource.getPropertyValue(remoteProperties.get(i)));
+				}
+			} 
+	}
+		
 
 }
