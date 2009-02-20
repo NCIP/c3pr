@@ -4,7 +4,7 @@
 	<property name="antfiles.dir" location="${parent.dir}/../antfiles"/>
 	<property file="${antfiles.dir}/build.properties" />
 	<property file="${antfiles.dir}/c3pr-ivy.properties" />
-	<import file="${antfiles.dir}/common.xml"/>
+	<import file="${antfiles.dir}/common.xml"/>  
 	
 	<!--Web Dirs-->
 	<property name="web.dir" location="${basedir}/web"/>
@@ -156,4 +156,88 @@
             <param name="project" value="web"/>
         </antcall>	
     </target>
+	
+	
+	<!-- =============================================================== -->
+	    <!-- selenium-test              -->
+	    <!-- =============================================================== -->
+	
+    <target name="selenium-test" if="run.test" depends="clean-test-results, compile-test,resolve-test"
+            description="Runs the selenium testcases">
+
+        <echo message="Executing in ${ant.project.name}"/>
+        <echo
+                message="Test results dir: ${test.results.dir}, with pattern ${selenium-testPattern} and classes from ${test.classes.dir}"/>
+        <mkdir dir="${test.results.dir}"/>
+    	
+        <junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed"
+               showoutput="true" fork="true" forkmode="once" timeout="600000">
+        	
+            <classpath refid="test.run.classpath"/>
+            <classpath>
+                <pathelement path="${clover.jar}"/>
+            </classpath>
+
+            <formatter type="plain"/>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${test.results.dir}">
+                <fileset dir="${test.classes.dir}">
+                    <include name="${selenium-testPattern}"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    	
+
+    </target>
+	
+	
+	<!-- ========================================================================
+	       target: migrate-selenium-data
+	        Will run the sample data migration for selenium..
+	   ============================================================================= -->
+
+	    <target name="migrate-selenium-data" description="add sample data" depends="find-datasource">
+	        <taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="main.classpath"/>
+	        <property file="${dsFile}"/>
+	        <echo>add sample data into ${datasource.url}</echo>
+	        <dbunit classpathRef="main.classpath"
+	                driver="${datasource.driver}"
+	                url="${datasource.url}"
+	                userid="${datasource.username}"
+	                password="${datasource.password}">
+	            <operation type="INSERT"
+	                       src="src/resources/edu/duke/cabig/c3pr/dao/testdata/StudyDaoTest.xml"/>
+	           <!-- <operation type="INSERT"
+	                       src="src/test/resources/gov/nih/nci/ctcae/selenium/testdata/questions.xml"/> -->
+	        </dbunit>
+	    </target>
+
+	<!-- ========================================================================
+	       target: start-server
+	        Will start the selenium server..
+	   ============================================================================= -->
+
+	    <target name="start-server" depends="stop-server">
+	        <java jar="../tools/selenium/selenium-server.jar" fork="true" failonerror="true"/>
+	    </target>
+
+
+	    <!-- ========================================================================
+	       target: stop-server
+	        Will stop the selenium server..
+	   ============================================================================= -->
+
+	    <target name="stop-server" description="description" depends="find-datasource">
+	        <echo message="shutdown failed" file="selenium-shutdown-result.txt"/>
+	        <property file="${dsFile}"/>
+
+	        <get src="http://localhost:4444/selenium-server/driver/?cmd=shutDown"
+	             dest="selenium-shutdown-result.txt"
+	             ignoreerrors="true"/>
+	        <loadfile property="selenium.shutdown.results" srcfile="selenium-shutdown-result.txt"/>
+	        <echo message="selenium shutdown status: ${selenium.shutdown.results}"/>
+	    </target>
+
+
+  
 </project>
