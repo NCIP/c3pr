@@ -257,14 +257,10 @@ public class HealthcareSiteDao extends OrganizationDao {
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} catch (C3PRBaseRuntimeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (C3PRBaseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally{
-			getHibernateTemplate().flush();
-		}
+		} 
 	}
 
 	/**
