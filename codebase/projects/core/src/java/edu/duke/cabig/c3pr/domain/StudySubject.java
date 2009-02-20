@@ -1273,16 +1273,20 @@ public class StudySubject extends
 			}
 		}	
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
+			if(!childStudySubject.getDataEntryStatus()){
+				return true ;
+			}
 			if(childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.ENROLLED){
 				CompanionStudyAssociation studyAssociation = getMatchingCompanionStudyAssociation(childStudySubject);
 				if (studyAssociation != null) {
-					if (studyAssociation.getMandatoryIndicator() && childStudySubject.getDataEntryStatus()) {
+					if (studyAssociation.getMandatoryIndicator()) {
 						if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
 							return true;
 						}
 						if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
 							return true;
 						}
+						
 					}
 				}
 			}
