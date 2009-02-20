@@ -1262,8 +1262,7 @@ public class StudySubject extends
 		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getCompanionStudyAssociations()){
 			if (companionStudyAssociation.getMandatoryIndicator()) {
 				boolean hasCorrespondingStudySubject = false;
-				for (StudySubject childStudySubject : this
-						.getChildStudySubjects()) {
+				for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 					if (childStudySubject.getStudySite().getStudy().equals(
 							companionStudyAssociation.getCompanionStudy())) {
 						hasCorrespondingStudySubject = true;
@@ -1275,9 +1274,9 @@ public class StudySubject extends
 		}	
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			if(childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.ENROLLED){
-				if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
-					if (getMatchingCompanionStudyAssociation(childStudySubject)
-							.getMandatoryIndicator()) {
+				CompanionStudyAssociation studyAssociation = getMatchingCompanionStudyAssociation(childStudySubject);
+				if (studyAssociation != null) {
+					if (studyAssociation.getMandatoryIndicator() && childStudySubject.getDataEntryStatus()) {
 						if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
 							return true;
 						}
