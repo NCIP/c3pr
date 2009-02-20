@@ -107,53 +107,96 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator />
                 <fmt:message key="c3pr.common.firstName"/></div>
-            <div class="value">
-                <form:input size="25" path="firstName"
-                            cssClass="validate-notEmpty" />
-            </div>
+            
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
+						<div class="value">${command.firstName}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="25" path="firstName" cssClass="validate-notEmpty" />
+						  </div>
+					</c:otherwise>
+				</c:choose>
         </div>
-        <div class="row">
+		<div class="row">
             <div class="label"><tags:requiredIndicator />
                 <fmt:message key="c3pr.common.lastName"/></div>
-            <div class="value">
-                <form:input path="lastName" cssClass="validate-notEmpty" size="25" />
-            </div>
+            
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
+						<div class="value">${command.lastName}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="25" path="lastName" cssClass="validate-notEmpty" />
+						  </div>
+					</c:otherwise>
+				</c:choose>
         </div>
-        <div class="row">
+		<div class="row">
             <div class="label">
-               <fmt:message key="c3pr.common.middleName"/></div>
-            <div class="value">
-                <form:input path="middleName" size="25" />
-            </div>
+                <fmt:message key="c3pr.common.middleName"/></div>
+            
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
+						<div class="value">${command.middleName}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="25" path="middleName" cssClass="validate-notEmpty" />
+						  </div>
+					</c:otherwise>
+				</c:choose>
         </div>
-        <div class="row">
+		<div class="row">
             <div class="label">
                 <fmt:message key="c3pr.common.maidenName"/></div>
-            <div class="value">
-                <form:input path="maidenName" size="25" />
-            </div>
-        </div>
-    </div>
+            
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
+						<div class="value">${command.maidenName}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="25" path="maidenName" cssClass="validate-notEmpty" />
+						  </div>
+					</c:otherwise>
+				</c:choose>
+        	</div>
+		</div>
 
     <div class="rightpanel">
-        <div class="row">
+		<div class="row">
             <div class="label"><tags:requiredIndicator />
-                 <fmt:message key="c3pr.common.NCIIdentifier"/>
-            </div>
-            <div class="value">
-                <form:input path="nciIdentifier" size="25" cssClass="validate-notEmpty" />
-                <tags:hoverHint keyProp="researchStaff.nciIdentifier"/>
-            </div>
+                <fmt:message key="c3pr.common.NCIIdentifier"/></div>
+            
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
+						<div class="value">${command.nciIdentifier}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="25" path="nciIdentifier" cssClass="validate-notEmpty" />
+						  </div>
+					</c:otherwise>
+				</c:choose>
         </div>
-        <div class="row">
+		<div class="row">
             <div class="label"><tags:requiredIndicator />
                     ${command.contactMechanisms[0].type.displayName} (Username)
             </div>
-            <div class="value">
-                <form:input size="30"
-                            path="contactMechanisms[0].value" cssClass="validate-notEmpty&&EMAIL" />
-            </div>
-        </div>
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
+						<div class="value">${command.contactMechanisms[0].value}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="30" path="contactMechanisms[0].value" cssClass="validate-notEmpty&&EMAIL" />
+						  </div>
+					</c:otherwise>
+				</c:choose>
+       	 </div>
         <div class="row">
             <div class="label">
                     ${command.contactMechanisms[1].type.displayName}
