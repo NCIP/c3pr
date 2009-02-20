@@ -42,15 +42,25 @@
 <chrome:division id="organization" title="Details">
 <div class="leftpanel">
 
-    <div class="row">
-        <div class="label"><tags:requiredIndicator />
-            <fmt:message key="c3pr.common.name"/>
+	<div class="row">
+            <div class="label"><tags:requiredIndicator />
+                <fmt:message key="c3pr.common.name"/></div>
+            
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+						<div class="value">
+							${command.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
+							<tags:hoverHint keyProp="organization.name"/>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="37" path="name" cssClass="validate-notEmpty" />
+							<tags:hoverHint keyProp="organization.name"/>
+						</div>
+					</c:otherwise>
+				</c:choose>
         </div>
-        <div class="value">
-            <form:input size="37" path="name" cssClass="validate-notEmpty"/>
-            <tags:hoverHint keyProp="organization.name"/>
-        </div>
-    </div>
 
     <div class="row">
         <div class="label">
@@ -132,52 +142,78 @@
     <chrome:division id="address" title="Address">
     <div class="leftpanel">
 
-
-        <div class="row">
+		<div class="row">
             <div class="label">
-                <fmt:message key="c3pr.common.streetAddress"/>
-            </div>
-            <div class="value">
-                <form:input size="40" path="address.streetAddress"/>
-            </div>
+                <fmt:message key="c3pr.common.streetAddress"/></div>
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+						<div class="value">${command.address.streetAddress}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="40" path="address.streetAddress"  />
+						  </div>
+					</c:otherwise>
+				</c:choose>
+        </div>
+		<div class="row">
+            <div class="label">
+                <fmt:message key="c3pr.common.city"/></div>
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+						<div class="value">${command.address.city}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="20" path="address.city"  />
+						  </div>
+					</c:otherwise>
+				</c:choose>
+        </div>
+		<div class="row">
+            <div class="label">
+                <fmt:message key="c3pr.common.state"/></div>
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+						<div class="value">${command.address.stateCode}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="20" path="address.stateCode"  />
+						  </div>
+					</c:otherwise>
+				</c:choose>
         </div>
 
-        <div class="row">
+		<div class="row">
             <div class="label">
-                <fmt:message key="c3pr.common.city"/>
-            </div>
-            <div class="value">
-                <form:input path="address.city" size="20"/>
-            </div>
+                <fmt:message key="c3pr.common.zip"/></div>
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+						<div class="value">${command.address.postalCode}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="20" path="address.postalCode"  />
+						  </div>
+					</c:otherwise>
+				</c:choose>
         </div>
 
-        <div class="row">
+		<div class="row">
             <div class="label">
-                <fmt:message key="c3pr.common.state"/>
-            </div>
-            <div class="value">
-                <form:input path="address.stateCode" size="20"/>
-            </div>
+                <fmt:message key="c3pr.common.country"/></div>
+				<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+						<div class="value">${command.address.countryCode}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="20" path="address.countryCode"  />
+						  </div>
+					</c:otherwise>
+				</c:choose>
         </div>
-
-        <div class="row">
-            <div class="label">
-                <fmt:message key="c3pr.common.zip"/>
-            </div>
-            <div class="value">
-                <form:input path="address.postalCode" size="20"/>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="label">
-                <fmt:message key="c3pr.common.country"/>
-            </div>
-            <div class="value">
-                <form:input path="address.countryCode" size="20"/>
-            </div>
-        </div>
-
 
     </div>
 
