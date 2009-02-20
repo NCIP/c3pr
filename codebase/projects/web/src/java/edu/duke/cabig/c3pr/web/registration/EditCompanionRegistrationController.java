@@ -1,5 +1,14 @@
 package edu.duke.cabig.c3pr.web.registration;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
@@ -19,5 +28,26 @@ public class EditCompanionRegistrationController<C extends StudySubjectWrapper> 
         setFlow(flow);
     }
 	
+	@Override
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
+                    Object command, BindException errors) throws Exception {
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
+        StudySubject studySubject = wrapper.getStudySubject();
+        if(wrapper.getShouldReserve()){
+        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
+        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
+        	try{
+        		studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+        	}catch (C3PRCodedRuntimeException e) {
+			
+        	}
+        }else{
+        	studySubject=studySubjectRepository.save(studySubject);
+        }
+        return new ModelAndView("redirect:confirm?decorator=noheaderDecorator&"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
+        
+    }
 
 }

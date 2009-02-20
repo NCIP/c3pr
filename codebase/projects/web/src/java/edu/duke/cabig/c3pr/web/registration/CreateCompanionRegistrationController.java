@@ -50,9 +50,7 @@ public class CreateCompanionRegistrationController<C extends StudySubjectWrapper
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if(wrapper.getShouldReserve()==null){
-        	studySubject=studySubjectRepository.save(studySubject);
-        }else if(wrapper.getShouldReserve()){
+        if(wrapper.getShouldReserve()){
         	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
         }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
         	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
@@ -62,6 +60,8 @@ public class CreateCompanionRegistrationController<C extends StudySubjectWrapper
         	}catch (C3PRCodedRuntimeException e) {
 			
         	}
+        }else{
+        	studySubject=studySubjectRepository.save(studySubject);
         }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$

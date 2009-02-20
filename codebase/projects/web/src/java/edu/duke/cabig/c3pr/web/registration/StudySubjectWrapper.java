@@ -23,11 +23,13 @@ public class StudySubjectWrapper {
 		this.studySubject = studySubject;
 	}
 	
-	public Boolean getShouldReserve(){
-		if(!this.studySubject.getDataEntryStatus()){
+	public Boolean getShouldReserve() {
+		if (!this.studySubject.getDataEntryStatus()) {
 			return false;
 		}
-		return(this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator()&& (this.studySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING) &&(this.studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.PENDING));
+		return (this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator()
+				&& (this.studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) 
+				&& (this.studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING));
 	}
 	
 	public Boolean getShouldRegister(){
@@ -35,29 +37,53 @@ public class StudySubjectWrapper {
 			return false;
 		}
 		
-		if(this.studySubject.getParentStudySubject()!=null && this.studySubject.getParentStudySubject().getRegWorkflowStatus()== RegistrationWorkFlowStatus.ENROLLED && this.studySubject.getMatchingCompanionStudyAssociation(studySubject) != null && !this.studySubject.getMatchingCompanionStudyAssociation(studySubject).getMandatoryIndicator()){
-			return false;
+		boolean reservationIndicator = this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() ;
+		boolean enrollmentIndicator = this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator() ;
+		
+		if(this.studySubject.getParentStudySubject() == null){
+			if(reservationIndicator || enrollmentIndicator){
+				return false;
+			}else{
+				return true;
+			}
 		}
 		
-		
-		if(this.studySubject.getParentStudySubject()!=null && this.studySubject.getParentStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
-			return true;
-		}
-		return this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() || (!this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() && !this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
+		return this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() && reservationIndicator && enrollmentIndicator ;
 	}
 	
 	public Boolean getShouldEnroll(){
 		if(!this.studySubject.getDataEntryStatus()){
 			return false;
 		}
-		return(!this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() && this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator());
+		
+		boolean enrollmentIndicator  = this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator() ;
+		if(this.studySubject.getParentStudySubject() != null && enrollmentIndicator){
+			if(this.studySubject.getParentStudySubject().getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
+				return true ;
+			}else{
+				return false ;
+			}
+		}
+
+		return(!this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() && enrollmentIndicator);
 	}
 	
 	public Boolean getShouldRandomize(){
 		if(!this.studySubject.getDataEntryStatus()){
 			return false;
 		}
-		return(this.getStudySubject().getScheduledEpoch().getRequiresRandomization());
+
+		Boolean requiresRandomization = this.getStudySubject().getScheduledEpoch().getRequiresRandomization();
+
+		if(this.studySubject.getParentStudySubject() != null && requiresRandomization){
+			if(this.studySubject.getParentStudySubject().getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
+				return true ;
+			}else{
+				return false ;
+			}
+		}
+		
+		return requiresRandomization;
 	}
 	
 	public Boolean getShouldTransfer(){
