@@ -4,6 +4,7 @@
 	<property file="c3pr-ivy.properties" />
     <import file="${basedir}/common.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
+	<property name="grid.dir" value="${basedir}/../projects/grid" />
 	<property name="reports.dir" value="${basedir}/../reports" />
 	<!-- created database type var for CI to make single target independant of database type
 		provide -Ddatabase.type=oracle for ORACLE and  -Ddatabase.type=postgres for POSTGRES    -->
@@ -111,6 +112,11 @@
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
 	</target>
+	
+	<target name="migrate-selenium-data" description="this for migrating sample data for selenium">
+	        <subant target="migrate-selenium-data" buildpath="${projects.dir}/web/ivy-build.xml"/>
+	</target>
+
 
 	<!-- ==========================================================
 		target : drop-and-create-existing-database
@@ -189,14 +195,14 @@
 	
 	<target name="deploy-studyServiceImpl" depends="build-rules"
 		description="Builds all c3pr modules and deploys webapp on your web/web local">
-		<ant target="deployStudyServiceImpl" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/StudyServiceImpl" inheritall="false">
+		<ant target="deployStudyServiceImpl" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${grid.dir}/StudyServiceImpl" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
 	</target>
 	
 	<target name="undeploy-studyService">
-		<ant target="undeployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
+		<ant target="undeployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${grid.dir}/StudyService" inheritall="false">
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 			<property name="webapp.localtion" value="aaa" />
 			<property name="service.deployment.dir.name" value="abc" />
@@ -204,7 +210,7 @@
 	</target>
 
 	<target name="deploy-studyService">
-		<ant target="deployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
+		<ant target="deployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${grid.dir}/StudyService" inheritall="false">
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
 	</target>
@@ -213,14 +219,14 @@
 	
 	<target name="deploy-registrationServiceImpl" depends="build-rules"
 		description="Builds all c3pr modules and deploys webapp on your web/web local">
-		<ant target="deployRegistrationServiceImpl" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/RegistrationServiceImpl" inheritall="false">
+		<ant target="deployRegistrationServiceImpl" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${grid.dir}/RegistrationServiceImpl" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
 	</target>
 	
 	<target name="undeploy-registrationService">
-		<ant target="undeployTomcat" antfile="${projects.dir}/grid/RegistrationService/build.xml" dir="${projects.dir}/grid/RegistrationService" inheritall="false">
+		<ant target="undeployTomcat" antfile="${projects.dir}/grid/RegistrationService/build.xml" dir="${grid.dir}/RegistrationService" inheritall="false">
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 			<property name="webapp.localtion" value="aaa" />
 			<property name="service.deployment.dir.name" value="abc" />
@@ -228,7 +234,7 @@
 	</target>
 
 	<target name="deploy-registrationService">
-		<ant target="deployTomcat" antfile="${projects.dir}/grid/RegistrationService/build.xml" dir="${projects.dir}/grid/RegistrationService" inheritall="false">
+		<ant target="deployTomcat" antfile="${projects.dir}/grid/RegistrationService/build.xml" dir="${grid.dir}/RegistrationService" inheritall="false">
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
 	</target>
@@ -236,11 +242,11 @@
 	<target name="deploy-c3prregistrationService" depends="deploy-registrationService, deploy-registrationServiceImpl"/>
 	
 	<target name="deploy-c3prGridService" depends="deploy-registrationService, deploy-studyService, build-rules">
-		<ant target="deployRegistrationServiceImpl" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/RegistrationServiceImpl" inheritall="false">
+		<ant target="deployRegistrationServiceImpl" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${grid.dir}/RegistrationServiceImpl" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
-		<ant target="deployStudyServiceImpl" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${projects.dir}/grid/StudyServiceImpl" inheritall="false">
+		<ant target="deployStudyServiceImpl" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${grid.dir}/StudyServiceImpl" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
@@ -265,10 +271,10 @@
     	<ant target="publish-local" antfile="${projects.dir}/esb-client/ivy-build.xml" dir="${projects.dir}/esb-client" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>
-		<ant target="publish-local" antfile="${projects.dir}/grid/StudyService/ivy-build.xml" dir="${projects.dir}/grid/StudyService" inheritall="false">
+		<ant target="publish-local" antfile="${projects.dir}/grid/StudyService/ivy-build.xml" dir="${grid.dir}/StudyService" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>
-		<ant target="publish-local" antfile="${projects.dir}/grid/RegistrationService/ivy-build.xml" dir="${projects.dir}/grid/RegistrationService" inheritall="false">
+		<ant target="publish-local" antfile="${projects.dir}/grid/RegistrationService/ivy-build.xml" dir="${grid.dir}/RegistrationService" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>
 		<ant target="publish-local" antfile="${projects.dir}/core/ivy-build.xml" dir="${projects.dir}/core" inheritall="false">
@@ -466,4 +472,15 @@
 			<target name="reports-junit" depends="buildlist, test-report" description="Generates javadoc">
 				
 			</target>
+	
+	  <!-- ==========================================================
+	                        target : autoBuild-selenium
+	                        This will build and run selenium test cases
+	    =============================================================-->
+	    <target name="autoBuild-selenium" description="build and run selenium test cases">
+
+	        <subant target="selenium-test" buildpath="${projects.dir}/web/ivy-build.xml"/>
+
+	    </target>
+
 	</project>
