@@ -41,7 +41,7 @@ public class StudySubjectWrapper {
 		boolean enrollmentIndicator = this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator() ;
 		
 		if(this.studySubject.getParentStudySubject() != null){
-			if(reservationIndicator || enrollmentIndicator){
+			if((reservationIndicator || enrollmentIndicator) && this.studySubject.getParentStudySubject().getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
 				return false;
 			}else{
 				return true;
