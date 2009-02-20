@@ -40,7 +40,7 @@ public class StudySubjectWrapper {
 		boolean reservationIndicator = this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() ;
 		boolean enrollmentIndicator = this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator() ;
 		
-		if(this.studySubject.getParentStudySubject() == null){
+		if(this.studySubject.getParentStudySubject() != null){
 			if(reservationIndicator || enrollmentIndicator){
 				return false;
 			}else{
