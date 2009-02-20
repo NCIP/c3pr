@@ -1,0 +1,29 @@
+package edu.duke.cabig.c3pr.web.selenium;
+
+import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
+
+import java.util.Properties;
+
+
+
+import com.thoughtworks.selenium.SeleneseTestCase;
+import org.springframework.core.io.*;
+
+public class CreateSubjectTest extends AbstractSeleniumTestCase {
+
+	public void testCreateSubject() throws Exception {
+
+		ajaxWidgets.login();
+
+		selenium
+				.open("/c3pr/pages/personAndOrganization/participant/createParticipant");
+		c3prFixtures.populateSubjectDetails("John", "Smith", "24681");
+		ajaxWidgets.clickNext("flow-next");
+		ajaxWidgets.clickNext("flow-next");
+		ajaxWidgets.clickNext("flow-next");
+		assertTrue(selenium.isTextPresent("Subject successfully created."));
+	}
+
+}
