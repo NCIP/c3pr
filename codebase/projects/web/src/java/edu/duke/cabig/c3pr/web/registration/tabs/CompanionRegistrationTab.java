@@ -36,10 +36,22 @@ public class CompanionRegistrationTab<C extends StudySubjectWrapper> extends Reg
 		this.registrationControllerUtils = registrationControllerUtils;
 	}
 	
+	public ModelAndView removeChildStudySubject(HttpServletRequest request,Object command, Errors errors) {
+		StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
+		String regId = request.getParameter("childStudySubjectId");
+		StudySubject childStudySubject = studySubjectDao.getById(Integer.parseInt(regId)) ;
+			
+		List<Identifier> identifiers=new ArrayList<Identifier>();
+    	identifiers.add(wrapper.getStudySubject().getSystemAssignedIdentifiers().get(0));
+    	StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    	studySubject.removeChildStudySubject(childStudySubject);
+    	studySubjectDao.initialize(studySubject);
+    	wrapper.setStudySubject(studySubject);
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
+	}
+	
 	public ModelAndView refreshCompanionSection(HttpServletRequest request,Object command, Errors errors) {
 		StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
-//		HashMap map = new HashMap();
-//		map.put("companions", registrationControllerUtils.getCompanionStudySubject(wrapper.getStudySubject().getSystemAssignedIdentifiers().get(0)));
 
 		List<Identifier> identifiers=new ArrayList<Identifier>();
     	identifiers.add(wrapper.getStudySubject().getSystemAssignedIdentifiers().get(0));
