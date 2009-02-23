@@ -19,6 +19,10 @@ function manageEpochSelection(element){
 	$('create_epoch').value = element.value ;
 }
 
+function test(){
+	$('studySite').value = ${studySites}[0].id ;
+	$('create_epoch').value = ${companionStudy.epochs}[0].id ;
+}
 </script>
 <style>
 	#mybox div.hr{
@@ -27,7 +31,7 @@ function manageEpochSelection(element){
 </style>
 
 </head>
-<body>
+<body onload="test();">
 	<br>
 	<tags:panelBox boxId="mybox" title="Selected Subject: ${participant.fullName}"></tags:panelBox>
 	<tags:panelBox boxId="mybox" title="Selected Study: ${companionStudy.shortTitleText} (${companionStudy.coordinatingCenterAssignedIdentifier.value})"></tags:panelBox>
@@ -42,10 +46,10 @@ function manageEpochSelection(element){
                <c:forEach items="${studySites}" var="studySite" varStatus="status">
                	 <tr>
 					<td>
-						<input class="studySiteSelection" type="radio" value="${studySite.id}" onclick="manageStudySiteSelection(this);" />
+						<input class="studySiteSelection" type="radio" value="${studySite.id}" onclick="manageStudySiteSelection(this);" <c:if test="${status.count ==1}">checked </c:if>  />
 					</td>
                		<td>
-               			${studySite.healthcareSite.name}
+               			${studySite.healthcareSite.name} ${status.count}
                		</td>
                		<td>
                			${studySite.healthcareSite.nciInstituteCode}
@@ -65,7 +69,7 @@ function manageEpochSelection(element){
               <c:forEach items="${companionStudy.epochs}" var="epoch" varStatus="epochStatus">
               	 <tr>
 					<td>
-						<input class="epochSelection" type="radio" value="${epoch.id}" onclick="manageEpochSelection(this);"/>
+						<input class="epochSelection" type="radio" value="${epoch.id}" onclick="manageEpochSelection(this);" <c:if test="${epochStatus.count ==1}">checked </c:if>  />
 					</td>
              		<td>
              			${epoch.name}
@@ -81,16 +85,24 @@ function manageEpochSelection(element){
            </table>
 	</chrome:division>
 	<div style="display:none">
-        <input type="text" name="studySite" id="studySite" /> 
-        <input type="text" name="epoch" id="create_epoch"> 
+        <input type="text" name="studySite" id="studySite" class="validate-notEmpty"/> 
+        <input type="text" name="epoch" id="create_epoch" class="validate-notEmpty"> 
     </div>
 </tags:formPanelBox>
-	<!-- div class="flow-buttons">
-        <span class="next">
-        	<tags:button type="button" color="red" icon="x" value="Cancel" onclick="parent.closePopup();" />
-			<tags:button type="button" color="green" icon="continue" value="Continue" onclick="startRegistartion();"  />
-        </span>
-	</div -->
-	
+<script>
+	$$('.studySiteSelection').each(function(e){
+			if(e.checked){
+				$('studySite').value = e.value ;
+			}
+		}
+	);
+
+	$$('.epochSelection').each(function(e){
+			if(e.checked){
+				$('create_epoch').value = e.value ;
+			}
+		}
+	);
+</script>
 </body>
 </html>
