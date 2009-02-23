@@ -665,7 +665,7 @@ public class StudySubject extends
 	}
 
 	@OneToMany(mappedBy = "parentStudySubject")
-	@Cascade(value = { CascadeType.ALL })
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudySubject> getChildStudySubjects() {
 		return childStudySubjects;
 	}
