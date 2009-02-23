@@ -40,8 +40,8 @@
    	   	}
 
 								
-   		function removeChildStudySubject(url){
-   			document.location="../registration/manageRegistration?"+url;
+   		function removeChildStudySubject(childRegId){
+   			<tags:tabMethod method="removeChildStudySubject" divElement="'CompanionRegistration'" formName="'tabMethodForm'"  viewName="/registration/asynchronous/reg_companion_section" javaScriptParam="'childRegId='+childRegId" />
    	   	}
 
    	   	function reloadSection(){
@@ -76,11 +76,9 @@
 								<csmauthz:accesscontrol domainObject="${command.studySubject}"
 									hasPrivileges="UPDATE"
 									authorizationCheckName="domainObjectAuthorizationCheck">
-									<c:if test="${companion.registrationStatus != 'Registered but not enrolled'}">
-										<input type="button" value="Edit" onclick='editCompanionRegistration("${companion.companionRegistrationUrl}");' />
-									</c:if>
+									<input type="button" value="Edit" onclick='editCompanionRegistration("${companion.companionRegistrationUrl}");' />
 									<c:if test="${!companion.mandatoryIndicator}">
-										<input type="button" value="Remove" onclick='removeChildStudySubject"${companion.companionRegistrationUrl}");' />
+										<input type="button" value="Remove" onclick='removeChildStudySubject"${companion.registrationId}");' />
 									</c:if>
 								</csmauthz:accesscontrol>
 							</c:when>
