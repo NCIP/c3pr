@@ -50,6 +50,19 @@ public class ReviewSubmitTab extends RegistrationTab<StudySubjectWrapper> {
 		map.put("registerable", registrationControllerUtils.isRegisterableOnPage(command.getStudySubject()));
 		map.put("armAssigned", armAssigned);
 		map.put("armAssignedLabel", armAssignedLabel);
+		map.put("requiresRandomization", requiresRandomization(studySubject));
         return map;
+    }
+    
+    private boolean requiresRandomization(StudySubject studySubject){
+    	if(studySubject.getScheduledEpoch().getRequiresRandomization()){
+    		return true ;
+    	}
+    	for(StudySubject childStudySubject : studySubject.getChildStudySubjects()){
+    		if(childStudySubject.getScheduledEpoch().getRequiresRandomization()){
+        		return true ;
+        	}
+    	}
+    	return false ;
     }
 }

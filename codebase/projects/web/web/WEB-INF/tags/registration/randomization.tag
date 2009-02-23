@@ -9,7 +9,7 @@
         .labelL { text-align: left; padding: 4px; font-weight: bold;}
         .labelC { text-align: center; padding: 4px; font-weight: bold;}
 </style>
-<c:if test="${registration.scheduledEpoch.requiresRandomization}">
+<c:if test="${requiresRandomization}">
 <chrome:box title="Randomization">
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
 		      	<tags:instructions code="REGISTRATION.RANDOMIZATION.PHONE_CALL"/>
@@ -63,5 +63,64 @@
 					</c:if>
 				</c:if>
 			</table>
+			<c:forEach items="${registration.childStudySubjects}" var="childStudySubject" varStatus="status">
+				<c:if test="${childStudySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
+					<chrome:division title="${childStudySubject.studySite.study.shortTitleText}">
+						<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'PHONE_CALL' && childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
+				      		<tags:instructions code="REGISTRATION.RANDOMIZATION.PHONE_CALL"/>
+						</c:if>
+					    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+							<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'PHONE_CALL'&& childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
+								<tr>
+									<td align="left" colspan="2"></td>
+								</tr>
+								<tr>
+									<td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td>
+									<td>${childStudySubject.scheduledEpoch.epoch.randomization.phoneNumber}</td>
+								</tr>
+								<tr>
+									<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
+										<tr>
+											<td class="labelR"><fmt:message key="registration.stratumGroupNumber"/>:</td>
+											<td> ${childStudySubject.scheduledEpoch.stratumGroupNumber}</td>
+										</tr>
+										<tr>
+											<td class="labelR"><fmt:message key="registration.stratumGroupAnswers"/>:</td>
+											<td> ${childStudySubject.scheduledEpoch.stratumGroup.answerCombinations}</td>
+										</tr>
+									</c:if>
+								<tr>
+									<c:choose>
+										<c:when test="${childStudySubject.studySite.study.blindedIndicator}">
+											<td class="labelR"><tags:requiredIndicator /><fmt:message key="registration.enterKitNumber"/></td>
+											<td><input type="text" name="childStudySubject.scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
+										</c:when>
+										<c:otherwise>
+											<td class="labelR"><tags:requiredIndicator /><fmt:message key="registration.selectArm"/></td><td>
+												<select name ="childStudySubject.scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
+													<option value="" selected>Please Select</option>
+													<c:forEach items="${childStudySubject.scheduledEpoch.epoch.arms}" var="arm">
+														<option value="${arm.id}">${arm.name }</option>
+													</c:forEach>
+												</select>
+											</td>
+										</c:otherwise>
+									</c:choose>
+								</tr>
+							</c:if>
+							<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'BOOK' && childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
+								<tags:instructions code="REGISTRATION.RANDOMIZATION.BOOK"/>
+								<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
+									<tr>
+										<td class="labelR"><fmt:message key="registration.stratumGroup"/>:</td>
+										<td>${childStudySubject.scheduledEpoch.stratumGroup}</td>
+									</tr>
+								</c:if>
+							</c:if>
+						</table>
+					</chrome:division>
+				</c:if>
+			</c:forEach>
+			
 </chrome:box>
 </c:if>
