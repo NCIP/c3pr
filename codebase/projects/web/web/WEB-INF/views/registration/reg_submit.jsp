@@ -28,7 +28,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </head>
 <body>
 	<tags:instructions code="reg_submit" />
-	<c:if test="${command.studySubject.scheduledEpoch.requiresRandomization && command.studySubject.dataEntryStatusString == 'Complete'}">
+	<c:if test="${requiresRandomization && command.studySubject.dataEntryStatusString == 'Complete' && empty command.studySubject.parentStudySubject}">
 	<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
 		<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
 		<div style="font-size:20px; margin-bottom:5px;">Almost done...</div>
