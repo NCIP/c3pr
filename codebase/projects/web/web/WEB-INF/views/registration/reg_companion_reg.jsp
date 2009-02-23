@@ -42,10 +42,17 @@
 								
    		function removeChildStudySubject(childRegId){
    			<tags:tabMethod method="removeChildStudySubject" divElement="'CompanionRegistration'" formName="'tabMethodForm'"  viewName="/registration/asynchronous/reg_companion_section" javaScriptParam="'childStudySubjectId='+childRegId" />
+   			Element.hide('flash-message-companion-create');
+   			Element.show('flash-message-companion-delete');
+   			new Effect.Pulsate('flash-message-companion-delete')
+   			
    	   	}
 
    	   	function reloadSection(){
    	   		<tags:tabMethod method="refreshCompanionSection" divElement="'CompanionRegistration'" formName="'tabMethodForm'"  viewName="/registration/asynchronous/reg_companion_section" />
+   	   		Element.show('flash-message-companion-create');
+			Element.hide('flash-message-companion-delete');
+			new Effect.Pulsate('flash-message-companion-create')
    	   	}
 	</script>
 </head>
@@ -53,6 +60,12 @@
 <div id="CompanionRegistration">
 <c:choose>
 	<c:when test="${fn:length(companions)>0 && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator}">
+		<div id="flash-message-companion-delete" style="display:none;">
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="registration.companion.companionDeleted"/></div>
+		</div>
+		<div id="flash-message-companion-create" style="display:none;">
+			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="registration.companion.dataSaved"/></div>
+		</div>
 		<tags:formPanelBox tab="${tab}" flow="${flow}">
 			<table class="tablecontent" width="100%"
 				title="Companions">
