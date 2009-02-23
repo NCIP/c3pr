@@ -19,10 +19,6 @@ function manageEpochSelection(element){
 	$('create_epoch').value = element.value ;
 }
 
-function test(){
-	$('studySite').value = ${studySites}[0].id ;
-	$('create_epoch').value = ${companionStudy.epochs}[0].id ;
-}
 </script>
 <style>
 	#mybox div.hr{
@@ -31,7 +27,7 @@ function test(){
 </style>
 
 </head>
-<body onload="test();">
+<body>
 	<br>
 	<tags:panelBox boxId="mybox" title="Selected Subject: ${participant.fullName}"></tags:panelBox>
 	<tags:panelBox boxId="mybox" title="Selected Study: ${companionStudy.shortTitleText} (${companionStudy.coordinatingCenterAssignedIdentifier.value})"></tags:panelBox>
