@@ -1283,9 +1283,9 @@ public class StudySubject extends
 				CompanionStudyAssociation studyAssociation = getMatchingCompanionStudyAssociation(childStudySubject);
 				if (studyAssociation != null) {
 					if (studyAssociation.getMandatoryIndicator()) {
-//						if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
-//							return true;
-//						}
+						if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
+							return true;
+						}
 						if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
 							return true;
 						}
