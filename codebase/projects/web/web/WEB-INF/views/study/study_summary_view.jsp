@@ -312,7 +312,15 @@
         </tr>
         <c:forEach items="${command.study.organizationAssignedIdentifiers}" var="orgIdentifier">
             <tr class="results">
-                <td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
+			 <c:choose>
+				<c:when test="${orgIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+            		<td class="alt" align="left">${orgIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
+               </c:when>
+			  <c:otherwise>
+					<td class="alt" align="left">${orgIdentifier.healthcareSite.name} </td>
+			  </c:otherwise>
+			</c:choose>
+
                 <td class="alt" align="left">${orgIdentifier.type}</td>
                 <td class="alt" align="left">${orgIdentifier.value}</td>
             </tr>
