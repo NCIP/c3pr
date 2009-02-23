@@ -64,6 +64,10 @@ public class SelectStudySiteAndEpochTab extends RegistrationTab<StudySubjectWrap
         Integer id = Integer.parseInt(request.getParameter("epoch"));
         
         Epoch epoch = epochDao.getById(id);
+        epochDao.initialize(epoch);
+        if(epoch.getArms() != null){
+        	(epoch).getArms().size();	
+        }
         ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
         scheduledEpoch.setEpoch(epoch);
         if (command.getStudySubject().getScheduledEpochs().size() == 0) {
