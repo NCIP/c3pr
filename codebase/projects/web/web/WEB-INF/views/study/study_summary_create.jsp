@@ -207,7 +207,14 @@ function createStudy(){
         </tr>
         <c:if test="${command.study.coordinatingCenterAssignedIdentifier != null}">
         <tr class="results">
-            <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name}</td>
+			<c:choose>
+				<c:when test="${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+            		<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
+               </c:when>
+			  <c:otherwise>
+					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} </td>
+			  </c:otherwise>
+			</c:choose>
             <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
             <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
             </c:if>
@@ -224,7 +231,14 @@ function createStudy(){
         </tr>
         <c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
             <tr class="results">
-                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
+				<c:choose>
+				   <c:when test="${command.study.fundingSponsorAssignedIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+	            		<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
+	               </c:when>
+				   <c:otherwise>
+						<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} </td>
+				   </c:otherwise>
+				</c:choose>
                 <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type}</td>
                 <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
             </tr>
