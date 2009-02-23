@@ -57,15 +57,15 @@
 	</script>
 </head>
 <body>
+<div id="flash-message-companion-delete" style="display:none;">
+	<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="registration.companion.companionDeleted"/></div>
+</div>
+<div id="flash-message-companion-create" style="display:none;">
+	<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="registration.companion.dataSaved"/></div>
+</div>
 <div id="CompanionRegistration">
 <c:choose>
 	<c:when test="${fn:length(companions)>0 && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator}">
-		<div id="flash-message-companion-delete" style="display:none;">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="registration.companion.companionDeleted"/></div>
-		</div>
-		<div id="flash-message-companion-create" style="display:none;">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="registration.companion.dataSaved"/></div>
-		</div>
 		<tags:formPanelBox tab="${tab}" flow="${flow}">
 			<table class="tablecontent" width="100%"
 				title="Companions">

@@ -12,6 +12,9 @@
 				<tags:tdNameValue name="Name" value="${studySubject.studySubject.participant.firstName} ${studySubject.studySubject.participant.lastName }" columnAttrName="class='labelR'"/>
 				<tags:tdNameValue name="Study" value="(${studySubject.studySubject.studySite.study.primaryIdentifier}) ${ studySubject.studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
 				<tags:tdNameValue name="Epoch" value="${studySubject.studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>
+				<c:if test="${!empty studySubject.studySubject.parentStudySubject.studySite.study.primaryIdentifier}">
+					<tags:tdNameValue name="Parent study" value="(${studySubject.studySubject.parentStudySubject.studySite.study.primaryIdentifier}) ${ studySubject.studySubject.parentStudySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
+				</c:if>
 			</table>
 		</td>
 		<td valign="top">
