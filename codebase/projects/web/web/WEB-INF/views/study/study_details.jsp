@@ -92,7 +92,13 @@
                 })
             },
             valueSelector: function(obj) {
-            	 return (obj.name+" ("+obj.nciInstituteCode+")")
+            	if(obj.externalId != null){
+            		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
+            	} else {
+            		image = '';
+            	}
+
+            	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
