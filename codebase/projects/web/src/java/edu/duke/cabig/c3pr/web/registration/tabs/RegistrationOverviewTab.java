@@ -143,6 +143,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		registrationControllerUtils.addAppUrls(map);
     	map.put("paymentMethods", configMap.get("paymentMethods"));
     	map.put("canChangeEpoch", canChangeEpoch(studySubject));
+		map.put("companions", registrationControllerUtils.getCompanionStudySubject(studySubject.getSystemAssignedIdentifiers().get(0), studySubject));
 		return map;
 	}
 
