@@ -1259,6 +1259,9 @@ public class StudySubject extends
 	
 	@Transient
 	public boolean getWorkPendingOnMandatoryCompanionRegistrations(){
+		if(!this.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
+			return false ; 
+		}
 		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getCompanionStudyAssociations()){
 			if (companionStudyAssociation.getMandatoryIndicator()) {
 				boolean hasCorrespondingStudySubject = false;
