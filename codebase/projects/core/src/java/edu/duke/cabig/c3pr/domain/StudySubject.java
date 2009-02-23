@@ -574,6 +574,9 @@ public class StudySubject extends
 		for(StudySubject childStudySubject : this.getChildStudySubjects()){
 			childStudySubject.evaluateRegistrationDataEntryStatus();
 		}
+		if(getWorkPendingOnMandatoryCompanionRegistrations()){
+			return RegistrationDataEntryStatus.INCOMPLETE;
+		}
 		return RegistrationDataEntryStatus.COMPLETE;
 	}
 
@@ -588,6 +591,9 @@ public class StudySubject extends
 		}
 		for(StudySubject childStudySubject : this.getChildStudySubjects()){
 			childStudySubject.evaluateRegistrationDataEntryStatus(errors);
+		}
+		if(getWorkPendingOnMandatoryCompanionRegistrations()){
+			errors.add(new Error("Mandatory companion is not registered"));
 		}
 		
 	}
