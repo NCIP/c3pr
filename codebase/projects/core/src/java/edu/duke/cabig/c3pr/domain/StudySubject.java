@@ -565,11 +565,15 @@ public class StudySubject extends
 
 	// Adding refactored code
 	public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus() {
-		if (this.getInformedConsentSignedDateStr().equals(""))
+		if (this.getInformedConsentSignedDateStr().equals("")){
 			return RegistrationDataEntryStatus.INCOMPLETE;
-		if (StringUtils.getBlankIfNull(this.getInformedConsentVersion())
-				.equals(""))
+		}
+		if (StringUtils.getBlankIfNull(this.getInformedConsentVersion()).equals("")){
 			return RegistrationDataEntryStatus.INCOMPLETE;
+		}
+		for(StudySubject childStudySubject : this.getChildStudySubjects()){
+			childStudySubject.evaluateRegistrationDataEntryStatus();
+		}
 		return RegistrationDataEntryStatus.COMPLETE;
 	}
 
@@ -581,6 +585,9 @@ public class StudySubject extends
 		if (StringUtils.getBlankIfNull(this.getInformedConsentVersion())
 				.equals("")) {
 			errors.add(new Error("Informed consent version is missing"));
+		}
+		for(StudySubject childStudySubject : this.getChildStudySubjects()){
+			childStudySubject.evaluateRegistrationDataEntryStatus(errors);
 		}
 		
 	}
