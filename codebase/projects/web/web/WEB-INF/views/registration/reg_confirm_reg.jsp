@@ -49,7 +49,9 @@ function manageCompanions(){
 	  <c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' && empty command.studySubject.parentStudySubject}">
 			<form id="manage" name="manage" action="../registration/manageRegistration" method="get" style="display:inline;">
 				<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
-				<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage this registration" linkhref="javascript:doManage('${formType}',paramString)"/>
+				<c:if test="${command.studySubject.regWorkflowStatus != 'PENDING'}">
+					<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage this registration" linkhref="javascript:doManage('${formType}',paramString)"/>
+				</c:if>
 			</form>
 	  </c:if>
 	   <c:if test="${not empty command.studySubject.parentStudySubject}">
