@@ -48,7 +48,7 @@ public class StudySubjectWrapper {
 			}
 		}
 		
-		return this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() && reservationIndicator && enrollmentIndicator ;
+		return !this.studySubject.getWorkPendingOnMandatoryCompanionRegistrations() && !enrollmentIndicator ;
 	}
 	
 	public Boolean getShouldEnroll(){
