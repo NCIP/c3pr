@@ -515,7 +515,7 @@
             </c:otherwise>
         </c:choose>
     </chrome:division>
-	<div id="companionAssociationsDiv" <c:if test="${fn:length(companions) == 0}">style="display:none;"</c:if>>
+	<div id="companionAssociationsDiv" <c:if test="${fn:length(companions) == 0 && command.studySubject.scheduledEpoch.epoch.enrollmentIndicator}">style="display:none;"</c:if>>
 	<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:document.getElementById('flowredirect-target').name='_target5';document.getElementById('flowredirect').submit();">
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  >
 				<tr>
