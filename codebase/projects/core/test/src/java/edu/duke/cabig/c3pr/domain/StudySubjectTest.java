@@ -24,6 +24,9 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateRegistrationDataEntryStatusComplete() {
         StudySubject studySubject = new StudySubject();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
+        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
+        studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         assertEquals("Wrong Registration Data Entry Status", RegistrationDataEntryStatus.COMPLETE,
