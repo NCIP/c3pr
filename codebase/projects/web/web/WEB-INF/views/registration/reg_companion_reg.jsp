@@ -82,7 +82,7 @@
 							${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})
 						</td>
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
-						<td class="alt">${companion.registrationId == 0?"Not Started":companion.registrationStatus}</td>
+						<td class="alt">${companion.registrationId == 0?"Not Started": (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</td>
 						<td class="alt">
 						<c:choose>
 							<c:when test="${companion.registrationId != 0}">
