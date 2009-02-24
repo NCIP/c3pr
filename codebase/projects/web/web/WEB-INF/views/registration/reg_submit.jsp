@@ -292,12 +292,12 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 											${companion.registrationStatus} <font color="Red"><i>* registration on this companion study is mandatory.</i></font>
 										</c:when>
 										<c:otherwise>
-											${companion.registrationStatus}
+											${(companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}
 										</c:otherwise>
 									</c:choose>
 								</c:when>
 								<c:otherwise>
-									${empty companion.registrationStatus? 'Not Started': companion.registrationStatus}
+									${empty companion.registrationStatus? 'Not Started': (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}
 								</c:otherwise>
 							</c:choose>
 						</td>
