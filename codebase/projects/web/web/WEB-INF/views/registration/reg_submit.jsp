@@ -289,7 +289,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 								<c:when test="${companion.mandatoryIndicator}">
 									<c:choose>
 										<c:when test="${empty companion.registrationStatus || companion.registrationStatus != 'Registered but not enrolled'}">
-											${companion.registrationStatus} <font color="Red"><i>* test message - need to change this.</i></font>
+											${companion.registrationStatus} <font color="Red"><i>* registration on this companion study is mandatory.</i></font>
 										</c:when>
 										<c:otherwise>
 											${companion.registrationStatus}
