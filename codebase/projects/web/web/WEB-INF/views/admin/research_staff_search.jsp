@@ -47,6 +47,7 @@
         }
 
         function showTable(table) {
+        	$('resultsDiv').style.display="block";
             $('tableDiv').innerHTML=table;
             $('search-indicator').style.display="none";
         }
@@ -121,7 +122,7 @@
 	//buildTable('searchForm');
 </script>
 
-<chrome:box title="Search Results">
+<chrome:box title="Search Results" id="resultsDiv" style="display:none">
     <chrome:division id="single-fields">
         <div id="tableDiv">
         </div>
