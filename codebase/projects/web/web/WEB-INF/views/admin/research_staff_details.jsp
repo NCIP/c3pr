@@ -78,25 +78,26 @@
             <div class="value">
             
              <c:if test="${FLOW == 'EDIT_FLOW'}">
-                    <input type="hidden" id="healthcareSite-hidden"
-								name="healthcareSite"
-								value="${command.healthcareSite.id }" />
-								<input id="healthcareSite-input" size="38" type="text"
-								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" disabled="true" />
-								<tags:hoverHint keyProp="researchStaff.organization"/>
-							<tags:indicator id="healthcareSite-indicator" />
-							<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
-                </c:if>
-                <c:if test="${FLOW == 'SAVE_FLOW'}">
-                 <input type="hidden" id="healthcareSite-hidden"
-								name="healthcareSite"
-								value="${command.healthcareSite.id }" />
-								<input id="healthcareSite-input" size="38" type="text"
-								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" />
-								<tags:hoverHint keyProp="researchStaff.organization"/>
-							<tags:indicator id="healthcareSite-indicator" />
-							<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
-                </c:if>
+				<c:choose>
+				<c:when test="${command.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+					<div>	${command.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
+							<tags:hoverHint keyProp="researchStaff.organization"/>	</div>
+				</c:when>
+				<c:otherwise>
+					<div>	${command.healthcareSite.name}<tags:hoverHint keyProp="researchStaff.organization"/> </div>
+				</c:otherwise>
+				</c:choose>
+             </c:if>
+             <c:if test="${FLOW == 'SAVE_FLOW'}">
+               		<input type="hidden" id="healthcareSite-hidden"
+						name="healthcareSite"
+						value="${command.healthcareSite.id }" />
+						<input id="healthcareSite-input" size="38" type="text"
+						value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" />
+						<tags:hoverHint keyProp="researchStaff.organization"/>
+					<tags:indicator id="healthcareSite-indicator" />
+					<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
+              </c:if>
             </div>
         </div>
     </div>
@@ -110,7 +111,14 @@
             
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
-						<div class="value">${command.firstName}</div>
+						<c:choose>
+							<c:when test="${!empty command.firstName}">
+								<div class="value">${command.firstName}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
@@ -125,7 +133,14 @@
             
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
-						<div class="value">${command.lastName}</div>
+						<c:choose>
+							<c:when test="${!empty command.lastName}">
+								<div class="value">${command.lastName}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
@@ -140,11 +155,18 @@
             
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
-						<div class="value">${command.middleName}</div>
+						<c:choose>
+							<c:when test="${!empty command.middleName}">
+								<div class="value">${command.middleName}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="middleName" cssClass="validate-notEmpty" />
+							<form:input size="25" path="middleName" />
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -152,14 +174,20 @@
 		<div class="row">
             <div class="label">
                 <fmt:message key="c3pr.common.maidenName"/></div>
-            
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
-						<div class="value">${command.maidenName}</div>
+						<c:choose>
+							<c:when test="${!empty command.maidenName}">
+								<div class="value">${command.maidenName}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="maidenName" cssClass="validate-notEmpty" />
+							<form:input size="25" path="maidenName" />
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -201,26 +229,53 @@
             <div class="label">
                     ${command.contactMechanisms[1].type.displayName}
             </div>
-            <div class="value">
-                <form:input size="25"
-                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO" /> e.g. 7035600296 or 703-560-0296
-
-            </div>
+			<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
+						<c:choose>
+							<c:when test="${!empty command.contactMechanisms[1].value}">
+								<div class="value">${command.contactMechanisms[1].value}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							<form:input size="25"
+                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO" /> &nbsp;&nbsp;&nbsp;&nbsp; 7035600296 or 703-560-0296
+						  </div>
+					</c:otherwise>
+			</c:choose>
         </div>
         <div class="row">
             <div class="label">
-                    ${command.contactMechanisms[2].type.displayName}
+					${command.contactMechanisms[2].type.displayName}
             </div>
-            <div class="value">
-                <form:input size="25"
-                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" /> e.g. 7035600296 or 703-560-0296
-            </div>
+			<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
+						<c:choose>
+							<c:when test="${!empty command.contactMechanisms[2].value}">
+								<div class="value">${command.contactMechanisms[2].value}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							 <form:input size="25"
+                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" />  &nbsp;&nbsp;&nbsp;&nbsp; 7035600296 or 703-560-0296
+						  </div>
+					</c:otherwise>
+			</c:choose>
         </div>
     </div>
 </chrome:division>
 
 
-<chrome:division id="staff-details" title="* User Role (Atleast One - Check all that apply)">
+<chrome:division id="staff-details" title="* User Role (At least one required- Check all that apply)">
 	<div id="errorMsg1" style="display:none">
 		<span id='sid1' style='color:#EE3324'>Please select atleast one role.</span><br/> 	
 	</div>
