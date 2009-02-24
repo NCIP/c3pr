@@ -46,7 +46,7 @@ public class EditCompanionRegistrationController<C extends StudySubjectWrapper> 
         }else{
         	studySubject=studySubjectRepository.save(studySubject);
         }
-        return new ModelAndView("redirect:confirm?decorator=noheaderDecorator&"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
+        return new ModelAndView("/registration/close_popup");
         
     }
 

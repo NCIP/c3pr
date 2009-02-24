@@ -66,7 +66,7 @@ public class CreateCompanionRegistrationController<C extends StudySubjectWrapper
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
-        return new ModelAndView("redirect:confirm?decorator=noheaderDecorator&"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
+        return new ModelAndView("/registration/close_popup");
         
     }
     

@@ -1,0 +1,3 @@
+<script>
+parent.closePopup();
+</script>
