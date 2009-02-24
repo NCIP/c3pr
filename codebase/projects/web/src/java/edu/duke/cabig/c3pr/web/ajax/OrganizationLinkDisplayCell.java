@@ -5,6 +5,7 @@ import org.extremecomponents.table.cell.AbstractCell;
 import org.extremecomponents.table.core.TableModel;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 
 public class OrganizationLinkDisplayCell extends AbstractCell {
 
@@ -14,6 +15,10 @@ public class OrganizationLinkDisplayCell extends AbstractCell {
     protected String getCellValue(final TableModel model, final Column column) {
         HealthcareSite organization = (HealthcareSite) model.getCurrentRowBean();
         String cellValue = column.getValueAsString();
+        
+        if(organization instanceof RemoteHealthcareSite){
+        	cellValue = cellValue + "<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='17' height='16' border='0' align='middle'/>";
+        }
         
         setRowOnClick(model, organization);
         
