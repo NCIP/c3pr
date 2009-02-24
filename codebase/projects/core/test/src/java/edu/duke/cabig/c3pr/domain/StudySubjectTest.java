@@ -27,6 +27,12 @@ public class StudySubjectTest extends AbstractTestCase {
         ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
+        try {
+			studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySiteWith2EnrollingEpochs(RandomizationType.PHONE_CALL, true));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");
         assertEquals("Wrong Registration Data Entry Status", RegistrationDataEntryStatus.COMPLETE,
