@@ -264,7 +264,10 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                               varStatus="status">
 		                        <tr>
 		                            <td>
-		                              ${studyPersonnel.researchStaff.lastName}&nbsp;${studyPersonnel.researchStaff.firstName}
+		                              ${studyPersonnel.researchStaff.lastName}&nbsp;${studyPersonnel.researchStaff.firstName}&nbsp;${studyPersonnel.researchStaff.uniqueIdentifier}
+		                                <c:if test="${studyPersonnel.researchStaff.uniqueIdentifier != null}">
+						            		<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI data" width="17" height="16" border="0" align="middle"/>
+						            	</c:if>
 		                            </td>
 									<%--  <td>
 		                            <form:select path="study.studyOrganizations[${selected_site}].studyPersonnel[${status.index}].roleCode" cssClass="validate-notEmpty">
