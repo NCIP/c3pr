@@ -292,7 +292,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	}
 
 	private boolean isRequiresAdditionalInfo(StudySubject studySubject,Epoch epoch) {
-		if (epoch.getEligibilityCriteria().size() > 0 || epoch.getStratificationCriteria().size() > 0 || epoch.getRandomizedIndicator() || epoch.getArms().size() > 0) {
+		if (epoch.getEligibilityCriteria().size() > 0 || epoch.getStratificationCriteria().size() > 0 || epoch.getRandomizedIndicator() || epoch.getArms().size() > 0 && studySubject.getWorkPendingOnMandatoryCompanionRegistrations()) {
 			return true;
 		}
 		return false;
