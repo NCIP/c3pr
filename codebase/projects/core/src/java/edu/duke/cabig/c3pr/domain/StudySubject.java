@@ -592,7 +592,7 @@ public class StudySubject extends
 		for(StudySubject childStudySubject : this.getChildStudySubjects()){
 			childStudySubject.evaluateRegistrationDataEntryStatus(errors);
 		}
-		if(getWorkPendingOnMandatoryCompanionRegistrations()){
+		if(this.getParentStudySubject() == null && getWorkPendingOnMandatoryCompanionRegistrations()){
 			errors.add(new Error("Mandatory companion is not registered"));
 		}
 		
