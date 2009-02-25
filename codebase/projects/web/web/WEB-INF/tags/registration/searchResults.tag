@@ -17,11 +17,13 @@ function navRollOver(obj, state) {
 //	$(formName).submit();
 //}
 
-function submitLocalForm(formName, idParamStr){
+function submitLocalForm(formName, idParamStr, companion){
 	if(formName=='manage'){
 		document.location="../registration/manageRegistration?"+idParamStr;
-	}else if(formName=='edit'){
+	}else if(formName=='edit' && !companion){
 		document.location="../registration/editRegistration?"+idParamStr;
+	}else if(formName=='edit' && companion){
+		document.location="../registration/editCompanionRegistration?"+idParamStr;
 	}else if(formName=='confirm'){
 		document.location="../registration/confirm?"+idParamStr;
 	}
@@ -81,7 +83,7 @@ function submitLocalForm(formName, idParamStr){
 				</c:choose>
 				<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
-					onClick='submitLocalForm("${formType}",paramString_${status.index })'>
+					onClick='submitLocalForm("${formType}",paramString_${status.index }, "${not empty registration.parentStudySubject}")'>
 					<td>${registration.participant.lastName}</td>
 					<td>${registration.participant.primaryIdentifier}</td>
 					<td>${registration.studySite.study.trimmedShortTitleText}</td>
