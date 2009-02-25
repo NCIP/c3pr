@@ -28,6 +28,7 @@ function navRollOver(obj, state) {
 		<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<tr>
 				<td>
+					<c:set var="index" value="0"/>
 					<c:choose>
 						<c:when test="${fn:length(command.studySubject.scheduledEpoch.epoch.inclusionEligibilityCriteria) == 0}">
 							<tags:panelBox boxId="Inclusion" title="Inclusion Criteria (<i>Expected answer 'yes'</i>)" boxClass="grayed-out">
@@ -42,7 +43,6 @@ function navRollOver(obj, state) {
 										<th align="left"><b><fmt:message key="study.criterion"/></b></th>
 										<th align="left"><b><fmt:message key="study.answers"/></b></th>
 									</tr>
-									<c:set var="index" value="0"/>
 									<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.inclusionEligibilityCriteria}">
 										<tr>
 											<td width="85%">
@@ -81,7 +81,6 @@ function navRollOver(obj, state) {
 										<th align="left"><b><fmt:message key="study.criterion"/></b></th>
 										<th align="left"><b><fmt:message key="study.answers"/></b></th>
 									</tr>
-									<c:set var="index" value="0"/>
 									<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.exclusionEligibilityCriteria}">
 										<tr>
 											<td width="85%">
