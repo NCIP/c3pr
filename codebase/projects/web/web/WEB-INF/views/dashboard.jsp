@@ -136,9 +136,6 @@ top:90px;
 							<c:when test="${registration.dataEntryStatusString=='Complete' && registration.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED' && not empty registration.parentStudySubject}">
 								<c:set var="reg_url" value="../pages/registration/editCompanionRegistration" />
 							</c:when>
-							<c:when test="${registration.dataEntryStatusString=='Complete' && registration.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED'}">
-								<c:set var="reg_url" value="../pages/registration/editRegistration" />
-							</c:when>
 							<c:otherwise>
 								<c:set var="reg_url" value="../pages/registration/manageRegistration" />	
 							</c:otherwise>
