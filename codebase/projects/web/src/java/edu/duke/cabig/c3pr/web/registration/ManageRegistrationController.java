@@ -42,7 +42,6 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     @Override
     protected void intializeFlows(Flow flow) {
         flow.addTab(new RegistrationOverviewTab<StudySubjectWrapper>());
-        flow.addTab(new ManageCompanionRegistrationTab<StudySubjectWrapper>());
         setFlow(flow);
     }
 
