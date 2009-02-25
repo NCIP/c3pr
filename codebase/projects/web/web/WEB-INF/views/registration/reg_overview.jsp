@@ -503,7 +503,7 @@
 				</div>
 				<div class="rightpanel">&nbsp;</div>
                 <div class="row">
-                <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" >
+                <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="80%">
                     <tr>
                         <th width="35%" scope="col" align="left"><fmt:message key="study.criterion"/></th>
                         <th scope="col" align="left"><b><fmt:message key="study.answers"/></b></th>
