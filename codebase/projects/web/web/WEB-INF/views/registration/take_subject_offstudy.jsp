@@ -54,8 +54,8 @@ function cancelTakeSubjectOffStudy(){
 </chrome:box>
 <div class="flow-buttons">
 	<span class="next">
-        <input type="button" value="Save" onclick="confirmTakeSubjectOffStudy();"/>
-        <input type="button" value="Cancel" onclick="closePopup();"/>
+		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
+		<tags:button type="button" color="green" icon="save" value="Save" onclick="confirmTakeSubjectOffStudy();" />
     </span>
 </div>    
 </form:form>
@@ -84,8 +84,8 @@ Calendar.setup(
 	</div>-->
 	<div class="flow-buttons">
 	<span class="next">
-	<input type="button" value="OK" onclick="takeSubjectOffStudy();"/>
-	<input type="button" value="Cancel" onclick="cancelTakeSubjectOffStudy();"/>
+		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="cancelTakeSubjectOffStudy();" />
+		<tags:button type="button" color="green" icon="save" value="OK" onclick="takeSubjectOffStudy();" />
 	</span>
 	</div>
 </div>

@@ -64,11 +64,10 @@ input[disabled] {
 	</c:when>
 	<c:otherwise><tags:instructions code="MANAGEREGISTRATION.CHANGE_CURRENT_EPOCH"/></c:otherwise>
 </c:choose>
-<span class="no-selection">Gray</span> = Unable to register on this epoch.
 <table border="0" cellspacing="5px" cellpadding="5" class="tablecontent"  width="100%">
 	<tr>
-		<th width="5%"><fmt:message key="c3pr.common.select"/>&nbsp;</th>
-		<th scope="col" width="20%"><b><fmt:message key="registration.epochName"/></b></th>
+		<th width="5%">&nbsp;</th>
+		<th scope="col" width="20%"><b><fmt:message key="c3pr.common.epoch"/></b></th>
 		<th scope="col"><b><fmt:message key="c3pr.common.description"/></b></th>
 		<th scope="col" width="12%"><b><fmt:message key="c3pr.common.type"/></b></th>
 		<th scope="col" width="25%"><b><fmt:message key="c3pr.common.notes"/></b></th>
@@ -85,7 +84,5 @@ input[disabled] {
 	<span class="next">
 		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
 		<tags:button type="button" color="green" icon="continue" value="Continue" disabled="disabled" onclick="transfer();" cssClass="transferEpochButton" />
-		<%--<input type="image" src="/c3pr/images/flow-buttons/cancel_btn.png" onclick="closePopup();"/>
-	 	<input type="image" src="/c3pr/images/flow-buttons/save_btn_disabled.png" onclick="transfer();"  disabled="disabled" class="transferEpochButton"/>--%>
     </span>
 </div>  

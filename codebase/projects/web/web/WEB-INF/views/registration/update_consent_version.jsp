@@ -47,8 +47,8 @@ function updateConsentVersion(id){
 </chrome:box>
 <div class="flow-buttons">
    	<span class="next">
-		<input type="button" value="Save" onclick="updateConsentVersion();"/>
-		<input type="button" value="Cancel" onclick="closePopup();"/>
+   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
+		<tags:button type="button" color="green" icon="save" value="Save" onclick="updateConsentVersion();" />
 	</span>
 </div>
 </form:form>

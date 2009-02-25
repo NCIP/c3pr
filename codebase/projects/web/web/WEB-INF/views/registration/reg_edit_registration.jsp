@@ -146,8 +146,8 @@ function editRegistration(){
 </chrome:box>
 <div class="flow-buttons">
 	<span class="next">
-		<input type="button" value="Save" onclick="editRegistration();"/>
-		<input type="button" value="Cancel" onclick="closePopup();"/>
+		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
+		<tags:button type="button" color="green" icon="save" value="Save" onclick="editRegistration();" />
 	</span>
 </div>
 </form:form>
