@@ -28,61 +28,79 @@ function navRollOver(obj, state) {
 		<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<tr>
 				<td>
-				<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criteria (<i>Expected answer 'yes'</i>)">
-					<tags:instructions code="reg_check_eligibility" />
-					<table width="100%" border="0" class="tablecontent">
-						<tr>
-							<th align="left"><b><fmt:message key="study.criterion"/></b></th>
-							<th align="left"><b><fmt:message key="study.answers"/></b></th>
-						</tr>
-						<c:set var="index" value="0"/>
-						<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.inclusionEligibilityCriteria}">
-							<tr>
-								<td width="85%">
-									${criteria.questionText}
-								</td>
-								<td width="15%" valign="center">
-									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
-										<option value="">Please select</option>
-										<form:option value="Yes" />
-										<form:option value="No" />
-										<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
-									</form:select>
-								</td>
-							</tr>
-							<c:set var="index" value="${index+1}"/>
-						</c:forEach>
-					</table>
-				</tags:minimizablePanelBox>
+					<c:choose>
+						<c:when test="${fn:length(command.studySubject.scheduledEpoch.epoch.inclusionEligibilityCriteria) == 0}">
+							<tags:panelBox boxId="Inclusion" title="Inclusion Criteria (<i>Expected answer 'yes'</i>)" boxClass="grayed-out">
+								<div><fmt:message key="REGISTRATION.NO_INCLUSION_ELIGIBILITY"/></div><br>
+							</tags:panelBox>
+						</c:when>
+						<c:otherwise>
+							<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criteria (<i>Expected answer 'yes'</i>)">
+								<tags:instructions code="reg_check_eligibility" />
+								<table width="100%" border="0" class="tablecontent">
+									<tr>
+										<th align="left"><b><fmt:message key="study.criterion"/></b></th>
+										<th align="left"><b><fmt:message key="study.answers"/></b></th>
+									</tr>
+									<c:set var="index" value="0"/>
+									<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.inclusionEligibilityCriteria}">
+										<tr>
+											<td width="85%">
+												${criteria.questionText}
+											</td>
+											<td width="15%" valign="center">
+												<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
+													<option value="">Please select</option>
+													<form:option value="Yes" />
+													<form:option value="No" />
+													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+												</form:select>
+											</td>
+										</tr>
+										<c:set var="index" value="${index+1}"/>
+									</c:forEach>
+								</table>
+							</tags:minimizablePanelBox>
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
 				<td>
-				<tags:minimizablePanelBox boxId="Exclusion" title="Exclusion Criteria (<i>Expected answer 'no'</i>)">
-					<table width="100%" border="0" class="tablecontent">
-						<tr>
-							<th align="left"><b><fmt:message key="study.criterion"/></b></th>
-							<th align="left"><b><fmt:message key="study.answers"/></b></th>
-						</tr>
-						<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.exclusionEligibilityCriteria}">
-							<tr>
-								<td width="85%">
-									${criteria.questionText}
-								</td>
-								<td width="15%" valign="center">
-									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
-										<option value="">Please select</option>
-										<form:option value="Yes" />
-										<form:option value="No" />
-										<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
-									</form:select>
-								</td>
-							</tr>
-							<c:set var="index" value="${index+1}"/>										
-						</c:forEach>
-					</table>
-				</tags:minimizablePanelBox>
+					<c:choose>
+						<c:when test="${fn:length(command.studySubject.scheduledEpoch.epoch.exclusionEligibilityCriteria) == 0}">
+							<tags:panelBox boxId="Exclusion" title="Exclusion Criteria (<i>Expected answer 'no'</i>)" boxClass="grayed-out">
+								<div><fmt:message key="REGISTRATION.NO_EXCLUSION_ELIGIBILITY"/></div><br>
+							</tags:panelBox>
+						</c:when>
+						<c:otherwise>
+							<tags:minimizablePanelBox boxId="Exclusion" title="Exclusion Criteria (<i>Expected answer 'no'</i>)">
+								<table width="100%" border="0" class="tablecontent">
+									<tr>
+										<th align="left"><b><fmt:message key="study.criterion"/></b></th>
+										<th align="left"><b><fmt:message key="study.answers"/></b></th>
+									</tr>
+									<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.exclusionEligibilityCriteria}">
+										<tr>
+											<td width="85%">
+												${criteria.questionText}
+											</td>
+											<td width="15%" valign="center">
+												<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
+													<option value="">Please select</option>
+													<form:option value="Yes" />
+													<form:option value="No" />
+													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+												</form:select>
+											</td>
+										</tr>
+										<c:set var="index" value="${index+1}"/>										
+									</c:forEach>
+								</table>
+							</tags:minimizablePanelBox>
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 		</table>
