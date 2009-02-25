@@ -12,7 +12,7 @@
 					{onClose: function() {reloadSection();},
 						title: "Companion Registration", 
 						top:35, scrollbar: false, left:100, 
-						zIndex:100, width:850, height:550 , 
+						zIndex:100, width:850, height:500 , 
 						minimizable:false, maximizable:false,
 						url: "<c:url value='/pages/registration/createEmbeddedCompanionRegistration?decorator=noheaderRegistrationflow&participant='/>" + participant  +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
 					  showEffectOptions: {duration:1.5}
@@ -30,7 +30,7 @@
 					{onClose: function() {reloadSection();},
 						title: "Companion Registration", 
 						top:35, scrollbar: false, left:100, 
-						zIndex:100, width:850, height:550 , 
+						zIndex:100, width:850, height:500 , 
 						minimizable:false, maximizable:false,
 						url: "<c:url value='/pages/registration/editCompanionRegistration?decorator=noheaderRegistrationflow&'/>" + url , 
 					 	 showEffectOptions: {duration:1.5}
