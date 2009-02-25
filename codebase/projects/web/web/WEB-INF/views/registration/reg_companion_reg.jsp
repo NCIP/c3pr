@@ -32,7 +32,7 @@
 						top:35, scrollbar: false, left:100, 
 						zIndex:100, width:850, height:500 , 
 						minimizable:false, maximizable:false,
-						url: "<c:url value='/pages/registration/editCompanionRegistration?decorator=noheaderRegistrationflow&'/>" + url , 
+						url: "<c:url value='/pages/registration/editCompanionRegistration?decorator=noheaderRegistrationflow&companionRegistration=true&'/>" + url , 
 					 	 showEffectOptions: {duration:1.5}
 					}
 				) 

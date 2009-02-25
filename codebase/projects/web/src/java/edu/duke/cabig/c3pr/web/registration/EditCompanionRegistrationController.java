@@ -5,10 +5,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
@@ -50,7 +52,12 @@ public class EditCompanionRegistrationController<C extends StudySubjectWrapper> 
 	    }else{
 	       	studySubject=studySubjectRepository.save(studySubject);
 	    }
-        return new ModelAndView("/registration/close_popup");
+        if(WebUtils.hasSubmitParameter(request, "companionRegistration")){
+        	return new ModelAndView("/registration/close_popup");	
+        }else{
+        	return new ModelAndView("redirect:confirm?"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
+        }
+        
         
     }
 
