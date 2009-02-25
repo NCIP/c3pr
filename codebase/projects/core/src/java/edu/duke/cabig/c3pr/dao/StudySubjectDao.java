@@ -25,6 +25,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -315,6 +316,15 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
             for (StudySubject studySubject : studySite.getStudySubjects()) {
                 registrations.add(studySubject);
             }
+        }
+        if(study.getCompanionIndicator()){
+        	for(CompanionStudyAssociation companionStudyAssociation : study.getParentStudyAssociations()){
+        		for(StudySite studySite : companionStudyAssociation.getStudySites()){
+        			for (StudySubject studySubject : studySite.getStudySubjects()) {
+                        registrations.add(studySubject);
+                    }
+        		}
+        	}
         }
         return registrations;
 	}

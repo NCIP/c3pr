@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,10 +21,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
-import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
-
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
