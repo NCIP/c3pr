@@ -51,23 +51,19 @@ public class CreateCompanionRegistrationController<C extends StudySubjectWrapper
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.RESERVED){
-	        if(wrapper.getShouldReserve()){
-	        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
-	        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
-	        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
-	        }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
-	        	try{
-	        		studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
-	        	}catch (C3PRCodedRuntimeException e) {
-				
-	        	}
-	        }else{
-	        	studySubject=studySubjectRepository.save(studySubject);
-	        }
-	    }else{
-	       	studySubject=studySubjectRepository.save(studySubject);
-	    }
+        if(wrapper.getShouldReserve()){
+        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
+        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
+        	try{
+        		studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+        	}catch (C3PRCodedRuntimeException e) {
+			
+        	}
+        }else{
+        	studySubject=studySubjectRepository.save(studySubject);
+        }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
