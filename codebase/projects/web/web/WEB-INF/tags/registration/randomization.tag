@@ -11,6 +11,7 @@
 </style>
 <c:if test="${requiresRandomization}">
 <chrome:box title="Randomization">
+			<chrome:division title="${registration.studySite.study.shortTitleText}">
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
 		      	<tags:instructions code="REGISTRATION.RANDOMIZATION.PHONE_CALL"/>
 			</c:if>
@@ -63,6 +64,7 @@
 					</c:if>
 				</c:if>
 			</table>
+			</chrome:division>
 			<c:forEach items="${registration.childStudySubjects}" var="childStudySubject" varStatus="status">
 				<c:if test="${childStudySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
 					<chrome:division title="${childStudySubject.studySite.study.shortTitleText}">
