@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,13 +42,24 @@ public class SelectStudySiteAndEpochTab extends RegistrationTab<StudySubjectWrap
 		
 		refdata.put("participant", participant);
 		refdata.put("studySites", studySites);
+		refdata.put("epochs", getEnrollingEpochs(companionStudy));
 		refdata.put("companionStudy", companionStudy);
 		refdata.put("parentRegistrationId", request.getParameter("parentRegistrationId"));
 
     	return refdata;
     }
     
-    private List<StudySite> getStudySites(Study study, Study companionStudy) {
+    private List<Epoch> getEnrollingEpochs(Study companionStudy) {
+		List<Epoch> epochs = new ArrayList<Epoch>();
+		for(Epoch epoch : companionStudy.getEpochs()){
+			if(epoch.getEnrollmentIndicator()){
+				epochs.add(epoch);
+			}
+		}
+		return epochs;
+	}
+
+	private List<StudySite> getStudySites(Study study, Study companionStudy) {
 		CompanionStudyAssociation companionStudyAssociation = companionStudy.getParentStudyAssociation(study.getId());
 		return companionStudyAssociation.getStudySites();
 	}

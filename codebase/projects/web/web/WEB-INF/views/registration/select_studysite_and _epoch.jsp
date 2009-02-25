@@ -62,7 +62,7 @@ function manageEpochSelection(element){
                   <th><b><fmt:message key="c3pr.common.description"/></b></th>
                   <th><b><fmt:message key="c3pr.common.enrolling"/></b></th>
               </tr>
-              <c:forEach items="${companionStudy.epochs}" var="epoch" varStatus="epochStatus">
+              <c:forEach items="${epochs}" var="epoch" varStatus="epochStatus">
               	 <tr>
 					<td>
 						<input class="epochSelection" type="radio" value="${epoch.id}" onclick="manageEpochSelection(this);" <c:if test="${epochStatus.count ==1}">checked </c:if>  />
