@@ -531,16 +531,16 @@
 						<c:choose>
 								<c:when test="${companion.mandatoryIndicator}">
 									<c:choose>
-										<c:when test="${empty companion.registrationStatus || companion.registrationStatus != 'Registered but not enrolled'}">
-											${companion.registrationStatus} <font color="Red"><i>* registration on this companion study is mandatory.</i></font>
+										<c:when test="${empty companion.registrationStatus}">
+											<font color="Red"><i><fmt:message key="c3pr.common.notStarted" /></i></font>
 										</c:when>
 										<c:otherwise>
-											${(companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}
+											${companion.registrationStatus}
 										</c:otherwise>
 									</c:choose>
 								</c:when>
 								<c:otherwise>
-									${empty companion.registrationStatus? 'Not Started': (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}
+									${empty companion.registrationStatus? 'Not Started': companion.registrationStatus}
 								</c:otherwise>
 							</c:choose>
 						</td>
