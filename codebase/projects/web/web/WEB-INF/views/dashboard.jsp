@@ -124,10 +124,19 @@ top:90px;
 							paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
 						</script>
 						<c:choose>
-							<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
+							<c:when test="${registration.dataEntryStatusString=='Incomplete' && empty registration.parentStudySubject}">
 								<c:set var="reg_url" value="../pages/registration/editRegistration" />
 							</c:when>
-							<c:when test="${registration.dataEntryStatusString=='Complete' && (registration.regWorkflowStatus.code == 'Pending' || registration.regWorkflowStatus.code == 'Registered but not enrolled') }">
+							<c:when test="${registration.dataEntryStatusString=='Incomplete' && not empty registration.parentStudySubject}">
+								<c:set var="reg_url" value="../pages/registration/editCompanionRegistration" />
+							</c:when>
+							<c:when test="${registration.dataEntryStatusString=='Complete' && registration.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED' && empty registration.parentStudySubject}">
+								<c:set var="reg_url" value="../pages/registration/editRegistration" />
+							</c:when>
+							<c:when test="${registration.dataEntryStatusString=='Complete' && registration.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED' && not empty registration.parentStudySubject}">
+								<c:set var="reg_url" value="../pages/registration/editCompanionRegistration" />
+							</c:when>
+							<c:when test="${registration.dataEntryStatusString=='Complete' && registration.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED'}">
 								<c:set var="reg_url" value="../pages/registration/editRegistration" />
 							</c:when>
 							<c:otherwise>

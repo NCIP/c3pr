@@ -17,11 +17,11 @@
 							${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})
 						</td>
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
-						<td class="alt">${companion.registrationId == null?"Not Started": (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</td>
+						<td class="alt">${empty companion.companionRegistrationUrl ?"Not Started": (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</td>
 						<td class="alt">
 						<c:if test="${companion.registrationStatus != 'Enrolled'}">
 							<c:choose>
-								<c:when test="${companion.registrationId != 0}">
+								<c:when test="${not empty companion.companionRegistrationUrl }">
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"
 										hasPrivileges="UPDATE"
 										authorizationCheckName="domainObjectAuthorizationCheck">
