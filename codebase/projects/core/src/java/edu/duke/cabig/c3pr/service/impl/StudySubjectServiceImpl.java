@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -72,7 +73,13 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
     }
     
     public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults) {
-        return studySubjectDao.getIncompleteRegistrations(registration, maxResults);
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	for(StudySubject studySubject : studySubjectDao.getIncompleteRegistrations(registration, maxResults)){
+    		if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED){
+    			studySubjects.add(studySubject);
+    		}
+    	}
+        return studySubjects;
     }
 
     public StudySubject getArmAndCoordinatingAssignedIdentifier(StudySubject studySubject) {
