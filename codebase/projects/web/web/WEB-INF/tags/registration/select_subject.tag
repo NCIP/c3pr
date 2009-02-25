@@ -368,7 +368,7 @@
                                                             <fmt:message key="c3pr.common.email"/>
                                                         </div>
                                                         <div class="value">
-                                                            <input id="email" name="email" type="text" value="" size="35"/>
+                                                            <input id="email" name="email" type="text" value="" size="30"/>
                                                         </div>
                                                     </div>
                                                 </td>
