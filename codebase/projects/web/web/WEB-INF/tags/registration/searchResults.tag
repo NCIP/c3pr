@@ -71,15 +71,15 @@ function submitLocalForm(formName, idParamStr, companion){
 					paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
 				</script>
 				<c:choose>
-				<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
-					<c:set var="formType" value="edit" />
-				</c:when>
-				<c:when test="${registration.dataEntryStatusString=='Complete' && (registration.regWorkflowStatus.code == 'Pending' || registration.regWorkflowStatus.code == 'Registered but not enrolled') }">
-					<c:set var="formType" value="edit" />
-				</c:when>
-				<c:otherwise>
-					<c:set var="formType" value="manage" />	
-				</c:otherwise>
+					<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
+						<c:set var="formType" value="edit" />
+					</c:when>
+					<c:when test="${registration.dataEntryStatusString=='Complete' && registration.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED'}">
+						<c:set var="formType" value="edit" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="formType" value="manage" />	
+					</c:otherwise>
 				</c:choose>
 				<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
