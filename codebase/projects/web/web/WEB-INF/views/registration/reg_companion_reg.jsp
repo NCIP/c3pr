@@ -73,7 +73,7 @@
 					<th width="40%" scope="col" align="center"><b><fmt:message key="c3pr.common.study"/></b></th>
 					<th width="10%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
 					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.status"/></b></th>
-					<th />
+					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.actions"/></b></th>
 				</tr>
 				<c:forEach items="${companions}" var="companion">
 					<tr>
@@ -84,26 +84,28 @@
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
 						<td class="alt">${companion.registrationId == null?"Not Started": (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</td>
 						<td class="alt">
-						<c:choose>
-							<c:when test="${companion.registrationId != 0}">
-								<csmauthz:accesscontrol domainObject="${command.studySubject}"
-									hasPrivileges="UPDATE"
-									authorizationCheckName="domainObjectAuthorizationCheck">
-									<input type="button" value="Edit" onclick='editCompanionRegistration("${companion.companionRegistrationUrl}");' />
-									<c:if test="${!companion.mandatoryIndicator}">
-										<input type="button" value="Remove" onclick='removeChildStudySubject("${companion.registrationId}");' />
-									</c:if>
-								</csmauthz:accesscontrol>
-							</c:when>
-							<c:otherwise>
-								<csmauthz:accesscontrol domainObject="${command.studySubject}"
-									hasPrivileges="UPDATE"
-									authorizationCheckName="domainObjectAuthorizationCheck">
-									<input type="button" id="registerCompanionStudy" value="Register"
-										onclick="openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}');" />
-								</csmauthz:accesscontrol>
-							</c:otherwise>
-						</c:choose></td>
+						<c:if test="${companion.registrationStatus != 'Enrolled'}">
+							<c:choose>
+								<c:when test="${companion.registrationId != 0}">
+									<csmauthz:accesscontrol domainObject="${command.studySubject}"
+										hasPrivileges="UPDATE"
+										authorizationCheckName="domainObjectAuthorizationCheck">
+										<tags:button type="button" size="small" color="green" value="Edit" onclick='editCompanionRegistration("${companion.companionRegistrationUrl}");' />
+										<c:if test="${!companion.mandatoryIndicator}">
+											<tags:button type="button" size="small" color="red" value="Remove" onclick='removeChildStudySubject("${companion.registrationId}");' />
+										</c:if>
+									</csmauthz:accesscontrol>
+								</c:when>
+								<c:otherwise>
+									<csmauthz:accesscontrol domainObject="${command.studySubject}"
+										hasPrivileges="UPDATE"
+										authorizationCheckName="domainObjectAuthorizationCheck">
+										<tags:button type="button" id="registerCompanionStudy" size="small" color="green" value="Register" onclick="openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}');" />
+									</csmauthz:accesscontrol>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
