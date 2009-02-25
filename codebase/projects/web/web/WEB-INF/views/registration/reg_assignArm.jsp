@@ -4,19 +4,6 @@
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
-<script>
-
-	function randomize(){
-		var elmt = document.getElementById("scheduledEpoch.scheduledArms[0].arm");
-		if(elmt == null || elmt.value != ""){
-			<tags:tabMethod method="randomize" divElement="'randomizationMessage'" /> 
-		}
-		else {
-			new Insertion.After(elmt, "<span id='"+elmt.name+"-msg'style='color:#EE3324'>*"+required+"</span>")			
-		}			
-	}
-	
-</script>
 <style>
 	#main {
 		top:35px;
@@ -35,19 +22,17 @@
 		<c:choose>
 		<c:when test="${!command.studySubject.scheduledEpoch.requiresRandomization}">
 		  <tags:formPanelBox tab="${tab}" flow="${flow}">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
-			  <tr>
-			    <td class="label" width="80%"><fmt:message key="registration.selectArm"/></td>
-				  <td>
+			  <div class="row">
+			  	<div class="label"><fmt:message key="registration.selectArm"/></div>
+			  	<div class="value">
 					<select name="studySubject.scheduledEpoch.scheduledArms[0].arm">
 						<option value="" selected>Please Select</option>
 						<c:forEach items="${command.studySubject.scheduledEpoch.epoch.arms}" var="arm">
 							<option value="${arm.id }" <c:if test="${!empty command.studySubject.scheduledEpoch.scheduledArms[0].arm && arm.id== command.studySubject.scheduledEpoch.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
 						</c:forEach>
 					</select>
-				  </td>
-			   </tr>
-			</table>
+				  </div>
+			  </div>
 		  </tags:formPanelBox>
 		</c:when>
 		<c:when test="${command.studySubject.studySite.study.blindedIndicator}">
