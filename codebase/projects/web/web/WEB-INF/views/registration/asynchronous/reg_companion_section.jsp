@@ -25,9 +25,9 @@
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"
 										hasPrivileges="UPDATE"
 										authorizationCheckName="domainObjectAuthorizationCheck">
-										<tags:button type="button" size="small" color="green" value="Edit" onclick='editCompanionRegistration("${companion.companionRegistrationUrl}");' />
+										<tags:button type="button" size="small" color="green" value="Edit" onclick="editCompanionRegistration('${companion.companionRegistrationUrl}');" />
 										<c:if test="${!companion.mandatoryIndicator}">
-											<tags:button type="button" size="small" color="red" value="Remove" onclick='removeChildStudySubject("${companion.registrationId}");' />
+											<tags:button type="button" size="small" color="red" value="Remove" onclick="removeChildStudySubject('${companion.registrationId}');" />
 										</c:if>
 									</csmauthz:accesscontrol>
 								</c:when>
