@@ -81,6 +81,7 @@ function navRollOver(obj, state) {
 										<th align="left"><b><fmt:message key="study.criterion"/></b></th>
 										<th align="left"><b><fmt:message key="study.answers"/></b></th>
 									</tr>
+									<c:set var="index" value="0"/>
 									<c:forEach var="criteria" varStatus="status" items="${command.studySubject.scheduledEpoch.epoch.exclusionEligibilityCriteria}">
 										<tr>
 											<td width="85%">
