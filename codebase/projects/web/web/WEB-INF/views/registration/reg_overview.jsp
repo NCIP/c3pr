@@ -139,6 +139,11 @@
 			return flag;
 		}
 
+		function manageCompanionRegistration(url){
+			if(url != ''){
+				document.location='../registration/manageRegistration?'+url;
+			}
+		}
 		
     </script>
 </head>
@@ -515,6 +520,9 @@
             </c:otherwise>
         </c:choose>
     </chrome:division>
+    <script>
+    
+    </script>
 	<div id="companionAssociationsDiv" <c:if test="${fn:length(companions) == 0 || !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator || not empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
 	<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:document.getElementById('flowredirect-target').name='_target5';document.getElementById('flowredirect').submit();">
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="80%">
@@ -524,8 +532,19 @@
 					<th scope="20%" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
 				</tr>
 				<c:forEach items="${companions}" var="companion" varStatus="status">
-					<tr class="results">
-						<td class="alt"><c:if test="${companion.mandatoryIndicator}"><tags:requiredIndicator /></c:if>${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})</td>
+					<tr class="results" <c:if test="${companion.registrationStatus == 'Enrolled'}">onclick="manageCompanionRegistration('${companion.companionRegistrationUrl}');"</c:if>>
+						<td class="alt"><c:if test="${companion.mandatoryIndicator}"><tags:requiredIndicator /></c:if>
+							<c:choose>
+								<c:when test="${companion.registrationStatus == 'Enrolled'}">
+									<a href="javascript:manageCompanionRegistration('${companion.companionRegistrationUrl}');">
+										${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})
+									</a>
+								</c:when>
+								<c:otherwise>
+									${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})
+								</c:otherwise>
+							</c:choose>
+						</td>
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
 						<td class="alt">
 						<c:choose>
