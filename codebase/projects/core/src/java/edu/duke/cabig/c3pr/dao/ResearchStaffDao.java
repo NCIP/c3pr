@@ -313,8 +313,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     			//get the corresponding hcs from the dto object and save that organization and then save this staff
     			HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByNciInstituteCode(retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
     			if(matchingHealthcareSiteFromDb == null){
-    				//retrieved staff has brand new Org in him...save the new org.
-    				healthcareSiteDao.save(retrievedRemoteResearchStaff.getHealthcareSite());
+    				log.error("No corresponding org exists for the nci Code:" +retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
     			} else{
     				//we have the retrieved staff's Org in our db...link up with the same and persist
     				retrievedRemoteResearchStaff.setHealthcareSite(matchingHealthcareSiteFromDb);
@@ -337,14 +336,14 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * 
      * @param remoteResearchStaffList the remote research staff list
      */
-    public void updateDatabaseWithRemoteContent(List<RemoteResearchStaff> remoteResearchStaffList){
+    private void updateDatabaseWithRemoteContent(List<RemoteResearchStaff> remoteResearchStaffList){
     	
     	try {
 			for (RemoteResearchStaff remoteResearchStaff: remoteResearchStaffList) {
 				List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifier(remoteResearchStaff.getUniqueIdentifier());
 				if(researchStaffFromDatabase.size() > 0){
-					//this guy already exists....call mergeResearchStaff
-					merge((ResearchStaff)remoteResearchStaff);
+					//this guy already exists....update the database with the latest coppa data
+					mergeResearchStaff(researchStaffFromDatabase.get(0));
 				} else{
 					//this guy doesnt exist
 					//This if condition is temporary. once we have the logic to fetch the org of the retrieved staff then we can remove this.
@@ -362,7 +361,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			log.error(e.getMessage());
 		}
     }
-
+    
+    public void mergeResearchStaff(ResearchStaff staff) {
+    	getHibernateTemplate().merge(staff);
+    }
+    
     
     /*
 	 * Moved csm related save/save code here from personnelServiceImpl for coppa integration
@@ -515,7 +518,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * @param staff
      * @throws C3PRBaseException
      */
-    public void merge(ResearchStaff staff) throws C3PRBaseException {
+    public void mergeResearchStaffAndCsmData(ResearchStaff staff) throws C3PRBaseException {
         try {
             User csmUser = getCSMUser(staff);
             save(staff, csmUser);

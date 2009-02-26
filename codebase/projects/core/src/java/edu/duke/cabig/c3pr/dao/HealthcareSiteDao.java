@@ -246,13 +246,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 					// this guy exists....copy latest remote data into the existing
 					// object...which is done by the interceptor
 					copyRemotePropertiesFromSourceToTarget(healthcareSiteFromDatabase, remoteHealthcareSiteTemp);
-					getHibernateTemplate().merge(healthcareSiteFromDatabase);
 				} else {
 					// this guy doesnt exist
 					createGroupForOrganization(remoteHealthcareSiteTemp);
-					remoteHealthcareSiteTemp.setExternalId(remoteHealthcareSite.getNciInstituteCode());
 					getHibernateTemplate().save(remoteHealthcareSiteTemp);
 				}
+				getHibernateTemplate().flush();
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
