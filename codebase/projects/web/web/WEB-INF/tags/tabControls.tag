@@ -28,7 +28,7 @@
 			<div class="flow-buttons">
 		        <span class="prev">
 		            <c:if test="${tabNumber > 0 && tabNumber != backToTab }">
-		                <tags:button color="blue" id="flow-prev" cssClass="tab${backToTab}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
+		                <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab${backToTab}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
@@ -48,7 +48,7 @@
 		            <c:if test="${not isLast }">
 		                <c:set var="continueLabel" value="${continueLabel}Continue"/>
 		            </c:if>
-		            <tags:button color="green" id="${isLast == 'true'?'flow-finish':'flow-next'}" cssClass="tab${goToTab}" value="${continueLabel}" icon="${continueLabel}"/>
+		            <tags:button type="submit" color="green" id="${isLast == 'true'?'flow-finish':'flow-next'}" cssClass="tab${goToTab}" value="${continueLabel}" icon="${continueLabel}"/>
 		        </span>
 		    </div> 
 		</c:when>
@@ -56,12 +56,12 @@
 			<div class="flow-buttons">
 		        <span class="prev">
 		            <c:if test="${tabNumber > 0 }">
-		                <tags:button color="blue" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
+		                <tags:button type="submit" color="blue" id="flow-prev" cssClass="tab${tabNumber - 1}" value="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back" icon="${willSave && ((empty isSummaryPage || (!empty isSummaryPage && !isSummaryPage)))? 'Save &amp; ' : ''}Back"/>
 		            </c:if>
 		        </span>
 		        <span class="next">
 		            <c:if test="${not isLast && willSave}">
-			            <tags:button color="blue" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="save"/>
+			            <tags:button type="submit" color="blue" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="save"/>
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
 			            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
@@ -71,10 +71,10 @@
 					</c:if>
 					<c:choose>
 						<c:when	test="${continueLabel == 'Save' || continueLabel == 'Back' || continueLabel == 'Save &amp; Back' || continueLabel == 'Save &amp; Continue'}">            
-		           		 <tags:button color="green" id="flow-next"  value="${continueLabel}" icon="${continueLabel}"/>
+		           		 <tags:button type="submit" color="green" id="flow-next"  value="${continueLabel}" icon="${continueLabel}"/>
 						</c:when>
 						<c:otherwise>
-							<tags:button color="green" id="flow-next"  value="${continueLabel}" icon="check"/>
+							<tags:button type="submit" color="green" id="flow-next"  value="${continueLabel}" icon="check"/>
 						</c:otherwise>
 					</c:choose>
 		        </span>
