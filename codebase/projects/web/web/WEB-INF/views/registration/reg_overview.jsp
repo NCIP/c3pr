@@ -144,6 +144,10 @@
 				document.location='../registration/manageRegistration?'+url;
 			}
 		}
+
+		function manageParentRegistration(){
+			document.location="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.parentStudySubject.systemAssignedIdentifiers[0] }'/>" 
+		}
 		
     </script>
 </head>
@@ -334,15 +338,12 @@
 <chrome:division title="Parent Registration">
     <table class="tablecontent" width="90%">
         <tr>
-            <th width="50%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
+            <th width="35%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
 			<th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></th>
         </tr>
             <tr>
-                <td class="alt">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}</td>
+                <td class="alt"><a href="javascript:manageParentRegistration();">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}&nbsp;(${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}) </td>
 				<td class="alt">${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}</td>
-                <td class="alt">
-                	<tags:button type="button" size="small" id="manageParentRegistration" color="green" value="Manage" onclick="javascript:document.location='<c:url value="/pages/registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" />'"/>
-                </td>
    	        </tr>	           
     </table>
 </chrome:division>
