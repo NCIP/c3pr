@@ -20,9 +20,9 @@ function navRollOver(obj, state) {
 function submitLocalForm(formName, idParamStr, companion){
 	if(formName=='manage'){
 		document.location="../registration/manageRegistration?"+idParamStr;
-	}else if(formName=='edit' && !companion){
+	}else if(formName=='edit' && companion == 'false'){
 		document.location="../registration/editRegistration?"+idParamStr;
-	}else if(formName=='edit' && companion){
+	}else if(formName=='edit' && companion == 'true'){
 		document.location="../registration/editCompanionRegistration?"+idParamStr;
 	}else if(formName=='confirm'){
 		document.location="../registration/confirm?"+idParamStr;
