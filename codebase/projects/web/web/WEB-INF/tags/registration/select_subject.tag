@@ -378,7 +378,7 @@
                                 </div>
                             </chrome:division><!--end of div id="addressSection"-->
                             <div align="right">
-                            	<tags:button markupWithTag="button" color="green" icon="subject" value="Create This Subject" />
+                            	<tags:button type="button" color="green" icon="subject" value="Create This Subject" />
                                 <!--<input type="button" class="tab0" value="Create this Subject" onclick="document.createSubForm.submit();"/>-->
                             </div>
                         </div>
