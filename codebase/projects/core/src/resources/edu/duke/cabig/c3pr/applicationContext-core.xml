@@ -660,4 +660,6 @@
 		</property>
 	</bean>
 
+	<bean id="identifierGenerator" class="edu.duke.cabig.c3pr.utils.IdentifierGenerator" autowire="byName"/>
+
 </beans>

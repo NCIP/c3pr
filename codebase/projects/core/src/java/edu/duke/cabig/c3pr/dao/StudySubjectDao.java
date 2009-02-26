@@ -502,13 +502,11 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     public void initialize(StudySubject studySubject) throws DataAccessException {
         studyDao.initialize(studySubject.getStudySite().getStudy());
         studySiteDao.initialize(studySubject.getStudySite());
+        participantDao.initialize(studySubject.getParticipant());
         
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyInvestigatorsInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyPersonnelInternal());
         getHibernateTemplate().initialize(studySubject.getChildStudySubjects());
-        for(StudySubject childStudySubject : studySubject.getChildStudySubjects()){
-        	initialize(childStudySubject);
-        }
         getHibernateTemplate().initialize(studySubject.getConsentHistoryList());
         
         getHibernateTemplate().initialize(studySubject.getParticipant().getIdentifiers());
@@ -521,6 +519,10 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
             getHibernateTemplate().initialize(scheduledEpoch.getScheduledArmsInternal());
             getHibernateTemplate().initialize(scheduledEpoch.getSubjectEligibilityAnswersInternal());
             getHibernateTemplate().initialize(scheduledEpoch.getSubjectStratificationAnswersInternal());
+        }
+        
+        for(StudySubject childStudySubject : studySubject.getChildStudySubjects()){
+        	initialize(childStudySubject);
         }
     }
     

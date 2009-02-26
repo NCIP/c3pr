@@ -28,7 +28,6 @@ import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.IdentifierGenerator;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -47,6 +46,7 @@ import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
+import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.common.exception.XMLUtilityException;
@@ -80,6 +80,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
     private XmlMarshaller xmlUtility;
 
     private XmlMarshaller xmlUtilityStudy;
+    
+    private IdentifierGenerator identifierGenerator ; 
 
     @Override
     protected void setUp() throws Exception {
@@ -100,6 +102,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
                         "c3pr-registration-xml-castor-mapping"));
         xmlUtilityStudy = new XmlMarshaller((String) getApplicationContext().getBean(
                         "c3pr-study-xml-castorMapping"));
+        identifierGenerator = (IdentifierGenerator) getApplicationContext().getBean("identifierGenerator");
     }
 
     /*
@@ -790,7 +793,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
        
        int numberOfIdentifiers = studySubject.getIdentifiers().size();
        
-       studySubject.addIdentifier(IdentifierGenerator
+       studySubject.addIdentifier(identifierGenerator
 					.generateOrganizationAssignedIdentifier(studySubject));
        studySubjectDao.save(studySubject);
        StudySubject updatedStudySubject = studySubjectDao.getById(1000);

@@ -22,7 +22,6 @@ import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.IdentifierGenerator;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
@@ -40,6 +39,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
+import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
@@ -63,6 +63,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     private StudySubjectService studySubjectService;
     
     private StudyTargetAccrualNotificationEmail notificationEmailer;
+    
+    private IdentifierGenerator identifierGenerator ;
     
     //private StudyService studyService;
     
@@ -293,6 +295,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			studySubject.prepareForEnrollment();
 		}
 		
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
+			studySubject.addIdentifier(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject));
+		}
+		
 		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studySubjectService.getLocalNCIInstituteCode())){
 			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
             domainObjects.add(studySubject);
@@ -306,6 +312,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			studySubject.doMutiSiteEnrollment(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
 		}else{
 			studySubject.doLocalEnrollment();
+		}
+		
+		for (StudySubject childStudySubject : studySubject.getChildStudySubjects()) {
+			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
+				continueEnrollment(childStudySubject);
+			}
 		}
 	}
 
@@ -377,7 +389,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         }
 		
 		if (!studySubject.hasC3PRSystemIdentifier()){
-			studySubject.addIdentifier(IdentifierGenerator.generateSystemAssignedIdentifier(studySubject));
+			studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
 		}
 		
 		return save(studySubject);
@@ -453,6 +465,14 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 				}
 			}
 		}
+	}
+
+	public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) {
+		this.identifierGenerator = identifierGenerator;
+	}
+
+	public IdentifierGenerator getIdentifierGenerator() {
+		return identifierGenerator;
 	}
 
 }
