@@ -109,6 +109,7 @@ public class StudySubject extends
 	private C3PRExceptionHelper c3PRExceptionHelper;
 
 	private MessageSource c3prErrorMessages;
+	
 
 	public StudySubject() {
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -1119,21 +1120,9 @@ public class StudySubject extends
 			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
 				doLocalRandomization();
 			}
-			this.addIdentifier(IdentifierGenerator
-					.generateOrganizationAssignedIdentifier(this));
-			this.getScheduledEpoch().setScEpochWorkflowStatus(
-					ScheduledEpochWorkFlowStatus.REGISTERED);
+			this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 		}
 		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
-
-		// TODO This should also set all the child studysubjects which are in
-		// 'REGISTERED_BUT_NOT_ENROLLED' state to enrolled"
-
-		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
-			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
-					childStudySubject.doLocalEnrollment();
-			}
-		}
 	}
 
 	public void doMutiSiteEnrollment(
@@ -1159,13 +1148,6 @@ public class StudySubject extends
 
 		// TODO This should also set all the child studysubjects which are in
 		// 'REGISTERED_BUT_NOT_ENROLLED' state to enrolled"
-
-		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
-			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED) {
-				childStudySubject
-						.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
-			}
-		}
 
 	}
 
@@ -1345,6 +1327,5 @@ public class StudySubject extends
 		}
 		return false ;
 	}
-
 	
 }
