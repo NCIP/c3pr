@@ -22,7 +22,6 @@ import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
@@ -30,6 +29,8 @@ import edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
+import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 
@@ -57,6 +58,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     private StudySubjectCreatorHelper studySubjectCreatorHelper;
     
     private StudyTargetAccrualNotificationEmail notificationEmailer;
+    
+    private IdentifierGenerator identifierGenerator ;
     
     private Logger log = Logger.getLogger(StudySubjectRepositoryTestCase.class.getName());
     
@@ -86,6 +89,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubject=new StudySubject();
         studySubjectCreatorHelper=new StudySubjectCreatorHelper();
         studySubject.setParticipant(studySubjectCreatorHelper.createNewParticipant());
+        identifierGenerator = (IdentifierGenerator) ApplicationTestCase.getDeployedCoreApplicationContext().getBean("identifierGenerator");
     }
     
     public ScheduledEpoch buildScheduledEpoch(){
@@ -126,6 +130,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	  public void testCreate() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
 	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
+	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
 	        studySubject.addScheduledEpoch(scheduledEpochFirst);
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
@@ -172,6 +177,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	  
 	  public void testEnrollOnNonRandomizedEpochWithoutArm() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
+	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpochWithoutArm(false));
 	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
 	        studySubject.addScheduledEpoch(scheduledEpochFirst);
@@ -181,8 +187,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+//	        EasyMock.expect(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject)).andReturn(new OrganizationAssignedIdentifier());
 	        
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
@@ -193,6 +201,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	    }
 	  public void testEnrollOnNonRandomizedEpochWithArm() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
+	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(false));
 	        ScheduledArm scheduledArm = new ScheduledArm();
 	        scheduledArm.setArm(studySubjectCreatorHelper.createTestTreatmentEpoch(false).getArms().get(0));
@@ -205,12 +214,12 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -230,12 +239,14 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        studySubject.getStudySite().getStudy().setId(1);
+	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        
+	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -249,12 +260,13 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        
+	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -268,6 +280,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.REGISTRATION.NOT_FOUND_GIVEN_IDENTIFIERS.CODE",null,null)).andReturn("1");
 	        EasyMock.expect(exceptionHelper.getRuntimeException(1)).andReturn(new C3PRCodedRuntimeException(1,"Cannot find a registration with the given identifier(s)"));
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
@@ -276,7 +289,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        
+	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubject = studySubjectRepository.enroll(studySubject);
 	        try{
@@ -297,6 +310,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        studySubject.getStudySite().getStudy().setId(1);
 	       // studySubjectDao.merge(studySubject);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(2);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
@@ -306,7 +320,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        
+	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubject = studySubjectRepository.enroll(studySubject);
 	        try{
@@ -327,6 +341,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setInformedConsentSignedDate(new Date());
 	        studySubject.setInformedConsentVersion("1.0");
 	        studySubject.setId(1);
+	        studySubject.getStudySite().getStudy().setId(1);
 	       // studySubjectDao.merge(studySubject);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(2);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
@@ -336,7 +351,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        
+	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubject = studySubjectRepository.enroll(studySubject);
 	        studySubjectCreatorHelper.addScheduled2ndNonRandomizedEnrollingEpochFromStudyEpochs(studySubject);

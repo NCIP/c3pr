@@ -331,17 +331,17 @@
 </chrome:division>
 
 <div <c:if test="${empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
-<chrome:division title="Parent Study">
+<chrome:division title="Parent Registration">
     <table class="tablecontent" width="90%">
         <tr>
-            <th width="75%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
-			<th width="75%" scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></th>
+            <th width="50%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
+			<th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></th>
         </tr>
             <tr>
                 <td class="alt">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}</td>
 				<td class="alt">${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}</td>
                 <td class="alt">
-                	<input type="button" id="manageParentRegistration" value="Manage" onClick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.studySubject.parentStudySubject.id}' />'"/>
+                	<tags:button type="button" size="small" id="manageParentRegistration" color="green" value="Manage" onclick="javascript:document.location='<c:url value="/pages/registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" />'"/>
                 </td>
    	        </tr>	           
     </table>
@@ -524,7 +524,7 @@
     
     </script>
 	<div id="companionAssociationsDiv" <c:if test="${fn:length(companions) == 0 || !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator || not empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
-	<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:document.getElementById('flowredirect-target').name='_target5';document.getElementById('flowredirect').submit();">
+	<chrome:division id="companionRegistration" title="Companion Registration">
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="80%">
 				<tr>
 					<th width="40%" scope="col" align="left"><b><fmt:message key="c3pr.common.study"/></b></th>

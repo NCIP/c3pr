@@ -3,11 +3,10 @@ package edu.duke.cabig.c3pr.domain.repository;
 import java.util.Date;
 import java.util.List;
 
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 
 public interface StudySubjectRepository {
     
@@ -54,5 +53,7 @@ public interface StudySubjectRepository {
     public StudySubject reserve(List<Identifier> studySubjectIdentifiers);
     
     public StudySubject getUniqueStudySubjects(List<Identifier> studySubjectIdentifiers);
+    
+    public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) ; 
     
 }
