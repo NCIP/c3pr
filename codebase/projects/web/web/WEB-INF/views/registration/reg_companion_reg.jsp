@@ -23,6 +23,7 @@
 
 		function closePopup() {
 			win.close();
+			$('searchCompanionInd').style.display = "";
 		}
 
 		function editCompanionRegistration(url){
@@ -104,6 +105,7 @@
 									</csmauthz:accesscontrol>
 								</c:otherwise>
 							</c:choose>
+							<img id="searchCompanionInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">  
 						</c:if>
 						</td>
 					</tr>
