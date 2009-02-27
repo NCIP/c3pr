@@ -234,4 +234,48 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     	List<RemoteResearchStaff> remoteResearchStaffList = getDao().getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
         assertEquals("Incorrect size", 9, remoteResearchStaffList.size());
     }
+    
+    /**
+     * Gets all the remoteResearchStaff since the hcs is not specified
+     * This one tests to see whether coppa data overrides the db content successfully
+     * @throws Exception
+     */
+    public void testUpdateRemoteResearchStaffFromResolverByExample() throws Exception{
+    	getDao().getRemoteResearchStaffFromResolverByExample(new RemoteResearchStaff());
+    	String ui = "";
+    	Integer id = null;
+    	
+        RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff)getDao().getByEmailAddress("LPage@nci.org").get(0);
+        id = remoteResearchStaff.getId();
+        remoteResearchStaff.setFirstName("LarryTemp");
+        remoteResearchStaff.setLastName("PageTemp");
+        ui = remoteResearchStaff.getUniqueIdentifier();
+        remoteResearchStaff.setUniqueIdentifier("temp");
+        getDao().mergeResearchStaff(remoteResearchStaff);
+        
+        interruptSession();
+        
+        RemoteResearchStaff remoteResearchStaff2 = (RemoteResearchStaff)getDao().getById(id);
+        assertEquals(remoteResearchStaff2.getFirstName(), "LarryTemp");
+        assertEquals(remoteResearchStaff2.getLastName(), "PageTemp");
+        remoteResearchStaff2.setUniqueIdentifier(ui);
+        getDao().mergeResearchStaff(remoteResearchStaff2);
+        
+        interruptSession();
+        
+        
+        RemoteResearchStaff remoteResearchStaff3 = (RemoteResearchStaff)getDao().getByEmailAddress("LPage@nci.org").get(0);
+        remoteResearchStaff3.setUniqueIdentifier("temp");
+        
+        interruptSession();
+        
+        RemoteResearchStaff remoteResearchStaff5 = (RemoteResearchStaff)getDao().getById(id);
+        assertEquals(remoteResearchStaff5.getFirstName(), "Larry");
+        assertEquals(remoteResearchStaff5.getLastName(), "Page");
+        
+    }
+
 }
+
+
+
