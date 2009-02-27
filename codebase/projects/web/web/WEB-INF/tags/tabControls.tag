@@ -65,12 +65,15 @@
 		            </c:if>
 					<c:if test="${empty continueLabel || continueLabel==''}">
 			            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
-			            <c:if test="${not isLast}">
+			            <c:if test="${not isLast && not empty continueLabel}">
 			                <c:set var="continueLabel" value="${continueLabel} &amp; Continue"/>
+			            </c:if>
+			            <c:if test="${not isLast && empty continueLabel}">
+			                <c:set var="continueLabel" value="Continue"/>
 			            </c:if>
 					</c:if>
 					<c:choose>
-						<c:when	test="${continueLabel == 'Save' || continueLabel == 'Back' || continueLabel == 'Save &amp; Back' || continueLabel == 'Save &amp; Continue'}">            
+						<c:when	test="${continueLabel == 'Save' || continueLabel == 'Back' || continueLabel == 'Save &amp; Back' || continueLabel == 'Save &amp; Continue' || continueLabel == 'Continue'}">            
 		           		 <tags:button type="submit" color="green" id="flow-next"  value="${continueLabel}" icon="${continueLabel}"/>
 						</c:when>
 						<c:otherwise>
