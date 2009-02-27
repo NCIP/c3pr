@@ -22,6 +22,9 @@ body {
 .noheader-body {
 	text-align:left;
 	}
+.noheader-body #main {
+	top:0;
+	}
 #skipnav {
 	height:0;
 	overflow:hidden;
