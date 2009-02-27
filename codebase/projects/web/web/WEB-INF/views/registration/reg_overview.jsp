@@ -59,59 +59,6 @@
 			win.close();
 		}
 		
-		function changeEpochPopup(){
-			var arr= $$("#changeEpoch");
-			win = new Window({maximizable: false, className :"mac_os_x", title: "Change Epoch", 
-									hideEffect:Element.hide, 
-									zIndex:100, width:850, height:450 , minimizable:false, maximizable:false,
-									showEffect:Element.show, 
-									}) 
-			win.setContent(arr[0]) ;
-			win.showCenter(true);
-	 	}
-
-		function takeSubjectOffStudyPopup(){
-			var arr= $$("#takeSubjectOffStudy");
-			win = new Window({maximizable: false, className :"mac_os_x", title: "Take Subject Off Study", 
-									hideEffect:Element.hide, 
-									zIndex:100, width:450, height:250 , minimizable:false, maximizable:false,
-									showEffect:Element.show, 
-									})
-			win.setContent(arr[0]) ;
-			win.showCenter(true);
-			inputDateElementLocal1="offStudyDate";
-			inputDateElementLink1="offStudyDate-calbutton";
-			Calendar.setup(
-			{
-			    inputField  : inputDateElementLocal1,         // ID of the input field
-			    ifFormat    : "%m/%d/%Y",    // the date format
-			    button      : inputDateElementLink1       // ID of the button
-			}
-			);
-		}
-
-		function editRegistrationPopup(){
-			var arr= $$("#editRegistration");
-			win = new Window({maximizable: false, className :"mac_os_x", title: "Edit Registration", 
-									hideEffect:Element.hide, 
-									zIndex:100, width:550, height:400 , minimizable:false, maximizable:false,
-									showEffect:Element.show, 
-									}) 
-			win.setContent(arr[0]) ;
-			win.showCenter(true);
-	 	}
-
-		function reconsentPopup(){
-			var arr= $$("#reconsent");
-			win = new Window({maximizable: false, className :"mac_os_x", title: "Reconsent", 
-									hideEffect:Element.hide, 
-									zIndex:100, width:500, height:180 , minimizable:false, maximizable:false,
-									showEffect:Element.show, 
-									}) 
-			win.setContent(arr[0]) ;
-			win.showCenter(true);
-	 	}
-
 		ValidationManager.submitPostProcess=function(formElement, flag){
 			if(formElement.id =='offStudyStatusForm' && flag ){
 				Element.show('confirmTakeSubjectOffStudy');
@@ -148,6 +95,61 @@
 		function manageParentRegistration(){
 			document.location="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.parentStudySubject.systemAssignedIdentifiers[0] }'/>" 
 		}
+
+		function editRegistrationPopup(){
+			var arr= $$("#editRegistration");
+			win = new Window({className :"mac_os_x", title: "Edit Registration", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:550, height:400 , minimizable:false, maximizable:false,
+									showEffect:Element.show 
+									}) 
+			win.setContent(arr[0]) ;
+			win.showCenter(true);
+	 	}
+
+		function changeEpochPopup(){
+			var arr= $$("#changeEpoch");
+			win = new Window({ width:850, height:450 ,className :"mac_os_x" , 
+				title: "Change Epoch" , minimizable:false, maximizable:false ,
+				zIndex:100 , hideEffect:Element.hide, showEffect:Element.show}) 
+			win.setContent(arr[0]) ;
+			win.showCenter(true);
+	 	}
+
+		
+
+		function takeSubjectOffStudyPopup(){
+			var arr= $$("#takeSubjectOffStudy");
+			win = new Window({className :"mac_os_x", title: "Take Subject Off Study", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:450, height:250 , minimizable:false, maximizable:false,
+									showEffect:Element.show 
+									})
+			win.setContent(arr[0]) ;
+			win.showCenter(true);
+			inputDateElementLocal1="offStudyDate";
+			inputDateElementLink1="offStudyDate-calbutton";
+			Calendar.setup(
+			{
+			    inputField  : inputDateElementLocal1,         // ID of the input field
+			    ifFormat    : "%m/%d/%Y",    // the date format
+			    button      : inputDateElementLink1       // ID of the button
+			}
+			);
+		}
+
+		
+
+		function reconsentPopup(){
+			var arr= $$("#reconsent");
+			win = new Window({className :"mac_os_x", title: "Reconsent", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:500, height:180 , minimizable:false, maximizable:false,
+									showEffect:Element.show 
+									}) 
+			win.setContent(arr[0]) ;
+			win.showCenter(true);
+	 	}
 		
     </script>
 </head>
