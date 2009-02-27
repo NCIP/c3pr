@@ -10,9 +10,18 @@
 
 	<div id="main">
 		<chrome:box title="Confirmation" autopad="true">
-               	<div class="row" >
-                    <h2><font color="green">Organization successfully created.</font></h2>
-                </div>
+                <div class="content">
+                  <c:if test="${FLOW == 'EDIT_FLOW'}">
+                	<div class="row">
+                	 	<h2><font color="green">Organization successfully updated.</font></h2>
+	                </div>
+                </c:if>
+                <c:if test="${FLOW == 'SAVE_FLOW'}">
+                	<div class="row">
+                	 	<h2><font color="green">Organization successfully created.</font></h2>
+	                </div>
+                </c:if>
+                
                  <div class="row" >
                  	<table class="tablecontent" width="60%">
 						<tr>
