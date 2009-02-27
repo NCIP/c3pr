@@ -94,8 +94,12 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
 	        	studySubject = studySubjectRepository.transferSubject(studySubject);
 	        else if(wrapper.getShouldEnroll()){
 	        	studySubject=studySubjectRepository.enroll(studySubject);
+	        }else if(wrapper.getShouldRegister()){
+	        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
 	        }else if(wrapper.getShouldReserve()){
 	        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+	        }else{
+	        	studySubject=studySubjectRepository.save(studySubject);
 	        }
 	        return new ModelAndView("redirect:confirm?" + ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));
     	}
