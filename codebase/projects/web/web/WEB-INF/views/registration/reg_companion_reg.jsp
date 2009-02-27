@@ -23,7 +23,7 @@
 
 		function closePopup() {
 			win.close();
-			$('searchCompanionInd').style.display = "";
+			//$('searchCompanionInd').style.display = "";
 		}
 
 		function editCompanionRegistration(url){
