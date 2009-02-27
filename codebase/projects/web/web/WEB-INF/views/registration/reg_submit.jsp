@@ -310,7 +310,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	</chrome:division>
 	</div>
 	</div>
-	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${(command.studySubject.parentStudySubject == null)?(empty actionLabel? '' : actionLabel):'Save & Done'}"  isSummaryPage="true">
+	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${(not empty command.studySubject.parentStudySubject && command.studySubject.parentStudySubject.regWorkflowStatus != 'ENROLLED')?'Save & Done': (empty actionLabel? '' : actionLabel)}"  isSummaryPage="true">
 		<input type="hidden" name="_finish" value="true"/>
 		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete' && command.studySubject.parentStudySubject == null}">
 			<a name="randomize"></a>

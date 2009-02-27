@@ -20,15 +20,18 @@ function transfer(){
 	if(transferEpochId == '${command.studySubject.currentScheduledEpoch.epoch.id}'){
 		alert("Already Registered");
 	}else{
-		registerSubject(transferEpochId, transferToStatus);
+		registerSubject(transferEpochId, transferToStatus, '${command.studySubject.parentStudySubject}');
 	}
 }
 
-function registerSubject(transferEpochId, transferToStatus){
+function registerSubject(transferEpochId, transferToStatus, parentStudySubject){
 	closePopup();
-	if(transferToStatus == 'flow'){
+	if(transferToStatus == 'flow' && parentStudySubject == ''){
 		$("edit_epoch").value=transferEpochId;
 		$("transferEpoch").submit();
+	}else if(transferToStatus == 'flow' && parentStudySubject != ''){
+		$("edit_epoch").value=transferEpochId;
+		$("transferCompanionEpoch").submit();
 	}else{
 		$("regWorkflowStatus").value=transferToStatus;
 		$("m_manage_epoch").value=transferEpochId;
@@ -53,6 +56,11 @@ input[disabled] {
 	<input type="hidden" name="studySubject.regWorkflowStatus" id="regWorkflowStatus"/>
 </form>
 <form action="../registration/transferEpochRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="transferEpoch">
+	<input type="hidden" name="_page" id="_page0" value="0"/>
+	<input type="hidden" name="_target1" id="_target1" value="1"/>
+	<input type="hidden" name="epoch" id="edit_epoch"/>
+</form>
+<form action="../registration/transferEpochCompanionRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="transferCompanionEpoch">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="epoch" id="edit_epoch"/>

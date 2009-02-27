@@ -360,6 +360,12 @@
           parent="parentRegistrationController"
           autowire="byName">
     </bean>
+	<bean name="/registration/transferEpochCompanionRegistration"
+          id="transferEpochCompanionRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.TransferEpochCompanionRegistrationController"
+          parent="parentRegistrationController"
+          autowire="byName">
+    </bean>
     
     <bean name="/registration/manageRegistration" id="manageRegistrationController"
           class="edu.duke.cabig.c3pr.web.registration.ManageRegistrationController" autowire="byName">
