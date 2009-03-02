@@ -17,6 +17,7 @@ import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
@@ -30,6 +31,8 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     
     /** The remote session. */
     private RemoteSession remoteSession;
+    
+    private HealthcareSiteDao healthcareSiteDao;
 
     public Class<Investigator> domainClass() {
         return Investigator.class;
@@ -138,6 +141,17 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	RemoteInvestigator retrievedRemoteInvestigator;
     	for(Object object: objectList){
     		retrievedRemoteInvestigator = (RemoteInvestigator)object;
+    		for(HealthcareSiteInvestigator healthcareSiteInvestigator: retrievedRemoteInvestigator.getHealthcareSiteInvestigators()){
+//    			get the corresponding hcs from the dto object and save that organization and then save this staff
+    			HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByNciInstituteCode(healthcareSiteInvestigator.getHealthcareSite().getNciInstituteCode());
+    			if(matchingHealthcareSiteFromDb == null){
+    				log.error("No corresponding org exists for the nci Code:" +healthcareSiteInvestigator.getHealthcareSite().getNciInstituteCode());
+    			} else{
+    				//we have the retrieved staff's Org in our db...link up with the same and persist
+    				healthcareSiteInvestigator.setHealthcareSite(matchingHealthcareSiteFromDb);
+    			}
+    		}
+    		
     		remoteInvestigatorsList.add(retrievedRemoteInvestigator);
     	}
     	//update the database with the remote content
@@ -156,10 +170,11 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 			for (RemoteInvestigator remoteInvestigator: remoteInvestigatorsList) {
 				List<RemoteInvestigator> remoteInvestigatorsFromDatabase = getByUniqueIdentifier(remoteInvestigator.getUniqueIdentifier());
 				if(remoteInvestigatorsFromDatabase.size() > 0){
-					//this guy already exists....update the database with the latest coppa data
-					merge(remoteInvestigator);
+					//this guy already exists....update the database with the latest coppa data..which is obtained y simply reloading the object from db
+					//note that the interceptor will get the latest for it
+					merge(remoteInvestigatorsFromDatabase.get(0));
 				} else{
-					save(remoteInvestigator);
+					save(remoteInvestigatorsFromDatabase.get(0));
 				}
 			}
 			getHibernateTemplate().flush();
@@ -191,6 +206,14 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 
 	public void setRemoteSession(RemoteSession remoteSession) {
 		this.remoteSession = remoteSession;
+	}
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
 }
