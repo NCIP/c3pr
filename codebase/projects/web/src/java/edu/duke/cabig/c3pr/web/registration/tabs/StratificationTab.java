@@ -53,8 +53,8 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
                 // ensuring an answer has been selected for every qs before calling getGroups.
                 for (SubjectStratificationAnswer ssa : ste.getSubjectStratificationAnswers()) {
                     if (ssa.getStratificationCriterionAnswer() == null) {
-                    	errors.reject("NullSubjectStratificationAnswer","Stratification answer has to be selected");
-                        return;
+                        //this line added make sure if no stratum group is slected , it will allow user to go forward. 
+                    	return;
                     }
                 }
                 try {
