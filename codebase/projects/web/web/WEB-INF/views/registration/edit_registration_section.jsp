@@ -36,24 +36,6 @@
     </div>
 </chrome:division>
 
-<div <c:if test="${empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
-<chrome:division title="Parent Study">
-    <table class="tablecontent" width="90%">
-        <tr>
-            <th width="75%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
-			<th width="75%" scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></th>
-        </tr>
-            <tr>
-                <td class="alt">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}</td>
-				<td class="alt">${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}</td>
-                <td class="alt">
-                	<input type="button" id="manageParentRegistration" value="Manage" onClick="javascript:document.location='<c:url value='/pages/registration/manageRegistration?registrationId=${command.studySubject.parentStudySubject.id}' />'"/>
-                </td>
-   	        </tr>	           
-    </table>
-</chrome:division>
-</div>
-
 <div id="enrollmentSection">
 <chrome:division id="enrollment" title="Enrollment Details">
 <div class="leftpanel">

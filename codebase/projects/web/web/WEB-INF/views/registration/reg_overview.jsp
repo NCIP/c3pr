@@ -335,22 +335,6 @@
         </div>
     </div>
 </chrome:division>
-
-<div <c:if test="${empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
-<chrome:division title="Parent Registration">
-    <table class="tablecontent" width="90%">
-        <tr>
-            <th width="35%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
-			<th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></th>
-        </tr>
-            <tr>
-                <td class="alt"><a href="javascript:manageParentRegistration();">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}&nbsp;(${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}) </td>
-				<td class="alt">${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}</td>
-   	        </tr>	           
-    </table>
-</chrome:division>
-</div>
-
 <div id="enrollmentSection">
 <chrome:division id="enrollment" title="Enrollment Details">
 <div class="leftpanel">
@@ -523,9 +507,23 @@
             </c:otherwise>
         </c:choose>
     </chrome:division>
-    <script>
     
-    </script>
+<div <c:if test="${empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
+<chrome:division title="Parent Registration">
+    <table class="tablecontent" width="90%">
+        <tr>
+            <th width="35%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
+			<th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></th>
+        </tr>
+            <tr>
+                <td class="alt"><a href="javascript:manageParentRegistration();">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}&nbsp;(${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}) </td>
+				<td class="alt">${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}</td>
+   	        </tr>	           
+    </table>
+</chrome:division>
+</div>
+
+
 	<div id="companionAssociationsDiv" <c:if test="${fn:length(companions) == 0 || !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator || not empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
 	<chrome:division id="companionRegistration" title="Companion Registration">
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="80%">
