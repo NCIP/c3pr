@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,9 +22,10 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
  */
 @Entity
 @Table(name = "investigators")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "investigators_id_seq") })
 // @AssociationOverride( name="contactMechanisms", joinColumns= @JoinColumn(name="INV_ID") )
-public class Investigator extends C3PRUser {
+public abstract class Investigator extends C3PRUser {
     private String nciIdentifier;
 
     private LazyListHelper lazyListHelper;

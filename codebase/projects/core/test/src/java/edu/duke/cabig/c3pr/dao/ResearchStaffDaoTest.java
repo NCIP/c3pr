@@ -240,7 +240,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * This one tests to see whether coppa data overrides the db content successfully
      * @throws Exception
      */
-    public void testUpdateRemoteResearchStaffFromResolverByExample() throws Exception{
+    /*public void testUpdateRemoteResearchStaffFromResolverByExample() throws Exception{
     	getDao().getRemoteResearchStaffFromResolverByExample(new RemoteResearchStaff());
     	String ui = "";
     	Integer id = null;
@@ -274,7 +274,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         assertEquals(remoteResearchStaff5.getLastName(), "Page");
         
     }
-
+*/
 }
 
 

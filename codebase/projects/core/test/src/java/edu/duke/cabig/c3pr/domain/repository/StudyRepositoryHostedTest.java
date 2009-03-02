@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
@@ -287,7 +288,7 @@ public class StudyRepositoryHostedTest extends DaoTestCase {
             disCatSaved.setName("AIDS-related Human Papillomavirus");
             diseaseCategoryDao.save(disCatSaved);
             // Investigators
-            Investigator invSave = new Investigator();
+            Investigator invSave = new LocalInvestigator();
             invSave.setFirstName("Investigator first name");
             investigatorDao.save(invSave);
 

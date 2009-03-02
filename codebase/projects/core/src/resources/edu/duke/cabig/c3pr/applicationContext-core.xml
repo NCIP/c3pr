@@ -86,7 +86,8 @@
                 <value>edu.duke.cabig.c3pr.domain.Participant</value>
                 <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
-                <value>edu.duke.cabig.c3pr.domain.Investigator</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
                 <value>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</value>
                 <value>edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier</value>
@@ -302,6 +303,7 @@
             <list>
                 <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
             </list>
         </property>
         <property name="remoteResolvers">
@@ -320,6 +322,20 @@
                 	</property>
                 	<property name="clinicalResearchStaffCorrelationServiceRemote">
                 		<bean class="com.semanticbits.coppasimulator.service.ClinicalResearchStaffCorrelationServiceImpl" />
+                	</property>
+                	<property name="personEntityServiceRemote">
+                		<bean class="com.semanticbits.coppasimulator.service.PersonEntityServiceImpl" />
+                	</property>
+                	<property name="identifiedPersonCorrelationServiceRemote">
+                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedPersonCorrelationServiceImpl" />
+                	</property>
+                </bean>
+                <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteInvestigatorResolver" autowire="byName">
+                	<property name="identifiedOrganizationCorrelationServiceRemote">
+                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedOrganizationCorrelationServiceImpl" />
+                	</property>
+                	<property name="healthCareProviderCorrelationServiceRemote">
+                		<bean class="com.semanticbits.coppasimulator.service.HealthCareProviderCorrelationServiceImpl" />
                 	</property>
                 	<property name="personEntityServiceRemote">
                 		<bean class="com.semanticbits.coppasimulator.service.PersonEntityServiceImpl" />

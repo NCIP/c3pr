@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Randomization;
@@ -697,7 +698,7 @@ public class StudyDaoTest extends DaoTestCase {
             HealthcareSite hcsiteloaded = healthcareSitedao.getById(healthcaresite.getId());
 
             // Investigators
-            Investigator inv = new Investigator();
+            Investigator inv = new LocalInvestigator();
             inv.setFirstName("Investigator first name");
             investigatorDao.save(inv);
             Investigator invloaded = investigatorDao.getById(inv.getId());
@@ -885,7 +886,7 @@ public class StudyDaoTest extends DaoTestCase {
             disCatSaved.setName("AIDS-related Human Papillomavirus");
             diseaseCategoryDao.save(disCatSaved);
             // Investigators
-            Investigator invSave = new Investigator();
+            Investigator invSave = new LocalInvestigator();
             invSave.setFirstName("Investigator first name");
             investigatorDao.save(invSave);
 

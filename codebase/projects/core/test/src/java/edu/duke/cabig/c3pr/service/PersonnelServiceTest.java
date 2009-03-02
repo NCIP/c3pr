@@ -7,6 +7,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
 
@@ -26,7 +27,7 @@ public class PersonnelServiceTest extends DaoTestCase {
                         // Templates.
         service = (PersonnelService) getApplicationContext().getBean("personnelService");
 
-        inv = new Investigator();
+        inv = new LocalInvestigator();
         inv.setFirstName("Dummy");
         inv.setLastName("User");
 

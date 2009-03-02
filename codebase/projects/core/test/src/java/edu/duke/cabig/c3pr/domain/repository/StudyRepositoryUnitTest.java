@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -451,7 +452,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public Investigator buildInvestigator() {
-        Investigator investigator = new Investigator();
+        Investigator investigator = new LocalInvestigator();
         investigator.setFirstName("Frank");
         investigator.setLastName("Hardy");
         investigator.setNciIdentifier("inv-001");
@@ -475,7 +476,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         DiseaseCategory disCatSaved = new DiseaseCategory();
         disCatSaved.setName("AIDS-related Human Papillomavirus");
         // Investigators
-        Investigator invSave = new Investigator();
+        Investigator invSave = new LocalInvestigator();
         invSave.setFirstName("Investigator first name");
 
         // healthcare site

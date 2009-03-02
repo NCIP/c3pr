@@ -9,6 +9,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
@@ -106,13 +107,13 @@ public class HealthcareSiteInvestigatorDaoTest extends
     public void testFailureAddDuplicateInvestigatorToOrganization() throws Exception {
 
         HealthcareSite loadedHealthcareSite = healthcareSiteDao.getById(1000);
-        Investigator inv1 = new Investigator();
+        Investigator inv1 = new LocalInvestigator();
         inv1.setFirstName("Brad");
         inv1.setLastName("Johnson");
         inv1.setMaidenName("Bradster");
         inv1.setNciIdentifier("NCI-123");
 
-        Investigator inv2 = new Investigator();
+        Investigator inv2 = new LocalInvestigator();
         inv2.setFirstName("Brad");
         inv2.setLastName("Johnson");
         inv2.setMaidenName("Bradster");
