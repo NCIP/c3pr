@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -63,7 +64,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
                             .getParameter("id")));
             int cmSize = inv.getContactMechanisms().size();
             if (cmSize == 0) {
-                inv = createInvestigatorWithContacts(inv);
+                addContacts(inv);
             }
             if (cmSize == 1) {
                 ContactMechanism contactMechanismPhone = new ContactMechanism();
@@ -151,15 +152,14 @@ public class CreateInvestigatorController<C extends Investigator> extends
 
     private Investigator createInvestigatorWithDesign() {
 
-        Investigator investigator = new Investigator();
+        LocalInvestigator investigator = new LocalInvestigator();
         HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
         investigator.addHealthcareSiteInvestigator(healthcareSiteInvestigator);
-        investigator = createInvestigatorWithContacts(investigator);
-
+        addContacts(investigator);
         return investigator;
     }
 
-    private Investigator createInvestigatorWithContacts(Investigator inv) {
+    private void addContacts(Investigator inv) {
 
         ContactMechanism contactMechanismEmail = new ContactMechanism();
         ContactMechanism contactMechanismPhone = new ContactMechanism();
@@ -170,7 +170,6 @@ public class CreateInvestigatorController<C extends Investigator> extends
         inv.addContactMechanism(contactMechanismEmail);
         inv.addContactMechanism(contactMechanismPhone);
         inv.addContactMechanism(contactMechanismFax);
-        return inv;
     }
 
     public PersonnelService getPersonnelService() {

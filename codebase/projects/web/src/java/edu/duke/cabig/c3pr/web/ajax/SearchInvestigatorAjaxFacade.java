@@ -19,6 +19,7 @@ import org.extremecomponents.table.core.TableModelImpl;
 
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 
 public class SearchInvestigatorAjaxFacade {
     private static Log log = LogFactory.getLog(SearchInvestigatorAjaxFacade.class);
@@ -61,7 +62,7 @@ public class SearchInvestigatorAjaxFacade {
     public String getTable(Map<String, List> parameterMap, String[] params,
                     HttpServletRequest request) {
 
-        Investigator inv = new Investigator();
+        Investigator inv = new LocalInvestigator();
         if (!StringUtils.isEmpty(params[0])) {
             inv.setFirstName(params[0]);
         }
