@@ -67,7 +67,7 @@ public class PersonnelServiceImpl implements PersonnelService {
     }
 
     public void merge(ResearchStaff staff) throws C3PRBaseException {
-        researchStaffDao.merge(staff);
+        researchStaffDao.mergeResearchStaffAndCsmData(staff);
     }
 
     public User getCSMUserByUsername(String userName) {
