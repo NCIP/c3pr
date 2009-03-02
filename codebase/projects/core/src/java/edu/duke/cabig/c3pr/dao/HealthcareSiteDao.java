@@ -240,7 +240,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 		try {
 			for (HealthcareSite remoteHealthcareSite : remoteHealthcareSiteList) {
 				RemoteHealthcareSite remoteHealthcareSiteTemp = (RemoteHealthcareSite)remoteHealthcareSite;
-				HealthcareSite healthcareSiteFromDatabase = getByUniqueIdentifier(remoteHealthcareSite
+				HealthcareSite healthcareSiteFromDatabase = getByUniqueIdentifier(remoteHealthcareSiteTemp
 						.getNciInstituteCode());
 				if (healthcareSiteFromDatabase != null) {
 					// this guy exists....copy latest remote data into the existing
@@ -349,6 +349,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @throws C3PRBaseException 
 	 * @throws C3PRBaseRuntimeException 
      */
+	
     public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard){
     	
     	List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
@@ -377,17 +378,15 @@ public class HealthcareSiteDao extends OrganizationDao {
     }
 
 	
-	
 	public List<HealthcareSite> mergeRemoteWithLocalLists(List<HealthcareSite> remoteHealthcareSiteList,List<HealthcareSite> localHealthcareSiteList){
 		List<HealthcareSite> mergedHealthcareSiteList = new ArrayList<HealthcareSite>();
-		Set<HealthcareSite> uniqueHealthcareSitesList = new TreeSet<HealthcareSite>();
+		Set<HealthcareSite> uniqueHealthcareSitesList = new HashSet<HealthcareSite>();
 		uniqueHealthcareSitesList.addAll(remoteHealthcareSiteList);
 		uniqueHealthcareSitesList.addAll(localHealthcareSiteList);
 		mergedHealthcareSiteList.addAll(uniqueHealthcareSitesList);
 		
 		return mergedHealthcareSiteList;
 	}
-	
 	
 	public void copyRemotePropertiesFromSourceToTarget(HealthcareSite targetHealthcareSite,HealthcareSite sourceHealthcareSite){
 		List<String> remoteProperties = new ArrayList<String>();
