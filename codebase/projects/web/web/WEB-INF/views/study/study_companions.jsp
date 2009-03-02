@@ -58,7 +58,8 @@ var contentWin;
 		    var arr=$$("#companionTable-"+statusIndex+" #dummy-row-createStudy");
 			if(arr.length==1){
 				contentWin = new Window({className :"mac_os_x", closable: false, title: "Create Companion Study", top:35, left:35, width:1000, height:400, zIndex:100, hideEffect:Element.hide, showEffect:Element.show, destroyOnClose: true}) 
-				contentWin.setContent(arr[0]) 
+				contentWin.setContent(arr[0])
+				
 				contentWin.showCenter(); 
 				myObserver = {
 			    	onDestroy: function(eventName, win) {
@@ -72,6 +73,15 @@ var contentWin;
 				  Windows.addObserver(myObserver);
 			}
 			currentRow = object.localIndex;
+			inputDateElementLocal="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion";
+			inputDateElementLink="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion-calbutton";
+			Calendar.setup(
+			  {
+			      inputField  : inputDateElementLocal,         // ID of the input field
+			      ifFormat    : "%m/%d/%Y",    // the date format
+			      button      : inputDateElementLink       // ID of the button
+			  }
+			);
 	        clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
 			clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
 			AutocompleterManager.registerAutoCompleter(clonedRowInserter);

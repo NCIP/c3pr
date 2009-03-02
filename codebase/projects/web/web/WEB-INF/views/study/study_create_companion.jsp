@@ -46,17 +46,7 @@
         	 rType.className="validate-notEmpty";
          }
      }
-/*
-     inputDateElementLocal="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion";
-     inputDateElementLink="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion-calbutton";
-     Calendar.setup(
-       {
-           inputField  : inputDateElementLocal,         // ID of the input field
-           ifFormat    : "%m/%d/%Y",    // the date format
-           button      : inputDateElementLink       // ID of the button
-       }
-    );
- */	
+
 </script>
 <chrome:box title="${tab.shortTitle}">
 	<c:set var="statusIndex" value="PAGE.ROW.INDEX"></c:set>
@@ -157,9 +147,9 @@
 	        <div class="row">
              	<div class="label"><tags:requiredIndicator /><fmt:message key="study.consentVersionDate"/></div>
              	<div class="value">
-             		<input name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion" class="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
+             		<input type="text" id="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion" class="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
              		<a href="#" id="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion-calbutton">
-                    	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
+                    	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
                 	</a>
              		<tags:hoverHint keyProp="study.consentVersion"/>
              	</div>
@@ -274,7 +264,6 @@
      		</div>
    		</div>
 	</chrome:division>
-	
 	<div class="content buttons autoclear">
 		<div class="flow-buttons">
 			<span class="next"> 
