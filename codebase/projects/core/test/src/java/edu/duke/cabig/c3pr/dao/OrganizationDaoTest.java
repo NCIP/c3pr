@@ -85,8 +85,8 @@ public class OrganizationDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testGetByNciIdentifier() throws Exception {
-        List<HealthcareSite> orgList = healthcareSiteDao.getByNciIdentifier("du code");
-        assertEquals("Duke Comprehensive Cancer Center", orgList.get(0).getName());
+        HealthcareSite hcs = healthcareSiteDao.getByNciInstituteCode("du code");
+        assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
     }
     
     
@@ -423,7 +423,7 @@ public class OrganizationDaoTest extends DaoTestCase {
 	
 	public void testGetRemoteEntityByUniqueId() {
 		Organization organization = (RemoteHealthcareSite) remoteHealthcareSiteResolver.getRemoteEntityByUniqueId("CP-RM-TST-ID");
-		assertEquals(organization.getName(),"Some Remote Organization");
+		assertEquals(organization.getName(),"Nairobi Hospital");
 		organization = (Organization) remoteHealthcareSiteResolver.getRemoteEntityByUniqueId("CP-RM-TST-ID2");
 		assertEquals(organization.getName().trim(),"Montreal Childrens Hospital Remote 2".trim());
 		organization = (Organization) remoteHealthcareSiteResolver.getRemoteEntityByUniqueId("CP-RM-TST-ID3");
