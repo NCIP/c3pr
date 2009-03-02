@@ -295,7 +295,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			studySubject.prepareForEnrollment();
 		}
 		
-		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED && studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
 			studySubject.addIdentifier(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject));
 		}
 		
