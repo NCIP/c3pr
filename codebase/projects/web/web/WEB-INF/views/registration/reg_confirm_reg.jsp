@@ -24,9 +24,6 @@ function createReg(studySite, participant, parentRegistrationId){
 	$('create').submit();
 }
 
-function manageCompanions(){
-	$('manageCompanion').submit();
-}
 </script>
 <style>
 	#main {
