@@ -66,9 +66,23 @@
         <div class="label">
             <fmt:message key="c3pr.common.description"/>
         </div>
-        <div class="value">
-            <form:textarea rows="3" cols="35" path="descriptionText"/>
-        </div>
+		<c:choose>
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+						<c:choose>
+							<c:when test="${!empty command.descriptionText}">
+								<div class="value">${command.descriptionText}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:otherwise>
+						<div class="value">
+							 <form:textarea rows="3" cols="35" path="descriptionText"/>
+						  </div>
+					</c:otherwise>
+		</c:choose>
     </div>
 
     <div class="row">
@@ -77,7 +91,7 @@
         </div>
         <div class="value">
 	        <c:if test="${FLOW == 'EDIT_FLOW'}">
-	            <form:input path="nciInstituteCode" size="20" cssClass="validate-notEmpty" disabled="true"/>
+				${command.nciInstituteCode}
 	            <tags:hoverHint keyProp="organization.nciInstituteCode"/>
 	        </c:if>
 	        <c:if test="${FLOW == 'SAVE_FLOW'}">
@@ -147,7 +161,14 @@
                 <fmt:message key="c3pr.common.streetAddress"/></div>
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-						<div class="value">${command.address.streetAddress}</div>
+						<c:choose>
+							<c:when test="${!empty command.address.streetAddress}">
+								<div class="value">${command.address.streetAddress}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
@@ -161,7 +182,14 @@
                 <fmt:message key="c3pr.common.city"/></div>
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-						<div class="value">${command.address.city}</div>
+						<c:choose>
+							<c:when test="${!empty command.address.city}">
+								<div class="value">${command.address.city}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
@@ -175,7 +203,14 @@
                 <fmt:message key="c3pr.common.state"/></div>
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-						<div class="value">${command.address.stateCode}</div>
+						<c:choose>
+							<c:when test="${!empty command.address.stateCode}">
+								<div class="value">${command.address.stateCode}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
@@ -190,7 +225,14 @@
                 <fmt:message key="c3pr.common.zip"/></div>
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-						<div class="value">${command.address.postalCode}</div>
+						<c:choose>
+							<c:when test="${!empty command.address.postalCode}">
+								<div class="value">${command.address.postalCode}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
@@ -205,7 +247,14 @@
                 <fmt:message key="c3pr.common.country"/></div>
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-						<div class="value">${command.address.countryCode}</div>
+						<c:choose>
+							<c:when test="${!empty command.address.countryCode}">
+								<div class="value">${command.address.countryCode}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
