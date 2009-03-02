@@ -13,6 +13,4 @@ class ConsentVersionMigration extends edu.northwestern.bioinformatics.bering.Mig
     	if (databaseMatches('oracle')) {
 	   		execute("rename SEQ_CONSENT_HISTORY_ID to CONSENT_HISTORY_ID_SEQ")
 	    }
-    }
-    }
-}
+	}
