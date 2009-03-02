@@ -275,6 +275,6 @@ C3PR.handleAjaxError= function(xmlResponse){
 //	BrowserDetect.browser=='Explorer'?$$('.required-indicator').each(function(element){element.update("<span style='color:#900;'>*</span> "+element.innerHTML)}):null;
 //})
 function launchPrint(){
-			var windowRef = window.open('/c3pr/print_view.jsp', 'Print Window', 'scrollbars=yes,menubar=yes,width=730,height=600,toolbar=no');
+			var windowRef = window.open('/c3pr/print_view.jsp', 'Print', 'scrollbars=yes,menubar=yes,width=730,height=600,toolbar=no');
 			windowRef.focus();
 		}
