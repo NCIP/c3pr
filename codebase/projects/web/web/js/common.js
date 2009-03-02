@@ -276,5 +276,5 @@ C3PR.handleAjaxError= function(xmlResponse){
 //})
 function launchPrint(){
 			var windowRef = window.open("/c3pr/print_view.jsp", "Print Window", "scrollbars=yes,menubar=yes,width=730,height=600,toolbar=no");
-			windowRef.focus()
+			windowRef.focus();
 		}
