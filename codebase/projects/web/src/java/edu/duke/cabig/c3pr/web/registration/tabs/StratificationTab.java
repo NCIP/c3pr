@@ -83,14 +83,17 @@ public class StratificationTab extends RegistrationTab<StudySubjectWrapper> {
 			StudySubjectWrapper command, Errors errors) {
 		super.postProcess(request, command, errors);
 		StudySubject studySubject = ((StudySubjectWrapper) command).getStudySubject();
+		for (SubjectStratificationAnswer ssa : studySubject.getScheduledEpoch().getSubjectStratificationAnswers()) {
+            if (ssa.getStratificationCriterionAnswer() == null) {
+                //this line added make sure if no stratum group is slected , it will allow user to go forward. 
+            	return;
+            }
+        }
 		if(!errors.hasErrors()){
 			if(studySubject.getScheduledEpoch().getEpoch().getStratificationIndicator()){
 				try {
-					if(studySubject.getScheduledEpoch().getStratumGroup() != null){
 						studySubject.getScheduledEpoch().setStratumGroupNumber(studySubject.getScheduledEpoch().getStratumGroup().getStratumGroupNumber());
-					}
 				} catch (C3PRBaseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
