@@ -90,7 +90,8 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			IdentifiedOrganizationDTO idOrgDto = new IdentifiedOrganizationDTO();
 			Ii ii = new Ii();
 			ii.setExtension(ctepOrgId);
-			ii.setRoot(IiConverter.CTEP_ORG_IDENTIFIER_ROOT);
+		//	ii.setRoot(IiConverter.CTEP_ORG_IDENTIFIER_ROOT);
+			ii.setRoot(IiConverter.CLINICAL_RESEARCH_STAFF_ROOT);
 			idOrgDto.setAssignedId(ii);
 			// get List of Organizations , in this case it should be only one ...
 			List <IdentifiedOrganizationDTO> idOrgDtos = identifiedOrganizationCorrelationServiceRemote.search(idOrgDto);
