@@ -26,10 +26,10 @@ function transfer(){
 
 function registerSubject(transferEpochId, transferToStatus, parentStudySubject){
 	closePopup();
-	if(transferToStatus == 'flow' && parentStudySubject == ''){
+	if(transferToStatus == 'flow' && parentStudySubject == null){
 		$("edit_epoch").value=transferEpochId;
 		$("transferEpoch").submit();
-	}else if(transferToStatus == 'flow' && parentStudySubject != ''){
+	}else if(transferToStatus == 'flow' && parentStudySubject != null){
 		$("edit_epoch").value=transferEpochId;
 		$("transferCompanionEpoch").submit();
 	}else{

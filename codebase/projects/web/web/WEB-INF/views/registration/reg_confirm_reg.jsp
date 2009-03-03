@@ -43,7 +43,7 @@ function createReg(studySite, participant, parentRegistrationId){
 				</c:otherwise>
 	</c:choose>
 	<tags:controlPanel>
-	  <c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' && empty command.studySubject.parentStudySubject}">
+	  <c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' ">
 			<form id="manage" name="manage" action="../registration/manageRegistration" method="get" style="display:inline;">
 				<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
 				<c:if test="${command.studySubject.regWorkflowStatus != 'PENDING'}">
