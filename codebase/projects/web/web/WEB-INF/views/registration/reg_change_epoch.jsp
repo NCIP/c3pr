@@ -30,7 +30,7 @@ function registerSubject(transferEpochId, transferToStatus, parentStudySubject){
 		$("edit_epoch").value=transferEpochId;
 		$("transferEpoch").submit();
 	}else if(transferToStatus == 'flow' && parentStudySubject != null){
-		$("edit_epoch").value=transferEpochId;
+		$("edit_epoch_companion").value=transferEpochId;
 		$("transferCompanionEpoch").submit();
 	}else{
 		$("m_manage_epoch").value=transferEpochId;
@@ -61,7 +61,7 @@ input[disabled] {
 <form action="../registration/transferEpochCompanionRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="transferCompanionEpoch">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
-	<input type="hidden" name="epoch" id="edit_epoch"/>
+	<input type="hidden" name="epoch" id="edit_epoch_companion"/>
 </form>
 <chrome:box title="Change Epoch">
 <c:choose>
