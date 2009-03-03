@@ -86,14 +86,15 @@
 						<td class="alt">${empty companion.companionRegistrationUrl ?"Not Started": (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</td>
 						<td class="alt">
 						<c:if test="${companion.registrationStatus != 'Enrolled'}">
+							
 							<c:choose>
 								<c:when test="${not empty companion.companionRegistrationUrl}">
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"
 										hasPrivileges="UPDATE"
 										authorizationCheckName="domainObjectAuthorizationCheck">
-										<tags:button type="button" size="small" color="green" value="Edit" onclick="editCompanionRegistration('${companion.companionRegistrationUrl}');" />
+										<tags:button type="button" size="small" color="blue" value="Edit" onclick="editCompanionRegistration('${companion.companionRegistrationUrl}');" />
 										<c:if test="${!companion.mandatoryIndicator}">
-											<tags:button type="button" size="small" color="red" value="Remove" onclick="removeChildStudySubject('${companion.registrationId}');" />
+											<tags:button type="button" size="small" color="red" icon="x" value="Remove" onclick="removeChildStudySubject('${companion.registrationId}');" />
 										</c:if>
 									</csmauthz:accesscontrol>
 								</c:when>
@@ -101,10 +102,11 @@
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"
 										hasPrivileges="UPDATE"
 										authorizationCheckName="domainObjectAuthorizationCheck">
-										<tags:button type="button" id="registerCompanionStudy" size="small" color="green" value="Register" onclick="openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}');" />
+										<tags:button type="button" id="registerCompanionStudy" size="small" color="blue" value="Register" onclick="openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}');" />
 									</csmauthz:accesscontrol>
 								</c:otherwise>
 							</c:choose>
+							
 							<img id="searchCompanionInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">  
 						</c:if>
 						</td>

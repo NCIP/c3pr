@@ -17,28 +17,16 @@
 	margin-left:8.3em;
 }
 </style>
-<table width="100%" border="0" cellspacing="0" cellpadding="3" class="body">
-    <tr>
         <c:choose>
             <c:when test="${tab.showSummary=='false' }">
-                <td valign="top">
                     <jsp:doBody/>
-                </td>
             </c:when>
             <c:otherwise>
-                <tr>
-                    <td>
                         <div id="registrationSummary">
                             <registrationTags:registrationSummary/>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
+
                         <jsp:doBody/>
-                    </td>
-                </tr>
+
             </c:otherwise>
         </c:choose>
-    </tr>
-</table>

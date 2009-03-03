@@ -55,6 +55,5 @@
 <form:form id="accrualForm">
 	<tags:tabFields tab="${tab}"/>
 </form:form>
-<br>
 
 
