@@ -33,7 +33,6 @@ function registerSubject(transferEpochId, transferToStatus, parentStudySubject){
 		$("edit_epoch").value=transferEpochId;
 		$("transferCompanionEpoch").submit();
 	}else{
-		$("regWorkflowStatus").value=transferToStatus;
 		$("m_manage_epoch").value=transferEpochId;
 		$("manageTransferEpoch").submit();
 	}
@@ -53,7 +52,6 @@ input[disabled] {
 	<input type="hidden" name="_finish" id="_finish"/>
 	<input type="hidden" name="_target0" id="_target0" value="0"/>
 	<input type="hidden" name="epoch" id="m_manage_epoch"/>
-	<input type="hidden" name="studySubject.regWorkflowStatus" id="regWorkflowStatus"/>
 </form>
 <form action="../registration/transferEpochRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="transferEpoch">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
