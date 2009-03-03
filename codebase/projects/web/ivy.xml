@@ -60,6 +60,9 @@
 			<dependency org="net.sourceforge.collections" name="collections-generic" rev="4.01" />
 			<dependency org="edu.northwestern.bioinformatics" name="core-commons" rev="77" />
 			
+			 <dependency org="org.openqa.selenium.client-drivers" name="selenium-java-client-driver" conf="test->default"
+                    rev="0.9.2"/>
+			
 			<dependency org="org.acegisecurity" name="acegi-security" rev="1.0.3" />
         	<dependency org="castor" name="castor" rev="0.9.9"/>
         	<dependency org="jdom" name="jdom" rev="1.0" />
