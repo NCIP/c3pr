@@ -27,6 +27,20 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 </script>
 </head>
 <body>
+	<c:forEach items="${flow.tabs}" var="tabLink" varStatus="status">
+		<c:if test="${tabLink.shortTitle == 'Enrollment Details'}">
+			<c:set var="enrollmentTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Eligibility'}">
+			<c:set var="eligibilityTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Stratification'}">
+			<c:set var="stratificationTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Companion Registrations'}">
+			<c:set var="companionTab" value="${status.index}"/>
+		</c:if>
+	</c:forEach>
 	<tags:instructions code="reg_submit" />
 	<c:if test="${requiresRandomization && command.studySubject.dataEntryStatusString == 'Complete' && command.studySubject.parentStudySubject == null}">
 	<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
@@ -163,7 +177,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</div>
 		</div>
 	</chrome:division>
-	<chrome:division id="enrollment" title="Enrollment Details" link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit();">
+	<chrome:division id="enrollment" title="Enrollment Details"  link="javascript:document.getElementById('flowredirect-target').name='_target${enrollmentTab}';document.getElementById('flowredirect').submit();">
 			<div class="leftpanel">
 				<div class="row">
 					<div class="label"><fmt:message key="registration.startDate"/>:</div>
@@ -225,7 +239,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 			</div>
 	</chrome:division>
-	<chrome:division id="Eligibility" title="Eligibility" link="javascript:document.getElementById('flowredirect-target').name='_target2';document.getElementById('flowredirect').submit();">
+	<chrome:division id="Eligibility" title="Eligibility" link="javascript:document.getElementById('flowredirect-target').name='_target${eligibilityTab}';document.getElementById('flowredirect').submit();">
 		<div class="leftpanel">
 		<div class="row">
 			<div class="label"><fmt:message key="registration.eligible"/>:</div>
@@ -241,7 +255,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</div>
 		</div>
 	</chrome:division>
-	<chrome:division id="stratification" title="Stratification" link="javascript:document.getElementById('flowredirect-target').name='_target3';document.getElementById('flowredirect').submit();">
+	<chrome:division id="stratification" title="Stratification" link="javascript:document.getElementById('flowredirect-target').name='_target${stratificationTab}';document.getElementById('flowredirect').submit();">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
 			<div align="left"><span><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
@@ -273,7 +287,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:choose>
 	</chrome:division>
 	<div id="companionAssociationsDiv" <c:if test="${fn:length(companions) == 0 || !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator || not empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
-	<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:document.getElementById('flowredirect-target').name='_target5';document.getElementById('flowredirect').submit();">
+	<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:document.getElementById('flowredirect-target').name='_target${companionTab}';document.getElementById('flowredirect').submit();">
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  >
 				<tr>
 					<th width="40%" scope="col" align="left"><b><fmt:message key="c3pr.common.study"/></b></th>
