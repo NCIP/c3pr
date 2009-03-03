@@ -24,6 +24,13 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	}
 	return continueSubmission;
 }
+
+function redirectToTab(tabNumber){
+	if(tabNumber != ''){
+		document.getElementById('flowredirect-target').name='_target'+tabNumber;
+		document.getElementById('flowredirect').submit()
+	}
+}
 </script>
 </head>
 <body>
@@ -177,7 +184,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</div>
 		</div>
 	</chrome:division>
-	<chrome:division id="enrollment" title="Enrollment Details"  link="javascript:document.getElementById('flowredirect-target').name='_target${enrollmentTab}';document.getElementById('flowredirect').submit();">
+	<chrome:division id="enrollment" title="Enrollment Details"  link="javascript:himanshu('${enrollmentTab}');">
 			<div class="leftpanel">
 				<div class="row">
 					<div class="label"><fmt:message key="registration.startDate"/>:</div>
@@ -239,7 +246,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				</div>
 			</div>
 	</chrome:division>
-	<chrome:division id="Eligibility" title="Eligibility" link="javascript:document.getElementById('flowredirect-target').name='_target${eligibilityTab}';document.getElementById('flowredirect').submit();">
+	<chrome:division id="Eligibility" title="Eligibility" link="javascript:redirectToTab('${eligibilityTab}');">
 		<div class="leftpanel">
 		<div class="row">
 			<div class="label"><fmt:message key="registration.eligible"/>:</div>
@@ -255,7 +262,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			</div>
 		</div>
 	</chrome:division>
-	<chrome:division id="stratification" title="Stratification" link="javascript:document.getElementById('flowredirect-target').name='_target${stratificationTab}';document.getElementById('flowredirect').submit();">
+	<chrome:division id="stratification" title="Stratification" link="javascript:redirectToTab('${stratificationTab}')">
 		<c:choose>
 		<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
 			<div align="left"><span><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
@@ -287,7 +294,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:choose>
 	</chrome:division>
 	<div id="companionAssociationsDiv" <c:if test="${fn:length(companions) == 0 || !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator || not empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
-	<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:document.getElementById('flowredirect-target').name='_target${companionTab}';document.getElementById('flowredirect').submit();">
+	<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:redirectToTab('${companionTab}')">
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  >
 				<tr>
 					<th width="40%" scope="col" align="left"><b><fmt:message key="c3pr.common.study"/></b></th>
