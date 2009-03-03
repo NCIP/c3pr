@@ -333,7 +333,7 @@ function redirectToTab(tabNumber){
 	</div>
 	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${(not empty command.studySubject.parentStudySubject && command.studySubject.parentStudySubject.regWorkflowStatus != 'ENROLLED')?'Save & Done': (empty actionLabel? '' : actionLabel)}"  isSummaryPage="true">
 		<input type="hidden" name="_finish" value="true"/>
-		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete' && command.studySubject.parentStudySubject == null}">
+		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkFlowStatus=='ENROLLED')}">
 			<a name="randomize"></a>
 			<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
 		</c:if> 
