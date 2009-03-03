@@ -184,7 +184,7 @@ function redirectToTab(tabNumber){
 			</div>
 		</div>
 	</chrome:division>
-	<chrome:division id="enrollment" title="Enrollment Details"  link="javascript:himanshu('${enrollmentTab}');">
+	<chrome:division id="enrollment" title="Enrollment Details"  link="javascript:redirectToTab('${enrollmentTab}');">
 			<div class="leftpanel">
 				<div class="row">
 					<div class="label"><fmt:message key="registration.startDate"/>:</div>
