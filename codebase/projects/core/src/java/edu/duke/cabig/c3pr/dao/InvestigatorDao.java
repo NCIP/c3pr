@@ -101,6 +101,15 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     }
 
     /*
+     * Gets from the database only.
+     */
+    public List<Investigator> getInvestigatorsFromDatabaseByEmailAddress(String emailAddress) {
+    	//Now that the remote inv's are in the db. Search the db.
+        return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
+    }
+    
+    
+    /* Gets from COPPA and the database
      * Created for the notifications use case.
      */
     public List<Investigator> getByEmailAddress(String emailAddress) {
@@ -117,6 +126,19 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
         return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
     }
     
+    /**Only looks in the database
+     * @param nciIdentifier
+     * @return
+     */
+    public List<Investigator> getInvestigatorsFromDatabaseByNciIdentifier(String nciIdentifier) {
+        return ((List<Investigator>) getHibernateTemplate().find(
+                        "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
+    }
+    
+    /**Looks in Coppa and then the database
+     * @param nciIdentifier
+     * @return
+     */
     public List<Investigator> getInvestigatorsByNciIdentifier(String nciIdentifier) {
     	//First fetch the remote Inv's
     	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
@@ -223,7 +245,6 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
         return null;
     }
     
-    @Transactional(readOnly = false)
     public Investigator merge(Investigator investigator) {
         Investigator mergedInvestigator = (Investigator) getHibernateTemplate().merge(investigator);
         getHibernateTemplate().flush();
@@ -233,7 +254,6 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     /*
 	 * Saves a domain object
 	 */
-	@Transactional(readOnly = false)
 	public void save(Investigator investigator) {
 		getHibernateTemplate().saveOrUpdate(investigator);
 		getHibernateTemplate().flush();

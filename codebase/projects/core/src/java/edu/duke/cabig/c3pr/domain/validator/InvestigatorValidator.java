@@ -25,7 +25,7 @@ public class InvestigatorValidator implements Validator {
     	Investigator inv = (Investigator)target;
     	
     	List<Investigator> investigatorsbyNCICode = new ArrayList<Investigator>();
-    	investigatorsbyNCICode =  investigatorDao.getInvestigatorsByNciIdentifier(inv.getNciIdentifier());
+    	investigatorsbyNCICode =  investigatorDao.getInvestigatorsFromDatabaseByNciIdentifier(inv.getNciIdentifier());
     	if (investigatorsbyNCICode.size()>1){
     		errors.reject("tempProperty",
                             "Investigator with this NCI Identifier already exists");
@@ -41,7 +41,7 @@ public class InvestigatorValidator implements Validator {
     		}
     	
     	List<Investigator> investigatorsbyEmail = new ArrayList<Investigator>();
-    	investigatorsbyEmail =  investigatorDao.getByEmailAddress(inv.getContactMechanisms().get(0).getValue());
+    	investigatorsbyEmail =  investigatorDao.getInvestigatorsFromDatabaseByEmailAddress(inv.getContactMechanisms().get(0).getValue());
     	if (investigatorsbyEmail.size()>1){
     		errors.reject("tempProperty",
                             "Investigator with this Email already exists");
