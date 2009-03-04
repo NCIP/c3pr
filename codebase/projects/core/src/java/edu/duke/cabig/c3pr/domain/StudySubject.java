@@ -590,6 +590,9 @@ public class StudySubject extends
 				.equals("")) {
 			errors.add(new Error("Informed consent version is missing"));
 		}
+//		if (this.treatingPhysician==null && StringUtils.getBlankIfNull(this.otherTreatingPhysician).equals("")){
+//			errors.add(new Error("Enrolling phyisican is missing"));
+//		}
 		for(StudySubject childStudySubject : this.getChildStudySubjects()){
 			childStudySubject.evaluateRegistrationDataEntryStatus(errors);
 		}
