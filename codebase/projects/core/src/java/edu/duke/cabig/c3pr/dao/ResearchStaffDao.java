@@ -311,12 +311,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     			retrievedRemoteResearchStaff.setHealthcareSite(remoteResearchStaff.getHealthcareSite());
     		} else if(retrievedRemoteResearchStaff.getHealthcareSite() != null){
     			//get the corresponding hcs from the dto object and save that organization and then save this staff
-    			HealthcareSite matchingHealthcareSite = healthcareSiteDao.getByNciInstituteCode(retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
-    			if(matchingHealthcareSite == null){
+    			HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByNciInstituteCode(retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
+    			if(matchingHealthcareSiteFromDb == null){
     				log.error("No corresponding org exists for the nci Code:" +retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
     			} else{
     				//we have the retrieved staff's Org in our db...link up with the same and persist
-    				retrievedRemoteResearchStaff.setHealthcareSite(matchingHealthcareSite);
+    				retrievedRemoteResearchStaff.setHealthcareSite(matchingHealthcareSiteFromDb);
     			}
     		} else{
     			//if the resolver hasnt set the hcs and if it hasn't been passed in then.. I'm lost!
@@ -421,7 +421,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		    }
 		
 		    log.debug("Saving c3pr user");
-		    this.save(c3prUser);
+		    if(c3prUser.getId()!=null){
+		    	this.merge(c3prUser);
+		    }else{
+		    	this.save(c3prUser);
+		    }
 		    c3prUser.setLoginId(csmUser.getUserId().toString());
 		
 		    assignUsersToGroup(csmUser, c3prUser.getGroups());
