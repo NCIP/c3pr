@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.utils.web.validators;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -28,24 +31,33 @@ public class UsernameDuplicateValidator implements Validator {
     public void validate(Object object, Errors errors) {
         ResearchStaff user = (ResearchStaff) object;
 
-        // only do it for new users
-        if (user.getLoginId() == null) {
-        	if(object instanceof RemoteResearchStaff){
+        // do it for old and new users. The search should be against remote research staff too
+        	if(object instanceof RemoteResearchStaff){ } else {
         		
-        	} else {
         		if (dao.getByNciIdentifier(user.getNciIdentifier()) != null) {
-                    errors.reject("duplicate.nci.id.error");
-                }
+					if (user.getId() == null) {
+							errors.reject("duplicate.nci.id.error");
 
-                for (ContactMechanism cm : user.getContactMechanisms()) {
+					} else if (!user.getId().equals(dao.getByNciIdentifier(user.getNciIdentifier()).getId())) {
+						errors.reject("duplicate.nci.id.error");
+					}
+				}
+				for (ContactMechanism cm : user.getContactMechanisms()) {
                     if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-                        if (userProvisioningManager.getUser(cm.getValue()) != null) {
-                            errors.reject("duplicate.username.error");
-                        }
+                    	List<ResearchStaff> researchStaffByEmail = new ArrayList<ResearchStaff>();
+                    	researchStaffByEmail = dao.getByEmailAddress(cm.getValue());
+                    	if (researchStaffByEmail.size()>1){
+                    		errors.reject("duplicate.username.error");
+                    	} else if (researchStaffByEmail.size()>0 && researchStaffByEmail.get(0)!=null){
+                    		if(researchStaffByEmail.get(0).getId()== null){
+                    			errors.reject("duplicate.username.error");
+                    		} else if (!user.getId().equals(researchStaffByEmail.get(0).getId())) {
+        						errors.reject("duplicate.username.error");
+        					}
+                    	}
                     }
                 }
         	}
-        }
 
         if (user.getGroups() != null && user.getGroups().size() < 1) {
             errors.reject("Please select atleast 1 group for user");
