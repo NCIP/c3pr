@@ -60,7 +60,7 @@ var contentWin;
 				contentWin = new Window({className :"mac_os_x", closable: false, title: "Create Companion Study", top:35, left:35, width:1000, height:400, zIndex:100, hideEffect:Element.hide, showEffect:Element.show, destroyOnClose: true, minimizable: false, maximizable : false}) 
 				contentWin.setContent(arr[0])
 				
-				contentWin.showCenter(); 
+				contentWin.showCenter(true); 
 				// initializing calender in popup
 				inputDateElementLocal="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion";
 				inputDateElementLink="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion-calbutton";
