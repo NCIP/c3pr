@@ -88,6 +88,12 @@
 			p.errors {
 				color:#FF9933;
 			}
+			#build-name {
+            color: #2e3257;
+            padding: 0px;
+            margin-left: 17px;
+            bottom: -175px;
+        	}
         </style>
 <SCRIPT language="JavaScript">
     upImage = new Image();
