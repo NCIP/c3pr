@@ -57,10 +57,21 @@ var contentWin;
 			statusIndex = object.localIndex;
 		    var arr=$$("#companionTable-"+statusIndex+" #dummy-row-createStudy");
 			if(arr.length==1){
-				contentWin = new Window({className :"mac_os_x", closable: false, title: "Create Companion Study", top:35, left:35, width:1000, height:400, zIndex:100, hideEffect:Element.hide, showEffect:Element.show, destroyOnClose: true}) 
+				contentWin = new Window({className :"mac_os_x", closable: false, title: "Create Companion Study", top:35, left:35, width:1000, height:400, zIndex:100, hideEffect:Element.hide, showEffect:Element.show, destroyOnClose: true, minimizable: false, maximizable : false}) 
 				contentWin.setContent(arr[0])
 				
 				contentWin.showCenter(); 
+				// initializing calender in popup
+				inputDateElementLocal="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion";
+				inputDateElementLink="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion-calbutton";
+				Calendar.setup(
+				  {
+				      inputField  : inputDateElementLocal,         // ID of the input field
+				      ifFormat    : "%m/%d/%Y",    // the date format
+				      button      : inputDateElementLink       // ID of the button
+				  }
+				);
+				
 				myObserver = {
 			    	onDestroy: function(eventName, win) {
 				      if (win == contentWin) {
@@ -73,15 +84,6 @@ var contentWin;
 				  Windows.addObserver(myObserver);
 			}
 			currentRow = object.localIndex;
-			inputDateElementLocal="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion";
-			inputDateElementLink="study.companionStudyAssociations["+currentRow+"].companionStudy.consentVersion-calbutton";
-			Calendar.setup(
-			  {
-			      inputField  : inputDateElementLocal,         // ID of the input field
-			      ifFormat    : "%m/%d/%Y",    // the date format
-			      button      : inputDateElementLink       // ID of the button
-			  }
-			);
 	        clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
 			clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
 			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
