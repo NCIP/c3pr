@@ -28,39 +28,19 @@ var diseaseSiteAutocompleterProps = {
 	basename: "diseaseSite",
 	isFreeTextAllowed: true,
     populator: function(autocompleter, text) {
-					populator_temp(autocompleter, text)
-			        //anatomicDiseaseSite.matchDiseaseSites(text, function(values) {
-					//											    	autocompleter.setChoices(values)
-					//												   })
+			        anatomicDiseaseSite.matchDiseaseSites(text, function(values) {
+																    	autocompleter.setChoices(values)
+																	   })
 			    },
     valueSelector: function(obj) {
-						//return obj.name
-						return  valueSel_temp(obj);
+						return obj.name
 			    	},
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-    								//hiddenField=diseaseSiteAutocompleterProps.basename+"-hidden"
-	    							//$(hiddenField).value=selectedChoice.id;
-	    							//ajaxDiseaseSite=selectedChoice.name;
-    								afterU_temp(inputElement, selectedElement, selectedChoice)
+    								hiddenField=diseaseSiteAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+	    							ajaxDiseaseSite=selectedChoice.name;
 								}
 }
-
-function populator_temp(acmp, txt){
-	anatomicDiseaseSite.matchDiseaseSites(txt, function(values) {
-		acmp.setChoices(values)
-	   })
-}
-
-function valueSel_temp(objt) {
-	return objt.name
-}
-
-function afterU_temp(inputElement, selectedElement, selectedChoice) {
-	hiddenField=diseaseSiteAutocompleterProps.basename+"-hidden"
-	$(hiddenField).value=selectedChoice.id;
-	ajaxDiseaseSite=selectedChoice.name;
-}
-
 AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 ValidationManager.submitPostProcess=function(formElement, flag){
 							if(formElement.id!='command' || !flag)
@@ -150,7 +130,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 			<form:input path="studySubject.otherTreatingPhysician" cssStyle="${physicianStyle}"/>
 		</c:when>
 		<c:otherwise>
-			No physician found for this Study
+		No active physician found
 		</c:otherwise>
 		</c:choose>
 		<tags:hoverHint keyProp="studySubject.treatingPhysician"/>
