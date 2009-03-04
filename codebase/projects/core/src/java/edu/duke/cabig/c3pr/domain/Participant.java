@@ -224,7 +224,8 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	public OrganizationAssignedIdentifier getMRN() {
 		for (OrganizationAssignedIdentifier orgIdentifier : this
 				.getOrganizationAssignedIdentifiers()) {
-			if (orgIdentifier.getType() != null && orgIdentifier.getType().equalsIgnoreCase("MRN")) return orgIdentifier;
+			// null check on the orgIdentifier is required as sometimes the projected list may contain null objects in the middle of the list.
+			if (orgIdentifier!=null && orgIdentifier.getType() != null && orgIdentifier.getType().equalsIgnoreCase("MRN")) return orgIdentifier;
 		}
 		return null;
 	}
