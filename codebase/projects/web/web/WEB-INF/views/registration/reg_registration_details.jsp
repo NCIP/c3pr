@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <tags:dwrJavascriptLink objects="anatomicDiseaseSite" />
+<c:set var="hasInv" value="${fn:length(command.studySubject.studySite.activeStudyInvestigators)>0}"/>
 <script>
 function manageField(box){
 	if(box.value=='' && box.selectedIndex!=0){
@@ -48,6 +49,11 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 							//if($("treatingPhysician").value!=""){
 							//	$('otherTreatingPhysician').value="";
 							//}
+							if(${hasInv} && $("treatingPhysician").value=="" && $("studySubject.otherTreatingPhysician").value==""){
+								ValidationManager.removeError($("studySubject.otherTreatingPhysician"));
+								ValidationManager.showError($("studySubject.otherTreatingPhysician"),"required");
+								return false;
+							}
 							if($("studyDiseaseSelect").value!=""){
 								$('otherDisease').value="";
 							}
@@ -109,10 +115,10 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
 	</div>
 	<div class="row">
-		<div class="label"><em></em><fmt:message key="registration.enrollingPhysician"/></div>
+		<div class="label"><c:if test="${hasInv}"><tags:requiredIndicator /></c:if><fmt:message key="registration.enrollingPhysician"/></div>
 		<div class="value">
 		<c:choose>
-		<c:when test="${fn:length(command.studySubject.studySite.activeStudyInvestigators)>0}">
+		<c:when test="${hasInv}">
 			<select id ="treatingPhysician" name="studySubject.treatingPhysician">
 				<option value="">Please select...</option>
 				<c:forEach items="${command.studySubject.studySite.activeStudyInvestigators}" var="activeInv">
