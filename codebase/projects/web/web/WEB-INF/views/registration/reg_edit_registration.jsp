@@ -98,7 +98,7 @@ function editRegistration(){
 			<form:input path="studySubject.otherTreatingPhysician" cssStyle="${physicianStyle}"/>
 		</c:when>
 		<c:otherwise>
-		No active physician found
+			No physician found for this Study
 		</c:otherwise>
 		</c:choose>
 		<tags:hoverHint keyProp="studySubject.treatingPhysician"/>
