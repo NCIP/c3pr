@@ -13,7 +13,9 @@ import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import gov.nih.nci.coppa.iso.Enxp;
@@ -64,7 +66,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		remoteInvestigator.setFirstName(firstName);
 		remoteInvestigator.setLastName(lastName);
 		
-		// DO I NEED NCI ID ? 
+		//DO I NEED NCI ID ? 
 		Ii ii = new Ii();
 		ii.setExtension(externalId);
 		try {
@@ -80,13 +82,19 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		remoteInvestigator.addContactMechanism(contactMechanism);
 		
 		remoteInvestigator.setUniqueIdentifier(externalId);
-		//build org
+		
+		//Build HealthcareSite and HealthcareSiteInvestigator
 		HealthcareSite healthcareSite = new RemoteHealthcareSite();
 		healthcareSite.setNciInstituteCode(orgCtepId);
-		// XXXXX TO DO ... SITE INV ...
-		//remoteInvestigator.a.setOrganization(organization)	;
+		
+		HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
+		healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
+		healthcareSiteInvestigator.setInvestigator(remoteInvestigator);
+		
+		remoteInvestigator.getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);
 		return remoteInvestigator;
 	}
+	
 	/**
 	 * Find By Organization
 	 */
@@ -133,7 +141,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		IdentifiedOrganizationDTO idOrgDto = new IdentifiedOrganizationDTO();
 		Ii ii = new Ii();
 		ii.setExtension(ctepOrgId);
-		ii.setRoot(IiConverter.CTEP_ORG_IDENTIFIER_ROOT);
+//		ii.setRoot(IiConverter.CTEP_ORG_IDENTIFIER_ROOT);
 		idOrgDto.setAssignedId(ii);
 		// get List of Organizations , in this case it should be only one ...
 		List <IdentifiedOrganizationDTO> idOrgDtos = identifiedOrganizationCorrelationServiceRemote.search(idOrgDto);

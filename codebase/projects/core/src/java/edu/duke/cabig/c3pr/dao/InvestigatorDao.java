@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
 /**
  * @author Priyatam
@@ -45,7 +46,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * @throws DataAccessException
      */
     public List<Investigator> getAll() throws DataAccessException {
-    	getRemoteInvestigatorFromResolverByExample(new RemoteInvestigator());
+    	getRemoteInvestigatorsAndUpdateDatabase(new RemoteInvestigator());
         return getHibernateTemplate().find("from Investigator");
     }
 
@@ -60,7 +61,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 
     public List<Investigator> searchByExample(Investigator inv, boolean isWildCard) {
         RemoteInvestigator remoteInvestigator = convertToRemoteInvestigatorForCoppaQuery(inv);
-    	getRemoteInvestigatorFromResolverByExample(remoteInvestigator);
+    	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
     	
     	List<Investigator> result = new ArrayList<Investigator>();
 
@@ -110,7 +111,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 		contactMechanism.setValue(emailAddress);
 		remoteInvestigator.addContactMechanism(contactMechanism);
 		
-    	getRemoteInvestigatorFromResolverByExample(remoteInvestigator);
+    	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
     	
     	//Now that the remote inv's are in the db. Search the db.
         return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
@@ -120,7 +121,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	//First fetch the remote Inv's
     	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
     	remoteInvestigator.setNciIdentifier(nciIdentifier);
-    	getRemoteInvestigatorFromResolverByExample(remoteInvestigator);
+    	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
     	
     	//Now that the remote inv's are in the db. Search the db.
         return ((List<Investigator>) getHibernateTemplate().find(
@@ -134,71 +135,110 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * @param nciInstituteCode the nci institute code
      * @return the research staff by organization nci institute code
      */
-    public List<RemoteInvestigator> getRemoteInvestigatorFromResolverByExample(RemoteInvestigator remoteInvestigator){
-    	List<Object> objectList = remoteSession.find(remoteInvestigator);
-    	List<RemoteInvestigator> remoteInvestigatorsList = new ArrayList<RemoteInvestigator>();
-    	
+    private void getRemoteInvestigatorsAndUpdateDatabase(RemoteInvestigator remoteInvestigator){
+    	List<Object> remoteInvestigatorsFromCoppa = remoteSession.find(remoteInvestigator);
     	RemoteInvestigator retrievedRemoteInvestigator;
-    	for(Object object: objectList){
+    	for(Object object: remoteInvestigatorsFromCoppa){
     		retrievedRemoteInvestigator = (RemoteInvestigator)object;
-    		for(HealthcareSiteInvestigator healthcareSiteInvestigator: retrievedRemoteInvestigator.getHealthcareSiteInvestigators()){
-//    			get the corresponding hcs from the dto object and save that organization and then save this staff
-    			HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByNciInstituteCode(healthcareSiteInvestigator.getHealthcareSite().getNciInstituteCode());
-    			if(matchingHealthcareSiteFromDb == null){
-    				log.error("No corresponding org exists for the nci Code:" +healthcareSiteInvestigator.getHealthcareSite().getNciInstituteCode());
-    			} else{
-    				//we have the retrieved staff's Org in our db...link up with the same and persist
-    				healthcareSiteInvestigator.setHealthcareSite(matchingHealthcareSiteFromDb);
-    			}
-    		}
-    		
-    		remoteInvestigatorsList.add(retrievedRemoteInvestigator);
+			
+    		//update the database with the remote content
+        	updateDatabaseWithRemoteContent(retrievedRemoteInvestigator);
     	}
-    	//update the database with the remote content
-    	updateDatabaseWithRemoteContent(remoteInvestigatorsList);
-    	
-    	return remoteInvestigatorsList;
     }
     
     /**
      * Update database with remote content.
+     * Determines if remoteInv exists in our database or not and calls the corresponding method.
      * 
-     * @param remoteResearchStaffList the remote research staff list
+     * @param remoteResearchStaff the remote research staff
      */
-    private void updateDatabaseWithRemoteContent(List<RemoteInvestigator> remoteInvestigatorsList){
-    	try {
-			for (RemoteInvestigator remoteInvestigator: remoteInvestigatorsList) {
-				List<RemoteInvestigator> remoteInvestigatorsFromDatabase = getByUniqueIdentifier(remoteInvestigator.getUniqueIdentifier());
-				if(remoteInvestigatorsFromDatabase.size() > 0){
-					//this guy already exists....update the database with the latest coppa data..which is obtained y simply reloading the object from db
-					//note that the interceptor will get the latest for it
-					merge(remoteInvestigatorsFromDatabase.get(0));
-				} else{
-					save(remoteInvestigatorsFromDatabase.get(0));
-				}
-			}
-			getHibernateTemplate().flush();
-		} catch (DataAccessException e) {
-			log.error(e.getMessage());
+    private void updateDatabaseWithRemoteContent(RemoteInvestigator retrievedRemoteInvestigator){
+    	//See if the retrieved remoteInvs already exist in our database.
+		RemoteInvestigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getUniqueIdentifier());
+		if(matchingRemoteInvestigatorFromDb == null){
+			buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
+		} else {
+			//we have the retrieved staff's Org in our db...link up with the same and persist
+			buildAndUpdateExistingRemoteInvestigator(retrievedRemoteInvestigator, matchingRemoteInvestigatorFromDb);
 		}
 	}
     
-    /**
+
+	/**In this case the remoteInv does not exist in our database. 
+	 * Hence we need to save. Before saving we also handle the related orgs andthe hcs_inv links.
+	 * 
+	 * @param retrievedRemoteInvestigator
+	 */
+	private void buildAndSaveNewRemoteInvestigator(RemoteInvestigator retrievedRemoteInvestigator) {
+		HealthcareSite healthcareSite = null;
+		String nciInstituteCode = "";
+		
+		//for every hcs_inv in the remoteInv.....ensure the corresponding org is in the database and link it to the hcs_inv before saving the remoteInv.
+		for(HealthcareSiteInvestigator healthcareSiteInvestigator: retrievedRemoteInvestigator.getHealthcareSiteInvestigators()){
+			nciInstituteCode = healthcareSiteInvestigator.getHealthcareSite().getNciInstituteCode();
+			healthcareSite = healthcareSiteDao.getByNciInstituteCodeFromDatabaseOnly(nciInstituteCode);
+			//The org related to the remoteInv does not exist...load it from COPPA and save it; then link it to the remoteInv
+			if(healthcareSite == null){
+				healthcareSite = healthcareSiteDao.getByNciInstituteCode(nciInstituteCode);
+				if(healthcareSite != null){
+					healthcareSiteDao.save(healthcareSite);
+				} else {
+					//cannot find this org in COPPA either...abandoning this hcs_inv
+					log.error("Could not find org with nciInstitueCode: " +nciInstituteCode+ "in COPPA.");
+				}
+			}
+			//update the hcs_inv with the org.
+			if(healthcareSite != null){
+				healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
+			}
+		}
+		//Save the investigator
+		this.save(retrievedRemoteInvestigator);
+	}
+	
+    /**In this case the remoteInv does not exist in our database. Hence we need to update.
+     * 
+     * @param retrievedRemoteInvestigator
+     * @param matchingRemoteInvestigatorFromDb
+     */
+    private void buildAndUpdateExistingRemoteInvestigator(RemoteInvestigator retrievedRemoteInvestigator, RemoteInvestigator matchingRemoteInvestigatorFromDb) {
+		//currently we do not handle the hcs_inv changes in the merge flow.
+    	this.merge(matchingRemoteInvestigatorFromDb);
+	}
+
+
+	/**
      * Gets the by unique identifier. Created for the remote Investigator use case.
+     * returns null if no match is found.
      * 
      * @param emailAddress the email address
      * @return the Investigator List
      */
-    public List<RemoteInvestigator> getByUniqueIdentifier(String uniqueIdentifier) {
+    public RemoteInvestigator getByUniqueIdentifier(String uniqueIdentifier) {
     	List<RemoteInvestigator> investigatorList = new ArrayList<RemoteInvestigator>();
     	investigatorList.addAll(getHibernateTemplate().find("from RemoteInvestigator rs where rs.uniqueIdentifier = '" +uniqueIdentifier+ "'"));
-        return investigatorList;
+    	if(investigatorList.size() > 0){
+    		return investigatorList.get(0);
+    	}
+        return null;
     }
     
     @Transactional(readOnly = false)
     public Investigator merge(Investigator investigator) {
-        return (Investigator) getHibernateTemplate().merge(investigator);
+        Investigator mergedInvestigator = (Investigator) getHibernateTemplate().merge(investigator);
+        getHibernateTemplate().flush();
+        return mergedInvestigator;
     }
+    
+    /*
+	 * Saves a domain object
+	 */
+	@Transactional(readOnly = false)
+	public void save(Investigator investigator) {
+		getHibernateTemplate().saveOrUpdate(investigator);
+		getHibernateTemplate().flush();
+	}
+
 
 	public RemoteSession getRemoteSession() {
 		return remoteSession;

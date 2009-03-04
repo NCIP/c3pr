@@ -1,4 +1,12 @@
-<dataset>    
+<dataset> 
+	<CSM_USER user_id="1000" login_name="c3pr_admin_etc" first_name="c3pr_etc" last_name="admin_etc" />   
+	<CSM_GROUP group_id="1000" group_name="edu.duke.cabig.c3pr.domain.HealthcareSite.RM-TST-ID-1000	" group_desc="" application_id="1" /> 
+	<CSM_ROLE role_id="1000" role_name="dbunit_user" application_id="1" active_flag="1" />
+	<CSM_PROTECTION_GROUP protection_group_id="6" protection_group_name="dbunitparent" application_id="1" large_element_count_flag="0" />
+	<CSM_PROTECTION_GROUP protection_group_id="1000" protection_group_name="dbunit" application_id="1" large_element_count_flag="0" parent_protection_group_id="6"/>
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
+    <CSM_PROTECTION_ELEMENT protection_element_id="1000" protection_element_name="dbunit" application_id="1" object_id="temp" attribute="" />
+       
 	<INVESTIGATORS id="1005" version="1" first_name="Investigator Brady" last_name="Bunch" nci_identifier="NCIID_1255" dtype="Remote" retired_indicator = "false" unique_identifier="brady@bunch.com"/>
     <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" nci_identifier="NCIID_1232" dtype="Local" retired_indicator = "false" />
     <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" nci_identifier="NCIID_1232a" dtype="Local" retired_indicator = "false" />
@@ -13,9 +21,15 @@
                country_code="USA" retired_indicator="false"/>
     
    	<ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" dtype="Local"
-                   nci_institute_code="Duke" retired_indicator="false"/>
+                   nci_institute_code="Duke" retired_indicator="false" external_id=""/>
     <ORGANIZATIONS id="1001" version="1" name="National Cancer Institute" description_text="National Cancer Institute"
                    address_id="1001" dtype="Local" nci_institute_code="NCI" retired_indicator="false"/>
+    <ORGANIZATIONS id="1002" version="1" name="Nairobi Hospital" description_text="Nairobi Hospital"
+                   address_id="1001" dtype="Remote" nci_institute_code="RM-TST-ID"  external_id="CP-RM-TST-ID" retired_indicator="false"/>
+    <ORGANIZATIONS id="1003" version="1" name="Montreal Childrens Hospital Remote 2" description_text="Montreal Childrens Hospital Remote 2"
+   				   address_id="1001" dtype="Remote" nci_institute_code="RM-TST-ID2" retired_indicator="false" external_id="CP-RM-TST-ID2"/>
+    <ORGANIZATIONS id="1004" version="1" name="Sydney Cancer Centre Remote 3" description_text="Sydney Cancer Centre Remote 3"
+   				   address_id="1001" dtype="Remote" nci_institute_code="RM-TST-ID3" retired_indicator="false" external_id="CP-RM-TST-ID3"/>
     
     <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1000"
                            hcs_id="1000" retired_indicator="false"/>

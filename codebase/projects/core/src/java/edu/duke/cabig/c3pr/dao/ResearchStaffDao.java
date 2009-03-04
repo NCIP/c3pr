@@ -311,12 +311,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     			retrievedRemoteResearchStaff.setHealthcareSite(remoteResearchStaff.getHealthcareSite());
     		} else if(retrievedRemoteResearchStaff.getHealthcareSite() != null){
     			//get the corresponding hcs from the dto object and save that organization and then save this staff
-    			HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByNciInstituteCode(retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
-    			if(matchingHealthcareSiteFromDb == null){
+    			HealthcareSite matchingHealthcareSite = healthcareSiteDao.getByNciInstituteCode(retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
+    			if(matchingHealthcareSite == null){
     				log.error("No corresponding org exists for the nci Code:" +retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
     			} else{
     				//we have the retrieved staff's Org in our db...link up with the same and persist
-    				retrievedRemoteResearchStaff.setHealthcareSite(matchingHealthcareSiteFromDb);
+    				retrievedRemoteResearchStaff.setHealthcareSite(matchingHealthcareSite);
     			}
     		} else{
     			//if the resolver hasnt set the hcs and if it hasn't been passed in then.. I'm lost!
