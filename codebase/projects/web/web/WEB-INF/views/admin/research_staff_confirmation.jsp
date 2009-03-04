@@ -44,8 +44,10 @@
                 </div>
 </chrome:box>
 </div>
-<div align="right" <c:if test="${empty studyflow || studyflow=='false'}">style="display:none;"</c:if>>
-	<input id="close" type="button" value="Close" onclick=" parent.showDiseases(); parent.closePopup();"/>
+<div class="flow-buttons" <c:if test="${empty studyflow || studyflow=='false'}">style="display:none;"</c:if>>
+	<span class="next">
+		<input id="close" type="button" value="Close" onclick=" parent.showDiseases(); parent.closePopup();"/>
+	</span>
 </div>
 </body>
 </html>
