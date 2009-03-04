@@ -261,7 +261,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
                         new CustomDaoEditor(stratificationAnswerDao));
         Object command = binder.getTarget();
         binder.registerCustomEditor(StudyDisease.class, new ObjectGraphBasedEditor(command,
-                        "studySite.study.studyDiseases"));
+                        "studySubject.studySite.study.studyDiseases"));
         binder.registerCustomEditor(StudyInvestigator.class, new CustomDaoEditor(
                         studyInvestigatorDao));
         binder.registerCustomEditor(ScheduledEpoch.class, new CustomDaoEditor(scheduledEpochDao));
