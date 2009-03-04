@@ -152,5 +152,16 @@ public abstract class ResearchStaff extends User {
 	public void setUserBasedRecipient(List<UserBasedRecipient> userBasedRecipient) {
 		this.userBasedRecipient = userBasedRecipient;
 	}
+	
+	@Transient
+	public String getEmailAsString(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.EMAIL){
+				return contactMechanism.getValue();
+			}
+		}
+		
+		return null;
+	}
 
 }
