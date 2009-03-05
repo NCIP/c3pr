@@ -40,7 +40,7 @@ public abstract class Investigator extends C3PRUser {
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(HealthcareSiteInvestigator.class,
                         new BiDirectionalInstantiateFactory<HealthcareSiteInvestigator>(
-                                        HealthcareSiteInvestigator.class, this));
+                            HealthcareSiteInvestigator.class, this, "Investigator", new Class[] { Investigator.class }));
     }
 
     @Transient
