@@ -20,6 +20,7 @@
         }
 
         function showTable(table) {
+        	$('resultsDiv').style.display="block";
             document.getElementById('tableDiv').innerHTML=table;
         }
     </script>
@@ -69,7 +70,7 @@
 	//buildTable('searchForm');
 </script>
 
-<chrome:box title="Search Results">
+<chrome:box title="Search Results" id="resultsDiv" style="display:none">
     <chrome:division id="single-fields">
         <div id="tableDiv">
         </div>
