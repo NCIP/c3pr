@@ -94,6 +94,7 @@ public class RegistrationControllerUtils {
 			}
 
 		}
+
 		int count = 0;
 		for (ScheduledEpoch scheduledEpoch : studySubject.getScheduledEpochs()) {
 				count++;
@@ -104,8 +105,9 @@ public class RegistrationControllerUtils {
 			reg_nonenrolled = true;
 			epoch_nonenrolled = true;
 		}
-		if (studySubject.getScheduledEpochs().size() > 1)
-			newRegistration = false;
+		if (studySubject.getScheduledEpochs().size() > 1){
+			newRegistration = false;			
+		}
 		if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getRequiresRandomization()
@@ -398,5 +400,80 @@ public class RegistrationControllerUtils {
     	}
     	return companions;
     }
+	
+	public String getConfirmationMessage(StudySubject studySubject){
+		boolean hasCompanion = false ;
+		boolean isTransfer = false ;
+		if(studySubject.getStudySite().getStudy().getCompanionStudyAssociations().size() > 0){
+			hasCompanion = true ;
+		}
+		int epochs = studySubject.getScheduledEpochs().size() ; 
+		if( epochs > 1){
+			isTransfer = true ;
+		}
+		if(!hasCompanion){
+			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
+				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
+					if(isTransfer){
+						return "TRANSFER.ENROLLING.EPOCH.SUCCESS" ;
+					}else{
+						return "REGISTRATION.ENROLLED" ;
+					}
+				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED){
+					return "REGISTRATION.RESERVED" ;
+				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED){
+					if(isTransfer){
+						return "TRANSFER.NONENROLLED" ;
+					}else{
+						return "REGISTRATION.SUCCESS" ;
+					}
+				}
+			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING){
+				if(isTransfer){
+					return "TRANSFER.INCOMPLETE" ;
+				}else{
+					return "REGISTRATION.INCOMPLETE" ;
+				}
+			}
+		}else{
+			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
+				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
+					if(isTransfer){
+						ScheduledEpoch previousScheduledEpoch = studySubject.getScheduledEpochs().get(epochs - 2);
+						if(previousScheduledEpoch.getEpoch().getEnrollmentIndicator()){
+							return "TRANSFER.ENROLLING.EPOCH.SUCCESS" ;
+						}else{
+							return "REGISTRATION.COMPANION.ENROLLED" ;
+						}
+					}else{
+						return "REGISTRATION.COMPANION.ENROLLED" ;
+					}
+				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED){
+					return "REGISTRATION.RESERVED" ;
+				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED){
+					if(isTransfer){
+						return "TRANSFER.NONENROLLED" ;
+					}else{
+						return "REGISTRATION.SUCCESS" ;
+					}
+				}
+			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING){
+				if(isTransfer){
+					if(studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
+						return "TRANSFER.COMPANIONS.INCOMPLETE" ;
+					}else{
+						return "TRANSFER.INCOMPLETE" ;
+					}
+				}else{
+					if(studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
+						return "REGISTRATION.COMPANIONS.INCOMPLETE" ;
+					}else{
+						return "REGISTRATION.INCOMPLETE" ;
+					}
+				}
+			}
+		}
+		return " " ;
+	}
 
 }
