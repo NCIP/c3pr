@@ -414,7 +414,7 @@ public class RegistrationControllerUtils {
 		}
 		if(!hasCompanion){
 			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
-				imageAndMessage.add("check.png");
+				imageAndMessage.add("info");
 				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
 					if(isTransfer){
 						imageAndMessage.add("TRANSFER.ENROLLING.EPOCH.SUCCESS") ;
@@ -436,7 +436,7 @@ public class RegistrationControllerUtils {
 					}
 				}
 			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING){
-				imageAndMessage.add("error-red.png");
+				imageAndMessage.add("error");
 				if(isTransfer){
 					imageAndMessage.add("TRANSFER.INCOMPLETE") ;
 					return imageAndMessage ;
@@ -447,7 +447,7 @@ public class RegistrationControllerUtils {
 			}
 		}else{
 			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
-				imageAndMessage.add("check.png");
+				imageAndMessage.add("info");
 				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
 					if(isTransfer){
 						ScheduledEpoch previousScheduledEpoch = studySubject.getScheduledEpochs().get(epochs - 2);
@@ -475,7 +475,7 @@ public class RegistrationControllerUtils {
 					}
 				}
 			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING){
-				imageAndMessage.add("error-red.png");
+				imageAndMessage.add("error");
 				if(isTransfer){
 					if(studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
 						imageAndMessage.add("TRANSFER.COMPANIONS.INCOMPLETE") ;

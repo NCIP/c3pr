@@ -93,55 +93,11 @@ function createReg(studySite, participant, parentRegistrationId){
 			</script>
 		</div>
 	</c:when>
-	<c:when test="${newRegistration}">
-		<c:choose>
-		<c:when test="${command.studySubject.regWorkflowStatus == 'ENROLLED' && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'true' && !hasParent && !has_mandatory_companions}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.ENROLLED"/></div>
-		</c:when>
-		<c:when test="${command.studySubject.regWorkflowStatus == 'REGISTERED_BUT_NOT_ENROLLED' && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED' && command.studySubject.currentScheduledEpoch.epoch.enrollmentIndicator == 'false' && !hasParent && !hasCompanions}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.SUCCESS"/></div>
-		</c:when>
-		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.INCOMPLETE"/></div>
-		</c:when>
-		<c:when test="${reg_registered && hasCompanions && has_child_registrations && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED'}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> Please print.
-			and save this confirmation in the subject study records </div></c:when>
-		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.blindedIndicator && registerableWithCompanions }">
-			<div id="flash-message"><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></div></c:when>
-		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.randomizationType == 'BOOK' && registerableWithCompanions}">
-			<div id="flash-message"><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></div></c:when>
-		<c:when test="${reg_registered}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.SUCCESS"/> You may <a href="javascript:launchPrint();">print</a>
-			and save this confirmation in the subject study records </div></c:when>
-		<c:when test="${reg_pending}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.PENDING"/> </div></c:when>
-		<c:when test="${reg_disapproved}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.DISAPPROVED"/> </div></c:when>
-		<c:when test="${reg_reserved}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.RESERVED"/> You may <a href="javascript:launchPrint();">print</a>
-			and save this confirmation in the subject study records.</div></c:when>
-		<c:when test="${reg_nonenrolled }">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.NONENROLLED"/></div></c:when>			
-		<c:when test="${reg_unregistered && hasCompanions && !registerableWithCompanions}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></div></c:when>
-		<c:when test="${reg_unregistered && hasCompanions && registerableWithCompanions}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></div></c:when>
-		<c:when test="${isDataEntryComplete && hasParent}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></div></c:when>	
-		<c:when test="${reg_unrandomized}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.UNRANDOMIZED"/></div></c:when>
-		<c:when test="${command.studySubject.workPendingOnMandatoryCompanionRegistrations}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANIONS.INCOMPLETE"/></div></c:when>
-		<c:otherwise>
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.INCOMPLETE"/></div></c:otherwise>
-		</c:choose>
-	</c:when>
-	<c:otherwise>
-		
-		<div id="flash-message" class="${(imageAndMessageList[0] == 'check.png')?'info':'error'}">
-			<img src="<tags:imageUrl name="${imageAndMessageList[0]}" />" alt="" style="vertical-align:top;" /> 
-			<fmt:message key="${imageAndMessageList[1]}"/>
+	<c:otherwise>		
+		<div id="flash-message" class="${imageAndMessageList[0]}">
+			<img src="<tags:imageUrl name="${imageAndMessageList[0] == 'info' ? 'check.png' :'error-red.png'}" />" alt="" style="vertical-align:top;" /> 
+			<fmt:message key="${imageAndMessageList[1]}"/> Please <a href="javascript:launchPrint();">print</a>
+			and save this confirmation in the subject study records
 		</div>
 	</c:otherwise>
 	</c:choose>
