@@ -5,10 +5,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <style>
+	#single-fields-interior div.row div.label {
+		width:22em;
+	}
+	#single-fields-interior div.row div.value {
+		margin-left:23em;
+	}
 	#main {
 		top:35px;
 	}
-</style>
 </head>
 <body>
 
