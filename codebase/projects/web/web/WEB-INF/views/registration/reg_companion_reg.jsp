@@ -7,7 +7,8 @@
 <link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
 		var win;
-		function openPopup(companionStudy, participant, parentRegistrationId){
+		function openPopup(companionStudy, participant, parentRegistrationId, index){
+			$('searchCompanionInd-'+index).style.display = "";
 			win = new Window(
 					{onClose: function() {reloadSection();},
 						title: "Companion Registration", 
@@ -23,10 +24,10 @@
 
 		function closePopup() {
 			win.close();
-			//$('searchCompanionInd').style.display = "";
 		}
 
-		function editCompanionRegistration(url){
+		function editCompanionRegistration(url, index){
+			$('searchCompanionInd-'+index).style.display = "";
 			win = new Window(
 					{onClose: function() {reloadSection();},
 						title: "Companion Registration", 
@@ -41,7 +42,8 @@
    	   	}
 
 								
-   		function removeChildStudySubject(childRegId){
+   		function removeChildStudySubject(childRegId, index){
+   			$('searchCompanionInd-'+index).style.display = "";
    			<tags:tabMethod method="removeChildStudySubject" divElement="'CompanionRegistration'" formName="'tabMethodForm'"  viewName="/registration/asynchronous/reg_companion_section" javaScriptParam="'childStudySubjectId='+childRegId" />
    			Element.hide('flash-message-companion-create');
    			Element.show('flash-message-companion-delete');
@@ -76,7 +78,7 @@
 					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.status"/></b></th>
 					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.actions"/></b></th>
 				</tr>
-				<c:forEach items="${companions}" var="companion">
+				<c:forEach items="${companions}" var="companion" varStatus="status">
 					<tr>
 						<td class="alt">
 							<c:if test="${companion.mandatoryIndicator}"><tags:requiredIndicator /></c:if>
@@ -92,9 +94,9 @@
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"
 										hasPrivileges="UPDATE"
 										authorizationCheckName="domainObjectAuthorizationCheck">
-										<a href="javascript:editCompanionRegistration('${companion.companionRegistrationUrl}');"><img src="<tags:imageUrl name="../templates/mocha/images/controlPanel/controlPanel_pencil.png" />" alt="" /> Edit</a>
+										<a href="javascript:editCompanionRegistration('${companion.companionRegistrationUrl}', '${status.index}');"><img src="<tags:imageUrl name="../templates/mocha/images/controlPanel/controlPanel_pencil.png" />" alt="" /> Edit</a>
 										<c:if test="${!companion.mandatoryIndicator}">
-											<a href="javascript:removeChildStudySubject('${companion.registrationId}');"><img src="<tags:imageUrl name="icons/button_icons/small/x_icon_small.png" />" alt="" /> Remove</a>
+											<a href="javascript:removeChildStudySubject('${companion.registrationId}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/x_icon_small.png" />" alt="" /> Remove</a>
 										</c:if>
 									</csmauthz:accesscontrol>
 								</c:when>
@@ -102,12 +104,11 @@
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"
 										hasPrivileges="UPDATE"
 										authorizationCheckName="domainObjectAuthorizationCheck">
-										<a id="registerCompanionStudy" href="javascript:openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}');"><img src="<tags:imageUrl name="icons/button_icons/small/add_icon_small.png" />" alt="" /> Register</a>
+										<a id="registerCompanionStudy" href="javascript:openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/add_icon_small.png" />" alt="" /> Register</a>
 									</csmauthz:accesscontrol>
 								</c:otherwise>
 							</c:choose>
-							
-							<img id="searchCompanionInd" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">  
+							<img id="searchCompanionInd-${status.index}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">  
 						</c:if>
 						</td>
 					</tr>

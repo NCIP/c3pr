@@ -10,7 +10,7 @@
 					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.status"/></b></th>
 					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.actions"/></b></th>
 				</tr>
-				<c:forEach items="${companions}" var="companion">
+				<c:forEach items="${companions}" var="companion" varStatus="status">
 					<tr>
 						<td class="alt">
 							<c:if test="${companion.mandatoryIndicator}"><tags:requiredIndicator /></c:if>
@@ -20,14 +20,15 @@
 						<td class="alt">${empty companion.companionRegistrationUrl ?"Not Started": (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</td>
 						<td class="alt">
 						<c:if test="${companion.registrationStatus != 'Enrolled'}">
+							
 							<c:choose>
-								<c:when test="${not empty companion.companionRegistrationUrl }">
+								<c:when test="${not empty companion.companionRegistrationUrl}">
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"
 										hasPrivileges="UPDATE"
 										authorizationCheckName="domainObjectAuthorizationCheck">
-										<a href="javascript:editCompanionRegistration('${companion.companionRegistrationUrl}');"><img src="<tags:imageUrl name="../templates/mocha/images/controlPanel/controlPanel_pencil.png" />" alt="" /> Edit</a>
+										<a href="javascript:editCompanionRegistration('${companion.companionRegistrationUrl}', '${status.index}');"><img src="<tags:imageUrl name="../templates/mocha/images/controlPanel/controlPanel_pencil.png" />" alt="" /> Edit</a>
 										<c:if test="${!companion.mandatoryIndicator}">
-											<a href="javascript:removeChildStudySubject('${companion.registrationId}');"><img src="<tags:imageUrl name="icons/button_icons/small/x_icon_small.png" />" alt="" /> Remove</a>
+											<a href="javascript:removeChildStudySubject('${companion.registrationId}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/x_icon_small.png" />" alt="" /> Remove</a>
 										</c:if>
 									</csmauthz:accesscontrol>
 								</c:when>
@@ -35,10 +36,11 @@
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"
 										hasPrivileges="UPDATE"
 										authorizationCheckName="domainObjectAuthorizationCheck">
-										<a id="registerCompanionStudy" href="javascript:openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}');"><img src="<tags:imageUrl name="icons/button_icons/small/add_icon_small.png" />" alt="" /> Register</a>
+										<a id="registerCompanionStudy" href="javascript:openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/add_icon_small.png" />" alt="" /> Register</a>
 									</csmauthz:accesscontrol>
 								</c:otherwise>
 							</c:choose>
+							<img id="searchCompanionInd-${status.index}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">  
 						</c:if>
 						</td>
 					</tr>
