@@ -78,6 +78,7 @@ public class RegistrationControllerUtils {
 		boolean epoch_disapproved = false;
 		boolean newRegistration = true;
 		boolean has_mandatory_companions = false;
+		boolean previous_epoch_enrollment_indicator = true ;
 		
 		String armAssigned = "";
 		String armAssignedLabel = "";
@@ -105,7 +106,8 @@ public class RegistrationControllerUtils {
 			reg_nonenrolled = true;
 			epoch_nonenrolled = true;
 		}
-		if (studySubject.getScheduledEpochs().size() > 1){
+		int epochs = studySubject.getScheduledEpochs().size();
+		if (epochs > 1){
 			newRegistration = false;			
 		}
 		if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
@@ -137,6 +139,10 @@ public class RegistrationControllerUtils {
 			epoch_approved = true;
 			break;
 		}
+		
+		if(!newRegistration){
+			previous_epoch_enrollment_indicator = studySubject.getScheduledEpochs().get(epochs - 2).getEpoch().getEnrollmentIndicator();
+		}
 		map.put("reg_unregistered", reg_unregistered);
 		map.put("reg_registered", reg_registered);
 		map.put("reg_unapproved", reg_unapproved);
@@ -159,6 +165,7 @@ public class RegistrationControllerUtils {
 		map.put("registerableWithCompanions", registerableAsorWithCompanion(studySubject));
 		map.put("isDataEntryComplete", studySubject.isDataEntryComplete());
 		map.put("has_mandatory_companions", studySubject.hasMandatoryCompanions());
+		map.put("previous_epoch_enrollment_indicator", previous_epoch_enrollment_indicator);
 		map.put("has_child_registrations", studySubject.getChildStudySubjects()==null?false:studySubject.getChildStudySubjects().size()>0?true:false);
 		return map;
 	}
