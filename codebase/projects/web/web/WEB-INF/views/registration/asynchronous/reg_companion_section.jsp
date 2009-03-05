@@ -27,6 +27,7 @@
 										hasPrivileges="UPDATE"
 										authorizationCheckName="domainObjectAuthorizationCheck">
 										<a href="javascript:editCompanionRegistration('${companion.companionRegistrationUrl}', '${status.index}');"><img src="<tags:imageUrl name="../templates/mocha/images/controlPanel/controlPanel_pencil.png" />" alt="" /> Edit</a>
+										&nbsp;
 										<c:if test="${!companion.mandatoryIndicator}">
 											<a href="javascript:removeChildStudySubject('${companion.registrationId}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/x_icon_small.png" />" alt="" /> Remove</a>
 										</c:if>
