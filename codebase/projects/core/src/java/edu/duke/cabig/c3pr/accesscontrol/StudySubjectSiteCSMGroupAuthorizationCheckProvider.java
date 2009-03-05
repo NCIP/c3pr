@@ -27,8 +27,15 @@ public class StudySubjectSiteCSMGroupAuthorizationCheckProvider implements CSMAu
         log.debug("Invoking checkPermission on StudySubjectSiteCSMGroupAuthorizationCheckProvider");
 
         if (domainObject instanceof StudySubject) {
-            StudySubject subject = (StudySubject) domainObject;
-            HealthcareSite hcs = subject.getStudySite().getHealthcareSite();
+            StudySubject studySubject = (StudySubject) domainObject;
+            HealthcareSite hcs = studySubject.getStudySite().getHealthcareSite();
+            HealthcareSite coordinatingCenterOfStudySubject = 
+            	studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite();
+            log.debug("### Checking permission for user on coordinating center of studySubject:" + coordinatingCenterOfStudySubject.getNciInstituteCode());
+            if(csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,
+                    permission, siteObjectIdGenerator.generateId(coordinatingCenterOfStudySubject))){
+            	return true;
+            }
             log.debug("### Checking permission for user on site:" + hcs.getNciInstituteCode());
             return csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,
                             permission, siteObjectIdGenerator.generateId(hcs));
