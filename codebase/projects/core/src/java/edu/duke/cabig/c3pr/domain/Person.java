@@ -125,10 +125,11 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
 
     @Transient
     public String getFullName() {
-        String fullName = this.getFirstName() + " " + this.getLastName() ;
+        String fullName = this.getFirstName() ;
         if(getMiddleName() != null && !getMiddleName().equals("")){
         	fullName += " "+ StringUtils.getBlankIfNull(this.getMiddleName());
         }
+        fullName +=  " " + this.getLastName() ; 
         return fullName ;
     }
 
