@@ -5,6 +5,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
+<style>
+	#main {
+		top:35px;
+	}
+</style>
 <script>
 		var win;
 		function openPopup(companionStudy, participant, parentRegistrationId, index){
