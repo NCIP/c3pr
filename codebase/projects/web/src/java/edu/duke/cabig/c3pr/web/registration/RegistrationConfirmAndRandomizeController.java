@@ -82,7 +82,7 @@ public class RegistrationConfirmAndRandomizeController extends
 		StudySubject studySubject = wrapper.getStudySubject();
 		Map map = registrationControllerUtils.buildMap(studySubject);
 		map.put("requiresMultiSite", studySubjectService.requiresExternalApprovalForRegistration(studySubject));
-		map.put("confirmationMessage", registrationControllerUtils.getConfirmationMessage(studySubject));
+		map.put("imageAndMessageList", registrationControllerUtils.getConfirmationMessage(studySubject));
 		registrationControllerUtils.addAppUrls(map);
 		return map;
 	}

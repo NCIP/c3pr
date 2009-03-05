@@ -76,32 +76,6 @@ function createReg(studySite, participant, parentRegistrationId){
 </c:choose>
 <form name="navigationForm" id="navigationForm" method="post"></form>
 <tags:panelBox title="Confirmation" boxId="ConfMessage">
-
-
-  <!--  newRegistration: ${newRegistration}<br>
-	reg_registered :${reg_registered }<br>
-	reg_nonenrolled:${reg_nonenrolled }<br>
-	reg_pending:${reg_pending }<br>
-	reg_disapproved:${ reg_disapproved}<br>
-	reg_reserved:${reg_reserved }<br>
-	reg_unregistered:${reg_unregistered }<br>
-	reg_unrandomized:${ reg_unrandomized}<br>
-	epoch_registered :${epoch_approved }<br>
-	epoch_nonenrolled:${epoch_nonenrolled }<br>
-	epoch_pending:${epoch_pending }<br>
-	epoch_disapproved:${ epoch_disapproved}<br>
-	epoch_unapproved:${epoch_unapproved }<br>
-	hasParent:${hasParent }<br>
-	hasCompanions:${ hasCompanions}<br>
-	isDataEntryComplete:${isDataEntryComplete }<br>
-	epoch_unrandomized:${ epoch_unrandomized}<br>
-	actionRequired :${actionRequired}
-	actionLabel:${actionLabel}
-	registerableWithCompanions :${registerableWithCompanions}
-	requiresMultiSite:${requiresMultiSite}
-	has_mandatory_companions:${has_mandatory_companions}
-	has_child_registrations:${has_child_registrations} 
-	mandatoryCompanionsNotCreated:${command.studySubject.workPendingOnMandatoryCompanionRegistrations}  --> 
 	<c:choose>
 	<c:when test="${fn:length(command.studySubject.studySite.registrationEndpoints)>0 && command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status=='MESSAGE_SEND_FAILED'} ">
 		<font color='<fmt:message key="REGISTRATION.MULTISITE.ERROR.COlOR"/>'><strong><fmt:message key="REGISTRATION.MULTISITE.ERROR"/> Please <a href="javascript:showEndpointError();">click</a> here to see the detail error message.</strong></font>
@@ -164,33 +138,11 @@ function createReg(studySite, participant, parentRegistrationId){
 		</c:choose>
 	</c:when>
 	<c:otherwise>
-		<c:choose>
-		<c:when test="${command.studySubject.regDataEntryStatus.code == 'Incomplete'}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.INCOMPLETE"/></div></c:when>
-		<c:when test="${ command.studySubject.regWorkflowStatus.code == 'Enrolled' && has_mandatory_companions && registerableWithCompanions && command.studySubject.currentScheduledEpoch.scEpochWorkflowStatus == 'REGISTERED'}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.REGISTERED"/> You may <a href="javascript:launchPrint();">print</a>
-			and save this confirmation in the subject study records </div></c:when>
-		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.blindedIndicator && registerableWithCompanions }">
-			<div id="flash-message"><fmt:message key="REGISTRATION.NO_BLINDED_ARM_ASSIGNMENT"/></div></c:when>
-		<c:when test="${epoch_disapproved && command.studySubject.studySite.study.randomizationType == 'BOOK' && registerableWithCompanions}">
-			<div id="flash-message"><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/></div></c:when>
-		<c:when test="${hasCompanions && !registerableWithCompanions}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.INCOMPLETE"/></div></c:when>
-		<c:when test="${hasCompanions && registerableWithCompanions}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.PARENT.READY_FOR_REGISTRATION"/></div></c:when>
-		<c:when test="${isDataEntryComplete && hasParent}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="REGISTRATION.COMPANION.CHILD.INCOMPLETE"/></div></c:when>	
-		<c:when test="${epoch_approved}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="TRANSFER.SUCCESS"/></div></c:when>
-		<c:when test="${epoch_pending}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="TRANSFER.PENDING"/></div></c:when>
-		<c:when test="${epoch_nonenrolled}">
-			<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="TRANSFER.NONENROLLED"/></div></c:when>
-		<c:when test="${epoch_unrandomiized}">
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="TRANSFER.UNRANDOMIZED"/></div></c:when>
-		<c:otherwise>
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:top;" /> <fmt:message key="TRANSFER.INCOMPLETE"/></div></c:otherwise>
-		</c:choose>
+		
+		<div id="flash-message" class="${(imageAndMessageList[0] == 'check.png')?'info':'error'}">
+			<img src="<tags:imageUrl name="${imageAndMessageList[0]}" />" alt="" style="vertical-align:top;" /> 
+			<fmt:message key="${imageAndMessageList[1]}"/>
+		</div>
 	</c:otherwise>
 	</c:choose>
 	

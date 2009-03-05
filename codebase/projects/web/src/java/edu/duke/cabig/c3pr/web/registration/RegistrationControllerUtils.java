@@ -401,7 +401,8 @@ public class RegistrationControllerUtils {
     	return companions;
     }
 	
-	public String getConfirmationMessage(StudySubject studySubject){
+	public List<String> getConfirmationMessage(StudySubject studySubject){
+		List<String> imageAndMessage = new ArrayList<String>();
 		boolean hasCompanion = false ;
 		boolean isTransfer = false ;
 		if(studySubject.getStudySite().getStudy().getCompanionStudyAssociations().size() > 0){
@@ -413,67 +414,88 @@ public class RegistrationControllerUtils {
 		}
 		if(!hasCompanion){
 			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
+				imageAndMessage.add("check.png");
 				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
 					if(isTransfer){
-						return "TRANSFER.ENROLLING.EPOCH.SUCCESS" ;
+						imageAndMessage.add("TRANSFER.ENROLLING.EPOCH.SUCCESS") ;
+						return imageAndMessage ;
 					}else{
-						return "REGISTRATION.ENROLLED" ;
+						imageAndMessage.add("REGISTRATION.ENROLLED") ;
+						return imageAndMessage ;
 					}
 				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED){
-					return "REGISTRATION.RESERVED" ;
+					imageAndMessage.add("REGISTRATION.RESERVED") ;
+					return imageAndMessage ;
 				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED){
 					if(isTransfer){
-						return "TRANSFER.NONENROLLED" ;
+						imageAndMessage.add("TRANSFER.NONENROLLED") ;
+						return imageAndMessage ;
 					}else{
-						return "REGISTRATION.SUCCESS" ;
+						imageAndMessage.add("REGISTRATION.SUCCESS") ;
+						return imageAndMessage ;
 					}
 				}
 			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING){
+				imageAndMessage.add("error-red.png");
 				if(isTransfer){
-					return "TRANSFER.INCOMPLETE" ;
+					imageAndMessage.add("TRANSFER.INCOMPLETE") ;
+					return imageAndMessage ;
 				}else{
-					return "REGISTRATION.INCOMPLETE" ;
+					imageAndMessage.add("REGISTRATION.INCOMPLETE") ;
+					return imageAndMessage ;
 				}
 			}
 		}else{
 			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
+				imageAndMessage.add("check.png");
 				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
 					if(isTransfer){
 						ScheduledEpoch previousScheduledEpoch = studySubject.getScheduledEpochs().get(epochs - 2);
 						if(previousScheduledEpoch.getEpoch().getEnrollmentIndicator()){
-							return "TRANSFER.ENROLLING.EPOCH.SUCCESS" ;
+							imageAndMessage.add("TRANSFER.ENROLLING.EPOCH.SUCCESS") ;
+							return imageAndMessage ;
 						}else{
-							return "REGISTRATION.COMPANION.ENROLLED" ;
+							imageAndMessage.add("REGISTRATION.COMPANION.ENROLLED") ;
+							return imageAndMessage ;
 						}
 					}else{
-						return "REGISTRATION.COMPANION.ENROLLED" ;
+						imageAndMessage.add("REGISTRATION.COMPANION.ENROLLED") ;
+						return imageAndMessage ;
 					}
 				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED){
-					return "REGISTRATION.RESERVED" ;
+					imageAndMessage.add("REGISTRATION.RESERVED") ;
+					return imageAndMessage ;
 				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED){
 					if(isTransfer){
-						return "TRANSFER.NONENROLLED" ;
+						imageAndMessage.add("TRANSFER.NONENROLLED") ;
+						return imageAndMessage ;
 					}else{
-						return "REGISTRATION.SUCCESS" ;
+						imageAndMessage.add("REGISTRATION.SUCCESS") ;
+						return imageAndMessage ;
 					}
 				}
 			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING){
+				imageAndMessage.add("error-red.png");
 				if(isTransfer){
 					if(studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
-						return "TRANSFER.COMPANIONS.INCOMPLETE" ;
+						imageAndMessage.add("TRANSFER.COMPANIONS.INCOMPLETE") ;
+						return imageAndMessage ;
 					}else{
-						return "TRANSFER.INCOMPLETE" ;
+						imageAndMessage.add("TRANSFER.INCOMPLETE") ;
+						return imageAndMessage ;
 					}
 				}else{
 					if(studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
-						return "REGISTRATION.COMPANIONS.INCOMPLETE" ;
+						imageAndMessage.add("REGISTRATION.COMPANIONS.INCOMPLETE") ;
+						return imageAndMessage ;
 					}else{
-						return "REGISTRATION.INCOMPLETE" ;
+						imageAndMessage.add("REGISTRATION.INCOMPLETE") ;
+						return imageAndMessage ;
 					}
 				}
 			}
 		}
-		return " " ;
+		return imageAndMessage ;
 	}
 
 }
