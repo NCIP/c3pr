@@ -73,10 +73,10 @@
 			<table class="tablecontent" width="100%"
 				title="Companions">
 				<tr>
-					<th width="40%" scope="col" align="center"><b><fmt:message key="c3pr.common.study"/></b></th>
-					<th width="10%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
-					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.status"/></b></th>
-					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.actions"/></b></th>
+					<th width="40%" scope="col" align="center"><b><fmt:message key="c3pr.common.study"/></b><tags:hoverHint keyProp="study.criteriafile" /></th>
+					<th width="10%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b><tags:hoverHint keyProp="study.criteriafile" /></th>
+					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.status"/></b><tags:hoverHint keyProp="study.criteriafile" /></th>
+					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.actions"/></b><tags:hoverHint keyProp="study.criteriafile" /></th>
 				</tr>
 				<c:forEach items="${companions}" var="companion" varStatus="status">
 					<tr>
