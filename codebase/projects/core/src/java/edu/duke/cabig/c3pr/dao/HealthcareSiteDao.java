@@ -14,6 +14,7 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.dao.DataAccessException;
 
@@ -380,9 +381,10 @@ public class HealthcareSiteDao extends OrganizationDao {
         Example example = Example.create(hcs).excludeZeroes().ignoreCase();
         try {
             Criteria orgCriteria = getSession().createCriteria(Organization.class);
-            orgCriteria.addOrder(Order.asc("name"));
+            orgCriteria.addOrder(Order.asc("name"));  
             orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
             orgCriteria.setMaxResults(50);
+            orgCriteria.add(Restrictions.ilike("nciInstituteCode", "%" + hcs.getNciInstituteCode() + "%"));
             if (isWildCard) {
                 example.enableLike(MatchMode.ANYWHERE);
             }
