@@ -95,10 +95,36 @@ public class OrganizationDaoTest extends DaoTestCase {
      * @throws C3PRBaseException 
      * @throws C3PRBaseRuntimeException 
      */
-    public void testSearchByExampleWithWildCardTrue(){
+    public void testSearchByExampleWithNciCodeAndWildCardTrue(){
     	HealthcareSite org  = new LocalHealthcareSite();
     	org.setNciInstituteCode("du code");
-//    	org.setName("Duke");
+    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true);
+    	assertNotNull(hcsList);
+    	assertEquals(1, hcsList.size());
+    }
+    
+    /**
+     * Test search by example with wild card true.
+     * @throws C3PRBaseException 
+     * @throws C3PRBaseRuntimeException 
+     */
+    public void testSearchByExampleWithNameAndWildCardTrue(){
+    	HealthcareSite org  = new LocalHealthcareSite();
+    	org.setName("Duke");
+    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true);
+    	assertNotNull(hcsList);
+    	assertEquals(1, hcsList.size());
+    }
+    
+    /**
+     * Test search by example with wild card true.
+     * @throws C3PRBaseException 
+     * @throws C3PRBaseRuntimeException 
+     */
+    public void testSearchByExampleWithNameAndNciCodeAndWildCardTrue(){
+    	HealthcareSite org  = new LocalHealthcareSite();
+    	org.setName("Duke");
+    	org.setNciInstituteCode("du code");
     	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true);
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
