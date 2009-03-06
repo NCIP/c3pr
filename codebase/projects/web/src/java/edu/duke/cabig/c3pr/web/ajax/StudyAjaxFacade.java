@@ -363,6 +363,9 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     public List<HealthcareSiteInvestigator> matchActiveInvestigatorsByGroupId(Integer groupId,
                     HttpServletRequest request) throws Exception {
 
+    	if(groupId == null){
+    		return new ArrayList<HealthcareSiteInvestigator>();
+    	}
         InvestigatorGroup iGrp = investigatorGroupDao.getById(groupId);
         List<SiteInvestigatorGroupAffiliation> sigaList = null;
         HealthcareSiteInvestigator inv = null;
@@ -385,7 +388,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         List<HealthcareSiteInvestigator> hcsInvList = hcs.getHealthcareSiteInvestigators();
         List<HealthcareSiteInvestigator> reducedHcsInvList = new ArrayList<HealthcareSiteInvestigator>();
         for (HealthcareSiteInvestigator inv : hcsInvList) {
-            if (inv.getStatusCode().equals("AC")) {
+            if (inv.getStatusCode() != null && inv.getStatusCode().equals("AC")) {
                 reducedHcsInvList.add(buildReduced(inv, Arrays.asList("id",
                                 "investigator.firstName", "investigator.lastName", "investigator.nciIdentifier")));
             }

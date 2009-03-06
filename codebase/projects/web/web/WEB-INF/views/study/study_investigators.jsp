@@ -82,7 +82,7 @@ function updateCategories(id) {
 }
 
 function showDiseases() {
-    var categoryId = $("disease-sub-category").value    
+    var categoryId = $("disease-sub-category").value;
     var subCategorySelect = $("disease-sub-category")
     var siteSelect = $("site").value;
     
@@ -197,7 +197,9 @@ Event.observe(window, "load", function() {
         showDiseases()
     })
     
-    $('createInvestigator').observe('click', function(event) {
+    // Using a if loop since 'createInvestigator' only exists if logged in user has create Inv access
+    if($('createInvestigator') != null){
+    	 $('createInvestigator').observe('click', function(event) {
     	
     	win = new Window(
 				{title: "Create Investigator", top:35, left:35, width:850, height:400, zIndex:100,
@@ -205,7 +207,9 @@ Event.observe(window, "load", function() {
 				) 
 		win.showCenter(true);
        
-	});
+		});
+    }
+   
     populateSelectsOnLoad();
 })
 
