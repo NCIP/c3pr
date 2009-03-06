@@ -174,10 +174,8 @@ top:83px;
 								<form:checkbox id="raceCodes2" path="raceCodes" value="Black_or_African_American"/> Black or African American<br>
                                 <form:checkbox id="raceCodes3" path="raceCodes" value="White"/> White<br>
 								<form:checkbox id="raceCodes4" path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native<br>
-		                        <form:checkbox id="raceCodes5" path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
-		                        <br>
-		                        <form:checkbox id="raceCodes6" path="raceCodes" value="Not_Reported"/> Not Reported
-					            <br>
+		                        <form:checkbox id="raceCodes5" path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander<br>
+		                        <form:checkbox id="raceCodes6" path="raceCodes" value="Not_Reported"/> Not Reported<br>
 	 							<form:checkbox id="raceCodes7" path="raceCodes" value="Unknown"/> Unknown
 		                    </td><td align="left" id="raceCodes" style="display:inline"/>
 		                </tr>
