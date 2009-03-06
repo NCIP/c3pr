@@ -98,7 +98,7 @@ function createReg(studySite, participant, parentRegistrationId){
 			<img src="<tags:imageUrl name="${imageAndMessageList[0] == 'info' ? 'check.png' :'error-red.png'}" />" alt="" style="vertical-align:top;" /> 
 			<fmt:message key="${imageAndMessageList[1]}"/> 
 			<c:if test="${imageAndMessageList[0] == 'info'}">
-				Please <a href="javascript:launchPrint();">print</a> and save this confirmation in the subject study records.
+				Please <a href="javascript:launchPrint();">print</a> and save this confirmation in the subject's records.
 			</c:if>
 		</div>
 	</c:otherwise>
