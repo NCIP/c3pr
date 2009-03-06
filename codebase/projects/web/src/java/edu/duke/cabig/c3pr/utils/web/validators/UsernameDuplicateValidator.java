@@ -49,7 +49,7 @@ public class UsernameDuplicateValidator implements Validator {
                     	if (researchStaffByEmail.size()>1){
                     		errors.reject("duplicate.username.error");
                     	} else if (researchStaffByEmail.size()>0 && researchStaffByEmail.get(0)!=null){
-                    		if(researchStaffByEmail.get(0).getId()== null){
+                    		if(user.getId()== null){
                     			errors.reject("duplicate.username.error");
                     		} else if (!user.getId().equals(researchStaffByEmail.get(0).getId())) {
         						errors.reject("duplicate.username.error");
