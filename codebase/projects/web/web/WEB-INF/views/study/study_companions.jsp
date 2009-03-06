@@ -54,35 +54,35 @@ var contentWin;
 	    isAdmin: ${isAdmin == 'true'},
 	    path: "study.companionStudyAssociations",
 	    postProcessRowInsertion: function(object){
-			statusIndex = object.localIndex;
-		    var arr=$$("#companionTable-"+statusIndex+" #dummy-row-createStudy");
-			if(arr.length==1){
-				contentWin = new Window({className :"mac_os_x", closable: false, title: "Create Companion Study", top:35, left:35, width:1000, height:400, zIndex:100, hideEffect:Element.hide, showEffect:Element.show, destroyOnClose: true, minimizable: false, maximizable : false}) 
-				contentWin.setContent(arr[0])
-				
-				contentWin.showCenter(true); 
-				// initializing calender in popup
-				inputDateElementLocal="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion";
-				inputDateElementLink="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion-calbutton";
-				Calendar.setup(
-				  {
-				      inputField  : inputDateElementLocal,         // ID of the input field
-				      ifFormat    : "%m/%d/%Y",    // the date format
-				      button      : inputDateElementLink       // ID of the button
-				  }
-				);
-				
-				myObserver = {
-			    	onDestroy: function(eventName, win) {
-				      if (win == contentWin) {
-				    	  $$("#companionTable-"+statusIndex+" #container")[0].appendChild($(arr[0]));
-				        contentWin = null;
-				        Windows.removeObserver(this);
-				      }
-				    }
-				  }
-				  Windows.addObserver(myObserver);
-			}
+	    	statusIndex = object.localIndex;
+	        var arr=$$("#companionTable-"+statusIndex+" .dummy-row-createStudy");
+	    	if(arr.length==1){
+	    		contentWin = new Window({className :"mac_os_x", closable: false, title: "Create Companion Study", top:35, left:35, width:1000, height:400, zIndex:100, hideEffect:Element.hide, showEffect:Element.show, destroyOnClose: true, minimizable: false, maximizable : false}) 
+	    		contentWin.setContent(arr[0])
+	    		
+	    		contentWin.showCenter(true); 
+	    		// initializing calender in popup
+	    		inputDateElementLocal="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion";
+	    		inputDateElementLink="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion-calbutton";
+	    		Calendar.setup(
+	    		  {
+	    		      inputField  : inputDateElementLocal,         // ID of the input field
+	    		      ifFormat    : "%m/%d/%Y",    // the date format
+	    		      button      : inputDateElementLink       // ID of the button
+	    		  }
+	    		);
+	    		
+	    		myObserver = {
+	    	    	onDestroy: function(eventName, win) {
+	    		      if (win == contentWin) {
+	    		    	  $$("#companionTable-"+statusIndex+" #container")[0].appendChild($(arr[0]));
+	    		        contentWin = null;
+	    		        Windows.removeObserver(this);
+	    		      }
+	    		    }
+	    		  }
+	    		  Windows.addObserver(myObserver);
+	    	}
 			currentRow = object.localIndex;
 	        clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
 			clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
@@ -254,7 +254,7 @@ function closePopup(deleteRow) {
 	                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
                     <div id="container" style="display:none;">
-	                    <div id="dummy-row-createStudy">
+	                    <div id="dummy-row-createStudy" class="dummy-row-createStudy">
 					    	<%@ include file="study_create_companion.jsp"%>
 					    	
 					    </div>
