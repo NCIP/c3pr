@@ -45,7 +45,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(InvestigatorGroup.class,
                         new BiDirectionalInstantiateFactory<InvestigatorGroup>(
-                                        InvestigatorGroup.class, this));
+                                        InvestigatorGroup.class, this, "HealthcareSite", new Class[] { HealthcareSite.class }));
     }
 
     public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
