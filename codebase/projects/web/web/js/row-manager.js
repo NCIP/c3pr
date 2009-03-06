@@ -251,6 +251,8 @@ var AbstractRowInserterProps = {
     								this.getRowDivisionElement().getElementsByTagName("tbody")[0].appendChild(rows[k])
     								tableRows=this.getRowDivisionElement().getElementsByTagName("tbody")[0].rows
     								new Effect.Appear(this.getRowDivisionElement().getElementsByTagName("tbody")[0].rows[tableRows.length-1], arguments[1] || {});
+    								AutocompleterManager.registerAutoCompleters();
+    								initSearchField();
     							}
     							$(this.skeleton_row_division_id).innerHTML=localHtml
     						}
