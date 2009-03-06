@@ -290,24 +290,26 @@ public class RegistrationControllerUtils {
                                 .get(i));
                 scheduledEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
             }
-            List<StratificationCriterion> stratifications = scheduledEpoch
-                            .getEpoch().getStratificationCriteria();
-            for (StratificationCriterion stratificationCriterion : stratifications) {
-                stratificationCriterion.getPermissibleAnswers().size();
-                SubjectStratificationAnswer subjectStratificationAnswer = new SubjectStratificationAnswer();
-                subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
-                scheduledEpoch
-                                .addSubjectStratificationAnswers(subjectStratificationAnswer);
+            if(scheduledEpoch.getEpoch().getStratificationIndicator()){
+	            List<StratificationCriterion> stratifications = scheduledEpoch
+	                            .getEpoch().getStratificationCriteria();
+	            for (StratificationCriterion stratificationCriterion : stratifications) {
+	                stratificationCriterion.getPermissibleAnswers().size();
+	                SubjectStratificationAnswer subjectStratificationAnswer = new SubjectStratificationAnswer();
+	                subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
+	                scheduledEpoch
+	                                .addSubjectStratificationAnswers(subjectStratificationAnswer);
+	            }
+	            scheduledEpoch.getEpoch().getStratumGroups().size();
+	            Iterator<StratumGroup> iter = scheduledEpoch.getEpoch()
+	                            .getStratumGroups().iterator();
+	            while (iter.hasNext()) {
+	                StratumGroup stratumGroup = iter.next();
+	                stratumGroup.getStratificationCriterionAnswerCombination().size();
+	                stratumGroup.getBookRandomizationEntry().size();
+	            }
             }
             scheduledEpoch.getScheduledArms().size();
-            scheduledEpoch.getEpoch().getStratumGroups().size();
-            Iterator<StratumGroup> iter = scheduledEpoch.getEpoch()
-                            .getStratumGroups().iterator();
-            while (iter.hasNext()) {
-                StratumGroup stratumGroup = iter.next();
-                stratumGroup.getStratificationCriterionAnswerCombination().size();
-                stratumGroup.getBookRandomizationEntry().size();
-            }
         }
     }
 
