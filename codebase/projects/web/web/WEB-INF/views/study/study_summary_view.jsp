@@ -504,7 +504,7 @@
 		                </c:choose>
 	                    
 	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv" 
-	                    	<c:if test="${command.study.coordinatingCenterStudyStatus != 'OPEN' && command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none" </c:if>
+	                    	<c:if test="${!command.study.standaloneIndicator || (command.study.coordinatingCenterStudyStatus != 'OPEN' && command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING')}">style="display:none" </c:if>
 	                                                            onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'"/>
 	                </csmauthz:accesscontrol>
                 </c:if> 
