@@ -19,7 +19,7 @@ public class IdentifierGenerator {
 		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
 		orgIdentifier.setType("Coordinating Center Assigned Study Subject Identifier");
 		List<StudySubject> studySubjects = studyDao.getStudySubjectsForStudy(studySubject.getStudySite().getStudy().getId());
-		int count = 0 ;
+		int count = 1 ;
 		for(StudySubject s : studySubjects){
 			if (s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED || s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED
                     || s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED) {
