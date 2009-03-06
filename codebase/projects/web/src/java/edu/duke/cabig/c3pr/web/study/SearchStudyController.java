@@ -70,13 +70,18 @@ public class SearchStudyController extends SimpleFormController {
                 study.setStandaloneIndicator(true);
             }
         }
-        List<Study> studies = null;
+        List<Study> exampleStudies = null;
+        List<Study> studies = new ArrayList<Study>();
         if ("status".equals(type)) {
-            studies = studyDao.searchByStatus(study, searchtext, true);
+        	exampleStudies = studyDao.searchByStatus(study, searchtext, true);
         } else {
-            studies = studyDao.searchByExample(study, true);
+        	exampleStudies = studyDao.searchByExample(study, true);
         }
-        
+        for(int i=0 ; i<exampleStudies.size() ; i++){
+        	if(exampleStudies.get(i).getStudySites().size()!=0){
+        		studies.add(exampleStudies.get(i));
+        	}
+        }
         
         //This will get me all the studies that have the logged in user's organization as a studyOrganization.
         //However in the REG flow we should only show studies that have the logged in user's organization as
