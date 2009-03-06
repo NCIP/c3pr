@@ -170,14 +170,10 @@ top:83px;
 						<table>
 						<tr>
                             <td align="left" class="race">
-		                        <form:checkbox id="raceCodes1" path="raceCodes" value="Asian"/> Asian
-								<br>
-								<form:checkbox id="raceCodes2" path="raceCodes" value="Black_or_African_American"/> Black or African American 
-	                            <br>
-                                <form:checkbox id="raceCodes3" path="raceCodes" value="White"/> White
-								<br>
-								<form:checkbox id="raceCodes4" path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native &nbsp;
-		                        <br>
+		                        <form:checkbox id="raceCodes1" path="raceCodes" value="Asian"/> Asian<br>
+								<form:checkbox id="raceCodes2" path="raceCodes" value="Black_or_African_American"/> Black or African American<br>
+                                <form:checkbox id="raceCodes3" path="raceCodes" value="White"/> White<br>
+								<form:checkbox id="raceCodes4" path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native<br>
 		                        <form:checkbox id="raceCodes5" path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
 		                        <br>
 		                        <form:checkbox id="raceCodes6" path="raceCodes" value="Not_Reported"/> Not Reported
