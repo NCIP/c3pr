@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -373,23 +374,31 @@ public class HealthcareSiteDao extends OrganizationDao {
     public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard){
     	
     	List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
-		remoteHealthcareSites
-		.addAll(getFromResolver(hcs));
-
+		remoteHealthcareSites.addAll(getFromResolver(hcs));
 		updateDatabaseWithRemoteContent(remoteHealthcareSites);
-        List<HealthcareSite> result = new ArrayList<HealthcareSite>();
+
+		List<HealthcareSite> result = new ArrayList<HealthcareSite>();
         Example example = Example.create(hcs).excludeZeroes().ignoreCase();
         try {
-            Criteria orgCriteria = getSession().createCriteria(Organization.class);
-            orgCriteria.addOrder(Order.asc("name"));  
-            orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-            orgCriteria.setMaxResults(50);
-            orgCriteria.add(Restrictions.ilike("nciInstituteCode", "%" + hcs.getNciInstituteCode() + "%"));
+            Criteria orgCriteria = getHibernateTemplate().getSessionFactory()
+            .getCurrentSession().createCriteria(HealthcareSite.class);
+           
+            if(hcs.getNciInstituteCode() != null && hcs.getNciInstituteCode() != ""){
+            	orgCriteria.add(Expression.ilike("nciInstituteCode", "%" + hcs.getNciInstituteCode() + "%"));
+            }
+            if(hcs.getName() != null && hcs.getName() != ""){
+            	orgCriteria.add(Expression.ilike("name", "%" + hcs.getName() + "%"));
+            }
+            
             if (isWildCard) {
                 example.enableLike(MatchMode.ANYWHERE);
             }
             example.excludeProperty("studyEndPointProperty");
             example.excludeProperty("registrationEndPointProperty");
+            
+            orgCriteria.addOrder(Order.asc("name"));  
+            orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+            orgCriteria.setMaxResults(50);
             result = orgCriteria.add(example).list();
         }
         catch (Exception e) {
