@@ -20,7 +20,8 @@
         }
 
         function showTable(table) {
-        	$('resultsDiv').style.display="block";
+            $('resultsDiv').style.display="block";
+            $('search-indicator').style.display="none";
             document.getElementById('tableDiv').innerHTML=table;
         }
     </script>
@@ -58,7 +59,8 @@
 
             <div class="row">
                 <div class="value">
-                    <input type='button' onClick="buildTable('searchForm');" value='Search' title='Search'/>
+                    <input type='button' onClick="$('search-indicator').style.display='';buildTable('searchForm');" value='Search' title='Search'/>
+                    <img id="search-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
                 </div>
             </div>
         </div>
