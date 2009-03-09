@@ -94,7 +94,7 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C> {
             return new ModelAndView("", map);
         }
         
-        if (this.shouldDelete(request, command, error)) {
+        if (this.shouldDelete(request, command, error) || deletionIdStr.startsWith("HC#")) {
             col.remove(index.intValue());
             map.put(AjaxableUtils.getFreeTextModelName(), "deletedIndex="
                             + index + "||hashCode="
