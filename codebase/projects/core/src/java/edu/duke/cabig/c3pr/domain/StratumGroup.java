@@ -15,9 +15,11 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
@@ -30,6 +32,10 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     private Integer stratumGroupNumber;
 
     private LazyListHelper lazyListHelper;
+    
+    private C3PRExceptionHelper c3PRExceptionHelper;
+
+	private MessageSource c3prErrorMessages;
 
     public StratumGroup() {
         lazyListHelper = new LazyListHelper();
@@ -41,6 +47,15 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
                         new InstantiateFactory<StratificationCriterionAnswerCombination>(
                                         StratificationCriterionAnswerCombination.class));
         currentPosition = new Integer(0);
+        
+        ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+		resourceBundleMessageSource.setBasename("error_messages_multisite");
+		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
+		resourceBundleMessageSource1.setBasename("error_messages_c3pr");
+		resourceBundleMessageSource1
+				.setParentMessageSource(resourceBundleMessageSource);
+		this.c3prErrorMessages = resourceBundleMessageSource1;
+		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
     }
 
     @Override
@@ -196,8 +211,8 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
             }
         }
         if (arm == null) {
-            throw new C3PRBaseRuntimeException(
-                            "No Arm avalable for this stratum group. Maybe the Randomization Book is exhausted");
+        	throw getC3PRExceptionHelper().getRuntimeException(
+                    getCode("C3PR.EXCEPTION.REGISTRATION.NO.ARM.AVAILABLE.BOOK.EXHAUSTED.CODE"));
         }
         return arm;
     }
@@ -216,5 +231,29 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         StratumGroup sg = (StratumGroup) obj;
         return this.stratumGroupNumber - sg.getStratumGroupNumber();
     }
+    
+    @Transient
+	public C3PRExceptionHelper getC3PRExceptionHelper() {
+		return c3PRExceptionHelper;
+	}
+
+	public void setC3PRExceptionHelper(C3PRExceptionHelper exceptionHelper) {
+		this.c3PRExceptionHelper = exceptionHelper;
+	}
+
+	@Transient
+	public int getCode(String errortypeString) {
+		return Integer.parseInt(this.c3prErrorMessages.getMessage(
+				errortypeString, null, null));
+	}
+
+	@Transient
+	public MessageSource getC3prErrorMessages() {
+		return c3prErrorMessages;
+	}
+
+	public void setC3prErrorMessages(MessageSource errorMessages) {
+		c3prErrorMessages = errorMessages;
+	}
 
 }
