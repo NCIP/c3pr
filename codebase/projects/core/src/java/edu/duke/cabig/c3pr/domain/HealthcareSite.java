@@ -38,8 +38,14 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     private List<ResearchStaff> researchStaffs = new ArrayList<ResearchStaff>();
     
     private List<Participant> participants = new ArrayList<Participant>();
+    
+    protected List<HealthcareSite> externalOrganizations;
 
-    private LazyListHelper lazyListHelper;
+    public void setExternalOrganizations(List<HealthcareSite> externalOrganizations) {
+		this.externalOrganizations = externalOrganizations;
+	}
+
+	private LazyListHelper lazyListHelper;
     
     public HealthcareSite() {
         lazyListHelper = new LazyListHelper();
@@ -163,5 +169,11 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     public void setParticipants(List<Participant> participants) {
     	this.participants = participants;
     }
+    
+    @Transient
+	public List<HealthcareSite> getExternalOrganizations() {
+		return externalOrganizations;
+	}
+
 
 }
