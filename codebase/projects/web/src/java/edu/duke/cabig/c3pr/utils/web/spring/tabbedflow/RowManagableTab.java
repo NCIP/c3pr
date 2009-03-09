@@ -83,8 +83,10 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C> {
             int hashCode = Integer.parseInt(deletionIdStr);
             for (int i = 0; i < col.size(); i++) {
                 if (col.get(i).hashCode() == hashCode) {
-                    index = i;
-                    break;
+                	if(col.get(i) instanceof AbstractMutableDeletableDomainObject && ((AbstractMutableDeletableDomainObject)col.get(i)).getId()==null){
+	                    index = i;
+	                    break;
+                	}
                 }
             }
         }
