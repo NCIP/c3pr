@@ -5,133 +5,133 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script type="text/javascript">
-                                                            		function minimizeSubjectBox(msg){
-                                                            		PanelCombo('SubjectBox');
-                                                            		displaySubjectMessage(msg,true);
-                                                            	}
-                                                            	
-                                                            	function displaySubjectMessage(message,pulsateFlag){
-                                                            		element=$$("#Subject .header h2")[0];
-                                                            		new Element.update(element,message);
-                                                            		pulsateFlag?(!is_ie?new Effect.Pulsate(element):null):null;
-                                                            	}
-                                                            	
-                                                              	function clearField(field) {
-                                                                	field.value = "";
-                                                                }
-                                                                    
-                                                            //  	var instanceRowInserterProps = {
-                                                            //       add_row_division_id: "mytable", 	        		/* this id belongs to element where the row would be appended to */
-                                                            //        skeleton_row_division_id: "dummy-row",
-                                                            //        initialIndex: 1,    /* this is the initial count of the rows when the page is loaded  */
-                                                            //        path: "identifiers",                                /* this is the path of the collection that holds the rows  */
-                                                            //    };
-                                                            //   RowManager.addRowInseter(instanceRowInserterProps);
-                                                              	
-                                                              	function moveToSearchSubject(){
-                                                              		document.getElementById('searchSubject_btn').className="current";
-                                                              		document.getElementById('createSubject_btn').className="fifthlevelTab";
-                                                              	
-                                                              		document.getElementById('searchSubjectDiv').style.display="";
-                                                              		document.getElementById('createSubjectDiv').style.display="none";
-                                                              	}
-                                                              	
-                                                              	function moveToCreateSubject(){
-                                                              	  	document.getElementById('searchSubject_btn').className="fifthlevelTab";
-                                                              		document.getElementById('createSubject_btn').className="current";
-                                                              		
-                                                              		document.getElementById('searchSubjectDiv').style.display="none";
-                                                              		document.getElementById('createSubjectDiv').style.display="";
-                                                              		<!--sending a blank request to createParticipantController which bombs the first time-->
-                                                              		<!--coz the command isnt instantiated. Workaround is to send a dummy request in advance and get-->
-                                                              		<!--it to instantiate it in advance so the createSubject wont fail the first time-->
-                                                              		new Ajax.Request('../participant/createParticipant', {method:'get', asynchronous:true});
-                                                              	}
-                                                              	
-                                                             	
-                                                              	/* handlers for  create Subject flow */
-                                                            	var handlerFunc = function(t) {
-                                                            		if(t.responseText != null && t.responseText != ''){
-                                                            			var ret=t.responseText
-                                                            		    var name=ret.substr(0,ret.indexOf("||"));
-                                                            		    var id=ret.substr(ret.indexOf("||")+2);
-                                                            			$('studySubject.participant').value = id;	
-                                                            			document.getElementById("subject-message").innerHTML = "Selected Subject: " +name;
-                                                            			message="Selected Subject: " +name;
-                                                            			minimizeSubjectBox(message);
-                                                            			var elMsg = document.getElementById('succesfulCreateDiv');
-                                                            			var elDetails = document.getElementById('createSubjectDetailsDiv');
-                                                            			new Element.hide(elDetails);
-                                                            			new Effect.Grow(elMsg);
-                                                            		} else {
-                                                            			alert("handlerFunc: Subject Creation Failed. Please Try Again");
-                                                            		}		
-                                                            	}
-                                                            	
-                                                            	function toggleAddressSection(){
-                                                            	 var el = document.getElementById('addressSection');
-                                                            		if ( el.style.display != 'none' ) {
-                                                            			new Effect.BlindUp(el);
-                                                            		}
-                                                            		else {
-                                                            			new Effect.BlindDown(el);
-                                                            		}
-                                                            	}
-                                                            	
-                                                            	var handlerFail = function(t) {
-                                                            		alert("handlerFail: Subject Creation Failed. Please Try Again");
-                                                            	}
-                                                            	/* handlers for  create Subject flow */
-                                                            	
-                                                            	/* handlers for searchSubject flwo */
-                                                            	function callbackSubject(t){
-                                                            		new Element.hide('searchSubjectInd');
-                                                            		var resultDiv = document.getElementById("subjectSearchResults");
-                                                            		resultDiv.innerHTML = t.responseText;
-                                                            		new Effect.SlideDown(resultDiv);
-                                                            	}	
-                                                            	
-                                                            	function callbackSubjectFail(t){
-                                                            		alert("subject search failed");
-                                                            	}
-                                                            	
-                                                            	/* handlers for searchSubject flwo */
-                                                            	  	
-                                                            	function postProcessSubjectSelection(id, name, identifier){
-                                                            		$('studySubject.participant').value = id;
-                                                            		minimizeSubjectBox("Selected Subject: " +name+ " (" + identifier + ")");	
-                                                            	}  	
-                                                            	
-                                                            	ValidationManager.submitPostProcess= function(formElement, flag){
-                                                            		
-                                                            		if(formElement.name == 'createSubForm'){
-                                                            			//for the create subject form we make an ajax submit and return false to avoid the html submit
-                                                            			var raceCodeFlag=false;
-                                                            		for(i=1 ; i<8 ; i++){
-                                                            			if($('raceCodes'+i).checked){
-                                                            				raceCodeFlag=true;
-                                                            				break;
-                                                            			}
-                                                            		}
-                                                            		if(!raceCodeFlag){
-                                                            			ValidationManager.removeError($("raceCodes"))
-                                                            			ValidationManager.showError($("raceCodes"), "required")	
-                                                            			return false;
-                                                            		}
-                                                            		if(flag){
-                                                            			new Ajax.Updater('temp','../personAndOrganization/participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
-                                                            		}
-                                                            		return false;
-                                                            		}else{
-                                                            			//for all other forms(i.e. the main form on select_study_or_subject) we return true to ensure the html submit
-                                                            			return flag;
-                                                            		}		
-                                                            	}
-                                                            	
-                                                            	function searchParticipant(){
-                                                            			new Element.show('searchSubjectInd');
-                                                            			new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});	
-                                                            	}
+		function minimizeSubjectBox(msg){
+		PanelCombo('SubjectBox');
+		displaySubjectMessage(msg,true);
+	}
+	
+	function displaySubjectMessage(message,pulsateFlag){
+		element=$$("#Subject .header h2")[0];
+		new Element.update(element,message);
+		pulsateFlag?(!is_ie?new Effect.Pulsate(element):null):null;
+	}
+	
+  	function clearField(field) {
+    	field.value = "";
+    }
+        
+//  	var instanceRowInserterProps = {
+//       add_row_division_id: "mytable", 	        		/* this id belongs to element where the row would be appended to */
+//        skeleton_row_division_id: "dummy-row",
+//        initialIndex: 1,    /* this is the initial count of the rows when the page is loaded  */
+//        path: "identifiers",                                /* this is the path of the collection that holds the rows  */
+//    };
+//   RowManager.addRowInseter(instanceRowInserterProps);
+  	
+  	function moveToSearchSubject(){
+  		document.getElementById('searchSubject_btn').className="current";
+  		document.getElementById('createSubject_btn').className="fifthlevelTab";
+  	
+  		document.getElementById('searchSubjectDiv').style.display="";
+  		document.getElementById('createSubjectDiv').style.display="none";
+  	}
+  	
+  	function moveToCreateSubject(){
+  	  	document.getElementById('searchSubject_btn').className="fifthlevelTab";
+  		document.getElementById('createSubject_btn').className="current";
+  		
+  		document.getElementById('searchSubjectDiv').style.display="none";
+  		document.getElementById('createSubjectDiv').style.display="";
+  		<!--sending a blank request to createParticipantController which bombs the first time-->
+  		<!--coz the command isnt instantiated. Workaround is to send a dummy request in advance and get-->
+  		<!--it to instantiate it in advance so the createSubject wont fail the first time-->
+  		new Ajax.Request('../participant/createParticipant', {method:'get', asynchronous:true});
+  	}
+  	
+ 	
+  	/* handlers for  create Subject flow */
+	var handlerFunc = function(t) {
+		if(t.responseText != null && t.responseText != ''){
+			var ret=t.responseText
+		    var name=ret.substr(0,ret.indexOf("||"));
+		    var id=ret.substr(ret.indexOf("||")+2);
+			$('studySubject.participant').value = id;	
+			document.getElementById("subject-message").innerHTML = "Selected Subject: " +name;
+			message="Selected Subject: " +name;
+			minimizeSubjectBox(message);
+			var elMsg = document.getElementById('succesfulCreateDiv');
+			var elDetails = document.getElementById('createSubjectDetailsDiv');
+			new Element.hide(elDetails);
+			new Effect.Grow(elMsg);
+		} else {
+			alert("handlerFunc: Subject Creation Failed. Please Try Again");
+		}		
+	}
+	
+	function toggleAddressSection(){
+	 var el = document.getElementById('addressSection');
+		if ( el.style.display != 'none' ) {
+			new Effect.BlindUp(el);
+		}
+		else {
+			new Effect.BlindDown(el);
+		}
+	}
+	
+	var handlerFail = function(t) {
+		alert("handlerFail: Subject Creation Failed. Please Try Again");
+	}
+	/* handlers for  create Subject flow */
+	
+	/* handlers for searchSubject flwo */
+	function callbackSubject(t){
+		new Element.hide('searchSubjectInd');
+		var resultDiv = document.getElementById("subjectSearchResults");
+		resultDiv.innerHTML = t.responseText;
+		new Effect.SlideDown(resultDiv);
+	}	
+	
+	function callbackSubjectFail(t){
+		alert("subject search failed");
+	}
+	
+	/* handlers for searchSubject flwo */
+	  	
+	function postProcessSubjectSelection(id, name, identifier){
+		$('studySubject.participant').value = id;
+		minimizeSubjectBox("Selected Subject: " +name+ " (" + identifier + ")");	
+	}  	
+	
+	ValidationManager.submitPostProcess= function(formElement, flag){
+		
+		if(formElement.name == 'createSubForm'){
+			//for the create subject form we make an ajax submit and return false to avoid the html submit
+			var raceCodeFlag=false;
+		for(i=1 ; i<8 ; i++){
+			if($('raceCodes'+i).checked){
+				raceCodeFlag=true;
+				break;
+			}
+		}
+		if(!raceCodeFlag){
+			ValidationManager.removeError($("raceCodes"))
+			ValidationManager.showError($("raceCodes"), "required")	
+			return false;
+		}
+		if(flag){
+			new Ajax.Updater('temp','../personAndOrganization/participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
+		}
+		return false;
+		}else{
+			//for all other forms(i.e. the main form on select_study_or_subject) we return true to ensure the html submit
+			return flag;
+		}		
+	}
+	
+	function searchParticipant(){
+			new Element.show('searchSubjectInd');
+			new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});	
+	}
 </script>
 <tags:minimizablePanelBox title="Select Subject" boxId="SubjectBox">
     <!-- subTabbedflow--><a href="javascript:moveToCreateSubject()" id="createSubject_btn" class="current"><span><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>" alt="" />Create Subject</span></a><a href="javascript:moveToSearchSubject()" id="searchSubject_btn" class="fifthlevelTab"><span id="searchSubjectSpan"><img src="<tags:imageUrl name="icons/search.png"/>" alt="" /> Search for Subject</span></a>
