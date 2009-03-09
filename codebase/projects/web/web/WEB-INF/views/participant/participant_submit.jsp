@@ -20,10 +20,7 @@ function updateTargetPage(target){
 </script>
 </head>
 <body>
-<%--<tags:c3prCustomTabForm tab="${tab}" flow="${flow}" title="Subject Overview"
-	willSave="false" formName="review" needReset="false">
-	<jsp:attribute name="repeatingFields">--%>
-	<chrome:box title="Subject Overview" id="SubO">
+<chrome:box title="Subject Overview" id="SubO">
     <chrome:flashMessage/>
 <form:form>
 	<tags:tabFields tab="${tab}"/>
@@ -172,10 +169,12 @@ function updateTargetPage(target){
 				<tabs:tabButtonControls text="edit" target="0" />
 			</div>
 		</chrome:division>
-		<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+		<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}">
+			<jsp:attribute name="submitButton">
+				<tags:button type="submit" color="green" icon="subject" value="Create Subject" />				
+			</jsp:attribute>
+		</tags:tabControls>
 </form:form>
 </chrome:box>
-	<%--</jsp:attribute>
-</tags:c3prCustomTabForm>--%>
 </body>
 </html>
