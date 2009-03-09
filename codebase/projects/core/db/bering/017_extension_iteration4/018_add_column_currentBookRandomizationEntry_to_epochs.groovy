@@ -1,10 +1,14 @@
 class AddColumnCurrentBookRandomizationEntryToEpochs extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
-       	addColumn("epochs","current_bk_rand_entry","integer");
+	    if (databaseMatches('postgres')){
+	       	addColumn("epochs","current_book_randomization_entry","integer");
+	     }
     }
   
     void down() {
-        dropColumn("epochs","current_bk_rand_entry");
+	    if (databaseMatches('postgres')){
+	        dropColumn("epochs","current_book_randomization_entry");
+	     }
     }
 }
 
