@@ -39,19 +39,26 @@ function manageEpochSelection(element){
                    <th><b><fmt:message key="c3pr.common.organization"/></b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
                    <th><b><fmt:message key="c3pr.common.NCIIdentifier"/></b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.nciInstituteCode"/></th>
                </tr>
-               <c:forEach items="${studySites}" var="studySite" varStatus="status">
-               	 <tr>
-					<td>
-						<input class="studySiteSelection" type="radio" value="${studySite.id}" onclick="manageStudySiteSelection(this);" <c:if test="${status.count ==1}">checked </c:if>  />
-					</td>
-               		<td>
-               			${studySite.healthcareSite.name} ${status.count}
-               		</td>
-               		<td>
-               			${studySite.healthcareSite.nciInstituteCode}
-               		</td>
-               	 </tr>
-               </c:forEach>
+               <c:choose>
+	               <c:when test="${fn:length(studySites) > 0}">
+		               <c:forEach items="${studySites}" var="studySite" varStatus="status">
+		               	 <tr>
+							<td>
+								<input class="studySiteSelection" type="radio" value="${studySite.id}" onclick="manageStudySiteSelection(this);" <c:if test="${status.count ==1}">checked </c:if>  />
+							</td>
+		               		<td>
+		               			${studySite.healthcareSite.name} ${status.count}
+		               		</td>
+		               		<td>
+		               			${studySite.healthcareSite.nciInstituteCode}
+		               		</td>
+		               	 </tr>
+		               </c:forEach>
+	               </c:when>  
+	               <c:otherwise>
+	               		<div><span class="red"><fmt:message key="registartion.companion.noStudySites"/></span></div>
+	               </c:otherwise>
+               </c:choose>
             </table>
 	</chrome:division>
 	<chrome:division title="Select Epoch">
@@ -62,22 +69,29 @@ function manageEpochSelection(element){
                   <th><b><fmt:message key="c3pr.common.description"/></b></th>
                   <th><b><fmt:message key="c3pr.common.enrolling"/></b></th>
               </tr>
-              <c:forEach items="${epochs}" var="epoch" varStatus="epochStatus">
-              	 <tr>
-					<td>
-						<input class="epochSelection" type="radio" value="${epoch.id}" onclick="manageEpochSelection(this);" <c:if test="${epochStatus.count ==1}">checked </c:if>  />
-					</td>
-             		<td>
-             			${epoch.name}
-             		</td>
-             		<td>
-             			${epoch.descriptionText}
-             		</td>
-             		<td>
-             			${(epoch.enrollmentIndicator)?'Yes':'No'}
-             		</td>
-             	 </tr>
-              </c:forEach>
+              <c:choose>
+	              <c:when test="${fn:length(epochs) > 0}">
+		              <c:forEach items="${epochs}" var="epoch" varStatus="epochStatus">
+		              	 <tr>
+							<td>
+								<input class="epochSelection" type="radio" value="${epoch.id}" onclick="manageEpochSelection(this);" <c:if test="${epochStatus.count ==1}">checked </c:if>  />
+							</td>
+		             		<td>
+		             			${epoch.name}
+		             		</td>
+		             		<td>
+		             			${epoch.descriptionText}
+		             		</td>
+		             		<td>
+		             			${(epoch.enrollmentIndicator)?'Yes':'No'}
+		             		</td>
+		             	 </tr>
+		              </c:forEach>
+	               </c:when>  
+	               <c:otherwise>
+	               		<div><span class="red"><fmt:message key="registartion.companion.noEnrollingEpoch"/></span></div>
+	               </c:otherwise>
+               </c:choose>
            </table>
 	</chrome:division>
 	<div style="display:none">
