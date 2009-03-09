@@ -15,10 +15,6 @@
 
 <script type="text/javascript">
 
-function saveStudy(){
-	document.getElementById("command").submit();
-}
-
 function fireAction(action, selected) {
         addDiseasesToCart()
         $('_doNotSave').value = true;
@@ -352,14 +348,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 	</csmauthz:accesscontrol>
 </div>
 <br/>
-<div class="content buttons autoclear">
-        <div class="flow-buttons">
-            <span class="next">
-				<input type="button" value="Save" id="saveAdvanceConfig"
-                       onclick="saveStudy();"/>
- 			</span>
-        </div>
-    </div> 
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
 </form:form>
 
 <div id="dummy-row" style="display:none;">
