@@ -121,7 +121,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		this.name = name;
 	}
 	
-	@Column(name = "current_book_randomization_entry")
+	@Column(name = "current_bk_rand_entry")
 	public Integer getCurrentBookRandomizationEntryPosition() {
 		return currentBookRandomizationEntryPosition;
 	}
