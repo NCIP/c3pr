@@ -58,7 +58,7 @@
 
             <div class="row">
                 <div class="value">
-                    <input class='ibutton' type='submit' value='Search'  title='Search Study'/>
+                    <tags:button type="submit" icon="search" size="small" color="blue" value="Search" onclick="searchStudy();"/>
                 </div>
             </div>
         </div>

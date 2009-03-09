@@ -42,7 +42,7 @@ function submitPage(){
 							</tr>
 							<tr>
 								<td></td>
-								<td align="left"><input type="button" value="Search" onClick="submitPage();return false;">
+								<td align="left"><tags:button type="submit" icon="search" size="small" color="blue" value="Search"/>
 									</td>
 							</tr>
 						</table>

@@ -124,14 +124,7 @@ function saveStudy() {
 		<div align="right"><input type="button" value="Add Notification"
 			onclick="RowManager.addRow(notificationRowInserterProps);" /></div>
 		<br />
-<div class="content buttons autoclear">
-        <div class="flow-buttons">
-            <span class="next">
-				<input type="button" value="Save" id="saveAdvanceConfig"
-                       onclick="saveStudy();"/>
- 			</span>
-        </div>
-    </div>
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
 </form:form>
 </tags:panelBox>
 

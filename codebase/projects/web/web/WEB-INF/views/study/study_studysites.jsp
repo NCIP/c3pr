@@ -383,14 +383,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 				<br>
 	</c:forEach>
 </div>
-
-<div class="content buttons autoclear">
-       <div class="flow-buttons">
-           <span class="next">
-				<input type="submit" value="Save" id="saveAdvanceConfig""/>
-			</span>
-       </div>
-   </div>
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
 </form:form>
 </tags:panelBox>
 <div id="dummy-row" style="display:none;">

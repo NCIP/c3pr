@@ -167,10 +167,6 @@ Event.observe(window, "load", function() {
 
 });
 })
-
-function saveStudy(){
-	document.getElementById("command").submit();
-}
 </script>
 </head>
 
@@ -264,8 +260,8 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                               varStatus="status">
 		                        <tr>
 		                            <td>
-		                              ${studyPersonnel.researchStaff.lastName}&nbsp;${studyPersonnel.researchStaff.firstName}&nbsp;${studyPersonnel.researchStaff.uniqueIdentifier}
-		                                <c:if test="${studyPersonnel.researchStaff.uniqueIdentifier != null}">
+		                              ${studyPersonnel.researchStaff.lastName}&nbsp;${studyPersonnel.researchStaff.firstName}
+		                                <c:if test="${studyPersonnel.researchStaff.class.name=='edu.duke.cabig.c3pr.domain.RemoteResearchStaff' && studyPersonnel.researchStaff.uniqueIdentifier != null}">
 						            		<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI data" width="17" height="16" border="0" align="middle"/>
 						            	</c:if>
 		                            </td>
@@ -303,14 +299,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 	</csmauthz:accesscontrol>
 </div>
 <br/>
-<div class="content buttons autoclear">
-        <div class="flow-buttons">
-            <span class="next">
-				<input type="button" value="Save" id="saveAdvanceConfig"
-                       onclick="saveStudy();"/>
- 			</span>
-        </div>
-    </div> 
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
 </form:form>
 
 </body>

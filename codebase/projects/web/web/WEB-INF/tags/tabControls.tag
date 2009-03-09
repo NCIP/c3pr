@@ -5,6 +5,7 @@
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" %>
 <%@attribute name="tabNumber"%>
 <%@attribute name="isLast"%>
+<%@attribute name="isFlow" type="java.lang.Boolean"%>
 <%@attribute name="isSummaryPage"%>
 <%@attribute name="willSave"%>
 <%@attribute name="goToTab"%>
@@ -51,6 +52,13 @@
 		            <tags:button type="submit" color="green" id="${isLast == 'true'?'flow-finish':'flow-next'}" cssClass="tab${goToTab}" value="${continueLabel}" icon="${continueLabel}"/>
 		        </span>
 		    </div> 
+		</c:when>
+		<c:when test="${not empty isFlow && !isFlow}">
+			<div class="flow-buttons">
+		        <span class="next">
+			    	<tags:button type="submit" color="green" id="flow-update" cssClass="tab${tabNumber}" value="Save" icon="save"/>
+		        </span>
+			</div>
 		</c:when>
 		<c:otherwise>
 			<div class="flow-buttons">

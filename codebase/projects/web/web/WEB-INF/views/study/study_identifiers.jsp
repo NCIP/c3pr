@@ -7,10 +7,6 @@
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 
-function saveStudy() {
-    document.getElementById('command').submit();
-}
-
 var healthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
     populator: function(autocompleter, text) {
@@ -220,14 +216,8 @@ function manageIdentifierRadio(element){
 				</div>
 
 		</chrome:division>
-	<div class="content buttons autoclear">
-        <div class="flow-buttons">
-            <span class="next">
-				<input type="button" value="Save" id="saveAdvanceConfig"
-                       onclick="saveStudy();"/>
- 			</span>
-        </div>
-    </div>
+		
+		<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
 </form:form>
 </tags:panelBox>
 	<script>
