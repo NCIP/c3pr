@@ -9,6 +9,8 @@ import org.springframework.context.MessageSource;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -144,6 +146,7 @@ public class StudySubjectFactory {
                 }
             }
         }
+        addContactsToParticipant(participant);
         return participant;
     }
 
@@ -283,6 +286,20 @@ public class StudySubjectFactory {
         /*studySubject.setCctsWorkflowStatus(source.getCctsWorkflowStatus());
         studySubject.setMultisiteWorkflowStatus(source.getMultisiteWorkflowStatus());*/
     }
+    
+    private Participant addContactsToParticipant(Participant participant) {
+
+        ContactMechanism contactMechanismEmail = new ContactMechanism();
+        ContactMechanism contactMechanismPhone = new ContactMechanism();
+        ContactMechanism contactMechanismFax = new ContactMechanism();
+        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
+        contactMechanismPhone.setType(ContactMechanismType.PHONE);
+        contactMechanismFax.setType(ContactMechanismType.Fax);
+        participant.addContactMechanism(contactMechanismEmail);
+        participant.addContactMechanism(contactMechanismPhone);
+        participant.addContactMechanism(contactMechanismFax);
+        return participant;
+    }
 
     private int getCode(String errortypeString) {
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
@@ -303,4 +320,6 @@ public class StudySubjectFactory {
     public void setStudyRepository(StudyRepository studyRepository) {
         this.studyRepository = studyRepository;
     }
+    
+    
 }
