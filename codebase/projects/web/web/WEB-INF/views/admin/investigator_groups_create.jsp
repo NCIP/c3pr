@@ -242,7 +242,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
           		<select multiple size="1" style="width:400px" id="disease-sub-category">
           </select>
 		  <p id="flashMessageForGroup" style="display: none">Please Add a Investigator Group</p>
-          <div align="right"><input type="button" value="Add Group" onClick="handleAddGroup()"/></div>
+          <tags:button type="button" color="blue" icon="add" value="Add Group" onclick="handleAddGroup();" size="small"/>
 		<br>
       </chrome:division>
 <div id="errorsDiv">

@@ -263,7 +263,6 @@ Event.observe(window, "load", function() {
             <tags:hoverHint keyProp="study.diseaseCategoryAsText"/>
             <tags:indicator id="disease-indicator"/>
             <div id="disease-choices" class="autocomplete" style="display: none;"></div>
-            <input type="button" id="disease-clear" value="Clear" onClick="handleClear()"/>
 
             <p id="disease-selected" style="display: none"></p>
 
@@ -285,7 +284,9 @@ Event.observe(window, "load", function() {
     </chrome:box>
 	</td>
 	
-	<td valign="middle"><input type="button" value="Add >>" onClick="fireAction('addStudyDisease','0');" alt="Add Study Disease"/></td>
+	<td valign="middle">
+	<tags:button type="button" color="blue" icon="add" value="Add >>" 
+onclick="fireAction('addStudyDisease','0');" size="small"/></td>
 	
 	<td valign="top" width="45%">
     <chrome:box title="Selected Disease - ${fn:length(command.study.studyDiseases)}" id="diseases">

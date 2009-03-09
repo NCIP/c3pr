@@ -117,7 +117,7 @@ failedStatusChange= function (responseXML){
 						</c:choose>
 	            		</c:forEach>
 	            	</select>
-	            	<input type="button" value="Go" onclick="takeAction('${site.healthcareSite.nciInstituteCode }');"/>
+	            	<tags:button type="button" color="blue" value="Go" onclick="takeAction('${site.healthcareSite.nciInstituteCode }');" size="small"/>
 					</c:if>
 					<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
 						Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
@@ -209,7 +209,7 @@ failedStatusChange= function (responseXML){
 								</c:choose>
 			            		</c:forEach>
 			            	</select>
-			            	<input type="button" value="Go" onclick="changeCompanionStudySiteStatus('${site.healthcareSite.nciInstituteCode}');"/>
+			            	<tags:button type="button" color="blue" value="Go" onclick="changeCompanionStudySiteStatus('${site.healthcareSite.nciInstituteCode}');" size="small"/>
 							</c:if>
 							<div id="companionSendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
 								Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>

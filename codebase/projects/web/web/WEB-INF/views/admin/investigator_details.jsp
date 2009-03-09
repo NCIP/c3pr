@@ -105,10 +105,7 @@ function fireAction(action, selected){
 		</c:forEach>
         
     </table>
-	<div align="right"><input id="addOrganization" type="button"
-		value="Add Organization"
-		onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" />
-	</div>
+    <tags:button type="button" color="blue" value="Add Organization" icon="add" onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" size="small"/>
 	
 </chrome:division>
 <chrome:division id="staff-details" title="Basic Details">

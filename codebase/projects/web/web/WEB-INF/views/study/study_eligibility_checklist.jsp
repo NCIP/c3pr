@@ -73,8 +73,8 @@
 			<tr>
 				<td width="35%" align="right"><b><fmt:message key="study.eligibility.selectcaDSRFileToImport"/>
 				</b></td>
-				<td><input type="file" name="study.criteriaFile" /> <input
-					type='submit' value='Upload' /> <tags:hoverHint
+				<td>
+				<input type="file" name="study.criteriaFile" /><tags:button type="submit" size="small" color="blue" value="Upload"/><tags:hoverHint
 					keyProp="study.criteriafile" /></td>
 			</tr>
 		</table>
@@ -144,8 +144,9 @@
 						<td valign="bottom" align="right">
 						<table width="5%">
 							<tr>
-								<td><input type="button" value="Add Inclusion Criterion"
-									onclick="$('hInclusionEligibility--${epochCount.index}').show();RowManager.addRow(instanceInclusionRow_${epochCount.index});">
+								<td>
+								<tags:button type="button" color="blue" icon="add" value="Add Inclusion Criterion"
+								onclick="$('hInclusionEligibility--${epochCount.index}').show();RowManager.addRow(instanceInclusionRow_${epochCount.index});" size="small"/>
 								</td>
 							</tr>
 						</table>
@@ -191,8 +192,9 @@
 						<td valign="bottom" align="right">
 						<table width="5%">
 							<tr>
-								<td><input type="button" value="Add Exclusion Criterion"
-									onclick="$('hExclusionEligibility-${epochCount.index}').show();RowManager.addRow(instanceExclusionRow_${epochCount.index});" />
+								<td>
+								<tags:button type="button" color="blue" icon="add" value="Add Exclusion Criterion"
+								onclick="$('hExclusionEligibility-${epochCount.index}').show();RowManager.addRow(instanceExclusionRow_${epochCount.index});" size="small"/>
 								</td>
 							</tr>
 

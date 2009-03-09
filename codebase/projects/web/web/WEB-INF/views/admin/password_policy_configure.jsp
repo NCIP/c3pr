@@ -159,7 +159,7 @@
 	</chrome:division>
 
       <div class="row submit" align="right">
-	<input type="submit" value="Save"/>
+	<tags:button type="submit" color="green" value="Save" icon="save"/>
       </div>
 
       <c:if test="${updated}">

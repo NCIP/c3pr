@@ -46,7 +46,7 @@
 
             <div class="row">
                 <div class="value">
-                    <input type="submit" value="Import" />
+                    <tags:button type="submit" size="small" color="blue" value="Import"/>
                 </div>
             </div>
 

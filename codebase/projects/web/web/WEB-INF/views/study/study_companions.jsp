@@ -179,8 +179,11 @@ function closePopup(deleteRow) {
     </tr>
 </table>
 <div align="right">
-		<input id="addCompanion" type="button" value="Add Companion Study" onclick="addRow('addExistingCompanionStudy')" />
-		<input id="createCompanion" type="button" value="Create Companion Study" onclick="addRow('createCompanionStudy')"/>
+
+<tags:button type="button" color="blue" icon="add" value="Add Existing Companion" 
+onclick="addRow('addExistingCompanionStudy')" size="small"/>
+<tags:button type="button" color="blue" value="Create New Companion" 
+onclick="addRow('createCompanionStudy')" size="small"/>
 </div>
 
 </jsp:attribute>

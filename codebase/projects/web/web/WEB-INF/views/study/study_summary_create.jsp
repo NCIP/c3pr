@@ -248,10 +248,17 @@ function createStudy(){
 </chrome:division>
 <div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> 
-				<c:if test="${!(command.study.companionIndicator && !command.study.standaloneIndicator)}"><input type="button" value="Open" id="saveActiveButtonDisplayDiv" onClick="activateAndSaveStudy();return false;"/></c:if>
-				<input type="button" value="Create" id="createButtonDisplayDiv" onClick="createStudy();return false;"/>
-<input type="button" value="Manage" id="manageStudy"
-                       onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'"/>
+				<c:if test="${!(command.study.companionIndicator && !command.study.standaloneIndicator)}">
+				<tags:button type="button" color="blue" value="Open Study" 
+				onclick="activateAndSaveStudy();return false;" size="small"/>
+				</c:if>
+				<tags:button type="button" color="blue" value="Create Study" 
+				onclick="createStudy();return false;" size="small"/>
+				<script>
+					manageurl="<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />";
+				</script>
+				<tags:button type="button" color="blue" value="Manage Study" 
+				onclick='javascript:document.location=manageurl;' size="small"/>
 			</span></div>
 			</div>
 </chrome:box>

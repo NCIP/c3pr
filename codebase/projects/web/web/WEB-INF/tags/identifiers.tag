@@ -98,7 +98,8 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 	</tr>
 </table>
 <div style="padding:10px 0;">
-<tags:button type="button" color="blue" icon="add" value="Add Identifier" onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
+<tags:button type="button" color="blue" icon="add" value="Add Identifier" 
+onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
 </div>
 </div>
 </chrome:division>

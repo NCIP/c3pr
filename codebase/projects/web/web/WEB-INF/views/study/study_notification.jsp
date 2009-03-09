@@ -121,8 +121,10 @@ function saveStudy() {
 			</c:forEach>
 		</table>
 		<br>
-		<div align="right"><input type="button" value="Add Notification"
-			onclick="RowManager.addRow(notificationRowInserterProps);" /></div>
+		<div align="right">
+		<tags:button type="button" color="blue" icon="add" value="Add Notification" 
+		onclick="RowManager.addRow(notificationRowInserterProps);" size="small"/>
+		</div>
 		<br />
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
 </form:form>
@@ -139,8 +141,9 @@ function saveStudy() {
 		<table class="tablecontent" id="table1" width="50%">
 			<tr>
 				<th></th>
-				<th><input type="button" value="Add Email"
-					onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" />
+				<th>
+				<tags:button type="button" color="orange" icon="add" value="Add Email" 
+								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
 				</th>
 			</tr>
 		</table>
@@ -149,8 +152,9 @@ function saveStudy() {
 		<table class="tablecontent" id="table2" width="50%">
 			<tr>
 				<th></th>
-				<th><input type="button" value="Add Role"
-					onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" />
+				<th>
+				<tags:button type="button" color="orange" icon="add" value="Add Role" 
+								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
 				</th>
 			</tr>
 		</table>

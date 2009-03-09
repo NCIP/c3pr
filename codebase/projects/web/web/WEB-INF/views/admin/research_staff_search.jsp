@@ -109,7 +109,7 @@
             </div>
             <div class="row">
                 <div class="value">
-                    <input type='button' onClick="$('search-indicator').style.display='';buildTable('searchForm');" value='Search' title='Search'/>
+                	<tags:button type="button" icon="search" size="small" color="blue" value="Search" onclick="$('search-indicator').style.display='';buildTable('searchForm');"/>
                     <img id="search-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
                 </div>
             </div>

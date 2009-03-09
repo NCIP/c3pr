@@ -304,9 +304,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
     </tr>
 </table>
 <div align="right">
-<input id="addEpoch" type="button"
-               value="Add"
-               onclick="$('h-multiSite').show();javascript:RowManager.addRow(instanceRowInserterProps);"/>
+<tags:button type="button" color="blue" icon="add" value="Add Site" 
+onclick="j$('h-multiSite').show();javascript:RowManager.addRow(instanceRowInserterProps);" size="small"/>
 </div>
  </c:otherwise>
   </c:choose>
@@ -377,7 +376,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		<br>
 				<div class="flow-buttons">
 		            <span class="next">
-						<input type="button" value="Select From Parent" onclick="selectStudySites(${command.study.id},${parentStudyAssociation.id}, ${parentStudySiteStaus.index})" align="right"/>
+		            	<tags:button type="button" color="blue" value="Select From Parent" onclick="selectStudySites(${command.study.id},${parentStudyAssociation.id}, ${parentStudySiteStaus.index})" size="small"/>
 		 			</span>
 	        	</div>
 				<br>

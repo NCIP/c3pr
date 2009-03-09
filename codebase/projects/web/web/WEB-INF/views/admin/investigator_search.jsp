@@ -68,7 +68,7 @@
 
             <div class="row">
                 <div class="value">
-                    <input type='button' onClick="buildTable('searchForm');" value='Search' title='Search'/>
+                    <tags:button type="button" icon="search" size="small" color="blue" value="Search" onclick="buildTable('searchForm');"/>
                 </div>
             </div>
         </div>

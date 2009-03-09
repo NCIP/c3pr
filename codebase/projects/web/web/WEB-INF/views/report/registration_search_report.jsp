@@ -163,8 +163,8 @@ function clearScreen() {
 	</table>
 
 	<div class="row" align="center">
-	    <input class='ibutton' type='button' onclick="buildTable('searchForm');" value='Search'  title='Search Study'/>
-	    <input class='ibutton' type='button' onclick="clearScreen();" value='Clear' />
+	<tags:button type="button" icon="search" size="small" color="blue" value="Search Registration" onclick="buildTable('searchForm');"/>
+	<tags:button type="button" size="small" color="blue" value="Clear" onclick="clearScreen();"/>
 	</div>
 <br />
 </form:form>

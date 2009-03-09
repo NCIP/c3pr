@@ -161,8 +161,9 @@
 							<table class="tablecontent" id="table1" width="50%">
 								<tr>
 									<th></th>
-									<th><input type="button" value="Add Answer"
-										onclick="if(stratumGroupAlert('${epochCount.index}', '${isBookRandomized}')){RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));}" />
+									<th>
+									<tags:button type="button" color="orange" icon="add" value="Add Answer" 
+onclick="if(stratumGroupAlert('${epochCount.index}', '${isBookRandomized}')){RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));}" size="small"/>
 										</th>
 								</tr>
 								<c:forEach var="answer" varStatus="statusAns"
@@ -195,9 +196,9 @@
 				</c:forEach>
 			</table>
 			<br>
-			<div align="right"><input type="button"
-				value="Add Stratification Factor"
-				onclick="$('hInclusionEligibility--${epochCount.index}').show();if(stratumGroupAlert('${epochCount.index}','${isBookRandomized}')){RowManager.addRow(stratRowInserterProps_${epochCount.index});}" />
+			<div align="right">
+			<tags:button type="button" color="blue" icon="add" value="Add Stratification Factor" 
+			onclick="$('hInclusionEligibility--${epochCount.index}').show();if(stratumGroupAlert('${epochCount.index}','${isBookRandomized}')){RowManager.addRow(stratRowInserterProps_${epochCount.index});}" size="small"/>
 			</div>
 			</chrome:division>
 			<br/>
@@ -205,7 +206,8 @@
 				<jsp:param name="epochCountIndex" value="${epochCount.index}" />
 			</jsp:include>
 			<div id="stratumButton" align="right">
-				<input type='submit' onClick="preProcessGenerateGroups(${epochCount.index})" value='Generate Stratum Groups' />
+				<tags:button type="submit" color="blue" value="Generate Stratum Groups" 
+			onclick="preProcessGenerateGroups(${epochCount.index})" size="small"/>
 			</div>
 		</tags:minimizablePanelBox>
 		</c:if>
@@ -234,8 +236,9 @@
 			<table class="tablecontent" id="table1" width="50%">
 				<tr>
 					<th></th>
-					<th><input type="button" value="Add Answer"
-						onclick="stratumGroupAlert('${fn:length(command.study.epochs[epochCount.index].stratumGroups)}','${isBookRandomized}');RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX));" />
+					<th>
+					<tags:button type="button" color="orange" icon="add" value="Add Answer" 
+					onclick="stratumGroupAlert('${fn:length(command.study.epochs[epochCount.index].stratumGroups)}','${isBookRandomized}');RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX));" size="small"/>
 					</th>
 				</tr>
 				<tr id="table1-0">

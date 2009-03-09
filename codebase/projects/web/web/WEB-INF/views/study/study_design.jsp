@@ -388,15 +388,10 @@ DELETED TD
     </c:forEach>
 </table>
 <!-- BIG TABLE END -->
-
-    <div align="right">
-	
-	<input id="addEpoch" type="button" value="Add Epoch"
-			onclick="$('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)" />
-    <br>
-    
-    </div>
-
+	<div align="right">
+	<tags:button type="button" color="blue" icon="add" value="Add Epoch"
+	onclick="$('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)" size="small"/>
+    <br></div>
 </jsp:attribute>
 </tags:tabForm>
 
@@ -587,8 +582,8 @@ DELETED TD
 					<td colspan="3" align="left">
 					<hr noshade size="1" width="100%"
 						style="border-top: 1px black dotted;" align="left">
-					<input id="addArm-PAGE.ROW.INDEX" type="button" value="Add Arm"
-						onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" />
+					<tags:button type="button" color="orange" icon="add" value="Add Arm"
+					onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
 					<br />
 
 

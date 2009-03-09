@@ -82,7 +82,7 @@
 
         </c:forEach>
         <div class="row submit">
-            <input type="submit" value="Save"/>
+            <tags:button type="submit" color="green" value="Save" icon="save"/>
         </div>
 
         <c:if test="${param.updated}">

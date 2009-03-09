@@ -164,10 +164,8 @@ function manageIdentifierRadio(element){
 
 			<br>
 			<div align="right">
-
-			<input id="addOrganizationIdentifier" type="button"
-				value="Add Another Identifier"
-				onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" />
+			<tags:button type="button" color="blue" icon="add" value="Add Identifier" 
+			onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
 				</div>
 
 		</chrome:division>
@@ -210,9 +208,8 @@ function manageIdentifierRadio(element){
 
 			<br>
 <div align="right">
-			<input id="addSystemIdentifier" type="button"
-				value="Add Another Identifier"
-				onclick="$('hSystemAssignedIdentifier').show(); RowManager.addRow(systemIdentifierRowInserterProps);" />
+			<tags:button type="button" color="blue" icon="add" value="Add Identifier" 
+			onclick="$('hSystemAssignedIdentifier').show(); RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 				</div>
 
 		</chrome:division>

@@ -88,8 +88,9 @@
              </tr>
 	     </table>
 	     <br/>
-	     <div id="bookButton" align="center">    
-         	<input type='button' onclick='uploadBook("command", "${epochCount.index}", "${flowType}")' value='Upload Randomization Book'/>   
+	     <div id="bookButton" align="center">
+	     <tags:button type="button" color="blue" value="Upload Randomization Book" 
+			onclick='uploadBook("command", "${epochCount.index}", "${flowType}")' size="small"/>    
 		 </div>
 		 <hr />
 		 	<form:form method="post" id="epochForm_${epochCount.index}" enctype="multipart/form-data">
@@ -110,7 +111,7 @@
 			            </div>
 			        </div>
 			        <div id="bookButton" align="center">    
-			         	<input type='submit' value='Upload Randomization File'/>   
+			        	<tags:button type="submit" color="blue" value="Upload Randomization File" size="small"/>
 					</div><br/> 		        
 		    </form:form>
 	    </chrome:box>	    

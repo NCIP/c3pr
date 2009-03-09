@@ -289,10 +289,7 @@ top:83px;
 					</c:forEach>
 				</table>
 				<br>
-				<div align="right"><input id="addIdentifier" type="button"
-					value="Add Another Identifier"
-					onclick="$('hOrganizationAssignedIdentifier').show();javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" />
-				</div>
+				<tags:button type="button" color="blue" icon="add" value="Add Identifier" onclick="$('hOrganizationAssignedIdentifier').show();javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
 			</chrome:division></td>
 
 			<chrome:division title="System Assigned Identifiers">
@@ -333,10 +330,7 @@ top:83px;
 					</c:forEach>
 				</table>
 				<br>
-				<div align="right"><input id="addIdentifier" type="button"
-					value="Add Another Identifier"
-					onclick="$('hSystemAssignedIdentifier').show();javascript:RowManager.addRow(systemIdentifierRowInserterProps);" />
-				</div>
+				<tags:button type="button" color="blue" icon="add" value="Add Identifier" onclick="$('hSystemAssignedIdentifier').show();javascript:RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 			</chrome:division></td>
 
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />

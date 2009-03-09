@@ -110,8 +110,9 @@
                           validations="validate-notEmpty"/>
         <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
                                 authorizationCheckName="domainObjectAuthorizationCheck">
-            &nbsp; <input type="button" value="Edit"
-                          onclick="editor_changedTargetAccrualNumber.enterEditMode('click')"/>
+            &nbsp; 
+            <tags:button type="button" color="blue" value="Edit" 
+				onclick="editor_changedTargetAccrualNumber.enterEditMode('click')" size="small"/>
         </csmauthz:accesscontrol>
     </td>
 </tr>
@@ -450,11 +451,11 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <input type="button" id="broadcastStatusBtn" value="Refresh"
-                                   onclick="getBroadcastStatus();"/>
-                            <input type="button" id="broadcastBtn" value="Broadcast"
-                                   onclick="doSendMessageToESB();"/>
-
+                        	<tags:button id="broadcastStatusBtn" type="button" color="blue" value="Refresh" 
+							onclick="getBroadcastStatus();" size="small"/>
+							<tags:button id="broadcastBtn" type="button" color="blue" value="Broadcast" 
+							onclick="doSendMessageToESB();" size="small"/>
+                            
                         </td>
                     </tr>
                 </table>
@@ -472,16 +473,16 @@
                                     authorizationCheckName="domainObjectAuthorizationCheck">
                 &nbsp;
                 <c:if test="${!empty open}">
-                    <input type="button" value="${open }"
-                           onclick="changeStudyStatus('open')"/>
+                	<tags:button type="button" color="blue" value="${open }" 
+							onclick="changeStudyStatus('open')" size="small"/>
                 </c:if>
                 <c:if test="${!empty readyToOpen}">
-	                <input type="button" value="${readyToOpen }"
-	                       onclick="changeStudyStatus('readyToOpen')"/>
+                	<tags:button type="button" color="blue" value="${readyToOpen }" 
+							onclick="changeStudyStatus('readyToOpen')" size="small"/>
 	            </c:if>
 	            <c:if test="${!empty closed}">
-	                <input type="button" value="${closed }"
-	                       onclick="changeStudyStatus('close')"/>
+	            	<tags:button type="button" color="blue" value="${closed }" 
+							onclick="changeStudyStatus('close')" size="small"/>
 	            </c:if>
             </csmauthz:accesscontrol>
                 <c:choose>
@@ -496,16 +497,19 @@
 	                <csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
 	                	<c:choose>
 		                    <c:when test="${command.study.companionIndicator=='true'}">
-		                        <input type="button" value="Edit Study" onclick="document.location='../study/editCompanionStudy?studyId=${command.study.id}'"/>
+		                    	<tags:button type="button" color="blue" value="Edit Study" 
+							onclick="document.location='../study/editCompanionStudy?studyId=${command.study.id}'" size="small"/>
 		                    </c:when>
 		                    <c:otherwise>
-		                        <input type="button" value="Edit Study" onclick="document.location='../study/editStudy?studyId=${command.study.id}'"/>
+		                    	<tags:button type="button" color="blue" value="Edit Study" 
+							onclick="document.location='../study/editStudy?studyId=${command.study.id}'" size="small"/>
 		                    </c:otherwise>
 		                </c:choose>
 	                    
-	                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv" 
-	                    	<c:if test="${!command.study.standaloneIndicator || (command.study.coordinatingCenterStudyStatus != 'OPEN' && command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING')}">style="display:none" </c:if>
-	                                                            onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'"/>
+	                    <c:if test="${command.study.standaloneIndicator && !(command.study.coordinatingCenterStudyStatus != 'OPEN' || command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING')}">
+	                    	<tags:button type="button" color="blue" value="Amend Study" 
+							onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'" size="small"/>
+	                     </c:if>
 	                </csmauthz:accesscontrol>
                 </c:if> 
                 <c:if test="${not empty flowType}">
@@ -518,8 +522,8 @@
 <br/>
 <c:if test="${empty flowType}">
 <div align="right">
- 	<input type="button" value="Export Study" onclick="doExportAction();"/>
-    <input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
+	<tags:button type="button" color="blue" value="Export Study" onclick="doExportAction();" size="small"/>
+	<tags:button type="button" color="blue" value="Print" onclick="javascript:C3PR.printElement('printable');" size="small"/>
 </div>
 </c:if>
 </chrome:box>
