@@ -68,4 +68,9 @@ public class EpochDao extends GridIdentifiableDao<Epoch> {
             }
         }
     }
+    
+    @Transactional(readOnly = false)
+    public Epoch merge(Epoch epoch) {
+        return (Epoch) getHibernateTemplate().merge(epoch);
+    }
 }
