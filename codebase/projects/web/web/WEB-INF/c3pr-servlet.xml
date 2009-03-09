@@ -503,19 +503,19 @@
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
                         autowire="byType" p:displayName="Registration"
-                        p:mainController="searchRegistrationController">
+                        p:mainController="createRegistrationController">
                     <property name="pathMapping"
                               value="/registration/**"/>
                     <property name="tasks">
                         <list>
+							<bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Create Registration"
+                                    p:linkName="createRegistrationController"/>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Manage Registration"
                                     p:linkName="searchRegistrationController"/>
-                            <bean
-                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Create Registration"
-                                    p:linkName="createRegistrationController"/>
                         </list>
                     </property>
                 </bean>

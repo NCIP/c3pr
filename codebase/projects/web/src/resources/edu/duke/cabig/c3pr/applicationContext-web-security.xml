@@ -110,8 +110,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	</bean>
 
 	<util:map id="sectionObjectPrivilegeMap">
-		<entry key="/pages/registration/searchRegistration"
-			value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
+		<entry key="/pages/registration/createRegistration"
+			value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE" />
 		<entry key="/pages/registration/registrationDetails"
 			value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
 		<entry key="/pages/registration/manageRegistration.*"

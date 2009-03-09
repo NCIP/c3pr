@@ -76,7 +76,7 @@ margin-right:5px;
 
 /* top-level tabs */
 
-a#firstlevelnav_searchRegistrationController {
+a#firstlevelnav_createRegistrationController {
 	background-image: url(images/registration_btn.png);
 	height: 0px;
 	padding:45px 0px 0px 0px;
@@ -84,10 +84,10 @@ a#firstlevelnav_searchRegistrationController {
 	float: left;
 	margin-right: 0px;
 }
-a#firstlevelnav_searchRegistrationController:link { background-position:0px 0px; }
-a#firstlevelnav_searchRegistrationController:hover { background-position:0px -45px; }
-a#firstlevelnav_searchRegistrationController:active { background-position:0px -90px; }
-.selected a#firstlevelnav_searchRegistrationController { background-image: url(images/registration_btn_selected.png); }
+a#firstlevelnav_createRegistrationController:link { background-position:0px 0px; }
+a#firstlevelnav_createRegistrationController:hover { background-position:0px -45px; }
+a#firstlevelnav_createRegistrationController:active { background-position:0px -90px; }
+.selected a#firstlevelnav_createRegistrationController { background-image: url(images/registration_btn_selected.png); }
 
 a#firstlevelnav_searchStudyController {
 	background-image: url(images/studies_btn.png);
