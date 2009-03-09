@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -61,6 +62,8 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	private MessageSource c3prErrorMessages;
 
 	private Integer accrualCeiling;
+	
+	private Integer currentBookRandomizationEntryPosition;
 
 	private Boolean accrualIndicator = false;
 
@@ -116,6 +119,16 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Column(name = "current_book_randomization_entry")
+	public Integer getCurrentBookRandomizationEntryPosition() {
+		return currentBookRandomizationEntryPosition;
+	}
+
+	public void setCurrentBookRandomizationEntryPosition(
+			Integer currentBookRandomizationEntryPosition) {
+		this.currentBookRandomizationEntryPosition = currentBookRandomizationEntryPosition;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -210,6 +223,8 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	// No-Arg Constructor for Hibernate
 
 	public Epoch() {
+		
+		currentBookRandomizationEntryPosition = new Integer(0);
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 		resourceBundleMessageSource.setBasename("error_messages_multisite");
 		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
