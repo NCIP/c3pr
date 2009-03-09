@@ -109,7 +109,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
 		this.siteObjectIdGenerator = siteObjectIdGenerator;
 	}
-
+	
 	public RemoteSession getRemoteSession() {
 		return remoteSession;
 	}
@@ -222,6 +222,16 @@ public class HealthcareSiteDao extends OrganizationDao {
 								"from HealthcareSite h where h.nciInstituteCode = ?",
 								nciInstituteCode));
 	}
+	
+	public HealthcareSite getLocalOrganizationsOnlyByNciInstituteCode(String nciInstituteCode) {
+			
+			return CollectionUtils
+					.firstElement((List<HealthcareSite>) getHibernateTemplate()
+							.find(
+									"from LocalHealthcareSite h where h.nciInstituteCode = ?",
+									nciInstituteCode));
+		}
+
 
 	/**
 	 * Gets the organizations from the resolver.
@@ -430,6 +440,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 				}
 			} 
 	}
-		
-
+	
+	  @SuppressWarnings("unchecked")
+		public List<HealthcareSite> getRemoteOrganizations(HealthcareSite organization){
+	  	HealthcareSite searchCriteria = new RemoteHealthcareSite();
+	  	searchCriteria.setNciInstituteCode(organization.getNciInstituteCode());
+	  	return (List)remoteSession.find(searchCriteria);
+	  }
+	  
 }
