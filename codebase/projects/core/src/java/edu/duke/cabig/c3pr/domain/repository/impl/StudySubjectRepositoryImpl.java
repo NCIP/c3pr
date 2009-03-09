@@ -172,9 +172,9 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		        
 		        while (iter.hasNext()) {
 		            breTemp = iter.next();
-		            if (breTemp.getPosition().equals((studySubject.getScheduledEpoch()).getCurrentPosition())) {
+		            if (breTemp.getPosition().equals((studySubject.getScheduledEpoch().getEpoch().getCurrentBookRandomizationEntryPosition()))) {
 		                synchronized (this) {
-		                	(studySubject.getScheduledEpoch()).setCurrentPosition(breTemp.getPosition()+1);
+		                	(studySubject.getScheduledEpoch().getEpoch()).setCurrentBookRandomizationEntryPosition(breTemp.getPosition()+1);
 		                    arm = breTemp.getArm();
 		                    break;
 		                }
@@ -183,8 +183,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	  		}
         
         if (arm == null) {
-            throw new C3PRBaseException(
-                            "No Arm avalable for this Treatment Epoch. Maybe the Randomization Book is exhausted");
+        	throw this.exceptionHelper.getException(
+                    getCode("C3PR.EXCEPTION.REGISTRATION.NO.ARM.AVAILABLE.BOOK.EXHAUSTED.CODE"));
         }
         return arm;
     }
@@ -237,6 +237,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
 		this.continueEnrollment(studySubject);
 		this.saveStratumGroup(studySubject);
+		this.updateEpoch(studySubject);
 		studySubject = studySubjectDao.merge(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
@@ -282,6 +283,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		this.continueEnrollment(studySubject);
 		
 		this.saveStratumGroup(studySubject);
+		this.updateEpoch(studySubject);
 		studySubject = studySubjectDao.merge(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
@@ -358,6 +360,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			studySubject.doLocalTransfer();
 		}
 		this.saveStratumGroup(studySubject);
+		this.updateEpoch(studySubject);
 		return save(studySubject);
 	}
 	
@@ -378,6 +381,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			studySubject.doLocalTransfer();
 		}
 		this.saveStratumGroup(studySubject);
+		this.updateEpoch(studySubject);
 		return save(studySubject);
 	}
 	
@@ -465,6 +469,13 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 				}
 			}
 		}
+	}
+	
+	public void updateEpoch(StudySubject studySubject){
+		if(studySubject.getScheduledEpoch().getEpoch().getRandomizedIndicator() && !studySubject.getScheduledEpoch().getEpoch().getStratificationIndicator() && studySubject.getStudySite().getStudy().getRandomizationType()==RandomizationType.BOOK){
+			this.epochDao.merge(studySubject.getScheduledEpoch().getEpoch());
+		}
+		
 	}
 
 	public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) {
