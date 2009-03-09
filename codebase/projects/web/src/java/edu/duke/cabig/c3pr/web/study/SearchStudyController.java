@@ -77,11 +77,7 @@ public class SearchStudyController extends SimpleFormController {
         } else {
         	exampleStudies = studyDao.searchByExample(study, true);
         }
-        for(int i=0 ; i<exampleStudies.size() ; i++){
-        	if(exampleStudies.get(i).getStudySites().size()!=0){
-        		studies.add(exampleStudies.get(i));
-        	}
-        }
+        
         
         //This will get me all the studies that have the logged in user's organization as a studyOrganization.
         //However in the REG flow we should only show studies that have the logged in user's organization as
@@ -94,6 +90,11 @@ public class SearchStudyController extends SimpleFormController {
         	fromRegistration = request.getParameter("fromRegistration").toString();
         }
         if(fromRegistration.equalsIgnoreCase("true")){
+        	for(int i=0 ; i<exampleStudies.size() ; i++){
+            	if(exampleStudies.get(i).getStudySites().size()!=0){
+            		studies.add(exampleStudies.get(i));
+            	}
+            }
         	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
 					.getSession().getAttribute("userObject");
 			List<ResearchStaff> rsList = researchStaffDao
