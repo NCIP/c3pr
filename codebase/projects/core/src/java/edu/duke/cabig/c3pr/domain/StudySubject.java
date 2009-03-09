@@ -941,23 +941,22 @@ public class StudySubject extends
 					.iterator();
 			BookRandomizationEntry breTemp;
 
-			while (iter.hasNext()) {
-				breTemp = iter.next();
-				if (breTemp.getPosition().equals(
-						(getScheduledEpoch()).getCurrentPosition())) {
-					synchronized (this) {
-						(getScheduledEpoch()).setCurrentPosition(breTemp
-								.getPosition() + 1);
-						arm = breTemp.getArm();
-						break;
-					}
-				}
-			}
+			 while (iter.hasNext()) {
+		            breTemp = iter.next();
+		            if (breTemp.getPosition().equals((this.getScheduledEpoch().getEpoch().getCurrentBookRandomizationEntryPosition()))) {
+		                synchronized (this) {
+		                	(this.getScheduledEpoch().getEpoch()).setCurrentBookRandomizationEntryPosition(breTemp.getPosition()+1);
+		                    arm = breTemp.getArm();
+		                    break;
+		                }
+		            }
+		        }
 		}
 
 		if (arm == null) {
-			throw new C3PRBaseRuntimeException(
-					"No Arm avalable for this Epoch. Maybe the Randomization Book is exhausted");
+			throw getC3PRExceptionHelper().getRuntimeException(
+                    getCode("C3PR.EXCEPTION.REGISTRATION.NO.ARM.AVAILABLE.BOOK.EXHAUSTED.CODE"));
+			
 		}
 		return arm;
 	}
