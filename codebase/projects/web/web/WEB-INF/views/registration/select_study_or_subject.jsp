@@ -13,23 +13,29 @@
             }
             
             //-----------------------------------------------------------------------------------------------------
-            function catchKey(evt){
-            
-                if (evt.keyCode == 13) {
-                
-                    if (evt.target.id == "searchSubjectText") {
-                        searchParticipant();
-                    }
+            function catchKey(e){
+            	var evt=(e)?e:(window.event)?window.event:null;
+            	if(evt){  
+                	if (evt.keyCode == 13) {
+                		var idElement ;
+                		if(is_ie){
+							idElement = evt.srcElement.id 
+                    	}else{
+                    		idElement = evt.target.id
+                    	}
+	                    if ( idElement == "searchSubjectText") {
+	                        searchParticipant();
+	                    }
+	                    
+	                    if (idElement == "searchText") {
+	                        searchStudy();
+	                    }
+	                    
+	                    return false;
                     
-                    if (evt.target.id == "searchText") {
-                        searchStudy();
-                    }
-                    
-                    return false;
-                    
-                };
-                
-                }
+                	}
+            	}
+              }
             
             //-----------------------------------------------------------------------------------------------------
             document.onkeypress = catchKey;
