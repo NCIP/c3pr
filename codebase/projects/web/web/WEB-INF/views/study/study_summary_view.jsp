@@ -464,11 +464,10 @@
         <div id="built-cctsErrorMessage" style="display: none;"/>
     </chrome:division>
 </c:if>
-
-<c:if test="${not empty editAuthorizationTask}">
-    <div class="content buttons autoclear">
+<div class="content buttons autoclear">
         <div class="flow-buttons">
         <span class="next">
+<c:if test="${not empty editAuthorizationTask}">
         	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
                                     authorizationCheckName="domainObjectAuthorizationCheck">
                 &nbsp;
@@ -515,17 +514,14 @@
                 	<tags:button type="button" color="blue" value="Manage Study" 
 							onclick="document.location='../study/viewStudy?studyId=${command.study.id}'" size="small"/>
                 </c:if>
-        </span>
-        </div>
-    </div>
 </c:if>
 <br/>
-<c:if test="${empty flowType}">
 <div align="right">
+<c:if test="${empty flowType}">
 	<tags:button type="button" color="blue" value="Export Study" onclick="doExportAction();" size="small"/>
 	<tags:button type="button" color="blue" value="Print" onclick="javascript:C3PR.printElement('printable');" size="small"/>
-</div>
-</c:if>
+</c:if></div>
+</span></div></div>
 </chrome:box>
 
 <div id="errorsOpenDiv" style="display:none">
