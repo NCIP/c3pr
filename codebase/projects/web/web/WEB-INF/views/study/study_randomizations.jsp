@@ -90,7 +90,7 @@
 	     <br/>
 	     <div id="bookButton" align="center">
 	     <tags:button type="button" color="blue" value="Upload Randomization Book" 
-			onclick='uploadBook("command", "${epochCount.index}", "${flowType}")' size="small"/>    
+			onclick="uploadBook('command', '${epochCount.index}', '${flowType}')" size="small"/>    
 		 </div>
 		 <hr />
 		 	<form:form method="post" id="epochForm_${epochCount.index}" enctype="multipart/form-data">
