@@ -72,8 +72,9 @@ function saveStudy() {
 					<table class="tablecontent" id="table1" width="50%">
 						<tr>
 							<th></th>
-							<th><input type="button" value="Add Email"
-								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" />
+							<th>
+							<tags:button type="button" color="orange" icon="add" value="Add Email" 
+								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
 							</th>
 						</tr>
 						<c:forEach var="cmbr" varStatus="emailStatus"
@@ -93,8 +94,9 @@ function saveStudy() {
 					<table class="tablecontent" id="table2" width="50%">
 						<tr>
 							<th></th>
-							<th><input type="button" value="Add Role"
-								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" />
+							<th>
+							<tags:button type="button" color="orange" icon="add" value="Add Role" 
+								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
 							</th>
 						</tr>
 						<c:forEach var="role" varStatus="roleStatus"

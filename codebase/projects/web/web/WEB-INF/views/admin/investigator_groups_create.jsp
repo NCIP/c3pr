@@ -231,8 +231,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 					id="healthcareSite-input" size="60" type="text" name="xyz"
 					value="${command.healthcareSite.name}"
 					class="autocomplete validate-notEmpty" /> 
-					<input type="button" onClick="handleHealthcarSiteClear()"
-                        value="Clear"/>
 					<tags:indicator	id="healthcareSite-indicator" />
 				<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
 				 <p id="flashMessage" style="display: none">Search for an Organization first

@@ -91,12 +91,13 @@
     </table>
     </div>
     <div align="right">
-        <input type="button" onclick="RowManager.addRow(instanceRowInserterProps);" value="Add Investigator"/>
+    	<tags:button type="button" color="blue" icon="add" value="Add Investigator" 
+		onclick="RowManager.addRow(instanceRowInserterProps);" size="small"/>
     </div>
     <br>
     <div class="content buttons">
 	    <div align="right">
-	        <input value="Save" type="submit"/>
+	    	<tags:button type="submit" color="green" icon="save" value="Save"/>
 	    </div>
 	    <div  align="right" id="savingIndicator">
 	    	<tags:indicator id="ind"/> Saving...
