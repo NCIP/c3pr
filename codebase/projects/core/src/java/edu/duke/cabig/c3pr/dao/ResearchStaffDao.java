@@ -183,6 +183,24 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         });
     }
     
+    /**
+     * Gets the by nci identifier. Looks for local and remote
+     * 
+     * @param nciIdentifier the nci identifier
+     * 
+     * @return the by nci identifier
+     */
+    public ResearchStaff getByNciIdentifierFromDatabaseOnly(String nciIdentifier) {
+        ResearchStaff result = null;
+        try {
+            result = (ResearchStaff)(getHibernateTemplate().find("from ResearchStaff rs where rs.nciIdentifier = '" +nciIdentifier+ "'").get(0));
+        }
+        catch (Exception e) {
+            log.debug("User with nciIdentifier " + nciIdentifier + " does not exist. Returning null");
+        }
+        return result;
+    }
+    
     
     /**
      * Gets the by nci identifier. Looks for local and remote
@@ -208,6 +226,18 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         return result;
     }
 
+    
+    /**
+     * Gets the by email address from the database only. Created for the notifications use case.
+     * 
+     * @param emailAddress the email address
+     * 
+     * @return the ResearchStaff List
+     */
+    public List<ResearchStaff> getByEmailAddressFromDatabaseOnly(String emailAddress) {
+        return getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'");
+    }
+    
     
     /**
      * Gets the by email address. Created for the notifications use case.
