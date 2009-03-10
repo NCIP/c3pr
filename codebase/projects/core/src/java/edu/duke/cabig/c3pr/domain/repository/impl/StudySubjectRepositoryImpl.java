@@ -150,14 +150,18 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			throw this.exceptionHelper
 					.getException(getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
 		}
+		studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
 		studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 		if (studySubject.getScheduledEpoch().isReserving()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 		} else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+			studySubject.addIdentifier(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject));
+			
 		} else {
-			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
 		}
+		
 		studySubjectDao.save(studySubject);
 		log.debug("Registration saved with grid ID" + studySubject.getGridId());
 		return studySubject;
