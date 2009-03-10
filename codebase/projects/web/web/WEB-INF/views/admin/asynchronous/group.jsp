@@ -117,8 +117,6 @@
                         name="healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations[PAGE.ROW.INDEX].healthcareSiteInvestigator"/>
                 <input class="autocomplete validate-notEmpty" type="text" id="investigatorPAGE.ROW.INDEX-input"
                        size="30""/>
-                <input type="button" id="investigatorPAGE.ROW.INDEX-clear"
-                        value="Clear"/>
                    <tags:indicator id="investigatorPAGE.ROW.INDEX-indicator"/>
                   <div id="investigatorPAGE.ROW.INDEX-choices" class="autocomplete"></div>
             </td>
