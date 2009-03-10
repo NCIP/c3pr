@@ -92,7 +92,6 @@ function toggleImage(id){
 								</c:if>
 								<csmauthz:accesscontrol domainObject="${site}"
 		                                                  hasPrivileges="ACCESS"  authorizationCheckName="studySiteAuthorizationCheck">
-		                            <% System.out.println("11----"); %>
 									<% String currClassJ=j%2==0? "odd":"even"; %>
 									<tr align="center" id="row<%= j++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 												style="cursor:pointer;" onMouseOut="this.className='<%= currClass %>'" 
