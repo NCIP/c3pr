@@ -6,6 +6,7 @@ import org.extremecomponents.table.core.TableModel;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
 public class OrganizationLinkDisplayCell extends AbstractCell {
 
@@ -13,22 +14,14 @@ public class OrganizationLinkDisplayCell extends AbstractCell {
     
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
-        HealthcareSite organization = (HealthcareSite) model.getCurrentRowBean();
+    	ResearchStaff rStaff = (ResearchStaff) model.getCurrentRowBean();
+        HealthcareSite organization = rStaff.getHealthcareSite();
         String cellValue = column.getValueAsString();
         
         if(organization instanceof RemoteHealthcareSite){
         	cellValue = cellValue + "<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='17' height='16' border='0' align='middle'/>";
         }
-        
         setRowOnClick(model, organization);
-        
-//        String link = model.getContext().getContextPath() + "/pages/admin/createOrganization?nciIdentifier=";
-        // String jsCall =
-        // "javascript:$('nciIdentifier').value="+organization.getNciInstituteCode()+";${'searchForm'}.submit();";
-//        if (organization != null) {
-//            cellValue = "<a href=\"" + link + organization.getNciInstituteCode() + "\">"
-//                            + cellValue + "</a>";
-//        }
         return cellValue;
     }
     

@@ -57,7 +57,7 @@ public class SearchResearchStaffAjaxFacade {
 
         Column columnSite = model.getColumnInstance();
         columnSite.setTitle("Site");
-    //    columnSite.setCell((OrganizationLinkDisplayCell.class).getName());  
+        columnSite.setCell((OrganizationLinkDisplayCell.class).getName());  
         columnSite.setProperty("healthcareSite.name");
         model.addColumn(columnSite);
 
