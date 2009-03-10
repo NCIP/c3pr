@@ -136,7 +136,7 @@ public class SearchStudyController extends SimpleFormController {
 			}
         } else {
         	//copy the list as is
-        	studiesViewableFromRegFlow = studies;
+        	studiesViewableFromRegFlow = exampleStudies;
         }
         
 
