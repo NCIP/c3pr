@@ -251,8 +251,8 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            <input:hidden id="disease"/>
 			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
 			                    <c:forEach items="${command.study.studyOrganizations}" var="studySite" varStatus="status">
-			                        <csmauthz:accesscontrol domainObject="${studySite}" hasPrivileges="ACCESS"
-			                                                authorizationCheckName="studySiteAuthorizationCheck">
+			                        <csmauthz:accesscontrol domainObject="${studySite.healthcareSite}"
+			                                                hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
 			                        <c:if test="${selected_site == status.index }">
 			                            <option selected="selected" value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name}
 			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Coordinating Center) </c:if>
@@ -361,8 +361,6 @@ and the controller gets the selected index via the hidden variable _selectedSite
                 <input class="autocomplete validate-notEmpty" type="text" id="investigatorPAGE.ROW.INDEX-input"
                        size="30"
                        value="${command.study.studyOrganizations[selected_site].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator.investigator.fullName}"/>
-                <input type="button" id="investigatorPAGE.ROW.INDEX-clear"
-                        value="Clear"/>
                    <tags:indicator id="investigatorPAGE.ROW.INDEX-indicator"/>
                   <div id="investigatorPAGE.ROW.INDEX-choices" class="autocomplete"></div>
                   <input type="hidden" id="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"

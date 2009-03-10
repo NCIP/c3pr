@@ -169,8 +169,7 @@ function manageIdentifierRadio(element){
 		<input class="autocomplete validate-notEmpty" type="text"
 			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
 			value="${command.studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
-		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
-			value="Clear" /> <tags:indicator
+		<tags:indicator
 			id="healthcareSitePAGE.ROW.INDEX-indicator" />
 		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete">
 		</td>

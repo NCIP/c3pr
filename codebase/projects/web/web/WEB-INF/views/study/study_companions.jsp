@@ -146,7 +146,6 @@ function closePopup(deleteRow) {
 		                      				 value="${command.study.companionStudyAssociations[status.index].companionStudy.id}"/>
 		                			<input class="autocomplete validate-notEmpty" type="text" id="companionStudy${status.index}-input"
 		                       				size="40"  value="${command.study.companionStudyAssociations[status.index].companionStudy.shortTitleText}"/>
-		                			<input type="button" id="companionStudy${status.index}-clear" value="Clear"/>
 		                       		<c:if test="${empty command.study.companionStudyAssociations[status.index].companionStudy.id}">
 		                      			<script>
 		                      			$('companionStudy${status.index}-hidden').name="some_dummy_value";
@@ -203,8 +202,6 @@ onclick="addRow('createCompanionStudy')" size="small"/>
 	                <input class="autocomplete validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-input"
 	                       size="40"
 	                       value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText}"/>
-	                <input type="button" id="companionStudyPAGE.ROW.INDEX-clear"
-	                        value="Clear"/>
 	                   <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
 	                  <div id="companionStudyPAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
 	            </td>
@@ -236,8 +233,6 @@ onclick="addRow('createCompanionStudy')" size="small"/>
 	                <input class="validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-input" 
 	                       size="40" disabled="true"
 	                       value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText}"/>
-	                <input type="button" id="companionStudyPAGE.ROW.INDEX-clear" disabled="true"
-	                        value="Clear"/>
 	                   <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
 	                  <div id="companionStudyPAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
 	            </td>

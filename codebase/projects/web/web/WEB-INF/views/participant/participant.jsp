@@ -262,9 +262,7 @@ top:83px;
 							<input class="autocomplete validate-notEmpty" type="text"
 								id="healthcareSite${organizationStatus.index}-input" size="50"
 								value='<c:out value="${_name} ${_code}" />'/>
-							<input type="button"
-								id="healthcareSite${organizationStatus.index}-clear"
-								value="Clear" /> <tags:indicator
+							<tags:indicator
 								id="healthcareSite${organizationStatus.index}-indicator" />
 							<div id="healthcareSite${organizationStatus.index}-choices"
 								class="autocomplete"  style="display: none;"></div>
@@ -387,8 +385,7 @@ top:83px;
 		<input class="autocomplete validate-notEmpty" type="text"
 			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
 			value="${command.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
-		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
-			value="Clear" /> <tags:indicator
+		 <tags:indicator
 			id="healthcareSitePAGE.ROW.INDEX-indicator" />
 		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"  style="display: none;"></div>
 		</td>
