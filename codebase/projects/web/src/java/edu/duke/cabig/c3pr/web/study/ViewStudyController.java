@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
@@ -90,6 +91,9 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
     protected Map referenceData(HttpServletRequest request, Object o, Errors errors,
                                 int i) throws Exception {
         Map<String, Object> refdata = super.referenceData(request, o, errors, i);
+        String softDelete = "false";
+        String isAdmin = "false";
+        
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         GrantedAuthority[] groups = auth.getAuthorities();
@@ -98,7 +102,16 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
             if (ga.getAuthority().endsWith("admin") || ga.getAuthority().endsWith("ordinator")) {
                 isRegistrarOnly = false;
             }
+            if (ga.getAuthority().endsWith("admin")) {
+                isAdmin = "true";
+            }
         }
+       
+        if (((StudyWrapper) o).getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING) {
+            softDelete = "true";
+        }
+        request.setAttribute("softDelete", softDelete);
+        request.setAttribute("isAdmin", isAdmin);
         refdata.put("isRegistrar", isRegistrarOnly);
         refdata.put("editAuthorizationTask", editTask);
         return refdata;

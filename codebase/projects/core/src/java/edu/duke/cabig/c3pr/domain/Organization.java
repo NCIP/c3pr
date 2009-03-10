@@ -84,7 +84,7 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
     }
 
     @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+   // @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     public List<OrganizationAssignedIdentifier> getIdentifiers() {
         return identifiers;
     }
