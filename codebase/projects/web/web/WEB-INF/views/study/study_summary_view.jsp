@@ -505,15 +505,15 @@
 							onclick="document.location='../study/editStudy?studyId=${command.study.id}'" size="small"/>
 		                    </c:otherwise>
 		                </c:choose>
-	                    
-	                    <c:if test="${command.study.standaloneIndicator && !(command.study.coordinatingCenterStudyStatus != 'OPEN' || command.study.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING')}">
+	                    <c:if test="${command.study.standaloneIndicator}">
 	                    	<tags:button type="button" color="blue" value="Amend Study" 
 							onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'" size="small"/>
 	                     </c:if>
 	                </csmauthz:accesscontrol>
                 </c:if> 
                 <c:if test="${not empty flowType}">
-                	<input type="button" value="Manage" onclick="document.location='../study/viewStudy?studyId=${command.study.id}'"/>
+                	<tags:button type="button" color="blue" value="Manage Study" 
+							onclick="document.location='../study/viewStudy?studyId=${command.study.id}'" size="small"/>
                 </c:if>
         </span>
         </div>
