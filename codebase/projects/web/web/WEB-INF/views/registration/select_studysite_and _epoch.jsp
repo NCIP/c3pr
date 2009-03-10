@@ -37,7 +37,7 @@ function manageEpochSelection(element){
                <tr>
                		<th></th>
                    <th><b><fmt:message key="c3pr.common.organization"/></b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-                   <th><b><fmt:message key="c3pr.common.NCIIdentifier"/></b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.nciInstituteCode"/></th>
+                   <th><b><fmt:message key="c3pr.common.NCIIdentifier"/></b>&nbsp;<tags:hoverHint keyProp="organization.nciInstituteCode"/></th>
                </tr>
                <c:choose>
 	               <c:when test="${fn:length(studySites) > 0}">
@@ -65,9 +65,9 @@ function manageEpochSelection(element){
 		<table id="epochs" class="tablecontent" border="0" cellspacing="0" cellpadding="0"	>
               <tr>
               		<th></th>
-                  <th><b><fmt:message key="c3pr.common.name"/></b></th>
-                  <th><b><fmt:message key="c3pr.common.description"/></b></th>
-                  <th><b><fmt:message key="c3pr.common.enrolling"/></b></th>
+                  <th><b><fmt:message key="c3pr.common.name"/></b><tags:hoverHint keyProp="study.treatmentEpoch.name" /></th>
+                  <th><b><fmt:message key="c3pr.common.description"/></b><tags:hoverHint keyProp="study.treatmentEpoch.description" /></th>
+                  <th><b><fmt:message key="c3pr.common.enrolling"/></b><tags:hoverHint keyProp="study.nonTreatmentEpoch.enrollmentIndicator" /></th>
               </tr>
               <c:choose>
 	              <c:when test="${fn:length(epochs) > 0}">
