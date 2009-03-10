@@ -1,13 +1,13 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
-import edu.duke.cabig.c3pr.web.study.StudyWrapper;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 12:51:05 PM To change this
