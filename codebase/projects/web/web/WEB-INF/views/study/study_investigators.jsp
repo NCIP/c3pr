@@ -251,8 +251,8 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            <input:hidden id="disease"/>
 			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
 			                    <c:forEach items="${command.study.studyOrganizations}" var="studySite" varStatus="status">
-			                        <csmauthz:accesscontrol domainObject="${studySite.healthcareSite}"
-			                                                hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
+			                        <csmauthz:accesscontrol domainObject="${studySite}" hasPrivileges="ACCESS"
+			                                                authorizationCheckName="studySiteAuthorizationCheck">
 			                        <c:if test="${selected_site == status.index }">
 			                            <option selected="selected" value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name}
 			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Coordinating Center) </c:if>
