@@ -365,15 +365,15 @@
                     <td class="alt">
                         <c:choose>
                             <c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'OPEN') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_TO_OPEN')}">
-                                <input type="button" id="manageCompanionStudy" value="View"
-                                       onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
+                                <tags:button id="manageCompanionStudy" type="button" color="blue" value="View" 
+									onclick="javascript:document.location='viewStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
                             </c:when>
                             <c:otherwise>
                                 <c:if test="${not empty editAuthorizationTask}">
                                     <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
                                                             authorizationCheckName="taskAuthorizationCheck">
-                                        <input type="button" id="editCompanionStudy" value="Edit"
-                                               onclick="javascript:document.location='<c:url value='/pages/study/editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
+                                        <tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" 
+											onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}" size="small"/>
                                     </csmauthz:accesscontrol>
                                 </c:if>
                             </c:otherwise>
@@ -398,8 +398,8 @@
                     <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
                     <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
                     <td class="alt">
-                        <input type="button" id="manageParentStudy" value="View"
-                               onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${parentStudyAssociation.parentStudy.id}' />'"/>
+                    	<tags:button id="manageParentStudy" type="button" color="blue" value="View" 
+							onclick="javascript:document.location='viewStudy?studyId=${parentStudyAssociation.parentStudy.id}'" size="small"/>
                     </td>
 
                 </tr>
