@@ -93,7 +93,7 @@ public class StudyInvestigatorsTab extends StudyTab {
                             if (sStudyInvestigator.add(studyInvestigator)) {
                                 studyOrg.getStudyInvestigators().add(studyInvestigator);
                             } else {
-                                errors.rejectValue("studyOrganizations[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
+                                errors.rejectValue("study.studyOrganizations[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
                                         studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),
                                         null, null));
                             }
