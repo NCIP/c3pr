@@ -204,9 +204,9 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnOrganization"/></b><br>
 			            <input:hidden id="disease"/>
 			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
-			                    <c:forEach items="${command.study.studyOrganizations}" var="studySite" varStatus="status">
-			                        <csmauthz:accesscontrol domainObject="${studySite.healthcareSite}"
-			                                                hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
+		                    <c:forEach items="${command.study.studyOrganizations}" var="studySite" varStatus="status">
+		                        <csmauthz:accesscontrol domainObject="${studySite}" hasPrivileges="ACCESS"  
+			                                                authorizationCheckName="studySiteAuthorizationCheck">
 			                        <c:if test="${selected_site == status.index }">
 			                            <option selected="selected" value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name} (${studySite.healthcareSite.nciInstituteCode})
 			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Coordinating Center) </c:if>
@@ -221,9 +221,9 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudySite' }"> (Site) </c:if>
 			                            </option>
 			                        </c:if>
-			                        </csmauthz:accesscontrol>
-			                    </c:forEach>
-			                </select>
+		                        </csmauthz:accesscontrol>
+		                    </c:forEach>
+		                </select>
 			            <tags:indicator id="disease-indicator"/>
 			            
 			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.researchStaff"/></b><br>
