@@ -47,6 +47,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
         if (command.getStudySubject().getSystemAssignedIdentifiers()!= null && command.getStudySubject().getSystemAssignedIdentifiers().size()>0) {
             refdata.put("disableForm", new Boolean(true));
         }
+        refdata.put("mandatory", "true");
     	return refdata;
     }
     
