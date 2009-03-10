@@ -43,7 +43,7 @@ public class DiseaseHistory extends AbstractMutableDeletableDomainObject {
 
     @OneToOne
     @JoinColumn(name = "study_disease_id")
-    @Cascade(value = { CascadeType.ALL })
+    //@Cascade(value = { CascadeType.ALL })
     public StudyDisease getStudyDisease() {
         return studyDisease;
     }
