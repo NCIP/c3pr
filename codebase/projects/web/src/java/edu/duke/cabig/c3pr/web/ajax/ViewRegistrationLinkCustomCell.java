@@ -7,6 +7,7 @@ import org.extremecomponents.table.view.html.ColumnBuilder;
 import org.extremecomponents.util.HtmlBuilder;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 
 /**
  * User: kherm Custom colum to display value as a href
@@ -15,7 +16,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
  */
 public class ViewRegistrationLinkCustomCell extends AbstractCell {
 
-    public static final String VIEW_REG_URL = "../registration/manageRegistration?registrationId=";
+    public static final String VIEW_REG_URL ="../registration/manageRegistration?";
 
     @Override
     public String getHtmlDisplay(TableModel tableModel, Column column) {
@@ -36,7 +37,7 @@ public class ViewRegistrationLinkCustomCell extends AbstractCell {
     }
 
     public void setRowOnClick(TableModel tableModel, StudySubject studySubject){    	
-    	String url = "document.location='" + VIEW_REG_URL + studySubject.getId().toString() + "'";
+    	String url = "document.location='" + VIEW_REG_URL + ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)) + "'";
     	tableModel.getRowHandler().getRow().setOnclick(url);
     	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
     }
