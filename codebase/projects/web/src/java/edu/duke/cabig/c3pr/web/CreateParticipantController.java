@@ -49,8 +49,6 @@ public class CreateParticipantController<C extends Participant> extends
 
     protected ConfigurationProperty configurationProperty;
 
-    private ParticipantValidator participantValidator;
-    
     private PersonnelService personnelService;
 
     private HealthcareSiteDao healthcareSiteDao;
