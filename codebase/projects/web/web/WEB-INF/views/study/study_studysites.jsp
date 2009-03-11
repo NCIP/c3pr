@@ -31,7 +31,9 @@ function reloadParentStudySites(studyId , studyAssociationId , nciCodes , parent
 }
 
 function deleteCompanionStudySiteAssociation(studySiteId, parentIndex){
+	$("_doNotSave").name="xyz";
 	<tags:tabMethod method="removeCompanionStudyAssociation" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'studySiteId='+studySiteId+'&parentIndex='+parentIndex"/>
+	$("_doNotSave").name="_doNotSave";
 }
 </script>
 </head>
