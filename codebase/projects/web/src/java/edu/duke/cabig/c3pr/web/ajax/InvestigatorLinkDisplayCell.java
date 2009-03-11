@@ -5,6 +5,7 @@ import org.extremecomponents.table.cell.AbstractCell;
 import org.extremecomponents.table.core.TableModel;
 
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 
 public class InvestigatorLinkDisplayCell extends AbstractCell {
 
@@ -14,13 +15,11 @@ public class InvestigatorLinkDisplayCell extends AbstractCell {
         Investigator inv = (Investigator) model.getCurrentRowBean();
         String cellValue = column.getValueAsString();
         
+        if(inv instanceof RemoteInvestigator){
+        	cellValue = cellValue + "&nbsp;<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='17' height='16' border='0' align='middle'/>";
+        }
+        
         setRowOnClick(model, inv);
-//        String link = model.getContext().getContextPath() + "/pages/admin/createInvestigator?id=";
-        // String jsCall =
-        // "javascript:$('nciIdentifier').value="+organization.getNciInstituteCode()+";${'searchForm'}.submit();";
-//        if (inv != null) {
-//            cellValue = "<a href=\"" + link + inv.getId() + "\">" + cellValue + "</a>";
-//        }
         return cellValue;
     }
 
