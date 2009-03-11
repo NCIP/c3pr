@@ -16,7 +16,7 @@ function selectStudySites(studyId, parentAssociationId, parentIndex){
 			showEffectOptions: {duration:1.5}
 				}
 			) 
-	win.showCenter()
+	win.showCenter(true)
 }
 
 function closePopup() {
