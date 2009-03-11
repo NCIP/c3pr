@@ -79,7 +79,9 @@
 	}
 	
 	var handlerFail = function(t) {
-		alert("Subject with this MRN already exists for the same organization");
+		var d = $('errorsOpenDiv');
+		Dialog.alert(d.innerHTML, 
+		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
 	}
 	/* handlers for  create Subject flow */
 	
@@ -395,5 +397,14 @@
             </h3>
         </div>
     </div>
+	<div id="errorsOpenDiv" style="display:none">
+		<div class="value" align="left">
+			<font size="2" face="Verdana" color="red">
+				Subject with this MRN already exists for the same Organization.
+			</font>
+		</div>
+		
+		<br>
+	</div>
     <!--end of create subject div-->
 </tags:minimizablePanelBox>
