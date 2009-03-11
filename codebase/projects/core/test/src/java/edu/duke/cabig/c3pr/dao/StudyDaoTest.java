@@ -1699,5 +1699,10 @@ public class StudyDaoTest extends DaoTestCase {
         Study reloadedStudy = dao.getById(1000);
         assertEquals("Wrong number of identifiers for study",4,reloadedStudy.getIdentifiers().size());
     }
-
+    
+    public void testGetStudySubjectsForCompanionStudy() throws Exception {
+    	int studyId = 1000 ;
+    	List<StudySubject> list = dao.getStudySubjectsForCompanionStudy(studyId);
+    	assertEquals("Wrong number of records",2,list.size());
+    }
 }
