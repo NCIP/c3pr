@@ -53,8 +53,10 @@ function closePopup(){
 			<br>
 			<div class="flow-buttons">
 	            <span class="next">
-					<input type="button" value="Copy" onclick="manageImportStudySites();"/>
-					<input type="button" value="Close" onclick="closePopup();"/>
+            		<tags:button type="button" color="blue" value="Copy" 
+							onclick="manageImportStudySites();" size="small"/>
+					<tags:button type="button" color="red" icon="x" value="Cancel" 
+							onclick="closePopup();" size="small"/>
 	 			</span>
         	</div>
 			<br>
