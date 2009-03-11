@@ -373,7 +373,7 @@
                                     <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
                                                             authorizationCheckName="taskAuthorizationCheck">
                                         <tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" 
-											onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}" size="small"/>
+											onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
                                     </csmauthz:accesscontrol>
                                 </c:if>
                             </c:otherwise>
