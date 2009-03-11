@@ -58,8 +58,15 @@ function fireAction(action, selected){
 <body>
 
 <div id="main">
-
-<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Investigator" >
+<c:choose>
+	<c:when test="${command.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
+		<c:set var="imageStr" value="&nbsp;<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='22' height='21' border='0' align='middle'/>"/>
+	</c:when>
+	<c:otherwise>
+		<c:set var="imageStr" value=""/>
+	</c:otherwise>
+</c:choose>
+<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Investigator" htmlContent="${imageStr}">
 <tags:instructions code="investigator_details" />
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">

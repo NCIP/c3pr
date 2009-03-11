@@ -11,6 +11,7 @@
 <%@attribute name="boxId"%>
 <%@attribute name="boxClass" %>
 <%@attribute name="displayErrors"%>
+<%@attribute name="htmlContent"%>
 <%@attribute name="instructions" fragment="true" %>
 <%@attribute name="singleFields" fragment="true" %>
 <%@attribute name="repeatingFields" fragment="true" %>
@@ -19,7 +20,7 @@
 
 <c:if test="${empty displayErrors}"><c:set var="displayErrors" value="${true}"/> </c:if>
 <c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
-<chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}">
+<chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}" htmlContent="${htmlContent}">
     <chrome:flashMessage/>
     <form:form name="${formName}" enctype="${enctype}">
         <tags:tabFields tab="${tab}"/>
