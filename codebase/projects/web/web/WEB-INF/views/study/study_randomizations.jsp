@@ -12,9 +12,9 @@
 
 	function uploadBook(form, index, flowType){
 		var parameterMap;
-		if(form != ""){
-			parameterMap = getParameterMap(form);
-		}
+		//if(form != ""){
+		//	parameterMap = getParameterMap(form);
+		//}
 		
 		if(index == ""){
 			index = globalIndex;
