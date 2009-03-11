@@ -297,8 +297,8 @@ function redirectToTab(tabNumber){
 	<chrome:division id="companionRegistration" title="Companion Registration" link="javascript:redirectToTab('${companionTab}')">
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  >
 				<tr>
-					<th width="40%" scope="col" align="left"><b><fmt:message key="c3pr.common.study"/></b></th>
-					<th scope="22%" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
+					<th width="68%" scope="col" align="left"><b><fmt:message key="c3pr.common.study"/></b></th>
+					<th scope="12%" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
 					<th scope="20%" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
 				</tr>
 				<c:forEach items="${companions}" var="companion">
