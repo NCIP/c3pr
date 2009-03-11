@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,9 +20,9 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RaceCode;
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -135,32 +134,52 @@ public class CreateParticipantController<C extends Participant> extends
                     throws Exception {
         super.onBind(request, command, errors);
     }
+    
+    
 
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object oCommand, BindException errors) throws Exception {
-        Participant command = (Participant) oCommand;
-        addCreatingOrganization(command, request);
-        command.setId(participantDao.merge(command).getId());
+    	
+        Participant participant = (Participant) oCommand;
+        
+        if (request.getParameter("async") != null) {
+        	 OrganizationAssignedIdentifier mrn = participant.getMRN();
+	        if ((mrn != null) && (mrn.getHealthcareSite() != null)) {
+	            List<OrganizationAssignedIdentifier> participantsWithMRN = participantDao
+	                            .getSubjectIdentifiersWithMRN(mrn.getValue(), mrn.getHealthcareSite());
+	            if (participantsWithMRN.size() > 0) {
+	             response.sendError(499,"Participant with mrn " + mrn.getValue() + " already exists for the organization " + mrn.getHealthcareSite().getName());
+	            }
+	        }
+        }
+        addCreatingOrganization(participant, request);
+        participant.setId(participantDao.merge(participant).getId());
 
         ModelAndView modelAndView = null;
         if (request.getParameter("async") != null) {
             response.getWriter().print(
-                            command.getFirstName() + " " + command.getLastName() + " ("
-                                            + command.getIdentifiers().get(0).getType() + " - "
-                                            + command.getIdentifiers().get(0).getValue() + ")"
-                                            + "||" + command.getId());
+            		participant.getFirstName() + " " + participant.getLastName() + " ("
+                                            + participant.getIdentifiers().get(0).getType() + " - "
+                                            + participant.getIdentifiers().get(0).getValue() + ")"
+                                            + "||" + participant.getId());
             return null;
         }
-        response.sendRedirect("confirmCreateParticipant?lastName=" + command.getLastName()
-                        + "&firstName=" + command.getFirstName() + "&middleName="
-                        + command.getMiddleName() + "&primaryIdentifier="
-                        + command.getPrimaryIdentifier() + "&type=confirm");
+        response.sendRedirect("confirmCreateParticipant?lastName=" + participant.getLastName()
+                        + "&firstName=" + participant.getFirstName() + "&middleName="
+                        + participant.getMiddleName() + "&primaryIdentifier="
+                        + participant.getPrimaryIdentifier() + "&type=confirm");
         return null;
     }
 
     
-    private void addCreatingOrganization(Participant participant, HttpServletRequest request){
+    @Override
+	protected boolean suppressValidation(HttpServletRequest request,
+			Object command, BindException errors) {
+		return (request.getParameter("async") != null);
+	}
+
+	private void addCreatingOrganization(Participant participant, HttpServletRequest request){
     	HealthcareSite hcs = personnelService.getLoggedInUsersOrganization(request);
     	List<HealthcareSite> hcsList = participant.getHealthcareSites();
     	if(hcs != null){
@@ -197,14 +216,6 @@ public class CreateParticipantController<C extends Participant> extends
 
     public void setParticipantDao(ParticipantDao participantDao) {
         this.participantDao = participantDao;
-    }
-
-    public ParticipantValidator getParticipantValidator() {
-        return participantValidator;
-    }
-
-    public void setParticipantValidator(ParticipantValidator participantValidator) {
-        this.participantValidator = participantValidator;
     }
 
     public HealthcareSiteDao getHealthcareSiteDao() {
