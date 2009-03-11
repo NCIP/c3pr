@@ -40,6 +40,7 @@ public class SelectStudySiteAndEpochTab extends RegistrationTab<StudySubjectWrap
 		StudySubject parentRegistration = studySubjectDao.getById(Integer.parseInt(parentRegistrationId));
         List<StudySite> studySites = getStudySites(parentRegistration.getStudySite().getStudy(), companionStudy) ;
 		
+        refdata.put("mandatory", "true");
 		refdata.put("participant", participant);
 		refdata.put("studySites", studySites);
 		refdata.put("epochs", getEnrollingEpochs(companionStudy));
