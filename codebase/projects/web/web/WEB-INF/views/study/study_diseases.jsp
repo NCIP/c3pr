@@ -285,7 +285,7 @@ Event.observe(window, "load", function() {
 	</td>
 	
 	<td valign="middle">
-	<tags:button type="button" color="blue" icon="add" value="Add >>" 
+	<tags:button type="button" color="blue" icon="continue" value="Add" 
 onclick="fireAction('addStudyDisease','0');" size="small"/></td>
 	
 	<td valign="top" width="45%">
