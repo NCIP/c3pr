@@ -49,7 +49,6 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
         healthcareSiteDao = registerMockFor(HealthCareSiteDaoMock.class);
         controller.setHealthcareSiteDao(healthcareSiteDao);
         participantValidator = registerMockFor(ParticipantValidator.class);
-        controller.setParticipantValidator(participantValidator);
         configurationProperty = registerMockFor(ConfigurationProperty.class);
         controller.setConfigurationProperty(new ConfigurationProperty());
         configurationProperty = (ConfigurationProperty) context.getBean("configurationProperty");
