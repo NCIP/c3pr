@@ -58,23 +58,18 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 	 @Transient 
 	    public StratumGroup getStratumGroup() throws C3PRBaseException {
 	        StratumGroup stratumGroup = null;
-	        if (this.stratumGroupNumber != null) {
-	            stratumGroup = getEpoch()
-	                            .getStratumGroupByNumber(this.stratumGroupNumber);
-	        }
-	        else {
-	            List<SubjectStratificationAnswer> ssaList = getSubjectStratificationAnswers();
-	            if (ssaList != null) {
-	                Iterator iter = ssaList.iterator();
-	                List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
-	                while (iter.hasNext()) {
-	                    scacList.add(new StratificationCriterionAnswerCombination(
-	                                    (SubjectStratificationAnswer) iter.next()));
-	                }
-	                stratumGroup = getEpoch()
-	                                .getStratumGroupForAnsCombination(scacList);
-	            }
-	        }
+	        // deleted if condition, it should always get the stratum group based on answer combination
+	        List<SubjectStratificationAnswer> ssaList = getSubjectStratificationAnswers();
+            if (ssaList != null) {
+                Iterator iter = ssaList.iterator();
+                List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
+                while (iter.hasNext()) {
+                    scacList.add(new StratificationCriterionAnswerCombination(
+                                    (SubjectStratificationAnswer) iter.next()));
+                }
+                stratumGroup = getEpoch()
+                                .getStratumGroupForAnsCombination(scacList);
+            }
 	        if (stratumGroup == null) {
 	            throw new C3PRBaseException(
 	                            "No stratum group found. Maybe the answer combination does not have a valid startum group");
