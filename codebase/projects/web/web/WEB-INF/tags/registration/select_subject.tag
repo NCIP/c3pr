@@ -79,7 +79,7 @@
 	}
 	
 	var handlerFail = function(t) {
-		alert("handlerFail: Subject Creation Failed. Please Try Again");
+		alert("Subject with this MRN already exists for the same organization");
 	}
 	/* handlers for  create Subject flow */
 	
