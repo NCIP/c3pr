@@ -316,7 +316,7 @@ function redirectToTab(tabNumber){
 											<font color="Red"><i>${(companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</i></font>
 										</c:when>
 										<c:otherwise>
-											${companion.registrationStatus}
+											${(companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}
 										</c:otherwise>
 									</c:choose>
 								</c:when>
