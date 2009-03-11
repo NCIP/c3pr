@@ -417,14 +417,14 @@
 		    
 		    
 		    <table>     
-		        <tr><td width="32%" align="center" colspan="1"><input type="button" value="Add Email/Name" onMouseOver="this.style.cursor='pointer';"
-									onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /> </td>
+		        <tr><td width="32%" align="center" colspan="1"><tags:button type="button" color="orange" icon="add" value="Add Email/Name" 
+								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/></td>
 					<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-			        <td width="32%" align="center" colspan="1"><input type="button" value="Add Role" onMouseOver="this.style.cursor='pointer';"
-								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /></td>
+			        <td width="32%" align="center" colspan="1"><tags:button type="button" color="orange" icon="add" value="Add Role" 
+								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/></td>
 					<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-					<td width="32%" align="center" colspan="1"><input type="button" value="Add Contact" onMouseOver="this.style.cursor='pointer';"
-								onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" /></td>
+					<td width="32%" align="center" colspan="1"><tags:button type="button" color="orange" icon="add" value="Add Contact" 
+								onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/></td>
 			     </tr>
 			     <tr><td align="center" colspan="1">
 		      		 <table id="table1">
@@ -714,8 +714,10 @@
 				</tr>
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
 				<tr><td colspan="2" align="right">
-						<input type="button" value="Update" onClick="updateMessage('${nStatus.index}');" />
-						<input type="button" value="Cancel" onClick="win.close();" />
+						<tags:button type="button" color="blue" value="Update" 
+								onclick="updateMessage('${nStatus.index}');" size="small"/>
+						<tags:button type="button" color="red" icon="x" value="Cancel" 
+								onclick="win.close();" size="small"/>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</td></tr>				
 			</table>
