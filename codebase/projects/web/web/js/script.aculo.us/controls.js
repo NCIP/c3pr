@@ -196,6 +196,21 @@ Autocompleter.Base = Class.create({
   },
   
   onBlur: function(event) {
+  //if click on scrollbar of DIV    
+   //it gets closed     
+   //we try to estimate whether it was clicked     
+   //let go if x offset > 310     
+   //or let go if y offset < 0 
+	 if (event.offsetX > 310) {     
+		  //good may close    
+	 	} else if (event.offsetY < 0) {       
+			  //good - may close     
+		 		} else {         
+			  //prevent autocomplete close     
+				  event.cancelBubble;         
+				  event.srcElement.focus();        
+				  return false;    
+	} 
     // needed to make click events working
     setTimeout(this.hide.bind(this), 250);
     this.hasFocus = false;
