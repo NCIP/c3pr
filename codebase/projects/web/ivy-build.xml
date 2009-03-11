@@ -109,7 +109,13 @@
         </copy>
     </target>
 
-	<target name="deployLocal" depends="clean, resolve-test, jar,deploy-prebuilt" description="Deploy web application to local folders">
+	<target name="deployLocal" description="Deploy web application to local folders">
+		<ant target="deployLocalInternal" antfile="ivy-build.xml" dir="." inheritall="false">
+		    		<property name="env.skip.test" value="true"></property>
+	    </ant>
+    </target>
+    
+    <target name="deployLocalInternal" depends="clean, publish-local,deploy-prebuilt" description="Deploy web application to local folders">
     </target>
 	
 	<!-- ====================================================================== -->
