@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jackrabbit.uuid.UUID;
@@ -18,7 +19,13 @@ public class IdentifierGenerator {
 		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
 		orgIdentifier.setType("Coordinating Center Assigned Study Subject Identifier");
-		List<StudySubject> studySubjects = studyDao.getStudySubjectsForStudy(studySubject.getStudySite().getStudy().getId());
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		if(studySubject.getParentStudySubject() == null ){
+			studySubjects = studyDao.getStudySubjectsForStudy(studySubject.getStudySite().getStudy().getId());
+		}else{
+			studySubjects = studyDao.getStudySubjectsForCompanionStudy(studySubject.getStudySite().getStudy().getId());
+		}
+		
 		int count = 1 ;
 		for(StudySubject s : studySubjects){
 			if (s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED) {
