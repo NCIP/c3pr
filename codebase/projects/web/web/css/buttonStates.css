@@ -1,0 +1,341 @@
+/* BEGIN omnipotent-button type="anchor" color="red" */
+a.omnipotent-button.red:link {
+	background-position:0 0;
+}
+a.omnipotent-button.red:link .right {
+	background-position:-547px 0;
+}
+a.omnipotent-button.red:hover {
+	background-position:0 -31px;
+}
+a.omnipotent-button.red:hover .right {
+	background-position:-547px -31px;
+}
+a.omnipotent-button.red:active {
+	background-position:0 -62px;
+}
+a.omnipotent-button.red:active .right {
+	background-position:-547px -62px;
+}
+/* END omnipotent-button type="anchor" color="red" */
+
+/* BEGIN omnipotent-button type="anchor" color="green" */
+a.omnipotent-button.green:link {
+	background-position:0 -93px;
+}
+a.omnipotent-button.green:link .right {
+	background-position:-547px -93px;
+}
+a.omnipotent-button.green:hover {
+	background-position:0 -124px;
+}
+a.omnipotent-button.green:hover .right {
+	background-position:-547px -124px;
+}
+a.omnipotent-button.green:active {
+	background-position:0 -155px;
+}
+a.omnipotent-button.green:active .right {
+	background-position:-547px -155px;
+}
+/* END omnipotent-button type="anchor" color="green" */
+
+/* BEGIN omnipotent-button type="anchor" color="blue" */
+a.omnipotent-button.blue:link {
+	background-position:0 -186px;
+}
+a.omnipotent-button.blue:link .right {
+	background-position:-547px -186px;
+}
+a.omnipotent-button.blue:hover {
+	background-position:0 -217px;
+}
+a.omnipotent-button.blue:hover .right {
+	background-position:-547px -217px;
+}
+a.omnipotent-button.blue:active {
+	background-position:0 -248px;
+}
+a.omnipotent-button.blue:active .right {
+	background-position:-547px -248px;
+}
+/* END omnipotent-button type="anchor" color="blue" */
+
+/* BEGIN omnipotent-button type="anchor" color="orange" */
+a.omnipotent-button.orange:link {
+	background-position:0 -279px;
+}
+a.omnipotent-button.orange:link .right {
+	background-position:-547px -279px;
+}
+a.omnipotent-button.orange:hover {
+	background-position:0 -310px;
+}
+a.omnipotent-button.orange:hover .right {
+	background-position:-547px -310px;
+}
+a.omnipotent-button.orange:active {
+	background-position:0 -341px;
+}
+a.omnipotent-button.orange:active .right {
+	background-position:-547px -341px;
+}
+/* END omnipotent-button type="anchor" color="orange" */
+
+
+/* BEGIN omnipotent-button type="anchor" size="small" color="red" */
+a.omnipotent-button.small.red:link {
+	background-position:0 0;
+}
+a.omnipotent-button.small.red:link .right {
+	background-position:-547px 0;
+}
+a.omnipotent-button.small.red:hover {
+	background-position:0 -20px;
+}
+a.omnipotent-button.small.red:hover .right {
+	background-position:-547px -20px;
+}
+a.omnipotent-button.small.red:active {
+	background-position:0 -40px;
+}
+a.omnipotent-button.small.red:active .right {
+	background-position:-547px -40px;
+}
+/* END omnipotent-button type="anchor" size="small" color="red" */
+
+/* BEGIN omnipotent-button type="anchor" size="small" color="green" */
+a.omnipotent-button.small.green:link {
+	background-position:0 -60px;
+}
+a.omnipotent-button.small.green:link .right {
+	background-position:-547px -60px;
+}
+a.omnipotent-button.small.green:hover {
+	background-position:0 -80px;
+}
+a.omnipotent-button.small.green:hover .right {
+	background-position:-547px -80px;
+}
+a.omnipotent-button.small.green:active {
+	background-position:0 -100px;
+}
+a.omnipotent-button.small.green:active .right {
+	background-position:-547px -100px;
+}
+/* END omnipotent-button type="anchor" size="small" color="green" */
+
+/* BEGIN omnipotent-button type="anchor" size="small" color="blue" */
+a.omnipotent-button.small.blue:link {
+	background-position:0 -120px;
+}
+a.omnipotent-button.small.blue:link .right {
+	background-position:-547px -120px;
+}
+a.omnipotent-button.small.blue:hover {
+	background-position:0 -140px;
+}
+a.omnipotent-button.small.blue:hover .right {
+	background-position:-547px -140px;
+}
+a.omnipotent-button.small.blue:active {
+	background-position:0 -160px;
+}
+a.omnipotent-button.small.blue:active .right {
+	background-position:-547px -160px;
+}
+/* END omnipotent-button type="anchor" size="small" color="blue" */
+
+/* BEGIN omnipotent-button type="anchor" size="small" color="orange" */
+a.omnipotent-button.small.orange:link {
+	background-position:0 -180px;
+}
+a.omnipotent-button.small.orange:link .right {
+	background-position:-547px -180px;
+}
+a.omnipotent-button.small.orange:hover {
+	background-position:0 -200px;
+}
+a.omnipotent-button.small.orange:hover .right {
+	background-position:-547px -200px;
+}
+a.omnipotent-button.small.orange:active {
+	background-position:0 -220px;
+}
+a.omnipotent-button.small.orange:active .right {
+	background-position:-547px -220px;
+}
+/* END omnipotent-button type="anchor" size="small" color="orange" */
+
+
+
+/* BEGIN omnipotent-button type="button" color="red" */
+button.omnipotent-button.red:link {
+	background-position:0 0;
+}
+button.omnipotent-button.red:link .right {
+	background-position:-547px 0;
+}
+button.omnipotent-button.red:hover {
+	background-position:0 -31px;
+}
+button.omnipotent-button.red:hover .right {
+	background-position:-547px -31px;
+}
+button.omnipotent-button.red:active{
+	background-position:0 -62px;
+}
+button.omnipotent-button.red:active .right {
+	background-position:-547px -62px;
+}
+/* END omnipotent-button type="button" color="red" */
+
+/* BEGIN omnipotent-button type="button" color="green" */
+button.omnipotent-button.green:link {
+	background-position:0 -93px;
+}
+button.omnipotent-button.green:link .right {
+	background-position:-547px -93px;
+}
+button.omnipotent-button.green:hover {
+	background-position:0 -124px;
+}
+button.omnipotent-button.green:hover .right {
+	background-position:-547px -124px;
+}
+button.omnipotent-button.green:active {
+	background-position:0 -155px;
+}
+button.omnipotent-button.green:active .right {
+	background-position:-547px -155px;
+}
+/* END omnipotent-button type="button" color="green" */
+
+/* BEGIN omnipotent-button type="button" color="blue" */
+button.omnipotent-button.blue:link {
+	background-position:0 -186px;
+}
+button.omnipotent-button.blue:link .right {
+	background-position:-547px -186px;
+}
+button.omnipotent-button.blue:hover {
+	background-position:0 -217px;
+}
+button.omnipotent-button.blue:hover .right {
+	background-position:-547px -217px;
+}
+button.omnipotent-button.blue:active {
+	background-position:0 -248px;
+}
+button.omnipotent-button.blue:active .right {
+	background-position:-547px -248px;
+}
+/* END omnipotent-button type="button" color="blue" */
+	
+/* BEGIN omnipotent-button type="button" color="orange" */
+button.omnipotent-button.orange:link {
+	background-position:0 -279px;
+}
+button.omnipotent-button.orange:link .right {
+	background-position:-547px -279px;
+}
+button.omnipotent-button.orange:hover {
+	background-position:0 -310px;
+}
+button.omnipotent-button.orange:hover .right, {
+	background-position:-547px -310px;
+}
+button.omnipotent-button.orange:active {
+	background-position:0 -341px;
+}
+button.omnipotent-button.orange:active .right {
+	background-position:-547px -341px;
+}
+/* END omnipotent-button type="button" color="orange" */
+
+ 
+ 
+
+/* BEGIN omnipotent-button type="button" size="small" color="red" */
+button.omnipotent-button.small.red:link {
+	background-position:0 0;
+}
+button.omnipotent-button.small.red:link .right {
+	background-position:-547px 0;
+}
+button.omnipotent-button.small.red:hover {
+	background-position:0 -20px;
+}
+button.omnipotent-button.small.red:hover .right {
+	background-position:-547px -20px;
+}
+button.omnipotent-button.small.red:active {
+	background-position:0 -40px;
+}
+button.omnipotent-button.small.red:active .right {
+	background-position:-547px -40px;
+}
+/* END omnipotent-button type="button" size="small" color="red" */
+
+/* BEGIN omnipotent-button type="button" size="small" color="green" */
+button.omnipotent-button.small.green:link {
+	background-position:0 -60px;
+}
+button.omnipotent-button.small.green:link .right {
+	background-position:-547px -60px;
+}
+button.omnipotent-button.small.green:hover {
+	background-position:0 -80px;
+}
+button.omnipotent-button.small.green:hover .right {
+	background-position:-547px -80px;
+}
+button.omnipotent-button.small.green:active {
+	background-position:0 -100px;
+}
+button.omnipotent-button.small.green:active .right {
+	background-position:-547px -100px;
+}
+/* END omnipotent-button type="button" size="small" color="green" */
+
+/* BEGIN omnipotent-button type="button" size="small" color="blue" */
+button.omnipotent-button.small.blue:link {
+	background-position:0 -120px;
+}
+button.omnipotent-button.small.blue:link .right {
+	background-position:-547px -120px;
+}
+button.omnipotent-button.small.blue:hover {
+	background-position:0 -140px;
+}
+button.omnipotent-button.small.blue:hover .right {
+	background-position:-547px -140px;
+}
+button.omnipotent-button.small.blue:active {
+	background-position:0 -160px;
+}
+button.omnipotent-button.small.blue:active .right {
+	background-position:-547px -160px;
+}
+/* END omnipotent-button type="button" size="small" color="blue" */
+
+/* BEGIN omnipotent-button type="button" size="small" color="orange" */
+button.omnipotent-button.small.orange:link {
+	background-position:0 -180px;
+}
+button.omnipotent-button.small.orange:link .right {
+	background-position:-547px -180px;
+}
+button.omnipotent-button.small.orange:hover {
+	background-position:0 -200px;
+}
+button.omnipotent-button.small.orange:hover .right {
+	background-position:-547px -200px;
+}
+button.omnipotent-button.small.orange:active {
+	background-position:0 -220px;
+}
+button.omnipotent-button.small.orange:active .right {
+	background-position:-547px -220px;
+}
+/* END omnipotent-button type="button" size="small" color="orange" */
