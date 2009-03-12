@@ -1,5 +1,10 @@
 package edu.duke.cabig.c3pr.service;
 
+import java.util.Calendar;
+
+import org.springframework.context.ConfigurableApplicationContext;
+
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -7,21 +12,17 @@ import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ContextTools;
+import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.security.UserProvisioningManager;
-
-import java.util.Calendar;
-
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.annotation.AbstractAnnotationAwareTransactionalTests;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 7, 2007 Time: 2:06:36 PM To change this template
  * use File | Settings | File Templates.
  */
 
-public class PersonnelServiceTestCase extends AbstractAnnotationAwareTransactionalTests {
+public class PersonnelServiceTestCase extends DaoTestCase {
 
 	 public static final DataAuditInfo INFO = new DataAuditInfo("user", "127.0.0.0", DateUtil
              .createDate(2004, Calendar.NOVEMBER, 2), "c3pr/study");
@@ -39,8 +40,12 @@ public class PersonnelServiceTestCase extends AbstractAnnotationAwareTransaction
     private ResearchStaff researchStaff ;
 
     public PersonnelServiceTestCase() {
-        setAutowireMode(AUTOWIRE_BY_NAME);
+//        setAutowireMode(AUTOWIRE_BY_NAME);
         strValue = "test" + String.valueOf(Math.random()).substring(0, 5);
+        organizationService = (OrganizationService) getApplicationContext()
+    	.getBean("organizationService");
+        personnelService = (PersonnelService) getApplicationContext()
+    	.getBean("personnelService");
     }
     
     public void testCreateReasearchStaff() throws Exception {
@@ -73,22 +78,10 @@ public class PersonnelServiceTestCase extends AbstractAnnotationAwareTransaction
 
         assertNotNull(personnelService.getGroups(researchStaff));
     }
+    
     @Override
-    protected void onSetUpInTransaction() throws Exception {
-    	super.onSetUpInTransaction();
-    	DataAuditInfo.setLocal(INFO);
-    }
-    protected void onTearDownAfterTransaction() throws Exception {
-    	
-        jdbcTemplate.execute("delete from csm_user_group");
-        jdbcTemplate.execute("delete from csm_user");
-        jdbcTemplate.execute("delete from csm_user_group_role_pg");
-
-        jdbcTemplate.execute("delete from csm_group");
-        jdbcTemplate.execute("delete from csm_pg_pe");
-        jdbcTemplate.execute("delete from csm_protection_element");
-        jdbcTemplate.execute("delete from csm_protection_group");
-        DataAuditInfo.setLocal(null);
+    protected void setUp() throws Exception {
+    	super.setUp();
     }
 
     protected ConfigurableApplicationContext loadContext(Object object) throws Exception {
