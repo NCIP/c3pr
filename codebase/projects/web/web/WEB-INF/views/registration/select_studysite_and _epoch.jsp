@@ -47,7 +47,7 @@ function manageEpochSelection(element){
 								<input class="studySiteSelection" type="radio" value="${studySite.id}" onclick="manageStudySiteSelection(this);" <c:if test="${status.count ==1}">checked </c:if>  />
 							</td>
 		               		<td>
-		               			${studySite.healthcareSite.name} ${status.count}
+		               			${studySite.healthcareSite.name} 
 		               		</td>
 		               		<td>
 		               			${studySite.healthcareSite.nciInstituteCode}
