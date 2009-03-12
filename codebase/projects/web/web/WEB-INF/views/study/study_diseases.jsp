@@ -255,7 +255,7 @@ Event.observe(window, "load", function() {
             <input type="hidden" name="_selected" value="">
         </div>
 
-        	<tags:errors path="study.studyDiseases"/>
+        	<tags:errors path="*"/>
             <b><fmt:message key="study.disease.searchForADiseaseCategory"/></b><br>
             
             <input type="hidden" id="disease-hidden"/>
