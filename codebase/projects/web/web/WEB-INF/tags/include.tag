@@ -10,7 +10,7 @@
 <jwr:style src="/css/commonui.zcss" />
 
 <!--[if !IE]><!-->
-<jwr:style src="/css/notie.zcss" />
+<jwr:style src="/csslib/notie.zcss" />
 <!-- <![endif]-->
 
 <!--[if IE]>
