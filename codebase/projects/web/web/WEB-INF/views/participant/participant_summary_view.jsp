@@ -158,10 +158,11 @@ function updateTargetPage(target){
 		<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
 	                            authorizationCheckName="domainObjectAuthorizationCheck">
 			<div class="content buttons autoclear">
-			<div class="flow-buttons"><span class="next"> <input type="button"
-				value="Edit Subject"
-				onclick="document.location='editParticipant?participantId=${command.id}'" />
-				<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
+			<div class="flow-buttons"><span class="next">
+				<tags:button type="button" color="blue" value="Edit Subject" 
+					onclick="document.location='editParticipant?participantId=${command.id}'" size="small"/>
+				<tags:button type="button" color="blue" value="Print" 
+					onclick="javascript:C3PR.printElement('printable');" size="small"/>
 			</span></div>
 		</div>
 		</csmauthz:accesscontrol>
