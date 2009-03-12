@@ -53,7 +53,17 @@ public class CreateParticipantController<C extends Participant> extends
 
     private HealthcareSiteDao healthcareSiteDao;
     
-    private Configuration configuration;
+    private ParticipantValidator participantValidator;
+    
+    public ParticipantValidator getParticipantValidator() {
+		return participantValidator;
+	}
+
+	public void setParticipantValidator(ParticipantValidator participantValidator) {
+		this.participantValidator = participantValidator;
+	}
+
+	private Configuration configuration;
 
     public CreateParticipantController() {
         setCommandClass(Participant.class);
