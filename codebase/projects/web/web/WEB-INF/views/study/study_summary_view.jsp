@@ -504,7 +504,7 @@
 							onclick="document.location='../study/editStudy?studyId=${command.study.id}'" size="small"/>
 		                    </c:otherwise>
 		                </c:choose>
-	                    <c:if test="${command.study.standaloneIndicator}">
+	                    <c:if test="${command.study.standaloneIndicator && command.study.coordinatingCenterStudyStatus != 'PENDING'}">
 	                    	<tags:button type="button" color="blue" value="Amend Study" 
 							onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'" size="small"/>
 	                     </c:if>
