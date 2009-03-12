@@ -66,6 +66,9 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		//if organization is null get all research staffs
 		if (healthcareSite == null) {
 			PersonDTO personDTO = new PersonDTO();
+			Ii ii = new Ii();
+			ii.setRoot(IiConverter.CLINICAL_RESEARCH_STAFF_ROOT);
+			personDTO.setIdentifier(ii);
 			List<PersonDTO> allPersons = personEntityServiceRemote.search(personDTO);
 			//need to get organization for each person . 
 			
