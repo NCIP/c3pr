@@ -8,10 +8,10 @@
     <INVESTIGATOR_GROUPS id="1001" version="1" name="BREAST CANCER GROUP" hcs_id="1001" description_text="this is breast cancer group" retired_indicator = "false" />
     <INVESTIGATOR_GROUPS id="1002" version="1" name="LEUKEMIA GROUP" hcs_id="1000" description_text="this is leukemia group" retired_indicator = "false" />
         
-  	<INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" nci_identifier="NCI_1232" retired_indicator = "false" />
-    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" nci_identifier="NCI_1232a" retired_indicator = "false" />
-    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" nci_identifier="NCI_c45a" retired_indicator = "false" />
-    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4" nci_identifier="NCI_c238" retired_indicator = "false" />
+  	<INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" nci_identifier="NCI_1232" dtype="Local" retired_indicator = "false" />
+    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" nci_identifier="NCI_1232a" dtype="Local"  retired_indicator = "false" />
+    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" nci_identifier="NCI_c45a" dtype="Local" retired_indicator = "false" />
+    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4" nci_identifier="NCI_c238" dtype="Local" retired_indicator = "false" />
     
      <CONTACT_MECHANISMS id="1000" inv_id ="1000" version="1" type="EMAIL" value="test@mail.com" retired_indicator = "false" />
     
