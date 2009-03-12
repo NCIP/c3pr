@@ -60,6 +60,11 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
         	try {
 				studySubject=studySubjectRepository.enroll(studySubject);
 			} catch (C3PRCodedRuntimeException e) {
+				
+				// Book exhausted exception is non-recoverable so it must be thrown up
+				if(e.getExceptionCode()==234){
+					throw new RuntimeException("No Arm available for this stratum group. May be the Randomization Book is exhausted");
+				}
 				// TODO Handle multisite error seperately and elegantly. for now eat the error
 			}
         }
