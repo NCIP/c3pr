@@ -5,10 +5,11 @@ import org.extremecomponents.table.cell.AbstractCell;
 import org.extremecomponents.table.core.TableModel;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 
 public class RegistrationLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_REG_URL = "manageRegistration?registrationId=";
+	public static final String VIEW_REG_URL = "../registration/manageRegistration?";
 
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
@@ -25,7 +26,7 @@ public class RegistrationLinkDisplayCell extends AbstractCell {
     }
 
     public void setRowOnClick(TableModel tableModel, StudySubject studySubject){    	
-    	String url = "document.location='" + VIEW_REG_URL + studySubject.getId().toString() + "'";
+    	String url = "document.location='" + VIEW_REG_URL + ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)) + "'";
     	tableModel.getRowHandler().getRow().setOnclick(url);
     	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
     }
