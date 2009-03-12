@@ -1,14 +1,16 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
-import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
-import org.springframework.validation.Errors;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:26:34 PM To change this template
@@ -68,14 +70,26 @@ public class StudyDiseasesTab extends StudyTab {
                 log.debug("Study Diseases Size : " + wrapper.getStudy().getStudyDiseases().size());
                 for (String diseaseId : diseases) {
                     log.debug("Disease Id : " + diseaseId);
-                    StudyDisease studyDisease = new StudyDisease();
-                    studyDisease
-                            .setDiseaseTerm(diseaseTermDao.getById(Integer
-                                    .parseInt(diseaseId)));
-                    wrapper.getStudy().addStudyDisease(studyDisease);
-                    studyValidator.validateStudyDiseases(wrapper.getStudy(), errors);
-                    if (errors.hasErrors()) {
-                        wrapper.getStudy().getStudyDiseases().remove(studyDisease);
+                    DiseaseTerm diseaseTerm = diseaseTermDao.getById(Integer
+                            .parseInt(diseaseId));
+                    boolean diseasePresent = false;
+                    for(int i=0; i< wrapper.getStudy().getStudyDiseases().size();i++){
+                    	if (wrapper.getStudy().getStudyDiseases().get(i).getDiseaseTerm().getId().intValue() ==(diseaseTerm.getId().intValue())){
+                    		diseasePresent = true;
+                    		errors.reject("study.studyDiseases","Disease already exists in study");
+                    	}
+                    }
+                    if (!diseasePresent){
+	                    StudyDisease studyDisease = new StudyDisease();
+	                    studyDisease
+	                            .setDiseaseTerm(diseaseTermDao.getById(Integer
+	                                    .parseInt(diseaseId)));
+	                    wrapper.getStudy().addStudyDisease(studyDisease);
+	                    
+	                    studyValidator.validateStudyDiseases(wrapper.getStudy(), errors);
+	                    if (errors.hasErrors()) {
+	                        wrapper.getStudy().getStudyDiseases().remove(studyDisease);
+	                    }
                     }
                 }
             }
