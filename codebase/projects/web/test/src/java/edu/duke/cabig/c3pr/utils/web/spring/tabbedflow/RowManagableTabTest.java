@@ -40,7 +40,8 @@ public class RowManagableTabTest extends AbstractTestCase{
         EasyMock.expect(request.getParameter(rowManagableTab.getSoftDeleteParamName())).andReturn("true");
         replayMocks();
         rowManagableTab.deleteRow(request, command, errors);
-        assertEquals("true", domainObjectDummy.getRetiredIndicator());
+        assertEquals("dummy object not deleted", 0, command.list.size());
+//        assertEquals("true", domainObjectDummy.getRetiredIndicator());
         verifyMocks();
     }
     
