@@ -262,6 +262,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+	        EasyMock.expect(epochDao.merge(studySubject.getScheduledEpoch().getEpoch())).andReturn(studySubject.getScheduledEpoch().getEpoch());
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
@@ -286,7 +287,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
-
+	        EasyMock.expect(epochDao.merge(studySubject.getScheduledEpoch().getEpoch())).andReturn(studySubject.getScheduledEpoch().getEpoch());
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
 	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
@@ -317,7 +318,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	        studySubjects.add(studySubject);
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(studySubjects);
-
+	        EasyMock.expect(epochDao.merge(studySubject.getScheduledEpoch().getEpoch())).andReturn(studySubject.getScheduledEpoch().getEpoch()).times(2);
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
 	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
@@ -348,7 +349,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	        studySubjects.add(studySubject);
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(studySubjects);
-
+	        EasyMock.expect(epochDao.merge(studySubject.getScheduledEpoch().getEpoch())).andReturn(studySubject.getScheduledEpoch().getEpoch());
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
 	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
