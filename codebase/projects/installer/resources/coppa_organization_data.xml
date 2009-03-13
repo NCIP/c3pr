@@ -1,0 +1,18 @@
+<organizations>	
+	<!-- DO NOT MODIFY coppa-id or ctep-id -->
+	<organization coppa-id="CP-RM-TST-ID" ctep-id="RM-TST-ID" >
+		<name>Nairobi Hospital</name>
+		<city>Nairobi</city>
+		<country>KEN</country>
+	</organization>		
+	<organization coppa-id="CP-RM-TST-ID2" ctep-id="RM-TST-ID2" >
+		<name>Montreal Childrens Hospital Remote 2</name>
+		<city>Montreal</city>
+		<country>CAN</country>
+	</organization>	
+	<organization coppa-id="CP-RM-TST-ID3" ctep-id="RM-TST-ID3" >
+		<name>Sydney Cancer Centre Remote 3</name>
+		<city>Camperdown</city>
+		<country>AUS</country>
+	</organization>	
+</organizations>
