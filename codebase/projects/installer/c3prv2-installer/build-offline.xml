@@ -30,11 +30,6 @@
 
         <unzip src="${antinstaller.jar}" dest="${basedir}"
                overwrite="true">
-            <patternset>
-                <include name="${c3prv2.install.artifact}"/>
-            	<include name="${ivy2.install.artifact}"/>
-            	<include name="ant-contrib*.jar"/>
-            </patternset>
         </unzip>
 
         <!--delete previous install-->
