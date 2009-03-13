@@ -17,7 +17,7 @@
 							<td class="alt" align="left">${param.lastName} ${param.middleName} ${param.firstName}</td>
 						</tr>
 						<tr>
-							<td class="alt" align="left"><b><fmt:message key="c3pr.common.primaryIndicator"/></b></td>
+							<td class="alt" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></td>
 							<td class="alt" align="left">${param.primaryIdentifier}</td>
 						</tr>
 					</table>
