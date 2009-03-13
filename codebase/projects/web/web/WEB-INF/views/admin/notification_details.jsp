@@ -224,7 +224,7 @@
 				//length at the cursor location and replacing it
 				//with myValue
 				sel = document.selection.createRange();
-				sel.text = myValue.value;
+				sel.text = "$" + "{" + myValue.value + "}";
 			}
 			//Mozilla/Firefox/Netscape 7+ support
 			else if (myField.selectionStart == '0' || myField.selectionStart == '0') {
