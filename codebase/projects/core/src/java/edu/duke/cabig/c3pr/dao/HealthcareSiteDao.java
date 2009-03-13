@@ -180,25 +180,6 @@ public class HealthcareSiteDao extends OrganizationDao {
 	}
 
 	/**
-	 * Gets by nci institute code. DOES NOT fetch from COPPA
-	 * 
-	 * @param nciInstituteCode
-	 *            the nci institute code
-	 * 
-	 * @return the HealthcareSite
-	 * @throws C3PRBaseException 
-	 * @throws C3PRBaseRuntimeException 
-	 */
-	public HealthcareSite getByNciInstituteCodeFromDatabaseOnly(String nciInstituteCode) {
-		
-		return CollectionUtils
-				.firstElement((List<HealthcareSite>) getHibernateTemplate()
-						.find(
-								"from HealthcareSite h where h.nciInstituteCode = ?",
-								nciInstituteCode));
-	}
-	
-	/**
 	 * Gets by nci institute code.
 	 * 
 	 * @param nciInstituteCode
