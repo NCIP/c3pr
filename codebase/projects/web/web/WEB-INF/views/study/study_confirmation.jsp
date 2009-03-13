@@ -39,7 +39,7 @@
 	                 </div>
 					<div class="flow-buttons">
 						<span class="next"> 
-							<input type="button" value="Manage Study" id="manageStudy" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'" />
+							<tags:button type="button" color="blue" value="Manage Study" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />'" size="small"/>
 						</span>
 					</div>
 					<br/>
