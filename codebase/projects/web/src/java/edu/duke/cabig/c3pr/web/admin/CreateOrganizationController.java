@@ -76,7 +76,7 @@ public class CreateOrganizationController extends SimpleFormController {
 		HealthcareSite healthcareSite = (HealthcareSite) command;
     	if(healthcareSite.getId() == null){
     		if(!"saveRemoteOrg".equals(request.getParameter("_action"))){
-    			HealthcareSite hcsFromDB = healthcareSiteDao.getLocalOrganizationsOnlyByNciInstituteCode(healthcareSite.getNciInstituteCode());
+    			HealthcareSite hcsFromDB = healthcareSiteDao.getLocalOrganizationsByNciInstituteCode(healthcareSite.getNciInstituteCode());
     			if(hcsFromDB != null){
     				errors.reject("LOCAL_ORG_EXISTS","Organization with NCI Institute Code " +healthcareSite.getNciInstituteCode()+ " already exisits");
     				return;
