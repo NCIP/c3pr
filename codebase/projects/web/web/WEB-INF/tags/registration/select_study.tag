@@ -37,7 +37,7 @@
 	
 	function postProcessStudySelection(isActive, id, siteName, studyName, identifier){
 		if(!isActive){
-			alert("Sorry, this study is not currently active.");
+			alert("Study site is not active");
 			return;
 		}
 		document.getElementById("studySubject.studySite").value = id;
