@@ -421,7 +421,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		//defaulting to the hosting site if nothing is found
 		if(hcsList.size() == 0){
 			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-			hcsList.add(healthcareSiteDao.getByNciInstituteCode(localNciCode));
+			hcsList.add(healthcareSiteDao.getByNciInstituteCodeFromLocal(localNciCode));
 		}
 		
 		removeDuplicates(hcsList);

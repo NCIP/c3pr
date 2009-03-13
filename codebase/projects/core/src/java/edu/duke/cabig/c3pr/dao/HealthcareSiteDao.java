@@ -223,7 +223,26 @@ public class HealthcareSiteDao extends OrganizationDao {
 								nciInstituteCode));
 	}
 	
-	public HealthcareSite getLocalOrganizationsOnlyByNciInstituteCode(String nciInstituteCode) {
+	/**
+	 * Gets by nci institute code from local.
+	 * 
+	 * @param nciInstituteCode
+	 *            the nci institute code
+	 * 
+	 * @return the HealthcareSite
+	 * @throws C3PRBaseException 
+	 * @throws C3PRBaseRuntimeException 
+	 */
+	public HealthcareSite getByNciInstituteCodeFromLocal(String nciInstituteCode) {
+		
+		return CollectionUtils
+				.firstElement((List<HealthcareSite>) getHibernateTemplate()
+						.find(
+								"from HealthcareSite h where h.nciInstituteCode = ?",
+								nciInstituteCode));
+	}
+	
+	public HealthcareSite getLocalOrganizationsByNciInstituteCode(String nciInstituteCode) {
 			
 			return CollectionUtils
 					.firstElement((List<HealthcareSite>) getHibernateTemplate()
