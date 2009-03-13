@@ -453,6 +453,10 @@ public class RegistrationControllerUtils {
 					imageAndMessage.add("REGISTRATION.INCOMPLETE") ;
 					return imageAndMessage ;
 				}
+			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED && studySubject.getParentStudySubject() != null){
+				imageAndMessage.add("error");
+				imageAndMessage.add("REGISTRATION.COMPANION.PARENTINCOMPLETE") ;
+				return imageAndMessage ;
 			}
 		}else{
 			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
