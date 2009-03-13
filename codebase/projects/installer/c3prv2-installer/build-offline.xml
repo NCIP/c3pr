@@ -145,6 +145,12 @@
         <copy file="${basedir}/ant.install.properties"
               tofile="${tomcat.home}/conf/c3pr/c3pr.properties"
                 />
+        <copy file="${basedir}/resources/coppa_person_data.xml"
+              tofile="${tomcat.home}/coppa_person_data.xml"
+                />
+        <copy file="${basedir}/resources/coppa_organization_data.xml"
+              tofile="${tomcat.home}/coppa_organization_data.xml"
+                />
 
     </target>
 
