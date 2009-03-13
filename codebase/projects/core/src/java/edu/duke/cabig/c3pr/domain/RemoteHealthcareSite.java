@@ -23,6 +23,11 @@ public class RemoteHealthcareSite extends HealthcareSite {
 		return externalId;
 	}
 
+	public RemoteHealthcareSite() {
+		super();
+		this.setVersion(0);
+	}
+
 	public void setExternalId(String externalId) {
 		this.externalId = externalId;
 	}
