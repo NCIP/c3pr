@@ -322,6 +322,8 @@
             <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
             <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
 			<zipfileset dir="${projects.dir}/rules" prefix="projects/rules"/>
+        	<zipfileset dir="${projects.dir}/grid/StudyService" prefix="projects/grid/StudyService"/>
+        	<zipfileset dir="${projects.dir}/grid/RegistrationService" prefix="projects/grid/RegistrationService"/>
         </zip>
         <zip destfile="${projects.dir}/installer/installpack/ivy2.zip">
             <zipfileset dir="${ivy.cache}" prefix="${ivy.cache.name}"/>
