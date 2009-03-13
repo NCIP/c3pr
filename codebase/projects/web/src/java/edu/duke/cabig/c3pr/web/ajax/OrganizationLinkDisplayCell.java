@@ -14,14 +14,21 @@ public class OrganizationLinkDisplayCell extends AbstractCell {
     
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
-    	ResearchStaff rStaff = (ResearchStaff) model.getCurrentRowBean();
-        HealthcareSite organization = rStaff.getHealthcareSite();
-        String cellValue = column.getValueAsString();
+        HealthcareSite healthcareSite = null;
         
-        if(organization instanceof RemoteHealthcareSite){
+    	if(model.getCurrentRowBean() instanceof HealthcareSite){
+    		healthcareSite = (HealthcareSite)model.getCurrentRowBean();
+    	} else if(model.getCurrentRowBean() instanceof ResearchStaff ){
+    		ResearchStaff rStaff = (ResearchStaff)model.getCurrentRowBean();
+    		healthcareSite = rStaff.getHealthcareSite();
+    	}
+    	
+    	String cellValue = column.getValueAsString();
+        
+        if(healthcareSite != null && healthcareSite instanceof RemoteHealthcareSite){
         	cellValue = cellValue + "<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='17' height='16' border='0' align='middle'/>";
         }
-        setRowOnClick(model, organization);
+        setRowOnClick(model, healthcareSite);
         return cellValue;
     }
     

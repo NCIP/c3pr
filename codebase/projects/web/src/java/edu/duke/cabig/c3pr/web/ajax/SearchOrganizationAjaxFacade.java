@@ -27,12 +27,12 @@ public class SearchOrganizationAjaxFacade {
 
     private HealthcareSiteDao healthcareSiteDao;
 
-    public Object build(TableModel model, Collection studies) throws Exception {
+    public Object build(TableModel model, Collection healthcareSites) throws Exception {
 
         Table table = model.getTableInstance();
         table.setAutoIncludeParameters(false);
         table.setTableId("assembler");
-        table.setItems(studies);
+        table.setItems(healthcareSites);
         table.setAction(model.getContext().getContextPath() + "/pages/admin/createOrganization");
         table.setTitle("Organizations");
         table.setShowPagination(true);
