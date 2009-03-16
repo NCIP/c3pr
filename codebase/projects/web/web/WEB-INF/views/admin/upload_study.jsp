@@ -50,13 +50,13 @@
 
             <div class="row">
                 <div class="value">
-                   <tags:downloadClasspathResource filename="c3pr-domain.xsd" label="Schema File"/>
+                   <tags:downloadClasspathResource filename="c3pr-domain.xsd" label="Schema File"/>&nbsp;
                 </div>
             </div>
 
             <div class="row">
                 <div class="value">
-                   <tags:downloadClasspathResource filename="C3PR-JointStudy.xml" label="Sample XML File"/>
+                   <tags:downloadClasspathResource filename="C3PR-JointStudy.xml" label="Sample XML File"/>&nbsp;
                 </div>
             </div>
             
