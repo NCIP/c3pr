@@ -17,6 +17,13 @@ public class PhoneCallRandomization extends Randomization {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    
+    @Transient
+    public String getPhoneNumberString() {
+        String tempPhoneNumber = this.phoneNumber.replaceAll("-", "");
+        String phoneNumberString = tempPhoneNumber.substring(0, 3) + "-" +tempPhoneNumber.substring(3, 6) + "-" + tempPhoneNumber.substring(6);
+    	return phoneNumberString;
+    }
 
     @Override
     @Transient
