@@ -73,8 +73,6 @@ public class ScheduledNotificationJob extends ScheduledJob {
        	logger.debug("Executing ScheduledNotification Job");
        	
     	assert applicationContext != null: "applicationContext cannot be null";
-    	//recipientScheduledNotification can be null for report generation cases
-    	//assert recipientScheduledNotification != null: "recipientScheduledNotification cannot be null";
     	assert plannedNotification != null: "plannedNotification cant be null";
     	
         try {
@@ -122,9 +120,9 @@ public class ScheduledNotificationJob extends ScheduledJob {
     	//if recipientScheduledNotification is null...create and save both scheduledNotification and recipientScheduledNotification.
     	if(plannedNotification.getEventName().equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT_REPORT)){
     		//gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
-            		//userName, request.getRemoteAddr(), new Date(),httpReq.getRequestURI()));
-//    		gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
-//            		"C3PR Admin", "C3PR Scheduled Notification Job", new Date(), "C3PR Scheduled Notification Job"));
+    		//userName, request.getRemoteAddr(), new Date(),httpReq.getRequestURI()));
+    		//gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+    		//"C3PR Admin", "C3PR Scheduled Notification Job", new Date(), "C3PR Scheduled Notification Job"));
     		
 			String reportText = generateReportFromHistory(plannedNotification);
 			ScheduledNotification scheduledNotification = addScheduledNotification(plannedNotification, reportText);
