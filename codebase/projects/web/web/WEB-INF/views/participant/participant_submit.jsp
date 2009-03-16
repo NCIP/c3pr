@@ -116,7 +116,7 @@ function updateTargetPage(target){
 				<tr class="results">
 					<c:forEach items="${command.contactMechanisms}"
 						var="contactMechanism">
-						<td class="alt" align="left">${contactMechanism.value}</td>
+						<td class="alt" align="left">${contactMechanism.valueString}</td>
 					</c:forEach>
 				</tr>
 			</table>
