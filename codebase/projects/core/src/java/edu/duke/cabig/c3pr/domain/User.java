@@ -22,12 +22,6 @@ import org.hibernate.annotations.IndexColumn;
 @MappedSuperclass
 public abstract class User extends C3PRUser{
 		    
-//    private String emailAddress;
-//
-//    private String phoneNumber;
-//
-//    private String faxNumber;
-
     private String salt;
 
     private String token;
@@ -45,31 +39,6 @@ public abstract class User extends C3PRUser{
         passwordHistory = new ArrayList<String>();
     }
     
-//    @UniqueEmailAddressForResearchStaff(message = "Email address already exits in database..!")
-//    public String getEmailAddress() {
-//        return emailAddress;
-//    }
-//
-//    public String getFaxNumber() {
-//        return faxNumber;
-//    }
-//
-//    public String getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//
-//    public void setPhoneNumber(final String phoneNumber) {
-//        this.phoneNumber = phoneNumber;
-//    }
-//
-//    public void setEmailAddress(final String emailAddress) {
-//        this.emailAddress = emailAddress;
-//    }
-//
-//    public void setFaxNumber(final String faxNumber) {
-//        this.faxNumber = faxNumber;
-//    }
-
     /* begin password stuff */
 
     @Column(name = "salt")
