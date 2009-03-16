@@ -35,7 +35,7 @@ public class UsernameDuplicateValidator implements Validator {
         //for now the search is against the db only as searching remote causes stale object exception on ORacle. see CPR-578
         
         	if(object instanceof RemoteResearchStaff){ } else {
-        		ResearchStaff researchStaff = dao.getByNciIdentifierFromDatabaseOnly(user.getNciIdentifier());
+        		ResearchStaff researchStaff = dao.getByNciIdentifierFromLocal(user.getNciIdentifier());
         		if (researchStaff != null) {
 					if (user.getId() == null) {
 							errors.reject("duplicate.nci.id.error");
@@ -47,7 +47,7 @@ public class UsernameDuplicateValidator implements Validator {
 				for (ContactMechanism cm : user.getContactMechanisms()) {
                     if (cm.getType().equals(ContactMechanismType.EMAIL)) {
                     	List<ResearchStaff> researchStaffByEmail = new ArrayList<ResearchStaff>();
-                    	researchStaffByEmail = dao.getByEmailAddressFromDatabaseOnly(cm.getValue());
+                    	researchStaffByEmail = dao.getByEmailAddressFromLocal(cm.getValue());
                     	if (researchStaffByEmail.size()>1){
                     		errors.reject("duplicate.username.error");
                     	} else if (researchStaffByEmail.size()>0 && researchStaffByEmail.get(0)!=null){

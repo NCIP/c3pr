@@ -135,7 +135,7 @@ public class CreateNotificationController extends SimpleFormController {
     	
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
 																		.getSession().getAttribute("userObject");
-    	List<ResearchStaff> researchStaffList = researchStaffDao.getByEmailAddress(user.getEmailId());
+    	List<ResearchStaff> researchStaffList = researchStaffDao.getByEmailAddressFromLocal(user.getEmailId());
     	HealthcareSite hcs = null;
     	//Get the logged in users site....if logged in user has no site(e.g: c3pr_admin) get the hosting site. 
     	if(researchStaffList != null && researchStaffList.size() > 0){
@@ -201,8 +201,8 @@ public class CreateNotificationController extends SimpleFormController {
 	        	
 	        	for(UserBasedRecipient ubr: pn.getUserBasedRecipient()){
 	        		if(ubr.getEmailAddress() != null && ubr.getEmailAddress() != ""){
-	        			rsList = researchStaffDao.getByEmailAddress(ubr.getEmailAddress());
-	        			invList = investigatorDao.getByEmailAddress(ubr.getEmailAddress());
+	        			rsList = researchStaffDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
+	        			invList = investigatorDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
 	        		}
 	        		if(rsList.size() > 0){
 	        			ubr.setResearchStaff(rsList.get(0));
