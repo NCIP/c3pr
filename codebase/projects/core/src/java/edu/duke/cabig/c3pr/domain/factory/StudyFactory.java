@@ -61,7 +61,7 @@ public class StudyFactory {
 				Investigator inv = sInv.getHealthcareSiteInvestigator()
 						.getInvestigator();
 				List<Investigator> loadedInvestigators = investigatorDao
-						.getInvestigatorsByNciIdentifier(inv
+						.getByNciIdentifier(inv
 								.getNciIdentifier());
 				Investigator loadedInv = null;
 				if (loadedInvestigators.size() > 0) {

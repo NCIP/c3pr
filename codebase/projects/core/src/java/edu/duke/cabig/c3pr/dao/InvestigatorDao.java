@@ -103,7 +103,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     /*
      * Gets from the database only.
      */
-    public List<Investigator> getInvestigatorsFromDatabaseByEmailAddress(String emailAddress) {
+    public List<Investigator> getByEmailAddressFromLocal(String emailAddress) {
     	//Now that the remote inv's are in the db. Search the db.
         return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
     }
@@ -130,7 +130,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * @param nciIdentifier
      * @return
      */
-    public List<Investigator> getInvestigatorsFromDatabaseByNciIdentifier(String nciIdentifier) {
+    public List<Investigator> getByNciIdentifierFromLocal(String nciIdentifier) {
         return ((List<Investigator>) getHibernateTemplate().find(
                         "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
     }
@@ -139,7 +139,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * @param nciIdentifier
      * @return
      */
-    public List<Investigator> getInvestigatorsByNciIdentifier(String nciIdentifier) {
+    public List<Investigator> getByNciIdentifier(String nciIdentifier) {
     	//First fetch the remote Inv's
     	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
     	remoteInvestigator.setNciIdentifier(nciIdentifier);

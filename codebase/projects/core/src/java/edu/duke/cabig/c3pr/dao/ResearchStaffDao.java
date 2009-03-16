@@ -190,7 +190,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * 
      * @return the by nci identifier
      */
-    public ResearchStaff getByNciIdentifierFromDatabaseOnly(String nciIdentifier) {
+    public ResearchStaff getByNciIdentifierFromLocal(String nciIdentifier) {
         ResearchStaff result = null;
         try {
             result = (ResearchStaff)(getHibernateTemplate().find("from ResearchStaff rs where rs.nciIdentifier = '" +nciIdentifier+ "'").get(0));
@@ -234,7 +234,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * 
      * @return the ResearchStaff List
      */
-    public List<ResearchStaff> getByEmailAddressFromDatabaseOnly(String emailAddress) {
+    public List<ResearchStaff> getByEmailAddressFromLocal(String emailAddress) {
         return getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'");
     }
     
@@ -317,11 +317,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     	return completeResearchStaffListFromDatabase;
     }
     
-    
-//    private void getAndUpdateRemoteResearchStaff(RemoteResearchStaff remoteResearchStaff){
-//    	List<RemoteResearchStaff> remoteResearchStaffList =  getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
-//    	updateDatabaseWithRemoteContent(remoteResearchStaffList);
-//    }
     
     /**
      * Gets the remote research staff by organization nci institute code from the resolver and updates the db.
