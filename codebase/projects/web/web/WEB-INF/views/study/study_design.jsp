@@ -146,7 +146,7 @@
 											path="study.epochs[${treatmentEpochCount.index}].name"
 											size="43" cssClass="validate-notEmpty"
 											onkeyup="updateName('genericTitle-${treatmentEpochCount.index}', 'Epoch: ' + this.value);" />
-			  <tags:hoverHint id="study.treatmentEpoch.name-	"
+			  <tags:hoverHint id="study.treatmentEpoch.name-${treatmentEpochCount.index}"
 											keyProp="study.treatmentEpoch.name" />
           </td>
       </tr>
