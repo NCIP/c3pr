@@ -267,10 +267,8 @@
 	<div class="content buttons autoclear">
 		<div class="flow-buttons">
 			<span class="next" align="right"> 
-				<input type="button" value="Create Companion Study" onclick="copyToParent();"/>
-				<input type="button" value="Close" onClick="parent.closePopup(true);"/>
-				<%--<tags:button type="button" color="green" value="Create Companion Study" onclick="copyToParent();" />
-				<tags:button type="button" color="red" icon="x" value="Close" onclick="parent.closePopup(true);" />--%>
+				<tags:button type="button" color="green" icon="add" value="Create Companion Study" onclick="copyToParent();" />
+				<tags:button type="button" color="red" icon="x" value="Close" onclick="parent.closePopup(true);" />
 			</span>
 		</div>
 	</div>
