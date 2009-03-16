@@ -16,8 +16,10 @@
     <tags:include/>
 	<script>
 	Event.observe(window, "load", function() {
-    		$('printView').innerHTML = window.opener.document.getElementById('printable').innerHTML;
 			$('printTitle').innerHTML = window.opener.document.title;
+			$('printView').innerHTML = window.opener.document.getElementById('printable').innerHTML;
+			Element.show('printTitle');
+	    	Element.show('printView');
 			window.print();
     })
 	</script>
@@ -51,7 +53,7 @@
 <body>
 	<div style="height:110px;">
 	<img id="C3PR-logo" src="<tags:imageUrl name="C3PR_logo.png" />" alt="" />
-	<div id="printTitle">Oops!</div>
+	<div id="printTitle" style="display:none;">Oops!</div>
 	<div id="printDate">
 		<script language="JavaScript" type="text/javascript" >
 			var localTime = new Date();
@@ -59,7 +61,7 @@
 		</script>
 	</div>
 	</div>
-<div id="printView">
+<div id="printView" style="display:none;">
 	No printable content.
 </div>
 </body>
