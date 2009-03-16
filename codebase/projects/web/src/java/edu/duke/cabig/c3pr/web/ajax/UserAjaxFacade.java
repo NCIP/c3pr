@@ -95,7 +95,7 @@ public class UserAjaxFacade {
 
     public List<Person> matchNameAndEmail(String text, String emailId) throws Exception {
     	//getting the site of the logged in user
-    	List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(emailId);
+    	List<ResearchStaff> rsList = researchStaffDao.getByEmailAddressFromLocal(emailId);
     	String nciInstituteCode = null;
     	
     	if(rsList != null && rsList.size() > 0){
