@@ -159,7 +159,7 @@ function createReg(studySite, participant, parentRegistrationId){
 			</div>
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.consentVersion"/></b>:</div>
-				<div class="value">${command.studySubject.informedConsentVersion}</div>
+				<div class="value">${command.studySubject.informedConsentVersion}&nbsp;</div>
 			</div>
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
