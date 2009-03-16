@@ -48,7 +48,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
             <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'&& registration.scheduledEpoch.epoch.randomizedIndicator}">
                 <tr><td align="left" colspan="2"></td></tr>
-				<tr><td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td><td >${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
+				<tr><td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td><td >${registration.scheduledEpoch.epoch.randomization.phoneNumberString}</td></tr>
 				<tr>
 				<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
 				<td class="labelR"><fmt:message key="registration.stratumGroup"/>:</td><td> ${registration.scheduledEpoch.stratumGroup}</td>
@@ -88,7 +88,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 		            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		            <c:if test="${childStudySubject.studySite.study.randomizationType.name == 'PHONE_CALL'&& childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
 		                <tr><td align="left" colspan="2"></td></tr>
-						<tr><td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td><td >${childStudySubject.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
+						<tr><td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td><td >${childStudySubject.scheduledEpoch.epoch.randomization.phoneNumberString}</td></tr>
 						<tr>
 						<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
 						<td class="labelR"><fmt:message key="registration.stratumGroup"/>:</td><td> ${childStudySubject.scheduledEpoch.stratumGroup}</td>

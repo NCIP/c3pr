@@ -23,7 +23,7 @@
 					</tr>
 					<tr>
 						<td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td>
-						<td>${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td>
+						<td>${registration.scheduledEpoch.epoch.randomization.phoneNumberString}</td>
 					</tr>
 					<tr>
 						<c:if test="${registration.scheduledEpoch.epoch.stratificationIndicator}">
@@ -80,7 +80,7 @@
 								</tr>
 								<tr>
 									<td class="labelR" width="150"><fmt:message key="registration.phoneNumber"/>:</td>
-									<td>${childStudySubject.scheduledEpoch.epoch.randomization.phoneNumber}</td>
+									<td>${childStudySubject.scheduledEpoch.epoch.randomization.phoneNumberString}</td>
 								</tr>
 								<tr>
 									<c:if test="${childStudySubject.scheduledEpoch.epoch.stratificationIndicator}">
