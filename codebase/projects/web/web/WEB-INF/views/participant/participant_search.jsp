@@ -27,13 +27,12 @@ function submitPage(){
 						<td><%--<img src="<tags:imageUrl name="Patient.gif"/>"
 							alt="Subject Search" width="100" height="100" align="absmiddle">--%></td>
 						<td width="85%">
-						<table width="100%" border="0" cellspacing="5" cellpadding="0"
-							id="table1">
+						<table width="100%" border="0" cellspacing="5" cellpadding="0" id="table1">
 							<tr>
 								<td width="30%" align="right" class="label"><b><fmt:message key="c3pr.common.searchBy"/></b></td>
-								<td align="left"><form:select path="searchType">
-									<form:options items="${searchTypeRefData}" itemLabel="desc"
-										itemValue="code" />
+								<td align="left">
+								<form:select path="searchType">
+									<form:options items="${searchTypeRefData}" itemLabel="desc" itemValue="code" />
 								</form:select></td>
 							</tr>
 							<tr>
@@ -53,11 +52,8 @@ function submitPage(){
 			</tr>
 		</table>
 		<br>
-		<br>
-		<br>
 		<participanttags:searchResults url="viewParticipant" />
 		<!-- MAIN BODY ENDS HERE -->
-		</div>
 	</form:form>
 </chrome:search>
 </body>
