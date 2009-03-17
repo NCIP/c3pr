@@ -9,3 +9,4 @@
 <%@taglib prefix="participanttags" tagdir="/WEB-INF/tags/participant"%>
 <%@taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
