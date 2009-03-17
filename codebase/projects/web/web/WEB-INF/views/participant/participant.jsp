@@ -1,5 +1,4 @@
 <%@ include file="taglibs.jsp"%>
-
 <html>
 <head>
 	<title><participanttags:htmlTitle subject="${command}" /></title>
@@ -10,7 +9,6 @@
 var healthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
     populator: function(autocompleter, text) {
-
         ParticipantAjaxFacade.matchHealthcareSites( text,function(values) {
             autocompleter.setChoices(values)
         })
@@ -19,16 +17,11 @@ var healthcareSiteAutocompleterProps = {
     	return (obj.name+" ("+obj.nciInstituteCode+")")
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
-	    							$(hiddenField).value=selectedChoice.id;
-									}
+   								hiddenField=inputElement.id.split("-")[0]+"-hidden";
+    							$(hiddenField).value=selectedChoice.id;
+						}
 }
-function navRollOver(obj, state) {
-  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
-}
-function getPage(s){
-	parent.window.location="reg_patient_search.htm";
-}
+
 function clearField(field) {
             field.value = "";
         }
@@ -150,12 +143,12 @@ top:83px;
 							</form:select> 
 						</div> 
 					</div>
-				</div>
-				<div class="rightpanel">
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.birthDate"/></div>
 						<div class="value"><form:input path="birthDate" cssClass="validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
 					</div>
+				</div>
+				<div class="rightpanel">
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.ethnicity"/></div>
 						<div class="value"><form:select path="ethnicGroupCode"
@@ -184,7 +177,6 @@ top:83px;
 					
 				</div>
 		</chrome:division>
-		
 		<chrome:division title="Assigned Identifier">
 		<tags:errors path="primaryIdentifier"/>
          		<div id="mrnDetails">
@@ -201,7 +193,7 @@ top:83px;
 									<input type="hidden" id="mrnOrganization-hidden"
 										name="organizationAssignedIdentifiers[0].healthcareSite"
 										value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-									<input id="mrnOrganization-input" size="38" type="text"
+									<input id="mrnOrganization-input" size="33" type="text"
 									name="xyz"
 									value='<c:out value="${_name} ${_code}" />'
 									class="autocomplete validate-notEmpty" />
@@ -213,7 +205,7 @@ top:83px;
 						<div class="row">
 			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
-									size="30" maxlength="30"
+									size="30" maxlength="33"
 									value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
 									<tags:hoverHint keyProp="subject.MRN.value"/>
 									<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
@@ -223,11 +215,13 @@ top:83px;
 					 <div class="rightpanel">
 						<div class="row">
 								<div class="label"><fmt:message key="c3pr.common.identifierType"/></div>
+								<div class="value">
 								<form:select
 									path="organizationAssignedIdentifiers[0].type"
 									cssClass="validate-notEmpty"> value="${command.organizationAssignedIdentifiers[0].type}"
 									<form:options items="${identifiersTypeRefData}" itemLabel="desc" itemValue="desc" />
 								</form:select>
+								</div>
 						</div>
 					</div>
           		</div>
@@ -330,10 +324,8 @@ top:83px;
 				<br>
 				<tags:button type="button" color="blue" icon="add" value="Add Identifier" onclick="$('hSystemAssignedIdentifier').show();javascript:RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 			</chrome:division></td>
-
-<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
-
 </chrome:box>
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 </form:form>
 <script>
 		$$("form .identifierRadios").each(function(e)
