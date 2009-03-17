@@ -51,7 +51,6 @@ function submitPage(){
 				</td>
 			</tr>
 		</table>
-		<br>
 		<participanttags:searchResults url="viewParticipant" />
 		<!-- MAIN BODY ENDS HERE -->
 	</form:form>
