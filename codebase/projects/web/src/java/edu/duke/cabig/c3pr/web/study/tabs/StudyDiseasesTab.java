@@ -76,7 +76,7 @@ public class StudyDiseasesTab extends StudyTab {
                     for(int i=0; i< wrapper.getStudy().getStudyDiseases().size();i++){
                     	if (wrapper.getStudy().getStudyDiseases().get(i).getDiseaseTerm().getId().intValue() ==(diseaseTerm.getId().intValue())){
                     		diseasePresent = true;
-                    		errors.reject("study.studyDiseases","Disease already exists in study");
+                    		errors.rejectValue("study.studyDiseases","Disease already exists in study");
                     	}
                     }
                     if (!diseasePresent){
