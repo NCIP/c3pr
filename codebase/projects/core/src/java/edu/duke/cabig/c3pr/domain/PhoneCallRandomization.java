@@ -20,9 +20,13 @@ public class PhoneCallRandomization extends Randomization {
     
     @Transient
     public String getPhoneNumberString() {
-        String tempPhoneNumber = this.phoneNumber.replaceAll("-", "");
-        String phoneNumberString = tempPhoneNumber.substring(0, 3) + "-" +tempPhoneNumber.substring(3, 6) + "-" + tempPhoneNumber.substring(6);
-    	return phoneNumberString;
+    	if(this.phoneNumber != null){
+	        String tempPhoneNumber = this.phoneNumber.replaceAll("-", "");
+	        String phoneNumberString = tempPhoneNumber.substring(0, 3) + "-" +tempPhoneNumber.substring(3, 6) + "-" + tempPhoneNumber.substring(6);
+	    	return phoneNumberString;
+    	}else{
+    		return this.phoneNumber;
+    	}
     }
 
     @Override
