@@ -13,6 +13,7 @@
         }
 
         function showTable(table) {
+        	$('resultsDiv').style.display="block";
             document.getElementById('tableDiv').innerHTML=table;
         }
     </script>
@@ -90,7 +91,7 @@
 </chrome:box>
 
 
-<chrome:box title="Uploaded Registrations">
+<chrome:box title="Uploaded Registrations" id="resultsDiv" style="display:none">
 
     <chrome:division id="single-fields">
         <div id="tableDiv">
