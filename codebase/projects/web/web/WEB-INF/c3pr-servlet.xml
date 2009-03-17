@@ -544,15 +544,14 @@
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
                         autowire="byType" p:displayName="Person &amp; Organization"
-                        p:mainController="searchParticipantController">
+                        p:mainController="createParticipantController">
                     <property name="pathMapping" value="/personAndOrganization/**/**"/>
                     <property name="tasks">
                     	 <list>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Subject"
-                                    p:linkName="searchParticipantController">
-
+                                    p:linkName="createParticipantController">
                                     <property name="subTasks">
 				                        <list>
 				                            <bean
