@@ -4,6 +4,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
+import edu.duke.cabig.c3pr.utils.StringUtils;
+
 @Entity
 @DiscriminatorValue(value = "PR")
 public class PhoneCallRandomization extends Randomization {
@@ -20,7 +22,7 @@ public class PhoneCallRandomization extends Randomization {
     
     @Transient
     public String getPhoneNumberString() {
-    	if(this.phoneNumber != null){
+    	if(!StringUtils.isBlank(this.phoneNumber)){
 	        String tempPhoneNumber = this.phoneNumber.replaceAll("-", "");
 	        String phoneNumberString = tempPhoneNumber.substring(0, 3) + "-" +tempPhoneNumber.substring(3, 6) + "-" + tempPhoneNumber.substring(6);
 	    	return phoneNumberString;
