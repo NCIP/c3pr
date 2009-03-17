@@ -102,7 +102,7 @@ a#firstlevelnav_searchStudyController:hover { background-position:0px -45px; }
 a#firstlevelnav_searchStudyController:active { background-position:0px -90px; }
 .selected a#firstlevelnav_searchStudyController { background-image: url(images/studies_btn_selected.png); }
 
-a#firstlevelnav_searchParticipantController {
+a#firstlevelnav_createParticipantController {
 	background-image: url(images/personOrganization_btn.png);
 	height: 0px;
 	padding:45px 0px 0px 0px;
@@ -110,10 +110,10 @@ a#firstlevelnav_searchParticipantController {
 	float: left;
 	margin-right: 0px;
 }
-a#firstlevelnav_searchParticipantController:link { background-position:0px 0px; }
-a#firstlevelnav_searchParticipantController:hover { background-position:0px -45px; }
-a#firstlevelnav_searchParticipantController:active { background-position:0px -90px; }
-.selected a#firstlevelnav_searchParticipantController { background-image: url(images/personOrganization_btn_selected.png); }
+a#firstlevelnav_createParticipantController:link { background-position:0px 0px; }
+a#firstlevelnav_createParticipantController:hover { background-position:0px -45px; }
+a#firstlevelnav_createParticipantController:active { background-position:0px -90px; }
+.selected a#firstlevelnav_createParticipantController { background-image: url(images/personOrganization_btn_selected.png); }
 
 a#firstlevelnav_createNotificationController {
 	background-image: url(images/administration_btn.png);

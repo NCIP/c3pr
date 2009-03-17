@@ -552,18 +552,18 @@
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Subject"
-                                    p:linkName="searchParticipantController">
+                                    p:linkName="createParticipantController">
 
                                     <property name="subTasks">
 				                        <list>
 				                            <bean
 				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
-				                                    autowire="byType" p:displayName="Search Subject"
-				                                    p:linkName="searchParticipantController"/>
-				                            <bean
-				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
 				                                    autowire="byType" p:displayName="Create Subject"
 				                                    p:linkName="createParticipantController"/>
+											<bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Manage Subject"
+				                                    p:linkName="searchParticipantController"/>
 				                        </list>
 				                    </property>
 				            </bean>

@@ -14,7 +14,7 @@ var MENU_ITEMS = [
             ['Create Study', null, null]
         ],
         ['Subjects', 'http://www.usa.gov', null,
-            ['Search Subject', null, null],
+            ['Manage Subject', null, null],
             ['Create Subject', null, null]
         ],
         ['Administration', 'http://www.usa.gov', null,

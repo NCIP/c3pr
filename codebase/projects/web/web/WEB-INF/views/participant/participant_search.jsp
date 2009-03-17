@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<title>Search Subject</title>
+<title>Manage Subjectt</title>
 </head>
 <body>
 <chrome:search title="Search">
