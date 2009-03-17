@@ -9,6 +9,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.utils.StringUtils;
+
 /**
  * @author Ramakrishna
  */
@@ -36,7 +38,7 @@ public class ContactMechanism extends AbstractMutableDeletableDomainObject {
     
     @Transient
     public String getValueString() {
-    	if(this.getType() != ContactMechanismType.EMAIL && this.value != null){
+    	if(this.getType() != ContactMechanismType.EMAIL && !StringUtils.isBlank(this.value)){
     		String tempPhoneNumber = this.value.replaceAll("-", "");
             String phoneNumberString = tempPhoneNumber.substring(0, 3) + "-" +tempPhoneNumber.substring(3, 6) + "-" + tempPhoneNumber.substring(6);
         	return phoneNumberString;
