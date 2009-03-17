@@ -1302,7 +1302,7 @@ public class StudyDaoTest extends DaoTestCase {
      * 
      * @throws Exception the exception
      */
-    public void testFailureSaveTwoIdentifiersWithSameOrgAndSameTypeInStudy() throws Exception {
+   /* public void testFailureSaveTwoIdentifiersWithSameOrgAndSameTypeInStudy() throws Exception {
         Study loadedStudy = dao.getById(1000);
         OrganizationAssignedIdentifier identifier1 = new OrganizationAssignedIdentifier();
         OrganizationAssignedIdentifier identifier2 = new OrganizationAssignedIdentifier();
@@ -1329,7 +1329,7 @@ public class StudyDaoTest extends DaoTestCase {
         catch (RuntimeException e) {
         }
 
-    }
+    }*/
 
     /**
      * Test failure save two study organizations with same org and same type.
