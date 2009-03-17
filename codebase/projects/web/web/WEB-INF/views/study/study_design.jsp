@@ -56,7 +56,7 @@
                  } else {
                 	 Effect.CloseDown('addArm-' + index);
                      $('study.epochs[' + index + '].enrollmentIndicator').disabled = true;
-                      $('study.epochs[' + index + '].enrollmentIndicator').value = false;
+                     $('study.epochs[' + index + '].enrollmentIndicator').value = false;
                      $('study.epochs[' + index + '].treatmentIndicator').disabled = true;
                      $('study.epochs[' + index + '].treatmentIndicator').value = false;
                      $('study.epochs[' + index + '].randomizedIndicator').disabled = true;
@@ -580,7 +580,7 @@ DELETED TD
 					<td colspan="3" align="left">
 					<hr noshade size="1" width="100%"
 						style="border-top: 1px black dotted;" align="left">
-					<tags:button type="button" color="orange" icon="add" value="Add Arm"
+					<tags:button id="addArm-PAGE.ROW.INDEX" type="button" color="orange" icon="add" value="Add Arm"
 					onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
 					<br />
 
