@@ -23,7 +23,7 @@ public class UserBasedRecipient extends Recipient {
 
 	@ManyToOne
     @JoinColumn(name = "investigators_id")
-    @Cascade(value = { CascadeType.LOCK })
+//    @Cascade(value = { CascadeType.LOCK })
 	public Investigator getInvestigator() {
 		return investigator;
 	}
@@ -34,7 +34,7 @@ public class UserBasedRecipient extends Recipient {
 
 	@ManyToOne
     @JoinColumn(name = "research_staff_id")
-    @Cascade(value = { CascadeType.LOCK })
+//    @Cascade(value = { CascadeType.LOCK })
 	public ResearchStaff getResearchStaff() {
 		return researchStaff;
 	}
