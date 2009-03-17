@@ -36,7 +36,7 @@ public class ContactMechanism extends AbstractMutableDeletableDomainObject {
     
     @Transient
     public String getValueString() {
-    	if(this.getType() != ContactMechanismType.EMAIL){
+    	if(this.getType() != ContactMechanismType.EMAIL && this.value != null){
     		String tempPhoneNumber = this.value.replaceAll("-", "");
             String phoneNumberString = tempPhoneNumber.substring(0, 3) + "-" +tempPhoneNumber.substring(3, 6) + "-" + tempPhoneNumber.substring(6);
         	return phoneNumberString;
