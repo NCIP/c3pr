@@ -62,7 +62,7 @@ public class ParticipantValidator implements Validator {
             if (participantsWithMRN.size() > 0) {
                 if ((participant.getId() == null) || (participantsWithMRN.size() > 1)) {
                     errors
-                                    .reject("primaryIdentifier",
+                                    .rejectValue("primaryIdentifier",
                                                     "Participant with this MRN already exists for the same Organization");
                 }
             }
