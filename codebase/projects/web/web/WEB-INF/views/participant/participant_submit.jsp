@@ -19,7 +19,8 @@ function updateTargetPage(target){
 </head>
 <body>
 <form:form>
-<chrome:box title="Subject Overview" id="SubO">
+<div id="summary">
+	<br>
     <chrome:flashMessage/>
 	<tags:tabFields tab="${tab}"/>
 	<input type="hidden" name="_finish" value="true"/>
@@ -179,7 +180,7 @@ function updateTargetPage(target){
 			</c:otherwise>
 			</c:choose>
 		</chrome:division>
-</chrome:box>
+</div>
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}">
 	<jsp:attribute name="submitButton">
 		<tags:button type="submit" color="green" icon="subject" value="Create Subject" />				

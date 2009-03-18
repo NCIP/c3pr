@@ -16,19 +16,26 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.web.participant.ParticipantRegistrationsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantSummaryTab;
+import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -45,6 +52,8 @@ public class ViewParticipantController<C extends Participant> extends
     private ParticipantDao participantDao;
 
     private HealthcareSiteDao healthcareSiteDao;
+    
+    public ParticipantRepository participantRepository ;
     
 
     protected ConfigurationProperty configurationProperty;
@@ -96,13 +105,14 @@ public class ViewParticipantController<C extends Participant> extends
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         Participant participant = null;
         List<Participant> participants = new ArrayList<Participant>();
-
-        if (request.getParameter("participantId") != null) {
-            participant = participantDao.getById(Integer.parseInt(request
-                            .getParameter("participantId")), true);
-            log.debug(" Participant's ID is:" + participant.getId());
+        
+        
+        if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
+        	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+        	List<Identifier> identifiers=new ArrayList<Identifier>();
+        	identifiers.add(identifier);
+        	participant=participantRepository.getUniqueParticipant(identifiers);
         }else {
-        	
         	String name = null;
         	if(request.getParameter("systemName")!=null){
         		name = request.getParameter("systemName");
@@ -234,8 +244,7 @@ public class ViewParticipantController<C extends Participant> extends
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object oCommand, BindException errors) throws Exception {
         Participant participant = (Participant) oCommand;
-        ModelAndView modelAndView = new ModelAndView(new RedirectView(
-                        "editParticipant?participantId=" + participant.getId()));
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("editParticipant?"+ControllerTools.createParameterString(participant.getSystemAssignedIdentifiers().get(0))));
         return modelAndView;
     }
 
@@ -262,5 +271,13 @@ public class ViewParticipantController<C extends Participant> extends
     public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
         this.configurationProperty = configurationProperty;
     }
+
+	public ParticipantRepository getParticipantRepository() {
+		return participantRepository;
+	}
+
+	public void setParticipantRepository(ParticipantRepository participantRepository) {
+		this.participantRepository = participantRepository;
+	}
 
 }

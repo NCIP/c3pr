@@ -4,13 +4,18 @@
     <title>
     	<participanttags:htmlTitle subject="${command}" />
     </title>
+    <script>
+    	function editParticipant(){
+    		document.location="editParticipant?<tags:identifierParameterString identifier='${command.systemAssignedIdentifiers[0] }'/>";
+        	}
+    </script>
 </head>
 <body>
 <div id="controlPanel">
 	<c:if test="${flowType == 'VIEW_SUBJECT'}">
 		<tags:controlPanel>
 			<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-				<tags:oneControlPanelItem linkhref="javascript:document.location='editParticipant?participantId=${command.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				<tags:oneControlPanelItem linkhref="javascript:editParticipant();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 			</csmauthz:accesscontrol>
 			<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 		</tags:controlPanel>

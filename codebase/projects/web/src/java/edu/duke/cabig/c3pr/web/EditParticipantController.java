@@ -1,7 +1,9 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,13 +16,17 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
@@ -43,6 +49,8 @@ public class EditParticipantController<C extends Participant> extends
     private HealthcareSiteDao healthcareSiteDao;
 
     protected ConfigurationProperty configurationProperty;
+    
+    public ParticipantRepository participantRepository ;
 
     public EditParticipantController() {
         setCommandClass(Participant.class);
@@ -86,11 +94,15 @@ public class EditParticipantController<C extends Participant> extends
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         Participant participant = null;
 
-        if (request.getParameter("participantId") != null) {
-            participant = participantDao.getById(Integer.parseInt(request
-                            .getParameter("participantId")), true);
-            participantDao.initialize(participant);
+        if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
+        	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+        	List<Identifier> identifiers=new ArrayList<Identifier>();
+        	identifiers.add(identifier);
+        	participant=participantRepository.getUniqueParticipant(identifiers);
+             participantDao.initialize(participant);
             log.debug(" Participant's ID is:" + participant.getId());
+        }else{
+        	participant =  new Participant();
         }
 
         return participant;
@@ -144,4 +156,12 @@ public class EditParticipantController<C extends Participant> extends
         command = (C)participantDao.merge((Participant)command);
         return command;
     }
+
+	public ParticipantRepository getParticipantRepository() {
+		return participantRepository;
+	}
+
+	public void setParticipantRepository(ParticipantRepository participantRepository) {
+		this.participantRepository = participantRepository;
+	}
 }

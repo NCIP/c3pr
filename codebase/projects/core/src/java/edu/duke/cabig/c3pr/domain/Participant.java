@@ -346,4 +346,16 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		this.getCustomFields().add(customField);
 		customField.setParticipant(this);
 	}
+	
+	@Transient
+	public boolean hasC3PRSystemIdentifier() {
+		for (SystemAssignedIdentifier systemAssignedIdentfier : this
+				.getSystemAssignedIdentifiers()) {
+			if (systemAssignedIdentfier.getSystemName()
+					.equalsIgnoreCase("C3PR")) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

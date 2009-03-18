@@ -576,6 +576,8 @@
           
     <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
           autowire="byName"/>
+	<bean id="participantRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.ParticipantRepositoryImpl"
+          autowire="byName"/>
 
 	<!-- Factories -->
 	<bean id="studyFactory" lazy-init="true" class="edu.duke.cabig.c3pr.domain.factory.StudyFactory"

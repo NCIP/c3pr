@@ -28,6 +28,8 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
@@ -56,6 +58,8 @@ public class CreateParticipantController<C extends Participant> extends
     private HealthcareSiteDao healthcareSiteDao;
     
     private ParticipantValidator participantValidator;
+    
+    public IdentifierGenerator identifierGenerator ;
     
     public ParticipantValidator getParticipantValidator() {
 		return participantValidator;
@@ -166,7 +170,7 @@ public class CreateParticipantController<C extends Participant> extends
         addCreatingOrganization(participant, request);
         participant.setId(participantDao.merge(participant).getId());
 
-        return new ModelAndView("redirect:confirmCreateParticipant?participantId="+participant.getId());
+        return new ModelAndView("redirect:confirmCreateParticipant?"+ControllerTools.createParameterString(participant.getSystemAssignedIdentifiers().get(0)));
     }
 
     
@@ -246,7 +250,19 @@ public class CreateParticipantController<C extends Participant> extends
     
     @Override
     protected C save(C command, Errors errors) {
-        command = (C)participantDao.merge((Participant)command);
+    	Participant participant = (Participant)command;
+    	if (!participant.hasC3PRSystemIdentifier()){
+    		participant.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(participant));
+		}
+        command = (C)participantDao.merge(participant);
         return command;
     }
+
+	public IdentifierGenerator getIdentifierGenerator() {
+		return identifierGenerator;
+	}
+
+	public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) {
+		this.identifierGenerator = identifierGenerator;
+	}
 }

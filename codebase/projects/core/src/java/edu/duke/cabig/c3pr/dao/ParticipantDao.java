@@ -2,7 +2,9 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -321,4 +323,44 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         return (Participant) getHibernateTemplate().merge(participant);
     }
     
+    /**
+	 * Gets participants by identifiers.
+	 * 
+	 * @param participantIdentifiers
+	 *            the participant identifiers
+	 * 
+	 * @return the by identifiers
+	 */
+    public List<Participant> getByIdentifiers(List<Identifier> identifiers) {
+        List<Participant> participants = new ArrayList<Participant>();
+        for (Identifier identifier : identifiers) {
+            if (identifier instanceof SystemAssignedIdentifier){ 
+            	participants.addAll(searchBySysIdentifier((SystemAssignedIdentifier) identifier));
+            }
+            else if (identifier instanceof OrganizationAssignedIdentifier) {
+            	participants.addAll(searchByOrgIdentifier((OrganizationAssignedIdentifier) identifier));
+            }
+        }
+        Set<Participant> set = new HashSet<Participant>();
+        set.addAll(participants);
+        return new ArrayList<Participant>(set);
+    }
+    
+    /**
+	 * Search by sys identifier.
+	 * 
+	 * @param id
+	 *            the id
+	 * 
+	 * @return the list< study subject>
+	 */
+    @SuppressWarnings("unchecked")
+    public List<Participant> searchBySysIdentifier(SystemAssignedIdentifier id) {
+        return (List<Participant>) getHibernateTemplate()
+                        .find(
+                                        "select S from Participant S, SystemAssignedIdentifier I where I.systemName=?"
+                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
+                                        new Object[] { id.getSystemName(),
+                                                id.getValue(), id.getType() });
+    }
 }

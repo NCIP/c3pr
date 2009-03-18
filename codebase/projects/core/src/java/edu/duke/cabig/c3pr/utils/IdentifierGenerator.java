@@ -7,6 +7,7 @@ import org.apache.jackrabbit.uuid.UUID;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -40,6 +41,14 @@ public class IdentifierGenerator {
 		SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
 		sysIdentifier.setSystemName("C3PR");
 		sysIdentifier.setType("Study Subject Identifier");
+		sysIdentifier.setValue(UUID.randomUUID().toString());
+		return sysIdentifier;
+	}
+	
+	public SystemAssignedIdentifier generateSystemAssignedIdentifier(Participant participant){
+		SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+		sysIdentifier.setSystemName("C3PR");
+		sysIdentifier.setType("Participant Identifier");
 		sysIdentifier.setValue(UUID.randomUUID().toString());
 		return sysIdentifier;
 	}
