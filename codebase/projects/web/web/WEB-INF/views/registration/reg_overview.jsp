@@ -198,7 +198,7 @@
 	<div id="flash-message-edit" style="display:none;">
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Registration has been updated.</div>
 	</div>  
-<div id="registrationSummary">
+<div id="summary">
 <br/>
 <chrome:division id="Study Information" title="Study">
     <div class="leftpanel">

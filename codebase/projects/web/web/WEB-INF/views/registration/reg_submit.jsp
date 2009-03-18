@@ -62,7 +62,7 @@ function redirectToTab(tabNumber){
 		</div>
 	</div>
 	</c:if>
-	<div id="registrationSummary">
+	<div id="summary">
 	<chrome:division id="Study Information" title="Study">
 			<div class="leftpanel">
 				<div class="row">

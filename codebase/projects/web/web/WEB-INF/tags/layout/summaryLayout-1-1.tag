@@ -5,14 +5,14 @@
 <%@attribute name="tab" type="edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.WorkFlowTab" required="true" %>
 <%@attribute name="flow" type="gov.nih.nci.cabig.ctms.web.tabs.Flow" required="true" %>
 <style>
-#registrationSummary div.row div.label {
+#summary div.row div.label {
 	float:left;
 	font-weight:bold;
 	margin-left:0em;
 	text-align:right;
 	width:8em;
 }
-#registrationSummary div.row div.value {
+#summary div.row div.value {
 	font-weight:normal;
 	margin-left:8.3em;
 }
@@ -22,7 +22,7 @@
                     <jsp:doBody/>
             </c:when>
             <c:otherwise>
-                        <div id="registrationSummary">
+                        <div id="summary">
                             <registrationTags:registrationSummary/>
                         </div>
 
