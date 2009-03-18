@@ -106,18 +106,6 @@ public class EditParticipantController<C extends Participant> extends
                         ContactMechanismType.class));
     }
 
-//    @Override
-//    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
-//                    throws Exception {
-//        if (sessionFormObject != null) {
-//            Participant participant = (Participant) sessionFormObject;
-//            getDao().reassociate((Participant) sessionFormObject);
-//            getDao().refresh((Participant) sessionFormObject);
-//        }
-//
-//        return sessionFormObject;
-//    }
-
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object oCommand, BindException errors) throws Exception {

@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
@@ -27,7 +28,6 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantSubmitTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 /**
  * @author Kulasekaran, Priyatam
@@ -166,19 +167,6 @@ public class CreateParticipantController<C extends Participant> extends
         participant.setId(participantDao.merge(participant).getId());
 
         return new ModelAndView("redirect:confirmCreateParticipant?participantId="+participant.getId());
-//        ModelAndView modelAndView = null;
-//        if (request.getParameter("async") != null) {
-//            response.getWriter().print(participant.getFirstName() + " " + participant.getLastName() + " ("
-//                                            + participant.getIdentifiers().get(0).getType() + " - "
-//                                            + participant.getIdentifiers().get(0).getValue() + ")"
-//                                            + "||" + participant.getId());
-//            return null;
-//        }
-//        response.sendRedirect("confirmCreateParticipant?lastName=" + participant.getLastName()
-//                        + "&firstName=" + participant.getFirstName() + "&middleName="
-//                        + participant.getMiddleName() + "&primaryIdentifier="
-//                        + participant.getPrimaryIdentifier() + "&type=confirm");
-//        return null;
     }
 
     
@@ -191,15 +179,7 @@ public class CreateParticipantController<C extends Participant> extends
 	private void addCreatingOrganization(Participant participant, HttpServletRequest request){
     	HealthcareSite hcs = personnelService.getLoggedInUsersOrganization(request);
     	List<HealthcareSite> hcsList = participant.getHealthcareSites();
-    	if(hcs != null){
-//    		if(hcs.getParticipants() == null){
-//    			List<Participant> pList = new ArrayList<Participant>();
-//        		pList.add(participant);
-//        		hcs.setParticipants(pList);
-//        	} else {
-//        		hcs.getParticipants().add(participant);
-//        	}
-    	} else {
+    	if(hcs == null){
     		hcs = healthcareSiteDao.getByNciInstituteCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
     	}
     	hcsList.add(hcs);
@@ -250,5 +230,23 @@ public class CreateParticipantController<C extends Participant> extends
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
 	}
-
+	
+    @Override
+    protected boolean shouldPersist(HttpServletRequest request, C command, Tab<C> tab) {
+        if (WebUtils.hasSubmitParameter(request, "dontSave")) {
+        	return false;
+        }
+        return true;
+    }
+    
+    @Override
+    protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
+    	return true;
+    }
+    
+    @Override
+    protected C save(C command, Errors errors) {
+        command = (C)participantDao.merge((Participant)command);
+        return command;
+    }
 }

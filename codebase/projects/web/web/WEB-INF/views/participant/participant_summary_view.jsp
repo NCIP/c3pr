@@ -19,8 +19,7 @@
 <form:form>
 	<tags:tabFields tab="${tab}" />
 	<tags:errors path="*"/> 
-	<div id="participantSummary">
-	<chrome:box title="Subject Summary">
+		<div id="summary">
 		<div><input type="hidden" name="_finish" value="true" /> <input type="hidden" name="_action" value=""></div>
 		<div id="printable">
 		<chrome:division id="subject-details" title="Basic Details">
@@ -178,8 +177,7 @@
 			</c:choose>
 		</chrome:division>
         </div>
-	</chrome:box>
-	</div>
+	</div>	
 </form:form>
 </body>
 </html>
