@@ -4,8 +4,6 @@
 <head>
     <title><participanttags:htmlTitle subject="${command}" /></title>
 <style type="text/css">
-        .labelR { width: 12em; text-align: right; padding: 4px; }
-        .label { width: 12em; text-align: left; padding: 4px; }
 #workflow-tabs {
 top:83px;
 }
@@ -20,47 +18,49 @@ function updateTargetPage(target){
 </script>
 </head>
 <body>
+<form:form>
 <chrome:box title="Subject Overview" id="SubO">
     <chrome:flashMessage/>
-<form:form>
 	<tags:tabFields tab="${tab}"/>
 	<input type="hidden" name="_finish" value="true"/>
     <tags:instructions code="participant_submit" />
 		<div><input type="hidden" name="_finish" value="true" /></div>
-
-		<chrome:division id="subject-details" title="Basic Details">
-			<table class="tablecontent" width="60%">
-				<tr>
-					<td width="35%" class="alt" align="left"><b><fmt:message key="c3pr.common.firstName"/><b></td>
-					<td class="alt" align="left">${command.firstName}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="c3pr.common.lastName"/><b></td>
-					<td class="alt" align="left">${command.lastName}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="c3pr.common.middleName"/><b></td>
-					<td class="alt" align="left">${command.middleName}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="c3pr.common.maidenName"/><b></td>
-					<td class="alt" align="left">${command.maidenName}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="participant.gender"/></b></td>
-					<td class="alt" align="left">${command.administrativeGenderCode}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="participant.birthDate"/></b></td>
-					<td class="alt" align="left">${command.birthDateStr}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="participant.ethnicity"/><b></td>
-					<td class="alt" align="left">${command.ethnicGroupCode}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="participant.race"/><b></td>
-					<td class="alt" align="left">
+<chrome:division id="subject-details" title="Basic Details" link="javascript:document.getElementById('flowredirect-target').name='_target0';document.getElementById('flowredirect').submit()">
+			<div class="leftpanel">
+					<div class="row">
+						<div class="label"><b><fmt:message key="c3pr.common.firstName"/></b></div>
+						<div class="value">${command.firstName}</div>
+					</div>
+					<div class="row">
+						<div class="label"><b><fmt:message key="c3pr.common.lastName"/></b></div>
+						<div class="value">${command.lastName}</div>
+					</div>
+					<div class="row">
+						<div class="label"><b><fmt:message key="c3pr.common.middleName"/></b></div>
+						<div class="value">${command.middleName}</div>
+					</div>
+					<div class="row">
+						<div class="label"><b><fmt:message key="c3pr.common.maidenName"/></b></div>
+						<div class="value">${command.maidenName}</div>
+					</div>
+				
+			</div>
+			<div class="rightpanel">
+				<div class="row">
+					<div class="label"><b><fmt:message key="participant.gender"/></b></div>
+					<div class="value">${command.administrativeGenderCode}</div>
+				</div>
+				<div class="row">
+					<div class="label"><b><fmt:message key="participant.birthDate"/></b></div>
+					<div class="value">${command.birthDateStr}</div>
+				</div>
+				<div class="row">
+					<div class="label"><b><fmt:message key="participant.ethnicity"/></b></div>
+					<div class="value">${command.ethnicGroupCode}</div>
+				</div>
+				<div class="row">
+					<div class="label"><b><fmt:message key="participant.race"/></b></div>
+						<div class="value">
 						<c:forEach items="${command.raceCodes}" var="raceCode">
 				            <div class="row">
 				                <div class="left">
@@ -68,46 +68,47 @@ function updateTargetPage(target){
 				                </div>
 				            </div>
 				        </c:forEach>
-					</td>
-				</tr>
-			</table>
-			
-			<div align="right">
-				<tabs:tabButtonControls text="edit" target="0" />
+					</div>
+				</div>
 			</div>
 		</chrome:division>
-
-		<chrome:division title="Address">
-			<table class="tablecontent" width="60%">
-				<tr>
-					<td width="35%" class="alt" align="left"><b><fmt:message key="c3pr.common.streetAddress"/><b></td>
-					<td class="alt" align="left">${command.address.streetAddress}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="c3pr.common.city"/><b></td>
-					<td class="alt" align="left">${command.address.city}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="c3pr.common.state"/></b></td>
-					<td class="alt" align="left">${command.address.stateCode}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="c3pr.common.country"/></b></td>
-					<td class="alt" align="left">${command.address.countryCode}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b><fmt:message key="c3pr.common.zip"/><b></td>
-					<td class="alt" align="left">${command.address.postalCode}</td>
-				</tr>
-			</table>
+		<chrome:division title="Address" link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit()">
+			<c:choose>
+			<c:when test="${command.address.addressString != ''}">
+				<div class="leftpanel">
+					<div class="row">
+						<div class="label"><b><fmt:message key="c3pr.common.streetAddress"/></b></div>
+						<div class="value">${command.address.streetAddress}</div>
+					</div>
+					<div class="row">
+						<div class="label"><b><fmt:message key="c3pr.common.city"/></b></div>
+						<div class="value">${command.address.city}</div>
+					</div>
+					<div class="row">
+						<div class="label"><b><fmt:message key="c3pr.common.state"/></b></div>
+						<div class="value">${command.address.stateCode}</div>
+					</div>
+				</div>
+				<div class="rightpanel">
+					<div class="row">
+						<div class="label"><b><fmt:message key="c3pr.common.country"/></b></div>
+						<div class="label">${command.address.countryCode}</div>
+					</div>
+					<div class="row">
+						<div class="label"><b><fmt:message key="c3pr.common.zip"/></b></div>
+						<div class="value">${command.address.postalCode}</div>
+					</div>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.addressNotSpecified"/></span></div>
+			</c:otherwise>
+			</c:choose>
 			
-			<div align="right">
-				<tabs:tabButtonControls text="edit" target="1" />
-			</div>
 		</chrome:division>
-
-		<chrome:division title="Contact Information">
-			<table class="tablecontent" width="60%">
+		<chrome:division title="Contact Information"  link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit()">
+			<div id="noContactMechanism" class="value"><span class="no-selection"><fmt:message key="c3pr.common.contactInfoNotProvided"/></span></div>
+			<table id='contactMechanism' class="tablecontent" width="60%" style="display:none">
 				<tr>
 					<th width="40%" scope="col" align="left"><fmt:message key="c3pr.common.email"/></th>
 					<th width="30%" scope="col" align="left"><fmt:message key="c3pr.common.phone"/></th>
@@ -117,20 +118,21 @@ function updateTargetPage(target){
 					<c:forEach items="${command.contactMechanisms}"
 						var="contactMechanism">
 						<td class="alt" align="left">${contactMechanism.valueString}</td>
+						<c:if test="${contactMechanism.valueString != ''}">
+							<script>
+								Element.show('contactMechanism');
+								Element.hide('noContactMechanism');
+							</script>
+						</c:if>
 					</c:forEach>
 				</tr>
 			</table>
-			
-			<div align="right">
-				<tabs:tabButtonControls text="edit" target="1" />
-			</div>
 		</chrome:division>
-		
-		<chrome:division title="Identifiers">
-
-			<h4>Organization Assigned Identifiers</h4>
+		<chrome:division title="Identifiers"  link="javascript:document.getElementById('flowredirect-target').name='_target0';document.getElementById('flowredirect').submit()">
+			<h4><u><fmt:message key="c3pr.common.orgAssignedIdentifier"/></u></h4>
 			<br>
-
+			<c:choose>
+			<c:when test="${fn:length(command.organizationAssignedIdentifiers) > 0}">
 			<table class="tablecontent" width="60%">
 				<tr>
 					<th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
@@ -146,9 +148,16 @@ function updateTargetPage(target){
 					</tr>
 				</c:forEach>
 			</table>
+			</c:when>
+			<c:otherwise>
+				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.orgAssignedIdentifierNotSpecified"/></span></div>
+			</c:otherwise>
+			</c:choose>
 			<br>
-			<h4>System Assigned Identifiers</h4>
+			<h4><u><fmt:message key="c3pr.common.systemAssignedIdentifier"/></u></h4>
 			<br>
+			<c:choose>
+			<c:when test="${fn:length(command.systemAssignedIdentifiers) > 0}">
 			<table class="tablecontent" width="60%">
 				<tr>
 					<th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.systemName"/></th>
@@ -164,17 +173,20 @@ function updateTargetPage(target){
 					</tr>
 				</c:forEach>
 			</table>
-			
-			<div align="right">
-				<tabs:tabButtonControls text="edit" target="0" />
-			</div>
+			</c:when>
+			<c:otherwise>
+				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.systemAssignedIdentifierNotSpecified"/></span></div>
+			</c:otherwise>
+			</c:choose>
 		</chrome:division>
-		<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}">
-			<jsp:attribute name="submitButton">
-				<tags:button type="submit" color="green" icon="subject" value="Create Subject" />				
-			</jsp:attribute>
-		</tags:tabControls>
-</form:form>
 </chrome:box>
+<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}">
+	<jsp:attribute name="submitButton">
+		<tags:button type="submit" color="green" icon="subject" value="Create Subject" />				
+	</jsp:attribute>
+</tags:tabControls>
+</form:form>
+
+
 </body>
 </html>

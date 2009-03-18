@@ -20,9 +20,9 @@
 
 <c:if test="${empty displayErrors}"><c:set var="displayErrors" value="${true}"/> </c:if>
 <c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
+<form:form name="${formName}" enctype="${enctype}">
 <chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}" htmlContent="${htmlContent}">
     <chrome:flashMessage/>
-    <form:form name="${formName}" enctype="${enctype}">
         <tags:tabFields tab="${tab}"/>
         <chrome:division id="single-fields">
             <c:if test="${not empty instructions}"><p class="instructions"><jsp:invoke fragment="instructions"/></p></c:if>
@@ -30,6 +30,6 @@
             <jsp:invoke fragment="singleFields"/>
         </chrome:division>
         <jsp:invoke fragment="repeatingFields"/>
-        <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
-    </form:form>
 </chrome:box>
+<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+  </form:form>

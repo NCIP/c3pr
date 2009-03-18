@@ -7,21 +7,18 @@
 </head>
 <body>
     <chrome:box title="Confirmation" autopad="true">
-            	<div class="row" >
+            	<div class="label" >
                     <h2><font color="green">Subject successfully created.</font></h2>
                 </div>
+                <br>
                  <div class="row" >
-                 	<table class="tablecontent" width="60%">
-						<tr>
-							<td width="35%" class="alt" align="left"><b><fmt:message key="participant.fullName"/></b></td>
-							<td class="alt" align="left">${param.lastName} ${param.middleName} ${param.firstName}</td>
-						</tr>
-						<tr>
-							<td class="alt" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></td>
-							<td class="alt" align="left">${param.primaryIdentifier}</td>
-						</tr>
-					</table>
-                 </div>
+				     <div class="label" ><b><fmt:message key="participant.fullName"/></b></div>
+				     <div class="value" >${command.fullName}</div>
+				 </div>
+				 <div class="row" >
+				     <div class="label" ><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></div>
+				     <div class="value" >${command.primaryIdentifier}</div>
+				 </div>
 		<br/>
     </chrome:box>
 </body>

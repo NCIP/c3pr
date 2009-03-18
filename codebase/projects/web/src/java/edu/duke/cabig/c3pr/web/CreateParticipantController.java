@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
@@ -164,20 +165,20 @@ public class CreateParticipantController<C extends Participant> extends
         addCreatingOrganization(participant, request);
         participant.setId(participantDao.merge(participant).getId());
 
-        ModelAndView modelAndView = null;
-        if (request.getParameter("async") != null) {
-            response.getWriter().print(
-            		participant.getFirstName() + " " + participant.getLastName() + " ("
-                                            + participant.getIdentifiers().get(0).getType() + " - "
-                                            + participant.getIdentifiers().get(0).getValue() + ")"
-                                            + "||" + participant.getId());
-            return null;
-        }
-        response.sendRedirect("confirmCreateParticipant?lastName=" + participant.getLastName()
-                        + "&firstName=" + participant.getFirstName() + "&middleName="
-                        + participant.getMiddleName() + "&primaryIdentifier="
-                        + participant.getPrimaryIdentifier() + "&type=confirm");
-        return null;
+        return new ModelAndView("redirect:confirmCreateParticipant?participantId="+participant.getId());
+//        ModelAndView modelAndView = null;
+//        if (request.getParameter("async") != null) {
+//            response.getWriter().print(participant.getFirstName() + " " + participant.getLastName() + " ("
+//                                            + participant.getIdentifiers().get(0).getType() + " - "
+//                                            + participant.getIdentifiers().get(0).getValue() + ")"
+//                                            + "||" + participant.getId());
+//            return null;
+//        }
+//        response.sendRedirect("confirmCreateParticipant?lastName=" + participant.getLastName()
+//                        + "&firstName=" + participant.getFirstName() + "&middleName="
+//                        + participant.getMiddleName() + "&primaryIdentifier="
+//                        + participant.getPrimaryIdentifier() + "&type=confirm");
+//        return null;
     }
 
     
