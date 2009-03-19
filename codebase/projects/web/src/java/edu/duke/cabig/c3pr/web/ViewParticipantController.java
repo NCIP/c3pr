@@ -25,8 +25,6 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -35,7 +33,6 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.web.participant.ParticipantRegistrationsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantSummaryTab;
-import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -244,7 +241,7 @@ public class ViewParticipantController<C extends Participant> extends
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object oCommand, BindException errors) throws Exception {
         Participant participant = (Participant) oCommand;
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("editParticipant?"+ControllerTools.createParameterString(participant.getSystemAssignedIdentifiers().get(0))));
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("editParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0))));
         return modelAndView;
     }
 

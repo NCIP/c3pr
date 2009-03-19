@@ -170,7 +170,7 @@ public class CreateParticipantController<C extends Participant> extends
         addCreatingOrganization(participant, request);
         participant.setId(participantDao.merge(participant).getId());
 
-        return new ModelAndView("redirect:confirmCreateParticipant?"+ControllerTools.createParameterString(participant.getSystemAssignedIdentifiers().get(0)));
+        return new ModelAndView("redirect:confirmCreateParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)));
     }
 
     
