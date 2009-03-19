@@ -251,9 +251,6 @@ public class CreateParticipantController<C extends Participant> extends
     @Override
     protected C save(C command, Errors errors) {
     	Participant participant = (Participant)command;
-    	if (!participant.hasC3PRSystemIdentifier()){
-    		participant.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(participant));
-		}
         command = (C)participantDao.merge(participant);
         return command;
     }
