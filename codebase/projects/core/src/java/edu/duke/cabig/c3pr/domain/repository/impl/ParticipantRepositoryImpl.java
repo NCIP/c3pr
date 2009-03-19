@@ -21,10 +21,10 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
 	public Participant getUniqueParticipant(List<Identifier> identifiers) {
 		List<Participant> participants = participantDao.getByIdentifiers(identifiers);
         if (participants.size() == 0) {
-            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.NOT_FOUND_GIVEN_IDENTIFIERS.CODE"));
+            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.PARTICIPANT.NOT_FOUND_GIVEN_IDENTIFIERS.CODE"));
         }
         else if (participants.size() > 1) {
-            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
+            throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.PARTICIPANT.MULTIPLE_PARTICIPANT_FOUND.CODE"));
         }
         return participants.get(0);
 	}
