@@ -597,7 +597,7 @@
                                     <list>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
-                                                    p:displayName="Search Research Staff"
+                                                    p:displayName="Manage Research Staff"
                                                     p:linkName="searchResearchStaffController"/>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"

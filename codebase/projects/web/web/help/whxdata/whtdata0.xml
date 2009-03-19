@@ -60,7 +60,7 @@
     <item name="Investigator Groups" url="createInvestigatorGroups.htm" />
   </book>
   <book name="Research Staff" url="searchResearchStaff.htm" >
-    <item name="Search Research Staff" url="searchResearchStaff.htm" />
+    <item name="Manage Research Staff" url="searchResearchStaff.htm" />
     <item name="Create Research Staff" url="createResearchStaff.htm" />
   </book>
   <book name="Organization" url="searchOrganization.htm" >

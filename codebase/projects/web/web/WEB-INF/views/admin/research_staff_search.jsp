@@ -1,7 +1,7 @@
 <%@ include file="taglibs.jsp"%>
 <html>
 <head>
-    <title>Search Research Staff</title>
+    <title>Manage Research Staff</title>
     <tags:dwrJavascriptLink objects="SearchResearchStaffAjaxFacade"/>
     <tags:dwrJavascriptLink objects="OrganizationAjaxFacade"/>
    <style type="text/css">
