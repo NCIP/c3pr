@@ -20,6 +20,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -106,26 +107,29 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     /**
      * Search by org identifier.
      * 
-     * @param id the id
+     * @param identifier the id
      * 
      * @return the list< participant>
      */
     @SuppressWarnings("unchecked")
-    public List<Participant> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
+    public List<Participant> searchByOrgIdentifier(OrganizationAssignedIdentifier identifier) {
     	
     	// Doing this check to prevent a SQL GRAMMER Exception when one of the parameters is null or 
     	// we have to use criteria API or branch the query if there are null values
-    	if(id.getType()!=null && id.getHealthcareSite()!=null && id.getValue()!=null){
-        return (List<Participant>) getHibernateTemplate()
-                        .find(
-                                        "select P from Participant P, Identifier I where I.healthcareSite.id=?"
-                                                        + " and I.value=? and I.type=? and I=any elements(P.identifiers)",
-                                        new Object[] { id.getHealthcareSite().getId(),
-                                                id.getValue(), id.getType() });
+    	if(identifier.getType()!=null && identifier.getHealthcareSite()!=null && identifier.getValue()!=null){
+    		if(identifier.getHealthcareSite().getId() != null){
+    			return (List<Participant>) getHibernateTemplate()
+                .find("select P from Participant P, Identifier I where I.healthcareSite.id=?" + " and I.value=? and I.type=? and I=any elements(P.identifiers)",
+                                new Object[] { identifier.getHealthcareSite().getId(),identifier.getValue(), identifier.getType() });
+    		}else{
+    			return (List<Participant>) getHibernateTemplate()
+                .find("select P from Participant P, Identifier I where I.healthcareSite.nciInstituteCode=?" + " and I.value=? and I.type=? and I=any elements(P.identifiers)",
+                                new Object[] { identifier.getHealthcareSite().getNciInstituteCode(),identifier.getValue(), identifier.getType() });
+    		}
+        
     	} 
     	return new ArrayList<Participant>();
     }
-    
     
     /**
      * Search by system assigned identifier.
