@@ -6,7 +6,7 @@
     </title>
     <script>
     	function editParticipant(){
-    		document.location="editParticipant?<tags:identifierParameterString identifier='${command.organizatioAssignedIdentifiers[0] }'/>";
+    		document.location="editParticipant?<tags:identifierParameterString identifier='${command.organizationAssignedIdentifiers[0] }'/>";
         	}
     </script>
 </head>
