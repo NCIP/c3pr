@@ -166,7 +166,7 @@
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
              <tr>
                 <td><b><fmt:message key="registration.phoneNumber"/></b></td>
-				<td><form:input path="study.epochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/> e.g. 7035600296 or 703-560-0296
+				<td><form:input path="study.epochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/> 7035600296 or 703-560-0296
 				</td>				
              </tr>
 	     </table>
