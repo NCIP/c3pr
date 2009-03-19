@@ -169,8 +169,19 @@ public class CreateParticipantController<C extends Participant> extends
         }
         addCreatingOrganization(participant, request);
         participant.setId(participantDao.merge(participant).getId());
-
-        return new ModelAndView("redirect:confirmCreateParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)));
+        
+        ModelAndView modelAndView = null;
+        if (request.getParameter("async") != null) {
+            response.getWriter().print(
+            		participant.getFirstName() + " " + participant.getLastName() + " ("
+                                            + participant.getIdentifiers().get(0).getType() + " - "
+                                            + participant.getIdentifiers().get(0).getValue() + ")"
+                                            + "||" + participant.getId());
+            return null;
+        }
+        response.sendRedirect("confirmCreateParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)));
+        return null;
+//        return new ModelAndView("redirect:confirmCreateParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)));
     }
 
     
