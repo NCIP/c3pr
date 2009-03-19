@@ -179,9 +179,9 @@ public class NotificationEmailService implements ApplicationContextAware {
                 msg.setTo(emailAddress);
                 msg.setText(LINK_BACK_TEXT);
 	        } else {
-                msg.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
+                msg.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle()==null?"":recipientScheduledNotification.getScheduledNotification().getTitle());
                 msg.setTo(emailAddress);
-                msg.setText(recipientScheduledNotification.getScheduledNotification().getMessage());
+                msg.setText(recipientScheduledNotification.getScheduledNotification().getMessage()==null?"":recipientScheduledNotification.getScheduledNotification().getMessage());
 	        }
 	        log.debug("Trying to send " + recipientScheduledNotification.getScheduledNotification().getTitle()+ " notification email");
 	        this.mailSender.send(msg);
