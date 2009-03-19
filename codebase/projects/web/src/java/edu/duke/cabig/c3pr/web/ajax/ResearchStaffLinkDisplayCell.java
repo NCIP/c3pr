@@ -9,7 +9,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
 public class ResearchStaffLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_RSTAFF_URL= "createResearchStaff?id=";
+	public static final String VIEW_RSTAFF_URL= "createResearchStaff?email=";
     
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
@@ -24,7 +24,7 @@ public class ResearchStaffLinkDisplayCell extends AbstractCell {
     }
     
     public void setRowOnClick(TableModel tableModel, ResearchStaff rStaff){    	
-    	String url = "document.location='" + VIEW_RSTAFF_URL + rStaff.getId().toString() + "'";
+    	String url = "document.location='" + VIEW_RSTAFF_URL + rStaff.getEmailAsString() + "'";
     	tableModel.getRowHandler().getRow().setOnclick(url);
     	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
     }

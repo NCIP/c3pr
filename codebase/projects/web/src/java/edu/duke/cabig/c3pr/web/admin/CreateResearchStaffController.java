@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.admin;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -53,9 +54,10 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
      */
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         ResearchStaff rs;
-
-        if (request.getParameter("id") != null && request.getParameter("id") != "") {
-            rs = researchStaffDao.getById(Integer.parseInt(request.getParameter("id")));
+        String email = request.getParameter("email") ;
+        if (!StringUtils.isBlank(email)) {
+            List<ResearchStaff> researchStaffs = researchStaffDao.getByEmailAddress(email);
+            	rs = researchStaffs.get(0) ;
             int cmSize = rs.getContactMechanisms().size();
             if (cmSize == 0) {
                 addContactsToResearchStaff(rs);
