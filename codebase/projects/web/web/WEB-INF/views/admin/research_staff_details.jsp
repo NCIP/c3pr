@@ -79,7 +79,6 @@
 <input type="hidden" name="_finish" value="true">
 <tags:instructions code="research_staff_details" />
 <chrome:division id="site" title="Organization">
-    <div class="leftpanel">
         <div class="row">
             <div class="label"><tags:requiredIndicator />
                <fmt:message key="c3pr.common.organization"/>
@@ -109,7 +108,6 @@
               </c:if>
             </div>
         </div>
-    </div>
 </chrome:division>
 
 <chrome:division id="staff-details" title="Basic Details">
