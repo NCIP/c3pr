@@ -28,7 +28,6 @@ import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -344,34 +343,6 @@ public class NotificationEmailService implements ApplicationContextAware {
     }
     
     
-    /* Commented out ...was previously used by getEmailsFromRoleBasedRecipient();
-    private List<HealthcareSite> getRelatedHelathcaresite(RecipientScheduledNotification rsn){
-    	SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
-		org.hibernate.Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
-		session.setFlushMode(FlushMode.MANUAL);
-		
-		List<HealthcareSite> result = null; 
-        try {
-          //Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
-          Query query =  session.createQuery("select o from HealthcareSite o, PlannedNotification p where " +
-          									 "p.scheduledNotificationsInternal.id = ? and o.plannedNotificationsInternal.id = p.id");
-          query.setInteger(0, rsn.getScheduledNotification().getId());
-          result = query.list();
-        }catch(Exception e){
-        	log.error(e.getMessage());
-        }
-        finally{
-        	session.close();
-        }
-        return result;
-    }*/
-    
-    
-    public HealthcareSite getHostingHealthcareSite(){
-    	return healthcareSiteDao.getByNciInstituteCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
-    }
-    
-
     public MailSender getMailSender() {
         return mailSender;
     }
