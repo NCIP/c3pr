@@ -20,25 +20,23 @@
                 	 	<h2><font color="green">Research Staff member successfully created.</font></h2>
 	                </div>
                 </c:if>
-                
-                    <div class="row">
-	                 	<table class="tablecontent" width="60%">
-							<tr>
-								<td width="35%" class="alt" align="left"><b><fmt:message key="c3pr.common.firstName"/><b></td>
-								<td class="alt" align="left">${command.firstName}</td>
-							</tr>
-							<tr>
-								<td width="35%" class="alt" align="left"><b><fmt:message key="c3pr.common.lastName"/><b></td>
-								<td class="alt" align="left">${command.lastName}</td>
-							</tr>
-							<tr>
-								<td width="35%" class="alt" align="left"><b><fmt:message key="c3pr.common.NCIIdentifier"/><b></td>
-								<td class="alt" align="left">${command.nciIdentifier}</td>
-							</tr>
-							<tr>
-								<td width="35%" class="alt" align="left"><b><fmt:message key="c3pr.common.email"/><b></td>
-								<td class="alt" align="left">${command.contactMechanisms[0].value}</td>
-							</tr>
+                <br>
+							<div class="row">
+								<div class="label"><b><fmt:message key="c3pr.common.firstName"/><b></div>
+								<div class="value">${command.firstName}</div>
+							</div>
+							                    <div class="row">
+								<div class="label"><b><fmt:message key="c3pr.common.lastName"/><b></div>
+								<div class="value">${command.lastName}</div>
+							</div>
+							<div class="row">
+								<div class="label"><b><fmt:message key="c3pr.common.NCIIdentifier"/><b></div>
+								<div class="value">${command.nciIdentifier}</div>
+							</div>
+							<div class="row">
+								<div class="label"><b><fmt:message key="c3pr.common.email"/><b></div>
+								<div class="value">${command.contactMechanisms[0].value}</div>
+							</div>
 						</table>
                     </div>
                 </div>

@@ -100,7 +100,7 @@
                		<input type="hidden" id="healthcareSite-hidden"
 						name="healthcareSite"
 						value="${command.healthcareSite.id }" />
-						<input id="healthcareSite-input" size="38" type="text"
+						<input id="healthcareSite-input" size="33" type="text"
 						value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" />
 						<tags:hoverHint keyProp="researchStaff.organization"/>
 					<tags:indicator id="healthcareSite-indicator" />
@@ -180,7 +180,8 @@
         </div>
 		<div class="row">
             <div class="label">
-                <fmt:message key="c3pr.common.maidenName"/></div>
+                <fmt:message key="c3pr.common.maidenName"/>
+             </div>
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
 						<c:choose>
@@ -199,10 +200,7 @@
 					</c:otherwise>
 				</c:choose>
         	</div>
-		</div>
-
-    <div class="rightpanel">
-		<div class="row">
+        <div class="row">
             <div class="label"><tags:requiredIndicator />
                 <fmt:message key="c3pr.common.NCIIdentifier"/></div>
             
@@ -217,6 +215,9 @@
 					</c:otherwise>
 				</c:choose>
         </div>
+		</div>
+
+    <div class="rightpanel">
 		<div class="row">
             <div class="label"><tags:requiredIndicator />
                     ${command.contactMechanisms[0].type.displayName} (Username)
