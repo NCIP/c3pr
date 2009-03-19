@@ -75,40 +75,58 @@ public class ScheduledNotificationJob extends ScheduledJob {
     	assert applicationContext != null: "applicationContext cannot be null";
     	assert plannedNotification != null: "plannedNotification cant be null";
     	
-        try {
-            // init the member variables
-        	notificationEmailService = (NotificationEmailService) applicationContext.getBean("notificationEmailService");
-        	setAuditInfo();
-        	if(recipientScheduledNotification == null){
-        		if(plannedNotification.getFrequency() != NotificationFrequencyEnum.IMMEDIATE){
-        			//Generate the REPORT NOTIFICATION and send it
-        			ScheduledNotification scheduledNotification = handleReportGeneration(plannedNotification);
-        			if(scheduledNotification != null){
-        				for(RecipientScheduledNotification rsn: scheduledNotification.getRecipientScheduledNotification()){
-        					notificationEmailService.sendReportEmail(rsn);
-        				}
-        			} else {
-        				logger.error("Error during report generation job: scheduledNotification is null. " +
-        						"Note: only events can have frequencies other than IMMEDIATE.");
-        			}
-        		}
-        	} else if(recipientScheduledNotification.getDeliveryStatus().equals(EmailNotificationDeliveryStatusEnum.PENDING) ||
-        			recipientScheduledNotification.getDeliveryStatus().equals(EmailNotificationDeliveryStatusEnum.RETRY) ){
-        		
-        		if(plannedNotification.getFrequency().equals(NotificationFrequencyEnum.IMMEDIATE)){
-        			notificationEmailService.sendEmail(recipientScheduledNotification);
-        		}
-                recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.COMPLETE);
-        	}
-        } catch(MailException me){
-        	logger.error("execution of sendMail failed", me);
-        	recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.RETRY);
-        }catch (Exception e){
-            logger.error("execution of job failed", e);
-            recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.ERROR);
-        } finally {
-        	recipientScheduledNotificationDao.saveOrUpdate(recipientScheduledNotification);
-        }
+    	synchronized (this) {
+    		try {
+                // init the member variables
+            	notificationEmailService = (NotificationEmailService) applicationContext.getBean("notificationEmailService");
+            	setAuditInfo();
+            	if(recipientScheduledNotification == null){
+            		if(plannedNotification.getFrequency() != NotificationFrequencyEnum.IMMEDIATE){
+            			//Generate the REPORT NOTIFICATION and send it
+            			ScheduledNotification scheduledNotification = handleReportGeneration(plannedNotification);
+            			if(scheduledNotification != null){
+            				for(RecipientScheduledNotification rsn: scheduledNotification.getRecipientScheduledNotification()){
+            					notificationEmailService.sendReportEmail(rsn);
+            				}
+            			} else {
+            				logger.error("Error during report generation job: scheduledNotification is null. " +
+            						"Note: only events can have frequencies other than IMMEDIATE.");
+            			}
+            		}
+            	} else if(recipientScheduledNotification.getDeliveryStatus().equals(EmailNotificationDeliveryStatusEnum.PENDING) ||
+            			recipientScheduledNotification.getDeliveryStatus().equals(EmailNotificationDeliveryStatusEnum.RETRY) ){
+            		
+            		if(plannedNotification.getFrequency().equals(NotificationFrequencyEnum.IMMEDIATE)){
+            			if(recipientScheduledNotification.getRecipient() instanceof UserBasedRecipient){
+            				if(((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getResearchStaff() != null){
+            					logger.error("$$$$$$$$$$ Threads id is :" + Thread.currentThread().getId());
+            					logger.error("$$$$$$$$$$ RBN's id is :" + recipientScheduledNotification.getId());
+            					logger.error("$$$$$$$$$$ ResearchStaff's version is :" + ((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getResearchStaff().getVersion() );
+            				}
+            			}
+            			notificationEmailService.sendEmail(recipientScheduledNotification);
+            		}
+                    recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.COMPLETE);
+            	}
+            } catch(MailException me){
+            	logger.error("execution of sendMail failed", me);
+            	recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.RETRY);
+            }catch (Exception e){
+                logger.error("execution of job failed", e);
+                recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.ERROR);
+            } finally {
+            	if(recipientScheduledNotification.getRecipient() instanceof UserBasedRecipient){
+    				if(((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getResearchStaff() != null){
+    					logger.error("$$$$$$$$$$ FINALLY  Threads id is :" + Thread.currentThread().getId());
+    					logger.error("$$$$$$$$$$ FINALLY  RBN's id is :" + recipientScheduledNotification.getId());
+    					logger.error("$$$$$$$$$$ FINALLY  ResearchStaff's version is :" + ((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getResearchStaff().getVersion() );
+    				}
+    			}
+            	recipientScheduledNotificationDao.saveOrUpdate(recipientScheduledNotification);
+            }
+		}
+    	
+        
         logger.debug("Exiting ScheduledNotification Job");
     }
     
