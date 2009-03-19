@@ -1,4 +1,4 @@
-class updateIdentifiersAddDefaultSystemAssignedIdentifiersForParticipants extends edu.northwestern.bioinformatics.bering.Migration {
+class updateIdentifiersRemoveDefaultSystemAssignedIdentifiersForParticipants extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
 	   		execute("DELETE from identifiers where system_name='Participant Identifier'");
     }
