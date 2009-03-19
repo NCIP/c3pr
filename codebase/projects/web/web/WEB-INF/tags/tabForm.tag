@@ -30,6 +30,7 @@
             <jsp:invoke fragment="singleFields"/>
         </chrome:division>
         <jsp:invoke fragment="repeatingFields"/>
+         <div class="division"></div>
 </chrome:box>
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
   </form:form>
