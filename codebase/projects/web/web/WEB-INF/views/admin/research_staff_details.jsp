@@ -223,7 +223,14 @@
             </div>
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
-						<div class="value">${command.contactMechanisms[0].value}</div>
+						<c:choose>
+							<c:when test="${!empty command.contactMechanisms[0].value}">
+								<div class="value">${command.contactMechanisms[0].value}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
