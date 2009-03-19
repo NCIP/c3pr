@@ -150,6 +150,9 @@
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=piCoCenterAutocompleterProps.basename+"-hidden"
 	    							$(hiddenField).value=selectedChoice.id;
+    								document.getElementById('hcsInvestigator-hidden').value ='';
+									document.getElementById('hcsInvestigator-input').className = document.getElementById('hcsInvestigator-input').className + ' pending-search'
+    								document.getElementById('hcsInvestigator-input').value ='(Begin typing here)';
 			}
 		}
        
