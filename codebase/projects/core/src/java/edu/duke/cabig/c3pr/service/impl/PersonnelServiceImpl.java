@@ -115,7 +115,7 @@ public class PersonnelServiceImpl implements PersonnelService {
     public List<RecipientScheduledNotification> getRecentNotifications(HttpServletRequest request) {
         gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
                         .getSession().getAttribute("userObject");
-        List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(user.getEmailId());
+        List<ResearchStaff> rsList = researchStaffDao.getByEmailAddressFromLocal(user.getEmailId());
         ResearchStaff rs = null;
         List<RecipientScheduledNotification> recipientScheduledNotificationsList = new ArrayList<RecipientScheduledNotification>();
         List<ScheduledNotification> scheduledNotificationsList = new ArrayList<ScheduledNotification>();
