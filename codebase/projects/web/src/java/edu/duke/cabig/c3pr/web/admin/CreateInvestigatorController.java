@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.admin;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -61,8 +62,8 @@ public class CreateInvestigatorController<C extends Investigator> extends
         String email = request.getParameter("emailId") ;
         if (!StringUtils.isBlank(email)) {
             log.info(" Request URl  is:" + request.getRequestURL().toString());
-            inv = investigatorDao.getLoadedInvestigatorById(Integer.parseInt(request
-                            .getParameter("id")));
+            List<Investigator> investigators = investigatorDao.getByEmailAddress(email);
+            inv = investigators.get(0);
             int cmSize = inv.getContactMechanisms().size();
             if (cmSize == 0) {
                 addContacts(inv);
