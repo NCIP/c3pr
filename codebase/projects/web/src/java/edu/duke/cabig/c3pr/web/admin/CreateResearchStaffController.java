@@ -54,7 +54,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
      */
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         ResearchStaff rs;
-        String email = request.getParameter("email") ;
+        String email = request.getParameter("emailId") ;
         if (!StringUtils.isBlank(email)) {
             List<ResearchStaff> researchStaffs = researchStaffDao.getByEmailAddress(email);
             	rs = researchStaffs.get(0) ;
