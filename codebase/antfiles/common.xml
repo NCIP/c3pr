@@ -16,6 +16,7 @@
 		 provide -Ddatabase.type=oracle for ORACLE and  -Ddatabase.type=postgres for POSTGRES
 		defaults to postgres    -->
 	<property name="database.type" value="postgres" />
+	<property name="testcase.type" value="backend" />
 	
 	<!-- The default DB setting to be used can be overriden using -Ddb=xxxx runtime option.
 		Helps pick the datasource.properties file. 
@@ -290,13 +291,12 @@
 	<!-- ========================================================== 
           target: compile-test              
     =========================================================== -->
-	<target name="compile-test" depends="check-testcase-type" description="--> compile the test classes of this project">
-  		<ant target="compile-test-backend" antfile="${antfiles.dir}/common.xml" inheritall="false"/>
-		<ant target="compile-test-ui" antfile="${antfiles.dir}/common.xml" inheritall="false"/>
+	<target name="compile-test" depends="compile-test-ui, compile-test-backend, check-testcase-type" description="compile the test classes of this project">
+  		
   	</target>
     
 	<target name="compile-test-backend" depends="resolve-test" if="backend.true"
-    		description="--> compile the test classes of this project">
+    		description=" compile the backend test classes of this project">
     	<echo message="Executing in ${ant.project.name}" />
     	<echo message="src dir is ${test.src}"/>
     	<echo message="class dir is ${test.classes.dir}"/>
@@ -308,7 +308,7 @@
     </target>
     
 	<target name="compile-test-ui" depends="resolve-test" if="ui.true"
-    		description="--> compile the test classes of this project">
+    		description="compile the selenium test classes of this project">
     	<echo message="Executing in ${ant.project.name}" />
     	<echo message="src dir is ${test.src}"/>
     	<echo message="class dir is ${test.classes.dir}"/>
