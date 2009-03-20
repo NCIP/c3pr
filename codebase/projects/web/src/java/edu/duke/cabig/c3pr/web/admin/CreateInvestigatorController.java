@@ -58,7 +58,8 @@ public class CreateInvestigatorController<C extends Investigator> extends
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         Investigator inv;
-        if (request.getParameter("id") != null && request.getParameter("id") != "") {
+        String email = request.getParameter("emailId") ;
+        if (!StringUtils.isBlank(email)) {
             log.info(" Request URl  is:" + request.getRequestURL().toString());
             inv = investigatorDao.getLoadedInvestigatorById(Integer.parseInt(request
                             .getParameter("id")));
