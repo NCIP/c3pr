@@ -55,7 +55,7 @@
     </book>
   </book>
   <book name="Investigator" url="searchInvestigator.htm" >
-    <item name="Search Investigator" url="searchInvestigator.htm" />
+    <item name="Manage Investigator" url="searchInvestigator.htm" />
     <item name="Create Investigator" url="createInvestigator.htm" />
     <item name="Investigator Groups" url="createInvestigatorGroups.htm" />
   </book>

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>Search Investigator</title>
+    <title>Manage Investigator</title>
    <tags:dwrJavascriptLink objects="SearchInvestigatorAjaxFacade"/>
    <style type="text/css">
         div.content {
