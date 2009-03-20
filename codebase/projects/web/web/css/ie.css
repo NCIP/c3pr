@@ -9,20 +9,8 @@ body {
 #workflow-tabs { height: 1%; }
 
 button.omnipotent-button {
-	padding:2px 0 0 0;
-	margin-left:5px;
-}
-button.omnipotent-button .right {
-	right:0px;
-	top:0px;
-}
-button.omnipotent-button.small .right {
-	right:0;
-	top:0px;
-}
-button.omnipotent-button.small.no-icon {
-	padding:1px 5px 1px;
-}
-a.omnipotent-button.small {
-	padding:0 5px;
+	margin:0 -25px;
+} 
+button.omnipotent-button.small {
+	margin:0;
 }
