@@ -40,6 +40,7 @@ public class InvestigatorLinkDisplayCell extends AbstractCell {
     			return contactMechanism.getValue();
     		}
     	}
+    	return "" ;
     }
 
 }
