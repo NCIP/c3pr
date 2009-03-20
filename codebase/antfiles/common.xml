@@ -16,7 +16,7 @@
 		 provide -Ddatabase.type=oracle for ORACLE and  -Ddatabase.type=postgres for POSTGRES
 		defaults to postgres    -->
 	<property name="database.type" value="postgres" />
-	<property name="testcase.type" value="backend" />
+	<property name="testcase.type" value="backed" />
 	
 	<!-- The default DB setting to be used can be overriden using -Ddb=xxxx runtime option.
 		Helps pick the datasource.properties file. 
@@ -52,11 +52,13 @@
 	
 	<target name="check-testcase-type">
 		<condition property="ui.true">
-			<equals arg1="${testcase.type}" arg2="selenium" />
+			<equals arg1="${testcase.type}" arg2="ui" />
 		</condition>
 		<condition property="backend.true">
-			<equals arg1="${database.type}" arg2="backend" />
+			<equals arg1="${testcase.type}" arg2="backend" />
 		</condition>
+		<echo message="ui.true is ${ui.true}" />
+		<echo message="backend.true is ${backend.true}" />
 	</target>
 
 	<!-- ===================================================================
@@ -291,8 +293,7 @@
 	<!-- ========================================================== 
           target: compile-test              
     =========================================================== -->
-	<target name="compile-test" depends="compile-test-ui, compile-test-backend, check-testcase-type" description="compile the test classes of this project">
-  		
+	<target name="compile-test" depends="check-testcase-type, compile-test-ui, compile-test-backend" description="compile the test classes of this project">
   	</target>
     
 	<target name="compile-test-backend" depends="resolve-test" if="backend.true"
