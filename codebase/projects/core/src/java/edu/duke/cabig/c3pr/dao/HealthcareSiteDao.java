@@ -38,6 +38,7 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class HealthcareSiteDao.
  * 
@@ -54,66 +55,78 @@ public class HealthcareSiteDao extends OrganizationDao {
 	/** The EXACT_ match_ properties. */
 	private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
+	/** The remote session. */
 	private RemoteSession remoteSession;
 	
+	/** The user provisioning manager. */
 	private UserProvisioningManager userProvisioningManager;
 	
-	 private Logger log = Logger.getLogger(HealthcareSiteDao.class);
+	 /** The log. */
+ 	private Logger log = Logger.getLogger(HealthcareSiteDao.class);
 	
-	public UserProvisioningManager getUserProvisioningManager() {
-		return userProvisioningManager;
-	}
-
+	/**
+	 * Sets the user provisioning manager.
+	 * 
+	 * @param userProvisioningManager the new user provisioning manager
+	 */
 	public void setUserProvisioningManager(
 			UserProvisioningManager userProvisioningManager) {
 		this.userProvisioningManager = userProvisioningManager;
 	}
 
+	/** The csm application context name. */
 	private String csmApplicationContextName;
 
+    /** The site protection group id. */
     private String siteProtectionGroupId;
 
+    /** The site access role id. */
     private String siteAccessRoleId;
 
+    /** The site object id generator. */
     private CSMObjectIdGenerator siteObjectIdGenerator;
 
-
-	public String getCsmApplicationContextName() {
-		return csmApplicationContextName;
-	}
-
+	/**
+	 * Sets the csm application context name.
+	 * 
+	 * @param csmApplicationContextName the new csm application context name
+	 */
 	public void setCsmApplicationContextName(String csmApplicationContextName) {
 		this.csmApplicationContextName = csmApplicationContextName;
 	}
 
-	public String getSiteProtectionGroupId() {
-		return siteProtectionGroupId;
-	}
-
+	/**
+	 * Sets the site protection group id.
+	 * 
+	 * @param siteProtectionGroupId the new site protection group id
+	 */
 	public void setSiteProtectionGroupId(String siteProtectionGroupId) {
 		this.siteProtectionGroupId = siteProtectionGroupId;
 	}
 
-	public String getSiteAccessRoleId() {
-		return siteAccessRoleId;
-	}
-
+	/**
+	 * Sets the site access role id.
+	 * 
+	 * @param siteAccessRoleId the new site access role id
+	 */
 	public void setSiteAccessRoleId(String siteAccessRoleId) {
 		this.siteAccessRoleId = siteAccessRoleId;
 	}
 
-	public CSMObjectIdGenerator getSiteObjectIdGenerator() {
-		return siteObjectIdGenerator;
-	}
-
+	/**
+	 * Sets the site object id generator.
+	 * 
+	 * @param siteObjectIdGenerator the new site object id generator
+	 */
 	public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
 		this.siteObjectIdGenerator = siteObjectIdGenerator;
 	}
 	
-	public RemoteSession getRemoteSession() {
-		return remoteSession;
-	}
-
+	/**
+	 * Sets the remote session.
+	 * 
+	 * @param remoteSession the new remote session
+	 */
 	public void setRemoteSession(RemoteSession remoteSession) {
 		this.remoteSession = remoteSession;
 	}
@@ -158,12 +171,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 	/**
 	 * Gets by subnames.
 	 * 
-	 * @param subnames
-	 *            the subnames
+	 * @param subnames the subnames
 	 * 
 	 * @return the subnames
-	 * @throws C3PRBaseException 
-	 * @throws C3PRBaseRuntimeException 
+	 * 
+	 * @throws C3PRBaseException the c3 pr base exception
+	 * @throws C3PRBaseRuntimeException the c3 pr base runtime exception
 	 */
 	public List<HealthcareSite> getBySubnames(String[] subnames) throws C3PRBaseRuntimeException, C3PRBaseException {
 		
@@ -182,13 +195,11 @@ public class HealthcareSiteDao extends OrganizationDao {
 	/**
 	 * Gets by nci institute code.
 	 * 
-	 * @param nciInstituteCode
-	 *            the nci institute code
+	 * @param nciInstituteCode the nci institute code
 	 * 
 	 * @return the HealthcareSite
-	 * @throws C3PRBaseException 
-	 * @throws C3PRBaseRuntimeException 
-	 */
+	 * 
+	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	public HealthcareSite getByNciInstituteCode(String nciInstituteCode) {
 		
 		List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
@@ -207,13 +218,11 @@ public class HealthcareSiteDao extends OrganizationDao {
 	/**
 	 * Gets by nci institute code from local.
 	 * 
-	 * @param nciInstituteCode
-	 *            the nci institute code
+	 * @param nciInstituteCode the nci institute code
 	 * 
 	 * @return the HealthcareSite
-	 * @throws C3PRBaseException 
-	 * @throws C3PRBaseRuntimeException 
-	 */
+	 * 
+	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	public HealthcareSite getByNciInstituteCodeFromLocal(String nciInstituteCode) {
 		
 		return CollectionUtils
@@ -223,6 +232,13 @@ public class HealthcareSiteDao extends OrganizationDao {
 								nciInstituteCode));
 	}
 	
+	/**
+	 * Gets the local organizations by nci institute code.
+	 * 
+	 * @param nciInstituteCode the nci institute code
+	 * 
+	 * @return the local organizations by nci institute code
+	 */
 	public HealthcareSite getLocalOrganizationsByNciInstituteCode(String nciInstituteCode) {
 			
 			return CollectionUtils
@@ -236,8 +252,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	/**
 	 * Gets the organizations from the resolver.
 	 * 
-	 * @param healthcareSite
-	 *            the healthcare site
+	 * @param healthcareSite the healthcare site
 	 * 
 	 * @return the healthcare sites
 	 */
@@ -260,11 +275,9 @@ public class HealthcareSiteDao extends OrganizationDao {
 	/**
 	 * Update database with remote content.
 	 * 
-	 * @param remoteHealthcareSiteList
-	 *            the health care site list
-	 * @throws C3PRBaseException 
-	 * @throws C3PRBaseRuntimeException 
-	 */
+	 * @param remoteHealthcareSiteList the health care site list
+	 * 
+	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	public void updateDatabaseWithRemoteContent(
 			List<HealthcareSite> remoteHealthcareSiteList) {
 
@@ -296,13 +309,11 @@ public class HealthcareSiteDao extends OrganizationDao {
 	/**
 	 * Gets by nci institute code.
 	 * 
-	 * @param nciInstituteCode
-	 *            the nci institute code
+	 * @param nciInstituteCode the nci institute code
 	 * 
 	 * @return the HealthcareSite
-	 * @throws C3PRBaseException 
-	 * @throws C3PRBaseRuntimeException 
-	 */
+	 * 
+	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	public HealthcareSite getByUniqueIdentifier(String nciInstituteCode) {
 		return CollectionUtils
 		.firstElement((List<HealthcareSite>) getHibernateTemplate()
@@ -311,6 +322,16 @@ public class HealthcareSiteDao extends OrganizationDao {
 						nciInstituteCode));
 	}
 
+	/**
+	 * Creates the group for organization.
+	 * 
+	 * @param organization the organization
+	 * 
+	 * @return the group
+	 * 
+	 * @throws C3PRBaseException the c3 pr base exception
+	 * @throws C3PRBaseRuntimeException the c3 pr base runtime exception
+	 */
 	public Group createGroupForOrganization(HealthcareSite organization)
 			throws C3PRBaseException, C3PRBaseRuntimeException {
 		Group org = new Group();
@@ -371,15 +392,14 @@ public class HealthcareSiteDao extends OrganizationDao {
 	}
 	
 	  /**
-     * Search by example.
-     * 
-     * @param hcs the hcs
-     * @param isWildCard the is wild card
-     * 
-     * @return the list< healthcare site>
-	 * @throws C3PRBaseException 
-	 * @throws C3PRBaseRuntimeException 
-     */
+  	 * Search by example.
+  	 * 
+  	 * @param hcs the hcs
+  	 * @param isWildCard the is wild card
+  	 * 
+  	 * @return the list< healthcare site>
+  	 * 
+  	 * @throws C3PRBaseException   	 * @throws C3PRBaseRuntimeException   	 */
 	
     public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard){
     	
@@ -418,6 +438,14 @@ public class HealthcareSiteDao extends OrganizationDao {
     }
 
 	
+	/**
+	 * Merge remote with local lists.
+	 * 
+	 * @param remoteHealthcareSiteList the remote healthcare site list
+	 * @param localHealthcareSiteList the local healthcare site list
+	 * 
+	 * @return the list< healthcare site>
+	 */
 	public List<HealthcareSite> mergeRemoteWithLocalLists(List<HealthcareSite> remoteHealthcareSiteList,List<HealthcareSite> localHealthcareSiteList){
 		List<HealthcareSite> mergedHealthcareSiteList = new ArrayList<HealthcareSite>();
 		Set<HealthcareSite> uniqueHealthcareSitesList = new HashSet<HealthcareSite>();
@@ -428,6 +456,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 		return mergedHealthcareSiteList;
 	}
 	
+	/**
+	 * Copy remote properties from source to target.
+	 * 
+	 * @param targetHealthcareSite the target healthcare site
+	 * @param sourceHealthcareSite the source healthcare site
+	 */
 	public void copyRemotePropertiesFromSourceToTarget(HealthcareSite targetHealthcareSite,HealthcareSite sourceHealthcareSite){
 		List<String> remoteProperties = new ArrayList<String>();
 		remoteProperties = RemoteEntitiesUtils.getRemoteProperties(sourceHealthcareSite.getClass());
@@ -441,7 +475,14 @@ public class HealthcareSiteDao extends OrganizationDao {
 			} 
 	}
 	
-	  @SuppressWarnings("unchecked")
+	  /**
+  	 * Gets the remote organizations.
+  	 * 
+  	 * @param organization the organization
+  	 * 
+  	 * @return the remote organizations
+  	 */
+  	@SuppressWarnings("unchecked")
 		public List<HealthcareSite> getRemoteOrganizations(HealthcareSite organization){
 	  	HealthcareSite searchCriteria = new RemoteHealthcareSite();
 	  	searchCriteria.setNciInstituteCode(organization.getNciInstituteCode());
