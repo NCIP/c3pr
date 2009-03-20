@@ -67,14 +67,6 @@ function fireAction(action, selected){
 		<c:set var="imageStr" value=""/>
 	</c:otherwise>
 </c:choose>
-<c:choose>
-	<c:when test="${command.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
-		<c:set var="imageStr" value="&nbsp;<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='22' height='21' border='0' align='middle'/>"/>
-	</c:when>
-	<c:otherwise>
-		<c:set var="imageStr" value=""/>
-	</c:otherwise>
-</c:choose>
 <tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Investigator" htmlContent="${imageStr}">
 <tags:instructions code="investigator_details" />
 	<input type="hidden" name="_action" value="">
@@ -95,19 +87,16 @@ function fireAction(action, selected){
 					id="healthcareSite${status.index}-hidden"
 					name="healthcareSiteInvestigators[${status.index}].healthcareSite"
 					value="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}" />
-					<c:if test="${FLOW == 'EDIT_FLOW'}">
-						<c:choose>
-							<c:when test="${command.healthcareSiteInvestigators[status.index].healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-								${command.healthcareSiteInvestigators[status.index].healthcareSite.name} &nbsp;
-										<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
-							</c:when>
-							<c:otherwise>
-								<div><input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
-									value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name}" />
-								</div>
-							</c:otherwise>
-						</c:choose>
-             		</c:if>
+					<c:choose>
+						<c:when test="${command.healthcareSiteInvestigators[status.index].healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+							${command.healthcareSiteInvestigators[status.index].healthcareSite.name} &nbsp;
+									<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
+						</c:when>
+						<c:otherwise>
+							<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
+								value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name}" />
+						</c:otherwise>
+					</c:choose>
 					<tags:indicator
 						id="healthcareSite${status.index}-indicator" />
 					<div id="healthcareSite${status.index}-choices"
@@ -222,10 +211,7 @@ function fireAction(action, selected){
 					</c:otherwise>
 				</c:choose>
         	</div>
-		</div>
-
-<div class="rightpanel">
-		<div class="row">
+        	<div class="row">
             <div class="label"><tags:requiredIndicator />
                 <fmt:message key="c3pr.common.NCIIdentifier"/></div>
             
@@ -242,6 +228,9 @@ function fireAction(action, selected){
 					</c:otherwise>
 				</c:choose>
         </div>
+		</div>
+
+<div class="rightpanel">
 		<div class="row">
             <div class="label"><tags:requiredIndicator />
                     ${command.contactMechanisms[0].type.displayName} (Username)
@@ -305,9 +294,8 @@ function fireAction(action, selected){
         </div>
     </div>
 </chrome:division>
-
 <div id="dispButton"
-		<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>><tags:tabControls />
+		<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
 </div>
 </tags:basicFormPanelBox>
 

@@ -498,7 +498,6 @@
 			</table>
 			<tags:button type="button" color="blue" icon="add" value="Add Notification" onclick="RowManager.addRow(notificationRowInserterProps);" size="small"/>
 				
-	<div id="dispButton"><tags:tabControls /></div>
 	</tags:basicFormPanelBox>
 	</div>
 	

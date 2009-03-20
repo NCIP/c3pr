@@ -23,6 +23,7 @@
             <tags:errors path="*"/>
             <jsp:doBody/>
         </chrome:division>
-        
+        <div class="division"></div>
 </chrome:box>
+<tags:tabControls continueLabel="${continueLabel}" tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" isSummaryPage="${isSummaryPage}"/>
 </form:form>
