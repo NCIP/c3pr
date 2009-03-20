@@ -557,11 +557,35 @@
 				                            <bean
 				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
 				                                    autowire="byType" p:displayName="Create Subject"
-				                                    p:linkName="createParticipantController"/>
+				                                    p:linkName="createParticipantController">
+													<property name="subTasks">
+								                        <list>
+								                            <bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Confirm Create Subject"
+								                                    p:linkName="confirmCreateParticipantController"/>
+								                        </list>
+								                    </property>								
+    										</bean>
 											<bean
 				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
 				                                    autowire="byType" p:displayName="Manage Subject"
-				                                    p:linkName="searchParticipantController"/>
+				                                    p:linkName="searchParticipantController">
+											
+													<property name="subTasks">
+								                        <list>
+								                            <bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="View Subject"
+								                                    p:linkName="viewParticipantController"/>
+															<bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Edit Subject"
+								                                    p:linkName="editParticipantController">
+															</bean>
+								                        </list>
+								                    </property>
+											</bean>
 				                        </list>
 				                    </property>
 				            </bean>

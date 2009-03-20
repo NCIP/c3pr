@@ -57,22 +57,34 @@ public class SectionInterceptor extends HandlerInterceptorAdapter {
 			if (task.getUrl().indexOf(controllerPath) > -1) {
 				return task;
 			} else {
-				for (SubTask subTask : task.getSubTasks()) {
+				for (Task subTask : task.getSubTasks()) {
 					if (subTask.getUrl().indexOf(controllerPath) > -1) {
 						return task;
+					}else{
+						for (Task sub : subTask.getSubTasks()) {
+    						if (sub.getUrl().indexOf(controllerPath) > -1) {
+    							return task;
+    						}
+    					}
 					}
 				}
 			}
 		}
 		return null;
 	}
-    
-    private SubTask findSubTask(Section section, String controllerPath) {
+
+    private Task findSubTask(Section section, String controllerPath) {
     	 for (Task task : getTasks(section)) {
-    		  for (SubTask subTask: task.getSubTasks()){
+    		  for (Task subTask: task.getSubTasks()){
     			  if (subTask.getUrl().indexOf(controllerPath) > -1) {
     	                 return subTask;
-    	             }
+    	          }else{
+    	        	  for (Task sub : subTask.getSubTasks()) {
+  						if (sub.getUrl().indexOf(controllerPath) > -1) {
+  							return subTask;
+  						}
+  					}
+    	          }
     		  }
          }
          return null;

@@ -24,7 +24,7 @@ public class Task {
 
     private ControllerUrlResolver urlResolver;
 
-    private List<SubTask> subTasks = new LinkedList<SubTask>();
+    private List<Task> subTasks = new LinkedList<Task>();
 
     // //// LOGIC
 
@@ -60,11 +60,13 @@ public class Task {
         this.urlResolver = urlResolver;
     }
 
-    public List<SubTask> getSubTasks() {
-        return subTasks;
-    }
+	public List<Task> getSubTasks() {
+		return subTasks;
+	}
 
-    public void setSubTasks(List<SubTask> subTasks) {
-        this.subTasks = subTasks;
-    }
+	public void setSubTasks(List<Task> subTasks) {
+		this.subTasks = subTasks;
+	}
+
+    
 }
