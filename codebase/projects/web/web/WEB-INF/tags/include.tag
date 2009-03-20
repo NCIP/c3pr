@@ -9,9 +9,11 @@
 <jwr:script src="/jslib/js${skinName}.zjs" />
 <jwr:style src="/css/commonui.zcss" />
 
+<%--
 <!--[if !IE]><!-->
 <jwr:style src="/csslib/notie.zcss" />
 <!-- <![endif]-->
+--%>
 
 <!--[if IE]>
 <jwr:style src="/csslib/ie.zcss" />
