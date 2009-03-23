@@ -48,14 +48,13 @@
             
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-						<div class="value">
-							${command.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
+						<div class="value">${command.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
 							<tags:hoverHint keyProp="organization.name"/>
 						</div>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="37" path="name" cssClass="validate-notEmpty" />
+							<form:input size="33" path="name" cssClass="validate-notEmpty" />
 							<tags:hoverHint keyProp="organization.name"/>
 						</div>
 					</c:otherwise>
