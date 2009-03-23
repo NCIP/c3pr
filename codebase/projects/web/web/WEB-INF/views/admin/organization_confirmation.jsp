@@ -23,17 +23,13 @@
                 </c:if>
                 
                  <div class="row" >
-                 	<table class="tablecontent" width="60%">
-						<tr>
-							<td width="35%" class="alt" align="left"><b><fmt:message key="c3pr.common.name"/><b></td>
-							<td class="alt" align="left">${command.name}</td>
-						</tr>
-						<tr>
-							<td width="35%" class="alt" align="left"><b><fmt:message key="organization.NCIInstitueCode"/><b></td>
-							<td class="alt" align="left">${command.nciInstituteCode}</td>
-						</tr>
-					</table>
-                 </div>
+					<div class="label"><fmt:message key="c3pr.common.name"/>:</div>
+					<div class="value">${command.name}</div>
+				</div>
+				<div class="row" >
+					<div class="label"><fmt:message key="organization.NCIInstitueCode"/>:</div>
+					<div class="value">${command.nciInstituteCode}</div>
+				</div>
 		<br/>
 		</chrome:box>
 	</div>	
