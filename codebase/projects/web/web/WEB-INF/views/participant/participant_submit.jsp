@@ -30,34 +30,34 @@ function updateTargetPage(target){
 			<div class="leftpanel">
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
-						<div class="value">${command.firstName}</div>
+						<tags:value value="${command.firstName}" ></tags:value>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
-						<div class="value">${command.lastName}</div>
+						<tags:value value="${command.lastName}" ></tags:value>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.middleName"/>:</div>
-						<div class="value">${command.middleName}</div>
+						<tags:value value="${command.middleName}" ></tags:value>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.maidenName"/>:</div>
-						<div class="value">${command.maidenName}</div>
+						<tags:value value="${command.maidenName}" ></tags:value>
 					</div>
 				
 			</div>
 			<div class="rightpanel">
 				<div class="row">
 					<div class="label"><fmt:message key="participant.gender"/>:</div>
-					<div class="value">${command.administrativeGenderCode}</div>
+					<tags:value value="${command.administrativeGenderCode}" ></tags:value>
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="participant.birthDate"/>:</div>
-					<div class="value">${command.birthDateStr}</div>
+					<tags:value value="${command.birthDateStr}" ></tags:value>
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="participant.ethnicity"/>:</div>
-					<div class="value">${command.ethnicGroupCode}</div>
+					<tags:value value="${command.ethnicGroupCode}" ></tags:value>
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="participant.race"/>:</div>
@@ -79,25 +79,25 @@ function updateTargetPage(target){
 				<div class="leftpanel">
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.streetAddress"/>:</div>
-						<div class="value">${command.address.streetAddress}</div>
+						<tags:value value="${command.address.streetAddress}" ></tags:value>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.city"/>:</div>
-						<div class="value">${command.address.city}</div>
+						<tags:value value="${command.address.city}" ></tags:value>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.state"/>:</div>
-						<div class="value">${command.address.stateCode}</div>
+						<tags:value value="${command.address.stateCode}" ></tags:value>
 					</div>
 				</div>
 				<div class="rightpanel">
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.country"/>:</div>
-						<div class="label">${command.address.countryCode}</div>
+						<tags:value value="${command.address.countryCode}" ></tags:value>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.zip"/>:</div>
-						<div class="value">${command.address.postalCode}</div>
+						<tags:value value="${command.address.postalCode}" ></tags:value>
 					</div>
 				</div>
 			</c:when>
