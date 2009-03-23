@@ -3,16 +3,29 @@
 <html>
 <head>
 <title>Manage Subject</title>
+<tags:dwrJavascriptLink objects="SearchParticipantAjaxFacade"/>
    <style type="text/css">
         div.content {
             padding: 5px 15px;
         }
    </style>
    <script type="text/javascript">
-   		function showSearchResults(){
-   	   		$('searchForm').submit();
-   		 	
-   		}
+	   function buildTable(form) {
+	   	params = new Array(2);
+			var parameterMap = getParameterMap(form);
+	
+	       params[0] = document.getElementById("searchType").value;
+	       params[1] = document.getElementById("searchText").value;
+	       
+	       SearchParticipantAjaxFacade.getTable(parameterMap, params, showTable);
+	   }
+	
+	   function showTable(table) {
+	   	$('resultsDiv').style.display="block";
+	   	$('search-indicator').style.display='none'
+	       document.getElementById('tableDiv').innerHTML=table;
+	   }
+
    </script>
 </head>
 <body>
@@ -32,7 +45,7 @@
             		</div>
             		<div class="row">
 		                <div class="value">
-		                <tags:button type="button" icon="search" size="small" color="blue" value="Search" onclick="$('search-indicator').style.display='';showSearchResults();"/>
+		                <tags:button type="button" icon="search" size="small" color="blue" value="Search" onclick="$('search-indicator').style.display='';buildTable('searchForm');"/>
 		                    <img id="search-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
 		                </div>
 		            </div>
@@ -44,16 +57,12 @@
 	</form:form>
 </chrome:search>
 
-<br>
-<c:if test="${participants!=null}">
-<chrome:box title="Search Results" id="resultsDiv" >
+<chrome:box title="Search Results" id="resultsDiv" style="display:none">
     <chrome:division id="single-fields">
         <div id="tableDiv">
-        	<participanttags:searchResults url="viewParticipant" />
         </div>
     </chrome:division>
 </chrome:box>
-</c:if>
 </body>
 </html>
 <!-- SUBJECT SEARCH ENDS HERE -->

@@ -21,6 +21,8 @@
 		class="edu.duke.cabig.c3pr.web.ajax.OrganizationAjaxFacade" />
 	<bean id="searchOrganizationAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.SearchOrganizationAjaxFacade" />
+	<bean id="searchParticipantAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.SearchParticipantAjaxFacade" />
 	<bean id="searchInvestigatorAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.SearchInvestigatorAjaxFacade" />
 	<bean id="searchResearchStaffAjaxFacade" autowire="byName"

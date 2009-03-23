@@ -31,6 +31,9 @@
          <create creator="spring" javascript="SearchOrganizationAjaxFacade">
             <param name="beanName" value="searchOrganizationAjaxFacade"/>
         </create>
+		<create creator="spring" javascript="SearchParticipantAjaxFacade">
+            <param name="beanName" value="searchParticipantAjaxFacade"/>
+        </create>
         <create creator="spring" javascript="SearchResearchStaffAjaxFacade">
             <param name="beanName" value="searchResearchStaffAjaxFacade"/>
         </create>
