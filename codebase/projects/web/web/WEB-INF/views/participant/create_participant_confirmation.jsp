@@ -12,11 +12,11 @@
                 </div>
                 <br>
                  <div class="row" >
-				     <div class="label" ><b><fmt:message key="participant.fullName"/></b></div>
+				     <div class="label" ><fmt:message key="participant.fullName"/>:</div>
 				     <div class="value" >${command.fullName}</div>
 				 </div>
 				 <div class="row" >
-				     <div class="label" ><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></div>
+				     <div class="label" ><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
 				     <div class="value" >${command.primaryIdentifier}</div>
 				 </div>
 		<br/>

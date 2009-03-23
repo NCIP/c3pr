@@ -35,38 +35,38 @@ top:83px;
 		<chrome:division id="subject-details" title="Basic Details">
 			<div class="leftpanel">
 					<div class="row">
-						<div class="label"><b><fmt:message key="c3pr.common.firstName"/></b></div>
+						<div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
 						<div class="value">${command.firstName}</div>
 					</div>
 					<div class="row">
-						<div class="label"><b><fmt:message key="c3pr.common.lastName"/></b></div>
+						<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
 						<div class="value">${command.lastName}</div>
 					</div>
 					<div class="row">
-						<div class="label"><b><fmt:message key="c3pr.common.middleName"/></b></div>
+						<div class="label"><fmt:message key="c3pr.common.middleName"/>:</div>
 						<div class="value">${command.middleName}</div>
 					</div>
 					<div class="row">
-						<div class="label"><b><fmt:message key="c3pr.common.maidenName"/></b></div>
+						<div class="label"><fmt:message key="c3pr.common.maidenName"/>:</div>
 						<div class="value">${command.maidenName}</div>
 					</div>
 				
 			</div>
 			<div class="rightpanel">
 				<div class="row">
-					<div class="label"><b><fmt:message key="participant.gender"/></b></div>
+					<div class="label"><fmt:message key="participant.gender"/>:</div>
 					<div class="value">${command.administrativeGenderCode}</div>
 				</div>
 				<div class="row">
-					<div class="label"><b><fmt:message key="participant.birthDate"/></b></div>
+					<div class="label"><fmt:message key="participant.birthDate"/>:</div>
 					<div class="value">${command.birthDateStr}</div>
 				</div>
 				<div class="row">
-					<div class="label"><b><fmt:message key="participant.ethnicity"/></b></div>
+					<div class="label"><fmt:message key="participant.ethnicity"/>:</div>
 					<div class="value">${command.ethnicGroupCode}</div>
 				</div>
 				<div class="row">
-					<div class="label"><b><fmt:message key="participant.race"/></b></div>
+					<div class="label"><fmt:message key="participant.race"/>:</div>
 						<div class="value">
 						<c:forEach items="${command.raceCodes}" var="raceCode">
 				            <div class="row">
@@ -84,25 +84,25 @@ top:83px;
 			<c:when test="${command.address.addressString != ''}">
 				<div class="leftpanel">
 					<div class="row">
-						<div class="label"><b><fmt:message key="c3pr.common.streetAddress"/></b></div>
+						<div class="label"><fmt:message key="c3pr.common.streetAddress"/>:</div>
 						<div class="value">${command.address.streetAddress}</div>
 					</div>
 					<div class="row">
-						<div class="label"><b><fmt:message key="c3pr.common.city"/></b></div>
+						<div class="label"><fmt:message key="c3pr.common.city"/>:</div>
 						<div class="value">${command.address.city}</div>
 					</div>
 					<div class="row">
-						<div class="label"><b><fmt:message key="c3pr.common.state"/></b></div>
+						<div class="label"><fmt:message key="c3pr.common.state"/>:</div>
 						<div class="value">${command.address.stateCode}</div>
 					</div>
 				</div>
 				<div class="rightpanel">
 					<div class="row">
-						<div class="label"><b><fmt:message key="c3pr.common.country"/></b></div>
+						<div class="label"><fmt:message key="c3pr.common.country"/>:</div>
 						<div class="label">${command.address.countryCode}</div>
 					</div>
 					<div class="row">
-						<div class="label"><b><fmt:message key="c3pr.common.zip"/></b></div>
+						<div class="label"><fmt:message key="c3pr.common.zip"/>:</div>
 						<div class="value">${command.address.postalCode}</div>
 					</div>
 				</div>
