@@ -39,7 +39,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     
     private List<Participant> participants = new ArrayList<Participant>();
     
-    protected List<HealthcareSite> externalOrganizations;
+    protected List<HealthcareSite> externalOrganizations = new ArrayList<HealthcareSite>();
 
     public void setExternalOrganizations(List<HealthcareSite> externalOrganizations) {
 		this.externalOrganizations = externalOrganizations;
@@ -174,6 +174,10 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 	public List<HealthcareSite> getExternalOrganizations() {
 		return externalOrganizations;
 	}
+    
+    public void addExternalOganization(RemoteHealthcareSite healthcareSite){
+    	this.getExternalOrganizations().add(healthcareSite);
+    }
 
 
 }
