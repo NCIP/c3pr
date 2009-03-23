@@ -68,9 +68,6 @@
 </chrome:search>
 
 <br>
-<script>
-	//buildTable('searchForm');
-</script>
 
 <chrome:box title="Search Results" id="resultsDiv" style="display:none">
     <chrome:division id="single-fields">
