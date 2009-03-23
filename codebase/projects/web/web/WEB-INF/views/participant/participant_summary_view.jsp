@@ -186,6 +186,7 @@ top:83px;
 			</c:otherwise>
 			</c:choose>
 		</chrome:division>
+		<br>
         </div>
 	</div>	
 </form:form>
