@@ -82,8 +82,14 @@ public class CreateOrganizationController extends SimpleFormController {
     				return;
     			}
         		List<HealthcareSite> remoteOrgs = healthcareSiteDao.getRemoteOrganizations(healthcareSite);
-        		if(remoteOrgs != null && remoteOrgs.size() > 0){
-        			healthcareSite.setExternalOrganizations(remoteOrgs);
+        		boolean matchingExternalHealthcareSitePresent = false;
+        		for(HealthcareSite remoteOrg:remoteOrgs){
+        			if(remoteOrg.getNciInstituteCode().equals(healthcareSite.getNciInstituteCode())){
+        				healthcareSite.addExternalOganization((RemoteHealthcareSite)remoteOrg);
+        				matchingExternalHealthcareSitePresent = true;
+        			}
+        		}
+        		if(matchingExternalHealthcareSitePresent){
         			errors.reject("REMOTE_ORG_EXISTS","Organization with NCI Institute Code " +healthcareSite.getNciInstituteCode()+ " exisits in external system");
         		}
         	}
