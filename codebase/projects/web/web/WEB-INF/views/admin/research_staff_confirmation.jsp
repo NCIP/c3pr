@@ -22,19 +22,19 @@
                 </c:if>
                 <br>
 							<div class="row">
-								<div class="label"><b><fmt:message key="c3pr.common.firstName"/><b></div>
+								<div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
 								<div class="value">${command.firstName}</div>
 							</div>
 							                    <div class="row">
-								<div class="label"><b><fmt:message key="c3pr.common.lastName"/><b></div>
+								<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
 								<div class="value">${command.lastName}</div>
 							</div>
 							<div class="row">
-								<div class="label"><b><fmt:message key="c3pr.common.NCIIdentifier"/><b></div>
+								<div class="label"><fmt:message key="c3pr.common.NCIIdentifier"/>:</div>
 								<div class="value">${command.nciIdentifier}</div>
 							</div>
 							<div class="row">
-								<div class="label"><b><fmt:message key="c3pr.common.email"/><b></div>
+								<div class="label"><fmt:message key="c3pr.common.email"/>:</div>
 								<div class="value">${command.contactMechanisms[0].value}</div>
 							</div>
 						</table>
