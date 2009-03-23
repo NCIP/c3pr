@@ -46,7 +46,7 @@
 	        	</tr>
         	</table>
         		<c:if test="${!newGroup && fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)>0}">
-		           <br><br>Existing Investigators <br>
+		           <br><br><b>Existing Investigators</b><br><br>
 				<table width="50%" class="tablecontent">
 					<tr>
 			            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>
@@ -79,7 +79,7 @@
 	<br>    
 	<br>
     <div id="investigators">
-      <br><br><b>New Investigators </b><br /><br/>
+      <br><br><b>New Investigators </b><br><br>
      <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
             <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>

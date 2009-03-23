@@ -85,7 +85,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		function updateGroups(id,selectedId,saveEvent){
 		
 			OrganizationAjaxFacade.getInvestigatorGroups(id, function(categories) {
-		        var sel = $("disease-sub-category")
+		        var sel = $("inv-group-category")
 		       if(categories!=null && categories.length > 0){
 		        sel.size = categories.length < 10 ? categories.length + 2 : 10;
 		        //sel.size= 10
@@ -105,7 +105,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		         }
 		        showAffiliations(saveEvent)
 		        } else {
-		        		$("disease-sub-category").options.length=0;
+		        		$("inv-group-category").options.length=0;
 		        			new Element.update($("groupDisplay"),'');
 		        			$('flashMessageForGroup').show()
 		    				new Effect.Highlight('flashMessageForGroup');
@@ -115,15 +115,15 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		};
 
 		function test(){
-			var length = $("disease-sub-category").options.length ;
+			var length = $("inv-group-category").options.length ;
 			alert(length);
 			return length;
 		}
 		
 		function showAffiliations(saveEvent) {
-		    var categoryId = $("disease-sub-category").value
-		    var opts=$("disease-sub-category").options
-		    var subCategorySelect = $("disease-sub-category")
+		    var categoryId = $("inv-group-category").value
+		    var opts=$("inv-group-category").options
+		    var subCategorySelect = $("inv-group-category")
 		    // If all is selected
 		    
 	    	new Ajax.Updater('groupDisplay', 'getGroup', {method:"get", asynchronous:true, evalScripts:true, onComplete:function(){ new Effect.Highlight('groupDisplay');}, 
@@ -150,16 +150,13 @@ RowManager.addRowInseter(instanceRowInserterProps);
 	}
 
 	Event.observe(window, "load", function() {
-	    Event.observe("disease-sub-category", "change", function() {
+	    Event.observe("inv-group-category", "change", function() {
 	    	e1 = document.getElementById("errorsDiv");
 	    	if(e1!=null){
 				e1.innerHTML='';
 			}
 	        showAffiliations('true');
 	    })
-	//    populateSelectsOnLoad();
-	
-	    // Element.update("flow-next", "Continue &raquo;")
 	})
 	function submitGroupForm(){
 		if(($('formEndDate').value)== '' ||($('formEndDate').value)== null) {
@@ -194,7 +191,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 	function handleHealthcarSiteClear(){
 		$("healthcareSite-input").value="";
 		$("healthcareSite-hidden").value="";
-		$("disease-sub-category").options.length=0;
+		$("inv-group-category").options.length=0;
 		e1 = document.getElementById("errorsDiv");
 		$('flashMessageForGroup').hide();
 		if(e1!=null){
@@ -225,20 +222,17 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		
 
  <chrome:division title="Organization" id="disease">
-          <b><fmt:message key="c3pr.common.organization"/></b><br>
-          <input type="hidden" id="healthcareSite-hidden"
-					name="healthcareSite" value="${command.healthcareSite.id}" /> <input
-					id="healthcareSite-input" size="60" type="text" name="xyz"
-					value="${command.healthcareSite.name}"
-					class="autocomplete validate-notEmpty" /> 
-					<tags:indicator	id="healthcareSite-indicator" />
-				<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
-				 <p id="flashMessage" style="display: none">Search for an Organization first
-					</p>
-
-          <br><br><b><fmt:message key="c3pr.common.selectAGroup"/></b><br>
-          		<select multiple size="1" style="width:400px" id="disease-sub-category">
-          </select>
+          <b><fmt:message key="c3pr.common.organization"/></b>
+          <br>
+          <input type="hidden" id="healthcareSite-hidden" name="healthcareSite" value="${command.healthcareSite.id}" /> 
+          <input id="healthcareSite-input" size="60" type="text" name="xyz" value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" /> 
+		  <tags:indicator	id="healthcareSite-indicator" />
+		  <div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
+		  <p id="flashMessage" style="display: none">Search for an Organization first</p>
+          <br><br>
+          <b><fmt:message key="c3pr.common.selectAGroup"/></b>
+          <br>
+          <select multiple size="1" style="width:400px" id="inv-group-category"></select>
 		  <p id="flashMessageForGroup" style="display: none">Please Add a Investigator Group</p>
           <tags:button type="button" color="blue" icon="add" value="Add Group" onclick="handleAddGroup();" size="small"/>
 		<br>
