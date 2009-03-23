@@ -76,8 +76,6 @@
     </form>
 </chrome:search>
 
-<br>
-
 <chrome:box title="Search Results" id="resultsDiv" style="display:none">
     <chrome:division id="single-fields">
         <div id="tableDiv">
