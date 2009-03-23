@@ -639,7 +639,7 @@
                                     <list>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
-                                                    p:displayName="Search Organization"
+                                                    p:displayName="Manage Organization"
                                                     p:linkName="searchOrganizationController"/>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"

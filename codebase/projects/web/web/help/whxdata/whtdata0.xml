@@ -64,7 +64,7 @@
     <item name="Create Research Staff" url="createResearchStaff.htm" />
   </book>
   <book name="Organization" url="searchOrganization.htm" >
-    <item name="Search Organization" url="searchOrganization.htm" />
+    <item name="Manage Organization" url="searchOrganization.htm" />
     <item name="Create Organization" url="createOrganization.htm" />
   </book>
 </book>
