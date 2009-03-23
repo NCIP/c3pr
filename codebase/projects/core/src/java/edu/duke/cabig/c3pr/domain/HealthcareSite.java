@@ -175,7 +175,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 		return externalOrganizations;
 	}
     
-    public void addExternalOganization(RemoteHealthcareSite healthcareSite){
+    public void addExternalOganization(HealthcareSite healthcareSite){
     	this.getExternalOrganizations().add(healthcareSite);
     }
 
