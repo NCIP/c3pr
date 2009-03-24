@@ -43,6 +43,60 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
         contactMechanisms.remove(contactMechanism);
     }
     
+    @Transient
+	public String getEmailAsString(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.EMAIL){
+				return contactMechanism.getValue();
+			}
+		}
+		
+		return null;
+	}
+	
+	@Transient
+	public String getPhoneAsString(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.PHONE){
+				return contactMechanism.getValue();
+			}
+		}
+		
+		return null;
+	}
+	
+	@Transient
+	public String getFaxAsString(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.Fax){
+				return contactMechanism.getValue();
+			}
+		}
+		
+		return null;
+	}
+	
+	public void setEmail(String email){
+		ContactMechanism emailContactMechanism = new ContactMechanism();
+		emailContactMechanism.setType(ContactMechanismType.EMAIL);
+		emailContactMechanism.setValue(email);
+		this.addContactMechanism(emailContactMechanism);
+	}
+	
+	public void setPhone(String phone){
+		ContactMechanism phoneContactMechanism = new ContactMechanism();
+		phoneContactMechanism.setType(ContactMechanismType.PHONE);
+		phoneContactMechanism.setValue(phone);
+		this.addContactMechanism(phoneContactMechanism);
+	}
+	
+	public void setFax(String fax){
+		ContactMechanism faxContactMechanism = new ContactMechanism();
+		faxContactMechanism.setType(ContactMechanismType.Fax);
+		faxContactMechanism.setValue(fax);
+		this.addContactMechanism(faxContactMechanism);
+	}
+    
     @RemoteProperty
     public String getFirstName() {
         return firstName;

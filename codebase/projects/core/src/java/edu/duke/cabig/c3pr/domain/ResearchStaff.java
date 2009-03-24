@@ -38,10 +38,25 @@ public abstract class ResearchStaff extends User {
     
     private List<UserBasedRecipient> userBasedRecipient;
     
+    protected List<ResearchStaff> externalResearchStaff = new ArrayList<ResearchStaff>();
+    
 	public ResearchStaff() {
 		super();
 	}
 	
+	@Transient
+	public List<ResearchStaff> getExternalResearchStaff() {
+		return externalResearchStaff;
+	}
+
+	public void setExternalResearchStaff(List<ResearchStaff> externalResearchStaff) {
+		this.externalResearchStaff = externalResearchStaff;
+	}
+	
+	public void addExternalResearchStaff(ResearchStaff externalResearchStaff){
+	    	this.getExternalResearchStaff().add(externalResearchStaff);
+	    }
+
 	@Transient
     public String getLastFirst() {
         StringBuilder name = new StringBuilder();
@@ -153,15 +168,4 @@ public abstract class ResearchStaff extends User {
 		this.userBasedRecipient = userBasedRecipient;
 	}
 	
-	@Transient
-	public String getEmailAsString(){
-		for(ContactMechanism contactMechanism: getContactMechanisms()){
-			if(contactMechanism.getType()==ContactMechanismType.EMAIL){
-				return contactMechanism.getValue();
-			}
-		}
-		
-		return null;
-	}
-
 }

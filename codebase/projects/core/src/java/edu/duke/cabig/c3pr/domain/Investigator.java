@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -33,10 +34,25 @@ public abstract class Investigator extends C3PRUser {
     private String fullName;
     
     private List<UserBasedRecipient> userBasedRecipient;
+    
+    protected List<Investigator> externalInvestigators = new ArrayList<Investigator>();
 
     // business methods
 
-    public Investigator() {
+    @Transient
+    public List<Investigator> getExternalInvestigators() {
+		return externalInvestigators;
+	}
+
+	public void setExternalInvestigators(List<Investigator> externalInvestigators) {
+		this.externalInvestigators = externalInvestigators;
+	}
+	
+	public void addExternalInvestigator(Investigator externalInvestigator) {
+		this.getExternalInvestigators().add(externalInvestigator);
+	}
+
+	public Investigator() {
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(HealthcareSiteInvestigator.class,
                         new BiDirectionalInstantiateFactory<HealthcareSiteInvestigator>(
