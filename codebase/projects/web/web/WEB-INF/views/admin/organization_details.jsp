@@ -51,15 +51,11 @@
 		});
 
 	function submitRemoteOrgForSave(){
-	//	var form = document.getElementById('command');
 		document.getElementById('command')._action.value="saveRemoteOrg";
 		document.getElementById('command').submit();
-	//	form.submit();
 	}
 
 	function selectOrg(selectedIndex){
-		//alert(selectedIndex);
-	//	var form = document.getElementById('command');
 		document.getElementById('command')._selected.value=selectedIndex;
 		document.getElementById('save-yes').disabled = false;
 	}
@@ -118,22 +114,19 @@
 <div class="leftpanel">
 
 	<div class="row">
-            <div class="label"><tags:requiredIndicator />
-                <fmt:message key="c3pr.common.name"/></div>
-            
-				<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-						<div class="value">${command.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
-							<tags:hoverHint keyProp="organization.name"/>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="value">
-							<form:input size="33" path="name" cssClass="validate-notEmpty" />
-							<tags:hoverHint keyProp="organization.name"/>
-						</div>
-					</c:otherwise>
-				</c:choose>
+          <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.name"/></div>
+		<c:choose>
+			<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+				<div class="value">${command.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
+					<tags:hoverHint keyProp="organization.name"/>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="value">
+					<form:input size="30" path="name" cssClass="validate-notEmpty" /><tags:hoverHint keyProp="organization.name"/>
+				</div>
+			</c:otherwise>
+		</c:choose>
         </div>
 
     <div class="row">
@@ -141,21 +134,21 @@
             <fmt:message key="c3pr.common.description"/>
         </div>
 		<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-						<c:choose>
-							<c:when test="${!empty command.descriptionText}">
-								<div class="value">${command.descriptionText}</div>
-							</c:when>
-							<c:otherwise>
-								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
-							</c:otherwise>
-						</c:choose>
+			<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+				<c:choose>
+					<c:when test="${!empty command.descriptionText}">
+						<div class="value">${command.descriptionText}</div>
 					</c:when>
 					<c:otherwise>
-						<div class="value">
-							 <form:textarea rows="3" cols="35" path="descriptionText"/>
-						  </div>
+						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
 					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<div class="value">
+					 <form:textarea rows="3" cols="35" path="descriptionText"/>
+				  </div>
+			</c:otherwise>
 		</c:choose>
     </div>
 
