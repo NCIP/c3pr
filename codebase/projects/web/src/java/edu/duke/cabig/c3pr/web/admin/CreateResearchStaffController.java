@@ -109,6 +109,36 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         model.put("groups", C3PRUserGroupType.values());
         return model;
     }
+    
+    @Override
+	protected void onBindAndValidate(HttpServletRequest request,
+			Object command, BindException errors) throws Exception {
+		super.onBindAndValidate(request, command, errors);
+		ResearchStaff researchStaff = (ResearchStaff) command;
+    	if(researchStaff.getId() == null){
+    		if(!"saveRemoteRStaff".equals(request.getParameter("_action"))){
+    			List<ResearchStaff> rStaffFromDB = researchStaffDao.getByEmailAddressFromLocal(researchStaff.getEmailAsString());
+    			if(rStaffFromDB != null && rStaffFromDB.size()>0){
+    				// This check is already being done in the UsernameDuplicate Validator.
+    				//errors.reject("RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " already exisits");
+    				return;
+    			}
+        		List<ResearchStaff> remoteResearchStaff = researchStaffDao.getRemoteResearchStaff(researchStaff);
+        		boolean matchingExternalResearchStaffPresent = false;
+        		for(ResearchStaff remoteRStaff : remoteResearchStaff){
+        			if(remoteRStaff.getEmailAsString().equals(researchStaff.getEmailAsString())){
+        				researchStaff.addExternalResearchStaff(remoteRStaff);
+        				matchingExternalResearchStaffPresent = true;
+        			}
+        		}
+        		if(matchingExternalResearchStaffPresent){
+        			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " exisits in external system");
+        		}
+        	}
+        }
+	}
+    
+    
 
     /*
      * (non-Javadoc)
@@ -118,6 +148,12 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
      */
 
     @Override
+	protected boolean suppressValidation(HttpServletRequest request,
+			Object command) {
+    	return ("saveRemoteRStaff".equals(request.getParameter("_action")));
+	}
+
+	@Override
     protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
                     HttpServletResponse response, Object command, BindException errors)
                     throws Exception {
@@ -131,7 +167,24 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 
         try {
             if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
-                personnelService.save(researchStaff);
+            	
+            	if("saveRemoteRs".equals(request.getParameter("_action"))){
+            		
+            		ResearchStaff remoteRStoSave = researchStaff.getExternalResearchStaff().get(Integer.parseInt(request.getParameter("_selected")));
+            		remoteRStoSave.setHealthcareSite(researchStaff.getHealthcareSite());
+            		
+            		remoteRStoSave.setFirstName(researchStaff.getFirstName());
+            		remoteRStoSave.setLastName(researchStaff.getLastFirst());
+            		
+            	//	remoteRStoSave.setEmail(researchStaff.getEmailAsString());
+            		remoteRStoSave.setPhone(researchStaff.getPhoneAsString());
+            		remoteRStoSave.setFax(researchStaff.getFaxAsString());
+            		
+            		personnelService.save(remoteRStoSave);
+            	}else {
+            		 personnelService.save(researchStaff);
+            	}
+               
             }
             else {
                 personnelService.merge(researchStaff);

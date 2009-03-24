@@ -20,6 +20,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -96,6 +97,34 @@ public class CreateInvestigatorController<C extends Investigator> extends
     protected boolean shouldSave(HttpServletRequest request, Investigator command) {
         return true;
     }
+    
+    @Override
+	protected void onBindAndValidate(HttpServletRequest request,
+			Object command, BindException errors) throws Exception {
+		super.onBindAndValidate(request, command, errors);
+		Investigator investigator = (Investigator) command;
+    	if(investigator.getId() == null){
+    		if(!"saveRemoteInvestigator".equals(request.getParameter("_action"))){
+    			List<Investigator> invFromDB = investigatorDao.getByEmailAddressFromLocal(investigator.getEmailAsString());
+    			if(invFromDB != null && invFromDB.size()>0){
+    			//	errors.reject("INV_EXISTS","Investigator with Email " +investigator.getEmailAsString()+ " already exisits");
+    				return;
+    			}
+        		List<Investigator> remoteInvestigators = investigatorDao.getRemoteInvestigators(investigator);
+        		boolean matchingExternalInvestigatorPresent = false;
+        		for(Investigator remoteInv : remoteInvestigators){
+        			if(remoteInv.getEmailAsString().equals(investigator.getEmailAsString())){
+        				investigator.addExternalInvestigator(remoteInv);
+        				matchingExternalInvestigatorPresent = true;
+        			}
+        		}
+        		if(matchingExternalInvestigatorPresent){
+        			errors.reject("REMOTE_INV_EXISTS","Investigator with Email " +investigator.getEmailAsString()+ " exisits in external system");
+        		}
+        	}
+        }
+	}
+    
 
     @Override
     protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
@@ -113,7 +142,24 @@ public class CreateInvestigatorController<C extends Investigator> extends
 
         try {
             if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
-                personnelService.save(inv);
+            	if("saveRemoteInv".equals(request.getParameter("_action"))){
+            		
+            		Investigator remoteInvtoSave = inv.getExternalInvestigators().get(Integer.parseInt(request.getParameter("_selected")));
+            		remoteInvtoSave.setHealthcareSiteInvestigators(inv.getHealthcareSiteInvestigators());
+            		
+            		remoteInvtoSave.setFirstName(inv.getFirstName());
+            		remoteInvtoSave.setLastName(inv.getLastFirst());
+            		
+            		
+            //		remoteInvtoSave.setEmail(inv.getEmailAsString());
+            		remoteInvtoSave.setPhone(inv.getPhoneAsString());
+            		remoteInvtoSave.setFax(inv.getFaxAsString());
+            		
+            		personnelService.save(remoteInvtoSave);
+            	}else {
+            		personnelService.save(inv);
+                }
+                
             }
             else {
                 for (HealthcareSiteInvestigator hcsInv : inv.getHealthcareSiteInvestigators()) {

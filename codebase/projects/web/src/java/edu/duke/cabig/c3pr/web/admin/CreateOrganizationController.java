@@ -85,7 +85,7 @@ public class CreateOrganizationController extends SimpleFormController {
         		boolean matchingExternalHealthcareSitePresent = false;
         		for(HealthcareSite remoteOrg:remoteOrgs){
         			if(remoteOrg.getNciInstituteCode().equals(healthcareSite.getNciInstituteCode())){
-        				healthcareSite.addExternalOganization((RemoteHealthcareSite)remoteOrg);
+        				healthcareSite.addExternalOganization(remoteOrg);
         				matchingExternalHealthcareSitePresent = true;
         			}
         		}
@@ -126,8 +126,8 @@ public class CreateOrganizationController extends SimpleFormController {
 								Integer.parseInt(request
 										.getParameter("_selected")));
 				organization.setName(remoteHealthcareSiteToSave.getName());
-				organization.setNciInstituteCode(remoteHealthcareSiteToSave
-						.getNciInstituteCode());
+				/*organization.setNciInstituteCode(remoteHealthcareSiteToSave
+						.getNciInstituteCode());*/
 				organization.setDescriptionText(remoteHealthcareSiteToSave
 						.getDescriptionText());
 			}
