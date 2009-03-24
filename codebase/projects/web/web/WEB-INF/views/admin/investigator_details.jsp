@@ -52,10 +52,91 @@ function fireAction(action, selected){
 			document.getElementById("command").submit();
 		
 	}
+
+function displayRemoteResearchStaff(){
+	var contentWin = new Window({className:"alphacube", destroyOnClose:true, id:"remoteRS-popup-id", width:550,  height:200, top: 30, left: 300});
+	contentWin.setContent( 'display_remote_rs' );
+  	contentWin.showCenter(true);
+ 	popupObserver = {
+			onDestroy: function(eventName, win) {
+				if (win == contentWin) {
+					$('display_remote_rs').style.display='none';
+					
+					contentWin = null;
+					Windows.removeObserver(this);
+				}
+			}
+		}
+  	Windows.addObserver(popupObserver);
+}
+
+Event.observe(window, "load", function(){
+	if(${fn:length(command.externalInvestigators) gt 0}){
+		displayRemoteResearchStaff();
+	}
+	
+});
+
+function submitRemoteRsForSave(){
+	alert("submitting");
+	var form = document.getElementById('command');
+	form._action.value="saveRemoteInvestigator";
+	form.submit();
+}
+
+function selectResearchStaff(selectedIndex){
+	var form = document.getElementById('command')
+	form._selected.value=selectedIndex;
+	document.getElementById('save-yes').disabled = false;
+}
+
+function syncResearchStaff(){
+	var form = document.getElementById('command');
+	form._action.value="syncResearchStaff";
+	form.submit();
+}
 </script>
 
 </head>
 <body>
+
+
+<div id="display_remote_rs" style="display:none;text-align:left" >
+	<chrome:box title="Please select an Investigator to be saved in C3PR" id="popupId">
+		<div class="eXtremeTable">
+          <table width="100%" border="0" cellspacing="0"  class="tableRegion">
+            <thead>
+              <tr align="center" class="label">
+              	<td/>
+                <td class="tableHeader">First Name</td>
+                <td class="tableHeader">Last Name</td>
+                <td class="tableHeader">Email Address</td>
+              </tr>
+            </thead>
+            <c:forEach items="${command.externalInvestigators}"  var="remRs" varStatus="rdStatus">
+              <tr>
+              	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
+                <td align="left">${remRs.firstName}</td>
+                <td align="left">${remRs.lastName}</td>
+                <td align="left">${remRs.emailAsString}</td>
+              </tr>
+            </c:forEach>
+          </table>
+		</div>
+		<br><br>
+   		<table width="100%">	
+   			<tr>
+   				<td align="left">
+   					<input type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
+   				</td>
+   				<td align="right">
+    				<input type="submit" disabled value="Ok" id="save-yes" onClick="javascript:window.parent.submitRemoteRsForSave();"/>
+   				</td>
+   			<tr>	
+   		</table>
+	</chrome:box>
+</div>
+
 
 <div id="main">
 
