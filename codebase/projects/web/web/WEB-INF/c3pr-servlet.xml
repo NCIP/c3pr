@@ -567,7 +567,7 @@
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Subject"
-                                    p:linkName="createParticipantController">
+                                    p:linkName="searchParticipantController">
                                     <property name="subTasks">
 				                        <list>
 											<bean
