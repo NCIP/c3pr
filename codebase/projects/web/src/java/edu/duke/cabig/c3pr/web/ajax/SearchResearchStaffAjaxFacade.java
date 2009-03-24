@@ -36,7 +36,7 @@ public class SearchResearchStaffAjaxFacade {
         table.setAutoIncludeParameters(false);
         table.setTableId("assembler");
         table.setItems(rStaffResults);
-        table.setAction(model.getContext().getContextPath() + "/pages/admin/createResearchStaff");
+        table.setAction(model.getContext().getContextPath() + "/pages/admin/editResearchStaff");
         table.setTitle("Research Staff");
         table.setShowPagination(false);
         table.setOnInvokeAction("buildTable('assembler')");

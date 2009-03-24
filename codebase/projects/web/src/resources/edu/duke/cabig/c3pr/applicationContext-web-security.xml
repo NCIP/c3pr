@@ -51,8 +51,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			key="/pages/personAndOrganization/investigator/createInvestigator"
 			value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
 		<entry
+			key="/pages/personAndOrganization/investigator/editInvestigator"
+			value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
+		<entry
 			key="/pages/personAndOrganization/investigator/createInvestigatorGroups"
 			value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
+
 		<entry
 			key="/pages/personAndOrganization/researchStaff/searchResearchStaff"
 			value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE" />
@@ -60,7 +64,13 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			key="/pages/personAndOrganization/researchStaff/createResearchStaff"
 			value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE" />
 		<entry
+			key="/pages/personAndOrganization/researchStaff/editResearchStaff"
+			value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE" />
+		<entry
 			key="/pages/personAndOrganization/organization/createOrganization"
+			value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
+		<entry
+			key="/pages/personAndOrganization/organization/editOrganization"
 			value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
 		<entry
 			key="/pages/personAndOrganization/organization/searchOrganization"

@@ -7,19 +7,22 @@
 </head>
 <body>
 <div id="main">
-<chrome:box title="Confirmation" autopad="true">
-                <div class="content">
-                  <c:if test="${FLOW == 'EDIT_FLOW'}">
-                	<div class="row">
-                	 	<h2><font color="green">Investigator successfully updated.</font></h2>
-	                </div>
+<div id="controlPanel">
+			<tags:controlPanel>
+				<tags:oneControlPanelItem linkhref="javascript:document.location='editInvestigator?emailId=${command.contactMechanisms[0].value}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='createInvestigator';" imgsrc="/c3pr/images/controlPanel/controlPanel_searchInvestigatorController.png" linktext="Create investigator" />
+			</tags:controlPanel>
+		</div>
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name='check.png'/>" alt="" style="vertical-align:top;" /> 
+				<c:if test="${FLOW == 'EDIT_FLOW'}">
+                	 	Investigator successfully updated.
                 </c:if>
                 <c:if test="${FLOW == 'SAVE_FLOW'}">
-                	<div class="row">
-                	 	<h2><font color="green">Investigator successfully saved.</font></h2>
-	                </div>
-                </c:if>
-                <br>
+                	 	Investigator successfully created.
+                </c:if> 
+		</div>
+<chrome:box title="Confirmation" autopad="true">
+                <div class="content">
 				<div class="row">
 					<div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
 					<div class="value">${command.firstName}</div>

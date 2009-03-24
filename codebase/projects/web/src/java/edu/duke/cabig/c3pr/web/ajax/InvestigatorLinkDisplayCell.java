@@ -13,7 +13,7 @@ import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 
 public class InvestigatorLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_INVESTIGATOR_URL= "createInvestigator?emailId=";
+	public static final String VIEW_INVESTIGATOR_URL= "editInvestigator?emailId=";
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
         Investigator inv = (Investigator) model.getCurrentRowBean();

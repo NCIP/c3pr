@@ -31,10 +31,13 @@
     </decorator>
     <decorator name="standardContent" page="standardContent.jsp">
         <pattern>/pages/personAndOrganization/organization/createOrganization</pattern>
+		<pattern>/pages/personAndOrganization/organization/editOrganization</pattern>
         <pattern>/pages/personAndOrganization/organization/searchOrganization</pattern> 
         <pattern>/pages/personAndOrganization/investigator/createInvestigator</pattern>
+		<pattern>/pages/personAndOrganization/investigator/editInvestigator</pattern>
         <pattern>/pages/personAndOrganization/investigator/searchInvestigator</pattern> 
         <pattern>/pages/personAndOrganization/researchStaff/createResearchStaff</pattern>
+		<pattern>/pages/personAndOrganization/researchStaff/editResearchStaff</pattern>
         <pattern>/pages/personAndOrganization/researchStaff/searchResearchStaff</pattern> 
         <pattern>/pages/personAndOrganization/investigator/createInvestigatorGroups</pattern>
     </decorator>

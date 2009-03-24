@@ -178,6 +178,12 @@
         <property name="successView" value="admin/organization_confirmation"/>
         <property name="sessionForm" value="true"/>
     </bean>
+	
+	<bean name="/personAndOrganization/organization/editOrganization" id="editOrganizationController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
+          autowire="byName" parent="createOrganizationController">
+    </bean>
+
     <!-- mapping for create ORGANIZATION task -->
 
 
@@ -406,6 +412,11 @@
         	<bean class="edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab" autowire="byType" />
         </property>
     </bean>
+	<bean name="/personAndOrganization/investigator/editInvestigator"
+          id="editInvestigatorController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorController"
+          autowire="byName" parent="createInvestigatorController">
+    </bean>
     <bean id="investigatorValidator" class="edu.duke.cabig.c3pr.domain.validator.InvestigatorValidator" autowire="byName"></bean>
     <bean name="/personAndOrganization/investigator/getGroup"
           id="createInvestigatorGroupsController" lazy-init="true"
@@ -449,6 +460,11 @@
         <property name="validator">
             <ref bean="userDuplicateValidator"/>
         </property>
+    </bean>
+	<bean name="/personAndOrganization/researchStaff/editResearchStaff"
+          id="editResearchStaffController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
+          autowire="byName" parent="createResearchStaffController">
     </bean>
     
 
@@ -599,7 +615,17 @@
                                                 <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                         autowire="byType"
                                                         p:displayName="Manage Investigator"
-                                                        p:linkName="searchInvestigatorController"/>
+                                                        p:linkName="searchInvestigatorController">
+														<property name="subTasks">
+								                        <list>
+															<bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Edit Investigator"
+								                                    p:linkName="editInvestigatorController">
+															</bean>
+								                        </list>
+								                    </property>
+												</bean>
                                                 <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                         autowire="byType"
                                                         p:displayName="Create Investigator"
@@ -622,7 +648,17 @@
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
                                                     p:displayName="Manage Research Staff"
-                                                    p:linkName="searchResearchStaffController"/>
+                                                    p:linkName="searchResearchStaffController">
+													<property name="subTasks">
+								                        <list>
+															<bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Edit Research Staff"
+								                                    p:linkName="editResearchStaffController">
+															</bean>
+								                        </list>
+								                    </property>
+											</bean>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
                                                     p:displayName="Create Research Staff"
@@ -640,7 +676,17 @@
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
                                                     p:displayName="Manage Organization"
-                                                    p:linkName="searchOrganizationController"/>
+                                                    p:linkName="searchOrganizationController">
+													<property name="subTasks">
+								                        <list>
+															<bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Edit Organization"
+								                                    p:linkName="editOrganizationController">
+															</bean>
+								                        </list>
+								                    </property>
+											</bean>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
                                                     p:displayName="Create Organization"

@@ -9,7 +9,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
 public class ResearchStaffLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_RSTAFF_URL= "createResearchStaff?emailId=";
+	public static final String VIEW_RSTAFF_URL= "editResearchStaff?emailId=";
     
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
