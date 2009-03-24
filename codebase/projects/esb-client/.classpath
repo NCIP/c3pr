@@ -38,9 +38,6 @@
 	<classpathentry kind="lib" path="build/lib/cagrid-ServiceSecurityProvider-common-1.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/cagrid-ServiceSecurityProvider-stubs-1.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/castor-0.9.9.jar"/>
-	<classpathentry kind="lib" path="build/lib/caXchangeRequestProcessor-client-1.0.jar"/>
-	<classpathentry kind="lib" path="build/lib/caXchangeRequestProcessor-common-1.0.jar"/>
-	<classpathentry kind="lib" path="build/lib/caXchangeRequestProcessor-stubs-1.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/clm-3.2.1-ctms00.jar"/>
 	<classpathentry kind="lib" path="build/lib/cog-axis-4.0.3-globus.jar"/>
 	<classpathentry kind="lib" path="build/lib/cog-jglobus-1.2.jar"/>
@@ -78,19 +75,11 @@
 	<classpathentry kind="lib" path="build/lib/logkit-1.0.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/puretls-4.0.3-globus.jar"/>
 	<classpathentry kind="lib" path="build/lib/saaj-4.0.3-globus.jar"/>
-	<classpathentry kind="lib" path="build/lib/servlet-api-2.3.jar"/>
 	<classpathentry kind="lib" path="build/lib/spring-2.0.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/spring-aop-2.0.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/spring-aspects-2.0.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/spring-beans-2.0.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/spring-context-2.0.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/spring-core-2.0.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/spring-dao-2.0.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/spring-jdbc-2.0.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/spring-remoting-2.0.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/spring-support-2.0.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/spring-web-2.0.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/spring-webmvc-2.0.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/wsrf-core-4.0-cagrid1.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/wsrf-core-stubs-4.0-cagrid1.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/wss4j-4.0-cagrid1.0.jar"/>
@@ -100,5 +89,10 @@
 	<classpathentry kind="lib" path="build/lib/geronimo-jms_1.1_spec-1.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/acegi-security-1.0.3.jar"/>
 	<classpathentry kind="lib" path="build/testlib/junit-3.8.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/servlet-api-2.4.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-core-0.8.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.2.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.2.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
