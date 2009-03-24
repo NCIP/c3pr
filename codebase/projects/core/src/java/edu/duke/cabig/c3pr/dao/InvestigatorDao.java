@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
 /**
@@ -275,5 +276,22 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
+	
+	/**
+     * This method queries the external system to fetch all the matching ResearchStaff
+     * @param researchStaff
+     * @return
+     */
+    public List<Investigator> getRemoteInvestigators(final Investigator investigator){
+    	Investigator searchCriteria = new RemoteInvestigator();
+    	searchCriteria.setFirstName(investigator.getFirstName());
+    	searchCriteria.setLastName(investigator.getLastName());
+    	ContactMechanism emailContactMechanism = new ContactMechanism();
+    	emailContactMechanism.setType(ContactMechanismType.EMAIL);
+    	emailContactMechanism.setValue(investigator.getEmailAsString());
+    	searchCriteria.addContactMechanism(emailContactMechanism);
+    	List<Investigator> remoteInvestigators = (List)remoteSession.find(searchCriteria); 
+    	return remoteInvestigators;
+    }
 
 }

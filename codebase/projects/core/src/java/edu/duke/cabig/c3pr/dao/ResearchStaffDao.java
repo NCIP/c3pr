@@ -588,5 +588,24 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
+	
+	/**
+     * This method queries the external system to fetch all the matching ResearchStaff
+     * @param researchStaff
+     * @return
+     */
+    public List<ResearchStaff> getRemoteResearchStaff(final ResearchStaff researchStaff){
+    	ResearchStaff searchCriteria = new RemoteResearchStaff();
+  //  	searchCriteria.setHealthcareSite(researchStaff.getHealthcareSite());
+    	searchCriteria.setFirstName(researchStaff.getFirstName());
+    	searchCriteria.setLastName(researchStaff.getLastName());
+    	ContactMechanism emailContactMechanism = new ContactMechanism();
+    	emailContactMechanism.setType(ContactMechanismType.EMAIL);
+    	emailContactMechanism.setValue(researchStaff.getEmailAsString());
+    	searchCriteria.addContactMechanism(emailContactMechanism);
+    	List<ResearchStaff> remoteResearchStaffs = (List)remoteSession.find(searchCriteria); 
+    	return remoteResearchStaffs;
+    }
+    
 
 }

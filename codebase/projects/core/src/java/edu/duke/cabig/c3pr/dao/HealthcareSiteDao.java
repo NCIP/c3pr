@@ -244,7 +244,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 			return CollectionUtils
 					.firstElement((List<HealthcareSite>) getHibernateTemplate()
 							.find(
-									"from LocalHealthcareSite h where h.nciInstituteCode = ?",
+									"from HealthcareSite h where h.nciInstituteCode = ?",
 									nciInstituteCode));
 		}
 
