@@ -560,7 +560,7 @@
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
                         autowire="byType" p:displayName="Person &amp; Organization"
-                        p:mainController="createParticipantController">
+                        p:mainController="searchParticipantController">
                     <property name="pathMapping" value="/personAndOrganization/**/**"/>
                     <property name="tasks">
                     	 <list>
@@ -570,24 +570,10 @@
                                     p:linkName="createParticipantController">
                                     <property name="subTasks">
 				                        <list>
-				                            <bean
-				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
-				                                    autowire="byType" p:displayName="Create Subject"
-				                                    p:linkName="createParticipantController">
-													<property name="subTasks">
-								                        <list>
-								                            <bean
-								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
-								                                    autowire="byType" p:displayName="Confirm Create Subject"
-								                                    p:linkName="confirmCreateParticipantController"/>
-								                        </list>
-								                    </property>								
-    										</bean>
 											<bean
 				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
 				                                    autowire="byType" p:displayName="Manage Subject"
 				                                    p:linkName="searchParticipantController">
-											
 													<property name="subTasks">
 								                        <list>
 								                            <bean
@@ -602,6 +588,19 @@
 								                        </list>
 								                    </property>
 											</bean>
+                							<bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Create Subject"
+				                                    p:linkName="createParticipantController">
+													<property name="subTasks">
+								                        <list>
+								                            <bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Confirm Create Subject"
+								                                    p:linkName="confirmCreateParticipantController"/>
+								                        </list>
+								                    </property>								
+    										</bean>
 				                        </list>
 				                    </property>
 				            </bean>
