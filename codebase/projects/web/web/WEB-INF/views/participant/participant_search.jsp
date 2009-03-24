@@ -49,9 +49,6 @@
 		                    <img id="search-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
 		                </div>
 		            </div>
-            		<!-- <div class="row" align="left">
-						<tags:button type="submit" icon="search" size="small" color="blue" value="Search"/>
-            		</div> -->
 				</div>
 		<!-- MAIN BODY ENDS HERE -->
 	</form:form>

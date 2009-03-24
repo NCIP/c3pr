@@ -177,7 +177,7 @@ top:83px;
 					
 				</div>
 		</chrome:division>
-		<chrome:division title="Assigned Identifier">
+		<chrome:division title="Primary Identifier">
 		<tags:errors path="primaryIdentifier"/>
          		<div id="mrnDetails">
 					 <div class="leftpanel">
@@ -193,7 +193,7 @@ top:83px;
 									<input type="hidden" id="mrnOrganization-hidden"
 										name="organizationAssignedIdentifiers[0].healthcareSite"
 										value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-									<input id="mrnOrganization-input" size="33" type="text"
+									<input id="mrnOrganization-input" size="28" type="text"
 									name="xyz"
 									value='<c:out value="${_name} ${_code}" />'
 									class="autocomplete validate-notEmpty" />
@@ -227,7 +227,7 @@ top:83px;
           		</div>
 		</chrome:division>
 		
-		<chrome:division title="Organization Assigned Identifiers">
+		<chrome:division title="Additional Organization Assigned Identifiers">
 		<tags:errors path="organizationAssignedIdentifiers"/>
 
 				<table id="organizationIdentifiersTable" border="0"
@@ -238,7 +238,6 @@ top:83px;
 						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/>
 						</span><tags:hoverHint keyProp="identifier.type"/></th>
 						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></span><tags:hoverHint keyProp="identifier.value"/></th>
-						<th><span><fmt:message key="c3pr.common.primaryIndicator"/></span><tags:hoverHint keyProp="identifier.primary"/></th>
 						<th ></th>
 					</tr>
 					<c:forEach items="${command.organizationAssignedIdentifiers}" begin="1"
@@ -271,9 +270,6 @@ top:83px;
 							<td class="alt"><form:input
 								path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
 								cssClass="validate-notEmpty" /></td>
-							<td><input type="radio"	id="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator-radio"
-							value="${command.organizationAssignedIdentifiers[organizationStatus.index].primaryIndicator}" class="identifierRadios" onClick="manageIdentifierRadio(this);"/>
-							<form:hidden path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
 							<td class="alt"><a
 								href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgId.id==null?'HC#':'ID#'}${orgId.id==null?orgId.hashCode:orgId.id}');"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -293,7 +289,6 @@ top:83px;
 							class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.systemName"/></span><tags:hoverHint keyProp="identifier.systemName"/></th>
 						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></span><tags:hoverHint id="1" keyProp="identifier.type"/></th>
 						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></span><tags:hoverHint id="2" keyProp="identifier.value"/></th>
-						<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint id="3" keyProp="identifier.primary"/></th>
 						<th></th>
 					</tr>
 					<c:forEach items="${command.systemAssignedIdentifiers}"
@@ -312,9 +307,6 @@ top:83px;
 							<td class="alt"><form:input
 								path="systemAssignedIdentifiers[${status.index}].value"
 								cssClass="validate-notEmpty" /></td>
-							<td><input type="radio"	id="systemAssignedIdentifiers[${status.index}].primaryIndicator-radio"
-							value="${command.systemAssignedIdentifiers[status.index].primaryIndicator}" class="identifierRadios" onClick="manageIdentifierRadio(this);"/>
-							<form:hidden path="systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
 							<td class="alt"><a
 								href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},'${sysId.id==null?'HC#':'ID#'}${sysId.id==null?sysId.hashCode:sysId.id}');"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -356,9 +348,6 @@ top:83px;
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
 			onfocus="javascript:clearField(this)" class="validate-notEmpty" /></td>
-		<td><input type="radio"	id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio"
-			value="false" class="identifierRadios" onClick="manageIdentifierRadio(this);"/>
-			<input type="hidden" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -395,9 +384,6 @@ top:83px;
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
 			onfocus="javascript:clearField(this)" class="validate-notEmpty" /></td>
-		<td><input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio"
-			value="false" class="identifierRadios" onClick="manageIdentifierRadio(this);"/>
-			<input type="hidden" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>

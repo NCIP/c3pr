@@ -26,7 +26,7 @@ function updateTargetPage(target){
 	<input type="hidden" name="_finish" value="true"/>
     <tags:instructions code="participant_submit" />
 		<div><input type="hidden" name="_finish" value="true" /></div>
-<chrome:division id="subject-details" title="Basic Details" link="javascript:document.getElementById('flowredirect-target').name='_target0';document.getElementById('flowredirect').submit()">
+		<chrome:division id="subject-details" title="Basic Details" link="javascript:document.getElementById('flowredirect-target').name='_target0';document.getElementById('flowredirect').submit()">
 			<div class="leftpanel">
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
@@ -73,6 +73,31 @@ function updateTargetPage(target){
 				</div>
 			</div>
 		</chrome:division>
+		<chrome:division title="Identifiers"  link="javascript:document.getElementById('flowredirect-target').name='_target0';document.getElementById('flowredirect').submit()">
+		    <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+	        <tr>
+	            <th><fmt:message key="c3pr.common.assigningAuthority"/></th>
+	            <th><fmt:message key="c3pr.common.identifierType"/></th>
+	            <th><fmt:message key="c3pr.common.identifier"/></th>
+	            <th></th>
+	        </tr>
+	        <c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
+	                  varStatus="organizationStatus">
+	            <tr>
+	                <td>${orgIdentifier.healthcareSite.name}</td>
+	                <td>${orgIdentifier.type}</td>
+	                <td>${orgIdentifier.value}</td>
+	            </tr>
+	        </c:forEach>
+	        <c:forEach items="${command.systemAssignedIdentifiers}" varStatus="status" var="sysIdentifier">
+	            <tr>
+	                <td>${sysIdentifier.systemName}</td>
+	                <td>${sysIdentifier.type}</td>
+	                <td>${sysIdentifier.value}</td>
+	            </tr>
+	        </c:forEach>
+	    </table>
+		</chrome:division>
 		<chrome:division title="Address" link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit()">
 			<c:choose>
 			<c:when test="${command.address.addressString != ''}">
@@ -107,79 +132,33 @@ function updateTargetPage(target){
 			</c:choose>
 			
 		</chrome:division>
-		<chrome:division title="Contact Information"  link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit()">
-			<div id="noContactMechanism" class="value"><span class="no-selection"><fmt:message key="c3pr.common.contactInfoNotProvided"/></span></div>
-			<table id='contactMechanism' class="tablecontent" width="60%" style="display:none">
-				<tr>
-					<th width="40%" scope="col" align="left"><fmt:message key="c3pr.common.email"/></th>
-					<th width="30%" scope="col" align="left"><fmt:message key="c3pr.common.phone"/></th>
-					<th width="30%" scope="col" align="left"><fmt:message key="c3pr.common.fax"/></th>
-				</tr>
-				<tr class="results">
-					<c:forEach items="${command.contactMechanisms}"
-						var="contactMechanism">
-						<td class="alt" align="left">${contactMechanism.valueString}</td>
-						<c:if test="${contactMechanism.valueString != ''}">
-							<script>
-								Element.show('contactMechanism');
-								Element.hide('noContactMechanism');
-							</script>
-						</c:if>
-					</c:forEach>
-				</tr>
-			</table>
-		</chrome:division>
-		<chrome:division title="Identifiers"  link="javascript:document.getElementById('flowredirect-target').name='_target0';document.getElementById('flowredirect').submit()">
-			<h4><u><fmt:message key="c3pr.common.orgAssignedIdentifier"/></u></h4>
-			<br>
+		<chrome:division title="Contact Information" link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit()" condition="${flowType != 'VIEW_SUBJECT'}">
 			<c:choose>
-			<c:when test="${fn:length(command.organizationAssignedIdentifiers) > 0}">
-			<table class="tablecontent" width="60%">
-				<tr>
-					<th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
-					<th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
-					<th width="15%" scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
-				</tr>
-				<c:forEach items="${command.organizationAssignedIdentifiers}"
-					var="orgIdentifier">
-					<tr class="results">
-						<td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
-						<td class="alt" align="left">${orgIdentifier.type}</td>
-						<td class="alt" align="left">${orgIdentifier.value}</td>
-					</tr>
-				</c:forEach>
-			</table>
+			<c:when test="${fn:length(command.contactMechanisms) == 0 || (command.contactMechanisms[0].valueString == '' && command.contactMechanisms[1].valueString == '' && command.contactMechanisms[2].valueString == '') }">
+				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.contactInfoNotProvided"/></span></div>				
 			</c:when>
 			<c:otherwise>
-				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.orgAssignedIdentifierNotSpecified"/></span></div>
-			</c:otherwise>
-			</c:choose>
-			<br>
-			<h4><u><fmt:message key="c3pr.common.systemAssignedIdentifier"/></u></h4>
-			<br>
-			<c:choose>
-			<c:when test="${fn:length(command.systemAssignedIdentifiers) > 0}">
-			<table class="tablecontent" width="60%">
-				<tr>
-					<th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.systemName"/></th>
-					<th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
-					<th width="15%" scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
-				</tr>
-				<c:forEach items="${command.systemAssignedIdentifiers}"
-					var="identifier">
-					<tr class="results">
-						<td class="alt" align="left">${identifier.systemName}</td>
-						<td class="alt" align="left">${identifier.type}</td>
-						<td class="alt" align="left">${identifier.value}</td>
-					</tr>
-				</c:forEach>
-			</table>
-			</c:when>
-			<c:otherwise>
-				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.systemAssignedIdentifierNotSpecified"/></span></div>
+				<div class="leftpanel">
+					<div class="row">
+						<div class="label"><fmt:message key="c3pr.common.email"/>:</div>
+						<tags:value value="${command.contactMechanisms[0].valueString}" ></tags:value>
+					</div>
+					<div class="row">
+						<div class="label"><fmt:message key="c3pr.common.phone"/>:</div>
+						<tags:value value="${command.contactMechanisms[1].valueString}" ></tags:value>
+					</div>
+				</div>
+				<div class="rightpanel">
+					<div class="row">
+						<div class="label"><fmt:message key="c3pr.common.fax"/>:</div>
+						<tags:value value="${command.contactMechanisms[2].valueString}" ></tags:value>
+					</div>
+				</div>
 			</c:otherwise>
 			</c:choose>
 		</chrome:division>
+		<br>
+		<div class="division"></div>
 </div>
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}">
 	<jsp:attribute name="submitButton">

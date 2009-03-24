@@ -8,7 +8,8 @@
 <%@attribute name="cssClass" %>
 <%@attribute name="style" %>
 <%@attribute name="link" %>
-
+<%@attribute name="condition"%>
+<c:set var="condition" value="${empty condition ? true : condition}"/>
 
 <div class="division ${cssClass}"<tags:attribute name="id" value="${id}"/><tags:attribute name="style" value="${style}"/>>
 <c:choose>
@@ -37,14 +38,16 @@
 </script>
             <h3><a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />" alt="Maximize" style="vertical-align:middle" /></a> 
             
-            <c:if test="${!empty link}">
-            	<a href="${link}">
+            <c:choose>
+            	<c:when test="${!empty link && condition}">
+            		<a href="${link}">
           			 ${title} 
           		 </a>
-           	</c:if>
-           	<c:if test="${empty link}">
-            	${title} 
-           	</c:if>
+            	</c:when>
+            	<c:otherwise>
+            		${title} 
+            	</c:otherwise>
+            </c:choose>
              <c:if test="${!empty link}">
             	<a href="${link}"> <img src="<chrome:imageUrl name="../../templates/mocha/images/controlPanel/controlPanel_pencil.png" />"></a>
             </c:if>
@@ -54,15 +57,18 @@
     </c:when>
     <c:otherwise>
         <c:if test="${not empty title}">
-            <h3><c:if test="${!empty link}">
-            	<a href="${link}">
+            <h3>
+             <c:choose>
+            	<c:when test="${!empty link && condition}">
+            		<a href="${link}">
           			 ${title} 
           		 </a>
-           	</c:if>
-           	<c:if test="${empty link}">
-            	${title} 
-           	</c:if>
-           	 <c:if test="${!empty link}">
+            	</c:when>
+            	<c:otherwise>
+            		${title} 
+            	</c:otherwise>
+            </c:choose>
+           	 <c:if test="${!empty link && condition}">
             	<a href="${link}"> <img src="<chrome:imageUrl name="../../templates/mocha/images/controlPanel/controlPanel_pencil.png" />"></a>
             </c:if>
             </h3>
