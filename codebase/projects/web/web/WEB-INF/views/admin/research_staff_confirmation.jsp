@@ -11,7 +11,7 @@
 <div id="controlPanel">
 			<tags:controlPanel>
 				<tags:oneControlPanelItem linkhref="javascript:document.location='editResearchStaff?emailId=${command.contactMechanisms[0].value}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
-				<tags:oneControlPanelItem linkhref="javascript:document.location='createResearchStaff';" imgsrc="/c3pr/images/controlPanel/controlPanel_searchResearchStaffController.png" linktext="Create research staff" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='createResearchStaff';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchResearchStaffController.png" linktext="Create research staff" />
 			</tags:controlPanel>
 		</div>
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name='check.png'/>" alt="" style="vertical-align:top;" /> 
