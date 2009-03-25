@@ -130,8 +130,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<entry key="/pages/study/searchStudy"
 			value="edu.duke.cabig.c3pr.domain.Study:READ" />
 		<entry
-			key="/pages/personAndOrganization/participant/createParticipant"
-			value="edu.duke.cabig.c3pr.domain.Participant:CREATE" />
+			key="/pages/personAndOrganization/participant/searchParticipant"
+			value="edu.duke.cabig.c3pr.domain.Participant:READ" />
 		<entry
 			key="/pages/personAndOrganization/participant/confirmCreateParticipant"
 			value="edu.duke.cabig.c3pr.domain.Participant:CREATE" />
