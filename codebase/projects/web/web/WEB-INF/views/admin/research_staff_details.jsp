@@ -316,7 +316,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="30" path="emailAsString" cssClass="validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
+							<form:input size="30" path="contactMechanisms[0].value" cssClass="validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -338,7 +338,7 @@
 					<c:otherwise>
 						<div class="value">
 							<form:input size="25"
-                            path="phoneAsString" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.phone"/>
+                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.phone"/>
 						  </div>
 					</c:otherwise>
 			</c:choose>
@@ -360,15 +360,13 @@
 					<c:otherwise>
 						<div class="value">
 							 <form:input size="25"
-                            path="faxAsString" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.fax"/>
+                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.fax"/>
 						  </div>
 					</c:otherwise>
 			</c:choose>
         </div>
     </div>
 </chrome:division>
-
-
 <chrome:division id="staff-details" title="* User Role (At least one required- Check all that apply)">
 	<div id="errorMsg1" style="display:none">
 		<span id='sid1' style='color:#EE3324'>Please select atleast one role.</span><br/> 	
@@ -381,7 +379,7 @@
                         ${group.displayName}
                 </div>
                 <div class="value">
-                    <form:checkbox id="groups_${status.index}" path="groups" value="${group}" />
+                    <form:checkbox id="groups_${status.index}" path="groups" value="${group}" disabled="${fn:contains(group.displayName,'admin') && !isAdmin}" />
                 </div>
             </div>
         </c:forEach>
