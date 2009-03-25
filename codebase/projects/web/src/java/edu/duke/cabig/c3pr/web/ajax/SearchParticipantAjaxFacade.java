@@ -64,8 +64,8 @@ public class SearchParticipantAjaxFacade {
         model.addColumn(primaryIdentifier);
         
         Column gender = model.getColumnInstance();
-        gender.setTitle("Parimary identifier");
-        gender.setProperty("primaryIdentifier");
+        gender.setTitle("Gender");
+        gender.setProperty("administrativeGenderCode");
         model.addColumn(gender);
         
         Column races = model.getColumnInstance();
