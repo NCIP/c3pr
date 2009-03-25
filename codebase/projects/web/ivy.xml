@@ -123,7 +123,8 @@
 			<dependency org="dbunit" name="dbunit" rev="2.1" conf="build->default;test->default"/>
 						
 			<!-- Test only dependencies -->
-			<dependency org="org.springframework" name="spring-mock" rev="2.0.2" force="true" conf="test->default" />        	
+			<dependency org="org.springframework" name="spring-mock" rev="2.0.2" force="true" conf="test->default" />
+			<dependency org="org.springframework" name="spring" rev="2.0.7" force="true" conf="test->default" />        	
         	<dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default" />
         	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
         	<dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
