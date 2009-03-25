@@ -479,7 +479,7 @@
 	                        target : autoBuild-selenium
 	                        This will build and run selenium test cases
 	    =============================================================-->
-	    <target name="autoBuild-selenium" description="build and run selenium test cases">
+	    <target name="autoBuild-selenium" depends="resolve" description="build and run selenium test cases">
 
 	        <subant target="selenium-test" buildpath="${projects.dir}/web/ivy-build.xml"/>
 
