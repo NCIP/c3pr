@@ -16,16 +16,17 @@ top:83px;
 </style>
 </head>
 <body>
+<c:if test="${flowType == 'VIEW_SUBJECT'}">
 <div id="controlPanel">
-	<c:if test="${flowType == 'VIEW_SUBJECT'}">
+	
 		<tags:controlPanel>
 			<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 				<tags:oneControlPanelItem linkhref="javascript:editParticipant();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 			</csmauthz:accesscontrol>
 			<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 		</tags:controlPanel>
-	</c:if>
 </div>
+</c:if>
 <form:form>
 	<tags:tabFields tab="${tab}" />
 	<tags:errors path="*"/> 
@@ -166,7 +167,11 @@ top:83px;
 		<div class="division"></div>
         </div>
 	</div>	
-	
+	<!-- 
+	<c:if test="${flowType != 'VIEW_SUBJECT'}">
+		<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" isLast="true" isSummaryPage="true" />
+	</c:if>
+	 -->
 </form:form>
 </body>
 </html>
