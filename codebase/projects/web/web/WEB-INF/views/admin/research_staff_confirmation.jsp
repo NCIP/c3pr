@@ -40,6 +40,14 @@
 								<div class="label"><fmt:message key="c3pr.common.email"/>:</div>
 								<div class="value">${command.contactMechanisms[0].value}</div>
 							</div>
+							<div class="row">
+								<div class="label"><fmt:message key="c3pr.common.role"/>(s):</div>
+								<div class="value">
+									<c:forEach items="${command.groups}" var="group">
+										${group.displayName} <br>
+									</c:forEach>
+								</div>
+							</div>
                     </div>
 </chrome:box>
 </div>
