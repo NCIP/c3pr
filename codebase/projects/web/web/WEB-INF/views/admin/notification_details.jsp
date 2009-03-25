@@ -417,13 +417,13 @@
 		    
 		    
 		    <table>     
-		        <tr><td width="32%" align="center" colspan="1"><tags:button type="button" color="orange" icon="add" value="Add Email/Name" 
+		        <tr><td width="32%" align="center" colspan="1"><tags:button type="button" color="blue" icon="add" value="Add Email/Name" 
 								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/></td>
 					<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-			        <td width="32%" align="center" colspan="1"><tags:button type="button" color="orange" icon="add" value="Add Role" 
+			        <td width="32%" align="center" colspan="1"><tags:button type="button" color="blue" icon="add" value="Add Role" 
 								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/></td>
 					<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-					<td width="32%" align="center" colspan="1"><tags:button type="button" color="orange" icon="add" value="Add Contact" 
+					<td width="32%" align="center" colspan="1"><tags:button type="button" color="blue" icon="add" value="Add Contact" 
 								onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/></td>
 			     </tr>
 			     <tr><td align="center" colspan="1">
@@ -594,13 +594,13 @@
 		    
 	<table width="100%"> 
 			<tr>
-				<td width="32%" align="center" colspan="1"><span style="width:40" ><tags:button type="button" color="orange" icon="add" value="Add Email/Name" 
+				<td width="32%" align="center" colspan="1"><span style="width:40" ><tags:button type="button" color="blue" icon="add" value="Add Email/Name" 
 								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/></span></td>
 				<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-		        <td width="32%" align="center" colspan="1"><tags:button type="button" color="orange" icon="add" value="Add Role" 
+		        <td width="32%" align="center" colspan="1"><tags:button type="button" color="blue" icon="add" value="Add Role" 
 								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/></td>
 				<td colspan="1" width="2%" class="divider" rowspan="2"></td>
-				<td width="32%" align="center" colspan="1"><tags:button type="button" color="orange" icon="add" value="Add Contact" 
+				<td width="32%" align="center" colspan="1"><tags:button type="button" color="blue" icon="add" value="Add Contact" 
 								onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/></td>
 		    </tr>
 		    
