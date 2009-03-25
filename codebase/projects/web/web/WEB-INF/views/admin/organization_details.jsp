@@ -167,58 +167,54 @@
 	        </c:if>
         </div>
     </div>
-    
-    <div class="row">
-        <div class="label">
-            <fmt:message key="organization.advancedProperty"/>
-        </div>
-        <div class="value">
-	        <input type="checkbox" id="advance" name="setAdvancedProperty" onChange="new Effect.Combo('multisite-config');">
-        </div>
-    </div>
-    
     </chrome:division>
 
-    <chrome:division id="multisite-config" title="Multisite configuration">
-    <div class="leftpanel">
-        <div class="row">
-            <div class="label"><tags:requiredIndicator />
-                <fmt:message key="organization.studyServiceURL"/>
-            </div>
-            <div class="value">
-                <input type="text" size="60" id="studyServiceURL" name="studyServiceURL" value="${command.hasEndpointProperty?command.studyEndPointProperty.url:''}" class="validate-notEmpty"/>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="label"><tags:requiredIndicator />
-                <fmt:message key="organization.registrationServiceURL"/>
-            </div>
-            <div class="value">
-                <input type="text" size="60" id="registrationServiceURL" name="registrationServiceURL" value="${command.hasEndpointProperty?command.registrationEndPointProperty.url:''}" class="validate-notEmpty"/>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="label">
-                <fmt:message key="organization.authenticationRequired"/>
-            </div>
-            <div class="value">
-                <input type="checkbox" id="authenticationRequired" name="authenticationRequired"/>
-            </div>
-        </div>
+    <chrome:division id="multisite-config" title="Multisite Configuration" minimize="true" divIdToBeMinimized="multisiteConfig">
+    <div id="multisiteConfig" style="display:none">
+	    <div class="leftpanel">
+	    	<div class="row">
+		        <div class="label">
+		            <fmt:message key="organization.advancedProperty"/>
+		        </div>
+		        <div class="value">
+			        <input type="checkbox" id="advance" name="setAdvancedProperty">
+		        </div>
+	    	</div>
+	        <div class="row">
+	            <div class="label"><tags:requiredIndicator />
+	                <fmt:message key="organization.studyServiceURL"/>
+	            </div>
+	            <div class="value">
+	                <input type="text" size="60" id="studyServiceURL" name="studyServiceURL" value="${command.hasEndpointProperty?command.studyEndPointProperty.url:''}" />
+	            </div>
+	        </div>
+	
+	        <div class="row">
+	            <div class="label"><tags:requiredIndicator />
+	                <fmt:message key="organization.registrationServiceURL"/>
+	            </div>
+	            <div class="value">
+	                <input type="text" size="60" id="registrationServiceURL" name="registrationServiceURL" value="${command.hasEndpointProperty?command.registrationEndPointProperty.url:''}" />
+	            </div>
+	        </div>
+	
+	        <div class="row">
+	            <div class="label">
+	                <fmt:message key="organization.authenticationRequired"/>
+	            </div>
+	            <div class="value">
+	                <input type="checkbox" id="authenticationRequired" name="authenticationRequired"/>
+	            </div>
+	        </div>
+	    </div>
     </div>
     </chrome:division>
     <script>
-    <c:choose>
-	<c:when test="${command.hasEndpointProperty}">
+	<c:if test="${command.hasEndpointProperty}">
        $('advance').checked=true;
        <c:if test="${command.endPointAuthenticationRequired}">$('authenticationRequired').checked=true;</c:if>
-    </c:when>
-    <c:otherwise>
-    	new Element.hide('multisite-config');
-    </c:otherwise>
-    </c:choose>
+       Element.show('multisiteConfig');
+    </c:if>
     </script>
     <chrome:division id="address" title="Address">
     <div class="leftpanel">
