@@ -78,7 +78,6 @@ Event.observe(window, "load", function(){
 });
 
 function submitRemoteRsForSave(){
-	alert("submitting");
 	var form = document.getElementById('command');
 	form._action.value="saveRemoteInvestigator";
 	form.submit();
