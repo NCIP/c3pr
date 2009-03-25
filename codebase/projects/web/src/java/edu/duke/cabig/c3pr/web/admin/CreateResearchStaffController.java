@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
@@ -107,6 +108,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     protected Map<String, Object> referenceData(HttpServletRequest request) {
         Map<String, Object> model = super.referenceData(request);
         model.put("groups", C3PRUserGroupType.values());
+        model.put("isAdmin", CommonUtils.isAdmin());
         return model;
     }
     
