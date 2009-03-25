@@ -51,6 +51,27 @@
             $('tableDiv').innerHTML=table;
             $('search-indicator').style.display="none";
         }
+
+        function catchKey(e){
+        	var evt=(e)?e:(window.event)?window.event:null;
+        	if(evt){  
+            	if (evt.keyCode == 13) {
+            		var idElement ;
+            		if(is_ie){
+						idElement = evt.srcElement.id 
+                	}else{
+                		idElement = evt.target.id
+                	}
+                    if ( idElement == "nciIdentifier" || idElement == "firstName" || idElement == "lastName" ){
+                    	$('search-indicator').style.display=''
+                    	buildTable('searchForm');
+                    }
+                    return false;
+                
+            	}
+        	}
+          }
+        document.onkeypress = catchKey;
     </script>
 </head>
 <!-- MAIN BODY STARTS HERE -->

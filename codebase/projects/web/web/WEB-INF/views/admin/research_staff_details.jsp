@@ -282,7 +282,10 @@
 					</c:otherwise>
 				</c:choose>
         	</div>
-        <div class="row">
+		</div>
+
+    <div class="rightpanel">
+    	<div class="row">
             <div class="label"><tags:requiredIndicator />
                 <fmt:message key="c3pr.common.NCIIdentifier"/></div>
             
@@ -297,18 +300,14 @@
 					</c:otherwise>
 				</c:choose>
         </div>
-		</div>
-
-    <div class="rightpanel">
 		<div class="row">
-            <div class="label"><tags:requiredIndicator />
-                    ${command.contactMechanisms[0].type.displayName} (Username)
+            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /> (Username)
             </div>
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
 						<c:choose>
-							<c:when test="${!empty command.contactMechanisms[0].value}">
-								<div class="value">${command.contactMechanisms[0].value}</div>
+							<c:when test="${!empty command.emailAsString}">
+								<div class="value">${command.emailAsString}</div>
 							</c:when>
 							<c:otherwise>
 								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
@@ -317,20 +316,19 @@
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="30" path="contactMechanisms[0].value" cssClass="validate-notEmpty&&EMAIL" />
+							<form:input size="30" path="emailAsString" cssClass="validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
 						  </div>
 					</c:otherwise>
 				</c:choose>
        	 </div>
         <div class="row">
-            <div class="label">
-                    ${command.contactMechanisms[1].type.displayName}
+            <div class="label"><fmt:message key="c3pr.common.phone" /> 
             </div>
 			<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
 						<c:choose>
-							<c:when test="${!empty command.contactMechanisms[1].value}">
-								<div class="value">${command.contactMechanisms[1].value}</div>
+							<c:when test="${!empty command.phoneAsString}">
+								<div class="value">${command.phoneAsString}</div>
 							</c:when>
 							<c:otherwise>
 								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
@@ -340,20 +338,19 @@
 					<c:otherwise>
 						<div class="value">
 							<form:input size="25"
-                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO" /> &nbsp;&nbsp;&nbsp;&nbsp; 7035600296 or 703-560-0296
+                            path="phoneAsString" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.phone"/>
 						  </div>
 					</c:otherwise>
 			</c:choose>
         </div>
         <div class="row">
-            <div class="label">
-					${command.contactMechanisms[2].type.displayName}
+            <div class="label"><fmt:message key="c3pr.common.fax" /> 
             </div>
 			<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
 						<c:choose>
-							<c:when test="${!empty command.contactMechanisms[2].value}">
-								<div class="value">${command.contactMechanisms[2].value}</div>
+							<c:when test="${!empty command.faxAsString}">
+								<div class="value">${command.faxAsString}</div>
 							</c:when>
 							<c:otherwise>
 								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
@@ -363,7 +360,7 @@
 					<c:otherwise>
 						<div class="value">
 							 <form:input size="25"
-                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" />  &nbsp;&nbsp;&nbsp;&nbsp; 7035600296 or 703-560-0296
+                            path="faxAsString" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.fax"/>
 						  </div>
 					</c:otherwise>
 			</c:choose>

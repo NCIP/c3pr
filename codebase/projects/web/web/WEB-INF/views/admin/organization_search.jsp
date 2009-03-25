@@ -36,6 +36,7 @@
                 		idElement = evt.target.id
                 	}
                     if ( idElement == "nciIdentifier" || idElement == "name") {
+                    	$('search-indicator').style.display=''
                     	buildTable('searchForm');
                     }
                     return false;
