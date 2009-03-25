@@ -26,6 +26,26 @@
 	       document.getElementById('tableDiv').innerHTML=table;
 	   }
 
+	   function catchKey(e){
+       	var evt=(e)?e:(window.event)?window.event:null;
+       	if(evt){  
+           	if (evt.keyCode == 13) {
+           		var idElement ;
+           		if(is_ie){
+						idElement = evt.srcElement.id 
+               	}else{
+               		idElement = evt.target.id
+               	}
+                   if (  idElement == "searchText" ){
+                   	$('search-indicator').style.display=''
+                   	buildTable('searchForm');
+                   }
+                   return false;
+               
+           	}
+       	}
+         }
+       document.onkeypress = catchKey;
    </script>
 </head>
 <body>
