@@ -325,7 +325,7 @@ function syncResearchStaff(){
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="30" path="emailAsString" cssClass="validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
+							<form:input size="30" path="contactMechanisms[0].value" cssClass="validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -347,7 +347,7 @@ function syncResearchStaff(){
 					<c:otherwise>
 						<div class="value">
 							<form:input size="25"
-                            path="phoneAsString" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.phone"/>
+                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.phone"/>
 						  </div>
 					</c:otherwise>
 			</c:choose>
@@ -369,7 +369,7 @@ function syncResearchStaff(){
 					<c:otherwise>
 						<div class="value">
 							 <form:input size="25"
-                            path="faxAsString" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.fax"/>
+                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.fax"/>
 						  </div>
 					</c:otherwise>
 			</c:choose>
