@@ -192,7 +192,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 	 * 
 	 * @param retrievedRemoteInvestigator
 	 */
-	private void buildAndSaveNewRemoteInvestigator(RemoteInvestigator retrievedRemoteInvestigator) {
+	public void buildAndSaveNewRemoteInvestigator(RemoteInvestigator retrievedRemoteInvestigator) {
 		HealthcareSite healthcareSite = null;
 		String nciInstituteCode = "";
 		
