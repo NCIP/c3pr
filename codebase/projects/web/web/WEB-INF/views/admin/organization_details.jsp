@@ -65,8 +65,16 @@
 <body>
 
 <div id="main">
+<c:choose>
+	<c:when test="${command.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+		<c:set var="imageStr" value="&nbsp;<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='22' height='21' border='0' align='middle'/>"/>
+	</c:when>
+	<c:otherwise>
+		<c:set var="imageStr" value=""/>
+	</c:otherwise>
+</c:choose>
 
-<tags:tabForm tab="${tab}" flow="${flow}" title="Organization" formName="createOrganization">
+<tags:tabForm tab="${tab}" flow="${flow}" title="Organization" formName="createOrganization" htmlContent="${imageStr }">
 
 <jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true">
