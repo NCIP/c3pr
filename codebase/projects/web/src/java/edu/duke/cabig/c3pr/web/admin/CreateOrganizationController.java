@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
+import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 
 /*
@@ -117,20 +118,11 @@ public class CreateOrganizationController extends SimpleFormController {
             return new ModelAndView(getFormView());
         }
         
-        
         if(!errors.hasErrors()){
-			if ("saveRemoteOrg".equals(request.getParameter("_action"))) {
-				RemoteHealthcareSite remoteHealthcareSiteToSave;
-				remoteHealthcareSiteToSave = (RemoteHealthcareSite) organization
-						.getExternalOrganizations().get(
-								Integer.parseInt(request
-										.getParameter("_selected")));
-				organization.setName(remoteHealthcareSiteToSave.getName());
-				/*organization.setNciInstituteCode(remoteHealthcareSiteToSave
-						.getNciInstituteCode());*/
-				organization.setDescriptionText(remoteHealthcareSiteToSave
-						.getDescriptionText());
-			}
+        	
+        	  RemoteHealthcareSite remoteHealthcareSiteSelected = new RemoteHealthcareSite();
+              boolean saveExternalHealthcareSite = false;
+              
 			if (WebUtils.hasSubmitParameter(request, "setAdvancedProperty")
 					&& request.getParameter("setAdvancedProperty")
 							.equalsIgnoreCase("ON")) {
@@ -150,12 +142,21 @@ public class CreateOrganizationController extends SimpleFormController {
 					organization.setEndPointAuthenticationRequired(false);
 			}
 			if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
-				organizationService.save(organization);
+				if ("saveRemoteOrg".equals(request.getParameter("_action"))) {
+					saveExternalHealthcareSite = true;
+					remoteHealthcareSiteSelected = (RemoteHealthcareSite) organization
+							.getExternalOrganizations().get(
+									Integer.parseInt(request
+											.getParameter("_selected")));
+					organizationService.save(remoteHealthcareSiteSelected);
+				}else{
+					organizationService.save(organization);
+				}
 			} else {
 				organizationService.merge(organization);
 			}
 			Map map = errors.getModel();
-	        map.put("command", organization);
+	        map.put("command", saveExternalHealthcareSite?remoteHealthcareSiteSelected:organization);
 	        ModelAndView mv = new ModelAndView(getSuccessView(),map);
 	        return mv;
 		} 

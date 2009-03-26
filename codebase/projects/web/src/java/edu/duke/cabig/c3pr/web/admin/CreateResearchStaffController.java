@@ -13,11 +13,14 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -42,7 +45,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     private String FLOW = "FLOW";
 
     private Logger log = Logger.getLogger(CreateResearchStaffController.class);
-
+    
     public CreateResearchStaffController() {
     }
 
@@ -160,33 +163,32 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
                     HttpServletResponse response, Object command, BindException errors)
                     throws Exception {
         ResearchStaff researchStaff = (ResearchStaff) command;
-
-        Iterator<ContactMechanism> cMIterator = researchStaff.getContactMechanisms().iterator();
-        while (cMIterator.hasNext()) {
-            ContactMechanism contactMechanism = cMIterator.next();
-            if (StringUtils.isBlank(contactMechanism.getValue())) cMIterator.remove();
-        }
+        
+        RemoteResearchStaff remoteRStaffSelected = null;
+        boolean saveExternalResearchStaff = false;
 
         try {
             if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
             	
-            	if("saveRemoteRs".equals(request.getParameter("_action"))){
+            	if("saveRemoteRStaff".equals(request.getParameter("_action"))){
+            		saveExternalResearchStaff = true;
+            		remoteRStaffSelected = (RemoteResearchStaff)researchStaff.getExternalResearchStaff().get(Integer.parseInt(request.getParameter("_selected")));
             		
-            		ResearchStaff remoteRStoSave = researchStaff.getExternalResearchStaff().get(Integer.parseInt(request.getParameter("_selected")));
-            		remoteRStoSave.setHealthcareSite(researchStaff.getHealthcareSite());
-            		
-            		remoteRStoSave.setFirstName(researchStaff.getFirstName());
-            		remoteRStoSave.setLastName(researchStaff.getLastFirst());
-            		
-            	//	remoteRStoSave.setEmail(researchStaff.getEmailAsString());
-            		remoteRStoSave.setPhone(researchStaff.getPhoneAsString());
-            		remoteRStoSave.setFax(researchStaff.getFaxAsString());
-            		
-            		personnelService.save(remoteRStoSave);
-            	}else {
-            		 personnelService.save(researchStaff);
+            		if(remoteRStaffSelected.getHealthcareSite() != null){
+            			//get the corresponding hcs from the dto object and save that organization and then save this staff
+            			HealthcareSite matchingHealthcareSiteFromDb = getHealthcareSiteDao().getByNciInstituteCode(remoteRStaffSelected.getHealthcareSite().getNciInstituteCode());
+            			if(matchingHealthcareSiteFromDb == null){
+            				getHealthcareSiteDao().save(remoteRStaffSelected.getHealthcareSite());
+            			} else{
+            				//we have the retrieved staff's Org in our db...link up with the same and persist
+            				remoteRStaffSelected.setHealthcareSite(matchingHealthcareSiteFromDb);
+            			}
+            			 personnelService.save(remoteRStaffSelected);
+            		}else{
+            			errors.reject("REMOTE_RS_ORG_NULL","There is no Organization associated with the external Research Staff");
+            		}
             	}
-               
+            		 personnelService.save(researchStaff);
             }
             else {
                 personnelService.merge(researchStaff);
@@ -207,7 +209,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         }
 
         Map map = errors.getModel();
-        map.put("command", researchStaff);
+        map.put("command", saveExternalResearchStaff?remoteRStaffSelected:researchStaff);
         String studyflow = request.getParameter("studyflow") ; 
         if(!StringUtils.isBlank(studyflow)){
         	map.put("studyflow", studyflow);

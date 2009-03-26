@@ -20,7 +20,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -107,7 +107,6 @@ public class CreateInvestigatorController<C extends Investigator> extends
     		if(!"saveRemoteInvestigator".equals(request.getParameter("_action"))){
     			List<Investigator> invFromDB = investigatorDao.getByEmailAddressFromLocal(investigator.getEmailAsString());
     			if(invFromDB != null && invFromDB.size()>0){
-    			//	errors.reject("INV_EXISTS","Investigator with Email " +investigator.getEmailAsString()+ " already exisits");
     				return;
     			}
         		List<Investigator> remoteInvestigators = investigatorDao.getRemoteInvestigators(investigator);
@@ -119,7 +118,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
         			}
         		}
         		if(matchingExternalInvestigatorPresent){
-        			errors.reject("REMOTE_INV_EXISTS","Investigator with Email " +investigator.getEmailAsString()+ " exisits in external system");
+        			errors.reject("REMOTE_INV_EXISTS","Investigator with email " +investigator.getEmailAsString()+ " exisits in external system");
         		}
         	}
         }
@@ -131,38 +130,25 @@ public class CreateInvestigatorController<C extends Investigator> extends
                     HttpServletResponse response, Object command, BindException errors)
                     throws Exception {
 
-        Investigator inv = (Investigator) command;
-
-        Iterator<ContactMechanism> cMIterator = inv.getContactMechanisms().iterator();
-        StringUtils strUtil = new StringUtils();
-        while (cMIterator.hasNext()) {
-            ContactMechanism contactMechanism = cMIterator.next();
-            if (strUtil.isBlank(contactMechanism.getValue())) cMIterator.remove();
-        }
+        Investigator investigator = (Investigator) command;
+        
+        RemoteInvestigator remoteInvSelected = null;
+        boolean saveExternalInvestigator = false;
 
         try {
             if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
-            	if("saveRemoteInv".equals(request.getParameter("_action"))){
+            	if("saveRemoteInvestigator".equals(request.getParameter("_action"))){
             		
-            		Investigator remoteInvtoSave = inv.getExternalInvestigators().get(Integer.parseInt(request.getParameter("_selected")));
-            		remoteInvtoSave.setHealthcareSiteInvestigators(inv.getHealthcareSiteInvestigators());
+            		saveExternalInvestigator = true;
             		
-            		remoteInvtoSave.setFirstName(inv.getFirstName());
-            		remoteInvtoSave.setLastName(inv.getLastFirst());
-            		
-            		
-            //		remoteInvtoSave.setEmail(inv.getEmailAsString());
-            		remoteInvtoSave.setPhone(inv.getPhoneAsString());
-            		remoteInvtoSave.setFax(inv.getFaxAsString());
-            		
-            		personnelService.save(remoteInvtoSave);
-            	}else {
-            		personnelService.save(inv);
-                }
-                
+            		remoteInvSelected = (RemoteInvestigator) investigator.getExternalInvestigators().get(Integer.parseInt(request.getParameter("_selected")));
+            		investigatorDao.buildAndSaveNewRemoteInvestigator(remoteInvSelected);
+            	} else{
+            		personnelService.save(investigator);
+            	}
             }
             else {
-                for (HealthcareSiteInvestigator hcsInv : inv.getHealthcareSiteInvestigators()) {
+                for (HealthcareSiteInvestigator hcsInv : investigator.getHealthcareSiteInvestigators()) {
                     if (hcsInv.getStatusCode() != null && !hcsInv.getStatusCode().equals("AC")) {
                         for (SiteInvestigatorGroupAffiliation sInvGrAff : hcsInv
                                         .getSiteInvestigatorGroupAffiliations()) {
@@ -174,7 +160,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
                     }
                 }
 
-                inv = personnelService.merge(inv);
+                investigator = personnelService.merge(investigator);
             }
 
         }
@@ -189,7 +175,9 @@ public class CreateInvestigatorController<C extends Investigator> extends
             }
         }
         Map map = errors.getModel();
-        map.put("command", inv);
+        
+        map.put("command", saveExternalInvestigator? remoteInvSelected:investigator); 
+       
         String studyflow = request.getParameter("studyflow");
         if(!StringUtils.isBlank(studyflow)){
         	map.put("studyflow", studyflow);
