@@ -57,7 +57,16 @@ public class StudyOverviewTab extends StudyTab {
             	study = studyRepository.openStudy(study.getIdentifiers());
             	request.setAttribute("studyMessage", "STUDY.OPENED_SUCCESSFULLY");
             }else if(request.getParameter("statusChange").equals("close")){
-                study = studyRepository.closeStudy(study.getIdentifiers());
+            	String closeStudyStatus=request.getParameter("closeStatus");
+            	if(closeStudyStatus.equals("Closed_To_Accrual_And_Treatment")){
+            		study = studyRepository.closeStudyToAccrualAndTreatment(study.getIdentifiers());
+            	}else if(closeStudyStatus.equals("Closed_To_Accrual")){
+            		study = studyRepository.closeStudy(study.getIdentifiers());
+            	}else if(closeStudyStatus.equals("Temporarily_Closed_To_Accrual_And_Treatment")){
+            		study = studyRepository.temporarilyCloseStudyToAccrualAndTreatment(study.getIdentifiers());
+            	}else if(closeStudyStatus.equals("Temporarily_Closed_To_Accrual")){
+            		study = studyRepository.temporarilyCloseStudy(study.getIdentifiers());
+            	}
                 request.setAttribute("studyMessage", "STUDY.CLOSED_SUCCESSFULLY");
             }
             wrapper.setStudy(study);

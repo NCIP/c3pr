@@ -51,6 +51,11 @@
         <tags:tabMethod method="reloadCompanion" divElement="'companionDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/>
         }
 
+		function closeStudy(closeStatus){
+			$('closeStatus').value=closeStatus;
+			changeStudyStatus('close');
+		}
+		
         function changeStudyStatus(status) {
 
         	if (${fn:length(errors)} > 0){
@@ -80,6 +85,7 @@
     <input type="hidden" name="_target${tab.number}" id="_target"/>
     <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
     <input type="hidden" name="statusChange" id="statusChange"/>
+    <input type="hidden" name="closeStatus" id="closeStatus"/>
 </form:form>
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
@@ -136,18 +142,9 @@
             </c:if>
             <c:if test="${coCenterStatus=='CLOSED_TO_ACCRUAL'}">
                 <c:set var="closed" value="Close"></c:set>
-                <c:set var="commanSepOptVal"
-                       value="[['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],
-                   		['Closed To Accrual','Closed To Accrual']]">
-                </c:set>
             </c:if>
             <c:if test="${coCenterStatus=='TEMPORARILY_CLOSED_TO_ACCRUAL'}">
-                <c:set var="closed" value="Close study"></c:set>
-                <c:set var="commanSepOptVal"
-                       value="[['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
-						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
-						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]">
-                </c:set>
+                <c:set var="closed" value="Temporarily_Close"></c:set>
             </c:if>
         </c:forEach>
         <%--<c:choose>
@@ -480,8 +477,20 @@
 							onclick="changeStudyStatus('readyToOpen')" size="small"/>
 	            </c:if>
 	            <c:if test="${!empty closed}">
-	            	<tags:button type="button" color="blue" value="${closed }" 
-							onclick="changeStudyStatus('close')" size="small"/>
+	            	<tags:button type="button" color="blue" value="Close Study"
+							onclick="Effect.SlideDown('close-choices')" size="small"/>
+					<div id="close-choices" class="autocomplete" style="display: none">
+						<ul>
+							<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="closeStudy('Closed_To_Accrual_And_Treatment')">Closed To Accrual And Treatment</li>
+							<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="closeStudy('Closed_To_Accrual')">Closed To Accrual</li>
+							<c:if test="${closed == 'Temporarily_Close'}">
+							<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="closeStudy('Temporarily_Closed_To_Accrual_And_Treatment')">Temporarily Closed To Accrual And Treatment</li>
+							<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="closeStudy('Temporarily_Closed_To_Accrual')">Temporarily Closed To Accrual</li>
+							</c:if>
+						</ul>
+						<div align="right"><tags:button type="button" color="red" value="Cancel" icon="x"
+							onclick="Effect.SlideUp('close-choices')" size="small"/></div>
+					</div>
 	            </c:if>
             </csmauthz:accesscontrol>
                 <c:choose>
