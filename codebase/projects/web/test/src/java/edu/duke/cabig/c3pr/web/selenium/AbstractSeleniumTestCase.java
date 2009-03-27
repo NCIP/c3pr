@@ -41,27 +41,15 @@ public class AbstractSeleniumTestCase extends SeleneseTestCase {
 			}
 	
 			try {
-				log
-						.debug("Initializing test version of deployed application context");
-				applicationContext = new ClassPathXmlApplicationContext(
-						getConfigLocations());
+				log.debug("Initializing test version of deployed application context");
+				applicationContext = new ClassPathXmlApplicationContext(getConfigLocations());
 	
-				/*
-				 * Resource resources[] = applicationContext.getResources("*");
-				 * for(int i=0;i<resources.length;i++){
-				 * System.out.println("\n "+
-				 * i+": "+resources[i].getDescription()); }
-				 * System.out.println("\n Printing classpath:\n"
-				 * +getClasspathString());
-				 */
 			} catch (RuntimeException e) {
 				acLoadFailure = e;
 				throw e;
 			}
 		} else if (acLoadFailure != null) {
-			throw new RuntimeException(
-					"Application context loading already failed.  Will not retry.  "
-							+ "Original cause attached.", acLoadFailure);
+			throw new RuntimeException("Application context loading already failed.  Will not retry. Original cause attached.", acLoadFailure);
 		}
 		return applicationContext;
 	}
