@@ -76,7 +76,7 @@ public class AbstractSeleniumTestCase extends SeleneseTestCase {
 				System.out.println("seleniumBrowser " + seleniumBrowser);
 				System.out.println("c3prURL " + c3prURL);
 				
-				selenium = new DefaultSelenium(seleniumServerURL,Integer.valueOf(seleniumServerPort), seleniumBrowser, c3prURL);
+				selenium = new DefaultSelenium(seleniumServerURL,Integer.parseInt(seleniumServerPort), seleniumBrowser, c3prURL);
 				selenium.start();
 				 ajaxWidgets= new AjaxWidgets(selenium);
 				selenium.setTimeout(waitTime);
