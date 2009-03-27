@@ -22,15 +22,6 @@
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
        xmlns:util="http://www.springframework.org/schema/util" default-lazy-init="true">
 
-<bean id="c3prPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="propertiesArray">
-            <list>
-                <ref bean="c3prPropertyConfigurerFromFile"/>
-            </list>
-        </property>
-        <property name="ignoreUnresolvablePlaceholders" value="true"/>
-        <property name="ignoreResourceNotFound" value="true"/>
-    </bean>
       <bean name="c3prPropertyConfigurerFromFile[selenium.base.url]"
           class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>      
           
@@ -48,19 +39,6 @@
           
     <bean name="c3prPropertyConfigurerFromFile[selenium.browser]"
           class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
-
-    <bean id="c3prPropertyConfigurerFromFile"
-          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="locations">
-            <list>
-            	<value>classpath:context/c3pr.properties</value>
-            	<value>classpath:context/datasource.properties</value>
-            	<value>file:@catalina.home@/conf/c3pr/c3pr.properties</value>
-            	<value>file:@catalina.home@/conf/c3pr/datasource.properties</value>
-            </list>
-        </property>
-        <property name="ignoreResourceNotFound" value="true"/>
-    </bean>
 
 <bean id="seleniumProperties" class="edu.duke.cabig.c3pr.web.selenium.SeleniumProperties">
        <property name="browser" ref="c3prPropertyConfigurerFromFile[selenium.browser]"/>
