@@ -168,7 +168,7 @@
 	    <!-- selenium-test              -->
 	    <!-- =============================================================== -->
 	
-    <target name="selenium-test" if="run.test" depends="clean-test-results, compile-test,resolve-test"
+    <target name="selenium-test" if="run.test" depends="clean-dist, init, local-version, jar, jar-test, debug-info, compile-test"
             description="Runs the selenium testcases">
 
         <echo message="Executing in ${ant.project.name}"/>
