@@ -39,19 +39,6 @@
   	</target>
 	
 	<!-- ==================================================================
-			target : buildlist-selenium
-		====================================================================== -->
-	  	<target name="buildlist-selenium" depends="load-ivy" unless="buildlist.done" description="Will find the correct order of build dependency"> 
-	    	<ivy:buildlist reference="build-path">
-	    		<fileset file="${basedir}/ivy-build.xml" />
-	    		<fileset file="${projects.dir}/core/ivy-build.xml" />
-	    		<fileset file="${projects.dir}/web/ivy-build.xml" />
-	    	</ivy:buildlist>
-	  		<property name="buildlist.done" value="true" />
-	  		<echo message="buildList : ${build-path}" />
-	  	</target>
-	
-	<!-- ==================================================================
 		target : autobuild-ci-c3pr
 		note: Created as a central target for Continuous Integration (Hudson)
 		checks the database.type parameter (internally) and runs the db scripts for oracle OR postgres.
@@ -492,7 +479,7 @@
 	                        target : autoBuild-selenium
 	                        This will build and run selenium test cases
 	    =============================================================-->
-	    <target name="autoBuild-selenium" depends="buildlist-selenium, clean" description="build and run selenium test cases">
+	    <target name="autoBuild-selenium" depends="build-core, clean" description="build and run selenium test cases">
 
 	        <subant target="selenium-test" buildpath="${projects.dir}/web/ivy-build.xml"/>
 
