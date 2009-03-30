@@ -470,11 +470,13 @@ color: #E4C48F;
 }
 #login-action a:hover { color:#FFF; }
 #welcome-user {
-position:absolute;
-top:5px;
-left:610px;
-color:#fff;
-font-size:9pt;
+	color:#FFFFFF;
+	font-size:9pt;
+	left:610px;
+	position:absolute;
+	text-align:right;
+	top:1px;
+	width:250px;
 }
 
 /**** COMMON TAB STYLES (shared across all three levels) */
