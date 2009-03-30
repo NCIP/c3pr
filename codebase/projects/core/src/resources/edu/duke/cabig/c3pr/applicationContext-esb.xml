@@ -14,6 +14,14 @@
                value="REGISTER_SUBJECT"/>
         <entry key="study"
                value="STUDY_CREATION"/>
+        <entry key="Person"
+               value="PERSON"/>
+        <entry key="Organization"
+               value="ORGANIZATION"/>
+        <entry key="ClinicalResearchStaff"
+               value="CLINICAL_RESEARCH_STAFF_CORRELATION"/>
+        <entry key="HealthCareProvider"
+               value="HEALTH_CARE_PROVIDER_CORRELATION"/>   
     </util:map>
 
 
