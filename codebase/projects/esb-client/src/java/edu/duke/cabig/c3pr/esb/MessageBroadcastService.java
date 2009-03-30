@@ -17,8 +17,8 @@ public interface MessageBroadcastService {
      * Send message to ESB with the externalID
      *
      * @param message
-     * @param externalId
+     * @param edu.duke.cabig.c3pr.esb.Metadata localMetadata
      * @throws BroadcastException
      */
-    public void broadcast(String message, String externalId) throws BroadcastException;
+    public void broadcast(String message, edu.duke.cabig.c3pr.esb.Metadata localMetadata) throws BroadcastException;
 }

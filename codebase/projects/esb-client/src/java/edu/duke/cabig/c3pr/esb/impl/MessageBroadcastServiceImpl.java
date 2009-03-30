@@ -8,6 +8,7 @@ import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.JmsService;
 import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
 import edu.duke.cabig.c3pr.esb.MessageResponseRetreiverService;
+import edu.duke.cabig.c3pr.esb.Metadata;
 
 
 public class MessageBroadcastServiceImpl extends JmsService implements MessageBroadcastService, MessageResponseRetreiverService {
@@ -31,6 +32,10 @@ public class MessageBroadcastServiceImpl extends JmsService implements MessageBr
 
 
     public void broadcast(String message, String externalId) throws BroadcastException {
+        broadcast(message, DUMMY_ID);
+    }
+    
+    public void broadcast(String message, Metadata localMetadata) throws BroadcastException {
         broadcast(message, DUMMY_ID);
     }
 
