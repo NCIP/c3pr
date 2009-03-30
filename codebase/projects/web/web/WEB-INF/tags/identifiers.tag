@@ -57,26 +57,37 @@ RowManager.addRowInseter(systemIdentifierRowInserterProps);
 RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 </script>
 
-<chrome:division title="Subject Identifier">
-	<div class="row">
+<chrome:division title="Primary Identifier">
+		<div class="leftpanel">
+		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
-			<div class="value"><input type="hidden" id="mrnOrganization-hidden"
-					name="organizationAssignedIdentifiers[0].healthcareSite" />
-				<input id="mrnOrganization-input" size="50" type="text" name="abcxyz"
+			<div class="value">
+				<input type="hidden" id="mrnOrganization-hidden" name="organizationAssignedIdentifiers[0].healthcareSite" />
+				<input id="mrnOrganization-input" size="30" type="text" name="abcxyz"
 				 class="autocomplete validate-notEmpty" />
-				<tags:hoverHint keyProp="subject.MRN.organization"/>
 				<tags:indicator id="mrnOrganization-indicator" />
-				<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"></div>
+				<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"><tags:hoverHint keyProp="subject.MRN.organization"/></div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="label"><tags:requiredIndicator /><fmt:message key="participant.MRN"/></div>
-			<div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
-				size="30" maxlength="30" class="validate-notEmpty" />
-			     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
-				value="MRN"/>
+			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
+			<div class="value">
+				<input type="text" name="organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="validate-notEmpty" />
 				<tags:hoverHint keyProp="subject.MRN.value"/>
 				<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
+			</div>
+		</div>
+		</div>
+		<div class="rightpanel">
+			<div class="row">
+				<div class="label"><fmt:message key="c3pr.common.identifierType"/></div>
+				<div class="value">
+					<select name="organizationAssignedIdentifiers[0].type"  class="validate-notEmpty">
+						<c:forEach var="identifierType" items="${identifiersTypeRefData}">
+							<option value="${identifierType.desc}">${identifierType.desc}</option>
+						</c:forEach>
+					</select>
+				</div>
 			</div>
 		</div>
 	 		
