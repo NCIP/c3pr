@@ -44,6 +44,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
         refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
         refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
         refdata.put("raceCode", configMap.get("raceCode"));
+        refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
         if (command.getStudySubject().getSystemAssignedIdentifiers()!= null && command.getStudySubject().getSystemAssignedIdentifiers().size()>0) {
             refdata.put("disableForm", new Boolean(true));
         }
