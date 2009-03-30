@@ -162,7 +162,7 @@ function updateTargetPage(target){
 </div>
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}">
 	<jsp:attribute name="submitButton">
-		<tags:button type="submit" color="green" icon="subject" value="Create Subject" />				
+		<tags:button id="createSubject"  type="submit" color="green" icon="subject" value="Create Subject" />				
 	</jsp:attribute>
 </tags:tabControls>
 </form:form>
