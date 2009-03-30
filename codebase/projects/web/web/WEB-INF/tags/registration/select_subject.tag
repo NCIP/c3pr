@@ -20,14 +20,6 @@
     	field.value = "";
     }
         
-//  	var instanceRowInserterProps = {
-//       add_row_division_id: "mytable", 	        		/* this id belongs to element where the row would be appended to */
-//        skeleton_row_division_id: "dummy-row",
-//        initialIndex: 1,    /* this is the initial count of the rows when the page is loaded  */
-//        path: "identifiers",                                /* this is the path of the collection that holds the rows  */
-//    };
-//   RowManager.addRowInseter(instanceRowInserterProps);
-  	
   	function moveToSearchSubject(){
   		document.getElementById('searchSubject_btn').className="current";
   		document.getElementById('createSubject_btn').className="fifthlevelTab";
