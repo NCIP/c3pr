@@ -19,10 +19,10 @@ public class CreateSubjectTest extends AbstractSeleniumTestCase {
 
 		selenium
 				.open("/c3pr/pages/personAndOrganization/participant/createParticipant");
-		c3prFixtures.populateSubjectDetails("John", "Smith", "24681");
+		c3prFixtures.populateSubjectDetails("John", "Smith", "12461891GYAY");
 		ajaxWidgets.clickNext("flow-next");
 		ajaxWidgets.clickNext("flow-next");
-		ajaxWidgets.clickNext("flow-next");
+		ajaxWidgets.clickNext("createSubject");
 		assertTrue(selenium.isTextPresent("Subject successfully created."));
 	}
 
