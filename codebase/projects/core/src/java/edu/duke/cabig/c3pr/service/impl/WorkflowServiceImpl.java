@@ -18,6 +18,9 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.factory.EndPointFactory;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
+import edu.duke.cabig.c3pr.esb.Metadata;
+import edu.duke.cabig.c3pr.esb.OperationNameEnum;
+import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.CCTSWorkflowService;
@@ -128,7 +131,9 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
                 // messageBroadcaster.initialize();
                 String transformedXML=xmlTransformer.transform(StringUtils.readFile(cctsXSLTName),xml);
                 log.debug("Transformed Message-----------"+transformedXML);
-                messageBroadcaster.broadcast(transformedXML, cctsObject.getGridId());
+                //build metadata with operation name and the external Id and pass it to the broadcast method.
+                Metadata mData = new Metadata(OperationNameEnum.NA.getName(), cctsObject.getGridId());
+                messageBroadcaster.broadcast(transformedXML, mData);
             }
             catch (Exception e) {
                 e.printStackTrace();
