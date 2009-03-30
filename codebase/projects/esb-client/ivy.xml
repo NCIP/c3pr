@@ -67,13 +67,21 @@
 		<dependency org="org.apache.activemq" name="activemq-core"
 			rev="4.1.1" conf="build;runtime;dist" />
 		<dependency org="gov.nih.nci.caxchange"
-			name="caXchangeRequestProcessor-common" rev="1.2.1" />
+			name="caXchangeRequestProcessor-common" rev="1.2.2" />
 		<dependency org="gov.nih.nci.caxchange"
-			name="caXchangeRequestProcessor-stubs" rev="1.2.1" />
+			name="caXchangeRequestProcessor-stubs" rev="1.2.2" />
 		<dependency org="gov.nih.nci.caxchange"
-			name="caXchangeRequestProcessor-client" rev="1.2.1" />
+			name="caXchangeRequestProcessor-client" rev="1.2.2" />
 		<dependency org="gov.nih.nci.caxchange"
-					name="CaXchangeRequestProcessor-service" rev="1.2.1" />
+					name="CaXchangeRequestProcessor-service" rev="1.2.2" />
+		<dependency org="gov.nih.nci.caxchange"
+			name="CoreServices-common" rev="1.0" />
+		<dependency org="gov.nih.nci.caxchange"
+			name="CoreServices-stubs" rev="1.0" />
+		<dependency org="gov.nih.nci.caxchange"
+			name="CoreServices-client" rev="1.0" />
+		<dependency org="gov.nih.nci.caxchange"
+			name="CoreServices-service" rev="1.0" />					
 		<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-client"
 			rev="1.2" />
 		<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-common"
