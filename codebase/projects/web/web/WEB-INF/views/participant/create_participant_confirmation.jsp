@@ -14,7 +14,7 @@ function manageParticipant(){
 <div id="controlPanel">
 			<tags:controlPanel>
 				<tags:oneControlPanelItem linkhref="javascript:manageParticipant();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Manage" />
-				<tags:oneControlPanelItem linkhref="javascript:document.location='createParticipant';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchParticipantController.png" linktext="Create subject" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='createParticipant';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createParticipantController.png" linktext="Create subject" />
 			</tags:controlPanel>
 		</div>
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name='check.png'/>" alt="" style="vertical-align:top;" /> 
