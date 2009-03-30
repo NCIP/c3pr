@@ -1,7 +1,9 @@
 package edu.duke.cabig.c3pr.esb.impl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -10,6 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -17,8 +20,10 @@ import org.acegisecurity.Authentication;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.context.SecurityContextImpl;
+import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI;
+import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.log4j.Logger;
 import org.globus.gsi.GlobusCredential;
 import org.w3c.dom.Document;
@@ -35,17 +40,22 @@ import edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseNotifier;
 import edu.duke.cabig.c3pr.esb.DelegatedCredential;
 import edu.duke.cabig.c3pr.esb.DelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
+import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ResponseErrors;
+import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import gov.nih.nci.cagrid.caxchange.client.CaXchangeRequestProcessorClient;
 import gov.nih.nci.cagrid.caxchange.context.client.CaXchangeResponseServiceClient;
 import gov.nih.nci.cagrid.caxchange.context.stubs.types.CaXchangeResponseServiceReference;
+import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.caxchange.Credentials;
 import gov.nih.nci.caxchange.Message;
+import gov.nih.nci.caxchange.MessagePayload;
 import gov.nih.nci.caxchange.Metadata;
-import gov.nih.nci.caxchange.Operations;
+import gov.nih.nci.caxchange.Request;
 import gov.nih.nci.caxchange.ResponseMessage;
 import gov.nih.nci.caxchange.Statuses;
 import gov.nih.nci.caxchange.TargetResponseMessage;
+import gov.nih.nci.coppa.services.client.CoreServicesClient;
 
 /**
  * Sends messages to caXchange. Also, will notify of the message status
@@ -53,7 +63,7 @@ import gov.nih.nci.caxchange.TargetResponseMessage;
  * <p/>
  * <p/>
  * Created by IntelliJ IDEA.
- * User: kherm
+ * User: kherm, Vinay Gangoli
  * Date: Nov 13, 2007
  * Time: 3:40:56 PM
  * To change this template use File | Settings | File Templates.
@@ -69,9 +79,10 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
     private Logger log = Logger.getLogger(CaXchangeMessageBroadcasterImpl.class);
     private MessageWorkflowCallback messageWorkflowCallback;
-    
 
     private int timeout;
+    public static final String namespaceURI = "http://caXchange.nci.nih.gov/messaging";
+    public static final String localPart = "caXchangeResponseMessage";
     
     public void setTimeout(int timeout) {
         this.timeout = timeout;
@@ -84,70 +95,40 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
      * @throws BroadcastException
      */
     public void broadcast(String message) throws BroadcastException {
-        broadcast(message, "DUMMY_ID");
+        broadcast(message, getLocalMetadataWithDummyId());
     }
 
-    /**
-     * * will broadcast the domain object to caXchange
+    private edu.duke.cabig.c3pr.esb.Metadata getLocalMetadataWithDummyId() {
+		return new edu.duke.cabig.c3pr.esb.Metadata(OperationNameEnum.NA.name(), "DUMMY_ID"); 
+	}
+
+	/**
+     * * Broadcasts the domain object to caXchange
      *
      * @param cctsDomainObjectXML xml message
-     * @param externalId          business id of the message. You can track messages by this id
+     * @param edu.duke.cabig.c3pr.esb.Metadata localMetadata   
+     * 			localMetadata includes attributes like externalId(business id of the message. You can track messages by this id)
+     * 			and operationType (e.g. NA, PERSON, ORGANIZATION etc)
      * @throws BroadcastException
      */
-    public void broadcast(String cctsDomainObjectXML, String externalId) throws BroadcastException {
+    public void broadcast(String cctsDomainObjectXML, edu.duke.cabig.c3pr.esb.Metadata localMetadata) throws BroadcastException {
 
-        CaXchangeRequestProcessorClient caXchangeClient = null;
-        Credentials creds = new Credentials();
-        creds.setUserName("hmarwaha");
-        creds.setPassword("password");
-        GlobusCredential proxy = null;
-        try {
-
-
-            // if a provider is registered then use it to get credentials
-            if (delegatedCredentialProvider != null) {
-                log.debug("Using delegated crential provider to set credentials");
-                DelegatedCredential cred = delegatedCredentialProvider.provideDelegatedCredentials();
-                if (cred != null) {
-                    proxy = cred.getCredential();
-                    log.debug("Found valid proxy. Using it for esb communication");
-                    //set the delegated epr.
-                    creds.setDelegatedCredentialReference(cred.getDelegatedEPR());
-                }
-            }
-            caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL, proxy);
-
-        } catch (Exception e) {
-            throw new BroadcastException("caXchange could not initialize caExchange client. Using URL " + caXchangeURL, e);
-        }
+        GlobusCredential proxy = getProxy();
+        Credentials credentials = getCredentials();
+        String externalId = localMetadata.getExternalIdentifier();
 
         //marshall the bean
-        Document messageDOM = null;
-
-        try {
-            messageDOM = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(cctsDomainObjectXML)));
-        } catch (SAXException e) {
-            throw new BroadcastException("caXchange could not serialize domain object", e);
-        } catch (IOException e) {
-            throw new BroadcastException("caXchange could not serialize domain object", e);
-        } catch (ParserConfigurationException e) {
-            throw new BroadcastException("caXchange could not serialize domain object", e);
-        }
-
-
+        Document messageDOM = marshallBean(cctsDomainObjectXML);
+        
+        CaXchangeRequestProcessorClient caXchangeClient = null;
         CaXchangeResponseServiceReference responseRef = null;
         try {
+        	caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL, proxy);
+        	
             Message xchangeMessage = CaXchangeMessageHelper.createXchangeMessage(messageDOM);
-            Metadata mData = new Metadata();
-            mData.setOperation(Operations.PROCESS);
-            //mData.setMessageType(MessageTypes.fromString((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName())));
-            mData.setMessageType((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName()));
-            mData.setExternalIdentifier(externalId);
-
-            //will be removed. temp
-            mData.setCredentials(creds);
-
+            Metadata mData = buildMetadata(localMetadata, messageDOM, credentials);
             xchangeMessage.setMetadata(mData);
+            
             log.debug("Sending message to caXchange");
             responseRef = caXchangeClient.processRequestAsynchronously(xchangeMessage);
             if (messageWorkflowCallback != null) {
@@ -159,16 +140,191 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
                 messageWorkflowCallback.messageSendFailed(externalId);
             }
             throw new BroadcastException("caXchange could not process message", e);
-        }
+        }catch (MalformedURIException e) {
+			e.printStackTrace();
+			log.error("Could not instantiate CaXchangeRequestProcessorClient");
+		}
 
         //logging epr info
         logEPR(responseRef.getEndpointReference());
-        //check on the response asynchronously
-        //only if someone is interested
-        if (messageWorkflowCallback != null || messageResponseHandlers.size() > 0) {
+        //check on the response asynchronously only if someone is interested
+        checkResponseAsynchronously(responseRef, externalId, proxy);
+    }
+
+
+	/**
+     * * Broadcasts the COPPA content to caXchange
+     *
+     * @param cctsDomainObjectXML xml message
+     * @param edu.duke.cabig.c3pr.esb.Metadata localMetadata   
+     * 			localMetadata includes attributes like externalId(business id of the message. You can track messages by this id)
+     * 			and operationType (e.g. NA, PERSON, ORGANIZATION etc)
+     * @throws BroadcastException
+     * @return responseXML as string
+     */
+    public String broadcastCoppaMessage(String cctsDomainObjectXML, edu.duke.cabig.c3pr.esb.Metadata localMetadata) throws BroadcastException {
+
+    	String serviceResponsePayload = null;
+
+        CaXchangeRequestProcessorClient caXchangeClient = null;
+        GlobusCredential proxy = getProxy();
+        Credentials credentials = getCredentials();
+
+        //marshall the bean
+        Document messageDOM = marshallBean(cctsDomainObjectXML);
+        
+        ResponseMessage responseMessage = null;
+        try {
+        	caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL, proxy);
+            Message xchangeMessage = CaXchangeMessageHelper.createXchangeMessage(messageDOM);
+
+            Metadata mData = buildMetadata(localMetadata, messageDOM, credentials);
+            xchangeMessage.setMetadata(mData);
+            
+            MessageElement messageElement = new MessageElement(messageDOM.getDocumentElement());
+            MessagePayload messagePayload = new MessagePayload();
+            messagePayload.setXmlSchemaDefinition(new URI("http://po.coppa.nci.nih.gov"));
+            messagePayload.set_any(new MessageElement[]{messageElement});
+            Request request = new Request();
+            xchangeMessage.setRequest(request);
+
+            xchangeMessage.getRequest().setBusinessMessagePayload(messagePayload);
+
+            log.debug("Sending message to caXchange");
+            responseMessage = caXchangeClient.processRequestSynchronously(xchangeMessage);
+            InputStream serializeStream = CoreServicesClient.class.getResourceAsStream("client-config.wsdd");
+            StringWriter writer = new StringWriter();
+
+            Utils.serializeObject(responseMessage, new QName(namespaceURI,localPart),writer, serializeStream);
+            serviceResponsePayload =  writer.getBuffer().toString();
+
+        } catch (RemoteException e) {
+            log.error("caXchange could not process request", e);
+            throw new BroadcastException("caXchange could not process message", e);
+        } catch (MalformedURIException e) {
+			e.printStackTrace();
+			log.error("Could not instantiate CaXchangeRequestProcessorClient");
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("Could not serialize ");
+		}
+		return serviceResponsePayload;
+    }
+    
+    
+    /**
+     * Gets the proxy
+     * 
+     * @param caXchangeClient
+     * @param proxy
+     * @return credentials
+     * @throws BroadcastException
+     */
+    private GlobusCredential getProxy() throws BroadcastException {
+    	GlobusCredential proxy = null;
+        try {
+            if (delegatedCredentialProvider != null) {
+                log.debug("Using delegated crential provider to set credentials");
+                DelegatedCredential cred = delegatedCredentialProvider.provideDelegatedCredentials();
+                if (cred != null) {
+                    proxy = cred.getCredential();
+                    log.debug("Found valid proxy. Using it for esb communication");
+                }
+            }
+        } catch (Exception e) {
+            throw new BroadcastException("caXchange could not initialize caExchange client. Using URL " + caXchangeURL, e);
+        }
+        return proxy;
+    }
+    
+    
+    /**
+     * Gets the credentials.
+     * 
+     * @return the credentials
+     * 
+     * @throws BroadcastException the broadcast exception
+     */
+    private Credentials getCredentials() throws BroadcastException{
+    	Credentials creds = new Credentials();
+    	creds.setUserName("hmarwaha");
+        creds.setPassword("password");
+        try {
+            // if a provider is registered then use it to get credentials
+            if (delegatedCredentialProvider != null) {
+                log.debug("Using delegated crential provider to set credentials");
+                DelegatedCredential cred = delegatedCredentialProvider.provideDelegatedCredentials();
+                if (cred != null) {
+                    //set the delegated epr.
+                    creds.setDelegatedCredentialReference(cred.getDelegatedEPR());
+                }
+            }
+        } catch (Exception e) {
+            throw new BroadcastException("caXchange could not initialize caExchange client. Using URL " + caXchangeURL, e);
+        }
+        return creds;
+    }
+    
+    
+    /**
+     * Marshall bean.
+     * 
+     * @param cctsDomainObjectXML the ccts domain object xml
+     * 
+     * @return the document
+     * 
+     * @throws BroadcastException the broadcast exception
+     */
+    private Document marshallBean(String cctsDomainObjectXML)  throws BroadcastException {
+    	Document messageDOM;
+    	try {
+            messageDOM = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(cctsDomainObjectXML)));
+        } catch (SAXException e) {
+            throw new BroadcastException("caXchange could not serialize domain object", e);
+        } catch (IOException e) {
+            throw new BroadcastException("caXchange could not serialize domain object", e);
+        } catch (ParserConfigurationException e) {
+            throw new BroadcastException("caXchange could not serialize domain object", e);
+        }
+        return messageDOM;
+    }
+
+    
+    /**
+     * Builds the metadata.
+     * 
+     * @param localMetadata the local metadata
+     * @param messageDOM the message dom
+     * @param creds the creds
+     * 
+     * @return the metadata
+     */
+    private Metadata buildMetadata(edu.duke.cabig.c3pr.esb.Metadata localMetadata, Document messageDOM, Credentials creds) {
+    	Metadata mData = new Metadata();
+    	
+        mData.setOperationName(localMetadata.getOperationName());
+        mData.setExternalIdentifier(localMetadata.getExternalIdentifier());
+        
+        //mData.setServiceType((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName()));
+        mData.setServiceType(ServiceTypeEnum.PERSON.name());
+        //will be removed. temp
+        mData.setCredentials(creds);
+        return mData;
+    }
+
+    
+    /**
+     * Check response asynchronously.
+     * 
+     * @param responseRef the response ref
+     * @param externalId the external id
+     * @param proxy the proxy
+     */
+    private void checkResponseAsynchronously(CaXchangeResponseServiceReference responseRef, String externalId, GlobusCredential proxy){
+    	if (messageWorkflowCallback != null || messageResponseHandlers.size() > 0) {
             log.debug("Will track response from caXchange");
             try {
-                FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef,messageWorkflowCallback, externalId,proxy, timeout),SecurityContextHolder.getContext().getAuthentication());
+                FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef,messageWorkflowCallback, externalId, proxy, timeout),SecurityContextHolder.getContext().getAuthentication());
                 //ToDo make this like a global service not single thread executor
                 ExecutorService es = Executors.newSingleThreadExecutor();
                 es.submit(asyncTask);
@@ -181,7 +337,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             }
         }
     }
-
+    
 
     public void setDelegatedCredentialProvider(DelegatedCredentialProvider delegatedCredentialProvider) {
         this.delegatedCredentialProvider = delegatedCredentialProvider;

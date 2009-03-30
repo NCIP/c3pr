@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<registration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<registration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ISO="uri:iso.org:21090" 
     xsi:schemaLocation="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain ../../../../core/resources/xsd/c3pr-domain.xsd"
-    xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
-    gridId="temp">
+    xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" gridId="temp">
     <studySite>
         <healthcareSite gridId="siteGridId"/>
         <irbApprovalDate>2007-09-25</irbApprovalDate>
@@ -13,7 +12,8 @@
             <source>asd</source>
         </identifier>
     </studyRef>
-    <participant xmlns:ns1="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain">
+    <participant xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" xmlns:ns1="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+    				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
         <ns1:firstName>tempStr</ns1:firstName>
         <ns1:lastName>tempStr</ns1:lastName>
         <ns1:address>
