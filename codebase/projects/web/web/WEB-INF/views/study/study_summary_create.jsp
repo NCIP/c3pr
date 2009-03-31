@@ -257,7 +257,7 @@ function createStudy(){
 				<script>
 					manageurl="<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />";
 				</script>
-				<tags:button type="button" color="blue" value="Manage Study" 
+				<tags:button type="button" color="blue" value="Manage Study" id="manageStudy"
 				onclick='javascript:document.location=manageurl;' size="small"/>
 			</span></div>
 			</div>
