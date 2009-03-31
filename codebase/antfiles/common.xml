@@ -799,5 +799,17 @@
 			</condition>
 			<property name="dsFile.located" value="true"/>
 		</target>
-	
+		
+		<target name="tomcat-start">
+		    <java jar="${catalina.home}/bin/bootstrap.jar" fork="true">
+		        <jvmarg value="-Dcatalina.home=${catalina.home}"/>
+		    </java>
+		</target>
+
+		<target name="tomcat-stop">
+		    <java jar="${catalina.home}/bin/bootstrap.jar" fork="true">
+		        <jvmarg value="-Dcatalina.home=${catalina.home}"/>
+		        <arg line="stop"/>
+		    </java>
+		</target>
 	</project>
