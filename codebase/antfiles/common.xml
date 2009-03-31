@@ -803,7 +803,7 @@
 		<target name="tomcat-start">
 			<echo message="catalina.home : ${env.CATALINA_HOME}" />
 			<property name="catalina.home" value="${env.CATALINA_HOME}"/>
-			<exec executable="${catalina.home}/bin/catalina.bat">
+			<exec executable="${catalina.home}/bin/catalina.sh">
 				<env key="CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 				<arg value="start"/>  
 			</exec>
@@ -812,7 +812,7 @@
 		<target name="tomcat-stop">
 			<echo message="catalina.home  : ${env.CATALINA_HOME}"/>		
 			<property name="catalina.home" value="${env.CATALINA_HOME}"/>
-			<exec executable="${catalina.home}/bin/catalina.bat">
+			<exec executable="${catalina.home}/bin/catalina.sh">
 				<env key="CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 				<arg value="stop"/>
 			</exec>
