@@ -249,10 +249,10 @@ function createStudy(){
 <div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> 
 				<c:if test="${!(command.study.companionIndicator && !command.study.standaloneIndicator)}">
-				<tags:button type="button" color="blue" value="Open Study" 
+				<tags:button type="button" color="blue" value="Open Study" id="open"
 				onclick="activateAndSaveStudy();return false;" size="small"/>
 				</c:if>
-				<tags:button type="button" color="blue" value="Create Study" 
+				<tags:button type="button" color="blue" value="Create Study" id="create"
 				onclick="createStudy();return false;" size="small"/>
 				<script>
 					manageurl="<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />";

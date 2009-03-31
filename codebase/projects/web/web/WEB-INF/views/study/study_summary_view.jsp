@@ -469,15 +469,15 @@
                                     authorizationCheckName="domainObjectAuthorizationCheck">
                 &nbsp;
                 <c:if test="${!empty open}">
-                	<tags:button type="button" color="blue" value="${open }" 
+                	<tags:button type="button" color="blue" value="${open }" id="open"
 							onclick="changeStudyStatus('open')" size="small"/>
                 </c:if>
                 <c:if test="${!empty readyToOpen}">
-                	<tags:button type="button" color="blue" value="${readyToOpen }" 
+                	<tags:button type="button" color="blue" value="${readyToOpen }" id="readyToOpen"
 							onclick="changeStudyStatus('readyToOpen')" size="small"/>
 	            </c:if>
 	            <c:if test="${!empty closed}">
-	            	<tags:button type="button" color="blue" value="Close Study"
+	            	<tags:button type="button" color="blue" value="Close Study" id="closeStudy"
 							onclick="Effect.SlideDown('close-choices')" size="small"/>
 					<div id="close-choices" class="autocomplete" style="display: none">
 						<ul>

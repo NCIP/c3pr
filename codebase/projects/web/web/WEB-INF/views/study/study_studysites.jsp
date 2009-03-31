@@ -306,7 +306,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
     </tr>
 </table>
 <div align="right">
-<tags:button type="button" color="blue" icon="add" value="Add Site" 
+<tags:button type="button" color="blue" icon="add" value="Add Site" id="addSite"
 onclick="$('h-multiSite').show();javascript:RowManager.addRow(instanceRowInserterProps);" size="small"/>
 </div>
  </c:otherwise>
