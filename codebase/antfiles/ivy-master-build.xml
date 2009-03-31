@@ -497,7 +497,6 @@
 	    	<subant target="tomcat-start" buildpath="${basedir}/common.xml">
 	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
 	    	</subant>
-	    	<subant target="build-core" buildpath="${basedir}/ivy-master-build.xml" />
 	    	<subant target="selenium-test" buildpath="${projects.dir}/web/ivy-build.xml" >
 	        	<property name="testcase.type" value="ui"/>
 	    	</subant>
