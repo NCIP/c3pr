@@ -500,7 +500,7 @@
 	        <subant target="selenium-test" buildpath="${projects.dir}/web/ivy-build.xml"/>
 	    </target>
 	
-		<target name="autobuild-selenium-local" description="build and run selenium test cases">
+		<target name="autobuild-selenium-local" description="build and run selenium test cases locally">
 	    	<property name="testcase.type" value="ui"/>
 	    	<ant target="autobuild-ci-drop-and-create-existing-database" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
 			<ant target="autobuild-ci-recreate-db-hudson" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
