@@ -801,16 +801,12 @@
 		</target>
 		
 		<target name="tomcat-start">
-		    <java jar="${env.CATALINA_HOME}/bin/bootstrap.jar" fork="true">
-		        <jvmarg value="-Dcatalina.home=${env.CATALINA_HOME}"/>
-		    </java>
+			<echo message="catalina.home : ${env.CATALINA_HOME}" />
+			<exec executable="${env.CATALINA_HOME}/bin/startup.sh"/>
 		</target>
 
 		<target name="tomcat-stop">
 			<echo message="catalina.home : ${env.CATALINA_HOME}" />
-		    <java jar="${env.CATALINA_HOME}/bin/bootstrap.jar" fork="true">
-		        <jvmarg value="-Dcatalina.home=${env.CATALINA_HOME}"/>
-		        <arg line="stop"/>
-		    </java>
+			<exec executable="${env.CATALINA_HOME}/bin/shutdown.sh"/>
 		</target>
 	</project>
