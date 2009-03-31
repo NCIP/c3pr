@@ -520,7 +520,7 @@
 	                </csmauthz:accesscontrol>
                 </c:if> 
                 <c:if test="${not empty flowType}">
-                	<tags:button type="button" color="blue" value="Manage Study" 
+                	<tags:button type="button" color="blue" value="Manage Study" id="manageStudy" 
 							onclick="document.location='../study/viewStudy?studyId=${command.study.id}'" size="small"/>
                 </c:if>
 </c:if>
