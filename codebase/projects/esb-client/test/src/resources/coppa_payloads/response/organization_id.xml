@@ -1,0 +1,58 @@
+<ns1:caXchangeResponseMessage xmlns:ns1="http://caXchange.nci.nih.gov/messaging">
+ <ns1:responseMetadata>
+  <ns1:externalIdentifier>extId</ns1:externalIdentifier>
+  <ns1:caXchangeIdentifier>04fdfae0-1ed3-11de-9e6d-8d1f8327066f</ns1:caXchangeIdentifier>
+ </ns1:responseMetadata>
+ <ns1:response>
+  <ns1:responseStatus>SUCCESS</ns1:responseStatus>
+  <ns1:targetResponse>
+   <ns1:targetServiceIdentifier>ORGANIZATION</ns1:targetServiceIdentifier>
+   <ns1:targetServiceOperation>getById</ns1:targetServiceOperation>
+   <ns1:targetMessageStatus>RESPONSE</ns1:targetMessageStatus>
+   <ns1:targetBusinessMessage>
+    <ns1:xmlSchemaDefinition>http://po.coppa.nci.nih.gov</ns1:xmlSchemaDefinition>
+    <ns1:Organization xmlns:ns1="http://po.coppa.nci.nih.gov" xmlns:ns2="uri:iso.org:21090" xmlns:ns3="uri:iso.org:21090" xmlns:ns4="uri:iso.org:21090" xmlns:ns5="uri:iso.org:21090" xmlns:ns6="uri:iso.org:21090" xmlns:ns7="uri:iso.org:21090" xmlns:ns8="uri:iso.org:21090" xmlns:ns9="uri:iso.org:21090" xmlns:ns10="uri:iso.org:21090" xmlns:ns11="uri:iso.org:21090" xmlns:ns12="uri:iso.org:21090" xmlns:ns13="uri:iso.org:21090" xmlns:ns14="uri:iso.org:21090">
+     <ns1:identifier displayable="true" extension="717" identifierName="NCI organization entity identifier" reliability="ISS" root="2.16.840.1.113883.3.26.4.2" scope="OBJ"/>
+
+     <ns1:name>
+      <ns2:part value="YYYYYYYYYY YYYYYYYYYY YYYYYYYYYY YYYYYYYYYY YYYYYYYYYY YYYYYYYYYY YYYYYYYYYY YYYYYYYYYY YYYYYYYYYY Y" xmlns:ns2="uri:iso.org:21090"/>
+
+ </ns1:name>
+
+     <ns1:postalAddress>
+      <ns3:part type="AL" value="123 abc ave." xmlns:ns3="uri:iso.org:21090"/>
+
+      <ns4:part type="CTY" value="mycity" xmlns:ns4="uri:iso.org:21090"/>
+
+      <ns5:part type="STA" value="VA" xmlns:ns5="uri:iso.org:21090"/>
+
+      <ns6:part type="ZIP" value="12345" xmlns:ns6="uri:iso.org:21090"/>
+
+      <ns7:part code="USA" type="CNT" value="United States" xmlns:ns7="uri:iso.org:21090"/>
+
+ </ns1:postalAddress>
+
+     <ns1:statusCode code="active"/>
+
+     <ns1:telecomAddress>
+      <ns8:item value="mailto:default@example.com" xsi:type="ns8:TEL.Email" xmlns:ns8="uri:iso.org:21090" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+
+      <ns9:item value="mailto:abc@example.com" xsi:type="ns9:TEL.Email" xmlns:ns9="uri:iso.org:21090" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+
+      <ns10:item value="x-text-fax:234-567-8901" xsi:type="ns10:TEL.Phone" xmlns:ns10="uri:iso.org:21090" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+
+      <ns11:item value="tel:123-456-7890" xsi:type="ns11:TEL.Phone" xmlns:ns11="uri:iso.org:21090" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+
+      <ns12:item value="http://default.example.com" xsi:type="ns12:TEL.Url" xmlns:ns12="uri:iso.org:21090" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+
+      <ns13:item value="http://www.example.com" xsi:type="ns13:TEL.Url" xmlns:ns13="uri:iso.org:21090" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+
+      <ns14:item value="x-text-tel:345-678-9012" xsi:type="ns14:TEL.Phone" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+
+ </ns1:telecomAddress>
+
+</ns1:Organization>
+   </ns1:targetBusinessMessage>
+  </ns1:targetResponse>
+ </ns1:response>
+</ns1:caXchangeResponseMessage>

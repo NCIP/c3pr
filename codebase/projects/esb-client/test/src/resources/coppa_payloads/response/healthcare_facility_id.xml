@@ -1,0 +1,25 @@
+<ns1:caXchangeResponseMessage xmlns:ns1="http://caXchange.nci.nih.gov/messaging">
+ <ns1:responseMetadata>
+  <ns1:externalIdentifier>extId</ns1:externalIdentifier>
+  <ns1:caXchangeIdentifier>8456d530-1ee9-11de-9e6d-8d1f8327066f</ns1:caXchangeIdentifier>
+ </ns1:responseMetadata>
+ <ns1:response>
+  <ns1:responseStatus>SUCCESS</ns1:responseStatus>
+  <ns1:targetResponse>
+   <ns1:targetServiceIdentifier>HEALTH_CARE_FACILITY</ns1:targetServiceIdentifier>
+   <ns1:targetServiceOperation>getById</ns1:targetServiceOperation>
+   <ns1:targetMessageStatus>RESPONSE</ns1:targetMessageStatus>
+   <ns1:targetBusinessMessage>
+    <ns1:xmlSchemaDefinition>http://po.coppa.nci.nih.gov</ns1:xmlSchemaDefinition>
+    <ns1:HealthCareFacility xmlns:ns1="http://po.coppa.nci.nih.gov">
+     <ns1:identifier displayable="true" extension="5263" identifierName="NCI health care facility identifier" reliability="ISS" root="2.16.840.1.113883.3.26.4.4.3" scope="OBJ"/>
+
+     <ns1:playerIdentifier displayable="true" extension="2273" identifierName="NCI organization entity identifier" reliability="ISS" root="2.16.840.1.113883.3.26.4.2" scope="OBJ"/>
+
+     <ns1:status code="active"/>
+
+</ns1:HealthCareFacility>
+   </ns1:targetBusinessMessage>
+  </ns1:targetResponse>
+ </ns1:response>
+</ns1:caXchangeResponseMessage>
