@@ -819,7 +819,7 @@
 			<target name="tomcat-stop">
 				<echo message="catalina.home  : ${env.CATALINA_HOME}"/>		
 				<property name="catalina.home" value="${env.CATALINA_HOME}"/>
-				<property name="killTomcat" value="ps -eaf | grep $CATALINA_HOME |grep -v grep| awk '{print $2}'| xargs kill -9"/>
+				<property name="killTomcat" value="ps -eaf | grep ${env.CATALINA_HOME} |grep -v grep| awk '{print $2}'| xargs kill -9"/>
 				<echo message="kill tomcat command   : ${killTomcat}"/>
 				<exec executable="${killTomcat}" spawn="true">
 				</exec>
