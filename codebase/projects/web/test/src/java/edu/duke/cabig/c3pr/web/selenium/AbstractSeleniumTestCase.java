@@ -66,22 +66,12 @@ public class AbstractSeleniumTestCase extends SeleneseTestCase {
 				seleniumBrowser =seleniumProperties.getBrowser();
 				c3prURL = seleniumProperties.getBaseUrl();
 				waitTime = seleniumProperties.getWaitTime();
-				// setUp("https://oracle.qa.semanticbits.com", "*chrome");
-				// selenium = new DefaultSelenium("10.10.10.154", 4444, "*chrome",
-				// "https://oracle.qa.semanticbits.com");
-				
-				System.out.println("seleniumServerURL " + seleniumServerURL);
-				System.out.println("seleniumServerPort " + seleniumServerPort);
-				System.out.println("seleniumBrowser " + seleniumBrowser);
-				System.out.println("c3prURL " + c3prURL);
-				
 				selenium = new DefaultSelenium(seleniumServerURL,Integer.parseInt(seleniumServerPort), seleniumBrowser, c3prURL);
 				selenium.start();
 				 ajaxWidgets= new AjaxWidgets(selenium);
 				selenium.setTimeout(waitTime);
 				selenium.setBrowserLogLevel("info");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				fail(" failed in setUp method");
 			}
