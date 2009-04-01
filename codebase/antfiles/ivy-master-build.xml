@@ -504,6 +504,7 @@
 	
 		<target name="autobuild-selenium-local" description="build and run selenium test cases locally">
 			<subant target="tomcat-stop-windows" buildpath="${basedir}/common.xml">
+				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 	    	</subant>
 			<subant target="deploy-webapp-local" buildpath="${basedir}/ivy-master-build.xml" >
 	    		<property name="env.skip.test" value="true"></property>
@@ -514,8 +515,8 @@
 			<ant target="migrate" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
 				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 			</ant>	
-
 			<subant target="tomcat-start-windows" buildpath="${basedir}/common.xml">
+				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 	    	</subant>
 	    	<subant target="selenium-test" buildpath="${projects.dir}/web/ivy-build.xml">
 	    		<property name="testcase.type" value="ui"/>
