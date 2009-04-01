@@ -488,11 +488,11 @@
 	    		<property name="env.skip.test" value="true"></property>
 	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
 	    	</ant>
-	    	<subant target="autobuild-ci-drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
-			<subant target="autobuild-ci-recreate-db-hudson" buildpath="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
-			<subant target="migrate" buildpath="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
+	    	<ant target="autobuild-ci-drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
+			<ant target="autobuild-ci-recreate-db-hudson" buildpath="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
+			<ant target="migrate" buildpath="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
 				<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
-			</subant>	
+			</ant>	
 	    	
 	    	<subant target="tomcat-start" buildpath="${basedir}/common.xml">
 	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
