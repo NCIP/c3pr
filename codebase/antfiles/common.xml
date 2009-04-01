@@ -819,7 +819,7 @@
 			<target name="tomcat-stop">
 				<echo message="catalina.home  : ${env.CATALINA_HOME}"/>		
 				<property name="catalina.home" value="${env.CATALINA_HOME}"/>
-				<exec executable="${catalina.home}/bin/killTomcatProcess.sh">
+				<exec executable="${catalina.home}/killTomcatProcess.sh">
 					<env key="CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 				</exec>
 			</target>
