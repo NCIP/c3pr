@@ -807,8 +807,8 @@
 					<env key="CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 				</exec>
 			</target>
-
-			<target name="tomcat-stop-test">
+			
+			<target name="tomcat-stop-old">
 				<echo message="catalina.home  : ${env.CATALINA_HOME}"/>		
 				<property name="catalina.home" value="${env.CATALINA_HOME}"/>
 				<exec executable="${catalina.home}/bin/shutdown.sh">
@@ -819,9 +819,8 @@
 			<target name="tomcat-stop">
 				<echo message="catalina.home  : ${env.CATALINA_HOME}"/>		
 				<property name="catalina.home" value="${env.CATALINA_HOME}"/>
-				<property name="killTomcat" value="ps -eaf | grep ${env.CATALINA_HOME} |grep -v grep| awk '{print $2}'| xargs kill -9"/>
-				<echo message="kill tomcat command   : ${killTomcat}"/>
-				<exec executable="${killTomcat}" spawn="true">
+				<exec executable="${catalina.home}/bin/killTomcatProcess.sh">
+					<env key="CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 				</exec>
 			</target>
 	
