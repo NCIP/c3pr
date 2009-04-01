@@ -481,7 +481,7 @@
 	                        This will build and run selenium test cases
 	    =============================================================-->
 	    <target name="autoBuild-selenium" depends="build-rules" description="build and run selenium test cases">
-	    	<ant target="tomcat-stop" buildpath="${basedir}/common.xml">
+	    	<ant target="tomcat-stop" antfile="${basedir}/common.xml">
 	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
 	    	</ant>
 	    	<ant target="autobuild-ci-drop-and-create-existing-database" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
@@ -494,12 +494,12 @@
 	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
 	    	</ant>
 	    		
-	    	<ant target="tomcat-start" buildpath="${basedir}/common.xml">
+	    	<ant target="tomcat-start" antfile="${basedir}/common.xml">
 	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
 	    	</ant>
-	    	<subant target="selenium-test" buildpath="${projects.dir}/web/ivy-build.xml" >
+	    	<ant target="selenium-test" antfile="${projects.dir}/web/ivy-build.xml" >
 	        	<property name="testcase.type" value="ui"/>
-	    	</subant>
+	    	</ant>
 	    </target>
 	
 		<target name="autobuild-selenium-local" description="build and run selenium test cases locally">
