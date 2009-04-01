@@ -484,15 +484,16 @@
 	    	<subant target="tomcat-stop" buildpath="${basedir}/common.xml">
 	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
 	    	</subant>
+	    	<ant target="deploy" antfile="${projects.dir}/web/ivy-build.xml" dir="${projects.dir}/web" inheritall="false">
+	    		<property name="env.skip.test" value="true"></property>
+	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
+	    	</ant>
 	    	<subant target="autobuild-ci-drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
 			<subant target="autobuild-ci-recreate-db-hudson" buildpath="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
 			<subant target="migrate" buildpath="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
 				<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
 			</subant>	
-	    	<ant target="deploy" antfile="${projects.dir}/web/ivy-build.xml" dir="${projects.dir}/web" inheritall="false">
-	    		<property name="env.skip.test" value="true"></property>
-	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
-	    	</ant>
+	    	
 	    	<subant target="tomcat-start" buildpath="${basedir}/common.xml">
 	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
 	    	</subant>
@@ -508,11 +509,12 @@
 	    		<property name="env.skip.test" value="true"></property>
 	    		<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 	    	</subant>
-	    	<ant target="autobuild-ci-drop-and-create-existing-database" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
+			<ant target="autobuild-ci-drop-and-create-existing-database" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
 			<ant target="autobuild-ci-recreate-db-hudson" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
 			<ant target="migrate" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
 				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 			</ant>	
+
 			<subant target="tomcat-start-windows" buildpath="${basedir}/common.xml">
 	    	</subant>
 	    	<subant target="selenium-test" buildpath="${projects.dir}/web/ivy-build.xml">
