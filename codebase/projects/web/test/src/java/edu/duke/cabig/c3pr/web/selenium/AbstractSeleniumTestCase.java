@@ -32,7 +32,6 @@ public class AbstractSeleniumTestCase extends SeleneseTestCase {
 	private SeleniumProperties seleniumProperties;
 
 	protected static ApplicationContext getDeployedApplicationContext() throws IOException {
-		System.out.println(acLoadFailure);
 		if (acLoadFailure == null && applicationContext == null) {
 			try {
 				SimpleNamingContextBuilder.emptyActivatedContextBuilder();
