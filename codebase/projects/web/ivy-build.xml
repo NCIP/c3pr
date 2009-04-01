@@ -23,6 +23,10 @@
     <property name="war.file" value="${application_name}.war"/>
 	
 	<target name="module-specific-flow" description="Copy resources into classpath">
+		<property name="build.context.dir" location="${classes.dir}/context"/>
+		<copy file="${antfiles.dir}/selenium.properties"
+								              tofile="${build.context.dir}/selenium.properties" overwrite="true"/>
+
 		<!--timestamp property-->
         <tstamp>
             <format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -43,7 +47,7 @@
             </filterset>
         </copy>
 
-        <!--copy the spring app context files-->
+		<!--copy the spring app context files-->
 		<copy todir="${classes.dir}" filtering="true" overwrite="true">
             <filterset>
                 <filter token="iteration_number" value="${iteration_number}"/>
