@@ -254,7 +254,7 @@
 	        	</div>
         	</div>
         </chrome:division>
-		<chrome:division title="Coppa Configuration">
+		<chrome:division title="COPPA Configuration">
         	<div class="row">
         		<div class="label"><fmt:message key="configure.coppa.enable"/></div>
         		<div class="value">
