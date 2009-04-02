@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.test.annotation.Repeat;
 
 import edu.duke.cabig.c3pr.tools.Configuration;
 
