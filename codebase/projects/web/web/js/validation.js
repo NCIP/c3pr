@@ -28,6 +28,7 @@
 // Minimum Length   | MINLENGTH          | <[input].... type=.... class=validate-MINLENGTH<length>
 // Maximum Length   | MAXLENGTH          | <[input].... type=.... class=validate-MAXLENGTH<length>
 // Email            | EMAIL              | <[input].... type=.... class=validate-EMAIL
+// URL              | URL                | <[input].... type=.... class=validate-URL
 // Credit Card      | VISA,etc           | <[input].... type=.... class=validate-VISA[etc]
 // Zip code         | ZIPCODE            | <[input].... type=.... class=validate-ZIPCODE
 // Zip or Postal    | ZIP_POSTAL_CODE    | <[input].... type=.... class=validate-ZIP_POSTAL_CODE

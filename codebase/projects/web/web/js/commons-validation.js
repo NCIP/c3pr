@@ -42,10 +42,11 @@ function validateFields(formFields) {
             continue;
          }
          
-         // pattern (credit card number, email address, zip or postal code, alphanumeric, numeric)
+         // pattern (credit card number, email address, zip or postal code, alphanumeric, numeric, url)
          if (element.pattern) {
             if ( ( (element.pattern.toLowerCase() == 'visa' || element.pattern.toLowerCase() == 'mastercard' || element.pattern.toLowerCase() == 'american express' || element.pattern.toLowerCase() == 'diners club' || element.pattern.toLowerCase() == 'discover' || element.pattern.toLowerCase() == 'enroute' || element.pattern.toLowerCase() == 'jcb' || element.pattern.toLowerCase() == 'credit card') && isValidCreditCard(element.value, element.pattern) == false) ||
                   (element.pattern.toLowerCase() == 'email' && isValidEmailStrict(element.value) == false) ||
+                  (element.pattern.toLowerCase() == 'url' && isValidUrl(element.value) == false) ||
                   (element.pattern.toLowerCase() == 'zip_postal_code' && isValidZipcode(element.value) == false && isValidPostalcode(element.value) == false) ||
                   (element.pattern.toLowerCase() == 'zipcode' && isValidZipcode(element.value) == false) ||
                   (element.pattern.toLowerCase() == 'postal code' && isValidPostalcode(element.value) == false) ||
@@ -375,3 +376,12 @@ function getMod10(number) {
    }
    return (checksum % 10);
 }
+
+function isValidUrl(url){
+	 if (url != '' ) {
+		 return url.match(/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/);
+	 }else{
+		 return true ;
+	 }
+}
+	 

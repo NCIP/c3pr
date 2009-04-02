@@ -39,18 +39,10 @@ public class ConfigurationController extends SimpleFormController {
         }
     }
 
-/*
-    @Override
-    protected ModelAndView onSubmit(Object command, BindException errors) throws Exception {
-        return new ModelAndView("redirect:configure");
-    }
-*/
-
     @Override
     protected ModelAndView onSubmit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, BindException e) throws Exception {
         httpServletRequest.getSession().getServletContext().removeAttribute("siteName");
         httpServletRequest.getSession().getServletContext().removeAttribute("instName");
-
         return new ModelAndView("redirect:configure");
     }
 
