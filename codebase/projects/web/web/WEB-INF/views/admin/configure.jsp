@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Configure application</title>
+    <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
     <style type="text/css">
     	.updated {
             border: #494 solid;
@@ -30,6 +31,11 @@
         }
     </style>
     <script type="text/javascript">
+	function sendTestEmail(){
+		
+	}
+
+    
     function manageCCTSConfiguration(box) {
         if (box.value == 'true') {
             Effect.OpenUp('cctsConfig');
@@ -68,7 +74,23 @@
 
     function manageAuthenticationMode(box){
     }
-    
+
+    var localNCIInstituteCodeAutocompleterProps = {
+            basename: "localNCIInstituteCode",
+            populator: function(autocompleter, text) {
+                StudyAjaxFacade.matchHealthcareSites(text,function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+            	return obj.name + "("+(obj.nciInstituteCode)+")" ;
+            },
+             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=localNCIInstituteCodeAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.nciInstituteCode;
+			}
+		}
+    	AutocompleterManager.addAutocompleter(localNCIInstituteCodeAutocompleterProps);
     </script>
 </head>
 <body>
@@ -81,16 +103,18 @@
     <tags:errors path="*"/>
     <tags:instructions code="configure" />
     	<chrome:division title="Application Configuration">
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.app.localSiteNCICode"/></div>
-        		<div class="value"><form:input path="conf[localNciInstituteCode].value" id="conf[localNciInstituteCode].value" cssClass="validate-notEmpty"/></div>
+    		<div class="row">
+        		<div class="label"><fmt:message key="configure.app.localSiteNCICode"/><tags:hoverHint keyProp="configure.localNciInstituteCode" /></div>
+        		<div class="value">
+        			<tags:autocompleter name="conf[localNciInstituteCode].value" displayValue="${command.conf['localNciInstituteCode'].value}" value="${command.conf['localNciInstituteCode'].value}" basename="localNCIInstituteCode" cssClass="validate-notEmpty" ></tags:autocompleter>
+        		</div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.app.siteBanner"/></div>
+        		<div class="label"><fmt:message key="configure.app.siteBanner"/><tags:hoverHint keyProp="configure.siteName" /></div>
         		<div class="value"><form:input path="conf[siteName].value" id="conf[siteName].value" cssClass="validate-notEmpty"/></div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.app.notificationLinkBack"/></div>
+        		<div class="label"><fmt:message key="configure.app.notificationLinkBack"/><tags:hoverHint keyProp="notification.linkBack" /></div>
         		<div class="value">
         			<form:select path="conf[notification.link_back].value" id="conf[notification.link_back].value" >
         				<form:option value="true">Yes</form:option>
@@ -125,7 +149,7 @@
 		        		<div class="label"><fmt:message key="configure.auth.c3pr.url"/><tags:hoverHint keyProp="configure.c3pr.webapp.url" /></div>
 		        		<div class="value">
 		        			<form:input path="conf[c3pr.webapp.url].value" id="conf[c3pr.webapp.url].value" cssClass="validate-URL"/>
-		        				<tags:button onclick="testConnection('conf[c3pr.webapp.url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+		        				<tags:button onclick="testConnection('conf[c3pr.webapp.url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
 		        		</div>
 		        	</div>
 	        	</div>
@@ -133,7 +157,7 @@
 		        	<div class="row">
 		        		<div class="label"><fmt:message key="configure.auth.cas.baseurl"/><tags:hoverHint keyProp="configure.cas.base_url" /></div>
 		        		<div class="value"><form:input path="conf[cas.base_url].value" id="conf[cas.base_url].value" cssClass="validate-URL"/>
-		        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+		        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
 		        		</div>
 		        	</div>
 		        	<div class="row">
@@ -145,7 +169,7 @@
 		        	<div class="row">
 		        		<div class="label"><fmt:message key="configure.auth.websso.baseurl"/><tags:hoverHint keyProp="configure.ccts.websso.base_url" /></div>
 		        		<div class="value"><form:input path="conf[ccts.websso.base_url].value" id="conf[ccts.websso.base_url].value" cssClass="validate-URL"/>
-		        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+		        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
 		        		</div>
 		        	</div>
 		        	<div class="row">
@@ -213,7 +237,7 @@
         	</div>
         	<br>
         	<div class="row">
-        		<div class="value"><tags:button onclick="sendTestEmail();" color="blue" value="Send test email" icon="save" size="small"/></div>
+        		<div class="value"><tags:button onclick="sendTestEmail();" color="blue" value="Send test email" icon="mail" size="small"/></div>
         	</div>
         </chrome:division>
 		
@@ -250,12 +274,14 @@
         	<div id="cctsConfig">
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.smoketest.serviceurl"/><tags:hoverHint keyProp="configure.smokeTestURL" /></div>
-	        		<div class="value"><form:input path="conf[smokeTestURL].value" id="conf[smokeTestURL].value" /></div>
+	        		<div class="value"><form:input path="conf[smokeTestURL].value" id="conf[smokeTestURL].value" />
+	        		<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+	        		</div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.c3d.hotlinkurl"/><tags:hoverHint keyProp="configure.c3dViewerBaseUrl"/></div>
 	        		<div class="value"><form:input path="conf[c3dViewerBaseUrl].value" id="conf[c3dViewerBaseUrl].value" />
-	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
 	        		</div>
 	        	</div>
 	        	<div class="row">
@@ -265,7 +291,7 @@
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.caaers.hotlinkurl"/><tags:hoverHint keyProp="configure.caaersBaseUrl" /></div>
 	        		<div class="value"><form:input path="conf[caaersBaseUrl].value" id="conf[caaersBaseUrl].value"/>
-	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
 	        		</div>
 	        	</div>
 	        	<div class="row">
@@ -275,7 +301,7 @@
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.psc.hotlinkurl"/><tags:hoverHint keyProp="configure.pscBaseUrl" /></div>
 	        		<div class="value"><form:input path="conf[pscBaseUrl].value" id="conf[pscBaseUrl].value" />
-	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
 	        		</div>
 	        	</div>
 	        	<div class="row">
@@ -284,7 +310,9 @@
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.esb.url"/><tags:hoverHint keyProp="configure.esbUrl" /></div>
-	        		<div class="value"><form:input path="conf[esbUrl].value" id="conf[esbUrl].value"/></div>
+	        		<div class="value"><form:input path="conf[esbUrl].value" id="conf[esbUrl].value"/>
+	        		<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+	        		</div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.caxchange.timeout"/><tags:hoverHint keyProp="esb.timeout" /></div>
@@ -305,7 +333,7 @@
         </chrome:division>
         </chrome:box>
          <div class="row submit">
-            <tags:button type="submit" color="green" value="Save" icon="save"/>
+            <tags:button type="submit" color="green" value="Save" icon="connectivity"/>
         </div>
     </form:form>
     
