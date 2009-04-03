@@ -26,7 +26,7 @@
         
         div.row div.label{
         	margin-right: 0.5em;
-        	width: 15em;
+        	width: 18em;
         }
     </style>
     <script type="text/javascript">
@@ -56,6 +56,19 @@
             document.getElementById("conf[esb.timeout].value").className="";
         }
     }
+	
+    function manageAuthenticationSwitch(box){
+    	 if (box.value == 'true') {
+            Effect.OpenUp('authenticationConfig');
+    	 }else if (box.value == 'false') {
+    		Effect.CloseDown('authenticationConfig');
+    		document.getElementById("conf[authenticationMode].value").value="local";
+       	}
+    }
+
+    function manageAuthenticationMode(box){
+    }
+    
     </script>
 </head>
 <body>
@@ -88,72 +101,87 @@
     	</chrome:division>
     	<chrome:division title="Authentication Configuration">
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.auth.enable"/></div>
+        		<div class="label"><fmt:message key="configure.auth.enable"/><tags:hoverHint keyProp="configure.authorizationSwitch"/></div>
         		<div class="value">
-        			<form:select path="conf[authorizationSwitch].value" id="conf[authorizationSwitch].value" >
+        			<form:select path="conf[authorizationSwitch].value" id="conf[authorizationSwitch].value" onchange="manageAuthenticationSwitch(this);">
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
         			</form:select>
         		</div>
         	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.auth.mode"/><tags:hoverHint keyProp="study.shortTitleText"/></div>
-        		<div class="value">
-        			<form:select path="conf[authenticationMode].value" id="conf[authenticationMode].value" >
-        				<form:option value="local">Local</form:option>
-        				<form:option value="cas">CAS</form:option>
-        				<form:option value="webSSO">WebSSO</form:option>
-        			</form:select>
-        		</div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.auth.c3pr.url"/></div>
-        		<div class="value"><form:input path="conf[c3pr.webapp.url].value" id="conf[c3pr.webapp.url].value" cssClass="validate-URL"/></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.auth.cas.baseurl"/></div>
-        		<div class="value"><form:input path="conf[cas.base_url].value" id="conf[cas.base_url].value" cssClass="validate-URL"/></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.auth.cas.certfile"/></div>
-        		<div class="value"><form:input path="conf[cas.cert_file].value" id="conf[cas.cert_file].value" /></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.auth.websso.baseurl"/></div>
-        		<div class="value"><form:input path="conf[ccts.websso.base_url].value" id="conf[ccts.websso.base_url].value" cssClass="validate-URL"/></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.auth.websso.certfile"/></div>
-        		<div class="value"><form:input path="conf[ccts.websso.cert_file].value" id="conf[ccts.websso.cert_file].value" /></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.ccts.host.certfile"/></div>
-        		<div class="value"><form:input path="conf[hostCertificate].value" id="conf[hostCertificate].value" cssClass="validate-URL"/></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.ccts.host.key"/></div>
-        		<div class="value"><form:input path="conf[hostKey].value" id="conf[hostKey].value" cssClass="validate-URL"/></div>
+        	<div id="authenticationConfig">
+	        	<div class="row">
+	        		<div class="label"><fmt:message key="configure.auth.mode"/><tags:hoverHint keyProp="configure.authenticationMode"/></div>
+	        		<div class="value">
+	        			<form:select path="conf[authenticationMode].value" id="conf[authenticationMode].value" onchange="manageAuthenticationMode(this);">
+	        				<form:option value="local">Local</form:option>
+	        				<form:option value="cas">CAS</form:option>
+	        				<form:option value="webSSO">WebSSO</form:option>
+	        			</form:select>
+	        		</div>
+	        	</div>
+	        	<div id="c3prurl">
+		        	<div class="row">
+		        		<div class="label"><fmt:message key="configure.auth.c3pr.url"/><tags:hoverHint keyProp="configure.c3pr.webapp.url" /></div>
+		        		<div class="value">
+		        			<form:input path="conf[c3pr.webapp.url].value" id="conf[c3pr.webapp.url].value" cssClass="validate-URL"/>
+		        				<tags:button onclick="testConnection('conf[c3pr.webapp.url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+		        		</div>
+		        	</div>
+	        	</div>
+	        	<div id="casAuthConfig">
+		        	<div class="row">
+		        		<div class="label"><fmt:message key="configure.auth.cas.baseurl"/><tags:hoverHint keyProp="configure.cas.base_url" /></div>
+		        		<div class="value"><form:input path="conf[cas.base_url].value" id="conf[cas.base_url].value" cssClass="validate-URL"/>
+		        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+		        		</div>
+		        	</div>
+		        	<div class="row">
+		        		<div class="label"><fmt:message key="configure.auth.cas.certfile"/><tags:hoverHint keyProp="configure.cas.cert_file" /></div>
+		        		<div class="value"><form:input path="conf[cas.cert_file].value" id="conf[cas.cert_file].value" /></div>
+		        	</div>
+	        	</div>
+	        	<div id="webssoAuthConfig">
+		        	<div class="row">
+		        		<div class="label"><fmt:message key="configure.auth.websso.baseurl"/><tags:hoverHint keyProp="configure.ccts.websso.base_url" /></div>
+		        		<div class="value"><form:input path="conf[ccts.websso.base_url].value" id="conf[ccts.websso.base_url].value" cssClass="validate-URL"/>
+		        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+		        		</div>
+		        	</div>
+		        	<div class="row">
+		        		<div class="label"><fmt:message key="configure.auth.websso.certfile"/><tags:hoverHint keyProp="configure.ccts.websso.cert_file" /></div>
+		        		<div class="value"><form:input path="conf[ccts.websso.cert_file].value" id="conf[ccts.websso.cert_file].value" /></div>
+		        	</div>
+		        	<div class="row">
+		        		<div class="label"><fmt:message key="configure.ccts.host.certfile"/><tags:hoverHint keyProp="configure.hostCertificate" /></div>
+		        		<div class="value"><form:input path="conf[hostCertificate].value" id="conf[hostCertificate].value" cssClass="validate-URL"/></div>
+		        	</div>
+		        	<div class="row">
+		        		<div class="label"><fmt:message key="configure.ccts.host.key"/><tags:hoverHint keyProp="configure.hostKey" /></div>
+		        		<div class="value"><form:input path="conf[hostKey].value" id="conf[hostKey].value" cssClass="validate-URL"/></div>
+		        	</div>
+	        	</div>
         	</div>
         </chrome:division>
         <chrome:division title="SMTP Configuration">
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.server"/></div>
+        		<div class="label"><fmt:message key="configure.smtp.server"/><tags:hoverHint keyProp="configure.outgoingMailServer" /></div>
         		<div class="value"><form:input path="conf[outgoingMailServer].value" id="conf[outgoingMailServer].value" /></div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.port"/></div>
+        		<div class="label"><fmt:message key="configure.smtp.port"/><tags:hoverHint keyProp="configure.outgoingMailServerPort" /></div>
         		<div class="value"><form:input path="conf[outgoingMailServerPort].value" id="conf[outgoingMailServerPort].value" cssClass="validate-NUMERIC" /></div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.username"/></div>
+        		<div class="label"><fmt:message key="configure.smtp.username"/><tags:hoverHint keyProp="configure.outgoingMailUsername" /></div>
         		<div class="value"><form:input path="conf[outgoingMailUsername].value" id="conf[outgoingMailUsername].value" /></div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.password"/></div>
+        		<div class="label"><fmt:message key="configure.smtp.password"/><tags:hoverHint keyProp="configure.outgoingMailPassword" /></div>
         		<div class="value"><form:input path="conf[outgoingMailPassword].value" id="conf[outgoingMailPassword].value" /></div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.protocol"/></div>
+        		<div class="label"><fmt:message key="configure.smtp.protocol"/><tags:hoverHint keyProp="configure.smtpProtocol" /></div>
         		<div class="value">
         			<form:select path="conf[smtpProtocol].value" id="conf[smtpProtocol].value" >
         				<form:option value="smtps">SMTPS</form:option>
@@ -162,7 +190,7 @@
         		</div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.auth"/></div>
+        		<div class="label"><fmt:message key="configure.smtp.auth"/><tags:hoverHint keyProp="configure.outgoingMailAuth" /></div>
         		<div class="value">
         			<form:select path="conf[outgoingMailAuth].value" id="conf[outgoingMailAuth].value" >
         				<form:option value="true">Yes</form:option>
@@ -171,7 +199,7 @@
 				</div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.sslAuth"/></div>
+        		<div class="label"><fmt:message key="configure.smtp.sslAuth"/><tags:hoverHint keyProp="configure.smtpSSLAuth" /></div>
         		<div class="value">
         			<form:select path="conf[smtpSSLAuth].value" id="conf[smtpSSLAuth].value" >
         				<form:option value="true">Yes</form:option>
@@ -180,14 +208,18 @@
         		</div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.address"/></div>
+        		<div class="label"><fmt:message key="configure.smtp.address"/><tags:hoverHint keyProp="configure.outgoingMailFromAddress" /></div>
         		<div class="value"><form:input path="conf[outgoingMailFromAddress].value" id="conf[outgoingMailFromAddress].value" cssClass="validate-Email" /></div>
+        	</div>
+        	<br>
+        	<div class="row">
+        		<div class="value"><tags:button onclick="sendTestEmail();" color="blue" value="Send test email" icon="save" size="small"/></div>
         	</div>
         </chrome:division>
 		
 		<chrome:division title="Multisite Configuration">
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.multisite.enable"/></div>
+        		<div class="label"><fmt:message key="configure.multisite.enable"/><tags:hoverHint keyProp="configure.multisiteEnable" /></div>
         		<div class="value">
         			<form:select path="conf[multisiteEnable].value" id="conf[multisiteEnable].value" >
         				<form:option value="true">Yes</form:option>
@@ -207,7 +239,7 @@
         
         <chrome:division title="CCTS Configuration">
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.ccts.enable.esb"/></div>
+        		<div class="label"><fmt:message key="configure.ccts.enable.esb"/><tags:hoverHint keyProp="configure.esbEnable" /></div>
         		<div class="value">
         			<form:select path="conf[esbEnable].value" id="conf[esbEnable].value" onchange="manageCCTSConfiguration(this);">
         				<form:option value="true">Yes</form:option>
@@ -217,46 +249,52 @@
         	</div>
         	<div id="cctsConfig">
 	        	<div class="row">
-	        		<div class="label"><fmt:message key="configure.ccts.smoketest.serviceurl"/></div>
+	        		<div class="label"><fmt:message key="configure.ccts.smoketest.serviceurl"/><tags:hoverHint keyProp="configure.smokeTestURL" /></div>
 	        		<div class="value"><form:input path="conf[smokeTestURL].value" id="conf[smokeTestURL].value" /></div>
 	        	</div>
 	        	<div class="row">
-	        		<div class="label"><fmt:message key="configure.ccts.c3d.hotlinkurl"/></div>
-	        		<div class="value"><form:input path="conf[c3dViewerBaseUrl].value" id="conf[c3dViewerBaseUrl].value" /></div>
+	        		<div class="label"><fmt:message key="configure.ccts.c3d.hotlinkurl"/><tags:hoverHint keyProp="configure.c3dViewerBaseUrl"/></div>
+	        		<div class="value"><form:input path="conf[c3dViewerBaseUrl].value" id="conf[c3dViewerBaseUrl].value" />
+	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+	        		</div>
 	        	</div>
 	        	<div class="row">
-	        		<div class="label"><fmt:message key="configure.ccts.c3d.browser.window"/></div>
+	        		<div class="label"><fmt:message key="configure.ccts.c3d.browser.window"/><tags:hoverHint keyProp="configure.c3d_window_name"/></div>
 	        		<div class="value"><form:input path="conf[c3d_window_name].value" id="conf[c3d_window_name].value" /></div>
 	        	</div>
 	        	<div class="row">
-	        		<div class="label"><fmt:message key="configure.ccts.caaers.hotlinkurl"/></div>
-	        		<div class="value"><form:input path="conf[caaersBaseUrl].value" id="conf[caaersBaseUrl].value"/></div>
+	        		<div class="label"><fmt:message key="configure.ccts.caaers.hotlinkurl"/><tags:hoverHint keyProp="configure.caaersBaseUrl" /></div>
+	        		<div class="value"><form:input path="conf[caaersBaseUrl].value" id="conf[caaersBaseUrl].value"/>
+	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+	        		</div>
 	        	</div>
 	        	<div class="row">
-	        		<div class="label"><fmt:message key="configure.ccts.caaers.browser.window"/></div>
+	        		<div class="label"><fmt:message key="configure.ccts.caaers.browser.window"/><tags:hoverHint keyProp="configure.caaers_window_name" /></div>
 	        		<div class="value"><form:input path="conf[caaers_window_name].value" id="conf[caaers_window_name].value" /></div>
 	        	</div>
 	        	<div class="row">
-	        		<div class="label"><fmt:message key="configure.ccts.psc.hotlinkurl"/></div>
-	        		<div class="value"><form:input path="conf[pscBaseUrl].value" id="conf[pscBaseUrl].value" /></div>
+	        		<div class="label"><fmt:message key="configure.ccts.psc.hotlinkurl"/><tags:hoverHint keyProp="configure.pscBaseUrl" /></div>
+	        		<div class="value"><form:input path="conf[pscBaseUrl].value" id="conf[pscBaseUrl].value" />
+	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="save" size="small"/>
+	        		</div>
 	        	</div>
 	        	<div class="row">
-	        		<div class="label"><fmt:message key="configure.ccts.psc.browser.window"/></div>
+	        		<div class="label"><fmt:message key="configure.ccts.psc.browser.window"/><tags:hoverHint keyProp="configure.psc_window_name" /></div>
 	        		<div class="value"><form:input path="conf[psc_window_name].value" id="conf[psc_window_name].value" /></div>
 	        	</div>
 	        	<div class="row">
-	        		<div class="label"><fmt:message key="configure.ccts.esb.url"/></div>
+	        		<div class="label"><fmt:message key="configure.ccts.esb.url"/><tags:hoverHint keyProp="configure.esbUrl" /></div>
 	        		<div class="value"><form:input path="conf[esbUrl].value" id="conf[esbUrl].value"/></div>
 	        	</div>
 	        	<div class="row">
-	        		<div class="label"><fmt:message key="configure.ccts.caxchange.timeout"/></div>
+	        		<div class="label"><fmt:message key="configure.ccts.caxchange.timeout"/><tags:hoverHint keyProp="esb.timeout" /></div>
 	        		<div class="value"><form:input path="conf[esb.timeout].value" id="conf[esb.timeout].value" /></div>
 	        	</div>
         	</div>
         </chrome:division>
 		<chrome:division title="COPPA Configuration">
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.coppa.enable"/></div>
+        		<div class="label"><fmt:message key="configure.coppa.enable"/><tags:hoverHint keyProp="configure.coppaEnable" /></div>
         		<div class="value">
         			<form:select path="conf[coppaEnable].value" id="conf[coppaEnable].value" >
         				<form:option value="true">Yes</form:option>
