@@ -12,6 +12,7 @@ import junit.framework.TestCase;
 import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.Metadata;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
+import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
 
 public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
@@ -37,8 +38,11 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 		messageTypesMapping.put("study", "STUDY_CREATION");
 		messageTypesMapping.put("Person", "PERSON");
 		messageTypesMapping.put("Organization", "ORGANIZATION");
-		messageTypesMapping.put("ClinicalResearchStaff", "CLINICAL_RESEARCH_STAFF_CORRELATION");
-		messageTypesMapping.put("HealthCareProvider", "HEALTH_CARE_PROVIDER_CORRELATION");
+		messageTypesMapping.put("ClinicalResearchStaff", "CLINICAL_RESEARCH_STAFF");
+		messageTypesMapping.put("HealthCareProvider", "HEALTH_CARE_PROVIDER");
+		messageTypesMapping.put("ClinicalResearchStaffCorrelation", "CLINICAL_RESEARCH_STAFF_CORRELATION");
+		messageTypesMapping.put("HealthCareProviderCorrelation", "HEALTH_CARE_PROVIDER_CORRELATION");
+		messageTypesMapping.put("HealthCareFacility", "HEALTH_CARE_FACILITY");
 		
 		TestMultisiteDelegatedCredentialProvider testMultisiteDelegatedCredentialProvider = new TestMultisiteDelegatedCredentialProvider(username, password);
 		testMultisiteDelegatedCredentialProvider.setIdpUrl(idpUrl);
@@ -106,14 +110,14 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 	
 	
 	/**
-	 * Test broadcast for COppa Message.
+	 * Test broadcast for COppa Message - search person.
 	 */
-	public void testBroadcastCoppaMessage(){
+	public void testBroadcastCoppaMessageForPersonSearch(){
 
 		String payloadXml = getPayloadForFile("PERSON_SEARCH.xml");
 		String serviceResponsePayload = null;
         //build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId");
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.PERSON.getName());
         try {
         	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
 		} catch (BroadcastException e) {
@@ -121,9 +125,244 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 			fail();
 		}
 		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
 	}
 	
 	
+	/**
+	 * Test broadcast for COppa Message. - getById Person
+	 */
+	public void testBroadcastCoppaMessageForPersonId(){
+
+		String payloadXml = getPayloadForFile("PERSON_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "extId", ServiceTypeEnum.PERSON.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	
+	
+	/**
+	 * Test broadcast for COppa Message - search Org.
+	 */
+	public void testBroadcastCoppaMessageForOrganizationSearch(){
+
+		String payloadXml = getPayloadForFile("ORGANIZATION_SEARCH.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.ORGANIZATION.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message. - getById Organization
+	 */
+	public void testBroadcastCoppaMessageForOrganizationId(){
+
+		String payloadXml = getPayloadForFile("ORGANIZATION_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "extId", ServiceTypeEnum.ORGANIZATION.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	
+	/**
+	 * Test broadcast for COppa Message - search CLINICAL_RESEARCH_STAFF.
+	 */
+	public void testBroadcastCoppaMessageForClinicalResearchStaffSearch(){
+
+		String payloadXml = getPayloadForFile("CLINICAL_RESEARCH_STAFF_SEARCH.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message. - getById CLINICAL_RESEARCH_STAFF
+	 */
+	public void testBroadcastCoppaMessageForClinicalResearchStaffId(){
+
+		String payloadXml = getPayloadForFile("CLINICAL_RESEARCH_STAFF_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "extId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	
+	/**
+	 * Test broadcast for COppa Message - search HealthcareFacility.
+	 */
+	public void testBroadcastCoppaMessageForHealthcareFacilitySearch(){
+
+		String payloadXml = getPayloadForFile("HEALTH_CARE_FACILITY_SEARCH.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.HEALTH_CARE_FACILITY.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message. - getById HealthcareFacility
+	 */
+	public void testBroadcastCoppaMessageForHealthcareFacilityId(){
+
+		String payloadXml = getPayloadForFile("HEALTH_CARE_FACILITY_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "extId", ServiceTypeEnum.HEALTH_CARE_FACILITY.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	
+	/**
+	 * Test broadcast for COppa Message - search HealthcareProvider.
+	 */
+	public void testBroadcastCoppaMessageForHealthcareProviderSearch(){
+
+		String payloadXml = getPayloadForFile("HEALTH_CARE_PROVIDER_SEARCH.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message. - getById HealthcareProvider
+	 */
+	public void testBroadcastCoppaMessageForHealthcareProviderId(){
+
+		String payloadXml = getPayloadForFile("HEALTH_CARE_PROVIDER_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "extId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	
+	/**
+	 * Test broadcast for COppa Message - search IDENTIFIED_ORGANIZATION.
+	 */
+	public void testBroadcastCoppaMessageForIdentifiedOrganizationSearch(){
+
+		String payloadXml = getPayloadForFile("IDENTIFIED_ORGANIZATION_SEARCH.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message. - getById IDENTIFIED_ORGANIZATION
+	 */
+	public void testBroadcastCoppaMessageForIdentifiedOrganizationId(){
+
+		String payloadXml = getPayloadForFile("IDENTIFIED_ORGANIZATION_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "extId", ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	
+	/**
+	 * Test broadcast for COppa Message. - getByCtepId PERSON_BUSINESS_SERVICE
+	 */
+	public void testBroadcastCoppaMessageForPersonByCtepId(){
+
+		String payloadXml = getPayloadForFile("CTEP_ID_PERSON.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getPersonByCTEPId.getName(), "extId", ServiceTypeEnum.PERSON_BUSINESS_SERVICE.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
 	
 	/*	this test fails but with a xml message related exception which means that the connection was successfuly established.
 	 * 
