@@ -6,11 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import javax.mail.MessagingException;
 import javax.mail.Transport;
-import javax.mail.Message.RecipientType;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,7 +31,6 @@ import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl;
 import edu.duke.cabig.c3pr.service.PersonnelService;
-import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.PropertyWrapper;
