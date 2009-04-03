@@ -154,6 +154,26 @@
 						</c:otherwise>
 					</c:choose>
 				</c:if>
+				<c:if test="${icon=='connectivity'}">
+					<c:choose>
+						<c:when test="${size=='small'}">
+		    				<img src="<chrome:imageUrl name="../icons/button_icons/small/connectivity_icon_small.png"/>" alt="" />
+						</c:when>
+						<c:otherwise>
+							<img src="<chrome:imageUrl name="../icons/button_icons/connectivity_icon.png"/>" alt="" />
+						</c:otherwise>
+					</c:choose>
+				</c:if>
+				<c:if test="${icon=='mail'}">
+					<c:choose>
+						<c:when test="${size=='small'}">
+		    				<img src="<chrome:imageUrl name="../icons/button_icons/small/mail_icon_small.png"/>" alt="" />
+						</c:when>
+						<c:otherwise>
+							<img src="<chrome:imageUrl name="../icons/button_icons/mail_icon.png"/>" alt="" />
+						</c:otherwise>
+					</c:choose>
+				</c:if>
 				
 				${value}
 				
