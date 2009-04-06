@@ -124,13 +124,13 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		return remoteOrganizations;
 	}
 	
-	public gov.nih.nci.coppa.po.Organization deSerialize() {
+	public gov.nih.nci.coppa.po.Organization deSerialize(String inputXMLFile,String outputJavaFile) {
 		try {
 
 			InputStream inputStream =  getClass().getClassLoader().getResourceAsStream(
-					"organization_search.xml");
+					inputXMLFile);
 
-				File f = new File("outFile.java");
+				File f = new File(outputJavaFile + ".java");
 				OutputStream out = new FileOutputStream(f);
 				byte buf[] = new byte[1024];
 				int len;
@@ -155,7 +155,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 
 	
 	
-	private void serialize(gov.nih.nci.coppa.po.Organization org) {
+	public void serialize(gov.nih.nci.coppa.po.Organization org) {
 		QName idQname = new QName("http://po.coppa.nci.nih.gov", "Organization");
 		StringWriter writer = new StringWriter();
 		InputStream wsddIs = getClass().getResourceAsStream(
