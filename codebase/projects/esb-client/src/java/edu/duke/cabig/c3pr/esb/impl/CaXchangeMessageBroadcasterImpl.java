@@ -42,7 +42,6 @@ import edu.duke.cabig.c3pr.esb.DelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ResponseErrors;
-import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import gov.nih.nci.cagrid.caxchange.client.CaXchangeRequestProcessorClient;
 import gov.nih.nci.cagrid.caxchange.context.client.CaXchangeResponseServiceClient;
 import gov.nih.nci.cagrid.caxchange.context.stubs.types.CaXchangeResponseServiceReference;
@@ -304,9 +303,12 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     	
         mData.setOperationName(localMetadata.getOperationName());
         mData.setExternalIdentifier(localMetadata.getExternalIdentifier());
-        
+//        String nodeName = messageDOM.getDocumentElement().getNodeName();
+//        String serviceType =  (String) messageTypesMapping.get(nodeName.substring(nodeName.indexOf(":") + 1));
         //mData.setServiceType((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName()));
-        mData.setServiceType(ServiceTypeEnum.PERSON.name());
+//        mData.setServiceType(ServiceTypeEnum.PERSON.name());
+        
+        mData.setServiceType(localMetadata.getServiceType());
         //will be removed. temp
         mData.setCredentials(creds);
         return mData;

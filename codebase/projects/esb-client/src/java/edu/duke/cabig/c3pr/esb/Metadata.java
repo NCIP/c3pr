@@ -12,9 +12,20 @@ public class Metadata {
 	
 	private String externalIdentifier;
 	
+	private String serviceType; 
+	
+	public Metadata() {
+	}
+	
 	public Metadata(String operationName, String externalId) {
 		this.operationName = operationName;
 		this.externalIdentifier = externalId;
+	}
+	
+	public Metadata(String operationName, String externalId, String serviceType) {
+		this.operationName = operationName;
+		this.externalIdentifier = externalId;
+		this.serviceType = serviceType;
 	}
 
 	public String getExternalIdentifier() {
@@ -31,6 +42,14 @@ public class Metadata {
 
 	public void setOperationName(String operationName) {
 		this.operationName = operationName;
+	}
+
+	public String getServiceType() {
+		return serviceType;
+	}
+
+	public void setServiceType(String serviceType) {
+		this.serviceType = serviceType;
 	}
 
 }

@@ -21,4 +21,16 @@ public interface MessageBroadcastService {
      * @throws BroadcastException
      */
     public void broadcast(String message, edu.duke.cabig.c3pr.esb.Metadata localMetadata) throws BroadcastException;
+    
+    /**
+     * Broadcast coppa message.
+     * 
+     * @param cctsDomainObjectXML the ccts domain object xml
+     * @param localMetadata the local metadata
+     * 
+     * @return the string
+     * 
+     * @throws BroadcastException the broadcast exception
+     */
+    public String broadcastCoppaMessage(String cctsDomainObjectXML, edu.duke.cabig.c3pr.esb.Metadata localMetadata) throws BroadcastException;
 }

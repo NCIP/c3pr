@@ -48,4 +48,8 @@ public class MessageBroadcastServiceImpl extends JmsService implements MessageBr
         return messages;
     }
 
+    public String broadcastCoppaMessage(String cctsDomainObjectXML, Metadata localMetadata) throws BroadcastException {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
 }
