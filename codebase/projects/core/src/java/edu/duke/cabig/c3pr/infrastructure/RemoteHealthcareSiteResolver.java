@@ -1,8 +1,8 @@
 package edu.duke.cabig.c3pr.infrastructure;
 
 import edu.duke.cabig.c3pr.domain.Address;
-import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
+import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.coppa.iso.AddressPartType;
 import gov.nih.nci.coppa.iso.Adxp;
 import gov.nih.nci.coppa.iso.Enxp;
@@ -12,9 +12,17 @@ import gov.nih.nci.services.correlation.IdentifiedOrganizationDTO;
 import gov.nih.nci.services.organization.OrganizationDTO;
 import gov.nih.nci.services.organization.OrganizationEntityServiceRemote;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 
@@ -102,7 +110,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Object> find(Object example) {	
-		Organization remoteOrgExample = (RemoteHealthcareSite)example;
+		edu.duke.cabig.c3pr.domain.Organization remoteOrgExample = (RemoteHealthcareSite)example;
 //		 build Organization DTO based on remoteOrgExample
 		OrganizationDTO dtoExample = new OrganizationDTO();
 		List<OrganizationDTO> organizationDTOs = organizationEntityServiceRemote.search(dtoExample);
@@ -110,10 +118,54 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		
 		List<Object> remoteOrganizations = new ArrayList<Object>();
 		for (OrganizationDTO organizationDTO:organizationDTOs) {
-			Organization remoteOrganization = populateRemoteOrganization(organizationDTO);
+			edu.duke.cabig.c3pr.domain.Organization remoteOrganization = populateRemoteOrganization(organizationDTO);
 			remoteOrganizations.add(remoteOrganization);
 		}
 		return remoteOrganizations;
+	}
+	
+	public gov.nih.nci.coppa.po.Organization deSerialize() {
+		try {
+
+			InputStream inputStream =  getClass().getClassLoader().getResourceAsStream(
+					"organization_search.xml");
+
+				File f = new File("outFile.java");
+				OutputStream out = new FileOutputStream(f);
+				byte buf[] = new byte[1024];
+				int len;
+				while ((len = inputStream.read(buf)) > 0)
+					out.write(buf, 0, len);
+				out.close();
+				inputStream.close();
+
+			FileReader fr = new FileReader(f);
+			InputStream wsddIs = getClass().getResourceAsStream(
+					"/gov/nih/nci/coppa/services/client/client-config.wsdd");
+			gov.nih.nci.coppa.po.Organization org = (gov.nih.nci.coppa.po.Organization) Utils.deserializeObject(fr,
+					gov.nih.nci.coppa.po.Organization.class, wsddIs);
+			
+			return org;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	
+	private void serialize(gov.nih.nci.coppa.po.Organization org) {
+		QName idQname = new QName("http://po.coppa.nci.nih.gov", "Organization");
+		StringWriter writer = new StringWriter();
+		InputStream wsddIs = getClass().getResourceAsStream(
+				"/gov/nih/nci/coppa/services/client/client-config.wsdd");
+		try {
+			Utils.serializeObject(org, idQname, writer, wsddIs);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
