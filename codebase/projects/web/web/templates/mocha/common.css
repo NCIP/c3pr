@@ -611,6 +611,9 @@ p { margin: 1em 0; }
 	border-color: #930;
 	background-color: #ea9;
 }
+.error {
+	color:red;
+	}
 /* A pane is a vertical subdivision of the page.
    Individual panes will need to have their widths specified
    if there's more than one in a page;

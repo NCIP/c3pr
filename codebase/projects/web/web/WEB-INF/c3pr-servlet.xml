@@ -418,6 +418,7 @@
           autowire="byName" parent="createInvestigatorController">
     </bean>
     <bean id="investigatorValidator" class="edu.duke.cabig.c3pr.domain.validator.InvestigatorValidator" autowire="byName"></bean>
+    <bean id="connectivityValidator" name="/admin/validateConnectivity" class="edu.duke.cabig.c3pr.utils.web.validators.ValidateConnectionController" autowire="byName"></bean>
     <bean name="/personAndOrganization/investigator/getGroup"
           id="createInvestigatorGroupsController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController"

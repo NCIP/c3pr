@@ -31,11 +31,6 @@
         }
     </style>
     <script type="text/javascript">
-	function sendTestEmail(){
-		
-	}
-
-    
     function manageCCTSConfiguration(box) {
         if (box.value == 'true') {
             Effect.OpenUp('cctsConfig');
@@ -90,14 +85,39 @@
 	    							$(hiddenField).value=selectedChoice.nciInstituteCode;
 			}
 		}
-    	AutocompleterManager.addAutocompleter(localNCIInstituteCodeAutocompleterProps);
+    AutocompleterManager.addAutocompleter(localNCIInstituteCodeAutocompleterProps);
+
+    function testConnectivity(id, type){
+    	$('testIndicator['+id+']').style.display = "";
+		var value = $(id).value ;
+		if(value == ''){
+			alert("Enter Data");
+			Element.hide('testIndicator[${id}]');
+			return;
+		}
+		var url = "../admin/validateConnectivity?type="+type+"&value="+escape(value)+"&id="+escape(id);
+		new Ajax.Updater('connectionTestResult['+id+']',url, {evalScripts: true});
+	}
+	
+	function showErrorTrace(errorTrace) {
+		var win = new Window( {
+			className :"mac_os_x",
+			width :250,
+			height :200,
+			zIndex :100,
+			resizable :true,
+			title :"Error Trace",
+			draggable :true,
+			wiredDrag :true
+		});
+		win.getContent().innerHTML = errorTrace ;
+		win.showCenter(true);
+	}
+	
     </script>
 </head>
 <body>
     <form:form action="${action}" cssClass="standard">
-    <c:if test="${param.updated}">
-        <p class="updated">Settings saved</p>
-    </c:if>
     <chrome:box title="Configure C3PR" autopad="true">
     <c:url value="/pages/admin/configure" var="action"/>
     <tags:errors path="*"/>
@@ -111,12 +131,12 @@
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.app.siteBanner"/><tags:hoverHint keyProp="configure.siteName" /></div>
-        		<div class="value"><form:input path="conf[siteName].value" id="conf[siteName].value" cssClass="validate-notEmpty"/></div>
+        		<div class="value"><form:input path="conf[siteName].value" id="siteName" cssClass="validate-notEmpty"/></div>
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.app.notificationLinkBack"/><tags:hoverHint keyProp="notification.linkBack" /></div>
         		<div class="value">
-        			<form:select path="conf[notification.link_back].value" id="conf[notification.link_back].value" >
+        			<form:select path="conf[notification.link_back].value" id="notification.link_back" >
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
         			</form:select>
@@ -127,7 +147,7 @@
         	<div class="row">
         		<div class="label"><fmt:message key="configure.auth.enable"/><tags:hoverHint keyProp="configure.authorizationSwitch"/></div>
         		<div class="value">
-        			<form:select path="conf[authorizationSwitch].value" id="conf[authorizationSwitch].value" onchange="manageAuthenticationSwitch(this);">
+        			<form:select path="conf[authorizationSwitch].value" id="authorizationSwitch" onchange="manageAuthenticationSwitch(this);">
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
         			</form:select>
@@ -137,7 +157,7 @@
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.auth.mode"/><tags:hoverHint keyProp="configure.authenticationMode"/></div>
 	        		<div class="value">
-	        			<form:select path="conf[authenticationMode].value" id="conf[authenticationMode].value" onchange="manageAuthenticationMode(this);">
+	        			<form:select path="conf[authenticationMode].value" id="authenticationMode" onchange="manageAuthenticationMode(this);">
 	        				<form:option value="local">Local</form:option>
 	        				<form:option value="cas">CAS</form:option>
 	        				<form:option value="webSSO">WebSSO</form:option>
@@ -148,41 +168,69 @@
 		        	<div class="row">
 		        		<div class="label"><fmt:message key="configure.auth.c3pr.url"/><tags:hoverHint keyProp="configure.c3pr.webapp.url" /></div>
 		        		<div class="value">
-		        			<form:input path="conf[c3pr.webapp.url].value" id="conf[c3pr.webapp.url].value" cssClass="validate-URL"/>
-		        				<tags:button onclick="testConnection('conf[c3pr.webapp.url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+		        			<form:input path="conf[c3pr.webapp.url].value" id="c3pr.webapp.url" cssClass="validate-URL"/>
+		        			<tags:button type="button" onclick="testConnectivity('c3pr.webapp.url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+		        			<img id="testIndicator[c3pr.webapp.url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+		        			<span id="connectionTestResult[c3pr.webapp.url]" ></span>
 		        		</div>
 		        	</div>
 	        	</div>
 	        	<div id="casAuthConfig">
 		        	<div class="row">
 		        		<div class="label"><fmt:message key="configure.auth.cas.baseurl"/><tags:hoverHint keyProp="configure.cas.base_url" /></div>
-		        		<div class="value"><form:input path="conf[cas.base_url].value" id="conf[cas.base_url].value" cssClass="validate-URL"/>
-		        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+		        		<div class="value">
+		        			<form:input path="conf[cas.base_url].value" id="cas.base_url" cssClass="validate-URL"/>
+		        			<tags:button type="button" onclick="testConnectivity('cas.base_url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+		        			<img id="testIndicator[cas.base_url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+		        			<span id="connectionTestResult[cas.base_url]" ></span>
 		        		</div>
 		        	</div>
 		        	<div class="row">
 		        		<div class="label"><fmt:message key="configure.auth.cas.certfile"/><tags:hoverHint keyProp="configure.cas.cert_file" /></div>
-		        		<div class="value"><form:input path="conf[cas.cert_file].value" id="conf[cas.cert_file].value" /></div>
+		        		<div class="value">
+		        			<form:input path="conf[cas.cert_file].value" id="cas.cert_file" />
+		        			<tags:button type="button" onclick="testConnectivity('cas.cert_file', 'testFileLocation');" color="blue" value="Test" icon="check" size="small"/>
+		        			<img id="testIndicator[cas.cert_file]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+		        			<span id="connectionTestResult[cas.cert_file]" ></span>
+		        		</div>
 		        	</div>
 	        	</div>
 	        	<div id="webssoAuthConfig">
 		        	<div class="row">
 		        		<div class="label"><fmt:message key="configure.auth.websso.baseurl"/><tags:hoverHint keyProp="configure.ccts.websso.base_url" /></div>
-		        		<div class="value"><form:input path="conf[ccts.websso.base_url].value" id="conf[ccts.websso.base_url].value" cssClass="validate-URL"/>
-		        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+		        		<div class="value">
+		        			<form:input path="conf[ccts.websso.base_url].value" id="ccts.websso.base_url" cssClass="validate-URL"/>
+		        			<tags:button type="button" onclick="testConnectivity('ccts.websso.base_url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+		        			<img id="testIndicator[ccts.websso.base_url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+		        			<span id="connectionTestResult[ccts.websso.base_url]" ></span>
 		        		</div>
 		        	</div>
 		        	<div class="row">
 		        		<div class="label"><fmt:message key="configure.auth.websso.certfile"/><tags:hoverHint keyProp="configure.ccts.websso.cert_file" /></div>
-		        		<div class="value"><form:input path="conf[ccts.websso.cert_file].value" id="conf[ccts.websso.cert_file].value" /></div>
+		        		<div class="value">
+		        			<form:input path="conf[ccts.websso.cert_file].value" id="ccts.websso.cert_file" />
+		        			<tags:button type="button" onclick="testConnectivity('ccts.websso.cert_file', 'testFileLocation');" color="blue" value="Test" icon="check" size="small"/>
+		        			<img id="testIndicator[ccts.websso.cert_file]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+		        			<span id="connectionTestResult[ccts.websso.cert_file]" ></span>
+		        		</div>
 		        	</div>
 		        	<div class="row">
 		        		<div class="label"><fmt:message key="configure.ccts.host.certfile"/><tags:hoverHint keyProp="configure.hostCertificate" /></div>
-		        		<div class="value"><form:input path="conf[hostCertificate].value" id="conf[hostCertificate].value" cssClass="validate-URL"/></div>
+		        		<div class="value">
+		        			<form:input path="conf[hostCertificate].value" id="hostCertificate"/>
+		        			<tags:button type="button" onclick="testConnectivity('hostCertificate', 'testFileLocation');" color="blue" value="Test" icon="check" size="small"/>
+		        			<img id="testIndicator[hostCertificate]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+		        			<span id="connectionTestResult[hostCertificate]" ></span>
+		        		</div>
 		        	</div>
 		        	<div class="row">
 		        		<div class="label"><fmt:message key="configure.ccts.host.key"/><tags:hoverHint keyProp="configure.hostKey" /></div>
-		        		<div class="value"><form:input path="conf[hostKey].value" id="conf[hostKey].value" cssClass="validate-URL"/></div>
+		        		<div class="value">
+		        			<form:input path="conf[hostKey].value" id="hostKey" />
+		        			<tags:button type="button" onclick="testConnectivity('hostKey', 'testFileLocation');" color="blue" value="Test" icon="check" size="small"/>
+		        			<img id="testIndicator[hostKey]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+		        			<span id="connectionTestResult[hostKey]" ></span>
+		        		</div>
 		        	</div>
 	        	</div>
         	</div>
@@ -190,24 +238,24 @@
         <chrome:division title="SMTP Configuration">
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.server"/><tags:hoverHint keyProp="configure.outgoingMailServer" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailServer].value" id="conf[outgoingMailServer].value" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailServer].value" id="outgoingMailServer" /></div>
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.port"/><tags:hoverHint keyProp="configure.outgoingMailServerPort" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailServerPort].value" id="conf[outgoingMailServerPort].value" cssClass="validate-NUMERIC" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailServerPort].value" id="outgoingMailServerPort" cssClass="validate-NUMERIC" /></div>
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.username"/><tags:hoverHint keyProp="configure.outgoingMailUsername" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailUsername].value" id="conf[outgoingMailUsername].value" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailUsername].value" id="outgoingMailUsername" /></div>
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.password"/><tags:hoverHint keyProp="configure.outgoingMailPassword" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailPassword].value" id="conf[outgoingMailPassword].value" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailPassword].value" id="outgoingMailPassword" /></div>
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.protocol"/><tags:hoverHint keyProp="configure.smtpProtocol" /></div>
         		<div class="value">
-        			<form:select path="conf[smtpProtocol].value" id="conf[smtpProtocol].value" >
+        			<form:select path="conf[smtpProtocol].value" id="smtpProtocol" >
         				<form:option value="smtps">SMTPS</form:option>
         				<form:option value="smtp">SMTP</form:option>
         			</form:select>
@@ -216,7 +264,7 @@
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.auth"/><tags:hoverHint keyProp="configure.outgoingMailAuth" /></div>
         		<div class="value">
-        			<form:select path="conf[outgoingMailAuth].value" id="conf[outgoingMailAuth].value" >
+        			<form:select path="conf[outgoingMailAuth].value" id="outgoingMailAuth" >
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
         			</form:select>
@@ -225,7 +273,7 @@
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.sslAuth"/><tags:hoverHint keyProp="configure.smtpSSLAuth" /></div>
         		<div class="value">
-        			<form:select path="conf[smtpSSLAuth].value" id="conf[smtpSSLAuth].value" >
+        			<form:select path="conf[smtpSSLAuth].value" id="smtpSSLAuth" >
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
         			</form:select>
@@ -233,19 +281,18 @@
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.address"/><tags:hoverHint keyProp="configure.outgoingMailFromAddress" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailFromAddress].value" id="conf[outgoingMailFromAddress].value" cssClass="validate-Email" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailFromAddress].value" id="outgoingMailFromAddress" cssClass="validate-Email" /></div>
         	</div>
         	<br>
         	<div class="row">
-        		<div class="value"><tags:button onclick="sendTestEmail();" color="blue" value="Send test email" icon="mail" size="small"/></div>
+        		<div class="value"><tags:button type="button" onclick="testConnectivity();" color="blue" value="Send test email" icon="mail" size="small"/></div>
         	</div>
         </chrome:division>
-		
 		<chrome:division title="Multisite Configuration">
         	<div class="row">
         		<div class="label"><fmt:message key="configure.multisite.enable"/><tags:hoverHint keyProp="configure.multisiteEnable" /></div>
         		<div class="value">
-        			<form:select path="conf[multisiteEnable].value" id="conf[multisiteEnable].value" >
+        			<form:select path="conf[multisiteEnable].value" id="multisiteEnable" >
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
         			</form:select>
@@ -253,11 +300,11 @@
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.multisite.ifs_url"/></div>
-        		<div class="value"><form:input path="conf[ifs.url].value" id="conf[ifs.url].value" cssClass="validate-URL"/></div>
+        		<div class="value"><form:input path="conf[ifs.url].value" id="ifs.url" cssClass="validate-URL"/></div>
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.multisite.idp_url"/></div>
-        		<div class="value"><form:input path="conf[idp.url].value" id="conf[idp.url].value" cssClass="validate-URL"/></div>
+        		<div class="value"><form:input path="conf[idp.url].value" id="idp.url" cssClass="validate-URL"/></div>
         	</div>
         </chrome:division>
         
@@ -265,7 +312,7 @@
         	<div class="row">
         		<div class="label"><fmt:message key="configure.ccts.enable.esb"/><tags:hoverHint keyProp="configure.esbEnable" /></div>
         		<div class="value">
-        			<form:select path="conf[esbEnable].value" id="conf[esbEnable].value" onchange="manageCCTSConfiguration(this);">
+        			<form:select path="conf[esbEnable].value" id="esbEnable" onchange="manageCCTSConfiguration(this);">
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
         			</form:select>
@@ -274,49 +321,62 @@
         	<div id="cctsConfig">
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.smoketest.serviceurl"/><tags:hoverHint keyProp="configure.smokeTestURL" /></div>
-	        		<div class="value"><form:input path="conf[smokeTestURL].value" id="conf[smokeTestURL].value" />
-	        		<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+	        		<div class="value">
+	        			<form:input path="conf[smokeTestURL].value" id="smokeTestURL" />
+	        			<tags:button type="button" onclick="testConnectivity('smokeTestURL', 'testSmokeTestURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<img id="testIndicator[smokeTestURL]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+	        			<span id="connectionTestResult[smokeTestURL]" ></span>
 	        		</div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.c3d.hotlinkurl"/><tags:hoverHint keyProp="configure.c3dViewerBaseUrl"/></div>
-	        		<div class="value"><form:input path="conf[c3dViewerBaseUrl].value" id="conf[c3dViewerBaseUrl].value" />
-	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+	        		<div class="value">
+	        			<form:input path="conf[c3dViewerBaseUrl].value" id="c3dViewerBaseUrl" />
+	        			<tags:button type="button" onclick="testConnectivity('c3dViewerBaseUrl', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<img id="testIndicator[c3dViewerBaseUrl]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+	        			<span id="connectionTestResult[c3dViewerBaseUrl]" ></span>
 	        		</div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.c3d.browser.window"/><tags:hoverHint keyProp="configure.c3d_window_name"/></div>
-	        		<div class="value"><form:input path="conf[c3d_window_name].value" id="conf[c3d_window_name].value" /></div>
+	        		<div class="value"><form:input path="conf[c3d_window_name].value" id="c3d_window_name" /></div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.caaers.hotlinkurl"/><tags:hoverHint keyProp="configure.caaersBaseUrl" /></div>
-	        		<div class="value"><form:input path="conf[caaersBaseUrl].value" id="conf[caaersBaseUrl].value"/>
-	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+	        		<div class="value"><form:input path="conf[caaersBaseUrl].value" id="caaersBaseUrl"/>
+	        			<tags:button type="button" onclick="testConnectivity('caaersBaseUrl', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<img id="testIndicator[caaersBaseUrl]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+	        			<span id="connectionTestResult[caaersBaseUrl]" ></span>
 	        		</div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.caaers.browser.window"/><tags:hoverHint keyProp="configure.caaers_window_name" /></div>
-	        		<div class="value"><form:input path="conf[caaers_window_name].value" id="conf[caaers_window_name].value" /></div>
+	        		<div class="value"><form:input path="conf[caaers_window_name].value" id="caaers_window_name" /></div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.psc.hotlinkurl"/><tags:hoverHint keyProp="configure.pscBaseUrl" /></div>
-	        		<div class="value"><form:input path="conf[pscBaseUrl].value" id="conf[pscBaseUrl].value" />
-	        			<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+	        		<div class="value"><form:input path="conf[pscBaseUrl].value" id="pscBaseUrl" />
+	        			<tags:button type="button" onclick="testConnectivity('pscBaseUrl', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<img id="testIndicator[pscViewerBaseUrl]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+	        			<span id="connectionTestResult[pscBaseUrl]" ></span>
 	        		</div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.psc.browser.window"/><tags:hoverHint keyProp="configure.psc_window_name" /></div>
-	        		<div class="value"><form:input path="conf[psc_window_name].value" id="conf[psc_window_name].value" /></div>
+	        		<div class="value"><form:input path="conf[psc_window_name].value" id="psc_window_name" /></div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.esb.url"/><tags:hoverHint keyProp="configure.esbUrl" /></div>
-	        		<div class="value"><form:input path="conf[esbUrl].value" id="conf[esbUrl].value"/>
-	        		<tags:button onclick="testConnection('conf[cas.base_url].value');" color="blue" value="Test connection" icon="connectivity" size="small"/>
+	        		<div class="value">
+	        			<form:input path="conf[esbUrl].value" id="esbUrl"/>
+	        			<tags:button type="button" onclick="testConnectivity('esbUrl', 'testCaXchangeURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<img id="testIndicator[esbUrl]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+	        			<span id="connectionTestResult[esbUrl]" ></span>
 	        		</div>
 	        	</div>
 	        	<div class="row">
 	        		<div class="label"><fmt:message key="configure.ccts.caxchange.timeout"/><tags:hoverHint keyProp="esb.timeout" /></div>
-	        		<div class="value"><form:input path="conf[esb.timeout].value" id="conf[esb.timeout].value" /></div>
+	        		<div class="value"><form:input path="conf[esb.timeout].value" id="esb.timeout" /></div>
 	        	</div>
         	</div>
         </chrome:division>
@@ -324,7 +384,7 @@
         	<div class="row">
         		<div class="label"><fmt:message key="configure.coppa.enable"/><tags:hoverHint keyProp="configure.coppaEnable" /></div>
         		<div class="value">
-        			<form:select path="conf[coppaEnable].value" id="conf[coppaEnable].value" >
+        			<form:select path="conf[coppaEnable].value" id="coppaEnable" >
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
         			</form:select>
@@ -333,7 +393,7 @@
         </chrome:division>
         </chrome:box>
          <div class="row submit">
-            <tags:button type="submit" color="green" value="Save" icon="connectivity"/>
+            <tags:button type="submit" color="green" value="Save" icon="save"/>
         </div>
     </form:form>
     
