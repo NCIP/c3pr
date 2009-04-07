@@ -9,7 +9,9 @@
 <%@attribute name="hintKey" %>
 <%@attribute name="hintId" %>
 <%@attribute name="cssClass" %>
-<input id="${basename}-input" size="33" type="text" name="aaaxxx" value="${displayValue}" class="autocomplete ${cssClass}" />
+<%@attribute name="size" %>
+<c:set var="size" value="${empty size ? '33' : size}"/>
+<input id="${basename}-input" size="${size}" type="text" name="aaaxxx" value="${displayValue}" class="autocomplete ${cssClass}" />
 <input type="hidden" id="${basename}-hidden" name="${name}" value="${value}" />
 
 <!-- use the id attribute if you have multiple instances of the same field on the jsp e.g: added by row manager -->

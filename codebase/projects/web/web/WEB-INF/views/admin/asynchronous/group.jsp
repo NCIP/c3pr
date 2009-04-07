@@ -10,105 +10,132 @@
 		instanceRowInserterProps.reset(${newGroup?0:fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)});
 </script>
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
-<chrome:division title="Group">
 <form:form id="groupForm">
+<chrome:division title="Investigator Group">
 	<c:if test="${!newGroup}">
 		<input type="hidden" name="groupId" id="groupId" value="${command.healthcareSite.investigatorGroups[groupIndex].id }"/>
 	</c:if>
 	<input type="hidden" name="decorator" value="nullDecorator"/>
-        	<table border="0" width="100%">
-	        	<tr id="editGroup">
-	        		<td>
-	        			<table>
-	        				<tr>
-	        					<td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.name"/></b></td>
-	        					<td><input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" class="validate-notEmpty"/><tags:hoverHint keyProp="investigatorGroup.name"/></td>
-	        				</tr>
-	        				<tr>
-	        					<td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.startDate"/></b></td> 
-	        					<td><input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}" class="validate-notEmpty&&DATE"/>
-	        					 <a href="#" id="linkStartDate">
-			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
-			                	</a><tags:hoverHint keyProp="investigatorGroup.startDate"/></td>
-			                </tr>
-	        				<tr>
-	        					<td align="right"><b><fmt:message key="c3pr.common.endDate"/></b></td>
-	        					<td><input type="text" id="formEndDate" name="healthcareSite.investigatorGroups[${groupIndex }].endDate" value="${newGroup?'':command.healthcareSite.investigatorGroups[groupIndex].endDateStr}" class="validate-DATE"/>
-	        					 <a href="#" id="linkEndDate">
-			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
-			                	</a><tags:hoverHint keyProp="investigatorGroup.endDate"/></td>
-	        				</tr>
-	        			</table>
-	        		</td> 
-	        		<td align="right"><b><fmt:message key="c3pr.common.description"/></b></td>
-	        		<td><textarea name="healthcareSite.investigatorGroups[${groupIndex }].descriptionText" rows="5" cols="50"
-	        					 value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}">${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}</textarea><tags:hoverHint keyProp="investigatorGroup.descriptionText"/></td>      
-	        	</tr>
-        	</table>
-        		<c:if test="${!newGroup && fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)>0}">
-		           <br><br><b>Existing Investigators</b><br><br>
-				<table width="50%" class="tablecontent">
-					<tr>
-			            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>
-			            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
-			            <th><fmt:message key="c3pr.common.endDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
-	        		</tr>
-				<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" var="aff" varStatus="status">
-			        <tr  id="investigatorsTableGroup">
-			        <c:if test="${aff.healthcareSiteInvestigator.statusCode eq 'AC'}">
-			            <td>
-			                ${aff.healthcareSiteInvestigator.investigator.fullName }
-			            </td>
-			            <td>
-			            	<tags:customInPlaceEdit value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].startDateStr}"
-	                        path="changedSiteAffiliationStartDate_${status.index}" healthcareSite="${command.healthcareSite.id}" groupIndex="${groupIndex}"/>
-	                		&nbsp;
-			            </td>
-			            <td>
-	               			 <tags:customInPlaceEdit value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].endDateStr}"
-	                        path="changedSiteAffiliationEndDate_${status.index}" healthcareSite="${command.healthcareSite.id}" groupIndex="${groupIndex}"/>
-	                		&nbsp;
-	                   </td>
-	                   </c:if>
-			        </tr>
-			     </c:forEach>
-			    </table>
-	          </c:if>
-	          
-	          
-	<br>    
+   	<div id="editGroup">
+   		<div class="leftpanel">
+   			<div class="row">
+   				<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.name"/></div>
+	   			<div class="value">
+	   				<input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" class="validate-notEmpty"/><tags:hoverHint keyProp="investigatorGroup.name"/>
+	   			</div>
+   			</div>
+   			<div class="row">
+   				<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate"/></div>
+	   			<div class="value">
+	   				<input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}" class="validate-notEmpty&&DATE"/>
+	        			<a href="#" id="linkStartDate">
+			               <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
+			            </a>
+			            <tags:hoverHint keyProp="investigatorGroup.startDate"/>
+	   			</div>
+   			</div>
+   			<div class="row">
+   				<div class="label"><fmt:message key="c3pr.common.endDate"/></div>
+	   			<div class="value">
+	   				<input type="text" id="formEndDate" name="healthcareSite.investigatorGroups[${groupIndex }].endDate" value="${newGroup?'':command.healthcareSite.investigatorGroups[groupIndex].endDateStr}" class="validate-DATE"/>
+	        		    <a href="#" id="linkEndDate">
+			                <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
+			           	</a>
+			           	<tags:hoverHint keyProp="investigatorGroup.endDate"/>
+	   			</div>
+   			</div>
+   		</div>
+   		<div class="rightpanel">
+   			<div class="row">
+   				<div class="label"><fmt:message key="c3pr.common.description"/></div>
+   				<div class="value">
+   					<textarea name="healthcareSite.investigatorGroups[${groupIndex }].descriptionText" rows="3" cols="33"
+	        		value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}">${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}</textarea><tags:hoverHint keyProp="investigatorGroup.descriptionText"/>
+   				</div>
+   			</div>
+   		</div>
+   	</div>
+	<div id="investigators">
+		<br>
+		<br>  
+		<br>  
+		<table width="70%" class="tablecontent" id="investigatorsTable">
+			<tr>
+	            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>
+	            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+	            <th><fmt:message key="c3pr.common.endDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
+       		</tr>
+			<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" varStatus="status" var="affiliation">
+	            <tr id="investigatorTable-${status.index}">
+                     <c:if test="${affiliation.healthcareSiteInvestigator.statusCode eq 'AC'}">
+                     <td>
+              			${affiliation.healthcareSiteInvestigator.investigator.fullName}
+           			 </td>
+           			 <td>
+		                <input type="text" id="investigators[${status.index}].startDate"
+		                        name="healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations[${status.index}].startDate"
+		                        value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].startDateStr}"
+		                        class="validate-notEmpty&&DATE">
+		                 <a href="#" id="investigators[${status.index}].startDate-calbutton">
+		                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
+		                </a>
+		            </td>
+		            <td>
+		                <input type="text" id="investigators[${status.index}].endDate"
+		                        name="healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations[${status.index}].endDate"
+		                        value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].endDateStr}"
+		                        class="validate-DATE">
+		                 <a href="#" id="investigators[${status.index}].endDate-calbutton">
+		                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
+		                </a>
+		            </td>
+		            <td>
+		                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index}, '${affiliation.id==null?'HC#':'ID#'}${affiliation.id==null?affiliation.hashCode:affiliation.id}');"><img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
+		           </td>
+		            <script>
+			            inputDateElementLocalStartDate="investigators["+${status.index}+"].startDate";
+				        inputDateElementLinkStartDate="investigators["+${status.index}+"].startDate-calbutton";
+				        Calendar.setup(
+				        {
+				            inputField  : inputDateElementLocalStartDate,         // ID of the input field
+				            ifFormat    : "%m/%d/%Y",    // the date format
+				            button      : inputDateElementLinkStartDate       // ID of the button
+				        }
+				        );
+				        inputDateElementLocalEndDate="investigators["+${status.index}+"].endDate";
+				        inputDateElementLinkEndDate="investigators["+${status.index}+"].endDate-calbutton";
+				        Calendar.setup(
+				        {
+				            inputField  : inputDateElementLocalEndDate,         // ID of the input field
+				            ifFormat    : "%m/%d/%Y",    // the date format
+				            button      : inputDateElementLinkEndDate       // ID of the button
+				        }
+				        );
+            		</script> 
+		           </c:if>
+          		</tr>
+           	</c:forEach>
+		</table>
+	</div>
 	<br>
-    <div id="investigators">
-      <br><br><b>New Investigators </b><br><br>
-     <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
-        <tr>
-            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>
-            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate"/><tags:hoverHint id="1" keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
-            <th><fmt:message key="c3pr.common.endDate"/><tags:hoverHint id="2" keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
-            <th></th>
-        </tr>
-
-    </table>
-    </div>
-    <div align="right">
+    <div align="left">
     	<tags:button type="button" color="blue" icon="add" value="Add Investigator" 
 		onclick="RowManager.addRow(instanceRowInserterProps);" size="small"/>
     </div>
     <br>
-    <div class="content buttons">
-	    <div align="right">
-	    	<tags:button type="submit" color="green" icon="save" value="Save"/>
-	    </div>
-	    <div  align="right" id="savingIndicator">
-	    	<tags:indicator id="ind"/> Saving...
-	    </div>
-	    <div  id="savedIndicator">
-	    	Saved successfully
-	    </div>
-    </div>
-</form:form>		
 </chrome:division>
-
+<div class="content buttons">
+    <div align="right">
+    	<tags:button type="submit" color="green" icon="save" value="Save"/>
+    </div>
+    <div  align="right" id="savingIndicator">
+    	<tags:indicator id="ind"/> Saving...
+    </div>
+    <div  id="savedIndicator">
+    	Saved successfully
+    </div>
+</div>
+</form:form>
 <div id="dummy-row" style="display:none;">
     <table width="50%" class="tablecontent">
         <tr  id="investigatorsTable-PAGE.ROW.INDEX">
@@ -138,13 +165,14 @@
             </td>
             <td>
                 <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
-                        src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td> 
+                        src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
+            </td>
         </tr>
     </table>
 </div> 
 <script>
-Calendar.setup({inputField:"formStartDate", ifFormat:"%m/%d/%Y", button:"linkStartDate"});
-Calendar.setup(
+	Calendar.setup({inputField:"formStartDate", ifFormat:"%m/%d/%Y", button:"linkStartDate"});
+	Calendar.setup(
         {
             inputField  : "formEndDate",         // ID of the input field
             ifFormat    : "%m/%d/%Y",    // the date format

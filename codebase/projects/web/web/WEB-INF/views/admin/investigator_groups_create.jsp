@@ -26,8 +26,7 @@
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
 	    							$(hiddenField).value=selectedChoice.id;
-	    							$('flashMessage').hide();
-	    							$('flashMessageForGroup').hide();
+    								Element.show('editInvestigatorGroups');
 	    							updateGroups(selectedChoice.id,"",false);
 			 }
         }
@@ -107,8 +106,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		        } else {
 		        		$("inv-group-category").options.length=0;
 		        			new Element.update($("groupDisplay"),'');
-		        			$('flashMessageForGroup').show()
-		    				new Effect.Highlight('flashMessageForGroup');
 		        }
 		        
 	    	})
@@ -134,7 +131,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 	function handleAddGroup(){
 		
 	if($('healthcareSite-hidden').value != ""){
-		$('flashMessageForGroup').hide();
 		new Ajax.Updater('groupDisplay', 'getGroup', {method:"get", asynchronous:true, evalScripts:true, onComplete:function(){ new Effect.Highlight('groupDisplay');}, 
 		    												parameters: { decorator:"nullDecorator", healthcareSite: $(sponsorSiteAutocompleterProps.basename+"-hidden").value}
 		    											});
@@ -143,9 +139,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 				e1.innerHTML='';
 			}  											
 		    											
-		} else {
-				$('flashMessage').show()
-				new Effect.Highlight('flashMessage');
 		}
 	}
 
@@ -193,7 +186,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		$("healthcareSite-hidden").value="";
 		$("inv-group-category").options.length=0;
 		e1 = document.getElementById("errorsDiv");
-		$('flashMessageForGroup').hide();
 		if(e1!=null){
 			e1.innerHTML='';
 		}
@@ -205,7 +197,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <body>
 
 <div id="main">
-
 <tags:panelBox title="Investigator Groups">
 <tags:instructions code="investigator_groups_create" />
 		<div>
@@ -221,22 +212,22 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		<tags:errors path="*" />
 		
 
- <chrome:division title="Organization" id="disease">
-          <b><fmt:message key="c3pr.common.organization"/></b>
-          <br>
-          <input type="hidden" id="healthcareSite-hidden" name="healthcareSite" value="${command.healthcareSite.id}" /> 
-          <input id="healthcareSite-input" size="60" type="text" name="xyz" value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" /> 
-		  <tags:indicator	id="healthcareSite-indicator" />
-		  <div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
-		  <p id="flashMessage" style="display: none">Search for an Organization first</p>
-          <br><br>
-          <b><fmt:message key="c3pr.common.selectAGroup"/></b>
-          <br>
-          <select multiple size="1" style="width:400px" id="inv-group-category"></select>
-		  <p id="flashMessageForGroup" style="display: none">Please Add a Investigator Group</p>
-          <tags:button type="button" color="blue" icon="add" value="Add Group" onclick="handleAddGroup();" size="small"/>
-		<br>
-      </chrome:division>
+ <chrome:division>
+ 	<div class="row">
+		<div class="label"><fmt:message key="c3pr.common.organization"/></div>
+		<div class="value">
+			<tags:autocompleter name="healthcareSite" displayValue="${command.healthcareSite.name}" value="${command.healthcareSite.id}" basename="healthcareSite" cssClass="validate-notEmpty" size="50">
+			</tags:autocompleter>
+		</div>
+	</div>
+    <div class="row" style="display:none" id="editInvestigatorGroups">
+		<div class="label"><fmt:message key="c3pr.common.selectAGroup"/></div>
+		<div class="value">
+			<select multiple size="1" style="width:400px" id="inv-group-category"></select>
+         	<tags:button type="button" color="blue" icon="add" value="Add Group" onclick="handleAddGroup();" size="small"/>
+		</div>
+	</div>
+</chrome:division>
 <div id="errorsDiv">
 </div>
 <div id="groupDisplay"/>
