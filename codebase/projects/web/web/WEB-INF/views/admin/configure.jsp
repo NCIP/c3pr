@@ -369,7 +369,7 @@
 	        		<div class="label"><fmt:message key="configure.ccts.esb.url"/><tags:hoverHint keyProp="configure.esbUrl" /></div>
 	        		<div class="value">
 	        			<form:input path="conf[esbUrl].value" id="esbUrl"/>
-	        			<tags:button type="button" onclick="testConnectivity('esbUrl', 'testCaXchangeURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('esbUrl', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
 	        			<img id="testIndicator[esbUrl]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[esbUrl]" ></span>
 	        		</div>
