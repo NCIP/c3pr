@@ -2,11 +2,9 @@ package edu.duke.cabig.c3pr.utils.web.validators;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +16,12 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.axis.types.URI.MalformedURIException;
+import org.globus.gsi.GlobusCredential;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider;
+import edu.duke.cabig.c3pr.esb.DelegatedCredential;
 import edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import gov.nih.nci.cagrid.caxchange.client.CaXchangeRequestProcessorClient;
@@ -150,10 +149,18 @@ public class ValidateConnectionController extends AbstractController {
 	private Exception testSmokeTestGridService(String url) {
 		SmokeTestServiceClient client;
 		try {
-			client = new SmokeTestServiceClient(url,
-					delegatedCredentialProvider.provideDelegatedCredentials()
-							.getCredential());
-			client.ping();
+			DelegatedCredential delegatedCredential = delegatedCredentialProvider.provideDelegatedCredentials() ;
+			if(delegatedCredential != null){
+				GlobusCredential credential = delegatedCredential.getCredential();
+				if(credential != null){
+					client = new SmokeTestServiceClient(url,credential);
+					client.ping();
+				}else{
+					return new Exception("Credentials not found.");
+				}
+			}else{
+				new Exception("No delegated credential provider found.");
+			}
 		} catch (Exception exception) {
 			return exception;
 		}
@@ -163,10 +170,18 @@ public class ValidateConnectionController extends AbstractController {
 	private Exception testCaXchangeURL(String url) {
 		CaXchangeRequestProcessorClient client;
 		try {
-			client = new CaXchangeRequestProcessorClient(url,
-					delegatedCredentialProvider.provideDelegatedCredentials()
-							.getCredential());
-			client.processRequestSynchronously(null);
+			DelegatedCredential delegatedCredential = delegatedCredentialProvider.provideDelegatedCredentials() ;
+			if(delegatedCredential != null){
+				GlobusCredential credential = delegatedCredential.getCredential();
+				if(credential != null){
+					client = new CaXchangeRequestProcessorClient(url,credential);
+					client.getEndpointReference();
+				}else{
+					return new Exception("Credentials not found.");
+				}
+			}else{
+				new Exception("No delegated credential provider found.");
+			}
 		} catch (Exception exception) {
 			return exception;
 		}
