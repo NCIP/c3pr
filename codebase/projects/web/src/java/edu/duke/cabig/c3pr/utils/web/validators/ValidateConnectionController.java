@@ -156,10 +156,10 @@ public class ValidateConnectionController extends AbstractController {
 					client = new SmokeTestServiceClient(url,credential);
 					client.ping();
 				}else{
-					return new Exception("Credentials not found.");
+					throw new Exception("Credentials not found.");
 				}
 			}else{
-				new Exception("No delegated credential provider found.");
+				throw new Exception("No delegated credential provider found.");
 			}
 		} catch (Exception exception) {
 			return exception;
@@ -177,10 +177,10 @@ public class ValidateConnectionController extends AbstractController {
 					client = new CaXchangeRequestProcessorClient(url,credential);
 					client.getEndpointReference();
 				}else{
-					return new Exception("Credentials not found.");
+					throw new Exception("Credentials not found.");
 				}
 			}else{
-				new Exception("No delegated credential provider found.");
+				throw new Exception("No delegated credential provider found.");
 			}
 		} catch (Exception exception) {
 			return exception;
