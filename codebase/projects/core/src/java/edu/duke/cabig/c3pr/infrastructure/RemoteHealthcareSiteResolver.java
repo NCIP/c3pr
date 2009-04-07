@@ -129,10 +129,10 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		return remoteOrganizations;
 	}
 	
-	public gov.nih.nci.coppa.po.Organization deSerialize(String inputXMLString,String outputJavaFile) {
+	public gov.nih.nci.coppa.po.Organization deSerialize(String inputXMLString,String outputFile) {
 		try {
 
-			File f = new File(outputJavaFile + ".java");
+			File f = new File(outputFile + ".xml");
 			OutputStream out = new FileOutputStream(f);
 			out.write(inputXMLString.getBytes());
 			out.close();
