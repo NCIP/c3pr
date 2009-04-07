@@ -308,14 +308,7 @@
         </property>
         <property name="remoteResolvers">
             <list>
-                <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
-                	<property name="identifiedOrganizationCorrelationServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedOrganizationCorrelationServiceImpl" />
-                	</property>
-                	<property name="organizationEntityServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.OrganizationEntityServiceImpl" />
-                	</property>
-                </bean>
+                <ref local="remoteHealthcareSiteResolver"/>
                 <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver" autowire="byName">
                 	<property name="identifiedOrganizationCorrelationServiceRemote">
                 		<bean class="com.semanticbits.coppasimulator.service.IdentifiedOrganizationCorrelationServiceImpl" />
@@ -366,8 +359,9 @@
     <bean id="gridIdentifierInterceptor" class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
           autowire="byName"/>
           
-    <bean id="remoteEntityInterceptor" class="com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor" autowire="byName">
+    <bean id="remoteEntityInterceptor" class="com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor" lazy-init="true">
     	<property name="enabled" value="${coppaEnable}"/>
+    	<property name="remoteSession" ref="remoteSession"/>
     </bean>
           
     <bean id="hibernateTemplate"
