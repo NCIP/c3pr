@@ -175,7 +175,7 @@ public class ValidateConnectionController extends AbstractController {
 				GlobusCredential credential = delegatedCredential.getCredential();
 				if(credential != null){
 					client = new CaXchangeRequestProcessorClient(url,credential);
-					client.getEndpointReference();
+					client.getProxy();
 				}else{
 					throw new Exception("Credentials not found.");
 				}
