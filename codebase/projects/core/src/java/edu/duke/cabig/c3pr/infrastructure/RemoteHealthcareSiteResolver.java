@@ -12,6 +12,7 @@ import gov.nih.nci.services.correlation.IdentifiedOrganizationDTO;
 import gov.nih.nci.services.organization.OrganizationDTO;
 import gov.nih.nci.services.organization.OrganizationEntityServiceRemote;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -23,6 +24,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+
+import org.iso._21090.AD;
+import org.iso._21090.CD;
+import org.iso._21090.DSETTEL;
 
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 
@@ -124,20 +129,13 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		return remoteOrganizations;
 	}
 	
-	public gov.nih.nci.coppa.po.Organization deSerialize(String inputXMLFile,String outputJavaFile) {
+	public gov.nih.nci.coppa.po.Organization deSerialize(String inputXMLString,String outputJavaFile) {
 		try {
 
-			InputStream inputStream =  getClass().getClassLoader().getResourceAsStream(
-					inputXMLFile);
-
-				File f = new File(outputJavaFile + ".java");
-				OutputStream out = new FileOutputStream(f);
-				byte buf[] = new byte[1024];
-				int len;
-				while ((len = inputStream.read(buf)) > 0)
-					out.write(buf, 0, len);
-				out.close();
-				inputStream.close();
+			File f = new File(outputJavaFile + ".java");
+			OutputStream out = new FileOutputStream(f);
+			out.write(inputXMLString.getBytes());
+			out.close();
 
 			FileReader fr = new FileReader(f);
 			InputStream wsddIs = getClass().getResourceAsStream(
@@ -156,12 +154,23 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	
 	
 	public void serialize(gov.nih.nci.coppa.po.Organization org) {
+		if (org.getPostalAddress()== null){
+			org.setPostalAddress(new AD());
+		}
+		if (org.getStatusCode()== null){
+			org.setStatusCode(new CD());
+		}
+		if (org.getTelecomAddress()== null){
+			org.setTelecomAddress(new DSETTEL());
+		}
 		QName idQname = new QName("http://po.coppa.nci.nih.gov", "Organization");
+		QName idQname1 = new QName("http://po.coppa.nci.nih.gov", "postalAddress");
 		StringWriter writer = new StringWriter();
 		InputStream wsddIs = getClass().getResourceAsStream(
 				"/gov/nih/nci/coppa/services/client/client-config.wsdd");
 		try {
 			Utils.serializeObject(org, idQname, writer, wsddIs);
+			System.out.println(writer.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
