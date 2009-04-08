@@ -47,39 +47,7 @@
 			}
         }
         
-    var instanceRowInserterProps = {
-       add_row_division_id: "investigatorsTable", 	        /* this id belongs to element where the row would be appended to */
-       skeleton_row_division_id: "dummy-row",
-       initialIndex: ${newGroup?0:fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)},   /* this is the initial count of the rows when the page is loaded  */
-       softDelete: ${softDelete == 'true'},
-	   path: "healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations",                            /* this is the path of the collection that holds the rows  */
-       postProcessRowInsertion: function(object){
-	       	inputDateElementLocal="investigators["+object.localIndex+"].startDate";
-	        inputDateElementLink="investigators["+object.localIndex+"].startDate-calbutton";
-	        Calendar.setup(
-	        {
-	            inputField  : inputDateElementLocal,         // ID of the input field
-	            ifFormat    : "%m/%d/%Y",    // the date format
-	            button      : inputDateElementLink       // ID of the button
-	        }
-	                );
-	        inputDateElementLocal="investigators["+object.localIndex+"].endDate";
-	        inputDateElementLink="investigators["+object.localIndex+"].endDate-calbutton";
-	        Calendar.setup(
-	        {
-	            inputField  : inputDateElementLocal,         // ID of the input field
-	            ifFormat    : "%m/%d/%Y",    // the date format
-	            button      : inputDateElementLink       // ID of the button
-	        }
-	                );
-	        clonedRowInserter=Object.clone(principalInvestigatorAutocompleterProps);
-			clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
-			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
-			initSearchField();
-					}
-	};
-RowManager.addRowInseter(instanceRowInserterProps);  
-  AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
+  	AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
 
 		function updateGroups(id,selectedId,saveEvent){
 		
@@ -110,12 +78,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		        
 	    	})
 		};
-
-		function test(){
-			var length = $("inv-group-category").options.length ;
-			alert(length);
-			return length;
-		}
 		
 		function showAffiliations(saveEvent) {
 		    var categoryId = $("inv-group-category").value
@@ -141,7 +103,39 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		    											
 		}
 	}
-
+	var instanceRowInserterProps = {
+		       add_row_division_id: "investigatorsTable", 	        /* this id belongs to element where the row would be appended to */
+		       skeleton_row_division_id: "dummy-row",
+		       initialIndex: ${newGroup?0:fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)},   /* this is the initial count of the rows when the page is loaded  */
+		       softDelete: ${softDelete == 'true'},
+			   path: "healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations",                            /* this is the path of the collection that holds the rows  */
+		       postProcessRowInsertion: function(object){
+			       	inputDateElementLocal="investigators["+object.localIndex+"].startDate";
+			        inputDateElementLink="investigators["+object.localIndex+"].startDate-calbutton";
+			        Calendar.setup(
+			        {
+			            inputField  : inputDateElementLocal,         // ID of the input field
+			            ifFormat    : "%m/%d/%Y",    // the date format
+			            button      : inputDateElementLink       // ID of the button
+			        }
+			                );
+			        inputDateElementLocal="investigators["+object.localIndex+"].endDate";
+			        inputDateElementLink="investigators["+object.localIndex+"].endDate-calbutton";
+			        Calendar.setup(
+			        {
+			            inputField  : inputDateElementLocal,         // ID of the input field
+			            ifFormat    : "%m/%d/%Y",    // the date format
+			            button      : inputDateElementLink       // ID of the button
+			        }
+			                );
+			        clonedRowInserter=Object.clone(principalInvestigatorAutocompleterProps);
+					clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+					AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+					initSearchField();
+							}
+			};
+			RowManager.addRowInseter(instanceRowInserterProps); 
+	
 	Event.observe(window, "load", function() {
 	    Event.observe("inv-group-category", "change", function() {
 	    	e1 = document.getElementById("errorsDiv");

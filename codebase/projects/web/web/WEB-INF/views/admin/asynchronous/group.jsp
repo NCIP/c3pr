@@ -6,8 +6,10 @@
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script language="JavaScript" type="text/JavaScript">
+<script type="text/JavaScript">
+		instanceRowInserterProps.path="healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations";
 		instanceRowInserterProps.reset(${newGroup?0:fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)});
+		
 </script>
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <form:form id="groupForm">
@@ -66,7 +68,7 @@
 	            <th><fmt:message key="c3pr.common.endDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
        		</tr>
 			<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" varStatus="status" var="affiliation">
-	            <tr id="investigatorTable-${status.index}">
+	            <tr id="investigatorsTable-${status.index}">
                      <c:if test="${affiliation.healthcareSiteInvestigator.statusCode eq 'AC'}">
                      <td>
               			${affiliation.healthcareSiteInvestigator.investigator.fullName}
