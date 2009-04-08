@@ -145,6 +145,8 @@
 			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
 			<dependency org="commons-configuration" name="commons-configuration" rev="1.5" conf="test->default"/>
 			<dependency org="asm" name="asm-commons" rev="2.2.3" conf="test->default"/>
+			<dependency org="edu.duke.cabig.c3pr" name="c3pr-esb-client" rev="latest.integration" 
+				conf="test"/>
 			
 			<!-- DROOLS -->
         	<dependency org="ant" name="ant" rev="1.6.5" conf="build"/>
