@@ -13,7 +13,7 @@
 <%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="OrganizationAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
-  var sponsorSiteAutocompleterProps = {
+  var healthcareSiteAutocompleterProps = {
             basename: "healthcareSite",
             populator: function(autocompleter, text) {
                 OrganizationAjaxFacade.matchHealthcareSites(text,function(values) {
@@ -24,14 +24,14 @@
                 return (obj.name+" ("+obj.nciInstituteCode+")")
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-    								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
+    								hiddenField=healthcareSiteAutocompleterProps.basename+"-hidden"
 	    							$(hiddenField).value=selectedChoice.id;
     								Element.show('editInvestigatorGroups');
 	    							updateGroups(selectedChoice.id,"",false);
 			 }
         }
        
-    var principalInvestigatorAutocompleterProps = {
+    var investigatorAutocompleterProps = {
             basename: "investigator",
             populator: function(autocompleter, text) {
                 OrganizationAjaxFacade.matchOrganizationInvestigatorsGivenOrganizationId(text,document.getElementById("healthcareSite-hidden").value, function(values) {
@@ -47,7 +47,7 @@
 			}
         }
         
-  	AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
+  	AutocompleterManager.addAutocompleter(healthcareSiteAutocompleterProps);
 
 		function updateGroups(id,selectedId,saveEvent){
 		
@@ -86,7 +86,7 @@
 		    // If all is selected
 		    
 	    	new Ajax.Updater('groupDisplay', 'getGroup', {method:"get", asynchronous:true, evalScripts:true, onComplete:function(){ new Effect.Highlight('groupDisplay');}, 
-		    												parameters: { decorator:"nullDecorator", groupId: categoryId, healthcareSite: $(sponsorSiteAutocompleterProps.basename+"-hidden").value}
+		    												parameters: { decorator:"nullDecorator", groupId: categoryId, healthcareSite: $(healthcareSiteAutocompleterProps.basename+"-hidden").value}
 		    											});
 		}
 		
@@ -94,7 +94,7 @@
 		
 	if($('healthcareSite-hidden').value != ""){
 		new Ajax.Updater('groupDisplay', 'getGroup', {method:"get", asynchronous:true, evalScripts:true, onComplete:function(){ new Effect.Highlight('groupDisplay');}, 
-		    												parameters: { decorator:"nullDecorator", healthcareSite: $(sponsorSiteAutocompleterProps.basename+"-hidden").value}
+		    												parameters: { decorator:"nullDecorator", healthcareSite: $(healthcareSiteAutocompleterProps.basename+"-hidden").value}
 		    											});
 		  e1 = document.getElementById("errorsDiv");
 	    	if(e1!=null){
@@ -128,7 +128,7 @@
 			            button      : inputDateElementLink       // ID of the button
 			        }
 			                );
-			        clonedRowInserter=Object.clone(principalInvestigatorAutocompleterProps);
+			        clonedRowInserter=Object.clone(investigatorAutocompleterProps);
 					clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
 					AutocompleterManager.registerAutoCompleter(clonedRowInserter);
 					initSearchField();
@@ -152,7 +152,7 @@
 		new Element.show("savingIndicator");
 		new Ajax.Request($('groupForm').action, {method:'post', asynchronous:true, parameters:Form.serialize('groupForm'),  evalScripts:true,
 																	onSuccess:function(t)
-																		{ 	updateGroups($(sponsorSiteAutocompleterProps.basename+'-hidden').value, t.responseText.split("/*")[0], true);
+																		{ 	updateGroups($(healthcareSiteAutocompleterProps.basename+'-hidden').value, t.responseText.split("/*")[0], true);
 																					new Element.show("savedIndicator");
 																			new Element.hide("savingIndicator")
 																			if(t.responseText.split("/*")[1] == 'no'){
