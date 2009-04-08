@@ -191,7 +191,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
             log.debug("Sending message to caXchange");
             responseMessage = caXchangeClient.processRequestSynchronously(xchangeMessage);
-            InputStream serializeStream = CoreServicesClient.class.getResourceAsStream("client-config.wsdd");
+            InputStream serializeStream = CaXchangeRequestProcessorClient.class.getResourceAsStream("client-config.wsdd");
             StringWriter writer = new StringWriter();
 
             Utils.serializeObject(responseMessage, new QName(namespaceURI,localPart),writer, serializeStream);
