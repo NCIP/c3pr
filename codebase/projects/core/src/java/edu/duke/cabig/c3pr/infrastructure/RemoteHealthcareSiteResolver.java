@@ -2,14 +2,13 @@ package edu.duke.cabig.c3pr.infrastructure;
 
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
-import gov.nih.nci.cagrid.common.Utils;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
 import edu.duke.cabig.c3pr.esb.Metadata;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
-import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.coppa.iso.AddressPartType;
 import gov.nih.nci.coppa.iso.Adxp;
 import gov.nih.nci.coppa.iso.Enxp;
@@ -19,7 +18,6 @@ import gov.nih.nci.services.correlation.IdentifiedOrganizationDTO;
 import gov.nih.nci.services.organization.OrganizationDTO;
 import gov.nih.nci.services.organization.OrganizationEntityServiceRemote;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -31,11 +29,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import org.springframework.context.MessageSource;
 
+import org.apache.log4j.Logger;
 import org.iso._21090.AD;
 import org.iso._21090.CD;
 import org.iso._21090.DSETTEL;
+import org.springframework.context.MessageSource;
 
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 
@@ -59,6 +58,8 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 
 	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
+	
+	private Logger log = Logger.getLogger(RemoteHealthcareSiteResolver.class);
     
 	
 	/**
@@ -146,10 +147,10 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		return remoteOrganizations;
 	}
 	
-	public gov.nih.nci.coppa.po.Organization deSerialize(String inputXMLString,String outputFile) {
+	public Object deSerialize(String inputXMLString) {
 		try {
 
-			File f = new File(outputFile + ".xml");
+			File f = new File("response.xml");
 			OutputStream out = new FileOutputStream(f);
 			out.write(inputXMLString.getBytes());
 			out.close();
@@ -157,10 +158,10 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 			FileReader fr = new FileReader(f);
 			InputStream wsddIs = getClass().getResourceAsStream(
 					"/gov/nih/nci/coppa/services/client/client-config.wsdd");
-			gov.nih.nci.coppa.po.Organization org = (gov.nih.nci.coppa.po.Organization) Utils.deserializeObject(fr,
+			Object deserializedObject = Utils.deserializeObject(fr,
 					gov.nih.nci.coppa.po.Organization.class, wsddIs);
 			
-			return org;
+			return deserializedObject;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -170,7 +171,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 
 	
 	
-	public void serialize(gov.nih.nci.coppa.po.Organization org) {
+	public String serialize(gov.nih.nci.coppa.po.Organization org) {
 		if (org.getPostalAddress()== null){
 			org.setPostalAddress(new AD());
 		}
@@ -181,17 +182,19 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 			org.setTelecomAddress(new DSETTEL());
 		}
 		QName idQname = new QName("http://po.coppa.nci.nih.gov", "Organization");
-		QName idQname1 = new QName("http://po.coppa.nci.nih.gov", "postalAddress");
 		StringWriter writer = new StringWriter();
 		InputStream wsddIs = getClass().getResourceAsStream(
 				"/gov/nih/nci/coppa/services/client/client-config.wsdd");
 		try {
 			Utils.serializeObject(org, idQname, writer, wsddIs);
-			System.out.println(writer.toString());
+			log.debug(writer.toString());
+			return writer.toString();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 	
 	/**
