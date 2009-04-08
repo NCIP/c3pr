@@ -181,23 +181,18 @@
     </script>
 </head>
 <body>
-
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
 <form:form id="${!empty param.embeddedStudy?'embedStudyForm':'command'}" method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
-
 <input type="hidden" name="deletedSponsor" id="deletedSponsor" value=""/>
 <input type="hidden" name="deletedSponsorIdentifier" id="deletedSponsorIdentifier" value=""/>
-
 <chrome:box title="${tab.shortTitle}">
 <tags:instructions code="study_details" />
 <chrome:division id="study-details" title="Basic Details">
-
     <div class="leftpanel">
         <div class="row">
-            <div class="label"><tags:requiredIndicator />
-                <fmt:message key="study.shortTitle"/></div>
-            <div class="value"><form:input path="study.shortTitleText" size="35"
+            <div class="label"><tags:requiredIndicator /><fmt:message key="study.shortTitle"/></div>
+            <div class="value"><form:input path="study.shortTitleText" size="30"
                                            maxlength="30" cssClass="validate-notEmpty" id="_shortTitle"/>
             <tags:hoverHint keyProp="study.shortTitleText"/>
             </div>
@@ -207,7 +202,7 @@
             <div class="label"><tags:requiredIndicator />
                 <fmt:message key="study.longTitle"/></div>
             <div class="value"><form:textarea path="study.longTitleText" rows="2"
-                                              cols="33" cssClass="validate-notEmpty&&maxlength1024" />
+                                              cols="30" cssClass="validate-notEmpty&&maxlength1024" />
             <tags:hoverHint keyProp="study.longTitleText"/>
             </div>
             
@@ -216,14 +211,14 @@
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.description"/></div>
             <div class="value"><form:textarea path="study.descriptionText" rows="2"
-                                              cols="33" cssClass="validate-maxlength2000" />
+                                              cols="30" cssClass="validate-maxlength2000" />
             <tags:hoverHint keyProp="study.description"/></div>
         </div>
 
         <div class="row">
             <div class="label"><fmt:message key="study.precis"/></div>
             <div class="value"><form:textarea path="study.precisText" rows="2"
-                                              cols="33" cssClass="validate-maxlength200" />
+                                              cols="30" cssClass="validate-maxlength200" />
             <tags:hoverHint keyProp="study.precisText"/>
             </div>
         </div>
@@ -272,6 +267,7 @@
             </c:when>
             <c:otherwise>
 		            <div class="value"><form:select path="study.blindedIndicator" onchange="blindedRandomization();">
+		                <option value="">Please Select</option>
 		                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 		            </form:select>
 		            <tags:hoverHint keyProp="study.blindedIndicator"/></div>
@@ -291,8 +287,8 @@
                 <div class="row">
                     <div class="label"><tags:requiredIndicator />
                         <fmt:message key="study.multiInstitution"/></div>
-                    <div class="value"><form:select path="study.multiInstitutionIndicator"
-                                                   cssClass="validate-notEmpty" >
+                    <div class="value"><form:select path="study.multiInstitutionIndicator" cssClass="validate-notEmpty" >
+						<option value="">Please Select</option>
                         <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                     </form:select> <tags:hoverHint keyProp="study.multiInstitutionIndicator"/></div>
                 </div>
@@ -384,7 +380,7 @@
 									<input type="hidden" id="coCenter-hidden1"
 														name="study.organizationAssignedIdentifiers[0].healthcareSite"
 														value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-									<input id="coCenter-input" size="38" type="text" name="abcxyz" value="${_nameCoord} ${_codeCoord }" class="autocomplete validate-notEmpty" />
+									<input id="coCenter-input" size="33" type="text" name="abcxyz" value="${_nameCoord} ${_codeCoord }" class="autocomplete validate-notEmpty" />
 									<tags:hoverHint keyProp="study.healthcareSite.name"/>
 									<tags:indicator id="coCenter-indicator" />
 									<div id="coCenter-choices" class="autocomplete" style="display:none;"></div>
@@ -397,7 +393,7 @@
                         <div class="label"><tags:requiredIndicator /><fmt:message key="study.studyIdentifier"/></div>
                         <div class="value">
                         	<input type="text" name="study.organizationAssignedIdentifiers[0].value" 
-								size="30" maxlength="30"
+								size="33" maxlength="30"
 								value="${command.study.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
 							<input type="hidden" name="study.organizationAssignedIdentifiers[0].type"
 								value="Coordinating Center Identifier"/>
@@ -423,25 +419,13 @@
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.name"/></div>
             <div class="value">
-
-<c:set var="_code" value="" />
-<c:set var="_name" value="" />
-
-<c:if test="${fn:length(command.study.studyFundingSponsors)>0}">				
-<c:set var="_code" value="(${command.study.studyFundingSponsors[0].healthcareSite.nciInstituteCode})" />
-<c:set var="_name" value="${command.study.studyFundingSponsors[0].healthcareSite.name}" />
-</c:if>
-
-            	<input type="text" id="healthcareSite-input" size="38"
-            		name="aaaxxx" 
-            		value='<c:out value="${_name} ${_code}" />'
-            		class="autocomplete" />
-				<input type="hidden" id="healthcareSite-hidden"
-            		name="study.studyFundingSponsors[0].healthcareSite"
-            		value="${fn:length(command.study.studyFundingSponsors)>0?command.study.studyFundingSponsors[0].healthcareSite.id:''}"/>            		
-			<tags:indicator id="healthcareSite-indicator" />
-			<tags:hoverHint keyProp="study.studyFundingSponsor"/>
-			<div id="healthcareSite-choices" class="autocomplete" style="display:none;"></div>
+				<c:set var="_code" value="" />
+				<c:set var="_name" value="" />
+				<c:if test="${fn:length(command.study.studyFundingSponsors)>0}">				
+					<c:set var="_code" value="(${command.study.studyFundingSponsors[0].healthcareSite.nciInstituteCode})" />
+					<c:set var="_name" value="${command.study.studyFundingSponsors[0].healthcareSite.name}" />
+				</c:if>
+				<tags:autocompleter name="study.studyFundingSponsors[0].healthcareSite" displayValue='${_name} ${_code}' value="${fn:length(command.study.studyFundingSponsors)>0?command.study.studyFundingSponsors[0].healthcareSite.id:''}" basename="healthcareSite"></tags:autocompleter>
 			</div>
         </div>
 	</div>
@@ -450,7 +434,7 @@
             <div class="label"><fmt:message key="study.studyIdentifier"/></div>
             <div class="value">
             	<div id="fundingSponId">
-	            	<input type="text" name="study.organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="30"
+	            	<input type="text" name="study.organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="33"
 						maxlength="30" value="${command.study.fundingSponsorIdentifierIndex==-1?'':command.study.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].value}"
 						id="fundingSponsorIdentifier" />
 					<input type="hidden" id="healthcareSite-hidden1"
@@ -481,7 +465,7 @@
 	                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
 	                        <div class="value"><input type="hidden" id="piCoCenter-hidden"
 							name="piCoCenter-hidden" value="${command.study.id==null?"":command.study.principalInvestigatorStudyOrganization.healthcareSite.id}"/>
-							<input id="piCoCenter-input" size="38" type="text"
+							<input id="piCoCenter-input" size="33" type="text"
 							name="xyzabc"  value='<c:out value="${_nameOrgPI} ${_codeOrgPI}" />' class="autocomplete validate-notEmpty"/>
 							<tags:indicator id="piCoCenter-indicator" />
 							<div id="piCoCenter-choices" class="autocomplete" style="display:none;"></div>
@@ -502,7 +486,7 @@
 		                        <div class="label"><tags:requiredIndicator /><fmt:message key="study.principalInvestigator"/></div>
 		                        <div class="value"> <input type="hidden" id="hcsInvestigator-hidden"
 	                               name="hcsInvestigator-hidden" value="${command.study.id==null?"":command.study.principalInvestigator.id}"/>
-			                   <input type="text" id="hcsInvestigator-input" size="30"
+			                   <input type="text" id="hcsInvestigator-input" size="33"
 										value="<c:out value="${_namePI} ${_codePI}"></c:out>" class="autocomplete validate-notEmpty"/>
 			                   <tags:indicator id="hcsInvestigator-indicator"/>
 			                   <div id="hcsInvestigator-choices" class="autocomplete" style="display:none;"></div>
