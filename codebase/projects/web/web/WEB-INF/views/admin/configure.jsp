@@ -88,15 +88,35 @@
     AutocompleterManager.addAutocompleter(localNCIInstituteCodeAutocompleterProps);
 
     function testConnectivity(id, type){
+    	var url ;
     	$('testIndicator['+id+']').style.display = "";
-		var value = $(id).value ;
-		if(value == ''){
-			alert("Enter Data");
-			Element.hide('testIndicator[${id}]');
-			return;
+		if(id != 'testEmail'){
+			var value = $(id).value ;
+			if(value == ''){
+				alert("Enter Data");
+				Element.hide('testIndicator['+id+']');
+				return;
+			}
+			url = "../admin/validateConnectivity?type="+type+"&value="+escape(value)+"&id="+escape(id);
+			new Ajax.Updater('connectionTestResult['+id+']',url, {evalScripts: true});
+		}else{
+			var server = $('outgoingMailServer').value ;
+			var port = $('outgoingMailServerPort').value ;
+			var username = $('outgoingMailUsername').value  ;
+			var passwd = $('outgoingMailPassword').value  ;
+			var auth = $('outgoingMailAuth').value  ;
+			var protocol = $('smtpProtocol').value  ;
+			var sslAuth = $('smtpSSLAuth').value  ;
+			var fromAddress = $('outgoingMailFromAddress').value  ;
+
+			if(server == '' || port == '' || auth == '' || protocol =='' || sslAuth == '' || fromAddress == ''){
+				alert("Enter Data");
+				Element.hide('testIndicator['+id+']');
+				return;	
+			}
+			url = "../admin/validateConnectivity?type="+type+"&id="+escape(id)+"&server="+escape(server)+"&port="+port+"&username="+escape(username)+"&passwd="+escape(passwd)+"&protocol="+protocol+"&auth="+auth+"&sslAuth="+sslAuth+"&fromAddress="+escape(fromAddress);
+			new Ajax.Updater('connectionTestResult['+id+']',url, {evalScripts: true, method: 'post'});	
 		}
-		var url = "../admin/validateConnectivity?type="+type+"&value="+escape(value)+"&id="+escape(id);
-		new Ajax.Updater('connectionTestResult['+id+']',url, {evalScripts: true});
 	}
 	
 	function showErrorTrace(errorTrace) {
@@ -284,8 +304,11 @@
         		<div class="value"><form:input path="conf[outgoingMailFromAddress].value" id="outgoingMailFromAddress" cssClass="validate-Email" /></div>
         	</div>
         	<br>
-        	<div class="row">
-        		<div class="value"><tags:button type="button" onclick="testConnectivity();" color="blue" value="Send test email" icon="mail" size="small"/></div>
+        	<div class="row" id="testEmail">
+        		<div class="value"><tags:button type="button" onclick="testConnectivity('testEmail', 'testEmailServer');" color="blue" value="Send test email" icon="mail" size="small"/>
+        		<img id="testIndicator[testEmail]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+        		<span id="connectionTestResult[testEmail]" ></span>
+        		</div>
         	</div>
         </chrome:division>
 		<chrome:division title="Multisite Configuration">
