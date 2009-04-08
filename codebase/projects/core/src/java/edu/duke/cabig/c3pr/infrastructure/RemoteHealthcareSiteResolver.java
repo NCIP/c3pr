@@ -8,11 +8,14 @@ import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import gov.nih.nci.cagrid.caxchange.client.CaXchangeRequestProcessorClient;
 import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.caxchange.ResponseMessage;
 import gov.nih.nci.coppa.iso.AddressPartType;
 import gov.nih.nci.coppa.iso.Adxp;
 import gov.nih.nci.coppa.iso.Enxp;
 import gov.nih.nci.coppa.iso.Ii;
+import gov.nih.nci.coppa.services.client.CoreServicesClient;
 import gov.nih.nci.services.correlation.IdentifiedOrganizationCorrelationServiceRemote;
 import gov.nih.nci.services.correlation.IdentifiedOrganizationDTO;
 import gov.nih.nci.services.organization.OrganizationDTO;
@@ -147,30 +150,59 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		return remoteOrganizations;
 	}
 	
-	public Object deSerialize(String inputXMLString) {
+	/**
+	 * De serialize the response xml from caXchange to get ResponseMessage which will
+	 * get us the Coppa payload.
+	 * 
+	 * @param inputXMLString the input xml string
+	 * @return the object
+	 */
+	public Object deSerializeFromCaXchange(String inputXMLString) {
 		try {
-
 			File f = new File("response.xml");
 			OutputStream out = new FileOutputStream(f);
 			out.write(inputXMLString.getBytes());
 			out.close();
-
 			FileReader fr = new FileReader(f);
-			InputStream wsddIs = getClass().getResourceAsStream(
-					"/gov/nih/nci/coppa/services/client/client-config.wsdd");
-			Object deserializedObject = Utils.deserializeObject(fr,
-					gov.nih.nci.coppa.po.Organization.class, wsddIs);
+			InputStream wsddIs = CaXchangeRequestProcessorClient.class.getResourceAsStream("client-config.wsdd");
+			Object deserializedObject = Utils.deserializeObject(fr,ResponseMessage.class, wsddIs);
 			
 			return deserializedObject;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
+	/**
+	 * De serialize the coppa xml to get the coppa organization object.
+	 * 
+	 * @param inputXMLString the input xml string
+	 * @return the object(gov.nih.nci.coppa.po.Organization)
+	 */
+	public Object deSerializeFromCoppa(String inputXMLString) {
+		try {
+			File f = new File("response.xml");
+			OutputStream out = new FileOutputStream(f);
+			out.write(inputXMLString.getBytes());
+			out.close();
+			FileReader fr = new FileReader(f);
+			InputStream wsddIs = getClass().getResourceAsStream("/gov/nih/nci/coppa/services/client/client-config.wsdd");
+			Object deserializedObject = Utils.deserializeObject(fr, gov.nih.nci.coppa.po.Organization.class, wsddIs);
+			
+			return deserializedObject;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
-	
+	/**
+	 * Serialize the Coppa org into xml.
+	 * 
+	 * @param org the coppa org
+	 * @return the xml as string
+	 */
 	public String serialize(gov.nih.nci.coppa.po.Organization org) {
 		if (org.getPostalAddress()== null){
 			org.setPostalAddress(new AD());
@@ -218,7 +250,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	}
 	
 	/**
-	 * Broadcast organization search. overloaded method.
+	 * Broadcast organization search. overloaded method (used by test classes).
 	 * 
 	 * @param healthcareSiteXml the healthcare site xml
 	 * @return the string
