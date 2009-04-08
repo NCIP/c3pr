@@ -22,8 +22,10 @@ import gov.nih.nci.services.organization.OrganizationDTO;
 import gov.nih.nci.services.organization.OrganizationEntityServiceRemote;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -79,8 +81,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		try {
 			identifiedOrganizationDTO = identifiedOrganizationCorrelationServiceRemote.getCorrelation(organizationDto.getIdentifier());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("identifiedOrganizationCorrelationServiceRemote.getCorrelation failed" +e);
 		}
 		RemoteHealthcareSite remoteHealthcareSite = new RemoteHealthcareSite();
 		Iterator<Enxp> enxpItr = organizationDto.getName().getPart().iterator();
@@ -123,12 +124,9 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 			organizationDto = organizationEntityServiceRemote.getOrganization(ii);
 			return populateRemoteOrganization(organizationDto);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("getRemoteEntityByUniqueId failed" +e);
 		}
-		
 		return null;
-		
 	}
 	
 	/* (non-Javadoc)
@@ -159,17 +157,12 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	 */
 	public Object deSerializeFromCaXchange(String inputXMLString) {
 		try {
-			File f = new File("response.xml");
-			OutputStream out = new FileOutputStream(f);
-			out.write(inputXMLString.getBytes());
-			out.close();
-			FileReader fr = new FileReader(f);
+			FileReader fr = getFileReaderForString(inputXMLString);
 			InputStream wsddIs = CaXchangeRequestProcessorClient.class.getResourceAsStream("client-config.wsdd");
 			Object deserializedObject = Utils.deserializeObject(fr,ResponseMessage.class, wsddIs);
-			
 			return deserializedObject;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("deSerializeFromCaXchange Failed" + e);
 		}
 		return null;
 	}
@@ -182,19 +175,31 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	 */
 	public Object deSerializeFromCoppa(String inputXMLString) {
 		try {
-			File f = new File("response.xml");
-			OutputStream out = new FileOutputStream(f);
-			out.write(inputXMLString.getBytes());
-			out.close();
-			FileReader fr = new FileReader(f);
+			FileReader fr = getFileReaderForString(inputXMLString);
 			InputStream wsddIs = getClass().getResourceAsStream("/gov/nih/nci/coppa/services/client/client-config.wsdd");
 			Object deserializedObject = Utils.deserializeObject(fr, gov.nih.nci.coppa.po.Organization.class, wsddIs);
-			
 			return deserializedObject;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("deSerializeFromCoppa Failed" + e);
 		}
 		return null;
+	}
+	
+	
+	/**
+	 * Gets the file reader for string.
+	 * 
+	 * @param inputXMLString the input xml string
+	 * @return the file reader for string
+	 * @throws FileNotFoundException the file not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	private FileReader getFileReaderForString(String inputXMLString) throws FileNotFoundException, IOException{
+		File f = new File("response.xml");
+		OutputStream out = new FileOutputStream(f);
+		out.write(inputXMLString.getBytes());
+		out.close();
+		return new FileReader(f);
 	}
 	
 	/**
