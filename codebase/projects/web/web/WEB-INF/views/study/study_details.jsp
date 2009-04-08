@@ -425,7 +425,8 @@
 					<c:set var="_code" value="(${command.study.studyFundingSponsors[0].healthcareSite.nciInstituteCode})" />
 					<c:set var="_name" value="${command.study.studyFundingSponsors[0].healthcareSite.name}" />
 				</c:if>
-				<tags:autocompleter name="study.studyFundingSponsors[0].healthcareSite" displayValue='${_name} ${_code}' value="${fn:length(command.study.studyFundingSponsors)>0?command.study.studyFundingSponsors[0].healthcareSite.id:''}" basename="healthcareSite"></tags:autocompleter>
+				<tags:autocompleter name="study.studyFundingSponsors[0].healthcareSite" displayValue="${_name} ${_code}" value="${fn:length(command.study.studyFundingSponsors)>0?command.study.studyFundingSponsors[0].healthcareSite.id:''}" basename="healthcareSite" hintKey="study.studyFundingSponsor"></tags:autocompleter>
+            	
 			</div>
         </div>
 	</div>
