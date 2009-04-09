@@ -1,0 +1,11 @@
+#Introduce Properties
+#Mon Nov 24 15:40:20 EST 2008
+introduce.skeleton.services.list=StudyService
+introduce.skeleton.extensions=
+introduce.skeleton.timestamp=1227558933744
+introduce.skeleton.service.name=StudyService
+introduce.skeleton.resource.options=main,singleton,identifiable,resourcePropertyManagement
+introduce.skeleton.destination.dir=/Users/kruttikagarwal/Documents/workspace/c3pr_v2.5_codebase/projects/grid/StudyService
+introduce.skeleton.namespace.domain=http\://studyservice.grid.c3pr.cabig.duke.edu/StudyService
+introduce.soap.binding.excludes=\ 
+introduce.ns.excludes=\ -x gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security
