@@ -7,8 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.grid.registrationservice.client.RegistrationServiceClient;
-import edu.duke.cabig.c3pr.infrastructure.MultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import gov.nih.nci.cabig.ccts.domain.Message;
 import gov.nih.nci.security.UserProvisioningManager;

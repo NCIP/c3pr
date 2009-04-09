@@ -3,16 +3,12 @@ package edu.duke.cabig.c3pr.grid.studyservice.service;
 import java.rmi.RemoteException;
 import java.util.HashSet;
 
-import org.acegisecurity.GrantedAuthorityImpl;
-import org.acegisecurity.userdetails.User;
-import org.apache.axis.types.URI.MalformedURIException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.grid.studyservice.client.StudyServiceClient;
-import edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI;
-import edu.duke.cabig.c3pr.infrastructure.MultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import gov.nih.nci.cabig.ccts.domain.Message;
 import gov.nih.nci.security.UserProvisioningManager;
