@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="RegistrationService" targetNamespace="http://registrationservice.grid.c3pr.cabig.duke.edu/RegistrationService/service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:binding="http://registrationservice.grid.c3pr.cabig.duke.edu/RegistrationService/bindings" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://registrationservice.grid.c3pr.cabig.duke.edu/RegistrationService/bindings" location="RegistrationService_bindings.wsdl"/>
+  <wsdl:service name="RegistrationService">
+    <wsdl:port name="RegistrationServicePortTypePort" binding="binding:RegistrationServicePortTypeSOAPBinding">
+      <soap:address location="http://localhost:8080/wsrf/services/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
