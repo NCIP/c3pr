@@ -627,14 +627,12 @@ p { margin: 1em 0; }
 .rightpanel {
 	float: right;
 	width: 50%;
-	margin: 0 14px 14px 0;
-	padding: 5px;
+
 }
 .leftpanel {
 	float: left;
 	width: 48%;
-	margin: 0 5px 5px -2em;
-	padding: 5px;
+
 }
 /** B O X */
 

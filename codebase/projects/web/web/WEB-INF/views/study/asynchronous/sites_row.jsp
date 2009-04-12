@@ -9,30 +9,31 @@
 	<tags:formatDate value="${site.irbApprovalDate}"></tags:formatDate>
 </div>
 <div id="ajax-message">
-<c:choose>
-	<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
-		<c:choose>
-			<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
-				<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-				Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
-			</c:when>
-			<c:otherwise>
-				<font color="green">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-				Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the messages
-			</c:otherwise>
-		</c:choose>
-	</c:when>
-	<c:when test="${not empty actionError}">
-		<font color="red">Error</font><br>
-				Click <a href="javascript:showLocalActionError('errorDiv-${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
-				<div id="errorDiv-${site.healthcareSite.nciInstituteCode }" style="display: none;">
-					${actionError.message }
-				</div>
-	</c:when>
-	<c:otherwise>
-		None
-	</c:otherwise>
-</c:choose>
+	<c:choose>
+		<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
+			<c:choose>
+				<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
+					<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
+					Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
+				</c:when>
+				<c:otherwise>
+					<font color="green">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
+					Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the messages
+				</c:otherwise>
+			</c:choose>
+		</c:when>
+		<c:when test="${not empty actionError}">
+			<font color="red">Error</font>
+			<br>
+			Click <a href="javascript:showLocalActionError('errorDiv-${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
+					<div id="errorDiv-${site.healthcareSite.nciInstituteCode }" style="display: none;">
+						${actionError.message }
+					</div>
+		</c:when>
+		<c:otherwise>
+			None
+		</c:otherwise>
+	</c:choose>
 </div>
 <div id="actions"/>
 	<c:set var="action" value="false"/>
@@ -59,13 +60,11 @@
 			</c:choose>
        	</c:forEach>
        	</select>
-       	<input type="button" value="Go" onclick="takeAction('${site.healthcareSite.nciInstituteCode }');"/>
+       	<tags:button type="button" color="blue" value="Go" id="go" onclick="takeAction('${site.healthcareSite.nciInstituteCode}');" size="small"/>
 	</c:if>
 	<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
 		Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
 	</div>
-	</div>
-</div>
 <script>
 $('siteIRB-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-IRB').innerHTML;
 $('Messages-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-message').innerHTML;

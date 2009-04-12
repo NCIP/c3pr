@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
@@ -28,6 +27,7 @@ import edu.duke.cabig.c3pr.web.study.tabs.StudyOverviewTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyPersonnelTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyRegistrationsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudySitesTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudySitesTestTab;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -74,9 +74,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
-        //flow.addTab(new StudyAdvanceTab());
         flow.addTab(new StudyRegistrationsTab());
-
     }
 
     @Override
