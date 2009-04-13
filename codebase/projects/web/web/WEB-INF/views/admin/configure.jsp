@@ -161,7 +161,7 @@
 				Element.hide('testIndicator['+id+']');
 				return;	
 			}
-			url = "../admin/validateConnectivity?type="+type+"&id="+escape(id)+"&server="+escape(server)+"&port="+port+"&username="+escape(username)+"&passwd="+escape(passwd)+"&protocol="+protocol+"&auth="+auth+"&sslAuth="+sslAuth+"&fromAddress="+escape(fromAddress);
+			url = "../admin/validateConnectivity?type="+type+"&id="+escape(id)+"&host="+escape(server)+"&port="+port+"&username="+escape(username)+"&passwd="+escape(passwd)+"&protocol="+protocol+"&auth="+auth+"&sslAuth="+sslAuth+"&fromAddress="+escape(fromAddress);
 			new Ajax.Updater('connectionTestResult['+id+']',url, {evalScripts: true, method: 'post'});	
 		}
 	}

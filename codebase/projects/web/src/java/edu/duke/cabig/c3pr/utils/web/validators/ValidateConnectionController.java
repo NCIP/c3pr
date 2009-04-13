@@ -17,15 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.globus.gsi.GlobusCredential;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider;
 import edu.duke.cabig.c3pr.esb.DelegatedCredential;
-import edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import gov.nih.nci.cagrid.caxchange.client.CaXchangeRequestProcessorClient;
 import gov.nih.nci.ccts.grid.smoketest.client.SmokeTestServiceClient;
+import gov.nih.nci.security.authorization.domainobjects.User;
 
 /**
  * @author Himanshu
@@ -71,7 +72,7 @@ public class ValidateConnectionController extends AbstractController {
 		String errorTrace = "";
 		Exception exception = null;
 		if (TEST_EMAIL_SERVER.equals(type)) {
-			exception = testSMTPServerConnection();
+			exception = testSMTPServerConnection(request);
 		} else if (TEST_URL.equals(type)) {
 			exception = testURLConnection(value);
 		} else if (TEST_FILE_LOCATION.equals(type)) {
@@ -106,26 +107,32 @@ public class ValidateConnectionController extends AbstractController {
 		return null;
 	}
 
-	private Exception testSMTPServerConnection() {
-		C3PRMailSenderImpl mailSender = new C3PRMailSenderImpl();
+	private Exception testSMTPServerConnection(HttpServletRequest request) {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		try {
-			mailSender.setHost("smtp.gmail.com");
-			mailSender.setPassword("semanticbits");
-			mailSender.setPort(465);
-			mailSender.setProtocol("smtps");
-			mailSender.setUsername("c3prproject@gmail.com");
+			User user = (User)request.getSession().getAttribute("userObject");
+			String userEmailId = user.getEmailId() ;
+			mailSender.setHost(request.getParameter("host"));
+			mailSender.setPassword(request.getParameter("passwd"));
+			mailSender.setPort(Integer.parseInt(request.getParameter("port")));
+			mailSender.setProtocol(request.getParameter("protocol"));
+			mailSender.setUsername(request.getParameter("username"));
 			Properties properties = new Properties();
+			if (("smtps").equalsIgnoreCase(request.getParameter("protocol"))) {
+				properties.put("mail.smtps.auth", request.getParameter("auth"));
+				properties.put("mail.smtps.starttls.enable", "true");
+				properties.put("mail.smtps.debug", "true");
+			}else if(mailSender.getProtocol().equalsIgnoreCase("smtp")){
+				properties.put("mail.smtp.auth",  request.getParameter("auth"));
+			}
 			mailSender.setJavaMailProperties(properties);
 			MimeMessage message = mailSender.createMimeMessage();
-			message.setFrom(new InternetAddress(
-					"biju.joseph.padupurackal@gmail.com"));
-			message.setText("Welcome biju");
-			message.setReplyTo(new InternetAddress[] { new InternetAddress(
-					"c3prproject@gmail.com") });
-			message.setRecipient(RecipientType.TO, new InternetAddress(
-					"c3prproject@gmail.com"));
-			message.setSubject("My mail via c3prmailsender");
-			message.setDescription("Message description");
+			message.setFrom(new InternetAddress(request.getParameter("fromAddress")));
+			message.setText("Test Email");
+			message.setReplyTo(new InternetAddress[] { new InternetAddress(request.getParameter("fromAddress")) });
+			message.setRecipient(RecipientType.TO, new InternetAddress(userEmailId));
+			message.setSubject("Test Email from C3PR");
+			message.setDescription("Test Email");
 			message.setSentDate(new Date());
 			mailSender.send(message);
 		} catch (Exception e) {
