@@ -50,14 +50,10 @@ function closePopup(){
             		</tr> 
 				</c:forEach>
 			</table>  
-			<br>
-			<div class="flow-buttons">
-	            <span class="next">
-            		<tags:button type="button" color="blue" value="Copy" 
-							onclick="manageImportStudySites();" size="small"/>
-					<tags:button type="button" color="red" icon="x" value="Cancel" 
-							onclick="closePopup();" size="small"/>
-	 			</span>
-        	</div>
-			<br>
 </chrome:box>
+<div class="flow-buttons">
+    <span class="next">
+     	<tags:button type="button" color="blue" value="Copy" onclick="manageImportStudySites();" size="small"/>
+		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" size="small"/>
+	</span>
+</div>
