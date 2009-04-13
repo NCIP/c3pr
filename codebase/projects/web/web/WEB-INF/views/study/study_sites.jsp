@@ -73,6 +73,12 @@
 		Element.show('sendingMessage-'+nciCode);
 	}
 
+	function changeCompanionStudySiteStatus(nciCode){
+		action=$("companionSiteAction-"+nciCode).value;
+		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/companionSites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+ '&studySiteType=companionSite&DO_NOT_SAVE=true'" />
+		Element.show('companionSendingMessage-'+nciCode);
+	}
+
 	function showEndpointError(nciCode, localNciCode){
 		Dialog.alert({url: $('command').action,  
 					options: {method: 'post', parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=showEndpointMessage&_asyncViewName=/study/asynchronous/manage_sites&_target${tab.number}=${tab.number}&_page=${tab.number}&nciCode="+nciCode+"&localNciCode="+localNciCode, 
@@ -91,7 +97,36 @@
 									}
 
 	AutocompleterManager.addAutocompleter(multisiteStudySiteAutocompleterProps);
-	
+
+	var win;
+	function selectStudySites(studyId, parentAssociationId, parentIndex){
+		win = new Window({title: "Select Study Sites", 
+				scrollbar: false, zIndex:100, width:900, height:325 ,
+				recenterAuto:true, className :"mac_os_x",
+				url: "<c:url value='/pages/study/selectStudySites?decorator=noheaderDecorator&parentAssociationId='/>" + parentAssociationId  +"&parentIndex=" + parentIndex  +"&studyId=" + studyId , 
+				showEffectOptions: {duration:1.5}
+					}
+				) 
+		win.showCenter(true)
+	}
+
+	function closePopup() {
+		win.close();
+	}
+
+	function reloadParentStudySites(studyId , studyAssociationId , nciCodes , parentIndex, irbApprovalSites){
+		$('nciCodes').value=nciCodes;
+		$('irbApprovalSites').value=irbApprovalSites;
+		$('studyAssociationId').value=studyAssociationId;
+		<tags:tabMethod method="associateParentStudySites" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'parentIndex='+parentIndex"/>
+	}
+
+	function deleteCompanionStudySiteAssociation(studySiteId, parentIndex){
+		$("_doNotSave").name="xyz";
+		<tags:tabMethod method="removeCompanionStudyAssociation" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'studySiteId='+studySiteId+'&parentIndex='+parentIndex"/>
+		$("_doNotSave").name="_doNotSave";
+	}
+		
 	</script>
 </head>
 <body>
@@ -99,123 +134,245 @@
 		<input type="hidden" name="_target${tab.number}" id="_target"/>
 		<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 	</form:form>
-		<div id="dummy-div" style="display: none;" ></div>
-		<tags:panelBox title="Manage Study Sites">
-			<div class="row">
-				<div class="label"><fmt:message key="c3pr.common.selectAnOrganization" /></div>
-				<div class="value">
-					<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" ></tags:autocompleter>
-					<tags:button color="blue" value="Add study site" icon="add" type="button" size="small" id="addStudySite" onclick="addStudySite();" disabled="true"></tags:button>
-				</div>
+	<div id="dummy-div" style="display: none;" ></div>
+	<tags:panelBox title="Manage Study Sites">
+		<div class="row">
+			<div class="label"><fmt:message key="c3pr.common.selectAnOrganization" /></div>
+			<div class="value">
+				<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" ></tags:autocompleter>
+				<tags:button color="blue" value="Add study site" icon="add" type="button" size="small" id="addStudySite" onclick="addStudySite();" disabled="true"></tags:button>
 			</div>
-			<br>
-			<form:form id="studySitesForm">
+		</div>
+		<br>
+		<form:form id="studySitesForm">
 			<div id="studySites">
-			<c:forEach items="${command.study.studySites}" varStatus="status" var="site">
-				<chrome:division title="${site.healthcareSite.name} (${site.healthcareSite.nciInstituteCode})" minimize="true" divIdToBeMinimized="site-${status.index}" >
-					<div id="site-${status.index}" style="display:none;">
-						<div class="row">
-							<div class="leftpanel">
-								<div class="row">
-									<div class="label"><fmt:message key="site.IRBApprovalDate" /></div>
-									<div class="value" id="siteIRB-${site.healthcareSite.nciInstituteCode }">
-										<tags:dateInput path="study.studySites[${status.index}].irbApprovalDate"/>
-									</div>
-								</div>
-								<div class="row">
-									<div class="label"><fmt:message key="c3pr.common.targetAccrual" /></div>
-									<div class="value">
-										<form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC" size="6"/>
-									</div>
-								</div>
-								<div class="row" id="actions-${status.index}">
-									<div class="label"><fmt:message key="site.actions" /></div>
-									<div class="value" id="actions-${site.healthcareSite.nciInstituteCode }">
-            							<c:set var="noAction" value="true"/>
-            							<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
-            								<select id="siteAction-${site.healthcareSite.nciInstituteCode}">
-            									<c:forEach items="${site.possibleTransitions}" var="possibleAction">
-            										<c:choose>
-   														<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
-   															<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode))}">
-   																<option value="${possibleAction}">${possibleAction.displayName }</option>
-   																<c:set var="noAction" value="false"/>
-   															</c:if>
-   														</c:when>
-   														<c:when test="${possibleAction=='APPROVE_STUDY_SITE_FOR_ACTIVATION'}">
-   															<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
-   																<option value="${possibleAction}">${possibleAction.displayName }</option>
-   																<c:set var="noAction" value="false"/>
-   															</c:if>
-   														</c:when>
-						   								<c:otherwise>
-								   							<option value="${possibleAction}">${possibleAction.displayName }</option>
-								   							<c:set var="noAction" value="false"/>
-								   						</c:otherwise>
-													</c:choose>
-            									</c:forEach>
-            								</select>
-            								<tags:button type="button" color="blue" value="Go" id="go" onclick="takeAction('${site.healthcareSite.nciInstituteCode}');" size="small"/>
-										</c:if>
-										<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
-											Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
+				<c:forEach items="${command.study.studySites}" varStatus="status" var="site">
+					<chrome:division title="${site.healthcareSite.name} (${site.healthcareSite.nciInstituteCode})" minimize="true" divIdToBeMinimized="site-${status.index}" >
+						<div id="site-${status.index}" style="display:none;">
+							<div class="row">
+								<div class="leftpanel">
+									<div class="row">
+										<div class="label"><fmt:message key="site.IRBApprovalDate" /></div>
+										<div class="value" id="siteIRB-${site.healthcareSite.nciInstituteCode }">
+											<tags:dateInput path="study.studySites[${status.index}].irbApprovalDate"/>
 										</div>
 									</div>
-									<c:if test="${noAction}">
-										<script>
-											Element.hide('actions-'+${status.index});
-										</script>
-									</c:if>
-								</div>
-								<div class="row" id="message-${status.index}">
-									<div class="label"><fmt:message key="site.messages" /></div>
-									<div class="value" id="Messages-${site.healthcareSite.nciInstituteCode }">
-										<c:choose>
-											<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
-												<c:choose>
-													<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
-														<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-														Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
-													</c:when>
-													<c:otherwise>
-														<font color="green">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-														Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the messages
-													</c:otherwise>
-												</c:choose>
-											</c:when>
-											<c:otherwise>
-												None
-											</c:otherwise>
-										</c:choose>
-									</div>
-								</div>
-							</div>
-							<div class="rightpanel">
-								<div class="row">
-									<div class="label"><fmt:message key="site.activationDate" /></div>
-									<div class="value">
-										<tags:dateInput path="study.studySites[${status.index}].startDate"/>
-									</div>
-								</div>
-								<div class="row">
-									<c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
-										<div class="label"><fmt:message key="site.hostedMode" /></div>
+									<div class="row">
+										<div class="label"><fmt:message key="c3pr.common.targetAccrual" /></div>
 										<div class="value">
-					            			<form:checkbox path="study.studySites[${status.index}].hostedMode"/>
-            								<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.nciInstituteCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
+											<form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC" size="6"/>
 										</div>
-    			        			</c:if>
+									</div>
+									<div class="row" id="actions-${status.index}">
+										<div class="label"><fmt:message key="site.actions" /></div>
+										<div class="value" id="actions-${site.healthcareSite.nciInstituteCode }">
+		           							<c:set var="noAction" value="true"/>
+		           							<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+		           								<select id="siteAction-${site.healthcareSite.nciInstituteCode}">
+		           									<c:forEach items="${site.possibleTransitions}" var="possibleAction">
+		           										<c:choose>
+		  														<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
+		  															<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode))}">
+		  																<option value="${possibleAction}">${possibleAction.displayName }</option>
+		  																<c:set var="noAction" value="false"/>
+		  															</c:if>
+		  														</c:when>
+		  														<c:when test="${possibleAction=='APPROVE_STUDY_SITE_FOR_ACTIVATION'}">
+		  															<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
+		  																<option value="${possibleAction}">${possibleAction.displayName }</option>
+		  																<c:set var="noAction" value="false"/>
+		  															</c:if>
+		  														</c:when>
+							   								<c:otherwise>
+									   							<option value="${possibleAction}">${possibleAction.displayName }</option>
+									   							<c:set var="noAction" value="false"/>
+									   						</c:otherwise>
+														</c:choose>
+		           									</c:forEach>
+		           								</select>
+		           								<tags:button type="button" color="blue" value="Go" id="go" onclick="takeAction('${site.healthcareSite.nciInstituteCode}');" size="small"/>
+											</c:if>
+											<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
+												Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
+											</div>
+										</div>
+										<c:if test="${noAction}">
+											<script>
+												Element.hide('actions-'+${status.index});
+											</script>
+										</c:if>
+									</div>
+									<div class="row" id="message-${status.index}">
+										<div class="label"><fmt:message key="site.messages" /></div>
+										<div class="value" id="Messages-${site.healthcareSite.nciInstituteCode }">
+											<c:choose>
+												<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
+													<c:choose>
+														<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
+															<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
+															Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
+														</c:when>
+														<c:otherwise>
+															<font color="green">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
+															Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the messages
+														</c:otherwise>
+													</c:choose>
+												</c:when>
+												<c:otherwise>
+													None
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</div>
 								</div>
-								<div class="row">
-									<div class="label"><fmt:message key="c3pr.common.status" /></div>
-									<div class="value" id="siteStatus-${site.healthcareSite.nciInstituteCode }">${site.siteStudyStatus.code}</div>
+								<div class="rightpanel">
+									<div class="row">
+										<div class="label"><fmt:message key="site.activationDate" /></div>
+										<div class="value">
+											<tags:dateInput path="study.studySites[${status.index}].startDate"/>
+										</div>
+									</div>
+									<div class="row">
+										<c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
+											<div class="label"><fmt:message key="site.hostedMode" /></div>
+											<div class="value">
+						            			<form:checkbox path="study.studySites[${status.index}].hostedMode"/>
+		           								<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.nciInstituteCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
+											</div>
+		   			        			</c:if>
+									</div>
+									<div class="row">
+										<div class="label"><fmt:message key="c3pr.common.status" /></div>
+										<div class="value" id="siteStatus-${site.healthcareSite.nciInstituteCode }">${site.siteStudyStatus.code}</div>
+									</div>
 								</div>
 							</div>
 						</div>
+					</chrome:division>
+					<div class="division"></div>	
+				</c:forEach>
+			</div>
+			<!--  This section belongs to study site for companion study associations -->
+			<div id="companionStudyAssocition-studySite" <c:if test="${!command.study.companionIndicator}">style="display:none;"</c:if>>
+			 	<c:forEach items="${command.study.parentStudyAssociations}" var="parentStudyAssociation" varStatus="parentStudySiteStaus">
+			 		<div id="parentStudySiteDiv-${parentStudySiteStaus.index}">
+						<chrome:division title="${parentStudyAssociation.parentStudy.shortTitleText}">
+							<c:forEach items="${parentStudyAssociation.parentStudy.studySites}" varStatus="status" var="site">
+								<chrome:division title="${site.healthcareSite.name} (${site.healthcareSite.nciInstituteCode})" minimize="true" divIdToBeMinimized="site-${status.index}" >
+									<div id="companionsite-${status.index}" style="display:none;">
+										<div class="row">
+											<div class="leftpanel">
+												<div class="row">
+													<div class="label"><fmt:message key="site.IRBApprovalDate" /></div>
+													<div class="value" id="companionSiteIRB-${site.healthcareSite.nciInstituteCode }">
+														<tags:dateInput path="study.studySites[${status.index}].irbApprovalDate"/>
+													</div>
+												</div>
+												<div class="row">
+													<div class="label"><fmt:message key="c3pr.common.targetAccrual" /></div>
+													<div class="value">
+														<form:input path="study.studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC" size="6"/>
+													</div>
+												</div>
+												<div class="row" id="companionActions-${status.index}">
+													<div class="label"><fmt:message key="site.actions" /></div>
+													<div class="value" id="companionActions-${site.healthcareSite.nciInstituteCode }">
+					           							<c:set var="noAction" value="true"/>
+					           							<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+					           								<select id="companionSiteAction-${site.healthcareSite.nciInstituteCode}">
+					           									<c:forEach items="${site.possibleTransitions}" var="possibleAction">
+					           										<c:choose>
+					  														<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
+					  															<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode))}">
+					  																<option value="${possibleAction}">${possibleAction.displayName }</option>
+					  																<c:set var="noAction" value="false"/>
+					  															</c:if>
+					  														</c:when>
+					  														<c:when test="${possibleAction=='APPROVE_STUDY_SITE_FOR_ACTIVATION'}">
+					  															<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
+					  																<option value="${possibleAction}">${possibleAction.displayName }</option>
+					  																<c:set var="noAction" value="false"/>
+					  															</c:if>
+					  														</c:when>
+										   								<c:otherwise>
+												   							<option value="${possibleAction}">${possibleAction.displayName }</option>
+												   							<c:set var="noAction" value="false"/>
+												   						</c:otherwise>
+																	</c:choose>
+					           									</c:forEach>
+					           								</select>
+					           								<tags:button type="button" color="blue" value="Go" id="go" onclick="takeAction('${site.healthcareSite.nciInstituteCode}');" size="small"/>
+														</c:if>
+														<div id="companionSendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
+															Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
+														</div>
+													</div>
+													<c:if test="${noAction}">
+														<script>
+															Element.hide('actions-'+${status.index});
+														</script>
+													</c:if>
+												</div>
+												<div class="row" id="companionMessage-${status.index}">
+													<div class="label"><fmt:message key="site.messages" /></div>
+													<div class="value" id="companionMessages-${site.healthcareSite.nciInstituteCode }">
+														<c:choose>
+															<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
+																<c:choose>
+																	<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
+																		<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
+																		Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
+																	</c:when>
+																	<c:otherwise>
+																		<font color="green">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
+																		Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the messages
+																	</c:otherwise>
+																</c:choose>
+															</c:when>
+															<c:otherwise>
+																None
+															</c:otherwise>
+														</c:choose>
+													</div>
+												</div>
+											</div>
+											<div class="rightpanel">
+												<div class="row">
+													<div class="label"><fmt:message key="site.activationDate" /></div>
+													<div class="value">
+														<tags:dateInput path="study.studySites[${status.index}].startDate"/>
+													</div>
+												</div>
+												<div class="row">
+													<c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
+														<div class="label"><fmt:message key="site.hostedMode" /></div>
+														<div class="value">
+									            			<form:checkbox path="study.studySites[${status.index}].hostedMode"/>
+					           								<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.nciInstituteCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
+														</div>
+					   			        			</c:if>
+												</div>
+												<div class="row">
+													<div class="label"><fmt:message key="c3pr.common.status" /></div>
+													<div class="value" id="companionSiteStatus-${site.healthcareSite.nciInstituteCode }">${site.siteStudyStatus.code}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</chrome:division>
+								<div class="division"></div>	
+							</c:forEach>
+						</chrome:division>
+						<br>
 					</div>
-				</chrome:division>
-				<div class="division"></div>	
-			</c:forEach>
+					<br>
+					<div class="flow-buttons">
+			            <span class="next">
+			            	<tags:button type="button" color="blue" value="Select From Parent" onclick="selectStudySites(${command.study.id},${parentStudyAssociation.id}, ${parentStudySiteStaus.index})" size="small"/>
+			 			</span>
+		        	</div>
+					<br>
+				</c:forEach>
 			</div>
 			</form:form>
 			<div id="newStudySite" style="display: none" ></div>
