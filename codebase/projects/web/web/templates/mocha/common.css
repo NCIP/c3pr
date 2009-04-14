@@ -802,7 +802,10 @@ div.row div.value {
 	font-weight: normal; /* default; should be changed whenever .label width is changed */
 	margin-left: 14em;
 }
-img.indicator { visibility: hidden; }
+img.indicator { 
+	visibility: hidden;
+	vertical-align:middle;
+	}
 .downloadLinks {
 	font-weight: bold;
 	float: left;
