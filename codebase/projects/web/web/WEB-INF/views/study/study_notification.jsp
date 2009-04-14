@@ -73,7 +73,7 @@ function saveStudy() {
 						<tr>
 							<th></th>
 							<th>
-							<tags:button type="button" color="orange" icon="add" value="Add Email" id="addEmail"
+							<tags:button type="button" color="blue" icon="add" value="Add Email" id="addEmail"
 								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
 							</th>
 						</tr>
@@ -95,7 +95,7 @@ function saveStudy() {
 						<tr>
 							<th></th>
 							<th>
-							<tags:button type="button" color="orange" icon="add" value="Add Role" 
+							<tags:button type="button" color="blue" icon="add" value="Add Role" 
 								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
 							</th>
 						</tr>
@@ -144,7 +144,7 @@ function saveStudy() {
 			<tr>
 				<th></th>
 				<th>
-				<tags:button type="button" color="orange" icon="add" value="Add Email" id="addEmail"
+				<tags:button type="button" color="blue" icon="add" value="Add Email" id="addEmail"
 								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
 				</th>
 			</tr>
@@ -155,7 +155,7 @@ function saveStudy() {
 			<tr>
 				<th></th>
 				<th>
-				<tags:button type="button" color="orange" icon="add" value="Add Role" 
+				<tags:button type="button" color="blue" icon="add" value="Add Role" 
 								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
 				</th>
 			</tr>

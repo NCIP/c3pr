@@ -162,7 +162,7 @@
 								<tr>
 									<th></th>
 									<th>
-									<tags:button type="button" color="orange" icon="add" value="Add Answer" 
+									<tags:button type="button" color="blue" icon="add" value="Add Answer" 
 onclick="if(stratumGroupAlert('${epochCount.index}', '${isBookRandomized}')){RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));}" size="small"/>
 										</th>
 								</tr>
@@ -237,7 +237,7 @@ onclick="if(stratumGroupAlert('${epochCount.index}', '${isBookRandomized}')){Row
 				<tr>
 					<th></th>
 					<th>
-					<tags:button type="button" color="orange" icon="add" value="Add Answer" 
+					<tags:button type="button" color="blue" icon="add" value="Add Answer" 
 					onclick="stratumGroupAlert('${fn:length(command.study.epochs[epochCount.index].stratumGroups)}','${isBookRandomized}');RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX));" size="small"/>
 					</th>
 				</tr>

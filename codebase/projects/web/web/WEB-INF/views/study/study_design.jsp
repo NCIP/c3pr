@@ -1,5 +1,4 @@
 <%@ include file="taglibs.jsp"%>
-
 <html>
 <head>
 <title><studyTags:htmlTitle study="${command.study}" /></title>
@@ -12,40 +11,21 @@
           }
       }
 
-    function onAddTreatmentEpoch(){
-	    $('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps);
-	     Effect.Fold($('genericEpoch-'+0));
-    }
-     
-     function manageAccrualIndicatorSelectBox(box,index) {
-            if (box.value == 'true') {
-                //		document.getElementById('accrualCeiling-index').style.display='show';
-                Effect.OpenUp('accrualCeiling-'+index);
-            }
-            if (box.value == 'false') {
-                	//	document.getElementById('accrualCeiling-index').style.display='none';
-                Effect.CloseDown('accrualCeiling-'+index);
-            }
+       function manageEnrollingIndicatorSelectBox(box, index) {
+           if (isNaN(index)) return;
+           try {
+               if (box.value == 'false') {
+                   $('study.epochs[' + index + '].reservationIndicator').disabled = false;
+               } else {
+                   $('study.epochs[' + index + '].reservationIndicator').disabled = true;
+                   $('study.epochs[' + index + '].reservationIndicator').value = false;
+               }
+           } catch(ex) {
+           }
         }
         
-         function manageEnrollingIndicatorSelectBox(box, index) {
-
+       	function manageReservingIndicatorSelectBox(box, index) {
              if (isNaN(index)) return;
-
-             try {
-                 if (box.value == 'false') {
-                     $('study.epochs[' + index + '].reservationIndicator').disabled = false;
-                 } else {
-                     $('study.epochs[' + index + '].reservationIndicator').disabled = true;
-                     $('study.epochs[' + index + '].reservationIndicator').value = false;
-                 }
-             } catch(ex) {
-             }
-        }
-        
-          function manageReservingIndicatorSelectBox(box, index) {
-             if (isNaN(index)) return;
-
              try {
                  if (box.value == 'false') {
                 	 Effect.OpenUp('addArm-' + index);
@@ -77,7 +57,7 @@
             deleteMsgPrefix: "Book Randomization Entries(if any) for this Epoch will be deleted.",
             path: "epochs[PAGE.ROW.INDEX].arms"
         };
-          var genericEpochRowInserterProps= {
+        var genericEpochRowInserterProps= {
           	nested_row_inserter: armInserterProps,
             add_row_division_id: "genericEpoch",
             skeleton_row_division_id: "dummy-genericEpoch",
@@ -86,12 +66,9 @@
             isAdmin: ${isAdmin == 'true'},
             path: "epochs",
             postProcessRowInsertion: function(object){
-            								var inputName="study.epochs["+object.localIndex+"].name";
-            								//inputElement=$$("input[name='"+inputName+"']")[0];
-            								//inputElement=$$("input[name='epochs[0].name']")[0];
-            								//alert(inputElement);
-            								setTimeout("enableFocus(\'"+inputName+"\')",10);
-            							}
+      								var inputName="study.epochs["+object.localIndex+"].name";
+      								setTimeout("enableFocus(\'"+inputName+"\')",10);
+      							}
             };
  		RowManager.addRowInseter(genericEpochRowInserterProps);
         RowManager.registerRowInserters();
@@ -103,15 +80,14 @@
 </head>
 
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
-	formName="studyDesignForm" displayErrors="false">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studyDesignForm" displayErrors="false">
 	<jsp:attribute name="singleFields">
-	
 	<tags:errors path="study.epochs" /> 
-
-<div><input type="hidden" name="_action" value=""> <input
-			type="hidden" name="_selectedEpoch" value=""> <input
-			type="hidden" name="_selectedArm" value=""></div>
+	<div>
+		<input type="hidden" name="_action" value=""> 
+		
+	</div>
+		
 <tags:instructions code="study_design" />
 <!-- BIG TABLE START -->
 <table id="genericEpoch" width="100%" border="0">
@@ -248,7 +224,7 @@ DELETED TD
           <td align="right"><b><fmt:message key="c3pr.common.description"/></b></td>
           <td align="left" colspan="3"><form:textarea
 											path="study.epochs[${treatmentEpochCount.index}].descriptionText"
-											rows="5" cssClass="descTextarea" />
+											rows="3" cssClass="descTextarea" />
                                         <tags:hoverHint
 											id="study.treatmentEpoch.description-${treatmentEpochCount.index}"
 											keyProp="study.treatmentEpoch.description" /></td>
@@ -321,7 +297,7 @@ DELETED TD
   <td colspan="3" align="left">
       <hr noshade size="1" width="100%"
 									style="border-top: 1px black dotted;" align="left">
-		<tags:button id="addArm-${treatmentEpochCount.index}" type="button" color="orange" icon="add" value="Add Arm"
+		<tags:button id="addArm-${treatmentEpochCount.index}" type="button" color="blue" icon="add" value="Add Arm"
 					onclick="$('h-${treatmentEpochCount.index}').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" size="small"/>
       <br />
       <!--ARMS TABLE-->
@@ -355,7 +331,7 @@ DELETED TD
 												size="43" cssClass="validate-notEmpty" /></td>
                 <td valign="top"><form:textarea
 												path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].descriptionText"
-												rows="5" cols="40" /></td>
+												rows="3" cols="40" /></td>
                 <td valign="top" align="center"><form:input
 												path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber"
 												size="6" maxlength="6"
@@ -406,7 +382,7 @@ DELETED TD
 			class="validate-notEmpty" value="Arm A" /></td>
 		<td><textarea
 			name="study.epochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].descriptionText"
-			rows="5" cols="40"></textarea></td>
+			rows="3" cols="40"></textarea></td>
 		<td valign="top" align="center"><input type="text"
 			name="study.epochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].targetAccrualNumber"
 			size="6" maxlength="6" class="validate-numeric" /></td>
@@ -526,7 +502,7 @@ DELETED TD
 						<tr>
 							<td align="right"><b><fmt:message key="c3pr.common.description"/></b></td>
 							<td align="left" colspan="3"><textarea
-								name="study.epochs[PAGE.ROW.INDEX].descriptionText" rows="5"
+								name="study.epochs[PAGE.ROW.INDEX].descriptionText" rows="3"
 								class="descTextarea"></textarea><tags:hoverHint
 								id="study.treatmentEpoch.description-PAGE.ROW.INDEX"
 								keyProp="study.treatmentEpoch.description" /></td>
@@ -580,7 +556,7 @@ DELETED TD
 					<td colspan="3" align="left">
 					<hr noshade size="1" width="100%"
 						style="border-top: 1px black dotted;" align="left">
-					<tags:button id="addArm-PAGE.ROW.INDEX" type="button" color="orange" icon="add" value="Add Arm"
+					<tags:button id="addArm-PAGE.ROW.INDEX" type="button" color="blue" icon="add" value="Add Arm"
 					onclick="$('h-PAGE.ROW.INDEX').show(); javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
 					<br />
 
