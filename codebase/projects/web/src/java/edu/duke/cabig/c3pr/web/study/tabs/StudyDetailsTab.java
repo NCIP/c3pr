@@ -1,17 +1,12 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -19,10 +14,6 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
-import edu.duke.cabig.c3pr.web.study.AmendStudyController;
-import edu.duke.cabig.c3pr.web.study.CreateStudyController;
-import edu.duke.cabig.c3pr.web.study.EditStudyController;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
@@ -33,10 +24,6 @@ public class StudyDetailsTab extends StudyTab {
 
     private StudyValidator studyValidator;
 
-    private StudyDao studyDao;
-    
-    private HealthcareSiteDao healthcareSiteDao;
-    
     private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
 	public void setHealthcareSiteInvestigatorDao(
@@ -47,10 +34,6 @@ public class StudyDetailsTab extends StudyTab {
 	public StudyDetailsTab() {
         super("Details", "Details", "study/study_details");
     }
-
-    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
 
     /*
     * This method sets the study.randomizationIndicator, study.RandomizationType and
@@ -71,8 +54,7 @@ public class StudyDetailsTab extends StudyTab {
 
         boolean isAdmin = isAdmin();
 
-        if (request.getAttribute("amendFlow") != null
-                && request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
+        if (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
             // amend-flow: set the disableForm refData for the amend flow.
             if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null && !isAdmin) {
                 refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_DETAILS));
@@ -80,11 +62,9 @@ public class StudyDetailsTab extends StudyTab {
                 refdata.put("disableForm", new Boolean(false));
                 refdata.put("mandatory", "true");
             }
-        } else if (request.getAttribute("editFlow") != null
-                && request.getAttribute("editFlow").toString().equalsIgnoreCase("true")) {
-            // edit-flow: disable all unless in PENDING STATE.
-            if (!(wrapper.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING)
-                    && !isAdmin) {
+        } else if (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equalsIgnoreCase("true")) {
+            // edit-flow: disable all unless in PENDING STATE. 
+            if (!(wrapper.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING) && !isAdmin) {
                 disableAll(request);
             } else {
                 // all states other than pending
@@ -103,7 +83,6 @@ public class StudyDetailsTab extends StudyTab {
             enableAll(request);
             refdata.put("mandatory", "true");
         }
-
         return refdata;
     }
 
@@ -177,14 +156,10 @@ public class StudyDetailsTab extends StudyTab {
         updateRandomization(study);
         updateStratification(study);
         wrapper.setStudy(study);
-        /*if (study.getFundingSponsorAssignedIdentifier()!= null){
-        	studyDao.refreshFundingSposorIdentifier(study);
-        }*/
     }
     
     
     public StudyInvestigator buildPrincipalInvestigator(){
-    	
     	StudyInvestigator studyInvestigator = new StudyInvestigator();
 		studyInvestigator.setRoleCode("Principal Investigator");
 		studyInvestigator.setStatusCode("Active");
@@ -209,8 +184,4 @@ public class StudyDetailsTab extends StudyTab {
         this.studyValidator = studyValidator;
     }
 
-    public void setStudyDao(StudyDao studyDao) {
-        this.studyDao = studyDao;
-    }
-    
 }
