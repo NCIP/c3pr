@@ -233,7 +233,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
+										<c:if test="${multisiteEnv}">
 											<div class="label"><fmt:message key="site.hostedMode" /></div>
 											<div class="value">
 						            			<form:checkbox path="study.studySites[${status.index}].hostedMode"/>
@@ -344,7 +344,7 @@
 													</div>
 												</div>
 												<div class="row">
-													<c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
+													<c:if test="${multisiteEnv}">
 														<div class="label"><fmt:message key="site.hostedMode" /></div>
 														<div class="value">
 									            			<form:checkbox path="study.studySites[${status.index}].hostedMode"/>
