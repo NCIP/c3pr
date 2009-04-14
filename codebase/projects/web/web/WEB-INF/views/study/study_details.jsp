@@ -179,6 +179,17 @@
 
 		
     </script>
+	<style>
+		#main {
+			top:35px;
+		}
+		div.row div.label {
+			margin-left:0;
+		}
+		div.row div.value {
+			margin-left:13em;
+		}
+	</style>
 </head>
 <body>
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
@@ -454,6 +465,7 @@
 <chrome:division title="Principal Investigator">
 <tags:errors path="study.studyOrganizations[0].studyInvestigators"/> 
     <div id="principalInvestigator">
+    	<div class="row">
 	    <div class="leftpanel">
 	  				<div class="row">
 							<c:set var="_codeOrgPI" value="" />
@@ -494,11 +506,10 @@
 	                 </div>            
 	    </div>
     </div>
+	</div>
 	</chrome:division>
-
-	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
-	
 </chrome:box>
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 </form:form>
 </body>
 </html>
