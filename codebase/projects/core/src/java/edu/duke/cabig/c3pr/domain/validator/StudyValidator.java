@@ -20,7 +20,6 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -143,8 +142,8 @@ public class StudyValidator implements Validator {
         Study study = (Study) target;
         List<StudyInvestigator> allStudyInvestigators = new ArrayList<StudyInvestigator>();
         try {
-            for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
-                allStudyInvestigators.addAll(studyOrganization.getStudyInvestigators());
+            for (StudySite studySite : study.getStudySites()) {
+                allStudyInvestigators.addAll(studySite.getStudyInvestigators());
             }
             Set<StudyInvestigator> uniqueStudyInvestigators = new HashSet<StudyInvestigator>();
             List<StudyInvestigator> notNullInvestigatorsList = new ArrayList<StudyInvestigator>();
@@ -157,7 +156,7 @@ public class StudyValidator implements Validator {
             }
             uniqueStudyInvestigators.addAll(notNullInvestigatorsList);
             if (notNullInvestigatorsList.size() > uniqueStudyInvestigators.size()) {
-                errors.rejectValue("study.studyOrganizations[0].studyInvestigators", new Integer(
+                errors.rejectValue("study.studySites[0].studyInvestigators", new Integer(
                                 getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"))
                                 .toString(), getMessageFromCode(
                                 getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),
@@ -174,8 +173,8 @@ public class StudyValidator implements Validator {
         List<StudyPersonnel> allStudyPersonnel = new ArrayList<StudyPersonnel>();
 
         try {
-            for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
-                allStudyPersonnel.addAll(studyOrganization.getStudyPersonnel());
+            for (StudySite studySite : study.getStudySites()) {
+                allStudyPersonnel.addAll(studySite.getStudyPersonnel());
             }
             Set<StudyPersonnel> uniqueStudyPersonnel = new HashSet<StudyPersonnel>();
             List<StudyPersonnel> notNullPersonnelList = new ArrayList<StudyPersonnel>();
@@ -189,7 +188,7 @@ public class StudyValidator implements Validator {
             if (notNullPersonnelList.size() > uniqueStudyPersonnel.size()) {
                 errors
                                 .rejectValue(
-                                                "study.studyOrganizations[0].studyPersonnel",
+                                                "study.studySites[0].studyPersonnel",
                                                 new Integer(
                                                                 getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR"))
                                                                 .toString(),
