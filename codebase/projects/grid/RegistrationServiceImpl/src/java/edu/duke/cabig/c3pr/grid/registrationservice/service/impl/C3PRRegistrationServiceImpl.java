@@ -125,6 +125,10 @@ public class C3PRRegistrationServiceImpl implements RegistrationServiceI {
             SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
         }
     }
+    
+    public Message getRegistrations(Message message) throws RemoteException {
+		throw new RemoteException("Not yet implemented");
+	}
 
     public QueryResourcePropertiesResponse queryResourceProperties(
                     QueryResourceProperties_Element params) throws RemoteException {
@@ -174,4 +178,5 @@ public class C3PRRegistrationServiceImpl implements RegistrationServiceI {
     public void setExceptionHelper(C3PRExceptionHelper exceptionHelper) {
         this.exceptionHelper = exceptionHelper;
     }
+
 }

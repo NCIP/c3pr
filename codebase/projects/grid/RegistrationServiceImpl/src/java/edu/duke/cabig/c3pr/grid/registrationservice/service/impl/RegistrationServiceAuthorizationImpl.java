@@ -43,6 +43,17 @@ public class RegistrationServiceAuthorizationImpl implements RegistrationAuthori
 					+ " cannot invoke this grid operation.");		
 	}
 	
+	public void authorizeGetRegistrations(String callerIdentity) throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN) || roles
+				.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.REGISTRAR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+	
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -90,4 +101,5 @@ public class RegistrationServiceAuthorizationImpl implements RegistrationAuthori
 	public void setGridSecurityUtils(GridSecurityUtils gridSecurityUtils) {
 		this.gridSecurityUtils = gridSecurityUtils;
 	}
+
 }
