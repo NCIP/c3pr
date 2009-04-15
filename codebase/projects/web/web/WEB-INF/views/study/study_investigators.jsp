@@ -309,9 +309,6 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                        <tr>
 			                            <td>
 			                              ${studyInvestigator.healthcareSiteInvestigator.investigator.firstName}&nbsp;${studyInvestigator.healthcareSiteInvestigator.investigator.lastName}
-			                              <c:if test="${studyInvestigator.roleCode eq 'Principal Investigator'}">
-			                               	- Principal Investigator
-			                              </c:if>
 			                            </td>
 			                            <td>
 			                            <form:select path="study.studySites[${selected_site}].studyInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
@@ -319,11 +316,9 @@ and the controller gets the selected index via the hidden variable _selectedSite
 					                    </form:select>
 			                            </td>
 			                            <td class="alt">
-				                          <c:if test="${studyInvestigator.roleCode ne 'Principal Investigator'}">  
 				                            <a href="javascript:fireAction('removeStudyInvestigator',${status.index});">
 				                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
 				                            </a>&nbsp;
-				                          </c:if>
 				                        </td>
 			                        </tr>
 									</c:if>
