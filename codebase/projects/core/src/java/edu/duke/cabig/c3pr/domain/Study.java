@@ -1550,4 +1550,14 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		return null;
 	}
+	
+	@Transient
+	public String getLatestConsentVersion(){
+		String latestConsentVersion=this.consentVersion;
+			for(StudyAmendment studyAmendment: this.getStudyAmendments()){
+				if(studyAmendment.getConsentChangedIndicator())
+					latestConsentVersion=studyAmendment.getConsentVersion();
+			}
+		return latestConsentVersion;
+	}
 }

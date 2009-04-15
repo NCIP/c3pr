@@ -39,7 +39,17 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject {
     
     private Boolean companionChangedIndicator = false;
     
-    @Column(name = "comp_changed_indicator")
+    private String consentVersion;
+    
+    public String getConsentVersion() {
+		return consentVersion;
+	}
+
+	public void setConsentVersion(String consentVersion) {
+		this.consentVersion = consentVersion;
+	}
+
+	@Column(name = "comp_changed_indicator")
     public Boolean getCompanionChangedIndicator() {
 		return companionChangedIndicator;
 	}
