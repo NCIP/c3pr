@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
@@ -60,10 +61,10 @@ public class StudyInvestigatorsTab extends StudyTab {
         String selected = request.getParameter("_selected");
         String action = request.getParameter("_actionx");
         String selectedSite = request.getParameter("_selectedSite");
-        StudyOrganization studyOrg = null;
+        StudySite studyOrg = null;
 
-        // get the StudyOrganization to which we will add/remove investigator.
-        List<StudyOrganization> studyOrgList = wrapper.getStudy().getStudyOrganizations();
+        // get the StudySite to which we will add/remove investigator.
+        List<StudySite> studyOrgList = wrapper.getStudy().getStudySites();
         if (!StringUtils.isBlank(selectedSite)) {
             studyOrg = studyOrgList.get(Integer.parseInt(selectedSite));
         }
@@ -72,7 +73,7 @@ public class StudyInvestigatorsTab extends StudyTab {
 
             if (StringUtils.equals("siteChange", action)) {
                 request.getSession().setAttribute("_selectedSite", selectedSite);
-            }else if (StringUtils.equals("addStudyDisease", action)&& studyOrg != null) {
+            }else if (StringUtils.equals("addStudyInvestigator", action)&& studyOrg != null) {
                 String[] studyInvestigatorIds = studyOrg.getStudyInvestigatorIds();
                 if (studyInvestigatorIds.length > 0) {
                     HealthcareSiteInvestigator healthcareSiteInvestigator = null;
@@ -93,7 +94,7 @@ public class StudyInvestigatorsTab extends StudyTab {
                             if (sStudyInvestigator.add(studyInvestigator)) {
                                 studyOrg.getStudyInvestigators().add(studyInvestigator);
                             } else {
-                                errors.rejectValue("study.studyOrganizations[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
+                                errors.rejectValue("study.studySites[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
                                         studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),
                                         null, null));
                             }
@@ -105,7 +106,7 @@ public class StudyInvestigatorsTab extends StudyTab {
             }
         }
 
-        if (StringUtils.equals("removeStudyDisease", action) && studyOrg != null) {
+        if (StringUtils.equals("removeStudyInvestigator", action) && studyOrg != null) {
             studyOrg.getStudyInvestigators().remove(Integer.parseInt(selected));
         }
     }
