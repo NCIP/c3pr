@@ -234,7 +234,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 <input type="hidden" id="_selectedSite" name="_selectedSite" value="">
 
 <c:choose>
-	<c:when test="${fn:length(command.study.studyOrganizations) == 0}">
+	<c:when test="${fn:length(command.study.studySites) == 0}">
         <tr>
 			<td>Choose a study organization before adding investigators</td>
 		</tr>
@@ -244,27 +244,21 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		<table border="0" id="table1" cellspacing="10" width="100%">
 			<tr>
 			<td valign="top" width="45%">
-			<tags:errors path="study.studyOrganizations[0].studyInvestigators"/> 
+			<tags:errors path="study.studySites[0].studyInvestigators"/> 
 				<chrome:box title="${tab.shortTitle}">
 					<div>
 			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnOrganization"/></b><br>
 			            <input:hidden id="disease"/>
 			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
-			                    <c:forEach items="${command.study.studyOrganizations}" var="studySite" varStatus="status">
+			                    <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
 			                        <csmauthz:accesscontrol domainObject="${studySite}" hasPrivileges="ACCESS"
 			                                                authorizationCheckName="studySiteAuthorizationCheck">
 			                        <c:if test="${selected_site == status.index }">
 			                            <option selected="selected" value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name}
-			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Coordinating Center) </c:if>
-			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyFundingSponsor' }"> (Funding Sponsor) </c:if> 
-			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudySite' }"> (Site) </c:if>			                            
 			                            </option>			                            
 			                        </c:if>
 			                        <c:if test="${selected_site != status.index }">
 			                            <option value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name} 
-			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Coordinating Center) </c:if>
-			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyFundingSponsor' }"> (Funding Sponsor) </c:if> 
-			                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudySite' }"> (Site) </c:if>
 			                            </option>
 			                        </c:if>
 			                        </csmauthz:accesscontrol>
@@ -286,19 +280,19 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                <option value="">No Selected Investigators</option>
 			            </select>
 			            
-			            <form:select id="disease-sel-hidden" size="1" path="study.studyOrganizations[${selected_site}].studyInvestigatorIds" />
+			            <form:select id="disease-sel-hidden" size="1" path="study.studySites[${selected_site}].studyInvestigatorIds" />
 			        <br/>
 	               </div>	        
 			    </chrome:box>
 			</td>
 			<td valign="middle">
-				<tags:button type="button" icon="continue" size="small" color="blue" value="Add" id="add" onclick="fireAction('addStudyDisease','0');"/>
+				<tags:button type="button" icon="continue" size="small" color="blue" value="Add" id="add" onclick="fireAction('addStudyInvestigator','0');"/>
 	        </td>
 			<td valign="top" width="45%">
-			    <chrome:box title="${command.study.studyOrganizations[selected_site].healthcareSite.name}" id="diseases">
+			    <chrome:box title="${command.study.studySites[selected_site].healthcareSite.name}" id="diseases">
 			        <br/>
 			        <c:choose>
-			            <c:when test="${fn:length(command.study.studyOrganizations[selected_site].studyInvestigators) == 0}">
+			            <c:when test="${fn:length(command.study.studySites[selected_site].studyInvestigators) == 0}">
 			                No Investigators Selected
 			            </c:when>			
 			            <c:otherwise>
@@ -308,28 +302,31 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                        <th width="20%"><fmt:message key="c3pr.common.status"/><tags:hoverHint keyProp="study.investigator.status"/></th>
 			                        <th width="5%"></th>
 			                    </tr>
-			                    <c:forEach items="${command.study.studyOrganizations[selected_site].studyInvestigators}" var="studyInvestigator"
+			                    <c:forEach items="${command.study.studySites[selected_site].studyInvestigators}" var="studyInvestigator"
 			                               varStatus="status">
-		                        <tr>
-		                            <td>
-		                              ${studyInvestigator.healthcareSiteInvestigator.investigator.firstName}&nbsp;${studyInvestigator.healthcareSiteInvestigator.investigator.lastName}
-		                              <c:if test="${studyInvestigator.roleCode eq 'Principal Investigator'}">
-		                               	- Principal Investigator
-		                              </c:if>
-		                            </td>
-		                            <td>
-		                            <form:select path="study.studyOrganizations[${selected_site}].studyInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
-				                        <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc"/>
-				                    </form:select>
-		                            </td>
-		                            <td class="alt">
-			                          <c:if test="${studyInvestigator.roleCode ne 'Principal Investigator'}">  
-			                            <a href="javascript:fireAction('removeStudyDisease',${status.index});">
-			                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
-			                            </a>&nbsp;
-			                          </c:if>
-			                        </td>
-		                        </tr>
+									<c:if test="${studyInvestigator.roleCode != 'Principal Investigator'}">
+										
+			                        <tr>
+			                            <td>
+			                              ${studyInvestigator.healthcareSiteInvestigator.investigator.firstName}&nbsp;${studyInvestigator.healthcareSiteInvestigator.investigator.lastName}
+			                              <c:if test="${studyInvestigator.roleCode eq 'Principal Investigator'}">
+			                               	- Principal Investigator
+			                              </c:if>
+			                            </td>
+			                            <td>
+			                            <form:select path="study.studySites[${selected_site}].studyInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
+					                        <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc"/>
+					                    </form:select>
+			                            </td>
+			                            <td class="alt">
+				                          <c:if test="${studyInvestigator.roleCode ne 'Principal Investigator'}">  
+				                            <a href="javascript:fireAction('removeStudyInvestigator',${status.index});">
+				                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
+				                            </a>&nbsp;
+				                          </c:if>
+				                        </td>
+			                        </tr>
+									</c:if>
 			                    </c:forEach>
 			                </table>
 			            </c:otherwise>
@@ -356,20 +353,20 @@ and the controller gets the selected index via the hidden variable _selectedSite
         <tr  id="investigatorsTable-PAGE.ROW.INDEX">
             <td>
                 <input type="hidden" id="investigatorPAGE.ROW.INDEX-hidden"
-                        name="study.studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"
-                       value="study.studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"/>
+                        name="study.studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"
+                       value="study.studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"/>
                 <input class="autocomplete validate-notEmpty" type="text" id="investigatorPAGE.ROW.INDEX-input"
                        size="30"
-                       value="${command.study.studyOrganizations[selected_site].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator.investigator.fullName}"/>
+                       value="${command.study.studySites[selected_site].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator.investigator.fullName}"/>
                    <tags:indicator id="investigatorPAGE.ROW.INDEX-indicator"/>
                   <div id="investigatorPAGE.ROW.INDEX-choices" class="autocomplete"></div>
-                  <input type="hidden" id="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
-                  name="study.studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
+                  <input type="hidden" id="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
+                  name="study.studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
                     value="Site Investigator"/>
             </td>
             <td>
-                <select id="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
-                        name="study.studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
+                <select id="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
+                        name="study.studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
                         class="validate-notEmpty">
                     <option value="">Please Select</option>
                     <c:forEach items="${studyInvestigatorStatusRefData}" var="studyInvStatus">
