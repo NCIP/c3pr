@@ -176,7 +176,7 @@
                 command.study.currentStudyAmendment.consentChangedIndicator == '' || 
                 !command.study.currentStudyAmendment.consentChangedIndicator}">style="display:none;"</c:if>>
          <b>&nbsp;Consent Version/Date:</b>
-         <form:input id="study.consentVersionx" path="study.consentVersion" size="9" cssClass="date"/>
+         <form:input id="study.consentVersionx" path="study.currentStudyAmendment.consentVersion" size="9" cssClass="date"/>
          <a href="#" id="consentVersionx-calbutton">
 		    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 		</a>
@@ -259,7 +259,7 @@
 
         <div id="study.consentVersion2" style="display:none;">
          <b>&nbsp;<fmt:message key="study.consentVersionDate"/></b>
-         <input type="text" name="study.consentVersion" id="study.consentVersiony" size="9" value="${command.study.consentVersion}" class="date"/>
+         <input type="text" name="study.studyAmendments[${amendmentSize}].consentVersion" id="study.consentVersiony" size="9" value="${command.study.consentVersion}" class="date"/>
          <a href="#" id="consentVersiony-calbutton">
 		    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 		</a>

@@ -60,15 +60,6 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 							return flag;
 						}
 						
-		function setVersion(box){
-			cv = document.getElementById('consentVersion');
-			icv = document.getElementById('studySubject.informedConsentVersion');
-	    	if (box.checked) {
-	    		icv.value=cv.value;       
-	        }else {
-	        	icv.value="";             
-	        }       
-	    }    						
 </script>
 <style>
 	#single-fields-interior div.row div.label {
@@ -97,18 +88,27 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <c:otherwise>
 <%System.out.println("In otherwise"); %>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
-<input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
-<form:hidden path="studySubject.informedConsentVersion"/>
 <%--<tags:instructions code="enrollment_details" />--%>
-
+	<c:set var="isConsentPresent" value="${!empty command.studySubject.informedConsentVersion && command.studySubject.informedConsentVersion!=''}"></c:set>
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
 	</div>
 	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySite.study.consentVersion}</em></div>
-		<div class="value"><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);" 
-				<c:if test="${!empty command.studySubject.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentVersion"/></div>
+		<div class="value">
+			<select id ="consentVersionOptions" name="studySubject.informedConsentVersion">
+				<c:if test="${!isConsentPresent}">
+					<option value="">Please select...</option>
+				</c:if>
+				<option value="${command.studySubject.studySite.study.consentVersion}" ${command.studySubject.studySite.study.consentVersion==command.studySubject.informedConsentVersion?'selected':'' }>${command.studySubject.studySite.study.consentVersion}</option>
+				<c:forEach items="${command.studySubject.studySite.study.studyAmendments}" var="amendment">
+					<c:if test="${!empty amendment.consentVersion && amendment.consentVersion!=''}">
+					<option value="${amendment.consentVersion }" ${amendment.consentVersion==command.studySubject.informedConsentVersion?'selected':'' }>${amendment.consentVersion }</option>
+					</c:if>
+				</c:forEach>
+			</select><em>(<fmt:message key="registration.currentConsentVersionIs"/>${command.studySubject.studySite.study.latestConsentVersion})</em>
+		</div>
 	</div>
 	<div class="row">
 		<div class="label"><fmt:message key="registration.startDate"/></div>
