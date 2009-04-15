@@ -76,7 +76,7 @@ public class StudyServiceProviderImpl{
 
     public edu.duke.cabig.c3pr.grid.studyservice.stubs.GetStudyResponse getStudy(edu.duke.cabig.c3pr.grid.studyservice.stubs.GetStudyRequest params) throws RemoteException {
     edu.duke.cabig.c3pr.grid.studyservice.stubs.GetStudyResponse boxedResult = new edu.duke.cabig.c3pr.grid.studyservice.stubs.GetStudyResponse();
-    boxedResult.setStudy(impl.getStudy(params.getMessage().getMessage()));
+    boxedResult.setMessage(impl.getStudy(params.getMessage().getMessage()));
     return boxedResult;
   }
 

@@ -176,7 +176,7 @@
       <element name="GetStudyResponse">
         <complexType>
           <sequence>
-            <element ref="ns0:study" minOccurs="1" maxOccurs="1" />
+            <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
           </sequence>
         </complexType>
       </element>

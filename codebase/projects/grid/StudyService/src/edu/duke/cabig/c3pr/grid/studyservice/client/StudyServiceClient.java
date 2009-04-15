@@ -83,6 +83,27 @@ public class StudyServiceClient extends StudyServiceClientBase implements StudyS
 		}
 	}
 
+  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
+    return portType.getMultipleResourceProperties(params);
+    }
+  }
+
+  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getResourceProperty");
+    return portType.getResourceProperty(params);
+    }
+  }
+
+  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"queryResourceProperties");
+    return portType.queryResourceProperties(params);
+    }
+  }
+
   public void activateStudySite(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"activateStudySite");
@@ -171,7 +192,7 @@ public class StudyServiceClient extends StudyServiceClientBase implements StudyS
     }
   }
 
-  public gov.nih.nci.cabig.ccts.domain.Study getStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
+  public gov.nih.nci.cabig.ccts.domain.Message getStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"getStudy");
     edu.duke.cabig.c3pr.grid.studyservice.stubs.GetStudyRequest params = new edu.duke.cabig.c3pr.grid.studyservice.stubs.GetStudyRequest();
@@ -179,7 +200,7 @@ public class StudyServiceClient extends StudyServiceClientBase implements StudyS
     messageContainer.setMessage(message);
     params.setMessage(messageContainer);
     edu.duke.cabig.c3pr.grid.studyservice.stubs.GetStudyResponse boxedResult = portType.getStudy(params);
-    return boxedResult.getStudy();
+    return boxedResult.getMessage();
     }
   }
 
@@ -246,27 +267,6 @@ public class StudyServiceClient extends StudyServiceClientBase implements StudyS
     messageContainer.setMessage(message);
     params.setMessage(messageContainer);
     edu.duke.cabig.c3pr.grid.studyservice.stubs.TemporarilyCloseStudySiteToAccrualResponse boxedResult = portType.temporarilyCloseStudySiteToAccrual(params);
-    }
-  }
-
-  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
-    return portType.getMultipleResourceProperties(params);
-    }
-  }
-
-  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getResourceProperty");
-    return portType.getResourceProperty(params);
-    }
-  }
-
-  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"queryResourceProperties");
-    return portType.queryResourceProperties(params);
     }
   }
 

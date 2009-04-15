@@ -175,7 +175,7 @@
      <ns4:Inputs>
       <ns4:Input qName="ns18:Message" description="" isArray="false" name="message" xmlns:ns18="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
      </ns4:Inputs>
-     <ns4:Output qName="ns19:study" description="" isArray="false" xmlns:ns19="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+     <ns4:Output qName="ns19:Message" description="" isArray="false" xmlns:ns19="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
      <ns4:Exceptions/>
     </ns4:Method>
     <ns4:Method description="" isImported="false" isProvided="false" name="closeStudyToAccrualAndTreatment" xsi:type="ns4:MethodType">

@@ -71,7 +71,7 @@ public class StudyServiceImpl extends StudyServiceImplBase {
     studyServiceI.updateStudy(message);
   }
 
-  public gov.nih.nci.cabig.ccts.domain.Study getStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
+  public gov.nih.nci.cabig.ccts.domain.Message getStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
 	  return studyServiceI.getStudy(message);
   }
 

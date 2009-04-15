@@ -12,6 +12,12 @@ import java.rmi.RemoteException;
  */
 public interface StudyServiceI {
 
+  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
+
+  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;
+
+  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException ;
+
   public void activateStudySite(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
 
   public void amendStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
@@ -28,7 +34,7 @@ public interface StudyServiceI {
 
   public void updateStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
 
-  public gov.nih.nci.cabig.ccts.domain.Study getStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
+  public gov.nih.nci.cabig.ccts.domain.Message getStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
 
   public void closeStudyToAccrualAndTreatment(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
 
@@ -41,12 +47,6 @@ public interface StudyServiceI {
   public void temporarilyCloseStudySiteToAccrualAndTreatment(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
 
   public void temporarilyCloseStudySiteToAccrual(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
-
-  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
-
-  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;
-
-  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException ;
 
 }
 

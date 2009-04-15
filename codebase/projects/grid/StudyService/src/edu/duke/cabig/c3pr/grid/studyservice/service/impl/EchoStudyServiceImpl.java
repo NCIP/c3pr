@@ -72,7 +72,7 @@ public class EchoStudyServiceImpl implements StudyServiceI {
 		System.out.println("recieved message..");		
 	}
 
-	public Study getStudy(Message message) throws RemoteException {
+	public Message getStudy(Message message) throws RemoteException {
 		System.out.println("recieved message..");
 		return null;
 	}
