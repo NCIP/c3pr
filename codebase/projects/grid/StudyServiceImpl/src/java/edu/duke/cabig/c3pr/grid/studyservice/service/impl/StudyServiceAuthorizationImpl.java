@@ -21,21 +21,6 @@ public class StudyServiceAuthorizationImpl implements StudyAuthorizationI {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI#authorizeCreateStudy(java.lang.String)
-	 */
-	public void authorizeCreateStudy(String callerIdentity)
-			throws RemoteException {
-		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
-		if (!(roles.contains(RoleTypes.C3PR_ADMIN) || roles
-				.contains(RoleTypes.SITE_COORDINATOR)))
-			throw new RemoteException("Access Denied. User with role "
-					+ gridSecurityUtils.getRolesAsString(roles)
-					+ " cannot invoke this grid operation.");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI#authorizeOpenStudy(java.lang.String)
 	 */
 	public void authorizeOpenStudy(String callerIdentity)
@@ -121,57 +106,6 @@ public class StudyServiceAuthorizationImpl implements StudyAuthorizationI {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI#authorizeCloseStudy(java.lang.String)
-	 */
-	public void authorizeCloseStudy(String callerIdentity)
-			throws RemoteException {
-		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
-		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
-				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
-				.contains(RoleTypes.STUDY_COORDINATOR)))
-			throw new RemoteException("Access Denied. User with role "
-					+ gridSecurityUtils.getRolesAsString(roles)
-					+ " cannot invoke this grid operation.");
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI#authorizeUpdateStudyStatus(java.lang.String)
-	 */
-	public void authorizeUpdateStudyStatus(String callerIdentity)
-			throws RemoteException {
-		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
-		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
-				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
-				.contains(RoleTypes.STUDY_COORDINATOR)))
-			throw new RemoteException("Access Denied. User with role "
-					+ gridSecurityUtils.getRolesAsString(roles)
-					+ " cannot invoke this grid operation.");
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI#authorizeCloseStudySite(java.lang.String)
-	 */
-	public void authorizeCloseStudySite(String callerIdentity)
-			throws RemoteException {
-		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
-		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
-				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
-				.contains(RoleTypes.STUDY_COORDINATOR)))
-			throw new RemoteException("Access Denied. User with role "
-					+ gridSecurityUtils.getRolesAsString(roles)
-					+ " cannot invoke this grid operation.");
-
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI#authorizeGetMultipleResourceProperties(java.lang.String)
 	 */
 	public void authorizeGetMultipleResourceProperties(String callerIdentity)
@@ -211,5 +145,128 @@ public class StudyServiceAuthorizationImpl implements StudyAuthorizationI {
 			throws RemoteException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void authorizeCloseStudySiteToAccrual(String callerIdentity)
+			throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
+
+	public void authorizeCloseStudySiteToAccrualAndTreatment(
+			String callerIdentity) throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
+
+	public void authorizeCloseStudyToAccrual(String callerIdentity)
+			throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
+
+	public void authorizeCloseStudyToAccrualAndTreatment(String callerIdentity)
+			throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
+
+	public void authorizeCreateStudyDefinition(String callerIdentity)
+			throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN) || roles
+				.contains(RoleTypes.SITE_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
+
+	public void authorizeGetStudy(String callerIdentity) throws RemoteException {
+		
+	}
+
+	public void authorizeTemporarilyCloseStudySiteToAccrual(
+			String callerIdentity) throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
+
+	public void authorizeTemporarilyCloseStudySiteToAccrualAndTreatment(
+			String callerIdentity) throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
+
+	public void authorizeTemporarilyCloseStudyToAccrual(String callerIdentity)
+			throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
+
+	public void authorizeTemporarilyCloseStudyToAccrualAndTreatment(
+			String callerIdentity) throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
+
+	public void authorizeUpdateStudy(String callerIdentity)
+			throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
 	}
 }

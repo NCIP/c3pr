@@ -131,10 +131,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize create study admin.
 	 */
-	public void testAuthorizeCreateStudyAdmin(){
+	public void testAuthorizeCreateStudyDefinitionAdmin(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=AdminUser";
 		try {
-			studyAuthorization.authorizeCreateStudy(callerIdentity);
+			studyAuthorization.authorizeCreateStudyDefinition(callerIdentity);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			fail("Shouldnt have failed");
@@ -144,10 +144,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize create study site coordinator.
 	 */
-	public void testAuthorizeCreateStudySiteCoordinator(){
+	public void testAuthorizeCreateStudyDefinitionSiteCoordinator(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=SiteCoordinatorUser";
 		try {
-			studyAuthorization.authorizeCreateStudy(callerIdentity);
+			studyAuthorization.authorizeCreateStudyDefinition(callerIdentity);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -158,10 +158,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize create study study coordinator.
 	 */
-	public void testAuthorizeCreateStudyStudyCoordinator(){
+	public void testAuthorizeCreateStudyDefinitionStudyCoordinator(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=StudyCoordinatorUser";
 		try {
-			studyAuthorization.authorizeCreateStudy(callerIdentity);
+			studyAuthorization.authorizeCreateStudyDefinition(callerIdentity);
 			fail("Should have failed");
 			
 		} catch (RemoteException e) {
@@ -172,10 +172,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize create study registrar.
 	 */
-	public void testAuthorizeCreateStudyRegistrar(){
+	public void testAuthorizeCreateStudyDefinitionRegistrar(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=RegistrarUser";
 		try {
-			studyAuthorization.authorizeCreateStudy(callerIdentity);
+			studyAuthorization.authorizeCreateStudyDefinition(callerIdentity);
 			fail("Should have failed");
 			
 		} catch (RemoteException e) {
@@ -186,10 +186,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize create study registrar and site cordinator.
 	 */
-	public void testAuthorizeCreateStudyRegistrarAndSiteCordinator(){
+	public void testAuthorizeCreateStudyDefinitionRegistrarAndSiteCordinator(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=RegistrarAndSiteCoUser";
 		try {
-			studyAuthorization.authorizeCreateStudy(callerIdentity);
+			studyAuthorization.authorizeCreateStudyDefinition(callerIdentity);
 			
 		} catch (RemoteException e) {
 			fail("Shouldnt have failed");
@@ -251,60 +251,6 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 		}
 	}
 	
-	/**
-	 * Test authorize approve study site for activation admin.
-	 */
-	public void testAuthorizeApproveStudySiteForActivationAdmin(){
-		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=AdminUser";
-		try {
-			studyAuthorization.authorizeApproveStudySiteForActivation(callerIdentity);
-			
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			fail("Shouldnt have failed");
-		}
-	}
-	
-	/**
-	 * Test authorize approve study site for activation site coordinator.
-	 */
-	public void testAuthorizeApproveStudySiteForActivationSiteCoordinator(){
-		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=SiteCoordinatorUser";
-		try {
-			studyAuthorization.authorizeApproveStudySiteForActivation(callerIdentity);
-			
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			fail("Shouldnt have failed");
-		}
-	}
-	
-	/**
-	 * Test authorize approve study site for activation study coordinator.
-	 */
-	public void testAuthorizeApproveStudySiteForActivationStudyCoordinator(){
-		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=StudyCoordinatorUser";
-		try {
-			studyAuthorization.authorizeApproveStudySiteForActivation(callerIdentity);
-			
-		} catch (RemoteException e) {
-			fail("Shouldnt have failed");
-		}
-	}
-	
-	/**
-	 * Test authorize approve study site for activation registrar.
-	 */
-	public void testAuthorizeApproveStudySiteForActivationRegistrar(){
-		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=RegistrarUser";
-		try {
-			studyAuthorization.authorizeApproveStudySiteForActivation(callerIdentity);
-			fail("Should have failed");
-			
-		} catch (RemoteException e) {
-			
-		}
-	}
 	
 	/**
 	 * Test authorize activate study site admin.
@@ -477,7 +423,7 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	public void testAuthorizeCloseStudyAdmin(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=AdminUser";
 		try {
-			studyAuthorization.authorizeCloseStudy(callerIdentity);
+			studyAuthorization.authorizeCloseStudyToAccrual(callerIdentity);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -491,7 +437,7 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	public void testAuthorizeCloseStudySiteCoordinator(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=SiteCoordinatorUser";
 		try {
-			studyAuthorization.authorizeCloseStudy(callerIdentity);
+			studyAuthorization.authorizeCloseStudyToAccrual(callerIdentity);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -505,7 +451,7 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	public void testAuthorizeCloseStudyStudyCoordinator(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=StudyCoordinatorUser";
 		try {
-			studyAuthorization.authorizeCloseStudy(callerIdentity);
+			studyAuthorization.authorizeCloseStudyToAccrual(callerIdentity);
 			
 		} catch (RemoteException e) {
 			fail("Shouldnt have failed");
@@ -518,7 +464,7 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	public void testAuthorizeCloseStudyRegistrar(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=RegistrarUser";
 		try {
-			studyAuthorization.authorizeCloseStudy(callerIdentity);
+			studyAuthorization.authorizeCloseStudyToAccrual(callerIdentity);
 			fail("Should have failed");
 			
 		} catch (RemoteException e) {
@@ -529,10 +475,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize update study status admin.
 	 */
-	public void testAuthorizeUpdateStudyStatusAdmin(){
+	public void testAuthorizeUpdateStudyAdmin(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=AdminUser";
 		try {
-			studyAuthorization.authorizeUpdateStudyStatus(callerIdentity);
+			studyAuthorization.authorizeUpdateStudy(callerIdentity);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -543,11 +489,11 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize update study status site coordinator.
 	 */
-	public void testAuthorizeUpdateStudyStatusSiteCoordinator(){
+	public void testAuthorizeUpdateStudySiteCoordinator(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=SiteCoordinatorUser";
 		User user=new User("AdminUser", "password", true, true, true, true,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("ROLE_site_coordinator")});
 		try {
-			studyAuthorization.authorizeUpdateStudyStatus(callerIdentity);
+			studyAuthorization.authorizeUpdateStudy(callerIdentity);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -558,11 +504,11 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize update study status study coordinator.
 	 */
-	public void testAuthorizeUpdateStudyStatusStudyCoordinator(){
+	public void testAuthorizeUpdateStudyStudyCoordinator(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=StudyCoordinatorUser";
 		
 		try {
-			studyAuthorization.authorizeUpdateStudyStatus(callerIdentity);
+			studyAuthorization.authorizeUpdateStudy(callerIdentity);
 			
 		} catch (RemoteException e) {
 			fail("Shouldnt have failed");
@@ -572,10 +518,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize update study status registrar.
 	 */
-	public void testAuthorizeUpdateStudyStatusRegistrar(){
+	public void testAuthorizeUpdateStudyRegistrar(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=RegistrarUser";
 		try {
-			studyAuthorization.authorizeUpdateStudyStatus(callerIdentity);
+			studyAuthorization.authorizeUpdateStudy(callerIdentity);
 			fail("Should have failed");
 			
 		} catch (RemoteException e) {
@@ -586,10 +532,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize close study site admin.
 	 */
-	public void testAuthorizeCloseStudySiteAdmin(){
+	public void testAuthorizeCloseStudyToAccrualSiteAdmin(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=AdminUser";
 		try {
-			studyAuthorization.authorizeCloseStudySite(callerIdentity);
+			studyAuthorization.authorizeCloseStudySiteToAccrual(callerIdentity);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -600,11 +546,11 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize close study site site coordinator.
 	 */
-	public void testAuthorizeCloseStudySiteSiteCoordinator(){
+	public void testAuthorizeCloseStudyToAccrualSiteSiteCoordinator(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=SiteCoordinatorUser";
 		
 		try {
-			studyAuthorization.authorizeCloseStudySite(callerIdentity);
+			studyAuthorization.authorizeCloseStudySiteToAccrual(callerIdentity);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -615,10 +561,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize close study site study coordinator.
 	 */
-	public void testAuthorizeCloseStudySiteStudyCoordinator(){
+	public void testAuthorizeCloseStudySiteToAccrualStudyCoordinator(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=StudyCoordinatorUser";
 		try {
-			studyAuthorization.authorizeCloseStudySite(callerIdentity);
+			studyAuthorization.authorizeCloseStudySiteToAccrual(callerIdentity);
 			
 		} catch (RemoteException e) {
 			fail("Shouldnt have failed");
@@ -628,10 +574,10 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	/**
 	 * Test authorize close study site registrar.
 	 */
-	public void testAuthorizeCloseStudySiteRegistrar(){
+	public void testAuthorizeCloseStudySiteToAccrualRegistrar(){
 		String callerIdentity="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=RegistrarUser";
 		try {
-			studyAuthorization.authorizeCloseStudySite(callerIdentity);
+			studyAuthorization.authorizeCloseStudySiteToAccrual(callerIdentity);
 			fail("Should have failed");
 			
 		} catch (RemoteException e) {

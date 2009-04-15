@@ -157,9 +157,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize create study admin.
 	 */
-	public void testAuthorizeCreateStudyAdmin(){
+	public void testAuthorizeCreateStudyDefinitionAdmin(){
 		try {
-			getStudyServiceClient(dorianAdminUsername, dorianAdminPassword).createStudy(new Message());
+			getStudyServiceClient(dorianAdminUsername, dorianAdminPassword).createStudyDefinition(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
@@ -169,9 +169,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize create study site coordinator.
 	 */
-	public void testAuthorizeCreateStudySiteCoordinator(){
+	public void testAuthorizeCreateStudyDefinitionSiteCoordinator(){
 		try {
-			getStudyServiceClient(dorianSiteCoUsername, dorianSiteCoPassword).createStudy(new Message());
+			getStudyServiceClient(dorianSiteCoUsername, dorianSiteCoPassword).createStudyDefinition(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
@@ -181,9 +181,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize create study study coordinator.
 	 */
-	public void testAuthorizeCreateStudyStudyCoordinator(){
+	public void testAuthorizeCreateStudyDefinitionStudyCoordinator(){
 		try {
-			getStudyServiceClient(dorianStudyCoUsername, dorianStudyCoPassword).createStudy(new Message());
+			getStudyServiceClient(dorianStudyCoUsername, dorianStudyCoPassword).createStudyDefinition(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("org.globus.wsrf.impl.security.authorization.exceptions.AuthorizationException:"));
@@ -193,9 +193,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize create study registrar.
 	 */
-	public void testAuthorizeCreateStudyRegistrar(){
+	public void testAuthorizeCreateStudyDefinitionRegistrar(){
 		try {
-			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).createStudy(new Message());
+			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).createStudyDefinition(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("org.globus.wsrf.impl.security.authorization.exceptions.AuthorizationException:"));
@@ -205,9 +205,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize create study registrar and site cordinator.
 	 */
-	public void testAuthorizeCreateStudyRegistrarAndSiteCordinator(){
+	public void testAuthorizeCreateStudyDefinitionRegistrarAndSiteCordinator(){
 		try {
-			getStudyServiceClient(dorianRegAndSiteCoUsername, dorianRegAndSiteCoPassword).createStudy(new Message());
+			getStudyServiceClient(dorianRegAndSiteCoUsername, dorianRegAndSiteCoPassword).createStudyDefinition(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
@@ -260,55 +260,6 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	public void testAuthorizeOpenStudyRegistrar(){
 		try {
 			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).openStudy(new Message());
-			fail("Should have failed");
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			assertTrue("wrong error", e.getMessage().startsWith("org.globus.wsrf.impl.security.authorization.exceptions.AuthorizationException:"));
-		}
-	}
-	
-	/**
-	 * Test authorize approve study site for activation admin.
-	 */
-	public void testAuthorizeApproveStudySiteForActivationAdmin(){
-		try {
-			getStudyServiceClient(dorianAdminUsername, dorianAdminPassword).approveStudySiteForActivation(new Message());
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
-		}
-	}
-	
-	/**
-	 * Test authorize approve study site for activation site coordinator.
-	 */
-	public void testAuthorizeApproveStudySiteForActivationSiteCoordinator(){
-		try {
-			getStudyServiceClient(dorianSiteCoUsername, dorianSiteCoPassword).approveStudySiteForActivation(new Message());
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
-		}
-	}
-	
-	/**
-	 * Test authorize approve study site for activation study coordinator.
-	 */
-	public void testAuthorizeApproveStudySiteForActivationStudyCoordinator(){
-		try {
-			getStudyServiceClient(dorianStudyCoUsername, dorianStudyCoPassword).approveStudySiteForActivation(new Message());
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
-		}
-	}
-	
-	/**
-	 * Test authorize approve study site for activation registrar.
-	 */
-	public void testAuthorizeApproveStudySiteForActivationRegistrar(){
-		try {
-			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).approveStudySiteForActivation(new Message());
 			fail("Should have failed");
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -464,9 +415,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize close study admin.
 	 */
-	public void testAuthorizeCloseStudyAdmin(){
+	public void testAuthorizeCloseStudyToAccrualAdmin(){
 		try {
-			getStudyServiceClient(dorianAdminUsername, dorianAdminPassword).closeStudy(new Message());
+			getStudyServiceClient(dorianAdminUsername, dorianAdminPassword).closeStudyToAccrual(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
@@ -476,9 +427,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize close study site coordinator.
 	 */
-	public void testAuthorizeCloseStudySiteCoordinator(){
+	public void testAuthorizeCloseStudyToAccrualSiteCoordinator(){
 		try {
-			getStudyServiceClient(dorianSiteCoUsername, dorianSiteCoPassword).closeStudy(new Message());
+			getStudyServiceClient(dorianSiteCoUsername, dorianSiteCoPassword).closeStudyToAccrual(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
@@ -488,9 +439,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize close study study coordinator.
 	 */
-	public void testAuthorizeCloseStudyStudyCoordinator(){
+	public void testAuthorizeCloseStudyToAccrualStudyCoordinator(){
 		try {
-			getStudyServiceClient(dorianStudyCoUsername, dorianStudyCoPassword).closeStudy(new Message());
+			getStudyServiceClient(dorianStudyCoUsername, dorianStudyCoPassword).closeStudyToAccrual(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
@@ -500,9 +451,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize close study registrar.
 	 */
-	public void testAuthorizeCloseStudyRegistrar(){
+	public void testAuthorizeCloseStudyToAccrualRegistrar(){
 		try {
-			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).closeStudy(new Message());
+			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).closeStudyToAccrual(new Message());
 			fail("Should have failed");
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -513,9 +464,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize update study status admin.
 	 */
-	public void testAuthorizeUpdateStudyStatusAdmin(){
+	public void testAuthorizeUpdateStudyAdmin(){
 		try {
-			getStudyServiceClient(dorianAdminUsername, dorianAdminPassword).updateStudyStatus(new Message());
+			getStudyServiceClient(dorianAdminUsername, dorianAdminPassword).updateStudy(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.rmi.RemoteException: Not yet implemented"));
@@ -525,9 +476,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize update study status site coordinator.
 	 */
-	public void testAuthorizeUpdateStudyStatusSiteCoordinator(){
+	public void testAuthorizeUpdateStudySiteCoordinator(){
 		try {
-			getStudyServiceClient(dorianSiteCoUsername, dorianSiteCoPassword).updateStudyStatus(new Message());
+			getStudyServiceClient(dorianSiteCoUsername, dorianSiteCoPassword).updateStudy(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.rmi.RemoteException: Not yet implemented"));
@@ -537,9 +488,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize update study status study coordinator.
 	 */
-	public void testAuthorizeUpdateStudyStatusStudyCoordinator(){
+	public void testAuthorizeUpdateStudyStudyCoordinator(){
 		try {
-			getStudyServiceClient(dorianStudyCoUsername, dorianStudyCoPassword).updateStudyStatus(new Message());
+			getStudyServiceClient(dorianStudyCoUsername, dorianStudyCoPassword).updateStudy(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.rmi.RemoteException: Not yet implemented"));
@@ -549,9 +500,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize update study status registrar.
 	 */
-	public void testAuthorizeUpdateStudyStatusRegistrar(){
+	public void testAuthorizeUpdateStudyRegistrar(){
 		try {
-			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).updateStudyStatus(new Message());
+			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).updateStudy(new Message());
 			fail("Should have failed");
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -562,9 +513,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize close study site admin.
 	 */
-	public void testAuthorizeCloseStudySiteAdmin(){
+	public void testAuthorizeCloseStudySiteToAccrualAdmin(){
 		try {
-			getStudyServiceClient(dorianAdminUsername, dorianAdminPassword).closeStudySite(new Message());
+			getStudyServiceClient(dorianAdminUsername, dorianAdminPassword).closeStudySiteToAccrual(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
@@ -574,9 +525,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize close study site site coordinator.
 	 */
-	public void testAuthorizeCloseStudySiteSiteCoordinator(){
+	public void testAuthorizeCloseStudyToAccrualSiteSiteCoordinator(){
 		try {
-			getStudyServiceClient(dorianSiteCoUsername, dorianSiteCoPassword).closeStudySite(new Message());
+			getStudyServiceClient(dorianSiteCoUsername, dorianSiteCoPassword).closeStudySiteToAccrual(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
@@ -586,9 +537,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize close study site study coordinator.
 	 */
-	public void testAuthorizeCloseStudySiteStudyCoordinator(){
+	public void testAuthorizeCloseStudyToAccrualSiteStudyCoordinator(){
 		try {
-			getStudyServiceClient(dorianStudyCoUsername, dorianStudyCoPassword).closeStudySite(new Message());
+			getStudyServiceClient(dorianStudyCoUsername, dorianStudyCoPassword).closeStudySiteToAccrual(new Message());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			assertTrue("wrong error", e.getMessage().startsWith("java.lang.StringIndexOutOfBoundsException: String index out of range"));
@@ -598,9 +549,9 @@ public class StudyServiceAuthorizationDeploymentTest extends DaoTestCase {
 	/**
 	 * Test authorize close study site registrar.
 	 */
-	public void testAuthorizeCloseStudySiteRegistrar(){
+	public void testAuthorizeCloseStudyToAccrualSiteRegistrar(){
 		try {
-			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).closeStudySite(new Message());
+			getStudyServiceClient(dorianRegistrarUsername, dorianRegistrarPassword).closeStudySiteToAccrual(new Message());
 			fail("Should have failed");
 		} catch (RemoteException e) {
 			e.printStackTrace();
