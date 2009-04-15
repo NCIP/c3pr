@@ -258,8 +258,26 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 */
 	public List<HealthcareSite> getFromResolver(HealthcareSite healthcareSite) {
 
-		HealthcareSite remoteHealthcareSite = new RemoteHealthcareSite();
-
+		RemoteHealthcareSite remoteHealthcareSite = new RemoteHealthcareSite();
+		if(healthcareSite.getName() == null){
+			remoteHealthcareSite.setName("");
+		}else{
+			remoteHealthcareSite.setName(healthcareSite.getName());
+		}
+		if(healthcareSite.getNciInstituteCode() == null){
+			remoteHealthcareSite.setNciInstituteCode(null);
+		}else{
+			remoteHealthcareSite.setNciInstituteCode(healthcareSite.getNciInstituteCode());
+		}
+		
+		remoteHealthcareSite.setAddress(healthcareSite.getAddress());
+		if(healthcareSite.getAddress().getCity() == null){
+			remoteHealthcareSite.getAddress().setCity("");
+		}
+		if(healthcareSite.getAddress().getCountryCode() == null){
+			remoteHealthcareSite.getAddress().setCountryCode("");
+		}
+		
 		List<Object> objectList = remoteSession.find(remoteHealthcareSite);
 		List<HealthcareSite> healthcareSiteList = new ArrayList<HealthcareSite>();
 
@@ -278,24 +296,27 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @param remoteHealthcareSiteList the health care site list
 	 * 
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
-	public void updateDatabaseWithRemoteContent(
-			List<HealthcareSite> remoteHealthcareSiteList) {
+	public void updateDatabaseWithRemoteContent(List<HealthcareSite> remoteHealthcareSiteList) {
 
 		try {
 			for (HealthcareSite remoteHealthcareSite : remoteHealthcareSiteList) {
-				RemoteHealthcareSite remoteHealthcareSiteTemp = (RemoteHealthcareSite)remoteHealthcareSite;
-				HealthcareSite healthcareSiteFromDatabase = getByUniqueIdentifier(remoteHealthcareSiteTemp
-						.getNciInstituteCode());
-				if (healthcareSiteFromDatabase != null) {
-					// this guy exists....copy latest remote data into the existing
-					// object...which is done by the interceptor
-					copyRemotePropertiesFromSourceToTarget(healthcareSiteFromDatabase, remoteHealthcareSiteTemp);
+				if(remoteHealthcareSite != null){
+					RemoteHealthcareSite remoteHealthcareSiteTemp = (RemoteHealthcareSite)remoteHealthcareSite;
+					HealthcareSite healthcareSiteFromDatabase = getByUniqueIdentifier(remoteHealthcareSiteTemp
+							.getNciInstituteCode());
+					if (healthcareSiteFromDatabase != null) {
+						// this guy exists....copy latest remote data into the existing
+						// object...which is done by the interceptor
+						copyRemotePropertiesFromSourceToTarget(healthcareSiteFromDatabase, remoteHealthcareSiteTemp);
+					} else {
+						// this guy doesnt exist
+						createGroupForOrganization(remoteHealthcareSiteTemp);
+						getHibernateTemplate().save(remoteHealthcareSiteTemp);
+					}
+					getHibernateTemplate().flush();
 				} else {
-					// this guy doesnt exist
-					createGroupForOrganization(remoteHealthcareSiteTemp);
-					getHibernateTemplate().save(remoteHealthcareSiteTemp);
+					log.error("Null remoteHealthcareSite in the list in updateDatabaseWithRemoteContent");
 				}
-				getHibernateTemplate().flush();
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();

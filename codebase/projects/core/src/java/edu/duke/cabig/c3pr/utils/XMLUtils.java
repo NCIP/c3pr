@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -33,7 +34,9 @@ import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ccts.domain.Message;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import gov.nih.nci.cagrid.caxchange.client.CaXchangeRequestProcessorClient;
 import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.caxchange.ResponseMessage;
 
 public class XMLUtils {
     /**
@@ -286,5 +289,57 @@ public class XMLUtils {
             }
         }
         return list;
+    }
+    
+    
+    /**
+     * Gets the objects from coppa response.
+     * 
+     * @param response the response
+     * @return the objects from coppa response
+     */
+    public static List<String>getObjectsFromCoppaResponse(String response ){
+    	List<String> objList = new ArrayList<String>();
+
+        StringReader reader = new StringReader(response);
+        InputStream wsddIs = CaXchangeRequestProcessorClient.class.getResourceAsStream("/gov/nih/nci/cagrid/caxchange/client/client-config.wsdd");
+        Object deserializedObject = null;
+        try {
+        	deserializedObject = Utils.deserializeObject(reader,ResponseMessage.class, wsddIs);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        if (deserializedObject != null) {
+            ResponseMessage rm = (ResponseMessage)deserializedObject;
+            if(!rm.getResponse().getResponseStatus().getValue().equalsIgnoreCase("SUCCESS")){
+            	return objList;
+            }
+            MessageElement[] messageElements = rm.getResponse().getTargetResponse()[0].getTargetBusinessMessage().get_any();
+            //Check for array tag
+            if(messageElements[0].getName() == "Array"){
+            	List<MessageElement> meList = messageElements[0].getChildren();
+	            if (meList != null ) {	            
+		            for(MessageElement me : meList){
+		                try {
+		                	objList.add(me.getAsString());
+		                } catch (Exception e) {
+		                    logger.error(e);
+		                }
+		            }
+	            } 
+            } else{
+            	MessageElement[] meNotArray = messageElements;
+            	 if (meNotArray != null) {
+            		 MessageElement uniqueResult = meNotArray[0];
+            		 try {
+						objList.add(uniqueResult.getAsString());
+					} catch (Exception e) {
+						logger.error(e);
+					}
+            	 }
+            }
+        }
+
+        return objList;
     }
 }

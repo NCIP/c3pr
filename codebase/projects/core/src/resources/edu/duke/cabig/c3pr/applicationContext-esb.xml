@@ -24,6 +24,9 @@
 
     <bean id="delegatedCredentialProvider"
           class="edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider"/>
+          
+<!-- <bean id="testDelegatedCredentialProvider"
+          class="edu.duke.cabig.c3pr.esb.test.TestMultisiteDelegatedCredentialProvider"/> -->    
 
     <bean id="c3dPatientPositionResponseHandler"
           class="edu.duke.cabig.c3pr.utils.C3DPatientPositionResponseHandler"

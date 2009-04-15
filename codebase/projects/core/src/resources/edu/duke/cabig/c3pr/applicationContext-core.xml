@@ -288,12 +288,6 @@
     </bean> 
     
      <bean id="remoteHealthcareSiteResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
-                	<property name="identifiedOrganizationCorrelationServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedOrganizationCorrelationServiceImpl" />
-                	</property>
-                	<property name="organizationEntityServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.OrganizationEntityServiceImpl" />
-                	</property>
     </bean>
     <bean id="remoteSession" class="com.semanticbits.coppa.infrastructure.RemoteSession" init-method="init">
         <property name="enableCaching" value="true"/>
@@ -310,18 +304,6 @@
             <list>
                 <ref local="remoteHealthcareSiteResolver"/>
                 <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver" autowire="byName">
-                	<property name="identifiedOrganizationCorrelationServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedOrganizationCorrelationServiceImpl" />
-                	</property>
-                	<property name="clinicalResearchStaffCorrelationServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.ClinicalResearchStaffCorrelationServiceImpl" />
-                	</property>
-                	<property name="personEntityServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.PersonEntityServiceImpl" />
-                	</property>
-                	<property name="identifiedPersonCorrelationServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedPersonCorrelationServiceImpl" />
-                	</property>
                 </bean>
                 <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteInvestigatorResolver" autowire="byName">
                 	<property name="identifiedOrganizationCorrelationServiceRemote">
