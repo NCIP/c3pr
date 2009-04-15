@@ -232,7 +232,7 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         }
 	}
 
-	public gov.nih.nci.cabig.ccts.domain.Study getStudy(Message message)
+	public Message getStudy(Message message)
 			throws RemoteException {
 		throw new RemoteException("Not yet implemented");
 	}
