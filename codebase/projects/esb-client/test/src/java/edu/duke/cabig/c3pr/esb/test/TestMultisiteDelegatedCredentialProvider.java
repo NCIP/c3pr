@@ -16,6 +16,8 @@ public class TestMultisiteDelegatedCredentialProvider extends MultisiteDelegated
 	public String password = "";
 	
 	public TestMultisiteDelegatedCredentialProvider() {
+		this.username = "ccts@nih.gov";
+		this.password = "!Ccts@nih.gov1";
 	}
 	
 	public TestMultisiteDelegatedCredentialProvider(String username, String password) {
