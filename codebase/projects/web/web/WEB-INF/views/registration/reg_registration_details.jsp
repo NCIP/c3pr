@@ -107,7 +107,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 					<option value="${amendment.consentVersion }" ${amendment.consentVersion==command.studySubject.informedConsentVersion?'selected':'' }>${amendment.consentVersion }</option>
 					</c:if>
 				</c:forEach>
-			</select><em>(<fmt:message key="registration.currentConsentVersionIs"/>${command.studySubject.studySite.study.latestConsentVersion})</em>
+			</select><em>(<fmt:message key="registration.currentConsentVersionIs"/> ${command.studySubject.studySite.study.latestConsentVersion})</em>
 		</div>
 	</div>
 	<div class="row">
