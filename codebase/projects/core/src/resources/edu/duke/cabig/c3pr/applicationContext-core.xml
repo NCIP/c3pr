@@ -653,6 +653,10 @@
 			<ref bean="c3prErrorMessages"/>
 		</property>
 	</bean>
+	
+	<bean id="gridSecurityUtils" class="edu.duke.cabig.c3pr.utils.GridSecurityUtils">
+		<property name="userDetailsService" ref="csmUserDetailsService"/>
+	</bean>
 
 	<bean id="identifierGenerator" class="edu.duke.cabig.c3pr.utils.IdentifierGenerator" autowire="byName"/>
 
