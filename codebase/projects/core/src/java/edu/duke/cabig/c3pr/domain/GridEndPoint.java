@@ -63,12 +63,14 @@ public class GridEndPoint extends EndPoint {
         try {
             Class kClass = Class.forName(serviceName.getCode());
             if (endPointProperty.getIsAuthenticationRequired()) {
+            	System.out.println("authentication required. creating service with credential");
                 Constructor constructor = kClass.getConstructor(String.class,
                                 GlobusCredential.class);
                 service = constructor.newInstance(new Object[] { endPointProperty.getUrl(),
                         globusCredential });
             }
             else {
+            	System.out.println("authentication not required. creating service without credential");
                 Constructor constructor = kClass.getConstructor(String.class);
                 service = constructor.newInstance(endPointProperty.getUrl());
             }

@@ -83,7 +83,6 @@ public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
         // This will be available later in the Authenticaiton object
         try {
             GlobusCredential hostCredential = new GlobusCredential(hostCertificate, hostKey);
-
             DelegatedCredentialReference delegatedCredentialReference = (DelegatedCredentialReference) Utils
                             .deserializeObject(
                                             new StringReader(attrMap
@@ -91,11 +90,26 @@ public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
                                             DelegatedCredentialReference.class,
                                             CredentialDelegationServiceClient.class
                                                             .getResourceAsStream("client-config.wsdd"));
+            log.debug("hostCertificate: "+hostCertificate);
+            log.debug("hostKey: "+hostKey);
+            log.debug("delegatedCredentialReference.toString():"+ delegatedCredentialReference.toString());
+            log.debug("delegatedCredentialReference.getEndpointReference().toString():" +delegatedCredentialReference.getEndpointReference().toString());
+            log.debug("delegatedCredentialReference.getEndpointReference().getAddress().toString(): "+delegatedCredentialReference.getEndpointReference().getAddress().toString());
+            log.debug("delegatedCredentialReference.getEndpointReference().getAddress().getHost(): "+delegatedCredentialReference.getEndpointReference().getAddress().getHost());
+            log.debug("delegatedCredentialReference.getEndpointReference().getAddress().getPath(): "+delegatedCredentialReference.getEndpointReference().getAddress().getPath());
             DelegatedCredentialUserClient delegatedCredentialUserClient = new DelegatedCredentialUserClient(
                             delegatedCredentialReference, hostCredential);
 
             GlobusCredential userCredential = delegatedCredentialUserClient
                             .getDelegatedCredential();
+            log.debug("Identitiy: "+userCredential.getIdentity());
+            log.debug("Issuer: "+userCredential.getIssuer());
+            log.debug("Subject: "+userCredential.getSubject());
+            log.debug(userCredential);
+            System.out.println("Identitiy: "+userCredential.getIdentity());
+            System.out.println("Issuer: "+userCredential.getIssuer());
+            System.out.println("Subject: "+userCredential.getSubject());
+            System.out.println(userCredential);
             user.setGridCredential(userCredential);
 
         }

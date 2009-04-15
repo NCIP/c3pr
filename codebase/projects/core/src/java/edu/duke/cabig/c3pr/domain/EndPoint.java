@@ -90,6 +90,7 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
             this.setStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
         }
         catch (InvocationTargetException e) {
+        	e.getTargetException().printStackTrace();
             String errorMsg=e.getTargetException().getMessage();
             String code="500";
             Pattern p=Pattern.compile(".*([0-9][0-9][0-9]):(.*)");
