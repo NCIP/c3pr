@@ -212,7 +212,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	private boolean reconsentRequired(StudySubject studySubject) {
 		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY
 				&& !(studySubject.getInformedConsentVersion()).equals(studySubject
-						.getStudySite().getStudy().getConsentVersion())) {
+						.getStudySite().getStudy().getLatestConsentVersion())) {
 			return true;
 		}
 		return false;

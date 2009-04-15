@@ -9,23 +9,12 @@
 </style>
 <script>
 
-function setVersion(box){
-	cv = $('consentVersion');
-	icv = document.getElementById('studySubject.informedConsentVersion');
-	if (box.checked) {
-		icv.value=cv.value;       
-    }else {
-    	icv.value="";             
-    }       
-}
 
 function updateConsentVersion(id){
 	$('consentVersionForm').submit();
 }
 </script>
 <form:form id="consentVersionForm">
-<input type="hidden" id="consentVersion" value="${command.studySubject.studySite.study.consentVersion}"/>
-<input type="hidden" name="studySubject.informedConsentVersion" id="studySubject.informedConsentVersion" value="${studySubject.informedConsentVersion}"/>
 <chrome:box title="Reconsent" id="updateConsentVersionClass">
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
@@ -38,10 +27,16 @@ function updateConsentVersion(id){
 		</div>
 	</div>
 	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> ${command.studySubject.studySite.study.consentVersion}</div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentVersion"/></div>
 		<div class="value">
-			<input type="checkbox" name="studySubject.currentVersionIndicator" onclick="setVersion(this);" class="validate-notEmpty"/>
-			<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/>
+			<select id ="consentVersionOptions" name="studySubject.informedConsentVersion">
+				<option value="${command.studySubject.studySite.study.consentVersion}" ${command.studySubject.studySite.study.consentVersion==command.studySubject.informedConsentVersion?'selected':'' }>${command.studySubject.studySite.study.consentVersion}</option>
+				<c:forEach items="${command.studySubject.studySite.study.studyAmendments}" var="amendment">
+					<c:if test="${!empty amendment.consentVersion && amendment.consentVersion!=''}">
+					<option value="${amendment.consentVersion }" ${amendment.consentVersion==command.studySubject.informedConsentVersion?'selected':'' }>${amendment.consentVersion }</option>
+					</c:if>
+				</c:forEach>
+			</select><em>(<fmt:message key="registration.currentConsentVersionIs"/> ${command.studySubject.studySite.study.latestConsentVersion})</em>
 		</div>
 	</div>
 </chrome:box>
