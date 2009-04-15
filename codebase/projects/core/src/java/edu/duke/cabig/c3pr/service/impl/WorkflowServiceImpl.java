@@ -239,7 +239,8 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
         try {
             endPoint.invoke(domainObjects);
         }catch(Exception e){
-        	
+        	e.printStackTrace();
+        	log.error(e);
         }
         finally{
         	endpointDao.save(endPoint);

@@ -135,7 +135,7 @@ public class EndpointDaoTest extends DaoTestCase {
      * 
      * @throws Exception the exception
      */
-    public void testMergeEndPoint() throws Exception {
+    public void testMergeStudySiteWithEndPoint() throws Exception {
         List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
@@ -162,7 +162,7 @@ public class EndpointDaoTest extends DaoTestCase {
      * 
      * @throws Exception the exception
      */
-    public void testMergeEndPointAndErrors() throws Exception {
+    public void testMergeStudySiteWithEndPointAndErrors() throws Exception {
         List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {

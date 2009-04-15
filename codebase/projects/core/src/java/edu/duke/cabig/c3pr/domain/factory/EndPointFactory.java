@@ -40,9 +40,17 @@ public class EndPointFactory {
     }
 
     private GlobusCredential getCredential(){
-        if(delegatedCredentialProvider==null)
+        if(delegatedCredentialProvider==null){
+        	System.out.println("delegatedCredentialProvider is null, return null credential");
             return null;
-        return delegatedCredentialProvider.provideDelegatedCredentials().getCredential();
+        }
+        GlobusCredential credential=delegatedCredentialProvider.provideDelegatedCredentials().getCredential();
+        if(credential==null){
+        	System.out.println("GlobusCredential is null, return null credential");
+        }else{
+        	System.out.println("found delegatedCredentialProvider, returning credential");
+        }
+        return credential;
     }
 
     public void setDelegatedCredentialProvider(DelegatedCredentialProvider delegatedCredentialProvider) {
