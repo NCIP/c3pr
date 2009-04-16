@@ -8,10 +8,15 @@
 <%@attribute name="onSuccess"%>
 <%@attribute name="onComplete"%>
 <%@attribute name="onFailure"%>
+<%@attribute name="encoding"%>
 <c:set var="callbackOpts" value=""></c:set>
 <c:set var="onFail" value="C3PR.handleAjaxError"></c:set>
 <c:if test="${! empty onComplete}">
 <c:set var="callbackOpts" value="${callbackOpts}onComplete:${onComplete },"></c:set>
+</c:if>
+<c:set var="encodingType" value=""></c:set>
+<c:if test="${! empty encoding}">
+<c:set var="encodingType" value=", encoding:${encoding}"></c:set>
 </c:if>
 <c:if test="${! empty onSuccess}">
 <c:set var="callbackOpts" value="${callbackOpts}onSuccess:${onSuccess },"></c:set>
@@ -29,7 +34,7 @@ if(tempTargetVar!=null){
 
 new Ajax.Updater(${divElement},$("command").action, 
 					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${empty javaScriptParam?"''":javaScriptParam}+"&"+Form.serialize('command'),
-					${callbackOpts} asynchronous:true, evalScripts:true});
+					${callbackOpts} asynchronous:true, evalScripts:true ${encodingType}});
 if(tempTargetVar!=null){
 	$("command")._target.name=tempTargetVar;
 }
@@ -42,7 +47,7 @@ if(tempTargetVar!=null){
 
 new Ajax.Updater(${divElement},$(${formName}).action, 
 					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${empty javaScriptParam?"''":javaScriptParam}+"&"+Form.serialize(${formName}),
-					${callbackOpts} asynchronous:true, evalScripts:true});
+					${callbackOpts} asynchronous:true, evalScripts:true ${encodingType}});
 if(tempTargetVar!=null){
 	$(${formName})._target.name=tempTargetVar;
 }
