@@ -372,4 +372,8 @@
 
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
 
+	<bean id="gridSecurityUtils" class="edu.duke.cabig.c3pr.utils.GridSecurityUtils">
+		<property name="userDetailsService" ref="csmUserDetailsService"/>
+	</bean>
+
 </beans>
