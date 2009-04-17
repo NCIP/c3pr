@@ -216,24 +216,24 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * This should get the new ones and save them to the database too...this includes the associated orgs
      * 
      * @throws Exception the exception
-     */
+     
     public void testGetRemoteResearchStaffByOrganizationInstituteCodeWithHealthcareSiteSpecified() throws Exception{
     	HealthcareSite healthcareSite = new LocalHealthcareSite();
     	healthcareSite.setNciInstituteCode("RM-TST-ID2");
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
     	researchStaffList = getDao().getResearchStaffByOrganizationNCIInstituteCode(healthcareSite);
         assertEquals("Incorrect size", 3, researchStaffList.size());
-    }
+    }*/
 
     /**
      * Gets all the remoteResearchStaff since the hcs is not specified
      * @throws Exception
-     */
+     
     public void testGetRemoteResearchStaffFromResolverByExample() throws Exception{
     	RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
     	List<RemoteResearchStaff> remoteResearchStaffList = getDao().getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
         assertEquals("Incorrect size", 9, remoteResearchStaffList.size());
-    }
+    }*/
     
     /**
      * Gets all the remoteResearchStaff since the hcs is not specified
