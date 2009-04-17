@@ -211,6 +211,65 @@
         		</div>
         	</div>
     	</chrome:division>
+    	<chrome:division title="SMTP Configuration">
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.smtp.server"/><tags:hoverHint keyProp="configure.outgoingMailServer" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailServer].value" id="outgoingMailServer" /></div>
+        	</div>
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.smtp.port"/><tags:hoverHint keyProp="configure.outgoingMailServerPort" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailServerPort].value" id="outgoingMailServerPort" cssClass="validate-NUMERIC" /></div>
+        	</div>
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.smtp.username"/><tags:hoverHint keyProp="configure.outgoingMailUsername" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailUsername].value" id="outgoingMailUsername" cssClass="validate-EMAIL"/></div>
+        	</div>
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.smtp.password"/><tags:hoverHint keyProp="configure.outgoingMailPassword" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailPassword].value" id="outgoingMailPassword" /></div>
+        	</div>
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.smtp.protocol"/><tags:hoverHint keyProp="configure.smtpProtocol" /></div>
+        		<div class="value">
+        			<form:select path="conf[smtpProtocol].value" id="smtpProtocol" >
+        				<form:option value="">Please Select</form:option>
+        				<form:option value="smtps">SMTPS</form:option>
+        				<form:option value="smtp">SMTP</form:option>
+        			</form:select>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.smtp.auth"/><tags:hoverHint keyProp="configure.outgoingMailAuth" /></div>
+        		<div class="value">
+        			<form:select path="conf[outgoingMailAuth].value" id="outgoingMailAuth" >
+        				<form:option value="">Please Select</form:option>
+        				<form:option value="true">Yes</form:option>
+        				<form:option value="false">No</form:option>
+        			</form:select>
+				</div>
+        	</div>
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.smtp.sslAuth"/><tags:hoverHint keyProp="configure.smtpSSLAuth" /></div>
+        		<div class="value">
+        			<form:select path="conf[smtpSSLAuth].value" id="smtpSSLAuth" >
+        				<form:option value="">Please Select</form:option>
+        				<form:option value="true">Yes</form:option>
+        				<form:option value="false">No</form:option>
+        			</form:select>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.smtp.address"/><tags:hoverHint keyProp="configure.outgoingMailFromAddress" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailFromAddress].value" id="outgoingMailFromAddress" cssClass="validate-EMAIL" /></div>
+        	</div>
+        	<br>
+        	<div class="row" id="testEmail">
+        		<div class="value"><tags:button type="button" onclick="testConnectivity('testEmail', 'testEmailServer');" color="blue" value="Send test email" icon="mail" size="small"/>
+        		<img id="testIndicator[testEmail]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+        		<span id="connectionTestResult[testEmail]" ></span>
+        		</div>
+        	</div>
+        </chrome:division>
     	<chrome:division title="Authentication Configuration">
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.enable"/><tags:hoverHint keyProp="configure.authorizationSwitch"/></div>
@@ -305,6 +364,38 @@
 	        	</div>
         	</div>
         </chrome:division>
+                <chrome:division title="Multisite Configuration">
+        	<div class="row">
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.multisite.enable"/><tags:hoverHint keyProp="configure.multisiteEnable" /></div>
+        		<div class="value">
+        			<form:select path="conf[multisiteEnable].value" id="multisiteEnable" cssClass="validate-notEmpty">
+        				<form:option value="">Please Select</form:option>
+        				<form:option value="true">Yes</form:option>
+        				<form:option value="false">No</form:option>
+        			</form:select>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.multisite.ifs_url"/></div>
+        		<div class="value"><form:input path="conf[ifs.url].value" id="ifs.url" cssClass="validate-URL"/></div>
+        	</div>
+        	<div class="row">
+        		<div class="label"><fmt:message key="configure.multisite.idp_url"/></div>
+        		<div class="value"><form:input path="conf[idp.url].value" id="idp.url" cssClass="validate-URL"/></div>
+        	</div>
+        </chrome:division>
+		<chrome:division title="COPPA Configuration">
+        	<div class="row">
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.coppa.enable"/><tags:hoverHint keyProp="configure.coppaEnable" /></div>
+        		<div class="value">
+        			<form:select path="conf[coppaEnable].value" id="coppaEnable" cssClass="validate-notEmpty">
+        				<form:option value="">Please Select</form:option>
+        				<form:option value="true">Yes</form:option>
+        				<form:option value="false">No</form:option>
+        			</form:select>
+        		</div>
+        	</div>
+        </chrome:division>
         <chrome:division title="CCTS Configuration" >
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.enable.esb"/><tags:hoverHint keyProp="configure.esbEnable" /></div>
@@ -378,98 +469,7 @@
 	        	</div>
         	</div>
         </chrome:division>
-        <chrome:division title="SMTP Configuration">
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.server"/><tags:hoverHint keyProp="configure.outgoingMailServer" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailServer].value" id="outgoingMailServer" /></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.port"/><tags:hoverHint keyProp="configure.outgoingMailServerPort" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailServerPort].value" id="outgoingMailServerPort" cssClass="validate-NUMERIC" /></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.username"/><tags:hoverHint keyProp="configure.outgoingMailUsername" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailUsername].value" id="outgoingMailUsername" cssClass="validate-EMAIL"/></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.password"/><tags:hoverHint keyProp="configure.outgoingMailPassword" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailPassword].value" id="outgoingMailPassword" /></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.protocol"/><tags:hoverHint keyProp="configure.smtpProtocol" /></div>
-        		<div class="value">
-        			<form:select path="conf[smtpProtocol].value" id="smtpProtocol" >
-        				<form:option value="">Please Select</form:option>
-        				<form:option value="smtps">SMTPS</form:option>
-        				<form:option value="smtp">SMTP</form:option>
-        			</form:select>
-        		</div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.auth"/><tags:hoverHint keyProp="configure.outgoingMailAuth" /></div>
-        		<div class="value">
-        			<form:select path="conf[outgoingMailAuth].value" id="outgoingMailAuth" >
-        				<form:option value="">Please Select</form:option>
-        				<form:option value="true">Yes</form:option>
-        				<form:option value="false">No</form:option>
-        			</form:select>
-				</div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.sslAuth"/><tags:hoverHint keyProp="configure.smtpSSLAuth" /></div>
-        		<div class="value">
-        			<form:select path="conf[smtpSSLAuth].value" id="smtpSSLAuth" >
-        				<form:option value="">Please Select</form:option>
-        				<form:option value="true">Yes</form:option>
-        				<form:option value="false">No</form:option>
-        			</form:select>
-        		</div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.address"/><tags:hoverHint keyProp="configure.outgoingMailFromAddress" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailFromAddress].value" id="outgoingMailFromAddress" cssClass="validate-EMAIL" /></div>
-        	</div>
-        	<br>
-        	<div class="row" id="testEmail">
-        		<div class="value"><tags:button type="button" onclick="testConnectivity('testEmail', 'testEmailServer');" color="blue" value="Send test email" icon="mail" size="small"/>
-        		<img id="testIndicator[testEmail]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
-        		<span id="connectionTestResult[testEmail]" ></span>
-        		</div>
-        	</div>
-        </chrome:division>
-        <chrome:division title="Multisite Configuration">
-        	<div class="row">
-        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.multisite.enable"/><tags:hoverHint keyProp="configure.multisiteEnable" /></div>
-        		<div class="value">
-        			<form:select path="conf[multisiteEnable].value" id="multisiteEnable" cssClass="validate-notEmpty">
-        				<form:option value="">Please Select</form:option>
-        				<form:option value="true">Yes</form:option>
-        				<form:option value="false">No</form:option>
-        			</form:select>
-        		</div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.multisite.ifs_url"/></div>
-        		<div class="value"><form:input path="conf[ifs.url].value" id="ifs.url" cssClass="validate-URL"/></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.multisite.idp_url"/></div>
-        		<div class="value"><form:input path="conf[idp.url].value" id="idp.url" cssClass="validate-URL"/></div>
-        	</div>
-        </chrome:division>
-		<chrome:division title="COPPA Configuration">
-        	<div class="row">
-        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.coppa.enable"/><tags:hoverHint keyProp="configure.coppaEnable" /></div>
-        		<div class="value">
-        			<form:select path="conf[coppaEnable].value" id="coppaEnable" cssClass="validate-notEmpty">
-        				<form:option value="">Please Select</form:option>
-        				<form:option value="true">Yes</form:option>
-        				<form:option value="false">No</form:option>
-        			</form:select>
-        		</div>
-        	</div>
-        </chrome:division>
-        </chrome:box>
+     </chrome:box>
          <div class="row submit">
             <tags:button type="submit" color="green" value="Save" icon="save"/>
         </div>
