@@ -465,7 +465,13 @@ public class OrganizationDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testGetAll() throws Exception{
-    	assertEquals("wrong number of organizations",5,healthcareSiteDao.getAll().size());
+    	ConfigurationProperty coppaEnable = Configuration.COPPA_ENABLE;
+    	assertNotNull("Missing the property 'COPPA_ENABLE'",coppaEnable);
+    	if(Boolean.parseBoolean(coppaEnable.getDefault().toString())){
+    		assertEquals("wrong number of organizations",5,healthcareSiteDao.getAll().size());
+    	} else {
+    		assertEquals("wrong number of organizations",3,healthcareSiteDao.getAll().size());
+    	}
     }
     
     /**
@@ -525,9 +531,10 @@ public class OrganizationDaoTest extends DaoTestCase {
     public void testRemoteSessionLoadOnCoppaEnabled() throws Exception {
     	ConfigurationProperty coppaEnable = Configuration.COPPA_ENABLE;
     	assertNotNull("Missing the property 'COPPA_ENABLE'",coppaEnable);
-        assertTrue("COPPA_ENABLE should have been true", Boolean.parseBoolean(coppaEnable.getDefault().toString()));
-    	Object object = remoteSession.load(RemoteHealthcareSite.class,"CP-RM-TST-ID2" );
-    	assertNotNull("Remote object cannot be null as coppa services are enabled", object);
+    	if(Boolean.parseBoolean(coppaEnable.getDefault().toString())){
+    		Object object = remoteSession.load(RemoteHealthcareSite.class,"CP-RM-TST-ID2" );
+    		assertNotNull("Remote object cannot be null as coppa services are enabled", object);
+    	}
     	
     }
     
@@ -539,10 +546,11 @@ public class OrganizationDaoTest extends DaoTestCase {
     public void testRemoteSessionFindOnCoppaEnabled() throws Exception {
     	ConfigurationProperty coppaEnable = Configuration.COPPA_ENABLE;
     	assertNotNull("Missing the property 'COPPA_ENABLE'",coppaEnable);
-        assertTrue("COPPA_ENABLE should have been true", Boolean.parseBoolean(coppaEnable.getDefault().toString()));
-        RemoteHealthcareSite remoteHealthcareSite = (RemoteHealthcareSite) healthcareSiteDao.getById(1002);
-    	Object object = remoteSession.find(remoteHealthcareSite);
-    	assertNotNull("Remote object cannot be null as coppa services are enabled", object);
+    	if(Boolean.parseBoolean(coppaEnable.getDefault().toString())){
+	    	RemoteHealthcareSite remoteHealthcareSite = (RemoteHealthcareSite) healthcareSiteDao.getById(1002);
+	    	Object object = remoteSession.find(remoteHealthcareSite);
+	    	assertNotNull("Remote object cannot be null as coppa services are enabled", object);
+    	}
     	
     }
 	
@@ -552,12 +560,19 @@ public class OrganizationDaoTest extends DaoTestCase {
 	 * @throws Exception the exception
 	 */
 	public void testGetRemoteEntityByUniqueId() throws Exception{
-		Organization organization = (RemoteHealthcareSite) remoteHealthcareSiteResolver.getRemoteEntityByUniqueId("CP-RM-TST-ID");
-		assertEquals(organization.getName(),"Nairobi Hospital");
-		organization = (Organization) remoteHealthcareSiteResolver.getRemoteEntityByUniqueId("CP-RM-TST-ID2");
-		assertEquals(organization.getName().trim(),"Montreal Childrens Hospital Remote 2".trim());
-		organization = (Organization) remoteHealthcareSiteResolver.getRemoteEntityByUniqueId("CP-RM-TST-ID3");
-		assertEquals(organization.getName().trim(),"Sydney Cancer Centre Remote 3".trim());		
+		ConfigurationProperty coppaEnable = Configuration.COPPA_ENABLE;
+		Organization organization = (RemoteHealthcareSite) remoteSession.load(RemoteHealthcareSite.class,"CP-RM-TST-ID");
+		if(Boolean.parseBoolean(coppaEnable.getDefault().toString())){
+			assertEquals(organization.getName(), "Nairobi Hospital");
+			organization = (Organization) remoteHealthcareSiteResolver
+					.getRemoteEntityByUniqueId("CP-RM-TST-ID2");
+			assertEquals(organization.getName().trim(),
+					"Montreal Childrens Hospital Remote 2".trim());
+			organization = (Organization) remoteHealthcareSiteResolver
+					.getRemoteEntityByUniqueId("CP-RM-TST-ID3");
+			assertEquals(organization.getName().trim(),
+					"Sydney Cancer Centre Remote 3".trim());
+		}		
 	}
 	
 	/**
@@ -566,11 +581,14 @@ public class OrganizationDaoTest extends DaoTestCase {
 	 * @throws Exception the exception
 	 */
 	public void testFind() throws Exception{
-		Organization remoteOrgExample = new RemoteHealthcareSite();
-		List<Object> organizations = remoteHealthcareSiteResolver.find(remoteOrgExample);
-		assertEquals(organizations.size(),3);
-		//check if return object is of type RemoteOrganization
-		Organization obj = (RemoteHealthcareSite)organizations.get(0);		
+		ConfigurationProperty coppaEnable = Configuration.COPPA_ENABLE;
+    	if(Boolean.parseBoolean(coppaEnable.getDefault().toString())){
+			Organization remoteOrgExample = new RemoteHealthcareSite();
+			List<Object> organizations = remoteHealthcareSiteResolver.find(remoteOrgExample);
+			assertEquals(3,organizations.size());
+			//check if return object is of type RemoteOrganization
+			Organization obj = (RemoteHealthcareSite)organizations.get(0);	
+    	}
 		
 	}
 	
@@ -580,14 +598,18 @@ public class OrganizationDaoTest extends DaoTestCase {
 	 * @throws Exception the exception
 	 */
 	public void testGetRemoteOrganizations() throws Exception{
-		HealthcareSite healthcareSite = new RemoteHealthcareSite();
-		// nci institute code is being set to some code as the mock service returns 3 organizations by default.
-		// this should be later changed to correct nci code once intergration with actual COPPA services is done
-		healthcareSite.setNciInstituteCode("Some Code");
-		List<?> organizations = healthcareSiteDao.getRemoteOrganizations(healthcareSite);
-		assertEquals(organizations.size(),3);
-		//check if return object is of type RemoteOrganization
-		Organization obj = (RemoteHealthcareSite)organizations.get(0);		
+		ConfigurationProperty coppaEnable = Configuration.COPPA_ENABLE;
+    	assertNotNull("Missing the property 'COPPA_ENABLE'",coppaEnable);
+    	if(Boolean.parseBoolean(coppaEnable.getDefault().toString())){
+			HealthcareSite healthcareSite = new RemoteHealthcareSite();
+			// nci institute code is being set to some code as the mock service returns 3 organizations by default.
+			// this should be later changed to correct nci code once intergration with actual COPPA services is done
+			healthcareSite.setNciInstituteCode("Some Code");
+			List<?> organizations = healthcareSiteDao.getRemoteOrganizations(healthcareSite);
+			assertEquals(3,organizations.size());
+			//check if return object is of type RemoteOrganization
+			Organization obj = (RemoteHealthcareSite)organizations.get(0);	
+    	}
 		
 	}
 
