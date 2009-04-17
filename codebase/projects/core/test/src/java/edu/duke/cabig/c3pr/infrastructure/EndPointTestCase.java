@@ -34,37 +34,37 @@ public class EndPointTestCase extends AbstractTestCase {
         xmlUtils=registerMockFor(XMLUtils.class);
     }
     
-    public void testCreateStudy() throws Exception{
-        XMLUtils xmUtils=new XMLUtils(new XmlMarshaller("c3pr-study-xml-castor-mapping.xml"));
-        String xml=StringUtils.readFile("edu/duke/cabig/c3pr/xml/test-study-domain-objects.xml");
-        List<? extends AbstractMutableDomainObject> domainObjects=xmUtils.extractDomainObjectsFromXML(xml);
-        EndPointConnectionProperty endPointProperty=new EndPointConnectionProperty(url,true,EndPointType.GRID);
-//        File file=new File(proxyFilePath);
-//        System.out.println(file.getAbsolutePath());
-        InputStream stream=this.getClass().getClassLoader().getResourceAsStream(proxyFilePath);
-        endPoint=new GridEndPoint(endPointProperty,ServiceName.STUDY,APIName.CREATE_STUDY,new GlobusCredential(stream));
-        try {
-			endPoint.invoke(domainObjects);
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-    }
+//    public void testCreateStudy() throws Exception{
+//        XMLUtils xmUtils=new XMLUtils(new XmlMarshaller("c3pr-study-xml-castor-mapping.xml"));
+//        String xml=StringUtils.readFile("edu/duke/cabig/c3pr/xml/test-study-domain-objects.xml");
+//        List<? extends AbstractMutableDomainObject> domainObjects=xmUtils.extractDomainObjectsFromXML(xml);
+//        EndPointConnectionProperty endPointProperty=new EndPointConnectionProperty(url,true,EndPointType.GRID);
+////        File file=new File(proxyFilePath);
+////        System.out.println(file.getAbsolutePath());
+//        InputStream stream=this.getClass().getClassLoader().getResourceAsStream(proxyFilePath);
+//        endPoint=new GridEndPoint(endPointProperty,ServiceName.STUDY,APIName.CREATE_STUDY,new GlobusCredential(stream));
+//        try {
+//			endPoint.invoke(domainObjects);
+//		} catch (InvocationTargetException e) {
+//			e.printStackTrace();
+//		}
+//    }
     
     public void testGetService(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY, null);
+        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
         Object obj=endPoint.getService();
         assertNotNull(obj);
         assertEquals("Wrong instance of service", StudyServiceClient.class, obj.getClass());
     }
     
     public void testGetAPI(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY, null);
+        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
         Method method=endPoint.getAPI();
         assertNotNull(method);
     }
     
     public void testGetArgumentsNullArgument(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY, null);
+        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
         Object[] args=endPoint.getArguments(null);
         assertNotNull(args);
         assertEquals("Wrong args length", args.length, 1);
@@ -72,7 +72,7 @@ public class EndPointTestCase extends AbstractTestCase {
     }
     
     public void testGetArgumentsEmptyArgument(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY, null);
+        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
         List<AbstractMutableDomainObject> list=new ArrayList<AbstractMutableDomainObject>();
         replayMocks();
         Object[] args=null;
@@ -88,7 +88,7 @@ public class EndPointTestCase extends AbstractTestCase {
     }
     
     public void testGetArguments(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY, null);
+        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
         List<AbstractMutableDomainObject> list=new ArrayList<AbstractMutableDomainObject>();
         list.add(new Study());	
         Object[] args=endPoint.getArguments(list);

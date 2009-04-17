@@ -615,11 +615,11 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         if(this.coordinatingCenterStudyStatus!=this.getStudy().getCoordinatingCenterStudyStatus()){
             CoordinatingCenterStudyStatus studyCoordinatingCenterStudyStatus=this.getStudy().getCoordinatingCenterStudyStatus();
             if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
-                possibleActions.add(APIName.CREATE_STUDY);
+                possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
                 return possibleActions;
             }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.OPEN){
                 if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
-                    possibleActions.add(APIName.CREATE_STUDY);
+                    possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
                     possibleActions.add(APIName.OPEN_STUDY);
                     return possibleActions;
                 }else{
@@ -628,7 +628,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                 }
             }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
                 if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
-                    possibleActions.add(APIName.CREATE_STUDY);
+                    possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
                     possibleActions.add(APIName.OPEN_STUDY);
                     return possibleActions;
                 }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
@@ -640,7 +640,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                 }
             }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL){
                 if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
-                    possibleActions.add(APIName.CREATE_STUDY);
+                    possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
                     possibleActions.add(APIName.OPEN_STUDY);
                     return possibleActions;
                 }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
@@ -650,7 +650,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                     possibleActions.add(APIName.OPEN_STUDY);
                     return possibleActions;
                 }else{
-                    possibleActions.add(APIName.CLOSE_STUDY);
+                    possibleActions.add(APIName.CLOSE_STUDY_TO_ACCRUAL);
                     return possibleActions;
                 }
             }
@@ -658,14 +658,14 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         if(this.getStudy().getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.OPEN)
             return possibleActions;
         if(this.siteStudyStatus==SiteStudyStatus.PENDING || this.siteStudyStatus==SiteStudyStatus.AMENDMENT_PENDING){
-            possibleActions.add(APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION);
+            //possibleActions.add(APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION);
             possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
             return possibleActions;
         }else if(this.siteStudyStatus== SiteStudyStatus.APPROVED_FOR_ACTIVTION){
             possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
             return possibleActions;
         }else if(this.siteStudyStatus==SiteStudyStatus.ACTIVE){
-            possibleActions.add(APIName.CLOSE_STUDY_SITE);
+            possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
             return possibleActions;
         }
         return possibleActions;

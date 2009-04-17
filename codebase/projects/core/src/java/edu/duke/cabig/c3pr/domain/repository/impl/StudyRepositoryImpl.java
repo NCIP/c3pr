@@ -223,7 +223,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
-            EndPoint endpoint=handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
+            EndPoint endpoint=handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE_TO_ACCRUAL, domainObjects);
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
                 studySite=studySiteDao.merge(studySite);
             }else{
@@ -246,8 +246,8 @@ public class StudyRepositoryImpl implements StudyRepository {
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
-            handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
-            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.CLOSE_STUDY_SITE);
+            handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE_TO_ACCRUAL, domainObjects);
+            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
                 studySite=studySiteDao.merge(studySite);
             }else{
@@ -270,8 +270,8 @@ public class StudyRepositoryImpl implements StudyRepository {
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
-            handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
-            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.CLOSE_STUDY_SITE);
+            handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE_TO_ACCRUAL, domainObjects);
+            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
                 studySite=studySiteDao.merge(studySite);
             }else{
@@ -294,8 +294,8 @@ public class StudyRepositoryImpl implements StudyRepository {
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(study.getStudySite(nciInstituteCode).getHealthcareSite());
-            handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE, domainObjects);
-            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.CLOSE_STUDY_SITE);
+            handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_SITE_TO_ACCRUAL, domainObjects);
+            EndPoint endpoint=studySite.getEndPoint(ServiceName.STUDY, APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
             if(endpoint!=null && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
                 studySite=studySiteDao.merge(studySite);
             }else{
@@ -395,7 +395,8 @@ public class StudyRepositoryImpl implements StudyRepository {
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
             domainObjects.add(studySite.getHealthcareSite());
-            EndPoint endpoint=handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION, domainObjects);
+            EndPoint endpoint=null;
+            //EndPoint endpoint=handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION, domainObjects);
             if(endpoint.getStatus()!=WorkFlowStatusType.MESSAGE_SEND_CONFIRMED)
                 throw c3PRExceptionHelper.getMultisiteException(endpoint.getLastAttemptError());
         }
@@ -452,10 +453,10 @@ public class StudyRepositoryImpl implements StudyRepository {
 				&& studyService.canMultisiteBroadcast(studySite)) {
 			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
 			domainObjects.add(study);
-			endPoint=handleAffiliateSiteBroadcast(studySite.getHealthcareSite().getNciInstituteCode(), study,  APIName.CREATE_STUDY,
+			endPoint=handleAffiliateSiteBroadcast(studySite.getHealthcareSite().getNciInstituteCode(), study,  APIName.CREATE_STUDY_DEFINITION,
 					domainObjects);
 			updateCoordinatingCenterStatusForStudySite(studySite,
-					APIName.CREATE_STUDY,
+					APIName.CREATE_STUDY_DEFINITION,
 					CoordinatingCenterStudyStatus.READY_TO_OPEN);
 		}
 		return endPoint;
@@ -509,10 +510,10 @@ public class StudyRepositoryImpl implements StudyRepository {
 		if (study.isMultisite()
 				&& study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())
 				&& studyService.canMultisiteBroadcast(studySite)) {
-			endPoint=handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY,
+			endPoint=handleAffiliateSiteBroadcast(nciInstituteCode, study, APIName.CLOSE_STUDY_TO_ACCRUAL,
 					studyIdentifiers);
 			updateCoordinatingCenterStatusForStudySite(studySite,
-					APIName.CLOSE_STUDY,
+					APIName.CLOSE_STUDY_TO_ACCRUAL,
 					CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
 		}
 		return endPoint;
