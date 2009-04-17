@@ -829,7 +829,6 @@ table.tablecontent { border-collapse: collapse; }
 .tablecontent td {
 	border-color: #888 #ddd;
 	/* border-bottom: 1px solid #C1DAD7; */
-	font-size:12px
 }
 .red { color: #EE3324; }
 .required-indicator:before {
