@@ -214,7 +214,7 @@ public class StudySitesTab extends StudyTab {
 		}
 
 		APIName apiName = APIName.valueOf(request.getParameter("action"));
-		if (apiName == APIName.CREATE_STUDY) {
+		if (apiName == APIName.CREATE_STUDY_DEFINITION) {
 			endPoint = studyRepository.createStudyAtAffiliate(studyIdentifiers,
 					nciInstituteCode);
 		} else if (apiName == APIName.OPEN_STUDY) {
@@ -222,19 +222,21 @@ public class StudySitesTab extends StudyTab {
 					nciInstituteCode);
 		} else if (apiName == APIName.AMEND_STUDY) {
 			studyRepository.amendStudyAtAffiliates(studyIdentifiers, study);
-		} else if (apiName == APIName.CLOSE_STUDY) {
+		} else if (apiName == APIName.CLOSE_STUDY_TO_ACCRUAL) {
 			endPoint = studyRepository.closeStudyAtAffiliate(studyIdentifiers,
 					nciInstituteCode);
-		} else if (apiName == APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION) {
-			try {
-				studySite = studyRepository.approveStudySiteForActivation(
-						studyIdentifiers, studySite);
-			} catch (MultisiteException e) {
-				e.printStackTrace();
-			} catch (C3PRCodedRuntimeException e) {
-				request.setAttribute("actionError", e);
-			}
-		} else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
+		} 
+//		else if (apiName == APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION) {
+//			try {
+//				studySite = studyRepository.approveStudySiteForActivation(
+//						studyIdentifiers, studySite);
+//			} catch (MultisiteException e) {
+//				e.printStackTrace();
+//			} catch (C3PRCodedRuntimeException e) {
+//				request.setAttribute("actionError", e);
+//			}
+//		} 
+		else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
 			try {
 				studySite = studyRepository.activateStudySite(studyIdentifiers,
 						studySite);
@@ -243,7 +245,7 @@ public class StudySitesTab extends StudyTab {
 			} catch (C3PRCodedRuntimeException e) {
 				request.setAttribute("actionError", e);
 			}
-		} else if (apiName == APIName.CLOSE_STUDY_SITE) {
+		} else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL) {
 			try {
 				studySite = studyRepository.closeStudySite(studyIdentifiers,
 						nciInstituteCode);
