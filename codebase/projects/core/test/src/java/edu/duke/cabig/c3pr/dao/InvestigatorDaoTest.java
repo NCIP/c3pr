@@ -90,13 +90,13 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     	assertEquals("Wrong number of investigators",1, investigators.size());
     }
     
-    public void testGetByEmailForRemote() throws Exception{
+    /*public void testGetByEmailForRemote() throws Exception{
     	ContactMechanism contactMechanism = new ContactMechanism();
     	contactMechanism.setType(ContactMechanismType.EMAIL);
     	List<Investigator> investigators = new ArrayList<Investigator>();
     	investigators = getDao().getByEmailAddress("hbardem@nci.org");
     	assertEquals("Wrong number of investigators",1, investigators.size());
-    }
+    }*/
     
     public void testMerge() throws Exception{
     	Investigator investigator = getDao().getLoadedInvestigatorById(1000);
