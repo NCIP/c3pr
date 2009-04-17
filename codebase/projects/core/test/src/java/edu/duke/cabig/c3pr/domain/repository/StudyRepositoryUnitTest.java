@@ -203,79 +203,79 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         fail("Should have thrown Exception");
     }
 
-    public void testApproveStudySiteForActivationPendingStudy() {
-        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
-        replayMocks();
-        try {
-            studyRepository.approveStudySiteForActivation(ids, "Duke");
-        }
-        catch (C3PRCodedRuntimeException e) {
-            e.printStackTrace();
-            assertEquals("Wrong exception message", e.getExceptionCode(),
-                            400);
-            return;
-        }
-        catch (Exception e) {
-            fail("Wrong Exception thrown");
-            return;
-        }finally{
-            verifyMocks();
-        }
-        fail("Should have thrown Exception");
-    }
-    
-    public void testApproveStudySiteForActivationClosedStudySite() {
-    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
-    	studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
-        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
-        replayMocks();
-        try {
-            studyRepository.approveStudySiteForActivation(ids, "Duke");
-        }
-        catch (C3PRCodedRuntimeException e) {
-            e.printStackTrace();
-            assertEquals("Wrong exception message", e.getExceptionCode(),
-                            401);
-            return;
-        }
-        catch (Exception e) {
-            fail("Wrong Exception thrown");
-            return;
-        }finally{
-            verifyMocks();
-        }
-        fail("Should have thrown Exception");
-    }
-    
-    public void testApproveStudySiteForActivationInvaidNCICode() {
-        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
-        replayMocks();
-        try {
-            studyRepository.approveStudySiteForActivation(ids, "wrong");
-        }
-        catch (C3PRCodedRuntimeException e) {
-            e.printStackTrace();
-            assertEquals("Wrong exception message", e.getExceptionCode(),
-                            339);
-        }
-        catch (Exception e) {
-            fail("Wrong Exception thrown");
-        }
-        verifyMocks();
-    }
-
-    public void testApproveAffiliateStudySiteForActivation() throws C3PRCodedException {
-    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
-    	studySite.setHostedMode(false);
-        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
-        EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
-        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke");
-        EasyMock.expect(studyService.isStudyOrganizationLocal("Duke")).andReturn(false);
-        EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(endPoint);
-        replayMocks();
-        studyRepository.approveStudySiteForActivation(ids, "Duke");
-        verifyMocks();
-    }
+//    public void testApproveStudySiteForActivationPendingStudy() {
+//        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
+//        replayMocks();
+//        try {
+//            studyRepository.approveStudySiteForActivation(ids, "Duke");
+//        }
+//        catch (C3PRCodedRuntimeException e) {
+//            e.printStackTrace();
+//            assertEquals("Wrong exception message", e.getExceptionCode(),
+//                            400);
+//            return;
+//        }
+//        catch (Exception e) {
+//            fail("Wrong Exception thrown");
+//            return;
+//        }finally{
+//            verifyMocks();
+//        }
+//        fail("Should have thrown Exception");
+//    }
+//    
+//    public void testApproveStudySiteForActivationClosedStudySite() {
+//    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
+//    	studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
+//        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
+//        replayMocks();
+//        try {
+//            studyRepository.approveStudySiteForActivation(ids, "Duke");
+//        }
+//        catch (C3PRCodedRuntimeException e) {
+//            e.printStackTrace();
+//            assertEquals("Wrong exception message", e.getExceptionCode(),
+//                            401);
+//            return;
+//        }
+//        catch (Exception e) {
+//            fail("Wrong Exception thrown");
+//            return;
+//        }finally{
+//            verifyMocks();
+//        }
+//        fail("Should have thrown Exception");
+//    }
+//    
+//    public void testApproveStudySiteForActivationInvaidNCICode() {
+//        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
+//        replayMocks();
+//        try {
+//            studyRepository.approveStudySiteForActivation(ids, "wrong");
+//        }
+//        catch (C3PRCodedRuntimeException e) {
+//            e.printStackTrace();
+//            assertEquals("Wrong exception message", e.getExceptionCode(),
+//                            339);
+//        }
+//        catch (Exception e) {
+//            fail("Wrong Exception thrown");
+//        }
+//        verifyMocks();
+//    }
+//
+//    public void testApproveAffiliateStudySiteForActivation() throws C3PRCodedException {
+//    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
+//    	studySite.setHostedMode(false);
+//        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
+//        EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
+//        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke");
+//        EasyMock.expect(studyService.isStudyOrganizationLocal("Duke")).andReturn(false);
+//        EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(endPoint);
+//        replayMocks();
+//        studyRepository.approveStudySiteForActivation(ids, "Duke");
+//        verifyMocks();
+//    }
 
     public void testActivateStudySitePendingStudy() {
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
