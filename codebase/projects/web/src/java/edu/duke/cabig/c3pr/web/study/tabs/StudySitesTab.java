@@ -55,7 +55,7 @@ public class StudySitesTab extends StudyTab {
 	}
 
 	public StudySitesTab() {
-		super("Study Sites", "Study Sites", "study/study_sites");
+		super("Sites", "Sites", "study/study_sites");
 	}
 
 	@Override

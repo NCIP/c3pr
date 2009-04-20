@@ -67,7 +67,6 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
     protected void layoutTabs(Flow flow) {
         flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
         flow.addTab(new StudySitesTab());
-//        flow.addTab(new ManageStudySitesTab());
         flow.addTab(new StudyIdentifiersTab());
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());

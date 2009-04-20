@@ -18,7 +18,7 @@ public class StudyIdentifiersTab extends StudyTab {
     private StudyValidator studyValidator;
 
     public StudyIdentifiersTab() {
-        super("Study Identifiers", "Study Identifiers", "study/study_identifiers");
+        super("Identifiers", "Identifiers", "study/study_identifiers");
     }
 
     @Override
