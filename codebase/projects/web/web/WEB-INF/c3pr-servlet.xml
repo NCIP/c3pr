@@ -74,6 +74,7 @@
             </props>
         </property>
     </bean>
+    
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass"
@@ -545,8 +546,22 @@
                         <list>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Search Study"
-                                    p:linkName="searchStudyController"/>
+                                    autowire="byType" p:displayName="Manage Study"
+                                    p:linkName="searchStudyController">
+                                    <property name="subTasks">
+				                        <list>
+				                            <bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Edit Study"
+				                                    p:linkName="viewStudyController"/>
+											<bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="View Study"
+				                                    p:linkName="editStudyController">
+											</bean>
+				                        </list>
+				                    </property>
+                            </bean>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Create Study"
