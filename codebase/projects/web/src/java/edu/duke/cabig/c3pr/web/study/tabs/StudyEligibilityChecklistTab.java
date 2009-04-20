@@ -17,6 +17,7 @@ import org.springframework.validation.Errors;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
@@ -39,13 +40,10 @@ public class StudyEligibilityChecklistTab extends StudyTab {
     public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
         boolean isAdmin = isAdmin();
-        if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                .toString().equals("true"))
-                || (request.getAttribute("editFlow") != null && request.getAttribute(
-                "editFlow").toString().equals("true"))) {
+        if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true"))
+                || (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true"))) {
             if (request.getSession().getAttribute(DISABLE_FORM_ELIGIBILITY) != null && !isAdmin) {
-                refdata.put("disableForm", request.getSession().getAttribute(
-                        DISABLE_FORM_ELIGIBILITY));
+                refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_ELIGIBILITY));
             } else {
                 refdata.put("disableForm", new Boolean(false));
             }
@@ -54,13 +52,12 @@ public class StudyEligibilityChecklistTab extends StudyTab {
     }
 
     @Override
-    public void postProcessOnValidation(HttpServletRequest httpServletRequest, StudyWrapper wrapper,
-                                        Errors errors) {
-        Object obj = httpServletRequest.getParameter("name");
-        if (obj != null) {
+    public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,Errors errors) {
+        String obj = request.getParameter("name");
+        if (!StringUtils.isBlank(obj)) {
             try {
                 POIFSFileSystem pfs = new POIFSFileSystem(wrapper.getStudy().getCriteriaInputStream());
-                parseCadsrFile(wrapper.getStudy(), pfs, obj.toString());
+                parseCadsrFile(wrapper.getStudy(), pfs, obj);
             }
             catch (IOException e1) {
                 errors.reject("Could not import Studies", e1.getMessage());
@@ -189,18 +186,10 @@ public class StudyEligibilityChecklistTab extends StudyTab {
                     excList.add(exc);
                 }// end of exclusion if
             }// end if while loop that iterates over the entire file.
-            
-            /*if (study.getEpochByName(name) != null) {
-                study.getEpochByName(name).getInclusionEligibilityCriteria().addAll(
-                        incList);
-                study.getEpochByName(name).getExclusionEligibilityCriteria().addAll(
-                        excList);
-            }*/
         }
         catch (IOException ioe) {
             log.error(ioe.getMessage());
         }
 
     }
-
 }
