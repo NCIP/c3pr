@@ -10,7 +10,7 @@ var MENU_ITEMS = [
             ['Create Registration', null, null]
         ],
         ['Studies', 'http://www.usa.gov', null,
-            ['Search Study', null, null],
+            ['Manage Study', null, null],
             ['Create Study', null, null]
         ],
         ['Subjects', 'http://www.usa.gov', null,

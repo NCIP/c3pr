@@ -63,7 +63,7 @@ Event.observe(window, "load", function() {
 })
 </script>
 <!-- STUDY SEARCH START HERE -->
-<tabs:body title="Search Study">
+<tabs:body title="Manage Study">
 <form:form id="searchForm" name="searchForm" method="post" action="${action}">
 <table width="100%" border="0" cellspacing="5" cellpadding="0">
 	<tr>

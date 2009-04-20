@@ -15,7 +15,7 @@
   </book>
 </book>
 <book name="Studies" url="searchStudy.htm" >
-  <item name="Search Study" url="searchStudy.htm" />
+  <item name="Manage Study" url="searchStudy.htm" />
   <book name="Create Study" url="createStudy.htm" >
     <item name="Details" url="createStudy.htm" />
     <item name="Epochs &amp; Arms" url="createStudy_ea.htm" />
