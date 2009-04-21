@@ -671,23 +671,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         return possibleActions;
     }
     
-//    @Transient
-//    public List<APIName> getPossibleEndpoints(){
-//        List<APIName> apiList=new ArrayList<APIName>();
-//        if(this.study.getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.PENDING && !isSuccessfullSend(APIName.CREATE_STUDY)){
-//            apiList.add(APIName.CREATE_STUDY);
-//        }
-//        if(this.study.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.OPEN && !isSuccessfullSend(APIName.OPEN_STUDY)){
-//            apiList.add(APIName.OPEN_STUDY);
-//        }
-//        if(apiList.size()>0) return apiList;
-//        for(EndPoint endPoint:getEndpoints()){
-//            if(endPoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED)
-//                apiList.add(endPoint.getApiName());
-//        }
-//        return apiList;
-//    }
-
     @Column(name = "study_status")
     @Enumerated(EnumType.STRING)
     public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
