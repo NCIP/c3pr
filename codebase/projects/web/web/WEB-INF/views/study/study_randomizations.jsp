@@ -81,9 +81,8 @@
     		<a href="javascript:moveToInsertBook('${epochCount.index}');" id="insert_btn_${epochCount.index}" class="fifthlevelTab">
     			<span id="InsertBookSpan">Insert Book</span>
     		</a> 
-    		<br>
 			<div id="insertBook_${epochCount.index}" style="display: none" > 
-				<div style="border:2px solid #AC8139; padding-top:10px; padding-bottom:10px; margin-top:4px; background-color:Beige;">  
+				<div style="border:2px solid #AC8139; padding-top:10px; padding-bottom:10px; margin-top:4px; background-color:Beige;">
 	     		<input type="hidden" name="index" value="${epochCount.index}"/>       
 				<div class="row">
 		            <c:choose>
