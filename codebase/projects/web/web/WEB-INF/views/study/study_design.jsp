@@ -103,6 +103,7 @@ DELETED TD
 <tags:instructions code="study_design" />
 <!-- BIG TABLE START -->
 <table id="genericEpoch" width="100%" border="0">
+<tr></tr>
     <c:forEach items="${command.study.epochs}" var="treatmentEpoch"  varStatus="treatmentEpochCount">
         <tr id="genericEpoch-${treatmentEpochCount.index}">
             <script type="text/javascript">
