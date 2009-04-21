@@ -239,14 +239,14 @@
             </div>
         </div>
 		<div class="row">
-              <div class="label"><fmt:message key="study.blinded"/></div>
+              <div class="label"><tags:requiredIndicator /><fmt:message key="study.blinded"/></div>
 			<c:choose>
     	        <c:when test="${not empty command.study.id}">
                     <div class="value">${command.study.blindedIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.blindedIndicator"/></div>
         	    </c:when>
             	<c:otherwise>
 		            <div class="value">
-		            	<form:select path="study.blindedIndicator" onchange="blindedRandomization();">
+		            	<form:select path="study.blindedIndicator" onchange="blindedRandomization();" cssClass="validate-notEmpty">
 		                	<option value="">Please Select</option>
 		                	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 		            	</form:select>
