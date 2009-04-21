@@ -53,26 +53,7 @@
                 text-align: center;
                 padding: 4px;
                 font-weight: bold;
-            } .fifthlevelTab {
-                padding: 5px;
-                margin-left: 5px;
-                background-image: url(../../templates/mocha/images/select_subject_tab_selected.png);
-                background-position: top;
-				background-color:#202020;
-				background-repeat:repeat-x;
-                text-decoration: none;
-                color: white;
-            } .current {
-                background-image: url(../../templates/mocha/images/taskbar_bg.png);
-				padding: 5px;
-                margin-left: 5px;
-                background-position: top;
-				background-repeat:repeat-x;
-				background-color:#A07731;
-                text-decoration: none;
-                color: white;
-				}
-				.race input {
+            } .race input {
 					margin-right:5px;
 					margin-bottom:5px;
 				}

@@ -21,7 +21,7 @@
     }
         
   	function moveToSearchSubject(){
-  		document.getElementById('searchSubject_btn').className="current";
+  		document.getElementById('searchSubject_btn').className="fifthlevelTab-current";
   		document.getElementById('createSubject_btn').className="fifthlevelTab";
   	
   		document.getElementById('searchSubjectDiv').style.display="";
@@ -30,7 +30,7 @@
   	
   	function moveToCreateSubject(){
   	  	document.getElementById('searchSubject_btn').className="fifthlevelTab";
-  		document.getElementById('createSubject_btn').className="current";
+  		document.getElementById('createSubject_btn').className="fifthlevelTab-current";
   		
   		document.getElementById('searchSubjectDiv').style.display="none";
   		document.getElementById('createSubjectDiv').style.display="";
@@ -128,7 +128,13 @@
 	}
 </script>
 <tags:minimizablePanelBox title="Select Subject" boxId="SubjectBox">
-    <!-- subTabbedflow--><a href="javascript:moveToCreateSubject()" id="createSubject_btn" class="current"><span><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>" alt="" />Create Subject</span></a><a href="javascript:moveToSearchSubject()" id="searchSubject_btn" class="fifthlevelTab"><span id="searchSubjectSpan"><img src="<tags:imageUrl name="icons/search.png"/>" alt="" /> Search for Subject</span></a>
+    <!-- subTabbedflow-->
+    	<a href="javascript:moveToCreateSubject()" id="createSubject_btn" class="fifthlevelTab-current">
+    		<span><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>" alt="" />Create Subject</span>
+    	</a>
+    	<a href="javascript:moveToSearchSubject()" id="searchSubject_btn" class="fifthlevelTab">
+    		<span id="searchSubjectSpan"><img src="<tags:imageUrl name="icons/search.png"/>" alt="" /> Search for Subject</span>
+    	</a>
     <br/>
     <!-- start of search subject div-->
     <div id="searchSubjectDiv" style="display:none;">

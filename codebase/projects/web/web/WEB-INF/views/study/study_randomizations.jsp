@@ -40,7 +40,24 @@
 			}			
 		}
 		return continueSubmission;
-	}	
+	}
+
+	function moveToUploadBook(index){
+  		$('upload_btn_'+index).className="fifthlevelTab-current";
+  		$('insert_btn_'+index).className="fifthlevelTab";
+  	
+  		$('uploadBook_'+index).style.display="";
+  		$('insertBook_'+index).style.display="none";
+  	}
+  	
+  	function moveToInsertBook(index){
+  		$('insert_btn_'+index).className="fifthlevelTab-current";
+  		$('upload_btn_'+index).className="fifthlevelTab";
+  	
+  		$('insertBook_'+index).style.display="";
+  		$('uploadBook_'+index).style.display="none";
+  	}
+  		
 </script>
 </head>
 <body>
@@ -56,67 +73,74 @@
 <c:if test="${command.study.randomizationType.name == 'BOOK'}">	
 	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 		<c:if test="${epoch.randomizedIndicator}">
-		<div id="book_container_${epochCount.index}" class="bookContainer">
-		<chrome:box title="${epoch.name}" id="book_${epochCount.index}" cssClass="paired"> 
-		<br/>
-	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">  
-	     <input type="hidden" name="index" value="${epochCount.index}"/>       
-             <tr>
-                <td>
-	                <c:choose>
-	                <c:when test="${epoch.stratificationIndicator}">
-	                	<b> <fmt:message key="study.randomizationBook"/></b><tags:hoverHint keyProp="study.bookRandomizations.text"/>
-	                	<br/> <fmt:message key="study.egBookRandomizationWithStratification"/></td>
-	                </c:when>
-	                <c:otherwise>
-	                	<b> <fmt:message key="study.randomizationBook"/></b><tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification.text"/>
-	                	<br/> <fmt:message key="study.egBookRandomizationWithoutStratification"/></td>
-	                </c:otherwise>
+		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
+		<div id="book_${epochCount.index}" class="leftpanel" style="border-width:thin; border-style:solid; border-color:grey ; padding:5px; width:48%" >
+			<a href="javascript:moveToUploadBook('${epochCount.index}');" id="upload_btn_${epochCount.index}" class="fifthlevelTab-current">
+    			<span>Upload Book</span>
+    		</a>
+    		<a href="javascript:moveToInsertBook('${epochCount.index}');" id="insert_btn_${epochCount.index}" class="fifthlevelTab">
+    			<span id="InsertBookSpan">Insert Book</span>
+    		</a> 
+    		<br>
+			<div id="insertBook_${epochCount.index}" style="display: none">   
+	     		<input type="hidden" name="index" value="${epochCount.index}"/>       
+				<div class="row">
+		            <c:choose>
+		                <c:when test="${epoch.stratificationIndicator}">
+			               	<div class="label" style="margin-top: 6em">
+		                		<fmt:message key="study.randomizationBook"/>
+		                		<tags:hoverHint keyProp="study.bookRandomizations.text"/>
+			               	</div>
+		                </c:when>
+		                <c:otherwise>
+			               	<div class="label" style="margin-top: 6em">
+			               		<fmt:message key="study.randomizationBook"/>
+			               		<tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification.text"/>
+			               	</div>
+		                </c:otherwise>
 	                </c:choose>
-				<td>
-					<TEXTAREA name="study.bookRandomizations-${epochCount.index}" id="bookRandomizations-${epochCount.index}" cols=25 rows=12 class="validate-notEmpty&&maxlength500"></TEXTAREA>
-				</td>				
-             </tr>
-	     </table>
-	     <br/>
-	     <div id="bookButton" align="center">
-	     <tags:button type="button" color="blue" value="Upload Randomization Book" 
-			onclick="uploadBook('command', '${epochCount.index}', '${flowType}')" size="small"/>    
-		 </div>
-		 <hr />
-		 	<form:form method="post" id="epochForm_${epochCount.index}" enctype="multipart/form-data">
-		    	<input type="hidden" name="index" value="${epochCount.index}"/>
-			        <div class="content">
-			            <div class="row">
-			                <div class="label"><fmt:message key="study.selectFileToImport"/></div>
-			                <div class="value">
-			                 <c:choose>
-	                			<c:when test="${epoch.stratificationIndicator}">
-			                    	<div class="fileinputs"><input type="file" name="file" /><tags:hoverHint keyProp="study.bookRandomizations.file"/></div>
-			                 	</c:when>
-	                			<c:otherwise>
-	                				<div class="fileinputs"><input type="file" name="file" /><tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification.file"/></div>
-	                			</c:otherwise>
-	                		 </c:choose>
-			                </div>
-			            </div>
-			        </div>
-			        <div id="bookButton" align="center">    
-			        	<tags:button type="submit" color="blue" value="Upload Randomization File" size="small"/>
-					</div><br/> 		        
-		    </form:form>
-	    </chrome:box>	    
-
-		<chrome:box title="${epoch.name}" id="book_results_${epochCount.index}" cssClass="paired">
+					<div class="value">
+						<textarea name="study.bookRandomizations-${epochCount.index}" id="bookRandomizations-${epochCount.index}" cols=25 rows=12 class="validate-notEmpty&&maxlength500"></textarea>
+					</div>
+				</div>				
+	     		<div id="bookButton" align="center">
+	     			<tags:button type="button" color="blue" value="Upload Randomization Book" onclick="uploadBook('command', '${epochCount.index}', '${flowType}')" size="small"/>    
+		 		</div>
+		 	</div>
+			<div id="uploadBook_${epochCount.index}">
+			 	<form:form method="post" id="epochForm_${epochCount.index}" enctype="multipart/form-data">
+			    	<input type="hidden" name="index" value="${epochCount.index}"/>
+				        <div class="content">
+				            <div class="row">
+				                <div class="label"><fmt:message key="study.selectFileToImport"/></div>
+				                <div class="value">
+				                 <c:choose>
+		                			<c:when test="${epoch.stratificationIndicator}">
+				                    	<div class="fileinputs"><input type="file" name="file" /><tags:hoverHint keyProp="study.bookRandomizations.file"/></div>
+				                 	</c:when>
+		                			<c:otherwise>
+		                				<div class="fileinputs"><input type="file" name="file" /><tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification.file"/></div>
+		                			</c:otherwise>
+		                		 </c:choose>
+				                </div>
+				            </div>
+				        </div>
+				        <div id="bookButton" align="center">    
+				        	<tags:button type="submit" color="blue" value="Upload Randomization File" size="small"/>
+						</div> 		        
+			    </form:form>
+	    	</div>
+	    </div>
+		<!--  Right hand section for book result section begins -->
+		<div id="book_results_${epochCount.index}" class="rightpanel" style="border-width:thin; border-style:solid; border-color:grey; padding:5px; width:48%">
 		     <div id="bookRandomizationsDisplay-${epochCount.index}">	
 		     	<c:out value="${bookRandomizationEntries[epochCount.index]}" escapeXml="false"/>	    	
 		    </div>
-		</chrome:box>
 		</div>
-		
+		<div class="division"></div>		
 <%--	will call this to get display onload in edit mode. but currently gives a hibernate exception
 		<script>uploadBook("", "${epochCount.index}");</script>		--%>		
-		<script>$('book_container_${epochCount.index}').style.height=new String((50+$('book_${epochCount.index}').offsetHeight)+"px")</script>	
+		</tags:minimizablePanelBox>	
 		</c:if>	
 	</c:forEach>	
 	
