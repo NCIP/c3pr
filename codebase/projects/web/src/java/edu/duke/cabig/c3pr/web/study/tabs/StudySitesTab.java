@@ -3,11 +3,14 @@ package edu.duke.cabig.c3pr.web.study.tabs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
@@ -41,6 +44,16 @@ public class StudySitesTab extends StudyTab {
 	protected Configuration configuration;
 
 	protected OrganizationDao organizationDao;
+	
+	private MessageSource c3prErrorMessages;
+
+	public MessageSource getC3prErrorMessages() {
+		return c3prErrorMessages;
+	}
+
+	public void setC3prErrorMessages(MessageSource errorMessages) {
+		c3prErrorMessages = errorMessages;
+	}
 
 	public OrganizationDao getOrganizationDao() {
 		return organizationDao;
@@ -226,16 +239,6 @@ public class StudySitesTab extends StudyTab {
 			endPoint = studyRepository.closeStudyAtAffiliate(studyIdentifiers,
 					nciInstituteCode);
 		} 
-//		else if (apiName == APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION) {
-//			try {
-//				studySite = studyRepository.approveStudySiteForActivation(
-//						studyIdentifiers, studySite);
-//			} catch (MultisiteException e) {
-//				e.printStackTrace();
-//			} catch (C3PRCodedRuntimeException e) {
-//				request.setAttribute("actionError", e);
-//			}
-//		} 
 		else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
 			try {
 				studySite = studyRepository.activateStudySite(studyIdentifiers,
@@ -260,13 +263,10 @@ public class StudySitesTab extends StudyTab {
 					studySite.getHealthcareSite().getNciInstituteCode());
 		}
 		Map map = new HashMap();
-		wrapper
-				.setStudy(studyRepository
+		wrapper.setStudy(studyRepository
 						.getUniqueStudy(study.getIdentifiers()));
 		studyDao.initialize(wrapper.getStudy());
-		// map.put("site",studySite);
 		// using the nci code to load the fresh studysite from the study.
-		// Himanshu to review it.
 		if (StringUtils.isBlank(studySiteType)) {
 			studySite = wrapper.getStudy().getStudySite(nciInstituteCode);
 		} else {
@@ -284,6 +284,11 @@ public class StudySitesTab extends StudyTab {
 		Study study = wrapper.getStudy();
 		String nciCode = request.getParameter("nciCode");
 		HealthcareSite healthcareSite = (HealthcareSite)organizationDao.getByNciIdentifier(nciCode).get(0);
+		for(StudySite site : study.getStudySites()){
+			if(site.getHealthcareSite().getNciInstituteCode().equals(nciCode)){
+				return new ModelAndView("study/exist_study_site");
+			}
+		}
 		StudySite studySite = new StudySite();
 		studySite.setHealthcareSite(healthcareSite);
 		studySite.setRoleCode("Affiliate Site");
@@ -294,5 +299,4 @@ public class StudySitesTab extends StudyTab {
 		map.put("index", study.getStudySites().size() - 1); 
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
-	
 }

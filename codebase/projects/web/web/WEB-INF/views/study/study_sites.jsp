@@ -10,40 +10,54 @@
 	    document.getElementById("studySitesForm").submit();
 	}
 
+	function site.healthcareSite.nciInstituteCode(nciCode){
+
+	}
+
 	function addStudySite(){
 		nciCode = $('studysite-hidden').value ;
+		var alreadyExist = false ;
+		$$('.divisonClass').each(function(element){
+			if(element.id.indexOf(nciCode) !=-1){
+				alreadyExist = true ;
+			}
+		});
+		if(alreadyExist){
+			Dialog.alert("Study site already exist", {className: "alphacube", width:240, okLabel: "Done" }); 
+			return;
+		}
 		// check if this already exists
 		<tags:tabMethod method="addStudySite" divElement="'newStudySite'" formName="'tabMethodForm'"  viewName="/study/asynchronous/add_study_site_section" javaScriptParam="'nciCode='+nciCode" onComplete="refreshStudySiteSection" /> ;		
 	}
 
 	function refreshStudySiteSection(){
-		Element.insert($('studySites'), { top: $('newStudySite').innerHTML }) 
-		$('studysite-hidden').value = '' ;
-		$('studysite-input').value = '' ;
-		$('addStudySite').disabled=true ;
-		inputDateElementLocal1="startDate-"+nciCode;
-		inputDateElementLink1="startDate-"+nciCode+"-calbutton";
-		Calendar.setup(
-		{
-		    inputField  : inputDateElementLocal1,         // ID of the input field
-		    ifFormat    : "%m/%d/%Y",    // the date format
-		    button      : inputDateElementLink1       // ID of the button
+		if($('startDate-'+nciCode) != null){
+			Element.insert($('studySites'), { bottom: $('newStudySite').innerHTML }) 
+			$('studysite-hidden').value = '' ;
+			$('studysite-input').value = '' ;
+			$('addStudySite').disabled=true ;
+			inputDateElementLocal1="startDate-"+nciCode;
+			inputDateElementLink1="startDate-"+nciCode+"-calbutton";
+			Calendar.setup(
+			{
+			    inputField  : inputDateElementLocal1,         // ID of the input field
+			    ifFormat    : "%m/%d/%Y",    // the date format
+			    button      : inputDateElementLink1       // ID of the button
+			}
+			);
+			inputDateElementLocal="irbApprovalDate-"+nciCode;
+	       	inputDateElementLink="irbApprovalDate-"+nciCode+"-calbutton";
+	       	Calendar.setup(
+	       	{
+	       	    inputField  : inputDateElementLocal,         // ID of the input field
+	       	    ifFormat    : "%m/%d/%Y",    // the date format
+	       	    button      : inputDateElementLink       // ID of the button
+	       	}
+	       	);
+	       	$('divison-'+nciCode).scrollIntoView();
 		}
-		);
-		inputDateElementLocal="irbApprovalDate-"+nciCode;
-       	inputDateElementLink="irbApprovalDate-"+nciCode+"-calbutton";
-       	Calendar.setup(
-       	{
-       	    inputField  : inputDateElementLocal,         // ID of the input field
-       	    ifFormat    : "%m/%d/%Y",    // the date format
-       	    button      : inputDateElementLink       // ID of the button
-       	}
-       	);
 	}
 
-	function showError(){
-		alert("Error adding site");
-	}
 	var multisiteStudySiteAutocompleterProps = {
 	    basename: "studysite",
 	    populator: function(autocompleter, text) {
@@ -126,7 +140,6 @@
 		<tags:tabMethod method="removeCompanionStudyAssociation" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'studySiteId='+studySiteId+'&parentIndex='+parentIndex"/>
 		$("_doNotSave").name="_doNotSave";
 	}
-		
 	</script>
 </head>
 <body>
@@ -135,7 +148,7 @@
 		<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 	</form:form>
 	<div id="dummy-div" style="display: none;" ></div>
-	<tags:panelBox title="Manage Study Sites">
+	<tags:panelBox title="Sites">
 		<div class="row">
 			<div class="label"><fmt:message key="c3pr.common.selectAnOrganization" /></div>
 			<div class="value">
@@ -145,9 +158,10 @@
 		</div>
 		<br>
 		<form:form id="studySitesForm">
+			<tags:errors path="study.studySites" />
 			<div id="studySites">
 				<c:forEach items="${command.study.studySites}" varStatus="status" var="site">
-					<chrome:division title="${site.healthcareSite.name} (${site.healthcareSite.nciInstituteCode})" minimize="true" divIdToBeMinimized="site-${status.index}" >
+					<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="deleteStudySite('${site.healthcareSite.nciInstituteCode}');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="true" divIdToBeMinimized="site-${status.index}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
 						<div id="site-${status.index}" style="display:none;">
 							<div class="row">
 								<div class="leftpanel">
@@ -248,7 +262,7 @@
 								</div>
 							</div>
 						</div>
-					</chrome:division>
+					</chrome:deletableDivision>
 					<div class="division"></div>	
 				</c:forEach>
 			</div>

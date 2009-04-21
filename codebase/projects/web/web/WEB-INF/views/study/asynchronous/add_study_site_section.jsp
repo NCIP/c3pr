@@ -10,8 +10,7 @@
 <%@taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<chrome:division title="${site.healthcareSite.name} (${site.healthcareSite.nciInstituteCode})" minimize="true" divIdToBeMinimized="site-${index}">
+<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="javascript:alert('test');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="true" divIdToBeMinimized="site-${index}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
 	<div id="site-${index}">
 		<div class="row">
 			<div class="leftpanel">
@@ -27,7 +26,7 @@
 				<div class="row">
 					<div class="label"><fmt:message key="c3pr.common.targetAccrual" /></div>
 					<div class="value">
-						<input type="text" name="study.studySites[${index}].targetAccrualNumber" maxlength="6" class="validate-NUMERIC" size="6" />
+						<input type="text" name="study.studySites[${index}].targetAccrualNumber" maxlength="6" class="validate-NUMERIC" size="6" id="targetAccrual-${site.healthcareSite.nciInstituteCode}"/>
 					</div>
 				</div>
 			</div>
@@ -57,4 +56,4 @@
 			</div>
 		</div>
 	</div>
-</chrome:division>
+</chrome:deletableDivision>
