@@ -287,8 +287,13 @@
         </property> -->
     </bean> 
     
-     <bean id="remoteHealthcareSiteResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
+    <bean id="remoteHealthcareSiteResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
     </bean>
+    <bean id="remoteResearchStaffResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver" autowire="byName">
+    </bean>
+    <bean id="remoteInvestigatorResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteInvestigatorResolver" autowire="byName">
+    </bean>
+    
     <bean id="remoteSession" class="com.semanticbits.coppa.infrastructure.RemoteSession" init-method="init">
         <property name="enableCaching" value="true"/>
         <property name="enabled" value="${coppaEnable}"/>
@@ -303,22 +308,8 @@
         <property name="remoteResolvers">
             <list>
                 <ref local="remoteHealthcareSiteResolver"/>
-                <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver" autowire="byName">
-                </bean>
-                <bean class="edu.duke.cabig.c3pr.infrastructure.RemoteInvestigatorResolver" autowire="byName">
-                	<property name="identifiedOrganizationCorrelationServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedOrganizationCorrelationServiceImpl" />
-                	</property>
-                	<property name="healthCareProviderCorrelationServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.HealthCareProviderCorrelationServiceImpl" />
-                	</property>
-                	<property name="personEntityServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.PersonEntityServiceImpl" />
-                	</property>
-                	<property name="identifiedPersonCorrelationServiceRemote">
-                		<bean class="com.semanticbits.coppasimulator.service.IdentifiedPersonCorrelationServiceImpl" />
-                	</property>
-                </bean>
+                <ref local="remoteResearchStaffResolver"/>
+                <ref local="remoteInvestigatorResolver"/>
             </list>
         </property>
     </bean>
@@ -653,7 +644,7 @@
 			<ref bean="c3prErrorMessages"/>
 		</property>
 	</bean>
-	
+
 	<bean id="identifierGenerator" class="edu.duke.cabig.c3pr.utils.IdentifierGenerator" autowire="byName"/>
 
 </beans>
