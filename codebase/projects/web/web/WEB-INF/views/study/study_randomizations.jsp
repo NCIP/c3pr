@@ -3,7 +3,7 @@
 <head>
  <title><studyTags:htmlTitle study="${command.study}" /></title>
 <style type="text/css">
-        .test { width: 100%;}
+        .bookContainer { width: 100%;}
 </style>
 <tags:dwrJavascriptLink objects="BookRandomizationAjaxFacade"/>
 
@@ -56,7 +56,7 @@
 <c:if test="${command.study.randomizationType.name == 'BOOK'}">	
 	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 		<c:if test="${epoch.randomizedIndicator}">
-		<div id="book_container_${epochCount.index}" class="test">
+		<div id="book_container_${epochCount.index}" class="bookContainer">
 		<chrome:box title="${epoch.name}" id="book_${epochCount.index}" cssClass="paired"> 
 		<br/>
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">  
