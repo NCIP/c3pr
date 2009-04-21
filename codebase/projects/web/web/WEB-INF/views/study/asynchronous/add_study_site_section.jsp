@@ -10,7 +10,7 @@
 <%@taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="javascript:alert('test');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="true" divIdToBeMinimized="site-${index}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
+<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="deleteStudySite('${site.healthcareSite.nciInstituteCode}');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="true" divIdToBeMinimized="site-${index}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
 	<div id="site-${index}">
 		<div class="row">
 			<div class="leftpanel">
