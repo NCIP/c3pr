@@ -126,42 +126,18 @@
 <form:form method="post">
 <input type="hidden" id="_action" name="_action" value="">
 <tags:tabFields tab="${tab}"/>
-
-<!--CALLOUT RANDOMIZATION SECTION-->
-<c:if test="${command.study.randomizationType.name == 'CALL_OUT'}">
-	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
-	<c:if test="${epoch.randomizedIndicator}">
-		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
-		<br/>
-	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
-             <tr>
-                <td><b>Call-Out URL:</b></td>
-				<td>
-				<form:input path="study.epochs[${epochCount.index}].randomization.calloutUrl" size="30" /> e.g. http://www.callout-url.com
-				</td>				
-             </tr>
-	     </table>
-	     <br/>
-	    </tags:minimizablePanelBox>
-	</c:if>
-	</c:forEach>
-</c:if>
-<!--CALLOUT RANDOMIZATION SECTION-->
-
 <!--PHONECALL RANDOMIZATION SECTION-->
 <c:if test="${command.study.randomizationType.name == 'PHONE_CALL'}">
 	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 	<c:if test="${epoch.randomizedIndicator}">
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
-		<br/>
-	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
-             <tr>
-                <td><b><fmt:message key="registration.phoneNumber"/></b></td>
-				<td><form:input path="study.epochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/> 7035600296 or 703-560-0296
-				</td>				
-             </tr>
-	     </table>
-	     <br/>
+	     <div class="row">
+		     <div class="label"><fmt:message key="registration.phoneNumber"/></div>
+		     <div class="value">
+		     	<form:input path="study.epochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/>
+		     	<tags:hoverHint keyProp="study.randomization.phone"/>
+		     </div>
+	     </div>
 	    </tags:minimizablePanelBox>
 	</c:if>
 	</c:forEach>
