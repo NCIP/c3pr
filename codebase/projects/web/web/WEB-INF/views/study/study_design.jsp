@@ -291,11 +291,11 @@ DELETED TD
 	                <td valign="top">
 	                	<form:textarea path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].descriptionText" rows="2" cols="40" />
 	                </td>
-	                <td valign="top" align="center">
+	                <td valign="top" align="left">
 	                	<form:input path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber" size="6" maxlength="6"
 													cssClass="validate-numeric&&nonzero_numeric" />
 					</td>
-	                <td valign="top" align="center">
+	                <td valign="top" align="left">
 	                    <a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },'${arm.id==null?'HC#':'ID#'}${arm.id==null?arm.hashCode:arm.id}');">
 	                    	<img src="<tags:imageUrl name="checkno.gif"/>" border="0">
 	                    </a>
@@ -340,10 +340,10 @@ DELETED TD
 		<td><textarea
 			name="study.epochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].descriptionText"
 			rows="2" cols="40"></textarea></td>
-		<td valign="top" align="center"><input type="text"
+		<td valign="top" align="left"><input type="text"
 			name="study.epochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].targetAccrualNumber"
 			size="6" maxlength="6" class="validate-numeric" /></td>
-		<td valign="top" align="center"><a
+		<td valign="top" align="left"><a
 			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
