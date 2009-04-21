@@ -6,12 +6,14 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum ServiceTypeEnum implements CodedEnum<String> {
-	PERSON("Person"), ORGANIZATION("Organization"), 
+	PERSON("Person"), 
+	ORGANIZATION("Organization"), 
 	CLINICAL_RESEARCH_STAFF_CORRELATION("Clinical Research Staff Corelation"),
 	CLINICAL_RESEARCH_STAFF("Clinical Research Staff"),
 	HEALTH_CARE_FACILITY("Healthcare Facility"),
 	HEALTH_CARE_PROVIDER("Healthcare Provider"),
 	IDENTIFIED_ORGANIZATION("Identified Organization"),
+	IDENTIFIED_PERSON("Identified Person"),
 	HEALTH_CARE_PROVIDER_CORRELATION("Healthcare Provider Correlation"),
 	PERSON_BUSINESS_SERVICE("Person Business Service");
 
