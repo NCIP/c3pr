@@ -299,4 +299,18 @@ public class StudySitesTab extends StudyTab {
 		map.put("index", study.getStudySites().size() - 1); 
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public ModelAndView deleteStudySite(HttpServletRequest request, Object obj,Errors errors) {
+		StudyWrapper wrapper = (StudyWrapper) obj;
+		Study study = wrapper.getStudy();
+		String nciCode = request.getParameter("nciCode");
+		StudySite studySite = study.getStudySite(nciCode);
+		study.removeStudySite(studySite);
+		Study modifiedStudy = studyDao.merge(study);
+		wrapper.setStudy(modifiedStudy);
+		Map map = new HashMap();
+		map.put("command", wrapper); 
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+	}
 }

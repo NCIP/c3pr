@@ -9,13 +9,8 @@
 
 <script>
 	var globalIndex;
-
 	function uploadBook(form, index, flowType){
 		var parameterMap;
-		//if(form != ""){
-		//	parameterMap = getParameterMap(form);
-		//}
-		
 		if(index == ""){
 			index = globalIndex;
 		} else {			
@@ -32,7 +27,6 @@
 	function uploadBookCallback(table){
 		var str = "bookRandomizationsDisplay-"+ globalIndex; 
 		new Element.update(str, table)
-		//document.getElementById(str).innerHTML=table;
 	}	
 	
 	function uploadFile(index){
@@ -49,20 +43,17 @@
 	}	
 </script>
 </head>
-
 <body>
 <tags:instructions code="study_randomizations" />
 <c:choose>
-
 <c:when test="${command.study.randomizedIndicator =='false' }">
-			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_RANDOMIZATION"/></div><br><br>
-			</tags:formPanelBox>
-	</c:when>
+	<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_RANDOMIZATION"/></div><br><br>
+	</tags:formPanelBox>
+</c:when>
 <c:otherwise>
 
 <!--BOOK RANDOMIZATION SECTION-->
 <c:if test="${command.study.randomizationType.name == 'BOOK'}">	
-
 	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 		<c:if test="${epoch.randomizedIndicator}">
 		<div id="book_container_${epochCount.index}" class="test">
@@ -176,10 +167,8 @@
 	</c:forEach>
 </c:if>
 <!--PHONECALL RANDOMIZATION SECTION-->
-
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
-
 </c:otherwise>
 </c:choose>
 	     

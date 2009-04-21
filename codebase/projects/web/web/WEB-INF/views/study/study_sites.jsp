@@ -10,8 +10,8 @@
 	    document.getElementById("studySitesForm").submit();
 	}
 
-	function site.healthcareSite.nciInstituteCode(nciCode){
-
+	function deleteStudySite(nciCode){
+		<tags:tabMethod method="deleteStudySite" divElement="'studySites'" formName="'tabMethodForm'"  viewName="/study/asynchronous/delete_study_site_section" javaScriptParam="'nciCode='+nciCode" /> ;
 	}
 
 	function addStudySite(){

@@ -297,12 +297,8 @@
 	            <tags:hoverHint keyProp="study.randomizedIndicator"/>
 	         	</div>
 	      </div>
-    </div>
-	<div class="rightpanel">
-        <div id="randomizationTypeDiv"
-                <c:if test="${ ((empty command.study.randomizedIndicator) || command.study.randomizedIndicator=='false') && 
+	      <div id="randomizationTypeDiv" <c:if test="${ ((empty command.study.randomizedIndicator) || command.study.randomizedIndicator=='false') && 
                 						command.study.blindedIndicator == 'false'}">style="display:none;"</c:if>>
-
             <div class="row">
                 <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.type"/></div>
                 <div class="value"><form:select id="randomizationType" path="study.randomizationType" onchange="manageRandomizationTypeSelectBox(this);"  disabled="${command.study.blindedIndicator == 'true'}">
@@ -313,7 +309,6 @@
                 <tags:hoverHint keyProp="study.randomizationType"/></div>
             </div>
         </div>
-     
     </div>
 </chrome:division>
 
