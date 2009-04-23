@@ -8,9 +8,11 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -341,7 +343,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public void removeEpoch(Epoch epoch) {
 		lazyListHelper.getLazyList(Epoch.class).remove(epoch);
 	}
-
+	
+	public void removeStudyDisease(StudyDisease studyDisease) {
+		this.getStudyDiseases().remove(studyDisease);
+	}
+	
 	public void addStudySite(StudySite studySite) {
 		studySite.setStudy(this);
 		lazyListHelper.getLazyList(StudySite.class).add(studySite);
@@ -1560,4 +1566,5 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			}
 		return latestConsentVersion;
 	}
+	
 }

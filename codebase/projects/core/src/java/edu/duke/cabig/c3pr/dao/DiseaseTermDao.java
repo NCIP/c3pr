@@ -1,13 +1,19 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.util.Arrays;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * @author Krikor Krumlian
  */
 public class DiseaseTermDao extends GridIdentifiableDao<DiseaseTerm> {
+	
+	private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("ctepTerm");
+    private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
     public Class<DiseaseTerm> domainClass() {
         return DiseaseTerm.class;
@@ -39,5 +45,9 @@ public class DiseaseTermDao extends GridIdentifiableDao<DiseaseTerm> {
     @SuppressWarnings("unchecked")
     public List<DiseaseTerm> getByCtepTerm(String ctepTerm) {
         return getHibernateTemplate().find("from DiseaseTerm dt where dt.ctepTerm =?", ctepTerm);
+    }
+    
+    public List<DiseaseTerm> getBySubnames(String[] subnames) {
+        return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 }
