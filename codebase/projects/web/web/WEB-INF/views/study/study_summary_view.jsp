@@ -81,6 +81,62 @@
 </head>
 
 <body>
+<div id="controlPanel">
+	<tags:controlPanel>
+		<c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
+            <c:if test="${coCenterStatus=='READY_TO_OPEN'}">
+                <c:set var="readyToOpen" value="Create"></c:set>
+            </c:if>
+            <c:if test="${coCenterStatus=='OPEN' && !(command.study.companionIndicator && !command.study.standaloneIndicator)}">
+                <c:set var="open" value="Open"></c:set>
+            </c:if>
+            <c:if test="${coCenterStatus=='CLOSED_TO_ACCRUAL'}">
+                <c:set var="closed" value="Close"></c:set>
+            </c:if>
+            <c:if test="${coCenterStatus=='TEMPORARILY_CLOSED_TO_ACCRUAL'}">
+                <c:set var="closed" value="Temporarily_Close"></c:set>
+            </c:if>
+        </c:forEach>
+		<c:if test="${not empty editAuthorizationTask}">
+			<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+                <c:if test="${!empty open}">
+                	<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('open');" imgsrc="" linktext="Open Study" />
+                </c:if>
+                <c:if test="${!empty readyToOpen}">
+            		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('readyToOpen')" imgsrc="" linktext="Create Study" />
+	            </c:if>
+            </csmauthz:accesscontrol>
+			<c:if test="${not empty flowType}">
+				<tags:oneControlPanelItem linkhref="javascript:document.location='../study/viewStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage Study" />
+			</c:if>
+			<c:if test="${empty flowType}">
+				<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
+	                	<c:choose>
+		                    <c:when test="${command.study.companionIndicator=='true'}">
+		                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Edit Study" />
+		                    </c:when>
+		                    <c:otherwise>
+		                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Edit Study" />
+		                    </c:otherwise>
+		                </c:choose>
+	                    <c:if test="${command.study.standaloneIndicator && command.study.coordinatingCenterStudyStatus != 'PENDING'}">
+	                    	<c:choose>
+			                    <c:when test="${command.study.companionIndicator=='true'}">
+			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Amend Study" />
+			                    </c:when>
+			                    <c:otherwise>
+			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Amend Study" />
+			                    </c:otherwise>
+			                </c:choose>
+	                     </c:if>
+	                </csmauthz:accesscontrol>
+				<tags:oneControlPanelItem linkhref="javascript:doExportAction();;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export Study" />
+				<tags:oneControlPanelItem linkhref="javascript:C3PR.printElement('printable');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
+			</c:if>
+		</c:if>
+	</tags:controlPanel>
+</div>
+
 <form:form>
     <input type="hidden" name="_target${tab.number}" id="_target"/>
     <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
@@ -467,15 +523,6 @@
 <c:if test="${not empty editAuthorizationTask}">
         	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
                                     authorizationCheckName="domainObjectAuthorizationCheck">
-                &nbsp;
-                <c:if test="${!empty open}">
-                	<tags:button type="button" color="blue" value="${open }" id="open"
-							onclick="changeStudyStatus('open')" size="small"/>
-                </c:if>
-                <c:if test="${!empty readyToOpen}">
-                	<tags:button type="button" color="blue" value="${readyToOpen }" id="readyToOpen"
-							onclick="changeStudyStatus('readyToOpen')" size="small"/>
-	            </c:if>
 	            <c:if test="${!empty closed}">
 	            	<tags:button type="button" color="blue" value="Close Study" id="closeStudy"
 							onclick="Effect.SlideDown('close-choices')" size="small"/>
@@ -493,43 +540,8 @@
 					</div>
 	            </c:if>
             </csmauthz:accesscontrol>
-                <c:choose>
-                    <c:when test="${command.study.companionIndicator=='true'}">
-                        <c:set var="amendURL" value="amendCompanionStudy"/>
-                    </c:when>
-                    <c:otherwise>
-                        <c:set var="amendURL" value="amendStudy"/>
-                    </c:otherwise>
-                </c:choose>
-            	<c:if test="${empty flowType}">
-	                <csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
-	                	<c:choose>
-		                    <c:when test="${command.study.companionIndicator=='true'}">
-		                    	<tags:button type="button" color="blue" value="Edit Study" 
-							onclick="document.location='../study/editCompanionStudy?studyId=${command.study.id}'" size="small"/>
-		                    </c:when>
-		                    <c:otherwise>
-		                    	<tags:button type="button" color="blue" value="Edit Study" 
-							onclick="document.location='../study/editStudy?studyId=${command.study.id}'" size="small"/>
-		                    </c:otherwise>
-		                </c:choose>
-	                    <c:if test="${command.study.standaloneIndicator && command.study.coordinatingCenterStudyStatus != 'PENDING'}">
-	                    	<tags:button type="button" color="blue" value="Amend Study" 
-							onclick="document.location='../study/${amendURL }?studyId=${command.study.id}'" size="small"/>
-	                     </c:if>
-	                </csmauthz:accesscontrol>
-                </c:if> 
-                <c:if test="${not empty flowType}">
-                	<tags:button type="button" color="blue" value="Manage Study" id="manageStudy" 
-							onclick="document.location='../study/viewStudy?studyId=${command.study.id}'" size="small"/>
-                </c:if>
 </c:if>
 <br/>
-<div align="right">
-<c:if test="${empty flowType}">
-	<tags:button type="button" color="blue" value="Export Study" onclick="doExportAction();" size="small"/>
-	<tags:button type="button" color="blue" value="Print" onclick="javascript:C3PR.printElement('printable');" size="small"/>
-</c:if></div>
 </span></div></div>
 </chrome:box>
 
