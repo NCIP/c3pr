@@ -115,69 +115,12 @@ public class StudyOverviewTab extends StudyTab {
 
     private String handleInPlaceEditing(HttpServletRequest request, StudyWrapper command,
                     String property, String value) throws Exception{
-        if (property.contains("changedSiteStudy")) {
-
-            int studySiteIndex = Integer.parseInt(property.split("_")[1]);
-
-            if (property.contains("changedSiteStudyStatus")) {
-
-                SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
-                if(statusObject==SiteStudyStatus.ACTIVE){
-                    StudySite studySite=studyRepository.activateStudySite(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
-                }else if(statusObject==SiteStudyStatus.APPROVED_FOR_ACTIVTION){
-                    StudySite studySite=studyRepository.approveStudySiteForActivation(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
-                }else if(statusObject==SiteStudyStatus.CLOSED_TO_ACCRUAL){
-                    StudySite studySite=studyRepository.closeStudySite(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
-                }else if(statusObject==SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT){
-                    StudySite studySite=studyRepository.closeStudySiteToAccrualAndTreatment(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
-                }else if(statusObject==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL){
-                    StudySite studySite=studyRepository.temporarilyCloseStudySite(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
-                }else if(statusObject==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT){
-                    StudySite studySite=studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(command.getStudy().getIdentifiers(), command.getStudy().getStudySites().get(studySiteIndex).getHealthcareSite().getNciInstituteCode());
-                }
-                return command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus()
-                .getCode();
-            } else if (property.contains("changedSiteStudyStartDate")) {
-                    Date startDate = new SimpleDateFormat("MM/dd/yyyy").parse(value);
-                    command.getStudy().getStudySites().get(studySiteIndex).setStartDate(startDate);
-                    return command.getStudy().getStudySites().get(studySiteIndex).getStartDateStr();
-            } else if (property.contains("changedSiteStudyIrbApprovalDate")) {
-                    Date irbApprovalDate = new SimpleDateFormat("MM/dd/yyyy").parse(value);
-                    command.getStudy().getStudySites().get(studySiteIndex).setIrbApprovalDate(irbApprovalDate);
-                    return command.getStudy().getStudySites().get(studySiteIndex).getIrbApprovalDateStr();
-            }
-
-        } else if (property.contains("changedCoordinatingCenterStudyStatus")) {
-            CoordinatingCenterStudyStatus statusObject = CoordinatingCenterStudyStatus
-                    .getByCode(value);
-
-            if(statusObject==CoordinatingCenterStudyStatus.OPEN){
-                Study study=studyRepository.openStudy(command.getStudy().getIdentifiers());
-                command.setStudy(study);
-            }else if(statusObject==CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL){
-                Study study=studyRepository.closeStudy(command.getStudy().getIdentifiers());
-                command.setStudy(study);
-            }else if(statusObject==CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT){
-                Study study=studyRepository.closeStudyToAccrualAndTreatment(command.getStudy().getIdentifiers());
-                command.setStudy(study);
-            }else if(statusObject==CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL){
-                Study study=studyRepository.temporarilyCloseStudy(command.getStudy().getIdentifiers());
-                command.setStudy(study);
-            }else if(statusObject==CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT){
-                Study study=studyRepository.temporarilyCloseStudyToAccrualAndTreatment(command.getStudy().getIdentifiers());
-                command.setStudy(study);
-            }else if(statusObject==CoordinatingCenterStudyStatus.READY_TO_OPEN){
-                Study study=studyRepository.createStudy(command.getStudy().getIdentifiers());
-                command.setStudy(study);
-            }
-            return command.getStudy().getCoordinatingCenterStudyStatus().getCode();
-        } else if (property.contains("changedTargetAccrualNumber")) {
+    	if (property.contains("changedTargetAccrualNumber")) {
             command.getStudy().setTargetAccrualNumber(new Integer(value));
             return command.getStudy().getTargetAccrualNumber().toString();
         } else {
             return command.getStudy().getCoordinatingCenterStudyStatus().getCode();
         }
-        return value;
     }
     
     @SuppressWarnings("finally")
@@ -232,17 +175,6 @@ public class StudyOverviewTab extends StudyTab {
         return new ModelAndView("", map);
     }
     
-   /* public void validate(StudyWrapper wrapper, Errors errors) {
-        super.validate(wrapper, errors);
-        try {
-            wrapper.getStudy().updateDataEntryStatus();
-            studyRepository.openStudy(wrapper.getStudy().getIdentifiers());
-        }
-       catch (Exception e) {
-            errors.rejectValue("study.coordinatingCenterStudyStatus", "dummyCode", e.getMessage());
-        }
-    }
-*/
     protected boolean suppressValidation(HttpServletRequest request, Object study) {
         if (request.getParameter("_activate") != null
                 && request.getParameter("_activate").equals("true")) {
