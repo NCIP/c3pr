@@ -632,7 +632,14 @@ p { margin: 1em 0; }
 .leftpanel {
 	float: left;
 	width: 48%;
-
+}
+.clear {
+   height: 0;
+   font-size: 1px;
+   margin: 0;
+   padding: 0;
+   line-height: 0;
+   clear: both;
 }
 /** B O X */
 
