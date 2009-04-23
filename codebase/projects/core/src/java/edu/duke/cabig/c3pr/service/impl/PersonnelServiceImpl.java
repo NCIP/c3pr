@@ -10,15 +10,23 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
+import edu.duke.cabig.c3pr.dao.InvestigatorConverterDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
+import edu.duke.cabig.c3pr.dao.ResearchStaffConverterDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.ConverterInvestigator;
+import edu.duke.cabig.c3pr.domain.ConverterResearchStaff;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
+import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
+import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
@@ -50,8 +58,31 @@ public class PersonnelServiceImpl implements PersonnelService {
     private CSMObjectIdGenerator siteObjectIdGenerator;
     
     private PlannedNotificationDao plannedNotificationDao;
+    
+    private ResearchStaffConverterDao researchStaffConverterDao;
+    
+    private InvestigatorConverterDao investigatorConverterDao;
+    
 
-    private Logger log = Logger.getLogger(PersonnelServiceImpl.class);
+    public InvestigatorConverterDao getInvestigatorConverterDao() {
+		return investigatorConverterDao;
+	}
+
+	public void setInvestigatorConverterDao(
+			InvestigatorConverterDao investigatorConverterDao) {
+		this.investigatorConverterDao = investigatorConverterDao;
+	}
+
+	public ResearchStaffConverterDao getResearchStaffConverterDao() {
+		return researchStaffConverterDao;
+	}
+
+	public void setResearchStaffConverterDao(
+			ResearchStaffConverterDao researchStaffConverterDao) {
+		this.researchStaffConverterDao = researchStaffConverterDao;
+	}
+
+	private Logger log = Logger.getLogger(PersonnelServiceImpl.class);
 
     public void save(Investigator inv) throws C3PRBaseException {
         log.debug("Saving Investigator");
@@ -212,4 +243,32 @@ public class PersonnelServiceImpl implements PersonnelService {
 		this.plannedNotificationDao = plannedNotificationDao;
 	}
 
+	public ConverterResearchStaff convertLocalResearchStaffToRemoteResearchStaff(
+			LocalResearchStaff localResearchStaff,
+			RemoteResearchStaff remoteResearchStaff) {
+		ConverterResearchStaff converterResearchStaff = researchStaffConverterDao.getById(localResearchStaff.getId());
+		converterResearchStaff.setDtype("Remote");
+		converterResearchStaff.setFirstName(remoteResearchStaff.getFirstName());
+		converterResearchStaff.setLastName(remoteResearchStaff.getLastName());
+		converterResearchStaff.setMiddleName(remoteResearchStaff.getMiddleName());
+		converterResearchStaff.setMaidenName(remoteResearchStaff.getMaidenName());
+		converterResearchStaff.setUniqueIdentifier(remoteResearchStaff.getUniqueIdentifier());
+		researchStaffConverterDao.save(converterResearchStaff);
+		return converterResearchStaff;
+	}
+	
+	public ConverterInvestigator convertLocalInvestigatorToRemoteInvestigator(
+			LocalInvestigator localInvestigator,
+			RemoteInvestigator remoteInvestigator) {
+		ConverterInvestigator converterInvestigator = investigatorConverterDao.getById(localInvestigator.getId());
+		converterInvestigator.setDtype("Remote");
+		converterInvestigator.setFirstName(remoteInvestigator.getFirstName());
+		converterInvestigator.setLastName(remoteInvestigator.getLastName());
+		converterInvestigator.setMiddleName(remoteInvestigator.getMiddleName());
+		converterInvestigator.setMaidenName(remoteInvestigator.getMaidenName());
+		converterInvestigator.setUniqueIdentifier(remoteInvestigator.getUniqueIdentifier());
+		investigatorConverterDao.save(converterInvestigator);
+		return converterInvestigator;
+	}
+	
 }
