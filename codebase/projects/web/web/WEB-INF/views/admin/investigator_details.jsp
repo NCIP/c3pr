@@ -89,53 +89,19 @@ function selectResearchStaff(selectedIndex){
 	document.getElementById('save-yes').disabled = false;
 }
 
-function syncResearchStaff(){
+function syncInvestigator(){
 	var form = document.getElementById('command');
-	form._action.value="syncResearchStaff";
+	form._action.value="syncInvestigator";
 	form.submit();
+}
+
+function submitForm(){
+	document.getElementById('command').submit();
 }
 </script>
 
 </head>
 <body>
-
-
-<div id="display_remote_rs" style="display:none;text-align:left" >
-	<chrome:box title="Please select an Investigator to be saved in C3PR" id="popupId">
-		<div class="eXtremeTable">
-          <table width="100%" border="0" cellspacing="0"  class="tableRegion">
-            <thead>
-              <tr align="center" class="label">
-              	<td/>
-                <td class="tableHeader">First Name</td>
-                <td class="tableHeader">Last Name</td>
-                <td class="tableHeader">Email Address</td>
-              </tr>
-            </thead>
-            <c:forEach items="${command.externalInvestigators}"  var="remRs" varStatus="rdStatus">
-              <tr>
-              	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
-                <td align="left">${remRs.firstName}</td>
-                <td align="left">${remRs.lastName}</td>
-                <td align="left">${remRs.emailAsString}</td>
-              </tr>
-            </c:forEach>
-          </table>
-		</div>
-		<br><br>
-   		<table width="100%">	
-   			<tr>
-   				<td align="left">
-   					<input type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
-   				</td>
-   				<td align="right">
-    				<input type="submit" disabled value="Ok" id="save-yes" onClick="javascript:window.parent.submitRemoteRsForSave();"/>
-   				</td>
-   			<tr>	
-   		</table>
-	</chrome:box>
-</div>
-
 
 <div id="main">
 
@@ -147,7 +113,11 @@ function syncResearchStaff(){
 		<c:set var="imageStr" value=""/>
 	</c:otherwise>
 </c:choose>
-<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Investigator" htmlContent="${imageStr}">
+
+<chrome:box title="Investigator" htmlContent="${imageStr }">
+<form:form name="investigatorForm">
+		<chrome:flashMessage />
+		<tags:tabFields tab="${tab}" />
 <tags:instructions code="investigator_details" />
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
@@ -203,8 +173,8 @@ function syncResearchStaff(){
     <tags:button type="button" color="blue" value="Add Organization" icon="add" onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" size="small"/>
 	
 </chrome:division>
-<chrome:division id="staff-details" title="Basic Details">
-	 <div class="leftpanel">
+<chrome:division id="investigator-details" title="Basic Details">
+	<div class="leftpanel">
         <div class="row">
             <div class="label"><tags:requiredIndicator />
                 <fmt:message key="c3pr.common.firstName"/></div>
@@ -293,7 +263,7 @@ function syncResearchStaff(){
         	</div>
 		</div>
 
-<div class="rightpanel">
+	<div class="rightpanel">
     	<div class="row">
             <div class="label"><tags:requiredIndicator />
                 <fmt:message key="c3pr.common.NCIIdentifier"/></div>
@@ -375,11 +345,29 @@ function syncResearchStaff(){
 			</c:choose>
         </div>
     </div>
+	 <div class="clear"></div>
+
 </chrome:division>
-<div id="dispButton"
-		<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
-</div>
-</tags:basicFormPanelBox>
+</form:form> 
+</chrome:box>
+<tags:tabControls tab="${tab}" flow="${flow}"
+	localButtons="${localButtons}" willSave="true">
+	<jsp:attribute name="submitButton">
+		<table>
+				<tr>
+						<td valign="bottom">
+									<tags:button type="submit" value="Sync" color="blue"
+									id="sync-org" onclick="javascript:syncInvestigator();" />	
+						</td>
+						<td>
+							    	<tags:button type="submit" color="green" id="flow-update"
+									value="Save" icon="save" onclick="javascript:submitForm();" />
+						</td>
+				</tr>
+		</table>
+	</jsp:attribute>
+</tags:tabControls></div>
+
 
 <div id="dummy-row" style="display: none;">
 <table>
@@ -404,6 +392,44 @@ function syncResearchStaff(){
 	</tr>
 </table>
 </div>
+
+
+<div id="display_remote_rs" style="display:none;text-align:left" >
+	<chrome:box title="Please select an Investigator to be saved in C3PR" id="popupId">
+		<div class="eXtremeTable">
+          <table width="100%" border="0" cellspacing="0"  class="tableRegion">
+            <thead>
+              <tr align="center" class="label">
+              	<td/>
+                <td class="tableHeader">First Name</td>
+                <td class="tableHeader">Last Name</td>
+                <td class="tableHeader">Email Address</td>
+              </tr>
+            </thead>
+            <c:forEach items="${command.externalInvestigators}"  var="remRs" varStatus="rdStatus">
+              <tr>
+              	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
+                <td align="left">${remRs.firstName}</td>
+                <td align="left">${remRs.lastName}</td>
+                <td align="left">${remRs.emailAsString}</td>
+              </tr>
+            </c:forEach>
+          </table>
+		</div>
+		<br><br>
+   		<table width="100%">	
+   			<tr>
+   				<td align="left">
+   					<input type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
+   				</td>
+   				<td align="right">
+    				<input type="submit" disabled="disabled" value="Ok" id="save-yes" onClick="javascript:window.parent.submitRemoteRsForSave();"/>
+   				</td>
+   			<tr>	
+   		</table>
+	</chrome:box>
+</div>
+
 
 </div>
 

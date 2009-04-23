@@ -98,51 +98,17 @@
 	}
 	
 	function syncResearchStaff(){
-		var form = document.getElementById('command');
-		form._action.value="syncResearchStaff";
-		form.submit();
+		document.getElementById('command')._action.value="syncResearchStaff";
+		document.getElementById('command').submit();
 	}
+
+	function submitForm(){
+		document.getElementById('command').submit();
+	}
+	
 </script>
 </head>
 <body>
-
-
-<div id="display_remote_rs" style="display:none;text-align:left" >
-	<chrome:box title="Please select a Research Staff Person to be saved in C3PR" id="popupId">
-		<div class="eXtremeTable">
-          <table width="100%" border="0" cellspacing="0"  class="tableRegion">
-            <thead>
-              <tr align="center" class="label">
-              	<td/>
-                <td class="tableHeader">First Name</td>
-                <td class="tableHeader">Last Name</td>
-                <td class="tableHeader">Email Address</td>
-              </tr>
-            </thead>
-            <c:forEach items="${command.externalResearchStaff}"  var="remRs" varStatus="rdStatus">
-              <tr>
-              	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
-                <td align="left">${remRs.firstName}</td>
-                <td align="left">${remRs.lastName}</td>
-                <td align="left">${remRs.emailAsString}</td>
-              </tr>
-            </c:forEach>
-          </table>
-		</div>
-		<br><br>
-   		<table width="100%">	
-   			<tr>
-   				<td align="left">
-   					<input type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
-   				</td>
-   				<td align="right">
-    				<input type="submit" disabled value="Ok" id="save-yes" onClick="javascript:window.parent.submitRemoteRsForSave();"/>
-   				</td>
-   			<tr>	
-   		</table>
-	</chrome:box>
-</div>
-
 <div id="main">
 <c:choose>
 	<c:when test="${command.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
@@ -153,9 +119,11 @@
 	</c:otherwise>
 </c:choose>
 
-<tags:tabForm tab="${tab}" flow="${flow}" title="Research Staff" formName="researchStaffForm" htmlContent="${imageStr }">
+<form:form name="researchStaffForm">
+	<chrome:box title="Research Staff" htmlContent="${imageStr }">
+		<chrome:flashMessage />
+		<tags:tabFields tab="${tab}" />
 
-<jsp:attribute name="singleFields">
 <input type="hidden" name="_action" value="">
 <input type="hidden" name="_selected" value="">
 <input type="hidden" name="_finish" value="true">
@@ -372,7 +340,6 @@
 		<span id='sid1' style='color:#EE3324'>Please select atleast one role.</span><br/> 	
 	</div>
 	   
-    <div class="leftpanel">
         <c:forEach items="${groups}" var="group" varStatus="status">
             <div class="row">
                 <div class="label">
@@ -383,11 +350,67 @@
                 </div>
             </div>
         </c:forEach>
-    </div>
 </chrome:division>
-</jsp:attribute>
 
-</tags:tabForm>
+</chrome:box>
+</form:form> <tags:tabControls tab="${tab}" flow="${flow}"
+	localButtons="${localButtons}" willSave="true">
+	<jsp:attribute name="submitButton">
+		<table>
+				<tr>
+						<td valign="bottom">
+									<tags:button type="submit" value="Sync" color="blue"
+									id="sync-org" onclick="javascript:syncResearchStaff();" />	
+						</td>
+						<td>
+							    	<tags:button type="submit" color="green" id="flow-update"
+									value="Save" icon="save" onclick="javascript:submitForm();" />
+						</td>
+				</tr>
+		</table>
+	</jsp:attribute>
+</tags:tabControls></div>
+
+
+
+<div id="display_remote_rs" style="display:none;text-align:left" >
+	<chrome:box title="Please select a Research Staff Person to be saved in C3PR" id="popupId">
+		<div class="eXtremeTable">
+          <table width="100%" border="0" cellspacing="0"  class="tableRegion">
+            <thead>
+              <tr align="center" class="label">
+              	<td/>
+                <td class="tableHeader">First Name</td>
+                <td class="tableHeader">Last Name</td>
+                <td class="tableHeader">Email Address</td>
+              </tr>
+            </thead>
+            <c:forEach items="${command.externalResearchStaff}"  var="remRs" varStatus="rdStatus">
+              <tr>
+              	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
+                <td align="left">${remRs.firstName}</td>
+                <td align="left">${remRs.lastName}</td>
+                <td align="left">${remRs.emailAsString}</td>
+              </tr>
+            </c:forEach>
+          </table>
+		</div>
+		<br><br>
+   		<table width="100%">	
+   			<tr>
+   				<td align="left">
+   					<input type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
+   				</td>
+   				<td align="right">
+    				<input type="submit" disabled value="Ok" id="save-yes" onClick="javascript:window.parent.submitRemoteRsForSave();"/>
+   				</td>
+   			<tr>	
+   		</table>
+	</chrome:box>
+</div>
+
+
+
 </div>
 </body>
 </html>
