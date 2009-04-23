@@ -157,6 +157,29 @@
     <bean id="configuration" parent="configurationDaoTemplate"
       class="edu.duke.cabig.c3pr.tools.Configuration"/>
       
+
+    
+    <bean id="converterHibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="checkWriteOperations">
+            <value>false</value>
+        </property>
+        <property name="sessionFactory">
+            <ref bean="converterSessionFactory"/>
+        </property>
+    </bean>
+	
+	<bean id="converterDaoTemplate" abstract="true">
+        <property name="hibernateTemplate">
+            <ref local="converterHibernateTemplate"/>
+        </property>
+    </bean>
+	
+	<!-- DAOs -->
+	
+	<bean id="organizationConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationConverterDao"/>
+	<bean id="researchStaffConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffConverterDao"/>
+	<bean id="investigatorConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorConverterDao"/>
+	<!-- End -->
     
 
 	<!-- Auditing related beans definition start here-->
@@ -545,6 +568,10 @@
           autowire="byName"/>
 	<bean id="participantRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.ParticipantRepositoryImpl"
           autowire="byName"/>
+          
+	<bean id="organizationRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.OrganizationRepositoryImpl"
+          autowire="byName"/>
+	
 
 	<!-- Factories -->
 	<bean id="studyFactory" lazy-init="true" class="edu.duke.cabig.c3pr.domain.factory.StudyFactory"
