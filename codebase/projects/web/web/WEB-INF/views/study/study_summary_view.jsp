@@ -131,12 +131,11 @@
 	                     </c:if>
 	                </csmauthz:accesscontrol>
 				<tags:oneControlPanelItem linkhref="javascript:doExportAction();;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export Study" />
-				<tags:oneControlPanelItem linkhref="javascript:C3PR.printElement('printable');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
+				<tags:oneControlPanelItem linkhref="javascript:launchPrint();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 			</c:if>
 		</c:if>
 	</tags:controlPanel>
 </div>
-
 <form:form>
     <input type="hidden" name="_target${tab.number}" id="_target"/>
     <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
@@ -145,218 +144,145 @@
 </form:form>
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
-<chrome:box title="Study Summary">
 <c:if test="${not empty studyMessage}">
 <font color='<fmt:message key="${ studyMessage}.COLOR"/>'><strong><fmt:message key="${studyMessage}"/></strong></font>
 </c:if>
 <div>
-    <input type="hidden" name="_finish" value="true"/> <input
-        type="hidden" name="_action" value=""></div>
+    <input type="hidden" name="_finish" value="true"/> 
+    <input type="hidden" name="_action" value="">
+</div>
 
 <div id="printable">
+<chrome:box title="Study Summary">
 <chrome:division id="study-details" title="Study Details">
-<table class="tablecontent" width="60%">
-<tr>
-    <td width="35%" class="alt" align="left"><b><fmt:message key="study.shortTitle"/></b></td>
-    <td class="alt" align="left">${command.study.shortTitleText}</td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></td>
-    <td class="alt" align="left">${command.study.primaryIdentifier}</td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="c3pr.common.targetAccrual"/></b></td>
-    <td class="alt" align="left">
-        <tags:inPlaceEdit value="${command.study.targetAccrualNumber}" path="study.changedTargetAccrualNumber"
-                          id="changedTargetAccrualNumber"
-                          validations="validate-notEmpty"/>
-        <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
-                                authorizationCheckName="domainObjectAuthorizationCheck">
-            &nbsp; 
-            <tags:button type="button" color="blue" value="Edit" 
-				onclick="editor_changedTargetAccrualNumber.enterEditMode('click')" size="small"/>
-        </csmauthz:accesscontrol>
-    </td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="study.phase"/></b></td>
-    <td class="alt" align="left">${command.study.phaseCode}</td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></td>
-    <td class="alt" align="left">${command.study.dataEntryStatus.code}</td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="c3pr.common.status"/></b></td>
-    <td class="alt" align="left">${command.study.coordinatingCenterStudyStatus.code}
-        <c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
-            <c:if test="${coCenterStatus=='READY_TO_OPEN'}">
-                <c:set var="readyToOpen" value="Create"></c:set>
-            </c:if>
-            <c:if test="${coCenterStatus=='OPEN' && !(command.study.companionIndicator && !command.study.standaloneIndicator)}">
-                <c:set var="open" value="Open"></c:set>
-            </c:if>
-            <c:if test="${coCenterStatus=='CLOSED_TO_ACCRUAL'}">
-                <c:set var="closed" value="Close"></c:set>
-            </c:if>
-            <c:if test="${coCenterStatus=='TEMPORARILY_CLOSED_TO_ACCRUAL'}">
-                <c:set var="closed" value="Temporarily_Close"></c:set>
-            </c:if>
-        </c:forEach>
-        <%--<c:choose>
-            <c:when test="${!empty closed}">
-                <tags:inPlaceSelect id="changedCoordinatingCenterStudyStatus"
-                                    value="${command.study.coordinatingCenterStudyStatus.code}"
-                                    path="study.changedCoordinatingCenterStudyStatus"
-                                    commanSepOptVal="${commanSepOptVal}">
-                </tags:inPlaceSelect>
-            </c:when>
-            <c:otherwise>
-                ${command.study.coordinatingCenterStudyStatus.code}
-            </c:otherwise>
-        </c:choose>
-        <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
-                                authorizationCheckName="domainObjectAuthorizationCheck">
-            &nbsp;
-            <c:if test="${!empty readyToOpen}">
-                <input type="button" value="${readyToOpen }"
-                       onclick="changeStudyStatus('readyToOpen')"/>
-            </c:if>
-            <c:if test="${!empty closed}">
-                <input type="button" value="${closed }"
-                       onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/>
-            </c:if>
-        </csmauthz:accesscontrol>
-        <c:if test="${isRegistrar &&  !empty closed}">
-            <script type="text/javascript">
-                editor_changedTargetAccrualNumber.dispose();
-                editor_study.changedCoordinatingCenterStudyStatus.dispose();
-            </script>
-        </c:if>--%>
-    </td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="c3pr.common.type"/></b></td>
-    <td class="alt" align="left">${command.study.type}</td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="study.multiInstitution"/></b></td>
-    <td class="alt" align="left">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}</td>
-</tr>
-
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="study.blinded"/></b></td>
-    <td class="alt" align="left">${command.study.blindedIndicator=="true"?"Yes":"No"}</td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="study.consentVersionDate"/></b></td>
-    <td class="alt" align="left">${command.study.consentVersion}</td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="study.stratified"/></b></td>
-    <td class="alt" align="left">${command.study.stratificationIndicator=="true"?"Yes":"No"}</td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="study.randomized"/></b></td>
-    <td class="alt" align="left">${command.study.randomizedIndicator=="true"?"Yes":"No"}</td>
-</tr>
-<tr>
-    <td class="alt" align="left"><b><fmt:message key="study.randomizationType"/></b></td>
-    <td class="alt" align="left">${command.study.randomizationType.displayName}</td>
-</tr>
-</table>
-
+<div class="leftpanel">
+	<div class="row">
+		<div class="label"><fmt:message key="study.shortTitle"/>:</div>
+		<div class="value">${command.study.shortTitleText}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
+		<div class="value">${command.study.primaryIdentifier}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="c3pr.common.targetAccrual"/>:</div>
+		<div class="value">
+			<tags:inPlaceEdit value="${command.study.targetAccrualNumber}" path="study.changedTargetAccrualNumber" id="changedTargetAccrualNumber" validations="validate-notEmpty"/>
+        	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+            	&nbsp; 
+            	<tags:button type="button" color="blue" value="Edit" onclick="editor_changedTargetAccrualNumber.enterEditMode('click')" size="small"/>
+        	</csmauthz:accesscontrol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.phase"/>:</div>
+		<div class="value">${command.study.phaseCode}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="c3pr.common.dataEntryStatus"/>:</div>
+		<div class="value">${command.study.dataEntryStatus.code}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="c3pr.common.status"/>:</div>
+		<div class="value">${command.study.coordinatingCenterStudyStatus.code}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="c3pr.common.type"/>:</div>
+		<div class="value">${command.study.type}</div>
+	</div>
+</div>
+<div class="rightpanel">
+	<div class="row">
+		<div class="label"><fmt:message key="study.multiInstitution"/>:</div>
+		<div class="value">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.blinded"/>:</div>
+		<div class="value">${command.study.blindedIndicator=="true"?"Yes":"No"}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.consentVersionDate"/>:</div>
+		<div class="value">${command.study.consentVersion}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.stratified"/>:</div>
+		<div class="value">${command.study.stratificationIndicator=="true"?"Yes":"No"}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.randomized"/>:</div>
+		<div class="value">${command.study.randomizedIndicator=="true"?"Yes":"No"}</div>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.randomizationType"/>:</div>
+		<div class="value">${command.study.randomizationType.displayName}</div>
+	</div>
+</div>
 </chrome:division>
-<br>
-
-<chrome:division title="Epochs &amp; Arms">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%"><b><fmt:message key="study.epochs"/></b></th>
-            <th><b><fmt:message key="study.epoch.arms"/></b>
-            </th>
-        </tr>
-        <c:forEach items="${command.study.epochs}" var="epoch">
-            <tr>
-                <td class="alt">${epoch.name}</td>
-                <c:if test="${not empty epoch.arms}">
-                    <td>
-                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-
-                            <tr>
-                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
-                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b>
-                                <th/>
-                            </tr>
-
-                            <tr>
-                                <c:forEach items="${epoch.arms}" var="arm">
-                                <tr>
-                                    <td>${arm.name}</td>
-                                    <td>${arm.targetAccrualNumber}</td>
-                                </tr>
-                                </c:forEach>
-                        </table>
-                    </td>
-                </c:if>
-            </tr>
-        </c:forEach>
-    </table>
-</chrome:division><chrome:division title="Stratification Factors">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
-            <th scope="col" align="left"><b><fmt:message key="study.answers"/></b></th>
-        </tr>
-        <c:forEach items="${command.study.epochs}" var="epoch">
-            <c:forEach items="${epoch.stratificationCriteria}" var="strat">
-                <tr>
-                    <td class="alt">${strat.questionText}</td>
-                    <td class="alt">
-                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-                            <c:forEach items="${strat.permissibleAnswers}" var="ans">
-                                <tr>
-                                    <td>${ans.permissibleAnswer}</td>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    </td>
-                </tr>
-            </c:forEach>
-        </c:forEach>
-    </table>
-</chrome:division><chrome:division title="Stratum Groups">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
-            <th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
-
-        </tr>
-        <c:forEach items="${command.study.epochs}" var="epoch">
-            <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
-                <tr>
-                    <td class="alt">${stratGrp.stratumGroupNumber}</td>
-                    <td class="alt">${stratGrp.answerCombinations}</td>
-                </tr>
-            </c:forEach>
-        </c:forEach>
-    </table>
-</chrome:division><chrome:division title="Diseases">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b><fmt:message key="study.diseaseTerm"/></b></th>
-            <th scope="col" align="left"><b><fmt:message key="c3pr.common.primary"/></b></th>
-        </tr>
-        <c:forEach items="${command.study.studyDiseases}" var="studyDisease" varStatus="status">
-            <tr class="results">
-                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
-                <td class="alt">${studyDisease.leadDisease=="true"?"Yes":"No"}</td>
-            </tr>
-        </c:forEach>
-    </table>
+<chrome:division title="Epochs &amp; Arms" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+	<c:choose>
+		<c:when test="${fn:length(command.study.epochs) >0}">
+			<table class="tablecontent" width="60%">
+		        <tr>
+		            <th width="50%"><b><fmt:message key="study.epochs"/></b></th>
+		            <th><b><fmt:message key="study.epoch.arms"/></b>
+		            </th>
+		        </tr>
+		        <c:forEach items="${command.study.epochs}" var="epoch">
+		            <tr>
+		                <td class="alt">${epoch.name}</td>
+		                <c:if test="${not empty epoch.arms}">
+		                    <td>
+		                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+		
+		                            <tr>
+		                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
+		                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b>
+		                                <th/>
+		                            </tr>
+		
+		                            <tr>
+		                                <c:forEach items="${epoch.arms}" var="arm">
+		                                <tr>
+		                                    <td>${arm.name}</td>
+		                                    <td>${arm.targetAccrualNumber}</td>
+		                                </tr>
+		                                </c:forEach>
+		                        </table>
+		                    </td>
+		                </c:if>
+		            </tr>
+		        </c:forEach>
+		    </table>
+		</c:when>
+		<c:otherwise>
+			<div align="left"><span><fmt:message key="study.noEpochsAvailable"/></span></div>
+		</c:otherwise>
+	</c:choose>
+    
+</chrome:division>
+<chrome:division title="Diseases" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+	<c:choose>
+		<c:when test="${fn:length(command.study.studyDiseases) >0}">
+		    <table class="tablecontent" width="60%">
+		        <tr>
+		            <th width="50%" scope="col" align="left"><b><fmt:message key="study.diseaseTerm"/></b></th>
+		            <th scope="col" align="left"><b><fmt:message key="c3pr.common.primary"/></b></th>
+		        </tr>
+		        <c:forEach items="${command.study.studyDiseases}" var="studyDisease" varStatus="status">
+		            <tr class="results">
+		                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
+		                <td class="alt">${studyDisease.leadDisease=="true"?"Yes":"No"}</td>
+		            </tr>
+		        </c:forEach>
+		    </table>
+	    </c:when>
+	    <c:otherwise>
+	    	<div align="left"><span><fmt:message key="study.noDiseasesAvailable"/></span></div>
+	    </c:otherwise>
+    </c:choose>
 </chrome:division>
 <chrome:division title="Identifiers">
-    <h4>Organization Assigned Identifiers</h4>
+    <h4>Coordinating Assigned Identifier</h4>
     <br>
     <table class="tablecontent" width="60%">
         <tr>
@@ -364,120 +290,202 @@
             <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
             <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
         </tr>
-        <c:forEach items="${command.study.organizationAssignedIdentifiers}" var="orgIdentifier">
-            <tr class="results">
-			 <c:choose>
-				<c:when test="${orgIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-            		<td class="alt" align="left">${orgIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
+        <c:if test="${command.study.coordinatingCenterAssignedIdentifier != null}">
+        <tr class="results">
+			<c:choose>
+				<c:when test="${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+            		<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
                </c:when>
 			  <c:otherwise>
-					<td class="alt" align="left">${orgIdentifier.healthcareSite.name} </td>
+					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} </td>
 			  </c:otherwise>
 			</c:choose>
-
-                <td class="alt" align="left">${orgIdentifier.type}</td>
-                <td class="alt" align="left">${orgIdentifier.value}</td>
-            </tr>
-        </c:forEach>
+           	<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
+            <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
+           </tr>
+         </c:if>
     </table>
     <br>
-    <h4>System Assigned Identifiers</h4>
+    <h4>Funding Sponsor Identifier</h4>
     <br>
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.systemName"/></th>
+            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
             <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
             <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
         </tr>
-        <c:forEach items="${command.study.systemAssignedIdentifiers}" var="identifier">
+        <c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
             <tr class="results">
-                <td class="alt" align="left">${identifier.systemName}</td>
-                <td class="alt" align="left">${identifier.type}</td>
-                <td class="alt" align="left">${identifier.value}</td>
+				<c:choose>
+				   <c:when test="${command.study.fundingSponsorAssignedIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+	            		<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
+	               </c:when>
+				   <c:otherwise>
+						<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} </td>
+				   </c:otherwise>
+				</c:choose>
+                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type}</td>
+                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
             </tr>
-        </c:forEach>
+        </c:if>
     </table>
+    <br>
 </chrome:division>
 <div id="companionDiv">
-<div id="companionAssociationsDiv"
-     <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
-    <chrome:division title="Companion Studies">
-        <table class="tablecontent" width="60%">
-            <tr>
-                <th width="45%" scope="col" align="left"><b><fmt:message key="study.companionStudyShortTitle"/></b></th>
-                <th width="30%" scope="col" align="left"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></th>
-                <th width="15%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
-                <th width="10%" scope="col" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
-            </tr>
-            <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
-                <tr>
-                    <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-                    <td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
-                    <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
-                    <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
-                    <td class="alt">
-                        <c:choose>
-                            <c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'OPEN') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_TO_OPEN')}">
-                                <tags:button id="manageCompanionStudy" type="button" color="blue" value="View" 
-									onclick="javascript:document.location='viewStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
-                            </c:when>
-                            <c:otherwise>
-                                <c:if test="${not empty editAuthorizationTask}">
-                                    <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
-                                                            authorizationCheckName="taskAuthorizationCheck">
-                                        <tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" 
-											onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
-                                    </csmauthz:accesscontrol>
-                                </c:if>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
+<div id="companionAssociationsDiv" <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
+    	<chrome:division title="Companion Studies">
+        <c:choose>
+	        <c:when test="${fn:length(command.study.companionStudyAssociations)>0}">
+	        	<table class="tablecontent" width="60%">
+		            <tr>
+		                <th width="45%" scope="col" align="left"><b><fmt:message key="study.companionStudyShortTitle"/></b></th>
+		                <th width="30%" scope="col" align="left"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></th>
+		                <th width="15%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
+		                <th width="10%" scope="col" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
+		            </tr>
+		            <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
+		                <tr>
+		                    <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+		                    <td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
+		                    <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
+		                    <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+		                    <td class="alt">
+		                        <c:choose>
+		                            <c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'OPEN') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_TO_OPEN')}">
+		                                <tags:button id="manageCompanionStudy" type="button" color="blue" value="View" 
+											onclick="javascript:document.location='viewStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
+		                            </c:when>
+		                            <c:otherwise>
+		                                <c:if test="${not empty editAuthorizationTask}">
+		                                    <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
+		                                                            authorizationCheckName="taskAuthorizationCheck">
+		                                        <tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" 
+													onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
+		                                    </csmauthz:accesscontrol>
+		                                </c:if>
+		                            </c:otherwise>
+		                        </c:choose>
+		                    </td>
+		                </tr>
+		            </c:forEach>
+		        </table>
+	        </c:when>
+	        <c:otherwise>
+	        	<div align="left"><span><fmt:message key="study.noCompanionsAvailable"/></span></div>
+	        </c:otherwise>  
+        </c:choose>
     </chrome:division>
 </div>
 </div>
-<div
-        <c:if test="${command.study.companionIndicator=='false' || (command.study.companionIndicator=='true' && command.study.standaloneIndicator=='true')}">style="display:none;"</c:if>>
+<div <c:if test="${command.study.companionIndicator=='false' || (command.study.companionIndicator=='true' && command.study.standaloneIndicator=='true')}">style="display:none;"</c:if>>
     <chrome:division title="Parent Study">
-        <table class="tablecontent" width="60%">
-            <tr>
-                <th width="50%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
-                <th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
-            </tr>
-            <c:forEach items="${command.study.parentStudyAssociations}" var="parentStudyAssociation">
-                <tr>
-                    <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
-                    <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
-                    <td class="alt">
-                    	<tags:button id="manageParentStudy" type="button" color="blue" value="View" 
-							onclick="javascript:document.location='viewStudy?studyId=${parentStudyAssociation.parentStudy.id}'" size="small"/>
-                    </td>
-
-                </tr>
-            </c:forEach>
-        </table>
-    </chrome:division>
+        <c:choose>
+        	<c:when test="${fn:length(command.study.parentStudyAssociations) > 0}">
+        		<table class="tablecontent" width="60%">
+		            <tr>
+		                <th width="50%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
+		                <th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
+		            </tr>
+		            <c:forEach items="${command.study.parentStudyAssociations}" var="parentStudyAssociation">
+		                <tr>
+		                    <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
+		                    <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
+		                    <td class="alt">
+		                    	<tags:button id="manageParentStudy" type="button" color="blue" value="View" 
+									onclick="javascript:document.location='viewStudy?studyId=${parentStudyAssociation.parentStudy.id}'" size="small"/>
+		                    </td>
+		
+		                </tr>
+		            </c:forEach>
+		        </table>
+        	</c:when>
+        	<c:otherwise>
+        		<div align="left"><span><fmt:message key="study.noParentStudyAvailable"/></span></div>
+        	</c:otherwise>
+        </c:choose>
+            </chrome:division>
 </div>
+<c:if test="${fn:length(command.study.studyAmendments) > 0}">
 <chrome:division title="Amendments">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="15%" scope="col" align="left"><fmt:message key="study.amendmentVersion"/></th>
-            <th width="30%" scope="col" align="left"><fmt:message key="study.amendmentDate"/></th>
-            <th width="55%" scope="col" align="left"><fmt:message key="c3pr.common.comments"/></th>
-        </tr>
-        <c:forEach items="${command.study.studyAmendments}" var="amendment">
-            <tr class="results">
-                <td class="alt" align="left">${amendment.amendmentVersion}</td>
-                <td class="alt" align="left">${amendment.amendmentDateStr}</td>
-                <td class="alt" align="left">${amendment.comments}</td>
-            </tr>
-        </c:forEach>
+	<table class="tablecontent" width="60%">
+	       <tr>
+	           <th width="15%" scope="col" align="left"><fmt:message key="study.amendmentVersion"/></th>
+	           <th width="30%" scope="col" align="left"><fmt:message key="study.amendmentDate"/></th>
+	           <th width="55%" scope="col" align="left"><fmt:message key="c3pr.common.comments"/></th>
+	       </tr>
+	       <c:forEach items="${command.study.studyAmendments}" var="amendment">
+	           <tr class="results">
+	               <td class="alt" align="left">${amendment.amendmentVersion}</td>
+	               <td class="alt" align="left">${amendment.amendmentDateStr}</td>
+	               <td class="alt" align="left">${amendment.comments}</td>
+	           </tr>
+	       </c:forEach>
     </table>
 </chrome:division>
+</c:if>
+</chrome:box>
+<chrome:box title="Eligibilty Criteria">
+	<c:forEach items="${command.study.epochs}" var="epoch">
+		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
+			<chrome:division title="${epoch.name}">
+				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
+					<h4>Inclusion Eligibility Criteria</h4>
+					<br>
+					<table class="tablecontent" width="70%"}">
+				        <tr>
+				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.question"/></b></th>
+				        </tr>
+				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">	
+					        <tr>
+					        	<td class="alt">${inclusionCriteria.questionText}</td>
+							</tr>
+						</c:forEach>
+			   	 	</table>
+			   	 	<br>
+				</c:if>
+				<c:if test="${fn:length(epoch.exclusionEligibilityCriteria)> 0}">
+					<h4>Exclusion Eligibility Criteria</h4>
+					<br>
+					<table class="tablecontent" width="70%"}">
+				        <tr>
+				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
+				        </tr>
+				        <c:forEach items="${epoch.exclusionEligibilityCriteria}" var="exclusionCriteria">
+					        <tr>
+					        	<td class="alt">${exclusionCriteria.questionText}</td>
+							</tr>
+						</c:forEach>
+				    </table>
+				    <br>
+				</c:if>
+			</chrome:division>
+		</c:if>
+    </c:forEach>
+</chrome:box>
+<chrome:box title="Stratum Groups">
+	<c:forEach items="${command.study.epochs}" var="epoch">
+		<c:if test="${fn:length(epoch.stratumGroups)> 0}">
+			<chrome:division title="${epoch.name}">
+				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
+					<table class="tablecontent" width="70%"}">
+				        <tr>
+				            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
+            				<th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
+				        </tr>
+				        <c:forEach items="${epoch.stratumGroups}" var="stratGrp">	
+					        <tr>
+					        	<td class="alt">${stratGrp.stratumGroupNumber}</td>
+                    			<td class="alt">${stratGrp.answerCombinations}</td>
+							</tr>
+						</c:forEach>
+			   	 	</table>
+			   	 	<br>
+				</c:if>
+			</chrome:division>
+		</c:if>
+    </c:forEach>
+</chrome:box>
 </div>
-
 <c:if test="${command.study.coordinatingCenterStudyStatus == 'OPEN' && isCCTSEnv}">
     <chrome:division title="CCTS Workflow">
         <div class="content">
@@ -543,7 +551,6 @@
 </c:if>
 <br/>
 </span></div></div>
-</chrome:box>
 
 <div id="errorsOpenDiv" style="display:none">
 	<div class="value" align="left">
