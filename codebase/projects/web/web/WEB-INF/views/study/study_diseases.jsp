@@ -1,329 +1,409 @@
 <%@ include file="taglibs.jsp"%>
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title><studyTags:htmlTitle study="${command.study}" /></title>
-
 <%--<tags:includeScriptaculous/>--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 <script type="text/javascript">
-
-function validatePage() {
-    return true;
-}
-
-function fireAction(action, selected) {
-    if (validatePage()) {
-        addDiseasesToCart()
-        document.getElementById('command')._target.name = '_noname';
-        document.studyDiseasesForm._actionx.value = action;
-        document.studyDiseasesForm._selected.value = selected;
-        document.studyDiseasesForm.submit();
-    }
-}
-
-function clearField(field) {
-    field.value = "";
-}
-
-function hover(index)
-{
-    //var sel = $("disease-sub-category")
-    //alert (sel.value)
-
-}
-
-var diseaseAutocompleterProps = {
-    basename: "disease",
-    isFreeTextAllowed: true,
-    populator: function(autocompleter, text) {
-        StudyAjaxFacade.matchDiseaseCategories(text, '', function(values) {
-            autocompleter.setChoices(values)
-        })
+	var CategorySelector = Class.create();
+	Object.extend(CategorySelector.prototype, {
+	initialize: function() {
+		this.win = null;
+        this.termList = new Array();
     },
-    valueSelector: function(obj) {
-        return obj.name
-        // + "<b> ::</b> " + obj.id
-    }
-}
+	
+	showWindow:function(wUrl, wTitle, wWidth, wHeight){
+		win = new Window({
+            className:"alphacube",
+            destroyOnClose:true,
+            title:wTitle,
+            width:wWidth,
+            height:wHeight,
+            recenterAuto:true,
+            resizable: false,
+            minimizable : false,
+            maximizable: false,
+        });
+		this.win = win;
+		win.setContent('chooseCategory');
+        win.showCenter(true);
+	},
 
-
-function acPostSelect(mode, selectedChoice) {
-    //Element.update(mode.basename + "-selected-name", mode.valueSelector(selectedChoice))
-    updateCategories(selectedChoice.id);
-    $(mode.basename + "-hidden").value = selectedChoice.id;
-    //$(mode.basename + '-selected').show()
-    //new Effect.Highlight(mode.basename + "-selected")
-}
-
-function updateSelectedDisplay(mode) {
-    if ($(mode.basename + "-hidden").value) {
-        Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
-        $(mode.basename + '-selected').show()
-    }
-}
-
-function acCreate(mode) {
-    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-            mode.populator, {
-        valueSelector: mode.valueSelector,
-        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-            acPostSelect(mode, selectedChoice)
-        },
-        indicator: mode.basename + "-indicator"
-    })
-    Event.observe(mode.basename + "-clear", "click", function() {
-        $(mode.basename + "-selected").hide()
-        $(mode.basename + "-hidden").value = ""
-        $(mode.basename + "-input").value = ""
-    })
-}
-
-
-function updateCategories(id) {
-    StudyAjaxFacade.matchDiseaseCategoriesByParentId(id, function(categories) {
-        var sel = $("disease-sub-category")
-        sel.size = categories.length < 10 ? categories.length + 2 : 10;
-        //sel.size= 10
-        sel.options.length = 0
-        sel.options.add(new Option("All", ""))
-        sel.options[0].selected = true;
-        categories.each(function(cat) {
-            var opt = new Option(cat.name, cat.id)
-            sel.options.add(opt)
-        })
-        showDiseases()
-    })
-
-}
-
-function showDiseases() {
-    var categoryId = $("disease-sub-category").value
-    var subCategorySelect = $("disease-sub-category")
-    // If all is selected
-    if (subCategorySelect.value == "") {
-        var diseaseTermSelect = $("disease-term")
-        diseaseTermSelect.options.length = 0
-        diseaseTermSelect.size = 10
-        diseaseTermSelect.options.add(new Option("All", ""))
-        diseaseTermSelect.options[0].selected = true;
-        //alert(subCategorySelect.length);
-        for (i = 1; i < subCategorySelect.length; i++) {
-            var catId = subCategorySelect.options[i].value
-
-            StudyAjaxFacade.matchDiseaseTermsByCategoryId(catId, function(diseases) {
-
-                diseases.each(function(cat) {
-                    var opt = new Option(cat.ctepTerm, cat.id)
-                    diseaseTermSelect.options.add(opt)
-                })
-            })
-        }
-
-    }
-    else {
-        StudyAjaxFacade.matchDiseaseTermsByCategoryId(categoryId, function(diseases) {
-            var sel = $("disease-term")
-            sel.size = diseases.length + 2;
-            sel.options.length = 0
-            sel.options.add(new Option("All", ""))
-            sel.options[0].selected = true;
-            diseases.each(function(cat) {
-                var opt = new Option(cat.term, cat.id)
-                sel.options.add(opt)
-            })
-        })
-    }
-}
-
-/**
- * Copy Diseases from  [Diseases MultiSelect]
- *   to the [Selected Diseases MultiSelect]
- *
- */
-function addDiseasesToCart() {
-    var diseaseTerm = $("disease-term");
-    var diseaseSelected = $("disease-sel");
-    var diseaseSelectedHidden = $("disease-sel-hidden");
-    if (diseaseSelected.options[0].value == "") {
-        diseaseSelected.options.length = 0
-    }
-    // If all is selected  in the [Diseases MultiSelect]
-    if (diseaseTerm.options[0].selected) {
-        for (i = 1; i < diseaseTerm.length; i++)
-        {
-            var opt = new Option(diseaseTerm.options[i].text, diseaseTerm.options[i].value)
-            var opt1 = new Option(diseaseTerm.options[i].text, diseaseTerm.options[i].value)
-            diseaseSelected.options.add(opt)
-            diseaseSelectedHidden.options.add(opt1)
-        }
-    }
-    // If anything other than all is selected
-    else {
-        for (i = 1; i < diseaseTerm.length; i++)
-        {
-            if (diseaseTerm.options[i].selected) {
-                var opt = new Option(diseaseTerm.options[i].text, diseaseTerm.options[i].value)
-                //var opt1 = new Option(diseaseTerm.options[i].text, diseaseTerm.options[i].value)
-                diseaseSelected.options.add(opt)
-                //diseaseSelectedHidden.options.add(opt1)
+	finishMultiTermsSelection:function() {
+        var selectedDiseasTerms ='' ;
+        var selectedTerms = $$('input.AddedTermXYZ');
+        selectedTerms.each(function(el) {
+            if (el.checked) {
+            	selectedDiseasTerms = selectedDiseasTerms + el.value +',';
             }
+        });
+        catSel.addStudyDisease(selectedDiseasTerms);
+        Windows.close(this.win.getId());
+        catSel.termList = new Array();
+        $('disease-subcategories').innerHTML = "";
+        $('disease-added-terms').innerHTML = "";
+        return;
+	},
+
+	addStudyDisease:function(selectedTerms){
+		 <tags:tabMethod method="addStudyDiseases" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'selectedDiseaseTerms='+selectedTerms" /> ;
+	},
+	
+    cancelTermsSelection:function(){
+		Windows.close(this.win.getId());
+		terms.options.length=0;
+		categories.selectedIndex = -1;
+	},
+
+    addTerm: function(ulID, termID, termText, title) {
+        if (catSel.termList[termID]) {
+            return;
         }
-    }
-    // Copy over [Selected Diseases MultiSelect] to [Hidden Selected Diseases MultiSelect]
-    //selectAll(diseaseSelectedHidden)
-    synchronizeSelects(diseaseSelected, diseaseSelectedHidden);
-}
+        ul = document.getElementById(ulID);
+        
+        checkbox = document.createElement("input");
+        checkbox.type = 'checkbox';
+        checkbox.name = termText;
+        checkbox.defaultChecked = true;
+        checkbox.value = termID;
+        checkbox.id = "chkID" + termID;
+        checkbox.setAttribute("id", "chk" + termID);
 
-function synchronizeSelects(selectFrom, selectTo)
-{
-    // Delete everything from the target
-    selectTo.options.length = 0;
-    // iterate over the source and add to target
-    for (i = 0; i < selectFrom.length; i++) {
-        var opt = new Option(selectFrom.options[i].text, selectFrom.options[i].value)
-        selectTo.options.add(opt)
-        selectTo.options[i].selected = true;
-    }
-}
+        a = document.createElement("a");
+        a.appendChild(document.createTextNode(termText));
 
-function removeDiseasesFromCart()
-{
-    var diseaseSelected = $("disease-sel");
-    var diseaseSelectedHidden = $("disease-sel-hidden");
+        a.id = "addedTerm" + termID;
+        a.setAttribute("id", "addedTerm" + termID);
 
-    for (i = 0; i < diseaseSelected.length; i++)
-    {
-        if (diseaseSelected.options[i].selected) {
-            diseaseSelected.options[i] = null
+        a.setAttribute("title", title);
+        a.title = title;
+        
+        li = document.createElement("li");
+        li.appendChild(checkbox);
+        li.appendChild(a);
+        ul.appendChild(li)
+
+        catSel.termList[termID] = true;
+        $("liTerm" + termID).addClassName("term-disabled");
+        $("addedTerm" + termID).addClassName("disease-added-terms");
+        $("chk" + termID).addClassName("AddedTermXYZ");
+
+    },
+
+    showSubCategories: function(id){
+        var selectedCategories = $$('a.disease-category-selected');
+        selectedCategories.each(function(el) {
+            el.removeClassName("disease-category-selected");
+        });
+
+        var selectedCategories = $$('li.li-category-selected');
+        selectedCategories.each(function(el) {
+            el.removeClassName("li-category-selected");
+        });
+
+        $("category_" + id).addClassName("disease-category-selected");
+        $("li_" + id).addClassName("li-category-selected");
+        $('disease-subcategories').innerHTML = "";
+
+        catId = id; 
+        StudyAjaxFacade.getChildCategories(catId, function(childCategories) {
+            childCategories.each(function(childCategory) {
+              var childCategoryName = (childCategory.name.length > 30 ? childCategory.name.substring(0, 30) + "..." : childCategory.name);
+              catSel.showDiseaseTerms("disease-subcategories", childCategory.id, childCategoryName, childCategory.name);
+            })
+        });
+        return;
+	},
+
+	showDiseaseTerms: function(ulID, ilID, ilText, title){
+		ul = document.getElementById(ulID);
+        a = document.createElement("a");
+        a.appendChild(document.createTextNode(ilText));
+        a.setAttribute("onclick", "catSel.showDiseaseTermDetail('disease-terms', " + ilID + ", '" + ilText + "')");
+        a.onclick = function() {
+            eval("catSel.showDiseaseTermDetail('disease-terms', " + ilID + ", '" + ilText + "')");
         }
-    }
-    synchronizeSelects(diseaseSelected, diseaseSelectedHidden)
+        a.setAttribute("id", "subcategory_" + ilID);
+        a.id = "subcategory_" + ilID;
 
-}
+        a.setAttribute("title", title);
+        a.title = title;
 
-function populateSelectsOnLoad()
-{
-	if($('disease-input').value == '(Begin typing here)'){
-		return ;
+        li = document.createElement("li");
+        li.setAttribute("id", "subcategoryli_" + ilID);
+        li.id = "subcategoryli_" + ilID;
+        li.appendChild(a);
+        ul.appendChild(li);
+
+	},
+
+	showDiseaseTermDetail :function(ulID, ilID, ilText) {
+
+		var selectedSubcategories = $$('a.disease-subcategory-selected');
+        selectedSubcategories.each(function(el) {
+            el.removeClassName("disease-subcategory-selected");
+        });
+
+        var selectedSubcategories = $$('li.li-subcategory-selected');
+        selectedSubcategories.each(function(el) {
+            el.removeClassName("li-subcategory-selected");
+        });
+        
+		$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
+        $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
+        $('disease-terms').innerHTML = "";
+        
+		subCatId = ilID;
+        StudyAjaxFacade.getDiseaseTerms(subCatId, function(diseaseTerms) {
+        	diseaseTerms.each(function(diseaseTerm) {
+              var termName = (diseaseTerm.ctepTerm.length > 30 ? diseaseTerm.ctepTerm.substring(0, 30) + "..." : diseaseTerm.ctepTerm);
+              catSel.addLIToUL("disease-terms", diseaseTerm.id, termName, diseaseTerm.ctepTerm);
+            })
+        });
+     },
+
+ 	addSingleDisease:function(){
+    	diseaseTerm = $('diseaseTerm-hidden').value ;
+    	catSel.addStudyDisease(diseaseTerm);
+    	$('diseaseTerm-hidden').value='' ;
+    	$('diseaseTerm-input').value='' ;
+	},	
+
+    addLIToUL: function(ulID, ilID, ilText, title) {
+        ul = document.getElementById(ulID);
+        a = document.createElement("a");
+        a.appendChild(document.createTextNode(ilText));
+
+        a.setAttribute("onClick", "catSel.addTerm('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
+        a.onclick = function() {
+            eval("catSel.addTerm('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
+        }
+
+        a.setAttribute("id", "liTerm" + ilID);
+        a.id = "liTerm" + ilID;
+
+        a.setAttribute("title", title);
+        a.title = title;
+        
+        li = document.createElement("li");
+        li.appendChild(a);
+        ul.appendChild(li);
+
+        $("liTerm" + ilID).addClassName("disease-category");
+        if (catSel.termList[ilID]) {
+            $("liTerm" + ilID).addClassName("term-disabled");
+        }
+    },
+		
+    showCategoryBox:function(){
+ 			this.showWindow('', '', 1000, 580 );
+ 	}
+	});
+
+	function initalizeCategorySelector(){
+		catSel = new CategorySelector();
 	}
-    if ($('disease-input').value.length > 0 )
-    {
-        StudyAjaxFacade.matchDiseaseCategories($('disease-input').value, '', function(values) {
-            updateCategories(values[0].id);
-        })
-    }
-}
+ 	
+    initalizeCategorySelector();
 
-function handleClear(){
-	$("disease-sub-category").options.length=0;
-	$("disease-term").options.length=0;
-}
+    function deleteStudyDisease(diseaseTerm){
+		 <tags:tabMethod method="deleteStudyDisease" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'diseaseTermId='+diseaseTerm" /> ;
+	}
 
-Event.observe(window, "load", function() {
-    $('disease-sel').style.display = 'none';
-    $('disease-sel-hidden').style.display = 'none';
-
-    acCreate(diseaseAutocompleterProps)
-    updateSelectedDisplay(diseaseAutocompleterProps)
-
-    Event.observe("disease-sub-category", "change", function() {
-        showDiseases()
-    })
-    populateSelectsOnLoad();
-
-    // Element.update("flow-next", "Continue &raquo;")
-})
-
+    var diseaseTermAutocompleterProps = {
+		basename: "diseaseTerm",
+        populator: function(autocompleter, text) {
+            StudyAjaxFacade.matchDiseaseTerms(text,function(values) {
+                autocompleter.setChoices(values)
+            })
+        },
+        valueSelector: function(obj) {
+			return obj.ctepTerm
+        },
+        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+			hiddenField=diseaseTermAutocompleterProps.basename+"-hidden"
+			$(hiddenField).value=selectedChoice.id;
+		}
+     }
+     AutocompleterManager.addAutocompleter(diseaseTermAutocompleterProps);
 </script>
 </head>
 <body>
-<!-- MAIN BODY STARTS HERE -->
-<%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
 <tags:instructions code="study_diseases" />
-<form:form method="post" name="studyDiseasesForm" cssClass="standard">
-    <tags:tabFields tab="${tab}"/>
-    
-    <table border="0" id="table1" cellspacing="10" width="100%">
-    <tr>
-    <td valign="top" width="45%">
-    <chrome:box title="${tab.shortTitle}">
-	<br/>
-        <div>
-            <input type="hidden" name="_actionx" value="">
-            <input type="hidden" name="_selected" value="">
-        </div>
-
-        	<tags:errors path="study.studyDiseases"/>
-            <b><fmt:message key="study.disease.searchForADiseaseCategory"/></b><br>
-            
-            <input type="hidden" id="disease-hidden"/>
-            <form:input size="45" id="disease-input" path="study.diseaseCategoryAsText" cssClass="autocomplete"/>
-            <tags:hoverHint keyProp="study.diseaseCategoryAsText"/>
-            <tags:indicator id="disease-indicator"/>
-            <div id="disease-choices" class="autocomplete" style="display: none;"></div>
-
-            <p id="disease-selected" style="display: none"></p>
-
-            <br><br><b><fmt:message key="study.disease.selectASubCategory"/></b><br>
-            <select multiple size="1" onmouseover="javascript:hover()" style="width:400px" id="disease-sub-category">
-                <option value="">Please select a Category first</option>
-            </select>
-
-            <br><br><b><fmt:message key="study.diseases"/></b><br>
-            <select multiple size="1" style="width:400px" id="disease-term">
-                <option value="">Please select a Category first</option>
-            </select> <span id="disease-selected-name"></span>
-            <select multiple size="10" id="disease-sel">
-                <option value="">No Selected Diseases</option>
-            </select> <form:select id="disease-sel-hidden" size="1"
-                                   path="study.diseaseTermIds">
-        </form:select>
-        
-    </chrome:box>
-	</td>
-	
-	<td valign="middle">
-	<tags:button type="button" color="blue" icon="continue" value="Add" 
-onclick="fireAction('addStudyDisease','0');" size="small"/></td>
-	
-	<td valign="top" width="45%">
-    <chrome:box title="Selected Disease - ${fn:length(command.study.studyDiseases)}" id="diseases">
-    <br/>
-        <c:choose>
-            <c:when test="${fn:length(command.study.studyDiseases) == 0}">
-                No Diseases Selected
-            </c:when>
-            <c:otherwise>
-                <table border="0" width="100%" class="tablecontent">
-                    <tr>
-                        <th scope="col"><fmt:message key="study.diseaseTerm"/></th>
-                        <th scope="col"><fmt:message key="c3pr.common.primary"/></th>
-                    </tr>
-                    <c:forEach items="${command.study.studyDiseases}" var="studyDisease"
-                               varStatus="status">
-                        <tr>
-                            <td class="alt"><a href="javascript:fireAction('removeStudyDisease',${status.index});">
-                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove"></a>&nbsp;
-                                    ${studyDisease.diseaseTerm.ctepTerm}</td>
-                            <td class="alt">
-                                <form:checkbox path="study.studyDiseases[${status.index}].leadDisease"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </c:otherwise>
-        </c:choose>
-    </chrome:box>
-    </td>
-    </tr>
-    
-    <tr><td colspan="3"><tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/></td>
-    </tr>
-    </table>
-    
+<form:form>
+	<tags:tabFields tab="${tab}" />
+	<chrome:box title="Diseases">
+	<div class="row">
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="diseaseTerm" ></tags:autocompleter>
+		<tags:button size="small" type="button" color="blue" icon="add" value="Add Disease" id="addSingleDiseaseBtn" onclick="catSel.addSingleDisease();"/>
+		<tags:button size="small" type="button" color="blue" icon="add multiple" value="Add Diseases" id="addMultipleDiseaseBtn" onclick="catSel.showCategoryBox();"/>
+	</div>
+	<br>	
+	<div id="studyDiseases">
+		<table class="tablecontent" width="90%">
+			<tr>
+				<th width="32%">Disease Category</th>
+				<th width="32%">Disease Sub Category</th>
+				<th width="32%">Disease</th>
+				<th width="4%"></th>
+			</tr>
+			<c:forEach items="${command.study.studyDiseases}" var="studyDisease" varStatus="status">
+				<tr>
+					<td>${studyDisease.diseaseTerm.category.parentCategory.name}</td>
+					<td>${studyDisease.diseaseTerm.category.name}</td>
+					<td>${studyDisease.diseaseTerm.ctepTerm}</td>
+					<td valign="top" align="left">
+	                    <a href="javascript:deleteStudyDisease('${studyDisease.diseaseTerm.id}');">
+	                    	<img src="<tags:imageUrl name="checkno.gif"/>" border="0">
+	                    </a>
+	                </td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+	</chrome:box>
+	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 </form:form>
-<!-- MAIN BODY ENDS HERE -->
+	
+  	<div style="display:none">
+    <div id="chooseCategory">
+        <chrome:box title="Select Diseases">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+        <tr bgcolor="#E4E4E4">
+            <td align="left" width="25%"><h2 class="title">Disease Categories</h2></td>
+            <td align="left" width="1px"><img src="<c:url value="/images/chrome/spacer.gif" />"></td>
+            <td align="left" width="25%"><h2 class="title">Disease Sub Categories&nbsp;<span style='font-size:12px;'></span></h2></td>
+            <td align="left" width="1px"><img src="<c:url value="/images/chrome/spacer.gif" />"></td>
+            <td align="left" width="25%"><h2 class="title">Diseases&nbsp;<span style='font-size:12px;'>(Click to add)</span></h2></td>
+            <td align="left" width="1px"><img src="<c:url value="/images/chrome/spacer.gif" />"></td>
+            <td align="left" width="25%"><h2 class="title">Selected Diseases</h2></td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <div style="overflow:auto; height:460px;">
+                <ul id="categories" class="disease-category">
+                    <c:forEach var="cat" items="${diseaseCategories}">
+                    	<c:if test="${fn:length(cat.name) > 30}">
+                    		<c:set var="catName" value="${fn:substring(cat.name,0,30)}......"> </c:set>
+                    	</c:if>
+                        <li id="li_${cat.id}">
+                        	<a id="category_${cat.id}" onclick='catSel.showSubCategories(${cat.id});' class='disease-category' title="${cat.name}">${fn:length(cat.name) > 30 ? catName : cat.name}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+                </div>
+            </td>
+            <td align="left" bgcolor="gray"></td>
+            <td align="left" valign="top">
+                <div style="overflow:auto; height:460px;">
+                <ul id="disease-subcategories" class="disease-category"></ul>
+                </div>
+            </td>
+            <td align="left" bgcolor="gray"></td>
+            <td align="left" valign="top">
+                <div style="overflow:auto; height:460px;">
+                <ul id="disease-terms" class="disease-category"></ul>
+                </div>
+            </td>
+            <td align="left" bgcolor="gray"></td>
+            <td align="left" valign="top"><div style="overflow:auto; height:460px;"><ul id="disease-added-terms" class="disease-category"></ul></div></td>
+        </tr>
+        <tr>
+            <td colspan="6" style="text-align:right;">
+            </td>
+            <td colspan="1" style="text-align:center;">
+                    <c:if test="${empty localButtons}">
+                        <tags:button color="green" value="Add Terms" icon="add" onclick="catSel.finishMultiTermsSelection()" />
+                    </c:if>
+            </td>
+        </tr>
+        </table>
+        
+        </chrome:box>
+    </div>
+	</div>
+<!-- the hidden window for category popup -->
+
+<style>
+    ul.disease-category {
+        cursor:pointer;
+        margin: 5px;
+        padding-left: 0px;
+		list-style-type:none;
+    }
+	
+	ul#categories li a {
+		margin-left:5px;
+	}
+	
+    a.disease-category {
+        font-size:9pt;
+        cursor:pointer;
+        color:black;
+    }
+
+    a.disease-category-selected {
+        font-size:9pt;
+        cursor:pointer;
+        line-height:26px;
+    }
+
+    li.li-category-selected {
+        background-image:url(/c3pr/images/chrome/cat-arrow.png);
+		background-repeat:no-repeat;
+    }
+
+    li.li-category {
+    }
+
+    a.disease-category:hover {
+        font-size:9pt;
+        cursor:pointer;
+        color:blue;
+		text-decoration:underline;
+    }
+
+    ul.disease-added-terms, a.disease-added-terms {
+        font-size:9pt;
+        cursor:pointer;
+        margin: 0px;
+        padding-left: 5px;
+    }
+
+    #disease-added-terms {
+        list-style-type: none;
+    }
+
+    a.disease-added-terms:hover {
+        cursor:pointer;
+    }
+
+    a.term-disabled {
+        font-size:9pt;
+        color:#cccccc;
+        cursor:pointer;
+    }
+
+    a.term-disabled:hover {
+        font-size:9pt;
+        color:#cccccc;
+        cursor:pointer;
+    }
+    
+    a.disease-subcategory-selected {
+        font-size:9pt;
+        cursor:pointer;
+        line-height:26px;
+    }
+
+    li.li-subcategory-selected {
+        background-image:url(/c3pr/images/chrome/cat-arrow.png);
+		background-repeat:no-repeat;
+    }
+</style>
+
 </body>
 </html>

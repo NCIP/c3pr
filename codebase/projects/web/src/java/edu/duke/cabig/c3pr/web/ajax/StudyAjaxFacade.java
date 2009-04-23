@@ -219,15 +219,14 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         return "";
     }
 
-//    public List<Study> matchStudies(String text) {
-//        List<Study> studies = studyDao.getBySubnames(extractSubnames(text));
-//        // cut down objects for serialization
-//        List<Study> reducedStudies = new ArrayList<Study>(studies.size());
-//        for (Study study : studies) {
-//            reducedStudies.add(buildReduced(study, Arrays.asList("id", "shortTitleText")));
-//        }
-//        return reducedStudies;
-//    }
+    public List<DiseaseTerm> matchDiseaseTerms(String text) {
+        List<DiseaseTerm> diseaseTerms = diseaseTermDao.getBySubnames(extractSubnames(text));
+        List<DiseaseTerm> reducedList = new ArrayList<DiseaseTerm>(diseaseTerms.size());
+        for (DiseaseTerm diseaseTerm: diseaseTerms) {
+        	reducedList .add(buildReduced(diseaseTerm, Arrays.asList("id", "ctepTerm")));
+        }
+        return reducedList;
+    }
 
     public List<HealthcareSiteInvestigator> matchStudyOrganizationInvestigators(String text,
                     int siteIndex, HttpServletRequest request) throws Exception {
@@ -605,6 +604,15 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
     public void setPersonnelSerivice(PersonnelService personnelSerivice) {
         this.personnelSerivice = personnelSerivice;
+    }
+    
+    public List<DiseaseCategory> getChildCategories(Integer categoryId) throws Exception {
+       return diseaseCategoryDao.getByParentId(categoryId);
+    }
+    
+    public List<DiseaseTerm> getDiseaseTerms(Integer categoryId) throws Exception {
+    	DiseaseCategory diseaseCategoty = diseaseCategoryDao.getById(categoryId);
+    	return diseaseCategoty.getTerms();
     }
 
 }
