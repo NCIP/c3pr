@@ -32,6 +32,15 @@ function createStudy(){
 </head>
 
 <body>
+<div id="controlPanel">
+	<tags:controlPanel>
+		<c:if test="${!(command.study.companionIndicator && !command.study.standaloneIndicator)}">
+			<tags:oneControlPanelItem linkhref="javascript:activateAndSaveStudy();return false;" imgsrc="" linktext="Open Study" />
+		</c:if>
+		<tags:oneControlPanelItem linkhref="javascript:createStudy();return false;" imgsrc="" linktext="Create Study" />
+		<tags:oneControlPanelItem linkhref="javascript:javascript:document.location='../study/viewStudy?studyId=${command.study.id}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage Study" />
+	</tags:controlPanel>
+</div>
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
 <chrome:box title="Study Summary">
@@ -246,21 +255,7 @@ function createStudy(){
     </table>
     <br>
 </chrome:division>
-<div class="content buttons autoclear">
-			<div class="flow-buttons"><span class="next"> 
-				<c:if test="${!(command.study.companionIndicator && !command.study.standaloneIndicator)}">
-				<tags:button type="button" color="blue" value="Open Study" id="open"
-				onclick="activateAndSaveStudy();return false;" size="small"/>
-				</c:if>
-				<tags:button type="button" color="blue" value="Create Study" id="create"
-				onclick="createStudy();return false;" size="small"/>
-				<script>
-					manageurl="<c:url value='/pages/study/viewStudy?studyId=${command.study.id}' />";
-				</script>
-				<tags:button type="button" color="blue" value="Manage Study" id="manageStudy"
-				onclick='javascript:document.location=manageurl;' size="small"/>
-			</span></div>
-			</div>
+<
 </chrome:box>
 <div id="errorsOpenDiv" style="display:none">
 	<div class="value" align="left">
