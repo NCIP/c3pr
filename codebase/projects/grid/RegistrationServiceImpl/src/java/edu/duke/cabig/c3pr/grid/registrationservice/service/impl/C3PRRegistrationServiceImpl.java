@@ -75,8 +75,12 @@ public class C3PRRegistrationServiceImpl implements RegistrationServiceI {
             return returnMessage;
         }
         catch (C3PRCodedException e) {
+        	e.printStackTrace();
             throw new RemoteException("error building the studysubject", e);
-        }finally{
+        }catch (Exception e) {
+        	e.printStackTrace();
+            throw new RemoteException("error building the studysubject", e);
+		}finally{
             SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
         }
     }

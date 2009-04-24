@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	
+	<import resource="classpath:edu/duke/cabig/c3pr/applicationContext-config.xml"/>
+	<import resource="classpath:edu/duke/cabig/c3pr/applicationContext-core-db.xml"/>
+	<import resource="classpath:edu/duke/cabig/c3pr/applicationContext-core.xml"/>
+	<import resource="classpath:edu/duke/cabig/c3pr/applicationContext-csm.xml"/>
+	<import resource="classpath:edu/duke/cabig/c3pr/applicationContext-esb.xml"/>
+	<import resource="classpath:edu/duke/cabig/c3pr/applicationContext-scheduler-quartz.xml"/>
+	<import resource="classpath:edu/duke/cabig/c3pr/rules/config/spring/applicationContext-rules-services.xml"/>
+	
+	<bean id="c3prRegistrationService" class="edu.duke.cabig.c3pr.grid.registrationservice.service.impl.C3PRRegistrationServiceImpl">
+		<property name="xmlMarshaller" ref="registrationXmlUtility"/>
+		<property name="interceptor" ref="openSessionInViewInterceptor"/>
+		<property name="studySubjectRepository" ref="studySubjectRepository"/>
+		<property name="studySubjectFactory" ref="studySubjectFactory"/>
+		<property name="participantDao" ref="participantDao"/>
+		<property name="c3prErrorMessages" ref="c3prErrorMessages"/>
+		<property name="exceptionHelper" ref="exceptionHelper"/>
+	</bean>
+	
+</beans>
