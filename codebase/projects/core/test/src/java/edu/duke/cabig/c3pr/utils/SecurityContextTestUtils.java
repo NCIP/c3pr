@@ -30,7 +30,7 @@ public class SecurityContextTestUtils {
     private static void switchUser(String username) {
 
         GrantedAuthority[] authorities = new GrantedAuthority[] { new GrantedAuthorityImpl(
-                        "c3pr.user") };
+                        "ROLE_c3pr_admin"), new GrantedAuthorityImpl("c3pr_admin"), new GrantedAuthorityImpl("study_coordinator") };
         Authentication auth = new TestingAuthenticationToken(username, "does_not_matter",
                         authorities);
         auth.setAuthenticated(true);

@@ -138,68 +138,68 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
                         CoordinatingCenterStudyStatus.OPEN);
     }
 
-    public void testApproveStudySiteForActivationPendingStudy() {
-        study= getPersistedStudy();
-        try {
-            studyRepository.approveStudySiteForActivation(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
-        }
-        catch (C3PRCodedRuntimeException e) {
-            e.printStackTrace();
-            assertEquals("Wrong exception message", e.getExceptionCode(),
-                            400);
-            return;
-        }
-        catch (Exception e) {
-            fail("Wrong Exception thrown");
-            return;
-        }
-        fail("Should have thrown Exception");
-    }
+//    public void testApproveStudySiteForActivationPendingStudy() {
+//        study= getPersistedStudy();
+//        try {
+//            studyRepository.approveStudySiteForActivation(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+//        }
+//        catch (C3PRCodedRuntimeException e) {
+//            e.printStackTrace();
+//            assertEquals("Wrong exception message", e.getExceptionCode(),
+//                            400);
+//            return;
+//        }
+//        catch (Exception e) {
+//            fail("Wrong Exception thrown");
+//            return;
+//        }
+//        fail("Should have thrown Exception");
+//    }
     
-    public void testApproveStudySiteForActivationInvaidNCICode() throws Exception{
-        study = getOpenedStudy();
-        try {
-            studyRepository.approveStudySiteForActivation(study.getIdentifiers(), "wrong");
-        }
-        catch (C3PRCodedRuntimeException e) {
-            e.printStackTrace();
-            assertEquals("Wrong exception message", e.getExceptionCode(),
-                            339);
-        }
-        catch (Exception e) {
-            fail("Wrong Exception thrown");
-        }
-    }
-    
-    public void testApproveStudySiteForActivationClosedStudySite() throws Exception{
-        study=getOpenedStudy();
-        study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-        study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
-        interruptSession();
-        try {
-            studyRepository.approveStudySiteForActivation(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
-        }
-        catch (RuntimeException e) {
-            return;
-        }
-        catch (Exception e) {
-            fail("Wrong Exception thrown");
-            return;
-        }
-        fail("Should have thrown Exception");
-    }
-    
-    public void testApproveCoordinatingCenterStudySiteForActivation() throws Exception {
-        study=getOpenedStudy();
-        StudySite studySite=studyRepository.approveStudySiteForActivation(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
-        assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.APPROVED_FOR_ACTIVTION, studySite.getSiteStudyStatus() );
-    }
-
-    public void testApproveAffiliateStudySiteForActivation() throws Exception {
-        study=getOpenedStudy();
-        StudySite studySite=studyRepository.approveStudySiteForActivation(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
-        assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.APPROVED_FOR_ACTIVTION, studySite.getSiteStudyStatus() );
-    }
+//    public void testApproveStudySiteForActivationInvaidNCICode() throws Exception{
+//        study = getOpenedStudy();
+//        try {
+//            studyRepository.approveStudySiteForActivation(study.getIdentifiers(), "wrong");
+//        }
+//        catch (C3PRCodedRuntimeException e) {
+//            e.printStackTrace();
+//            assertEquals("Wrong exception message", e.getExceptionCode(),
+//                            339);
+//        }
+//        catch (Exception e) {
+//            fail("Wrong Exception thrown");
+//        }
+//    }
+//    
+//    public void testApproveStudySiteForActivationClosedStudySite() throws Exception{
+//        study=getOpenedStudy();
+//        study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+//        study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
+//        interruptSession();
+//        try {
+//            studyRepository.approveStudySiteForActivation(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+//        }
+//        catch (RuntimeException e) {
+//            return;
+//        }
+//        catch (Exception e) {
+//            fail("Wrong Exception thrown");
+//            return;
+//        }
+//        fail("Should have thrown Exception");
+//    }
+//    
+//    public void testApproveCoordinatingCenterStudySiteForActivation() throws Exception {
+//        study=getOpenedStudy();
+//        StudySite studySite=studyRepository.approveStudySiteForActivation(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+//        assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.APPROVED_FOR_ACTIVTION, studySite.getSiteStudyStatus() );
+//    }
+//
+//    public void testApproveAffiliateStudySiteForActivation() throws Exception {
+//        study=getOpenedStudy();
+//        StudySite studySite=studyRepository.approveStudySiteForActivation(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+//        assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.APPROVED_FOR_ACTIVTION, studySite.getSiteStudyStatus() );
+//    }
 
     public void testActivateStudySitePendingStudy() {
         Study study = studyCreationHelper.createBasicStudy();
@@ -250,10 +250,10 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus() );
     }
 
-    public void testActivateApprovedStudySite() throws Exception {
+    public void testActivateStudySite() throws Exception {
         study=getOpenedStudy();
         addNewCooordinatingCenter(study);
-        study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
+        //study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         studyDao.merge(study);
         interruptSession();
@@ -264,7 +264,9 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
     public void testCloseStudyLocal() throws Exception {
         study=getOpenedStudy();
         study.getStudySites().get(0).getHealthcareSite().setNciInstituteCode("CRB");
-        studyRepository.closeStudy(study.getIdentifiers());
+        configuration.set(Configuration.LOCAL_NCI_INSTITUTE_CODE, "CRB");
+        configuration.set(Configuration.MULTISITE_ENABLE, "false");
+        studyRepository.closeStudyToAccrual(study.getIdentifiers());
         assertEquals("Wrong Coordinating center status", study.getCoordinatingCenterStudyStatus(),
                         CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
     }
@@ -274,7 +276,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         interruptSession();
-        StudySite studySite=studyRepository.closeStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+        StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus() );
     }
 

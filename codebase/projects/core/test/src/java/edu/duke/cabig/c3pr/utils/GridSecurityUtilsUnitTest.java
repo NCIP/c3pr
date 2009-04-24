@@ -102,14 +102,17 @@ public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 	}
 	
 	public void testGetRolesInvalidRole(){
-		User user=new User("SmokeTest", "password", true, true, true, true,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("wrong")});
+		User user=new User("SmokeTest", "password", true, true, true, true,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("wrong"),new GrantedAuthorityImpl("ROLE_site_coordinator")});
 		EasyMock.expect(userDetailsService.loadUserByUsername("SmokeTest")).andReturn(user);
 		replayMocks();
 		try {
 			List<RoleTypes> roles=gridSecurityUtils.getRoles("SmokeTest");
-			fail("Should have thrown exception");
+			assertEquals("wrong size", 1, roles.size());
+			assertEquals(RoleTypes.SITE_COORDINATOR, roles.get(0));
 			verifyMocks();
 		} catch (RemoteException e) {
+			e.printStackTrace();
+			fail("Should have thrown exception");
 			verifyMocks();
 		}
 	}

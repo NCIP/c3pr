@@ -321,35 +321,12 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         fail("Should have thrown Exception");
     }
     
-    public void testActivateAffiliateStudySitePendingStudySite() {
-    	studySite.setHostedMode(false);
-        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
-        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Test");
-        replayMocks();
-        try {
-            studyRepository.activateStudySite(ids, "Duke");
-        }
-        catch (C3PRCodedRuntimeException e) {
-            e.printStackTrace();
-            assertEquals("Wrong exception message", e.getExceptionCode(),
-                            402);
-            return;
-        }
-        catch (Exception e) {
-            fail("Wrong Exception thrown");
-            return;
-        }finally{
-            verifyMocks();
-        }
-        fail("Should have thrown Exception");
-    }
-    
     public void testActivateCoordinatingCenterStudySite() throws C3PRCodedException {
     	studySite.setHostedMode(false);
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
-        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke");
+        //EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke");
         replayMocks();
         studyRepository.activateStudySite(ids, "Duke");
         verifyMocks();
@@ -359,9 +336,9 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     	studySite.setHostedMode(false);
     	study.getStudyCoordinatingCenter().setHostedMode(false);
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
-    	studySite.setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
+    	//studySite.setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
-        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Test").times(2);
+        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Test");
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
         EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudyCoordinatingCenter.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(endPoint);
         replayMocks();
@@ -375,7 +352,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         EasyMock.expect(studyService.isMultisiteEnable()).andReturn(false);
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
         replayMocks();
-        studyRepository.closeStudy(ids);
+        studyRepository.closeStudyToAccrual(ids);
         verifyMocks();
     }
 
@@ -387,7 +364,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         EasyMock.expect(studyService.isStudyOrganizationLocal("Duke")).andReturn(false);
         EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(endPoint);
         replayMocks();
-        studyRepository.closeStudySite(ids, "Duke");
+        studyRepository.closeStudySiteToAccrual(ids, "Duke");
         verifyMocks();
     }
 

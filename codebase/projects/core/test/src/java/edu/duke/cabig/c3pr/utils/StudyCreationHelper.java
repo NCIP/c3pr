@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
@@ -24,7 +23,6 @@ import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 public class StudyCreationHelper {
-    private HealthcareSiteDao healthcareSitedao;
 
     public Study getMultiSiteRandomizedStudy(RandomizationType randomizationType) throws Exception {
         Study study = buildBasicStudy(true, randomizationType);
@@ -254,7 +252,6 @@ public class StudyCreationHelper {
         study.setType("Type");
         study.setMultiInstitutionIndicator(Boolean.TRUE);
         study.setStratificationIndicator(Boolean.FALSE);
-
         return study;
     }
 
@@ -326,10 +323,6 @@ public class StudyCreationHelper {
         addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(study);
         addPhoneCallRandomization(study.getEpochs().get(0));
         return study;
-    }
-
-    public void setHealthcareSitedao(HealthcareSiteDao healthcareSitedao) {
-        this.healthcareSitedao = healthcareSitedao;
     }
 
     public void addStudySiteAsCooordinatingCenter(Study study) {
