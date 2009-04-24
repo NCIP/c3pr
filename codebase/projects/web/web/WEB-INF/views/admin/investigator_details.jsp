@@ -355,10 +355,12 @@ function submitForm(){
 	<jsp:attribute name="submitButton">
 		<table>
 				<tr>
+					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalInvestigator'}">
 						<td valign="bottom">
 									<tags:button type="submit" value="Sync" color="blue"
 									id="sync-org" onclick="javascript:syncInvestigator();" />	
 						</td>
+					</c:if>
 						<td>
 							    	<tags:button type="submit" color="green" id="flow-update"
 									value="Save" icon="save" onclick="javascript:submitForm();" />
