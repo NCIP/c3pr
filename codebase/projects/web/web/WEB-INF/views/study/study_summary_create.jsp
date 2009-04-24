@@ -32,9 +32,8 @@ function createStudy(){
 <div id="controlPanel">
 	<tags:controlPanel>
 		<c:if test="${!(command.study.companionIndicator && !command.study.standaloneIndicator)}">
-			<tags:oneControlPanelItem linkhref="javascript:activateAndSaveStudy();return false;" imgsrc="" linktext="Open Study" />
+			<tags:oneControlPanelItem linkhref="javascript:activateAndSaveStudy();return false;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
 		</c:if>
-		<tags:oneControlPanelItem linkhref="javascript:createStudy();return false;" imgsrc="" linktext="Create Study" />
 		<tags:oneControlPanelItem linkhref="javascript:javascript:document.location='../study/viewStudy?studyId=${command.study.id}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage Study" />
 	</tags:controlPanel>
 </div>

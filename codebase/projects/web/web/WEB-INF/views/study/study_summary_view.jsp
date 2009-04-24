@@ -100,37 +100,37 @@
 		<c:if test="${not empty editAuthorizationTask}">
 			<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
                 <c:if test="${!empty open}">
-                	<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('open');" imgsrc="" linktext="Open Study" />
+                	<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('open');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
                 </c:if>
                 <c:if test="${!empty readyToOpen}">
-            		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('readyToOpen')" imgsrc="" linktext="Create Study" />
+            		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('readyToOpen')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Ready to open" />
 	            </c:if>
             </csmauthz:accesscontrol>
 			<c:if test="${not empty flowType}">
-				<tags:oneControlPanelItem linkhref="javascript:document.location='../study/viewStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage Study" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='../study/viewStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Manage Study" />
 			</c:if>
 			<c:if test="${empty flowType}">
 				<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
 	                	<c:choose>
 		                    <c:when test="${command.study.companionIndicator=='true'}">
-		                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Edit Study" />
+		                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
 		                    </c:when>
 		                    <c:otherwise>
-		                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Edit Study" />
+		                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
 		                    </c:otherwise>
 		                </c:choose>
 	                    <c:if test="${command.study.standaloneIndicator && command.study.coordinatingCenterStudyStatus != 'PENDING'}">
 	                    	<c:choose>
 			                    <c:when test="${command.study.companionIndicator=='true'}">
-			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Amend Study" />
+			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Amend Study" />
 			                    </c:when>
 			                    <c:otherwise>
-			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Amend Study" />
+			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Amend Study" />
 			                    </c:otherwise>
 			                </c:choose>
 	                     </c:if>
 	                </csmauthz:accesscontrol>
-				<tags:oneControlPanelItem linkhref="javascript:doExportAction();;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export Study" />
+				<tags:oneControlPanelItem linkhref="javascript:doExportAction();;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 				<tags:oneControlPanelItem linkhref="javascript:launchPrint();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 			</c:if>
 		</c:if>

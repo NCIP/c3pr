@@ -182,7 +182,7 @@ function closePopup(deleteRow) {
 <tags:button type="button" color="blue" icon="add" value="Add Existing Companion" 
 onclick="addRow('addExistingCompanionStudy')" size="small"/>
 <tags:button type="button" color="blue" value="Create New Companion" 
-onclick="addRow('createCompanionStudy')" size="small"/>
+onclick="addRow('createCompanionStudy')" size="small" icon="add"/>
 </div>
 
 </jsp:attribute>
