@@ -177,12 +177,15 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      */
     private void updateDatabaseWithRemoteContent(RemoteInvestigator retrievedRemoteInvestigator){
     	//See if the retrieved remoteInvs already exist in our database.
-		RemoteInvestigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getUniqueIdentifier());
-		if(matchingRemoteInvestigatorFromDb == null){
+		Investigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getUniqueIdentifier());
+		if(matchingRemoteInvestigatorFromDb == null ){
 			buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
 		} else {
 			//we have the retrieved staff's Org in our db...link up with the same and persist
-			buildAndUpdateExistingRemoteInvestigator(retrievedRemoteInvestigator, matchingRemoteInvestigatorFromDb);
+			// only update if remote investigator exists
+			if(matchingRemoteInvestigatorFromDb instanceof RemoteInvestigator){
+				buildAndUpdateExistingRemoteInvestigator(retrievedRemoteInvestigator,(RemoteInvestigator) matchingRemoteInvestigatorFromDb);
+			}
 		}
 	}
     
@@ -237,9 +240,9 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * @param emailAddress the email address
      * @return the Investigator List
      */
-    public RemoteInvestigator getByUniqueIdentifier(String uniqueIdentifier) {
-    	List<RemoteInvestigator> investigatorList = new ArrayList<RemoteInvestigator>();
-    	investigatorList.addAll(getHibernateTemplate().find("from RemoteInvestigator rs where rs.uniqueIdentifier = '" +uniqueIdentifier+ "'"));
+    public Investigator getByUniqueIdentifier(String uniqueIdentifier) {
+    	List<Investigator> investigatorList = new ArrayList<Investigator>();
+    	investigatorList.addAll(getHibernateTemplate().find("from Investigator rs where rs.uniqueIdentifier = '" +uniqueIdentifier+ "'"));
     	if(investigatorList.size() > 0){
     		return investigatorList.get(0);
     	}
