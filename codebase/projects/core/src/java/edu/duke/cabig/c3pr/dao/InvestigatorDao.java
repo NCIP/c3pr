@@ -188,39 +188,36 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 			}
 		}
 	}
-    
 
-	/**In this case the remoteInv does not exist in our database. 
-	 * Hence we need to save. Before saving we also handle the related orgs andthe hcs_inv links.
-	 * 
-	 * @param retrievedRemoteInvestigator
-	 */
-	public void buildAndSaveNewRemoteInvestigator(RemoteInvestigator retrievedRemoteInvestigator) {
-		HealthcareSite healthcareSite = null;
-		String nciInstituteCode = "";
-		
-		//for every hcs_inv in the remoteInv.....ensure the corresponding org is in the database and link it to the hcs_inv before saving the remoteInv.
-		for(HealthcareSiteInvestigator healthcareSiteInvestigator: retrievedRemoteInvestigator.getHealthcareSiteInvestigators()){
-			nciInstituteCode = healthcareSiteInvestigator.getHealthcareSite().getNciInstituteCode();
-			healthcareSite = healthcareSiteDao.getByNciInstituteCodeFromLocal(nciInstituteCode);
-			//The org related to the remoteInv does not exist...load it from COPPA and save it; then link it to the remoteInv
-			if(healthcareSite == null){
-				healthcareSite = healthcareSiteDao.getByNciInstituteCode(nciInstituteCode);
-				if(healthcareSite != null){
-					healthcareSiteDao.save(healthcareSite);
-				} else {
-					//cannot find this org in COPPA either...abandoning this hcs_inv
-					log.error("Could not find org with nciInstitueCode: " +nciInstituteCode+ "in COPPA.");
-				}
-			}
-			//update the hcs_inv with the org.
-			if(healthcareSite != null){
-				healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
-			}
-		}
-		//Save the investigator
-		this.save(retrievedRemoteInvestigator);
-	}
+    /**In this case the remoteInv does not exist in our database.
+     * Hence we need to save. Before saving we also handle the related orgs andthe hcs_inv links.
+     *
+     * @param retrievedRemoteInvestigator
+     */
+    public void buildAndSaveNewRemoteInvestigator(RemoteInvestigator retrievedRemoteInvestigator) {
+            HealthcareSite healthcareSite = null;
+            String nciInstituteCode = "";
+            
+            //for every hcs_inv in the remoteInv.....ensure the corresponding org is in the database and link it to the hcs_inv before saving the remoteInv.
+            for(HealthcareSiteInvestigator healthcareSiteInvestigator: retrievedRemoteInvestigator.getHealthcareSiteInvestigators()){
+                    nciInstituteCode = healthcareSiteInvestigator.getHealthcareSite().getNciInstituteCode();
+                    healthcareSite = healthcareSiteDao.getByNciInstituteCodeFromLocal(nciInstituteCode);
+                    //The org related to the remoteInv does not exist...load it from COPPA and save it; then link it to the remoteInv
+                    if(healthcareSite == null){
+                            //healthcareSite = healthcareSiteDao.getByNciInstituteCode(nciInstituteCode);
+                            //if(healthcareSite != null){
+                                    healthcareSiteDao.save(healthcareSiteInvestigator.getHealthcareSite());
+                            //} else {
+                                    //cannot find this org in COPPA either...abandoning this hcs_inv
+                                    //log.error("Could not find org with nciInstitueCode: " +nciInstituteCode+ "in COPPA.");
+                            //}
+                    } else {
+                            //update the hcs_inv with the org and save the investigator explicitly.
+                            healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
+                            this.save(retrievedRemoteInvestigator);
+                    }
+            }
+    }
 	
     /**In this case the remoteInv does not exist in our database. Hence we need to update.
      * 
