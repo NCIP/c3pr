@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.web.admin;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -103,13 +102,16 @@ public class CreateInvestigatorController<C extends Investigator> extends
 			Object command, BindException errors) throws Exception {
 		super.onBindAndValidate(request, command, errors);
 		Investigator investigator = (Investigator) command;
-    	if(investigator.getId() == null){
-    		if(!"saveRemoteInvestigator".equals(request.getParameter("_action"))){
-    			List<Investigator> invFromDB = investigatorDao.getByEmailAddressFromLocal(investigator.getEmailAsString());
-    			if(invFromDB != null && invFromDB.size()>0){
-    				return;
-    			}
-        		List<Investigator> remoteInvestigators = investigatorDao.getRemoteInvestigators(investigator);
+    		if(!"saveRemoteInvestigator".equals(request.getParameter("_action")) || (request.getParameter("_action").equals("syncInvestigator") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW))){
+    			if (! request.getParameter("_action").equals("syncInvestigator")) {
+					List<Investigator> invFromDB = investigatorDao
+							.getByEmailAddressFromLocal(investigator
+									.getEmailAsString());
+					if (invFromDB != null && invFromDB.size() > 0) {
+						return;
+					}
+				}
+				List<Investigator> remoteInvestigators = investigatorDao.getRemoteInvestigators(investigator);
         		boolean matchingExternalInvestigatorPresent = false;
         		for(Investigator remoteInv : remoteInvestigators){
         			if(remoteInv.getEmailAsString().equals(investigator.getEmailAsString())){
@@ -121,7 +123,6 @@ public class CreateInvestigatorController<C extends Investigator> extends
         			errors.reject("REMOTE_INV_EXISTS","Investigator with email " +investigator.getEmailAsString()+ " exisits in external system");
         		}
         	}
-        }
 	}
     
 
@@ -143,10 +144,22 @@ public class CreateInvestigatorController<C extends Investigator> extends
             		
             		remoteInvSelected = (RemoteInvestigator) investigator.getExternalInvestigators().get(Integer.parseInt(request.getParameter("_selected")));
             		investigatorDao.buildAndSaveNewRemoteInvestigator(remoteInvSelected);
-            	} else{
+            	}  else{
             		personnelService.save(investigator);
             	}
-            }
+            } else if ("saveRemoteInvestigator".equals(request.getParameter("_action"))) {
+            	
+            	investigatorDao.evict(investigator);
+				
+				if(investigator.getExternalInvestigators()!=null && investigator.getExternalInvestigators().size()>0){
+					saveExternalInvestigator = true;
+					remoteInvSelected = (RemoteInvestigator) investigator
+							.getExternalInvestigators().get(
+									Integer.parseInt(request
+											.getParameter("_selected")));
+					personnelService.convertLocalInvestigatorToRemoteInvestigator((LocalInvestigator)investigator, remoteInvSelected);
+				}
+			}
             else {
                 for (HealthcareSiteInvestigator hcsInv : investigator.getHealthcareSiteInvestigators()) {
                     if (hcsInv.getStatusCode() != null && !hcsInv.getStatusCode().equals("AC")) {
@@ -207,6 +220,19 @@ public class CreateInvestigatorController<C extends Investigator> extends
         inv.addContactMechanism(contactMechanismPhone);
         inv.addContactMechanism(contactMechanismFax);
     }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit (HttpServletRequest
+     *      request, HttpServletResponse response, Object command, BindException errors)
+     */
+
+    @Override
+	protected boolean suppressValidation(HttpServletRequest request,
+			Object command) {
+    	return ("saveRemoteInvestigator".equals(request.getParameter("_action")) || "syncInvestigator".equals(request.getParameter("_action")));
+	}
 
     public PersonnelService getPersonnelService() {
         return personnelService;

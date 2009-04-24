@@ -19,7 +19,9 @@ import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -120,15 +122,18 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 			Object command, BindException errors) throws Exception {
 		super.onBindAndValidate(request, command, errors);
 		ResearchStaff researchStaff = (ResearchStaff) command;
-    	if(researchStaff.getId() == null){
-    		if(!"saveRemoteRStaff".equals(request.getParameter("_action"))){
-    			List<ResearchStaff> rStaffFromDB = researchStaffDao.getByEmailAddressFromLocal(researchStaff.getEmailAsString());
-    			if(rStaffFromDB != null && rStaffFromDB.size()>0){
-    				// This check is already being done in the UsernameDuplicate Validator.
-    				//errors.reject("RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " already exisits");
-    				return;
-    			}
-        		List<ResearchStaff> remoteResearchStaff = researchStaffDao.getRemoteResearchStaff(researchStaff);
+    		if(!request.getParameter("_action").equals("saveRemoteRStaff") || request.getParameter("_action").equals("syncResearchStaff") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW)){
+    			if (! request.getParameter("_action").equals("syncResearchStaff")) {
+					List<ResearchStaff> rStaffFromDB = researchStaffDao
+							.getByEmailAddressFromLocal(researchStaff
+									.getEmailAsString());
+					if (rStaffFromDB != null && rStaffFromDB.size() > 0) {
+						// This check is already being done in the UsernameDuplicate Validator.
+						//errors.reject("RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " already exists");
+						return;
+					}
+				}
+				List<ResearchStaff> remoteResearchStaff = researchStaffDao.getRemoteResearchStaff(researchStaff);
         		boolean matchingExternalResearchStaffPresent = false;
         		for(ResearchStaff remoteRStaff : remoteResearchStaff){
         			if(remoteRStaff.getEmailAsString().equals(researchStaff.getEmailAsString())){
@@ -140,7 +145,6 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " exisits in external system");
         		}
         	}
-        }
 	}
     
     
@@ -155,7 +159,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     @Override
 	protected boolean suppressValidation(HttpServletRequest request,
 			Object command) {
-    	return ("saveRemoteRStaff".equals(request.getParameter("_action")));
+    	return (request.getParameter("_action").equals("saveRemoteRStaff") || request.getParameter("_action").equals("syncResearchStaff"));
 	}
 
 	@Override
@@ -189,8 +193,19 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
             		}
             	}
             		 personnelService.save(researchStaff);
-            }
-            else {
+            } else if ("saveRemoteRStaff".equals(request.getParameter("_action"))) {
+            	
+            	researchStaffDao.evict(researchStaff);
+            	
+				if(researchStaff.getExternalResearchStaff()!=null && researchStaff.getExternalResearchStaff().size()>0){
+					saveExternalResearchStaff = true;
+					remoteRStaffSelected = (RemoteResearchStaff) researchStaff
+							.getExternalResearchStaff().get(
+									Integer.parseInt(request
+											.getParameter("_selected")));
+					personnelService.convertLocalResearchStaffToRemoteResearchStaff((LocalResearchStaff)researchStaff, remoteRStaffSelected);
+				}
+			}  else {
                 personnelService.merge(researchStaff);
             }
         }

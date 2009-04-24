@@ -17,9 +17,8 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
-import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
-import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.domain.repository.OrganizationRepository;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 
 /*
@@ -31,13 +30,21 @@ import edu.duke.cabig.c3pr.service.OrganizationService;
  */
 public class CreateOrganizationController extends SimpleFormController {
 
-    private static Log log = LogFactory.getLog(CreateOrganizationController.class);
+	private static Log log = LogFactory
+			.getLog(CreateOrganizationController.class);
 
-  //  private OrganizationDao organizationDao;
-    
-    private HealthcareSiteDao healthcareSiteDao;
+	private OrganizationRepository organizationRepository;
 
-    public HealthcareSiteDao getHealthcareSiteDao() {
+	// private OrganizationDao organizationDao;
+
+	private HealthcareSiteDao healthcareSiteDao;
+
+	public void setOrganizationRepository(
+			OrganizationRepository organizationRepository) {
+		this.organizationRepository = organizationRepository;
+	}
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
 		return healthcareSiteDao;
 	}
 
@@ -47,82 +54,101 @@ public class CreateOrganizationController extends SimpleFormController {
 
 	private OrganizationService organizationService;
 
-    private String EDIT_FLOW = "EDIT_FLOW";
+	private String EDIT_FLOW = "EDIT_FLOW";
 
-    private String SAVE_FLOW = "SAVE_FLOW";
+	private String SAVE_FLOW = "SAVE_FLOW";
 
-    private String FLOW = "FLOW";
+	private String FLOW = "FLOW";
 
-    @Override
-    protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        HealthcareSite hcs = null;
+	@Override
+	protected Object formBackingObject(HttpServletRequest request)
+			throws Exception {
+		HealthcareSite hcs = null;
 
-        if (request.getParameter("nciIdentifier") != null) {
-            log.info(" Request URl  is:" + request.getRequestURL().toString());
-            hcs = healthcareSiteDao.getByNciIdentifier(request.getParameter("nciIdentifier")).get(0);
-            request.getSession().setAttribute(FLOW, EDIT_FLOW);
-            log.info(" HCS's ID is:" + hcs.getId());
-        }
-        else {
-            hcs = new LocalHealthcareSite();
-            request.getSession().setAttribute(FLOW, SAVE_FLOW);
-        }
-        return hcs;
-    }
-    
-    @Override
+		if (request.getParameter("nciIdentifier") != null) {
+			log.info(" Request URl  is:" + request.getRequestURL().toString());
+			hcs = healthcareSiteDao.getByNciIdentifier(
+					request.getParameter("nciIdentifier")).get(0);
+			request.getSession().setAttribute(FLOW, EDIT_FLOW);
+			log.info(" HCS's ID is:" + hcs.getId());
+		} else {
+			hcs = new LocalHealthcareSite();
+			request.getSession().setAttribute(FLOW, SAVE_FLOW);
+		}
+		return hcs;
+	}
+
+	@Override
 	protected void onBindAndValidate(HttpServletRequest request,
 			Object command, BindException errors) throws Exception {
 		super.onBindAndValidate(request, command, errors);
 		HealthcareSite healthcareSite = (HealthcareSite) command;
-    	if(healthcareSite.getId() == null){
-    		if(!"saveRemoteOrg".equals(request.getParameter("_action"))){
-    			HealthcareSite hcsFromDB = healthcareSiteDao.getLocalOrganizationsByNciInstituteCode(healthcareSite.getNciInstituteCode());
-    			if(hcsFromDB != null){
-    				errors.reject("LOCAL_ORG_EXISTS","Organization with NCI Institute Code " +healthcareSite.getNciInstituteCode()+ " already exisits");
-    				return;
-    			}
-        		List<HealthcareSite> remoteOrgs = healthcareSiteDao.getRemoteOrganizations(healthcareSite);
-        		boolean matchingExternalHealthcareSitePresent = false;
-        		for(HealthcareSite remoteOrg:remoteOrgs){
-        			if(remoteOrg.getNciInstituteCode().equals(healthcareSite.getNciInstituteCode())){
-        				healthcareSite.addExternalOganization(remoteOrg);
-        				matchingExternalHealthcareSitePresent = true;
-        			}
-        		}
-        		if(matchingExternalHealthcareSitePresent){
-        			errors.reject("REMOTE_ORG_EXISTS","Organization with NCI Institute Code " +healthcareSite.getNciInstituteCode()+ " exisits in external system");
-        		}
-        	}
-        }
+		if (!request.getParameter("_action").equals("saveRemoteOrg")
+				|| (request.getParameter("_action").equals("syncOrganization") && request
+						.getSession().getAttribute(FLOW).equals(EDIT_FLOW))) {
+			if (!request.getParameter("_action").equals("syncOrganization")) {
+				HealthcareSite hcsFromDB = healthcareSiteDao
+						.getLocalOrganizationsByNciInstituteCode(healthcareSite
+								.getNciInstituteCode());
+				if (hcsFromDB != null
+						&& !hcsFromDB.getId().equals(healthcareSite.getId())) {
+					errors.reject("LOCAL_ORG_EXISTS",
+							"Organization with NCI Institute Code "
+									+ healthcareSite.getNciInstituteCode()
+									+ " already exisits");
+					return;
+				}
+			}
+			List<HealthcareSite> remoteOrgs = healthcareSiteDao
+					.getRemoteOrganizations(healthcareSite);
+			boolean matchingExternalHealthcareSitePresent = false;
+			for (HealthcareSite remoteOrg : remoteOrgs) {
+				if (remoteOrg.getNciInstituteCode().equals(
+						healthcareSite.getNciInstituteCode())) {
+					healthcareSite.addExternalOganization(remoteOrg);
+					matchingExternalHealthcareSitePresent = true;
+				}
+			}
+			if (matchingExternalHealthcareSitePresent
+					&& ((request.getSession().getAttribute(FLOW)
+							.equals(SAVE_FLOW)) || ("syncOrganization"
+							.equals(request.getParameter("_action")) && request
+							.getSession().getAttribute(FLOW).equals(EDIT_FLOW)))) {
+				if (remoteOrgs != null && remoteOrgs.size() > 0) {
+					healthcareSite.setExternalOrganizations(remoteOrgs);
+					errors.reject("REMOTE_ORG_EXISTS",
+							"Organization with NCI Institute Code "
+									+ healthcareSite.getNciInstituteCode()
+									+ " exisits in external system");
+				}
+			}
+		}
 	}
 
-    /*
-     * This is the method that gets called on form submission. All it does it case the command into
-     * HealthcareSite and call the service to persist.
-     * 
-     * On succesful submission it sets the type attribute to confirm which is used to show the
-     * confirmation screen.
-     */
-    protected ModelAndView processFormSubmission(HttpServletRequest request,
-                    HttpServletResponse response, Object command, BindException errors)
-                    throws Exception {
+	/*
+	 * This is the method that gets called on form submission. All it does it
+	 * case the command into HealthcareSite and call the service to persist.
+	 * 
+	 * On succesful submission it sets the type attribute to confirm which is
+	 * used to show the confirmation screen.
+	 */
+	protected ModelAndView processFormSubmission(HttpServletRequest request,
+			HttpServletResponse response, Object command, BindException errors)
+			throws Exception {
 
-        HealthcareSite organization = null;
-        log.debug("Inside the CreateOrganizationController:");
-        if (command instanceof HealthcareSite) {
-            organization = (HealthcareSite) command;
-        }
-        else {
-            log.error("Incorrect Command object passsed into CreateOrganizationController.");
-            return new ModelAndView(getFormView());
-        }
-        
-        if(!errors.hasErrors()){
-        	
-        	  RemoteHealthcareSite remoteHealthcareSiteSelected = new RemoteHealthcareSite();
-              boolean saveExternalHealthcareSite = false;
-              
+		HealthcareSite organization = null;
+		boolean saveExternalHealthcareSite = false;
+		RemoteHealthcareSite remoteHealthcareSiteSelected = null;
+		log.debug("Inside the CreateOrganizationController:");
+		if (command instanceof HealthcareSite) {
+			organization = (HealthcareSite) command;
+		} else {
+			log
+					.error("Incorrect Command object passsed into CreateOrganizationController.");
+			return new ModelAndView(getFormView());
+		}
+
+		if (!errors.hasErrors()) {
 			if (WebUtils.hasSubmitParameter(request, "setAdvancedProperty")
 					&& request.getParameter("setAdvancedProperty")
 							.equalsIgnoreCase("ON")) {
@@ -149,27 +175,44 @@ public class CreateOrganizationController extends SimpleFormController {
 									Integer.parseInt(request
 											.getParameter("_selected")));
 					organizationService.save(remoteHealthcareSiteSelected);
-				}else{
+				} else {
 					organizationService.save(organization);
+				}
+			} else if ("saveRemoteOrg".equals(request.getParameter("_action"))) {
+
+				healthcareSiteDao.evict(organization);
+
+				if (organization.getExternalOrganizations() != null
+						&& organization.getExternalOrganizations().size() > 0) {
+					saveExternalHealthcareSite = true;
+					remoteHealthcareSiteSelected = (RemoteHealthcareSite) organization
+							.getExternalOrganizations().get(
+									Integer.parseInt(request
+											.getParameter("_selected")));
+					organizationRepository.convertLocalToRemote(
+							(LocalHealthcareSite) organization,
+							remoteHealthcareSiteSelected);
+
 				}
 			} else {
 				organizationService.merge(organization);
 			}
 			Map map = errors.getModel();
-	        map.put("command", saveExternalHealthcareSite?remoteHealthcareSiteSelected:organization);
-	        ModelAndView mv = new ModelAndView(getSuccessView(),map);
-	        return mv;
-		} 
-        
-        return super.processFormSubmission(request, response, command, errors);
-		
-    }
+			map.put("command", saveExternalHealthcareSite? remoteHealthcareSiteSelected
+					: organization);
+			ModelAndView mv = new ModelAndView(getSuccessView(), map);
+			return mv;
+		}
 
-    public OrganizationService getOrganizationService() {
-        return organizationService;
-    }
+		return super.processFormSubmission(request, response, command, errors);
 
-    public void setOrganizationService(OrganizationService organizationService) {
-        this.organizationService = organizationService;
-    }
+	}
+
+	public OrganizationService getOrganizationService() {
+		return organizationService;
+	}
+
+	public void setOrganizationService(OrganizationService organizationService) {
+		this.organizationService = organizationService;
+	}
 }
