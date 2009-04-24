@@ -61,7 +61,7 @@ public class StudyOverviewTab extends StudyTab {
             	if(closeStudyStatus.equals("Closed_To_Accrual_And_Treatment")){
             		study = studyRepository.closeStudyToAccrualAndTreatment(study.getIdentifiers());
             	}else if(closeStudyStatus.equals("Closed_To_Accrual")){
-            		study = studyRepository.closeStudy(study.getIdentifiers());
+            		study = studyRepository.closeStudyToAccrual(study.getIdentifiers());
             	}else if(closeStudyStatus.equals("Temporarily_Closed_To_Accrual_And_Treatment")){
             		study = studyRepository.temporarilyCloseStudyToAccrualAndTreatment(study.getIdentifiers());
             	}else if(closeStudyStatus.equals("Temporarily_Closed_To_Accrual")){

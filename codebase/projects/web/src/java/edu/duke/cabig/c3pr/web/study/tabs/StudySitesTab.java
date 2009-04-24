@@ -230,13 +230,25 @@ public class StudySitesTab extends StudyTab {
 		if (apiName == APIName.CREATE_STUDY_DEFINITION) {
 			endPoint = studyRepository.createStudyAtAffiliate(studyIdentifiers,
 					nciInstituteCode);
+		} else if (apiName == APIName.CREATE_AND_OPEN_STUDY) {
+			endPoint = studyRepository.createAndOpenStudyAtAffiliate(studyIdentifiers,
+					nciInstituteCode);
 		} else if (apiName == APIName.OPEN_STUDY) {
 			endPoint = studyRepository.openStudyAtAffiliate(studyIdentifiers,
 					nciInstituteCode);
 		} else if (apiName == APIName.AMEND_STUDY) {
 			studyRepository.amendStudyAtAffiliates(studyIdentifiers, study);
 		} else if (apiName == APIName.CLOSE_STUDY_TO_ACCRUAL) {
-			endPoint = studyRepository.closeStudyAtAffiliate(studyIdentifiers,
+			endPoint = studyRepository.closeStudyToAccrualAtAffiliate(studyIdentifiers,
+					nciInstituteCode);
+		}else if (apiName == APIName.CLOSE_STUDY_TO_ACCRUAL_AND_TREATMENT) {
+			endPoint = studyRepository.closeStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
+					nciInstituteCode);
+		}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_TO_ACCRUAL) {
+			endPoint = studyRepository.temporarilyCloseStudyToAccrualAtAffiliate(studyIdentifiers,
+					nciInstituteCode);
+		}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_TO_ACCRUAL_AND_TREATMENT) {
+			endPoint = studyRepository.temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
 					nciInstituteCode);
 		} 
 		else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
@@ -250,7 +262,34 @@ public class StudySitesTab extends StudyTab {
 			}
 		} else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL) {
 			try {
-				studySite = studyRepository.closeStudySite(studyIdentifiers,
+				studySite = studyRepository.closeStudySiteToAccrual(studyIdentifiers,
+						nciInstituteCode);
+			} catch (MultisiteException e) {
+				e.printStackTrace();
+			} catch (C3PRCodedRuntimeException e) {
+				request.setAttribute("actionError", e);
+			}
+		}else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
+			try {
+				studySite = studyRepository.closeStudySiteToAccrualAndTreatment(studyIdentifiers,
+						nciInstituteCode);
+			} catch (MultisiteException e) {
+				e.printStackTrace();
+			} catch (C3PRCodedRuntimeException e) {
+				request.setAttribute("actionError", e);
+			}
+		}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL) {
+			try {
+				studySite = studyRepository.temporarilyCloseStudySiteToAccrual(studyIdentifiers,
+						nciInstituteCode);
+			} catch (MultisiteException e) {
+				e.printStackTrace();
+			} catch (C3PRCodedRuntimeException e) {
+				request.setAttribute("actionError", e);
+			}
+		}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
+			try {
+				studySite = studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(studyIdentifiers,
 						nciInstituteCode);
 			} catch (MultisiteException e) {
 				e.printStackTrace();

@@ -82,7 +82,7 @@ public class ManageStudySitesTab extends StudyTab {
         }else if(apiName==APIName.AMEND_STUDY){
         	studyRepository.amendStudyAtAffiliates(studyIdentifiers, study);
         }else if(apiName==APIName.CLOSE_STUDY_TO_ACCRUAL){
-        	endPoint=studyRepository.closeStudyAtAffiliate(studyIdentifiers, nciInstituteCode);
+        	endPoint=studyRepository.closeStudyToAccrualAtAffiliate(studyIdentifiers, nciInstituteCode);
         }
 //        else if(apiName==APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION){
 //            try {
@@ -107,7 +107,7 @@ public class ManageStudySitesTab extends StudyTab {
             }
         }else if(apiName==APIName.CLOSE_STUDY_SITE_TO_ACCRUAL){
             try {
-            	studySite = studyRepository.closeStudySite(studyIdentifiers, nciInstituteCode);
+            	studySite = studyRepository.closeStudySiteToAccrual(studyIdentifiers, nciInstituteCode);
             }
             catch (MultisiteException e) {
                 e.printStackTrace();
