@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="StudyServiceImpl" xmlns:ivy="antlib:org.apache.ivy.ant">
-	<property name="skip.test" value="true"/>
 	<property name="parent.dir" value="${basedir}/../.." />
 	<property name="antfiles.dir" location="${parent.dir}/../antfiles"/>
 	<property file="${antfiles.dir}/build.properties" />
