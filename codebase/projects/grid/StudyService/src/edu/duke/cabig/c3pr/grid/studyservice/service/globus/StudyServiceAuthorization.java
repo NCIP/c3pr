@@ -12,7 +12,13 @@ import org.globus.wsrf.impl.security.authorization.exceptions.InitializeExceptio
 import org.globus.wsrf.impl.security.authorization.exceptions.InvalidPolicyException;
 import org.globus.wsrf.security.authorization.PDP;
 import org.globus.wsrf.security.authorization.PDPConfig;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.context.ApplicationContext;
 import org.w3c.dom.Node;
+
+import edu.duke.cabig.c3pr.grid.studyservice.service.impl.SpringApplicationContextProvider;
+import edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI;
+import edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationImpl;
 
 
 /** 
@@ -30,9 +36,30 @@ import org.w3c.dom.Node;
 public class StudyServiceAuthorization implements PDP {
 
 	public static final String SERVICE_NAMESPACE = "http://studyservice.grid.c3pr.cabig.duke.edu/StudyService";
-	
+	public static StudyAuthorizationI studyAuthorization;
 	
 	public StudyServiceAuthorization() {
+	}
+	
+	static{
+		System.out.println("Loading applicationContext-grid-c3prStudyService.xml from classpath");
+		try {
+			ApplicationContext appContext=SpringApplicationContextProvider.getApplicationContext();
+			if(appContext==null){
+			    System.out.println("no applicationContext-grid-c3prStudyService.xml in classpath. Loading default study authorization impl...");
+			    studyAuthorization=new StudyAuthorizationImpl();
+			}else{
+				try {
+					studyAuthorization=(StudyAuthorizationI)SpringApplicationContextProvider.getApplicationContext().getBean("studyAuthorization");
+					System.out.println("applicationContext-grid-c3prStudyService.xml found in classpath. Loaded study authorization impl...");
+				} catch (NoSuchBeanDefinitionException e) {
+					System.out.println("applicationContext-grid-c3prStudyService.xml found in classpath but no custom authorization found. Loading default study authorization impl...");
+					studyAuthorization=new StudyAuthorizationImpl();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	protected String getServiceNamespace(){
@@ -49,98 +76,90 @@ public class StudyServiceAuthorization implements PDP {
 	}
 					
 	public static void authorizeGetMultipleResourceProperties() throws RemoteException {
-		
+		studyAuthorization.authorizeGetMultipleResourceProperties(getCallerIdentity());
 		
 	}
 					
 	public static void authorizeGetResourceProperty() throws RemoteException {
-		
+		studyAuthorization.authorizeGetResourceProperty(getCallerIdentity());
 		
 	}
 					
 	public static void authorizeQueryResourceProperties() throws RemoteException {
-		
+		studyAuthorization.authorizeQueryResourceProperties(getCallerIdentity());
 		
 	}
 					
 	public static void authorizeGetServiceSecurityMetadata() throws RemoteException {
+		studyAuthorization.authorizeGetServiceSecurityMetadata(getCallerIdentity());
 		
 		
 	}
 					
 	public static void authorizeActivateStudySite() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeActivateStudySite(getCallerIdentity());
 	}
 					
 	public static void authorizeAmendStudy() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeAmendStudy(getCallerIdentity());
 	}
 					
 	public static void authorizeCloseStudyToAccrual() throws RemoteException {
-		
+		studyAuthorization.authorizeCloseStudyToAccrual(getCallerIdentity());
 		
 	}
 					
 	public static void authorizeCloseStudySiteToAccrual() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeCloseStudySiteToAccrual(getCallerIdentity());
 	}
 					
 	public static void authorizeCreateStudyDefinition() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeCreateStudyDefinition(getCallerIdentity());
 	}
 					
 	public static void authorizeOpenStudy() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeOpenStudy(getCallerIdentity());
 	}
 					
 	public static void authorizeUpdateStudySiteProtocolVersion() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeUpdateStudySiteProtocolVersion(getCallerIdentity());
 	}
 					
 	public static void authorizeUpdateStudy() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeUpdateStudy(getCallerIdentity());
 	}
 					
 	public static void authorizeGetStudy() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeGetStudy(getCallerIdentity());
 	}
 					
 	public static void authorizeCloseStudyToAccrualAndTreatment() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeCloseStudyToAccrualAndTreatment(getCallerIdentity());
 	}
 					
 	public static void authorizeTemporarilyCloseStudyToAccrual() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeTemporarilyCloseStudyToAccrual(getCallerIdentity());
 	}
 					
 	public static void authorizeTemporarilyCloseStudyToAccrualAndTreatment() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeTemporarilyCloseStudyToAccrualAndTreatment(getCallerIdentity());
 	}
 					
 	public static void authorizeCloseStudySiteToAccrualAndTreatment() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeCloseStudyToAccrualAndTreatment(getCallerIdentity());
 	}
 					
 	public static void authorizeTemporarilyCloseStudySiteToAccrualAndTreatment() throws RemoteException {
-		
-		
+		studyAuthorization.authorizeTemporarilyCloseStudyToAccrualAndTreatment(getCallerIdentity());
 	}
 					
 	public static void authorizeTemporarilyCloseStudySiteToAccrual() throws RemoteException {
+		studyAuthorization.authorizeTemporarilyCloseStudyToAccrual(getCallerIdentity());
 		
-		
+	}
+					
+	public static void authorizeCreateAndOpenStudy() throws RemoteException {
+		studyAuthorization.authorizeCreateAndOpenStudy(getCallerIdentity());
 	}
 	
 	
@@ -297,6 +316,14 @@ public class StudyServiceAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("temporarilyCloseStudySiteToAccrual")){
 			try{
 				authorizeTemporarilyCloseStudySiteToAccrual();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("createAndOpenStudy")){
+			try{
+				authorizeCreateAndOpenStudy();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

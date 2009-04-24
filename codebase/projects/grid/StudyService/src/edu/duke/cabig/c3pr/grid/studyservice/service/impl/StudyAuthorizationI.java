@@ -23,6 +23,8 @@ public interface StudyAuthorizationI {
 	public void authorizeCreateStudyDefinition(String callerIdentity) throws RemoteException;
 	
 	public void authorizeOpenStudy(String callerIdentity) throws RemoteException;
+	
+	public void authorizeCreateAndOpenStudy(String callerIdentity) throws RemoteException;
 
 	public void authorizeUpdateStudySiteProtocolVersion(String callerIdentity) throws RemoteException;
 

@@ -288,6 +288,24 @@
           <sequence />
         </complexType>
       </element>
+      <element name="CreateAndOpenStudyRequest">
+        <complexType>
+          <sequence>
+            <element name="message">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Message" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateAndOpenStudyResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
       <element name="StudyServiceResourceProperties">
         <complexType>
           <sequence />
@@ -386,6 +404,12 @@
   <message name="TemporarilyCloseStudySiteToAccrualResponse">
     <part name="parameters" element="tns:TemporarilyCloseStudySiteToAccrualResponse" />
   </message>
+  <message name="CreateAndOpenStudyRequest">
+    <part name="parameters" element="tns:CreateAndOpenStudyRequest" />
+  </message>
+  <message name="CreateAndOpenStudyResponse">
+    <part name="parameters" element="tns:CreateAndOpenStudyResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -451,6 +475,10 @@
     <operation name="temporarilyCloseStudySiteToAccrual">
       <input message="tns:TemporarilyCloseStudySiteToAccrualRequest" wsa:Action="http://studyservice.grid.c3pr.cabig.duke.edu/StudyService/TemporarilyCloseStudySiteToAccrualRequest" />
       <output message="tns:TemporarilyCloseStudySiteToAccrualResponse" wsa:Action="http://studyservice.grid.c3pr.cabig.duke.edu/StudyService/TemporarilyCloseStudySiteToAccrualResponse" />
+    </operation>
+    <operation name="createAndOpenStudy">
+      <input message="tns:CreateAndOpenStudyRequest" wsa:Action="http://studyservice.grid.c3pr.cabig.duke.edu/StudyService/CreateAndOpenStudyRequest" />
+      <output message="tns:CreateAndOpenStudyResponse" wsa:Action="http://studyservice.grid.c3pr.cabig.duke.edu/StudyService/CreateAndOpenStudyResponse" />
     </operation>
     <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetMultipleResourceProperties">
       <wsdl:input name="GetMultipleResourcePropertiesRequest" message="wsrpw:GetMultipleResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourceProperties" />

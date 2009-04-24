@@ -99,5 +99,9 @@ public class StudyServiceImpl extends StudyServiceImplBase {
 	  studyServiceI.temporarilyCloseStudySiteToAccrual(message);
   }
 
+  public void createAndOpenStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
+    studyServiceI.createAndOpenStudy(message);
+  }
+
 }
 

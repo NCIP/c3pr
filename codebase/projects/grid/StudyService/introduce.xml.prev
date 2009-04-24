@@ -220,18 +220,25 @@
      <ns4:Output qName="void" description="" isArray="false"/>
      <ns4:Exceptions/>
     </ns4:Method>
+    <ns4:Method description="" isImported="false" isProvided="false" name="createAndOpenStudy" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns26:Message" description="" isArray="false" name="message" xmlns:ns26="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
    </ns4:Methods>
-   <ns26:ServiceSecurity xsi:type="ns26:ServiceSecurity" xmlns:ns26="gme://gov.nih.nci.cagrid.introduce/1/Security">
-    <ns26:SecuritySetting xsi:type="ns26:SecuritySetting">Custom</ns26:SecuritySetting>
-    <ns26:TransportLevelSecurity xsi:type="ns26:TransportLevelSecurity">
-     <ns26:CommunicationMethod xsi:type="ns26:CommunicationMethod">Privacy</ns26:CommunicationMethod>
-    </ns26:TransportLevelSecurity>
-    <ns26:RunAsMode xsi:type="ns26:RunAsMode">System</ns26:RunAsMode>
-    <ns26:AnonymousClients xsi:type="ns26:AnonymousCommunication">No</ns26:AnonymousClients>
-    <ns26:ServiceAuthorization xsi:type="ns26:ServiceAuthorization">
-     <ns26:NoAuthorization xsi:type="ns26:NoAuthorization"/>
-    </ns26:ServiceAuthorization>
-   </ns26:ServiceSecurity>
+   <ns27:ServiceSecurity xsi:type="ns27:ServiceSecurity" xmlns:ns27="gme://gov.nih.nci.cagrid.introduce/1/Security">
+    <ns27:SecuritySetting xsi:type="ns27:SecuritySetting">Custom</ns27:SecuritySetting>
+    <ns27:TransportLevelSecurity xsi:type="ns27:TransportLevelSecurity">
+     <ns27:CommunicationMethod xsi:type="ns27:CommunicationMethod">Privacy</ns27:CommunicationMethod>
+    </ns27:TransportLevelSecurity>
+    <ns27:RunAsMode xsi:type="ns27:RunAsMode">System</ns27:RunAsMode>
+    <ns27:AnonymousClients xsi:type="ns27:AnonymousCommunication">No</ns27:AnonymousClients>
+    <ns27:ServiceAuthorization xsi:type="ns27:ServiceAuthorization">
+     <ns27:NoAuthorization xsi:type="ns27:NoAuthorization"/>
+    </ns27:ServiceAuthorization>
+   </ns27:ServiceSecurity>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
     <ns3:Singleton xsi:type="ns3:Singleton"/>
@@ -240,5 +247,5 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns27:Extensions xsi:type="ns27:ExtensionsType" xmlns:ns27="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns28:Extensions xsi:type="ns28:ExtensionsType" xmlns:ns28="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
 </ns1:ServiceDescription>

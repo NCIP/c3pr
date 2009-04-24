@@ -83,6 +83,17 @@ public class StudyServiceClient extends StudyServiceClientBase implements StudyS
 		}
 	}
 
+  public void createAndOpenStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"createAndOpenStudy");
+    edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyRequest params = new edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyRequest();
+    edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyRequestMessage messageContainer = new edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyRequestMessage();
+    messageContainer.setMessage(message);
+    params.setMessage(messageContainer);
+    edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyResponse boxedResult = portType.createAndOpenStudy(params);
+    }
+  }
+
   public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"getMultipleResourceProperties");

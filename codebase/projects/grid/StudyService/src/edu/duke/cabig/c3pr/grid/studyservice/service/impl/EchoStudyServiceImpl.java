@@ -40,6 +40,10 @@ public class EchoStudyServiceImpl implements StudyServiceI {
     	System.out.println("recieved message..");
     }
 
+    public void createAndOpenStudy(Message message) throws RemoteException {
+    	System.out.println("recieved message..");
+    }
+    
     public QueryResourcePropertiesResponse queryResourceProperties(
                     QueryResourceProperties_Element params) throws RemoteException {
         // TODO Auto-generated method stub

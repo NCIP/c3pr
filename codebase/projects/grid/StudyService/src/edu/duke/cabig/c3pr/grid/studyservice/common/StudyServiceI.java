@@ -12,6 +12,8 @@ import java.rmi.RemoteException;
  */
 public interface StudyServiceI {
 
+  public void createAndOpenStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
+
   public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
 
   public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;

@@ -33,6 +33,11 @@ public class StudyAuthorizationImpl implements StudyAuthorizationI {
 		System.out.println("Default Authorized");
 
 	}
+	
+	public void authorizeCreateAndOpenStudy(String callerIdentity) {
+		System.out.println("Default Authorized");
+
+	}
 
 	public void authorizeQueryResourceProperties(String callerIdentity) {
 		System.out.println("Default Authorized");
