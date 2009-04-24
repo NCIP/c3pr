@@ -270,8 +270,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 //        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
         
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
-    	researchStaffList.addAll(getHibernateTemplate().find("from LocalResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'"));
-    	researchStaffList.addAll(getHibernateTemplate().find("from RemoteResearchStaff rs where rs.uniqueIdentifier = '" +emailAddress+ "'"));
+    	researchStaffList.addAll(getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'"));
         return researchStaffList;
     }
     
