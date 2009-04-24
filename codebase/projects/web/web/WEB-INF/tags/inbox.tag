@@ -50,7 +50,7 @@
 	     } 
 	     
 	     function deleteRow(rowId, rsnId){
-	     	if(confirm("Are you sure you want to delete this message?")){
+	     	if(confirmationMessage("Are you sure you want to delete this message?")){
 	     		//removing from view
 	     		var theTableBody = $('rsnTable').tBodies[0];
 		     	var x = $(rowId).rowIndex;

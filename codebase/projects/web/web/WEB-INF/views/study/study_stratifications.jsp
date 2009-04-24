@@ -2,6 +2,10 @@
 <html>
 <head>
 <title><studyTags:htmlTitle study="${command.study}" /></title>
+<style>
+.tablecontent .division {
+}
+</style>
 <script>
 	//firstVisit - global var	           
     var firstVisit = true;
@@ -26,7 +30,7 @@
 		var answer;
 		if(firstVisit && isBook){
 		  //only show the reorder confirm pop-up the first time.
-		  answer = confirm("Book Randomization Entries(if any) will be deleted. Do you want to proceed?");
+		  answer = confirmationMessage("Book Randomization Entries(if any) will be deleted. Do you want to proceed?");
 		  new Element.show('reorderGroupsInd-'+epochCountIndex);
 		  firstVisit = false;
 		} else{
@@ -45,9 +49,8 @@
 							javaScriptParam="'serializedString='+serializedString+ '&epochCountIndex=' + epochCountIndex" formName="'tabMethodForm'"/>
 		}
 	}
-	
+
 	function stratumGroupAlert(epochCountIndex, isBookRandomized){
-	
 		var table = document.getElementById('sgCombinationsTable_'+epochCountIndex);
 		var length = 0;
 		if(table != null){
@@ -55,15 +58,41 @@
 		}
 		if(length > 0){
 			if(isBookRandomized == 'true'){
-				return confirm("Stratum Groups and Book Randomization Entries(if any) will be deleted. Do you want to proceed?");			
+				return confirmationMessage("Stratum Groups and Book Randomization Entries(if any) will be deleted. Do you want to proceed?");			
 			} else{
-				return confirm("Stratum Groups will be deleted. Do you want to proceed?");
+				return confirmationMessage("Stratum Groups will be deleted. Do you want to proceed?");
 			}
-			
 		} else {
 			return true;
 		}
 	}
+    
+    function disableQuestionSection(id){
+		e1 = $('startificationQuestions-'+id);
+		toggleDisabled(e1);
+ 	}
+    
+    function toggleDisabled(el) {
+        try {
+            el.disabled = el.disabled ? false : true;
+        }
+        catch(E){}
+        
+        if (el.childNodes && el.childNodes.length > 0) {
+            for (var x = 0; x < el.childNodes.length; x++) {
+                toggleDisabled(el.childNodes[x]);
+            }
+        }
+    }
+
+    function editStratificationCriteria(epochCountIndex, isBook){
+		canDeleteGroupAndBooks = stratumGroupAlert(epochCountIndex, isBook)
+        if(canDeleteGroupAndBooks){
+			clear(epochCountIndex);
+			//enable section
+        }
+     }
+    
 	</script>
 </head>
 
@@ -77,17 +106,15 @@
 <c:otherwise>
 <form:form method="post" name="form">
 	<tags:tabFields tab="${tab}" />
-	<div><input type="hidden" id="_action" name="_action" value=""> 
+	<div>
+		<input type="hidden" id="_action" name="_action" value=""> 
 		<input type="hidden" id="_selectedEpoch" name="_selectedEpoch" value=""> 
 		<input	type="hidden" id="_selectedStratification" name="_selectedStratification" value=""> 
-		
-		
 		<input type="hidden" id="_selectedAnswer" name="_selectedAnswer" value="">
 		<input type="hidden" id="generateGroups" name="generateGroups" value="false"/>
 	</div>
 	<c:if test="${command.study.stratificationIndicator}">
-	<c:forEach items="${command.study.epochs}" var="epoch"
-		varStatus="epochCount">
+	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 		<c:if test="${epoch.stratificationIndicator == 'true' }">
 		<script>
             var startAnsRowInserterProps_${epochCount.index}= {
@@ -96,18 +123,8 @@
                 initialIndex: 2,
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
-                callRemoveFromCommand:"true",
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
                 path: "study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
-                epochCountIndex: ${epochCount.index},
-                deleteMsgPrefix: ${isBookRandomized == 'true'}? "Stratum Groups and Book Randomization Entries(if any) will be deleted." : "Stratum Groups(if any) will be deleted.",
-                onDeleteFromCommandSuccess: function(t){
-                	var sgdiv = document.getElementById("sgCombinations_"+${epochCount.index});
-                	sgdiv.innerHTML = "Generate Stratum Groups again.";
-                },
-			    postProcessRowInsertion: function(object){
-	                clear(object.epochCountIndex );                	
-			    }
             };
             var stratRowInserterProps_${epochCount.index} = {
                 nested_row_inserter: startAnsRowInserterProps_${epochCount.index},
@@ -116,99 +133,99 @@
                 initialIndex: ${fn:length(command.study.epochs[epochCount.index].stratificationCriteria)},
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
-                callRemoveFromCommand:"true",
                 path: "study.epochs[${epochCount.index }].stratificationCriteria",
-                epochCountIndex: ${epochCount.index},
-                deleteMsgPrefix: ${isBookRandomized == 'true'}? "Stratum Groups and Book Randomization Entries(if any) will be deleted." : "Stratum Groups(if any) will be deleted.",
-                onDeleteFromCommandSuccess: function(t){
-                	var sgdiv = document.getElementById("sgCombinations_"+${epochCount.index});
-                	sgdiv.innerHTML = "Generate Stratum Groups again.";
-                },
-                postProcessRowInsertion: function(object){
-                	clear(object.epochCountIndex);
-			    }
             };
             RowManager.addRowInseter(stratRowInserterProps_${epochCount.index});
             RowManager.registerRowInserters();
+
+            function updateName(divID, stringValue) {
+        	    if ($(divID)) {
+        	        $(divID).innerHTML = stringValue;
+        	    }
+        	}
         </script>
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
-		<br/>
-		
-		<chrome:division title="Questions and Answers">
-		<br/>
-			<table id="epoch-${epochCount.index}" class="tablecontent">
+			<table id="epoch-${epochCount.index}" class="">
+			<tr></tr>
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
-			<div id="criteriaHeader">
-				 <tr id="hInclusionEligibility--${epochCount.index}" <c:if test="${fn:length(epoch.stratificationCriteria) == 0}">style="display:none;"</c:if>>					
-					<th><tags:requiredIndicator /><fmt:message key="study.question"/><tags:hoverHint id="study.treatmentEpochs.stratificationCriteria-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria"/></th>
-					<th><tags:requiredIndicator /><fmt:message key="study.answer"/><tags:hoverHint id="study.treatmentEpochs.stratificationCriteria.permissibleAnswers-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria.permissibleAnswers"/></th>
-					<th></th>
-				</tr>
-			</div>
-				<c:forEach
-					items="${command.study.epochs[epochCount.index].stratificationCriteria}"
-					var="strat" varStatus="status">
+			<c:forEach items="${command.study.epochs[epochCount.index].stratificationCriteria}" var="strat" varStatus="status">
+					<div id="startificationQuestions-${epoch.id}">
 					<c:if test="${epoch.stratificationIndicator == 'true' }">
 					<script>
                         RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}).updateIndex(${fn:length(command.study.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers)});
                     </script>
-					<tr id="epoch-${epochCount.index }-${status.index }">						
-						<td><form:textarea
-							path="study.epochs[${epochCount.index }].stratificationCriteria[${status.index}].questionText"
-							rows="1" cols="60" cssClass="validate-notEmpty" /></td>
-
+					<tr id="epoch-${epochCount.index }-${status.index}">
 						<td>
-							<table class="tablecontent" id="table1" width="50%">
-								<tr>
-									<th></th>
-									<th>
-									<tags:button type="button" color="blue" icon="add" value="Add Answer" 
-onclick="if(stratumGroupAlert('${epochCount.index}', '${isBookRandomized}')){RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));}" size="small"/>
-										</th>
-								</tr>
-								<c:forEach var="answer" varStatus="statusAns"
-									items="${command.study.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers}">
-									<c:if test="${epoch.stratificationIndicator == 'true' }">
-									<tr id="table1-${statusAns.index }">
-										<td class="alt"><form:input
-											path="study.epochs[${epochCount.index }].stratificationCriteria[${status.index}].permissibleAnswers[${statusAns.index}].permissibleAnswer"
-											size="30" cssClass="validate-notEmpty" /></td>
-										<c:choose>
-											<c:when test="${statusAns.index < 2}">
-											</c:when>
-											<c:otherwise>
-												<td class="alt"><a
-													href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}),${statusAns.index },'${answer.id==null?'HC#':'ID#'}${answer.id==null?answer.hashCode:answer.id}');">
-												<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-											</c:otherwise>
-										</c:choose>
-									</tr>
-									</c:if>
-								</c:forEach>
-							</table>
+							<chrome:deletableDivision id="question-${epochCount.index }-${status.index }" divTitle="questionTitle-${epochCount.index }-${status.index }" onclick="RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index},'${strat.id==null?'HC#':'ID#'}${strat.id==null?strat.hashCode:strat.id}');" 
+                    		title="Question : ${epoch.stratificationCriteria[status.index].questionText}" >
+                    		<table style="border: 0px red dotted;" width="100%">
+                    		<tr>	
+								<td valign="top">
+									<table class=""  width="50%">
+										<tr><td><b><fmt:message key="study.question"/></b></td></tr>
+										<tr><td>
+											<form:textarea path="study.epochs[${epochCount.index }].stratificationCriteria[${status.index}].questionText"
+										rows="1" cols="60" cssClass="validate-notEmpty" onkeyup="updateName('questionTitle-${epochCount.index }-${status.index }', 'Question: ' + this.value);"/>
+										</td></tr>
+									</table>
+								</td>
+								<td>
+									<table class="" id="table1" width="50%">
+										<tr>
+											<td>
+											<tags:button type="button" color="blue" icon="add" value="Add Answer" 
+													onclick="RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));" size="small"/>
+											</td>
+										</tr>
+										<c:forEach var="answer" varStatus="statusAns"
+											items="${command.study.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers}">
+											<c:if test="${epoch.stratificationIndicator == 'true' }">
+											<tr id="table1-${statusAns.index }">
+												<td class="alt"><form:input
+													path="study.epochs[${epochCount.index }].stratificationCriteria[${status.index}].permissibleAnswers[${statusAns.index}].permissibleAnswer"
+													size="30" cssClass="validate-notEmpty" /></td>
+												<c:choose>
+													<c:when test="${statusAns.index < 2}">
+													</c:when>
+													<c:otherwise>
+														<td class="alt"><a
+															href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}),${statusAns.index },'${answer.id==null?'HC#':'ID#'}${answer.id==null?answer.hashCode:answer.id}');">
+														<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+													</c:otherwise>
+												</c:choose>
+											</tr>
+											</c:if>
+										</c:forEach>
+									</table>
+								</td>
+							</tr>
+                    		</table>											
+							</chrome:deletableDivision>
+							<hr noshade size="1" width="100%" style="border-top: 1px black dotted;" align="left">
 						</td>
-						<td class="alt"><a
-							href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index},'${strat.id==null?'HC#':'ID#'}${strat.id==null?strat.hashCode:strat.id}');">
-						<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
-							alt="Delete"></a></td>
 					</tr>
 					</c:if>
+					</div>
 				</c:forEach>
 			</table>
 			<br>
-			<div align="right">
-			<tags:button type="button" color="blue" icon="add" value="Add Stratification Factor" 
-			onclick="$('hInclusionEligibility--${epochCount.index}').show();if(stratumGroupAlert('${epochCount.index}','${isBookRandomized}')){RowManager.addRow(stratRowInserterProps_${epochCount.index});}" size="small"/>
+			<div align="left">
+				<span id="addStratificationCriteria-${epoch.id}" <c:if test="${fn:length(command.study.epochs[epochCount.index].stratumGroups) > 0 }"> style = "display:none" </c:if> >
+					<tags:button type="button" color="blue" icon="add" value="Add Stratification Factor" onclick="$('stratumButton-${epoch.id}').show();RowManager.addRow(stratRowInserterProps_${epochCount.index});" size="small"/>
+				</span>
+				<span id="stratumButton-${epoch.id}" <c:if test="${fn:length(command.study.epochs[epochCount.index].stratificationCriteria) == 0}"> style = "display:none" </c:if> >
+					<tags:button type="submit" color="blue" value="Generate Stratum Groups" onclick="preProcessGenerateGroups(${epochCount.index});disableQuestionSection('${epoch.id}');" size="small"/>
+				</span>
+				<span id="editStratificationCriteria-${epoch.id}" <c:if test="${fn:length(command.study.epochs[epochCount.index].stratumGroups) == 0 }"> style = "display:none" </c:if> >
+					<tags:button type="button" color="blue" value="Edit Stratification Criteria" onclick="editStratificationCriteria('${epochCount.index}','${isBookRandomized}');$('editStratificationCriteria-${epoch.id}').hide(); $('addStratificationCriteria-${epoch.id}').show(); $('stratumButton-${epoch.id}').show();" size="small"/>
+				</span>
 			</div>
-			</chrome:division>
-			<br/>
+			<div id="startificationGroup-${epoch.id}" <c:if test="${fn:length(command.study.epochs[epochCount.index].stratumGroups) == 0 }"> style = "display:none" </c:if>>
 			<jsp:include page="../study/asynchronous/reordered_strat_combinations.jsp">
 				<jsp:param name="epochCountIndex" value="${epochCount.index}" />
 			</jsp:include>
-			<div id="stratumButton" align="right">
-				<tags:button type="submit" color="blue" value="Generate Stratum Groups" 
-			onclick="preProcessGenerateGroups(${epochCount.index})" size="small"/>
 			</div>
+			
 		</tags:minimizablePanelBox>
 		</c:if>
 	</c:forEach>
@@ -217,47 +234,50 @@ onclick="if(stratumGroupAlert('${epochCount.index}', '${isBookRandomized}')){Row
 	<input type="hidden" name="flowType" value="${flowType}">
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" />
 </form:form>
-
-
-<c:forEach items="${command.study.epochs}" var="epoch"
-	varStatus="epochCount">
+<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 	<c:if test="${epoch.stratificationIndicator == 'true' }">
 	<div id="dummy-strat-${epochCount.index }" style="display:none">
 	<table>
 		<tr>
-			
-			<td><input type="hidden"
-				name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionNumber" />
-			<textarea
-				name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText"
-				rows="1" cols="60" class="validate-notEmpty"></textarea></td>
-
 			<td>
-			<table class="tablecontent" id="table1" width="50%">
-				<tr>
-					<th></th>
-					<th>
-					<tags:button type="button" color="blue" icon="add" value="Add Answer" 
-					onclick="stratumGroupAlert('${fn:length(command.study.epochs[epochCount.index].stratumGroups)}','${isBookRandomized}');RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX));" size="small"/>
-					</th>
-				</tr>
-				<tr id="table1-0">
-					<td><input type="text"
-						name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[0].permissibleAnswer"
-						size="30" class="validate-notEmpty" /></td>
-				</tr>
-				<tr id="table1-1">
-					<td><input type="text"
-						name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[1].permissibleAnswer"
-						size="30" class="validate-notEmpty" /></td>
-				</tr>
-			</table>
+			<chrome:deletableDivision id="question-${epochCount.index }-PAGE.ROW.INDEX" divTitle="questionTitle-${epochCount.index }-PAGE.ROW.INDEX" onclick="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX,-1);" 
+                    		title="Question : ${epoch.stratificationCriteria[status.index].questionText}" >
+            	<input type="hidden" name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionNumber" />
+            	<table style="border: 0px red dotted;" width="100%">
+            	<tr>	
+					<td>
+						<table class=""  width="50%">
+							<tr><td><b><fmt:message key="study.question"/></b></td></tr>
+							<tr><td>
+								<TEXTAREA name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText" rows="1" cols="60" class="validate-notEmpty" onkeyup="updateName('questionTitle-${epochCount.index }-PAGE.ROW.INDEX', 'Question: ' + this.value);" ></TEXTAREA>
+							</td></tr>
+						</table>
+					</td>
+          			<td>
+						<table class="" id="table1" width="50%">
+							<tr>
+								<td>
+								<tags:button type="button" color="blue" icon="add" value="Add Answer" 
+									onclick="RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX));" size="small"/>
+								</td>
+							</tr>
+							<tr id="table1-0">
+								<td><input type="text"
+									name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[0].permissibleAnswer"
+									size="30" class="validate-notEmpty" /></td>
+							</tr>
+							<tr id="table1-1">
+								<td><input type="text"
+									name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[1].permissibleAnswer"
+									size="30" class="validate-notEmpty" /></td>
+							</tr>
+						</table>
+					</td>
+                </tr>
+                </table>
+            </chrome:deletableDivision>
+            <hr noshade size="1" width="100%" style="border-top: 1px black dotted;" align="left">
 			</td>
-			<td><a
-				href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX,-1);"
-				onclick="stratumGroupAlert('${fn:length(command.study.epochs[epochCount.index].stratumGroups)}','${isBookRandomized}');">
-			<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
-				alt="Delete"></a></td>
 		</tr>
 	</table>
 	</div>
@@ -268,8 +288,7 @@ onclick="if(stratumGroupAlert('${epochCount.index}', '${isBookRandomized}')){Row
 				name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[NESTED.PAGE.ROW.INDEX].permissibleAnswer"
 				size="30" class="validate-notEmpty" /></td>
 			<td><a
-				href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);"
-				onclick="stratumGroupAlert('${fn:length(command.study.epochs[epochCount.index].stratumGroups)}','${isBookRandomized}');">
+				href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
 			<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 		</tr>
 	</table>
