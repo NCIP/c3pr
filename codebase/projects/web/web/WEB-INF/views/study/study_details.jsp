@@ -254,7 +254,7 @@
         		</c:otherwise>
         	</c:choose>
         </div>
-        <input type="hidden" name="command.study.multiInstitutionIndicator" value="true"/>
+        <input type="hidden" name="study.multiInstitutionIndicator" value="true"/>
         <div class="row">
              <div class="label"><tags:requiredIndicator /><fmt:message key="study.consentVersionDate"/></div>
              <div class="value">

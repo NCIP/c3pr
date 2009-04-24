@@ -41,11 +41,11 @@
 					</div>
 				</div>
 				<div class="row">
-					<c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
+					<c:if test="${multisiteEnv}">
 						<div class="label"><fmt:message key="site.hostedMode" /></div>
 						<div class="value">
-	            			<input type="checkbox" name="study.studySites[${index}].hostedMode" />
-        					<input type="hidden" name="${command.study.studySites[index].healthcareSite.nciInstituteCode}-wasHosted" value="${command.study.studySites[index].hostedMode}"/>
+	            			<input type="checkbox" name="study.studySites[${index}].hostedMode" checked="checked" />
+	            			<input type="hidden" value="1" name="_study.studySites[${index}].hostedMode"/>
 						</div>
         			</c:if>
 				</div>

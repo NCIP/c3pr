@@ -30,37 +30,56 @@
 						${actionError.message }
 					</div>
 		</c:when>
-		<c:otherwise>
-			None
-		</c:otherwise>
 	</c:choose>
 </div>
 <div id="actions"/>
-	<c:set var="action" value="false"/>
-    <c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
-      	<select id="siteAction-${site.healthcareSite.nciInstituteCode }">
-   		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
-	   		<c:choose>
-			<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
-				<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode))}">
-				<option value="${possibleAction}">${possibleAction.displayName }</option>
-				<c:set var="action" value="true"/>
-				</c:if>
-			</c:when>
-			<c:when test="${possibleAction=='APPROVED_FOR_ACTIVTION'}">
-				<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
-				<option value="${possibleAction}">${possibleAction.displayName }</option>
-				<c:set var="action" value="true"/>
-				</c:if>
-			</c:when>
-			<c:otherwise>
-				<option value="${possibleAction}">${possibleAction.displayName }</option>
-				<c:set var="action" value="true"/>
-			</c:otherwise>
+	<c:set var="noAction" value="true"/>
+	<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
+			<c:choose>
+				<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
+					<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode)}">
+					<%--<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode))}">--%>
+						<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}');" size="small"/>
+						<c:set var="noAction" value="false"/>
+					</c:if>
+				</c:when>
+				<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL' || possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
+					<c:set var="noAction" value="false"/>
+					<c:set var="close" value="true"/>
+				</c:when>
+				<c:when test="${possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL' || possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
+					<c:set var="noAction" value="false"/>
+					<c:set var="close" value="temp"/>
+				</c:when>
+				<%--<c:when test="${possibleAction=='APPROVE_STUDY_SITE_FOR_ACTIVATION'}">
+					<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
+						<option value="${possibleAction}">${possibleAction.displayName }</option>
+						<c:set var="noAction" value="false"/>
+					</c:if>
+				</c:when>--%>
+				<c:otherwise>
+					<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}');" size="small"/>
+					<c:set var="noAction" value="false"/>
+				</c:otherwise>
 			</c:choose>
-       	</c:forEach>
-       	</select>
-       	<tags:button type="button" color="blue" value="Go" id="go" onclick="takeAction('${site.healthcareSite.nciInstituteCode}');" size="small"/>
+		</c:forEach>
+		<c:if test="${!empty close}">
+			<tags:button type="button" color="blue" value="Close Study Site" id="closeStudy"
+				onclick="Effect.SlideDown('close-choices')" size="small"/>
+			<div id="close-choices" class="autocomplete" style="display: none">
+				<ul>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Closed To Accrual And Treatment</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL');">Closed To Accrual</li>
+					<c:if test="${close == 'temp'}">
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Temporarily Closed To Accrual And Treatment</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
+					</c:if>
+				</ul>
+				<div align="right"><tags:button type="button" color="red" value="Cancel" icon="x"
+					onclick="Effect.SlideUp('close-choices')" size="small"/></div>
+			</div>
+		</c:if>
 	</c:if>
 	<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
 		Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
@@ -69,7 +88,7 @@
 $('siteIRB-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-IRB').innerHTML;
 $('Messages-${site.healthcareSite.nciInstituteCode }').innerHTML=$('ajax-message').innerHTML;
 <c:choose>
-<c:when test="${action}">
+<c:when test="${!noAction}">
 $('actions-${site.healthcareSite.nciInstituteCode }').innerHTML=$('actions').innerHTML;
 </c:when>
 <c:otherwise>
@@ -87,4 +106,5 @@ endcolor: '#ffffff' });
 new Effect.Highlight($('actions-${site.healthcareSite.nciInstituteCode }'), { startcolor: '#ffff99',
 endcolor: '#ffffff' });
 Element.hide('sendingMessage-${site.healthcareSite.nciInstituteCode }');
+new Element.update('dummy-div','');
 </script>
