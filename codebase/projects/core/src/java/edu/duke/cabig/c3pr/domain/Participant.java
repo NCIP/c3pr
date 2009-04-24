@@ -131,6 +131,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "PRT_ID")
+	@OrderBy("id")
 	public List<ContactMechanism> getContactMechanisms() {
 		return contactMechanisms;
 	}

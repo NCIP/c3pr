@@ -9,6 +9,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -104,6 +105,7 @@ public abstract class ResearchStaff extends User {
     @OneToMany
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "RS_ID")
+    @OrderBy("id")
     public List<ContactMechanism> getContactMechanisms() {
         return contactMechanisms;
     }

@@ -8,6 +8,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -124,6 +125,7 @@ public abstract class Investigator extends C3PRUser {
     @OneToMany
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "INV_ID")
+    @OrderBy("id")
     public List<ContactMechanism> getContactMechanisms() {
         return contactMechanisms;
     }
