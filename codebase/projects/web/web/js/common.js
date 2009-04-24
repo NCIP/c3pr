@@ -282,4 +282,3 @@ function launchPrint(){
 function confirmationMessage(message){
 	Dialog.confirm(message, {className: "alphacube", width: 500,  okLabel: "Ok", cancel:function(win){return false;}, ok:function(win) {return true;}});
 }
-}
