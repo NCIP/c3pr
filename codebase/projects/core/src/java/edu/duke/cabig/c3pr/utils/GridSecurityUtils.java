@@ -74,10 +74,8 @@ public class GridSecurityUtils {
 		GrantedAuthority[] groups = user.getAuthorities();
 		ArrayList<RoleTypes> roles = new ArrayList<RoleTypes>();
 		for (GrantedAuthority ga : groups) {
-			if (RoleTypes.getByCode(ga.getAuthority()) == null)
-				throw new RemoteException("Could not recognize role: "
-						+ ga.getAuthority());
-			roles.add(RoleTypes.getByCode(ga.getAuthority()));
+			if (RoleTypes.getByCode(ga.getAuthority()) != null)
+				roles.add(RoleTypes.getByCode(ga.getAuthority()));
 		}
 		return roles;
 	}

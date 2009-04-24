@@ -44,13 +44,13 @@ public interface StudyRepository {
 
     public Study openStudy(List<Identifier> studyIdentifiers);
 
-    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
-                    String nciInstituteCode);
+//    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
+//                    String nciInstituteCode);
 
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode);
     
-    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
-            StudySite studySite);
+//    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
+//            StudySite studySite);
 
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySite);
 
@@ -59,7 +59,7 @@ public interface StudyRepository {
     public StudySite updateStudySiteProtocolVersion(List<Identifier> studyIdentifiers,
                     String nciInstituteCode, String version);
 
-    public Study closeStudy(List<Identifier> studyIdentifiers);
+    public Study closeStudyToAccrual(List<Identifier> studyIdentifiers);
     
     public Study closeStudyToAccrualAndTreatment(List<Identifier> studyIdentifiers);
     
@@ -70,20 +70,23 @@ public interface StudyRepository {
     public Study updateStudyStatus(List<Identifier> studyIdentifiers,
                     CoordinatingCenterStudyStatus status);
 
-    public StudySite closeStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    public StudySite closeStudySiteToAccrual(List<Identifier> studyIdentifiers, String nciInstituteCode);
     
     public StudySite closeStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode);
     
-    public StudySite temporarilyCloseStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    public StudySite temporarilyCloseStudySiteToAccrual(List<Identifier> studyIdentifiers, String nciInstituteCode);
     
     public StudySite temporarilyCloseStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode);
     
-
     public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers);
     
     public void createStudyAtAffiliates(List<Identifier> studyIdentifiers);
     
     public EndPoint createStudyAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    
+    public void createAndOpenStudyAtAffiliates(List<Identifier> studyIdentifiers);
+    
+    public EndPoint createAndOpenStudyAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
 
     public void openStudyAtAffiliates(List<Identifier> studyIdentifiers);
 
@@ -94,9 +97,21 @@ public interface StudyRepository {
     public void updateAffliateProtocolVersion(List<Identifier> studyIdentifiers,
                     String nciInstituteCode, String version);
 
-    public void closeStudyAtAffiliates(List<Identifier> studyIdentifiers);
+    public void closeStudyToAccrualAtAffiliates(List<Identifier> studyIdentifiers);
     
-    public EndPoint closeStudyAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    public EndPoint closeStudyToAccrualAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    
+    public void closeStudyToAccrualAndTreatmentAtAffiliates(List<Identifier> studyIdentifiers);
+    
+    public EndPoint closeStudyToAccrualAndTreatmentAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    
+    public void temporarilyCloseStudyToAccrualAtAffiliates(List<Identifier> studyIdentifiers);
+    
+    public EndPoint temporarilyCloseStudyToAccrualAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    
+    public void temporarilyCloseStudyToAccrualAndTreatmentAtAffiliates(List<Identifier> studyIdentifiers);
+    
+    public EndPoint temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
     
     public void updateStudyStatusAtAffiliates(List<Identifier> studyIdentifiers,
                     CoordinatingCenterStudyStatus status);

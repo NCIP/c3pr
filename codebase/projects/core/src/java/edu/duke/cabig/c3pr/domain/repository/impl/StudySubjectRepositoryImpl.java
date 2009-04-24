@@ -301,10 +301,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			studySubject.prepareForEnrollment();
 		}
 		
-		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
-			studySubject.addIdentifier(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject));
-		}
-		
 		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studySubjectService.getLocalNCIInstituteCode())){
 			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
             domainObjects.add(studySubject);
@@ -317,6 +313,9 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
 			studySubject.doMutiSiteEnrollment(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
 		}else{
+			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+				studySubject.addIdentifier(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject));
+			}
 			studySubject.doLocalEnrollment();
 		}
 		

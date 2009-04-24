@@ -342,4 +342,17 @@ public class XMLUtils {
 
         return objList;
     }
+    
+    public Message buildMessageFromDomainObjects(List<AbstractMutableDomainObject> domainObjects){
+    	List<MessageElement> messageElements=getMessageElementsForDomainObjects(domainObjects);
+        if(messageElements.size()==0){
+            throw new RuntimeException("Cannot deserialize the domain objects to message elements");
+        }
+        Message message=new Message();
+        MessageElement[] messageElementsArray=new MessageElement[messageElements.size()];
+        for (int i=0 ; i< messageElements.size() ; i++)
+            messageElementsArray[i]=messageElements.get(i);
+        message.set_any(messageElementsArray);
+        return message;
+    }
 }

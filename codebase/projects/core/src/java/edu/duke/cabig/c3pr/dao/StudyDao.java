@@ -494,9 +494,10 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
             else if (identifier instanceof OrganizationAssignedIdentifier) studies
                             .addAll(searchByOrgIdentifier((OrganizationAssignedIdentifier) identifier));
         }
-        Set<Study> set = new LinkedHashSet<Study>();
-        set.addAll(studies);
-        return new ArrayList<Study>(set);
+        Set<Study> set = new LinkedHashSet<Study>(studies);
+        studies.clear();
+        studies.addAll(set);
+        return studies;
     }
 
     /**

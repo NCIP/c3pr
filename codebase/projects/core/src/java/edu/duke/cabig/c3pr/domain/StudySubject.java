@@ -1130,22 +1130,22 @@ public class StudySubject extends
 	public void doMutiSiteEnrollment(
 			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch,
 			OrganizationAssignedIdentifier coordinatingCenterAssignedIdentifier) {
-		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
-			ScheduledEpoch localScheduledEpoch = this
-					.getScheduledEpochByEpochName(coordinatingCenterReturnedScheduledEpoch);
-			if (this.getCurrentScheduledEpoch().getRequiresArm()) {
-				Arm arm = getCurrentScheduledEpoch().getEpoch().getArmByName(
-						coordinatingCenterReturnedScheduledEpoch
-								.getScheduledArm().getArm());
-				ScheduledArm scheduledArm = new ScheduledArm();
-				scheduledArm.setArm(arm);
-				localScheduledEpoch.addScheduledArm(scheduledArm);
-			}
-			this.addIdentifier(coordinatingCenterAssignedIdentifier);
-			this.getScheduledEpoch().setScEpochWorkflowStatus(
-					ScheduledEpochWorkFlowStatus.REGISTERED);
+		ScheduledEpoch scheduledEpoch = this
+				.getScheduledEpochByEpochName(coordinatingCenterReturnedScheduledEpoch.getEpoch().getName());
+		if (scheduledEpoch.getRequiresArm()) {
+			Arm arm = scheduledEpoch.getEpoch().getArmByName(
+					coordinatingCenterReturnedScheduledEpoch
+							.getScheduledArm().getArm());
+			ScheduledArm scheduledArm= scheduledEpoch.getScheduledArm()==null?scheduledEpoch.getScheduledArms().get(0):scheduledEpoch.getScheduledArm();
+			scheduledArm.setArm(arm);
 		}
-
+		OrganizationAssignedIdentifier organizationAssignedIdentifier=new OrganizationAssignedIdentifier();
+		organizationAssignedIdentifier.setHealthcareSite(this.studySite.getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+		organizationAssignedIdentifier.setGridId(coordinatingCenterAssignedIdentifier.getGridId());
+		organizationAssignedIdentifier.setType(coordinatingCenterAssignedIdentifier.getType());
+		organizationAssignedIdentifier.setValue(coordinatingCenterAssignedIdentifier.getValue());
+		this.addIdentifier(organizationAssignedIdentifier);
+		this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 
 		// TODO This should also set all the child studysubjects which are in
@@ -1153,10 +1153,9 @@ public class StudySubject extends
 
 	}
 
-	public ScheduledEpoch getScheduledEpochByEpochName(ScheduledEpoch schEpoch) {
+	public ScheduledEpoch getScheduledEpochByEpochName(String epochName) {
 		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs()) {
-			if (scheduledEpoch.getEpoch().getName().equalsIgnoreCase(
-					schEpoch.getEpoch().getName())) {
+			if (scheduledEpoch.getEpoch().getName().equalsIgnoreCase(epochName)) {
 				return scheduledEpoch;
 			}
 		}
@@ -1167,22 +1166,22 @@ public class StudySubject extends
 	public void doMutiSiteTransfer(
 			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch,
 			OrganizationAssignedIdentifier coordinatingCenterAssignedIdentifier) {
-		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
-			ScheduledEpoch localScheduledEpoch = this
-					.getScheduledEpochByEpochName(coordinatingCenterReturnedScheduledEpoch);
-			if (this.getCurrentScheduledEpoch().getRequiresArm()) {
-				Arm arm = getCurrentScheduledEpoch().getEpoch().getArmByName(
-						coordinatingCenterReturnedScheduledEpoch
-								.getScheduledArm().getArm());
-				ScheduledArm scheduledArm = new ScheduledArm();
-				scheduledArm.setArm(arm);
-				localScheduledEpoch.addScheduledArm(scheduledArm);
-			}
-			this.addIdentifier(coordinatingCenterAssignedIdentifier);
-			this.getScheduledEpoch().setScEpochWorkflowStatus(
-					ScheduledEpochWorkFlowStatus.REGISTERED);
+		ScheduledEpoch scheduledEpoch = this
+		.getScheduledEpochByEpochName(coordinatingCenterReturnedScheduledEpoch.getEpoch().getName());
+		if (scheduledEpoch.getRequiresArm()) {
+			Arm arm = scheduledEpoch.getEpoch().getArmByName(
+					coordinatingCenterReturnedScheduledEpoch
+							.getScheduledArm().getArm());
+			ScheduledArm scheduledArm= scheduledEpoch.getScheduledArm()==null?scheduledEpoch.getScheduledArms().get(0):scheduledEpoch.getScheduledArm();
+			scheduledArm.setArm(arm);
 		}
-
+		OrganizationAssignedIdentifier organizationAssignedIdentifier=new OrganizationAssignedIdentifier();
+		organizationAssignedIdentifier.setHealthcareSite(this.studySite.getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+		organizationAssignedIdentifier.setGridId(coordinatingCenterAssignedIdentifier.getGridId());
+		organizationAssignedIdentifier.setType(coordinatingCenterAssignedIdentifier.getType());
+		organizationAssignedIdentifier.setValue(coordinatingCenterAssignedIdentifier.getValue());
+		this.addIdentifier(organizationAssignedIdentifier);
+		this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 	}
 

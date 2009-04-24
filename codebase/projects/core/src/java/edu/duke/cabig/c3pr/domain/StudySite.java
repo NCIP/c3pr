@@ -336,8 +336,10 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     }
 
     public void activate() {
-        if (!(this.siteStudyStatus == SiteStudyStatus.AMENDMENT_PENDING
-                        || this.siteStudyStatus == SiteStudyStatus.PENDING || this.siteStudyStatus == SiteStudyStatus.APPROVED_FOR_ACTIVTION)) {
+//        if (!(this.siteStudyStatus == SiteStudyStatus.AMENDMENT_PENDING
+//                        || this.siteStudyStatus == SiteStudyStatus.PENDING || this.siteStudyStatus == SiteStudyStatus.APPROVED_FOR_ACTIVTION))
+    	if (!(this.siteStudyStatus == SiteStudyStatus.AMENDMENT_PENDING || this.siteStudyStatus == SiteStudyStatus.PENDING
+    			|| this.siteStudyStatus == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL || this.siteStudyStatus == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)){
             throw getC3PRExceptionHelper().getRuntimeException(
                             getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE"),
                             new String[] { this.getSiteStudyStatus().getDisplayName() });
@@ -435,9 +437,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         if (this.siteStudyStatus == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) throw getC3PRExceptionHelper()
         .getRuntimeException(
                         getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_ALREADY_CLOSED_TO_ACCRUAL_AND_TREATMENT.CODE"));
-        if (((this.getSiteStudyStatus()) == (SiteStudyStatus.PENDING))
-                        || ((this.getSiteStudyStatus()) == (SiteStudyStatus.AMENDMENT_PENDING))
-                        || ((this.getSiteStudyStatus()) == (SiteStudyStatus.CLOSED_TO_ACCRUAL))) throw getC3PRExceptionHelper()
+        if (this.getSiteStudyStatus() == SiteStudyStatus.PENDING
+                        || this.getSiteStudyStatus() == SiteStudyStatus.AMENDMENT_PENDING
+                        || this.getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL) throw getC3PRExceptionHelper()
                         .getRuntimeException(
                                         getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
                                         new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
@@ -482,31 +484,31 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         this.setSiteStudyStatus(SiteStudyStatus.AMENDMENT_PENDING);
     }
 
-    public void approveForActivation() {
-        if (this.getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
-            throw getC3PRExceptionHelper().getRuntimeException(
-                            getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_STUDY_NOT_OPEN.CODE"));
-        }
-        if (!(this.siteStudyStatus == SiteStudyStatus.PENDING
-                        || this.siteStudyStatus == SiteStudyStatus.AMENDMENT_PENDING || this.siteStudyStatus == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)) {
-            throw getC3PRExceptionHelper().getRuntimeException(
-                            getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE"),
-                            new String[] { this.getSiteStudyStatus().getDisplayName() });
-        }
-        this.setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
-        Study study = this.getStudy();
-        if(!study.getCompanionIndicator()){
-        	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
-        		for(StudySite studySite : companionStudyAssociation.getStudySites()){
-        			if(studySite.getHealthcareSite().getNciInstituteCode() == this.getHealthcareSite().getNciInstituteCode()){
-        				if(studySite.getSiteStudyStatus() != SiteStudyStatus.APPROVED_FOR_ACTIVTION || studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){
-        					studySite.approveForActivation();		
-        				}
-        			}
-        		}
-        	}
-        }
-    }
+//    public void approveForActivation() {
+//        if (this.getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
+//            throw getC3PRExceptionHelper().getRuntimeException(
+//                            getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_STUDY_NOT_OPEN.CODE"));
+//        }
+//        if (!(this.siteStudyStatus == SiteStudyStatus.PENDING
+//                        || this.siteStudyStatus == SiteStudyStatus.AMENDMENT_PENDING || this.siteStudyStatus == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)) {
+//            throw getC3PRExceptionHelper().getRuntimeException(
+//                            getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE"),
+//                            new String[] { this.getSiteStudyStatus().getDisplayName() });
+//        }
+//        this.setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
+//        Study study = this.getStudy();
+//        if(!study.getCompanionIndicator()){
+//        	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+//        		for(StudySite studySite : companionStudyAssociation.getStudySites()){
+//        			if(studySite.getHealthcareSite().getNciInstituteCode() == this.getHealthcareSite().getNciInstituteCode()){
+//        				if(studySite.getSiteStudyStatus() != SiteStudyStatus.APPROVED_FOR_ACTIVTION || studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){
+//        					studySite.approveForActivation();		
+//        				}
+//        			}
+//        		}
+//        	}
+//        }
+//    }
 
     private void checkForActivation() {
         Date currentDate = new Date();
@@ -619,8 +621,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                 return possibleActions;
             }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.OPEN){
                 if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
-                    possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
-                    possibleActions.add(APIName.OPEN_STUDY);
+                    possibleActions.add(APIName.CREATE_AND_OPEN_STUDY);
                     return possibleActions;
                 }else{
                     possibleActions.add(APIName.OPEN_STUDY);
@@ -629,43 +630,53 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
                 if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
                     possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
-                    possibleActions.add(APIName.OPEN_STUDY);
                     return possibleActions;
                 }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
-                    possibleActions.add(APIName.OPEN_STUDY);
                     return possibleActions;
                 }else{
                     possibleActions.add(APIName.AMEND_STUDY);
                     return possibleActions;
                 }
-            }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL){
-                if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
-                    possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
-                    possibleActions.add(APIName.OPEN_STUDY);
-                    return possibleActions;
-                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
-                    possibleActions.add(APIName.OPEN_STUDY);
-                    return possibleActions;
-                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
-                    possibleActions.add(APIName.OPEN_STUDY);
-                    return possibleActions;
-                }else{
-                    possibleActions.add(APIName.CLOSE_STUDY_TO_ACCRUAL);
-                    return possibleActions;
-                }
             }
+//            else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL){
+//                if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
+//                    possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
+//                    possibleActions.add(APIName.OPEN_STUDY);
+//                    return possibleActions;
+//                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
+//                    possibleActions.add(APIName.OPEN_STUDY);
+//                    return possibleActions;
+//                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
+//                    possibleActions.add(APIName.OPEN_STUDY);
+//                    return possibleActions;
+//                }else{
+//                    possibleActions.add(APIName.CLOSE_STUDY_TO_ACCRUAL);
+//                    return possibleActions;
+//                }
+//            }
         }
         if(this.getStudy().getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.OPEN)
             return possibleActions;
-        if(this.siteStudyStatus==SiteStudyStatus.PENDING || this.siteStudyStatus==SiteStudyStatus.AMENDMENT_PENDING){
+        if(this.siteStudyStatus==SiteStudyStatus.PENDING
+        		|| this.siteStudyStatus==SiteStudyStatus.AMENDMENT_PENDING){
             //possibleActions.add(APIName.APPROVE_STUDY_SITE_FOR_ACTIVATION);
             possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
             return possibleActions;
-        }else if(this.siteStudyStatus== SiteStudyStatus.APPROVED_FOR_ACTIVTION){
-            possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
-            return possibleActions;
-        }else if(this.siteStudyStatus==SiteStudyStatus.ACTIVE){
+        }
+//        else if(this.siteStudyStatus== SiteStudyStatus.APPROVED_FOR_ACTIVTION){
+//            possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
+//            return possibleActions;
+//        }
+        else if(this.siteStudyStatus==SiteStudyStatus.ACTIVE){
             possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
+            possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);
+            possibleActions.add(APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL);
+            possibleActions.add(APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);
+            return possibleActions;
+        }else if(this.siteStudyStatus==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL || this.siteStudyStatus==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT){
+        	possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
+        	possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
+            possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);
             return possibleActions;
         }
         return possibleActions;

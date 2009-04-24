@@ -105,18 +105,9 @@ public class GridEndPoint extends EndPoint {
         if(argument==null){
             return new Object[]{new Message()};
         }
-        List<MessageElement> messageElements=getXMLUtils().getMessageElementsForDomainObjects((List<AbstractMutableDomainObject>)argument);
-        if(messageElements.size()==0){
-            throw new RuntimeException("Cannot deserialize the domain objects to message elements");
-        }
-        Message message=new Message();
-        MessageElement[] messageElementsArray=new MessageElement[messageElements.size()];
-        for (int i=0 ; i< messageElements.size() ; i++)
-            messageElementsArray[i]=messageElements.get(i);
-        message.set_any(messageElementsArray);
+        Message message=getXMLUtils().buildMessageFromDomainObjects((List<AbstractMutableDomainObject>)argument);
         return new Object[]{message};
     }
-
     
     public void setGlobusCredential(GlobusCredential globusCredential) {
         this.globusCredential = globusCredential;
