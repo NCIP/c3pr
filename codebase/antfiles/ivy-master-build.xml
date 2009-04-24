@@ -202,6 +202,14 @@
 		</ant>
 	</target>
 	
+	<target name="build-studyServiceImpl" depends="build-rules"
+			description="Builds all c3pr modules and deploys webapp on your web/web local">
+			<ant target="publish-local" antfile="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" dir="${grid.dir}/StudyServiceImpl" inheritall="false">
+				<property name="env.skip.test" value="true"></property>
+				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+			</ant>
+		</target>
+	
 	<target name="undeploy-studyService">
 		<ant target="undeployTomcat" antfile="${projects.dir}/grid/StudyService/build.xml" dir="${grid.dir}/StudyService" inheritall="false">
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
@@ -225,6 +233,14 @@
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
 	</target>
+	
+	<target name="build-registrationServiceImpl" depends="build-rules"
+			description="Builds all c3pr modules and deploys webapp on your web/web local">
+			<ant target="publish-local" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${grid.dir}/RegistrationServiceImpl" inheritall="false">
+				<property name="env.skip.test" value="true"></property>
+				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+			</ant>
+		</target>
 	
 	<target name="undeploy-registrationService">
 		<ant target="undeployTomcat" antfile="${projects.dir}/grid/RegistrationService/build.xml" dir="${grid.dir}/RegistrationService" inheritall="false">
