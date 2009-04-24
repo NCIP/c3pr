@@ -34,6 +34,18 @@ public class StudyServiceAuthorizationImpl implements StudyAuthorizationI {
 					+ " cannot invoke this grid operation.");
 
 	}
+	
+	public void authorizeCreateAndOpenStudy(String callerIdentity)
+			throws RemoteException {
+		ArrayList<RoleTypes> roles = gridSecurityUtils.getRoles(callerIdentity);
+		if (!(roles.contains(RoleTypes.C3PR_ADMIN)
+				|| roles.contains(RoleTypes.SITE_COORDINATOR) || roles
+				.contains(RoleTypes.STUDY_COORDINATOR)))
+			throw new RemoteException("Access Denied. User with role "
+					+ gridSecurityUtils.getRolesAsString(roles)
+					+ " cannot invoke this grid operation.");
+		
+	}
 
 	/*
 	 * (non-Javadoc)

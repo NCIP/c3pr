@@ -42,6 +42,33 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
     
     private XMLUtils xmUtils;
     
+    public void createAndOpenStudy(Message message) throws RemoteException {
+    	List<Study> objects = xmUtils.getDomainObjectsFromList(Study.class, xmUtils.getArguments(message));
+        if (objects.size() != 1) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is exactly one study defination in the message.");
+        }
+        WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
+        try {
+            Study study=objects.get(0);
+            studyFactory.buildStudy(study);
+            for(StudySite studySite:study.getStudySites()){
+                studySite.setHostedMode(false);
+                studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
+            }
+            for(StudyCoordinatingCenter studyCoordinatingCenter:study.getStudyCoordinatingCenters()){
+                studyCoordinatingCenter.setHostedMode(false);
+            }
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+            study=studyRepository.createStudy(study);
+            studyRepository.openStudy(study.getIdentifiers());
+        }catch (C3PRCodedException e) {
+            throw new RemoteException("error building the study", e);
+        }finally{
+            SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
+        }
+	}
+    
     public void openStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
         List<Identifier> objects = xmUtils.getDomainObjectsFromList(Identifier.class, xmUtils.getArguments(message));
         if (objects.size() == 0) {
@@ -59,30 +86,30 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         }
     }
 
-    public void approveStudySiteForActivation(gov.nih.nci.cabig.ccts.domain.Message message)
-                    throws RemoteException {
-        List arguments = xmUtils.getArguments(message);
-        List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
-        if (identifiers.size() == 0) {
-            throw new RemoteException(
-                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
-        }
-        List<HealthcareSite> heaList = xmUtils.getDomainObjectsFromList(HealthcareSite.class, arguments);
-        if (heaList.size() != 1) {
-            throw new RemoteException(
-                            "Illegal Argument(s). Make sure there is atleast one healtcare site defination in the message.");
-        }
-        WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
-        try {
-            studyRepository.approveStudySiteForActivation(identifiers, heaList.get(0)
-                            .getNciInstituteCode());
-        }
-        catch (Exception e) {
-            throw new RemoteException(e.getMessage());
-        }finally{
-            SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
-        }
-    }
+//    public void approveStudySiteForActivation(gov.nih.nci.cabig.ccts.domain.Message message)
+//                    throws RemoteException {
+//        List arguments = xmUtils.getArguments(message);
+//        List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
+//        if (identifiers.size() == 0) {
+//            throw new RemoteException(
+//                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
+//        }
+//        List<HealthcareSite> heaList = xmUtils.getDomainObjectsFromList(HealthcareSite.class, arguments);
+//        if (heaList.size() != 1) {
+//            throw new RemoteException(
+//                            "Illegal Argument(s). Make sure there is atleast one healtcare site defination in the message.");
+//        }
+//        WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
+//        try {
+//            studyRepository.approveStudySiteForActivation(identifiers, heaList.get(0)
+//                            .getNciInstituteCode());
+//        }
+//        catch (Exception e) {
+//            throw new RemoteException(e.getMessage());
+//        }finally{
+//            SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
+//        }
+//    }
 
     public void activateStudySite(gov.nih.nci.cabig.ccts.domain.Message message)
                     throws RemoteException {
@@ -137,23 +164,6 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         return null;
     }
 
-    public void setXmlMarshaller(XmlMarshaller xmlMarshaller) {
-        this.xmlMarshaller = xmlMarshaller;
-        this.xmUtils=new XMLUtils(xmlMarshaller);
-    }
-
-    public void setInterceptor(OpenSessionInViewInterceptor interceptor) {
-        this.interceptor = interceptor;
-    }
-
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
-
-    public void setStudyFactory(StudyFactory studyFactory) {
-        this.studyFactory = studyFactory;
-    }
-
 	public void closeStudySiteToAccrual(Message message) throws RemoteException {
 		List arguments = xmUtils.getArguments(message);
         List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
@@ -168,7 +178,7 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         }
         WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
         try {
-            studyRepository.closeStudySite(identifiers, heaList.get(0).getNciInstituteCode());
+            studyRepository.closeStudySiteToAccrual(identifiers, heaList.get(0).getNciInstituteCode());
         }
         catch (Exception e) {
             throw new RemoteException(e.getMessage());
@@ -179,7 +189,26 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
 
 	public void closeStudySiteToAccrualAndTreatment(Message message)
 			throws RemoteException {
-		throw new RemoteException("Not yet implemented");
+		List arguments = xmUtils.getArguments(message);
+        List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
+        if (identifiers.size() == 0) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
+        }
+        List<HealthcareSite> heaList = xmUtils.getDomainObjectsFromList(HealthcareSite.class, arguments);
+        if (heaList.size() != 1) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is atleast one healtcare site defination in the message.");
+        }
+        WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
+        try {
+            studyRepository.closeStudySiteToAccrualAndTreatment(identifiers, heaList.get(0).getNciInstituteCode());
+        }
+        catch (Exception e) {
+            throw new RemoteException(e.getMessage());
+        }finally{
+            SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
+        }
 		
 	}
 
@@ -191,7 +220,7 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         }
         WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
         try {
-            studyRepository.closeStudy(objects);
+            studyRepository.closeStudyToAccrual(objects);
         }
         catch (Exception e) {
             throw new RemoteException(e.getMessage());
@@ -202,8 +231,20 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
 
 	public void closeStudyToAccrualAndTreatment(Message message)
 			throws RemoteException {
-		throw new RemoteException("Not yet implemented");
-		
+		List<Identifier> objects = xmUtils.getDomainObjectsFromList(Identifier.class, xmUtils.getArguments(message));
+        if (objects.size() == 0) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
+        }
+        WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
+        try {
+            studyRepository.closeStudyToAccrualAndTreatment(objects);
+        }
+        catch (Exception e) {
+            throw new RemoteException(e.getMessage());
+        }finally{
+            SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
+        }
 	}
 
 	public void createStudyDefinition(Message message) throws RemoteException {
@@ -239,27 +280,107 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
 
 	public void temporarilyCloseStudySiteToAccrual(Message message)
 			throws RemoteException {
-		throw new RemoteException("Not yet implemented");
-		
+		List arguments = xmUtils.getArguments(message);
+        List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
+        if (identifiers.size() == 0) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
+        }
+        List<HealthcareSite> heaList = xmUtils.getDomainObjectsFromList(HealthcareSite.class, arguments);
+        if (heaList.size() != 1) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is atleast one healtcare site defination in the message.");
+        }
+        WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
+        try {
+            studyRepository.temporarilyCloseStudySiteToAccrual(identifiers, heaList.get(0).getNciInstituteCode());
+        }
+        catch (Exception e) {
+            throw new RemoteException(e.getMessage());
+        }finally{
+            SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
+        }
 	}
 
 	public void temporarilyCloseStudySiteToAccrualAndTreatment(Message message)
 			throws RemoteException {
-		throw new RemoteException("Not yet implemented");		
+		List arguments = xmUtils.getArguments(message);
+        List<Identifier> identifiers = xmUtils.getDomainObjectsFromList(Identifier.class, arguments);
+        if (identifiers.size() == 0) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
+        }
+        List<HealthcareSite> heaList = xmUtils.getDomainObjectsFromList(HealthcareSite.class, arguments);
+        if (heaList.size() != 1) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is atleast one healtcare site defination in the message.");
+        }
+        WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
+        try {
+            studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(identifiers, heaList.get(0).getNciInstituteCode());
+        }
+        catch (Exception e) {
+            throw new RemoteException(e.getMessage());
+        }finally{
+            SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
+        }	
 	}
 
 	public void temporarilyCloseStudyToAccrual(Message message)
 			throws RemoteException {
-		throw new RemoteException("Not yet implemented");		
+		List<Identifier> objects = xmUtils.getDomainObjectsFromList(Identifier.class, xmUtils.getArguments(message));
+        if (objects.size() == 0) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
+        }
+        WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
+        try {
+            studyRepository.temporarilyCloseStudy(objects);
+        }
+        catch (Exception e) {
+            throw new RemoteException(e.getMessage());
+        }finally{
+            SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
+        }
 	}
 
 	public void temporarilyCloseStudyToAccrualAndTreatment(Message message)
 			throws RemoteException {
-		throw new RemoteException("Not yet implemented");		
+		List<Identifier> objects = xmUtils.getDomainObjectsFromList(Identifier.class, xmUtils.getArguments(message));
+        if (objects.size() == 0) {
+            throw new RemoteException(
+                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
+        }
+        WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
+        try {
+            studyRepository.temporarilyCloseStudyToAccrualAndTreatment(objects);
+        }
+        catch (Exception e) {
+            throw new RemoteException(e.getMessage());
+        }finally{
+            SessionAndAuditHelper.tearDownHibernateSession(interceptor, webRequest);
+        }
 	}
 
 	public void updateStudy(Message message) throws RemoteException {
 		throw new RemoteException("Not yet implemented");		
 	}
+	
+	public void setXmlMarshaller(XmlMarshaller xmlMarshaller) {
+        this.xmlMarshaller = xmlMarshaller;
+        this.xmUtils=new XMLUtils(xmlMarshaller);
+    }
+
+    public void setInterceptor(OpenSessionInViewInterceptor interceptor) {
+        this.interceptor = interceptor;
+    }
+
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
+
+    public void setStudyFactory(StudyFactory studyFactory) {
+        this.studyFactory = studyFactory;
+    }
 
 }

@@ -10,7 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI;
-import edu.duke.cabig.c3pr.utils.DaoTestCase;
+import edu.duke.cabig.c3pr.utils.StudyDaoTestCaseTemplate;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.dao.GroupSearchCriteria;
@@ -19,7 +19,7 @@ import gov.nih.nci.security.dao.GroupSearchCriteria;
 /**
  * The Class StudyServiceAuthorizationTest. CPR-501
  */
-public class StudyServiceAuthorizationTest extends DaoTestCase {
+public class StudyServiceAuthorizationTest extends StudyDaoTestCaseTemplate {
 
 	private static ApplicationContext applicationContext = null;
 	/** The study authorization. */
@@ -48,8 +48,8 @@ public class StudyServiceAuthorizationTest extends DaoTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		getApplicationContext();
-		studyAuthorization=(StudyAuthorizationI)applicationContext.getBean("studyAuthorization");
-		userProvisioningManager=(UserProvisioningManager)applicationContext.getBean("csmUserProvisioningManager");
+		studyAuthorization=(StudyAuthorizationI)getApplicationContext().getBean("studyAuthorization");
+		userProvisioningManager=(UserProvisioningManager)getApplicationContext().getBean("csmUserProvisioningManager");
 		
 		Group search = new Group();
         search.setGroupName(C3PRUserGroupType.C3PR_ADMIN.getCode());
