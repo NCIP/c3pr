@@ -16,6 +16,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
@@ -29,6 +30,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Table(name = "organizations")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "organizations_id_seq") })
+@Where(clause = "retired_indicator  = 'false'")
 public abstract class HealthcareSite extends Organization implements Comparable<HealthcareSite> {
 
     private String nciInstituteCode;
