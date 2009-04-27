@@ -2,15 +2,6 @@ package edu.duke.cabig.c3pr.infrastructure;
 
 import java.util.List;
 
-import org.iso._21090.AD;
-import org.iso._21090.CD;
-import org.iso._21090.DSETTEL;
-import org.iso._21090.ENON;
-import org.iso._21090.ENXP;
-import org.iso._21090.EntityNamePartType;
-import org.iso._21090.II;
-import org.iso._21090.NullFlavor;
-
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
 import edu.duke.cabig.c3pr.domain.Address;
@@ -19,7 +10,6 @@ import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
 import edu.duke.cabig.c3pr.esb.test.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ApplicationContextTest;
-import gov.nih.nci.coppa.po.Organization;
 
 /**
  * The Class RemoteHealthcareSiteResolverTest.
