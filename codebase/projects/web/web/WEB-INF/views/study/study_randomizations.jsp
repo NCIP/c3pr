@@ -105,6 +105,7 @@
 				</div>				
 	     		<div id="bookButton" align="center">
 	     			<tags:button type="button" color="blue" value="Upload Randomization Book" onclick="uploadBook('command', '${epochCount.index}', '${flowType}')" size="small"/>    
+		 			<img id="randomizationIndicator-${epochCount.index }" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 		 		</div>
 		 		</div
 		 	</div>
@@ -129,6 +130,7 @@
 				        </div>
 				        <div id="bookButton" align="center">    
 				        	<tags:button type="submit" color="blue" value="Upload Randomization File" size="small"/>
+							<img id="randomizationIndicator-${epochCount.index }" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 						</div> 		        
 			    </form:form>
 			    </div>
