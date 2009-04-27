@@ -48,6 +48,7 @@
 
 	addStudyDisease:function(selectedTerms){
 		 <tags:tabMethod method="addStudyDiseases" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'selectedDiseaseTerms='+selectedTerms" /> ;
+		 $('diseaseIndicator').hide();
 	},
 	
     cancelTermsSelection:function(){
@@ -237,8 +238,9 @@
 	<div class="row">
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="diseaseTerm" ></tags:autocompleter>
-		<tags:button size="small" type="button" color="blue" icon="add" value="Add Disease" id="addSingleDiseaseBtn" onclick="catSel.addSingleDisease();"/>
-		<tags:button size="small" type="button" color="blue" icon="add multiple" value="Add Diseases" id="addMultipleDiseaseBtn" onclick="catSel.showCategoryBox();"/>
+		<tags:button size="small" type="button" color="blue" icon="add" value="Add Disease" id="addSingleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.addSingleDisease();"/>
+		<tags:button size="small" type="button" color="blue" icon="add multiple" value="Add Diseases" id="addMultipleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.showCategoryBox();"/>
+		<img id="diseaseIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none"/>
 	</div>
 	<br>	
 	<div id="studyDiseases">
