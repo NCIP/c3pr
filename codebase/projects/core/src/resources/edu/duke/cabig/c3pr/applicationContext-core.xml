@@ -324,6 +324,10 @@
         </property> -->
     </bean> 
     
+    <!-- Resolver util used by researchStaffReslver and investigatorResolver -->
+    <bean id="personResolverUtils" class="edu.duke.cabig.c3pr.utils.PersonResolverUtils" autowire="byName">
+    </bean>
+    
     <bean id="remoteHealthcareSiteResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
     </bean>
     <bean id="remoteResearchStaffResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver" autowire="byName">
