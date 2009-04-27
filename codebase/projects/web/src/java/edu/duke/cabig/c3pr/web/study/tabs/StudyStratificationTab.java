@@ -116,8 +116,7 @@ public class StudyStratificationTab extends StudyTab {
 		clearStratumGroupsForEpoch(epoch);
 		
 		Map <String, String> map = new HashMap<String, String>();
-		message = "Generate stratum groups again.";
-		map.put(AjaxableUtils.getFreeTextModelName(), message);
+		map.put(AjaxableUtils.getFreeTextModelName(),map);
 		return new ModelAndView("", map);
 	}
 	
@@ -151,62 +150,6 @@ public class StudyStratificationTab extends StudyTab {
 			epoch.getStratumGroups().clear();
 		}
 	}
-
-	/**
-	 * Clear the stratum groups and the book entries (if any)corresponding to the tratemtn epoch.
-	 * Call by the deleteRow of the row manager.
-	 */
-//	@Override
-//	public ModelAndView deleteRow(HttpServletRequest request, Object command,
-//			Errors error) throws Exception {
-//		Study study = ((StudyWrapper) command).getStudy();
-//		String listPath = request.getParameter(getCollectionParamName());
-//		// run this piece of code only if str Qs or Ans are being deleted.
-//
-//		StringTokenizer tokenizer = new StringTokenizer(listPath, ".");
-//		String[] list = new String[tokenizer.countTokens()];
-//		int i = 0;
-//		while (tokenizer.hasMoreElements()) {
-//			list[i] = tokenizer.nextElement().toString();
-//			i++;
-//		}
-//
-//		listPath = list[1];
-//		Epoch epoch = (Epoch) new DefaultObjectPropertyReader(study, listPath)
-//				.getPropertyValueFromPath();
-//
-//		// Clearing the book entries from Randomization object.
-//		Randomization randomization = epoch.getRandomization();
-//		if (randomization instanceof BookRandomization) {
-//			BookRandomization bRandomization = (BookRandomization) randomization;
-//			bRandomization.getBookRandomizationEntry().clear();
-//		}
-//
-//		if (request.getParameter(getCollectionParamName()).toString().endsWith(
-//				"stratumGroups")) {
-//			// clearing all the Book entries from the scac so that they are not re-saved by cascade
-//			List<StratumGroup> sgList = epoch.getStratumGroups();
-//			for (StratumGroup sg : sgList) {
-//				sg.getBookRandomizationEntry().clear();
-//			}
-//		} else if (!epoch.getStratumGroups().isEmpty()) {
-//			// clearing all the qs and ans references from the scac so that they are not re-saved by
-//			// cascade
-//			List<StratumGroup> sgList = epoch.getStratumGroups();
-//			for (StratumGroup sg : sgList) {
-//				List<StratificationCriterionAnswerCombination> scacList = sg
-//						.getStratificationCriterionAnswerCombination();
-//				for (StratificationCriterionAnswerCombination scac : scacList) {
-//					scac.setStratificationCriterion(null);
-//					scac.setStratificationCriterionPermissibleAnswer(null);
-//				}
-//			}
-//			// finally clearing the stratum groups
-//			epoch.getStratumGroups().clear();
-//		}
-//
-//		return super.deleteRow(request, command, error);
-//	}
 
 	@Override
 	public void postProcessOnValidation(HttpServletRequest req,

@@ -17,7 +17,8 @@
 	    callRemoveFromCommand:"true",
 	    deleteMsgPrefix:  ${isBookRandomized == 'true'}? "Book Randomization Entries(if any) will be deleted." : " ",
 	    postProcessRowDeletion: function(t){
-               reorderStratumGroupNumbers(${epochCountIndex});                	
+			// fix this issue, not deleting book entry
+            reorderStratumGroupNumbers(${epochCountIndex});                	
 	    },
 	    path: "study.epochs[${epochCountIndex}].stratumGroups"
 	};

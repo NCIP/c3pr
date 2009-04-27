@@ -68,31 +68,37 @@
 	}
     
     function disableQuestionSection(id){
-		e1 = $('startificationQuestions-'+id);
-		toggleDisabled(e1);
+		el = $('stratificationQuestions-'+id);
+		toggleDisabled(el);
+ 	}
+
+    function enableQuestionSection(id){
+		e1 = $('stratificationQuestions-'+id);
+		toggleEnabled(e1);
  	}
     
     function toggleDisabled(el) {
-        try {
-            el.disabled = el.disabled ? false : true;
-        }
-        catch(E){}
-        
-        if (el.childNodes && el.childNodes.length > 0) {
-            for (var x = 0; x < el.childNodes.length; x++) {
-                toggleDisabled(el.childNodes[x]);
-            }
-        }
+    	el.descendants().each(function(e){
+			e.disabled="true";
+			}
+		);
     }
 
-    function editStratificationCriteria(epochCountIndex, isBook){
+    function toggleEnabled(el) {
+    	el.descendants().each(function(e){
+    		e.removeAttribute('disabled');
+			}
+		);
+    }
+
+    function editStratificationCriteria(epochCountIndex, isBook, id){
 		canDeleteGroupAndBooks = stratumGroupAlert(epochCountIndex, isBook)
         if(canDeleteGroupAndBooks){
 			clear(epochCountIndex);
-			//enable section
+			enableQuestionSection(id);
         }
      }
-    
+
 	</script>
 </head>
 
@@ -117,7 +123,7 @@
 	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 		<c:if test="${epoch.stratificationIndicator == 'true' }">
 		<script>
-            var startAnsRowInserterProps_${epochCount.index}= {
+            var stratAnsRowInserterProps_${epochCount.index}= {
                 add_row_division_id: "table1",
                 skeleton_row_division_id: "dummy-strat-ans-${epochCount.index }",
                 initialIndex: 2,
@@ -127,14 +133,14 @@
                 path: "study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
             };
             var stratRowInserterProps_${epochCount.index} = {
-                nested_row_inserter: startAnsRowInserterProps_${epochCount.index},
+                nested_row_inserter: stratAnsRowInserterProps_${epochCount.index},
                 add_row_division_id: "epoch-${epochCount.index }",
                 skeleton_row_division_id: "dummy-strat-${epochCount.index}",
                 initialIndex: ${fn:length(command.study.epochs[epochCount.index].stratificationCriteria)},
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
                 path: "study.epochs[${epochCount.index }].stratificationCriteria",
-            };
+            };	
             RowManager.addRowInseter(stratRowInserterProps_${epochCount.index});
             RowManager.registerRowInserters();
 
@@ -145,11 +151,11 @@
         	}
         </script>
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
+			<div id="stratificationQuestions-${epoch.id}">
 			<table id="epoch-${epochCount.index}" class="">
-			<tr></tr>
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
+			<tr></tr>
 			<c:forEach items="${command.study.epochs[epochCount.index].stratificationCriteria}" var="strat" varStatus="status">
-					<div id="startificationQuestions-${epoch.id}">
 					<c:if test="${epoch.stratificationIndicator == 'true' }">
 					<script>
                         RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}).updateIndex(${fn:length(command.study.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers)});
@@ -205,28 +211,33 @@
 						</td>
 					</tr>
 					</c:if>
-					</div>
 				</c:forEach>
 			</table>
+			</div>
 			<br>
 			<div align="left">
-				<span id="addStratificationCriteria-${epoch.id}" <c:if test="${fn:length(command.study.epochs[epochCount.index].stratumGroups) > 0 }"> style = "display:none" </c:if> >
+				<span id="addStratificationCriteria-${epoch.id}" <c:if test="${fn:length(epoch.stratumGroups) > 0 }"> style = "display:none" </c:if> >
 					<tags:button type="button" color="blue" icon="add" value="Add Stratification Factor" onclick="$('stratumButton-${epoch.id}').show();RowManager.addRow(stratRowInserterProps_${epochCount.index});" size="small"/>
 				</span>
-				<span id="stratumButton-${epoch.id}" <c:if test="${fn:length(command.study.epochs[epochCount.index].stratificationCriteria) == 0}"> style = "display:none" </c:if> >
-					<tags:button type="submit" color="blue" value="Generate Stratum Groups" onclick="preProcessGenerateGroups(${epochCount.index});disableQuestionSection('${epoch.id}');" size="small"/>
+				<span id="editStratificationCriteria-${epoch.id}" <c:if test="${fn:length(epoch.stratumGroups) == 0 }"> style = "display:none" </c:if> >
+					<tags:button type="button" icon="edit" color="blue" value="Edit Stratification Criteria" onclick="editStratificationCriteria('${epochCount.index}','${isBookRandomized}', '${epoch.id}');$('editStratificationCriteria-${epoch.id}').hide(); $('addStratificationCriteria-${epoch.id}').show(); $('stratumButton-${epoch.id}').show();" size="small"/>
 				</span>
-				<span id="editStratificationCriteria-${epoch.id}" <c:if test="${fn:length(command.study.epochs[epochCount.index].stratumGroups) == 0 }"> style = "display:none" </c:if> >
-					<tags:button type="button" color="blue" value="Edit Stratification Criteria" onclick="editStratificationCriteria('${epochCount.index}','${isBookRandomized}');$('editStratificationCriteria-${epoch.id}').hide(); $('addStratificationCriteria-${epoch.id}').show(); $('stratumButton-${epoch.id}').show();" size="small"/>
+				<span id="stratumButton-${epoch.id}" <c:if test="${fn:length(epoch.stratificationCriteria) == 0}"> style = "display:none" </c:if> >
+					<tags:button type="submit" color="blue" value="Generate Stratum Groups" onclick="preProcessGenerateGroups(${epochCount.index});" size="small"/>
 				</span>
 			</div>
-			<div id="startificationGroup-${epoch.id}" <c:if test="${fn:length(command.study.epochs[epochCount.index].stratumGroups) == 0 }"> style = "display:none" </c:if>>
+			<div id="stratificationGroup-${epoch.id}" <c:if test="${fn:length(epoch.stratumGroups) == 0 }"> style = "display:none" </c:if>>
 			<jsp:include page="../study/asynchronous/reordered_strat_combinations.jsp">
 				<jsp:param name="epochCountIndex" value="${epochCount.index}" />
 			</jsp:include>
 			</div>
 			
 		</tags:minimizablePanelBox>
+		<c:if test="${fn:length(epoch.stratumGroups) > 0 }">
+			<script>
+				disableQuestionSection('${epoch.id}');
+			</script>
+		</c:if>
 		</c:if>
 	</c:forEach>
 	</c:if>
