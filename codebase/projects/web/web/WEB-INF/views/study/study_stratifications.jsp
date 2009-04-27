@@ -30,7 +30,7 @@
 		var answer;
 		if(firstVisit && isBook){
 		  //only show the reorder confirm pop-up the first time.
-		  answer = confirmationMessage("Book Randomization Entries(if any) will be deleted. Do you want to proceed?");
+		  answer = confirm("Book Randomization Entries(if any) will be deleted. Do you want to proceed?");
 		  new Element.show('reorderGroupsInd-'+epochCountIndex);
 		  firstVisit = false;
 		} else{
@@ -58,9 +58,9 @@
 		}
 		if(length > 0){
 			if(isBookRandomized == 'true'){
-				return confirmationMessage("Stratum Groups and Book Randomization Entries(if any) will be deleted. Do you want to proceed?");			
+				return confirm("Stratum Groups and Book Randomization Entries(if any) will be deleted. Do you want to proceed?");			
 			} else{
-				return confirmationMessage("Stratum Groups will be deleted. Do you want to proceed?");
+				return confirm("Stratum Groups will be deleted. Do you want to proceed?");
 			}
 		} else {
 			return true;
