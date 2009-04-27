@@ -63,7 +63,7 @@
 			</div>
 			<chrome:division title="Inclusion Criteria" minimize="true"
 				divIdToBeMinimized="inclusionCriteria-${epochCount.index}">
-				<div id="inclusionCriteria-${epochCount.index}">
+				<div id="inclusionCriteria-${epochCount.index}" style="display: none">
 				<table width="100%">
 					<tr>
 						<td>
@@ -101,12 +101,12 @@
 				</div>
 				<br>
 				<tags:button type="button" color="blue" icon="add" value="Add Inclusion Criterion"
-								onclick="$('hInclusionEligibility--${epochCount.index}').show();RowManager.addRow(instanceInclusionRow_${epochCount.index});" size="small"/>
+								onclick="$('inclusionCriteria-${epochCount.index}').show();RowManager.addRow(instanceInclusionRow_${epochCount.index});" size="small"/>
 				<br>				
 			</chrome:division>
 			<chrome:division title="Exclusion Criteria" minimize="true"
 				divIdToBeMinimized="exclusionCriteria-${epochCount.index}">
-				<div id="exclusionCriteria-${epochCount.index}">
+				<div id="exclusionCriteria-${epochCount.index}" style="display :none">
 				<table width="100%">
 					<tr>
 						<td>
@@ -145,7 +145,7 @@
 				</div>
 				<br>
 				<tags:button type="button" color="blue" icon="add" value="Add Exclusion Criterion"
-								onclick="$('hExclusionEligibility-${epochCount.index}').show();RowManager.addRow(instanceExclusionRow_${epochCount.index});" size="small"/>
+								onclick="$('exclusionCriteria-${epochCount.index}').show();RowManager.addRow(instanceExclusionRow_${epochCount.index});" size="small"/>
 								<br>
 			</chrome:division>
 			</td>
