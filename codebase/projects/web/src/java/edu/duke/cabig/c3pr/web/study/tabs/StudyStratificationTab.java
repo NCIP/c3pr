@@ -7,12 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
-
+import quicktime.Errors;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Randomization;
@@ -21,6 +16,7 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
@@ -116,7 +112,6 @@ public class StudyStratificationTab extends StudyTab {
 		clearStratumGroupsForEpoch(epoch);
 		
 		Map <String, String> map = new HashMap<String, String>();
-		map.put(AjaxableUtils.getFreeTextModelName(),map);
 		return new ModelAndView("", map);
 	}
 	
