@@ -92,11 +92,13 @@
     }
 
     function editStratificationCriteria(epochCountIndex, isBook, id){
+    	$('stratificationIndicator-'+epochCountIndex).show();
 		canDeleteGroupAndBooks = stratumGroupAlert(epochCountIndex, isBook)
         if(canDeleteGroupAndBooks){
 			clear(epochCountIndex);
 			enableQuestionSection(id);
         }
+		$('stratificationIndicator-'+epochCountIndex).hide();
      }
 
 	</script>
@@ -223,8 +225,9 @@
 					<tags:button type="button" icon="edit" color="blue" value="Edit Stratification Criteria" onclick="editStratificationCriteria('${epochCount.index}','${isBookRandomized}', '${epoch.id}');$('editStratificationCriteria-${epoch.id}').hide(); $('addStratificationCriteria-${epoch.id}').show(); $('stratumButton-${epoch.id}').show();" size="small"/>
 				</span>
 				<span id="stratumButton-${epoch.id}" <c:if test="${fn:length(epoch.stratificationCriteria) == 0}"> style = "display:none" </c:if> >
-					<tags:button type="submit" color="blue" value="Generate Stratum Groups" onclick="preProcessGenerateGroups(${epochCount.index});" size="small"/>
+					<tags:button type="submit" color="blue" value="Generate Stratum Groups" onclick="$('stratificationIndicator-${epochCount.index }').show();preProcessGenerateGroups(${epochCount.index});" size="small"/>
 				</span>
+				<img id="stratificationIndicator-${epochCount.index }" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 			</div>
 			<div id="stratificationGroup-${epoch.id}" <c:if test="${fn:length(epoch.stratumGroups) == 0 }"> style = "display:none" </c:if>>
 			<jsp:include page="../study/asynchronous/reordered_strat_combinations.jsp">
