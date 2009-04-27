@@ -116,6 +116,7 @@ public class StudyStratificationTab extends StudyTab {
 		clearStratumGroupsForEpoch(epoch);
 		
 		Map <String, String> map = new HashMap<String, String>();
+		map.put(AjaxableUtils.getFreeTextModelName(), message);
 		return new ModelAndView("", map);
 	}
 	
