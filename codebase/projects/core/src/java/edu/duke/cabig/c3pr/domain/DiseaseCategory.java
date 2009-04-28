@@ -34,7 +34,7 @@ public class DiseaseCategory extends AbstractMutableDeletableDomainObject {
 
     public void addTerm(DiseaseTerm term) {
         terms.add(term);
-        term.setDiseaseCategory(this);
+        term.setCategory(this);
     }
 
     // //// BEAN PROPERTIES
@@ -47,7 +47,7 @@ public class DiseaseCategory extends AbstractMutableDeletableDomainObject {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "diseaseCategory")
+    @OneToMany(mappedBy = "category")
     @OrderBy
     // by ID for consistency
     public List<DiseaseTerm> getTerms() {
