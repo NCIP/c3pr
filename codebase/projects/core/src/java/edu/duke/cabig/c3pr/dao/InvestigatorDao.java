@@ -177,7 +177,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      */
     private void updateDatabaseWithRemoteContent(RemoteInvestigator retrievedRemoteInvestigator){
     	//See if the retrieved remoteInvs already exist in our database.
-		Investigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getUniqueIdentifier());
+		Investigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getExternalId());
 		if(matchingRemoteInvestigatorFromDb == null ){
 			buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
 		} else {
