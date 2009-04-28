@@ -478,12 +478,12 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         term1.setTerm("AIDS-related anal cancer");
         term1.setCtepTerm("AIDS-related anal cancer");
         term1.setMedraCode(1033333);
-        term1.setDiseaseCategory(disCatSaved);
+        term1.setCategory(disCatSaved);
         DiseaseTerm term2 = new DiseaseTerm();
         term2.setTerm("AIDS-related cervical cancer");
         term2.setCtepTerm("AIDS-related cervical cancer");
         term2.setMedraCode(10322);
-        term2.setDiseaseCategory(disCatSaved);
+        term2.setCategory(disCatSaved);
 
         DiseaseCategory disCat = disCatSaved;
         Investigator inv = invSave;
