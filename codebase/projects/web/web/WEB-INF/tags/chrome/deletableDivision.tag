@@ -47,7 +47,8 @@
 				</c:when>
 				<c:otherwise>
 					<c:set var="imageVar" value="minimize"></c:set>				
-				</c:other
+				</c:otherwise>
+				</c:choose>
 				<a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/${imageVar}.png" />" alt="${imageVar}" style="vertical-align:middle" /></a>
 				<span id="${divTitle}">${title}</span>
 				</c:when>
