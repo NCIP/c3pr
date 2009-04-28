@@ -252,7 +252,7 @@ public class PersonnelServiceImpl implements PersonnelService {
 		converterResearchStaff.setLastName(remoteResearchStaff.getLastName());
 		converterResearchStaff.setMiddleName(remoteResearchStaff.getMiddleName());
 		converterResearchStaff.setMaidenName(remoteResearchStaff.getMaidenName());
-		converterResearchStaff.setUniqueIdentifier(remoteResearchStaff.getUniqueIdentifier());
+		converterResearchStaff.setUniqueIdentifier(remoteResearchStaff.getExternalId());
 		researchStaffConverterDao.save(converterResearchStaff);
 		return converterResearchStaff;
 	}
@@ -266,7 +266,7 @@ public class PersonnelServiceImpl implements PersonnelService {
 		converterInvestigator.setLastName(remoteInvestigator.getLastName());
 		converterInvestigator.setMiddleName(remoteInvestigator.getMiddleName());
 		converterInvestigator.setMaidenName(remoteInvestigator.getMaidenName());
-		converterInvestigator.setUniqueIdentifier(remoteInvestigator.getUniqueIdentifier());
+		converterInvestigator.setUniqueIdentifier(remoteInvestigator.getExternalId());
 		investigatorConverterDao.save(converterInvestigator);
 		return converterInvestigator;
 	}
