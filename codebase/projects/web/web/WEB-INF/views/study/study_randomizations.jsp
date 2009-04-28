@@ -108,9 +108,8 @@
 				</div>				
 	     		<div id="bookButton" align="center">
 	     			<tags:button type="button" color="blue" value="Upload Randomization Book" onclick="uploadBook('command', '${epochCount.index}', '${flowType}')" size="small"/>    
-		 			<img id="randomizationIndicator-${epochCount.index }" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none"/>
 		 		</div>
-		 		</div
+		 		</div>
 		 	</div>
 			<div id="uploadBook_${epochCount.index}">
 				<div style="border:2px solid #AC8139; padding-top:10px; padding-bottom:10px; margin-top:4px; background-color:Beige;">
@@ -118,16 +117,19 @@
 			    	<input type="hidden" name="index" value="${epochCount.index}"/>
 				        <div class="content">
 				            <div class="row">
-				                <div class="label"><fmt:message key="study.selectFileToImport"/></div>
-				                <div class="value">
-				                 <c:choose>
+				                <div class="label">
+				                	<fmt:message key="study.selectFileToImport"/>
+				                	<c:choose>
 		                			<c:when test="${epoch.stratificationIndicator}">
-				                    	<div class="fileinputs"><input type="file" name="file" /><tags:hoverHint keyProp="study.bookRandomizations.file"/></div>
+				                    		<tags:hoverHint keyProp="study.bookRandomizations.file"/>
 				                 	</c:when>
 		                			<c:otherwise>
-		                				<div class="fileinputs"><input type="file" name="file" /><tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification.file"/></div>
+		                					<tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification.file"/>
 		                			</c:otherwise>
 		                		 </c:choose>
+				                </div>
+				                <div class="value">
+				                    		<input type="file" name="file" />
 				                </div>
 				            </div>
 				        </div>
