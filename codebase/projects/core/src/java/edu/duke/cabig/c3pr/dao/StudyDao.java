@@ -135,6 +135,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      */
     @Transactional(readOnly = false)
     public void initialize(Study study) 	{
+
     	getHibernateTemplate().initialize(study.getEpochsInternal());
 		for (Epoch epoch : study.getEpochsInternal()) {
 			if (epoch != null) {
@@ -144,8 +145,10 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     	getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
     	getHibernateTemplate().initialize(study.getEndpoints());
 		getHibernateTemplate().initialize(study.getStudyDiseases());
-		for (StudyDisease studyDisease : study.getStudyDiseases()) {
-			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory());
+		for(StudyDisease studyDisease : study.getStudyDiseases()){
+			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getDiseaseCategory().getTerms());
+			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getDiseaseCategory());
+			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getDiseaseCategory().getChildCategories());
 		}
 		getHibernateTemplate().initialize(study.getStudyOrganizations());
 		getHibernateTemplate().initialize(study.getIdentifiers());
