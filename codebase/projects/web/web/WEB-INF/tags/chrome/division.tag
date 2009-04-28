@@ -13,30 +13,38 @@
 
 <div class="division ${cssClass}"<tags:attribute name="id" value="${id}"/><tags:attribute name="style" value="${style}"/>>
 <c:choose>
-    <c:when test="${not empty minimize && minimize == 'true' && not empty divIdToBeMinimized}">
+    <c:when test="${not empty minimize && not empty divIdToBeMinimized}">
         <c:if test="${not empty title}">
         	<script>
-    function toggleCriteria(divIdToBeMinimized, id){
-        var el = document.getElementById(divIdToBeMinimized);
-		var elimg =document.getElementById(id);
-        if (el == null) {
-            alert("division.tag - Could not find div Element to minimize.");
-        }
-        if (el.style.display != 'none') {
-            new Effect.BlindUp(el);
-            elimg.src = '<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />';
-			elimg.alt = 'Maximize';
-            
-        }
-        else {
-            new Effect.BlindDown(el);
-            elimg.src = '<chrome:imageUrl name="../../templates/mocha/images/minimize.png" />';
-			elimg.alt = 'Minimize';
-            
-        }
-    }
-</script>
-            <h3><a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />" alt="Maximize" style="vertical-align:middle" /></a> 
+			    function toggleCriteria(divIdToBeMinimized, id){
+			        var el = document.getElementById(divIdToBeMinimized);
+					var elimg =document.getElementById(id);
+			        if (el == null) {
+			            alert("division.tag - Could not find div Element to minimize.");
+			        }
+			        if (el.style.display != 'none') {
+			            new Effect.BlindUp(el);
+			            elimg.src = '<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />';
+						elimg.alt = 'Maximize';
+			            
+			        }
+			        else {
+			            new Effect.BlindDown(el);
+			            elimg.src = '<chrome:imageUrl name="../../templates/mocha/images/minimize.png" />';
+						elimg.alt = 'Minimize';
+			            
+			        }
+			    }
+			</script>
+			<c:choose>
+				<c:when test="${minimize}">
+					<c:set var="imageVar" value="maximize"></c:set>
+				</c:when>
+				<c:otherwise>
+					<c:set var="imageVar" value="minimize"></c:set>				
+				</c:otherwise>
+			</c:choose>
+            <h3><a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/${imageVar}.png" />" alt="${imageVar}" style="vertical-align:middle" /></a> 
             
             <c:choose>
             	<c:when test="${!empty link && condition}">

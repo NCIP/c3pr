@@ -19,7 +19,7 @@
     	<td>
 			<c:if test="${not empty title}">
 			<c:choose>	
-				<c:when test="${not empty minimize && minimize == 'true' && not empty divIdToBeMinimized}">
+				<c:when test="${not empty minimize  && not empty divIdToBeMinimized}">
 			        	<script>
 			    function toggleCriteria(divIdToBeMinimized, id){
 			        var el = document.getElementById(divIdToBeMinimized);
@@ -41,7 +41,14 @@
 			        }
 			    }
 				</script>
-				<a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />" alt="Maximize" style="vertical-align:middle" /></a>
+				<c:choose>
+				<c:when test="${minimize}">
+					<c:set var="imageVar" value="maximize"></c:set>
+				</c:when>
+				<c:otherwise>
+					<c:set var="imageVar" value="minimize"></c:set>				
+				</c:other
+				<a style='cursor:pointer' onclick='toggleCriteria("${divIdToBeMinimized}", "minmax_${divIdToBeMinimized}")'><img id="minmax_${divIdToBeMinimized}" src="<chrome:imageUrl name="../../templates/mocha/images/${imageVar}.png" />" alt="${imageVar}" style="vertical-align:middle" /></a>
 				<span id="${divTitle}">${title}</span>
 				</c:when>
 				<c:otherwise>

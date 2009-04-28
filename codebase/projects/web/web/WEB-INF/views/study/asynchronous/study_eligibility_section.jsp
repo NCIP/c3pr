@@ -42,7 +42,7 @@
 			<tags:hoverHint keyProp="study.criteriafile" />
 		</div>
 	</div>
-	<chrome:division title="Inclusion Criteria" minimize="true" divIdToBeMinimized="inclusionCriteria-${index}">
+	<chrome:division title="Inclusion Criteria" minimize="false" divIdToBeMinimized="inclusionCriteria-${index}">
 		<div id="inclusionCriteria-${index}">
 				<table border="0" cellspacing="0"  cellpadding="0" id="addInclusionRowTable-${index}"
 					class="tablecontent">
@@ -84,7 +84,7 @@
 			<tags:button type="button" color="blue" icon="add" value="Add Inclusion Criterion" onclick="$('hInclusionEligibility--${index}').show();RowManager.addRow(instanceInclusionRow_${index});" size="small"/>
 	</chrome:division>
 	<br>
-	<chrome:division title="Exclusion Criteria" minimize="true" divIdToBeMinimized="exclusionCriteria-${index}">
+	<chrome:division title="Exclusion Criteria" minimize="false" divIdToBeMinimized="exclusionCriteria-${index}">
 		<div id="exclusionCriteria-${index}">
 				<table border="0" width="95%" cellspacing="0" cellpadding="0" class="tablecontent"
 					id="addExclusionRowTable-${index}">

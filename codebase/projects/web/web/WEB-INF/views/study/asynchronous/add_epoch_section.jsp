@@ -11,7 +11,7 @@
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <chrome:deletableDivision divTitle="genericTitle-${index}" id="genericEpochBox-${index}" title="Epoch: ${command.study.epochs[index].name}" onclick="RowManager.deleteRow(genericEpochRowInserterProps,${index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')"
-						 minimize="true" divIdToBeMinimized="epoch-${index}" >
+						 minimize="false" divIdToBeMinimized="epoch-${index}" >
 			<div id="epoch-${index}">
 			<div class="leftpanel">
 				<div class="row">
