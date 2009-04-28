@@ -505,7 +505,7 @@ DELETED TD
 							<th></th>
 						</tr>
 						<tr>
-			      			<td align="left" id="addArmMessage-PAGE.ROW.INDEX"><fmt:message key="epoch.arm.addArm"/></td>
+			      			<td  colspan="3" align="left" id="addArmMessage-PAGE.ROW.INDEX"><fmt:message key="epoch.arm.addArm"/></td>
 			      		</tr>
 					</table>
 					<br>

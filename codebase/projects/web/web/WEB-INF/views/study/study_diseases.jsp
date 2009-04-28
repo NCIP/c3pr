@@ -264,7 +264,11 @@
 				</tr>
 			</c:forEach>
 		</table>
-	</div>
+		<br>
+		<c:if test="${fn:length(command.study.studyDiseases) == 0}">
+			Select Disease term from autocompleter and click 'Add Disease' to add disease to study or to  add multiple disease click 'Add Multiple Diseases'.
+		</c:if>
+		<br>	
 	</chrome:box>
 	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 </form:form>
