@@ -249,7 +249,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     public List<ResearchStaff> getByEmailAddress(String emailAddress) {
     	//get the remote staff and update the database first
         RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
-        remoteResearchStaff.setUniqueIdentifier(emailAddress);
+        remoteResearchStaff.setExternalId(emailAddress);
         
         getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
         
@@ -364,7 +364,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     	
     	try {
 			for (RemoteResearchStaff remoteResearchStaff: remoteResearchStaffList) {
-				List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifier(remoteResearchStaff.getUniqueIdentifier());
+				List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifier(remoteResearchStaff.getExternalId());
 				if(researchStaffFromDatabase.size() > 0){
 					//this guy already exists....update the database with the latest coppa data
 					mergeResearchStaff(researchStaffFromDatabase.get(0));
