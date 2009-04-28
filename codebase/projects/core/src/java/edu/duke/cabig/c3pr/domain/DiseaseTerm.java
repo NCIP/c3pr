@@ -23,7 +23,7 @@ public class DiseaseTerm extends AbstractMutableDeletableDomainObject {
 
     private long medraCode;
 
-    private DiseaseCategory category;
+    private DiseaseCategory diseaseCategory;
 
     // private boolean otherRequired;
 
@@ -55,14 +55,14 @@ public class DiseaseTerm extends AbstractMutableDeletableDomainObject {
         this.ctepTerm = ctepTerm;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    public DiseaseCategory getCategory() {
-        return category;
+    public DiseaseCategory getDiseaseCategory() {
+        return diseaseCategory;
     }
 
-    public void setCategory(DiseaseCategory category) {
-        this.category = category;
+    public void setDiseaseCategory(DiseaseCategory diseaseCategory) {
+        this.diseaseCategory = diseaseCategory;
     }
 
     public boolean equals(Object o) {
