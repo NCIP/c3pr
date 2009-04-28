@@ -4,6 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import com.semanticbits.coppa.domain.annotations.RemoteEntity;
+import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 import com.semanticbits.coppa.domain.annotations.RemoteUniqueId;
 
 import edu.duke.cabig.c3pr.infrastructure.RemoteInvestigatorResolver;
@@ -13,15 +14,16 @@ import edu.duke.cabig.c3pr.infrastructure.RemoteInvestigatorResolver;
 @DiscriminatorValue("Remote")
 public class RemoteInvestigator extends Investigator{
 	
-	private String uniqueIdentifier;
+	private String externalId;
 	
 	@RemoteUniqueId
-	public String getUniqueIdentifier() {
-		return uniqueIdentifier;
+	@RemoteProperty
+	public String getExternalId() {
+		return externalId;
 	}
 
-	public void setUniqueIdentifier(String uniqueIdentifier) {
-		this.uniqueIdentifier = uniqueIdentifier;
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
 	}
 
 }
