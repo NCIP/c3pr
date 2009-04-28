@@ -16,7 +16,7 @@
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" dtype="Local" nci_institute_code="NC010" retired_indicator="false" />
     <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" dtype="Local" nci_institute_code="NC008" retired_indicator="false" />
     
-    <RESEARCH_STAFF id="1004" version="1" first_name="" last_name="remote_research_staff_last_name" dtype="Remote" unique_identifier="bob@gmail.com" hcs_id="1000"  nci_identifier="abc" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1004" version="1" first_name="" last_name="remote_research_staff_last_name" dtype="Remote" external_id="bob@gmail.com" hcs_id="1000"  nci_identifier="abc" retired_indicator = "false" />
     <RESEARCH_STAFF id="1000" version="1" first_name="Research Bill" last_name="Staff2" dtype="Local" hcs_id="1000" nci_identifier="rjfk_1003" retired_indicator = "false" />
     <RESEARCH_STAFF id="1001" version="1" first_name="Research George" last_name="Staff2" dtype="Local" hcs_id="1000" retired_indicator = "false" />
     <RESEARCH_STAFF id="1002" version="1" first_name="Research Benjamin" last_name="Staff3" dtype="Local" hcs_id="1000" retired_indicator = "false" />    
