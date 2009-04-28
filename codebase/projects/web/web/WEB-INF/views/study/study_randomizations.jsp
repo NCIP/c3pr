@@ -11,6 +11,9 @@
 	var globalIndex;
 	function uploadBook(form, index, flowType){
 		var parameterMap;
+		if(form != ""){
+			parameterMap = getParameterMap(form);
+		}
 		if(index == ""){
 			index = globalIndex;
 		} else {			
@@ -143,8 +146,6 @@
 		    </div>
 		</div>
 		<div class="division"></div>		
-<%--	will call this to get display onload in edit mode. but currently gives a hibernate exception
-		<script>uploadBook("", "${epochCount.index}");</script>		--%>		
 		</tags:minimizablePanelBox>	
 		</c:if>	
 	</c:forEach>	

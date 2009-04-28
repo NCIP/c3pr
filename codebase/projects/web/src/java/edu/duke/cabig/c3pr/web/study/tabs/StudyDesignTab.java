@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class StudyDesignTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(wrapper);
         addConfigMapToRefdata(refdata, "yesNo");
         boolean isAdmin = isAdmin();
+        refdata.put("epochOrders", getEpochOrders(wrapper));
 
         if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true"))
                 || (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true"))) {
@@ -51,7 +53,16 @@ public class StudyDesignTab extends StudyTab {
         return refdata;
     }
 
-    /*
+    private List<Integer> getEpochOrders(StudyWrapper wrapper) {
+		int epochs = wrapper.getStudy().getEpochs().size();
+		List<Integer> epochOrders = new ArrayList<Integer>();
+    	for(int i=1; i <= epochs; i++){
+    		epochOrders.add(i);
+    	}
+    	return epochOrders ;
+    }
+
+	/*
      * Clear the book entries (if any) corresponding to the treatment epoch. Called by the deleteRow
      * of the row manager.
      */
