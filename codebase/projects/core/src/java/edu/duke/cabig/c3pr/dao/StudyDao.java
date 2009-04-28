@@ -146,9 +146,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     	getHibernateTemplate().initialize(study.getEndpoints());
 		getHibernateTemplate().initialize(study.getStudyDiseases());
 		for(StudyDisease studyDisease : study.getStudyDiseases()){
-			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getDiseaseCategory().getTerms());
-			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getDiseaseCategory());
-			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getDiseaseCategory().getChildCategories());
+			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory().getTerms());
+			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory());
+			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory().getChildCategories());
 		}
 		getHibernateTemplate().initialize(study.getStudyOrganizations());
 		getHibernateTemplate().initialize(study.getIdentifiers());
