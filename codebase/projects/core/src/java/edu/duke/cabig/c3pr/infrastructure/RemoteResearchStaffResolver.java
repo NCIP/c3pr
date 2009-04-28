@@ -291,7 +291,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	public RemoteResearchStaff populateRemoteResearchStaff(Person coppaPerson, String staffNciIdentifier, List<gov.nih.nci.coppa.po.Organization> coppaOrganizationList){
 		
 		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff)personResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
-		remoteResearchStaff.setUniqueIdentifier(coppaPerson.getIdentifier().getExtension());
+		remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
 		
 		if(!StringUtils.isEmpty(staffNciIdentifier)){
 			remoteResearchStaff.setNciIdentifier(staffNciIdentifier);

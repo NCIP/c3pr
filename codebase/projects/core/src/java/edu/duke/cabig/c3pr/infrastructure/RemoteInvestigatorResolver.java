@@ -50,7 +50,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		RemoteInvestigator remoteInvestigator = (RemoteInvestigator)personResolverUtils.setC3prUserDetails(coppaPerson, new RemoteInvestigator());
 
 		remoteInvestigator.setNciIdentifier(coppaPerson.getIdentifier().getExtension());
-		remoteInvestigator.setUniqueIdentifier(coppaPerson.getIdentifier().getExtension());
+		remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
 		
 		if(!StringUtils.isEmpty(staffNciIdentifier)){
 			remoteInvestigator.setNciIdentifier(staffNciIdentifier);
