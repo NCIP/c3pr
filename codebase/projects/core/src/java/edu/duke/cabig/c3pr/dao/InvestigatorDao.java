@@ -239,7 +239,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      */
     public Investigator getByUniqueIdentifier(String uniqueIdentifier) {
     	List<Investigator> investigatorList = new ArrayList<Investigator>();
-    	investigatorList.addAll(getHibernateTemplate().find("from Investigator rs where rs.uniqueIdentifier = '" +uniqueIdentifier+ "'"));
+    	investigatorList.addAll(getHibernateTemplate().find("from Investigator inv where inv.externalId = '" +uniqueIdentifier+ "'"));
     	if(investigatorList.size() > 0){
     		return investigatorList.get(0);
     	}
