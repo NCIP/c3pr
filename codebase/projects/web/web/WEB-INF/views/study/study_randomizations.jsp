@@ -76,7 +76,7 @@
 <c:if test="${command.study.randomizationType.name == 'BOOK'}">	
 	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 		<c:if test="${epoch.randomizedIndicator}">
-		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
+		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}" >
 		<div id="book_${epochCount.index}" class="leftpanel"  >
 			<a href="javascript:moveToUploadBook('${epochCount.index}');" id="upload_btn_${epochCount.index}" class="fifthlevelTab-current">
     			<span>Upload Book</span>
@@ -84,7 +84,7 @@
     		<a href="javascript:moveToInsertBook('${epochCount.index}');" id="insert_btn_${epochCount.index}" class="fifthlevelTab">
     			<span id="InsertBookSpan">Insert Book</span>
     		</a> 
-			<div id="insertBook_${epochCount.index}" style="display: none" > 
+			<div id="insertBook_${epochCount.index}" style="display: none"> 
 				<div style="border:2px solid #AC8139; padding-top:10px; padding-bottom:10px; margin-top:4px; background-color:Beige;">
 	     		<input type="hidden" name="index" value="${epochCount.index}"/>       
 				<div class="row">
