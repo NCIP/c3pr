@@ -8,26 +8,34 @@ import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
-import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl;
 
 public class StudyFactory {
 	
 	private HealthcareSiteDao healthcareSiteDao;
 
 	private InvestigatorDao investigatorDao;
+	
+	private DiseaseTermDao diseaseTermDao;
+
+	public void setDiseaseTermDao(DiseaseTermDao diseaseTermDao) {
+		this.diseaseTermDao = diseaseTermDao;
+	}
 
 	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
@@ -79,9 +87,8 @@ public class StudyFactory {
 				if (loadedSiteInv == null) {
 					throw exceptionHelper
 							.getException(
-									getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
-									new String[] { loadedSite.getName(),
-											loadedInv.getFullName() });
+									getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_INVESTIGATOR.CODE"),
+									new String[] {loadedInv.getFullName(),loadedSite.getName()});
 				}
 				sInv.setHealthcareSiteInvestigator(loadedSiteInv);
 				sInv.setSiteInvestigator(loadedSiteInv);
@@ -96,6 +103,19 @@ public class StudyFactory {
 					.getByNciInstituteCode(identifier.getHealthcareSite()
 							.getNciInstituteCode());
 			identifier.setHealthcareSite(loadedSite);
+		}
+		
+		//build and save all study diseases
+		
+		for(StudyDisease studyDisease :study.getStudyDiseases()){
+			List<DiseaseTerm> loadedDiseaseTerms = diseaseTermDao.getByCtepTerm(studyDisease.getDiseaseTerm().getCtepTerm());
+			if (loadedDiseaseTerms == null) {
+				throw exceptionHelper
+						.getException(
+								getCode("C3PR.EXCEPTION.STUDY.INVALID.CTEP_TERM.CODE"),
+								new String[] {studyDisease.getDiseaseTerm().getCtepTerm()});
+			}
+			studyDisease.setDiseaseTerm(loadedDiseaseTerms.get(0));
 		}
 		
 		// build all the companion studies of the study.
