@@ -420,7 +420,7 @@ public class BookRandomizationAjaxFacade {
         table.setShowPagination(true);
         table.setFilterable(false);
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
-        table.setRowsDisplayed(15);
+        table.setRowsDisplayed(10);
         model.addTable(table);
 
         Row row = model.getRowInstance();
@@ -465,13 +465,11 @@ public class BookRandomizationAjaxFacade {
         table.setAction(model.getContext().getContextPath() + action);
         table.setTableId(tableId);
         table.setItems(bookRandomizationEntries);
-        table
-                        .setOnInvokeAction("uploadBook('" + tableId + "', '" + index + "','"
-                                        + flowType + "')");
+        table.setOnInvokeAction("uploadBook('" + tableId + "', '" + index + "','"+ flowType + "')");
         table.setShowPagination(true);
         table.setFilterable(false);
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
-        table.setRowsDisplayed(15);
+        table.setRowsDisplayed(10);
         model.addTable(table);
 
         Row row = model.getRowInstance();

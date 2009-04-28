@@ -7,7 +7,7 @@
 <c:set var="epochCountIndex" value="${param.epochCountIndex}" />
 
 	<div id="sgCombinations_${epochCountIndex}"><!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
-	<chrome:division title="Stratum Groups (Drag/Drop the groups to re-order.)">
+	<chrome:division title="Stratum Groups (drag/drop the groups to re-order)">
 	<!--stratum groups combinations display section-->
 	<script>
 	var stratumGroupRowInserter_${epochCountIndex} = {
