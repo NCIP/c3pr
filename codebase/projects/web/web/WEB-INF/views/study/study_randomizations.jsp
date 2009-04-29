@@ -85,7 +85,7 @@
     			<span id="InsertBookSpan">Insert Book</span>
     		</a> 
 			<div id="insertBook_${epochCount.index}" style="display: none"> 
-				<div style="border:2px solid #AC8139; padding-top:10px; padding-bottom:10px; margin-top:4px; background-color:Beige;">
+				<div style="border:2px solid #AC8139; padding-top:10px; padding-bottom:10px; margin-top:4px; background-color:Beige;height:20em">
 	     		<input type="hidden" name="index" value="${epochCount.index}"/>       
 				<div class="row">
 		            <c:choose>
@@ -142,10 +142,12 @@
 	    	</div>
 	    </div>
 		<!--  Right hand section for book result section begins -->
-		<div id="book_results_${epochCount.index}" class="rightpanel" style="border-width:thin; border-style:solid; border-color:grey; padding:5px; width:48%">
+		<div class="rightpanel" style="margin-top:20px; width:48%" >
+		<div id="book_results_${epochCount.index}"  style="border-width:thin; border-style:solid; border-color:grey; padding:5px">
 		     <div id="bookRandomizationsDisplay-${epochCount.index}">	
 		     	<c:out value="${bookRandomizationEntries[epochCount.index]}" escapeXml="false"/>	    	
 		    </div>
+		</div>
 		</div>
 		<div class="division"></div>		
 		</tags:minimizablePanelBox>	
