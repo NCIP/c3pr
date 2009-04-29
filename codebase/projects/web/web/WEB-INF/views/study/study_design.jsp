@@ -67,13 +67,34 @@
             postProcessRowInsertion: function(object){
       								var inputName="study.epochs["+object.localIndex+"].name";
       								setTimeout("enableFocus(\'"+inputName+"\')",10);
-      							}
+      								addEpochOrderOptions(object.localIndex + 1);
+      							},
+            postProcessRowDeletion: function(t){
+      								removeEpochOrderOptions();                	
+      						    }
             };
  		RowManager.addRowInseter(genericEpochRowInserterProps);
         RowManager.registerRowInserters();
         function enableFocus(inputName2){
         	$$("input[name='"+inputName2+"']")[0].focus();
         }
+
+
+        function addEpochOrderOptions(order){
+        	$$('.epochOrder').each(function(element){
+        		var optn = document.createElement("OPTION");
+            	optn.text = order;
+            	optn.value = order;
+				element.options.add(optn);
+    		});
+        }
+
+        function removeEpochOrderOptions(){
+        	$$('.epochOrder').each(function(element){
+				element.remove(element.options.length-1);
+    		});
+        }
+    	
     </script>
 <style>
 	.descTextarea {
@@ -132,7 +153,10 @@ DELETED TD
           	<tags:requiredIndicator /><b><fmt:message key="study.epoch.order"/></b>
           </td>
           <td>
-              <form:input path="study.epochs[${treatmentEpochCount.index}].epochOrder" size="5" maxlength="1" cssClass="validate-notEmpty&&numeric" />
+          		<form:select path="study.epochs[${treatmentEpochCount.index}].epochOrder" id="epochOrder" cssClass="epochOrder validate-notEmpty">
+          			<option value="">Please Select</option>
+          			<form:options items="${epochOrders}" />
+          		</form:select>
               <tags:hoverHint id="study.treatmentEpoch.epochorder-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.epochOrder" />
           </td>
       </tr>
@@ -376,10 +400,14 @@ DELETED TD
 
 						<tr>
 							<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.epoch.order"/></b></td>
-							<td align="left"><input type="text"
-								name="study.epochs[PAGE.ROW.INDEX].epochOrder" size="5"
-								maxlength="1" class="validate-notEmpty&&numeric" /><tags:hoverHint
-								id="study.treatmentEpoch.epochOrder-PAGE.ROW.INDEX"
+							<td align="left">
+								<select name="study.epochs[PAGE.ROW.INDEX].epochOrder" class="epochOrder validate-notEmpty">
+									<option value="">Please Select</option>
+									<c:forEach var="epochOrder" items="${epochOrders}" varStatus="status">
+								        <option value="${epochOrder}">${epochOrder}</option>
+								    </c:forEach>
+								</select>
+								<tags:hoverHint id="study.treatmentEpoch.epochOrder-PAGE.ROW.INDEX"
 								keyProp="study.treatmentEpoch.epochOrder" /></td>
 						</tr>
 
