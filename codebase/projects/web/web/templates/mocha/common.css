@@ -645,9 +645,8 @@ p { margin: 1em 0; }
 
 /* Each pane will contain one or more "boxes" */
 .box {
-	background-color: #fff;
 	margin-bottom: 12px;
-	background: url(images/box/box_bg.jpg) repeat-x top;
+	background: white url(images/box/box_bg.jpg) repeat-x scroll center top;
 }
 .box .header { /* border:1px red dotted; */
 }
