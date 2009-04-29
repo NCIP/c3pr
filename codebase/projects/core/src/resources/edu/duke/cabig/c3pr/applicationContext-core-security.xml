@@ -24,9 +24,9 @@
         </property>
 
     </bean>
-
+<!-- 
     <aop:aspectj-autoproxy/>
-    <aop:spring-configured/>
+    <aop:spring-configured/>  -->
 
      <aop:config>
         <!-- pointcuts -->

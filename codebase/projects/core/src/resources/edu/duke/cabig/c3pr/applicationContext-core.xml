@@ -691,10 +691,5 @@
 	</bean>
 
 	<bean id="identifierGenerator" class="edu.duke.cabig.c3pr.utils.IdentifierGenerator" autowire="byName"/>
-	<!-- 
-	<aop:aspectj-autoproxy/>
-    <aop:spring-configured/>
-    <bean class="edu.duke.cabig.c3pr.aspects.SimpleProfiler" depends-on="remoteInvestigatorResolver"/>
-     -->
    
 </beans>
