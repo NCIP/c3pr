@@ -263,14 +263,14 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
      * 
      * @return the ResearchStaff List
      */
-    public List<ResearchStaff> getByUniqueIdentifier(String emailAddress) {
+    public List<ResearchStaff> getByUniqueIdentifierFromLocal(String uniqueIdentifier) {
     	//get the remote staff and update the database first
 //        RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
 //        remoteResearchStaff.setUniqueIdentifier(emailAddress);
 //        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
         
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
-    	researchStaffList.addAll(getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.value = '" +emailAddress+ "'"));
+    	researchStaffList.addAll(getHibernateTemplate().find("from RemoteResearchStaff rs where rs.uniqueIdentifier.value = '" +uniqueIdentifier+ "' "));
         return researchStaffList;
     }
     
@@ -332,10 +332,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     		retrievedRemoteResearchStaff = (RemoteResearchStaff)object;
     		if(retrievedRemoteResearchStaff.getHealthcareSite() == null && remoteResearchStaff.getHealthcareSite() != null){
     			//if the resolver hasnt set the hcs then set it if it has been passed in...this shudnt happen going fwd
-    			retrievedRemoteResearchStaff.setHealthcareSite(remoteResearchStaff.getHealthcareSite());
+    			//retrievedRemoteResearchStaff.setHealthcareSite(remoteResearchStaff.getHealthcareSite());
+    			log.error("RemoteResearchStaffResolver returned staff without organization!");
     		} else if(retrievedRemoteResearchStaff.getHealthcareSite() != null){
     			//get the corresponding hcs from the dto object and save that organization and then save this staff
-    			HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByNciInstituteCode(retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
+    			HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByNciInstituteCodeFromLocal(retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
     			if(matchingHealthcareSiteFromDb == null){
     				log.error("No corresponding org exists for the nci Code:" +retrievedRemoteResearchStaff.getHealthcareSite().getNciInstituteCode());
     			} else{
@@ -364,15 +365,20 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     	
     	try {
 			for (RemoteResearchStaff remoteResearchStaff: remoteResearchStaffList) {
-				List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifier(remoteResearchStaff.getExternalId());
+				List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifierFromLocal(remoteResearchStaff.getUniqueIdentifier());
 				if(researchStaffFromDatabase.size() > 0){
-					//this guy already exists....update the database with the latest coppa data
-					mergeResearchStaff(researchStaffFromDatabase.get(0));
+					//this guy already exists....make sure his emailID is not currently in db and update the database
+					//Not doing anything for now....this pre-existing person whould be up to date.
+					//mergeResearchStaff(researchStaffFromDatabase.get(0));
 				} else{
-					//this guy doesnt exist
+					//this guy doesnt exist in the db...save him.
 					//This if condition is temporary. once we have the logic to fetch the org of the retrieved staff then we can remove this.
 					if(remoteResearchStaff.getHealthcareSite() != null){
-						saveResearchStaff(remoteResearchStaff);
+						if(getByEmailAddressFromLocal(remoteResearchStaff.getEmailAsString()).size() == 0){
+							saveResearchStaff(remoteResearchStaff);
+						} else {
+							log.error("This remote staff's email id is already in the database. Deferring to the local. :" +remoteResearchStaff.getEmailAsString());
+						}
 					} else {
 						log.error("Remote Staff does not have a healthcareSite associated with it!");
 					}
