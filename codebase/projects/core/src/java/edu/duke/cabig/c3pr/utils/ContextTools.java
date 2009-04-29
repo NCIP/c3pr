@@ -17,6 +17,7 @@ public class ContextTools {
         return new ClassPathXmlApplicationContext(new String[] {
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml",
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-core-db.xml",
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-core-aspects.xml",
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-csm.xml",
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-config.xml",
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-esb.xml",
