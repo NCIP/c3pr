@@ -231,6 +231,9 @@ public class CreateInvestigatorController<C extends Investigator> extends
     @Override
 	protected boolean suppressValidation(HttpServletRequest request,
 			Object command) {
+    	if(command instanceof RemoteInvestigator){
+    		return true;
+    	}
     	return ("saveRemoteInvestigator".equals(request.getParameter("_action")) || "syncInvestigator".equals(request.getParameter("_action")));
 	}
 
