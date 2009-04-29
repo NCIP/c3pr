@@ -132,8 +132,11 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * @return
      */
     public List<Investigator> getByNciIdentifierFromLocal(String nciIdentifier) {
-        return ((List<Investigator>) getHibernateTemplate().find(
+    	if(nciIdentifier!= null){
+    		return ((List<Investigator>) getHibernateTemplate().find(
                         "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
+    	}
+    	return new ArrayList<Investigator>();
     }
     
     /**Looks in Coppa and then the database
