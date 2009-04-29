@@ -105,7 +105,8 @@
 					<div class="value">
 						<textarea name="study.bookRandomizations-${epochCount.index}" id="bookRandomizations-${epochCount.index}" cols=25 rows=12 class="validate-notEmpty&&maxlength500"></textarea>
 					</div>
-				</div>				
+				</div>
+				<br>				
 	     		<div id="bookButton" align="center">
 	     			<tags:button type="button" color="blue" value="Upload Randomization Book" onclick="uploadBook('command', '${epochCount.index}', '${flowType}')" size="small"/>    
 		 		</div>
@@ -133,6 +134,7 @@
 				                </div>
 				            </div>
 				        </div>
+				        <br>
 				        <div id="bookButton" align="center">    
 				        	<tags:button type="submit" color="blue" value="Upload Randomization File" size="small"/>
 							<img id="randomizationIndicator-${epochCount.index }" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">

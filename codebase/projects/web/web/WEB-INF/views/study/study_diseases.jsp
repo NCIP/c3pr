@@ -106,7 +106,8 @@
         $("category_" + id).addClassName("disease-category-selected");
         $("li_" + id).addClassName("li-category-selected");
         $('disease-subcategories').innerHTML = "";
-
+        $('disease-terms').innerHTML = "";
+		
         catId = id; 
         StudyAjaxFacade.getChildCategories(catId, function(childCategories) {
             childCategories.each(function(childCategory) {
@@ -208,8 +209,8 @@
  	
     initalizeCategorySelector();
 
-    function deleteStudyDisease(diseaseTerm){
-		 <tags:tabMethod method="deleteStudyDisease" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'diseaseTermId='+diseaseTerm" /> ;
+    function deleteStudyDiseases(diseaseTerm){
+		 <tags:tabMethod method="deleteStudyDiseases" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'diseaseTermId='+diseaseTerm" /> ;
 	}
 
     var diseaseTermAutocompleterProps = {
@@ -240,6 +241,7 @@
 		<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="diseaseTerm" ></tags:autocompleter>
 		<tags:button size="small" type="button" color="blue" icon="add" value="Add Disease" id="addSingleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.addSingleDisease();"/>
 		<tags:button size="small" type="button" color="blue" icon="add multiple" value="Add Diseases" id="addMultipleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.showCategoryBox();"/>
+		<tags:button size="small" type="button" color="red" icon="x" value="Remove All Diseases" id="removeAllDiseaseBtn" onclick="$('diseaseIndicator').show();deleteStudyDiseases('');"/>
 		<img id="diseaseIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none"/>
 	</div>
 	<br>	
@@ -257,7 +259,7 @@
 					<td>${studyDisease.diseaseTerm.category.name}</td>
 					<td>${studyDisease.diseaseTerm.ctepTerm}</td>
 					<td valign="top" align="left">
-	                    <a href="javascript:deleteStudyDisease('${studyDisease.diseaseTerm.id}');">
+	                    <a href="javascript:deleteStudyDiseases('${studyDisease.diseaseTerm.id}');">
 	                    	<img src="<tags:imageUrl name="checkno.gif"/>" border="0">
 	                    </a>
 	                </td>

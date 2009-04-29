@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
+import freemarker.template.utility.StringUtil;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:26:34 PM To change this template
@@ -109,15 +111,19 @@ public class StudyDiseasesTab extends StudyTab {
 	}
     
     @SuppressWarnings("unchecked")
-	public ModelAndView deleteStudyDisease(HttpServletRequest request, Object obj,Errors errors) {
+	public ModelAndView deleteStudyDiseases(HttpServletRequest request, Object obj,Errors errors) {
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
 		String diseaseTermId = request.getParameter("diseaseTermId");
 		List<StudyDisease> studyDiseases = study.getStudyDiseases();
 		for(StudyDisease studyDisease : studyDiseases){
-			if(studyDisease.getDiseaseTerm().getId() == Integer.parseInt(diseaseTermId) ){
+			if(!StringUtils.isBlank(diseaseTermId)){ 
+				if(studyDisease.getDiseaseTerm().getId() == Integer.parseInt(diseaseTermId)){
+					study.removeStudyDisease(studyDisease);
+					break;
+				}
+			}else{
 				study.removeStudyDisease(studyDisease);
-				break;
 			}
 		}
 		Study modifiedStudy = studyDao.merge(study);

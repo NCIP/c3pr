@@ -14,7 +14,7 @@
 			<td>${studyDisease.diseaseTerm.category.name}</td>
 			<td>${studyDisease.diseaseTerm.ctepTerm}</td>
 			<td valign="top" align="left">
-                   <a href="javascript:deleteStudyDisease(${studyDisease.diseaseTerm.id});">
+                   <a href="javascript:deleteStudyDiseases(${studyDisease.diseaseTerm.id});">
                    	<img src="<tags:imageUrl name="checkno.gif"/>" border="0">
                    </a>
                </td>
