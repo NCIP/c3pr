@@ -365,7 +365,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     	
     	try {
 			for (RemoteResearchStaff remoteResearchStaff: remoteResearchStaffList) {
-				List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifierFromLocal(remoteResearchStaff.getUniqueIdentifier());
+				List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifierFromLocal(remoteResearchStaff.getExternalId());
 				if(researchStaffFromDatabase.size() > 0){
 					//this guy already exists....make sure his emailID is not currently in db and update the database
 					//Not doing anything for now....this pre-existing person whould be up to date.
