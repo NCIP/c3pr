@@ -257,20 +257,20 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     }
     
     /**
-     * Gets the by unique identifier. Created for the remote research staff use case.
+     * Gets the by external identifier. Created for the remote research staff use case.
      * 
      * @param emailAddress the email address
      * 
      * @return the ResearchStaff List
      */
-    public List<ResearchStaff> getByUniqueIdentifierFromLocal(String uniqueIdentifier) {
+    public List<ResearchStaff> getByExternalIdentifierFromLocal(String externalIdentifier) {
     	//get the remote staff and update the database first
 //        RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
-//        remoteResearchStaff.setUniqueIdentifier(emailAddress);
+//        remoteResearchStaff.setExternalIdentifier(emailAddress);
 //        getAndUpdateRemoteResearchStaff(remoteResearchStaff);
         
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
-    	researchStaffList.addAll(getHibernateTemplate().find("from RemoteResearchStaff rs where rs.uniqueIdentifier.value = '" +uniqueIdentifier+ "' "));
+    	researchStaffList.addAll(getHibernateTemplate().find("from RemoteResearchStaff rs where rs.externalId = '" +externalIdentifier+ "' "));
         return researchStaffList;
     }
     
@@ -365,7 +365,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     	
     	try {
 			for (RemoteResearchStaff remoteResearchStaff: remoteResearchStaffList) {
-				List<ResearchStaff> researchStaffFromDatabase = getByUniqueIdentifierFromLocal(remoteResearchStaff.getExternalId());
+				List<ResearchStaff> researchStaffFromDatabase = getByExternalIdentifierFromLocal(remoteResearchStaff.getExternalId());
 				if(researchStaffFromDatabase.size() > 0){
 					//this guy already exists....make sure his emailID is not currently in db and update the database
 					//Not doing anything for now....this pre-existing person whould be up to date.
