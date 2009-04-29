@@ -207,7 +207,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      */
     public void testLoadRemoteResearchStaffByUniqueIdentifier() throws Exception{
     	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
-    	researchStaffList = getDao().getByUniqueIdentifierFromLocal("bob@gmail.com");
+    	researchStaffList = getDao().getByExternalIdentifierFromLocal("bob@gmail.com");
         assertEquals("Incorrect size", 1, researchStaffList.size());
      }
     
