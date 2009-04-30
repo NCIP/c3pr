@@ -36,7 +36,7 @@ function clearField(field) {
 
               
 var systemIdentifierRowInserterProps = {
-    add_row_division_id: "systemIdentifier", 	        /* this id belongs to element where the row would be appended to */
+    add_row_division_id: "organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
     skeleton_row_division_id: "dummy-row-systemIdentifier",
     initialIndex: ${fn:length(command.study.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
     softDelete: ${softDelete == 'true'},
@@ -76,12 +76,11 @@ function manageIdentifierRadio(element){
 </script>
 </head>
 <body>
-<tags:panelBox>
+
 <form:form>
+<tags:panelBox>
 	<tags:errors path="study.organizationAssignedIdentifiers"/> 	
-	<br>
-		<chrome:division title="Organization Assigned Identifiers">
-		
+	<tags:errors path="study.systemAssignedIdentifiers"/> 	
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
 					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
@@ -158,33 +157,12 @@ function manageIdentifierRadio(element){
 					</c:if>
 					<c:set var="handleDifferently" value="false"></c:set>
 				</c:forEach>
-                <tr></tr>
-            </table>
-
-			<br>
-			<div align="right">
-			<tags:button type="button" color="blue" icon="add" value="Add Identifier" 
-			onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
-				</div>
-
-		</chrome:division>
-		
-		<tags:errors path="study.systemAssignedIdentifiers"/> 	
-		<chrome:division title="System Assigned Identifiers">
-			<table id="systemIdentifier" class="tablecontent">
-				<tr id="hSystemAssignedIdentifier" <c:if test="${fn:length(command.study.systemAssignedIdentifiers) == 0}">style="display:none;"</c:if>>
-					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.systemName"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.systemName"/></th>
-					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.identifierType"/></th>
-					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/><tags:hoverHint id="study.systemAssignedIdentifier.identifier" keyProp="study.coordinatingcenter.identifier"/></th>
-					<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.primaryIndicator"/></th>
-					<th></th>
-				</tr>
 				<c:forEach items="${command.study.systemAssignedIdentifiers}" var="sysIdentifier"
 					varStatus="status">
 					<tr id="systemIdentifier-${status.index}">
 						<td><form:input
 							path="study.systemAssignedIdentifiers[${status.index}].systemName"
-							cssClass="validate-notEmpty" /></td>
+							cssClass="validate-notEmpty" size="50"/></td>
 						<td><form:select
 							path="study.systemAssignedIdentifiers[${status.index}].type"
 							cssClass="validate-notEmpty">
@@ -203,19 +181,20 @@ function manageIdentifierRadio(element){
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 					</tr>
 				</c:forEach>
-			</table>
+                <tr></tr>
+            </table>
 
 			<br>
-<div align="right">
-			<tags:button type="button" color="blue" icon="add" value="Add Identifier" 
-			onclick="$('hSystemAssignedIdentifier').show(); RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
+			<div align="left">
+			<tags:button type="button" color="blue" icon="add" value="Add Organization Assigned Identifier" 
+			onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
+			<tags:button type="button" color="blue" icon="add" value="Add System Assigned Identifier" 
+			onclick="RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 				</div>
-
-		</chrome:division>
-		
-		<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
-</form:form>
 </tags:panelBox>
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
+</form:form>
+
 	<script>
 		$$("form .identifierRadios").each(function(e)
 										{
@@ -228,7 +207,7 @@ function manageIdentifierRadio(element){
 <table>
 	<tr>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" 
+			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" size="50"
 			class="validate-notEmpty" /></td>
 		<td><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
