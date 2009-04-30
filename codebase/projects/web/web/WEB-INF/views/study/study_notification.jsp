@@ -5,12 +5,7 @@
     <title><studyTags:htmlTitle study="${command.study}" /></title>
     
 <script>
-
-function saveStudy() {
-    document.getElementById("command").submit();
-}
-
-            var roleRowInserterProps= {
+           var roleRowInserterProps= {
                 add_row_division_id: "table2",
                 skeleton_row_division_id: "dummy-roleRow",
                 initialIndex: ${fn:length(command.study.plannedNotifications[nStatus.index].roleBasedRecipient)},
@@ -47,9 +42,8 @@ function saveStudy() {
 <form:form>
 		<div><input type="hidden" id="_action" name="_action" value=""></div>
 		<br />
-		<table id="notification" class="tablecontent">
-			<div id="notificationHeader"
-				style=<c:if test="${fn:length(command.study.plannedNotifications) == 0}">"display:none"</c:if>>
+		<table id="notification" class="tablecontent" width="80%">
+			<div id="notificationHeader" style=<c:if test="${fn:length(command.study.plannedNotifications) == 0}">"display:none"</c:if>>
 			<tr>
 				<th><tags:requiredIndicator /><fmt:message key="notification.threshold"/><tags:hoverHint
 					keyProp="study.notification.threshold" /></th>
@@ -58,27 +52,23 @@ function saveStudy() {
 				<th></th>
 			</tr>
 			</div>
-			<c:forEach items="${command.study.plannedNotifications}" var="notification"
-				varStatus="nStatus">
+			<c:forEach items="${command.study.plannedNotifications}" var="notification" varStatus="nStatus">
 				<script>
                     RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)});
                     RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].roleBasedRecipient)});
                 </script>
 				<tr id="notification-${nStatus.index}">
-					<td><form:input size="5"
-						path="study.plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6"
-						cssClass="validate-notEmpty&&NUMERIC" /></td>
 					<td>
-					<table class="tablecontent" id="table1" width="50%">
+						<form:input size="5" path="study.plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6" cssClass="validate-notEmpty&&NUMERIC" /></td>
+					<td>
+					<table id="table1" width="70%">
 						<tr>
-							<th></th>
-							<th>
+							<td>
 							<tags:button type="button" color="blue" icon="add" value="Add Email" id="addEmail"
 								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
-							</th>
+							</td>
 						</tr>
-						<c:forEach var="cmbr" varStatus="emailStatus"
-							items="${command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
+						<c:forEach var="cmbr" varStatus="emailStatus" items="${command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
 							<tr id="table1-${emailStatus.index}">
 								<td class="alt"><form:input						 
 									path="study.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].contactMechanisms[0].value"
@@ -91,13 +81,12 @@ function saveStudy() {
 					</table>
 					</td>
 					<td>
-					<table class="tablecontent" id="table2" width="50%">
+					<table  id="table2" width="70%">
 						<tr>
-							<th></th>
-							<th>
+							<td>
 							<tags:button type="button" color="blue" icon="add" value="Add Role" 
 								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
-							</th>
+							</td>
 						</tr>
 						<c:forEach var="role" varStatus="roleStatus"
 							items="${command.study.plannedNotifications[nStatus.index].roleBasedRecipient}">
