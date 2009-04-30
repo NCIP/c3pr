@@ -105,12 +105,18 @@ public class PersonResolverUtils {
 	public C3PRUser setC3prUserDetails(Person coppaPerson, C3PRUser c3prUser) {
 		
 		Iterator<ENXP> enxpItr = coppaPerson.getName().getPart().iterator();
-		String firstName = "";
+		String firstName = null;
+		String middleName = "";
 		String lastName = "";
+		
 		while(enxpItr.hasNext()){
 			ENXP enxp = enxpItr.next();
 			if(enxp.getType().equals(EntityNamePartType.GIV)){
-				firstName += enxp.getValue() + " ";
+				if(firstName == null){
+					firstName = enxp.getValue();
+				} else {
+					middleName += enxp.getValue() + " ";
+				}
 			}
 			if(enxp.getType().equals(EntityNamePartType.FAM)){
 				lastName = enxp.getValue();
@@ -138,6 +144,7 @@ public class PersonResolverUtils {
 		}
 		c3prUser.setFirstName(firstName);
 		c3prUser.setLastName(lastName);
+		c3prUser.setMiddleName(middleName);
 		c3prUser.setEmail(emailStr);
 		c3prUser.setPhone(phoneNumber);
 		c3prUser.setFax(faxNumber);
