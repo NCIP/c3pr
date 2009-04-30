@@ -80,6 +80,10 @@
     function toggleDisabled(el) {
     	el.descendants().each(function(e){
 			e.disabled="true";
+			e.style.opacity='0.9';
+			if(e.type == 'a'){
+				e.onclick="return false;"
+			}
 			}
 		);
     }
@@ -87,6 +91,10 @@
     function toggleEnabled(el) {
     	el.descendants().each(function(e){
     		e.removeAttribute('disabled');
+    		e.style.opacity='1';
+    		if(e.type == 'a'){
+    			e.removeAttribute('onclick');
+        	}
 			}
 		);
     }
