@@ -35,6 +35,8 @@
 		<tr><td width="80%">
 			<table border="1" class="tablecontent" width="100%">
 			<tr>
+				<th width="4%"></th>
+				<th width="4%"></th>
 				<th width="30%">Group Number&nbsp;<tags:hoverHint id="study.stratumGroup.stratumGroupNumber-${epochCountIndex}" keyProp="study.stratumGroup.stratumGroupNumber"/></th>					
 				<th width="65%">Answer Combination&nbsp;<tags:hoverHint id="study.stratumGroup.answerCombinations-${epochCountIndex}" keyProp="study.stratumGroup.answerCombinations"/></th>
 				<th width="5%"></th>
@@ -47,8 +49,16 @@
 						
 						<c:if test="${command.study.epochs[epochCountIndex].stratificationIndicator == 'true' }">					
 						<tr id="stratumGroupTable1_${epochCountIndex}-${statusStratumGroup.index}" style="cursor:move">
+							<td width="3%">
+								<a href="javascript:moveDownThisGroup(this);">
+								<img src="<tags:imageUrl name="b-arrowUp.gif"/>" border="0"></a>
+							</td>
+							<td width="3%">
+								<a href="javascript:moveUpThisGroup(this);">
+								<img src="<tags:imageUrl name="b-arrowDown.gif"/>" border="0"></a>
+							</td>
 							<td width="30%">${stratumGroup.stratumGroupNumber}</td>					
-							<td width="65%">${stratumGroup.answerCombinations}</td>
+							<td width="59%">${stratumGroup.answerCombinations}</td>
 							<td width="5%">
 							<a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCountIndex},${statusStratumGroup.index},'${stratumGroup.id==null?'HC#':'ID#'}${stratumGroup.id==null?stratumGroup.hashCode:stratumGroup.id}');">
 								<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>

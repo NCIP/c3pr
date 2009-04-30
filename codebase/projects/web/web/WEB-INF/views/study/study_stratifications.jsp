@@ -112,6 +112,12 @@
 		$('stratificationIndicator-'+epochCountIndex).hide();
      }
 
+    function moveDownThisGroup(e){
+    }
+
+    function moveUpThisGroup(e){
+    }
+
 	</script>
 </head>
 
