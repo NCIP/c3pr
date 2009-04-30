@@ -54,6 +54,7 @@
 		Windows.close(this.win.getId());
 		terms.options.length=0;
 		categories.selectedIndex = -1;
+		hideDiseaseIndicator();
 	},
 
     addTerm: function(ulID, termID, termText, title) {
@@ -162,6 +163,7 @@
               catSel.addLIToUL("disease-terms", diseaseTerm.id, termName, diseaseTerm.ctepTerm);
             })
         });
+        catSel.addLIToUL("disease-terms", 'addAll', 'Add All', 'Add All');
      },
 
  	addSingleDisease:function(){
