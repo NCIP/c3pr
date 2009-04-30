@@ -81,8 +81,9 @@
     	el.descendants().each(function(e){
 			e.disabled="true";
 			e.style.opacity='0.9';
-			if(e.type == 'a'){
-				e.onclick="return false;"
+			if(e.tagName == 'A'){
+				e.__href=e.href;
+				e.href="#";
 			}
 			}
 		);
@@ -92,8 +93,9 @@
     	el.descendants().each(function(e){
     		e.removeAttribute('disabled');
     		e.style.opacity='1';
-    		if(e.type == 'a'){
-    			e.removeAttribute('onclick');
+    		if(e.tagName == 'A'){
+    			e.href=e.__href;
+    			
         	}
 			}
 		);
