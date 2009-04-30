@@ -47,8 +47,7 @@
 	},
 
 	addStudyDisease:function(selectedTerms){
-		 <tags:tabMethod method="addStudyDiseases" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'selectedDiseaseTerms='+selectedTerms" /> ;
-		 $('diseaseIndicator').hide();
+		 <tags:tabMethod method="addStudyDiseases" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'selectedDiseaseTerms='+selectedTerms" onComplete="hideDiseaseIndicator"/> ;
 	},
 	
     cancelTermsSelection:function(){
@@ -210,7 +209,11 @@
     initalizeCategorySelector();
 
     function deleteStudyDiseases(diseaseTerm){
-		 <tags:tabMethod method="deleteStudyDiseases" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'diseaseTermId='+diseaseTerm" /> ;
+		 <tags:tabMethod method="deleteStudyDiseases" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'diseaseTermId='+diseaseTerm" onComplete="hideDiseaseIndicator"/> ;
+	}
+
+	function hideDiseaseIndicator(){
+		$('diseaseIndicator').hide();
 	}
 
     var diseaseTermAutocompleterProps = {

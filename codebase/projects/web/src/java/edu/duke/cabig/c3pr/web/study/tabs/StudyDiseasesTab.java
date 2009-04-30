@@ -115,17 +115,17 @@ public class StudyDiseasesTab extends StudyTab {
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
 		String diseaseTermId = request.getParameter("diseaseTermId");
-		List<StudyDisease> studyDiseases = study.getStudyDiseases();
-		for(StudyDisease studyDisease : studyDiseases){
-			if(!StringUtils.isBlank(diseaseTermId)){ 
+		if(!StringUtils.isBlank(diseaseTermId)){
+			for(StudyDisease studyDisease : study.getStudyDiseases()){
 				if(studyDisease.getDiseaseTerm().getId() == Integer.parseInt(diseaseTermId)){
 					study.removeStudyDisease(studyDisease);
 					break;
 				}
-			}else{
-				study.removeStudyDisease(studyDisease);
 			}
+		}else{
+			study.removeAllStudyDisease();
 		}
+		
 		Study modifiedStudy = studyDao.merge(study);
 		wrapper.setStudy(modifiedStudy);
 		Map map = new HashMap();

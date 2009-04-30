@@ -348,6 +348,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.getStudyDiseases().remove(studyDisease);
 	}
 	
+	public void removeAllStudyDisease() {
+		this.getStudyDiseases().removeAll(this.getStudyDiseases());
+	}
+	
 	public void addStudySite(StudySite studySite) {
 		studySite.setStudy(this);
 		lazyListHelper.getLazyList(StudySite.class).add(studySite);
