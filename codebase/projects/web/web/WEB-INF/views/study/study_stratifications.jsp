@@ -103,8 +103,9 @@
 
     function editStratificationCriteria(epochCountIndex, isBook, id){
     	$('stratificationIndicator-'+epochCountIndex).show();
-		canDeleteGroupAndBooks = stratumGroupAlert(epochCountIndex, isBook)
-        if(canDeleteGroupAndBooks){
+        if(stratumGroupAlert(epochCountIndex, isBook)){
+        	$('editStratificationCriteria-${epoch.id}').hide(); 
+        	$('addStratificationCriteria-${epoch.id}').show(); 
 			clear(epochCountIndex);
 			enableQuestionSection(id);
         }
@@ -232,7 +233,7 @@
 					<tags:button type="button" color="blue" icon="add" value="Add Stratification Criteria" onclick="$('stratumButton-${epoch.id}').show();RowManager.addRow(stratRowInserterProps_${epochCount.index});" size="small"/>
 				</span>
 				<span id="editStratificationCriteria-${epoch.id}" <c:if test="${fn:length(epoch.stratumGroups) == 0 }"> style = "display:none" </c:if> >
-					<tags:button type="button" icon="edit" color="blue" value="Edit Stratification Criteria" onclick="editStratificationCriteria('${epochCount.index}','${isBookRandomized}', '${epoch.id}');$('editStratificationCriteria-${epoch.id}').hide(); $('addStratificationCriteria-${epoch.id}').show(); $('stratumButton-${epoch.id}').show();" size="small"/>
+					<tags:button type="button" icon="edit" color="blue" value="Edit Stratification Criteria" onclick="editStratificationCriteria('${epochCount.index}','${isBookRandomized}', '${epoch.id}');" size="small"/>
 				</span>
 				<span id="stratumButton-${epoch.id}" <c:if test="${fn:length(epoch.stratificationCriteria) == 0}"> style = "display:none" </c:if> >
 					<tags:button type="submit" color="blue" value="Generate Stratum Groups" onclick="$('stratificationIndicator-${epochCount.index }').show();preProcessGenerateGroups(${epochCount.index});" size="small"/>
