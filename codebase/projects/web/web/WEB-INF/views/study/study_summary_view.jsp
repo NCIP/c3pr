@@ -287,13 +287,11 @@
     </c:choose>
 </chrome:division>
 <chrome:division title="Identifiers" cssClass="indented">
-    <h4>Coordinating Assigned Identifier</h4>
-    <br>
-    <table class="tablecontent" width="60%">
+    <table class="tablecontent" width="70%">
         <tr>
-            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
+            <th width="45%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
             <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
-            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
+            <th scope="col" align="left" ><fmt:message key="c3pr.common.identifier"/></th>
         </tr>
         <c:if test="${command.study.coordinatingCenterAssignedIdentifier != null}">
         <tr class="results">
@@ -309,17 +307,7 @@
             <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
            </tr>
          </c:if>
-    </table>
-    <br>
-    <h4>Funding Sponsor Identifier</h4>
-    <br>
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
-            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
-            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
-        </tr>
-        <c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
+         <c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
             <tr class="results">
 				<c:choose>
 				   <c:when test="${command.study.fundingSponsorAssignedIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
@@ -333,8 +321,8 @@
                 <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
             </tr>
         </c:if>
+         
     </table>
-    <br>
 </chrome:division>
 <div id="companionDiv">
 <div id="companionAssociationsDiv" <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
@@ -438,7 +426,7 @@
 					<br>
 					<table class="tablecontent" width="70%"}">
 				        <tr>
-				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.question"/></b></th>
+				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
 				        </tr>
 				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">	
 					        <tr>

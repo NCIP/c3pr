@@ -289,7 +289,7 @@ function createStudy(){
 					<br>
 					<table class="tablecontent" width="70%"}">
 				        <tr>
-				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.question"/></b></th>
+				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
 				        </tr>
 				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">	
 					        <tr>
