@@ -158,8 +158,7 @@
 </div>
 <div id="summary">
 <div id="printable">
-<chrome:division title="Study Summary" cssClass="big" />
-<chrome:division id="study-details" cssClass="indented" title="Study Details">
+<chrome:division id="study-details" cssClass="big" title="Study Details">
 <div class="leftpanel">
 	<div class="row">
 		<div class="label"><fmt:message key="study.shortTitle"/>:</div>
@@ -223,7 +222,7 @@
 	</div>
 </div>
 </chrome:division>
-<chrome:division title="Epochs &amp; Arms" cssClass="indented" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+<chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.epochs) >0}">
 			<table class="tablecontent" width="60%">
@@ -265,7 +264,7 @@
 	</c:choose>
     
 </chrome:division>
-<chrome:division title="Diseases" cssClass="indented" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+<chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.studyDiseases) >0}">
 		    <table class="tablecontent" width="60%">
@@ -286,7 +285,7 @@
 	    </c:otherwise>
     </c:choose>
 </chrome:division>
-<chrome:division title="Identifiers" cssClass="indented">
+<chrome:division title="Identifiers" cssClass="big">
     <table class="tablecontent" width="70%">
         <tr>
             <th width="45%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
@@ -326,7 +325,7 @@
 </chrome:division>
 <div id="companionDiv">
 <div id="companionAssociationsDiv" <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
-    	<chrome:division title="Companion Studies" cssClass="indented">
+    	<chrome:division title="Companion Studies" cssClass="big">
         <c:choose>
 	        <c:when test="${fn:length(command.study.companionStudyAssociations)>0}">
 	        	<table class="tablecontent" width="60%">
@@ -371,7 +370,7 @@
 </div>
 </div>
 <div <c:if test="${command.study.companionIndicator=='false' || (command.study.companionIndicator=='true' && command.study.standaloneIndicator=='true')}">style="display:none;"</c:if>>
-    <chrome:division title="Parent Study" cssClass="indented">
+    <chrome:division title="Parent Study" cssClass="big">
         <c:choose>
         	<c:when test="${fn:length(command.study.parentStudyAssociations) > 0}">
         		<table class="tablecontent" width="60%">
@@ -399,7 +398,7 @@
             </chrome:division>
 </div>
 <c:if test="${fn:length(command.study.studyAmendments) > 0}">
-<chrome:division title="Amendments" cssClass="indented">
+<chrome:division title="Amendments" cssClass="big">
 	<table class="tablecontent" width="60%">
 	       <tr>
 	           <th width="15%" scope="col" align="left"><fmt:message key="study.amendmentVersion"/></th>
