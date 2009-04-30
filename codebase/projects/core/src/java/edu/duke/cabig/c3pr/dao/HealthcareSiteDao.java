@@ -303,15 +303,21 @@ public class HealthcareSiteDao extends OrganizationDao {
 				if(remoteHealthcareSite != null){
 					RemoteHealthcareSite remoteHealthcareSiteTemp = (RemoteHealthcareSite)remoteHealthcareSite;
 					HealthcareSite healthcareSiteFromDatabase = getByUniqueIdentifier(remoteHealthcareSiteTemp
-							.getNciInstituteCode());
+							.getExternalId());
 					if (healthcareSiteFromDatabase != null) {
-						// this guy exists....copy latest remote data into the existing
-						// object...which is done by the interceptor
-						copyRemotePropertiesFromSourceToTarget(healthcareSiteFromDatabase, remoteHealthcareSiteTemp);
+						//this healthcare site already exists....make sure it's NCI institute code is not currently in db and update the database
+						//Not doing anything for now....this pre-existing site should be up to date.
 					} else {
-						// this guy doesnt exist
-						createGroupForOrganization(remoteHealthcareSiteTemp);
-						getHibernateTemplate().save(remoteHealthcareSiteTemp);
+						HealthcareSite healthcareSiteWithSameNCICode = null;
+						// check if a healthcare site with this NCI code already exists in DB
+						healthcareSiteWithSameNCICode = getByNciInstituteCode(remoteHealthcareSiteTemp.getNciInstituteCode());
+						if(healthcareSiteWithSameNCICode != null){
+							// this site doesn't exist
+							createGroupForOrganization(remoteHealthcareSiteTemp);
+							getHibernateTemplate().save(remoteHealthcareSiteTemp);
+						} else{
+							log.error("Healthcare site with NCI Institute Code:" + remoteHealthcareSiteTemp.getNciInstituteCode() + "already exists in database");
+						}
 					}
 					getHibernateTemplate().flush();
 				} else {
@@ -327,7 +333,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 		} 
 	}
 
-	/**
+	/*
 	 * Gets by nci institute code.
 	 * 
 	 * @param nciInstituteCode the nci institute code
@@ -335,12 +341,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @return the HealthcareSite
 	 * 
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
-	public HealthcareSite getByUniqueIdentifier(String nciInstituteCode) {
+	public HealthcareSite getByUniqueIdentifier(String externalId) {
 		return CollectionUtils
 		.firstElement((List<HealthcareSite>) getHibernateTemplate()
 				.find(
-						"from HealthcareSite h where h.nciInstituteCode = ?",
-						nciInstituteCode));
+						"from RemoteHealthcareSite h where h.externalId = ?",
+						externalId));
 	}
 
 	/**
@@ -477,24 +483,6 @@ public class HealthcareSiteDao extends OrganizationDao {
 		return mergedHealthcareSiteList;
 	}
 	
-	/**
-	 * Copy remote properties from source to target.
-	 * 
-	 * @param targetHealthcareSite the target healthcare site
-	 * @param sourceHealthcareSite the source healthcare site
-	 */
-	public void copyRemotePropertiesFromSourceToTarget(HealthcareSite targetHealthcareSite,HealthcareSite sourceHealthcareSite){
-		List<String> remoteProperties = new ArrayList<String>();
-		remoteProperties = RemoteEntitiesUtils.getRemoteProperties(sourceHealthcareSite.getClass());
-		BeanWrapperImpl beanWrapperSource = new BeanWrapperImpl(sourceHealthcareSite);
-		BeanWrapperImpl beanWrapperTarget = new BeanWrapperImpl(targetHealthcareSite);
-		for (int i=0; i< remoteProperties.size();i++){
-				// copy property value from remote to entity
-				if(beanWrapperSource.isReadableProperty(remoteProperties.get(i))){
-					beanWrapperTarget.setPropertyValue(remoteProperties.get(i), beanWrapperSource.getPropertyValue(remoteProperties.get(i)));
-				}
-			} 
-	}
 	
 	  /**
   	 * Gets the remote organizations.

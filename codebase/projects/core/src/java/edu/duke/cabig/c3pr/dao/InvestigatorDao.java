@@ -182,7 +182,21 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	//See if the retrieved remoteInvs already exist in our database.
 		Investigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getExternalId());
 		if(matchingRemoteInvestigatorFromDb == null ){
-			buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
+			// check the uniqueness of email and nci identifier of new investigator in database before saving him
+			List<Investigator> investigatorsWithMatchingEmail = new ArrayList<Investigator>();
+			investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmailAsString());
+			List<Investigator> investigatorsWithMatchingNCICode = new ArrayList<Investigator>();
+			investigatorsWithMatchingNCICode = getByNciIdentifierFromLocal(retrievedRemoteInvestigator.getNciIdentifier());
+			if(investigatorsWithMatchingEmail.size() == 0 && investigatorsWithMatchingNCICode.size()==0){
+				buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
+			}else {
+				log
+				.error("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
+						+ "'s email id : " + retrievedRemoteInvestigator
+								.getEmailAsString()	+ "and/or NCI Identifier: "
+						+ retrievedRemoteInvestigator.getNciIdentifier()
+						+ " is already in the database. Deferring to the local. :");
+			}
 		} else {
 			//we have the retrieved staff's Org in our db...link up with the same and persist
 			// only update if remote investigator exists
