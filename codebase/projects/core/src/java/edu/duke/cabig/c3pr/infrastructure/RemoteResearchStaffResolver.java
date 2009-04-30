@@ -334,6 +334,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 
 		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff)personResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
 		remoteResearchStaff.setNciIdentifier(staffNciIdentifier);
+		remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
 		
 		//Build HealthcareSite
 		HealthcareSite healthcareSite = new RemoteHealthcareSite();
