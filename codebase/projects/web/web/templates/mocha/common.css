@@ -757,6 +757,19 @@ p { margin: 1em 0; }
 	padding-left: 8px;
 	margin-top: 5px;
 }
+.division.big h3{
+	font-size:1.7em;
+	
+}
+
+.division.indented {
+	margin-left:20px;
+}
+
+.division.indented .content {
+	padding-left:20px;
+	margin-bottom:20px;
+}
 /**** REUSABLE PAGE ELEMENTS/CLASSES */
 
 .error input { border-color: #c03; }

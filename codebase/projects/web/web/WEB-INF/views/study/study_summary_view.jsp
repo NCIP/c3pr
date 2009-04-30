@@ -78,6 +78,11 @@
 
         }
     </script>
+	<style>
+		#main {
+			top:33px;
+		}
+	</style>
 </head>
 
 <body>
@@ -151,10 +156,10 @@
     <input type="hidden" name="_finish" value="true"/> 
     <input type="hidden" name="_action" value="">
 </div>
-
+<div id="summary">
 <div id="printable">
-<chrome:box title="Study Summary">
-<chrome:division id="study-details" title="Study Details">
+<chrome:division title="Study Summary" cssClass="big" />
+<chrome:division id="study-details" cssClass="indented" title="Study Details">
 <div class="leftpanel">
 	<div class="row">
 		<div class="label"><fmt:message key="study.shortTitle"/>:</div>
@@ -218,7 +223,7 @@
 	</div>
 </div>
 </chrome:division>
-<chrome:division title="Epochs &amp; Arms" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+<chrome:division title="Epochs &amp; Arms" cssClass="indented" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.epochs) >0}">
 			<table class="tablecontent" width="60%">
@@ -260,7 +265,7 @@
 	</c:choose>
     
 </chrome:division>
-<chrome:division title="Diseases" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+<chrome:division title="Diseases" cssClass="indented" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.studyDiseases) >0}">
 		    <table class="tablecontent" width="60%">
@@ -281,7 +286,7 @@
 	    </c:otherwise>
     </c:choose>
 </chrome:division>
-<chrome:division title="Identifiers">
+<chrome:division title="Identifiers" cssClass="indented">
     <h4>Coordinating Assigned Identifier</h4>
     <br>
     <table class="tablecontent" width="60%">
@@ -333,7 +338,7 @@
 </chrome:division>
 <div id="companionDiv">
 <div id="companionAssociationsDiv" <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
-    	<chrome:division title="Companion Studies">
+    	<chrome:division title="Companion Studies" cssClass="indented">
         <c:choose>
 	        <c:when test="${fn:length(command.study.companionStudyAssociations)>0}">
 	        	<table class="tablecontent" width="60%">
@@ -378,7 +383,7 @@
 </div>
 </div>
 <div <c:if test="${command.study.companionIndicator=='false' || (command.study.companionIndicator=='true' && command.study.standaloneIndicator=='true')}">style="display:none;"</c:if>>
-    <chrome:division title="Parent Study">
+    <chrome:division title="Parent Study" cssClass="indented">
         <c:choose>
         	<c:when test="${fn:length(command.study.parentStudyAssociations) > 0}">
         		<table class="tablecontent" width="60%">
@@ -406,7 +411,7 @@
             </chrome:division>
 </div>
 <c:if test="${fn:length(command.study.studyAmendments) > 0}">
-<chrome:division title="Amendments">
+<chrome:division title="Amendments" cssClass="indented">
 	<table class="tablecontent" width="60%">
 	       <tr>
 	           <th width="15%" scope="col" align="left"><fmt:message key="study.amendmentVersion"/></th>
@@ -423,11 +428,11 @@
     </table>
 </chrome:division>
 </c:if>
-</chrome:box>
-<chrome:box title="Eligibilty Criteria">
+
+<chrome:division title="Eligibilty Criteria" cssClass="big" />
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
-			<chrome:division title="${epoch.name}">
+			<chrome:division title="${epoch.name}" cssClass="indented">
 				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
 					<h4>Inclusion Eligibility Criteria</h4>
 					<br>
@@ -461,11 +466,10 @@
 			</chrome:division>
 		</c:if>
     </c:forEach>
-</chrome:box>
-<chrome:box title="Stratum Groups">
+<chrome:division title="Stratum Groups" cssClass="big"/>
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.stratumGroups)> 0}">
-			<chrome:division title="${epoch.name}">
+			<chrome:division title="${epoch.name}" cssClass="indented">
 				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
 					<table class="tablecontent" width="70%"}">
 				        <tr>
@@ -484,10 +488,9 @@
 			</chrome:division>
 		</c:if>
     </c:forEach>
-</chrome:box>
 </div>
 <c:if test="${command.study.coordinatingCenterStudyStatus == 'OPEN' && isCCTSEnv}">
-    <chrome:division title="CCTS Workflow">
+    <chrome:division title="CCTS Workflow" cssClass="big"/>
         <div class="content">
             <div class="row">
                 <table width="60%">
@@ -523,7 +526,6 @@
             </div>
         </div>
         <div id="built-cctsErrorMessage" style="display: none;"/>
-    </chrome:division>
 </c:if>
 <div class="content buttons autoclear">
         <div class="flow-buttons">
@@ -587,7 +589,7 @@
 		</div>
 	</c:forEach>
 </div>
-
+</div>
 </form:form>
 </body>
 </html>

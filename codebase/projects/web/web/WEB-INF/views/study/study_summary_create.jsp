@@ -47,7 +47,6 @@ function createStudy(){
    	<input type="hidden" name="_action" id="_action"/>
 </div>
 <tags:errors path="*"/>
-<chrome:box title="Study Summary">
 <chrome:division id="study-details" title="Study Details">
 <div class="leftpanel">
 	<div class="row">
@@ -280,8 +279,8 @@ function createStudy(){
         </c:choose>
             </chrome:division>
 </div>
-</chrome:box>
-<chrome:box title="Eligibilty Criteria">
+
+<chrome:division title="Eligibilty Criteria">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
 			<chrome:division title="${epoch.name}">
@@ -318,8 +317,8 @@ function createStudy(){
 			</chrome:division>
 		</c:if>
     </c:forEach>
-</chrome:box>
-<chrome:box title="Stratum Groups">
+</chrome:division>
+<chrome:division title="Stratum Groups">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.stratumGroups)> 0}">
 			<chrome:division title="${epoch.name}">
@@ -341,7 +340,7 @@ function createStudy(){
 			</chrome:division>
 		</c:if>
     </c:forEach>
-</chrome:box>
+</chrome:division>
 
 <div id="errorsOpenDiv" style="display:none">
 	<div class="value" align="left">
