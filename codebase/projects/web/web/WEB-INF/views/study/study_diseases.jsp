@@ -57,6 +57,15 @@
 		hideDiseaseIndicator();
 	},
 
+	addTerms:function (id){
+        StudyAjaxFacade.getDiseaseTerms(id, function(diseaseTerms) {
+        	diseaseTerms.each(function(diseaseTerm) {
+              var termName = (diseaseTerm.ctepTerm.length > 30 ? diseaseTerm.ctepTerm.substring(0, 30) + "..." : diseaseTerm.ctepTerm);
+              catSel.addTerm("disease-added-terms", diseaseTerm.id, termName, diseaseTerm.ctepTerm);
+            });
+        });
+	},
+
     addTerm: function(ulID, termID, termText, title) {
         if (catSel.termList[termID]) {
             return;
@@ -163,7 +172,7 @@
               catSel.addLIToUL("disease-terms", diseaseTerm.id, termName, diseaseTerm.ctepTerm);
             })
         });
-        catSel.addLIToUL("disease-terms", 'addAll', 'Add All', 'Add All');
+        catSel.addLIToUL("disease-terms", subCatId, 'Add All', 'Add All');
      },
 
  	addSingleDisease:function(){
@@ -177,11 +186,18 @@
         ul = document.getElementById(ulID);
         a = document.createElement("a");
         a.appendChild(document.createTextNode(ilText));
-
-        a.setAttribute("onClick", "catSel.addTerm('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
-        a.onclick = function() {
-            eval("catSel.addTerm('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
-        }
+		if(ilText == 'Add All'){
+			a.setAttribute("onClick", "catSel.addTerms(" + ilID + ")");
+	        a.onclick = function() {
+	            eval("catSel.addTerms(" + ilID + ")");
+	        }
+		}else{
+			a.setAttribute("onClick", "catSel.addTerm('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
+	        a.onclick = function() {
+	            eval("catSel.addTerm('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
+	        }
+		}
+        
 
         a.setAttribute("id", "liTerm" + ilID);
         a.id = "liTerm" + ilID;
