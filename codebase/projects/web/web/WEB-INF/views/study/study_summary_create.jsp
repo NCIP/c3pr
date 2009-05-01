@@ -6,8 +6,7 @@
 function activateAndSaveStudy(){
 	if (${fn:length(errors)} > 0){
 		var d = $('errorsOpenDiv');
-		Dialog.alert(d.innerHTML, 
-		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
+		Dialog.alert(d.innerHTML, {className: "alphacube", width:300, okLabel: "Close" });
 	} else {
 		document.getElementById("_activate").value="true";
 		document.getElementById("_action").value="open";
