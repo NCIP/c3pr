@@ -64,8 +64,7 @@
                 }else  if(status=='readyToOpen'){
                 	var d = $('errorsReadyToOpenDiv');
                 }
-        		Dialog.alert(d.innerHTML, 
-        		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
+        		Dialog.alert(d.innerHTML, {className: "alphacube", width:400, okLabel: "Close" });
         	} else if(status=='close') {
 				Dialog.confirm("Are you sure you want to close the study?", 
 				               {width:300, height:85, okLabel: "Ok",
