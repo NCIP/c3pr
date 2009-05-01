@@ -114,17 +114,25 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * Created for the notifications use case.
      */
     public List<Investigator> getByEmailAddress(String emailAddress) {
-    	//First fetch the remote Inv's
-    	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-    	ContactMechanism contactMechanism = new ContactMechanism();
-		contactMechanism.setType(ContactMechanismType.EMAIL);
-		contactMechanism.setValue(emailAddress);
-		remoteInvestigator.addContactMechanism(contactMechanism);
-		
-    	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
     	
-    	//Now that the remote inv's are in the db. Search the db.
-        return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
+    	List<Investigator> investigatorList = getByEmailAddressFromLocal(emailAddress);
+    	if(investigatorList.size() > 0){
+    		//if a inv with this email is in our db then no need to check with coppa...as  it will be ignored eventually
+    		//(as the email address is already in our db)
+    		return investigatorList;
+    	} else {
+    		//First fetch the remote Inv's
+        	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
+        	ContactMechanism contactMechanism = new ContactMechanism();
+    		contactMechanism.setType(ContactMechanismType.EMAIL);
+    		contactMechanism.setValue(emailAddress);
+    		remoteInvestigator.addContactMechanism(contactMechanism);
+    		
+        	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
+        	
+        	//Now that the remote inv's are in the db. Search the db.
+            return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
+    	}
     }
     
     /**Only looks in the database
