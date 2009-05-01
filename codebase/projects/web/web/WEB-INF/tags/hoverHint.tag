@@ -17,7 +17,7 @@ e.g: added by row manager -->
 	</c:when>	
 	<c:otherwise>
 		<a id="${keyProp}-help-control" 
-		onmouseover="$('${keyProp}-help-content').style.display='block'" onmouseout="$('${keyProp}-help-content').style.display='none'">
+		onmouseover="$('${keyProp}-help-content').style.display='block'" onmouseout="$('${keyProp}-help-content').style.display='none'" style="vertical-align:top;">
 	    <img src="<tags:imageUrl name='q.png'/>" alt="Help" height="13"/>
 		</a>&nbsp;&nbsp;&nbsp;
 		<span id="${keyProp}-help-content" class="hint"><spring:message code="${keyProp}.hint.text" text="No help available" /><span class="hint-pointer">&nbsp;</span></span>
