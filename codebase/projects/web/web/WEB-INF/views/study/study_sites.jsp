@@ -81,8 +81,11 @@
 		}
 	}
 
-	function takeAction(nciCode, action){
-		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/sites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+'&DO_NOT_SAVE=true'" />
+	function takeAction(nciCode, action, index){
+		irbDate = $('study.studySites['+index+'].irbApprovalDate').value;
+		startDate = $('study.studySites['+index+'].startDate').value;
+		targetAccrual=$('study.studySites['+index+'].targetAccrualNumber').value;
+		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/sites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+'&DO_NOT_SAVE=true&study.studySites['+index+'].irbApprovalDate='+irbDate+'&study.studySites['+index+'].startDate='+startDate+'&study.studySites['+index+'].targetAccrualNumber='+targetAccrual"/>
 		Element.show('sendingMessage-'+nciCode);
 	}
 
@@ -168,7 +171,7 @@
 									<div class="row">
 										<div class="label"><fmt:message key="site.IRBApprovalDate" /></div>
 										<div class="value" id="siteIRB-${site.healthcareSite.nciInstituteCode }">
-											<tags:dateInput path="study.studySites[${status.index}].irbApprovalDate"/>
+											<tags:dateInput path="study.studySites[${status.index}].irbApprovalDate" />
 										</div>
 									</div>
 									<div class="row">
@@ -203,13 +206,15 @@
 							<div class="row" id="actions-${status.index}">
 								<div id="actions-${site.healthcareSite.nciInstituteCode }">
            							<c:set var="noAction" value="true"/>
+           							<c:set var="close" value="false"/>
+           							<c:set var="temporary" value="false"/>
            							<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
           								<c:forEach items="${site.possibleTransitions}" var="possibleAction">
 	     									<c:choose>
 											<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
 												<c:if test="${site.hostedMode || localNCICode==site.healthcareSite.nciInstituteCode}">
 												<%--<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode))}">--%>
-													<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}');" size="small"/>
+													<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}','${status.index}');" size="small"/>
 													<c:set var="noAction" value="false"/>
 												</c:if>
 											</c:when>
@@ -222,7 +227,7 @@
 											<c:when test="${possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL' || possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
 												<c:if test="${site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
 													<c:set var="noAction" value="false"/>
-													<c:set var="close" value="temp"/>
+													<c:set var="temporary" value="true"/>
 												</c:if>
 											</c:when>
 											<%--<c:when test="${possibleAction=='APPROVE_STUDY_SITE_FOR_ACTIVATION'}">
@@ -232,21 +237,21 @@
 												</c:if>
 											</c:when>--%>
 	  										<c:otherwise>
-		   									<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}');" size="small"/>
+		   									<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}', '${status.index}');" size="small"/>
 		   									<c:set var="noAction" value="false"/>
 		   									</c:otherwise>
 											</c:choose>
           								</c:forEach>
-          								<c:if test="${!empty close}">
+          								<c:if test="${close}">
 	          								<tags:button type="button" color="blue" value="Close Study Site" id="closeStudy"
 															onclick="Effect.SlideDown('close-choices')" size="small"/>
 											<div id="close-choices" class="autocomplete" style="display: none">
 												<ul>
-													<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Closed To Accrual And Treatment</li>
-													<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL');">Closed To Accrual</li>
-													<c:if test="${close == 'temp'}">
-													<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Temporarily Closed To Accrual And Treatment</li>
-													<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
+													<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT', '${status.index}');">Closed To Accrual And Treatment</li>
+													<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL', '${status.index}');">Closed To Accrual</li>
+													<c:if test="${temporary}">
+													<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT', '${status.index}');">Temporarily Closed To Accrual And Treatment</li>
+													<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL', '${status.index}');">Temporarily Closed To Accrual</li>
 													</c:if>
 												</ul>
 												<div align="right"><tags:button type="button" color="red" value="Cancel" icon="x"
@@ -319,7 +324,7 @@
 				  														<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
 				  															<%--<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode))}">--%>
 				  															<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode)}">
-				  																<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}');" size="small"/>
+				  																<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}', '${status.index}');" size="small"/>
 				  																<c:set var="noAction" value="false"/>
 				  															</c:if>
 				  														</c:when>
@@ -330,7 +335,7 @@
 				  															</c:if>
 				  														</c:when>--%>
 									   								<c:otherwise>
-											   							<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}');" size="small"/>
+											   							<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}', '${status.index}');" size="small"/>
 											   							<c:set var="noAction" value="false"/>
 											   						</c:otherwise>
 																</c:choose>

@@ -6,7 +6,8 @@
 <c:set var="siteEndpoint" value="${site}"/>
 <c:if test="${localNCICode==site.healthcareSite.nciInstituteCode}"><c:set var="siteEndpoint" value="${site.study.studyCoordinatingCenters[0]}"/></c:if>
 <div id="ajax-IRB">
-	<tags:formatDate value="${site.irbApprovalDate}"></tags:formatDate>
+		<tags:formatDate value="${site.irbApprovalDate}"></tags:formatDate>
+	
 </div>
 <div id="ajax-message">
 	<c:choose>

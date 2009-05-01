@@ -3,14 +3,12 @@ package edu.duke.cabig.c3pr.web.study.tabs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.MessageSource;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
@@ -213,7 +211,9 @@ public class StudySitesTab extends StudyTab {
 			Errors errors) {
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
-
+		// updating study with irb approval date, target accrual and activation date.
+		study = studyDao.merge(study);
+		
 		String nciInstituteCode = request.getParameter("nciCode");
 		String studySiteType = request.getParameter("studySiteType");
 		;
