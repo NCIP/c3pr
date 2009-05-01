@@ -151,7 +151,18 @@ public class PersonResolverUtils {
 		return c3prUser;
 	}
 	
-	
+	/**
+	 * Broadcast organization search.
+	 * 
+	 * @param gov.nih.nci.coppa.po.Organization coppa organization example to search by.
+	 * @return the List<Object> list of coppa organizations
+	 * @throws C3PRCodedException the c3 pr coded exception
+	 */
+	public String broadcastOrganizationSearch(String healthcareSiteXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.ORGANIZATION.getName());
+        return broadcastCoppaMessage(healthcareSiteXml, mData);
+	}	
 	
 	public String broadcastIdentifiedPersonSearch(String ipXml) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
