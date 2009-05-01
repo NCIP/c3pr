@@ -62,28 +62,29 @@ public class CreateInvestigatorController<C extends Investigator> extends
         String email = request.getParameter("emailId") ;
         if (!StringUtils.isBlank(email)) {
             log.info(" Request URl  is:" + request.getRequestURL().toString());
-            List<Investigator> investigators = investigatorDao.getByEmailAddress(email);
-            inv = investigators.get(0);
-            int cmSize = inv.getContactMechanisms().size();
-            if (cmSize == 0) {
-                addContacts(inv);
-            }
-            if (cmSize == 1) {
-                ContactMechanism contactMechanismPhone = new ContactMechanism();
-                ContactMechanism contactMechanismFax = new ContactMechanism();
-                contactMechanismPhone.setType(ContactMechanismType.PHONE);
-                contactMechanismFax.setType(ContactMechanismType.Fax);
-                inv.addContactMechanism(contactMechanismPhone);
-                inv.addContactMechanism(contactMechanismFax);
-            }
+            inv = investigatorDao.getByEmailAddress(email);
+            if(inv != null){
+            	int cmSize = inv.getContactMechanisms().size();
+                if (cmSize == 0) {
+                    addContacts(inv);
+                }
+                if (cmSize == 1) {
+                    ContactMechanism contactMechanismPhone = new ContactMechanism();
+                    ContactMechanism contactMechanismFax = new ContactMechanism();
+                    contactMechanismPhone.setType(ContactMechanismType.PHONE);
+                    contactMechanismFax.setType(ContactMechanismType.Fax);
+                    inv.addContactMechanism(contactMechanismPhone);
+                    inv.addContactMechanism(contactMechanismFax);
+                }
 
-            if (cmSize == 2) {
-                ContactMechanism contactMechanismFax = new ContactMechanism();
-                contactMechanismFax.setType(ContactMechanismType.Fax);
-                inv.addContactMechanism(contactMechanismFax);
+                if (cmSize == 2) {
+                    ContactMechanism contactMechanismFax = new ContactMechanism();
+                    contactMechanismFax.setType(ContactMechanismType.Fax);
+                    inv.addContactMechanism(contactMechanismFax);
+                }
+                request.getSession().setAttribute(FLOW, EDIT_FLOW);
+                log.info(" Investigator's ID is:" + inv.getId());
             }
-            request.getSession().setAttribute(FLOW, EDIT_FLOW);
-            log.info(" Investigator's ID is:" + inv.getId());
         }
         else {
             inv = createInvestigatorWithDesign();
@@ -104,10 +105,10 @@ public class CreateInvestigatorController<C extends Investigator> extends
 		Investigator investigator = (Investigator) command;
     		if(!"saveRemoteInvestigator".equals(request.getParameter("_action")) || (request.getParameter("_action").equals("syncInvestigator") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW))){
     			if (! request.getParameter("_action").equals("syncInvestigator")) {
-					List<Investigator> invFromDB = investigatorDao
+					Investigator invFromDB = investigatorDao
 							.getByEmailAddressFromLocal(investigator
 									.getEmailAsString());
-					if (invFromDB != null && invFromDB.size() > 0) {
+					if (invFromDB != null) {
 						return;
 					}
 				}

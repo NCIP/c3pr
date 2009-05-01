@@ -95,11 +95,11 @@ public class UserAjaxFacade {
 
     public List<Person> matchNameAndEmail(String text, String emailId) throws Exception {
     	//getting the site of the logged in user
-    	List<ResearchStaff> rsList = researchStaffDao.getByEmailAddressFromLocal(emailId);
+    	ResearchStaff rStaff = researchStaffDao.getByEmailAddressFromLocal(emailId);
     	String nciInstituteCode = null;
     	
-    	if(rsList != null && rsList.size() > 0){
-    		nciInstituteCode =  rsList.get(0).getHealthcareSite().getNciInstituteCode();
+    	if(rStaff != null){
+    		nciInstituteCode =  rStaff.getHealthcareSite().getNciInstituteCode();
     	} else {
     		//Defaulting to the hosting site...as no site was found for logged in user.
     		nciInstituteCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);

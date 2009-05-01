@@ -2,9 +2,7 @@ package edu.duke.cabig.c3pr.web.admin;
 
 import java.io.PrintWriter;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -90,10 +88,10 @@ public class CreateNotificationController extends SimpleFormController {
     	    	
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
         																					.getSession().getAttribute("userObject");
-    	List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(user.getEmailId());
+    	ResearchStaff researchStaff = researchStaffDao.getByEmailAddress(user.getEmailId());
     	//get the logged in users site....if logged in user has no site(e.g: c3pr_admin) get the hosting site. 
-    	if(rsList != null && rsList.size() > 0){
-    		return rsList.get(0).getHealthcareSite();
+    	if(researchStaff != null ){
+    		return researchStaff.getHealthcareSite();
     	} else {
     		String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
     		Organization org = organizationDao.getByNciIdentifier(localNciCode).get(0);
@@ -135,11 +133,11 @@ public class CreateNotificationController extends SimpleFormController {
     	
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
 																		.getSession().getAttribute("userObject");
-    	List<ResearchStaff> researchStaffList = researchStaffDao.getByEmailAddressFromLocal(user.getEmailId());
+    	ResearchStaff researchStaff = researchStaffDao.getByEmailAddressFromLocal(user.getEmailId());
     	HealthcareSite hcs = null;
     	//Get the logged in users site....if logged in user has no site(e.g: c3pr_admin) get the hosting site. 
-    	if(researchStaffList != null && researchStaffList.size() > 0){
-    		hcs = researchStaffList.get(0).getHealthcareSite();
+    	if(researchStaff != null){
+    		hcs = researchStaff.getHealthcareSite();
     	} else {
     		String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
     		hcs = organizationDao.getByNciIdentifier(localNciCode).get(0);
@@ -172,8 +170,8 @@ public class CreateNotificationController extends SimpleFormController {
 	        }
 	        
 	        //assign the Rs or Inv to the userBasedRecpients
-	        List<ResearchStaff> rsList = new ArrayList<ResearchStaff>();
-	        List<Investigator> invList = new ArrayList<Investigator>(); 
+	        ResearchStaff rs = null;
+	        Investigator investigator = null; 
 	        Trigger trigger = null;
 	        
 	        PlannedNotification pn = null;
@@ -201,13 +199,13 @@ public class CreateNotificationController extends SimpleFormController {
 	        	
 	        	for(UserBasedRecipient ubr: pn.getUserBasedRecipient()){
 	        		if(ubr.getEmailAddress() != null && ubr.getEmailAddress() != ""){
-	        			rsList = researchStaffDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
-	        			invList = investigatorDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
+	        			rs = researchStaffDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
+	        			investigator = investigatorDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
 	        		}
-	        		if(rsList.size() > 0){
-	        			ubr.setResearchStaff(rsList.get(0));
-	        		}else if(invList.size() > 0){
-	        			ubr.setInvestigator(invList.get(0));
+	        		if(rs != null){
+	        			ubr.setResearchStaff(rs);
+	        		}else if(investigator != null){
+	        			ubr.setInvestigator(investigator);
 	        		}
 	        	}
 	        	

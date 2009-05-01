@@ -88,7 +88,7 @@ public class CreateOrganizationController extends SimpleFormController {
 						.getSession().getAttribute(FLOW).equals(EDIT_FLOW))) {
 			if (!request.getParameter("_action").equals("syncOrganization")) {
 				HealthcareSite hcsFromDB = healthcareSiteDao
-						.getLocalOrganizationsByNciInstituteCode(healthcareSite
+						.getByNciInstituteCodeFromLocal(healthcareSite
 								.getNciInstituteCode());
 				if (hcsFromDB != null
 						&& !hcsFromDB.getId().equals(healthcareSite.getId())) {

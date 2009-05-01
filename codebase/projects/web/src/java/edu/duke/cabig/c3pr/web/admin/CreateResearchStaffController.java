@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.web.admin;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,15 +12,12 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
-import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -62,8 +58,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         ResearchStaff rs;
         String email = request.getParameter("emailId") ;
         if (!StringUtils.isBlank(email)) {
-            List<ResearchStaff> researchStaffs = researchStaffDao.getByEmailAddress(email);
-            	rs = researchStaffs.get(0) ;
+            rs = researchStaffDao.getByEmailAddress(email);
             int cmSize = rs.getContactMechanisms().size();
             if (cmSize == 0) {
                 addContactsToResearchStaff(rs);
@@ -124,10 +119,10 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 		ResearchStaff researchStaff = (ResearchStaff) command;
     		if(!request.getParameter("_action").equals("saveRemoteRStaff") || request.getParameter("_action").equals("syncResearchStaff") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW)){
     			if (! request.getParameter("_action").equals("syncResearchStaff")) {
-					List<ResearchStaff> rStaffFromDB = researchStaffDao
+					ResearchStaff rStaffFromDB = researchStaffDao
 							.getByEmailAddressFromLocal(researchStaff
 									.getEmailAsString());
-					if (rStaffFromDB != null && rStaffFromDB.size() > 0) {
+					if (rStaffFromDB != null) {
 						// This check is already being done in the UsernameDuplicate Validator.
 						//errors.reject("RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " already exists");
 						return;

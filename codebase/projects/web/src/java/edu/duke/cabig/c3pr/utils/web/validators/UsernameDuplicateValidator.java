@@ -46,14 +46,12 @@ public class UsernameDuplicateValidator implements Validator {
 				}
 				for (ContactMechanism cm : user.getContactMechanisms()) {
                     if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-                    	List<ResearchStaff> researchStaffByEmail = new ArrayList<ResearchStaff>();
+                    	ResearchStaff researchStaffByEmail = null;
                     	researchStaffByEmail = dao.getByEmailAddressFromLocal(cm.getValue());
-                    	if (researchStaffByEmail.size()>1){
-                    		errors.reject("duplicate.username.error");
-                    	} else if (researchStaffByEmail.size()>0 && researchStaffByEmail.get(0)!=null){
+                    	if (researchStaffByEmail != null){
                     		if(user.getId()== null){
                     			errors.reject("duplicate.username.error");
-                    		} else if (!user.getId().equals(researchStaffByEmail.get(0).getId())) {
+                    		} else if (!user.getId().equals(researchStaffByEmail.getId())) {
         						errors.reject("duplicate.username.error");
         					}
                     	}
