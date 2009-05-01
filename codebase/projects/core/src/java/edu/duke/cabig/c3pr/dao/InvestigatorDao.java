@@ -11,7 +11,6 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessException;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
@@ -21,8 +20,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import gov.nih.nci.cabig.ctms.domain.DomainObject;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 
 /**
  * @author Priyatam
@@ -104,22 +102,23 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     /*
      * Gets from the database only.
      */
-    public List<Investigator> getByEmailAddressFromLocal(String emailAddress) {
+    public Investigator getByEmailAddressFromLocal(String emailAddress) {
     	//Now that the remote inv's are in the db. Search the db.
-        return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
+        return CollectionUtils.firstElement((List<Investigator>) 
+        		getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'"));
     }
     
     
     /* Gets from COPPA and the database
      * Created for the notifications use case.
      */
-    public List<Investigator> getByEmailAddress(String emailAddress) {
+    public Investigator getByEmailAddress(String emailAddress) {
     	
-    	List<Investigator> investigatorList = getByEmailAddressFromLocal(emailAddress);
-    	if(investigatorList.size() > 0){
+    	Investigator investigator = getByEmailAddressFromLocal(emailAddress);
+    	if(investigator != null){
     		//if a inv with this email is in our db then no need to check with coppa...as  it will be ignored eventually
     		//(as the email address is already in our db)
-    		return investigatorList;
+    		return investigator;
     	} else {
     		//First fetch the remote Inv's
         	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
@@ -131,7 +130,8 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
         	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
         	
         	//Now that the remote inv's are in the db. Search the db.
-            return getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'");
+            return CollectionUtils.firstElement((List<Investigator>) 
+            		getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'"));
     	}
     }
     
@@ -139,27 +139,34 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * @param nciIdentifier
      * @return
      */
-    public List<Investigator> getByNciIdentifierFromLocal(String nciIdentifier) {
+    public Investigator getByNciIdentifierFromLocal(String nciIdentifier) {
     	if(nciIdentifier!= null){
-    		return ((List<Investigator>) getHibernateTemplate().find(
+    		return CollectionUtils.firstElement((List<Investigator>) getHibernateTemplate().find(
                         "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
     	}
-    	return new ArrayList<Investigator>();
+    	return null;
     }
     
     /**Looks in Coppa and then the database
      * @param nciIdentifier
      * @return
      */
-    public List<Investigator> getByNciIdentifier(String nciIdentifier) {
-    	//First fetch the remote Inv's
-    	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-    	remoteInvestigator.setNciIdentifier(nciIdentifier);
-    	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
+    public Investigator getByNciIdentifier(String nciIdentifier) {
     	
-    	//Now that the remote inv's are in the db. Search the db.
-        return ((List<Investigator>) getHibernateTemplate().find(
-                        "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
+    	Investigator investigator = getByNciIdentifierFromLocal(nciIdentifier);
+    	if(investigator != null){
+    		return investigator;
+    	} else {
+        	//First fetch the remote Inv's
+        	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
+        	remoteInvestigator.setNciIdentifier(nciIdentifier);
+        	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
+        	
+        	//Now that the remote inv's are in the db. Search the db.
+            return CollectionUtils.firstElement((List<Investigator>) getHibernateTemplate().find(
+                            "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
+    	}
+    	
     }
     
     
@@ -191,11 +198,13 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 		Investigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getExternalId());
 		if(matchingRemoteInvestigatorFromDb == null ){
 			// check the uniqueness of email and nci identifier of new investigator in database before saving him
-			List<Investigator> investigatorsWithMatchingEmail = new ArrayList<Investigator>();
+			Investigator investigatorsWithMatchingEmail = null;
 			investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmailAsString());
-			List<Investigator> investigatorsWithMatchingNCICode = new ArrayList<Investigator>();
+			
+			Investigator investigatorsWithMatchingNCICode = null;
 			investigatorsWithMatchingNCICode = getByNciIdentifierFromLocal(retrievedRemoteInvestigator.getNciIdentifier());
-			if(investigatorsWithMatchingEmail.size() == 0 && investigatorsWithMatchingNCICode.size()==0){
+			
+			if(investigatorsWithMatchingEmail == null && investigatorsWithMatchingNCICode == null){
 				buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
 			}else {
 				log

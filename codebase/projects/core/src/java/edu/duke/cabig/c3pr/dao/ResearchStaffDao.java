@@ -34,6 +34,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 import gov.nih.nci.security.authorization.domainobjects.Group;
@@ -227,30 +228,35 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 
 	/**
-	 * Gets the by nci identifier. Looks for local and remote
+	 * Gets the by nci identifier. If we find a match in local db dont go to COPPA.
+	 * Goto Copa if no match is found in local db.
+	 * We always defer to local db in cases of queries where only one result is expected.
 	 * 
-	 * @param nciIdentifier
-	 *            the nci identifier
-	 * 
+	 * @param nciIdentifier - the nci identifier
 	 * @return the by nci identifier
 	 */
 	public ResearchStaff getByNciIdentifier(String nciIdentifier) {
-		// get the remote staff and update the database first
-		RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
-		remoteResearchStaff.setNciIdentifier(nciIdentifier);
+		
+		ResearchStaff researchStaff = getByNciIdentifierFromLocal(nciIdentifier);
+		if(researchStaff == null){
+			//get the remote staff and update the database 
+			RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+			remoteResearchStaff.setNciIdentifier(nciIdentifier);
 
-		getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
-
-		ResearchStaff result = null;
-		try {
-			result = (ResearchStaff) (getHibernateTemplate().find(
-					"from ResearchStaff rs where rs.nciIdentifier = '"
-							+ nciIdentifier + "'").get(0));
-		} catch (Exception e) {
-			log.debug("User with nciIdentifier " + nciIdentifier
-					+ " does not exist. Returning null");
+			getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
+			//now run the query against the db after saving the retrieved data
+			ResearchStaff result = null;
+			try {
+				result = (ResearchStaff) (getHibernateTemplate().find(
+						"from ResearchStaff rs where rs.nciIdentifier = '"
+								+ nciIdentifier + "'").get(0));
+			} catch (Exception e) {
+				log.debug("User with nciIdentifier " + nciIdentifier
+						+ " does not exist. Returning null");
+			}
+			return result;
 		}
-		return result;
+		return researchStaff;
 	}
 
 	/**
@@ -259,13 +265,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * 
 	 * @param emailAddress
 	 *            the email address
-	 * 
 	 * @return the ResearchStaff List
 	 */
-	public List<ResearchStaff> getByEmailAddressFromLocal(String emailAddress) {
-		return getHibernateTemplate().find(
+	public ResearchStaff getByEmailAddressFromLocal(String emailAddress) {
+		return CollectionUtils.firstElement((List<ResearchStaff>) getHibernateTemplate().find(
 				"from ResearchStaff rs where rs.contactMechanisms.value = '"
-						+ emailAddress + "'");
+						+ emailAddress + "'"));
 	}
 
 	/**
@@ -276,16 +281,21 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * 
 	 * @return the ResearchStaff List
 	 */
-	public List<ResearchStaff> getByEmailAddress(String emailAddress) {
-		// get the remote staff and update the database first
-		RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
-		remoteResearchStaff.setExternalId(emailAddress);
+	public ResearchStaff getByEmailAddress(String emailAddress) {
+		
+		ResearchStaff researchStaff = getByEmailAddressFromLocal(emailAddress);
+		if(researchStaff == null){
+//			 get the remote staff and update the database first
+			RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+			remoteResearchStaff.setExternalId(emailAddress);
 
-		getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
+			getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
 
-		return getHibernateTemplate().find(
-				"from ResearchStaff rs where rs.contactMechanisms.value = '"
-						+ emailAddress + "'");
+			return CollectionUtils.firstElement((List<ResearchStaff>) getHibernateTemplate().find(
+					"from ResearchStaff rs where rs.contactMechanisms.value = '"
+							+ emailAddress + "'"));
+		}
+		return researchStaff;
 	}
 
 	/**
@@ -443,13 +453,13 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 						// checking for the uniquness of email and NCI
 						// Identifier before saving into database
-						List<ResearchStaff> researchStaffWithMatchingEmail = new ArrayList<ResearchStaff>();
+						ResearchStaff researchStaffWithMatchingEmail = null;
 						researchStaffWithMatchingEmail = getByEmailAddressFromLocal(remoteResearchStaff
 								.getEmailAsString());
 						ResearchStaff researchStaffWithMatchingNCIIdentifier = null;
 						researchStaffWithMatchingNCIIdentifier = getByNciIdentifierFromLocal(remoteResearchStaff
 								.getNciIdentifier());
-						if (researchStaffWithMatchingEmail.size() == 0
+						if (researchStaffWithMatchingEmail == null
 								&& researchStaffWithMatchingNCIIdentifier == null) {
 							saveResearchStaff(remoteResearchStaff);
 						} else {

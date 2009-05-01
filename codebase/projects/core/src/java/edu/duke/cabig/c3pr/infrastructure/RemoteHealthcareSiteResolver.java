@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.iso._21090.II;
-import org.springframework.context.MessageSource;
 
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
@@ -13,11 +12,9 @@ import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
-import edu.duke.cabig.c3pr.esb.Metadata;
-import edu.duke.cabig.c3pr.esb.OperationNameEnum;
-import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.PersonResolverUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import gov.nih.nci.coppa.po.IdentifiedOrganization;
 
@@ -27,18 +24,13 @@ import gov.nih.nci.coppa.po.IdentifiedOrganization;
  */
 public class RemoteHealthcareSiteResolver implements RemoteResolver{
 
-	/** The message broadcaster. */
-	private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster coppaMessageBroadcaster;
-	
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
 
-	/** The c3pr error messages. */
-	private MessageSource c3prErrorMessages;
-	
 	/** The log. */
 	private Logger log = Logger.getLogger(RemoteHealthcareSiteResolver.class);
     
+	private PersonResolverUtils personResolverUtils = null;
 	
 	/**
 	 * Convert to organization.
@@ -56,7 +48,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 			String identifiedOrganizationXml = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganization);		
 			String resultXml = "";
 			try {
-				resultXml = broadcastIdentifiedOrganizationSearch(identifiedOrganizationXml);
+				resultXml = personResolverUtils.broadcastIdentifiedOrganizationSearch(identifiedOrganizationXml);
 			} catch (C3PRCodedException e) {
 				log.error(e.getMessage());
 			}
@@ -121,7 +113,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 
 		try {
 			String iiXml = CoppaObjectFactory.getCoppaIIXml(ii);
-			String resultXml = broadcastOrganizationGetById(iiXml);
+			String resultXml = personResolverUtils.broadcastOrganizationGetById(iiXml);
 			
 			//get coppa payload from caXchange ResponseMessage
 			List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
@@ -147,7 +139,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		String idOrgPayLoad = CoppaObjectFactory.getCoppaIdentfiedOrganization(idOrg);
 		String idOrgResult = "";
 		try {
-			idOrgResult = broadcastIdentifiedOrganizationSearch(idOrgPayLoad);
+			idOrgResult = personResolverUtils.broadcastIdentifiedOrganizationSearch(idOrgPayLoad);
 		} catch (C3PRCodedException e) {
 			log.error(e);
 		}
@@ -159,7 +151,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 			//Get Organization based on player id of above.
 			String resultOrg  = "";
 			try {
-				resultOrg = broadcastOrganizationGetById(iiXml);
+				resultOrg = personResolverUtils.broadcastOrganizationGetById(iiXml);
 			} catch (Exception e) {
 				log.error(e);
 			}
@@ -200,7 +192,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		
 		String resultXml  = "";
 		try {
-			resultXml  = broadcastOrganizationSearch(payLoad);
+			resultXml  = personResolverUtils.broadcastOrganizationSearch(payLoad);
 		} catch (C3PRCodedException e) {
 			log.error(e);
 		}
@@ -224,107 +216,16 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		return remoteHealthcareSites;
 	}
 	
-	/**
-	 * Broadcast Org getById.
-	 * 
-	 * @param iiXml the ii xml
-	 * @return the string
-	 * @throws Exception the exception
-	 */
-	public String broadcastOrganizationGetById(String iiXml) throws Exception{
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.getById.getName(),  "extId", ServiceTypeEnum.ORGANIZATION.getName());
-		return broadcastCoppaMessage(iiXml, mData);
+	
+    public PersonResolverUtils getPersonResolverUtils() {
+		return personResolverUtils;
 	}
 
-	
-	/**
-	 * Broadcast organization search.
-	 * 
-	 * @param gov.nih.nci.coppa.po.Organization coppa organization example to search by.
-	 * @return the List<Object> list of coppa organizations
-	 * @throws C3PRCodedException the c3 pr coded exception
-	 */
-	public String broadcastIdentifiedOrganizationSearch(String healthcareSiteXml) throws C3PRCodedException {
 
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
-        return broadcastCoppaMessage(healthcareSiteXml, mData);
+	public void setPersonResolverUtils(PersonResolverUtils personResolverUtils) {
+		this.personResolverUtils = personResolverUtils;
 	}
 	
-	
-	/**
-	 * Broadcast organization search.
-	 * 
-	 * @param gov.nih.nci.coppa.po.Organization coppa organization example to search by.
-	 * @return the List<Object> list of coppa organizations
-	 * @throws C3PRCodedException the c3 pr coded exception
-	 */
-	public String broadcastOrganizationSearch(String healthcareSiteXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.ORGANIZATION.getName());
-        return broadcastCoppaMessage(healthcareSiteXml, mData);
-	}	
-	
-	
-	
-	/**
-	 * Broadcast coppa message. The actual call to the esb-client.
-	 * 
-	 * @param healthcareSiteXml the healthcare site xml
-	 * @param mData the m data
-	 * @return the string
-	 * @throws C3PRCodedException the c3 pr coded exception
-	 */
-	public String broadcastCoppaMessage(String healthcareSiteXml, Metadata mData) throws C3PRCodedException {
-
-		String caXchangeResponseXml = null;
-		try {
-            caXchangeResponseXml = coppaMessageBroadcaster.broadcastCoppaMessage(healthcareSiteXml, mData);
-        }
-        catch (Exception e) {
-            log.error(e);
-            throw this.exceptionHelper.getException(
-                            getCode("C3PR.EXCEPTION.ORGANIZATION.SEARCH.BROADCAST.SEND_ERROR"), e);
-        }
-		return caXchangeResponseXml;
-	}	
-	
-	
-    /**
-     * Gets the error code which is used to retrieve the exception message.
-     * 
-     * @param errortypeString the errortype string
-     * @return the code
-     */
-    public int getCode(String errortypeString) {
-        return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
-    }
-    
-	public C3PRExceptionHelper getExceptionHelper() {
-		return exceptionHelper;
-	}
-
-	public void setExceptionHelper(C3PRExceptionHelper exceptionHelper) {
-		this.exceptionHelper = exceptionHelper;
-	}
-
-	public MessageSource getC3prErrorMessages() {
-		return c3prErrorMessages;
-	}
-
-	public void setC3prErrorMessages(MessageSource errorMessages) {
-		c3prErrorMessages = errorMessages;
-	}
-
-	public edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster getCoppaMessageBroadcaster() {
-		return coppaMessageBroadcaster;
-	}
-
-	public void setCoppaMessageBroadcaster(
-			edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster coppaMessageBroadcaster) {
-		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
-	}
 }
 
 
