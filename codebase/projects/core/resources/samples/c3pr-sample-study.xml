@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<studies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
-	<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
-		gridId="44a8720e-d514-4e92-a233-99bf93e8bd54" version="3">
+<?xml version="1.0" encoding="utf-8" ?>
+<studies xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<study gridId="44a8720e-d514-4e92-a233-99bf93e8bd54" version="3">
 		<blindedIndicator>false</blindedIndicator>
 		<multiInstitutionIndicator>false</multiInstitutionIndicator>
 		<randomizedIndicator>false</randomizedIndicator>
 		<stratificationIndicator>true</stratificationIndicator>
 		<standaloneIndicator>true</standaloneIndicator>
-		<shortTitleText>Test crae</shortTitleText>
-		<longTitleText>test clrea</longTitleText>
+		<shortTitleText>Test import study disease</shortTitleText>
+		<longTitleText>test import study disease with disease term
+		</longTitleText>
 		<descriptionText />
 		<precisText />
 		<phaseCode>Phase I Trial</phaseCode>
@@ -20,7 +19,7 @@
 		<targetAccrualNumber>23</targetAccrualNumber>
 		<organizationAssignedIdentifier>
 			<type>Coordinating Center Identifier</type>
-			<value>1321a</value>
+			<value>1321abc_3</value>
 			<primaryIndicator>true</primaryIndicator>
 			<healthcareSite>
 				<name>Duke University Medical Center (NC010)</name>
@@ -61,28 +60,22 @@
 					<permissibleAnswer>ans 2</permissibleAnswer>
 				</permissibleAnswer>
 			</stratificationCriteria>
-			
 			<stratificationCriteria>
 				<questionText>strat question 2</questionText>
-				
 				<permissibleAnswer>
 					<permissibleAnswer>answer 1</permissibleAnswer>
 				</permissibleAnswer>
-				
 				<permissibleAnswer>
 					<permissibleAnswer>answer 2</permissibleAnswer>
 				</permissibleAnswer>
-				
 				<permissibleAnswer>
 					<permissibleAnswer>answer 3</permissibleAnswer>
 				</permissibleAnswer>
 			</stratificationCriteria>
 		</epoch>
 		<studyCoordinatingCenter gridId="3a1200cd-3e3a-44e5-a661-52352920cbf9">
-			
 			<healthcareSite>
 				<name>Duke University Medical Center (NC010)</name>
-				
 				<address>
 					<city>Durham</city>
 					<stateCode>NC</stateCode>
@@ -95,7 +88,7 @@
 				<statusCode>Open</statusCode>
 				<healthcareSiteInvestigator>
 					<investigator>
-						<nciIdentifier>nci-10012</nciIdentifier>
+						<nciIdentifier>NCI-123232</nciIdentifier>
 						<fullName>brad Jim</fullName>
 					</investigator>
 				</healthcareSiteInvestigator>
@@ -113,9 +106,15 @@
 				<nciInstituteCode>NC138</nciInstituteCode>
 			</healthcareSite>
 			<irbApprovalDate>2008-09-24</irbApprovalDate>
-			<roleCode>Affiliate Site</roleCode>
+			<roleCode>Affiliate Site arbitrary</roleCode>
 			<startDate>2008-09-24</startDate>
 			<siteStudyStatus>PENDING</siteStudyStatus>
 		</studySite>
+		<studyDisease gridId="7fe875bf-2f09-4cb0-a093-eac4d3aab8dx">
+			<leadDisease>true</leadDisease>
+			<diseaseTerm>
+				<ctepTerm>Soft tissue neoplasm, NOS</ctepTerm>
+			</diseaseTerm>
+		</studyDisease>
 	</study>
 </studies>
