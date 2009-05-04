@@ -5,47 +5,39 @@
         <title><studyTags:htmlTitle study="${command.study}" /></title>   
 	</head>
 	<body>
-	
-	<script>
-	</script>
+	<div id="controlPanel">
+		<tags:controlPanel>
+			<tags:oneControlPanelItem linkhref="javascript:javascript:document.location='../study/viewStudy?studyId=${command.study.id}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage Study" />
+		</tags:controlPanel>
+	</div>
+
 	    <chrome:box title="Confirmation" autopad="true">
-					<c:choose>
-						<c:when test ="${command.study.coordinatingCenterStudyStatus.displayName == 'Open'}">
-			            	<div class="row" >
-			                    <h2><font color="green">Study successfully opened.</font></h2>
-			                </div>
-						</c:when>
-						<c:otherwise>
-			            	<div class="row" >
-			                    <h2><font color="green">Study successfully created.</font></h2>
-			                </div>
-						</c:otherwise>
-					</c:choose>
-	                 <div class="row" >
-	                 	<table class="tablecontent" width="60%">
-							<tr>
-								<td width="35%" class="alt" align="left"><b><fmt:message key="study.shortTitle"/></b></td>
-								<td class="alt" align="left">${command.study.trimmedShortTitleText}</td>
-							</tr>
-							<tr>
-								<td width="35%" class="alt" align="left"><b><fmt:message key="study.coordinatingCenterStudyIdentifier"/></b></td>
-								<td class="alt" align="left">${command.study.primaryIdentifier}</td>
-							</tr>
-							<tr>
-								<td width="35%" class="alt" align="left"><b><fmt:message key="study.studyStatus"/></b></td>
-								<td class="alt" align="left">${command.study.coordinatingCenterStudyStatus.displayName}</td>
-							</tr>
-						</table>
-	                 </div>
-					<div class="flow-buttons">
-						<span class="next"> 
-							<tags:button id="manageStudy" type="button" color="blue" value="Manage Study" size="small" onclick="javascript:document.location='viewStudy?studyId=${command.study.id}'" />
-						</span>
-					</div>
-					<br/>
-					<br/>
-	    </chrome:box>
-	    <div <c:if test="${command.study.companionIndicator == 'true' || fn:length(command.study.companionStudyAssociations) == 0}">style="display:none;"</c:if>>
+				<c:choose>
+					<c:when test ="${command.study.coordinatingCenterStudyStatus.displayName == 'Open'}">
+		            	<div class="row" >
+		                    <h2><font color="green">Study successfully opened.</font></h2>
+		                </div>
+					</c:when>
+					<c:otherwise>
+		            	<div class="row" >
+		                    <h2><font color="green">Study successfully created.</font></h2>
+		                </div>
+					</c:otherwise>
+				</c:choose>
+                 <div class="row" >
+         			<div class="label"><fmt:message key="study.shortTitle"></fmt:message></div>
+         			<div class="value">${command.study.trimmedShortTitleText}</div>
+         		</div>
+         		<div class="row" >
+         			<div class="label"><fmt:message key="c3pr.common.primaryIdentifier"/></div>
+         			<div class="value">${command.study.primaryIdentifier } </div>
+         		</div>
+         		<div class="row" >
+         			<div class="label"><fmt:message key="study.studyStatus"/> </div>
+         			<div class="value">${command.study.coordinatingCenterStudyStatus.displayName} </div>
+         		</div>
+	    	</chrome:box>
+	    	<div <c:if test="${command.study.companionIndicator == 'true' || fn:length(command.study.companionStudyAssociations) == 0}">style="display:none;"</c:if>>
 	    <chrome:box title="Companion Studies" autopad="true">
 		    <table class="tablecontent" width="60%">
 		        <tr>
@@ -97,7 +89,5 @@
 		    </table>
 	    </chrome:box>
 	    </div>
-	    <div class="content buttons autoclear">
-	</div>
 	</body>
 </html>
