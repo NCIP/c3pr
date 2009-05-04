@@ -192,9 +192,9 @@ public class PersonnelServiceImpl implements PersonnelService {
     public HealthcareSite getLoggedInUsersOrganization(HttpServletRequest request){
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
         																					.getSession().getAttribute("userObject");
-    	List<ResearchStaff> rsList = researchStaffDao.getByEmailAddress(user.getEmailId());
-    	if(rsList != null && rsList.size() > 0){
-    		return rsList.get(0).getHealthcareSite();
+    	ResearchStaff researchStaff = researchStaffDao.getByEmailAddress(user.getEmailId());
+    	if(researchStaff != null){
+    		return researchStaff.getHealthcareSite();
     	}
     	return null;
     }
