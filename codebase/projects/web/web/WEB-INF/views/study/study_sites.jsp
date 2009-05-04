@@ -54,7 +54,9 @@
 	       	    button      : inputDateElementLink       // ID of the button
 	       	}
 	       	);
+	       	$('siteIndicator').hide();
 	       	$('divison-'+nciCode).scrollIntoView();
+	       	
 		}
 	}
 
@@ -155,7 +157,8 @@
 			<div class="label"><fmt:message key="c3pr.common.selectAnOrganization" /></div>
 			<div class="value">
 				<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" ></tags:autocompleter>
-				<tags:button color="blue" value="Add study site" icon="add" type="button" size="small" id="addStudySite" onclick="addStudySite();" disabled="true"></tags:button>
+				<tags:button color="blue" value="Add study site" icon="add" type="button" size="small" id="addStudySite" onclick="$('siteIndicator').show();addStudySite();" disabled="true"></tags:button>
+				<img id="siteIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 			</div>
 		</div>
 		<br>
