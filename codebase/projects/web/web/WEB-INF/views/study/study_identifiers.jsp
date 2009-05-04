@@ -83,6 +83,7 @@ function manageIdentifierRadio(element){
 	<tags:errors path="study.systemAssignedIdentifiers"/> 	
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
+					<th><fmt:message key="c3pr.common.class"/><tags:hoverHint keyProp="study.identifier.type"/></th>
 					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
 					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/><tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
 					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
@@ -90,6 +91,7 @@ function manageIdentifierRadio(element){
 					<th>&nbsp;</th>
 				</tr>
 				<tr>
+					<td><fmt:message key="c3pr.common.organization" /></td>
 					<td>${command.study.organizationAssignedIdentifiers[0].healthcareSite.name}</td>
 					<td>${command.study.organizationAssignedIdentifiers[0].type}</td>
 					<td>${command.study.organizationAssignedIdentifiers[0].value}</td>
@@ -98,6 +100,7 @@ function manageIdentifierRadio(element){
                 </tr>
 				<c:if test="${!empty command.study.fundingSponsorAssignedIdentifier}">
 				<tr>
+					<td><fmt:message key="c3pr.common.organization" /></td>
 					<td>${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
 					<td>${command.study.fundingSponsorAssignedIdentifier.type}</td>
 					<td>${command.study.fundingSponsorAssignedIdentifier.value}</td>
@@ -111,7 +114,8 @@ function manageIdentifierRadio(element){
 						<c:set var="handleDifferently" value="true"></c:set>
 					</c:if>
 					<tr id="organizationIdentifier-${organizationStatus.index}">
-						<c:set var="_code" value="" />
+						<td><fmt:message key="c3pr.common.organization" /></td>
+							<c:set var="_code" value="" />
 							<c:set var="_name" value="" />
 							<c:set var="_code" value="(${command.study.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.nciInstituteCode})" />
 							<c:set var="_name" value="${command.study.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
@@ -160,6 +164,7 @@ function manageIdentifierRadio(element){
 				<c:forEach items="${command.study.systemAssignedIdentifiers}" var="sysIdentifier"
 					varStatus="status">
 					<tr id="systemIdentifier-${status.index}">
+						<td><fmt:message key="c3pr.common.system" /></td>
 						<td><form:input
 							path="study.systemAssignedIdentifiers[${status.index}].systemName"
 							cssClass="validate-notEmpty" size="50"/></td>
@@ -206,6 +211,7 @@ function manageIdentifierRadio(element){
 <div id="dummy-row-systemIdentifier" style="display:none;">
 <table>
 	<tr>
+		<td>System</td>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
 			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" size="50"
 			class="validate-notEmpty" /></td>
@@ -234,6 +240,7 @@ function manageIdentifierRadio(element){
 <div id="dummy-row-organizationIdentifier" style="display:none;">
 <table>
 	<tr>
+		<td>Organization</td>
 		<td><input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
 			name="study.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
 		<input class="autocomplete validate-notEmpty" type="text"
