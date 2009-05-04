@@ -191,7 +191,7 @@
     <tags:instructions code="configure" />
     	<chrome:division title="Application Configuration">
     		<div class="row">
-        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.app.localSiteNCICode"/><tags:hoverHint keyProp="configure.localNciInstituteCode" /></div>
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.app.localSite"/><tags:hoverHint keyProp="configure.localNciInstituteCode" /></div>
         		<div class="value">
         			<tags:autocompleter name="conf[localNciInstituteCode].value" displayValue="${command.conf['localNciInstituteCode'].value}" value="${command.conf['localNciInstituteCode'].value}" basename="localNCIInstituteCode" cssClass="validate-notEmpty" ></tags:autocompleter>
         		</div>
