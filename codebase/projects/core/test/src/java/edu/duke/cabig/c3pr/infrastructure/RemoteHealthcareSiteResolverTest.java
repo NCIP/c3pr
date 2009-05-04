@@ -10,6 +10,7 @@ import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
 import edu.duke.cabig.c3pr.esb.test.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ApplicationContextTest;
+import edu.duke.cabig.c3pr.utils.PersonResolverUtils;
 
 /**
  * The Class RemoteHealthcareSiteResolverTest.
@@ -20,6 +21,7 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 	
 	RemoteHealthcareSiteResolver remoteHealthcareSiteResolver = null;
 	CaXchangeMessageBroadcasterImpl coppaMessageBroadcaster = null;
+	PersonResolverUtils personResolverUtils = null;
 	
 	public static final String idpUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
 	public static final String ifsUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
@@ -95,7 +97,7 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 			CoppaObjectFactory.getCoppaOrganizationXml(remoteHealthcareSite.getName(), null, remoteHealthcareSite.getAddress().getCity(),
 					null, null, remoteHealthcareSite.getAddress().getCountryCode());
 		try {
-			resultXml = remoteHealthcareSiteResolver.broadcastOrganizationSearch(payLoad);
+			resultXml = personResolverUtils.broadcastOrganizationSearch(payLoad);
 		} catch (C3PRCodedException e) {
 			e.printStackTrace();
 			fail("Caxchange broadcast Failed");
@@ -116,7 +118,7 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 		"<ns1:scoperIdentifier reliability='ISS' scope='OBJ' displayable='true' identifierName='NCI organization entity identifier' extension='5355' root='2.16.840.1.113883.3.26.4.2' xmlns:ns1='http://po.coppa.nci.nih.gov'/>" +
 		"<ns1:assignedId nullFlavor='NI' xmlns:ns1='http://po.coppa.nci.nih.gov'/><ns1:status nullFlavor='NI' xmlns:ns1='http://po.coppa.nci.nih.gov'/></ns1:IdentifiedOrganization>";
 		try {
-			resultXml = remoteHealthcareSiteResolver.broadcastIdentifiedOrganizationSearch(payLoad);
+			resultXml = personResolverUtils.broadcastIdentifiedOrganizationSearch(payLoad);
 		} catch (C3PRCodedException e) {
 			e.printStackTrace();
 			fail("Caxchange broadcast Failed");
@@ -136,7 +138,7 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 				"identifierName='NCI organization entity identifier' extension='717' " +
 				"root='UID.for.nci.entity.organization' xmlns:ns1='http://po.coppa.nci.nih.gov'/>";
 		try {
-			resultXml = remoteHealthcareSiteResolver.broadcastOrganizationGetById(payLoad);
+			resultXml = personResolverUtils.broadcastOrganizationGetById(payLoad);
 		} catch (C3PRCodedException e) {
 			e.printStackTrace();
 			fail("Caxchange broadcast Failed");
@@ -147,5 +149,15 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 		
 		assertNotNull(resultXml);
 		assertTrue(resultXml.contains("SUCCESS"));
+	}
+
+
+	public PersonResolverUtils getPersonResolverUtils() {
+		return personResolverUtils;
+	}
+
+
+	public void setPersonResolverUtils(PersonResolverUtils personResolverUtils) {
+		this.personResolverUtils = personResolverUtils;
 	}
 }
