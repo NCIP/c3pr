@@ -3,6 +3,14 @@
 <head>
  <title><studyTags:htmlTitle study="${command.study}"/></title>
 <script>
+
+function redirectToTab(tabNumber){
+	if(tabNumber != ''){
+		document.getElementById('flowredirect-target').name='_target'+tabNumber;
+		document.getElementById('flowredirect').submit()
+	}
+}
+
 function activateAndSaveStudy(){
 	if (${fn:length(errors)} > 0){
 		var d = $('errorsOpenDiv');
@@ -28,6 +36,23 @@ function createStudy(){
 </script>
 </head>
 <body>
+<c:forEach items="${flow.tabs}" var="tabLink" varStatus="status">
+		<c:if test="${tabLink.shortTitle == 'Epochs & Arms'}">
+			<c:set var="epochTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Eligibility'}">
+			<c:set var="eligibilityTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Stratification'}">
+			<c:set var="stratificationTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Diseases'}">
+			<c:set var="diseaseTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Companion Studies'}">
+			<c:set var="companionTab" value="${status.index}"/>
+		</c:if>
+	</c:forEach>
 <div id="controlPanel">
 	<tags:controlPanel>
 		<c:if test="${!(command.study.companionIndicator && !command.study.standaloneIndicator)}">
@@ -46,7 +71,7 @@ function createStudy(){
    	<input type="hidden" name="_action" id="_action"/>
 </div>
 <tags:errors path="*"/>
-<chrome:division id="study-details" title="Study Details">
+<chrome:division id="study-details" cssClass="big" title="Study Details">
 <div class="leftpanel">
 	<div class="row">
 		<div class="label"><fmt:message key="study.shortTitle"/>:</div>
@@ -110,7 +135,45 @@ function createStudy(){
 	</div>
 </div>
 </chrome:division>
-<chrome:division title="Epochs &amp; Arms" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+<chrome:division title="Identifiers" cssClass="big">
+    <table class="tablecontent" width="70%">
+        <tr>
+            <th width="45%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
+            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
+            <th scope="col" align="left" ><fmt:message key="c3pr.common.identifier"/></th>
+        </tr>
+        <c:if test="${command.study.coordinatingCenterAssignedIdentifier != null}">
+        <tr class="results">
+			<c:choose>
+				<c:when test="${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+            		<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
+               </c:when>
+			  <c:otherwise>
+					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} </td>
+			  </c:otherwise>
+			</c:choose>
+           	<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
+            <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
+           </tr>
+         </c:if>
+         <c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
+            <tr class="results">
+				<c:choose>
+				   <c:when test="${command.study.fundingSponsorAssignedIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+	            		<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
+	               </c:when>
+				   <c:otherwise>
+						<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} </td>
+				   </c:otherwise>
+				</c:choose>
+                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type}</td>
+                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
+            </tr>
+        </c:if>
+         
+    </table>
+</chrome:division>
+<chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${not empty flowType}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.epochs) >0}">
 			<table class="tablecontent" width="60%">
@@ -128,7 +191,7 @@ function createStudy(){
 		
 		                            <tr>
 		                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
-		                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b>
+		                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b></th>
 		                                <th/>
 		                            </tr>
 		
@@ -139,6 +202,7 @@ function createStudy(){
 		                                    <td>${arm.targetAccrualNumber}</td>
 		                                </tr>
 		                                </c:forEach>
+		                            </tr>
 		                        </table>
 		                    </td>
 		                </c:if>
@@ -150,139 +214,11 @@ function createStudy(){
 			<div align="left"><span><fmt:message key="study.noEpochsAvailable"/></span></div>
 		</c:otherwise>
 	</c:choose>
-    
 </chrome:division>
-<chrome:division title="Diseases" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
-	<c:choose>
-		<c:when test="${fn:length(command.study.studyDiseases) >0}">
-		    <table class="tablecontent" width="60%">
-		        <tr>
-		            <th width="50%" scope="col" align="left"><b><fmt:message key="study.diseaseTerm"/></b></th>
-		            <th scope="col" align="left"><b><fmt:message key="c3pr.common.primary"/></b></th>
-		        </tr>
-		        <c:forEach items="${command.study.studyDiseases}" var="studyDisease" varStatus="status">
-		            <tr class="results">
-		                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
-		                <td class="alt">${studyDisease.leadDisease=="true"?"Yes":"No"}</td>
-		            </tr>
-		        </c:forEach>
-		    </table>
-	    </c:when>
-	    <c:otherwise>
-	    	<div align="left"><span><fmt:message key="study.noDiseasesAvailable"/></span></div>
-	    </c:otherwise>
-    </c:choose>
-</chrome:division>
-<chrome:division title="Identifiers">
-    <h4>Coordinating Assigned Identifier</h4>
-    <br>
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
-            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
-            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
-        </tr>
-        <c:if test="${command.study.coordinatingCenterAssignedIdentifier != null}">
-        <tr class="results">
-			<c:choose>
-				<c:when test="${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-            		<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
-               </c:when>
-			  <c:otherwise>
-					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} </td>
-			  </c:otherwise>
-			</c:choose>
-           	<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
-            <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
-           </tr>
-         </c:if>
-    </table>
-    <br>
-    <h4>Funding Sponsor Identifier</h4>
-    <br>
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
-            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
-            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
-        </tr>
-        <c:if test="${command.study.fundingSponsorAssignedIdentifier != null}">
-            <tr class="results">
-				<c:choose>
-				   <c:when test="${command.study.fundingSponsorAssignedIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-	            		<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
-	               </c:when>
-				   <c:otherwise>
-						<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} </td>
-				   </c:otherwise>
-				</c:choose>
-                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type}</td>
-                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
-            </tr>
-        </c:if>
-    </table>
-    <br>
-</chrome:division>
-<div <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
-    <chrome:division title="Companion Studies">
-    	<c:choose>
-	        <c:when test="${fn:length(command.study.companionStudyAssociations)>0}">
-		        <table class="tablecontent" width="60%">
-		            <tr>
-		                <th width="45%" scope="col" align="left"><b><fmt:message key="study.companionStudyShortTitle"/></b></th>
-		                <th width="30%" scope="col" align="left"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></th>
-		                <th width="15%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
-		                <th width="10%" scope="col" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
-		            </tr>
-		            <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
-		                <tr>
-		                    <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
-		                    <td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
-		                    <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.displayName}</td>
-		                    <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
-		                </tr>
-		            </c:forEach>
-		        </table>
-		       </c:when>
-		       <c:otherwise>
-		       		<div align="left"><span><fmt:message key="study.noCompanionsAvailable"/></span></div>
-		       </c:otherwise>
-		</c:choose>
-    </chrome:division>
-</div>
-<div <c:if test="${command.study.companionIndicator=='false' || (command.study.companionIndicator=='true' && command.study.standaloneIndicator=='true')}">style="display:none;"</c:if>>
-    <chrome:division title="Parent Study">
-        <c:choose>
-        	<c:when test="${fn:length(command.study.parentStudyAssociations) > 0}">
-        		<table class="tablecontent" width="60%">
-		            <tr>
-		                <th width="50%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
-		                <th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
-		            </tr>
-		            <c:forEach items="${command.study.parentStudyAssociations}" var="parentStudyAssociation">
-		                <tr>
-		                    <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
-		                    <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
-		                    <td class="alt">
-		                    	<tags:button id="manageParentStudy" type="button" color="blue" value="View" 
-									onclick="javascript:document.location='viewStudy?studyId=${parentStudyAssociation.parentStudy.id}'" size="small"/>
-		                    </td>
-		
-		                </tr>
-		            </c:forEach>
-		        </table>
-        	</c:when>
-        	<c:otherwise>
-        		<div align="left"><span><fmt:message key="study.noParentStudyAvailable"/></span></div>
-        	</c:otherwise>
-        </c:choose>
-            </chrome:division>
-</div>
-
-<chrome:division title="Eligibilty Criteria">
+<chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${not empty flowType}">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
-			<chrome:division title="${epoch.name}">
+			<chrome:division title="${epoch.name}" cssClass="indented">
 				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
 					<h4>Inclusion Eligibility Criteria</h4>
 					<br>
@@ -316,31 +252,108 @@ function createStudy(){
 			</chrome:division>
 		</c:if>
     </c:forEach>
-</chrome:division>
-<chrome:division title="Stratum Groups">
+</chrome:division>  
+<chrome:division title="Stratum Groups" cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}">
 	<c:forEach items="${command.study.epochs}" var="epoch">
-		<c:if test="${fn:length(epoch.stratumGroups)> 0}">
-			<chrome:division title="${epoch.name}">
-				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
-					<table class="tablecontent" width="70%"}">
-				        <tr>
-				            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
-            				<th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
-				        </tr>
-				        <c:forEach items="${epoch.stratumGroups}" var="stratGrp">	
+		<c:if test="${epoch.stratificationIndicator}">
+			<chrome:division title="${epoch.name}" cssClass="indented">
+				<c:choose>
+					<c:when test="${fn:length(epoch.stratumGroups)> 0}">
+						<table class="tablecontent" width="70%"}">
 					        <tr>
-					        	<td class="alt">${stratGrp.stratumGroupNumber}</td>
-                    			<td class="alt">${stratGrp.answerCombinations}</td>
-							</tr>
-						</c:forEach>
-			   	 	</table>
-			   	 	<br>
-				</c:if>
+					            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
+	            				<th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
+					        </tr>
+					        <c:forEach items="${epoch.stratumGroups}" var="stratGrp">	
+						        <tr>
+						        	<td class="alt">${stratGrp.stratumGroupNumber}</td>
+	                    			<td class="alt">${stratGrp.answerCombinations}</td>
+								</tr>
+							</c:forEach>
+				   	 	</table>
+				   	 	<br>
+					</c:when>
+					<c:otherwise>
+						<div align="left"><span><fmt:message key="study.noStratumGroupGenerated"/></span></div>
+					</c:otherwise>
+				</c:choose>
 			</chrome:division>
 		</c:if>
     </c:forEach>
 </chrome:division>
-
+<chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${diseaseTab}')" condition="${not empty flowType}">
+	<c:choose>
+		<c:when test="${fn:length(command.study.studyDiseases) >0}">
+		    <table class="tablecontent" width="60%">
+		        <tr>
+		            <th width="50%" scope="col" align="left"><b><fmt:message key="study.diseaseTerm"/></b></th>
+		            <th scope="col" align="left"><b><fmt:message key="c3pr.common.primary"/></b></th>
+		        </tr>
+		        <c:forEach items="${command.study.studyDiseases}" var="studyDisease" varStatus="status">
+		            <tr class="results">
+		                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
+		                <td class="alt">${studyDisease.leadDisease=="true"?"Yes":"No"}</td>
+		            </tr>
+		        </c:forEach>
+		    </table>
+	    </c:when>
+	    <c:otherwise>
+	    	<div align="left"><span><fmt:message key="study.noDiseasesAvailable"/></span></div>
+	    </c:otherwise>
+    </c:choose>
+</chrome:division>
+<div id="companionDiv">
+<div id="companionAssociationsDiv" <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
+    	<chrome:division title="Companion Studies" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+        <c:choose>
+	        <c:when test="${fn:length(command.study.companionStudyAssociations)>0}">
+	        	<table class="tablecontent" width="60%">
+		            <tr>
+		                <th width="45%" scope="col" align="left"><b><fmt:message key="study.companionStudyShortTitle"/></b></th>
+		                <th width="30%" scope="col" align="left"><b><fmt:message key="c3pr.common.dataEntryStatus"/></b></th>
+		                <th width="15%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
+		                <th width="10%" scope="col" align="left"><b><fmt:message key="c3pr.common.mandatory"/></b></th>
+		            </tr>
+		            <c:forEach items="${command.study.companionStudyAssociations}" var="companionStudyAssociation">
+		                <tr>
+		                    <td class="alt">${companionStudyAssociation.companionStudy.shortTitleText}</td>
+		                    <td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
+		                    <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
+		                    <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+		                </tr>
+		            </c:forEach>
+		        </table>
+	        </c:when>
+	        <c:otherwise>
+	        	<div align="left"><span><fmt:message key="study.noCompanionsAvailable"/></span></div>
+	        </c:otherwise>  
+        </c:choose>
+    </chrome:division>
+</div>
+</div>
+<div <c:if test="${command.study.companionIndicator=='false' || (command.study.companionIndicator=='true' && command.study.standaloneIndicator=='true')}">style="display:none;"</c:if>>
+    <chrome:division title="Parent Study" cssClass="big">
+        <c:choose>
+        	<c:when test="${fn:length(command.study.parentStudyAssociations) > 0}">
+        		<table class="tablecontent" width="60%">
+		            <tr>
+		                <th width="50%" scope="col" align="left"><b><fmt:message key="study.shortTitle"/></b></th>
+		                <th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
+		            </tr>
+		            <c:forEach items="${command.study.parentStudyAssociations}" var="parentStudyAssociation">
+		                <tr>
+		                    <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
+		                    <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
+		                </tr>
+		            </c:forEach>
+		        </table>
+        	</c:when>
+        	<c:otherwise>
+        		<div align="left"><span><fmt:message key="study.noParentStudyAvailable"/></span></div>
+        	</c:otherwise>
+        </c:choose>
+	</chrome:division>
+</div>
 <div id="errorsOpenDiv" style="display:none">
 	<div class="value" align="left">
 		<font size="2" face="Verdana" color="red">
