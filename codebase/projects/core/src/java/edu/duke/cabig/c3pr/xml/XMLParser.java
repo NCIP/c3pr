@@ -49,13 +49,21 @@ public class XMLParser {
         try {
             parser.parse(new ByteArrayInputStream(messageBytes), new XMLParserErrorHandler());
         }
-        catch (SAXException e) {
-            log.warn("Invalid XML imported" + e.getMessage());
-            throw new XMLValidationException("XML is invalid against the expected schema", e);
-        }
+        catch (SAXParseException spe) {
+        	StringBuffer sb = new StringBuffer( spe.toString() );
+        	sb.append("\n Line number: " + spe.getLineNumber());
+        	sb.append("\nColumn number: " + spe.getColumnNumber() );
+        	sb.append("\n Public ID: " + spe.getPublicId() );
+        	sb.append("\n System ID: " + spe.getSystemId() + "\n");
+        	log.error("Invalid XML imported" +  sb.toString() );
+           throw new XMLValidationException("XML is invalid against the expected schema", spe);
+        }  
         catch (IOException e) {
             throw new C3PRBaseRuntimeException("Runtime exception", e);
-        }
+        } catch (SAXException e) {
+        	log.error("Invalid XML imported" +  e.toString() );
+			e.printStackTrace();
+		}
 
     }
 
