@@ -198,4 +198,9 @@ public class StudyOverviewTab extends StudyTab {
     public ModelAndView reloadCompanion(HttpServletRequest request, Object command , Errors error) {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
+    
+    public ModelAndView updateTargetAccrual(HttpServletRequest request, Object command , Errors error) {
+    	return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
+	}
+
 }

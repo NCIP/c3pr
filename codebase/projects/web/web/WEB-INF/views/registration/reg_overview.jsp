@@ -193,7 +193,7 @@
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Subject has been taken off study.</div>
 	</div>
 	<div id="flash-message-reconsent" style="display:none;">
-		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Consent version has ben updated.</div>
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Consent version has been updated.</div>
 	</div>
 	<div id="flash-message-edit" style="display:none;">
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Registration has been updated.</div>
@@ -440,9 +440,8 @@
                 <td>${orgIdentifier.healthcareSite.name}</td>
                 <td>${orgIdentifier.type}</td>
                 <td>${orgIdentifier.value}</td>
-                <td>${orgIdentifier.primaryIndicator?'Yes':'No'}
-                    <%--<form:radiobutton value="true" cssClass="identifierRadios"
-                                      path="command.studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td> --%>
+                <td>${orgIdentifier.primaryIndicator?'Yes':'No'}</td>
+                   
             </tr>
         </c:forEach>
         <c:forEach items="${command.studySubject.systemAssignedIdentifiers}" varStatus="status" var="sysIdentifier">
@@ -485,8 +484,8 @@
 						<div class="label"><fmt:message key="registration.stratumGroupNumber"/>:</div>
 						<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroupNumber}</div>
 					</div>
+					</div>
 				</c:if>
-				</div>
 				<div class="rightpanel">&nbsp;</div>
                 <div class="row">
                 <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="80%">
@@ -498,7 +497,7 @@
                         <tr class="results">
                             <td class="alt" align="left">${criteria.stratificationCriterion.questionText}</td>
                             <td class="alt"
-                                align="left">${criteria.stratificationCriterionAnswer.permissibleAnswer==''?'<span class="red"><b>Unanswered</span>':criteria.stratificationCriterionAnswer.permissibleAnswer }</td>
+                                align="left">${criteria.stratificationCriterionAnswer.permissibleAnswer==''?'<span class="red"><b>Unanswered</b></span>':criteria.stratificationCriterionAnswer.permissibleAnswer }</td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -515,7 +514,7 @@
 			<th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></th>
         </tr>
             <tr>
-                <td class="alt"><a href="javascript:manageParentRegistration();">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}&nbsp;(${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}) </td>
+                <td class="alt"><a href="javascript:manageParentRegistration();">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}&nbsp;(${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}) </a></td>
 				<td class="alt">${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}</td>
    	        </tr>	           
     </table>
@@ -637,7 +636,7 @@
 	</table>--%>
 	<ul>
     	<c:if test="${!empty caaersBaseUrl}">
-	    <li><a href="${caaersBaseUrl }" target="${caaers_window }"><b>Adverse Event Reporting System</a></li>
+	    <li><a href="${caaersBaseUrl }" target="${caaers_window }"><b>Adverse Event Reporting System</b></a></li>
 	    </c:if>
 		<c:if test="${!empty pscBaseUrl}">
 	    <li><a href="${pscBaseUrl }" target="${psc_window }">Patient Study Calendar</a></li>

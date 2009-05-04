@@ -83,6 +83,33 @@
         	}
 
         }
+
+
+		function closePopup() {
+			win.close();
+		}
+		
+		ValidationManager.submitPostProcess=function(formElement, flag){
+			if(formElement.id =='targetAccrualForm' && flag ){
+				<tags:tabMethod method="updateTargetAccrual" divElement="'targetAccrualDiv'" formName="'targetAccrualForm'"  viewName="/study/asynchronous/target_accrual_section" onComplete="closePopup"/>
+				Element.show('flash-message-targetaccrual');
+				return false;
+			}
+			return flag;
+		}
+        
+
+        function updateTargetAccrual(){
+        	Element.hide('flash-message-targetaccrual');
+   			var arr= $$("#targetAccrual");
+   			win = new Window({className :"mac_os_x", title: "Update Target Accrual", 
+   									hideEffect:Element.hide, 
+   									zIndex:100, width:500, height:150 , minimizable:false, maximizable:false, closable : false,
+   									showEffect:Element.show 
+   									}) 
+   			win.setContent(arr[0]) ;
+   			win.showCenter(true);
+        }
     </script>
 	<style>
 		#main {
@@ -158,12 +185,18 @@
 			                </c:choose>
 	                     </c:if>
 	                </csmauthz:accesscontrol>
+	                <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+						<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Edit Accrual" />
+					</csmauthz:accesscontrol>						
 				<tags:oneControlPanelItem linkhref="javascript:doExportAction();;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 				<tags:oneControlPanelItem linkhref="javascript:launchPrint();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 			</c:if>
 		</c:if>
 	</tags:controlPanel>
 </div>
+<div id="flash-message-targetaccrual" style="display:none;">
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Target accrual has been updated.</div>
+	</div>
 <form:form>
     <input type="hidden" name="_target${tab.number}" id="_target"/>
     <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
@@ -191,15 +224,12 @@
 		<div class="label"><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
 		<div class="value">${command.study.primaryIdentifier}</div>
 	</div>
+	<div id="targetAccrualDiv">
 	<div class="row">
 		<div class="label"><fmt:message key="c3pr.common.targetAccrual"/>:</div>
-		<div class="value">
-			<tags:inPlaceEdit value="${command.study.targetAccrualNumber}" path="study.changedTargetAccrualNumber" id="changedTargetAccrualNumber" validations="validate-notEmpty"/>
-        	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-            	&nbsp; 
-            	<tags:button type="button" color="blue" value="Edit" onclick="editor_changedTargetAccrualNumber.enterEditMode('click')" size="small"/>
-        	</csmauthz:accesscontrol>
+		<div class="value">${command.study.targetAccrualNumber}
 		</div>
+	</div>
 	</div>
 	<div class="row">
 		<div class="label"><fmt:message key="study.phase"/>:</div>
@@ -607,5 +637,10 @@
 </div>
 </div>
 </form:form>
+<div id="targetAccrualPage" style="display:none;">
+<div id="targetAccrual" >
+<%@ include file="update_target_accrual.jsp"%>
+</div>
+</div>
 </body>
 </html>
