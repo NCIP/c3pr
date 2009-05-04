@@ -165,7 +165,12 @@
 
             function updateName(divID, stringValue) {
         	    if ($(divID)) {
-        	        $(divID).innerHTML = stringValue;
+            	    if(stringValue.length > 55){
+						newvalue = stringValue.substring(0,55) + "..........";
+            	    	$(divID).innerHTML = newvalue;
+                	}else{
+        	        	$(divID).innerHTML = stringValue;
+                	}
         	    }
         	}
         </script>
@@ -181,8 +186,16 @@
                     </script>
 					<tr id="epoch-${epochCount.index }-${status.index}">
 						<td>
+							<c:choose>
+								<c:when test="${fn:length(epoch.stratificationCriteria[status.index].questionText) > 55}">
+									<c:set var="questionText" value="${fn:substring(epoch.stratificationCriteria[status.index].questionText,0,55)}.........."></c:set>
+								</c:when>
+								<c:otherwise>
+										<c:set var="questionText" value="${epoch.stratificationCriteria[status.index].questionText}"></c:set>
+								</c:otherwise>
+							</c:choose>
 							<chrome:deletableDivision id="question-${epochCount.index }-${status.index }" divTitle="questionTitle-${epochCount.index }-${status.index }" onclick="RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index},'${strat.id==null?'HC#':'ID#'}${strat.id==null?strat.hashCode:strat.id}');" 
-                    		title="Question : ${epoch.stratificationCriteria[status.index].questionText}" >
+                    		title="Question : ${questionText}" >
                     		<table style="border: 0px red dotted;" width="100%">
                     		<tr>	
 								<td valign="top">
@@ -344,3 +357,4 @@
 </c:choose>
 </body>
 </html>
+maledfgdgdgdgdhgfdghdfghdfghdfghdfghdfhgdfhgdfghdfgh..........
