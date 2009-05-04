@@ -80,7 +80,7 @@
     function toggleDisabled(el) {
     	el.descendants().each(function(e){
 			e.disabled="true";
-			e.style.opacity='0.9';
+			e.style.opacity='0.95';
 			if(e.tagName == 'A'){
 				e.__href=e.href;
 				e.href="#";
@@ -104,8 +104,8 @@
     function editStratificationCriteria(epochCountIndex, isBook, id){
     	$('stratificationIndicator-'+epochCountIndex).show();
         if(stratumGroupAlert(epochCountIndex, isBook)){
-        	$('editStratificationCriteria-${epoch.id}').hide(); 
-        	$('addStratificationCriteria-${epoch.id}').show(); 
+        	$('editStratificationCriteria-'+id).hide(); 
+        	$('addStratificationCriteria-'+id).show(); 
 			clear(epochCountIndex);
 			enableQuestionSection(id);
         }
