@@ -77,6 +77,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 				HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
 				healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
 				healthcareSiteInvestigator.setInvestigator(remoteInvestigator);
+				healthcareSiteInvestigator.setStatusCode("ACT");
 				
 				remoteInvestigator.getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);
 			}
