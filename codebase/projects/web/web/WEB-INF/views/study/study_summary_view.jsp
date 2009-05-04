@@ -5,6 +5,13 @@
     <title><studyTags:htmlTitle study="${command.study}"/></title>
     <script language="JavaScript" type="text/JavaScript">
 
+	    function redirectToTab(tabNumber){
+	    	if(tabNumber != ''){
+	    		document.getElementById('flowredirect-target').name='_target'+tabNumber;
+	    		document.getElementById('flowredirect').submit()
+	    	}
+	    }
+
         function doExportAction() {
             document.viewDetails._action.value = "export";
             document.viewDetails.submit();
@@ -85,6 +92,23 @@
 </head>
 
 <body>
+	<c:forEach items="${flow.tabs}" var="tabLink" varStatus="status">
+		<c:if test="${tabLink.shortTitle == 'Epochs & Arms'}">
+			<c:set var="epochTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Eligibility'}">
+			<c:set var="eligibilityTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Stratification'}">
+			<c:set var="stratificationTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Diseases'}">
+			<c:set var="diseaseTab" value="${status.index}"/>
+		</c:if>
+		<c:if test="${tabLink.shortTitle == 'Companion Studies'}">
+			<c:set var="companionTab" value="${status.index}"/>
+		</c:if>
+	</c:forEach>
 <div id="controlPanel">
 	<tags:controlPanel>
 		<c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
@@ -221,69 +245,6 @@
 	</div>
 </div>
 </chrome:division>
-<chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
-	<c:choose>
-		<c:when test="${fn:length(command.study.epochs) >0}">
-			<table class="tablecontent" width="60%">
-		        <tr>
-		            <th width="50%"><b><fmt:message key="study.epochs"/></b></th>
-		            <th><b><fmt:message key="study.epoch.arms"/></b>
-		            </th>
-		        </tr>
-		        <c:forEach items="${command.study.epochs}" var="epoch">
-		            <tr>
-		                <td class="alt">${epoch.name}</td>
-		                <c:if test="${not empty epoch.arms}">
-		                    <td>
-		                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-		
-		                            <tr>
-		                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
-		                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b>
-		                                <th/>
-		                            </tr>
-		
-		                            <tr>
-		                                <c:forEach items="${epoch.arms}" var="arm">
-		                                <tr>
-		                                    <td>${arm.name}</td>
-		                                    <td>${arm.targetAccrualNumber}</td>
-		                                </tr>
-		                                </c:forEach>
-		                        </table>
-		                    </td>
-		                </c:if>
-		            </tr>
-		        </c:forEach>
-		    </table>
-		</c:when>
-		<c:otherwise>
-			<div align="left"><span><fmt:message key="study.noEpochsAvailable"/></span></div>
-		</c:otherwise>
-	</c:choose>
-    
-</chrome:division>
-<chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
-	<c:choose>
-		<c:when test="${fn:length(command.study.studyDiseases) >0}">
-		    <table class="tablecontent" width="60%">
-		        <tr>
-		            <th width="50%" scope="col" align="left"><b><fmt:message key="study.diseaseTerm"/></b></th>
-		            <th scope="col" align="left"><b><fmt:message key="c3pr.common.primary"/></b></th>
-		        </tr>
-		        <c:forEach items="${command.study.studyDiseases}" var="studyDisease" varStatus="status">
-		            <tr class="results">
-		                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
-		                <td class="alt">${studyDisease.leadDisease=="true"?"Yes":"No"}</td>
-		            </tr>
-		        </c:forEach>
-		    </table>
-	    </c:when>
-	    <c:otherwise>
-	    	<div align="left"><span><fmt:message key="study.noDiseasesAvailable"/></span></div>
-	    </c:otherwise>
-    </c:choose>
-</chrome:division>
 <chrome:division title="Identifiers" cssClass="big">
     <table class="tablecontent" width="70%">
         <tr>
@@ -322,9 +283,138 @@
          
     </table>
 </chrome:division>
+<chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${not empty flowType}">
+	<c:choose>
+		<c:when test="${fn:length(command.study.epochs) >0}">
+			<table class="tablecontent" width="60%">
+		        <tr>
+		            <th width="50%"><b><fmt:message key="study.epochs"/></b></th>
+		            <th><b><fmt:message key="study.epoch.arms"/></b>
+		            </th>
+		        </tr>
+		        <c:forEach items="${command.study.epochs}" var="epoch">
+		            <tr>
+		                <td class="alt">${epoch.name}</td>
+		                <c:if test="${not empty epoch.arms}">
+		                    <td>
+		                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+		
+		                            <tr>
+		                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
+		                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b></th>
+		                                <th/>
+		                            </tr>
+		
+		                            <tr>
+		                                <c:forEach items="${epoch.arms}" var="arm">
+		                                <tr>
+		                                    <td>${arm.name}</td>
+		                                    <td>${arm.targetAccrualNumber}</td>
+		                                </tr>
+		                                </c:forEach>
+		                            </tr>
+		                        </table>
+		                    </td>
+		                </c:if>
+		            </tr>
+		        </c:forEach>
+		    </table>
+		</c:when>
+		<c:otherwise>
+			<div align="left"><span><fmt:message key="study.noEpochsAvailable"/></span></div>
+		</c:otherwise>
+	</c:choose>
+</chrome:division>
+<chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${not empty flowType}">
+	<c:forEach items="${command.study.epochs}" var="epoch">
+		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
+			<chrome:division title="${epoch.name}" cssClass="indented">
+				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
+					<h4>Inclusion Eligibility Criteria</h4>
+					<br>
+					<table class="tablecontent" width="70%"}">
+				        <tr>
+				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
+				        </tr>
+				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">	
+					        <tr>
+					        	<td class="alt">${inclusionCriteria.questionText}</td>
+							</tr>
+						</c:forEach>
+			   	 	</table>
+			   	 	<br>
+				</c:if>
+				<c:if test="${fn:length(epoch.exclusionEligibilityCriteria)> 0}">
+					<h4>Exclusion Eligibility Criteria</h4>
+					<br>
+					<table class="tablecontent" width="70%"}">
+				        <tr>
+				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
+				        </tr>
+				        <c:forEach items="${epoch.exclusionEligibilityCriteria}" var="exclusionCriteria">
+					        <tr>
+					        	<td class="alt">${exclusionCriteria.questionText}</td>
+							</tr>
+						</c:forEach>
+				    </table>
+				    <br>
+				</c:if>
+			</chrome:division>
+		</c:if>
+    </c:forEach>
+</chrome:division>  
+<chrome:division title="Stratum Groups" cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}">
+	<c:forEach items="${command.study.epochs}" var="epoch">
+		<c:if test="${epoch.stratificationIndicator}">
+			<chrome:division title="${epoch.name}" cssClass="indented">
+				<c:choose>
+					<c:when test="${fn:length(epoch.stratumGroups)> 0}">
+						<table class="tablecontent" width="70%"}">
+					        <tr>
+					            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
+	            				<th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
+					        </tr>
+					        <c:forEach items="${epoch.stratumGroups}" var="stratGrp">	
+						        <tr>
+						        	<td class="alt">${stratGrp.stratumGroupNumber}</td>
+	                    			<td class="alt">${stratGrp.answerCombinations}</td>
+								</tr>
+							</c:forEach>
+				   	 	</table>
+				   	 	<br>
+					</c:when>
+					<c:otherwise>
+						<div align="left"><span><fmt:message key="study.noStratumGroupGenerated"/></span></div>
+					</c:otherwise>
+				</c:choose>
+			</chrome:division>
+		</c:if>
+    </c:forEach>
+</chrome:division>
+<chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${diseaseTab}')" condition="${not empty flowType}">
+	<c:choose>
+		<c:when test="${fn:length(command.study.studyDiseases) >0}">
+		    <table class="tablecontent" width="60%">
+		        <tr>
+		            <th width="50%" scope="col" align="left"><b><fmt:message key="study.diseaseTerm"/></b></th>
+		            <th scope="col" align="left"><b><fmt:message key="c3pr.common.primary"/></b></th>
+		        </tr>
+		        <c:forEach items="${command.study.studyDiseases}" var="studyDisease" varStatus="status">
+		            <tr class="results">
+		                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
+		                <td class="alt">${studyDisease.leadDisease=="true"?"Yes":"No"}</td>
+		            </tr>
+		        </c:forEach>
+		    </table>
+	    </c:when>
+	    <c:otherwise>
+	    	<div align="left"><span><fmt:message key="study.noDiseasesAvailable"/></span></div>
+	    </c:otherwise>
+    </c:choose>
+</chrome:division>
 <div id="companionDiv">
 <div id="companionAssociationsDiv" <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
-    	<chrome:division title="Companion Studies" cssClass="big">
+    	<chrome:division title="Companion Studies" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
         <c:choose>
 	        <c:when test="${fn:length(command.study.companionStudyAssociations)>0}">
 	        	<table class="tablecontent" width="60%">
@@ -394,7 +484,7 @@
         		<div align="left"><span><fmt:message key="study.noParentStudyAvailable"/></span></div>
         	</c:otherwise>
         </c:choose>
-            </chrome:division>
+	</chrome:division>
 </div>
 <c:if test="${fn:length(command.study.studyAmendments) > 0}">
 <chrome:division title="Amendments" cssClass="big">
@@ -415,68 +505,8 @@
 </chrome:division>
 </c:if>
 
-<chrome:division title="Eligibilty Criteria" cssClass="big" />
-	<c:forEach items="${command.study.epochs}" var="epoch">
-		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
-			<chrome:division title="${epoch.name}" cssClass="indented">
-				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
-					<h4>Inclusion Eligibility Criteria</h4>
-					<br>
-					<table class="tablecontent" width="70%"}">
-				        <tr>
-				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
-				        </tr>
-				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">	
-					        <tr>
-					        	<td class="alt">${inclusionCriteria.questionText}</td>
-							</tr>
-						</c:forEach>
-			   	 	</table>
-			   	 	<br>
-				</c:if>
-				<c:if test="${fn:length(epoch.exclusionEligibilityCriteria)> 0}">
-					<h4>Exclusion Eligibility Criteria</h4>
-					<br>
-					<table class="tablecontent" width="70%"}">
-				        <tr>
-				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
-				        </tr>
-				        <c:forEach items="${epoch.exclusionEligibilityCriteria}" var="exclusionCriteria">
-					        <tr>
-					        	<td class="alt">${exclusionCriteria.questionText}</td>
-							</tr>
-						</c:forEach>
-				    </table>
-				    <br>
-				</c:if>
-			</chrome:division>
-		</c:if>
-    </c:forEach>
-<chrome:division title="Stratum Groups" cssClass="big"/>
-	<c:forEach items="${command.study.epochs}" var="epoch">
-		<c:if test="${fn:length(epoch.stratumGroups)> 0}">
-			<chrome:division title="${epoch.name}" cssClass="indented">
-				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
-					<table class="tablecontent" width="70%"}">
-				        <tr>
-				            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
-            				<th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
-				        </tr>
-				        <c:forEach items="${epoch.stratumGroups}" var="stratGrp">	
-					        <tr>
-					        	<td class="alt">${stratGrp.stratumGroupNumber}</td>
-                    			<td class="alt">${stratGrp.answerCombinations}</td>
-							</tr>
-						</c:forEach>
-			   	 	</table>
-			   	 	<br>
-				</c:if>
-			</chrome:division>
-		</c:if>
-    </c:forEach>
-</div>
 <c:if test="${command.study.coordinatingCenterStudyStatus == 'OPEN' && isCCTSEnv}">
-    <chrome:division title="CCTS Workflow" cssClass="big"/>
+    <chrome:division title="CCTS Workflow" cssClass="big">
         <div class="content">
             <div class="row">
                 <table width="60%">
@@ -511,7 +541,8 @@
                 </table>
             </div>
         </div>
-        <div id="built-cctsErrorMessage" style="display: none;"/>
+        <div id="built-cctsErrorMessage" style="display: none;"></div>
+        </chrome:division>
 </c:if>
 <div class="content buttons autoclear">
         <div class="flow-buttons">
@@ -557,7 +588,6 @@
 		</div>
 	</c:forEach>
 </div>
-
 <div id="errorsReadyToOpenDiv" style="display:none">
 	<div class="value" align="left">
 		<font size="2" face="Verdana" color="red">
