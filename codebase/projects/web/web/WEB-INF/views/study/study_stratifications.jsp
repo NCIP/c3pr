@@ -22,9 +22,13 @@
 	}
 
 	function postProcessDragDrop(e){  
-		var isBook = ${isBookRandomized};	
 		//gettting the epochIndex from the table id.
 		var id = e.id;
+		updateStartumGroups(id);
+	}
+
+	function updateStartumGroups(id){
+		var isBook = ${isBookRandomized};
 		var pos = id.indexOf("_");
 		var epochCountIndex = id.substring(pos + 1, id.length);
 		var answer;
@@ -112,11 +116,51 @@
 		$('stratificationIndicator-'+epochCountIndex).hide();
      }
 
-    function moveDownThisGroup(e){
-    }
 
-    function moveUpThisGroup(e){
-    }
+	function moveElementUpforList(list, key) {
+		var sequence=Sortable.sequence(list);
+		var newsequence=[];
+		var reordered=false;
+		if (sequence.length>1) for (var j=0; j<sequence.length; j++) {
+			if (j>0 && sequence[j].length>0 && sequence[j]==key) {
+				var temp=newsequence[j-1];
+				newsequence[j-1]=key;
+				newsequence[j]=temp;
+				reordered=true;
+			}
+			else {
+				newsequence[j]=sequence[j];
+			}
+		}
+
+		if (reordered){ 
+			Sortable.setSequence(list,newsequence);
+		}
+
+		return reordered;
+	}
+
+	function moveElementDownforList(list, key) {
+		var sequence=Sortable.sequence(list);
+		var newsequence=[];
+		var reordered=false;
+		if (sequence.length>1) for (var j=0; j<sequence.length; j++) {
+			if (j<(sequence.length-1) && sequence[j].length>0 && sequence[j]==key) {
+				newsequence[j+1]=key;
+				newsequence[j]=sequence[j+1];
+				reordered=true;
+				j++;
+			}
+			else {
+				newsequence[j]=sequence[j];
+			}
+		}
+
+		if (reordered){
+			 Sortable.setSequence(list,newsequence);
+		}
+		return reordered;
+	}
 
 	</script>
 </head>
