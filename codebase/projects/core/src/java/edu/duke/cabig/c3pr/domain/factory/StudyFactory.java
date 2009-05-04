@@ -68,27 +68,22 @@ public class StudyFactory {
 			for (StudyInvestigator sInv : organization.getStudyInvestigators()) {
 				Investigator inv = sInv.getHealthcareSiteInvestigator()
 						.getInvestigator();
-				List<Investigator> loadedInvestigators = investigatorDao
-						.getByNciIdentifier(inv
-								.getNciIdentifier());
-				Investigator loadedInv = null;
-				if (loadedInvestigators.size() > 0) {
-					loadedInv = loadedInvestigators.get(0);
-				}
-				if (loadedInv == null) {
+				Investigator loadedInvestigator = investigatorDao
+											.getByNciIdentifier(inv.getNciIdentifier());
+				if (loadedInvestigator == null) {
 					throw exceptionHelper
 							.getException(
 									getCode("C3PR.EXCEPTION.STUDY.INVALID.NCI_IDENTIFIER.CODE"),
 									new String[] { inv.getNciIdentifier() });
 				}
 				HealthcareSiteInvestigator loadedSiteInv = healthcareSiteInvestigatorDao
-						.getSiteInvestigator(loadedSite, loadedInv);
+						.getSiteInvestigator(loadedSite, loadedInvestigator);
 
 				if (loadedSiteInv == null) {
 					throw exceptionHelper
 							.getException(
 									getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_INVESTIGATOR.CODE"),
-									new String[] {loadedInv.getFullName(),loadedSite.getName()});
+									new String[] {loadedInvestigator.getFullName(),loadedSite.getName()});
 				}
 				sInv.setHealthcareSiteInvestigator(loadedSiteInv);
 				sInv.setSiteInvestigator(loadedSiteInv);
