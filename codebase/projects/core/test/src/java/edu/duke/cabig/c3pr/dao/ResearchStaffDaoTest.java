@@ -9,7 +9,6 @@ import java.util.List;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -164,9 +163,9 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testGetByEmailAddress() throws Exception {
-    	List <ResearchStaff> researchStaffList = getDao().getByEmailAddress("test@mail.com");
-    	assertEquals(researchStaffList.size(), 1);
-    	assertEquals("Incorrect staff retrieved", researchStaffList.get(0).getFirstName(), "Research Bill");
+    	ResearchStaff researchStaff = getDao().getByEmailAddress("test@mail.com");
+    	assertNotNull(researchStaff);
+    	assertEquals("Incorrect staff retrieved", researchStaff.getFirstName(), "Research Bill");
     }
     
     /**

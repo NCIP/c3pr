@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.dao;
 
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
@@ -85,9 +84,8 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     public void testGetByEmail() throws Exception{
     	ContactMechanism contactMechanism = new ContactMechanism();
     	contactMechanism.setType(ContactMechanismType.EMAIL);
-    	List<Investigator> investigators = new ArrayList<Investigator>();
-    	investigators = getDao().getByEmailAddress("test@mail.com");
-    	assertEquals("Wrong number of investigators",1, investigators.size());
+    	Investigator investigator = getDao().getByEmailAddress("test@mail.com");
+    	assertNotNull("Wrong number of investigators", investigator);
     }
     
     /*public void testGetByEmailForRemote() throws Exception{
