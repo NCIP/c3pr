@@ -66,13 +66,17 @@ public class ValidateConnectionController extends AbstractController {
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		Map map = new HashMap();
 		String type = request.getParameter(TYPE);
 		String value = request.getParameter(VALUE);
 		String id = request.getParameter(ID);
 		String errorTrace = "";
 		Exception exception = null;
 		if (TEST_EMAIL_SERVER.equals(type)) {
-			exception = testSMTPServerConnection(request);
+			User user = (User)request.getSession().getAttribute("userObject");
+			String userEmailId = user.getEmailId() ;
+			exception = testSMTPServerConnection(request, userEmailId);
+			map.put("email", userEmailId);
 		} else if (TEST_URL.equals(type)) {
 			exception = testURLConnection(value);
 		} else if (TEST_FILE_LOCATION.equals(type)) {
@@ -82,7 +86,7 @@ public class ValidateConnectionController extends AbstractController {
 		} else if (TEST_CAXCHANGE_URL.equals(type)) {
 			exception = testCaXchangeURL(value);
 		}
-		Map map = new HashMap();
+		
 		map.put("exception", exception);
 		if (exception != null) {
 			errorTrace = exception.toString();
@@ -107,11 +111,9 @@ public class ValidateConnectionController extends AbstractController {
 		return null;
 	}
 
-	private Exception testSMTPServerConnection(HttpServletRequest request) {
+	private Exception testSMTPServerConnection(HttpServletRequest request, String userEmailId) {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		try {
-			User user = (User)request.getSession().getAttribute("userObject");
-			String userEmailId = user.getEmailId() ;
 			mailSender.setHost(request.getParameter("host"));
 			mailSender.setPassword(request.getParameter("passwd"));
 			mailSender.setPort(Integer.parseInt(request.getParameter("port")));
