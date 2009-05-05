@@ -48,6 +48,7 @@ public class StudyEligibilityChecklistTab extends StudyTab {
                 refdata.put("disableForm", new Boolean(false));
             }
         }
+        refdata.put("epochIndex",request.getParameter("epochIndex"));
         return refdata;
     }
 

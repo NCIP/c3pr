@@ -20,6 +20,7 @@
 				$('criteriaFile-'+i).name='criteriaFile-'+i
 			}
 		}
+		$('epochIndex').value=index ;
 		$('_target').name='_target${tab.number}';
 		 $('command').submit();
 	}
@@ -29,6 +30,7 @@
 <tags:instructions code="study_eligibility_checklist" />
 <form:form method="post" enctype="multipart/form-data">
 	<input type="hidden" name="name" id="name">
+	<input type="hidden" name="epochIndex" id="epochIndex">
 	<tags:tabFields tab="${tab}" />
 	<c:forEach items="${command.study.epochs}" var="epoch"
 		varStatus="epochCount">
@@ -63,9 +65,9 @@
 					<tags:hoverHint keyProp="study.criteriafile" />
 				</div>
 			</div>
-			<chrome:division title="Inclusion Criteria" minimize="true"
+			<chrome:division title="Inclusion Criteria" minimize="${(not empty epochIndex &&  epochIndex == epochCount.index)?'false':'true'}"
 				divIdToBeMinimized="inclusionCriteria-${epochCount.index}">
-				<div id="inclusionCriteria-${epochCount.index}" style="display: none">
+				<div id="inclusionCriteria-${epochCount.index}" style="${(not empty epochIndex &&  epochIndex == epochCount.index) ? '': 'display: none'}">
 				<table width="100%">
 					<tr>
 						<td>
@@ -106,9 +108,9 @@
 								onclick="$('inclusionCriteria-${epochCount.index}').show();RowManager.addRow(instanceInclusionRow_${epochCount.index});" size="small"/>
 				<br>				
 			</chrome:division>
-			<chrome:division title="Exclusion Criteria" minimize="true"
+			<chrome:division title="Exclusion Criteria" minimize="${(not empty epochIndex &&  epochIndex == epochCount.index)?'false':'true'}"
 				divIdToBeMinimized="exclusionCriteria-${epochCount.index}">
-				<div id="exclusionCriteria-${epochCount.index}" style="display :none">
+				<div id="exclusionCriteria-${epochCount.index}" style="${(not empty epochIndex &&  epochIndex == epochCount.index) ? '': 'display: none'}">
 				<table width="100%">
 					<tr>
 						<td>
