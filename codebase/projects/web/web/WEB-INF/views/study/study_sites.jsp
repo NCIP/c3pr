@@ -7,6 +7,13 @@
 	<script type="text/javascript">
 	var nciCode ;
 	function updateStudy() {
+		var strHiddenDiv = '' ;
+		$$('.hiddenDiv').each(function(element){
+			if(element.style.display != 'none'){
+				strHiddenDiv = strHiddenDiv + '|' +element.id.substring(element.id.indexOf("-") + 1, element.id.length) ; 
+			}
+		});
+		$('openSections').value = strHiddenDiv ;
 	    document.getElementById("studySitesForm").submit();
 	}
 
@@ -164,11 +171,12 @@
 		<br>
 		<form:form id="studySitesForm">
 			<input type="hidden" name="submitted" value="true"/>
+			<input type="hidden" name="openSections" id="openSections"/>
 			<tags:errors path="study.studySites" />
 			<div id="studySites">
 				<c:forEach items="${command.study.studySites}" varStatus="status" var="site">
-					<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="deleteStudySite('${site.healthcareSite.nciInstituteCode}');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="true" divIdToBeMinimized="site-${status.index}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
-						<div id="site-${status.index}" style="display:none;">
+					<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="deleteStudySite('${site.healthcareSite.nciInstituteCode}');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${fn:contains(openSections, site.healthcareSite.nciInstituteCode) ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.nciInstituteCode}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
+						<div id="site-${site.healthcareSite.nciInstituteCode}" style="${fn:contains(openSections, site.healthcareSite.nciInstituteCode) ? '':'display:none'}" class="hiddenDiv">
 							<div class="row">
 								<div class="leftpanel">
 									<div class="row">

@@ -77,6 +77,7 @@ public class StudySitesTab extends StudyTab {
 				.get(Configuration.MULTISITE_ENABLE)));
 		refdata.put("localNCICode", this.configuration
 				.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
+		refdata.put("openSections",request.getParameter("openSections"));
 		return refdata;
 	}
 
@@ -147,8 +148,8 @@ public class StudySitesTab extends StudyTab {
 		String nciCodes = request.getParameter("nciCodes");
 		String irbApprovalSites = request.getParameter("irbApprovalSites");
 
-		List<String> nciCodeList = getNciCodeList(nciCodes);
-		List<String> irbApprovalList = getNciCodeList(irbApprovalSites);
+		List<String> nciCodeList = getTokenList(nciCodes);
+		List<String> irbApprovalList = getTokenList(irbApprovalSites);
 
 		for (CompanionStudyAssociation parentStudyAssociation : study
 				.getParentStudyAssociations()) {
@@ -175,13 +176,13 @@ public class StudySitesTab extends StudyTab {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 
-	private static List<String> getNciCodeList(String nciCodes) {
-		List<String> nciCodeList = new ArrayList<String>();
-		StringTokenizer st = new StringTokenizer(nciCodes, "|");
+	private static List<String> getTokenList(String string) {
+		List<String> tokenList = new ArrayList<String>();
+		StringTokenizer st = new StringTokenizer(string, "|");
 		while (st.hasMoreTokens()) {
-			nciCodeList.add(st.nextToken());
+			tokenList.add(st.nextToken());
 		}
-		return nciCodeList;
+		return tokenList;
 	}
 
 	@SuppressWarnings("unchecked")

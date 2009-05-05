@@ -10,8 +10,8 @@
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:forEach items="${command.study.studySites}" varStatus="status" var="site">
-					<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="deleteStudySite('${site.healthcareSite.nciInstituteCode}');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="true" divIdToBeMinimized="site-${status.index}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
-						<div id="site-${status.index}" style="display:none;">
+					<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="deleteStudySite('${site.healthcareSite.nciInstituteCode}');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${fn:contains(openSections, site.healthcareSite.nciInstituteCode) ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.nciInstituteCode}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
+						<div id="site-${site.healthcareSite.nciInstituteCode}" class="hiddenDiv" style="${fn:contains(openSections, site.healthcareSite.nciInstituteCode) ? '':'display:none'}" >
 							<div class="row">
 								<div class="leftpanel">
 									<div class="row">
