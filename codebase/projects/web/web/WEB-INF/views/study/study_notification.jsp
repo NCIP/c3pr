@@ -41,78 +41,82 @@
 <tags:panelBox>
 <form:form>
 		<div><input type="hidden" id="_action" name="_action" value=""></div>
-		<br />
-		<table id="notification" class="tablecontent" width="80%">
-			<div id="notificationHeader" style=<c:if test="${fn:length(command.study.plannedNotifications) == 0}">"display:none"</c:if>>
-			<tr>
-				<th><tags:requiredIndicator /><fmt:message key="notification.threshold"/><tags:hoverHint
-					keyProp="study.notification.threshold" /></th>
-				<th><fmt:message key="c3pr.common.email"/></th>
-				<th><fmt:message key="c3pr.common.role"/></th>
-				<th></th>
-			</tr>
-			</div>
+		<table id="notification" width="100%">
+			<tr></tr>
 			<c:forEach items="${command.study.plannedNotifications}" var="notification" varStatus="nStatus">
-				<script>
+			<tr>
+			<script>
                     RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)});
                     RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].roleBasedRecipient)});
-                </script>
-				<tr id="notification-${nStatus.index}">
-					<td>
-						<form:input size="5" path="study.plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6" cssClass="validate-notEmpty&&NUMERIC" /></td>
-					<td>
-					<table id="table1" width="70%">
-						<tr>
-							<td>
-							<tags:button type="button" color="blue" icon="add" value="Add Email" id="addEmail"
-								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
-							</td>
-						</tr>
-						<c:forEach var="cmbr" varStatus="emailStatus" items="${command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
-							<tr id="table1-${emailStatus.index}">
-								<td class="alt"><form:input						 
-									path="study.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].contactMechanisms[0].value"
-									size="30" cssClass="validate-notEmpty&&EMAIL" /></td>
-								<td class="alt"><a
-									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${cmbr.id==null?'HC#':'ID#'}${cmbr.id==null?cmbr.hashCode:cmbr.id}');">
-								<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-							</tr>
-						</c:forEach>
-					</table>
-					</td>
-					<td>
-					<table  id="table2" width="70%">
-						<tr>
-							<td>
-							<tags:button type="button" color="blue" icon="add" value="Add Role" 
-								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
-							</td>
-						</tr>
-						<c:forEach var="role" varStatus="roleStatus"
-							items="${command.study.plannedNotifications[nStatus.index].roleBasedRecipient}">
-							<tr id="table2-${roleStatus.index}">
-								<td class="alt"><form:select
-									path="study.plannedNotifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role" cssClass="validate-notEmpty">
-									<option value="">Please Select</option>
-									<form:options items="${notificationPersonnelRoleRefData}"
-										itemLabel="desc" itemValue="code" />
-								</form:select>
-								<td class="alt"><a
-									href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${roleStatus.index},'${role.id==null?'HC#':'ID#'}${role.id==null?role.hashCode:role.id}');">
-								<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-							</tr>
-						</c:forEach>
-					</table>
-					</td>
-					<td class="alt"><a
-						href="javascript:RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}');">
-					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
-						alt="Delete"></a></td>
-				</tr>
+            </script>
+            <td>
+			<chrome:deletableDivision id="notificationDiv-${nStatus.index }" divTitle="notificationTitle-${nStatus.index}" onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}');" title="Notification ${nStatus.index + 1} " >
+				<table id="notificationTable"  width="100%">
+					<tr id="notification-${nStatus.index}">
+						<td valign="top" width="40%">
+							<table>
+								<tr><td><b><fmt:message key="c3pr.common.targetAccrual"/></b></td>
+									<td>
+										<form:input size="5" path="study.plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6" cssClass="validate-notEmpty&&NUMERIC" />
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td valign="top" width="30%">
+							<table id="table1">
+								<tr>
+									<td valign="top">
+									<tags:button type="button" color="blue" icon="add" value="Add Email" id="addEmail" 
+										onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
+									</td>
+									<td></td>
+								</tr>
+								<c:forEach var="cmbr" varStatus="emailStatus" items="${command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
+									<tr id="table1-${emailStatus.index}">
+										<td class="alt"><form:input						 
+											path="study.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].contactMechanisms[0].value"
+											size="30" cssClass="validate-notEmpty&&EMAIL" /></td>
+										<td class="alt"><a
+											href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${cmbr.id==null?'HC#':'ID#'}${cmbr.id==null?cmbr.hashCode:cmbr.id}');">
+										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</td>
+						<td valign="top" width="30%">
+							<table  id="table2">
+								<tr>
+									<td valign="top">
+									<tags:button type="button" color="blue" icon="add" value="Add Role" 
+										onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/>
+									</td>
+									<td></td>
+								</tr>
+								<c:forEach var="role" varStatus="roleStatus"  items="${command.study.plannedNotifications[nStatus.index].roleBasedRecipient}">
+									<tr id="table2-${roleStatus.index}">
+										<td class="alt">
+											<form:select path="study.plannedNotifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role" cssClass="validate-notEmpty">
+												<option value="">Please Select</option>
+												<form:options items="${notificationPersonnelRoleRefData}" itemLabel="desc" itemValue="code" />
+											</form:select>
+										</td>	
+										<td class="alt">
+											<a href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${roleStatus.index},'${role.id==null?'HC#':'ID#'}${role.id==null?role.hashCode:role.id}');">
+											<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+										</tr>
+								</c:forEach>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</chrome:deletableDivision>
+			</td>
+			</tr>
 			</c:forEach>
 		</table>
 		<br>
-		<div align="right">
+	<hr noshade size="1" width="100%" style="border-top: 1px black dotted;" align="left">
+		<div align="left">
 		<tags:button type="button" color="blue" icon="add" value="Add Notification" id="addNotification"
 		onclick="RowManager.addRow(notificationRowInserterProps);" size="small"/>
 		</div>
@@ -123,37 +127,47 @@
 
 
 <div id="dummy-notification" style="display:none">
-<table>
+<table width="100%">
 	<tr>
-		<td><input type="text" size="5"
-			name="study.plannedNotifications[PAGE.ROW.INDEX].studyThreshold" maxlength="6"
-			class="validate-notEmpty&&NUMERIC" /></td>
 		<td>
-		<table class="tablecontent" id="table1" width="50%">
-			<tr>
-				<th></th>
-				<th>
-				<tags:button type="button" color="blue" icon="add" value="Add Email" id="addEmail"
+		<chrome:deletableDivision id="notificationDiv-[PAGE.ROW.INDEX]" divTitle="notificationTitle-[PAGE.ROW.INDEX]" onclick="javascript:RowManager.deleteRow(notificationRowInserterProps,PAGE.ROW.INDEX,-1);" title="Notification"  >
+			<table id="notificationTable"  width="100%">
+				<tr id="notification-[PAGE.ROW.INDEX]">
+					<td valign="top" width="40%">
+						<table>
+							<tr><td><b><fmt:message key="c3pr.common.targetAccrual"/></b></td>
+								<td>
+									<input type="text" size="5" name="study.plannedNotifications[PAGE.ROW.INDEX].studyThreshold" maxlength="6" class="validate-notEmpty&&NUMERIC" />
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td valign="top" width="30%">
+						<table id="table1">
+							<tr>
+								<td valign="top">
+								<tags:button type="button" color="blue" icon="add" value="Add Email" id="addEmail"
 								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
-				</th>
-			</tr>
-		</table>
-		</td>
-		<td>
-		<table class="tablecontent" id="table2" width="50%">
-			<tr>
-				<th></th>
-				<th>
-				<tags:button type="button" color="blue" icon="add" value="Add Role" 
+								</td>
+								<td></td>
+							</tr>
+						</table>
+					</td>
+					<td valign="top" width="30%">
+						<table  id="table2">
+							<tr>
+								<td valign="top">
+								<tags:button type="button" color="blue" icon="add" value="Add Role" 
 								onclick="RowManager.addRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
-				</th>
-			</tr>
-		</table>
-		</td>
-		<td class="alt"><a
-			href="javascript:RowManager.deleteRow(notificationRowInserterProps,PAGE.ROW.INDEX,-1);">
-		<img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="Delete"></a>
-		</td>
+								</td>
+								<td></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</chrome:deletableDivision>
+		</td>	
 	</tr>
 </table>
 </div>
