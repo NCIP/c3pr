@@ -17,7 +17,7 @@
 <script type="text/javascript">
 
 function fireAction(action, selected) {
-        addDiseasesToCart()
+        addPersonnelToCart()
          $('_doNotSave').value = true;
         $('_actionx').value = action;
         $('_selectedSite').value = document.getElementById('site').selectedIndex;
@@ -29,16 +29,8 @@ function closePopup() {
 	win.close();
 }
 
-function clearField(field) {
-    field.value = "";
-}
-
-function hover(index)
-{
-}
-
 function acPostSelect(mode, selectedChoice) {
-    showDiseases();
+    showPersonnel();
 }
 
 function updateSelectedDisplay(mode) {
@@ -65,11 +57,8 @@ function acCreate(mode) {
 }
 
 
-function showDiseases() {
-  //  var categoryId = $("disease-sub-category").value    
-  //  var subCategorySelect = $("disease-sub-category")
+function showPersonnel() {
     var siteSelect = $("site").value;
-    
     // If all is selected
         var diseaseTermSelect = $("disease-term")
         diseaseTermSelect.options.length = 0
@@ -77,7 +66,6 @@ function showDiseases() {
         diseaseTermSelect.options.add(new Option("All", ""))
         diseaseTermSelect.options[0].selected = true;
         //call the getAll method for the selected organization instead of calling getInvestigatorsById() for every group.
-        //for (i = 0; i < siteSelect.length; i++) {
             var catId = siteSelect
 	        StudyAjaxFacade.getSitePersonnel(catId, function(diseases) {
 	              diseases.each(function(cat) {
@@ -86,15 +74,14 @@ function showDiseases() {
 	                diseaseTermSelect.options.add(opt)
 	            })
 	        })
-	    //}
 }
 
 /**
- * Copy Diseases from  [Diseases MultiSelect]
- *   to the [Selected Diseases MultiSelect]
+ * Copy personnel from  [Personnel MultiSelect]
+ *   to the [Selected Personnel MultiSelect]
  *
  */
-function addDiseasesToCart() {
+function addPersonnelToCart() {
     var diseaseTerm = $("disease-term");
     var diseaseSelected = $("disease-sel");
     var diseaseSelectedHidden = $("disease-sel-hidden");
@@ -138,7 +125,7 @@ function synchronizeSelects(selectFrom, selectTo)
     }
 }
 
-function removeDiseasesFromCart()
+function removePersonnelFromCart()
 {
     var diseaseSelected = $("disease-sel");
     var diseaseSelectedHidden = $("disease-sel-hidden");
@@ -156,7 +143,7 @@ Event.observe(window, "load", function() {
     $('disease-sel').style.display = 'none';
     $('disease-sel-hidden').style.display = 'none';
 
-  	showDiseases();
+  	showPersonnel();
 
     $('createPersonnel').observe('click', function(event) {
     	win = new Window(
@@ -194,7 +181,6 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		</tr>
     </c:when>
     <c:otherwise>
-
 		<table border="0" id="table1" cellspacing="10" width="100%">
 			<tr>
 			<td valign="top" width="45%">
