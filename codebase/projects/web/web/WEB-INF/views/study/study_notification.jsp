@@ -130,7 +130,7 @@
 <table width="100%">
 	<tr>
 		<td>
-		<chrome:deletableDivision id="notificationDiv-[PAGE.ROW.INDEX]" divTitle="notificationTitle-[PAGE.ROW.INDEX]" onclick="javascript:RowManager.deleteRow(notificationRowInserterProps,PAGE.ROW.INDEX,-1);" title="Notification"  >
+		<chrome:deletableDivision id="notificationDiv-[PAGE.ROW.INDEX]" divTitle="notificationTitle-[PAGE.ROW.INDEX]" onclick="javascript:RowManager.deleteRow(notificationRowInserterProps,PAGE.ROW.INDEX,-1);"   >
 			<table id="notificationTable"  width="100%">
 				<tr id="notification-[PAGE.ROW.INDEX]">
 					<td valign="top" width="40%">
