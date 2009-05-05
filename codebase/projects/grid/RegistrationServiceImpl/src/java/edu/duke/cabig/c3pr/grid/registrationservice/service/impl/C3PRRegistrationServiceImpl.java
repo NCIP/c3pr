@@ -87,14 +87,23 @@ public class C3PRRegistrationServiceImpl implements RegistrationServiceI {
 
     public Message transfer(Message message)
                     throws RemoteException {
-        List<Identifier> objects = xmUtils.getDomainObjectsFromList(Identifier.class, xmUtils.getArguments(message));
-        if (objects.size() == 0) {
+    	List<StudySubject> objects = xmUtils.getDomainObjectsFromList(StudySubject.class, xmUtils.getArguments(message));
+        if (objects.size() != 1) {
             throw new RemoteException(
-                            "Illegal Argument(s). Make sure there is atleast one identifier in the message.");
+                            "Illegal Argument(s). Make sure there is exactly one studysubject in the message.");
         }
         WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
         try {
-            StudySubject studySubject=studySubjectRepository.transferSubject(objects);
+        	StudySubject builtStudySubject=studySubjectFactory.buildReferencedStudySubject(objects.get(0));
+        	builtStudySubject.setRegWorkflowStatus(objects.get(0).getRegWorkflowStatus());
+        	List<StudySubject> stuList= studySubjectRepository.findRegistrations(builtStudySubject);
+        	if(stuList.size()!=1){
+        		throw new RemoteException(
+                "There should be exactly one registration from the subject on a study at a site");
+        	}
+        	StudySubject studySubject= stuList.get(0);
+        	studySubject.addScheduledEpoch(builtStudySubject.getScheduledEpoch());
+        	studySubject=studySubjectRepository.transferSubject(studySubject);
             List<AbstractMutableDomainObject> domainObjects=new ArrayList<AbstractMutableDomainObject>();
             domainObjects.add(studySubject);
             Message returnMessage=xmUtils.getMessageForDomainObjects(domainObjects);
