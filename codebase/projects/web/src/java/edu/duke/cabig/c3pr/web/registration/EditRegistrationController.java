@@ -54,6 +54,8 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
         	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
         }else if(wrapper.getShouldRegister()){
         	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        }else if(wrapper.getShouldTransfer()){
+        	studySubject=studySubjectRepository.transferSubject(studySubject);
         }else if(wrapper.getShouldEnroll()){
         	studySubject=studySubjectRepository.enroll(studySubject);
         }
