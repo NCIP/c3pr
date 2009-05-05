@@ -32,6 +32,4 @@ public interface StudySubjectService extends CCTSWorkflowService, MultiSiteWorkf
     
     public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults);
     
-    public StudySubject getArmAndCoordinatingAssignedIdentifier(StudySubject studySubject);
-    
 }

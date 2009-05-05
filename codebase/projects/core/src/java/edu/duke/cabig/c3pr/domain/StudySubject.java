@@ -1164,8 +1164,7 @@ public class StudySubject extends
 	}
 
 	public void doMutiSiteTransfer(
-			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch,
-			OrganizationAssignedIdentifier coordinatingCenterAssignedIdentifier) {
+			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch) {
 		ScheduledEpoch scheduledEpoch = this
 		.getScheduledEpochByEpochName(coordinatingCenterReturnedScheduledEpoch.getEpoch().getName());
 		if (scheduledEpoch.getRequiresArm()) {
@@ -1175,14 +1174,7 @@ public class StudySubject extends
 			ScheduledArm scheduledArm= scheduledEpoch.getScheduledArm()==null?scheduledEpoch.getScheduledArms().get(0):scheduledEpoch.getScheduledArm();
 			scheduledArm.setArm(arm);
 		}
-		OrganizationAssignedIdentifier organizationAssignedIdentifier=new OrganizationAssignedIdentifier();
-		organizationAssignedIdentifier.setHealthcareSite(this.studySite.getStudy().getStudyCoordinatingCenter().getHealthcareSite());
-		organizationAssignedIdentifier.setGridId(coordinatingCenterAssignedIdentifier.getGridId());
-		organizationAssignedIdentifier.setType(coordinatingCenterAssignedIdentifier.getType());
-		organizationAssignedIdentifier.setValue(coordinatingCenterAssignedIdentifier.getValue());
-		this.addIdentifier(organizationAssignedIdentifier);
 		this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
-		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 	}
 
 	public void doLocalTransfer() {

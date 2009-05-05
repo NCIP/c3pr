@@ -82,12 +82,6 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
         return studySubjects;
     }
 
-    public StudySubject getArmAndCoordinatingAssignedIdentifier(StudySubject studySubject) {
-    	
-    	//TODO add the coordinating center code. Return ScheduledEpoch after randomization
-        return null;
-    }
-
 	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
 		this.studySubjectDao = studySubjectDao;
 	}

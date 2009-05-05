@@ -357,8 +357,16 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		}
 		
 		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studySubjectService.getLocalNCIInstituteCode())){
-			StudySubject multisiteReturnedStudySubject = studySubjectService.getArmAndCoordinatingAssignedIdentifier(studySubject);
-			studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
+			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.add(studySubject);
+            EndPoint endPoint=handleCoordinatingCenterBroadcast(studySubject.getStudySite().getStudy(), APIName.CHANGE_EPOCH, domainObjects);
+            if(endPoint.getStatus()!=WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
+                throw this.exceptionHelper.getMultisiteException(endPoint.getLastAttemptError());
+            }
+            StudySubject multisiteReturnedStudySubject=(StudySubject)((List) endPoint.getReturnValue()).get(0);
+            studySubjectDao.initialize(multisiteReturnedStudySubject);
+			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
+            studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getCurrentScheduledEpoch());
 		}else{
 			studySubject.doLocalTransfer();
 		}
@@ -378,8 +386,16 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		}
 		
 		if (!studySubject.getStudySite().getHostedMode() && !studySubject.getStudySite().getIsCoordinatingCenter() && !studySubject.getStudySite().getStudy().isCoOrdinatingCenter(studySubjectService.getLocalNCIInstituteCode())){
-			StudySubject multisiteReturnedStudySubject = studySubjectService.getArmAndCoordinatingAssignedIdentifier(studySubject);
-			studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
+			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
+            domainObjects.add(studySubject);
+            EndPoint endPoint=handleCoordinatingCenterBroadcast(studySubject.getStudySite().getStudy(), APIName.CHANGE_EPOCH, domainObjects);
+            if(endPoint.getStatus()!=WorkFlowStatusType.MESSAGE_SEND_CONFIRMED){
+                throw this.exceptionHelper.getMultisiteException(endPoint.getLastAttemptError());
+            }
+            StudySubject multisiteReturnedStudySubject=(StudySubject)((List) endPoint.getReturnValue()).get(0);
+            studySubjectDao.initialize(multisiteReturnedStudySubject);
+			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
+            studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getCurrentScheduledEpoch());
 		}else{
 			studySubject.doLocalTransfer();
 		}
