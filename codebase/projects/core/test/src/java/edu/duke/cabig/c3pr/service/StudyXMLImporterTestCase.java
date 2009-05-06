@@ -2,12 +2,13 @@ package edu.duke.cabig.c3pr.service;
 
 import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URI;
+import java.io.InputStream;
 import java.util.List;
 
-import org.springframework.orm.hibernate3.HibernateTemplate;
+import com.sun.org.apache.xerces.internal.util.URI;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -33,10 +34,6 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 
 	private HealthcareSiteDao healthcareSitedao;
 	
-//	private StudyDao studyDao;
-	
-//	private HibernateTemplate hibernateTemplate;
-
 	public XMLParser xmlParser;
 	
 	XmlMarshaller marshaller;
@@ -47,16 +44,11 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 		// Templates.
 		healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
 				.getBean("healthcareSiteDao");
-		/*studyDao = (StudyDao) getApplicationContext()
-		.getBean("studyDao");*/
 		marshaller = new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
 		studyImporter = (StudyXMLImporterServiceImpl) getApplicationContext()
 				.getBean("studyXMLImporterService");
 		
 		xmlParser = (XMLParser)getApplicationContext().getBean("xmlParser");
-		/*
-		hibernateTemplate = (HibernateTemplate) getApplicationContext()
-		.getBean("hibernateTemplate");*/
 	
 	}
 	
@@ -64,12 +56,23 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 	public void testStudyValidation() throws Exception {
 
 			try {
-				URI uri = getClass().getClassLoader().getResource("c3pr-sample-study.xml").toURI();
-				File file = new File(uri);
-				byte[] bytes = new byte[(int) file.length()];
-				FileInputStream fileInputStream = new FileInputStream(file);
-				fileInputStream.read(bytes);
-				xmlParser.validate(bytes);
+				
+				InputStream inputStream = getClass().getClassLoader().getResourceAsStream("c3pr-sample-study.xml");
+				
+				byte[] bytes = new byte[8000];
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream(8000);
+
+				int readBytes;
+				while((readBytes = inputStream.read(bytes)) > 0) {
+			        outputStream.write(bytes, 0, readBytes);
+				}
+			        byte[] byteData = outputStream.toByteArray();
+			    
+		        // Close the streams
+		        inputStream.close();
+		        outputStream.close();
+
+				xmlParser.validate(byteData);
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail("Unable to Validate");
