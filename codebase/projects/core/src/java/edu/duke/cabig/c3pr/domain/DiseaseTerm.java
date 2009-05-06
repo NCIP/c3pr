@@ -55,7 +55,7 @@ public class DiseaseTerm extends AbstractMutableDeletableDomainObject {
         this.ctepTerm = ctepTerm;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     public DiseaseCategory getCategory() {
         return category;
