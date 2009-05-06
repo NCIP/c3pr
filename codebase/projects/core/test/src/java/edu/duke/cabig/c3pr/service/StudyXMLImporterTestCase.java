@@ -3,8 +3,11 @@ package edu.duke.cabig.c3pr.service;
 import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 
 import java.io.File;
-import java.io.InputStream;
+import java.io.FileInputStream;
+import java.net.URI;
 import java.util.List;
+
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -29,6 +32,10 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 	private StudyXMLImporterServiceImpl studyImporter;
 
 	private HealthcareSiteDao healthcareSitedao;
+	
+//	private StudyDao studyDao;
+	
+//	private HibernateTemplate hibernateTemplate;
 
 	public XMLParser xmlParser;
 	
@@ -40,23 +47,29 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 		// Templates.
 		healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
 				.getBean("healthcareSiteDao");
+		/*studyDao = (StudyDao) getApplicationContext()
+		.getBean("studyDao");*/
 		marshaller = new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
 		studyImporter = (StudyXMLImporterServiceImpl) getApplicationContext()
 				.getBean("studyXMLImporterService");
 		
 		xmlParser = (XMLParser)getApplicationContext().getBean("xmlParser");
+		/*
+		hibernateTemplate = (HibernateTemplate) getApplicationContext()
+		.getBean("hibernateTemplate");*/
+	
 	}
 	
 
 	public void testStudyValidation() throws Exception {
-		Study study = getDao().getById(1000);
 
 			try {
-				InputStream is = getClass().getClassLoader()
-						.getResourceAsStream("c3pr-sample-study.xml");
-				String str = is.toString();
-				byte[] b = str.getBytes();
-			//	xmlParser.validate(b);
+				URI uri = getClass().getClassLoader().getResource("c3pr-sample-study.xml").toURI();
+				File file = new File(uri);
+				byte[] bytes = new byte[(int) file.length()];
+				FileInputStream fileInputStream = new FileInputStream(file);
+				fileInputStream.read(bytes);
+				xmlParser.validate(bytes);
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail("Unable to Validate");
@@ -88,6 +101,11 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 					companionStudy.getFundingSponsorAssignedIdentifier()
 							.setValue("pqr" + i);
 			}
+			
+			// clear the session;
+			
+			
+		
 			String[] xmlStudy = (marshaller.toXML(study)).split(">", 2);
 			String studyXml = xmlStudy[0] + "><studies>" + xmlStudy[1]
 					+ "</studies> ";
