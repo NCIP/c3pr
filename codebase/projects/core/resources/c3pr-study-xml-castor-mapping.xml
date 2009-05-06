@@ -254,8 +254,7 @@
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="address" type="edu.duke.cabig.c3pr.domain.Address">
-            <bind-xml name="address" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
-                    />
+            <bind-xml name="address" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
 
     </class>
@@ -417,6 +416,10 @@
                       auto-naming="deriveByClass"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="studyDiseases" type="edu.duke.cabig.c3pr.domain.StudyDisease"
+			collection="collection" get-method="getStudyDiseases" set-method="addStudyDisease">
+			<bind-xml node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
+		</field>
     </class>
     
      <class name="edu.duke.cabig.c3pr.domain.CompanionStudyAssociation">
