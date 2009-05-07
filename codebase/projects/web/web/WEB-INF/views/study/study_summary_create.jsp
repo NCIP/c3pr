@@ -164,6 +164,20 @@ function updateTargetAccrual(){
 	</div>
 </div>
 </chrome:division>
+<chrome:division id="study-pi" cssClass="big" title="Principal Investigator">
+<div class="leftpanel">
+	<div class="row">
+		<div class="label"><fmt:message key="c3pr.common.organization"/>:</div>
+		<div class="value">${command.study.principalInvestigatorStudyOrganization.healthcareSite.name} (${command.study.principalInvestigatorStudyOrganization.healthcareSite.nciInstituteCode})</div>
+	</div>
+</div>
+<div class="rightpanel">
+	<div class="row">
+		<div class="label"><fmt:message key="study.principalInvestigator"/>:</div>
+		<div class="value">${command.study.principalInvestigatorFullName}</div>
+	</div>
+</div>
+</chrome:division>
 <chrome:division title="Identifiers" cssClass="big">
     <table class="tablecontent" width="70%">
         <tr>
