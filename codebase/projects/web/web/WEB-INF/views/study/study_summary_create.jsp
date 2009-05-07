@@ -98,8 +98,8 @@ function updateTargetAccrual(){
 <div id="flash-message-targetaccrual" style="display:none;">
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Target accrual has been updated.</div>
 	</div>
-<div id="summary">
 <form:form id="viewDetails" name="viewDetails">
+<div id="summary">
 <tags:tabFields tab="${tab}"/>
 <tags:instructions code="study_summary_create" />
 <div>
@@ -218,7 +218,6 @@ function updateTargetAccrual(){
                 <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
             </tr>
         </c:if>
-         
     </table>
 </chrome:division>
 <chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${not empty flowType}">
@@ -436,9 +435,9 @@ function updateTargetAccrual(){
 			</font>
 		</div>
 	</c:forEach>
-
-</form:form>
 </div>
+</form:form>
+
 <div id="targetAccrualPage" style="display:none;">
 <div id="targetAccrual" >
 <%@ include file="update_target_accrual.jsp"%>
