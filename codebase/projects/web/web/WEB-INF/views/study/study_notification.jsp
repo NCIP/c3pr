@@ -50,7 +50,7 @@
                     RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.study.plannedNotifications[nStatus.index].roleBasedRecipient)});
             </script>
             <td>
-			<chrome:deletableDivision id="notificationDiv-${nStatus.index }" divTitle="notificationTitle-${nStatus.index}" onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}');" title="Notification ${nStatus.index + 1} " >
+			<chrome:deletableDivision id="notificationDiv-${nStatus.index }" divTitle="notificationTitle-${nStatus.index}" onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}');" >
 				<table id="notificationTable"  width="100%">
 					<tr id="notification-${nStatus.index}">
 						<td valign="top" width="40%">
