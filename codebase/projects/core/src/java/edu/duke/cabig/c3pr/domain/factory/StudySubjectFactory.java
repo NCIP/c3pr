@@ -1,13 +1,16 @@
 package edu.duke.cabig.c3pr.domain.factory;
 
 import org.apache.log4j.Logger;
+import org.apache.ws.security.trust.issue.STIssuer;
 
 import java.util.List;
 
 import org.springframework.context.MessageSource;
 
+import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
@@ -18,6 +21,8 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
@@ -46,8 +51,14 @@ public class StudySubjectFactory {
     private StudySubjectDao studySubjectDao;
 
     private ParticipantDao participantDao;
+    
+    private AnatomicSiteDao anatomicSiteDao;
 
-    public void setParticipantDao(ParticipantDao participantDao) {
+    public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
+		this.anatomicSiteDao = anatomicSiteDao;
+	}
+
+	public void setParticipantDao(ParticipantDao participantDao) {
         this.participantDao = participantDao;
     }
 
@@ -283,6 +294,33 @@ public class StudySubjectFactory {
         studySubject.setStartDate(source.getStartDate());
         studySubject.setStratumGroupNumber(source.getStratumGroupNumber());
         studySubject.getIdentifiers().addAll(source.getIdentifiers());
+        if(studySubject.getTreatingPhysician()!=null){
+        	for(StudyInvestigator studyInvestigator:studySubject.getStudySite().getStudyInvestigators()){
+        		if(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getNciIdentifier().equals(studySubject.getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getNciIdentifier())){
+        			studySubject.setTreatingPhysician(studyInvestigator);
+        			break;
+        		}
+        	}
+        }
+        if(studySubject.getDiseaseHistory()!=null){
+        	if(studySubject.getDiseaseHistory().getStudyDisease()!=null){
+        		for(StudyDisease studyDisease: studySubject.getStudySite().getStudy().getStudyDiseases()){
+        			if(studyDisease.getDiseaseTerm().equals(studySubject.getDiseaseHistory().getStudyDisease().getDiseaseTerm())){
+        				studySubject.getDiseaseHistory().setStudyDisease(studyDisease);
+        				break;
+        			}
+        		}
+        	}
+        	if(studySubject.getDiseaseHistory().getAnatomicSite()!=null){
+        		List<AnatomicSite> anatomicSites= anatomicSiteDao.searchByExample(studySubject.getDiseaseHistory().getAnatomicSite());
+        		if(anatomicSites.size()!=1){
+        			studySubject.getDiseaseHistory().setOtherPrimaryDiseaseSiteCode(studySubject.getDiseaseHistory().getAnatomicSite().getName());
+        			studySubject.getDiseaseHistory().setAnatomicSite(null);
+        		}else{
+        			studySubject.getDiseaseHistory().setAnatomicSite(anatomicSites.get(0));
+        		}
+        	}
+        }
         /*studySubject.setCctsWorkflowStatus(source.getCctsWorkflowStatus());
         studySubject.setMultisiteWorkflowStatus(source.getMultisiteWorkflowStatus());*/
     }

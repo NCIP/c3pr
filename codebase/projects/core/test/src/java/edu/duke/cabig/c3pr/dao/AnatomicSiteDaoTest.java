@@ -36,7 +36,7 @@ public class AnatomicSiteDaoTest extends DaoTestCase {
 	 */
 	public void testGetBySubnamesNullStringSearch() {
 		List<AnatomicSite> anatomicSites=anatomicSiteDao.getBySubnames(new String[] { "" });
-		assertEquals("Wrong size", 2, anatomicSites.size());
+		assertEquals("Wrong size", 3, anatomicSites.size());
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class AnatomicSiteDaoTest extends DaoTestCase {
 	 */
 	public void testGetBySubnamesExactString() {
 		List<AnatomicSite> anatomicSites=anatomicSiteDao.getBySubnames(new String[] { "skin" });
-		assertEquals("Wrong size", 1, anatomicSites.size());
+		assertEquals("Wrong size", 2, anatomicSites.size());
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class AnatomicSiteDaoTest extends DaoTestCase {
 	 */
 	public void testGetBySubnamesWildcard() {
 		List<AnatomicSite> anatomicSites=anatomicSiteDao.getBySubnames(new String[] { "%" });
-		assertEquals("Wrong size", 2, anatomicSites.size());
+		assertEquals("Wrong size", 3, anatomicSites.size());
 	}
 	
 	/**
@@ -61,6 +61,28 @@ public class AnatomicSiteDaoTest extends DaoTestCase {
 	public void testEvict() {
 		List<AnatomicSite> anatomicSites=anatomicSiteDao.getBySubnames(new String[] { "%" });
 		anatomicSiteDao.evict(anatomicSites.get(0));
+	}
+	
+	public void testSearchByExampleByName(){
+		AnatomicSite anatomicSite= new AnatomicSite();
+		anatomicSite.setName("skin");
+		List<AnatomicSite> anatomicSites= anatomicSiteDao.searchByExample(anatomicSite);
+		assertEquals("Wrong size", 1, anatomicSites.size());
+	}
+	
+	public void testSearchByExampleByCategory(){
+		AnatomicSite anatomicSite= new AnatomicSite();
+		anatomicSite.setCategory("foot");
+		List<AnatomicSite> anatomicSites= anatomicSiteDao.searchByExample(anatomicSite);
+		assertEquals("Wrong size", 1, anatomicSites.size());
+	}
+	
+	public void testSearchByExampleByNameAndCategory(){
+		AnatomicSite anatomicSite= new AnatomicSite();
+		anatomicSite.setName("skinandmouth");
+		anatomicSite.setCategory("footandmouth");
+		List<AnatomicSite> anatomicSites= anatomicSiteDao.searchByExample(anatomicSite);
+		assertEquals("Wrong size", 1, anatomicSites.size());
 	}
 
 }

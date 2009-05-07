@@ -107,6 +107,9 @@
         <field name="name" type="string">
             <bind-xml name="name" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="epochOrder" type="int">
+            <bind-xml name="epochOrder" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
         <field name="descriptionText" type="string">
             <bind-xml name="descriptionText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
@@ -153,6 +156,21 @@
             <bind-xml node="element"
                       auto-naming="deriveByClass"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="randomization" type="edu.duke.cabig.c3pr.xml.RandomizationHolder" handler="edu.duke.cabig.c3pr.xml.RandomizationFieldHandler">
+            <bind-xml name="randomization" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+
+	<class name="edu.duke.cabig.c3pr.xml.RandomizationHolder">
+        <map-to xml="randomization" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="randomizationType" type="int"
+               handler="edu.duke.cabig.c3pr.xml.RandomizationTypeFieldHandler">
+            <bind-xml name="type" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="phoneNumber" type="string">
+            <bind-xml name="phoneNumber" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
@@ -292,17 +310,6 @@
         </field>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.RandomizationType"
-           verify-constructable="false">
-        <map-to xml="randomizationType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="code" type="integer">
-            <bind-xml name="code" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="displayName" type="string">
-            <bind-xml name="name" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-    </class>
-
     <class name="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
         <map-to xml="scheduledEpoch" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="gridId" type="string">
@@ -345,6 +352,10 @@
         <field name="randomizedIndicator" type="boolean">
             <bind-xml name="randomizedIndicator" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="randomizationType" type="int"
+               handler="edu.duke.cabig.c3pr.xml.RandomizationTypeFieldHandler">
+            <bind-xml name="randomizationType" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="stratificationIndicator" type="boolean">
             <bind-xml name="stratificationIndicator" node="element"
@@ -418,7 +429,7 @@
         </field>
         <field name="studyDiseases" type="edu.duke.cabig.c3pr.domain.StudyDisease"
 			collection="collection" get-method="getStudyDiseases" set-method="addStudyDisease">
-			<bind-xml node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
+			<bind-xml auto-naming="deriveByClass" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
 		</field>
     </class>
     

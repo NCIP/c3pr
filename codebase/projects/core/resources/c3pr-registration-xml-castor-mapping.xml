@@ -303,6 +303,20 @@
             <bind-xml name="stratumGroup" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="treatingPhysician" type="edu.duke.cabig.c3pr.domain.StudyInvestigator">
+            <bind-xml name="enrollingPhysician" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="otherTreatingPhysician" type="string">
+            <bind-xml name="otherEnrollingPhysician" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="diseaseHistory" type="edu.duke.cabig.c3pr.domain.DiseaseHistory">
+            <bind-xml name="diseaseHistory" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="paymentMethod" type="string">
+            <bind-xml name="paymentMethod" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.StudyOrganization">
@@ -340,7 +354,43 @@
         </field>
     </class>
 
+	<class name="edu.duke.cabig.c3pr.domain.StudyInvestigator">
+        <map-to xml="studyInvestigator" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="roleCode" type="string">
+            <bind-xml name="roleCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="statusCode" type="string">
+            <bind-xml name="statusCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="startDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="startDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="endDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="endDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="healthcareSiteInvestigator" type="edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator">
+            <bind-xml name="healthcareSiteInvestigator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+    
+    <class name="edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator">
+        <map-to xml="healthcareSiteInvestigator" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="investigator" type="edu.duke.cabig.c3pr.domain.LocalInvestigator">
+            <bind-xml name="investigator" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
 
+    <class name="edu.duke.cabig.c3pr.domain.LocalInvestigator">
+        <map-to xml="investigator" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="nciIdentifier" type="string">
+            <bind-xml name="nciIdentifier" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="fullName" type="string">
+            <bind-xml name="fullName" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+    
     <class name="edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier" extends="edu.duke.cabig.c3pr.domain.Identifier">
         <map-to xml="SystemAssignedIdentifierType"
                 ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -366,6 +416,83 @@
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
+	
+	<class name="edu.duke.cabig.c3pr.domain.DiseaseHistory">
+        <map-to xml="diseaseHistory" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="otherPrimaryDiseaseCode" type="string">
+            <bind-xml name="otherPrimaryDiseaseCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="otherPrimaryDiseaseSiteCode" type="string">
+            <bind-xml name="otherPrimaryDiseaseSiteCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="studyDisease" type="edu.duke.cabig.c3pr.domain.StudyDisease">
+            <bind-xml name="studyDisease" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="anatomicSite" type="edu.duke.cabig.c3pr.domain.AnatomicSite">
+            <bind-xml name="anatomicSite" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+	
+	<class name="edu.duke.cabig.c3pr.domain.AnatomicSite">
+        <map-to xml="anatomicSite" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="name" type="string">
+            <bind-xml name="name" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="category" type="string">
+            <bind-xml name="category" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+	
+	<class name="edu.duke.cabig.c3pr.domain.StudyDisease">
+        <map-to xml="studyDisease" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="gridId" type="string">
+            <bind-xml name="gridId" node="attribute"/>
+        </field>
+        <field name="leadDisease" type="boolean">
+            <bind-xml name="leadDisease" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="diseaseTerm" type="edu.duke.cabig.c3pr.domain.DiseaseTerm">
+            <bind-xml name="diseaseTerm" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+    
+    <class name="edu.duke.cabig.c3pr.domain.DiseaseCategory">
+        <map-to xml="category" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="name" type="string">
+            <bind-xml name="name" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="terms" type="edu.duke.cabig.c3pr.domain.DiseaseTerm"
+               collection="collection">
+            <bind-xml auto-naming="deriveByClass" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="parentCategory" type="edu.duke.cabig.c3pr.domain.DiseaseCategory">
+            <bind-xml name="parentCategory" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="childCategories" type="edu.duke.cabig.c3pr.domain.DiseaseCategory"
+               collection="collection">
+            <bind-xml auto-naming="deriveByClass" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
 
+    <class name="edu.duke.cabig.c3pr.domain.DiseaseTerm">
+        <map-to xml="diseaseTerm" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="gridId" type="string">
+            <bind-xml name="gridId" node="attribute"/>
+        </field>
+        <field name="term" type="string">
+            <bind-xml name="term" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="ctepTerm" type="string">
+            <bind-xml name="ctepTerm" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="medraCode" type="long">
+            <bind-xml name="medraCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="category" type="edu.duke.cabig.c3pr.domain.DiseaseCategory">
+            <bind-xml name="category" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
 
 </mapping>

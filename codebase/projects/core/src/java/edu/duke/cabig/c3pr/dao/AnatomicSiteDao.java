@@ -4,7 +4,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Example;
+
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 // TODO: Auto-generated Javadoc
 /*
@@ -43,5 +48,20 @@ public class AnatomicSiteDao extends GridIdentifiableDao<AnatomicSite> {
     public List<AnatomicSite> getBySubnames(String[] subnames) {
         return findBySubname(subnames, null, EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES,
                         EXACT_MATCH_PROPERTIES);
+    }
+    
+    
+    /**
+     * Search by example.
+     * 
+     * @param anatomicSite the anatomic site
+     * 
+     * @return the list< anatomic site>
+     */
+    public List<AnatomicSite> searchByExample(AnatomicSite anatomicSite){
+    	Example example = Example.create(anatomicSite).excludeZeroes().ignoreCase();
+    	Criteria anatomicSiteCriteria = getSession().createCriteria(AnatomicSite.class);
+    	anatomicSiteCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+    	return (List<AnatomicSite>)anatomicSiteCriteria.add(example).list();
     }
 }
