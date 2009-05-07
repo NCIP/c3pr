@@ -21,13 +21,13 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -460,31 +460,16 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	 * 
 	 * @return the incomplete registrations
 	 */
-    public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults){
-    	List<StudySubject> result = new ArrayList<StudySubject>();
-    	try{
-    		Criteria studySubjectCriteria = getSession().createCriteria(StudySubject.class);
-    		studySubjectCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-    		studySubjectCriteria.addOrder(Order.desc("id"));
-    		studySubjectCriteria.add( Restrictions.disjunction()
-    				.add(Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.PENDING ) )
-		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED ) )
-		    		.add( Restrictions.eq("regWorkflowStatus", RegistrationWorkFlowStatus.RESERVED ) ));
-    	    
-    		if (maxResults > 0) {
-    			studySubjectCriteria.setMaxResults(maxResults);
-    		}
-
-    		Example example = Example.create(registration).excludeZeroes().ignoreCase();
-    		studySubjectCriteria.add(example);
-
-    		result = studySubjectCriteria.list();
+    public List<StudySubject> getIncompleteRegistrations(int maxResults){
+    	HibernateTemplate template = getHibernateTemplate() ;
+    	if(maxResults > 0){
+    		template.setMaxResults(maxResults);
     	}
-    	 catch (Exception e) {
-             log.error(e.getMessage());
-         }
-    	return result;
-
+    	List<StudySubject> studySubjects = (List<StudySubject>) template.find( "select ss from StudySubject ss join ss.scheduledEpochs se where  (se.scEpochWorkflowStatus = 'PENDING' OR se.scEpochWorkflowStatus = 'REGISTERED_BUT_NOT_RANDOMIZED')");
+    	for(StudySubject studySubject : studySubjects){
+    		initialize(studySubject);
+    	}
+    	return studySubjects ;
     }
     
     /**

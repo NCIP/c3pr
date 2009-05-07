@@ -930,11 +930,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     }
     
     public void testIncompleteRegistrations() throws Exception{
-    	
-    	StudySubject studySubject = new StudySubject(true);
-    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-    	
-    	studySubjects = studySubjectDao.getIncompleteRegistrations(studySubject, 15);
+    	 List<StudySubject> studySubjects = studySubjectDao.getIncompleteRegistrations( 15);
     	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
     }
     

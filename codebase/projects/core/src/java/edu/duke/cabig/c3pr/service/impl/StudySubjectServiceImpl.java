@@ -56,14 +56,8 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
         return studySubjectDao.searchByExample(ss, maxResults);
     }
     
-    public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults) {
-    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-    	for(StudySubject studySubject : studySubjectDao.getIncompleteRegistrations(registration, maxResults)){
-    		if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED){
-    			studySubjects.add(studySubject);
-    		}
-    	}
-        return studySubjects;
+    public List<StudySubject> getIncompleteRegistrations(int maxResults) {
+    	return studySubjectDao.getIncompleteRegistrations(maxResults) ;
     }
 
 	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {

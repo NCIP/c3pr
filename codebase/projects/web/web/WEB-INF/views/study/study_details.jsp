@@ -284,7 +284,9 @@
          		<tags:hoverHint keyProp="study.stratifiedIndicator"/>
          		</div>
          	</div>
-	        <div class="row">
+	 </div>
+	 <div class="rightpanel">
+	 	<div class="row">
 	            <div class="label"><tags:requiredIndicator />
 	                <fmt:message key="study.randomized"/></div>
 	            <div class="value"><form:select path="study.randomizedIndicator"
@@ -309,7 +311,7 @@
                 <tags:hoverHint keyProp="study.randomizationType"/></div>
             </div>
         </div>
-    </div>
+	 </div>
 </chrome:division>
 
 <chrome:division title="Coordinating Center">

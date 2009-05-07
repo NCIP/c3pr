@@ -1,10 +1,8 @@
 package edu.duke.cabig.c3pr.service;
 
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.esb.MessageResponseHandler;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-
 import java.util.List;
+
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
  * @author Kulasekaran,Ramakrishna
@@ -30,6 +28,6 @@ public interface StudySubjectService extends CCTSWorkflowService, MultiSiteWorkf
 
     public List<StudySubject> searchByExample(StudySubject ss, int maxResults);
     
-    public List<StudySubject> getIncompleteRegistrations(StudySubject registration, int maxResults);
+    public List<StudySubject> getIncompleteRegistrations(int maxResults);
     
 }
