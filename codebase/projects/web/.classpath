@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="test/src/java"/>
+	<classpathentry kind="src" path="test/src/resources"/>
 	<classpathentry kind="lib" path="build/lib/acegi-csm-0.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/acegi-grid-0.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/acegi-security-1.0.3.jar"/>
@@ -166,10 +167,6 @@
 	<classpathentry kind="lib" path="build/lib/antlr-runtime-3.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/bering-0.7.jar"/>
 	<classpathentry kind="lib" path="build/lib/caaers-cas-patch-1.5.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.2.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.2.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-service-1.2.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/checkstyle-4.4.jar"/>
 	<classpathentry kind="lib" path="build/lib/cobertura-1.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/collection-setter-injector-1.0.jar"/>
@@ -193,9 +190,7 @@
 	<classpathentry kind="lib" path="build/lib/jackrabbit-webdav-1.2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/janino-2.5.10.jar"/>
 	<classpathentry kind="lib" path="build/lib/jawr-2.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/jaxb-api-2.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="build/lib/jaxb-api-2.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/jaxb-impl-2.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="build/lib/jaxb-impl-2.1.3.jar"/>
 	<classpathentry kind="lib" path="build/lib/jaxb-xjc-2.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="build/lib/jaxws-api-2.1.jar"/>
@@ -236,5 +231,8 @@
 	<classpathentry kind="lib" path="build/lib/SmokeTestService-stubs-1.2.jar"/>
 	<classpathentry kind="lib" path="build/classes"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RemoteEntityManager"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.2.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.2.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.2.2.jar"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>
