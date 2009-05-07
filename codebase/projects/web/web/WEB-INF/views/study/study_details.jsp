@@ -415,7 +415,7 @@
 				</c:if>
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.principalInvestigator"/></div>
 	            <div class="value"> 
-	            	<tags:autocompleter name="hcsInvestigator-hidden" displayValue="${_namePI} ${_codePI}" value="${command.study.id==null?'':command.study.principalInvestigator.id}" basename="hcsInvestigator" cssClass="validate-notEmpty" />
+	            	<tags:autocompleter name="hcsInvestigator-hidden" displayValue="${_namePI} ${_codePI}" value="${command.study.id==null?'':command.study.principalInvestigator.id}" basename="hcsInvestigator" cssClass="validate-notEmpty" hintKey="healthcareSitePI"/>
                  </div>            
 		    </div>
     	</div>
