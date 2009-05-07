@@ -164,17 +164,23 @@ public class HealthcareSiteDao extends OrganizationDao {
 		
 		List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
 
-		RemoteHealthcareSite remoteHealthcareSite = new RemoteHealthcareSite();
-		remoteHealthcareSite.setName(subnames[0]);
-		
+		//get all by name first
+		RemoteHealthcareSite remoteHealthcareSiteName = new RemoteHealthcareSite();
+		remoteHealthcareSiteName.setName(subnames[0]);
 		remoteHealthcareSites
-				.addAll(getFromResolver(remoteHealthcareSite));
+				.addAll(getFromResolver(remoteHealthcareSiteName));
 
+		//get all by nciId next
+		RemoteHealthcareSite remoteHealthcareSiteNciID = new RemoteHealthcareSite();
+		remoteHealthcareSiteNciID.setNciInstituteCode(subnames[0]);
+		remoteHealthcareSites
+				.addAll(getFromResolver(remoteHealthcareSiteNciID));
+		
+		//save both sets to the db
 		updateDatabaseWithRemoteContent(remoteHealthcareSites);
 
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
-
 	}
 
 	/**
@@ -275,8 +281,8 @@ public class HealthcareSiteDao extends OrganizationDao {
 					} else {
 						HealthcareSite healthcareSiteWithSameNCICode = null;
 						// check if a healthcare site with this NCI code already exists in DB
-						healthcareSiteWithSameNCICode = getByNciInstituteCode(remoteHealthcareSiteTemp.getNciInstituteCode());
-						if(healthcareSiteWithSameNCICode != null){
+						healthcareSiteWithSameNCICode = getByNciInstituteCodeFromLocal(remoteHealthcareSiteTemp.getNciInstituteCode());
+						if(healthcareSiteWithSameNCICode == null){
 							// this site doesn't exist
 							createGroupForOrganization(remoteHealthcareSiteTemp);
 							getHibernateTemplate().save(remoteHealthcareSiteTemp);
