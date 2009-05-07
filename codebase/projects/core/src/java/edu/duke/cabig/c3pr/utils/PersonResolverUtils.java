@@ -14,9 +14,12 @@ import org.springframework.context.MessageSource;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
 import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
 import edu.duke.cabig.c3pr.esb.Metadata;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
+import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
+import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import gov.nih.nci.coppa.po.IdentifiedOrganization;
@@ -27,7 +30,7 @@ import gov.nih.nci.coppa.po.Person;
 public class PersonResolverUtils {
 	
 	/** The message broadcaster. */
-	private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster coppaMessageBroadcaster;
+	private CCTSMessageBroadcaster coppaMessageBroadcaster;
 	
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
@@ -37,6 +40,12 @@ public class PersonResolverUtils {
 	
 	/** The log. */
     private static Log log = LogFactory.getLog(PersonResolverUtils.class);
+	
+	public static final String username = "ccts@nih.gov";
+	public static final String password = "!Ccts@nih.gov1";
+	
+	public static final String idpUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
+	public static final String ifsUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
 	
     
     
@@ -219,7 +228,7 @@ public class PersonResolverUtils {
 
 		String caXchangeResponseXml = null;
 		try {
-            caXchangeResponseXml = coppaMessageBroadcaster.broadcastCoppaMessage(healthcareSiteXml, mData);
+            caXchangeResponseXml = getCoppaMessageBroadcaster().broadcastCoppaMessage(healthcareSiteXml, mData);
         }
         catch (Exception e) {
             log.error(e);
@@ -256,14 +265,31 @@ public class PersonResolverUtils {
 		c3prErrorMessages = errorMessages;
 	}
 
-	public edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster getCoppaMessageBroadcaster() {
+	public CCTSMessageBroadcaster getCoppaMessageBroadcaster() {
 		return coppaMessageBroadcaster;
 	}
 
 	public void setCoppaMessageBroadcaster(
-			edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster coppaMessageBroadcaster) {
+			CCTSMessageBroadcaster coppaMessageBroadcaster) {
 		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
 	}
+
+	/*public edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster getCoppaMessageBroadcaster() {
+		if(coppaMessageBroadcaster instanceof CaXchangeMessageBroadcasterImpl){
+			coppaMessageBroadcaster = (CaXchangeMessageBroadcasterImpl)coppaMessageBroadcaster;
+			if(coppaMessageBroadcaster.getDelegatedCredentialProvider() == null){
+				TestMultisiteDelegatedCredentialProvider testMultisiteDelegatedCredentialProvider = 
+					new TestMultisiteDelegatedCredentialProvider(username, password);
+				coppaMessageBroadcaster.setDelegatedCredentialProvider(testMultisiteDelegatedCredentialProvider); 
+			}
+		}
+		return coppaMessageBroadcaster;
+	}*/
+
+	/*public void setCoppaMessageBroadcaster(
+			edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster coppaMessageBroadcaster) {
+		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
+	}*/
 	
 	
 }

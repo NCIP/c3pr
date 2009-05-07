@@ -324,7 +324,12 @@
         </property> -->
     </bean> 
     
-    <!-- Resolver util used by researchStaffReslver and investigatorResolver -->
+    <!-- Resolver util used by researchStaffReslver and investigatorResolver 
+    <property name="exceptionHelper" ref="exceptionHelper"/>
+    	 <property name="c3prErrorMessages">
+			<ref bean="c3prErrorMessages"/>
+		</property>
+		-->
     <bean id="personResolverUtils" class="edu.duke.cabig.c3pr.utils.PersonResolverUtils" autowire="byName">
     </bean>
     

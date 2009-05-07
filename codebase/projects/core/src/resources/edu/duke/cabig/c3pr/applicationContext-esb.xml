@@ -22,11 +22,11 @@
     </util:map>
 
 
-    <bean id="delegatedCredentialProvider"
+	<bean id="delegatedCredentialProvider"
           class="edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider"/>
-          
-<!-- <bean id="testDelegatedCredentialProvider"
-          class="edu.duke.cabig.c3pr.esb.test.TestMultisiteDelegatedCredentialProvider"/> -->    
+             
+    <bean id="testDelegatedCredentialProvider"
+          class="edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider"/>    
 
     <bean id="c3dPatientPositionResponseHandler"
           class="edu.duke.cabig.c3pr.utils.C3DPatientPositionResponseHandler"
@@ -40,7 +40,7 @@
     </util:set>
 
     <!--default implementation will just track status and
-set it appropriately for the domain object sent as ccts message-->
+		set it appropriately for the domain object sent as ccts message-->
     <bean id="cctsMessageWorkflowCallbackFactory"
           class="edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory">
         <property name="dao" ref="studySubjectDao"/>
@@ -57,7 +57,7 @@ set it appropriately for the domain object sent as ccts message-->
      <bean id="coppaMessageBroadcaster"
           class="edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl" lazy-init="true">
         <property name="caXchangeURL" value="${esbUrl}"/>
-        <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider"/>
+        <property name="delegatedCredentialProvider" ref="testDelegatedCredentialProvider"/>
     </bean>
     
 	<!--<bean id="connectionFactory"
