@@ -79,5 +79,6 @@ public class DiseaseCategoryDao extends GridIdentifiableDao<DiseaseCategory> {
      */
     public void initialize(DiseaseCategory diseaseCategory){
     	getHibernateTemplate().initialize(diseaseCategory.getTerms());
+    	getHibernateTemplate().initialize(diseaseCategory.getChildCategories());
     }
 }
