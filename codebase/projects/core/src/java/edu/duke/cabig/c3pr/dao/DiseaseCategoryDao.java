@@ -71,5 +71,13 @@ public class DiseaseCategoryDao extends GridIdentifiableDao<DiseaseCategory> {
         return findBySubname(subnames, extraConds.toString(), extraParams,
                         SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
-
+    
+    /**
+     * Initialize.
+     * 
+     * @param diseaseCategory the disease category
+     */
+    public void initialize(DiseaseCategory diseaseCategory){
+    	getHibernateTemplate().initialize(diseaseCategory.getTerms());
+    }
 }
