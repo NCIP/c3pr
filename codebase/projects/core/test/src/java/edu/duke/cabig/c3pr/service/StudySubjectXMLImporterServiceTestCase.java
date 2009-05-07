@@ -106,7 +106,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 1, loaded
                             .getScheduledEpochs().size());
-            assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded
+            assertEquals("Wrong number of scheduled epochs", 1, loaded
                             .getScheduledEpochs().size());
             ScheduledEpoch scheduledTreatmentEpoch = loaded.getScheduledEpoch();
             assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch
@@ -199,7 +199,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             StudySubject loaded = studySubjectDao.getById(savedId);
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
-            assertEquals("Wrong number of scheduled treatment epochs", 0, loaded
+            assertEquals("Wrong number of scheduled epochs", 1, loaded
                             .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded
                             .getScheduledEpochs().size());
@@ -251,7 +251,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 1, loaded
                             .getScheduledEpochs().size());
-            assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded
+            assertEquals("Wrong number of scheduled epochs", 1, loaded
                             .getScheduledEpochs().size());
             ScheduledEpoch scheduledTreatmentEpoch = loaded.getScheduledEpoch();
             assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch
@@ -339,7 +339,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             StudySubject loaded = studySubjectDao.getById(savedId);
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
-            assertEquals("Wrong number of scheduled treatment epochs", 0, loaded
+            assertEquals("Wrong number of scheduled epochs", 1, loaded
                             .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded
                             .getScheduledEpochs().size());
@@ -390,7 +390,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             StudySubject loaded = studySubjectDao.getById(savedId);
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
-            assertEquals("Wrong number of scheduled treatment epochs", 0, loaded
+            assertEquals("Wrong number of scheduled epochs", 1, loaded
                             .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded
                             .getScheduledEpochs().size());
@@ -442,7 +442,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             StudySubject loaded = studySubjectDao.getById(savedId);
             assertNotNull("Could not reload registration with id " + savedId, loaded);
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
-            assertEquals("Wrong number of scheduled treatment epochs", 0, loaded
+            assertEquals("Wrong number of scheduled epochs", 1, loaded
                             .getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded
                             .getScheduledEpochs().size());
@@ -495,7 +495,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
             assertEquals("Wrong number of scheduled treatment epochs", 1, loaded
                             .getScheduledEpochs().size());
-            assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded
+            assertEquals("Wrong number of scheduled epochs", 1, loaded
                             .getScheduledEpochs().size());
             ScheduledEpoch scheduledTreatmentEpoch = loaded.getScheduledEpoch();
             assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch
