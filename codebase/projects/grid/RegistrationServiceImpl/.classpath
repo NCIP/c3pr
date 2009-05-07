@@ -198,7 +198,7 @@
 	<classpathentry kind="lib" path="build/testlib/easymock-2.2.jar"/>
 	<classpathentry kind="lib" path="build/testlib/easymockclassextension-2.2.1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/esb-client"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RegistrationService"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/rules"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RegistrationService"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
