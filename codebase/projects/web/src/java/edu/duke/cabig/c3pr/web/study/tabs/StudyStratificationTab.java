@@ -57,6 +57,7 @@ public class StudyStratificationTab extends StudyTab {
 		}else{
 			refdata.put("isBookRandomized", "false");
 		}
+		refdata.put("epochId",request.getParameter("epochId"));
 		return refdata;
 	}
 
