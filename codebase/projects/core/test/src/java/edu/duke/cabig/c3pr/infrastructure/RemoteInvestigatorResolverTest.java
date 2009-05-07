@@ -8,7 +8,7 @@ import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
-import edu.duke.cabig.c3pr.esb.test.TestMultisiteDelegatedCredentialProvider;
+import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ApplicationContextTest;
 import edu.duke.cabig.c3pr.utils.PersonResolverUtils;
@@ -57,7 +57,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 	public void testGetInvestigatorByName(){
 		List<Object> remoteInvestigatorList = new ArrayList<Object>();
 		
-		String personXml = CoppaObjectFactory.getCoppaPersonXml(CoppaObjectFactory.getCoppaPerson("J", "", "Long"));
+		String personXml = CoppaObjectFactory.getCoppaPersonXml(CoppaObjectFactory.getCoppaPerson("David", "", "L"));
 		String resultXml = "";
 		try {
 			resultXml = personResolverUtils.broadcastPersonSearch(personXml);
