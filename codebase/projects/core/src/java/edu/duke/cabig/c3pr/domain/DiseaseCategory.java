@@ -67,7 +67,7 @@ public class DiseaseCategory extends AbstractMutableDeletableDomainObject {
         this.childCategories = childCategories;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "parent_id", nullable = true)
     public DiseaseCategory getParentCategory() {
         return parentCategory;
