@@ -91,8 +91,12 @@
 	<classpathentry kind="lib" path="build/testlib/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/servlet-api-2.4.jar"/>
 	<classpathentry kind="lib" path="build/lib/ctms-commons-core-0.8.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.2.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.2.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.2.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.2.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.2.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-service-1.2.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.2.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/CoreServices-client-1.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/CoreServices-common-1.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/CoreServices-stubs-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
