@@ -1,8 +1,7 @@
-package edu.duke.cabig.c3pr.esb.test;
+package edu.duke.cabig.c3pr.esb.infrastructure;
 
 import org.globus.gsi.GlobusCredential;
 
-import edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider;
 
 /**
  * The Class TestMultisiteDelegatedCredentialProvider.
@@ -18,11 +17,15 @@ public class TestMultisiteDelegatedCredentialProvider extends MultisiteDelegated
 	public TestMultisiteDelegatedCredentialProvider() {
 		this.username = "ccts@nih.gov";
 		this.password = "!Ccts@nih.gov1";
+		setIdpUrl("https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian");
+		setIfsUrl("https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian");
 	}
 	
 	public TestMultisiteDelegatedCredentialProvider(String username, String password) {
 		this.username = username;
 		this.password = password;
+		setIdpUrl("https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian");
+		setIfsUrl("https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian");
 	}
 	
 	

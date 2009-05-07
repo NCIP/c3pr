@@ -535,4 +535,8 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         log.debug(endpointReference.getAddress().getPort());
         
     }
+
+	public DelegatedCredentialProvider getDelegatedCredentialProvider() {
+		return delegatedCredentialProvider;
+	}
 }

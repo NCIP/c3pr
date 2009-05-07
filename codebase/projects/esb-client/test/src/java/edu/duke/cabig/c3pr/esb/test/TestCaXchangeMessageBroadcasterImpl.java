@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.esb.Metadata;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
+import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
 
 public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 
