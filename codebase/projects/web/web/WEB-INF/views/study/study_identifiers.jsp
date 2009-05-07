@@ -92,7 +92,7 @@ function manageIdentifierRadio(element){
 				</tr>
 				<tr>
 					<td><fmt:message key="c3pr.common.organization" /></td>
-					<td>${command.study.organizationAssignedIdentifiers[0].healthcareSite.name}</td>
+					<td>${command.study.organizationAssignedIdentifiers[0].healthcareSite.name} (${command.study.organizationAssignedIdentifiers[0].healthcareSite.nciInstituteCode})</td>
 					<td>${command.study.organizationAssignedIdentifiers[0].type}</td>
 					<td>${command.study.organizationAssignedIdentifiers[0].value}</td>
 					<td><input type="radio" class="identifierRadios" value="${command.study.organizationAssignedIdentifiers[0].primaryIndicator}" id="organizationAssignedIdentifiers[0].primaryIndicator-radio" onclick="manageIdentifierRadio(this);"/></td>
@@ -101,7 +101,7 @@ function manageIdentifierRadio(element){
 				<c:if test="${!empty command.study.fundingSponsorAssignedIdentifier}">
 				<tr>
 					<td><fmt:message key="c3pr.common.organization" /></td>
-					<td>${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
+					<td>${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} (${command.study.fundingSponsorAssignedIdentifier.healthcareSite.nciInstituteCode})</td>
 					<td>${command.study.fundingSponsorAssignedIdentifier.type}</td>
 					<td>${command.study.fundingSponsorAssignedIdentifier.value}</td>
 					<td><input type="radio" class="identifierRadios" value="${command.study.organizationAssignedIdentifiers[command.study.fundingSponsorIdentifierIndex].primaryIndicator }" id="organizationAssignedIdentifiers[${command.study.fundingSponsorIdentifierIndex}].primaryIndicator-radio" onclick="manageIdentifierRadio(this);"/></td>
@@ -115,21 +115,7 @@ function manageIdentifierRadio(element){
 					</c:if>
 					<tr id="organizationIdentifier-${organizationStatus.index}">
 						<td><fmt:message key="c3pr.common.organization" /></td>
-							<c:set var="_code" value="" />
-							<c:set var="_name" value="" />
-							<c:set var="_code" value="(${command.study.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.nciInstituteCode})" />
-							<c:set var="_name" value="${command.study.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
-						<td><form:hidden id="healthcareSite${organizationStatus.index}-hidden"
-							path="study.organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
-							 />
-						<input class="autocomplete validate-notEmpty" type="text"
-							id="healthcareSite${organizationStatus.index}-input" size="50"
-							value='<c:out value="${_name} ${_code}" />'/>
-						<tags:indicator
-							id="healthcareSite${organizationStatus.index}-indicator" />
-						<div id="healthcareSite${organizationStatus.index}-choices"
-							class="autocomplete" style="display: none;"></div>
-						</td>
+						<td> ${orgIdentifier.healthcareSite.name} (${orgIdentifier.healthcareSite.nciInstituteCode}) </td>
 						<td>
 						<c:choose>
 						<c:when test="${handleDifferently}">
@@ -165,9 +151,7 @@ function manageIdentifierRadio(element){
 					varStatus="status">
 					<tr id="systemIdentifier-${status.index}">
 						<td><fmt:message key="c3pr.common.system" /></td>
-						<td><form:input
-							path="study.systemAssignedIdentifiers[${status.index}].systemName"
-							cssClass="validate-notEmpty" size="50"/></td>
+						<td>${sysIdentifier.systemName}</td>
 						<td><form:select
 							path="study.systemAssignedIdentifiers[${status.index}].type"
 							cssClass="validate-notEmpty">
@@ -213,7 +197,7 @@ function manageIdentifierRadio(element){
 	<tr>
 		<td>System</td>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" size="50"
+			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" size="40"
 			class="validate-notEmpty" /></td>
 		<td><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
@@ -244,7 +228,7 @@ function manageIdentifierRadio(element){
 		<td><input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
 			name="study.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
 		<input class="autocomplete validate-notEmpty" type="text"
-			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
+			id="healthcareSitePAGE.ROW.INDEX-input" size="40"
 			value="${command.study.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
 		<tags:indicator
 			id="healthcareSitePAGE.ROW.INDEX-indicator" />
