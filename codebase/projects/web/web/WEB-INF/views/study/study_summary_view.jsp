@@ -13,9 +13,7 @@
 	    }
 
         function doExportAction() {
-            document.viewDetails._action.value = "export";
-            document.viewDetails.submit();
-            document.viewDetails._action.value = "";
+            $("exportForm").submit();
         }
         function getBroadcastStatus() {
 
@@ -202,6 +200,10 @@
     <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
     <input type="hidden" name="statusChange" id="statusChange"/>
     <input type="hidden" name="closeStatus" id="closeStatus"/>
+</form:form>
+<form:form id="exportForm" name="viewDetails">
+<tags:tabFields tab="${tab}"/>
+<input type="hidden" id="_action" name="_action" value="export"/>
 </form:form>
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
