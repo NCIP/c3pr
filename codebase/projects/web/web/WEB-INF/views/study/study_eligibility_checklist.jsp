@@ -199,7 +199,9 @@
 	</table>
 	</div>
 </c:forEach>
-
+<script>
+$('criteriaFile-'+${epochIndex}).scrollIntoView();
+</script>
 
 </body>
 </html>
