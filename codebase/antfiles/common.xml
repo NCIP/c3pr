@@ -641,7 +641,6 @@
 					<exclude name="edu/duke/cabig/**/*$*.class"/>
 					<exclude name="edu/duke/cabig/**/ControllerTestCase.class"/>
 					<exclude name="edu/duke/cabig/**/WebTestCase.class"/>	
-					<exclude name="edu/duke/cabig/**/StudySubjectXMLImporterServiceTestCase.class"/>	
 					<exclude name="edu/duke/cabig/**/XCCTSRegistrationMessageTest.class"/>
 					<exclude name="edu/duke/cabig/**/TestEsbClient.class"/>
 					<exclude name="edu/duke/cabig/**/TestMultisiteDelegatedCredentialProvider.class"/>
