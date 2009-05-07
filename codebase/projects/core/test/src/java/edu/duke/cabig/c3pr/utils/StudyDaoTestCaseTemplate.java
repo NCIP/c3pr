@@ -88,6 +88,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
             DiseaseCategory disCatSaved = new DiseaseCategory();
             disCatSaved.setName("AIDS-related Human Papillomavirus");
             diseaseCategoryDao.save(disCatSaved);
+            diseaseCategoryDao.initialize(disCatSaved);
             // Investigators
             Investigator invSave = new LocalInvestigator();
             invSave.setFirstName("Investigator first name");
@@ -143,6 +144,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         }
 
         DiseaseCategory disCat = diseaseCategoryDao.getById(disId);
+        diseaseCategoryDao.initialize(disCat);
         Investigator inv = investigatorDao.getById(invId);
 
         study.addEpoch(Epoch.createEpoch("Screening"));
