@@ -9,7 +9,8 @@
 <script>
 	//firstVisit - global var	           
     var firstVisit = true;
-	function preProcessGenerateGroups(epochCountIndex){
+	function preProcessGenerateGroups(epochCountIndex, epochId){
+		$('epochId').value=epochId ;
 		var x = document.getElementById('generateGroups');
 		x.value=epochCountIndex;
 		var y = document.getElementById('_target');
@@ -181,6 +182,7 @@
 		<input	type="hidden" id="_selectedStratification" name="_selectedStratification" value=""> 
 		<input type="hidden" id="_selectedAnswer" name="_selectedAnswer" value="">
 		<input type="hidden" id="generateGroups" name="generateGroups" value="false"/>
+		<input type="hidden" id="epochId" name="epochId"  />
 	</div>
 	<c:if test="${command.study.stratificationIndicator}">
 	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
@@ -299,7 +301,7 @@
 					<tags:button type="button" icon="edit" color="blue" value="Edit Stratification Criteria" onclick="editStratificationCriteria('${epochCount.index}','${isBookRandomized}', '${epoch.id}');" size="small"/>
 				</span>
 				<span id="stratumButton-${epoch.id}" <c:if test="${fn:length(epoch.stratificationCriteria) == 0}"> style = "display:none" </c:if> >
-					<tags:button type="submit" color="blue" value="Generate Stratum Groups" onclick="$('stratificationIndicator-${epochCount.index }').show();preProcessGenerateGroups(${epochCount.index});" size="small"/>
+					<tags:button type="submit" color="blue" value="Generate Stratum Groups" onclick="$('stratificationIndicator-${epochCount.index }').show();preProcessGenerateGroups(${epochCount.index}, ${epoch.id});" size="small"/>
 				</span>
 				<img id="stratificationIndicator-${epochCount.index }" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 			</div>
@@ -399,5 +401,8 @@
 </c:forEach>
 </c:otherwise>
 </c:choose>
+<script>
+	$('stratumButton-'+${epochId}).scrollIntoView();
+</script>
 </body>
 </html>
