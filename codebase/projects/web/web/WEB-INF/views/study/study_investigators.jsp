@@ -236,7 +236,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 <c:choose>
 	<c:when test="${fn:length(command.study.studySites) == 0}">
         <tr>
-			<td>Choose a study organization before adding investigators</td>
+			<td><fmt:message key="study.investigator.noStudySite" /></td>
 		</tr>
     </c:when>
     <c:otherwise>
@@ -247,7 +247,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			<tags:errors path="study.studySites[0].studyInvestigators"/> 
 				<chrome:box title="${tab.shortTitle}">
 					<div>
-			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnOrganization"/></b><br>
+			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnStudySite"/></b><br>
 			            <input:hidden id="disease"/>
 			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
 			                    <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
@@ -267,12 +267,12 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            <tags:indicator id="disease-indicator"/>
 			            
 			            <p id="disease-selected" style="display: none"></p>			
-			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.selectAGroup"/></b><br>
+			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.selectInvGroupToAdd"/></b><br>
 			            <select multiple size="1" style="width:400px" id="disease-sub-category">
 			                <option value="">Please select a Group first</option>
 			            </select>
 			
-			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.investigators"/></b><br>
+			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.participatingSiteInv"/></b><br>
 			            <select multiple size="1" style="width:400px" id="disease-term">
 			                <option value="">Please select a Group first</option>
 			            </select> <span id="disease-selected-name"></span>
@@ -293,7 +293,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			        <br/>
 			        <c:choose>
 			            <c:when test="${fn:length(command.study.studySites[selected_site].studyInvestigators) == 0}">
-			                No Investigators Selected
+			                <fmt:message key="c3pr.common.noInvestigators" />
 			            </c:when>			
 			            <c:otherwise>
 			                <table border="1" class="tablecontent" >

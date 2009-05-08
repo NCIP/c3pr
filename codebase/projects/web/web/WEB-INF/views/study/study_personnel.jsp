@@ -187,7 +187,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			<tags:errors path="study.studySites[0].studyPersonnel"/> 
 				<chrome:box title="${tab.shortTitle}">
 					<div>
-			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnOrganization"/></b><br>
+			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnStudySite"/></b><br>
 			            <input:hidden id="disease"/>
 			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
 		                    <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
@@ -206,11 +206,11 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		                </select>
 			            <tags:indicator id="disease-indicator"/>
 			            
-			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.researchStaff"/></b><br>
+			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.participatingSitePersonnel"/></b><br>
 			            <select multiple size="1" style="width:400px" id="disease-term">
 			            </select> <span id="disease-selected-name"></span>
 			            <select multiple size="10" id="disease-sel">
-			                <option value="">No Selected Research Staff</option>
+			                <option value="">No participating study personnel for this study site.</option>
 			            </select>
 			            
 			            <form:select id="disease-sel-hidden" size="1" path="study.studySites[${selected_site}].studyPersonnelIds" />
@@ -226,7 +226,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			        <br/>
 			        <c:choose>
 			            <c:when test="${fn:length(command.study.studySites[selected_site].studyPersonnel) == 0}">
-			                No Research Staff Selected
+			                <fmt:message key="c3pr.common.noPersonnels" />
 			            </c:when>			
 			            <c:otherwise>
 			                <table border="1" class="tablecontent" >
