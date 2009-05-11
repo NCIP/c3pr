@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.Arm;
@@ -18,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyAmendment;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -332,5 +334,16 @@ public class StudyCreationHelper {
         studyCoordinatingCenter.setHealthcareSite(studySite.getHealthcareSite());
         studyCoordinatingCenter.setStudy(study);
     }
+
+	public Study buildStudyWithAmendment() {
+		Study amendedStudy = this.createBasicStudy();
+        StudyAmendment amendment = new StudyAmendment();
+        Date amendmentDate = new Date();
+        amendment.setAmendmentDate(amendmentDate);
+        amendment.setComments("This is the first change in the study");
+        amendedStudy.addAmendment(amendment);
+        amendedStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+        return amendedStudy ;
+	}
     
 }
