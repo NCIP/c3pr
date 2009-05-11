@@ -176,7 +176,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * @param nciInstituteCode the nci institute code
      * @return the research staff by organization nci institute code
      */
-    private void getRemoteInvestigatorsAndUpdateDatabase(RemoteInvestigator remoteInvestigator){
+    public void getRemoteInvestigatorsAndUpdateDatabase(RemoteInvestigator remoteInvestigator){
     	List<Object> remoteInvestigatorsFromCoppa = remoteSession.find(remoteInvestigator);
     	RemoteInvestigator retrievedRemoteInvestigator;
     	for(Object object: remoteInvestigatorsFromCoppa){
@@ -248,9 +248,10 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
                     } else {
                             //update the hcs_inv with the org and save the investigator explicitly.
                             healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
-                            this.save(retrievedRemoteInvestigator);
+                            
                     }
             }
+            this.save(retrievedRemoteInvestigator);
     }
 	
     /**In this case the remoteInv does not exist in our database. Hence we need to update.

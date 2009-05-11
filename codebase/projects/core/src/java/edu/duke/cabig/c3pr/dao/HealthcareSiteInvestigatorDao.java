@@ -9,6 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 
@@ -34,6 +36,9 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
     /** The Constant SUBNAME_SUBEMAIL_MATCH_PROPERTIES. */
     private static final List<String> SUBNAME_SUBEMAIL_MATCH_PROPERTIES = Arrays.asList("investigator.firstName","investigator.lastName","investigator.contactMechanisms.value");
     
+    private InvestigatorDao investigatorDao;
+    
+    private HealthcareSiteDao healthcareSiteDao;
 
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
@@ -48,9 +53,9 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
      * @see edu.duke.cabig.c3pr.dao.HealthcareSiteDao#getAll()
      */
     /**
-     * Gets the all.
+     * Gets all HealthcareSiteInvestigators.
      * 
-     * @return the all
+     * @return the HealthcareSiteInvestigators
      */
     public List<HealthcareSiteInvestigator> getAll() {
         return getHibernateTemplate().find("from HealthcareSiteInvestigator");
@@ -64,8 +69,21 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
      * 
      * @return the by subnames
      */
-    public List<HealthcareSiteInvestigator> getBySubnames(String[] subnames, int healthcareSite) {
-        return findBySubname(subnames, "o.healthcareSite.id = '" + healthcareSite + "'",
+    public List<HealthcareSiteInvestigator> getBySubnames(String[] subnames, int healthcareSiteId) {
+    	
+//    	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
+//    	HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
+//    	
+//    	HealthcareSite healthcareSite = healthcareSiteDao.getById(healthcareSiteId);
+//    	HealthcareSite healthcareSiteWithNciId = new LocalHealthcareSite();
+//    	healthcareSiteWithNciId.setNciInstituteCode(healthcareSite.getNciInstituteCode());
+//    	hcsi.setHealthcareSite(healthcareSiteWithNciId);
+//    	
+//    	remoteInvestigator.getHealthcareSiteInvestigators().add(hcsi);
+//    	
+//    	investigatorDao.getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
+    	
+    	return findBySubname(subnames, "o.healthcareSite.id = '" + healthcareSiteId + "'",
                         EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
@@ -100,6 +118,22 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
         		"o.healthcareSite.nciInstituteCode = '"+ nciInstituteCode + "'",
                  EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
+
+	public InvestigatorDao getInvestigatorDao() {
+		return investigatorDao;
+	}
+
+	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
+		this.investigatorDao = investigatorDao;
+	}
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
     
     
     

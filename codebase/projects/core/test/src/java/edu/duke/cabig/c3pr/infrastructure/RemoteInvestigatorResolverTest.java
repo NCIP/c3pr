@@ -6,6 +6,9 @@ import java.util.List;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
 import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
 import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
@@ -128,7 +131,16 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 		assertTrue(objList.size() > 0);
 	}
 	
-	
+	/**
+	 * Test find by org.
+	 */
+	public void testFindByOrganization(){
+		RemoteInvestigator remoteInvestigator = getSampleRemoteInvestigatorWithOrganization();
+		List objList = remoteInvestigatorResolver.find(remoteInvestigator);
+		
+		assertNotNull(objList);
+		assertTrue(objList.size() > 0);
+	}
 	
 	/**
 	 * Test get remote entity by unique id.
@@ -139,6 +151,19 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 		assertTrue(object instanceof RemoteInvestigator);
 	}
 		
+	
+	private RemoteInvestigator getSampleRemoteInvestigatorWithOrganization(){
+		RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
+
+		HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
+		HealthcareSite healthcareSite = new LocalHealthcareSite();
+		healthcareSite.setNciInstituteCode("MI025");
+		hcsi.setHealthcareSite(healthcareSite);
+		
+		remoteInvestigator.getHealthcareSiteInvestigators().add(hcsi);
+		return remoteInvestigator;
+	}
+	
 	
 	/**
 	 * Gets the sample remote Investigator with Name.
