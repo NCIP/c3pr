@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -31,11 +30,13 @@ public class DiseaseCategory extends AbstractMutableDeletableDomainObject {
     private List<DiseaseCategory> childCategories = new ArrayList<DiseaseCategory>();
 
     // / LOGIC
+    
+    //commented addTerm method since it is not being used by anybody
 
-    public void addTerm(DiseaseTerm term) {
-        terms.add(term);
-        term.setCategory(this);
-    }
+//    public void addTerm(DiseaseTerm term) {
+//        terms.add(term);
+//        term.setCategory(this);
+//    }
 
     // //// BEAN PROPERTIES
 

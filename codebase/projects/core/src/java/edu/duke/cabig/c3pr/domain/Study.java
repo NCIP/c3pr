@@ -24,7 +24,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
-import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -86,8 +85,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	private String phaseCode;
 
-	// private String status;
-
 	private String type;
 
 	private String primaryIdentifier;
@@ -127,17 +124,15 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	private Boolean standaloneIndicator;
 
-	private Logger log = Logger.getLogger(Study.class);
-
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 
 	public Study() {
+		
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 		resourceBundleMessageSource.setBasename("error_messages_multisite");
 		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
 		resourceBundleMessageSource1.setBasename("error_messages_c3pr");
-		resourceBundleMessageSource1
-				.setParentMessageSource(resourceBundleMessageSource);
+		resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
 		this.c3prErrorMessages = resourceBundleMessageSource1;
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
 		blindedIndicator = false;
@@ -147,44 +142,18 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		companionIndicator = false;
 
 		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(StudySite.class,
-				new ParameterizedBiDirectionalInstantiateFactory<StudySite>(
-						StudySite.class, this));
-		lazyListHelper
-				.add(
-						StudyFundingSponsor.class,
-						new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(
-								StudyFundingSponsor.class, this));
-		lazyListHelper
-				.add(
-						StudyCoordinatingCenter.class,
-						new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(
-								StudyCoordinatingCenter.class, this));
-		lazyListHelper.add(SystemAssignedIdentifier.class,
-				new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
-						SystemAssignedIdentifier.class));
-		lazyListHelper
-				.add(
-						OrganizationAssignedIdentifier.class,
-						new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(
-								OrganizationAssignedIdentifier.class));
-		lazyListHelper.add(StudyAmendment.class,
-				new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
-		lazyListHelper.add(PlannedNotification.class,
-				new InstantiateFactory<PlannedNotification>(
-						PlannedNotification.class));
-		lazyListHelper.add(Epoch.class,
-				new ParameterizedBiDirectionalInstantiateFactory<Epoch>(
-						Epoch.class, this));
+		lazyListHelper.add(StudySite.class,new ParameterizedBiDirectionalInstantiateFactory<StudySite>(StudySite.class, this));
+		lazyListHelper.add(StudyFundingSponsor.class,new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class, this));
+		lazyListHelper.add(StudyCoordinatingCenter.class,new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this));
+		lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
+		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
+		lazyListHelper.add(StudyAmendment.class,new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
+		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
+		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
-		lazyListHelper
-				.add(
-						CompanionStudyAssociation.class,
-						new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(
-								CompanionStudyAssociation.class, this,
-								"ParentStudy"));
+		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudy"));
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
@@ -194,42 +163,15 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public Study(boolean forSearchByExample) {
 
 		lazyListHelper = new LazyListHelper();
-		lazyListHelper
-				.add(
-						CompanionStudyAssociation.class,
-						new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(
-								CompanionStudyAssociation.class, this,
-								"ParentStudy"));
-
-		lazyListHelper.add(StudySite.class,
-				new ParameterizedBiDirectionalInstantiateFactory<StudySite>(
-						StudySite.class, this));
-		lazyListHelper
-				.add(
-						StudyFundingSponsor.class,
-						new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(
-								StudyFundingSponsor.class, this));
-		lazyListHelper
-				.add(
-						StudyCoordinatingCenter.class,
-						new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(
-								StudyCoordinatingCenter.class, this));
-		lazyListHelper.add(Epoch.class,
-				new ParameterizedBiDirectionalInstantiateFactory<Epoch>(
-						Epoch.class, this));
-		lazyListHelper.add(SystemAssignedIdentifier.class,
-				new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
-						SystemAssignedIdentifier.class));
-		lazyListHelper
-				.add(
-						OrganizationAssignedIdentifier.class,
-						new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(
-								OrganizationAssignedIdentifier.class));
-		lazyListHelper.add(StudyAmendment.class,
-				new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
-		lazyListHelper.add(PlannedNotification.class,
-				new InstantiateFactory<PlannedNotification>(
-						PlannedNotification.class));
+		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudy"));
+		lazyListHelper.add(StudySite.class, new ParameterizedBiDirectionalInstantiateFactory<StudySite>(StudySite.class, this));
+		lazyListHelper.add(StudyFundingSponsor.class,new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class, this));
+		lazyListHelper.add(StudyCoordinatingCenter.class, new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this));
+		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
+		lazyListHelper.add(SystemAssignedIdentifier.class,new ParameterizedInstantiateFactory<SystemAssignedIdentifier>( SystemAssignedIdentifier.class));
+		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
+		lazyListHelper.add(StudyAmendment.class,new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
+		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
@@ -245,7 +187,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public List<Error> canOpen() {
 		List<Error> errors = new ArrayList<Error>();
 		evaluateDataEntryStatus(errors);
-
 		return errors;
 	}
 
@@ -253,8 +194,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public List<Identifier> getLocalIdentifiers() {
 		List<Identifier> localIdentifiers = new ArrayList<Identifier>();
 		for (Identifier identifier : getIdentifiers()) {
-			if ("Protocol Authority Identifier".equals(identifier.getType())
-					|| "Coordinating Center Identifier".equals(identifier
+			if ("Protocol Authority Identifier".equals(identifier.getType()) || "Coordinating Center Identifier".equals(identifier
 							.getType())) {
 				// nothing
 			} else {
@@ -278,19 +218,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getLazyList(StudyFundingSponsor.class);
 	}
 
-	public void setStudyFundingSponsors(
-			List<StudyFundingSponsor> studyFundingSponsors) {
-
-	}
-
+	
 	@Transient
 	public List<StudyCoordinatingCenter> getStudyCoordinatingCenters() {
 		return lazyListHelper.getLazyList(StudyCoordinatingCenter.class);
-	}
-
-	public void setStudyCoordinatingCenters(
-			List<StudyCoordinatingCenter> studyCoordinatingCenters) {
-
 	}
 
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)

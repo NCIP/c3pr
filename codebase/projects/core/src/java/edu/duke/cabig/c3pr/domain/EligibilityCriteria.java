@@ -54,13 +54,4 @@ public abstract class EligibilityCriteria extends AbstractMutableDeletableDomain
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
-
-    @Transient
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

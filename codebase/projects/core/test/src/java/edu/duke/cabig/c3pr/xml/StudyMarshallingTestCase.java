@@ -115,7 +115,6 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         for (int i = 0; i <= 2; i++) {
             InclusionEligibilityCriteria criteria = new InclusionEligibilityCriteria();
             criteria.setGridId(strValue);
-            criteria.setName(strValue);
             criteria.setQuestionNumber(i);
             criteria.setQuestionText(strValue);
             criterias.add(criteria);
@@ -129,7 +128,6 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         for (int i = 1; i <= 2; i++) {
             ExclusionEligibilityCriteria criteria = new ExclusionEligibilityCriteria();
             criteria.setGridId(strValue);
-            criteria.setName(strValue);
             criteria.setQuestionNumber(i);
             criteria.setQuestionText(strValue);
             criterias.add(criteria);

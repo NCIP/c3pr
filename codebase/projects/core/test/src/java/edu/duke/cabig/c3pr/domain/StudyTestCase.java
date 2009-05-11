@@ -7,7 +7,6 @@ import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
@@ -189,7 +188,10 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testChangeCoordinatingStatusPendingToActiveCase4() throws Exception {
 		Study study = new Study();
 		Study study1 = studyCreationHelper.createBasicStudy();
-		
+	}
+	
+	public void  testGetLatestConsentVersion(){
+
 	}
 	
 

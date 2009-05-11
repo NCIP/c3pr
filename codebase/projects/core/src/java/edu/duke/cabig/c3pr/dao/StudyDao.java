@@ -529,7 +529,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     
     @SuppressWarnings("unchecked")
 	public List<StudySubject> getStudySubjectsForCompanionStudy(Integer studyId) {
-//    	return getHibernateTemplate().getSessionFactory().getCurrentSession().createSQLQuery("select * from study_subjects join study_organizations on study_subjects.sto_id = study_organizations.id where study_organizations.study_id = " + studyId).list();
     	return getHibernateTemplate().find("select ss from StudySubject ss where ss.studySite.study.id = ? ", studyId);
     }
 }

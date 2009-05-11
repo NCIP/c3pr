@@ -115,35 +115,6 @@ public abstract class User extends C3PRUser{
 
     /* end password stuff */
 
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        User user = (User) o;
-//
-//        if (emailAddress != null ? !emailAddress.equals(user.emailAddress)
-//                        : user.emailAddress != null) return false;
-//        if (faxNumber != null ? !faxNumber.equals(user.faxNumber) : user.faxNumber != null) return false;
-//        if (super.getLoginId() != null ? !super.getLoginId().equals(user.getLoginId()) : user.getLoginId()!= null) return false;
-//        if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) return false;
-//
-//        return true;
-//    }
-
-//    public int hashCode() {
-//        int result;
-//        result = (super.getLoginId() != null ? super.getLoginId().hashCode() : 0);
-//        result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
-//        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-//        result = 31 * result + (faxNumber != null ? faxNumber.hashCode() : 0);
-//        return result;
-//    }
-
-    // @OneToMany(targetEntity = UserGroup.class,)
-    // @Transient
-    // public List<UserGroup> getUserGroups() {
-    // return null;
-    // }
 
     @Transient
     public String getLastFirst() {
