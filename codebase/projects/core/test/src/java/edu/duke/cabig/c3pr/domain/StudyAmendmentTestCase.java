@@ -28,5 +28,10 @@ public class StudyAmendmentTestCase extends AbstractTestCase {
 			e.printStackTrace();
 		}
 	}
+	
+	public void testGetAmendmentDateStrThrowsException(){
+		Study amendedStudyWithNoAmendmentDate =studyCreationHelper.buildStudyWithAmendmentWithNoAmendmentDate();
+		assertEquals("Amendment date should be current date",  "", amendedStudyWithNoAmendmentDate.getCurrentStudyAmendment().getAmendmentDateStr());
+	}
 
 }
