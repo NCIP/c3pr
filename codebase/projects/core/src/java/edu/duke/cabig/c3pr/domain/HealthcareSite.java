@@ -117,7 +117,6 @@ public abstract class HealthcareSite extends Organization implements Comparable<
         this.nciInstituteCode = nciInstituteCode;
     }
 
-    @Override
     public int compareTo(HealthcareSite o) {
         if (this.equals((HealthcareSite) o)) return 0;
         else return 1;
