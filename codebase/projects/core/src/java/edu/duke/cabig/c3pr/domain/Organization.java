@@ -33,8 +33,6 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
 
     private Address address;
 
-    private String trimmedName;
-
     private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 
     private List<OrganizationAssignedIdentifier> identifiers = new ArrayList<OrganizationAssignedIdentifier>();
@@ -145,9 +143,6 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
     @Transient
     public List<PlannedNotification> getPlannedNotifications() {
         return lazyListHelper.getLazyList(PlannedNotification.class);
-    }
-
-    public void setPlannedNotifications(List<PlannedNotification> plannedNotifications) {
     }
 
     @OneToOne(cascade = { javax.persistence.CascadeType.ALL })
