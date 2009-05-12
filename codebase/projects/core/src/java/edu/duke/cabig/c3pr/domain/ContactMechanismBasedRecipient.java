@@ -16,21 +16,34 @@ import org.hibernate.annotations.Where;
 
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
+/**
+ * The Class ContactMechanismBasedRecipient.
+ * Primarily used by the system notifications use case.
+ * This is used to add an email which is not in the database to the notification recipient list
+ * 
+ * @author Vinay Gangoli
+ */
 @Entity
 @DiscriminatorValue(value = "CMR")
 public class ContactMechanismBasedRecipient extends Recipient {
 
+	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 	
-//    private List<ContactMechanism> contactMechanism = new ArrayList<ContactMechanism>();
-
-	
+	/**
+	 * Instantiates a new contact mechanism based recipient.
+	 */
 	public ContactMechanismBasedRecipient() {
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(ContactMechanism.class, new InstantiateFactory<ContactMechanism>(
         		ContactMechanism.class));
 	}
 	
+    /**
+     * Gets the contact mechanisms internal.
+     * 
+     * @return the contact mechanisms internal
+     */
     @OneToMany(fetch = FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "recipients_id")
@@ -39,25 +52,36 @@ public class ContactMechanismBasedRecipient extends Recipient {
         return lazyListHelper.getInternalList(ContactMechanism.class);
     }
 
+    /**
+     * Sets the contact mechanisms internal.
+     * 
+     * @param contactMechanisms the new contact mechanisms internal
+     */
     public void setContactMechanismsInternal(List<ContactMechanism> contactMechanisms) {
         lazyListHelper.setInternalList(ContactMechanism.class, contactMechanisms);
     }
 
+    /**
+     * Gets the contact mechanisms.
+     * 
+     * @return the contact mechanisms
+     */
     @Transient
     public List<ContactMechanism> getContactMechanisms() {
         return lazyListHelper.getLazyList(ContactMechanism.class);
     }
 
+    /**
+     * Sets the contact mechanisms.
+     * 
+     * @param contactMechanisms the new contact mechanisms
+     */
     public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
     }
-//    public List<ContactMechanism> getContactMechanism() {
-//		return contactMechanism;
-//	}
-//
-//	public void setContactMechanism(List<ContactMechanism> contactMechanism) {
-//		this.contactMechanism = contactMechanism;
-//	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#setRetiredIndicatorAsTrue()
+	 */
 	@Override
     @Transient
     public void setRetiredIndicatorAsTrue() {
