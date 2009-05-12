@@ -345,5 +345,14 @@ public class StudyCreationHelper {
         amendedStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
         return amendedStudy ;
 	}
+
+	public Study buildStudyWithAmendmentWithNoAmendmentDate() {
+		Study amendedStudy = this.createBasicStudy();
+        StudyAmendment amendment = new StudyAmendment();
+        amendment.setComments("This is the first change in the study");
+        amendedStudy.addAmendment(amendment);
+        amendedStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+        return amendedStudy ;
+	}
     
 }
