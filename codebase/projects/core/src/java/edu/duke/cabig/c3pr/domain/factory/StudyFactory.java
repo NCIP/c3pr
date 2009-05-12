@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
@@ -116,6 +117,13 @@ public class StudyFactory {
 		// build all the companion studies of the study.
 		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
 			buildStudy(companionStudyAssociation.getCompanionStudy());
+		}
+		
+		//generate stratum groups if necessary
+		for(Epoch epoch: study.getEpochs()){
+			if(epoch.getStratificationIndicator() && epoch.getStratificationCriteria().size()>0){
+				epoch.generateStratumGroups();
+			}
 		}
 		
 		return study;

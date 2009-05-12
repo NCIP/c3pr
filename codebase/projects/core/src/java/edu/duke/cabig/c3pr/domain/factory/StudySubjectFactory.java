@@ -305,7 +305,7 @@ public class StudySubjectFactory {
         if(studySubject.getDiseaseHistory()!=null){
         	if(studySubject.getDiseaseHistory().getStudyDisease()!=null){
         		for(StudyDisease studyDisease: studySubject.getStudySite().getStudy().getStudyDiseases()){
-        			if(studyDisease.getDiseaseTerm().equals(studySubject.getDiseaseHistory().getStudyDisease().getDiseaseTerm())){
+        			if(studyDisease.getDiseaseTerm().getCtepTerm().equals(studySubject.getDiseaseHistory().getStudyDisease().getDiseaseTerm().getCtepTerm())){
         				studySubject.getDiseaseHistory().setStudyDisease(studyDisease);
         				break;
         			}

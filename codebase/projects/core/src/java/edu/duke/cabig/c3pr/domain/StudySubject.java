@@ -602,12 +602,6 @@ public class StudySubject extends
 		
 	}
 
-	// TODO to be deleted and merged with the overloaded method
-	public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus() {
-		return this.getScheduledEpoch().evaluateScheduledEpochDataEntryStatus(
-				this.stratumGroupNumber);
-	}
-
 	public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(
 			List<Error> errors) {
 		return this.getScheduledEpoch().evaluateScheduledEpochDataEntryStatus(

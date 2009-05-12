@@ -194,7 +194,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	 * 
 	 * @return the study
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "stu_id", nullable = false)
 	public Study getStudy() {
 		return study;
@@ -1104,5 +1104,110 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Generate stratum groups.
+	 * 
+	 * @param request the request
+	 * @param commandObj the command obj
+	 * @param error the error
+	 * @param epochCountIndex the epoch count index
+	 */
+	public void generateStratumGroups() {
+		ArrayList<StratumGroup> stratumGroupList;
+
+		this.getStratumGroups().clear();
+
+		int stratificationCriterionSize = this.getStratificationCriteria().size();
+		if (stratificationCriterionSize > 0) {
+			StratificationCriterionPermissibleAnswer permissibleAnswersArray[][] = new StratificationCriterionPermissibleAnswer[stratificationCriterionSize][];
+			List<StratificationCriterionPermissibleAnswer> tempAnswersList;
+
+			// creating a 2d array of answers for every treatment epoch
+			for (int i = 0; i < stratificationCriterionSize; i++) {
+				tempAnswersList = this.getStratificationCriteria().get(i)
+						.getPermissibleAnswers();
+				permissibleAnswersArray[i] = new StratificationCriterionPermissibleAnswer[tempAnswersList
+						.size()];
+				for (int j = 0; j < tempAnswersList.size(); j++) {
+					permissibleAnswersArray[i][j] = tempAnswersList.get(j);
+				}
+			}
+
+			stratumGroupList = stratumGroupCombinationGenerator(permissibleAnswersArray, 0, new ArrayList<StratumGroup>(),
+					new ArrayList<StratificationCriterionAnswerCombination>());
+			this.getStratumGroups().addAll(stratumGroupList);
+		}
+	}
+	
+	/**
+	 * Stratum group combination generator.
+	 * recursive method which computes all possible combinations
+	 * of sc and scpa and creates a list of stratum Groups for the same.
+	 * 
+	 * @param epoch the epoch
+	 * @param permissibleAnswersArray the permissible answers array
+	 * @param intRecurseLevel the int recurse level
+	 * @param stratumGroupList the stratum group list
+	 * @param generatedAnswerCombinationList the generated answer combination list
+	 * 
+	 * @return the array list< stratum group>
+	 */
+	private ArrayList<StratumGroup> stratumGroupCombinationGenerator(StratificationCriterionPermissibleAnswer[][] permissibleAnswersArray,
+			int intRecurseLevel, ArrayList<StratumGroup> stratumGroupList,
+			ArrayList<StratificationCriterionAnswerCombination> generatedAnswerCombinationList) {
+		StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination ;
+		ArrayList<StratificationCriterionAnswerCombination> stratificationCriterionAnswerCombinationList;
+		int numberOfStratumGroups = 0;
+		
+		for (int i = 0; i < permissibleAnswersArray[intRecurseLevel].length; i++) {
+			stratificationCriterionAnswerCombination = new StratificationCriterionAnswerCombination();
+			stratificationCriterionAnswerCombinationList = new ArrayList<StratificationCriterionAnswerCombination>();
+			stratificationCriterionAnswerCombination
+					.setStratificationCriterionPermissibleAnswer(permissibleAnswersArray[intRecurseLevel][i]);
+			stratificationCriterionAnswerCombination.setStratificationCriterion(this
+					.getStratificationCriteria().get(intRecurseLevel));
+
+			if (!generatedAnswerCombinationList.isEmpty()) {
+				stratificationCriterionAnswerCombinationList.addAll(generatedAnswerCombinationList);
+			}
+			stratificationCriterionAnswerCombinationList.add(stratificationCriterionAnswerCombination);
+
+			if (intRecurseLevel < permissibleAnswersArray.length - 1) {
+				// stepping into the next question
+				stratumGroupList = stratumGroupCombinationGenerator(permissibleAnswersArray, intRecurseLevel + 1, stratumGroupList,
+						stratificationCriterionAnswerCombinationList);
+			} else {
+				// ran out of questions and hence now i have a combination of answers to save.
+				numberOfStratumGroups = stratumGroupList.size();
+				stratumGroupList.add(numberOfStratumGroups, new StratumGroup());
+				stratumGroupList.get(numberOfStratumGroups)
+						.getStratificationCriterionAnswerCombination().addAll(
+								cloneStratificationCriterionAnswerCombination(stratificationCriterionAnswerCombinationList));
+				stratumGroupList.get(numberOfStratumGroups).setStratumGroupNumber(numberOfStratumGroups);
+			}
+		}
+		return stratumGroupList;
+	}
+	
+	/**
+	 * Clones the StratificationCriterionAnswerCombination for the comboGenerator.
+	 * 
+	 * @param stratificationCriterionAnswerCombinationList the stratification criterion answer combination list
+	 * 
+	 * @return the list< stratification criterion answer combination>
+	 */
+	private List<StratificationCriterionAnswerCombination> cloneStratificationCriterionAnswerCombination(
+			List<StratificationCriterionAnswerCombination> stratificationCriterionAnswerCombinationList) {
+
+		List<StratificationCriterionAnswerCombination> clonedList = new ArrayList<StratificationCriterionAnswerCombination>();
+		Iterator<StratificationCriterionAnswerCombination> iter = stratificationCriterionAnswerCombinationList
+				.iterator();
+		while (iter.hasNext()) {
+			clonedList.add(new StratificationCriterionAnswerCombination(iter
+					.next()));
+		}
+		return clonedList;
 	}
 }

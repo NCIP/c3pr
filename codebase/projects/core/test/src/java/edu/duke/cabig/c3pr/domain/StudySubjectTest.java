@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
@@ -49,7 +51,7 @@ public class StudySubjectTest extends AbstractTestCase {
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
         assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.INCOMPLETE,
-                        studySubject.evaluateScheduledEpochDataEntryStatus());
+                        studySubject.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
     }
 
     /**
@@ -63,7 +65,7 @@ public class StudySubjectTest extends AbstractTestCase {
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
         studySubjectCreatorHelper.bindEligibility(studySubject);
-        assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.COMPLETE, studySubject.evaluateScheduledEpochDataEntryStatus());
+        assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.COMPLETE, studySubject.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
     }
 
     /**
@@ -79,7 +81,7 @@ public class StudySubjectTest extends AbstractTestCase {
         studySubjectCreatorHelper.bindEligibility(studySubject);
         studySubjectCreatorHelper.bindStratification(studySubject);
         assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.INCOMPLETE,
-                        studySubject.evaluateScheduledEpochDataEntryStatus());
+                        studySubject.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
     }
 
     /**
@@ -94,7 +96,7 @@ public class StudySubjectTest extends AbstractTestCase {
         studySubjectCreatorHelper.bindEligibility(studySubject);
         studySubjectCreatorHelper.bindStratification(studySubject);
         assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.COMPLETE,
-                        studySubject.evaluateScheduledEpochDataEntryStatus());
+                        studySubject.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
     }
 
     /**
@@ -113,7 +115,7 @@ public class StudySubjectTest extends AbstractTestCase {
         studySubjectCreatorHelper.bindEligibility(studySubject);
         studySubjectCreatorHelper.bindStratification(studySubject);
         assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.COMPLETE,
-                        studySubject.evaluateScheduledEpochDataEntryStatus());
+                        studySubject.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
     }
 
     /**
@@ -128,7 +130,7 @@ public class StudySubjectTest extends AbstractTestCase {
         studySubject.addScheduledEpoch(scheduledEpoch);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
         assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.COMPLETE,
-                        studySubject.evaluateScheduledEpochDataEntryStatus());
+                        studySubject.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
     }
     
 //    public void testIsRegisterableTrue(){

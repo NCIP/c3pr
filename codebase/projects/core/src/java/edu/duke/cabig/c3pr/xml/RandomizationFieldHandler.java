@@ -20,9 +20,8 @@ public class RandomizationFieldHandler implements FieldHandler {
 
     public Object getValue(Object object) throws IllegalStateException {
         Epoch epoch = (Epoch) object;
+        if (epoch.getRandomization() ==null) return null;
         RandomizationHolder randomizationHolder= new RandomizationHolder();
-        if (epoch.getRandomization() !=null)
-        	return null;
         if (epoch.getRandomization() instanceof PhoneCallRandomization) {
 			PhoneCallRandomization phoneCallRandomization = (PhoneCallRandomization) epoch.getRandomization();
 			randomizationHolder.setRandomizationType(RandomizationType.PHONE_CALL);
@@ -37,10 +36,10 @@ public class RandomizationFieldHandler implements FieldHandler {
 
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
-    	if(value==null)
-    		return;
-    	Epoch epoch = (Epoch) object;
+    	if(value==null) return;
         RandomizationHolder randomizationHolder= (RandomizationHolder)value;
+        if(randomizationHolder.getRandomizationType()==null) return;
+        Epoch epoch = (Epoch) object;
         if(randomizationHolder.getRandomizationType()==RandomizationType.PHONE_CALL){
         	PhoneCallRandomization phoneCallRandomization= new PhoneCallRandomization();
         	phoneCallRandomization.setPhoneNumber(randomizationHolder.getPhoneNumber());
