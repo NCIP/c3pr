@@ -1135,7 +1135,7 @@ public class StudySubject extends
 		if (scheduledEpoch.getRequiresArm()) {
 			Arm arm = scheduledEpoch.getEpoch().getArmByName(
 					coordinatingCenterReturnedScheduledEpoch
-							.getScheduledArm().getArm());
+							.getScheduledArm().getArm().getName());
 			ScheduledArm scheduledArm= scheduledEpoch.getScheduledArm()==null?scheduledEpoch.getScheduledArms().get(0):scheduledEpoch.getScheduledArm();
 			scheduledArm.setArm(arm);
 		}
@@ -1170,7 +1170,7 @@ public class StudySubject extends
 		if (scheduledEpoch.getRequiresArm()) {
 			Arm arm = scheduledEpoch.getEpoch().getArmByName(
 					coordinatingCenterReturnedScheduledEpoch
-							.getScheduledArm().getArm());
+							.getScheduledArm().getArm().getName());
 			ScheduledArm scheduledArm= scheduledEpoch.getScheduledArm()==null?scheduledEpoch.getScheduledArms().get(0):scheduledEpoch.getScheduledArm();
 			scheduledArm.setArm(arm);
 		}
