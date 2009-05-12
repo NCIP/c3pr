@@ -29,36 +29,50 @@ import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Priyatam
+ * The Class Participant.
  * 
+ * @author Priyatam
  */
 @Entity
 @Table(name = "participants")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "participants_id_seq") })
 public class Participant extends Person implements Comparable<Participant> , Customizable{
 
+	/** The birth date. */
 	private Date birthDate;
 
 //	private String birthDateStr;
 
-	private String administrativeGenderCode;
+	/** The administrative gender code. */
+private String administrativeGenderCode;
 
+	/** The ethnic group code. */
 	private String ethnicGroupCode;
 
 	//private String raceCode;
+	/** The healthcare sites. */
 	private List<HealthcareSite> healthcareSites;
 
+	/** The race codes. */
 	private List<RaceCode> raceCodes;
 
+	/** The marital status code. */
 	private String maritalStatusCode;
 
+	/** The study subjects. */
 	private List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 
+	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
+	/** The identifiers. */
 	private List<Identifier> identifiers;
 	
+	/**
+	 * Instantiates a new participant.
+	 */
 	public Participant() {
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,
@@ -74,14 +88,29 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
 
+	/**
+	 * Adds the identifier.
+	 * 
+	 * @param identifier the identifier
+	 */
 	public void addIdentifier(Identifier identifier) {
 		getIdentifiers().add(identifier);
 	}
 
+	/**
+	 * Removes the identifier.
+	 * 
+	 * @param identifier the identifier
+	 */
 	public void removeIdentifier(Identifier identifier) {
 		getIdentifiers().remove(identifier);
 	}
 
+	/**
+	 * Gets the identifiers.
+	 * 
+	 * @return the identifiers
+	 */
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "PRT_ID")
@@ -91,6 +120,11 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		return identifiers;
 	}
 
+	/**
+	 * Sets the identifiers.
+	 * 
+	 * @param identifiers the new identifiers
+	 */
 	public void setIdentifiers(List<Identifier> identifiers) {
 		this.identifiers = identifiers;
 		// initialize projected list for OrganizationAssigned and SystemAssignedIdentifier
@@ -102,32 +136,60 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 						SystemAssignedIdentifier.class));
 	}
 
+	/**
+	 * Gets the system assigned identifiers.
+	 * 
+	 * @return the system assigned identifiers
+	 */
 	@Transient
 	public List<SystemAssignedIdentifier> getSystemAssignedIdentifiers() {
 		return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
 	}
 
+	/**
+	 * Sets the system assigned identifiers.
+	 * 
+	 * @param systemAssignedIdentifiers the new system assigned identifiers
+	 */
 	public void setSystemAssignedIdentifiers(
 			List<SystemAssignedIdentifier> systemAssignedIdentifiers) {
 		// do nothing
 	}
 
+	/**
+	 * Gets the organization assigned identifiers.
+	 * 
+	 * @return the organization assigned identifiers
+	 */
 	@Transient
 	public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
 		return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
 	}
 
+	/**
+	 * Sets the organization assigned identifiers.
+	 * 
+	 * @param organizationAssignedIdentifiers the new organization assigned identifiers
+	 */
 	public void setOrganizationAssignedIdentifiers(
 			List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers) {
 		// do nothing
 	}
 
+	/**
+	 * Gets the study subjects.
+	 * 
+	 * @return the study subjects
+	 */
 	@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudySubject> getStudySubjects() {
 		return studySubjects;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
+	 */
 	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "PRT_ID")
@@ -136,38 +198,73 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		return contactMechanisms;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.Person#setContactMechanisms(java.util.List)
+	 */
 	public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
 		this.contactMechanisms = contactMechanisms;
 	}
 
+	/**
+	 * Gets the birth date.
+	 * 
+	 * @return the birth date
+	 */
 	public Date getBirthDate() {
 		return birthDate;
 	}
 
+	/**
+	 * Sets the birth date.
+	 * 
+	 * @param birthDate the new birth date
+	 */
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
+	/**
+	 * Gets the administrative gender code.
+	 * 
+	 * @return the administrative gender code
+	 */
 	public String getAdministrativeGenderCode() {
 		return administrativeGenderCode;
 	}
 
+	/**
+	 * Sets the administrative gender code.
+	 * 
+	 * @param administritativeGenderCode the new administrative gender code
+	 */
 	public void setAdministrativeGenderCode(String administritativeGenderCode) {
 		this.administrativeGenderCode = administritativeGenderCode;
 	}
 
+	/**
+	 * Gets the ethnic group code.
+	 * 
+	 * @return the ethnic group code
+	 */
 	public String getEthnicGroupCode() {
 		return ethnicGroupCode;
 	}
 
+	/**
+	 * Sets the ethnic group code.
+	 * 
+	 * @param ethnicGroupCode the new ethnic group code
+	 */
 	public void setEthnicGroupCode(String ethnicGroupCode) {
 		this.ethnicGroupCode = ethnicGroupCode;
 	}
 
+	/**
+	 * Gets the race code.
+	 * 
+	 * @return the race code
+	 */
 	public String getRaceCode() {
-		if (raceCodes == null){ 
-			return null;
-		}
 		String rCode = "" ;
 		for(RaceCode r : raceCodes){
 			if( r != null ){
@@ -181,6 +278,11 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		return rCode;
 	}
 
+	/**
+	 * Sets the race code.
+	 * 
+	 * @param raceCode the new race code
+	 */
 	public void setRaceCode(String raceCode) {
 		raceCodes = new ArrayList<RaceCode>();
 		if (!StringUtils.isBlank(raceCode)) {
@@ -193,21 +295,33 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		}
 	}
 
+	/**
+	 * Gets the race codes.
+	 * 
+	 * @return the race codes
+	 */
 	@Transient
 	public List<RaceCode> getRaceCodes() {
 		return raceCodes;
 	}
 
+	/**
+	 * Sets the race codes.
+	 * 
+	 * @param raceCodes the new race codes
+	 */
 	public void setRaceCodes(List<RaceCode> raceCodes) {
 		this.raceCodes = raceCodes;
 	}
 
+	/**
+	 * Gets the birth date str.
+	 * 
+	 * @return the birth date str
+	 */
 	@Transient
 	public String getBirthDateStr() {
-		if (birthDate == null) {
-			return "";
-		}
-		else if (birthDate.equals("")) {
+		if (birthDate == null ||birthDate.equals("") ) {
 			return "";
 		}
 		try {
@@ -219,6 +333,11 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		return "";
 	}
 
+	/**
+	 * Gets the mRN.
+	 * 
+	 * @return the mRN
+	 */
 	@Transient
 	public OrganizationAssignedIdentifier getMRN() {
 		for (OrganizationAssignedIdentifier orgIdentifier : this
@@ -229,31 +348,62 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		return null;
 	}
 
+	/**
+	 * Gets the marital status code.
+	 * 
+	 * @return the marital status code
+	 */
 	public String getMaritalStatusCode() {
 		return maritalStatusCode;
 	}
 
+	/**
+	 * Sets the marital status code.
+	 * 
+	 * @param maritalStatusCode the new marital status code
+	 */
 	public void setMaritalStatusCode(String maritalStatusCode) {
 		this.maritalStatusCode = maritalStatusCode;
 	}
 
+	/**
+	 * Sets the study subjects.
+	 * 
+	 * @param studySubjects the new study subjects
+	 */
 	public void setStudySubjects(List<StudySubject> studySubjects) {
 		this.studySubjects = studySubjects;
 	}
 
+	/**
+	 * Adds the study subject.
+	 * 
+	 * @param studySubject the study subject
+	 */
 	public void addStudySubject(StudySubject studySubject) {
 		studySubjects.add(studySubject);
 	}
 
+	/**
+	 * Removes the study subject.
+	 * 
+	 * @param studySubject the study subject
+	 */
 	public void removeStudySubject(StudySubject studySubject) {
 		studySubjects.remove(studySubject);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo(Participant o) {
 		if (this.equals(o)) return 0;
 		return 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.Person#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -262,6 +412,9 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.Person#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
@@ -279,31 +432,34 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		return true;
 	}
 
+	/**
+	 * Gets the primary identifier.
+	 * 
+	 * @return the primary identifier
+	 */
 	@Transient
 	public String getPrimaryIdentifier() {
-		Identifier id = this.getMedicalRecordNumber();
-		if (id == null) return "";
-		return id.getValue();
-	}
-
-	@Transient
-	public Identifier getMedicalRecordNumber() {
 		for (Identifier identifier : getIdentifiers()) {
-			if (identifier.getPrimaryIndicator().booleanValue() == true) {
-				return identifier;
+			if (identifier.getPrimaryIndicator()) {
+				return identifier.getValue();
 			}
 		}
 		return null;
 	}
 
+	/**
+	 * Sets the primary identifier.
+	 * 
+	 * @param primaryIdentifier the new primary identifier
+	 */
 	public void setPrimaryIdentifier(String primaryIdentifier) {
 	}
 
 	/**
 	 * Runs basic validation on the Participant object.
 	 * Moved here from the service during the refactoring effort.
-	 * @param participant
-	 * @return
+	 * 
+	 * @return true, if validate participant
 	 */
 	public boolean validateParticipant() {
 		if (StringUtils.getBlankIfNull(this.getFirstName()).equals("")
@@ -314,6 +470,11 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		return true;
 	}
 
+	/**
+	 * Gets the healthcare sites.
+	 * 
+	 * @return the healthcare sites
+	 */
 	@ManyToMany
 	@Cascade(value = {CascadeType.LOCK})
     @JoinTable(name="prt_org_associations",
@@ -324,25 +485,48 @@ public class Participant extends Person implements Comparable<Participant> , Cus
         return healthcareSites;
     }
 
+    /**
+     * Sets the healthcare sites.
+     * 
+     * @param healthcareSites the new healthcare sites
+     */
     public void setHealthcareSites(List<HealthcareSite> healthcareSites) {
     	this.healthcareSites = healthcareSites;
     }
     
+    /**
+     * Gets the custom fields internal.
+     * 
+     * @return the custom fields internal
+     */
     @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<CustomField> getCustomFieldsInternal() {
 		return lazyListHelper.getInternalList(CustomField.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.customfield.Customizable#getCustomFields()
+	 */
 	@Transient
 	public List<CustomField> getCustomFields() {
 		return lazyListHelper.getLazyList(CustomField.class);
 	}
 
+	/**
+	 * Sets the custom fields internal.
+	 * 
+	 * @param customFields the new custom fields internal
+	 */
 	public void setCustomFieldsInternal(List<CustomField> customFields) {
 		lazyListHelper.setInternalList(CustomField.class,customFields);
 	}
 
+	/**
+	 * Adds the custom field.
+	 * 
+	 * @param customField the custom field
+	 */
 	public void addCustomField(CustomField customField) {
 		this.getCustomFields().add(customField);
 		customField.setParticipant(this);
