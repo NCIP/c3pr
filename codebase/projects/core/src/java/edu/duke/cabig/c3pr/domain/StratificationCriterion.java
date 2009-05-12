@@ -198,8 +198,9 @@ public class StratificationCriterion extends AbstractMutableDeletableDomainObjec
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
+    /**
+     * Two StratificationCriterion are considered equal if the permissible answer string text are equal.
+     * and the question number and the question text are equal.
      */
     @Override
     public boolean equals(Object obj) {
