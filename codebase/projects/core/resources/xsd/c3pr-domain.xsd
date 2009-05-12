@@ -77,8 +77,8 @@
   <xs:complexType name="EpochType">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="descriptionText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="epochOrder" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" name="descriptionText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="accrualCeiling" type="xs:int" />
       <xs:element minOccurs="0" maxOccurs="1" name="accrualIndicator" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="stratificationIndicator" type="xs:string" />
@@ -88,8 +88,8 @@
       <xs:element minOccurs="0" maxOccurs="1" name="enrollmentIndicator" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="arm" />
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="eligibilityCriteria" />
-      <xs:element minOccurs="0" maxOccurs="1" ref="randomization" />
       <xs:element minOccurs="0" maxOccurs="unbounded" name="stratificationCriteria" type="StratificationCriterionType" />
+      <xs:element minOccurs="0" maxOccurs="1" ref="randomization" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
@@ -197,10 +197,10 @@
       <xs:element minOccurs="0" maxOccurs="1" name="regWorkflowStatus" type="RegWorkflowStatusType" />
       <xs:element minOccurs="1" maxOccurs="1" ref="scheduledEpoch" />
       <xs:element minOccurs="0" maxOccurs="1" name="stratumGroup" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="offStudyReasonText" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="offStudyDate" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="enrollingPhysician" type="StudyInvestigatorType" />
       <xs:element minOccurs="0" maxOccurs="1" name="otherEnrollingPhysician" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="offStudyReasonText" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="offStudyDate" type="xs:date" />
       <xs:element minOccurs="0" maxOccurs="1" name="diseaseHistory" type="DiseaseHistoryType" />
       <xs:element minOccurs="0" maxOccurs="1" name="paymentMethod" type="PaymentMethodType" />
     </xs:sequence>
@@ -322,9 +322,9 @@
   </xs:complexType>
   <xs:complexType name="Randomization">
     <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="type" type="RandomizationType" />
       <xs:element minOccurs="0" maxOccurs="1" name="phoneNumber" type="xs:string" />
     </xs:sequence>
-    <xs:attribute name="type" type="RandomizationType" />
   </xs:complexType>
   <xs:complexType name="StudyInvestigatorType">
     <xs:sequence>

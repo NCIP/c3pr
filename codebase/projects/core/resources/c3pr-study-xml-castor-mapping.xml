@@ -44,21 +44,6 @@
         </field>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.DiseaseCategory">
-        <map-to xml="category" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="name" type="string">
-            <bind-xml name="name" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="parentCategory" type="edu.duke.cabig.c3pr.domain.DiseaseCategory">
-            <bind-xml name="parentCategory" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="childCategories" type="edu.duke.cabig.c3pr.domain.DiseaseCategory"
-               collection="collection">
-            <bind-xml auto-naming="deriveByClass" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-    </class>
-
     <class name="edu.duke.cabig.c3pr.domain.DiseaseTerm">
         <map-to xml="diseaseTerm" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="gridId" type="string">
@@ -72,9 +57,6 @@
         </field>
         <field name="medraCode" type="long">
             <bind-xml name="medraCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="category" type="edu.duke.cabig.c3pr.domain.DiseaseCategory">
-            <bind-xml name="category" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
