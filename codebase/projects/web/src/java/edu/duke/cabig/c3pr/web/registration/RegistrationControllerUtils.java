@@ -229,7 +229,7 @@ public class RegistrationControllerUtils {
 	public void updateStatusForEmbeddedStudySubjet(StudySubject studySubject){
 		studySubject.setRegDataEntryStatus(studySubject.evaluateRegistrationDataEntryStatus());
 		studySubject.getScheduledEpoch().setEligibilityIndicator(evaluateEligibilityIndicator(studySubject));
-		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(studySubject.evaluateScheduledEpochDataEntryStatus());
+		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(studySubject.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
 		if(studySubject.getParentStudySubject()!=null && studySubject.isDataEntryComplete()){
         	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
         	studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
