@@ -41,5 +41,13 @@ public void testCompareTo() throws Exception{
 		organization6.setName("OrganizationB");
 		assertFalse("These two organizations cannot be equal",organization1.equals(organization6));
 	}
+	
+	public void testGetTrimmedName(){
+		Organization organization = new LocalHealthcareSite();
+		organization.setName("Duke Hematology/Oncology at Raleigh Community Hospital");
+		
+		assertEquals("Trimmed name should be Duke Hematology/Oncology","Duke Hematology/Oncology", organization.getTrimmedName());
+
+	}
 
 }
