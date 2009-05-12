@@ -1,5 +1,5 @@
 <!-- ======================================================================= -->
-<!-- C3PR web-test                                                           -->
+<!-- C3PR core-test                                                           -->
 <!-- ======================================================================= -->
 <project name="c3pr-2.0-core-test" basedir=".">
 
@@ -8,7 +8,7 @@
 
 	<!-- call the test target for each project and aggregates the log results  -->
 	<target name="test" description="Runs the tests">
-		<property name="cobertura.home" location="../../share/cobertura-1.8"/>
+		<property name="cobertura.home" location="../../share/cobertura-1.9rc1"/>
 		<property name="testcoverage.datafile" location="${test.logs.dir}/queryengine.ser"/>
 		
 		<mkdir dir="${junit.results.dir}"/>
@@ -48,7 +48,7 @@
     <!-- call the test target for the specific testclass and aggregates the log results  -->
     <!-- Add the testCase file you need to test below at the <fileset dir> -->
 	<target name="test-single-x" description="Runs the tests for x">
-		<property name="cobertura.home" location="../../share/cobertura-1.8"/>
+		<property name="cobertura.home" location="../../share/cobertura-1.9rc1"/>
 		<property name="testcoverage.datafile" location="${test.logs.dir}/queryengine.ser"/>
 		
 		<mkdir dir="${junit.results.dir}"/>

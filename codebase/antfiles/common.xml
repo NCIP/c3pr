@@ -572,8 +572,8 @@
 				target: corbetura-init                                                
 			============================================================== -->
 		<target name="corbetura-init" if="run.test" depends="clean-cobertura-dir">
-			<ivy:resolve inline="true" organisation="cobertura" module="cobertura" revision="1.8" />
-			<ivy:cachepath organisation="cobertura" module="cobertura" revision="1.8" inline="true" pathid="cobertura.classpath"/>
+			<ivy:resolve inline="true" organisation="cobertura" module="cobertura" revision="1.9rc1" />
+			<ivy:cachepath organisation="cobertura" module="cobertura" revision="1.9rc1" inline="true" pathid="cobertura.classpath"/>
 			<mkdir dir="${cobertura.report.dir}" />
 			<mkdir dir="${cobertura.report.dir}/xmlreport" />
 			<!-- <taskdef resource="tasks.properties">
