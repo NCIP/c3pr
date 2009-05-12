@@ -52,10 +52,6 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         		PlannedNotification.class));
     }
 
-    public Organization(boolean initialise) {
-        address = new Address();
-    }
-
     @RemoteProperty
     public String getName() {
         return name;
@@ -108,8 +104,8 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         return StringUtils.getTrimmedText(name, 25);
     }
 
-    public int compareTo(HealthcareSite o) {
-        if (this.equals((HealthcareSite) o)) return 0;
+    public int compareTo(Organization o) {
+        if (this.equals((Organization) o)) return 0;
 
         return 1;
     }
