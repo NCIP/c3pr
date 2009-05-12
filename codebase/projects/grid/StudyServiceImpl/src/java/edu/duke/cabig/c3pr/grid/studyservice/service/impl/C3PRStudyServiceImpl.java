@@ -14,9 +14,13 @@ import org.oasis.wsrf.properties.QueryResourceProperties_Element;
 import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.WebRequest;
 
+import edu.duke.cabig.c3pr.domain.BookRandomization;
+import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
@@ -52,6 +56,12 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         try {
             Study study=objects.get(0);
             studyFactory.buildStudy(study);
+            
+            //handle book randomization
+            if(study.getRandomizedIndicator() && study.getRandomizationType()==RandomizationType.BOOK){
+            	handleBookRandomization(study);
+            }
+            
             for(StudySite studySite:study.getStudySites()){
                 studySite.setHostedMode(false);
                 studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
@@ -364,6 +374,16 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
 
 	public void updateStudy(Message message) throws RemoteException {
 		throw new RemoteException("Not yet implemented");		
+	}
+	
+	private void handleBookRandomization(Study study){
+		for(Epoch epoch : study.getEpochs()){
+			if(epoch.getRandomizedIndicator() && !epoch.hasBookRandomizationEntry()){
+				BookRandomizationEntry bookRandomizationEntry= ((BookRandomization)epoch.getRandomization()).getBookRandomizationEntry().get(0);
+				bookRandomizationEntry.setArm(epoch.getArms().get(0));
+				bookRandomizationEntry.setPosition(0);
+			}
+		}
 	}
 	
 	public void setXmlMarshaller(XmlMarshaller xmlMarshaller) {
