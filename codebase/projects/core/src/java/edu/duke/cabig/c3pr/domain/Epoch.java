@@ -31,7 +31,10 @@ import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Epoch.
+ * 
  * @author Ram Chilukuri, Priyatam
  */
 @Entity
@@ -41,46 +44,64 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class Epoch extends AbstractMutableDeletableDomainObject implements
 		Comparable<Epoch> {
 
+	/** The name. */
 	private String name;
 
+	/** The description text. */
 	private String descriptionText;
 
+	/** The study. */
 	private Study study;
 
+	/** The epoch order. */
 	private Integer epochOrder;
 
+	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
+	/** The randomization. */
 	private Randomization randomization;
 
+	/** The randomized indicator. */
 	private Boolean randomizedIndicator = false;
 
+	/** The eligibility criteria. */
 	private List<EligibilityCriteria> eligibilityCriteria;
 
+	/** The c3 pr exception helper. */
 	private C3PRExceptionHelper c3PRExceptionHelper;
 
+	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
 
+	/** The accrual ceiling. */
 	private Integer accrualCeiling;
 	
+	/** The current book randomization entry position. */
 	private Integer currentBookRandomizationEntryPosition;
 
+	/** The accrual indicator. */
 	private Boolean accrualIndicator = false;
 
+	/** The reservation indicator. */
 	private Boolean reservationIndicator = false;
 
+	/** The enrollment indicator. */
 	private Boolean enrollmentIndicator = false;
 
+	/** The stratification indicator. */
 	private Boolean stratificationIndicator = false;
 
+	/** The treatment indicator. */
 	private Boolean treatmentIndicator = false;
 
 	/**
-	 * Factory method
+	 * Factory method.
 	 * 
-	 * @param epochName
-	 * @param armNames
-	 * @return
+	 * @param epochName the epoch name
+	 * @param armNames the arm names
+	 * 
+	 * @return the epoch
 	 */
 
 	public static Epoch createEpochWithArms(String epochName,
@@ -97,58 +118,118 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return epoch;
 	}
 
+	/**
+	 * Creates the epoch.
+	 * 
+	 * @param epochName the epoch name
+	 * 
+	 * @return the epoch
+	 */
 	public static Epoch createEpoch(String epochName) {
 		Epoch epoch = new Epoch();
 		epoch.setName(epochName);
 		return epoch;
 	}
 
+	/**
+	 * Gets the requires arm.
+	 * 
+	 * @return the requires arm
+	 */
 	@Transient
 	public Boolean getRequiresArm() {
 		return (this.getRandomizedIndicator() || this.getArms().size() > 0);
 	}
 
+	/**
+	 * Checks if is reserving.
+	 * 
+	 * @return true, if is reserving
+	 */
 	@Transient
 	public boolean isReserving() {
 		return this.reservationIndicator;
 	}
 
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 * 
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
+	/**
+	 * Gets the current book randomization entry position.
+	 * 
+	 * @return the current book randomization entry position
+	 */
 	@Column(name = "current_bk_rand_entry")
 	public Integer getCurrentBookRandomizationEntryPosition() {
 		return currentBookRandomizationEntryPosition;
 	}
 
+	/**
+	 * Sets the current book randomization entry position.
+	 * 
+	 * @param currentBookRandomizationEntryPosition the new current book randomization entry position
+	 */
 	public void setCurrentBookRandomizationEntryPosition(
 			Integer currentBookRandomizationEntryPosition) {
 		this.currentBookRandomizationEntryPosition = currentBookRandomizationEntryPosition;
 	}
 
+	/**
+	 * Gets the study.
+	 * 
+	 * @return the study
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "stu_id", nullable = false)
 	public Study getStudy() {
 		return study;
 	}
 
+	/**
+	 * Sets the study.
+	 * 
+	 * @param study the new study
+	 */
 	public void setStudy(Study study) {
 		this.study = study;
 	}
 
+	/**
+	 * Sets the description text.
+	 * 
+	 * @param descriptionText the new description text
+	 */
 	public void setDescriptionText(String descriptionText) {
 		this.descriptionText = descriptionText;
 	}
 
+	/**
+	 * Gets the description text.
+	 * 
+	 * @return the description text
+	 */
 	public String getDescriptionText() {
 		return descriptionText;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo(Epoch o) {
 		if (this.equals(o))
 			return 0;
@@ -156,6 +237,9 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 			return 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -165,6 +249,9 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -178,50 +265,103 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return true;
 	}
 
+	/**
+	 * Gets the epoch order.
+	 * 
+	 * @return the epoch order
+	 */
 	public Integer getEpochOrder() {
 		return epochOrder;
 	}
 
+	/**
+	 * Sets the epoch order.
+	 * 
+	 * @param epochOrder the new epoch order
+	 */
 	public void setEpochOrder(Integer epochOrder) {
 		this.epochOrder = epochOrder;
 	}
 
 	// Code from Non-Treatment Epoch
 
+	/**
+	 * Gets the accrual ceiling.
+	 * 
+	 * @return the accrual ceiling
+	 */
 	public Integer getAccrualCeiling() {
 		return accrualCeiling;
 	}
 
+	/**
+	 * Sets the accrual ceiling.
+	 * 
+	 * @param accrualCeiling the new accrual ceiling
+	 */
 	public void setAccrualCeiling(Integer accrualCeiling) {
 		this.accrualCeiling = accrualCeiling;
 	}
 
+	/**
+	 * Gets the accrual indicator.
+	 * 
+	 * @return the accrual indicator
+	 */
 	public Boolean getAccrualIndicator() {
 		return accrualIndicator;
 	}
 
+	/**
+	 * Sets the accrual indicator.
+	 * 
+	 * @param accrualIndicator the new accrual indicator
+	 */
 	public void setAccrualIndicator(Boolean accrualIndicator) {
 		this.accrualIndicator = accrualIndicator;
 	}
 
+	/**
+	 * Gets the enrollment indicator.
+	 * 
+	 * @return the enrollment indicator
+	 */
 	public Boolean getEnrollmentIndicator() {
 		return enrollmentIndicator;
 	}
 
+	/**
+	 * Sets the enrollment indicator.
+	 * 
+	 * @param enrollmentIndicator the new enrollment indicator
+	 */
 	public void setEnrollmentIndicator(Boolean enrollmentIndicator) {
 		this.enrollmentIndicator = enrollmentIndicator;
 	}
 
+	/**
+	 * Gets the reservation indicator.
+	 * 
+	 * @return the reservation indicator
+	 */
 	public Boolean getReservationIndicator() {
 		return reservationIndicator;
 	}
 
+	/**
+	 * Sets the reservation indicator.
+	 * 
+	 * @param reservationIndicator the new reservation indicator
+	 */
 	public void setReservationIndicator(Boolean reservationIndicator) {
 		this.reservationIndicator = reservationIndicator;
 	}
 
 	// No-Arg Constructor for Hibernate
 
+	/**
+	 * Instantiates a new epoch.
+	 */
 	public Epoch() {
 		
 		currentBookRandomizationEntryPosition = new Integer(0);
@@ -261,12 +401,22 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	// / LOGIC
 
+	/**
+	 * Adds the new arm.
+	 * 
+	 * @param armName the arm name
+	 */
 	public void addNewArm(String armName) {
 		Arm arm = new Arm();
 		arm.setName(armName);
 		addArm(arm);
 	}
 
+	/**
+	 * Adds the arm.
+	 * 
+	 * @param arm the arm
+	 */
 	public void addArm(Arm arm) {
 		for (Arm armPresent : getArms()) {
 			if (armPresent.equals(arm)) {
@@ -278,6 +428,9 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		arm.setEpoch(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#setRetiredIndicatorAsTrue()
+	 */
 	@Override
 	@Transient
 	/*
@@ -343,11 +496,21 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		}
 	}
 
+	/**
+	 * Checks if is multiple arms.
+	 * 
+	 * @return true, if is multiple arms
+	 */
 	@Transient
 	public boolean isMultipleArms() {
 		return getArms().size() > 1;
 	}
 
+	/**
+	 * Gets the arms internal.
+	 * 
+	 * @return the arms internal
+	 */
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "eph_id")
@@ -356,23 +519,48 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return lazyListHelper.getInternalList(Arm.class);
 	}
 
+	/**
+	 * Gets the arms.
+	 * 
+	 * @return the arms
+	 */
 	@Transient
 	public List<Arm> getArms() {
 		return lazyListHelper.getLazyList(Arm.class);
 	}
 
+	/**
+	 * Sets the arms internal.
+	 * 
+	 * @param arms the new arms internal
+	 */
 	public void setArmsInternal(List<Arm> arms) {
 		lazyListHelper.setInternalList(Arm.class, arms);
 	}
 
+	/**
+	 * Sets the arms.
+	 * 
+	 * @param arms the new arms
+	 */
 	public void setArms(List<Arm> arms) {
 		lazyListHelper.setInternalList(Arm.class, arms);
 	}
 
+	/**
+	 * Adds the eligibility criterion.
+	 * 
+	 * @param eligibilityCriterion the eligibility criterion
+	 */
 	public void addEligibilityCriterion(EligibilityCriteria eligibilityCriterion) {
 		this.getEligibilityCriteria().add(eligibilityCriterion);
 	}
 	
+	/**
+	 * Gets the stratification criteria internal.
+	 * 
+	 * @return the stratification criteria internal
+	 */
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "EPH_ID")
@@ -381,28 +569,53 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return lazyListHelper.getInternalList(StratificationCriterion.class);
 	}
 
+	/**
+	 * Gets the stratification criteria.
+	 * 
+	 * @return the stratification criteria
+	 */
 	@Transient
 	public List<StratificationCriterion> getStratificationCriteria() {
 		return lazyListHelper.getLazyList(StratificationCriterion.class);
 	}
 
+	/**
+	 * Sets the stratification criteria.
+	 * 
+	 * @param stratificationCriteria the new stratification criteria
+	 */
 	public void setStratificationCriteria(
 			List<StratificationCriterion> stratificationCriteria) {
 		lazyListHelper.setInternalList(StratificationCriterion.class,
 				stratificationCriteria);
 	}
 
+	/**
+	 * Sets the stratification criteria internal.
+	 * 
+	 * @param stratificationCriteria the new stratification criteria internal
+	 */
 	public void setStratificationCriteriaInternal(
 			List<StratificationCriterion> stratificationCriteria) {
 		lazyListHelper.setInternalList(StratificationCriterion.class,
 				stratificationCriteria);
 	}
 
+	/**
+	 * Adds the stratification criterion.
+	 * 
+	 * @param stratificationCriterion the stratification criterion
+	 */
 	public void addStratificationCriterion(
 			StratificationCriterion stratificationCriterion) {
 		this.getStratificationCriteria().add(stratificationCriterion);
 	}
 	
+	/**
+	 * Gets the eligibility criteria.
+	 * 
+	 * @return the eligibility criteria
+	 */
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "EPH_ID")
@@ -411,6 +624,11 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return eligibilityCriteria;
 	}
 
+	/**
+	 * Sets the eligibility criteria.
+	 * 
+	 * @param eligibilityCriteria the new eligibility criteria
+	 */
 	public void setEligibilityCriteria(List<EligibilityCriteria> eligibilityCriteria) {
 		this.eligibilityCriteria = eligibilityCriteria;
 		lazyListHelper.setInternalList(InclusionEligibilityCriteria.class,
@@ -423,21 +641,41 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 								ExclusionEligibilityCriteria.class));
 	}
 
+	/**
+	 * Gets the inclusion eligibility criteria.
+	 * 
+	 * @return the inclusion eligibility criteria
+	 */
 	@Transient
 	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteria() {
 		return lazyListHelper.getLazyList(InclusionEligibilityCriteria.class);
 	}
 
+	/**
+	 * Sets the inclusion eligibility criteria.
+	 * 
+	 * @param inclusionEligibilityCriteria the new inclusion eligibility criteria
+	 */
 	public void setInclusionEligibilityCriteria(
 			List<InclusionEligibilityCriteria> inclusionEligibilityCriteria) {
 		// do nothing
 	}
 
+	/**
+	 * Gets the exclusion eligibility criteria.
+	 * 
+	 * @return the exclusion eligibility criteria
+	 */
 	@Transient
 	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriteria() {
 		return lazyListHelper.getLazyList(ExclusionEligibilityCriteria.class);
 	}
 
+	/**
+	 * Sets the exclusion eligibility criteria.
+	 * 
+	 * @param exclusionEligibilityCriteria the new exclusion eligibility criteria
+	 */
 	public void setExclusionEligibilityCriteria(
 			List<ExclusionEligibilityCriteria> exclusionEligibilityCriteria) {
 		// do nothing
@@ -445,6 +683,11 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	
 
+	/**
+	 * Gets the stratum groups internal.
+	 * 
+	 * @return the stratum groups internal
+	 */
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "epochs_id")
@@ -454,20 +697,40 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return lazyListHelper.getInternalList(StratumGroup.class);
 	}
 	
+	/**
+	 * Sets the stratum groups internal.
+	 * 
+	 * @param stratumGroup the new stratum groups internal
+	 */
 	public void setStratumGroupsInternal(List<StratumGroup> stratumGroup) {
 		lazyListHelper.setInternalList(StratumGroup.class, stratumGroup);
 	}
 
+	/**
+	 * Gets the stratum groups.
+	 * 
+	 * @return the stratum groups
+	 */
 	@Transient
 	public List<StratumGroup> getStratumGroups() {
 		return lazyListHelper.getLazyList(StratumGroup.class);
 	}
 
+	/**
+	 * Sets the stratum groups.
+	 * 
+	 * @param stratumGroup the new stratum groups
+	 */
 	public void setStratumGroups(List<StratumGroup> stratumGroup) {
 	}
 
 	
 
+	/**
+	 * Gets the randomization.
+	 * 
+	 * @return the randomization
+	 */
 	@OneToOne
 	@JoinColumn(name = "rndm_id")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
@@ -475,10 +738,20 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return randomization;
 	}
 
+	/**
+	 * Sets the randomization.
+	 * 
+	 * @param randomization the new randomization
+	 */
 	public void setRandomization(Randomization randomization) {
 		this.randomization = randomization;
 	}
 
+	/**
+	 * Checks for book randomization entry.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasBookRandomizationEntry() {
 
@@ -494,6 +767,13 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return false;
 	}
 
+	/**
+	 * Gets the stratum group for ans combination.
+	 * 
+	 * @param scacList the scac list
+	 * 
+	 * @return the stratum group for ans combination
+	 */
 	@Transient
 	/*
 	 * This method iterates thru the stratum groups for the treatmentEpoch and
@@ -519,14 +799,20 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return null;
 	}
 
+	/**
+	 * Gets the stratum group by number.
+	 * 
+	 * @param number the number
+	 * 
+	 * @return the stratum group by number
+	 */
 	@Transient
 	/*
-	 * This method iterates thru the stratum groups for the treatmentEpoch and
+	 * This method iterates thru the stratum groups for the Epoch and
 	 * finds the one that has the same stratum group number as the one passed in
 	 * and returns it. returns null if no matching stratum group is found
 	 */
 	public StratumGroup getStratumGroupByNumber(Integer number) {
-		StratumGroup sg = new StratumGroup();
 		for (StratumGroup sgCurr : this.getStratumGroups()) {
 			if (sgCurr.getStratumGroupNumber().equals(number)) {
 				return sgCurr;
@@ -535,41 +821,80 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		return null;
 	}
 
+	/**
+	 * Checks for stratification.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasStratification() {
 		return (getStratificationCriteria().size() > 0);
 	}
 
+	/**
+	 * Checks for stratum groups.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasStratumGroups() {
 		return (getStratumGroups().size() > 0);
 	}
 
+	/**
+	 * Checks for eligibility.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasEligibility() {
 		return (getEligibilityCriteria().size() > 0);
 	}
 
+	/**
+	 * Gets the randomized indicator.
+	 * 
+	 * @return the randomized indicator
+	 */
 	public Boolean getRandomizedIndicator() {
 		return randomizedIndicator;
 	}
 
+	/**
+	 * Sets the randomized indicator.
+	 * 
+	 * @param randomizedIndicator the new randomized indicator
+	 */
 	public void setRandomizedIndicator(Boolean randomizedIndicator) {
 		this.randomizedIndicator = randomizedIndicator;
 	}
 
+	/**
+	 * Evaluate status.
+	 * 
+	 * @param errors the errors
+	 * 
+	 * @return true, if successful
+	 * 
+	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
+	 */
 	public boolean evaluateStatus(List<Error> errors) throws C3PRCodedRuntimeException {
-		if (!evaluateStratificationDataEntryStatus(errors))
-			return false;
-		if (!evaluateRandomizationDataEntryStatus(errors)) {
-			return false;
-		}
-		if (!evaluateEligibilityDataEntryStatus(errors))
-			return false;
+		evaluateStratificationDataEntryStatus(errors);
+		evaluateRandomizationDataEntryStatus(errors);
+		evaluateEligibilityDataEntryStatus(errors);
 
 		return true;
 	}
 
+	/**
+	 * Evaluate stratification data entry status.
+	 * 
+	 * @param errors the errors
+	 * 
+	 * @return true, if successful
+	 * 
+	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
+	 */
 	public boolean evaluateStratificationDataEntryStatus(List<Error> errors)
 			throws C3PRCodedRuntimeException {
 		
@@ -578,6 +903,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
 							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
 							new String[] { this.getName() }).getMessage()));
+					
 				}
 			}
 
@@ -585,6 +911,15 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	}
 
+	/**
+	 * Evaluate randomization data entry status.
+	 * 
+	 * @param errors the errors
+	 * 
+	 * @return true, if successful
+	 * 
+	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
+	 */
 	public boolean evaluateRandomizationDataEntryStatus(List<Error> errors)
 			throws C3PRCodedRuntimeException {
 		
@@ -626,7 +961,6 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		}
 
 		if (this.study.getRandomizationType() == (RandomizationType.CALL_OUT)) {
-			if (this.getTreatmentIndicator()) {
 				Randomization randomization = this.getRandomization();
 				if (randomization instanceof CalloutRandomization) {
 					if (StringUtils
@@ -637,68 +971,135 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 								new String[] { this.getName() }).getMessage()));
 					}
 				}
-			}
 		}
 
 		return true;
 
 	}
 
+	/**
+	 * Evaluate eligibility data entry status.
+	 * 
+	 * @param errors the errors
+	 * 
+	 * @return true, if successful
+	 * 
+	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
+	 */
 	public boolean evaluateEligibilityDataEntryStatus(List<Error> errors)
 			throws C3PRCodedRuntimeException {
 		// Default returns true unless more information is obtained
 		return true;
 	}
 
+	/**
+	 * Gets the code.
+	 * 
+	 * @param errortypeString the errortype string
+	 * 
+	 * @return the code
+	 */
 	@Transient
 	public int getCode(String errortypeString) {
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(
 				errortypeString, null, null));
 	}
 
+	/**
+	 * Gets the c3 pr exception helper.
+	 * 
+	 * @return the c3 pr exception helper
+	 */
 	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
 		return c3PRExceptionHelper;
 	}
 
+	/**
+	 * Sets the exception helper.
+	 * 
+	 * @param c3PRExceptionHelper the new exception helper
+	 */
 	public void setExceptionHelper(C3PRExceptionHelper c3PRExceptionHelper) {
 		this.c3PRExceptionHelper = c3PRExceptionHelper;
 	}
 
+	/**
+	 * Gets the c3pr error messages.
+	 * 
+	 * @return the c3pr error messages
+	 */
 	@Transient
 	public MessageSource getC3prErrorMessages() {
 		return c3prErrorMessages;
 	}
 
+	/**
+	 * Sets the c3pr error messages.
+	 * 
+	 * @param errorMessages the new c3pr error messages
+	 */
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
 	}
 
+	/**
+	 * Checks if is enrolling.
+	 * 
+	 * @return true, if is enrolling
+	 */
 	@Transient
 	public boolean isEnrolling() {
 		return enrollmentIndicator;
 	}
 
+	/**
+	 * Gets the stratification indicator.
+	 * 
+	 * @return the stratification indicator
+	 */
 	public Boolean getStratificationIndicator() {
 		return stratificationIndicator;
 	}
 
+	/**
+	 * Sets the stratification indicator.
+	 * 
+	 * @param stratificationIndicator the new stratification indicator
+	 */
 	public void setStratificationIndicator(Boolean stratificationIndicator) {
 		this.stratificationIndicator = stratificationIndicator;
 	}
 
+	/**
+	 * Gets the treatment indicator.
+	 * 
+	 * @return the treatment indicator
+	 */
 	public Boolean getTreatmentIndicator() {
 		return treatmentIndicator;
 	}
 
+	/**
+	 * Sets the treatment indicator.
+	 * 
+	 * @param treatmentIndicator the new treatment indicator
+	 */
 	public void setTreatmentIndicator(Boolean treatmentIndicator) {
 		this.treatmentIndicator = treatmentIndicator;
 	}
 	
+	/**
+	 * Gets the arm by name.
+	 * 
+	 * @param armName the arm name
+	 * 
+	 * @return the arm by name
+	 */
 	@Transient
-	public Arm getArmByName(Arm arm){
+	public Arm getArmByName(String armName){
 		for(Arm localArm:this.getArms()){
-			if(arm.getName().equals(localArm.getName())){
+			if(armName.equals(localArm.getName())){
 				return localArm;
 			}
 		}
