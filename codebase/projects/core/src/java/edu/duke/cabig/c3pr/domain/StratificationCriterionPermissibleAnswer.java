@@ -9,8 +9,11 @@ import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Priyatam
+ * The Class StratificationCriterionPermissibleAnswer.
+ * 
+ * @author Vinay Gangoli
  */
 @Entity
 @Table(name = "strat_cri_per_ans")
@@ -18,31 +21,54 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 public class StratificationCriterionPermissibleAnswer extends AbstractMutableDeletableDomainObject
                 implements Comparable<StratificationCriterionPermissibleAnswer> {
 
+    /** The permissible answer. */
     private String permissibleAnswer;
 
+    /**
+     * Instantiates a new stratification criterion permissible answer.
+     */
     public StratificationCriterionPermissibleAnswer() {
 
     }
 
+    /**
+     * Gets the trimmed permissible answer.
+     * 
+     * @return the trimmed permissible answer
+     */
     @Transient
     public String getTrimmedPermissibleAnswer() {
         return StringUtils.getTrimmedText(permissibleAnswer, 40);
     }
 
-    // / BEAN PROPERTIES
-
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(StratificationCriterionPermissibleAnswer o) {
         return 0;
     }
 
+    /**
+     * Gets the permissible answer.
+     * 
+     * @return the permissible answer
+     */
     public String getPermissibleAnswer() {
         return permissibleAnswer;
     }
 
+    /**
+     * Sets the permissible answer.
+     * 
+     * @param permissibleAnswer the new permissible answer
+     */
     public void setPermissibleAnswer(String permissibleAnswer) {
         this.permissibleAnswer = permissibleAnswer;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#hashCode()
+     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -51,6 +77,10 @@ public class StratificationCriterionPermissibleAnswer extends AbstractMutableDel
         return result;
     }
 
+    /**
+     * Two permisssible answers are considered equal if the permissible answer string text are equal.
+     * called by the equals method in StratificationCriterion.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
