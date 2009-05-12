@@ -39,7 +39,7 @@ public class EpochTest extends TestCase{
 		epoch2.setName("epochB");
 		
 		Epoch epoch3 = new Epoch();
-		epoch2.setName("epochA");
+		epoch3.setName("epochA");
 		
 		assertEquals("The 2 epochs cannot be same",1, epoch1.compareTo(epoch2));
 		assertEquals("The 2 epochs should have been same",0, epoch1.compareTo(epoch3));
