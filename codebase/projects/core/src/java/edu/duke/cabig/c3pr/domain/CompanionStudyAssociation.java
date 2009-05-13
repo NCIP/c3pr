@@ -15,8 +15,6 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-
 @Entity
 @Table(name = "comp_stu_associations")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "comp_stu_associations_id_seq") })
