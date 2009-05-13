@@ -373,7 +373,7 @@ public class StudyTestCase extends AbstractTestCase{
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
 		disease.setStudy(simpleStudy);
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		disease.setStudy(simpleStudy);
+		disease2.setStudy(simpleStudy);
 		replayMocks();
 		simpleStudy.addStudyDisease(disease2);
 		simpleStudy.addStudyDisease(disease);
@@ -391,11 +391,15 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testRemoveAllStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
 		disease.setStudy(simpleStudy);
+		
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		disease.setStudy(simpleStudy);
+		disease2.setStudy(simpleStudy);
+		
 		replayMocks();
+		
 		simpleStudy.addStudyDisease(disease2);
 		simpleStudy.addStudyDisease(disease);
+		
 		assertEquals("Study should have 2 study disease", 2 , simpleStudy.getStudyDiseases().size());
 		simpleStudy.removeAllStudyDisease();
 		assertEquals("Study should have 0 study disease", 0 , simpleStudy.getStudyDiseases().size());
@@ -445,6 +449,57 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("Study should have 1 identifier", 1 , simpleStudy.getIdentifiers().size());
 		verifyMocks();
 	}
-
 	
+	/**
+	 * Test compare to equal studies
+	 * 
+	 */
+
+	public void testCompareTo1() throws Exception{
+		Identifier identifier  = registerMockFor(Identifier.class);
+		
+		Study study1 = new Study();
+
+		Organization organization2 = new LocalHealthcareSite();
+		organization2.setName("OrganizationB");
+	}
+
+
+	/**
+	 * Test compare to unequal studies
+	 * 
+	 */
+
+	public void testCompareTo2() throws Exception{
+		
+		
+	}
+	
+	/**
+	 * Test get latest consent version
+	 * 
+	 */
+	public void testGetLatestConsentVersion(){
+		simpleStudy.setConsentVersion("10/08/1981");
+		assertEquals("Latest consent version should be 10/08/1981", "10/08/1981" , simpleStudy.getLatestConsentVersion());
+	}
+	
+	/**
+	 * Test get latest consent version
+	 * 
+	 */
+	public void testGetLatestConsentVersion1(){
+		simpleStudy.setConsentVersion("10/08/1970");
+		StudyAmendment amendment  = registerMockFor(StudyAmendment.class);
+		EasyMock.expect(amendment.getConsentVersion()).andReturn("10/08/1981");
+		EasyMock.expect(amendment.getConsentChangedIndicator()).andReturn(true);
+		replayMocks();
+		simpleStudy.getStudyAmendments().add(amendment);
+		
+		assertEquals("Latest consent version should be 10/08/1981", "10/08/1981" , simpleStudy.getLatestConsentVersion());
+		}
+	
+
+
+
 }
