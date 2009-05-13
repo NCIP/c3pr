@@ -209,10 +209,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getLazyList(StudySite.class);
 	}
 
-	public void setStudySites(List<StudySite> studySites) {
-
-	}
-
 	@Transient
 	public List<StudyFundingSponsor> getStudyFundingSponsors() {
 		return lazyListHelper.getLazyList(StudyFundingSponsor.class);
