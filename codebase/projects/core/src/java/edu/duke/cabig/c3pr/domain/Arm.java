@@ -25,8 +25,6 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
 
     private Integer targetAccrualNumber;
 
-    // / LOGIC
-
     @Override
     @Transient
     public void setRetiredIndicatorAsTrue() {
