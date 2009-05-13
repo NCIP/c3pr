@@ -322,4 +322,56 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
+	/**
+	 * Test remove study organization
+	 * 
+	 */
+	public void testRemoveStudyOrganization(){
+		StudyOrganization organization  = registerMockFor(StudyOrganization.class);
+		simpleStudy.getStudyOrganizations().add(organization);
+		
+		StudyOrganization organization2  = registerMockFor(StudyOrganization.class);
+		simpleStudy.getStudyOrganizations().add(organization2);
+		replayMocks();
+		assertEquals("Study should have 2 study organization", 2 , simpleStudy.getStudyOrganizations().size());
+		simpleStudy.removeStudyOrganization(organization2);
+		assertEquals("Study should have only 1 study organization", 1 , simpleStudy.getStudyOrganizations().size());
+		verifyMocks();
+	}
+	
+	/**
+	 * Test remove epoch
+	 * 
+	 */
+	public void testRemoveEpoch(){
+		Epoch epoch  = registerMockFor(Epoch.class);
+		simpleStudy.getEpochs().add(epoch);
+		
+		Epoch epoch1  = registerMockFor(Epoch.class);
+		simpleStudy.getEpochs().add(epoch1);
+
+		replayMocks();
+		assertEquals("Study should have 2 epochs ", 2 , simpleStudy.getEpochs().size());
+		simpleStudy.removeEpoch(epoch);
+		assertEquals("Study should have 1 epoch ", 1 , simpleStudy.getEpochs().size());
+		verifyMocks();
+	}
+	
+	/**
+	 * Test remove study disease
+	 * 
+	 */
+	public void testRemoveStudyDisease(){
+		StudyDisease disease  = registerMockFor(StudyDisease.class);
+		simpleStudy.getStudyDiseases().add(disease);
+		
+		StudyDisease disease2  = registerMockFor(StudyDisease.class);
+		simpleStudy.getStudyDiseases().add(disease2);
+		replayMocks();
+		assertEquals("Study should have 2 study disease", 2 , simpleStudy.getStudyDiseases().size());
+		simpleStudy.removeStudyDisease(disease2);
+		assertEquals("Study should have only 1 study disease", 1 , simpleStudy.getStudyDiseases().size());
+		verifyMocks();
+	}
+	
 }
