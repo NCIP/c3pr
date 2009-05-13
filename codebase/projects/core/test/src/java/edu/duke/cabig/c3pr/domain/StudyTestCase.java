@@ -374,4 +374,21 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
+	/**
+	 * Test remove all study disease
+	 * 
+	 */
+	
+	public void testRemoveAllStudyDisease(){
+		StudyDisease disease  = registerMockFor(StudyDisease.class);
+		simpleStudy.getStudyDiseases().add(disease);
+		
+		StudyDisease disease2  = registerMockFor(StudyDisease.class);
+		simpleStudy.getStudyDiseases().add(disease2);
+		replayMocks();
+		assertEquals("Study should have 2 study disease", 2 , simpleStudy.getStudyDiseases().size());
+		simpleStudy.removeAllStudyDisease();
+		assertEquals("Study should have 0 study disease", 0 , simpleStudy.getStudyDiseases().size());
+		verifyMocks();
+	}
 }
