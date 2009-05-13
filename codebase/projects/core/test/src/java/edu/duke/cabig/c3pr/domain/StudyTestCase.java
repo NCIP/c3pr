@@ -3,8 +3,6 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Transient;
-
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
