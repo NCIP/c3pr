@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
@@ -473,6 +475,24 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		assertEquals("Latest consent version should be 10/08/1981", "10/08/1981" , simpleStudy.getLatestConsentVersion());
 		}
-
-
+	
+	/**
+	 * Test get companion indicator display value
+	 * 
+	 */
+	public void testGetCompanionIndicatorDisplayValue(){
+		simpleStudy.setCompanionIndicator(false);
+		assertEquals("Companion indicator display value should be No", "No", simpleStudy.getCompanionIndicatorDisplayValue());
+	}
+	
+	/**
+	 * Test get companion indicator display value
+	 * 
+	 */
+	public void testGetCompanionIndicatorDisplayValue1(){
+		simpleStudy.setCompanionIndicator(true);
+		assertEquals("Companion indicator display value should be Yes", "Yes", simpleStudy.getCompanionIndicatorDisplayValue());
+	}
+	
+	
 }
