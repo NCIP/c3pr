@@ -328,11 +328,15 @@ public class StudyTestCase extends AbstractTestCase{
 	 */
 	public void testRemoveStudyOrganization(){
 		StudyOrganization organization  = registerMockFor(StudyOrganization.class);
-		simpleStudy.getStudyOrganizations().add(organization);
+		organization.setStudy(simpleStudy);
 		
 		StudyOrganization organization2  = registerMockFor(StudyOrganization.class);
-		simpleStudy.getStudyOrganizations().add(organization2);
+		organization2.setStudy(simpleStudy);
+		
 		replayMocks();
+		simpleStudy.addStudyOrganization(organization);
+		simpleStudy.addStudyOrganization(organization2);
+		
 		assertEquals("Study should have 2 study organization", 2 , simpleStudy.getStudyOrganizations().size());
 		simpleStudy.removeStudyOrganization(organization2);
 		assertEquals("Study should have only 1 study organization", 1 , simpleStudy.getStudyOrganizations().size());
@@ -345,12 +349,16 @@ public class StudyTestCase extends AbstractTestCase{
 	 */
 	public void testRemoveEpoch(){
 		Epoch epoch  = registerMockFor(Epoch.class);
-		simpleStudy.getEpochs().add(epoch);
-		
+		epoch.setStudy(simpleStudy);
+
 		Epoch epoch1  = registerMockFor(Epoch.class);
-		simpleStudy.getEpochs().add(epoch1);
+		epoch1.setStudy(simpleStudy);
 
 		replayMocks();
+
+		simpleStudy.addEpoch(epoch1);
+		simpleStudy.addEpoch(epoch);
+
 		assertEquals("Study should have 2 epochs ", 2 , simpleStudy.getEpochs().size());
 		simpleStudy.removeEpoch(epoch);
 		assertEquals("Study should have 1 epoch ", 1 , simpleStudy.getEpochs().size());
@@ -363,11 +371,12 @@ public class StudyTestCase extends AbstractTestCase{
 	 */
 	public void testRemoveStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
-		simpleStudy.getStudyDiseases().add(disease);
-		
+		disease.setStudy(simpleStudy);
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		simpleStudy.getStudyDiseases().add(disease2);
+		disease.setStudy(simpleStudy);
 		replayMocks();
+		simpleStudy.addStudyDisease(disease2);
+		simpleStudy.addStudyDisease(disease);
 		assertEquals("Study should have 2 study disease", 2 , simpleStudy.getStudyDiseases().size());
 		simpleStudy.removeStudyDisease(disease2);
 		assertEquals("Study should have only 1 study disease", 1 , simpleStudy.getStudyDiseases().size());
@@ -381,14 +390,61 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testRemoveAllStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
-		simpleStudy.getStudyDiseases().add(disease);
-		
+		disease.setStudy(simpleStudy);
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		simpleStudy.getStudyDiseases().add(disease2);
+		disease.setStudy(simpleStudy);
 		replayMocks();
+		simpleStudy.addStudyDisease(disease2);
+		simpleStudy.addStudyDisease(disease);
 		assertEquals("Study should have 2 study disease", 2 , simpleStudy.getStudyDiseases().size());
 		simpleStudy.removeAllStudyDisease();
 		assertEquals("Study should have 0 study disease", 0 , simpleStudy.getStudyDiseases().size());
 		verifyMocks();
 	}
+	
+
+	/**
+	 * Test remove study site
+	 * 
+	 */
+	public void testRemoveStudySite(){
+		StudySite site  = registerMockFor(StudySite.class);
+		site.setStudy(simpleStudy);
+		
+		StudySite site2  = registerMockFor(StudySite.class);
+		site2.setStudy(simpleStudy);
+		
+		replayMocks();
+		
+		simpleStudy.addStudySite(site2);
+		simpleStudy.addStudySite(site);
+		
+		assertEquals("Study should have 2 study sites", 2 , simpleStudy.getStudyOrganizations().size());
+		
+		simpleStudy.removeStudySite(site2);
+		assertEquals("Study should have only 1 study site", 1 , simpleStudy.getStudyOrganizations().size());
+		verifyMocks();
+	}
+	
+	/**
+	 * Test remove identifiers
+	 * 
+	 */
+	public void testRemoveIdentifiers(){
+		Identifier identifier  = registerMockFor(Identifier.class);
+		Identifier identifier1  = registerMockFor(Identifier.class);
+		
+		replayMocks();
+		
+		simpleStudy.addIdentifier(identifier1);
+		simpleStudy.addIdentifier(identifier);
+		
+		assertEquals("Study should have 2 identifiers", 2 , simpleStudy.getIdentifiers().size());
+		
+		simpleStudy.removeIdentifier(identifier);
+		assertEquals("Study should have 1 identifier", 1 , simpleStudy.getIdentifiers().size());
+		verifyMocks();
+	}
+
+	
 }
