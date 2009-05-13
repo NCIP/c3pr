@@ -207,12 +207,14 @@ public class OrganizationTest extends AbstractTestCase{
     public void testSetEndPointAuthenticationRequired() {
     	EndPointConnectionProperty studyEndPointProperty = registerMockFor(EndPointConnectionProperty.class);
     	EndPointConnectionProperty regEndPointProperty = registerMockFor(EndPointConnectionProperty.class);
-    	
+    	studyEndPointProperty.setIsAuthenticationRequired(true);
+    	regEndPointProperty.setIsAuthenticationRequired(true);
     	Organization organization = new LocalHealthcareSite();
     	organization.setStudyEndPointProperty(studyEndPointProperty);
+    	replayMocks();
     	organization.setRegistrationEndPointProperty(regEndPointProperty);
     	organization.setEndPointAuthenticationRequired(true);
-
+    	verifyMocks();
     }
     
     /**
@@ -222,24 +224,29 @@ public class OrganizationTest extends AbstractTestCase{
     public void testSetEndPointAuthenticationRequired1() {
     	EndPointConnectionProperty studyEndPointProperty = registerMockFor(EndPointConnectionProperty.class);
     	EndPointConnectionProperty regEndPointProperty = registerMockFor(EndPointConnectionProperty.class);
-    	
+    	studyEndPointProperty.setIsAuthenticationRequired(false);
+    	regEndPointProperty.setIsAuthenticationRequired(false);
     	Organization organization = new LocalHealthcareSite();
     	organization.setStudyEndPointProperty(studyEndPointProperty);
     	organization.setRegistrationEndPointProperty(regEndPointProperty);
+    	replayMocks();
     	organization.setEndPointAuthenticationRequired(false);
-
+    	verifyMocks();
     }
 
     /**
      * Test initialize end point properties.
      */
     public void testInitializeEndPointProperties(){
-//    		EndPointType endPointType = registerMockFor(EndPointType.class);
-//    		EndPointConnectionProperty studyEndPointProperty = registerMockFor(EndPointConnectionProperty.class);
-//        	EndPointConnectionProperty regEndPointProperty = registerMockFor(EndPointConnectionProperty.class);
-//        	
-//        	Organization organization = new LocalHealthcareSite();
-//        	organization.initializeEndPointProperties(endPointType);
+    		EndPointConnectionProperty studyEndPointProperty = registerMockFor(EndPointConnectionProperty.class);
+        	EndPointConnectionProperty regEndPointProperty = registerMockFor(EndPointConnectionProperty.class);
+        	
+        	Organization organization = new LocalHealthcareSite();
+        	replayMocks();
+        	organization.initializeEndPointProperties(EndPointType.GRID);
+        	assertNotNull("studyEndPointProperty should not be null", organization.getStudyEndPointProperty());
+        	assertNotNull("regEndPointProperty should not be null", organization.getRegistrationEndPointProperty());
+        	verifyMocks();
     }
 
 }
