@@ -451,31 +451,6 @@ public class StudyTestCase extends AbstractTestCase{
 	}
 	
 	/**
-	 * Test compare to equal studies
-	 * 
-	 */
-
-	public void testCompareTo1() throws Exception{
-		Identifier identifier  = registerMockFor(Identifier.class);
-		
-		Study study1 = new Study();
-
-		Organization organization2 = new LocalHealthcareSite();
-		organization2.setName("OrganizationB");
-	}
-
-
-	/**
-	 * Test compare to unequal studies
-	 * 
-	 */
-
-	public void testCompareTo2() throws Exception{
-		
-		
-	}
-	
-	/**
 	 * Test get latest consent version
 	 * 
 	 */
@@ -498,8 +473,6 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		assertEquals("Latest consent version should be 10/08/1981", "10/08/1981" , simpleStudy.getLatestConsentVersion());
 		}
-	
-
 
 
 }
