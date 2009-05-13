@@ -101,7 +101,6 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
 
             assertEquals(unmarshalledStudy.getGridId(), studyGridId);
             // we never set this so it should be null
-            assertNull(unmarshalledStudy.getDiseaseCategoryAsText());
         }
         catch (XMLUtilityException e) {
             fail(e.getMessage());

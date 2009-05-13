@@ -369,21 +369,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 
-	// / BEAN PROPERTIES
-
-	// TODO: this stuff should really, really not be in here. It's
-	// web-view/entry specific.
-
-	@Transient
-	public String[] getDiseaseTermIds() {
-		return diseaseTermIds;
-	}
-
-	@Transient
-	public String getDiseaseCategoryAsText() {
-		return diseaseCategoryAsText;
-	}
-
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "STU_ID")
@@ -410,19 +395,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
 	}
 
-	public void setSystemAssignedIdentifiers(
-			List<SystemAssignedIdentifier> systemAssignedIdentifiers) {
-		// do nothing
-	}
-
 	@Transient
 	public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
 		return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
-	}
-
-	public void setOrganizationAssignedIdentifiers(
-			List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers) {
-		// do nothing
 	}
 
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
@@ -508,10 +483,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getLazyList(PlannedNotification.class);
 	}
 
-	public void setPlannedNotifications(
-			final List<PlannedNotification> plannedNotifications) {
-	}
-
 	public void setEpochsInternal(final List<Epoch> epochs) {
 		lazyListHelper.setInternalList(Epoch.class, epochs);
 	}
@@ -524,14 +495,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void setStudyDiseases(List<StudyDisease> studyDiseases) {
 		this.studyDiseases = studyDiseases;
-	}
-
-	public void setDiseaseTermIds(String[] diseaseTermIds) {
-		this.diseaseTermIds = diseaseTermIds;
-	}
-
-	public void setDiseaseCategoryAsText(String diseaseCategoryAsText) {
-		this.diseaseCategoryAsText = diseaseCategoryAsText;
 	}
 
 	public String getDescriptionText() {
