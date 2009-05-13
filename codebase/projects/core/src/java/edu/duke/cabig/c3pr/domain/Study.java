@@ -325,17 +325,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public String getPrincipalInvestigatorFullName() {
-		for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
-			for (StudyInvestigator studyInvestigator : studyOrganization
-					.getStudyInvestigators()) {
-				if (studyInvestigator.getRoleCode().equals(
-						"Principal Investigator")) {
-					return studyInvestigator.getHealthcareSiteInvestigator()
-							.getInvestigator().getFullName();
-				}
-			}
+		HealthcareSiteInvestigator studyInv = getPrincipalInvestigator();
+		if(studyInv != null){
+			return studyInv.getInvestigator().getFullName();
 		}
-		return null;
+		return null ;
 	}
 
 	@Transient
