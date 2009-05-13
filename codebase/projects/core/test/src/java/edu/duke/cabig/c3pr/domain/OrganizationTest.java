@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import javax.persistence.Transient;
+
 import edu.duke.cabig.c3pr.AbstractTestCase;
 
 public class OrganizationTest extends AbstractTestCase{
@@ -45,9 +47,29 @@ public void testCompareTo() throws Exception{
 	public void testGetTrimmedName(){
 		Organization organization = new LocalHealthcareSite();
 		organization.setName("Duke Hematology/Oncology at Raleigh Community Hospital");
-		
-		assertEquals("Trimmed name should be Duke Hematology/Oncology","Duke Hematology/Oncology", organization.getTrimmedName());
-
+		assertEquals("Trimmed name should be Duke Hematology/Oncology","Duke Hematology/Oncology...", organization.getTrimmedName());
 	}
+	
+    public void testGetEndPointAuthenticationRequired(){
+//        return this.getHasEndpointProperty() && this.studyEndPointProperty.getIsAuthenticationRequired() && this.registrationEndPointProperty.getIsAuthenticationRequired();
+    }
+    
+    public void testSetEndPointAuthenticationRequired() {
+//        this.studyEndPointProperty.setIsAuthenticationRequired(endPointAuthenticationRequired);
+//        this.registrationEndPointProperty.setIsAuthenticationRequired(endPointAuthenticationRequired);
+    }
+    
+    public void testGetHasEndpointProperty(){
+    	Organization organization = new LocalHealthcareSite();
+    	assertFalse("this organization doesnt have end point property", organization.getHasEndpointProperty());
+    	
+    	
+    	//        return studyEndPointProperty!=null && registrationEndPointProperty!=null;
+    }
+    
+    public void testInitializeEndPointProperties(){
+//        registrationEndPointProperty=new EndPointConnectionProperty(endPointType);
+//        studyEndPointProperty=new EndPointConnectionProperty(endPointType);
+    }
 
 }
