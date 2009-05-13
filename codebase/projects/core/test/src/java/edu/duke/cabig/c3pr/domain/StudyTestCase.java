@@ -11,26 +11,53 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StudyTestCase.
+ */
 public class StudyTestCase extends AbstractTestCase{
 	
+	/** The simple study. */
+	private Study simpleStudy ;
+	
+	/* (non-Javadoc)
+	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		basicStudy = studyCreationHelper.createBasicStudy();
 		basicStudy.setC3prErrorMessages(c3prErrorMessages);
 		basicStudy.setC3PRExceptionHelper(c3prExceptionHelper);
+		simpleStudy = new Study();
 	}
 	
+	/** The c3pr exception helper. */
 	C3PRExceptionHelper c3prExceptionHelper = registerMockFor(C3PRExceptionHelper.class);
+	
+	/** The c3pr error messages. */
 	MessageSource c3prErrorMessages = registerMockFor(MessageSource.class);
 	
+	/** The study creation helper. */
 	private StudyCreationHelper studyCreationHelper = new StudyCreationHelper() ;
+	
+	/** The basic study. */
 	private Study basicStudy;
 	
+	/**
+	 * Sets the study creation helper.
+	 * 
+	 * @param studyCreationHelper the new study creation helper
+	 */
 	public void setStudyCreationHelper(StudyCreationHelper studyCreationHelper) {
 		this.studyCreationHelper = studyCreationHelper;
 	}
 
+	/**
+	 * Test data entry status incomplete case1.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testDataEntryStatusIncompleteCase1() throws Exception {
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE", null, null)).andReturn("300");
 		EasyMock.expect(c3prExceptionHelper.getRuntimeException(300)).andReturn(new C3PRCodedRuntimeException(300, "exception message"));
@@ -45,6 +72,11 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
+	/**
+	 * Test data entry status incomplete case2.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testDataEntryStatusIncompleteCase2() throws Exception {
 		basicStudy.addStudySite(new StudySite());
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE", null, null)).andReturn("300");
@@ -61,6 +93,11 @@ public class StudyTestCase extends AbstractTestCase{
 		
 	}
 	
+	/**
+	 * Test data entry status incomplete case3.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testDataEntryStatusIncompleteCase3() throws Exception {
 		basicStudy.addStudySite(new StudySite());
 		Epoch nonTreatmentEpoch = new Epoch();
@@ -78,6 +115,11 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
+	/**
+	 * Test data entry status incomplete case4.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testDataEntryStatusIncompleteCase4() throws Exception {
 		studyCreationHelper.addStudySiteAndRandomizedTreatmentEpochToBasicStudy(basicStudy);
 		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
@@ -96,6 +138,11 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
+	/**
+	 * Test data entry status incomplete case5.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testDataEntryStatusIncompleteCase5() throws Exception {
 		studyCreationHelper.addStudySiteAndRandomizedTreatmentEpochWith2ArmsToBasicStudy(basicStudy);
 		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
@@ -115,6 +162,11 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
+	/**
+	 * Test data entry status incomplete case6.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testDataEntryStatusIncompleteCase6() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(basicStudy);
 		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
@@ -133,6 +185,35 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
+	/**
+	 * Test data entry status incomplete case7.
+	 * 
+	 * @throws Exception the exception
+	 */
+	public void testDataEntryStatusIncompleteCase7() throws Exception {
+		Study study = studyCreationHelper.createBasicStudyObject();
+		studyCreationHelper.addStudySiteRandomizedEnrollingTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(study);
+		study.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
+		study.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
+		study.setStratificationIndicator(true);
+		study.setRandomizedIndicator(true);
+		study.setRandomizationType(RandomizationType.PHONE_CALL);
+		study.getEpochs().get(0).setStratificationIndicator(true);
+		study.getEpochs().get(0).setRandomization(new PhoneCallRandomization());
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("308");
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(308),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(308, "exception message"));
+		replayMocks();	
+		List<Error> errors = new ArrayList<Error>();
+		study.evaluateDataEntryStatus(errors);
+		assertEquals("Wrong number of errors returned ",1, errors.size()); 
+		verifyMocks();
+	}
+	
+	/**
+	 * Test data entry status complete case1.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testDataEntryStatusCompleteCase1() throws Exception {
 		studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 		basicStudy.setStratificationIndicator(false);
@@ -142,6 +223,11 @@ public class StudyTestCase extends AbstractTestCase{
 			verifyMocks();
 	}
 	
+	/**
+	 * Test data entry status complete case2.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testDataEntryStatusCompleteCase2() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
 		basicStudy.setStratificationIndicator(true);
@@ -152,6 +238,11 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
+	/**
+	 * Test site study status pending case1.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testSiteStudyStatusPendingCase1() throws Exception {
 		studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
@@ -159,6 +250,11 @@ public class StudyTestCase extends AbstractTestCase{
 		
 	}
 	
+	/**
+	 * Test site study status active case1.
+	 * 
+	 * @throws Exception the exception
+	 */
 	public void testSiteStudyStatusActiveCase1() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
 		basicStudy.setStratificationIndicator(false);
@@ -167,32 +263,63 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("Site Study status should evaluate to Open",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
 	}
 	
-	public void testChangeCoordinatingStatusPendingToActiveCase1() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
-		
-	}
-	
-	public void testChangeCoordinatingStatusPendingToActiveCase2() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
-		
-	}
-	
-	public void testChangeCoordinatingStatusPendingToActiveCase3() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
-		
-	}
-	
-	public void testChangeCoordinatingStatusPendingToActiveCase4() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
-	}
-	
-	public void  testGetLatestConsentVersion(){
-
+	/**
+	 * Test get local identifiers
+	 * this method tests if study doesnt have local identifier, it should return empty arraylist
+	 */
+	public void testGetLocalIdentifiers1(){
+		List<Identifier> identifiers = basicStudy.getLocalIdentifiers();
+		assertEquals("No local identifierfound", 0 , identifiers.size());
 	}
 	
 
+	/**
+	 * Test get local identifiers
+	 * this method tests if study has Protocol Authority Identifier it shd return empty arraylist
+	 */
+	public void testGetLocalIdentifiers2(){
+		Identifier identifier  = registerMockFor(Identifier.class);
+		simpleStudy.getIdentifiers().add(identifier);
+		EasyMock.expect(identifier.getType()).andReturn("Protocol Authority Identifier");
+		replayMocks();
+		List<Identifier> identifiers = simpleStudy.getLocalIdentifiers();
+		assertEquals("No local identifierfound", 0 , identifiers.size());
+		verifyMocks();
+	}
+	
+	/**
+	 * Test get local identifiers
+	 * this method tests if study has coordinating center identifier it shd return empty arraylist
+	 */
+	public void testGetLocalIdentifiers3(){
+		Identifier identifier  = registerMockFor(Identifier.class);
+		simpleStudy.getIdentifiers().add(identifier);
+		EasyMock.expect(identifier.getType()).andReturn("Coordinating Center Identifier").times(2);
+		replayMocks();
+		List<Identifier> identifiers = simpleStudy.getLocalIdentifiers();
+		assertEquals("No local identifierfound", 0 , identifiers.size());
+		verifyMocks();
+	}
+	
+	/**
+	 * Test get local identifiers
+	 * this method tests if study has identifiers.
+	 */
+	public void testGetLocalIdentifiers4(){
+		Identifier identifier  = registerMockFor(Identifier.class);
+		Identifier identifier1 = registerMockFor(Identifier.class);
+		Identifier identifier2  = registerMockFor(Identifier.class);
+		simpleStudy.getIdentifiers().add(identifier);
+		simpleStudy.getIdentifiers().add(identifier1);
+		simpleStudy.getIdentifiers().add(identifier2);
+		
+		EasyMock.expect(identifier.getType()).andReturn("Coordinating Center Identifier").times(2);
+		EasyMock.expect(identifier1.getType()).andReturn("C3D").times(2) ;
+		EasyMock.expect(identifier2.getType()).andReturn("C3PR").times(2) ;
+		replayMocks();
+		List<Identifier> identifiers = simpleStudy.getLocalIdentifiers();
+		assertEquals("Local Idnetifier C3D and C3PR Present", 2 , identifiers.size());
+		verifyMocks();
+	}
+	
 }

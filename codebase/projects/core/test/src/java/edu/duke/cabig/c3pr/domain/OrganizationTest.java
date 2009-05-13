@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import javax.persistence.Transient;
-
 import edu.duke.cabig.c3pr.AbstractTestCase;
 
 public class OrganizationTest extends AbstractTestCase{

@@ -354,5 +354,22 @@ public class StudyCreationHelper {
         amendedStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
         return amendedStudy ;
 	}
+	
+	public Study createBasicStudyObject(){
+ 		Study study = new Study(false);
+        study.setPrecisText("New study");
+        study.setShortTitleText("ShortTitleText");
+        study.setLongTitleText("LongTitleText");
+        study.setPhaseCode("PhaseCode");
+        study.setRandomizedIndicator(new Boolean(false));
+        study.setStratificationIndicator(false);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+        study.setDataEntryStatus(StudyDataEntryStatus.INCOMPLETE);
+        study.setTargetAccrualNumber(150);
+        study.setType("Type");
+        study.setMultiInstitutionIndicator(Boolean.TRUE);
+        study.setStratificationIndicator(Boolean.FALSE);
+        return study;
+	}
     
 }
