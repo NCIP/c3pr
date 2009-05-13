@@ -58,35 +58,8 @@ public abstract class ResearchStaff extends User {
 	    	this.getExternalResearchStaff().add(externalResearchStaff);
 	    }
 
-	@Transient
-    public String getLastFirst() {
-        StringBuilder name = new StringBuilder();
-        boolean hasFirstName = getFirstName() != null;
-        if (getLastName() != null) {
-            name.append(getLastName());
-            if (hasFirstName) name.append(", ");
-        }
-        if (hasFirstName) {
-            name.append(getFirstName());
-        }
-        return name.toString();
-    }
 
-    @Transient
-    public String getFullName() {
-        StringBuilder name = new StringBuilder();
-        boolean hasLastName = getLastName() != null;
-        if (getFirstName() != null) {
-            name.append(getFirstName());
-            if (hasLastName) name.append(' ');
-        }
-        if (hasLastName) {
-            name.append(getLastName());
-        }
-        return name.toString();
-    }
-
-    public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
+	public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
         getStudyPersonnels().add(studyPersonnel);
     }
 
