@@ -550,7 +550,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         if (this.getSiteStudyStatus() == SiteStudyStatus.PENDING
                         || this.getSiteStudyStatus() == SiteStudyStatus.AMENDMENT_PENDING) throw getC3PRExceptionHelper()
                         .getRuntimeException(
-                                        getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+                                        getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
                                         new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL
                                                         .getDisplayName() });
         this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
@@ -567,7 +567,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                         || this.getSiteStudyStatus() == SiteStudyStatus.AMENDMENT_PENDING
                         || this.getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL) throw getC3PRExceptionHelper()
                         .getRuntimeException(
-                                        getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+                                        getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
                                         new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
                                                         .getDisplayName() });
         this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
@@ -584,7 +584,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                         || this.getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
             throw getC3PRExceptionHelper()
                             .getRuntimeException(
-                                            getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+                                            getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
                                             new String[] { SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
                                                             .getDisplayName() });
         }
@@ -603,7 +603,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                         || this.getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL
                         || this.getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
             throw getC3PRExceptionHelper().getRuntimeException(
-                            getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+                            getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
                             new String[] { SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
                                             .getDisplayName() });
         }

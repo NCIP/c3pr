@@ -816,7 +816,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testCloseToAccrualAmendmentPending(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.AMENDMENT_PENDING);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -838,7 +838,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testCloseToAccrualPending(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -892,7 +892,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testCloseToAccrualAndTreatmentAmendmentPending(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.AMENDMENT_PENDING);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -914,7 +914,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testCloseToAccrualAndTreatmentPending(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -936,7 +936,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testCloseToAccrualAndTreatmentClosedToAccrual(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -968,7 +968,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testTemporarilyCloseToAccrualClosedToAccrual(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -990,7 +990,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testTemporarilyCloseToAccrualClosedToAccrualAndTreatment(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -1012,7 +1012,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testTemporarilyCloseToAccrualAmendmentPending(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.AMENDMENT_PENDING);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -1034,7 +1034,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testTemporarilyCloseToAccrualPending(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -1066,7 +1066,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testTemporarilyCloseToAccrualAndTreatmentClosedToAccrual(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -1088,7 +1088,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testTemporarilyCloseToAccrualAndTreatmentClosedToAccrualAndTreatment(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -1110,7 +1110,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testTemporarilyCloseToAccrualAndTreatmentAmendmentPending(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.AMENDMENT_PENDING);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {
@@ -1132,7 +1132,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	public void testTemporarilyCloseToAccrualAndTreatmentPending(){
 		studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
 		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		replayMocks();
 		try {

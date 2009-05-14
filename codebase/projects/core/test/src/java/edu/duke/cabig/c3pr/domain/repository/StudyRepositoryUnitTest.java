@@ -68,11 +68,8 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     private StudyCreationHelper studyCreationHelper= new StudyCreationHelper(); 
     
     private HealthcareSiteDao healthcareSiteDao;
-    private InvestigatorDao investigatorDao;
-    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
     private C3PRExceptionHelper c3PRExceptionHelper;
     private MessageSource c3prErrorMessages;
-    private HealthcareSite healthcareSite;
 
     public StudyRepositoryUnitTest() {
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -99,8 +96,6 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         list = new ArrayList<Study>();
         list.add(study);
         ids = study.getIdentifiers();
-        healthcareSiteInvestigatorDao = registerMockFor(HealthcareSiteInvestigatorDao.class);
-        investigatorDao = registerDaoMockFor(InvestigatorDao.class);
         endPoint.setStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
     }
 
@@ -358,6 +353,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 
     public void testCloseAffiliateStudySite() throws C3PRCodedException {
     	studySite.setHostedMode(false);
+    	studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke");
