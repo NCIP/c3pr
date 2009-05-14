@@ -33,8 +33,6 @@ public abstract class ResearchStaff extends User {
 
     private String nciIdentifier;
     
-    private String fullName;
-
     private HealthcareSite healthcareSite;
     
     private List<UserBasedRecipient> userBasedRecipient;
