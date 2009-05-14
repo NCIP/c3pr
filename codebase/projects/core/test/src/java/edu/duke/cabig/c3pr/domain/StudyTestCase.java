@@ -583,6 +583,32 @@ public class StudyTestCase extends AbstractTestCase{
 //		verifyMocks();
 	}
 	
+	/**
+	 * Test get companion study site by nci identifier
+	 * 
+	 */
+	public void testGetCompanionStudySite2(){
+		simpleStudy.setCompanionIndicator(false);
+		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
+		association.setParentStudy(simpleStudy);
+		
+		List<StudySite> listStudySite = new ArrayList<StudySite>();
+		StudySite studySite = registerMockFor(StudySite.class);
+		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
+		listStudySite.add(studySite);
+		
+		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
+		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
+		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC011");
+		
+		replayMocks();
+
+		simpleStudy.addCompanionStudyAssociation(association);
+		
+		assertNull("study site not found with nc010", simpleStudy.getCompanionStudySite("NC010"));
+		verifyMocks();
+	}
+	
 	
 	/**
 	 * Test get study organization by nci identifier
@@ -896,4 +922,107 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
+	/**
+	 * test set epochs
+	 */
+	public void testSetEpochs(){
+		Epoch epoch = registerMockFor(Epoch.class);
+		List<Epoch> epochs = new ArrayList<Epoch>();
+		epochs.add(epoch);
+		replayMocks();
+		simpleStudy.setEpochs(epochs);
+		assertEquals("study has 1 epoch",1, simpleStudy.getEpochs().size());
+		verifyMocks();
+		
+	}
+	
+
+	/**
+	 * test set Amendments
+	 */
+	public void testSetAmendments(){
+		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
+		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
+		amendments.add(amendment);
+		replayMocks();
+		simpleStudy.setStudyAmendments(amendments);
+		assertEquals("study has 1 amenment",1, simpleStudy.getStudyAmendments().size());
+		verifyMocks();
+		
+	}
+	
+	/**
+	 * test get current study amendment
+	 */
+	public void testGetCurrentStudyAmendment(){
+		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+		assertNull("no current amendment pending for study", simpleStudy.getCurrentStudyAmendment());
+	}
+	
+
+	/**
+	 * test get current study amendment
+	 */
+	public void testGetCurrentStudyAmendment1(){
+		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
+		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
+		amendments.add(amendment);
+		replayMocks();
+		simpleStudy.setStudyAmendments(amendments);
+		
+		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+		assertNotNull("current amendment found for study", simpleStudy.getCurrentStudyAmendment());
+		
+		verifyMocks();
+	}
+	
+	/**
+	 * test get previous study amendment
+	 */
+	public void testGetPreviousStudyAmendment(){
+		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
+		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
+		amendments.add(amendment);
+		replayMocks();
+		simpleStudy.setStudyAmendments(amendments);
+		
+		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+		assertEquals("one previous amendment found for study", 1,  simpleStudy.getPreviousStudyAmendments().size());
+		
+		verifyMocks();
+	}
+	
+	/**
+	 * test get previous study amendment
+	 */
+	public void testGetPreviousStudyAmendment1(){
+		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
+		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
+		amendments.add(amendment);
+		replayMocks();
+		simpleStudy.setStudyAmendments(amendments);
+		
+		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+		assertNull("no previous amendment found for study", simpleStudy.getPreviousStudyAmendments());
+		
+		verifyMocks();
+	}
+	
+	/**
+	 * test get previous study amendment
+	 */
+	public void testGetPreviousStudyAmendment2(){
+		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
+		StudyAmendment amendment1 = registerMockFor(StudyAmendment.class);
+		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
+		amendments.add(amendment);
+		amendments.add(amendment1);
+		replayMocks();
+		simpleStudy.setStudyAmendments(amendments);
+		
+		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+		assertEquals("one previous amendment found for study", 1 , simpleStudy.getPreviousStudyAmendments().size());
+		
+		verifyMocks();
+	}
 }
