@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import org.easymock.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.EndPointType;
 
 /**
  * The Class OrganizationTest.

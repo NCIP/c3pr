@@ -9,16 +9,16 @@ import com.semanticbits.coppa.infrastructure.RemoteSession;
 import com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.DeliveryMechanismEnum;
 import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
+import edu.duke.cabig.c3pr.constants.EndPointType;
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
-import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
-import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;

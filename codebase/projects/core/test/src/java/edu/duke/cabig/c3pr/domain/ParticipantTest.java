@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import junit.framework.TestCase;
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 

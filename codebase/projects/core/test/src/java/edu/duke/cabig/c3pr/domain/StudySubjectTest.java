@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
 
 public class StudySubjectTest extends AbstractTestCase {

@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.constants.RandomizationType;
+
 import junit.framework.TestCase;
 
 // TODO: Auto-generated Javadoc

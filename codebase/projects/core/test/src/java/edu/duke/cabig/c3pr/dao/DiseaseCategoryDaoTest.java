@@ -5,8 +5,8 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
-import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;

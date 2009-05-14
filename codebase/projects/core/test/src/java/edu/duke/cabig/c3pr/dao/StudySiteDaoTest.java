@@ -2,10 +2,10 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
+import edu.duke.cabig.c3pr.constants.APIName;
+import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.GridEndPoint;
-import edu.duke.cabig.c3pr.domain.APIName;
-import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 

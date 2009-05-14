@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 
 /**
  * The Class PlannedNotificationTest.
