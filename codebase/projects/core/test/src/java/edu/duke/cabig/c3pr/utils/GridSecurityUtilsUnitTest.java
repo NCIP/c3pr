@@ -11,6 +11,7 @@ import org.acegisecurity.userdetails.UserDetailsService;
 import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.RoleTypes;
 
 public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 
