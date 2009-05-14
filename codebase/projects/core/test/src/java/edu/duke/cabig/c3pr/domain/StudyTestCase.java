@@ -1,20 +1,16 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
-import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
 // TODO: Auto-generated Javadoc
@@ -721,7 +717,140 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		// write is later.
 	}
-		
 	
+	/**
+	 * test get principal study investigator 
+	 */
+	public void testGetPricipalStudyInvestigator(){
+		StudyOrganization organization = registerMockFor(StudyOrganization.class);
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
+		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
+		studyInvs.add(studyInv);
+		
+		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
+		EasyMock.expect(studyInv.getRoleCode()).andReturn("Principal Investigator");
+		organization.setStudy(simpleStudy);
+		
+		replayMocks();
+		
+		simpleStudy.addStudyOrganization(organization);
+		
+		assertNotNull("principal study investigator found", simpleStudy.getPrincipalStudyInvestigator());
+		verifyMocks();
+	}
+	
+	/**
+	 * test get principal study investigator 
+	 */
+	public void testGetPricipalStudyInvestigator1(){
+		StudyOrganization organization = registerMockFor(StudyOrganization.class);
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
+		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
+		studyInvs.add(studyInv);
+		
+		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
+		EasyMock.expect(studyInv.getRoleCode()).andReturn("Study Investigator");
+		organization.setStudy(simpleStudy);
+		
+		replayMocks();
+		
+		simpleStudy.addStudyOrganization(organization);
+		
+		assertNull("principal study investigator not found", simpleStudy.getPrincipalStudyInvestigator());
+		verifyMocks();
+	}
+	
+
+	/**
+	 * test get principal  investigator 
+	 */
+	public void testGetPricipalInvestigator(){
+		StudyOrganization organization = registerMockFor(StudyOrganization.class);
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);	
+		HealthcareSiteInvestigator healthcareSiteInv = registerMockFor(HealthcareSiteInvestigator.class);
+		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
+		studyInvs.add(studyInv);
+		
+		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
+		EasyMock.expect(studyInv.getRoleCode()).andReturn("Principal Investigator");
+		EasyMock.expect(studyInv.getHealthcareSiteInvestigator()).andReturn(healthcareSiteInv);
+		organization.setStudy(simpleStudy);
+		
+		replayMocks();
+		
+		simpleStudy.addStudyOrganization(organization);
+		
+		assertNotNull("principal investigator  found", simpleStudy.getPrincipalInvestigator());
+		verifyMocks();
+	}
+	
+	/**
+	 * test get principal  investigator 
+	 */
+	public void testGetPricipalInvestigator1(){
+		StudyOrganization organization = registerMockFor(StudyOrganization.class);
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);	
+		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
+		studyInvs.add(studyInv);
+		
+		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
+		EasyMock.expect(studyInv.getRoleCode()).andReturn("Study Investigator");
+		organization.setStudy(simpleStudy);
+		
+		replayMocks();
+		
+		simpleStudy.addStudyOrganization(organization);
+		
+		assertNull("principal investigator not found", simpleStudy.getPrincipalInvestigator());
+		verifyMocks();
+	}
+	
+	/**
+	 * test get principal  investigator full name
+	 */
+	public void testGetPricipalInvestigatorFullName(){
+		StudyOrganization organization = registerMockFor(StudyOrganization.class);
+		Investigator inv = registerMockFor(Investigator.class);
+		HealthcareSiteInvestigator healthcareSiteInv = registerMockFor(HealthcareSiteInvestigator.class);
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);	
+		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
+		studyInvs.add(studyInv);
+		
+		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
+		EasyMock.expect(studyInv.getRoleCode()).andReturn("Principal Investigator");
+		EasyMock.expect(inv.getFullName()).andReturn("Ronald Regan");
+		EasyMock.expect(studyInv.getHealthcareSiteInvestigator()).andReturn(healthcareSiteInv);
+		EasyMock.expect(healthcareSiteInv.getInvestigator()).andReturn(inv);
+		
+		organization.setStudy(simpleStudy);
+		
+		replayMocks();
+		
+		simpleStudy.addStudyOrganization(organization);
+		
+		assertEquals("principal investigator full name is Ronald Regan", "Ronald Regan",simpleStudy.getPrincipalInvestigatorFullName());
+		verifyMocks();
+	}
+	
+	/**
+	 * test get principal  investigator Full Name
+	 */
+	public void testGetPricipalInvestigatorFullName1(){
+		StudyOrganization organization = registerMockFor(StudyOrganization.class);
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);	
+		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
+		studyInvs.add(studyInv);
+		
+		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
+		EasyMock.expect(studyInv.getRoleCode()).andReturn("Study Investigator");
+		organization.setStudy(simpleStudy);
+		
+		replayMocks();
+		
+		simpleStudy.addStudyOrganization(organization);
+		
+		assertNull("principal investigator not found", simpleStudy.getPrincipalInvestigatorFullName());
+		verifyMocks();
+	}
 	
 }
