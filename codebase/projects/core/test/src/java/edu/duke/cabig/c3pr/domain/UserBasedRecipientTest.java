@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 
 /**
  * The Class UserBasedRecipientTest.
@@ -33,7 +32,21 @@ public class UserBasedRecipientTest extends AbstractTestCase{
 		String emails = userBasedRecipient.getEmailAddress();
 		assertTrue(emails.equals(STAFF));
 	}
+	
+	public void testGetFullNameForStaff(){
+		
+		UserBasedRecipient userBasedRecipient = getUserBasedRecipientForStaff();
+		String name = userBasedRecipient.getFullName();
+		assertTrue(name.equals("John Doe"));
+	}
 
+	public void testGetFullNameForInv(){
+		
+		UserBasedRecipient userBasedRecipient = getUserBasedRecipientForInv();
+		String name = userBasedRecipient.getFullName();
+		assertTrue(name.equals("Jane Doe"));
+	}
+	
 	/**
 	 * Gets the user based recipient for staff.
 	 * 
@@ -46,6 +59,9 @@ public class UserBasedRecipientTest extends AbstractTestCase{
 		contactMechanism.setValue(STAFF);
 		researchStaff.getContactMechanisms().add(contactMechanism);
 		
+		researchStaff.setFirstName("John");
+		researchStaff.setLastName("Doe");
+		researchStaff.setMiddleName("middle");
 		
 		UserBasedRecipient userBasedRecipient = new UserBasedRecipient();
 		userBasedRecipient.setResearchStaff(researchStaff);
@@ -65,6 +81,10 @@ public class UserBasedRecipientTest extends AbstractTestCase{
 		contactMechanismInv.setType(ContactMechanismType.EMAIL);
 		contactMechanismInv.setValue(INV);
 		investigator.getContactMechanisms().add(contactMechanismInv);
+
+		investigator.setFirstName("Jane");
+		investigator.setLastName("Doe");
+		investigator.setMiddleName("middle");
 		
 		UserBasedRecipient userBasedRecipient = new UserBasedRecipient();
 		userBasedRecipient.setInvestigator(investigator);
