@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
-import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.esb.CCTSApplicationNames;
 import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
 import edu.duke.cabig.c3pr.esb.ResponseErrors;

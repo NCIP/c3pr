@@ -5,8 +5,8 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
+import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
-import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.esb.MessageResponseHandler;
 
 public abstract class AbstractRequestHandler<C extends InteroperableAbstractMutableDeletableDomainObject> implements MessageResponseHandler{

@@ -10,6 +10,8 @@ import org.acegisecurity.userdetails.User;
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UserDetailsService;
 
+import edu.duke.cabig.c3pr.constants.RoleTypes;
+
 
 public class GridSecurityUtils {
 	

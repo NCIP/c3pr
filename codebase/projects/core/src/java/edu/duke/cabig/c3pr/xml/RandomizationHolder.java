@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.RandomizationType;
+import edu.duke.cabig.c3pr.constants.RandomizationType;
 
 public class RandomizationHolder {
 
