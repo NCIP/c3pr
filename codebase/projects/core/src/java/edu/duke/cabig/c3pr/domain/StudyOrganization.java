@@ -23,6 +23,7 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
+import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**

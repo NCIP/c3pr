@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.domain;
+package edu.duke.cabig.c3pr.domain.factory;
 
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
