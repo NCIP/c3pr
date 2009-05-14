@@ -1,12 +1,15 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
@@ -666,5 +669,59 @@ public class StudyTestCase extends AbstractTestCase{
 		simpleStudy.setCompanionIndicator(false);
 		assertTrue("This is  a multisite study", simpleStudy.isMultisite());
 	}
+	
+	
+	/**
+	 * test get accrual count
+	 */
+	public void testGetAccrualCount(){
+		
+		// will do it later
+		// might need method level mocking for classes
+	}
+	
+	/**
+	 * test buildMapForNotification
+	 */
+	
+	public void testBuildMapForNotification() {
+		
+//		OrganizationAssignedIdentifier mrn = registerMockFor(OrganizationAssignedIdentifier.class);
+//		EasyMock.expect(participant.getMRN()).andReturn(mrn).times(2);
+//		EasyMock.expect(mrn.getValue()).andReturn("mrnValue").times(2);
+//		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+//		EasyMock.expect(study.getShortTitleText()).andReturn("Short_title_text").times(2);
+//		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+//		EasyMock.expect(study.getId()).andReturn(1).times(2);
+//		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+//		EasyMock.expect(study.getTargetAccrualNumber()).andReturn(5).times(2);
+//		EasyMock.expect(studySite.getTargetAccrualNumber()).andReturn(4).times(2);
+//		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+//		EasyMock.expect(study.getCurrentAccrualCount()).andReturn(3).times(2);
+//		EasyMock.expect(studySite.getCurrentAccrualCount()).andReturn(2);
+//
+//		replayMocks();
+//		Map<Object, Object> map = studySubject.buildMapForNotification();
+//		assertEquals("Wrong number of entries in the notificaiton map",8,map.size());
+//
+//		assertEquals("Wrong entry in map","mrnValue",map.get(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN
+//		.toString()));
+//		assertEquals("Wrong entry in map","Short_title_text",map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE
+//		.toString()));
+//		assertEquals("Wrong entry in map",5,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD
+//		.toString()));
+//		assertEquals("Wrong entry in map",4,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_ACCRUAL_THRESHOLD
+//		.toString()));
+//		assertEquals("Wrong entry in map",3,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_CURRENT_ACCRUAL
+//		.toString()));
+//		assertEquals("Wrong entry in map",2,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL
+//		.toString()));
+//
+//		verifyMocks();
+		
+		// write is later.
+	}
+		
+	
 	
 }
