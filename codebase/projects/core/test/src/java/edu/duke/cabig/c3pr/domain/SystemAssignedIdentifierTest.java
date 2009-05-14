@@ -2,9 +2,16 @@ package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SystemAssignedIdentifierTest.
+ */
 public class SystemAssignedIdentifierTest extends AbstractTestCase{
 	
-	public void testCompareTo() throws Exception{
+	/**
+	 * Test compare to.
+	 */
+	public void testCompareTo() {
 		
 		SystemAssignedIdentifier identifier1 = new SystemAssignedIdentifier();
 		identifier1.setSystemName("SystemA");
@@ -19,7 +26,10 @@ public class SystemAssignedIdentifierTest extends AbstractTestCase{
 		assertEquals("These 2 identifier are same",0, identifier1.compareTo(identifier3));
 	}
 	
-	public void testEquals() throws Exception{
+	/**
+	 * Test equals.
+	 */
+	public void testEquals() {
 	        
 		SystemAssignedIdentifier identifier1 = new SystemAssignedIdentifier();
 		identifier1.setSystemName("SystemA");
