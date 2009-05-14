@@ -1487,11 +1487,4 @@ public class StudySiteTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
-	
-	/**
-	 * The Class StudySiteSubClass.
-	 */
-	class StudySiteSubClass extends StudySite{
-		
-	}
 }
