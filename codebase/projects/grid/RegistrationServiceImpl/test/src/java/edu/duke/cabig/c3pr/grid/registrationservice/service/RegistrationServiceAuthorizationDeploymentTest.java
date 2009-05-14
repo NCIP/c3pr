@@ -6,7 +6,7 @@ import java.util.HashSet;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.grid.registrationservice.client.RegistrationServiceClient;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
