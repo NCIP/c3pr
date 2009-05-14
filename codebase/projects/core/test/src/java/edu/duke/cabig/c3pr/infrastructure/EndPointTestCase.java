@@ -9,12 +9,12 @@ import java.util.List;
 import org.globus.gsi.GlobusCredential;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
-import edu.duke.cabig.c3pr.domain.APIName;
+import edu.duke.cabig.c3pr.constants.APIName;
+import edu.duke.cabig.c3pr.constants.EndPointType;
+import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
-import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.GridEndPoint;
-import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.grid.studyservice.client.StudyServiceClient;
 import edu.duke.cabig.c3pr.utils.StringUtils;

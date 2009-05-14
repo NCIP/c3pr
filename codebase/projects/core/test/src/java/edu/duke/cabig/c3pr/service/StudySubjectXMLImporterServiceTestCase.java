@@ -2,17 +2,17 @@ package edu.duke.cabig.c3pr.service;
 
 import org.springframework.context.MessageSource;
 
+import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.RandomizationType;
-import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;

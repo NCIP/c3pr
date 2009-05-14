@@ -1,9 +1,9 @@
 package edu.duke.cabig.c3pr.domain.repository;
 
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;

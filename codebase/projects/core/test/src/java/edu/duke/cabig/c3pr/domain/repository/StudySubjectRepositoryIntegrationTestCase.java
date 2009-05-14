@@ -2,10 +2,10 @@ package edu.duke.cabig.c3pr.domain.repository;
 
 import java.util.Date;
 
+import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.RandomizationType;
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
