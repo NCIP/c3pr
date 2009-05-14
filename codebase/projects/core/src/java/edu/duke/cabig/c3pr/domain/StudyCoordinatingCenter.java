@@ -7,6 +7,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
+import edu.duke.cabig.c3pr.constants.APIName;
+
 /**
  * 
  * @author Ram Chilukuri

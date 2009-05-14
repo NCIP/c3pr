@@ -16,6 +16,7 @@ import org.globus.gsi.GlobusCredential;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.constants.EndPointType;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 @Entity

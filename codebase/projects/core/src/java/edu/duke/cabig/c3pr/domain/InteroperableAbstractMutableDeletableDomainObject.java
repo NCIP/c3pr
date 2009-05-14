@@ -9,6 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import edu.duke.cabig.c3pr.constants.APIName;
+import edu.duke.cabig.c3pr.constants.ServiceName;
+import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
+
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Nov 13, 2007 Time: 3:25:53 PM To change this template
  * use File | Settings | File Templates.

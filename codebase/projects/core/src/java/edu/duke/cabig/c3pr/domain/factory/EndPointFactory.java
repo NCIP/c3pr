@@ -2,12 +2,12 @@ package edu.duke.cabig.c3pr.domain.factory;
 
 import org.globus.gsi.GlobusCredential;
 
+import edu.duke.cabig.c3pr.constants.APIName;
+import edu.duke.cabig.c3pr.constants.EndPointType;
+import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
-import edu.duke.cabig.c3pr.domain.EndPointType;
 import edu.duke.cabig.c3pr.domain.GridEndPoint;
-import edu.duke.cabig.c3pr.domain.APIName;
-import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.esb.DelegatedCredentialProvider;
 

@@ -25,6 +25,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;

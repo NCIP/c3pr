@@ -13,9 +13,9 @@ import javax.persistence.Transient;
 import org.apache.axis.message.MessageElement;
 import org.globus.gsi.GlobusCredential;
 
+import edu.duke.cabig.c3pr.constants.APIName;
+import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
-import edu.duke.cabig.c3pr.domain.APIName;
-import edu.duke.cabig.c3pr.domain.ServiceName;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 
 import gov.nih.nci.cabig.ccts.domain.Message;

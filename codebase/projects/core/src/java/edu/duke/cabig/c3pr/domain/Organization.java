@@ -17,6 +17,7 @@ import org.hibernate.annotations.Where;
 
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 
+import edu.duke.cabig.c3pr.constants.EndPointType;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 

@@ -13,6 +13,7 @@ import org.hibernate.annotations.CascadeType;
 
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**

@@ -22,6 +22,8 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 

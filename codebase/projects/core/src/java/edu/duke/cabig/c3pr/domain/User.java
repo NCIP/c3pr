@@ -14,6 +14,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.IndexColumn;
 
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+
 /**
  * This class represents the User domain object associated with the Adverse event report.
  * 

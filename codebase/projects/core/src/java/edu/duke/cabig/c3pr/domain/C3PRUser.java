@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+
 /**
  * C3PRUser is someone who has the ability to login into the c3pr system
  * 

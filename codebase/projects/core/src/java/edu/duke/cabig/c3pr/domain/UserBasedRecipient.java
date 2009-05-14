@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+
 /**
  * The Class UserBasedRecipient. 
  * This is used by the notification framework to send notifications to recipients who are users in 

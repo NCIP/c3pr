@@ -3,8 +3,8 @@ package edu.duke.cabig.c3pr.domain.repository;
 import java.util.Date;
 import java.util.List;
 
-import edu.duke.cabig.c3pr.domain.APIName;
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.APIName;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
