@@ -22,9 +22,9 @@ import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
 import edu.duke.cabig.c3pr.service.impl.OrganizationServiceImpl;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
-import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 

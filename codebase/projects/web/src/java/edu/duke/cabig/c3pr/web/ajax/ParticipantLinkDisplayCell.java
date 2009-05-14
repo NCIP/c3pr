@@ -7,8 +7,8 @@ import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.cell.AbstractCell;
 import org.extremecomponents.table.core.TableModel;
 
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 
 public class ParticipantLinkDisplayCell extends AbstractCell {

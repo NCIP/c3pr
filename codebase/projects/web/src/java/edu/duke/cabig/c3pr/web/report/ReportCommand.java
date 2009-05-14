@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-import edu.duke.cabig.c3pr.domain.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCode;
 
 /**
  * @author Vinay Gangoli

@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
