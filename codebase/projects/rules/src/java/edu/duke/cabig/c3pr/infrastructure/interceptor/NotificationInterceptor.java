@@ -20,14 +20,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.dao.DataAccessResourceFailureException;
 
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
+import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
