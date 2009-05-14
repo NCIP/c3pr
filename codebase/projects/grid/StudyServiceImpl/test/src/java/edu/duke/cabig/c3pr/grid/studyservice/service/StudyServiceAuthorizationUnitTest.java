@@ -11,9 +11,9 @@ import org.acegisecurity.userdetails.UserDetailsService;
 import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyServiceAuthorizationImpl;
 import edu.duke.cabig.c3pr.utils.GridSecurityUtils;
-import edu.duke.cabig.c3pr.utils.RoleTypes;
 
 public class StudyServiceAuthorizationUnitTest extends AbstractTestCase {
 

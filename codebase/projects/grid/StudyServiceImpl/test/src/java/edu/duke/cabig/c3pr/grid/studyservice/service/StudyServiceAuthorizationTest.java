@@ -8,7 +8,7 @@ import org.acegisecurity.userdetails.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyAuthorizationI;
 import edu.duke.cabig.c3pr.utils.StudyDaoTestCaseTemplate;
 import gov.nih.nci.security.UserProvisioningManager;

@@ -3,8 +3,8 @@ package edu.duke.cabig.c3pr.grid.studyservice.service.impl;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.utils.GridSecurityUtils;
-import edu.duke.cabig.c3pr.utils.RoleTypes;
 
 /**
  * The Class StudyServiceAuthorizationImpl.
