@@ -7,8 +7,11 @@ import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.domain.customfield.CustomField;
+import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
 // TODO: Auto-generated Javadoc
@@ -492,5 +495,176 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("Companion indicator display value should be Yes", "Yes", simpleStudy.getCompanionIndicatorDisplayValue());
 	}
 	
+	/**
+	 * Test add custom field
+	 * 
+	 */
+	public void testAddCustomField(){
+		CustomField customField  = registerMockFor(CustomField.class);
+		customField.setStudy(simpleStudy);
+		CustomField customField1  = registerMockFor(CustomField.class);
+		customField1.setStudy(simpleStudy);
+		replayMocks();
+		simpleStudy.addCustomField(customField);
+		simpleStudy.addCustomField(customField1);
+		
+		assertEquals("Study should have 2 custom fields", 2 , simpleStudy.getCustomFields().size());
+		verifyMocks();
+	}
+	
+	/**
+	 * Test add custom field definition
+	 * 
+	 */
+	public void testAddCustomFieldDefinition(){
+		CustomFieldDefinition customFieldDefinition  = registerMockFor(CustomFieldDefinition.class);
+		customFieldDefinition.setStudy(simpleStudy);
+		CustomFieldDefinition customFieldDefinition1  = registerMockFor(CustomFieldDefinition.class);
+		customFieldDefinition1.setStudy(simpleStudy);
+		replayMocks();
+		simpleStudy.addCustomFieldDefinition(customFieldDefinition);
+		simpleStudy.addCustomFieldDefinition(customFieldDefinition1);
+		
+		assertEquals("Study should have 2 custom fields", 2 , simpleStudy.getCustomFieldDefinitions().size());
+		verifyMocks();
+	}
+
+	
+	/**
+	 * Test get companion study site by nci identifier
+	 * 
+	 */
+	public void testGetCompanionStudySite(){
+		simpleStudy.setCompanionIndicator(false);
+		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
+		association.setParentStudy(simpleStudy);
+		
+		List<StudySite> listStudySite = new ArrayList<StudySite>();
+		StudySite studySite = registerMockFor(StudySite.class);
+		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
+		listStudySite.add(studySite);
+		
+		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
+		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
+		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
+		
+		replayMocks();
+
+		simpleStudy.addCompanionStudyAssociation(association);
+		
+		assertNotNull("study site found with nc010", simpleStudy.getCompanionStudySite("NC010"));
+		verifyMocks();
+	}
+
+	/**
+	 * Test get companion study site by nci identifier
+	 * 
+	 */
+	public void testGetCompanionStudySite1(){
+//		simpleStudy.setCompanionIndicator(false);
+//		Study companion = new Study();
+//		companion.setCompanionIndicator(true);
+//		
+//		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
+//		association.setParentStudy(simpleStudy);
+//		List<StudySite> listStudySite = new ArrayList<StudySite>();
+//		StudySite studySite = registerMockFor(StudySite.class);
+//		listStudySite.add(studySite);
+//
+//		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
+//
+//		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
+//		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
+//		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
+//		
+//		replayMocks();
+//
+//		companion.addCompanionStudyAssociation(association);
+//		assertNotNull("study site found with nc010", companion.getCompanionStudySite("NC010"));
+//		verifyMocks();
+	}
+	
+	
+	/**
+	 * Test get study organization by nci identifier
+	 * 
+	 */
+	public void testGetStudyOrganization(){
+		StudyOrganization organization = registerMockFor(StudyOrganization.class);
+		organization.setStudy(simpleStudy);
+		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
+		EasyMock.expect(organization.getHealthcareSite()).andReturn(healthcareSite);
+		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
+		
+		replayMocks();
+		
+		simpleStudy.addStudyOrganization(organization);
+
+		assertNotNull("study site found with nc010", simpleStudy.getStudyOrganization("NC010"));
+		
+		verifyMocks();
+	}
+	
+
+	/**
+	 * Test get study organization by nci identifier
+	 * 
+	 */
+	public void testGetStudyOrganization1(){
+		try {
+			simpleStudy.getStudyOrganization("NC010");
+		} catch (C3PRCodedRuntimeException e) {
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+		}
+	}
+	
+	/**
+	 * Test get affiliate study sites 
+	 * 
+	 */
+	public void testGetAffiliateStudySites(){
+		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
+		HealthcareSite healthcareSite1 = registerMockFor(HealthcareSite.class);
+		
+		StudySite studySite = new StudySite();
+		studySite.setStudy(simpleStudy);
+		studySite.setHealthcareSite(healthcareSite);
+		
+		StudyCoordinatingCenter coordinatingCenter = new StudyCoordinatingCenter();
+		coordinatingCenter.setStudy(simpleStudy);
+		coordinatingCenter.setHealthcareSite(healthcareSite1);
+		
+		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
+		EasyMock.expect(healthcareSite1.getNciInstituteCode()).andReturn("NC011");
+		
+		replayMocks();
+		
+		simpleStudy.addStudySite(studySite);
+		simpleStudy.addStudyOrganization(coordinatingCenter);
+
+		assertEquals("one affiliate study site present", 1 ,simpleStudy.getAffiliateStudySites().size());
+		
+		verifyMocks();
+	}
+	
+	/**
+	 * Test isMultisite
+	 * 
+	 */
+	public void testIsMultisite(){
+		simpleStudy.setMultiInstitutionIndicator(true);
+		simpleStudy.setCompanionIndicator(true);
+		assertFalse("This is not a multisite study", simpleStudy.isMultisite());
+	}
+	
+	/**
+	 * Test isMultisite
+	 * 
+	 */
+	public void testIsMultisite1(){
+		simpleStudy.setMultiInstitutionIndicator(true);
+		simpleStudy.setCompanionIndicator(false);
+		assertTrue("This is  a multisite study", simpleStudy.isMultisite());
+	}
 	
 }
