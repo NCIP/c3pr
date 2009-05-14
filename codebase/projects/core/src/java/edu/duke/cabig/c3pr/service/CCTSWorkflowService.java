@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.service;
 
+import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
-import edu.duke.cabig.c3pr.domain.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
 /**

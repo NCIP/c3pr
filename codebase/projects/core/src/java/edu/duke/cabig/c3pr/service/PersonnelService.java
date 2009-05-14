@@ -10,6 +10,7 @@ import gov.nih.nci.security.authorization.domainobjects.*;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.*;
 
 /**
