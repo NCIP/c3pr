@@ -47,9 +47,6 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 		this.companionStudy = companionStudy;
 	}
 
-	public void setCompanionStudyMandatory(boolean mandatoryIndicator) {
-		this.mandatoryIndicator = mandatoryIndicator;
-	}
 	public Boolean getMandatoryIndicator() {
 		return mandatoryIndicator;
 	}
