@@ -58,10 +58,10 @@ public class ResearchStaffTest extends AbstractTestCase{
 	public void testCompareTo() throws Exception{
 		ResearchStaff researchStaff1 = new LocalResearchStaff();
 		ResearchStaff researchStaff2 = new LocalResearchStaff();
-		assertEquals("The two ResearchStaff personnel should be same",0,researchStaff1.compareTo(researchStaff2));
+		assertEquals("The two research staff personnel should be same",0,researchStaff1.compareTo(researchStaff2));
 		
 		researchStaff1.setNciIdentifier("NCI_IDENT1");
-		assertEquals("The two ResearchStaff personnel should be different",1,researchStaff1.compareTo(researchStaff2));
+		assertEquals("The two research staff personnel should be different",1,researchStaff1.compareTo(researchStaff2));
 	}
 	
 	/**
@@ -85,9 +85,9 @@ public class ResearchStaffTest extends AbstractTestCase{
 	public void testEquals1() throws Exception{
 		ResearchStaff researchStaff1 = new LocalResearchStaff();
 		ResearchStaff researchStaff2 = new RemoteResearchStaff();
-		assertFalse("The two ResearchStaffs cannot be equal",researchStaff1.equals(researchStaff2));
+		assertFalse("The two research staff cannot be equal",researchStaff1.equals(researchStaff2));
 		ResearchStaff researchStaff3 = new LocalResearchStaff();
-		assertTrue("The two ResearchStaffs should be equal",researchStaff1.equals(researchStaff3));
+		assertTrue("The two research staff should be equal",researchStaff1.equals(researchStaff3));
 	}
 	
 	/**
@@ -113,12 +113,31 @@ public class ResearchStaffTest extends AbstractTestCase{
 	public void testAddExternalResearchStaff() throws Exception{
 		
 		ResearchStaff researchStaff = new LocalResearchStaff();
-		assertEquals("Unexpected external ResearchStaff(s)",0,researchStaff.getExternalResearchStaff().size());
+		assertEquals("Unexpected external research staff",0,researchStaff.getExternalResearchStaff().size());
 		
 		researchStaff.addExternalResearchStaff(new RemoteResearchStaff());
-		assertEquals("Wrong number of external ResearchStaffs",1,researchStaff.getExternalResearchStaff().size());
+		assertEquals("Wrong number of external research staff",1,researchStaff.getExternalResearchStaff().size());
 		
 	}
+	
+	/**
+	 * Test add study personnel.
+	 * 
+	 * @throws Exception the exception
+	 */
+	public void testAddStudyPersonnel() throws Exception{
+		
+		ResearchStaff researchStaff = new LocalResearchStaff();
+		StudyPersonnel studyPersonnel = new StudyPersonnel();
+		studyPersonnel.setRoleCode("Study Coordinator");
+		assertEquals("Unexpected study personnel",0,researchStaff.getStudyPersonnels().size());
+		
+		researchStaff.addStudyPersonnel(studyPersonnel);
+		assertEquals("Wrong number of study personnel",1,researchStaff.getStudyPersonnels().size());
+		assertEquals("Wrong study personnel",1,researchStaff.getStudyPersonnels().size());
+		
+	}
+	
 	
 
 }
