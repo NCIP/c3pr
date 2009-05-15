@@ -16,6 +16,7 @@ import org.iso._21090.ST;
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
@@ -84,7 +85,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 				HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
 				healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
 				healthcareSiteInvestigator.setInvestigator(remoteInvestigator);
-				healthcareSiteInvestigator.setStatusCode("AC");
+				healthcareSiteInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
 				
 				remoteInvestigator.getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);
 			}
