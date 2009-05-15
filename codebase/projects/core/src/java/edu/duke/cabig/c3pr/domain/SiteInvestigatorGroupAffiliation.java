@@ -13,81 +13,145 @@ import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SiteInvestigatorGroupAffiliation.
+ */
 @Entity
 @Table(name = "org_inv_gr_affiliations")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "org_inv_gr_affiliations_id_seq") })
 public class SiteInvestigatorGroupAffiliation extends AbstractMutableDeletableDomainObject
                 implements Comparable<SiteInvestigatorGroupAffiliation> {
+    
+    /** The start date. */
     private Date startDate;
 
+    /** The end date. */
     private Date endDate;
 
+    /** The healthcare site investigator. */
     private HealthcareSiteInvestigator healthcareSiteInvestigator;
 
+    /** The investigator group. */
     private InvestigatorGroup investigatorGroup;
 
+    /** The start date str. */
     private String startDateStr;
 
+    /** The end date str. */
     private String endDateStr;
 
+    /**
+     * Gets the investigator group.
+     * 
+     * @return the investigator group
+     */
     @ManyToOne
     @JoinColumn(name = "ing_id")
     public InvestigatorGroup getInvestigatorGroup() {
         return investigatorGroup;
     }
 
+    /**
+     * Sets the investigator group.
+     * 
+     * @param investigatorGroup the new investigator group
+     */
     public void setInvestigatorGroup(InvestigatorGroup investigatorGroup) {
         this.investigatorGroup = investigatorGroup;
     }
 
+    /**
+     * Gets the healthcare site investigator.
+     * 
+     * @return the healthcare site investigator
+     */
     @ManyToOne
     @JoinColumn(name = "hsi_id")
     public HealthcareSiteInvestigator getHealthcareSiteInvestigator() {
         return healthcareSiteInvestigator;
     }
 
+    /**
+     * Sets the healthcare site investigator.
+     * 
+     * @param healthcareSiteInvestigator the new healthcare site investigator
+     */
     public void setHealthcareSiteInvestigator(HealthcareSiteInvestigator healthcareSiteInvestigator) {
         this.healthcareSiteInvestigator = healthcareSiteInvestigator;
     }
 
+    /**
+     * Gets the end date.
+     * 
+     * @return the end date
+     */
     public Date getEndDate() {
         return endDate;
     }
 
+    /**
+     * Sets the end date.
+     * 
+     * @param endDate the new end date
+     */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
+    /**
+     * Gets the start date.
+     * 
+     * @return the start date
+     */
     public Date getStartDate() {
         return startDate;
     }
 
+    /**
+     * Sets the start date.
+     * 
+     * @param startDate the new start date
+     */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
+    /**
+     * Gets the start date str.
+     * 
+     * @return the start date str
+     */
     @Transient
     public String getStartDateStr() {
         try {
             return DateUtil.formatDate(startDate, "MM/dd/yyyy");
         }
         catch (Exception e) {
-            // do nothing
+            e.printStackTrace();
         }
         return "";
     }
 
+    /**
+     * Gets the end date str.
+     * 
+     * @return the end date str
+     */
     @Transient
     public String getEndDateStr() {
         try {
             return DateUtil.formatDate(endDate, "MM/dd/yyyy");
         }
         catch (Exception e) {
-            // do nothing
+            e.printStackTrace();
         }
         return "";
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#hashCode()
+     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -100,6 +164,9 @@ public class SiteInvestigatorGroupAffiliation extends AbstractMutableDeletableDo
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -117,6 +184,9 @@ public class SiteInvestigatorGroupAffiliation extends AbstractMutableDeletableDo
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(SiteInvestigatorGroupAffiliation o) {
         if (this.equals(o)) return 0;
         return 1;
