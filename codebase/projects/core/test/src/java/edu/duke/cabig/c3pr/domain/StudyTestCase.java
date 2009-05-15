@@ -1376,26 +1376,85 @@ public void testGetC3PRErrorMessages(){
 /**
  * test evaluateEpochsDataEntryStatus
  */
-public void EvaluateEpochsDataEntryStatus(){
+public void testEvaluateEpochsDataEntryStatus(){
 	basicStudy = studyCreationHelper.addStratifiedEpochToBasicStudy(basicStudy, "Name");
-	assertFalse("Epoch Data Entry should evaluate to false", basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>()));
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(304)).andReturn(new C3PRCodedRuntimeException(304, "exception message"));
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("304");
+	try{
+		basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>());
+	}catch(Exception e){
+		assertEquals("error is instance of C3PRCodedRuntimeException", true , e instanceof C3PRCodedRuntimeException);
+	}
 }
 
 
 /**
  * test evaluateEpochsDataEntryStatus
  */
-public void EvaluateEpochsDataEntryStatus1(){
+public void testEvaluateEpochsDataEntryStatus1(){
 	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy);
-	assertTrue("Epoch Data Entry should evaluate to true", basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>()));
+	try{
+		basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>());
+	}catch(Exception e){
+		assertNull("no exception thrown", e);
+	}
 }
 
 
 /**
  * test evaluateEpochsDataEntryStatus
  */
-public void EvaluateEpochsDataEntryStatus2(){
-	assertTrue("Epoch Data Entry should evaluate to true because no epoch associated to study", basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>()));
+public void testEvaluateEpochsDataEntryStatus2(){
+	try{
+		basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>());
+	}catch(Exception e){
+		assertNull("no exception thrown because no epoch associated to study", e);
+	}
 }
+
+
+/**
+ * test pending amendment
+ */
+public void testPendingAmendment(){
+	basicStudy.pendingAmendment();
+	assertEquals("study coordinating center status should be amendment pending", CoordinatingCenterStudyStatus.AMENDMENT_PENDING,  basicStudy.getCoordinatingCenterStudyStatus());
+}
+
+/**
+ * test pending
+ */
+public void testPending(){
+	basicStudy.pending();
+	assertEquals("study coordinating center status should be  pending", CoordinatingCenterStudyStatus.PENDING,  basicStudy.getCoordinatingCenterStudyStatus());
+}
+
+/**
+ * test temporarilyCloseToAccrual
+ */
+public void testTemporarilyCloseToAccrual(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+	basicStudy.temporarilyCloseToAccrual();
+	assertEquals("study coordinating center status should be  pending", CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL,  basicStudy.getCoordinatingCenterStudyStatus());
+}
+
+
+//if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
+//|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
+//|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
+//|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
+//throw getC3PRExceptionHelper()
+//	.getRuntimeException(
+//			getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+//			new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
+//					.getDisplayName() });
+//}
+//this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+
+
+
+
+
+
 
 }
