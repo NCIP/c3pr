@@ -1,10 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
-import org.apache.log4j.Logger;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -12,7 +9,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -35,8 +32,7 @@ import org.hibernate.annotations.Parameter;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
-import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
-import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
@@ -59,6 +55,9 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     protected List<Error> errors= new ArrayList<Error>();
     protected Object returnValue;
     protected StudyOrganization studyOrganization;
+    
+    public static final String STUDY_XML_CASTOR_MAPPING_FILE_NAME="c3pr-study-xml-castor-mapping.xml";
+    public static final String REGISTRATION_XML_CASTOR_MAPPING_FILE_NAME="c3pr-registration-xml-castor-mapping.xml";
 
 	public EndPoint(){
         
@@ -104,7 +103,7 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
             }else{
                 System.out.println("code not found.");
             }
-            this.errors.add(new Error(this.toString(),code,"Error invoking "+this.apiName.getCode()+":"+errorMsg));
+            this.errors.add(new Error(this.toString(),code,"Error invoking "+(this.apiName==null?"":this.apiName.getCode())+":"+errorMsg));
             this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
             throw e;
         }
@@ -121,18 +120,18 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     protected XMLUtils getXMLUtils(){
         XMLUtils xmlUtils=null;
         if(serviceName==ServiceName.STUDY)
-            xmlUtils= new XMLUtils(new XmlMarshaller("c3pr-study-xml-castor-mapping.xml"));
+            xmlUtils= new XMLUtils(new XmlMarshaller(STUDY_XML_CASTOR_MAPPING_FILE_NAME));
         else if(serviceName==ServiceName.REGISTRATION)
-            xmlUtils= new XMLUtils(new XmlMarshaller("c3pr-registration-xml-castor-mapping.xml"));
+            xmlUtils= new XMLUtils(new XmlMarshaller(REGISTRATION_XML_CASTOR_MAPPING_FILE_NAME));
         return xmlUtils;
     }
 
     @Transient
     protected XmlMarshaller getXMLMarshaller(){
         if(serviceName==ServiceName.STUDY)
-            return new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
+            return new XmlMarshaller(STUDY_XML_CASTOR_MAPPING_FILE_NAME);
         else if(serviceName==ServiceName.REGISTRATION)
-            return new XmlMarshaller("c3pr-registration-xml-castor-mapping.xml");
+            return new XmlMarshaller(REGISTRATION_XML_CASTOR_MAPPING_FILE_NAME);
         return null;
     }
     
@@ -191,27 +190,25 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     
     @Override
     public String toString() {
-        return "Endpoint("+this.endPointProperty.getUrl()+"of type"+this.endPointProperty.getEndPointType().getCode()+". Service:"+this.serviceName.getCode()+" -API:"+this.apiName.getCode()+")";
+    	if(this.endPointProperty==null){
+    		return "Incomplete Endpoint Object";
+    	}else if(this.endPointProperty.getEndPointType()==null){
+    		return "Incomplete Endpoint Object";
+    	}else if(this.serviceName==null){
+    		return "Incomplete Endpoint Object";
+    	}else if(this.apiName==null){
+    		return "Incomplete Endpoint Object";
+    	}
+        return "Endpoint("
+        +(this.endPointProperty==null?"":StringUtils.getBlankIfNull(this.endPointProperty.getUrl()))
+        +"of type"
+        +(this.endPointProperty.getEndPointType()==null?"":StringUtils.getBlankIfNull(this.endPointProperty.getEndPointType().getCode()))
+        +". Service:"
+        +(this.serviceName==null?"":StringUtils.getBlankIfNull(this.serviceName.getCode()))
+        +" -API:"
+        +(this.apiName==null?"":StringUtils.getBlankIfNull(this.apiName.getCode()))
+        +")";
     }
-
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @Column(name="attempt_name")
-//    public Timestamp getAttemptDateInternal() {
-//        return attemptDate;
-//    }
-//
-//    public void setAttemptDateInternal(Timestamp attemptDate) {
-//        this.attemptDate = attemptDate;
-//    }
-    
-//    @Transient
-//    public Date getAttemptDate() {
-//        return attemptDate;
-//    }
-//
-//    public void setAttemptDate(Date attemptDate) {
-//        this.attemptDate = new Timestamp(attemptDate.getTime());
-//    }
 
     @Temporal(TemporalType.TIMESTAMP)
     public Date getAttemptDate() {
@@ -237,7 +234,6 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     }
 
     @ManyToOne
-    //@Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "sto_id", nullable = false)
 	public StudyOrganization getStudyOrganization() {
 		return studyOrganization;
