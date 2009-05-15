@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+
 /**
  * @author Priyatam
  */
@@ -25,7 +27,7 @@ public class StudyInvestigator extends AbstractMutableDeletableDomainObject impl
 
     private String roleCode;
 
-    private String statusCode;
+    private InvestigatorStatusCodeEnum statusCode;
 
     private Date startDate;
 
@@ -55,15 +57,15 @@ public class StudyInvestigator extends AbstractMutableDeletableDomainObject impl
         this.startDate = startDate;
     }
 
-    public String getStatusCode() {
-        return statusCode;
-    }
+    public InvestigatorStatusCodeEnum getStatusCode() {
+		return statusCode;
+	}
 
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
-    }
+	public void setStatusCode(InvestigatorStatusCodeEnum statusCode) {
+		this.statusCode = statusCode;
+	}
 
-    @ManyToOne
+	@ManyToOne
     @JoinColumn(name = "hsi_id")
     public HealthcareSiteInvestigator getHealthcareSiteInvestigator() {
         return healthcareSiteInvestigator;

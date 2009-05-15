@@ -16,6 +16,8 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+
 /**
  * @author Priyatam
  */
@@ -29,7 +31,7 @@ public class HealthcareSiteInvestigator extends AbstractMutableDeletableDomainOb
 
     private Investigator investigator;
 
-    private String statusCode;
+    private InvestigatorStatusCodeEnum statusCode;
 
     private Date statusDate;
 
@@ -76,15 +78,15 @@ public class HealthcareSiteInvestigator extends AbstractMutableDeletableDomainOb
         this.healthcareSite = healthcareSite;
     }
 
-    public String getStatusCode() {
-        return statusCode;
-    }
+    public InvestigatorStatusCodeEnum getStatusCode() {
+		return statusCode;
+	}
 
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
-    }
+	public void setStatusCode(InvestigatorStatusCodeEnum statusCode) {
+		this.statusCode = statusCode;
+	}
 
-    public Date getStatusDate() {
+	public Date getStatusDate() {
         return statusDate;
     }
 
