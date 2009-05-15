@@ -256,7 +256,6 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testRequiresCoordinatingCenterApprovalFalse0(){
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
     	studySubject.getScheduledEpochs().remove(0);
-        StudySubject studySubject = new StudySubject();
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         ScheduledEpoch sc=new ScheduledEpoch();
         Epoch nt=new Epoch();
@@ -472,6 +471,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testEvaluateRegistrationDataEntryStatus() throws Exception{
+    	studySubject.setInformedConsentSignedDate(new Date());
+    	studySubject.setInformedConsentVersion("1");
     	StudySubject childStudySubject = registerMockFor(StudySubject.class);
     	studySubject.addChildStudySubject(childStudySubject);
     	EasyMock.expect(childStudySubject.evaluateRegistrationDataEntryStatus()).andReturn(RegistrationDataEntryStatus.COMPLETE);
@@ -670,9 +671,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testIfScheduledEpochCreatedForThisEpoch() throws Exception{
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	
-    	assertFalse("Unexpected scheduled epoch",studySubject.ifScheduledEpochCreatedForThisEpoch(new Epoch()));
     	studySubject.getScheduledEpochs().remove(0);
+    	assertFalse("Unexpected scheduled epoch",studySubject.ifScheduledEpochCreatedForThisEpoch(new Epoch()));
     	Epoch epoch1 = Epoch.createEpoch("treatment epoch");
     	studySubject.addScheduledEpoch(studySubject.createScheduledEpoch(epoch1));
     	
