@@ -19,7 +19,10 @@ import org.hibernate.annotations.Parameter;
 
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Investigator.
+ * 
  * @author Priyatam
  */
 @Entity
@@ -28,31 +31,55 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "investigators_id_seq") })
 // @AssociationOverride( name="contactMechanisms", joinColumns= @JoinColumn(name="INV_ID") )
 public abstract class Investigator extends C3PRUser {
+    
+    /** The nci identifier. */
     private String nciIdentifier;
 
+    /** The lazy list helper. */
     private LazyListHelper lazyListHelper;
 
+    /** The full name. */
     private String fullName;
     
+    /** The user based recipient. */
     private List<UserBasedRecipient> userBasedRecipient;
     
+    /** The external investigators. */
     protected List<Investigator> externalInvestigators = new ArrayList<Investigator>();
 
     // business methods
 
+    /**
+     * Gets the external investigators.
+     * 
+     * @return the external investigators
+     */
     @Transient
     public List<Investigator> getExternalInvestigators() {
 		return externalInvestigators;
 	}
 
+	/**
+	 * Sets the external investigators.
+	 * 
+	 * @param externalInvestigators the new external investigators
+	 */
 	public void setExternalInvestigators(List<Investigator> externalInvestigators) {
 		this.externalInvestigators = externalInvestigators;
 	}
 	
+	/**
+	 * Adds the external investigator.
+	 * 
+	 * @param externalInvestigator the external investigator
+	 */
 	public void addExternalInvestigator(Investigator externalInvestigator) {
 		this.getExternalInvestigators().add(externalInvestigator);
 	}
 
+	/**
+	 * Instantiates a new investigator.
+	 */
 	public Investigator() {
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(HealthcareSiteInvestigator.class,
@@ -60,6 +87,11 @@ public abstract class Investigator extends C3PRUser {
                             HealthcareSiteInvestigator.class, this, "Investigator", new Class[] { Investigator.class }));
     }
 
+    /**
+     * Gets the last first.
+     * 
+     * @return the last first
+     */
     @Transient
     public String getLastFirst() {
         StringBuilder name = new StringBuilder();
@@ -74,6 +106,9 @@ public abstract class Investigator extends C3PRUser {
         return name.toString();
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.Person#getFullName()
+     */
     @Transient
     public String getFullName() {
         StringBuilder name = new StringBuilder();
@@ -88,40 +123,78 @@ public abstract class Investigator extends C3PRUser {
         return name.toString();
     }
 
+    /**
+     * Adds the healthcare site investigator.
+     * 
+     * @param hcsi the hcsi
+     */
     public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
         hcsi.setInvestigator(this);
         lazyListHelper.getLazyList(HealthcareSiteInvestigator.class).add(hcsi);
     }
 
+    /**
+     * Gets the healthcare site investigators internal.
+     * 
+     * @return the healthcare site investigators internal
+     */
     @OneToMany(mappedBy = "investigator")
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigatorsInternal() {
         return lazyListHelper.getInternalList(HealthcareSiteInvestigator.class);
     }
 
+    /**
+     * Gets the healthcare site investigators.
+     * 
+     * @return the healthcare site investigators
+     */
     @Transient
     public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigators() {
         return lazyListHelper.getLazyList(HealthcareSiteInvestigator.class);
     }
 
+    /**
+     * Sets the healthcare site investigators.
+     * 
+     * @param healthcareSiteInvestigators the new healthcare site investigators
+     */
     public void setHealthcareSiteInvestigators(
                     List<HealthcareSiteInvestigator> healthcareSiteInvestigators) {
     }
 
+    /**
+     * Sets the healthcare site investigators internal.
+     * 
+     * @param healthcareSiteInvestigators the new healthcare site investigators internal
+     */
     public void setHealthcareSiteInvestigatorsInternal(
                     List<HealthcareSiteInvestigator> healthcareSiteInvestigators) {
         lazyListHelper.setInternalList(HealthcareSiteInvestigator.class,
                         healthcareSiteInvestigators);
     }
 
+    /**
+     * Gets the nci identifier.
+     * 
+     * @return the nci identifier
+     */
     public String getNciIdentifier() {
         return nciIdentifier;
     }
 
+    /**
+     * Sets the nci identifier.
+     * 
+     * @param nciIdentifier the new nci identifier
+     */
     public void setNciIdentifier(String nciIdentifier) {
         this.nciIdentifier = nciIdentifier;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
+     */
     @OneToMany
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "INV_ID")
@@ -130,15 +203,28 @@ public abstract class Investigator extends C3PRUser {
         return contactMechanisms;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.Person#setContactMechanisms(java.util.List)
+     */
     public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
         this.contactMechanisms = contactMechanisms;
     }
 
+    /**
+     * Compare to.
+     * 
+     * @param o the o
+     * 
+     * @return the int
+     */
     public int compareTo(Object o) {
         if (this.equals((Investigator) o)) return 0;
         else return 1;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.Person#hashCode()
+     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -147,6 +233,9 @@ public abstract class Investigator extends C3PRUser {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.Person#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -159,6 +248,11 @@ public abstract class Investigator extends C3PRUser {
         return true;
     }
 
+    /**
+     * Gets the user based recipient.
+     * 
+     * @return the user based recipient
+     */
     @OneToMany
     @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "investigators_id")
@@ -166,6 +260,11 @@ public abstract class Investigator extends C3PRUser {
 		return userBasedRecipient;
 	}
 
+	/**
+	 * Sets the user based recipient.
+	 * 
+	 * @param userBasedRecipient the new user based recipient
+	 */
 	public void setUserBasedRecipient(List<UserBasedRecipient> userBasedRecipient) {
 		this.userBasedRecipient = userBasedRecipient;
 	}
