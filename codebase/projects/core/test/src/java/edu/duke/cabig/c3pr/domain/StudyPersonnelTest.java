@@ -42,7 +42,7 @@ public class StudyPersonnelTest extends AbstractTestCase{
 	public void testHashCode() throws Exception{
 		int prime = 31;
 		StudyPersonnel studyPersonnel1 = new StudyPersonnel();
-		assertEquals("Wrong hash code",31,studyPersonnel1.hashCode());
+		assertEquals("Wrong hash code",prime*prime*prime,studyPersonnel1.hashCode());
 		ResearchStaff localResearchStaff = new LocalResearchStaff();
 		String roleCode = "Site Coordinator";
 		
@@ -90,7 +90,7 @@ public class StudyPersonnelTest extends AbstractTestCase{
 		studyPersonnel1.setResearchStaff(localResearchStaff);
 		studyPersonnel2.setResearchStaff(localResearchStaff);
 		
-		assertFalse("The two study personnel should be equal",studyPersonnel1.equals(studyPersonnel2));
+		assertTrue("The two study personnel should be equal",studyPersonnel1.equals(studyPersonnel2));
 	}
 	
 }
