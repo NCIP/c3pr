@@ -9,20 +9,44 @@ import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
+import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StudySubjectTest.
+ */
 public class StudySubjectTest extends AbstractTestCase {
 	
+	/** The study site. */
 	StudySite studySite;
+	
+	/** The participant. */
 	Participant participant;
+	
+	/** The study subject. */
 	StudySubject studySubject;
+	
+	/** The scheduled epoch. */
 	ScheduledEpoch scheduledEpoch;
+	
+	/** The epoch. */
 	Epoch epoch;
+	
+	/** The study. */
 	Study study;
 	
+	/* (non-Javadoc)
+	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -37,9 +61,13 @@ public class StudySubjectTest extends AbstractTestCase {
 		studySubject.setParticipant(participant);
 	}
     
+    /** The study subject creator helper. */
     private StudySubjectCreatorHelper studySubjectCreatorHelper=new StudySubjectCreatorHelper();
+    
     /**
-     * Registration Data Entry Status test blank Study Subject
+     * Registration Data Entry Status test blank Study Subject.
+     * 
+     * @throws Exception the exception
      */
     public void testEvaluateRegistrationDataEntryStatusInComplete() throws Exception {
         assertEquals("Wrong Registration Data Entry Status",
@@ -49,7 +77,7 @@ public class StudySubjectTest extends AbstractTestCase {
 
     /**
      * Registration Data Entry Status test InformedConsent Date Filled InformedConsent Version
-     * Filled
+     * Filled.
      */
     public void testEvaluateRegistrationDataEntryStatusComplete() {
         ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
@@ -68,7 +96,9 @@ public class StudySubjectTest extends AbstractTestCase {
     }
 
     /**
-     * Epoch Data Entry Status test Randomized Treatment Epoch Blank Scheduled Epoch
+     * Epoch Data Entry Status test Randomized Treatment Epoch Blank Scheduled Epoch.
+     * 
+     * @throws Exception the exception
      */
     public void testEvaluateEpochDataEntryStatusInComplete1() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
@@ -82,7 +112,9 @@ public class StudySubjectTest extends AbstractTestCase {
     }
 
     /**
-     * Epoch Data Entry Status test Randomized Treatment Epoch Eligibility Done
+     * Epoch Data Entry Status test Randomized Treatment Epoch Eligibility Done.
+     * 
+     * @throws Exception the exception
      */
     public void testEvaluateEpochDataEntryStatusInComplete2() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
@@ -98,7 +130,9 @@ public class StudySubjectTest extends AbstractTestCase {
 
     /**
      * Epoch Data Entry Status test Non Randomized Treatment Epoch with Arms Eligibility Done
-     * Stratification Done Arm not assigned
+     * Stratification Done Arm not assigned.
+     * 
+     * @throws Exception the exception
      */
     public void testEvaluateEpochDataEntryStatusInComplete3() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
@@ -114,7 +148,9 @@ public class StudySubjectTest extends AbstractTestCase {
     }
 
     /**
-     * Epoch Data Entry Status test Randomized Treatment Epoch Eligibility Done Stratification Done
+     * Epoch Data Entry Status test Randomized Treatment Epoch Eligibility Done Stratification Done.
+     * 
+     * @throws Exception the exception
      */
     public void testEvaluateEpochDataEntryStatusComplete1() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
@@ -131,7 +167,9 @@ public class StudySubjectTest extends AbstractTestCase {
 
     /**
      * Epoch Data Entry Status test Non Randomized Treatment Epoch Eligibility Done Stratification
-     * Done Assigned Arm
+     * Done Assigned Arm.
+     * 
+     * @throws Exception the exception
      */
     public void testEvaluateEpochDataEntryStatusComplete2() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
@@ -150,7 +188,9 @@ public class StudySubjectTest extends AbstractTestCase {
     }
 
     /**
-     * Epoch Data Entry Status test Non Treatment Epoch
+     * Epoch Data Entry Status test Non Treatment Epoch.
+     * 
+     * @throws Exception the exception
      */
     public void testEvaluateEpochDataEntryStatusComplete3() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
@@ -190,7 +230,10 @@ public class StudySubjectTest extends AbstractTestCase {
 //                        studySubject.getIsRegisterable());
 //    }
     
-    public void testRequiresCoordinatingCenterApprovalTrue(){
+    /**
+ * Test requires coordinating center approval true.
+ */
+public void testRequiresCoordinatingCenterApprovalTrue(){
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
     	studySubject.getScheduledEpochs().remove(0);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
@@ -207,6 +250,9 @@ public class StudySubjectTest extends AbstractTestCase {
                         studySubject.requiresCoordinatingCenterApproval());
     }
     
+    /**
+     * Test requires coordinating center approval false0.
+     */
     public void testRequiresCoordinatingCenterApprovalFalse0(){
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
     	studySubject.getScheduledEpochs().remove(0);
@@ -225,6 +271,9 @@ public class StudySubjectTest extends AbstractTestCase {
                         studySubject.requiresCoordinatingCenterApproval());
     }
     
+    /**
+     * Test requires coordinating center approval false1.
+     */
     public void testRequiresCoordinatingCenterApprovalFalse1(){
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
     	studySubject.getScheduledEpochs().remove(0);
@@ -242,6 +291,11 @@ public class StudySubjectTest extends AbstractTestCase {
                         studySubject.requiresCoordinatingCenterApproval());
     }
     
+    /**
+     * Test constructor.
+     * 
+     * @throws Exception the exception
+     */
     public void testConstructor() throws Exception{
     	StudySubject studySubject = new StudySubject(false);
     	
@@ -249,6 +303,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	
     }
     
+    /**
+     * Test equals.
+     * 
+     * @throws Exception the exception
+     */
     public void testEquals() throws Exception{
     	StudySubject studySubject1 = new StudySubject();
     	StudySubject studySubject2 = new StudySubject();
@@ -275,10 +334,20 @@ public class StudySubjectTest extends AbstractTestCase {
     	assertFalse("The two study subjects should not have been equal",studySubject1.equals(studySubject2));
     }
     
+    /**
+     * Test get informed consent signed date str.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetInformedConsentSignedDateStr() throws Exception{
     	assertEquals("Unexpected Informed Consent Signed Date","",studySubject.getInformedConsentSignedDateStr());
     }
     
+    /**
+     * Test get off study date str.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetOffStudyDateStr() throws Exception{
     	assertEquals("Unexpected off study date","",studySubject.getOffStudyDateStr());
     	
@@ -287,6 +356,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	assertEquals("Wrong off study date or in wrong format",DateUtil.formatDate(offStudyDate, "MM/dd/yyyy"),studySubject.getOffStudyDateStr());
     }
     
+    /**
+     * Test get start date str.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetStartDateStr() throws Exception{
     	StudySubject studySubject = new StudySubject();
     	assertNotSame("Unexpected start date","",studySubject.getStartDateStr());
@@ -296,6 +370,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	assertEquals("Wrong start date or in wrong format",DateUtil.formatDate(startDate, "MM/dd/yyyy"),studySubject.getStartDateStr());
     }
     
+    /**
+     * Test remove identifier.
+     * 
+     * @throws Exception the exception
+     */
     public void testRemoveIdentifier() throws Exception{
     	OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 		orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
@@ -314,6 +393,11 @@ public class StudySubjectTest extends AbstractTestCase {
 		assertEquals("Wrong identifier removed",sysIdentifier,studySubject.getIdentifiers().get(0));
     }
     
+    /**
+     * Test get primary identifier.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetPrimaryIdentifier() throws Exception{
 		StudySubject studySubject = new StudySubject();
 		assertEquals("Wrong number of identifiers",0,studySubject.getIdentifiers().size());
@@ -329,6 +413,11 @@ public class StudySubjectTest extends AbstractTestCase {
 		assertNull("Unexpected primary identifier",studySubject.getPrimaryIdentifier());
 	}
     
+    /**
+     * Test get treating physician full name.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetTreatingPhysicianFullName() throws Exception{
     	studySubject.setOtherTreatingPhysician("Steven Chang");
     	
@@ -350,18 +439,38 @@ public class StudySubjectTest extends AbstractTestCase {
     	
     }
     
+    /**
+     * Test get data entry status string.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetDataEntryStatusString() throws Exception{
     	assertEquals("Wrong data entry status ","Incomplete",studySubject.getDataEntryStatusString());
     }
     
+    /**
+     * Test get coordinating center identifier.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetCoordinatingCenterIdentifier() throws Exception{
     	assertNull("Unexpected coordinating center identifier",studySubject.getCoOrdinatingCenterIdentifier());
     }
     
+    /**
+     * Test get c3 d identifier.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetC3DIdentifier() throws Exception{
     	assertNull("Unexpected C3D identifier",studySubject.getC3DIdentifier());
     }
     
+    /**
+     * Test evaluate registration data entry status.
+     * 
+     * @throws Exception the exception
+     */
     public void testEvaluateRegistrationDataEntryStatus() throws Exception{
     	StudySubject childStudySubject = registerMockFor(StudySubject.class);
     	studySubject.addChildStudySubject(childStudySubject);
@@ -381,6 +490,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	
     }
     
+    /**
+     * Test evaluate registration data entry status with errors.
+     * 
+     * @throws Exception the exception
+     */
     public void testEvaluateRegistrationDataEntryStatusWithErrors() throws Exception{
     	
     	List<Error> errors = new ArrayList<Error>();
@@ -403,6 +517,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	
     }
     
+    /**
+     * Test is study site.
+     * 
+     * @throws Exception the exception
+     */
     public void testIsStudySite() throws Exception{
     	HealthcareSite localHealthcareSite = registerMockFor(HealthcareSite.class);
     	EasyMock.expect(studySite.getHealthcareSite()).andReturn(localHealthcareSite);
@@ -414,6 +533,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	verifyMocks();
     }
     
+    /**
+     * Test is data entry complete.
+     * 
+     * @throws Exception the exception
+     */
     public void testIsDataEntryComplete() throws Exception{
     	studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
     	EasyMock.expect(scheduledEpoch.getScEpochDataEntryStatus()).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
@@ -431,6 +555,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	verifyMocks();
     }
     
+    /**
+     * Test ready for randomization.
+     * 
+     * @throws Exception the exception
+     */
     public void testReadyForRandomization() throws Exception{
     	studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
     	EasyMock.expect(scheduledEpoch.getScEpochDataEntryStatus()).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
@@ -440,6 +569,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	verifyMocks();
     }
     
+    /**
+     * Test is coordinating center.
+     * 
+     * @throws Exception the exception
+     */
     public void testIsCoordinatingCenter() throws Exception{
     	EasyMock.expect(studySite.getStudy()).andReturn(study);
     	EasyMock.expect(study.isCoOrdinatingCenter("nci_code")).andReturn(true);
@@ -451,6 +585,11 @@ public class StudySubjectTest extends AbstractTestCase {
     }
     
 
+    /**
+     * Test required affiliate site response.
+     * 
+     * @throws Exception the exception
+     */
     public void testRequiredAffiliateSiteResponse() throws Exception{
     	
     	GridEndPoint gridEndPoint = new GridEndPoint();
@@ -459,6 +598,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	assertTrue("Expected to require affiliate site response",studySubject.requiresAffiliateSiteResponse());
     }
     
+    /**
+     * Test add and remove child study subject.
+     * 
+     * @throws Exception the exception
+     */
     public void testAddAndRemoveChildStudySubject() throws Exception{
     	StudySubject childStudySubject = new StudySubject();
     	studySubject.addChildStudySubject(childStudySubject);
@@ -467,6 +611,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	assertEquals("Expected no child study subject,should have been removed",0,studySubject.getChildStudySubjects().size());
     }
     
+    /**
+     * Test build map for notification.
+     * 
+     * @throws Exception the exception
+     */
     public void testBuildMapForNotification() throws Exception{
     	OrganizationAssignedIdentifier mrn = registerMockFor(OrganizationAssignedIdentifier.class);
     	EasyMock.expect(participant.getMRN()).andReturn(mrn).times(2);
@@ -503,12 +652,22 @@ public class StudySubjectTest extends AbstractTestCase {
     }
     
     
+    /**
+     * Test create scheduled epoch.
+     * 
+     * @throws Exception the exception
+     */
     public void testCreateScheduledEpoch() throws Exception{
     	ScheduledEpoch scheduledEpoch1 = studySubject.createScheduledEpoch(Epoch.createEpoch("treatment epoch"));
     	assertNotNull("Error in creating scheduled epoch",scheduledEpoch1);
     	assertEquals("Scheduled epoch created with wrong epoch name","treatment epoch",scheduledEpoch1.getEpoch().getName());
     }
     
+    /**
+     * Test if scheduled epoch created for this epoch.
+     * 
+     * @throws Exception the exception
+     */
     public void testIfScheduledEpochCreatedForThisEpoch() throws Exception{
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
     	
@@ -520,6 +679,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	assertTrue("Scheduled epoch was expected with given epoch:" + epoch1.getName(),studySubject.ifScheduledEpochCreatedForThisEpoch(epoch1));
     }
     
+    /**
+     * Test get matching scheduled epoch.
+     * 
+     * @throws Exception the exception
+     */
     public void testGetMatchingScheduledEpoch() throws Exception{
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
     	studySubject.getScheduledEpochs().remove(0);
@@ -530,6 +694,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	assertNotNull("Scheduled epoch was expected with given epoch:", studySubject.getMatchingScheduledEpoch(epoch1));
     }
     
+    /**
+     * Test can reserve.
+     * 
+     * @throws Exception the exception
+     */
     public void testCanReserve() throws Exception{
     
 	    List<Error> errors = new ArrayList<Error>();
@@ -544,6 +713,11 @@ public class StudySubjectTest extends AbstractTestCase {
 		verifyMocks();
     }
     
+    /**
+     * Test register1.
+     * 
+     * @throws Exception the exception
+     */
     public void testRegister1() throws Exception{
     	EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
@@ -559,6 +733,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	verifyMocks();
     }
     
+    /**
+     * Test register2.
+     * 
+     * @throws Exception the exception
+     */
     public void testRegister2() throws Exception{
     	
     	StudySubject parentStudySubject = registerMockFor(StudySubject.class);
@@ -586,6 +765,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	verifyMocks();
     }
     
+    /**
+     * Test register3.
+     * 
+     * @throws Exception the exception
+     */
     public void testRegister3() throws Exception{
     	
     	EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
@@ -606,6 +790,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	verifyMocks();
     }
     
+    /**
+     * Test reserve1.
+     * 
+     * @throws Exception the exception
+     */
     public void testReserve1() throws Exception{
     	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
     	try{
@@ -616,6 +805,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	}
     }
     
+    /**
+     * Test reserve2.
+     * 
+     * @throws Exception the exception
+     */
     public void testReserve2() throws Exception{
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
     	EasyMock.expect(epoch.getReservationIndicator()).andReturn(false);
@@ -629,6 +823,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	verifyMocks();
     }
     
+    /**
+     * Test reserve3.
+     * 
+     * @throws Exception the exception
+     */
     public void testReserve3() throws Exception{
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
     	EasyMock.expect(epoch.getReservationIndicator()).andReturn(true);
@@ -649,6 +848,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	verifyMocks();
     }
     
+    /**
+     * Test reserve4.
+     * 
+     * @throws Exception the exception
+     */
     public void testReserve4() throws Exception{
     	
     	studySubject.setInformedConsentSignedDate(new Date());
@@ -673,6 +877,11 @@ public class StudySubjectTest extends AbstractTestCase {
     	verifyMocks();
     }
     
+    /**
+     * Test is randomized on scheduled epoch.
+     * 
+     * @throws Exception the exception
+     */
     public void testIsRandomizedOnScheduledEpoch() throws Exception{
     	EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(null);
     	replayMocks();
