@@ -4,8 +4,9 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 
 import java.util.List;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
@@ -98,9 +99,9 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     
     public void testMerge() throws Exception{
     	Investigator investigator = getDao().getLoadedInvestigatorById(1000);
-    	investigator.getHealthcareSiteInvestigators().get(0).getStudyInvestigators().get(0).setStatusCode("Inactive");
+    	investigator.getHealthcareSiteInvestigators().get(0).getStudyInvestigators().get(0).setStatusCode(InvestigatorStatusCodeEnum.IN);
     	getDao().merge(investigator);
-    	assertEquals("Wrong status code for the study investigator","Inactive", investigator.getHealthcareSiteInvestigators().get(0).getStudyInvestigators().get(0).getStatusCode());
+    	assertEquals("Wrong status code for the study investigator",InvestigatorStatusCodeEnum.IN, investigator.getHealthcareSiteInvestigators().get(0).getStudyInvestigators().get(0).getStatusCode());
     }
     
     public void testGetBySubNamesWithWildCard() throws Exception{
