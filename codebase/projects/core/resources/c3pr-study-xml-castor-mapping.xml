@@ -496,7 +496,7 @@
         <field name="roleCode" type="string">
             <bind-xml name="roleCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="statusCode" type="string">
+        <field name="statusCode" type="string" handler="edu.duke.cabig.c3pr.xml.InvestigatorStatusFieldHandler">
             <bind-xml name="statusCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="startDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
