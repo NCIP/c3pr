@@ -1285,9 +1285,9 @@ public void testEvaluateCoordinatingCenterStudyStatus1(){
  */
 public void testEvaluateCoordinatingCenterStudyStatus2(){
 	basicStudy.setStratificationIndicator(false);
-	basicStudy.setRandomizedIndicator(false);
+	basicStudy.setCompanionIndicator(true);
 	basicStudy.setStandaloneIndicator(false);
-	basicStudy.setRandomizedIndicator(true);
+	basicStudy.setRandomizedIndicator(false);
 	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 	CoordinatingCenterStudyStatus status = null;
 	try{
