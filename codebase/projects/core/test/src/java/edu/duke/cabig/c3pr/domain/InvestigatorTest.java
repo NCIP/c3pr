@@ -28,13 +28,13 @@ public class InvestigatorTest extends AbstractTestCase{
 	public void testSetExternalInvestigators() throws Exception{
 		
 		Investigator Investigator = new LocalInvestigator();
-		assertEquals("Unexpected external healthcare sites",0,Investigator.getExternalInvestigators().size());
+		assertEquals("Unexpected external investigator(s) ",0,Investigator.getExternalInvestigators().size());
 		
 		List<Investigator> externalInvestigators = new ArrayList<Investigator>();
 		externalInvestigators.add(new LocalInvestigator());
 		
 		Investigator.setExternalInvestigators(externalInvestigators);
-		assertEquals("Wrong number of healthcare sites",1,Investigator.getExternalInvestigators().size());
+		assertEquals("Wrong number of investigators",1,Investigator.getExternalInvestigators().size());
 	}
 	
 	/**
@@ -43,13 +43,13 @@ public class InvestigatorTest extends AbstractTestCase{
 	 * @throws Exception the exception
 	 */
 	public void testRemoveHealthcareSiteInvestigator() throws Exception{
-		Investigator Investigator = new LocalInvestigator();
-		assertEquals("Unexpected healthcareSite investigator(s)",0,Investigator.getHealthcareSiteInvestigators().size());
+		Investigator investigator = new LocalInvestigator();
+		assertEquals("Unexpected healthcareSite investigator(s)",0,investigator.getHealthcareSiteInvestigators().size());
 		
 		HealthcareSiteInvestigator hcsInv = new HealthcareSiteInvestigator();
-		Investigator.addHealthcareSiteInvestigator(hcsInv);
+		investigator.addHealthcareSiteInvestigator(hcsInv);
 		
-		assertEquals("Should have found 1 HealthcareSite Investigator",1,Investigator.getHealthcareSiteInvestigators().size());
+		assertEquals("Should have found 1 HealthcareSite Investigator",1,investigator.getHealthcareSiteInvestigators().size());
 		
 	}
 	
@@ -72,12 +72,12 @@ public class InvestigatorTest extends AbstractTestCase{
 	 * @throws Exception the exception
 	 */
 	public void testCompareTo() throws Exception{
-		Investigator Investigator1 = new LocalInvestigator();
-		Investigator Investigator2 = new LocalInvestigator();
-		assertEquals("The two Investigators should be same",0,Investigator1.compareTo(Investigator2));
+		Investigator investigator1 = new LocalInvestigator();
+		Investigator investigator2 = new LocalInvestigator();
+		assertEquals("The two Investigators should be same",0,investigator1.compareTo(investigator2));
 		
-		Investigator1.setNciIdentifier("NCI_IDENT1");
-		assertEquals("The two Investigators should be different",1,Investigator1.compareTo(Investigator2));
+		investigator1.setNciIdentifier("NCI_IDENT1");
+		assertEquals("The two Investigators should be different",1,investigator1.compareTo(investigator2));
 	}
 	
 	/**
@@ -99,11 +99,11 @@ public class InvestigatorTest extends AbstractTestCase{
 	 * @throws Exception the exception
 	 */
 	public void testEquals1() throws Exception{
-		Investigator Investigator1 = new LocalInvestigator();
-		Investigator Investigator2 = new RemoteInvestigator();
-		assertFalse("The two Investigators cannot be equal",Investigator1.equals(Investigator2));
-		Investigator Investigator3 = new LocalInvestigator();
-		assertTrue("The two Investigators should be equal",Investigator1.equals(Investigator3));
+		Investigator investigator1 = new LocalInvestigator();
+		Investigator investigator2 = new RemoteInvestigator();
+		assertFalse("The two Investigators cannot be equal",investigator1.equals(investigator2));
+		Investigator investigator3 = new LocalInvestigator();
+		assertTrue("The two Investigators should be equal",investigator1.equals(investigator3));
 	}
 	
 	/**
