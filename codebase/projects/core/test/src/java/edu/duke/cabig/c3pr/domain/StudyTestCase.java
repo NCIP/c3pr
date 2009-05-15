@@ -1141,4 +1141,76 @@ public void testHasEligibility1(){
 	assertTrue("eligibility present for this study",basicStudy.hasElligibility());
 	
 }
+
+/**
+ * test has companions
+ */
+public void testHasCompanion(){
+	assertFalse("no companion present for basic study",basicStudy.hasCompanions());
+	
+}
+
+
+/**
+ * test has companions
+ */
+public void testHasCompanion1(){
+	CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
+	association.setParentStudy(basicStudy);
+	replayMocks();
+	basicStudy.addCompanionStudyAssociation(association);
+	assertTrue("companion present for basic study",basicStudy.hasCompanions());
+	verifyMocks();
+}
+
+/**
+ * test has randomized epoch
+ */
+public void testHasRandomizedEpoch(){
+	basicStudy = studyCreationHelper.addStudySiteAndRandomizedTreatmentEpochToBasicStudy(basicStudy);
+	assertTrue("randomized epoch present for this study",basicStudy.hasRandomizedEpoch());
+	
+}
+
+
+/**
+ * test has randomized epoch
+ */
+public void testHasRandomizedEpoch1(){
+	assertFalse("randomized epoch present for this study",basicStudy.hasRandomizedEpoch());
+}
+
+/**
+ * test has stratified epoch
+ */
+public void testHasStratifiedEpoch(){
+	basicStudy = studyCreationHelper.addStratifiedEpochToBasicStudy(basicStudy, "epoch 1");
+	assertTrue("randomized epoch present for this study",basicStudy.hasStratifiedEpoch());
+}
+
+/**
+ * test has stratified epoch
+ */
+public void testHasStratifiedEpoch1(){
+	assertFalse("randomized epoch present for this study",basicStudy.hasStratifiedEpoch());
+}
+
+/**
+ * test get epoch by name
+ */
+public void testGetEpochByName(){
+	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy,"epoch 1");
+	assertNotNull("epoch present with name 'epoch 1'",basicStudy.getEpochByName("epoch 1"));
+}
+
+
+/**
+ * test get epoch by name
+ */
+public void testGetEpochByName1(){
+	assertNull("no epoch present with name 'epoch 1'",basicStudy.getEpochByName("epoch 1"));
+}
+
+
+
 }
