@@ -12,7 +12,10 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class StudyPersonnel.
+ * 
  * @author Priyatam
  */
 @Entity
@@ -21,18 +24,29 @@ import org.hibernate.annotations.Parameter;
 public class StudyPersonnel extends AbstractMutableDeletableDomainObject implements
                 Comparable<StudyPersonnel> {
 
+    /** The research staff. */
     private ResearchStaff researchStaff;
 
+    /** The study organization. */
     private StudyOrganization studyOrganization;
 
+    /** The role code. */
     private String roleCode;
 
+    /** The status code. */
     private String statusCode;
 
+    /** The start date. */
     private Date startDate;
 
+    /** The end date. */
     private Date endDate;
 
+    /**
+     * Gets the research staff.
+     * 
+     * @return the research staff
+     */
     @ManyToOne
     @JoinColumn(name = "research_staff_id")
     @Cascade(value= {CascadeType.SAVE_UPDATE})
@@ -40,57 +54,118 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
         return researchStaff;
     }
 
+    /**
+     * Sets the research staff.
+     * 
+     * @param researchStaff the new research staff
+     */
     public void setResearchStaff(ResearchStaff researchStaff) {
         this.researchStaff = researchStaff;
     }
 
+    /**
+     * Gets the study organization.
+     * 
+     * @return the study organization
+     */
     @ManyToOne
     @JoinColumn(name = "sto_id")
     public StudyOrganization getStudyOrganization() {
         return studyOrganization;
     }
 
+    /**
+     * Sets the study organization.
+     * 
+     * @param studyOrganization the new study organization
+     */
     public void setStudyOrganization(StudyOrganization studyOrganization) {
         this.studyOrganization = studyOrganization;
     }
 
+    /**
+     * Gets the end date.
+     * 
+     * @return the end date
+     */
     public Date getEndDate() {
         return endDate;
     }
 
+    /**
+     * Sets the end date.
+     * 
+     * @param endDate the new end date
+     */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
+    /**
+     * Gets the role code.
+     * 
+     * @return the role code
+     */
     public String getRoleCode() {
         return roleCode;
     }
 
+    /**
+     * Sets the role code.
+     * 
+     * @param roleCode the new role code
+     */
     public void setRoleCode(String roleCode) {
         this.roleCode = roleCode;
     }
 
+    /**
+     * Gets the start date.
+     * 
+     * @return the start date
+     */
     public Date getStartDate() {
         return startDate;
     }
 
+    /**
+     * Sets the start date.
+     * 
+     * @param startDate the new start date
+     */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
+    /**
+     * Gets the status code.
+     * 
+     * @return the status code
+     */
     public String getStatusCode() {
         return statusCode;
     }
 
+    /**
+     * Sets the status code.
+     * 
+     * @param statusCode the new status code
+     */
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(StudyPersonnel o) {
         if (this.equals(o)) return 0;
         return 1;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#hashCode()
+     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -101,6 +176,9 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
