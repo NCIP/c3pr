@@ -1236,4 +1236,31 @@ public void testUpdateDataEntryStatus(){
 }
 
 
+/**
+ * test evaluate coordinating center study status
+ */
+public void testEvaluateCoordinatingCenterStudyStatus(){
+	basicStudy.setStratificationIndicator(true);
+	basicStudy.setRandomizedIndicator(true);
+	
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(300)).andReturn(new C3PRCodedRuntimeException(300, "exception message"));
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(303)).andReturn(new C3PRCodedRuntimeException(303, "exception message"));
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(328)).andReturn(new C3PRCodedRuntimeException(328, "exception message"));
+	
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE", null, null)).andReturn("300");
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZED_EPOCH_FOR_RANDOMIZED_STUDY.CODE", null, null)).andReturn("303");
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFIED_EPOCH_FOR_STRATIFIED_STUDY.CODE", null, null)).andReturn("328");
+	replayMocks();
+	CoordinatingCenterStudyStatus status = null ;
+	try{
+		 status = basicStudy.evaluateCoordinatingCenterStudyStatus();
+	}catch(Exception e){
+		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
+	}
+	assertEquals("coordinating center status should be pending",CoordinatingCenterStudyStatus.PENDING, status);
+	verifyMocks();
+}
+
+
+
 }
