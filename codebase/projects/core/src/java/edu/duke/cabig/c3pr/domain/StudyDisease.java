@@ -10,7 +10,10 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class StudyDisease.
+ * 
  * @author Priyatam
  */
 
@@ -20,30 +23,51 @@ import org.hibernate.annotations.Parameter;
 public class StudyDisease extends AbstractMutableDeletableDomainObject implements
                 Comparable<StudyDisease> {
 
+    /** The study. */
     private Study study;
 
+    /** The disease term. */
     private DiseaseTerm diseaseTerm;
 
+    /** The lead disease. */
     private Boolean leadDisease;
 
     /*
      * Constructor -- Initializes participation at create time
      * 
      */
+    /**
+     * Instantiates a new study disease.
+     */
     public StudyDisease() {
         super();
     }
 
+    /**
+     * Gets the study.
+     * 
+     * @return the study
+     */
     @ManyToOne
     @JoinColumn(name = "study_id")
     public Study getStudy() {
         return study;
     }
 
+    /**
+     * Sets the study.
+     * 
+     * @param study the new study
+     */
     public void setStudy(Study study) {
         this.study = study;
     }
 
+    /**
+     * Gets the disease term.
+     * 
+     * @return the disease term
+     */
     @ManyToOne
     @JoinColumn(name = "disease_term_id")
     @Cascade(value = { CascadeType.LOCK })
@@ -51,18 +75,36 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
         return diseaseTerm;
     }
 
+    /**
+     * Sets the disease term.
+     * 
+     * @param diseaseTerm the new disease term
+     */
     public void setDiseaseTerm(DiseaseTerm diseaseTerm) {
         this.diseaseTerm = diseaseTerm;
     }
 
+    /**
+     * Gets the lead disease.
+     * 
+     * @return the lead disease
+     */
     public Boolean getLeadDisease() {
         return leadDisease;
     }
 
+    /**
+     * Sets the lead disease.
+     * 
+     * @param leadDisease the new lead disease
+     */
     public void setLeadDisease(Boolean leadDisease) {
         this.leadDisease = leadDisease;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(StudyDisease o) {
         if (this.equals(o)) {
             return 0;
@@ -70,6 +112,9 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
         else return 1;
     }
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -80,6 +125,9 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
