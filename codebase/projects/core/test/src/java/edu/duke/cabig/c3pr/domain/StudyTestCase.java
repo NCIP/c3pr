@@ -1052,7 +1052,7 @@ public class StudyTestCase extends AbstractTestCase{
 	 * test equals, if one study object has null coordinating center identifier
 	 */
 	public void testEquals1(){
-		basicStudy = studyCreationHelper.addCoordinationCenterIdentifier(basicStudy, "Coordinating Center Identifier", "value");
+		basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "value");
 		Study study = new Study();
 		assertFalse("both objects has null coordinating center identifer  hence unequal", basicStudy.equals(study));
 	}
@@ -1061,9 +1061,9 @@ public class StudyTestCase extends AbstractTestCase{
 	 * test equals, if  coordinating center identifier value is different
 	 */
 	public void testEquals2(){
-		basicStudy = studyCreationHelper.addCoordinationCenterIdentifier(basicStudy, "Coordinating Center Identifier", "value");
+		basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "value");
 		Study study = new Study();
-		study = studyCreationHelper.addCoordinationCenterIdentifier(study, "Coordinating Center Identifier", "testValue");
+		study = studyCreationHelper.addOrganizationAssignedIdentifier(study, "Coordinating Center Identifier", "testValue");
 		assertFalse("coordinating center identifer values are different hence unequal", basicStudy.equals(study));
 	}
 	
@@ -1071,9 +1071,9 @@ public class StudyTestCase extends AbstractTestCase{
 	 * test equals, if  coordinating center identifier value are same
 	 */
 	public void testEquals3(){
-		basicStudy = studyCreationHelper.addCoordinationCenterIdentifier(basicStudy, "Coordinating Center Identifier", "value");
+		basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "value");
 		Study study = new Study();
-		study = studyCreationHelper.addCoordinationCenterIdentifier(study, "Coordinating Center Identifier", "value");
+		study = studyCreationHelper.addOrganizationAssignedIdentifier(study, "Coordinating Center Identifier", "value");
 		assertTrue("coordinating center identifer values are same hence equal", basicStudy.equals(study));
 	}
 
@@ -1091,8 +1091,33 @@ public class StudyTestCase extends AbstractTestCase{
  * Test get primary indicator
  */
 public void testGetPrimaryIndicator(){
-	basicStudy = studyCreationHelper.addCoordinationCenterIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
 	assertEquals("Primary identifier value is Test Value","TestValue", basicStudy.getPrimaryIdentifier());
 }
+
+/**
+ * Test get funding sponsor identifier index 
+ */
+public void testGetFundingSponsorIdentifierIndex(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3D", "C3D");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Protocol Authority Identifier", "identifier");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3PR", "C3PR");
+	
+	assertEquals("Index of funding sponsorer should be 2",2, basicStudy.getFundingSponsorIdentifierIndex());
+}
+
+
+/**
+ * Test get funding sponsor identifier index 
+ */
+public void testGetFundingSponsorIdentifierIndex1(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3D", "C3D");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3PR", "C3PR");
+	
+	assertEquals("Index of funding sponsorer should be -1",-1, basicStudy.getFundingSponsorIdentifierIndex());
+}
+
 
 }
