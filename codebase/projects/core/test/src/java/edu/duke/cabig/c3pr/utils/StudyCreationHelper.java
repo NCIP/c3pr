@@ -12,7 +12,10 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
@@ -259,15 +262,21 @@ public class StudyCreationHelper {
     }
 
     public Study addStudySiteAndEnrollingEpochToBasicStudy(Study study) {
-
+    	return addStudySiteAndEnrollingEpochToBasicStudy(study,"Name");
+    }
+    
+    public Study addStudySiteAndEnrollingEpochToBasicStudy(Study study, String name) {
+    	EligibilityCriteria criteria = new InclusionEligibilityCriteria();
         study.addStudySite(new StudySite());
         Epoch epoch = new Epoch();
+        epoch.setName(name);
+        epoch.addEligibilityCriterion(criteria);
         epoch.setEnrollmentIndicator(new Boolean(true));
         study.addEpoch(epoch);
-
         return study;
     }
 
+    
     public Study addStudySiteAndRandomizedTreatmentEpochToBasicStudy(Study study) {
 
         study.addStudySite(new StudySite());
@@ -373,11 +382,25 @@ public class StudyCreationHelper {
         return study;
 	}
 
-	public Study addCoordinationCenterIdentifier(Study study, String type, String value){
+	public Study addOrganizationAssignedIdentifier(Study study, String type, String value){
 		OrganizationAssignedIdentifier orgIdentifier =  new OrganizationAssignedIdentifier();
 		orgIdentifier.setType(type);
 		orgIdentifier.setValue(value);
+		orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
+		orgIdentifier.setPrimaryIndicator(true);
 		study.getOrganizationAssignedIdentifiers().add(orgIdentifier);
 		return study;
 	}
+	
+	 public Study addNonEnrollingEpochToBasicStudy(Study study) {
+	        return addNonEnrollingEpochToBasicStudy(study, "Name");
+	    }
+	 
+	 public Study addNonEnrollingEpochToBasicStudy(Study study, String name) {
+	        Epoch epoch = new Epoch();
+	        epoch.setName(name);
+	        epoch.setEnrollmentIndicator(false);
+	        study.addEpoch(epoch);
+	        return study;
+	    }
 }
