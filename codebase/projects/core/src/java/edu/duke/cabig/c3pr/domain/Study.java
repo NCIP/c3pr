@@ -934,9 +934,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			}
 
 		}
-		if (!evaluateEpochsDataEntryStatus(errors)) {
-			return StudyDataEntryStatus.INCOMPLETE;
-		}
+		evaluateEpochsDataEntryStatus(errors);
+		
 		return errors.size() == 0 ? StudyDataEntryStatus.COMPLETE
 				: StudyDataEntryStatus.INCOMPLETE;
 	}
@@ -1083,13 +1082,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	}
 
-	public boolean evaluateEpochsDataEntryStatus(List<Error> errors)
+	public void evaluateEpochsDataEntryStatus(List<Error> errors)
 			throws C3PRCodedRuntimeException {
 		for (Epoch epoch : this.getEpochs()) {
-			if (!epoch.evaluateStatus(errors))
-				return false;
+			epoch.evaluateStatus(errors);
 		}
-		return true;
 	}
 
 	@Transient
