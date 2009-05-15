@@ -1378,13 +1378,9 @@ public void testGetC3PRErrorMessages(){
  */
 public void testEvaluateEpochsDataEntryStatus(){
 	basicStudy = studyCreationHelper.addStratifiedEpochToBasicStudy(basicStudy, "Name");
-	EasyMock.expect(c3prExceptionHelper.getRuntimeException(304)).andReturn(new C3PRCodedRuntimeException(304, "exception message"));
-	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("304");
-	try{
-		basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>());
-	}catch(Exception e){
-		assertEquals("error is instance of C3PRCodedRuntimeException", true , e instanceof C3PRCodedRuntimeException);
-	}
+	ArrayList<Error> errors = new ArrayList<Error>();
+	basicStudy.evaluateEpochsDataEntryStatus(errors);
+	assertEquals("size of errors is 1", 1 , errors.size());
 }
 
 
@@ -1393,11 +1389,9 @@ public void testEvaluateEpochsDataEntryStatus(){
  */
 public void testEvaluateEpochsDataEntryStatus1(){
 	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy);
-	try{
-		basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>());
-	}catch(Exception e){
-		assertNull("no exception thrown", e);
-	}
+	ArrayList<Error> errors = new ArrayList<Error>();
+		basicStudy.evaluateEpochsDataEntryStatus(errors);
+		assertEquals("no error found", 0 , errors.size());
 }
 
 
@@ -1405,11 +1399,9 @@ public void testEvaluateEpochsDataEntryStatus1(){
  * test evaluateEpochsDataEntryStatus
  */
 public void testEvaluateEpochsDataEntryStatus2(){
-	try{
-		basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>());
-	}catch(Exception e){
-		assertNull("no exception thrown because no epoch associated to study", e);
-	}
+	ArrayList<Error> errors = new ArrayList<Error>();
+	basicStudy.evaluateEpochsDataEntryStatus(errors);
+	assertEquals("no error found", 0 , errors.size());
 }
 
 
@@ -1434,24 +1426,92 @@ public void testPending(){
  */
 public void testTemporarilyCloseToAccrual(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-	basicStudy.temporarilyCloseToAccrual();
+	try{
+		basicStudy.temporarilyCloseToAccrual();
+	}catch (Exception e) {
+		assertNull("Error not theorwn", e);
+	}
 	assertEquals("study coordinating center status should be  pending", CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL,  basicStudy.getCoordinatingCenterStudyStatus());
 }
 
 
-//if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
-//|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
-//|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
-//|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
-//throw getC3PRExceptionHelper()
-//	.getRuntimeException(
-//			getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-//			new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
-//					.getDisplayName() });
-//}
-//this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+/**
+ * test temporarilyCloseToAccrual
+ */
+public void testTemporarilyCloseToAccrual1(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+	
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{"Temporary Close To Accrual"}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
+	
+	replayMocks();
+	try{
+		basicStudy.temporarilyCloseToAccrual();
+	}catch (Exception e) {
+		assertEquals("Exception is instance of C3PRCodedRuntimeException", true , e instanceof C3PRCodedRuntimeException);
+	}
+	verifyMocks();
+}
 
 
+
+/**
+ * test temporarilyCloseToAccrual
+ */
+public void testTemporarilyCloseToAccrual2(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+	
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{"Temporary Close To Accrual"}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
+	
+	replayMocks();
+	try{
+		basicStudy.temporarilyCloseToAccrual();
+	}catch (Exception e) {
+		assertEquals("Exception is instance of C3PRCodedRuntimeException", true , e instanceof C3PRCodedRuntimeException);
+	}
+	verifyMocks();
+}
+
+
+
+/**
+ * test temporarilyCloseToAccrual
+ */
+public void testTemporarilyCloseToAccrual3(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+	
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{"Temporary Close To Accrual"}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
+	
+	replayMocks();
+	try{
+		basicStudy.temporarilyCloseToAccrual();
+	}catch (Exception e) {
+		assertEquals("Exception is instance of C3PRCodedRuntimeException", true , e instanceof C3PRCodedRuntimeException);
+	}
+	verifyMocks();
+}
+
+
+
+/**
+ * test temporarilyCloseToAccrual
+ */
+public void testTemporarilyCloseToAccrual4(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+	
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{"Temporary Close To Accrual"}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
+	
+	replayMocks();
+	try{
+		basicStudy.temporarilyCloseToAccrual();
+	}catch (Exception e) {
+		assertEquals("Exception is instance of C3PRCodedRuntimeException", true , e instanceof C3PRCodedRuntimeException);
+	}
+	verifyMocks();
+}
 
 
 
