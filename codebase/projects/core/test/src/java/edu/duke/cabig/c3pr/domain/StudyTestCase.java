@@ -6,6 +6,8 @@ import java.util.List;
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
+import com.sun.swing.internal.plaf.basic.resources.basic;
+
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -1261,6 +1263,40 @@ public void testEvaluateCoordinatingCenterStudyStatus(){
 	verifyMocks();
 }
 
+
+/**
+ * test evaluate coordinating center study status
+ */
+public void testEvaluateCoordinatingCenterStudyStatus1(){
+	basicStudy.setStratificationIndicator(false);
+	basicStudy.setRandomizedIndicator(false);
+	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+	CoordinatingCenterStudyStatus status = null;
+	try{
+		 status = basicStudy.evaluateCoordinatingCenterStudyStatus();
+	}catch(Exception e){
+		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
+	}
+	assertEquals("coordinating center status should be pending",CoordinatingCenterStudyStatus.OPEN, status);
+}
+
+/**
+ * test evaluate coordinating center study status
+ */
+public void testEvaluateCoordinatingCenterStudyStatus2(){
+	basicStudy.setStratificationIndicator(false);
+	basicStudy.setRandomizedIndicator(false);
+	basicStudy.setStandaloneIndicator(false);
+	basicStudy.setRandomizedIndicator(true);
+	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+	CoordinatingCenterStudyStatus status = null;
+	try{
+		 status = basicStudy.evaluateCoordinatingCenterStudyStatus();
+	}catch(Exception e){
+		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
+	}
+	assertEquals("coordinating center status should be pending",CoordinatingCenterStudyStatus.READY_TO_OPEN, status);
+}
 
 
 }
