@@ -105,7 +105,7 @@ public class CreateOrganizationController extends SimpleFormController {
 			for (HealthcareSite remoteOrg : remoteOrgs) {
 				if (remoteOrg.getNciInstituteCode().equals(
 						healthcareSite.getNciInstituteCode())) {
-					healthcareSite.addExternalOganization(remoteOrg);
+					healthcareSite.addExternalOrganization(remoteOrg);
 					matchingExternalHealthcareSitePresent = true;
 				}
 			}
