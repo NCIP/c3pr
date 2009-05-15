@@ -33,15 +33,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
-import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
-import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
-import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
-import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
-import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
-import edu.duke.cabig.c3pr.domain.factory.ParameterizedInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -52,7 +45,10 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class StudySubject.
+ * 
  * @author Ram Chilukuri
  */
 
@@ -66,58 +62,86 @@ import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 public class StudySubject extends
 		InteroperableAbstractMutableDeletableDomainObject implements Customizable{
 
+	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
+	/** The scheduled epochs. */
 	private List<ScheduledEpoch> scheduledEpochs = new ArrayList<ScheduledEpoch>();
 	
+	/** The consent history list. */
 	private List<ConsentHistory> consentHistoryList = new ArrayList<ConsentHistory>();
 
+	/** The name. */
 	private String name;
 
+	/** The off study reason text. */
 	private String offStudyReasonText;
 
+	/** The off study date. */
 	private Date offStudyDate;
 
+	/** The study site. */
 	private StudySite studySite;
 
+	/** The participant. */
 	private Participant participant;
 
+	/** The start date. */
 	private Date startDate;
 
+	/** The informed consent signed date. */
 	private Date informedConsentSignedDate;
 
+	/** The informed consent version. */
 	private String informedConsentVersion;
 
+	/** The primary identifier. */
 	private String primaryIdentifier;
 
+	/** The treating physician. */
 	private StudyInvestigator treatingPhysician;
 
+	/** The other treating physician. */
 	private String otherTreatingPhysician;
 
+	/** The reg data entry status. */
 	private RegistrationDataEntryStatus regDataEntryStatus;
 
+	/** The reg workflow status. */
 	private RegistrationWorkFlowStatus regWorkflowStatus;
 
+	/** The disease history. */
 	private DiseaseHistory diseaseHistory;
 
+	/** The identifiers. */
 	private List<Identifier> identifiers;
 
 	// TODO going to be removed
+	/** The stratum group number. */
 	private Integer stratumGroupNumber;
 
+	/** The payment method. */
 	private String paymentMethod;
 
+	/** The disapproval reason text. */
 	private String disapprovalReasonText;
 
+	/** The child study subjects. */
 	private List<StudySubject> childStudySubjects = new ArrayList<StudySubject>();
 
+	/** The parent study subject. */
 	private StudySubject parentStudySubject;
 
+	/** The c3 pr exception helper. */
 	private C3PRExceptionHelper c3PRExceptionHelper;
 
+	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
 	
 
+	/**
+	 * Instantiates a new study subject.
+	 */
 	public StudySubject() {
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 		resourceBundleMessageSource.setBasename("error_messages_multisite");
@@ -133,7 +157,6 @@ public class StudySubject extends
 		lazyListHelper.add(ScheduledEpoch.class,
 				new InstantiateFactory<ScheduledEpoch>(ScheduledEpoch.class));
 		this.startDate = new Date();
-		this.primaryIdentifier = "SysGen";
 		this.regDataEntryStatus = RegistrationDataEntryStatus.INCOMPLETE;
 		this.regWorkflowStatus = RegistrationWorkFlowStatus.PENDING;
 		lazyListHelper
@@ -151,6 +174,11 @@ public class StudySubject extends
 	}
 
 	// / BEAN PROPERTIES
+	/**
+	 * Instantiates a new study subject.
+	 * 
+	 * @param forExample the for example
+	 */
 	public StudySubject(boolean forExample) {
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(ScheduledEpoch.class,
@@ -168,12 +196,16 @@ public class StudySubject extends
 		setIdentifiers(new ArrayList<Identifier>());
 		if (!forExample) {
 			this.startDate = new Date();
-			this.primaryIdentifier = "SysGen";
 		}
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 		lazyListHelper.add(ConsentHistory.class, new ParameterizedBiDirectionalInstantiateFactory<ConsentHistory>(ConsentHistory.class, this));
 	}
 
+	/**
+	 * Gets the scheduled epochs.
+	 * 
+	 * @return the scheduled epochs
+	 */
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "SPA_ID", nullable = false)
@@ -181,24 +213,49 @@ public class StudySubject extends
 		return scheduledEpochs;
 	}
 
+	/**
+	 * Sets the scheduled epochs.
+	 * 
+	 * @param scheduledEpochs the new scheduled epochs
+	 */
 	private void setScheduledEpochs(List<ScheduledEpoch> scheduledEpochs) {
 		this.scheduledEpochs = scheduledEpochs;
 		lazyListHelper.setInternalList(ScheduledEpoch.class,new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,ScheduledEpoch.class));
 		lazyListHelper.setInternalList(ScheduledEpoch.class,new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,ScheduledEpoch.class));
 	}
 
+	/**
+	 * Adds the scheduled epoch.
+	 * 
+	 * @param scheduledEpoch the scheduled epoch
+	 */
 	public void addScheduledEpoch(ScheduledEpoch scheduledEpoch) {
 		getScheduledEpochs().add(scheduledEpoch);
 	}
 
+	/**
+	 * Gets the scheduled epoch.
+	 * 
+	 * @return the scheduled epoch
+	 */
 	@Transient
 	public ScheduledEpoch getScheduledEpoch() {
 		return getCurrentScheduledEpoch();
 	}
 
+	/**
+	 * Sets the scheduled epoch.
+	 * 
+	 * @param scheduledEpoch the new scheduled epoch
+	 */
 	private void setScheduledEpoch(ScheduledEpoch scheduledEpoch) {
 	}
 
+	/**
+	 * Gets the current scheduled epoch.
+	 * 
+	 * @return the current scheduled epoch
+	 */
 	@Transient
 	public ScheduledEpoch getCurrentScheduledEpoch() {
 		List<ScheduledEpoch> tempList = new ArrayList<ScheduledEpoch>();
@@ -209,10 +266,20 @@ public class StudySubject extends
 		return tempList.get(tempList.size() - 1);
 	}
 
+	/**
+	 * Sets the current scheduled epoch.
+	 * 
+	 * @param scheduledEpoch the new current scheduled epoch
+	 */
 	public void setCurrentScheduledEpoch(ScheduledEpoch scheduledEpoch) {
 
 	}
 
+	/**
+	 * Gets the disease history.
+	 * 
+	 * @return the disease history
+	 */
 	@Transient
 	public DiseaseHistory getDiseaseHistory() {
 		if (this.diseaseHistory == null)
@@ -220,10 +287,20 @@ public class StudySubject extends
 		return diseaseHistory;
 	}
 
+	/**
+	 * Sets the disease history.
+	 * 
+	 * @param diseaseHistory the new disease history
+	 */
 	public void setDiseaseHistory(DiseaseHistory diseaseHistory) {
 		this.diseaseHistory = diseaseHistory;
 	}
 
+	/**
+	 * Gets the disease history internal.
+	 * 
+	 * @return the disease history internal
+	 */
 	@OneToOne
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "DISEASE_HISTORY_ID")
@@ -231,14 +308,29 @@ public class StudySubject extends
 		return diseaseHistory;
 	}
 
+	/**
+	 * Sets the disease history internal.
+	 * 
+	 * @param diseaseHistory the new disease history internal
+	 */
 	public void setDiseaseHistoryInternal(DiseaseHistory diseaseHistory) {
 		this.diseaseHistory = diseaseHistory;
 	}
 
+	/**
+	 * Sets the study site.
+	 * 
+	 * @param studySite the new study site
+	 */
 	public void setStudySite(StudySite studySite) {
 		this.studySite = studySite;
 	}
 
+	/**
+	 * Gets the study site.
+	 * 
+	 * @return the study site
+	 */
 	@ManyToOne
 	@JoinColumn(name = "STO_ID", nullable = false)
 	@Cascade( { CascadeType.LOCK })
@@ -246,10 +338,20 @@ public class StudySubject extends
 		return studySite;
 	}
 
+	/**
+	 * Sets the participant.
+	 * 
+	 * @param participant the new participant
+	 */
 	public void setParticipant(Participant participant) {
 		this.participant = participant;
 	}
 
+	/**
+	 * Gets the participant.
+	 * 
+	 * @return the participant
+	 */
 	@ManyToOne
 	@JoinColumn(name = "PRT_ID", nullable = false)
 	@Cascade( { CascadeType.LOCK })
@@ -258,7 +360,12 @@ public class StudySubject extends
 	}
 
 //	@Transient
-	public Date getInformedConsentSignedDate() {
+	/**
+ * Gets the informed consent signed date.
+ * 
+ * @return the informed consent signed date
+ */
+public Date getInformedConsentSignedDate() {
 		return informedConsentSignedDate ;
 //		List<ConsentHistory> tempList = new ArrayList<ConsentHistory>();
 //		tempList.addAll(getConsentHistoryList());
@@ -269,26 +376,54 @@ public class StudySubject extends
 //		return consentHistory.getConsentSignedDate();
 	}
 
+	/**
+	 * Sets the informed consent signed date.
+	 * 
+	 * @param informedConsentSignedDate the new informed consent signed date
+	 */
 	public void setInformedConsentSignedDate(Date informedConsentSignedDate) {
 		this.informedConsentSignedDate = informedConsentSignedDate;
 	}
 
+	/**
+	 * Gets the disapproval reason text.
+	 * 
+	 * @return the disapproval reason text
+	 */
 	public String getDisapprovalReasonText() {
 		return disapprovalReasonText;
 	}
 
+	/**
+	 * Sets the disapproval reason text.
+	 * 
+	 * @param disapprovalReasonText the new disapproval reason text
+	 */
 	public void setDisapprovalReasonText(String disapprovalReasonText) {
 		this.disapprovalReasonText = disapprovalReasonText;
 	}
 
+	/**
+	 * Gets the start date.
+	 * 
+	 * @return the start date
+	 */
 	public Date getStartDate() {
 		return startDate;
 	}
 
+	/**
+	 * Sets the start date.
+	 * 
+	 * @param startDate the new start date
+	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -311,6 +446,9 @@ public class StudySubject extends
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int result;
@@ -321,51 +459,65 @@ public class StudySubject extends
 		return result;
 	}
 
+	/**
+	 * Gets the informed consent signed date str.
+	 * 
+	 * @return the informed consent signed date str
+	 */
 	@Transient
 	public String getInformedConsentSignedDateStr() {
-		if (informedConsentSignedDate == null) {
+		if (informedConsentSignedDate == null || informedConsentSignedDate.equals("")) {
 			return "";
-		} else if (informedConsentSignedDate.equals("")) {
-			return "";
-		}
+		} 
 		try {
 			return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
 		} catch (ParseException e) {
-			// do nothing
+			e.printStackTrace();
 		}
 		return null;
 	}
 	
+	/**
+	 * Gets the off study date str.
+	 * 
+	 * @return the off study date str
+	 */
 	@Transient
 	public String getOffStudyDateStr() {
-		if (offStudyDate == null) {
-			return "";
-		} else if (offStudyDate.equals("")) {
+		if (offStudyDate == null || offStudyDate.equals("")) {
 			return "";
 		}
 		try {
 			return DateUtil.formatDate(offStudyDate, "MM/dd/yyyy");
 		} catch (ParseException e) {
-			// do nothing
+			e.printStackTrace();
 		}
 		return null;
 	}
 	
+	/**
+	 * Gets the start date str.
+	 * 
+	 * @return the start date str
+	 */
 	@Transient
 	public String getStartDateStr() {
-		if (startDate == null) {
+		if (startDate == null || startDate.equals("")) {
 			return "";
-		} else if (startDate.equals("")) {
-			return "";
-		}
+		} 
 		try {
 			return DateUtil.formatDate(startDate, "MM/dd/yyyy");
 		} catch (ParseException e) {
-			// do nothing
+			e.printStackTrace();
 		}
 		return "";
 	}
 
+	/**
+	 * Gets the identifiers.
+	 * 
+	 * @return the identifiers
+	 */
 	@OneToMany
 	@Cascade( { CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "SPA_ID")
@@ -375,6 +527,11 @@ public class StudySubject extends
 		return identifiers;
 	}
 
+	/**
+	 * Sets the identifiers.
+	 * 
+	 * @param identifiers the new identifiers
+	 */
 	private void setIdentifiers(List<Identifier> identifiers) {
 		this.identifiers = identifiers;
 		// initialize projected list for OrganizationAssigned and
@@ -389,34 +546,69 @@ public class StudySubject extends
 						SystemAssignedIdentifier.class));
 	}
 
+	/**
+	 * Gets the system assigned identifiers.
+	 * 
+	 * @return the system assigned identifiers
+	 */
 	@Transient
 	public List<SystemAssignedIdentifier> getSystemAssignedIdentifiers() {
 		return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
 	}
 
+	/**
+	 * Sets the system assigned identifiers.
+	 * 
+	 * @param systemAssignedIdentifiers the new system assigned identifiers
+	 */
 	public void setSystemAssignedIdentifiers(
 			List<SystemAssignedIdentifier> systemAssignedIdentifiers) {
 		// do nothing
 	}
 
+	/**
+	 * Gets the organization assigned identifiers.
+	 * 
+	 * @return the organization assigned identifiers
+	 */
 	@Transient
 	public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
 		return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
 	}
 
+	/**
+	 * Sets the organization assigned identifiers.
+	 * 
+	 * @param organizationAssignedIdentifiers the new organization assigned identifiers
+	 */
 	public void setOrganizationAssignedIdentifiers(
 			List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers) {
 		// do nothing
 	}
 
+	/**
+	 * Adds the identifier.
+	 * 
+	 * @param identifier the identifier
+	 */
 	public void addIdentifier(Identifier identifier) {
 		getIdentifiers().add(identifier);
 	}
 
+	/**
+	 * Removes the identifier.
+	 * 
+	 * @param identifier the identifier
+	 */
 	public void removeIdentifier(Identifier identifier) {
 		getIdentifiers().remove(identifier);
 	}
 
+	/**
+	 * Gets the primary identifier.
+	 * 
+	 * @return the primary identifier
+	 */
 	@Transient
 	public String getPrimaryIdentifier() {
 		for (Identifier identifier : getIdentifiers()) {
@@ -428,42 +620,68 @@ public class StudySubject extends
 		return primaryIdentifier;
 	}
 
+	/**
+	 * Gets the informed consent version.
+	 * 
+	 * @return the informed consent version
+	 */
 	@Column(name = "informedConsentVersion", nullable = true)
 	public String getInformedConsentVersion() {
 		return informedConsentVersion;
 	}
 
+	/**
+	 * Sets the informed consent version.
+	 * 
+	 * @param informedConsentVersion the new informed consent version
+	 */
 	public void setInformedConsentVersion(String informedConsentVersion) {
 		this.informedConsentVersion = informedConsentVersion;
 	}
 
+	/**
+	 * Gets the treating physician.
+	 * 
+	 * @return the treating physician
+	 */
 	@OneToOne
 	@JoinColumn(name = "STI_ID")
 	public StudyInvestigator getTreatingPhysician() {
 		return treatingPhysician;
 	}
 
+	/**
+	 * Sets the treating physician.
+	 * 
+	 * @param treatingPhysician the new treating physician
+	 */
 	public void setTreatingPhysician(StudyInvestigator treatingPhysician) {
 		this.treatingPhysician = treatingPhysician;
 	}
 
-	@Transient
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	/**
+	 * Gets the other treating physician.
+	 * 
+	 * @return the other treating physician
+	 */
 	public String getOtherTreatingPhysician() {
 		return otherTreatingPhysician;
 	}
 
+	/**
+	 * Sets the other treating physician.
+	 * 
+	 * @param otherTreatingPhysician the new other treating physician
+	 */
 	public void setOtherTreatingPhysician(String otherTreatingPhysician) {
 		this.otherTreatingPhysician = otherTreatingPhysician;
 	}
 
+	/**
+	 * Gets the treating physician full name.
+	 * 
+	 * @return the treating physician full name
+	 */
 	@Transient
 	public String getTreatingPhysicianFullName() {
 		if (getTreatingPhysician() != null)
@@ -472,30 +690,60 @@ public class StudySubject extends
 		return getOtherTreatingPhysician();
 	}
 
+	/**
+	 * Sets the treating physician full name.
+	 * 
+	 * @param s the new treating physician full name
+	 */
 	public void setTreatingPhysicianFullName(String s) {
 
 	}
 
+	/**
+	 * Gets the reg workflow status.
+	 * 
+	 * @return the reg workflow status
+	 */
 	@Enumerated(EnumType.STRING)
 	public RegistrationWorkFlowStatus getRegWorkflowStatus() {
 		return regWorkflowStatus;
 	}
 
+	/**
+	 * Sets the reg workflow status.
+	 * 
+	 * @param registrationWorkFlowStatus the new reg workflow status
+	 */
 	public void setRegWorkflowStatus(
 			RegistrationWorkFlowStatus registrationWorkFlowStatus) {
 		this.regWorkflowStatus = registrationWorkFlowStatus;
 	}
 
+	/**
+	 * Gets the reg data entry status.
+	 * 
+	 * @return the reg data entry status
+	 */
 	@Enumerated(EnumType.STRING)
 	public RegistrationDataEntryStatus getRegDataEntryStatus() {
 		return regDataEntryStatus;
 	}
 
+	/**
+	 * Sets the reg data entry status.
+	 * 
+	 * @param registrationDataEntryStatus the new reg data entry status
+	 */
 	public void setRegDataEntryStatus(
 			RegistrationDataEntryStatus registrationDataEntryStatus) {
 		this.regDataEntryStatus = registrationDataEntryStatus;
 	}
 
+	/**
+	 * Gets the data entry status string.
+	 * 
+	 * @return the data entry status string
+	 */
 	@Transient
 	public String getDataEntryStatusString() {
 		return this.regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
@@ -503,6 +751,11 @@ public class StudySubject extends
 				: "Incomplete";
 	}
 	
+	/**
+	 * Gets the data entry status.
+	 * 
+	 * @return the data entry status
+	 */
 	@Transient
     public boolean getDataEntryStatus() {
         return this.regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
@@ -510,6 +763,11 @@ public class StudySubject extends
                         : false;
     }
 
+	/**
+	 * Gets the co ordinating center identifier.
+	 * 
+	 * @return the co ordinating center identifier
+	 */
 	@Transient
 	public OrganizationAssignedIdentifier getCoOrdinatingCenterIdentifier() {
 		for (OrganizationAssignedIdentifier organizationAssignedIdentifier : getOrganizationAssignedIdentifiers()) {
@@ -521,6 +779,11 @@ public class StudySubject extends
 		return null;
 	}
 
+	/**
+	 * Sets the co ordinating center identifier.
+	 * 
+	 * @param value the new co ordinating center identifier
+	 */
 	public void setCoOrdinatingCenterIdentifier(String value) {
 		OrganizationAssignedIdentifier identifier = getOrganizationAssignedIdentifiers()
 				.get(0);
@@ -530,6 +793,11 @@ public class StudySubject extends
 		identifier.setValue(value);
 	}
 
+	/**
+	 * Gets the c3 d identifier.
+	 * 
+	 * @return the c3 d identifier
+	 */
 	@Transient
 	public String getC3DIdentifier() {
 		if (getSystemAssignedIdentifiers().size() == 0)
@@ -537,6 +805,11 @@ public class StudySubject extends
 		return getSystemAssignedIdentifiers().get(0).getValue();
 	}
 
+	/**
+	 * Sets the c3 d identifier.
+	 * 
+	 * @param value the new c3 d identifier
+	 */
 	public void setC3DIdentifier(String value) {
 		SystemAssignedIdentifier identifier = getSystemAssignedIdentifiers()
 				.get(0);
@@ -545,33 +818,68 @@ public class StudySubject extends
 		identifier.setValue(value);
 	}
 
+	/**
+	 * Gets the off study date.
+	 * 
+	 * @return the off study date
+	 */
 	public Date getOffStudyDate() {
 		return offStudyDate;
 	}
 
+	/**
+	 * Sets the off study date.
+	 * 
+	 * @param offStudyDate the new off study date
+	 */
 	public void setOffStudyDate(Date offStudyDate) {
 		this.offStudyDate = offStudyDate;
 	}
 
+	/**
+	 * Gets the off study reason text.
+	 * 
+	 * @return the off study reason text
+	 */
 	public String getOffStudyReasonText() {
 		return offStudyReasonText;
 	}
 
+	/**
+	 * Sets the off study reason text.
+	 * 
+	 * @param offStudyReasonText the new off study reason text
+	 */
 	public void setOffStudyReasonText(String offStudyReasonText) {
 		this.offStudyReasonText = offStudyReasonText;
 	}
 
 	// TODO to be deleted
+	/**
+	 * Gets the stratum group number.
+	 * 
+	 * @return the stratum group number
+	 */
 	public Integer getStratumGroupNumber() {
 		return stratumGroupNumber;
 	}
 
 	// TODO to be deleted
+	/**
+	 * Sets the stratum group number.
+	 * 
+	 * @param stratumGroupNumber the new stratum group number
+	 */
 	public void setStratumGroupNumber(Integer stratumGroupNumber) {
 		this.stratumGroupNumber = stratumGroupNumber;
 	}
 
 	// Adding refactored code
+	/**
+	 * Evaluate registration data entry status.
+	 * 
+	 * @return the registration data entry status
+	 */
 	public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus() {
 		if (this.getInformedConsentSignedDateStr().equals("")){
 			return RegistrationDataEntryStatus.INCOMPLETE;
@@ -589,6 +897,11 @@ public class StudySubject extends
 	}
 
 	// Adding refactored code
+	/**
+	 * Evaluate registration data entry status.
+	 * 
+	 * @param errors the errors
+	 */
 	public void evaluateRegistrationDataEntryStatus(List<Error> errors) {
 		if (this.getInformedConsentSignedDateStr().equals("")) {
 			errors.add(new Error("Informed consent signed date is missing"));
@@ -609,12 +922,26 @@ public class StudySubject extends
 		
 	}
 
+	/**
+	 * Evaluate scheduled epoch data entry status.
+	 * 
+	 * @param errors the errors
+	 * 
+	 * @return the scheduled epoch data entry status
+	 */
 	public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(
 			List<Error> errors) {
 		return this.getScheduledEpoch().evaluateScheduledEpochDataEntryStatus(
 				errors);
 	}
 
+	/**
+	 * Checks if is study site.
+	 * 
+	 * @param nciCode the nci code
+	 * 
+	 * @return true, if is study site
+	 */
 	@Transient
 	public boolean isStudySite(String nciCode) {
 		return this.getStudySite().getHealthcareSite().getNciInstituteCode()
@@ -623,7 +950,9 @@ public class StudySubject extends
 
 	/**
 	 * Data Entry is considered complete if both Registrations and Scheduled
-	 * Epoch data entry status are complete
+	 * Epoch data entry status are complete.
+	 * 
+	 * @return true, if checks if is data entry complete
 	 */
 	@Transient
 	public boolean isDataEntryComplete() {
@@ -634,20 +963,35 @@ public class StudySubject extends
 		return false;
 	}
 
-	public boolean canRandomize() {
+	/**
+	 * Ready for randomization.
+	 * 
+	 * @return true, if successful
+	 */
+	public boolean readyForRandomization() {
 		return regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
 				&& getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE;
 	}
+	
 	/**
 	 * Computes if co-ordinating center needs to approve a record for successful
 	 * registration. which is true if the study is multisite and the epoch is
 	 * enrolling.
+	 * 
+	 * @return true, if requires coordinating center approval
 	 */
 	public boolean requiresCoordinatingCenterApproval() {
 		return this.getStudySite().getStudy().getMultiInstitutionIndicator()
 				&& this.getScheduledEpoch().getEpoch().isEnrolling();
 	}
 
+	/**
+	 * Checks if is co ordinating center.
+	 * 
+	 * @param nciCode the nci code
+	 * 
+	 * @return true, if is co ordinating center
+	 */
 	@Transient
 	public boolean isCoOrdinatingCenter(String nciCode) {
 		return this.getStudySite().getStudy().isCoOrdinatingCenter(nciCode);
@@ -660,6 +1004,11 @@ public class StudySubject extends
 	 * this.evaluateScheduledEpochDataEntryStatus()); }
 	 */
 
+	/**
+	 * Update data entry status.
+	 * 
+	 * @return the list< error>
+	 */
 	public List<Error> updateDataEntryStatus() {
 		List<Error> errors = new ArrayList<Error>();
 		this.evaluateRegistrationDataEntryStatus(errors);
@@ -668,38 +1017,78 @@ public class StudySubject extends
 		return errors;
 	}
 
+	/**
+	 * Gets the payment method.
+	 * 
+	 * @return the payment method
+	 */
 	public String getPaymentMethod() {
 		return paymentMethod;
 	}
 
+	/**
+	 * Sets the payment method.
+	 * 
+	 * @param paymentMethod the new payment method
+	 */
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
 
+	/**
+	 * Requires affiliate site response.
+	 * 
+	 * @return true, if successful
+	 */
 	public boolean requiresAffiliateSiteResponse() {
 		if (this.getMultisiteWorkflowStatus() == WorkFlowStatusType.MESSAGE_RECIEVED)
 			return true;
 		return false;
 	}
 
+	/**
+	 * Gets the child study subjects.
+	 * 
+	 * @return the child study subjects
+	 */
 	@OneToMany(mappedBy = "parentStudySubject")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudySubject> getChildStudySubjects() {
 		return childStudySubjects;
 	}
 	
+	/**
+	 * Removes the child study subject.
+	 * 
+	 * @param studySubject the study subject
+	 */
 	public void removeChildStudySubject(StudySubject studySubject) {
 		getChildStudySubjects().remove(studySubject);
 	}
 	
+	/**
+	 * Adds the child study subject.
+	 * 
+	 * @param studySubject the study subject
+	 */
 	public void addChildStudySubject(StudySubject studySubject) {
 		getChildStudySubjects().add(studySubject);
 	}
 	
+	/**
+	 * Sets the child study subjects.
+	 * 
+	 * @param childStudySubjects the new child study subjects
+	 */
 	public void setChildStudySubjects(List<StudySubject> childStudySubjects) {
 		this.childStudySubjects = childStudySubjects;
 	}
 
+	/**
+	 * Gets the parent study subject.
+	 * 
+	 * @return the parent study subject
+	 */
 	@ManyToOne
 	@Cascade(value = { CascadeType.LOCK })
 	@JoinTable(name = "stu_sub_associations", joinColumns = @JoinColumn(name = "child_stu_sub_id"), inverseJoinColumns = @JoinColumn(name = "parent_stu_sub_id"))
@@ -707,10 +1096,20 @@ public class StudySubject extends
 		return parentStudySubject;
 	}
 
+	/**
+	 * Sets the parent study subject.
+	 * 
+	 * @param parentStudySubject the new parent study subject
+	 */
 	public void setParentStudySubject(StudySubject parentStudySubject) {
 		this.parentStudySubject = parentStudySubject;
 	}
 
+	/**
+	 * Builds the map for notification.
+	 * 
+	 * @return the map< object, object>
+	 */
 	@SuppressWarnings("unused")
 	@Transient
 	/*
@@ -766,6 +1165,9 @@ public class StudySubject extends
 		return map;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject#getEndpoints()
+	 */
 	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "stu_sub_id")
@@ -773,12 +1175,26 @@ public class StudySubject extends
 		return endpoints;
 	}
 
+	/**
+	 * Creates the scheduled epoch.
+	 * 
+	 * @param epoch the epoch
+	 * 
+	 * @return the scheduled epoch
+	 */
 	public ScheduledEpoch createScheduledEpoch(Epoch epoch) {
 		ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
 		scheduledEpoch.setEpoch(epoch);
 		return scheduledEpoch;
 	}
 
+	/**
+	 * If scheduled epoch created for this epoch.
+	 * 
+	 * @param epoch the epoch
+	 * 
+	 * @return true, if successful
+	 */
 	public boolean ifScheduledEpochCreatedForThisEpoch(Epoch epoch) {
 		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs())
 			if (scheduledEpoch.getEpoch().equals(epoch)) {
@@ -788,6 +1204,13 @@ public class StudySubject extends
 		return false;
 	}
 
+	/**
+	 * Gets the matching scheduled epoch.
+	 * 
+	 * @param epoch the epoch
+	 * 
+	 * @return the matching scheduled epoch
+	 */
 	public ScheduledEpoch getMatchingScheduledEpoch(Epoch epoch) {
 		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs())
 			if (scheduledEpoch.getEpoch().equals(epoch)) {
@@ -797,14 +1220,27 @@ public class StudySubject extends
 	}
 
 	// returns errors if cannot register.
+	/**
+	 * Can register.
+	 * 
+	 * @return the list< error>
+	 */
 	public List<Error> canRegister() {
 		return updateDataEntryStatus();
 	}
 
+	/**
+	 * Can reserve.
+	 * 
+	 * @return the list< error>
+	 */
 	public List<Error> canReserve() {
 		return updateDataEntryStatus();
 	}
 
+	/**
+	 * Register.
+	 */
 	public void register() {
 		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
 			throw new C3PRBaseRuntimeException(
@@ -859,6 +1295,9 @@ public class StudySubject extends
 		}
 	}
 
+	/**
+	 * Reserve.
+	 */
 	public void reserve() {
 
 		if (this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.PENDING) {
@@ -881,12 +1320,20 @@ public class StudySubject extends
 		}
 	}
 
+	/**
+	 * Checks if is randomized on scheduled epoch.
+	 * 
+	 * @return true, if is randomized on scheduled epoch
+	 */
 	@Transient
 	public boolean isRandomizedOnScheduledEpoch() {
 		return (getScheduledEpoch().getScheduledArm() != null && getScheduledEpoch()
 				.getScheduledArm().getArm() != null);
 	}
 
+	/**
+	 * Do local randomization.
+	 */
 	private void doLocalRandomization() {
 		// randomize subject
 		switch (this.getStudySite().getStudy().getRandomizationType()) {
@@ -903,6 +1350,9 @@ public class StudySubject extends
 		}
 	}
 
+	/**
+	 * Do book randomization.
+	 */
 	private void doBookRandomization() {
 		ScheduledArm sa = new ScheduledArm();
 		ScheduledEpoch ste = getScheduledEpoch();
@@ -924,6 +1374,9 @@ public class StudySubject extends
 		}
 	}
 
+	/**
+	 * Do phone call randomization.
+	 */
 	private void doPhoneCallRandomization() {
 		if (this.getScheduledEpoch().getScheduledArm() == null) {
 			if(!this.getStudySite().getStudy().getBlindedIndicator())
@@ -933,6 +1386,11 @@ public class StudySubject extends
 		}
 	}
 
+	/**
+	 * Gets the next arm for unstratified study.
+	 * 
+	 * @return the next arm for unstratified study
+	 */
 	@Transient
 	public Arm getNextArmForUnstratifiedStudy() {
 		Arm arm = null;
@@ -962,6 +1420,12 @@ public class StudySubject extends
 		return arm;
 	}
 
+	/**
+	 * Take subject off study.
+	 * 
+	 * @param offStudyReasonText the off study reason text
+	 * @param offStudyDate the off study date
+	 */
 	public void takeSubjectOffStudy(String offStudyReasonText, Date offStudyDate) {
 		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
 			throw new C3PRBaseRuntimeException(
@@ -972,6 +1436,11 @@ public class StudySubject extends
 		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
 	}
 
+	/**
+	 * Transfer.
+	 * 
+	 * @return the study subject
+	 */
 	public StudySubject transfer() {
 		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
 			throw new C3PRBaseRuntimeException(
@@ -1022,6 +1491,13 @@ public class StudySubject extends
 		return this;
 	}
 
+	/**
+	 * Gets the matching companion study association.
+	 * 
+	 * @param childStudySubject the child study subject
+	 * 
+	 * @return the matching companion study association
+	 */
 	public CompanionStudyAssociation getMatchingCompanionStudyAssociation(
 			StudySubject childStudySubject) {
 		for (CompanionStudyAssociation companionStudyAssociation : this
@@ -1034,11 +1510,21 @@ public class StudySubject extends
 		return null;
 	}
 
+	/**
+	 * Checks if is stand alone study subject.
+	 * 
+	 * @return true, if is stand alone study subject
+	 */
 	@Transient
 	public boolean isStandAloneStudySubject() {
 		return this.getStudySite().getStudy().getStandaloneIndicator();
 	}
 
+	/**
+	 * Checks for c3 pr system identifier.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasC3PRSystemIdentifier() {
 		for (SystemAssignedIdentifier systemAssignedIdentfier : this
@@ -1051,6 +1537,11 @@ public class StudySubject extends
 		return false;
 	}
 
+	/**
+	 * Checks if is transferrable.
+	 * 
+	 * @return true, if is transferrable
+	 */
 	@Transient
 	public boolean isTransferrable() {
 		List<ScheduledEpoch> tempList = new ArrayList<ScheduledEpoch>();
@@ -1065,30 +1556,60 @@ public class StudySubject extends
 		return true;
 	}
 
+	/**
+	 * Gets the c3 pr exception helper.
+	 * 
+	 * @return the c3 pr exception helper
+	 */
 	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
 		return c3PRExceptionHelper;
 	}
 
+	/**
+	 * Sets the c3 pr exception helper.
+	 * 
+	 * @param exceptionHelper the new c3 pr exception helper
+	 */
 	public void setC3PRExceptionHelper(C3PRExceptionHelper exceptionHelper) {
 		this.c3PRExceptionHelper = exceptionHelper;
 	}
 
+	/**
+	 * Gets the code.
+	 * 
+	 * @param errortypeString the errortype string
+	 * 
+	 * @return the code
+	 */
 	@Transient
 	public int getCode(String errortypeString) {
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(
 				errortypeString, null, null));
 	}
 
+	/**
+	 * Gets the c3pr error messages.
+	 * 
+	 * @return the c3pr error messages
+	 */
 	@Transient
 	public MessageSource getC3prErrorMessages() {
 		return c3prErrorMessages;
 	}
 
+	/**
+	 * Sets the c3pr error messages.
+	 * 
+	 * @param errorMessages the new c3pr error messages
+	 */
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
 	}
 
+	/**
+	 * Prepare for enrollment.
+	 */
 	public void prepareForEnrollment() {
 
 		if (!this.getStudySite().getStudy().getStandaloneIndicator() && this.getParentStudySubject() != null && this.getParentStudySubject().regWorkflowStatus!=RegistrationWorkFlowStatus.ENROLLED) {
@@ -1118,6 +1639,9 @@ public class StudySubject extends
 
 	}
 
+	/**
+	 * Do local enrollment.
+	 */
 	public void doLocalEnrollment() {
 		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
 			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
@@ -1128,6 +1652,12 @@ public class StudySubject extends
 		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 	}
 
+	/**
+	 * Do muti site enrollment.
+	 * 
+	 * @param coordinatingCenterReturnedScheduledEpoch the coordinating center returned scheduled epoch
+	 * @param coordinatingCenterAssignedIdentifier the coordinating center assigned identifier
+	 */
 	public void doMutiSiteEnrollment(
 			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch,
 			OrganizationAssignedIdentifier coordinatingCenterAssignedIdentifier) {
@@ -1154,6 +1684,13 @@ public class StudySubject extends
 
 	}
 
+	/**
+	 * Gets the scheduled epoch by epoch name.
+	 * 
+	 * @param epochName the epoch name
+	 * 
+	 * @return the scheduled epoch by epoch name
+	 */
 	public ScheduledEpoch getScheduledEpochByEpochName(String epochName) {
 		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs()) {
 			if (scheduledEpoch.getEpoch().getName().equalsIgnoreCase(epochName)) {
@@ -1164,6 +1701,11 @@ public class StudySubject extends
 		return null;
 	}
 
+	/**
+	 * Do muti site transfer.
+	 * 
+	 * @param coordinatingCenterReturnedScheduledEpoch the coordinating center returned scheduled epoch
+	 */
 	public void doMutiSiteTransfer(
 			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch) {
 		ScheduledEpoch scheduledEpoch = this
@@ -1178,6 +1720,9 @@ public class StudySubject extends
 		this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 	}
 
+	/**
+	 * Do local transfer.
+	 */
 	public void doLocalTransfer() {
 		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
 				if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
@@ -1189,6 +1734,9 @@ public class StudySubject extends
 		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 	}
 
+	/**
+	 * Prepare for transfer.
+	 */
 	public void prepareForTransfer() {
 		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
 			throw new C3PRBaseRuntimeException(
@@ -1207,6 +1755,13 @@ public class StudySubject extends
 
 	}
 	
+	/**
+	 * Can enroll.
+	 * 
+	 * @param errors the errors
+	 * 
+	 * @return the list< error>
+	 */
 	public List<Error> canEnroll(List<Error> errors){
 		
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
@@ -1222,26 +1777,49 @@ public class StudySubject extends
 		return errors;
 	}
 	
+	/**
+	 * Gets the custom fields internal.
+	 * 
+	 * @return the custom fields internal
+	 */
 	@OneToMany(mappedBy = "studySubject", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<CustomField> getCustomFieldsInternal() {
 		return lazyListHelper.getInternalList(CustomField.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.customfield.Customizable#getCustomFields()
+	 */
 	@Transient
 	public List<CustomField> getCustomFields() {
 		return lazyListHelper.getLazyList(CustomField.class);
 	}
 
+	/**
+	 * Sets the custom fields internal.
+	 * 
+	 * @param customFields the new custom fields internal
+	 */
 	public void setCustomFieldsInternal(List<CustomField> customFields) {
 		lazyListHelper.setInternalList(CustomField.class,customFields);
 	}
 
+	/**
+	 * Adds the custom field.
+	 * 
+	 * @param customField the custom field
+	 */
 	public void addCustomField(CustomField customField) {
 		this.getCustomFields().add(customField);
 		customField.setStudySubject(this);
 	}
 	
+	/**
+	 * Gets the work pending on mandatory companion registrations.
+	 * 
+	 * @return the work pending on mandatory companion registrations
+	 */
 	@Transient
 	public boolean getWorkPendingOnMandatoryCompanionRegistrations(){
 		if(!this.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
@@ -1282,6 +1860,11 @@ public class StudySubject extends
 		return false;
 	}
 	
+	/**
+	 * Checks for mandatory companions.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasMandatoryCompanions(){
 		
@@ -1293,6 +1876,11 @@ public class StudySubject extends
 		return false;
 	}
 	
+	/**
+	 * Gets the consent history list.
+	 * 
+	 * @return the consent history list
+	 */
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "STU_SUB_ID", nullable = false)
@@ -1300,20 +1888,40 @@ public class StudySubject extends
 		return consentHistoryList;
 	}
 
+	/**
+	 * Sets the consent history list.
+	 * 
+	 * @param consentHistoryList the new consent history list
+	 */
 	private void setConsentHistoryList(List<ConsentHistory> consentHistoryList) {
 		this.consentHistoryList = consentHistoryList;
 		lazyListHelper.setInternalList(ConsentHistory.class,new ProjectedList<ConsentHistory>(this.consentHistoryList,ConsentHistory.class));
 	}
 
+	/**
+	 * Adds the consent history.
+	 * 
+	 * @param consentHistory the consent history
+	 */
 	public void addConsentHistory(ConsentHistory consentHistory) {
 		getConsentHistoryList().add(consentHistory);
 	}
 	
+	/**
+	 * Gets the current consent history.
+	 * 
+	 * @return the current consent history
+	 */
 	@Transient
 	public ConsentHistory getCurrentConsentHistory() {
 		return this.getConsentHistoryList().get(getConsentHistoryList().size() - 1);
 	}
 
+	/**
+	 * Gets the checks if is direct arm assigment.
+	 * 
+	 * @return the checks if is direct arm assigment
+	 */
 	@Transient
 	public boolean getIsDirectArmAssigment(){
 		if(this.getScheduledEpoch().getRequiresArm() && !this.getScheduledEpoch().getRequiresRandomization()){
