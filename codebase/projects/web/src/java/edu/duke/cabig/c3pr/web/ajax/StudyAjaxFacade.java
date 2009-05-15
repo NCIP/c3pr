@@ -24,8 +24,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
-import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.DiseaseCategoryDao;
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -36,7 +35,9 @@ import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
+import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -264,7 +265,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
                         .size());
         for (HealthcareSiteInvestigator hcInv : inv) {
 
-            if (hcInv.getStatusCode().equals("AC")) {
+            if (hcInv.getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) {
                 HealthcareSiteInvestigator temp;
                 temp = buildReduced(hcInv, Arrays.asList("id"));
                 temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays.asList(
@@ -387,7 +388,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         List<HealthcareSiteInvestigator> hcsInvList = hcs.getHealthcareSiteInvestigators();
         List<HealthcareSiteInvestigator> reducedHcsInvList = new ArrayList<HealthcareSiteInvestigator>();
         for (HealthcareSiteInvestigator inv : hcsInvList) {
-            if (inv.getStatusCode() != null && inv.getStatusCode().equals("AC")) {
+            if (inv.getStatusCode() != null && inv.getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) {
                 reducedHcsInvList.add(buildReduced(inv, Arrays.asList("id",
                                 "investigator.firstName", "investigator.lastName", "investigator.nciIdentifier")));
             }

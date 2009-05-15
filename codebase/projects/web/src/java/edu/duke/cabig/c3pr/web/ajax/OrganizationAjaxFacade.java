@@ -14,6 +14,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorGroupDao;
@@ -88,7 +89,7 @@ public class OrganizationAjaxFacade {
         List<HealthcareSiteInvestigator> reducedInv = new ArrayList<HealthcareSiteInvestigator>(inv
                         .size());
         for (HealthcareSiteInvestigator hcInv : inv) {
-            if (hcInv.getStatusCode() != null && hcInv.getStatusCode().equals("AC")) {
+            if (hcInv.getStatusCode() != null && hcInv.getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) {
                 HealthcareSiteInvestigator temp;
                 temp = buildReduced(hcInv, Arrays.asList("id"));
                 temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays.asList(
@@ -126,7 +127,7 @@ public class OrganizationAjaxFacade {
                         .getAffiliationsByGroupId(groupId)) {
             if (siteInvestigatorGroupAffiliation.getHealthcareSiteInvestigator().getStatusCode() != null
                             && siteInvestigatorGroupAffiliation.getHealthcareSiteInvestigator()
-                                            .getStatusCode().equals("AC")) {
+                                            .getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) {
                 reducedInvestigators.add(buildReduced(siteInvestigatorGroupAffiliation
                                 .getHealthcareSiteInvestigator().getInvestigator(), Arrays.asList(
                                 "lastName", "firstName", "id")));

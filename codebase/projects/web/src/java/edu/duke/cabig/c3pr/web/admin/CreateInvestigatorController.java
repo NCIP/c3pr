@@ -12,10 +12,11 @@ import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
@@ -163,7 +164,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
 			}
             else {
                 for (HealthcareSiteInvestigator hcsInv : investigator.getHealthcareSiteInvestigators()) {
-                    if (hcsInv.getStatusCode() != null && !hcsInv.getStatusCode().equals("AC")) {
+                    if (hcsInv.getStatusCode() != null && !hcsInv.getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) {
                         for (SiteInvestigatorGroupAffiliation sInvGrAff : hcsInv
                                         .getSiteInvestigatorGroupAffiliations()) {
                             sInvGrAff.setEndDate(new Date());
