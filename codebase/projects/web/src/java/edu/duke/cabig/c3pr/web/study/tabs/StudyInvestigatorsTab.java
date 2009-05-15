@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
@@ -86,7 +87,7 @@ public class StudyInvestigatorsTab extends StudyTab {
                             healthcareSiteInvestigator.getStudyInvestigators().add(studyInvestigator);
                             studyInvestigator.setHealthcareSiteInvestigator(healthcareSiteInvestigator);
                             studyInvestigator.setRoleCode("Site Investigator");
-                            studyInvestigator.setStatusCode("Active");
+                            studyInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
                             studyInvestigator.setStudyOrganization(studyOrg);
 
                             HashSet<StudyInvestigator> sStudyInvestigator = new HashSet<StudyInvestigator>();
