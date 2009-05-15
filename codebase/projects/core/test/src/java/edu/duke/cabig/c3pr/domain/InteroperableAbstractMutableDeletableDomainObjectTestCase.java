@@ -13,11 +13,21 @@ import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class InteroperableAbstractMutableDeletableDomainObjectTestCase.
+ */
 public class InteroperableAbstractMutableDeletableDomainObjectTestCase extends AbstractTestCase {
 
+	/** The test object. */
 	private InteroperableAbstractMutableDeletableDomainObject iAMDDObject;
+	
+	/** The endpoints local. */
 	private List<EndPoint> endpointsLocal;
 	
+	/* (non-Javadoc)
+	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -32,11 +42,17 @@ public class InteroperableAbstractMutableDeletableDomainObjectTestCase extends A
 		endpointsLocal= new ArrayList<EndPoint>();
 	}
 	
+	/**
+	 * Test get import error string null string.
+	 */
 	public void testGetImportErrorStringNullString(){
 		assertNull(iAMDDObject.getImportErrorString());
 	}
 	
 
+	/**
+	 * Test get import error, string size=200.
+	 */
 	public void testGetImportErrorStringSize200(){
 		char[] someString=new char[200];
 		Arrays.fill(someString, 'a');
@@ -44,11 +60,17 @@ public class InteroperableAbstractMutableDeletableDomainObjectTestCase extends A
 		assertEquals(100, iAMDDObject.getImportErrorString().length());
 	}
 	
+	/**
+	 * Test get import error string.
+	 */
 	public void testGetImportErrorString(){
 		iAMDDObject.setImportErrorString("Test");
 		assertEquals("Test", iAMDDObject.getImportErrorString());
 	}
 	
+	/**
+	 * Test set import error string.
+	 */
 	public void testSetImportErrorString(){
 		assertFalse(iAMDDObject.isImportErrorFlag());
 		iAMDDObject.setImportErrorString("Test");
@@ -56,6 +78,9 @@ public class InteroperableAbstractMutableDeletableDomainObjectTestCase extends A
 		assertEquals("Test", iAMDDObject.getImportErrorString());
 	}
 	
+	/**
+	 * Test get endpoint.
+	 */
 	public void testGetEndpoint(){
 		EndPoint endPoint1= registerMockFor(EndPoint.class);
 		EndPoint endPoint2= registerMockFor(EndPoint.class);
@@ -74,6 +99,9 @@ public class InteroperableAbstractMutableDeletableDomainObjectTestCase extends A
 		verifyMocks();
 	}
 	
+	/**
+	 * Test get endpoint not found.
+	 */
 	public void testGetEndpointNotFound(){
 		EndPoint endPoint1= registerMockFor(EndPoint.class);
 		EndPoint endPoint2= registerMockFor(EndPoint.class);
@@ -88,6 +116,9 @@ public class InteroperableAbstractMutableDeletableDomainObjectTestCase extends A
 		verifyMocks();
 	}
 	
+	/**
+	 * Test get last attempted endpoint.
+	 */
 	public void testGetLastAttemptedEndpoint(){
 		EndPoint endPoint1= new GridEndPoint();
 		EndPoint endPoint2= new GridEndPoint();
@@ -99,10 +130,16 @@ public class InteroperableAbstractMutableDeletableDomainObjectTestCase extends A
 		assertEquals(date,iAMDDObject.getLastAttemptedEndpoint().getAttemptDate());
 	}
 	
+	/**
+	 * Test get last attempted endpoint empty list.
+	 */
 	public void testGetLastAttemptedEndpointEmptyList(){
 		assertNull(iAMDDObject.getLastAttemptedEndpoint());
 	}
 	
+	/**
+	 * Test get recent errors.
+	 */
 	public void testGetRecentErrors(){
 		EndPoint endPoint1= new GridEndPoint();
 		endPoint1.setErrors(new ArrayList<Error>());
@@ -134,10 +171,16 @@ public class InteroperableAbstractMutableDeletableDomainObjectTestCase extends A
 		assertEquals(date4, errors.get(3).getErrorDate());
 	}
 
+	/**
+	 * Test get multisite workflow status null last attemped endpoint.
+	 */
 	public void testGetMultisiteWorkflowStatusNullLastAttempedEndpoint(){
 		assertNull(iAMDDObject.getMultisiteWorkflowStatus());
 	}
 	
+	/**
+	 * Test get multisite workflow status.
+	 */
 	public void testGetMultisiteWorkflowStatus(){
 		EndPoint endPoint1= registerMockFor(EndPoint.class);
 		endpointsLocal.add(endPoint1);
