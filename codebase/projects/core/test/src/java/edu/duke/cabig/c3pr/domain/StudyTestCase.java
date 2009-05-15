@@ -1119,5 +1119,26 @@ public void testGetFundingSponsorIdentifierIndex1(){
 	assertEquals("Index of funding sponsorer should be -1",-1, basicStudy.getFundingSponsorIdentifierIndex());
 }
 
+/**
+ * test has eligibility
+ */
+public void testHasEligibility(){
+	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy, "name1");
+	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy, "name2");
+	
+	assertFalse("no eligibility for this study",basicStudy.hasElligibility());
+	
+}
 
+
+/**
+ * test has eligibility
+ */
+public void testHasEligibility1(){
+	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy, "epoch1");
+	basicStudy = studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy, "epoch 2");
+	
+	assertTrue("eligibility present for this study",basicStudy.hasElligibility());
+	
+}
 }
