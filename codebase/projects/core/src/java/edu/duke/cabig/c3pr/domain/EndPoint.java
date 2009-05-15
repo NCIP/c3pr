@@ -36,33 +36,62 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EndPoint.
+ */
 @Entity
 @Table(name = "ENDPOINTS")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "ENDPOINTS_ID_SEQ") })
 public abstract class EndPoint extends AbstractMutableDeletableDomainObject implements Comparable<EndPoint>{
-    /**
-     * Logger for this class
-     */
+    
+    /** Logger for this class. */
     private static final Logger logger = Logger.getLogger(EndPoint.class);
     
+    /** The end point property. */
     protected EndPointConnectionProperty endPointProperty;
+    
+    /** The service name. */
     protected ServiceName serviceName;
+    
+    /** The api name. */
     protected APIName apiName;
+    
+    /** The status. */
     protected WorkFlowStatusType status;
-    //private Timestamp attemptDate;
+    /** The attempt date. */
     private Date attemptDate;
+    
+    /** The errors. */
     protected List<Error> errors= new ArrayList<Error>();
+    
+    /** The return value. */
     protected Object returnValue;
+    
+    /** The study organization. */
     protected StudyOrganization studyOrganization;
     
+    /** The Constant STUDY_XML_CASTOR_MAPPING_FILE_NAME. */
     public static final String STUDY_XML_CASTOR_MAPPING_FILE_NAME="c3pr-study-xml-castor-mapping.xml";
+    
+    /** The Constant REGISTRATION_XML_CASTOR_MAPPING_FILE_NAME. */
     public static final String REGISTRATION_XML_CASTOR_MAPPING_FILE_NAME="c3pr-registration-xml-castor-mapping.xml";
 
+	/**
+	 * Instantiates a new end point.
+	 */
 	public EndPoint(){
         
     }
     
+    /**
+     * Instantiates a new end point.
+     * 
+     * @param endPointProperty the end point property
+     * @param serviceName the service name
+     * @param aPIName the a pi name
+     */
     public EndPoint(EndPointConnectionProperty endPointProperty, ServiceName serviceName,
                     APIName aPIName) {
         super();
@@ -71,18 +100,49 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         this.apiName = aPIName;
     }
 
+    /**
+     * Gets the service.
+     * 
+     * @return the service
+     */
     @Transient
     public abstract Object getService();
     
+    /**
+     * Gets the aPI.
+     * 
+     * @return the aPI
+     */
     @Transient
     public abstract Method getAPI();
     
+    /**
+     * Gets the arguments.
+     * 
+     * @param argument the argument
+     * 
+     * @return the arguments
+     */
     @Transient
     public abstract Object[] getArguments(Object argument);
     
+    /**
+     * Process return type.
+     * 
+     * @param returnValue the return value
+     * 
+     * @return the object
+     */
     @Transient
     public abstract Object processReturnType(Object returnValue);
     
+    /**
+     * Invoke.
+     * 
+     * @param argument the argument
+     * 
+     * @throws InvocationTargetException the invocation target exception
+     */
     public void invoke(Object argument) throws InvocationTargetException{
         try {
             Object service=getService(); 
@@ -116,8 +176,13 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         }
     }
     
+    /**
+     * Gets the xML utils.
+     * 
+     * @return the xML utils
+     */
     @Transient
-    protected XMLUtils getXMLUtils(){
+    public XMLUtils getXMLUtils(){
         XMLUtils xmlUtils=null;
         if(serviceName==ServiceName.STUDY)
             xmlUtils= new XMLUtils(new XmlMarshaller(STUDY_XML_CASTOR_MAPPING_FILE_NAME));
@@ -126,6 +191,11 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         return xmlUtils;
     }
 
+    /**
+     * Gets the xML marshaller.
+     * 
+     * @return the xML marshaller
+     */
     @Transient
     protected XmlMarshaller getXMLMarshaller(){
         if(serviceName==ServiceName.STUDY)
@@ -135,10 +205,18 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         return null;
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(EndPoint endPoint) {
         return this.attemptDate.compareTo(endPoint.getAttemptDate());
     }
     
+    /**
+     * Gets the end point property.
+     * 
+     * @return the end point property
+     */
     @ManyToOne
     @JoinColumn(name="ENDPOINT_PROP_ID")
     @Cascade(value = { CascadeType.LOCK })
@@ -146,10 +224,20 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         return endPointProperty;
     }
 
+    /**
+     * Sets the end point property.
+     * 
+     * @param endPointProperty the new end point property
+     */
     public void setEndPointProperty(EndPointConnectionProperty endPointProperty) {
         this.endPointProperty = endPointProperty;
     }
 
+    /**
+     * Gets the errors.
+     * 
+     * @return the errors
+     */
     @OneToMany(fetch=FetchType.EAGER)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "endpoint_id", nullable=false)
@@ -157,37 +245,75 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         return errors;
     }
 
+    /**
+     * Sets the errors.
+     * 
+     * @param errors the new errors
+     */
     public void setErrors(List<Error> errors) {
         this.errors = errors;
     }
 
+    /**
+     * Gets the service name.
+     * 
+     * @return the service name
+     */
     @Enumerated(EnumType.STRING)
     public ServiceName getServiceName() {
         return serviceName;
     }
 
+    /**
+     * Sets the service name.
+     * 
+     * @param serviceName the new service name
+     */
     public void setServiceName(ServiceName serviceName) {
         this.serviceName = serviceName;
     }
 
+    /**
+     * Gets the api name.
+     * 
+     * @return the api name
+     */
     @Enumerated(EnumType.STRING)
     public APIName getApiName() {
         return apiName;
     }
 
+    /**
+     * Sets the api name.
+     * 
+     * @param apiName the new api name
+     */
     public void setApiName(APIName apiName) {
         this.apiName = apiName;
     }
 
+    /**
+     * Gets the status.
+     * 
+     * @return the status
+     */
     @Enumerated(EnumType.STRING)
     public WorkFlowStatusType getStatus() {
         return status;
     }
 
+    /**
+     * Sets the status.
+     * 
+     * @param status the new status
+     */
     public void setStatus(WorkFlowStatusType status) {
         this.status = status;
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
     	if(this.endPointProperty==null){
@@ -210,15 +336,30 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         +")";
     }
 
+    /**
+     * Gets the attempt date.
+     * 
+     * @return the attempt date
+     */
     @Temporal(TemporalType.TIMESTAMP)
     public Date getAttemptDate() {
         return attemptDate;
     }
 
+    /**
+     * Sets the attempt date.
+     * 
+     * @param attemptDate the new attempt date
+     */
     public void setAttemptDate(Date attemptDate) {
         this.attemptDate = attemptDate;
     }
 
+    /**
+     * Gets the last attempt error.
+     * 
+     * @return the last attempt error
+     */
     @Transient
     public Error getLastAttemptError(){
         List<Error> tempList = new ArrayList<Error>();
@@ -228,17 +369,32 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         return tempList.get(tempList.size() - 1);
     }
 
+    /**
+     * Gets the return value.
+     * 
+     * @return the return value
+     */
     @Transient
     public Object getReturnValue() {
         return returnValue;
     }
 
+    /**
+     * Gets the study organization.
+     * 
+     * @return the study organization
+     */
     @ManyToOne
     @JoinColumn(name = "sto_id", nullable = false)
 	public StudyOrganization getStudyOrganization() {
 		return studyOrganization;
 	}
 
+	/**
+	 * Sets the study organization.
+	 * 
+	 * @param studyOrganization the new study organization
+	 */
 	public void setStudyOrganization(StudyOrganization studyOrganization) {
 		this.studyOrganization = studyOrganization;
 	}

@@ -10,31 +10,46 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import org.apache.axis.message.MessageElement;
 import org.globus.gsi.GlobusCredential;
 
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.ServiceName;
-import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
-import edu.duke.cabig.c3pr.utils.XMLUtils;
-
 import gov.nih.nci.cabig.ccts.domain.Message;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GridEndPoint.
+ */
 @Entity
 @DiscriminatorValue("GRID")
 public class GridEndPoint extends EndPoint {
 
+    /** The globus credential. */
     private GlobusCredential globusCredential;
     
+    /**
+     * Instantiates a new grid end point.
+     */
     public GridEndPoint(){}
     
+    /**
+     * Instantiates a new grid end point.
+     * 
+     * @param endPointProperty the end point property
+     * @param multisiteServiceName the multisite service name
+     * @param multisiteAPIName the multisite api name
+     * @param globusCredential the globus credential
+     */
     public GridEndPoint(EndPointConnectionProperty endPointProperty,
                     ServiceName multisiteServiceName, APIName multisiteAPIName, GlobusCredential globusCredential) {
         super(endPointProperty, multisiteServiceName, multisiteAPIName);
         this.globusCredential = globusCredential;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.EndPoint#getAPI()
+     */
     @Override
     @Transient
     public Method getAPI() {
@@ -56,6 +71,9 @@ public class GridEndPoint extends EndPoint {
         return method;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.EndPoint#getService()
+     */
     @Override
     @Transient
     public Object getService() {
@@ -99,6 +117,9 @@ public class GridEndPoint extends EndPoint {
         return service;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.EndPoint#getArguments(java.lang.Object)
+     */
     @Override
     @Transient
     public Object[] getArguments(Object argument) {
@@ -109,10 +130,18 @@ public class GridEndPoint extends EndPoint {
         return new Object[]{message};
     }
     
+    /**
+     * Sets the globus credential.
+     * 
+     * @param globusCredential the new globus credential
+     */
     public void setGlobusCredential(GlobusCredential globusCredential) {
         this.globusCredential = globusCredential;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.EndPoint#processReturnType(java.lang.Object)
+     */
     @Override
     public Object processReturnType(Object returnType) {
         if(returnType==null) return null;
