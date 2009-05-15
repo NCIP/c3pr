@@ -76,7 +76,7 @@
     </studySite>
     <studyInvestigator>
         <roleCode>role1</roleCode>
-        <statusCode>Active</statusCode>
+        <statusCode>AC</statusCode>
         <startDate>0006-06-23</startDate>
         <endDate>0006-06-23</endDate>
         <healthcareSiteInvestigator>

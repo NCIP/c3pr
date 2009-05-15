@@ -40,7 +40,7 @@
    	<RPT_SCHLD_NOTFNS id="1000" version="2" schld_notfns_id="1000" recipients_id="1000" retired_indicator = "false"  />
    	<RPT_SCHLD_NOTFNS id="1001" version="2" schld_notfns_id="1001" recipients_id="1001" retired_indicator = "false"  />
 
-    <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1000"
+    <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="AC" status_date="01-01-2000" inv_id="1000"
                            hcs_id="1000" retired_indicator="false"/>
                            
     <STUDY_PERSONNEL id="1000" version="1" research_staff_id="1000" role_code="C3pr Admin" sto_id="1000" retired_indicator = "false" />

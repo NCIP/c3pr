@@ -24,9 +24,9 @@
     
     <INVESTIGATORS id="1100" version="1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" />
     
-    <HC_SITE_INVESTIGATORS id="1100" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1100" hcs_id="1100"/>
+    <HC_SITE_INVESTIGATORS id="1100" version="1" status_code="AC" status_date="01-01-2000" inv_id="1100" hcs_id="1100"/>
     
-    <STUDY_INVESTIGATORS id="1100" version="1" hsi_id="1100" sto_id="1100" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="Active"/>
+    <STUDY_INVESTIGATORS id="1100" version="1" hsi_id="1100" sto_id="1100" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="AC"/>
     
     <DISEASE_CATEGORIES id="1100" version="1" name="AIDS-related Human Papillomavirus"/>
     
