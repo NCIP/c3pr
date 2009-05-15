@@ -647,21 +647,14 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public int getFundingSponsorIdentifierIndex() {
-
-		if (this.getOrganizationAssignedIdentifiers().size() > 0) {
-			{
-				for (int index = 0; index < this
-						.getOrganizationAssignedIdentifiers().size(); index++) {
-					if ((this.getOrganizationAssignedIdentifiers().get(index)
-							.getType() != null)
-							&& (this.getOrganizationAssignedIdentifiers().get(
-									index).getType()
-									.equalsIgnoreCase("Protocol Authority Identifier"))) {
-						return index;
-					}
-				}
+		int i = -1 ;
+		for(OrganizationAssignedIdentifier identifier : this.getOrganizationAssignedIdentifiers()){
+			i++ ;
+			if(identifier.getType() != null && StringUtils.equals("Protocol Authority Identifier", identifier.getType())){
+				return i ;
 			}
 		}
+		
 		return -1;
 	}
 
