@@ -19,7 +19,7 @@ public class RandomizationTab extends RegistrationTab<StudySubjectWrapper> {
     @Override
     public Map<String, Object> referenceData(StudySubjectWrapper command) {
         Map ref = new HashMap();
-        ref.put("canRandomize", command.getStudySubject().canRandomize());
+        ref.put("canRandomize", command.getStudySubject().readyForRandomization());
         return ref;
     }
 
