@@ -880,12 +880,10 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	 * 
 	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
 	 */
-	public boolean evaluateStatus(List<Error> errors) throws C3PRCodedRuntimeException {
+	public void evaluateStatus(List<Error> errors) throws C3PRCodedRuntimeException {
 		evaluateStratificationDataEntryStatus(errors);
 		evaluateRandomizationDataEntryStatus(errors);
 		evaluateEligibilityDataEntryStatus(errors);
-
-		return true;
 	}
 
 	/**
