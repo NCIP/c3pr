@@ -1,10 +1,13 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
@@ -13,7 +16,6 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
@@ -1305,5 +1307,95 @@ public void testEvaluateCoordinatingCenterStudyStatus3(){
 	//TODO write test case for amendment pending status- some issue in logic
 }
 
+/**
+ * test get criteria file
+ */
+public void testGetCriteriaFile(){
+	String st = "test string";
+	byte[] criteriaFile = st.getBytes();
+	simpleStudy.setCriteriaFile(criteriaFile) ;
+	assertNotNull("criteriaFile found", simpleStudy.getCriteriaFile());
+	assertEquals("criteriaFile found", "test string", new String(simpleStudy.getCriteriaFile()));
+}
+
+/**
+ * test get criteria reader
+ */
+public void testGetCriteriaReader(){
+	String st = "test string";
+	byte[] criteriaFile = st.getBytes();
+	simpleStudy.setCriteriaFile(criteriaFile) ;
+	assertNotNull("criteriaReader found", simpleStudy.getCriteriaReader());
+	assertEquals("criteriaReader instance of Reader", true,  simpleStudy.getCriteriaReader() instanceof Reader) ;
+}
+
+
+/**
+ * test get criteria reader
+ */
+public void testGetCriteriaReader1(){
+	assertNull("criteriaReader not found", simpleStudy.getCriteriaReader());
+}
+
+
+/**
+ * test get criteria input stream
+ */
+public void testGetCriteriaInputStream(){
+	String st = "test string";
+	byte[] criteriaFile = st.getBytes();
+	simpleStudy.setCriteriaFile(criteriaFile) ;
+	assertNotNull("criteriaInputStream found", simpleStudy.getCriteriaInputStream());
+	assertEquals("criteriaInputStream instance of InputStream", true,  simpleStudy.getCriteriaInputStream() instanceof InputStream) ;
+}
+
+
+/**
+ * test get criteria input stream
+ */
+public void testGetCriteriaInputStream1(){
+	assertNull("criteriaInputStream not found", simpleStudy.getCriteriaInputStream());
+}
+
+
+/**
+ * test set accrual within last week
+ */
+ public void testGetAcrrualWithinLastWeek(){
+	 simpleStudy.setAcrrualsWithinLastWeek(10);
+	 assertEquals("accrual in last week is 10", 10 , simpleStudy.getAcrrualsWithinLastWeek());
+ }
+
+ /**
+  * test get c3pr error messages
+  */
+public void testGetC3PRErrorMessages(){
+	assertEquals("c3pr error message is instance of ResourceBundleMessageSource", true,  simpleStudy.getC3prErrorMessages() instanceof ResourceBundleMessageSource) ;
+}
+
+/**
+ * test evaluateEpochsDataEntryStatus
+ */
+public void EvaluateEpochsDataEntryStatus(){
+	basicStudy = studyCreationHelper.addStratifiedEpochToBasicStudy(basicStudy, "Name");
+	assertFalse("Epoch Data Entry should evaluate to false", basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>()));
+}
+
+
+/**
+ * test evaluateEpochsDataEntryStatus
+ */
+public void EvaluateEpochsDataEntryStatus1(){
+	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy);
+	assertTrue("Epoch Data Entry should evaluate to true", basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>()));
+}
+
+
+/**
+ * test evaluateEpochsDataEntryStatus
+ */
+public void EvaluateEpochsDataEntryStatus2(){
+	assertTrue("Epoch Data Entry should evaluate to true because no epoch associated to study", basicStudy.evaluateEpochsDataEntryStatus(new ArrayList<Error>()));
+}
 
 }
