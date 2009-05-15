@@ -6,8 +6,6 @@ import java.util.List;
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
-import com.sun.swing.internal.plaf.basic.resources.basic;
-
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -15,6 +13,7 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
@@ -1296,6 +1295,14 @@ public void testEvaluateCoordinatingCenterStudyStatus2(){
 		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
 	}
 	assertEquals("coordinating center status should be pending",CoordinatingCenterStudyStatus.READY_TO_OPEN, status);
+}
+
+
+/**
+ * test evaluate coordinating center study status
+ */
+public void testEvaluateCoordinatingCenterStudyStatus3(){
+	//TODO write test case for amendment pending status- some issue in logic
 }
 
 

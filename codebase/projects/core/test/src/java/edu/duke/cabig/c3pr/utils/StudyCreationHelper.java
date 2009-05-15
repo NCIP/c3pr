@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.utils;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
@@ -411,5 +412,24 @@ public class StudyCreationHelper {
 	        study.addEpoch(epoch);
 	        return study;
 	    }
+	 
+	 public Study addAmendmentToBasicStudy(Study study){
+        StudyAmendment amendment = new StudyAmendment();
+        amendment.setComments("This is the first change in the study");
+        amendment.setVersion(1);
+        study.addAmendment(amendment);
+        return study ;
+	 }
+	 
+	 public Study addAmendmentWithDateToBasicStudy(Study study){
+	        StudyAmendment amendment = new StudyAmendment();
+	        GregorianCalendar cal = new GregorianCalendar();
+	        cal.add(Calendar.MONTH, 1);
+	        amendment.setAmendmentDate(cal.getTime());
+	        amendment.setVersion(1);
+	        amendment.setComments("This is the first change in the study");
+	        study.addAmendment(amendment);
+	        return study ;
+		 }
 
 }
