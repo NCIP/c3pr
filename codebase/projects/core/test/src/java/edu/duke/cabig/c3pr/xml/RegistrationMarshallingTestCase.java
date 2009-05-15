@@ -44,8 +44,6 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
      */
     private void registrationSerializationTest() {
         StudySubject registration = new StudySubject();
-        registration.setName(strValue);
-
         registration.setInformedConsentSignedDate(dateValue);
         registration.setStartDate(dateValue);
 
