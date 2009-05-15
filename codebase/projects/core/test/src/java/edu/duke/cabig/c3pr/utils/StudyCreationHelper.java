@@ -403,4 +403,13 @@ public class StudyCreationHelper {
 	        study.addEpoch(epoch);
 	        return study;
 	    }
+	 
+	 public Study addStratifiedEpochToBasicStudy(Study study, String name) {
+	        Epoch epoch = new Epoch();
+	        epoch.setName(name);
+	        epoch.setStratificationIndicator(true);
+	        study.addEpoch(epoch);
+	        return study;
+	    }
+
 }
