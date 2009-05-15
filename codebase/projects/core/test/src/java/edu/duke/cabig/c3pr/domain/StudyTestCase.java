@@ -1076,4 +1076,23 @@ public class StudyTestCase extends AbstractTestCase{
 		study = studyCreationHelper.addCoordinationCenterIdentifier(study, "Coordinating Center Identifier", "value");
 		assertTrue("coordinating center identifer values are same hence equal", basicStudy.equals(study));
 	}
+
+
+	/**
+	 * Test get trimmed short title text.
+	 */
+	public void testGetTrimmedShortTitleText(){
+		simpleStudy.setShortTitleText("Duke Hematology/Oncology at Raleigh Community Hospital Study");
+		assertEquals("Trimmed short title should be Duke Hematology/Oncology at Raleigh Com...","Duke Hematology/Oncology at Raleigh Com...", simpleStudy.getTrimmedShortTitleText());
+	}
+
+
+/**
+ * Test get primary indicator
+ */
+public void testGetPrimaryIndicator(){
+	basicStudy = studyCreationHelper.addCoordinationCenterIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
+	assertEquals("Primary identifier value is Test Value","TestValue", basicStudy.getPrimaryIdentifier());
+}
+
 }
