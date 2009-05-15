@@ -1029,4 +1029,51 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		verifyMocks();
 	}
+	
+	/**
+	 * test compare to
+	 */
+	public void testCompareTo(){
+		Study study1 = new Study();
+		Study study2 = study1;
+		assertEquals("condition should come out as false", 0 ,study1.compareTo(study2));
+	}
+	
+	/**
+	 * test equals, if objects are of different class
+	 */
+	public void testEquals(){
+		Study study1 = new Study();
+		Epoch epoch = new Epoch();
+		assertFalse("objects are from differnt class", study1.equals(epoch));
+	}
+	
+	/**
+	 * test equals, if one study object has null coordinating center identifier
+	 */
+	public void testEquals1(){
+		basicStudy = studyCreationHelper.addCoordinationCenterIdentifier(basicStudy, "Coordinating Center Identifier", "value");
+		Study study = new Study();
+		assertFalse("both objects has null coordinating center identifer  hence unequal", basicStudy.equals(study));
+	}
+	
+	/**
+	 * test equals, if  coordinating center identifier value is different
+	 */
+	public void testEquals2(){
+		basicStudy = studyCreationHelper.addCoordinationCenterIdentifier(basicStudy, "Coordinating Center Identifier", "value");
+		Study study = new Study();
+		study = studyCreationHelper.addCoordinationCenterIdentifier(study, "Coordinating Center Identifier", "testValue");
+		assertFalse("coordinating center identifer values are different hence unequal", basicStudy.equals(study));
+	}
+	
+	/**
+	 * test equals, if  coordinating center identifier value are same
+	 */
+	public void testEquals3(){
+		basicStudy = studyCreationHelper.addCoordinationCenterIdentifier(basicStudy, "Coordinating Center Identifier", "value");
+		Study study = new Study();
+		study = studyCreationHelper.addCoordinationCenterIdentifier(study, "Coordinating Center Identifier", "value");
+		assertTrue("coordinating center identifer values are same hence equal", basicStudy.equals(study));
+	}
 }

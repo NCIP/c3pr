@@ -13,6 +13,7 @@ import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
@@ -371,5 +372,12 @@ public class StudyCreationHelper {
         study.setStratificationIndicator(Boolean.FALSE);
         return study;
 	}
-    
+
+	public Study addCoordinationCenterIdentifier(Study study, String type, String value){
+		OrganizationAssignedIdentifier orgIdentifier =  new OrganizationAssignedIdentifier();
+		orgIdentifier.setType(type);
+		orgIdentifier.setValue(value);
+		study.getOrganizationAssignedIdentifiers().add(orgIdentifier);
+		return study;
+	}
 }
