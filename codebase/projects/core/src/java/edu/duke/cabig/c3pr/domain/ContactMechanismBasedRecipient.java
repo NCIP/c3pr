@@ -71,20 +71,4 @@ public class ContactMechanismBasedRecipient extends Recipient {
         return lazyListHelper.getLazyList(ContactMechanism.class);
     }
 
-    /**
-     * Sets the contact mechanisms.
-     * 
-     * @param contactMechanisms the new contact mechanisms
-     */
-    public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
-    }
-
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#setRetiredIndicatorAsTrue()
-	 */
-	@Override
-    @Transient
-    public void setRetiredIndicatorAsTrue() {
-        super.setRetiredIndicatorAsTrue();
-    }
 }
