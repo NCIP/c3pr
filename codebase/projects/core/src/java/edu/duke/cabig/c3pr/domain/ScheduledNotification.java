@@ -164,15 +164,6 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
     public void setRecipientScheduledNotification(List<RecipientScheduledNotification> recipientScheduledNotification) {
     }
     
-    /* (non-Javadoc)
-     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#setRetiredIndicatorAsTrue()
-     */
-    @Override
-    @Transient
-    public void setRetiredIndicatorAsTrue() {
-        super.setRetiredIndicatorAsTrue();
-        this.setRetiredIndicatorAsTrue();
-    }
 
     /**
      * Gets the study organization.
