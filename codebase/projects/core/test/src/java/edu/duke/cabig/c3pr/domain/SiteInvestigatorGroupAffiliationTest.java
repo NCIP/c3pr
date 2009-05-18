@@ -1,12 +1,9 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import org.apache.commons.httpclient.util.DateUtil;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 
 // TODO: Auto-generated Javadoc
 /**
