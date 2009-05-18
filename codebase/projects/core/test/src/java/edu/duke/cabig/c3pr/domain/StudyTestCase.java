@@ -12,6 +12,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
@@ -700,6 +701,28 @@ public class StudyTestCase extends AbstractTestCase{
 		simpleStudy.setMultiInstitutionIndicator(true);
 		simpleStudy.setCompanionIndicator(false);
 		assertTrue("This is  a multisite study", simpleStudy.isMultisite());
+	}
+	
+
+	/**
+	 * Test isMultisite
+	 * 
+	 */
+	public void testIsMultisite12(){
+		simpleStudy.setMultiInstitutionIndicator(false);
+		simpleStudy.setCompanionIndicator(true);
+		assertFalse("This is not a multisite study", simpleStudy.isMultisite());
+	}
+	
+
+	/**
+	 * Test isMultisite
+	 * 
+	 */
+	public void testIsMultisite2(){
+		simpleStudy.setMultiInstitutionIndicator(false);
+		simpleStudy.setCompanionIndicator(false);
+		assertFalse("This is not a multisite study", simpleStudy.isMultisite());
 	}
 	
 	
@@ -2256,22 +2279,60 @@ public void testGetPossibleStatusTransition12(){
 	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
 }
 
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransitio13(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("no possible status found", 0 , list.size());
+}
+
+/**
+ * test get current accrual count
+ */
+public void testGetCurrentAccrualCount(){
+	assertEquals("0 accrual count for basic study", new Integer(0), basicStudy.getCurrentAccrualCount());
+}
 
 
-///**
-// * test get possible status transition
-// */
-//public void testGetPossibleStatusTransition8(){
-//	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
-//	basicStudy.setCompanionIndicator(true);
-//	basicStudy.setStandaloneIndicator(false);
-//	simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-//	basicStudy = studyCreationHelper.addParentStudyAssociationWithSite(simpleStudy, basicStudy);
-//	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
-//	assertEquals("1 possible status found", 1 , list.size());
-//	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
-//}
+/**
+ * test get current accrual count
+ */
+public void testGetCurrentAccrualCount1(){
+	StudySite studySite = new StudySite();
+	StudySubject studySubject = new StudySubject();
+	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	studySite.getStudySubjects().add(studySubject);
+	basicStudy.addStudySite(studySite);
+	assertEquals("1 accrual count for basic study", new Integer(1), basicStudy.getCurrentAccrualCount());
+}
+
+/**
+ * test ready to open
+ */
+public void testReadyToOpen(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(319),EasyMock.aryEq(new String[]{basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(319, "exception message"));
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE", null, null)).andReturn("319");
+	
+	replayMocks();
+	try{
+		basicStudy.readyToOpen();
+	}catch (Exception e) {
+		assertEquals("Exception is instance of C3PRCodedRuntimeException", true , e instanceof C3PRCodedRuntimeException);
+	}
+	verifyMocks();
+		
+	}
 
 
+/**
+ * test open
+ */
+public void testOpen(){
+	
+}
 
 }
