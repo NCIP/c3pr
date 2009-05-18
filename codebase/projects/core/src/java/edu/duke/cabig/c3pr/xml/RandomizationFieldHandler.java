@@ -5,12 +5,8 @@ import org.exolab.castor.mapping.ValidityException;
 
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
-import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
-import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
-import edu.duke.cabig.c3pr.domain.Randomization;
-import edu.duke.cabig.c3pr.domain.Study;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 25, 2007 Time: 10:31:43 AM To change this
@@ -28,8 +24,6 @@ public class RandomizationFieldHandler implements FieldHandler {
 			randomizationHolder.setPhoneNumber(phoneCallRandomization.getPhoneNumber());
 		}else if (epoch.getRandomization() instanceof BookRandomization) {
 			randomizationHolder.setRandomizationType(RandomizationType.BOOK);
-		}else if (epoch.getRandomization() instanceof CalloutRandomization) {
-			randomizationHolder.setRandomizationType(RandomizationType.CALL_OUT);
 		}
         return randomizationHolder;
     }
@@ -46,9 +40,7 @@ public class RandomizationFieldHandler implements FieldHandler {
         	epoch.setRandomization(phoneCallRandomization);
         }else if(randomizationHolder.getRandomizationType()==RandomizationType.BOOK){
         	epoch.setRandomization(new BookRandomization());
-        }else if(randomizationHolder.getRandomizationType()==RandomizationType.CALL_OUT){
-        	epoch.setRandomization(new CalloutRandomization());
-        } 
+        }
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {

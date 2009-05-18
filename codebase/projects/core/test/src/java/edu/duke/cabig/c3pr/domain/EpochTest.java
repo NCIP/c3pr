@@ -178,25 +178,5 @@ public class EpochTest extends TestCase{
 		assertNull("Unexpected arm",epochA.getArmByName("Arm A"));
 	}
 	
-	/**
-	 * Test evaluate call out randomization errors.
-	 * 
-	 * @throws Exception the exception
-	 */
-	public void testEvaluateCallOutRandomizationErrors() throws Exception{
-		
-		Study study = new Study();
-		study.setRandomizedIndicator(true);
-		study.setRandomizationType(RandomizationType.CALL_OUT);
-		Epoch epoch = new Epoch();
-		epoch.setName("epoch");
-		
-		study.addEpoch(epoch);
-		epoch.setRandomizedIndicator(true);
-		epoch.setRandomization(new CalloutRandomization());
-		List<Error> errors = new ArrayList<Error>();
-		epoch.evaluateRandomizationDataEntryStatus(errors);
-		assertEquals("Wrong number of error messages",2,errors.size());
-	}
 
 }

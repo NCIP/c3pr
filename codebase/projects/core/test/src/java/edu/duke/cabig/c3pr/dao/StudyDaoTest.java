@@ -24,7 +24,6 @@ import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
-import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
@@ -267,43 +266,6 @@ public class StudyDaoTest extends DaoTestCase {
         study.setType("Type");
         study.setMultiInstitutionIndicator(Boolean.TRUE);
         return study;
-    }
-
-    /**
-     * Test save callout randomizations.
-     * 
-     * @throws Exception the exception
-     */
-    public void testSaveCalloutRandomizations() throws Exception {
-        Integer savedId;
-        {
-            Study study = buildStudy();
-            Arm armA = new Arm();
-            armA.setName("A");
-
-            Epoch epoch1 = new Epoch();
-            armA.setEpoch(epoch1);
-            ArrayList<Arm> aList = new ArrayList<Arm>();
-            aList.add(armA);
-            epoch1.getArms().addAll(aList);
-            epoch1.setName("epoch1");
-            Randomization cRandomization = new CalloutRandomization();
-            ((CalloutRandomization) cRandomization).setCalloutUrl("trialUrl.com");
-            epoch1.setRandomization(cRandomization);
-            study.addEpoch(epoch1);
-            study = dao.merge(study);
-
-            savedId = study.getId();
-            assertNotNull("The saved study didn't get an id", savedId);
-        }
-        interruptSession();
-        {
-            Study loaded = dao.getById(savedId);
-            CalloutRandomization cr = (CalloutRandomization) loaded.getEpochs().get(0)
-                            .getRandomization();
-            String i = cr.getCalloutUrl();
-            assertEquals(i, "trialUrl.com");
-        }
     }
 
     /**

@@ -12,7 +12,6 @@ import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
-import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -203,17 +202,10 @@ public class StudyCreationHelper {
                     throws Exception {
         epoch.setRandomizedIndicator(true);
         if (randomizationType == RandomizationType.BOOK) addBookRandomization(epoch);
-        else if (randomizationType == RandomizationType.CALL_OUT) addCalloutRandomization(epoch);
         else if (randomizationType == RandomizationType.PHONE_CALL) addPhoneCallRandomization(epoch);
         else {
             throw new Exception("Invalid Randomization Type");
         }
-    }
-
-    private void addCalloutRandomization(Epoch epoch) {
-        Randomization cRandomization = new CalloutRandomization();
-        ((CalloutRandomization) cRandomization).setCalloutUrl("trialUrl.com");
-        epoch.setRandomization(cRandomization);
     }
 
     private void addBookRandomization(Epoch epoch) {

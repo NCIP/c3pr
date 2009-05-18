@@ -736,48 +736,6 @@ public class StudyTestCase extends AbstractTestCase{
 	}
 	
 	/**
-	 * test buildMapForNotification
-	 */
-	
-	public void testBuildMapForNotification() {
-		
-//		OrganizationAssignedIdentifier mrn = registerMockFor(OrganizationAssignedIdentifier.class);
-//		EasyMock.expect(participant.getMRN()).andReturn(mrn).times(2);
-//		EasyMock.expect(mrn.getValue()).andReturn("mrnValue").times(2);
-//		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
-//		EasyMock.expect(study.getShortTitleText()).andReturn("Short_title_text").times(2);
-//		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
-//		EasyMock.expect(study.getId()).andReturn(1).times(2);
-//		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
-//		EasyMock.expect(study.getTargetAccrualNumber()).andReturn(5).times(2);
-//		EasyMock.expect(studySite.getTargetAccrualNumber()).andReturn(4).times(2);
-//		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
-//		EasyMock.expect(study.getCurrentAccrualCount()).andReturn(3).times(2);
-//		EasyMock.expect(studySite.getCurrentAccrualCount()).andReturn(2);
-//
-//		replayMocks();
-//		Map<Object, Object> map = studySubject.buildMapForNotification();
-//		assertEquals("Wrong number of entries in the notificaiton map",8,map.size());
-//
-//		assertEquals("Wrong entry in map","mrnValue",map.get(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN
-//		.toString()));
-//		assertEquals("Wrong entry in map","Short_title_text",map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE
-//		.toString()));
-//		assertEquals("Wrong entry in map",5,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD
-//		.toString()));
-//		assertEquals("Wrong entry in map",4,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_ACCRUAL_THRESHOLD
-//		.toString()));
-//		assertEquals("Wrong entry in map",3,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_CURRENT_ACCRUAL
-//		.toString()));
-//		assertEquals("Wrong entry in map",2,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL
-//		.toString()));
-//
-//		verifyMocks();
-		
-		// write is later.
-	}
-	
-	/**
 	 * test get principal study investigator 
 	 */
 	public void testGetPricipalStudyInvestigator(){
@@ -2362,36 +2320,6 @@ public void testSetCoordinatingCenterStudyStatus(){
 	assertEquals("coordinating center status is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
 	assertEquals("study site coordinating center is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getStudySites().get(0).getCoordinatingCenterStudyStatus());
 }
-
-/**
- * test set coordinating center study status
- */
-//public void testSetCoordinatingCenterStudyStatus1(){
-//	HealthcareSite hcs = registerMockFor(HealthcareSite.class);
-//	EasyMock.expect(hcs.getNciInstituteCode()).andReturn("NC010");
-//	
-//	HealthcareSite hcs1 = registerMockFor(HealthcareSite.class);
-//	EasyMock.expect(hcs1.getNciInstituteCode()).andReturn("NC010");
-//	
-//	replayMocks();
-//	
-//	StudySite studySite = new StudySite();
-//	studySite.setHostedMode(false);
-//	studySite.setHealthcareSite(hcs1);
-//	
-//	basicStudy.addStudySite(studySite);
-//	basicStudy.getStudyCoordinatingCenters().add(new StudyCoordinatingCenter());
-//	basicStudy.getStudyCoordinatingCenters().get(0).setHealthcareSite(hcs);
-//	
-//	
-//	studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-//	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-//	assertEquals("coordinating center status is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
-//	assertEquals("study site coordinating center is pending ", CoordinatingCenterStudyStatus.PENDING,basicStudy.getStudySites().get(0).getCoordinatingCenterStudyStatus());
-//	
-//	verifyMocks();
-//}
-
 
 
 }

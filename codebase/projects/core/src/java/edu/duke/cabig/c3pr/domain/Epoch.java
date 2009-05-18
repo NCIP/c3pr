@@ -960,19 +960,6 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 			}
 		}
 
-		if (this.study.getRandomizationType() == (RandomizationType.CALL_OUT)) {
-				Randomization randomization = this.getRandomization();
-				if (randomization instanceof CalloutRandomization) {
-					if (StringUtils
-							.isBlank(((CalloutRandomization) randomization)
-									.getCalloutUrl())) {
-						errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
-								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.CALL_OUT_URL_FOR_CALL_OUT_RANDOMIZED_EPOCH.CODE"),
-								new String[] { this.getName() }).getMessage()));
-					}
-				}
-		}
-
 		return true;
 
 	}

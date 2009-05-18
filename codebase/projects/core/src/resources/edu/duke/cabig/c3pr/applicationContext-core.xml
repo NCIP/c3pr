@@ -110,7 +110,6 @@
                 <value>edu.duke.cabig.c3pr.domain.BookRandomizationEntry</value>
                 <value>edu.duke.cabig.c3pr.domain.Randomization</value>
                 <value>edu.duke.cabig.c3pr.domain.BookRandomization</value>
-                <value>edu.duke.cabig.c3pr.domain.CalloutRandomization</value>
                 <value>edu.duke.cabig.c3pr.domain.PhoneCallRandomization</value>
                 <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
@@ -288,7 +287,6 @@
 	                <value>edu.duke.cabig.c3pr.domain.BookRandomizationEntry</value>
 	                <value>edu.duke.cabig.c3pr.domain.Randomization</value>
 	                <value>edu.duke.cabig.c3pr.domain.BookRandomization</value>
-	                <value>edu.duke.cabig.c3pr.domain.CalloutRandomization</value>
 	                <value>edu.duke.cabig.c3pr.domain.PhoneCallRandomization</value>
 	                <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
 	                <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
