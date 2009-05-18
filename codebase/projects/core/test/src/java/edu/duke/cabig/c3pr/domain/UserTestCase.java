@@ -52,7 +52,6 @@ public class UserTestCase extends AbstractTestCase{
 	public void testGetPasswordAge(){
         Timestamp timestamp = new Timestamp(new Date().getTime() - 1000);
 		user.setPasswordLastSet(timestamp);
-		System.out.println("######## : " + user.getPasswordAge());
 		assertEquals("password age is 1000 miliseconds", 1000, user.getPasswordAge());
 	}
 	
