@@ -889,7 +889,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	verifyMocks();
     }
     
-    /*public void testDoBookRandomization() throws Exception{
+    /**
+     * Test do book randomization no arm available.
+     * 
+     * @throws Exception the exception
+     */
+    public void testDoBookRandomizationNoArmAvailable() throws Exception{
     	
     	StratumGroup stratumGroup = registerMockFor(StratumGroup.class);
     	Arm arm = registerMockFor(Arm.class);
@@ -899,13 +904,43 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	EasyMock.expect(studySite.getStudy()).andReturn(study);
     	EasyMock.expect(study.getRandomizationType()).andReturn(RandomizationType.BOOK);
     	EasyMock.expect(scheduledEpoch.getStratumGroup()).andReturn(stratumGroup);
-    	EasyMock.expect(stratumGroup.getNextArm()).andReturn(arm);
-    	
-    	scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+    	EasyMock.expect(stratumGroup.getNextArm()).andThrow(new C3PRBaseRuntimeException("next arm not available"));
     	replayMocks();
-    	studySubject.doLocalEnrollment();
-    	assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());
+    	try {
+    		studySubject.doLocalEnrollment();
+    		fail("Should have thrown exception");
+    	}catch(C3PRBaseRuntimeException ex){
+    		
+    	}
+    	assertEquals("Wrong registration status",RegistrationWorkFlowStatus.PENDING,studySubject.getRegWorkflowStatus());
     	verifyMocks();
-    }*/
+    }
+    
+  /**
+   * Test do phone call randomization.
+   * 
+   * @throws Exception the exception
+   */
+  public void testDoPhoneCallRandomization() throws Exception{
+    	
+    	EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED).times(2);
+    	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+    	EasyMock.expect(epoch.getName()).andReturn("treating epoch");
+    	EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+    	EasyMock.expect(study.getRandomizationType()).andReturn(RandomizationType.PHONE_CALL);
+    	EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(null);
+    	EasyMock.expect(study.getBlindedIndicator()).andReturn(false);
+    	
+    	
+    	replayMocks();
+    	try {
+    		studySubject.doLocalEnrollment();
+    		fail("Should not have thrown exception");
+    	}catch(C3PRBaseRuntimeException ex){
+    		
+    	}
+    	assertEquals("Wrong registration status",RegistrationWorkFlowStatus.PENDING,studySubject.getRegWorkflowStatus());
+    	verifyMocks();
+    }
     
 }
