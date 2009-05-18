@@ -20,27 +20,43 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
+/**
+ * The Class ScheduledNotification.
+ */
 @Entity
 @Table(name = "schld_notfns")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "schld_notfns_ID_SEQ") })
 public class ScheduledNotification extends AbstractMutableDeletableDomainObject {
 	
+	/** The message. */
 	private String message;
 	
+	/** The title. */
 	private String title;
 	
+	/** The date sent. */
 	private Date dateSent;
 	
+	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 	
+	/** The study organization. */
 	private StudyOrganization studyOrganization;
 
+	/**
+	 * Instantiates a new scheduled notification.
+	 */
 	public ScheduledNotification() {
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(RecipientScheduledNotification.class, new InstantiateFactory<RecipientScheduledNotification>(
         		RecipientScheduledNotification.class));
 	}
 	
+	/**
+	 * Gets the html message.
+	 * 
+	 * @return the html message
+	 */
 	@Transient
 	public String getHtmlMessage(){
 		if(message == null){
@@ -54,30 +70,65 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
 		}
 	}
 	
+	/**
+	 * Gets the message.
+	 * 
+	 * @return the message
+	 */
 	public String getMessage() {
 		return message;
 	}
 
+	/**
+	 * Sets the message.
+	 * 
+	 * @param message the new message
+	 */
 	public void setMessage(String message) {
 		this.message = message;
 	}
 
+	/**
+	 * Gets the title.
+	 * 
+	 * @return the title
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * Sets the title.
+	 * 
+	 * @param title the new title
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	/**
+	 * Gets the date sent.
+	 * 
+	 * @return the date sent
+	 */
 	public Date getDateSent() {
 		return dateSent;
 	}
 
+	/**
+	 * Sets the date sent.
+	 * 
+	 * @param dateSent the new date sent
+	 */
 	public void setDateSent(Date dateSent) {
 		this.dateSent = dateSent;
 	}
 
+    /**
+     * Gets the recipient scheduled notification internal.
+     * 
+     * @return the recipient scheduled notification internal
+     */
     @OneToMany(fetch = FetchType.LAZY)
     @Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.MERGE})
     @JoinColumn(name = "schld_notfns_id")
@@ -86,18 +137,36 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
         return lazyListHelper.getInternalList(RecipientScheduledNotification.class);
     }
 
+    /**
+     * Sets the recipient scheduled notification internal.
+     * 
+     * @param recipientScheduledNotification the new recipient scheduled notification internal
+     */
     public void setRecipientScheduledNotificationInternal(List<RecipientScheduledNotification> recipientScheduledNotification) {
         lazyListHelper.setInternalList(RecipientScheduledNotification.class, recipientScheduledNotification);
     }
 
+    /**
+     * Gets the recipient scheduled notification.
+     * 
+     * @return the recipient scheduled notification
+     */
     @Transient
     public List<RecipientScheduledNotification> getRecipientScheduledNotification() {
         return lazyListHelper.getLazyList(RecipientScheduledNotification.class);
     }
 
+    /**
+     * Sets the recipient scheduled notification.
+     * 
+     * @param recipientScheduledNotification the new recipient scheduled notification
+     */
     public void setRecipientScheduledNotification(List<RecipientScheduledNotification> recipientScheduledNotification) {
     }
     
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#setRetiredIndicatorAsTrue()
+     */
     @Override
     @Transient
     public void setRetiredIndicatorAsTrue() {
@@ -105,6 +174,11 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
         this.setRetiredIndicatorAsTrue();
     }
 
+    /**
+     * Gets the study organization.
+     * 
+     * @return the study organization
+     */
     @OneToOne
     @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "study_org_id")
@@ -112,6 +186,11 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
 		return studyOrganization;
 	}
 
+	/**
+	 * Sets the study organization.
+	 * 
+	 * @param studyOrganization the new study organization
+	 */
 	public void setStudyOrganization(StudyOrganization studyOrganization) {
 		this.studyOrganization = studyOrganization;
 	}
