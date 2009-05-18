@@ -576,21 +576,27 @@
 			<ivy:cachepath organisation="cobertura" module="cobertura" revision="1.9rc1" inline="true" pathid="cobertura.classpath"/>
 			<mkdir dir="${cobertura.report.dir}" />
 			<mkdir dir="${cobertura.report.dir}/xmlreport" />
-			<!-- <taskdef resource="tasks.properties">
-				<classpath>
-					<fileset dir="${lib.dir}">
-						<include name="**/*.jar" />
-					</fileset>
-				</classpath>
-			</taskdef> -->
 			<taskdef resource="tasks.properties" classpathref="cobertura.classpath" />
+			<echo message=" ################################################### COBERTURA##################" />
+			<echo message="${classes.dir}"></echo>
+			<echo message=" ################################################### COBERTURA##################" />
 			<cobertura-instrument todir="${instrumented.classes.dir}" datafile="${cobertura.report.dir}/cobertura.ser">
 				<fileset dir="${classes.dir}">
 					<include name="**/*.class" />
+					<exclude name="**/Companion.class" />
+					<exclude name="**/ScheduledArm.class" />
+					<exclude name="**/SubjectStratificationAnswer.class" />
+					<exclude name="**/APIName.class" />
+					<exclude name="**/SubjectEligibilityAnswer.class" />
+					<exclude name="**/ContactMechanismBasedRecipient.class" />
+					<exclude name="**/StratificationCriterionPermissibleAnswer.class" />
+					<exclude name="**/RecipientScheduledNotification.class" />
+					<exclude name="**StudySiteCompanionStudyAssociation.class" />
+					<exclude name="**/ConsentHistory.class" />
+					<exclude name="**/customfield/*.class" />
 				</fileset>
 			</cobertura-instrument>
 		</target>
-
 	<!-- ============================================================== 
 			target: checkstyle-init                                                
 		============================================================== -->
