@@ -14,14 +14,12 @@ public class InvestigatorStatusFieldHandler implements FieldHandler {
 
     public Object getValue(Object object) throws IllegalStateException {
     	StudyInvestigator studyInvestigator= (StudyInvestigator) object;
-    	if(studyInvestigator.getStatusCode() != null){
-    		return studyInvestigator.getStatusCode().toString();
-    	}
-        return new String("");
+        return studyInvestigator.getStatusCode()==null?null:studyInvestigator.getStatusCode().toString();
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
+    	if(value==null) return;
     	StudyInvestigator studyInvestigator = (StudyInvestigator) object;
     	studyInvestigator.setStatusCode(InvestigatorStatusCodeEnum.valueOf((String) value));
     }
