@@ -158,14 +158,6 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         return lazyListHelper.getLazyList(BookRandomizationEntry.class);
     }
 
-    /**
-     * Sets the book randomization entry.
-     * 
-     * @param bookRandomizationEntry the new book randomization entry
-     */
-    public void setBookRandomizationEntry(List<BookRandomizationEntry> bookRandomizationEntry) {
-
-    }
 
     /**
      * Gets the current position.
@@ -214,6 +206,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : this.getStratificationCriterionAnswerCombination()){
         	result = result + ", " + stratificationCriterionAnswerCombination.getStratificationCriterionPermissibleAnswer().getPermissibleAnswer() ; 
         }
+        //removes the extra leading comma sign.
         if(result.length() != 0 ){
         	result = result.substring(2);
         }
