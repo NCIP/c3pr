@@ -19,7 +19,6 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
-import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -130,14 +129,6 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
                         }
                         else {
                             tEpoch.setRandomization(new BookRandomization());
-                        }
-                    }
-                    if (study.getRandomizationType().equals(RandomizationType.CALL_OUT)) {
-                        if (tEpoch.getRandomization() instanceof CalloutRandomization) {
-                            // do nothing. This happens if nothing is chnaged during the edit flow
-                        }
-                        else {
-                            tEpoch.setRandomization(new CalloutRandomization());
                         }
                     }
                     if (study.getRandomizationType().equals(RandomizationType.PHONE_CALL)) {
