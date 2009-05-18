@@ -14,7 +14,10 @@ public class InvestigatorStatusFieldHandler implements FieldHandler {
 
     public Object getValue(Object object) throws IllegalStateException {
     	StudyInvestigator studyInvestigator= (StudyInvestigator) object;
-        return studyInvestigator.getStatusCode().toString();
+    	if(studyInvestigator.getStatusCode() != null){
+    		return studyInvestigator.getStatusCode().toString();
+    	}
+        return new String("");
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException,
