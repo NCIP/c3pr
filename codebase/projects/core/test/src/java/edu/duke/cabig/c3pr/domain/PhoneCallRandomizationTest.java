@@ -40,5 +40,17 @@ public class PhoneCallRandomizationTest extends AbstractTestCase{
 			assertTrue(retValue.equals(NUM_WITH_HYPHENS));
 	}
 	
+	/**
+	 * Test get phone number string with Blank.
+	 * 
+	 * @throws Exception the exception
+	 */
+	public void testGetPhoneNumberStringWithBlank() throws Exception {
+			PhoneCallRandomization phoneCallRandomization = new PhoneCallRandomization();
+			phoneCallRandomization.setPhoneNumber("");
+	
+			String retValue = phoneCallRandomization.getPhoneNumberString();
+			assertTrue(retValue.equals(""));
+	}
 }
 

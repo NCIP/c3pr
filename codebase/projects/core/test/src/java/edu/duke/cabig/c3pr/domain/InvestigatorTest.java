@@ -5,7 +5,6 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class InvestigatorTest.
  */
@@ -16,7 +15,6 @@ public class InvestigatorTest extends AbstractTestCase{
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		// TODO Auto-generated method stub
 		super.setUp();
 	}
 	
