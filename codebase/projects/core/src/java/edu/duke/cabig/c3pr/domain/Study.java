@@ -1362,9 +1362,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	private boolean isParentStudyOpen(boolean flag) {
-		for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
-			if (this.parentStudyAssociations.get(i).getParentStudy()
-					.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
+		for (CompanionStudyAssociation association : this.parentStudyAssociations) {
+			if (association.getParentStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
 				flag = false;
 			}
 		}

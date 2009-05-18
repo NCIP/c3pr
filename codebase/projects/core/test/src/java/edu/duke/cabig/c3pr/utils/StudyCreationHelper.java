@@ -13,8 +13,10 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -441,5 +443,35 @@ public class StudyCreationHelper {
 	        study.addAmendment(amendment);
 	        return study ;
 		 }
-
+	 
+	 public Study addParentStudyAssociation(Study parent, Study child){
+		 parent.setCompanionIndicator(false);
+		 child.setCompanionIndicator(true);
+		 CompanionStudyAssociation association = new CompanionStudyAssociation();
+		 association.setId(1);
+		 association.setParentStudy(parent);
+		 association.setCompanionStudy(child);
+		 
+		 child.getParentStudyAssociations().add(association);
+		 return child;
+	 }
+	 
+	 public Study addParentStudyAssociationWithSite(Study parent, Study child){
+		 parent.setCompanionIndicator(false);
+		 child.setCompanionIndicator(true);
+		 CompanionStudyAssociation association = new CompanionStudyAssociation();
+		 association.setId(1);
+		 association.setParentStudy(parent);
+		 association.setCompanionStudy(child);
+		 
+		 StudySite site = new StudySite();
+		 HealthcareSite hcs = new LocalHealthcareSite();
+		 hcs.setNciInstituteCode("NCI_CODE");
+		 site.setHealthcareSite(hcs);
+		 
+		 association.addStudySite(site);
+		 
+		 child.getParentStudyAssociations().add(association);
+		 return child;
+	 }
 }
