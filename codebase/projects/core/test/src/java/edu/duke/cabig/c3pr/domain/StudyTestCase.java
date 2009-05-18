@@ -1983,26 +1983,45 @@ public void testGetCoordinatingCenterAssignedIdentifier3(){
 	assertNull("Coordinating Center Assigned Identifier not Found", basicStudy.getCoordinatingCenterAssignedIdentifier());
 }
 
+/**
+ * Test get study organization by nci identifier
+ * 
+ */
+public void testGetStudyOrganization2(){
+	StudyOrganization organization = registerMockFor(StudyOrganization.class);
+	organization.setStudy(simpleStudy);
+	HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
+	EasyMock.expect(organization.getHealthcareSite()).andReturn(healthcareSite);
+	EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
+	
+	replayMocks();
+	
+	simpleStudy.addStudyOrganization(organization);
+
+	try {
+		simpleStudy.getStudyOrganization("NC011");
+	} catch (C3PRCodedRuntimeException e) {
+		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+	}
+	
+	verifyMocks();
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/**
+ * Test get latest consent version
+ * 
+ */
+public void testGetLatestConsentVersion2(){
+	simpleStudy.setConsentVersion("10/08/1970");
+	StudyAmendment amendment  = registerMockFor(StudyAmendment.class);
+	EasyMock.expect(amendment.getConsentVersion()).andReturn("10/08/1981");
+	EasyMock.expect(amendment.getConsentChangedIndicator()).andReturn(false);
+	replayMocks();
+	simpleStudy.getStudyAmendments().add(amendment);
+	assertEquals("Latest consent version should be 10/08/1970", "10/08/1970" , simpleStudy.getLatestConsentVersion());
+	
+	}
 
 
 }
