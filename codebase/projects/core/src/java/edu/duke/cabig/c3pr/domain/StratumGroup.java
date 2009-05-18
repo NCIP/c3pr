@@ -18,25 +18,35 @@ import org.hibernate.annotations.Parameter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
+/**
+ * The Class StratumGroup.
+ */
 @Entity
 @Table(name = "stratum_groups")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STRATUM_GROUPS_ID_SEQ") })
 public class StratumGroup extends AbstractMutableDeletableDomainObject implements Comparable {
 
+    /** The current position. */
     private Integer currentPosition;
 
+    /** The stratum group number. */
     private Integer stratumGroupNumber;
 
+    /** The lazy list helper. */
     private LazyListHelper lazyListHelper;
     
+    /** The c3 pr exception helper. */
     private C3PRExceptionHelper c3PRExceptionHelper;
 
+	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
 
+    /**
+     * Instantiates a new stratum group.
+     */
     public StratumGroup() {
         lazyListHelper = new LazyListHelper();
         lazyListHelper
@@ -58,6 +68,9 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#setRetiredIndicatorAsTrue()
+     */
     @Override
     @Transient
     public void setRetiredIndicatorAsTrue() {
@@ -72,6 +85,11 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         }
     }
 
+    /**
+     * Gets the stratification criterion answer combination internal.
+     * 
+     * @return the stratification criterion answer combination internal
+     */
     @OneToMany(fetch = FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "STR_GRP_ID")
@@ -79,57 +97,117 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         return lazyListHelper.getInternalList(StratificationCriterionAnswerCombination.class);
     }
 
+    /**
+     * Sets the stratification criterion answer combination internal.
+     * 
+     * @param combinationAnswers the new stratification criterion answer combination internal
+     */
     public void setStratificationCriterionAnswerCombinationInternal(
                     List<StratificationCriterionAnswerCombination> combinationAnswers) {
         lazyListHelper.setInternalList(StratificationCriterionAnswerCombination.class,
                         combinationAnswers);
     }
 
+    /**
+     * Gets the stratification criterion answer combination.
+     * 
+     * @return the stratification criterion answer combination
+     */
     @Transient
     public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombination() {
         return lazyListHelper.getLazyList(StratificationCriterionAnswerCombination.class);
     }
 
+    /**
+     * Sets the stratification criterion answer combination.
+     * 
+     * @param combinationAnswers the new stratification criterion answer combination
+     */
     public void setStratificationCriterionAnswerCombination(
                     List<StratificationCriterionAnswerCombination> combinationAnswers) {
     }
 
+    /**
+     * Gets the book randomization entry internal.
+     * 
+     * @return the book randomization entry internal
+     */
     @OneToMany(mappedBy = "stratumGroup", fetch = FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     public List<BookRandomizationEntry> getBookRandomizationEntryInternal() {
         return lazyListHelper.getInternalList(BookRandomizationEntry.class);
     }
 
+    /**
+     * Sets the book randomization entry internal.
+     * 
+     * @param bookRandomizationEntry the new book randomization entry internal
+     */
     public void setBookRandomizationEntryInternal(
                     List<BookRandomizationEntry> bookRandomizationEntry) {
         lazyListHelper.setInternalList(BookRandomizationEntry.class, bookRandomizationEntry);
     }
 
+    /**
+     * Gets the book randomization entry.
+     * 
+     * @return the book randomization entry
+     */
     @Transient
     public List<BookRandomizationEntry> getBookRandomizationEntry() {
         return lazyListHelper.getLazyList(BookRandomizationEntry.class);
     }
 
+    /**
+     * Sets the book randomization entry.
+     * 
+     * @param bookRandomizationEntry the new book randomization entry
+     */
     public void setBookRandomizationEntry(List<BookRandomizationEntry> bookRandomizationEntry) {
 
     }
 
+    /**
+     * Gets the current position.
+     * 
+     * @return the current position
+     */
     public Integer getCurrentPosition() {
         return currentPosition;
     }
 
+    /**
+     * Sets the current position.
+     * 
+     * @param currentPosition the new current position
+     */
     public void setCurrentPosition(Integer currentPosition) {
         this.currentPosition = currentPosition;
     }
 
+    /**
+     * Gets the stratum group number.
+     * 
+     * @return the stratum group number
+     */
     public Integer getStratumGroupNumber() {
         return stratumGroupNumber;
     }
 
+    /**
+     * Sets the stratum group number.
+     * 
+     * @param stratumGroupNumber the new stratum group number
+     */
     public void setStratumGroupNumber(Integer stratumGroupNumber) {
         this.stratumGroupNumber = stratumGroupNumber;
     }
 
+    /**
+     * Gets the answer combinations.
+     * 
+     * @return the answer combinations
+     */
     @Transient
     public String getAnswerCombinations() {
         String result = "";
@@ -142,6 +220,9 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#hashCode()
+     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -158,6 +239,9 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
      * NOTE: As per this method two Stratum Groups are considered equal if they have the same
      * question/answer combination. In other words if they have the same
      * stratification_cri_ans_combination.
+     */
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
@@ -187,6 +271,9 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     /*
      * very basic toString method which is open to modifications.
      */
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return this.getStratumGroupNumber() + ":" + this.getAnswerCombinations();
@@ -194,6 +281,11 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
 
     /*
      * 
+     */
+    /**
+     * Gets the next arm.
+     * 
+     * @return the next arm
      */
     @Transient
     public Arm getNextArm() {
@@ -217,6 +309,9 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         return arm;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#clone()
+     */
     @Transient
     public StratumGroup clone() {
         StratumGroup sgClone = new StratumGroup();
@@ -226,32 +321,62 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         return sgClone;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     @Transient
     public int compareTo(Object obj) throws ClassCastException {
         StratumGroup sg = (StratumGroup) obj;
         return this.stratumGroupNumber - sg.getStratumGroupNumber();
     }
     
+    /**
+     * Gets the c3 pr exception helper.
+     * 
+     * @return the c3 pr exception helper
+     */
     @Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
 		return c3PRExceptionHelper;
 	}
 
+	/**
+	 * Sets the c3 pr exception helper.
+	 * 
+	 * @param exceptionHelper the new c3 pr exception helper
+	 */
 	public void setC3PRExceptionHelper(C3PRExceptionHelper exceptionHelper) {
 		this.c3PRExceptionHelper = exceptionHelper;
 	}
 
+	/**
+	 * Gets the code.
+	 * 
+	 * @param errortypeString the errortype string
+	 * 
+	 * @return the code
+	 */
 	@Transient
 	public int getCode(String errortypeString) {
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(
 				errortypeString, null, null));
 	}
 
+	/**
+	 * Gets the c3pr error messages.
+	 * 
+	 * @return the c3pr error messages
+	 */
 	@Transient
 	public MessageSource getC3prErrorMessages() {
 		return c3prErrorMessages;
 	}
 
+	/**
+	 * Sets the c3pr error messages.
+	 * 
+	 * @param errorMessages the new c3pr error messages
+	 */
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
 	}
