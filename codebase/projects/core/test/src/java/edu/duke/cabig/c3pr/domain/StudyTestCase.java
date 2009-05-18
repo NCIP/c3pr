@@ -566,34 +566,6 @@ public class StudyTestCase extends AbstractTestCase{
 	 * Test get companion study site by nci identifier
 	 * 
 	 */
-	public void testGetCompanionStudySite1(){
-//		simpleStudy.setCompanionIndicator(false);
-//		Study companion = new Study();
-//		companion.setCompanionIndicator(true);
-//		
-//		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
-//		association.setParentStudy(simpleStudy);
-//		List<StudySite> listStudySite = new ArrayList<StudySite>();
-//		StudySite studySite = registerMockFor(StudySite.class);
-//		listStudySite.add(studySite);
-//
-//		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
-//
-//		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
-//		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
-//		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
-//		
-//		replayMocks();
-//
-//		companion.addCompanionStudyAssociation(association);
-//		assertNotNull("study site found with nc010", companion.getCompanionStudySite("NC010"));
-//		verifyMocks();
-	}
-	
-	/**
-	 * Test get companion study site by nci identifier
-	 * 
-	 */
 	public void testGetCompanionStudySite2(){
 		simpleStudy.setCompanionIndicator(false);
 		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
@@ -678,6 +650,37 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		verifyMocks();
 	}
+	
+
+	/**
+	 * Test get affiliate study sites 
+	 * 
+	 */
+	public void testGetAffiliateStudySites1(){
+		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
+		HealthcareSite healthcareSite1 = registerMockFor(HealthcareSite.class);
+		
+		StudySite studySite = new StudySite();
+		studySite.setStudy(simpleStudy);
+		studySite.setHealthcareSite(healthcareSite);
+		
+		StudyCoordinatingCenter coordinatingCenter = new StudyCoordinatingCenter();
+		coordinatingCenter.setStudy(simpleStudy);
+		coordinatingCenter.setHealthcareSite(healthcareSite1);
+		
+		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC011");
+		EasyMock.expect(healthcareSite1.getNciInstituteCode()).andReturn("NC011");
+		
+		replayMocks();
+		
+		simpleStudy.addStudySite(studySite);
+		simpleStudy.addStudyOrganization(coordinatingCenter);
+
+		assertEquals("no affiliate study site present", 0 ,simpleStudy.getAffiliateStudySites().size());
+		
+		verifyMocks();
+	}
+
 	
 	/**
 	 * Test isMultisite
@@ -2022,6 +2025,253 @@ public void testGetLatestConsentVersion2(){
 	assertEquals("Latest consent version should be 10/08/1970", "10/08/1970" , simpleStudy.getLatestConsentVersion());
 	
 	}
+
+/**
+ * test get parent association
+ */
+public void testGetParentStudyAssociation(){
+	basicStudy.setId(1);
+	simpleStudy.setId(2);
+	simpleStudy = studyCreationHelper.addParentStudyAssociation(basicStudy, simpleStudy);
+	assertNotNull("parent association found for this study", simpleStudy.getParentStudyAssociation(1));
+}
+
+/**
+ * test get parent association
+ */
+public void testGetParentStudyAssociation1(){
+	basicStudy.setId(1);
+	simpleStudy.setId(2);
+	simpleStudy = studyCreationHelper.addParentStudyAssociation(basicStudy, simpleStudy);
+	assertNull("parent association found for this study", simpleStudy.getParentStudyAssociation(2));
+}
+
+/**
+ * test get parent association
+ */
+public void testGetParentStudyAssociation2(){
+	assertNull("parent association found for this study", simpleStudy.getParentStudyAssociation(1));
+	
+}
+
+/**
+ * test get companion study site
+ */
+public void testGetCompanionStudySite3(){
+	basicStudy.setCompanionIndicator(true);
+	simpleStudy.setCompanionIndicator(false);
+	basicStudy = studyCreationHelper.addParentStudyAssociationWithSite(simpleStudy, basicStudy);
+	
+	assertNotNull("study site found with NCI_CODE nci identifier", basicStudy.getCompanionStudySite("NCI_CODE"));
+	
+}
+
+
+/**
+ * test get companion study site
+ */
+public void testGetCompanionStudySite4(){
+	basicStudy.setCompanionIndicator(true);
+	simpleStudy.setCompanionIndicator(false);
+	basicStudy = studyCreationHelper.addParentStudyAssociationWithSite(simpleStudy, basicStudy);
+	assertNull("no study site found with NCI_CODE_1 nci identifier", basicStudy.getCompanionStudySite("NCI_CODE_1"));
+}
+
+
+/**
+ * test get companion study site
+ */
+public void testGetCompanionStudySite5(){
+	basicStudy.setCompanionIndicator(true);
+	simpleStudy.setCompanionIndicator(false);
+	basicStudy = studyCreationHelper.addParentStudyAssociation(simpleStudy, basicStudy);
+	assertNull("no study site found with NCI_CODE_1 nci identifier because no study site in association", basicStudy.getCompanionStudySite("NCI_CODE_1"));
+}
+
+/**
+ * test get companion study site
+ */
+public void testGetCompanionStudySite6(){
+	basicStudy.setCompanionIndicator(true);
+	assertNull("no study site found with NCI_CODE_1 nci identifier because no parent association", basicStudy.getCompanionStudySite("NCI_CODE_1"));
+}
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+	basicStudy.setCompanionIndicator(false);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("1 possible status found", 1 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+}
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition1(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+	basicStudy.setCompanionIndicator(true);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("2 possible status found", 2 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+	assertContains(list, CoordinatingCenterStudyStatus.READY_TO_OPEN);
+}
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition2(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+	basicStudy.setCompanionIndicator(true);
+	simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+	basicStudy = studyCreationHelper.addParentStudyAssociationWithSite(simpleStudy, basicStudy);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("2 possible status found", 2 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+	assertContains(list, CoordinatingCenterStudyStatus.READY_TO_OPEN);
+}
+
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition3(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+	basicStudy.setCompanionIndicator(true);
+	simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+	basicStudy = studyCreationHelper.addParentStudyAssociationWithSite(simpleStudy, basicStudy);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("1 possible status found", 1 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.READY_TO_OPEN);
+}
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition4(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+	basicStudy.setCompanionIndicator(false);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("1 possible status found", 1 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+}
+
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition5(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+	basicStudy.setCompanionIndicator(true);
+	basicStudy.setStandaloneIndicator(false);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("1 possible status found", 1 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+}
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition6(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+	basicStudy.setCompanionIndicator(true);
+	basicStudy.setCompanionIndicator(true);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("1 possible status found", 1 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+}
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition7(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+	basicStudy.setCompanionIndicator(true);
+	basicStudy.setStandaloneIndicator(false);
+	simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+	basicStudy = studyCreationHelper.addParentStudyAssociationWithSite(simpleStudy, basicStudy);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("no possible status found", 0 , list.size());
+}
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition8(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+	basicStudy.setCompanionIndicator(true);
+	basicStudy.setStandaloneIndicator(false);
+	simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+	basicStudy = studyCreationHelper.addParentStudyAssociationWithSite(simpleStudy, basicStudy);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("1 possible status found", 1 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+}
+
+public void testGetPossibleStatusTransition9(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("4 possible status found", 4 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+	assertContains(list, CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+	assertContains(list, CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+	assertContains(list, CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+}
+
+/**
+ * test get possible status transition
+ */
+public void testGetPossibleStatusTransition10(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("1 possible status found", 1 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+}
+
+
+/**
+* test get possible status transition
+*/
+public void testGetPossibleStatusTransition11(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("3 possible status found", 3 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+	assertContains(list, CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+}
+
+
+/**
+* test get possible status transition
+*/
+public void testGetPossibleStatusTransition12(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+	assertEquals("3 possible status found", 3 , list.size());
+	assertContains(list, CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+	assertContains(list, CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+}
+
+
+
+///**
+// * test get possible status transition
+// */
+//public void testGetPossibleStatusTransition8(){
+//	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+//	basicStudy.setCompanionIndicator(true);
+//	basicStudy.setStandaloneIndicator(false);
+//	simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+//	basicStudy = studyCreationHelper.addParentStudyAssociationWithSite(simpleStudy, basicStudy);
+//	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+//	assertEquals("1 possible status found", 1 , list.size());
+//	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+//}
+
 
 
 }
