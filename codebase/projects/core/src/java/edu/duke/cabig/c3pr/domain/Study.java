@@ -1016,9 +1016,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public void closeToAccrual() {
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
-			throw getC3PRExceptionHelper().getRuntimeException(
-					getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"));
+			throw getC3PRExceptionHelper()
+			.getRuntimeException(
+					getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
+					new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
+							.getDisplayName() });
 		}
+		
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING)
 			throw getC3PRExceptionHelper()
@@ -1030,10 +1034,17 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	public void closeToAccrualAndTreatment() {
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
+				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
+			throw getC3PRExceptionHelper()
+			.getRuntimeException(
+					getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
+					new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
+							.getDisplayName() });
+		}
 
 		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL)))
+				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING)))
 			throw getC3PRExceptionHelper()
 					.getRuntimeException(
 							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
