@@ -393,6 +393,16 @@ public class StudyCreationHelper {
 		return study;
 	}
 	
+	public Study addOrganizationAssignedIdentifierNonPrimary(Study study, String type, String value){
+		OrganizationAssignedIdentifier orgIdentifier =  new OrganizationAssignedIdentifier();
+		orgIdentifier.setType(type);
+		orgIdentifier.setValue(value);
+		orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
+		orgIdentifier.setPrimaryIndicator(false);
+		study.getOrganizationAssignedIdentifiers().add(orgIdentifier);
+		return study;
+	}
+	
 	 public Study addNonEnrollingEpochToBasicStudy(Study study) {
 	        return addNonEnrollingEpochToBasicStudy(study, "Name");
 	    }
