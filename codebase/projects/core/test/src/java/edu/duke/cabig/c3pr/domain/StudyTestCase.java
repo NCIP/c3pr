@@ -1098,6 +1098,23 @@ public void testGetPrimaryIndicator(){
 	assertEquals("Primary identifier value is Test Value","TestValue", basicStudy.getPrimaryIdentifier());
 }
 
+
+/**
+ * Test get primary indicator
+ */
+public void testGetPrimaryIndicator1(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifierNonPrimary(basicStudy, "Coordinating Center Identifier", "TestValue");
+	assertNull("Primary identifier not found", basicStudy.getPrimaryIdentifier());
+}
+
+
+/**
+ * Test get primary indicator
+ */
+public void testGetPrimaryIndicator2(){
+	assertNull("Primary identifier not found", basicStudy.getPrimaryIdentifier());
+}
+
 /**
  * Test get funding sponsor identifier index 
  */
@@ -1120,6 +1137,19 @@ public void testGetFundingSponsorIdentifierIndex1(){
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3PR", "C3PR");
 	
 	assertEquals("Index of funding sponsorer should be -1",-1, basicStudy.getFundingSponsorIdentifierIndex());
+}
+
+
+/**
+ * Test get funding sponsor identifier index 
+ */
+public void testGetFundingSponsorIdentifierIndex2(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, null, "C3D");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Protocol Authority Identifier", "identifier");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3PR", "C3PR");
+	
+	assertEquals("Index of funding sponsorer should be 2",2, basicStudy.getFundingSponsorIdentifierIndex());
 }
 
 /**
@@ -1184,19 +1214,37 @@ public void testHasRandomizedEpoch1(){
 }
 
 /**
- * test has stratified epoch
+ * test has randomized epoch
  */
-public void testHasStratifiedEpoch(){
-	basicStudy = studyCreationHelper.addStratifiedEpochToBasicStudy(basicStudy, "epoch 1");
-	assertTrue("randomized epoch present for this study",basicStudy.hasStratifiedEpoch());
+public void testHasRandomizedEpoch2(){
+	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy);
+	assertFalse("randomized epoch present for this study",basicStudy.hasRandomizedEpoch());
 }
 
 /**
  * test has stratified epoch
  */
-public void testHasStratifiedEpoch1(){
-	assertFalse("randomized epoch present for this study",basicStudy.hasStratifiedEpoch());
+public void testHasStratifiedEpoch(){
+	basicStudy = studyCreationHelper.addStratifiedEpochToBasicStudy(basicStudy, "epoch 1");
+	assertTrue("stratified epoch present for this study",basicStudy.hasStratifiedEpoch());
 }
+
+/**
+ * test has stratified epoch
+ */
+public void testHasStratifiedEpoch2(){
+	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy);
+	assertFalse("stratified epoch not present for this study",basicStudy.hasStratifiedEpoch());
+}
+
+
+/**
+ * test has stratified epoch
+ */
+public void testHasStratifiedEpoch1(){
+	assertFalse("stratified epoch not present for this study",basicStudy.hasStratifiedEpoch());
+}
+
 
 /**
  * test get epoch by name
@@ -1211,6 +1259,14 @@ public void testGetEpochByName(){
  * test get epoch by name
  */
 public void testGetEpochByName1(){
+	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy,"epoch 2");
+	assertNull("no epoch present with name 'epoch 1'",basicStudy.getEpochByName("epoch 1"));
+}
+
+/**
+ * test get epoch by name
+ */
+public void testGetEpochByName2(){
 	assertNull("no epoch present with name 'epoch 1'",basicStudy.getEpochByName("epoch 1"));
 }
 
@@ -1305,6 +1361,61 @@ public void testEvaluateCoordinatingCenterStudyStatus2(){
  */
 public void testEvaluateCoordinatingCenterStudyStatus3(){
 	//TODO write test case for amendment pending status- some issue in logic
+}
+
+
+/**
+ * test evaluate coordinating center study status
+ */
+public void testEvaluateCoordinatingCenterStudyStatus4(){
+	basicStudy.setStratificationIndicator(false);
+	basicStudy.setCompanionIndicator(false);
+	basicStudy.setStandaloneIndicator(false);
+	basicStudy.setRandomizedIndicator(false);
+	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+	CoordinatingCenterStudyStatus status = null;
+	try{
+		 status = basicStudy.evaluateCoordinatingCenterStudyStatus();
+	}catch(Exception e){
+		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
+	}
+	assertEquals("coordinating center status should be pending",CoordinatingCenterStudyStatus.OPEN, status);
+}
+
+/**
+ * test evaluate coordinating center study status
+ */
+public void testEvaluateCoordinatingCenterStudyStatus5(){
+	basicStudy.setStratificationIndicator(false);
+	basicStudy.setCompanionIndicator(true);
+	basicStudy.setStandaloneIndicator(true);
+	basicStudy.setRandomizedIndicator(false);
+	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+	CoordinatingCenterStudyStatus status = null;
+	try{
+		 status = basicStudy.evaluateCoordinatingCenterStudyStatus();
+	}catch(Exception e){
+		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
+	}
+	assertEquals("coordinating center status should be pending",CoordinatingCenterStudyStatus.OPEN, status);
+}
+
+/**
+ * test evaluate coordinating center study status
+ */
+public void testEvaluateCoordinatingCenterStudyStatus6(){
+	basicStudy.setStratificationIndicator(false);
+	basicStudy.setCompanionIndicator(false);
+	basicStudy.setStandaloneIndicator(true);
+	basicStudy.setRandomizedIndicator(false);
+	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+	CoordinatingCenterStudyStatus status = null;
+	try{
+		 status = basicStudy.evaluateCoordinatingCenterStudyStatus();
+	}catch(Exception e){
+		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
+	}
+	assertEquals("coordinating center status should be pending",CoordinatingCenterStudyStatus.OPEN, status);
 }
 
 /**
@@ -1676,8 +1787,9 @@ public void testCloseToAccrual2(){
 public void testCloseToAccrual3(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
 	
-	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(344, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE", null, null)).andReturn("344");
+	
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(344, "exception message"));
 	
 	
 	replayMocks();
@@ -1770,8 +1882,8 @@ public void testCloseToAccrualAndTreatment2(){
 public void testCloseToAccrualAndTreatment3(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
 	
-	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
-	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE", null, null)).andReturn("344");
 	
 	replayMocks();
 	try{
@@ -1782,6 +1894,94 @@ public void testCloseToAccrualAndTreatment3(){
 	verifyMocks();
 }
 
+
+/**
+ * test closeToAccrualAndTreatment
+ */
+public void testCloseToAccrualAndTreatment4(){
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+	
+	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE", null, null)).andReturn("344");
+	
+	replayMocks();
+	try{
+		basicStudy.closeToAccrualAndTreatment();
+	}catch (Exception e) {
+		assertEquals("Exception is instance of C3PRCodedRuntimeException", true , e instanceof C3PRCodedRuntimeException);
+	}
+	verifyMocks();
+}
+
+/**
+ * test getFundingSponsorAssignedIdentifier
+ */
+public void testGetFundingSponsorAssignedIdentifier(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Protocol Authority Identifier", "Value");
+	assertNotNull("Funding Sponsorer Identifier Found", basicStudy.getFundingSponsorAssignedIdentifier());
+	
+}
+
+
+/**
+ * test getFundingSponsorAssignedIdentifier
+ */
+public void testGetFundingSponsorAssignedIdentifier1(){
+	assertNull("Funding Sponsorer Identifier not Found", basicStudy.getFundingSponsorAssignedIdentifier());
+}
+
+/**
+ * test getFundingSponsorAssignedIdentifier
+ */
+public void testGetFundingSponsorAssignedIdentifier2(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, null , "Value");
+	assertNull("Funding Sponsorer Identifier not Found", basicStudy.getFundingSponsorAssignedIdentifier());
+}
+
+
+/**
+ * test getFundingSponsorAssignedIdentifier
+ */
+public void testGetFundingSponsorAssignedIdentifier3(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3D" , "Value");
+	assertNull("Funding Sponsorer Identifier not Found", basicStudy.getFundingSponsorAssignedIdentifier());
+}
+
+
+
+/**
+ * test getCoordinatingCenterAssignedIdentifier
+ */
+public void testGetCoordinatingCenterAssignedIdentifier(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "Value");
+	assertNotNull("Coordinating Center Assigned Identifier Found", basicStudy.getCoordinatingCenterAssignedIdentifier());
+	
+}
+
+
+/**
+ * test getCoordinatingCenterAssignedIdentifier
+ */
+public void testGetCoordinatingCenterAssignedIdentifier1(){
+	assertNull("Coordinating Center Assigned Identifier not Found", basicStudy.getCoordinatingCenterAssignedIdentifier());
+}
+
+/**
+ * test getCoordinatingCenterAssignedIdentifier
+ */
+public void testGetCoordinatingCenterAssignedIdentifier2(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, null , "Value");
+	assertNull("Coordinating Center Assigned Identifier not Found", basicStudy.getCoordinatingCenterAssignedIdentifier());
+}
+
+
+/**
+ * test getCoordinatingCenterAssignedIdentifier
+ */
+public void testGetCoordinatingCenterAssignedIdentifier3(){
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3D" , "Value");
+	assertNull("Coordinating Center Assigned Identifier not Found", basicStudy.getCoordinatingCenterAssignedIdentifier());
+}
 
 
 
