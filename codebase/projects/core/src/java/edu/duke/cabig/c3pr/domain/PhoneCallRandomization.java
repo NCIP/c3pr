@@ -52,12 +52,4 @@ public class PhoneCallRandomization extends Randomization {
     	}
     }
 
-    /* (non-Javadoc)
-     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#setRetiredIndicatorAsTrue()
-     */
-    @Override
-    @Transient
-    public void setRetiredIndicatorAsTrue() {
-        super.setRetiredIndicatorAsTrue();
-    }
 }

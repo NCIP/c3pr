@@ -19,7 +19,6 @@ import org.hibernate.annotations.Parameter;
 
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Investigator.
  * 
@@ -29,7 +28,6 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Table(name = "investigators")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "investigators_id_seq") })
-// @AssociationOverride( name="contactMechanisms", joinColumns= @JoinColumn(name="INV_ID") )
 public abstract class Investigator extends C3PRUser {
     
     /** The nci identifier. */
@@ -39,7 +37,7 @@ public abstract class Investigator extends C3PRUser {
     private LazyListHelper lazyListHelper;
 
     /** The full name. */
-    private String fullName;
+//    private String fullName;
     
     /** The user based recipient. */
     private List<UserBasedRecipient> userBasedRecipient;
