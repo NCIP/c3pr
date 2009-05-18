@@ -2327,12 +2327,71 @@ public void testReadyToOpen(){
 		
 	}
 
+/**
+ * test has registered participants
+ */
+public void testGetHasRegisteredParticipants(){
+	assertFalse("no registered participant found", basicStudy.getHasRegisteredParticipants());
+}
 
 /**
- * test open
+ * test has registered participants
  */
-public void testOpen(){
-	
+public void testGetHasRegisteredParticipants1(){
+	basicStudy = studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+	assertFalse("no registered participant found", basicStudy.getHasRegisteredParticipants());
 }
+
+/**
+ * test has registered participants
+ */
+public void testGetHasRegisteredParticipants2(){
+	basicStudy = studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+	basicStudy.getStudySites().get(0).getStudySubjects().add(new StudySubject());
+	assertTrue("1 registered participant found", basicStudy.getHasRegisteredParticipants());
+}
+
+/**
+ * test set coordinating center study status
+ */
+public void testSetCoordinatingCenterStudyStatus(){
+	StudySite studySite = new StudySite();
+	basicStudy.addStudySite(studySite);
+	studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+	assertEquals("coordinating center status is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
+	assertEquals("study site coordinating center is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getStudySites().get(0).getCoordinatingCenterStudyStatus());
+}
+
+/**
+ * test set coordinating center study status
+ */
+//public void testSetCoordinatingCenterStudyStatus1(){
+//	HealthcareSite hcs = registerMockFor(HealthcareSite.class);
+//	EasyMock.expect(hcs.getNciInstituteCode()).andReturn("NC010");
+//	
+//	HealthcareSite hcs1 = registerMockFor(HealthcareSite.class);
+//	EasyMock.expect(hcs1.getNciInstituteCode()).andReturn("NC010");
+//	
+//	replayMocks();
+//	
+//	StudySite studySite = new StudySite();
+//	studySite.setHostedMode(false);
+//	studySite.setHealthcareSite(hcs1);
+//	
+//	basicStudy.addStudySite(studySite);
+//	basicStudy.getStudyCoordinatingCenters().add(new StudyCoordinatingCenter());
+//	basicStudy.getStudyCoordinatingCenters().get(0).setHealthcareSite(hcs);
+//	
+//	
+//	studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+//	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+//	assertEquals("coordinating center status is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
+//	assertEquals("study site coordinating center is pending ", CoordinatingCenterStudyStatus.PENDING,basicStudy.getStudySites().get(0).getCoordinatingCenterStudyStatus());
+//	
+//	verifyMocks();
+//}
+
+
 
 }

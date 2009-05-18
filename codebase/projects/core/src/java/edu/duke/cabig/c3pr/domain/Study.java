@@ -707,17 +707,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public boolean getHasRegisteredParticipants() {
-
-		if (getStudySites() != null && getStudySites().size() > 0) {
-			Iterator iterSite = getStudySites().iterator();
-			StudySite studySite;
-			List<StudySubject> studySubjects;
-			while (iterSite.hasNext()) {
-				studySite = (StudySite) iterSite.next();
-				studySubjects = studySite.getStudySubjects();
-				if (studySubjects.size() > 0) {
-					return true;
-				}
+		for(StudySite studySite : getStudySites()){
+			if (studySite.getStudySubjects().size() > 0) {
+				return true;
 			}
 		}
 		return false;
