@@ -56,6 +56,30 @@ public class MutableDeletableDomainObjectTest extends AbstractTestCase{
 		assertTrue("objects are same because retired indictaor is true for both objects",obj1.equals(obj2));
 		
 	}
+	
+	/*
+	 * this method test equals method
+	 * this will check equality based on retired indicator.
+	 */
+	public void testEquals4(){
+		AbstractMutableDeletableDomainObject  obj1 = new AbstractMutableDeletableDomainObject();
+		AbstractMutableDeletableDomainObject  obj2 = new AbstractMutableDeletableDomainObject();
+		obj2.setRetiredIndicatorAsTrue();
+		assertFalse("objects are not same because retired indictaor is different for both objects",obj1.equals(obj2));
+		
+	}
+	
+
+	/*
+	 * this method test equals method
+	 * this will check equality based on retired indicator.
+	 */
+	public void testEquals5(){
+		AbstractMutableDeletableDomainObject  obj1 = new AbstractMutableDeletableDomainObject();
+		AbstractMutableDeletableDomainObject  obj2 = new AbstractMutableDeletableDomainObject();
+		assertTrue("objects are same because retired indictaor is null for both objects",obj1.equals(obj2));
+		
+	}
 
 
 
