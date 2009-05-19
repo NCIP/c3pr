@@ -590,6 +590,7 @@
 					<exclude name="**/RecipientScheduledNotification.class" />
 					<exclude name="**StudySiteCompanionStudyAssociation.class" />
 					<exclude name="**/ConsentHistory.class" />
+					<exclude name="**/CompanionStudyAssociation.class" />
 					<exclude name="**/customfield/*.class" />
 				</fileset>
 			</cobertura-instrument>
