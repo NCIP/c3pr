@@ -1415,8 +1415,18 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	 studySubject.doLocalTransfer();
 	 verifyMocks();
   }
-
   
-  
-    
+  /**
+   * Test prepare for transfer1.
+   * 
+   * @throws Exception the exception
+   */
+  public void testPrepareForTransfer1() throws Exception{
+	  try{
+		  studySubject.prepareForTransfer();
+		  fail("Should have thrown exception");
+	  } catch(Exception ex){
+		assertTrue("Wrong exception message",ex.getMessage().contains("The subject has to be enrolled before being transferred"));
+	  }
+  }
 }
