@@ -1,8 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -363,8 +363,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	assertFalse("The two study subjects should not have been equal",studySubject1.equals(null));
     	
     	studySubject1.setStartDate(startDate);
-    	
     	assertTrue("The two study subjects should have been equal",studySubject1.equals(studySubject2));
+    	
+    	GregorianCalendar calendar = new GregorianCalendar();
+    	calendar.setTime(startDate);
+    	calendar.add(calendar.YEAR, -1);
+         
+    	studySubject2.setStartDate(calendar.getTime());
+    	assertFalse("The two study subjects should not have been equal",studySubject1.equals(studySubject2));
     }
     
     /**
@@ -383,6 +389,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	studySubject2.setStudySite(studySite1);
     	
     	assertFalse("The two study subjects should not have been equal",studySubject1.equals(null));
+    	
+    	StudySite studySite2 = new StudySite();
+    	studySite2.setHealthcareSite(new LocalHealthcareSite());    	
+    	studySubject1.setStudySite(studySite1);
+    	studySubject2.setStudySite(studySite2);
+    	
+    	assertFalse("The two study subjects should not have been equal",studySubject1.equals(studySubject2));
     }
     
     /**
@@ -406,21 +419,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * 
      * @throws Exception the exception
      */
-    public void testInformedConsentSignedDateStr() throws Exception{
+    public void testGetInformedConsentSignedDateStr() throws Exception{
     	StudySubject studySubject1 = new StudySubject();
     	assertEquals("Unexpected consent signed date","", studySubject1.getInformedConsentSignedDateStr());
     	Date informedConsentSignedDate = new Date();
     	studySubject1.setInformedConsentSignedDate(informedConsentSignedDate);
-    	assertEquals("Wrong hash code",DateUtil.formatDate(informedConsentSignedDate,"MM/dd/yyyy"), studySubject1.getInformedConsentSignedDateStr());
-    }
-    
-    /**
-     * Test get informed consent signed date str.
-     * 
-     * @throws Exception the exception
-     */
-    public void testGetInformedConsentSignedDateStr() throws Exception{
-    	assertEquals("Unexpected Informed Consent Signed Date","",studySubject.getInformedConsentSignedDateStr());
+    	assertEquals("Wrong consent date",DateUtil.formatDate(informedConsentSignedDate,"MM/dd/yyyy"), studySubject1.getInformedConsentSignedDateStr());
     }
     
     /**
@@ -527,6 +531,15 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testGetDataEntryStatusString() throws Exception{
     	assertEquals("Wrong data entry status ","Incomplete",studySubject.getDataEntryStatusString());
+    }
+    
+    /**
+     * Test get data entry status.
+     * 
+     * @throws Exception the exception
+     */
+    public void testGetDataEntryStatus() throws Exception{
+    	assertFalse("Wrong data entry status ",studySubject.getDataEntryStatus());
     }
     
     /**
@@ -679,6 +692,19 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	gridEndPoint.setStatus(WorkFlowStatusType.MESSAGE_RECIEVED);
     	studySubject.addEndPoint(gridEndPoint);
     	assertTrue("Expected to require affiliate site response",studySubject.requiresAffiliateSiteResponse());
+    }
+    
+    /**
+     * Test required affiliate site response.
+     * 
+     * @throws Exception the exception
+     */
+    public void testRequiredAffiliateSiteResponseNegative() throws Exception{
+    	
+    	GridEndPoint gridEndPoint = new GridEndPoint();
+    	gridEndPoint.setStatus(WorkFlowStatusType.MESSAGE_REPLY_CONFIRMED);
+    	studySubject.addEndPoint(gridEndPoint);
+    	assertFalse("Response not expected",studySubject.requiresAffiliateSiteResponse());
     }
     
     /**
@@ -986,7 +1012,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	EasyMock.expect(studySite.getStudy()).andReturn(study);
     	EasyMock.expect(study.getRandomizationType()).andReturn(RandomizationType.BOOK);
     	EasyMock.expect(scheduledEpoch.getStratumGroup()).andReturn(stratumGroup);
-    	EasyMock.expect(stratumGroup.getNextArm()).andThrow(new C3PRBaseRuntimeException("next arm not available"));
+    	int code =  studySubject.getCode("C3PR.EXCEPTION.REGISTRATION.NO.ARM.AVAILABLE.BOOK.EXHAUSTED.CODE");
+    	EasyMock.expect(stratumGroup.getNextArm()).andThrow(new C3PRCodedRuntimeException(code, "next arm not available"));
     	replayMocks();
     	try {
     		studySubject.doLocalEnrollment();
@@ -1047,7 +1074,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    * 
    * @throws Exception the exception
    */
-  public void takeSubjectOffStudySuccessful() throws Exception{
+  public void testTakeSubjectOffStudySuccessful() throws Exception{
 	  String offStudyReasonText = "Subject being taken off study";
 	  Date offStudyDate = new Date();
 	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
