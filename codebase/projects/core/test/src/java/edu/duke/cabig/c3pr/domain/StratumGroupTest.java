@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class StratumGroupTest.
  */
@@ -20,21 +21,46 @@ public class StratumGroupTest extends AbstractTestCase{
 	public static final String ANSWER_2 = "answer_2";
 	
 
+	/**
+	 * Test equals.
+	 */
 	public void testEquals(){
+		StratificationCriterionAnswerCombination scac1 = getScac1();
+		StratificationCriterionAnswerCombination scac2 = getScac2();
 		
-		StratificationCriterionAnswerCombination scac1 = new StratificationCriterionAnswerCombination();
+		StratumGroup stratumGroup1 = new StratumGroup();
+		stratumGroup1.getStratificationCriterionAnswerCombination().add(scac1);
 		
-		StratificationCriterion sc1 = new StratificationCriterion();
-		StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
+		StratumGroup stratumGroup2 = new StratumGroup();
+		stratumGroup2.getStratificationCriterionAnswerCombination().add(scac2);
 		
-		sc1.setQuestionNumber(1);
-		sc1.setQuestionText(QUESTION_1);
-		scpa1.setPermissibleAnswer(ANSWER_1);
-		sc1.getPermissibleAnswers().add(scpa1);
+		assertTrue(stratumGroup1.equals(stratumGroup2));
+	}
+	
+	
+	/**
+	 * Test hashcode.
+	 */
+	public void testHashcode(){
+		StratificationCriterionAnswerCombination scac1 = getScac1();
+		StratificationCriterionAnswerCombination scac2 = getScac2();
 		
-		scac1.setStratificationCriterion(sc1);
-		scac1.setStratificationCriterionPermissibleAnswer(scpa1);
+		StratumGroup stratumGroup1 = new StratumGroup();
+		stratumGroup1.getStratificationCriterionAnswerCombination().add(scac1);
 		
+		StratumGroup stratumGroup2 = new StratumGroup();
+		stratumGroup2.getStratificationCriterionAnswerCombination().add(scac2);
+		
+		assertTrue(stratumGroup1.hashCode() == stratumGroup2.hashCode());
+	}
+	
+	
+	/**
+	 * Gets the scac2.
+	 * 
+	 * @return the scac2
+	 */
+	private StratificationCriterionAnswerCombination getScac2() {
 		StratificationCriterionAnswerCombination scac2 = new StratificationCriterionAnswerCombination();
 		
 		StratificationCriterion sc2 = new StratificationCriterion();		
@@ -47,17 +73,32 @@ public class StratumGroupTest extends AbstractTestCase{
 		
 		scac2.setStratificationCriterion(sc2);
 		scac2.setStratificationCriterionPermissibleAnswer(scpa2);
-		
-		StratumGroup stratumGroup1 = new StratumGroup();
-		stratumGroup1.getStratificationCriterionAnswerCombination().add(scac1);
-		
-		StratumGroup stratumGroup2 = new StratumGroup();
-		stratumGroup2.getStratificationCriterionAnswerCombination().add(scac2);
-		
-		assertTrue(stratumGroup1.equals(stratumGroup2));
+		return scac2;
 	}
-	
-	
+
+
+	/**
+	 * Gets the scac1.
+	 * 
+	 * @return the scac1
+	 */
+	private StratificationCriterionAnswerCombination getScac1() {
+		StratificationCriterionAnswerCombination scac1 = new StratificationCriterionAnswerCombination();
+		
+		StratificationCriterion sc1 = new StratificationCriterion();
+		StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
+		
+		sc1.setQuestionNumber(1);
+		sc1.setQuestionText(QUESTION_1);
+		scpa1.setPermissibleAnswer(ANSWER_1);
+		sc1.getPermissibleAnswers().add(scpa1);
+		
+		scac1.setStratificationCriterion(sc1);
+		scac1.setStratificationCriterionPermissibleAnswer(scpa1);
+		return scac1;
+	}
+
+
 	/**
 	 * Test set retired indicator as true.
 	 */
@@ -76,11 +117,7 @@ public class StratumGroupTest extends AbstractTestCase{
 	 * Test get answer combinations.
 	 */
 	public void testGetAnswerCombinations(){
-		StratificationCriterionAnswerCombination scac1 = new StratificationCriterionAnswerCombination();
-		
-		StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
-		scpa1.setPermissibleAnswer(ANSWER_1);
-		scac1.setStratificationCriterionPermissibleAnswer(scpa1);
+		StratificationCriterionAnswerCombination scac1 = getScac1();
 		
 		StratumGroup stratumGroup = new StratumGroup();
 		stratumGroup.getStratificationCriterionAnswerCombination().add(scac1);
@@ -129,7 +166,6 @@ public class StratumGroupTest extends AbstractTestCase{
 			stratumGroup.getNextArm();
 			fail();
 		} catch(Exception e){
-			
 		}
 	}
 	

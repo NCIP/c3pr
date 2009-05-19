@@ -73,7 +73,25 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		
 		assertTrue(studyOrganization1.equals(studyOrganization1));
 		assertFalse(studyOrganization1.equals(studyOrganization2));
+	}
+	
+	public void testHashcode(){
+		StudyOrganization studyOrganization1 = new StudySite();
+		Study study1 = new Study();
+		HealthcareSite healthcareSite1 = new LocalHealthcareSite();
 		
+		studyOrganization1.setStudy(study1);
+		studyOrganization1.setHealthcareSite(healthcareSite1);
+		
+		
+		StudyOrganization studyOrganization2 = new StudySite();
+		Study study2 = new Study();
+		HealthcareSite healthcareSite2 = new LocalHealthcareSite();
+		
+		studyOrganization2.setStudy(study2);
+		studyOrganization2.setHealthcareSite(healthcareSite2);
+		
+		assertTrue(studyOrganization1.hashCode() == studyOrganization2.hashCode());
 	}
 	
 	
