@@ -588,7 +588,7 @@
 					<exclude name="**/ContactMechanismBasedRecipient.class" />
 					<exclude name="**/StratificationCriterionPermissibleAnswer.class" />
 					<exclude name="**/RecipientScheduledNotification.class" />
-					<exclude name="**StudySiteCompanionStudyAssociation.class" />
+					<exclude name="**/StudySiteCompanionStudyAssociation.class" />
 					<exclude name="**/ConsentHistory.class" />
 					<exclude name="**/CompanionStudyAssociation.class" />
 					<exclude name="**/customfield/*.class" />
