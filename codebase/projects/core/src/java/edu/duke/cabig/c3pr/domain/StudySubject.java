@@ -251,14 +251,6 @@ public class StudySubject extends
 	}
 
 	/**
-	 * Sets the scheduled epoch.
-	 * 
-	 * @param scheduledEpoch the new scheduled epoch
-	 */
-	private void setScheduledEpoch(ScheduledEpoch scheduledEpoch) {
-	}
-
-	/**
 	 * Gets the current scheduled epoch.
 	 * 
 	 * @return the current scheduled epoch
@@ -271,15 +263,6 @@ public class StudySubject extends
 		if (tempList.size() == 0)
 			return null;
 		return tempList.get(tempList.size() - 1);
-	}
-
-	/**
-	 * Sets the current scheduled epoch.
-	 * 
-	 * @param scheduledEpoch the new current scheduled epoch
-	 */
-	public void setCurrentScheduledEpoch(ScheduledEpoch scheduledEpoch) {
-
 	}
 
 	/**
@@ -473,13 +456,12 @@ public Date getInformedConsentSignedDate() {
 	 */
 	@Transient
 	public String getInformedConsentSignedDateStr() {
-		if (informedConsentSignedDate == null || informedConsentSignedDate.equals("")) {
-			return "";
-		} 
+		if (informedConsentSignedDate != null) {
 		try {
-			return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
-		} catch (ParseException e) {
-			e.printStackTrace();
+				return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -491,13 +473,12 @@ public Date getInformedConsentSignedDate() {
 	 */
 	@Transient
 	public String getOffStudyDateStr() {
-		if (offStudyDate == null || offStudyDate.equals("")) {
-			return "";
-		}
-		try {
-			return DateUtil.formatDate(offStudyDate, "MM/dd/yyyy");
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if (offStudyDate != null) {
+			try {
+				return DateUtil.formatDate(offStudyDate, "MM/dd/yyyy");
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -563,16 +544,6 @@ public Date getInformedConsentSignedDate() {
 	}
 
 	/**
-	 * Sets the system assigned identifiers.
-	 * 
-	 * @param systemAssignedIdentifiers the new system assigned identifiers
-	 */
-	public void setSystemAssignedIdentifiers(
-			List<SystemAssignedIdentifier> systemAssignedIdentifiers) {
-		// do nothing
-	}
-
-	/**
 	 * Gets the organization assigned identifiers.
 	 * 
 	 * @return the organization assigned identifiers
@@ -580,16 +551,6 @@ public Date getInformedConsentSignedDate() {
 	@Transient
 	public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
 		return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
-	}
-
-	/**
-	 * Sets the organization assigned identifiers.
-	 * 
-	 * @param organizationAssignedIdentifiers the new organization assigned identifiers
-	 */
-	public void setOrganizationAssignedIdentifiers(
-			List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers) {
-		// do nothing
 	}
 
 	/**
@@ -694,15 +655,6 @@ public Date getInformedConsentSignedDate() {
 			return getTreatingPhysician().getHealthcareSiteInvestigator()
 					.getInvestigator().getFullName();
 		return getOtherTreatingPhysician();
-	}
-
-	/**
-	 * Sets the treating physician full name.
-	 * 
-	 * @param s the new treating physician full name
-	 */
-	public void setTreatingPhysicianFullName(String s) {
-
 	}
 
 	/**
