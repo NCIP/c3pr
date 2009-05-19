@@ -458,8 +458,8 @@ public Date getInformedConsentSignedDate() {
 	 */
 	@Override
 	public int hashCode() {
-		int result;
-		result = (studySite != null ? studySite.hashCode() : 0);
+		int result =1;
+		result = 29*result + (studySite != null ? studySite.hashCode() : 0);
 		result = 29 * result
 				+ (participant != null ? participant.hashCode() : 0);
 		result = 29 * result + (startDate != null ? startDate.hashCode() : 0);
@@ -509,13 +509,12 @@ public Date getInformedConsentSignedDate() {
 	 */
 	@Transient
 	public String getStartDateStr() {
-		if (startDate == null || startDate.equals("")) {
-			return "";
-		} 
-		try {
-			return DateUtil.formatDate(startDate, "MM/dd/yyyy");
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if(startDate!=null){
+			try {
+				return DateUtil.formatDate(startDate, "MM/dd/yyyy");
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		return "";
 	}
@@ -1551,11 +1550,10 @@ public Date getInformedConsentSignedDate() {
 	 */
 	@Transient
 	public boolean isTransferrable() {
+		if(getScheduledEpochs().size() < 2) return false;
 		List<ScheduledEpoch> tempList = new ArrayList<ScheduledEpoch>();
 		tempList.addAll(getScheduledEpochs());
 		Collections.sort(tempList);
-		if (tempList.size() < 2)
-			return false;
 		if (tempList.get(tempList.size() - 1).getEpoch().getEpochOrder() < tempList
 				.get(tempList.size() - 2).getEpoch().getEpochOrder()) {
 			return false;
@@ -1623,13 +1621,14 @@ public Date getInformedConsentSignedDate() {
 			throw new C3PRBaseRuntimeException(" Cannot directly register on the embedded study. The registration can happen only through the parent");
 		}
 		
-		
 		if(getWorkPendingOnMandatoryCompanionRegistrations()){
 			throw new C3PRBaseRuntimeException(" First register on the mandatory companions before enrolling on the parent");
 		}
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
-			if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
-				if (getMatchingCompanionStudyAssociation(childStudySubject).getMandatoryIndicator()) {
+			CompanionStudyAssociation matchingCompanionStudyAssocation = null;
+			matchingCompanionStudyAssocation = getMatchingCompanionStudyAssociation(childStudySubject);
+			if (matchingCompanionStudyAssocation!= null) {
+				if (matchingCompanionStudyAssocation.getMandatoryIndicator()) {
 					if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
 						throw new C3PRBaseRuntimeException(" First register the subject on the enrolling epoch of the mandatory companions before proceeding with enrollment");
 					}
@@ -1772,9 +1771,10 @@ public Date getInformedConsentSignedDate() {
 	public List<Error> canEnroll(List<Error> errors){
 		
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
-			if (getMatchingCompanionStudyAssociation(childStudySubject) != null) {
-				if (getMatchingCompanionStudyAssociation(childStudySubject)
-						.getMandatoryIndicator()) {
+			CompanionStudyAssociation matchingCompanionStudyAssociation = null;
+			matchingCompanionStudyAssociation = getMatchingCompanionStudyAssociation(childStudySubject);
+			if (matchingCompanionStudyAssociation != null) {
+				if (matchingCompanionStudyAssociation.getMandatoryIndicator()) {
 					childStudySubject.evaluateRegistrationDataEntryStatus(errors);
 					childStudySubject.evaluateScheduledEpochDataEntryStatus(errors);
 					
