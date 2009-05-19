@@ -276,7 +276,7 @@
         </div>
         <div class="row">
             <div class="label"><fmt:message key="participant.medicalRecordNumber"/>:</div>
-            <div class="value">${command.studySubject.participant.primaryIdentifier }</div>
+            <div class="value">${command.studySubject.participant.MRN.value }</div>
         </div>
 	</div>
 	<div class="rightpanel">
@@ -700,7 +700,7 @@
 			</div>
 			<div class="row">
 				<div class="label"><fmt:message key="participant.MRN"/>:</div>
-				<div class="value">${command.studySubject.participant.medicalRecordNumber.value }</div>
+				<div class="value">${command.studySubject.participant.MRN.value }</div>
 			</div>
 		</chrome:division>
 		<chrome:division id="Parent Registration Information" title="${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.primaryIdentifier})">
