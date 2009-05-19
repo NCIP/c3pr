@@ -52,13 +52,21 @@ public class EpochTest extends TestCase{
 	 * 
 	 * @throws Exception the exception
 	 */
-	public void testEquals() throws Exception{
+	public void testEquals1() throws Exception{
 		Epoch epoch1 = new Epoch();
 		
 		Epoch epoch2 = new Epoch();
 		epoch2.setName("epochB");
 		
 		assertFalse("The two epochs cannot be equal",epoch1.equals(epoch2));
+	}
+	
+	public void testEquals2() throws Exception{
+		Epoch epoch1 = new Epoch();
+		
+		Epoch epoch2 = new Epoch();
+		
+		assertTrue("The two epochs have be equal",epoch1.equals(epoch2));
 	}
 	
 	/**
@@ -69,6 +77,11 @@ public class EpochTest extends TestCase{
 	public void testIsMultipleArms() throws Exception{
 		Epoch epoch = Epoch.createEpochWithArms("epochA", new String[]{"Arm A","Arm B"});
 		assertTrue("The epoch should have multiple arms",epoch.isMultipleArms());
+	}
+	
+	public void testIsMultipleArmsWhenNoArmsPresent() throws Exception{
+		Epoch epoch =new Epoch();
+		assertFalse("The epoch cannot have multiple arms",epoch.isMultipleArms());
 	}
 	
 	/**
