@@ -122,8 +122,6 @@ public class StratificationCriterionAnswerCombination extends AbstractMutableDel
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        // if (!super.equals(obj))
-        // return false;
         if (getClass() != obj.getClass()) return false;
         if (obj instanceof StratificationCriterionAnswerCombination) {
             StratificationCriterionAnswerCombination scac = (StratificationCriterionAnswerCombination) obj;
