@@ -112,6 +112,44 @@ public class StratumGroupTest extends AbstractTestCase{
 	}
 
 	
+	/**
+	 * Test compare to greater group.
+	 */
+	public void testCompareToGreaterGroup(){
+		StratumGroup stratumGroupZero = new StratumGroup();
+		stratumGroupZero.setStratumGroupNumber(new Integer(0));
+		
+		StratumGroup stratumGroupOne = new StratumGroup();
+		stratumGroupOne.setStratumGroupNumber(new Integer(1));
+		
+		assertEquals(-1, stratumGroupZero.compareTo(stratumGroupOne));
+	}
+	
+	/**
+	 * Test compare to lesser group.
+	 */
+	public void testCompareToLesserGroup(){
+		StratumGroup stratumGroupZero = new StratumGroup();
+		stratumGroupZero.setStratumGroupNumber(new Integer(0));
+		
+		StratumGroup stratumGroupOne = new StratumGroup();
+		stratumGroupOne.setStratumGroupNumber(new Integer(1));
+		
+		assertEquals(1, stratumGroupOne.compareTo(stratumGroupZero));
+	}
+	
+	/**
+	 * Test compare to equal.
+	 */
+	public void testCompareToEqual(){
+		StratumGroup stratumGroupZero = new StratumGroup();
+		stratumGroupZero.setStratumGroupNumber(new Integer(0));
+		
+		StratumGroup stratumGroupAlsoZero = new StratumGroup();
+		stratumGroupAlsoZero.setStratumGroupNumber(new Integer(0));
+		
+		assertEquals(0, stratumGroupAlsoZero.compareTo(stratumGroupZero));
+	}
 }
 
 
