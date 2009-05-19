@@ -28,6 +28,32 @@ public class ScheduledNotificationTest extends AbstractTestCase{
 		assertEquals(MESSAGE_BODY, scheduledNotification.getHtmlMessage());
 	}
 
+	/**
+	 * Test get html based message used in report generation.
+	 * 
+	 * @throws Exception the exception
+	 */
+	public void testGetHtmlMessageForNull() throws Exception {
+		ScheduledNotification scheduledNotification = new ScheduledNotification();
+		
+		scheduledNotification.setMessage(null);
+		assertEquals("", scheduledNotification.getHtmlMessage());
+	}
 	
+	/**
+	 * Test get html based message used in report generation.
+	 * 
+	 * @throws Exception the exception
+	 */
+	public void testGetHtmlMessageForText() throws Exception {
+ScheduledNotification scheduledNotification = new ScheduledNotification();
+		
+		StringBuffer message = new StringBuffer();
+		message.append(MESSAGE_BODY);
+		
+		scheduledNotification.setMessage(message.toString());
+		
+		assertEquals(MESSAGE_BODY, scheduledNotification.getHtmlMessage());
+	}
 }
 
