@@ -202,7 +202,6 @@ public class ParticipantTest extends TestCase{
 		
 		participant.addCustomField(customField);
 		assertEquals("Wrong number of customfields",1,participant.getCustomFields().size());
-			}
-
+	}
 
 }
