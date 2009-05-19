@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +12,15 @@ import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
-import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
+import edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField;
+import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
@@ -44,6 +49,9 @@ public class StudySubjectTest extends AbstractTestCase {
 	/** The study. */
 	Study study;
 	
+	/** The c3pr exception helper. */
+	C3PRExceptionHelper c3prExceptionHelper;
+	
 	/* (non-Javadoc)
 	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
 	 */
@@ -59,6 +67,7 @@ public class StudySubjectTest extends AbstractTestCase {
 		studySubject.setStudySite(studySite);
 		participant = registerMockFor(Participant.class);
 		studySubject.setParticipant(participant);
+		c3prExceptionHelper = registerMockFor(C3PRExceptionHelper.class);
 	}
     
     /** The study subject creator helper. */
@@ -307,7 +316,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * 
      * @throws Exception the exception
      */
-    public void testEquals() throws Exception{
+    public void testEquals1() throws Exception{
     	StudySubject studySubject1 = new StudySubject();
     	StudySubject studySubject2 = new StudySubject();
     	
@@ -331,6 +340,78 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	participant2.setId(2);
     	studySubject2.setParticipant(participant2);
     	assertFalse("The two study subjects should not have been equal",studySubject1.equals(studySubject2));
+    }
+    
+    /**
+     * Test equals2.
+     * 
+     * @throws Exception the exception
+     */
+    public void testEquals2() throws Exception{
+    	StudySubject studySubject1 = new StudySubject();
+    	assertFalse("Should not have been equal",studySubject1.equals(new StudySite()));
+    	StudySubject studySubject2 = new StudySubject();
+    	
+    	StudySite studySite1 = new StudySite();
+    	
+    	studySubject1.setStudySite(studySite1);
+    	studySubject2.setStudySite(studySite1);
+    	
+    	Date startDate = new Date();
+    	studySubject1.setStartDate(null);
+    	studySubject2.setStartDate(startDate);
+    	assertFalse("The two study subjects should not have been equal",studySubject1.equals(null));
+    	
+    	studySubject1.setStartDate(startDate);
+    	
+    	assertTrue("The two study subjects should have been equal",studySubject1.equals(studySubject2));
+    }
+    
+    /**
+     * Test equals3.
+     * 
+     * @throws Exception the exception
+     */
+    public void testEquals3() throws Exception{
+    	StudySubject studySubject1 = new StudySubject();
+    	assertFalse("Should not have been equal",studySubject1.equals(new StudySite()));
+    	StudySubject studySubject2 = new StudySubject();
+    	
+    	StudySite studySite1 = new StudySite();
+    	
+    	studySubject1.setStudySite(null);
+    	studySubject2.setStudySite(studySite1);
+    	
+    	assertFalse("The two study subjects should not have been equal",studySubject1.equals(null));
+    }
+    
+    /**
+     * Test hash code1.
+     * 
+     * @throws Exception the exception
+     */
+    public void testHashCode1() throws Exception{
+    	int prime = 29;
+    	StudySubject studySubject1 = new StudySubject();
+    	assertEquals("Wrong hash code",prime*prime*prime + studySubject1.getStartDate().hashCode(), studySubject1.hashCode());
+    	
+    	StudySite studySite1 = new StudySite();
+    	
+    	studySubject1.setStudySite(studySite1);
+    	assertEquals("Wrong hash code",prime*prime*(prime+studySite1.hashCode()) + studySubject1.getStartDate().hashCode(), studySubject1.hashCode());
+    }
+    
+    /**
+     * Test informed consent signed date str.
+     * 
+     * @throws Exception the exception
+     */
+    public void testInformedConsentSignedDateStr() throws Exception{
+    	StudySubject studySubject1 = new StudySubject();
+    	assertEquals("Unexpected consent signed date","", studySubject1.getInformedConsentSignedDateStr());
+    	Date informedConsentSignedDate = new Date();
+    	studySubject1.setInformedConsentSignedDate(informedConsentSignedDate);
+    	assertEquals("Wrong hash code",DateUtil.formatDate(informedConsentSignedDate,"MM/dd/yyyy"), studySubject1.getInformedConsentSignedDateStr());
     }
     
     /**
@@ -362,7 +443,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testGetStartDateStr() throws Exception{
     	StudySubject studySubject = new StudySubject();
-    	assertNotSame("Unexpected start date","",studySubject.getStartDateStr());
+    	studySubject.setStartDate(null);
+    	assertEquals("Wrong start date","",studySubject.getStartDateStr());
     	
     	Date startDate = new Date();
     	studySubject.setStartDate(startDate);
@@ -942,5 +1024,372 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	assertEquals("Wrong registration status",RegistrationWorkFlowStatus.PENDING,studySubject.getRegWorkflowStatus());
     	verifyMocks();
     }
+  
+  /**
+   * Test take subject off study fail when not enrolled.
+   * 
+   * @throws Exception the exception
+   */
+  public void testTakeSubjectOffStudyFailWhenNotEnrolled() throws Exception{
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+	  try{
+		  studySubject.takeSubjectOffStudy("Subject being taken off study", new Date());
+		  fail("Should have thrown exception");
+	  }catch(C3PRBaseRuntimeException ex){
+		  
+	  }
+	  
+	  assertFalse("There should have been and error in taking study subject off study",studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.OFF_STUDY);
+  }
+  
+  /**
+   * Take subject off study successful.
+   * 
+   * @throws Exception the exception
+   */
+  public void takeSubjectOffStudySuccessful() throws Exception{
+	  String offStudyReasonText = "Subject being taken off study";
+	  Date offStudyDate = new Date();
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	  try{
+		  studySubject.takeSubjectOffStudy(offStudyReasonText, offStudyDate);
+	  }catch(C3PRBaseRuntimeException ex){
+		  fail("Should not have thrown exception");
+	  }
+	  
+	  assertTrue("Unable to take study subject off study",studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.OFF_STUDY);
+	  assertEquals("Wrong offStudy reason",offStudyReasonText,studySubject.getOffStudyReasonText());
+	  assertEquals("Wrong offStudy date",offStudyDate,studySubject.getOffStudyDate());
+  }
+  
+  /**
+   * Test transfer fail when not enrolled.
+   * 
+   * @throws Exception the exception
+   */
+  public void testTransferFailWhenNotEnrolled() throws Exception{
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+	  try{
+		  studySubject.transfer();
+		  fail("Transfer should have failed");
+	  } catch(C3PRBaseRuntimeException ex){
+		  assertTrue("Wrong failed message",ex.getMessage().contains("The subject has to be enrolled before being transferred"));
+	  }
+  }
+  
+  /**
+   * Test transfer fail when not transferrable1.
+   * 
+   * @throws Exception the exception
+   */
+  public void testTransferFailWhenNotTransferrable1() throws Exception{
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	  try{
+		  studySubject.transfer();
+		  fail("Transfer should have failed");
+	  } catch(C3PRBaseRuntimeException ex){
+	  }
+  }
+  
+  /**
+   * Test transfer fail to a lower order epoch.
+   * 
+   * @throws Exception the exception
+   */
+ /* public void testTransferFailToALowerOrderEpoch() throws Exception{
+	//  Collections collections  = registerMockFor(Collections.class,Collections.class.getMethod("sort", null));
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	  ScheduledEpoch scheduledEpoch1 = registerMockFor(ScheduledEpoch.class);
+	  studySubject.addScheduledEpoch(scheduledEpoch1);
+	  Epoch epoch1 = registerMockFor(Epoch.class);
+	//  List<ScheduledEpoch> tempList = new ArrayList<ScheduledEpoch>();
+	//  tempList.addAll(studySubject.getScheduledEpochs());
+	  EasyMock.expect(((ScheduledEpoch)scheduledEpoch).compareTo((ScheduledEpoch)scheduledEpoch1)).andReturn(1);
+	  EasyMock.expect(((ScheduledEpoch)(EasyMock.anyObject())).compareTo(((ScheduledEpoch)EasyMock.anyObject()))).andReturn(1);
+	//  collections.sort(tempList);
+	//  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(epoch.getEpochOrder()).andReturn(2);
+	  EasyMock.expect(scheduledEpoch1.getEpoch()).andReturn(epoch1);
+	  EasyMock.expect(epoch1.getEpochOrder()).andReturn(1);
+	  int code = studySubject.getCode("C3PR.EXCEPTION.REGISTRATION.TRANSFER.CANNOT_TO_LOWER_ORDER_EPOCH.CODE");
+	  EasyMock.expect(c3prExceptionHelper.getRuntimeException(code)).andReturn(new C3PRCodedRuntimeException(code,""));
+	  replayMocks();
+	  try{
+		  studySubject.transfer();
+		  fail("Transfer should have failed");
+	  } catch(C3PRBaseRuntimeException ex){
+	  }
+  }*/
+  
+  /**
+   * Test get code.
+   * 
+   * @throws Exception the exception
+   */
+ public void testGetCode() throws Exception{
+	  assertEquals("Wrong code",233,studySubject.getCode("C3PR.EXCEPTION.REGISTRATION.TRANSFER.CANNOT_TO_LOWER_ORDER_EPOCH.CODE"));
+  }
+  
+  /**
+   * Test prepare for enrollment1.
+   * 
+   * @throws Exception the exception
+   */
+  public void testPrepareForEnrollment1() throws Exception{
+	  EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
+	  StudySubject parentStudySubject = registerMockFor(StudySubject.class);
+	  studySubject.setParentStudySubject(parentStudySubject);
+	  
+	  replayMocks();
+	  try{
+		  studySubject.prepareForEnrollment();
+		  fail("Should have thrown exception");
+	  } catch(Exception ex){
+		  
+	  }
+	  verifyMocks();
+  }
+  
+  /**
+   * Test prepare for enrollment2.
+   * 
+   * @throws Exception the exception
+   */
+  public void testPrepareForEnrollment2() throws Exception{
+	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+	  EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
+	  
+	  StudySubject childStudySubject = registerMockFor(StudySubject.class);
+	  studySubject.addChildStudySubject(childStudySubject);
+	 
+	  Study companionStudy = registerMockFor(Study.class);
+	  List<CompanionStudyAssociation> compStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+	  CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class); 
+	  compStudyAssociations.add(compStudyAssociation);
+	  
+	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
+	  EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
+	  EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
+	  EasyMock.expect(childStudySubject.getDataEntryStatus()).andReturn(true);
+	  
+	  EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+	  EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
+	  EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
+	  EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
+	  
+	  EasyMock.expect(childStudySubject.getRegWorkflowStatus()).andReturn(RegistrationWorkFlowStatus.PENDING);
+	  
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
+	  EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
+	  
+	  EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
+	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
+	  
+	  
+	  Epoch companionStudyEpoch = registerMockFor(Epoch.class);
+	  ScheduledEpoch childScheduledEpoch = registerMockFor(ScheduledEpoch.class);
+	  EasyMock.expect(childScheduledEpoch.getEpoch()).andReturn(companionStudyEpoch).times(1);
+	  
+	  
+	  EasyMock.expect(childStudySubject.getScheduledEpoch()).andReturn(childScheduledEpoch);
+	  EasyMock.expect(companionStudyEpoch.getEnrollmentIndicator()).andReturn(false);
+	  
+	  replayMocks();
+	  try{
+		  studySubject.prepareForEnrollment();
+		  fail("Should have thrown exception");
+	  } catch(Exception ex){
+		  
+	  }
+	  
+	  verifyMocks();
+  }
+  
+  /**
+   * Test add custom fields.
+   * 
+   * @throws Exception the exception
+   */
+  public void testAddCustomFields() throws Exception{
+		StudySubject studySubject = new StudySubject();
+		CustomField customField = new BooleanCustomField();
+		assertEquals("Unexpected customfields",0,studySubject.getCustomFields().size());
+		
+		studySubject.addCustomField(customField);
+		assertEquals("Wrong number of customfields",1,studySubject.getCustomFields().size());
+	}
+  
+  /**
+   * Test can enroll.
+   * 
+   * @throws Exception the exception
+   */
+  public void testCanEnroll() throws Exception{
+	  	List<Error> errors = new ArrayList<Error>();
+	  	StudySubject childStudySubject = registerMockFor(StudySubject.class);
+	  	studySubject.addChildStudySubject(childStudySubject);
+	  	CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
+	  	Study companionStudy = registerMockFor(Study.class);
+	  	List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+	  	companionStudyAssociations.add(compStudyAssociation);
+	  
+	  	EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  	EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
+	  	
+	  	EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
+	  	
+	  	EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
+	  	EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
+	  	
+	  	EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
+	  	childStudySubject.evaluateRegistrationDataEntryStatus(errors);
+	  	EasyMock.expect(childStudySubject.evaluateScheduledEpochDataEntryStatus(errors)).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
+	  	replayMocks();
+	  	
+		studySubject.canEnroll(errors);
+		verifyMocks();
+	}
+  
+  /**
+   * Test get scheduled epoch by epoch name.
+   * 
+   * @throws Exception the exception
+   */
+  public void testGetScheduledEpochByEpochName() throws Exception{
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(2);
+	  EasyMock.expect(epoch.getName()).andReturn("Treatment").times(2);
+	  
+	  replayMocks();
+	  assertNull("Unexpected Scheduled Epoch",studySubject.getScheduledEpochByEpochName("Arbitrary Epoch Name"));
+	  assertEquals("Wrong Scheduled Epoch",scheduledEpoch,studySubject.getScheduledEpochByEpochName("Treatment"));
+	  
+	  verifyMocks();
+  }
+  
+  /**
+   * Test do local enrollment when already registered on scheduled epoch.
+   */
+  public void testDoLocalEnrollmentWhenAlreadyRegisteredOnScheduledEpoch(){
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  assertEquals("Wrong initial registration status",RegistrationWorkFlowStatus.PENDING,studySubject.getRegWorkflowStatus());
+	  replayMocks();
+	  
+	  studySubject.doLocalEnrollment();
+	  assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());
+	  
+	  verifyMocks();
+  }
+  
+  
+  /**
+   * Test do multi site enrollment.
+   * 
+   * @throws Exception the exception
+   */
+  public void testDoMultiSiteEnrollment() throws Exception{
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(epoch.getName()).andReturn("Treatment");
+	  ScheduledEpoch coordCentReturnedScheduledEpoch = registerMockFor(ScheduledEpoch.class);
+	  Epoch epochInCoordCentReturnedScheduledEpoch = registerMockFor(Epoch.class);
+	  ScheduledArm scheduledArmInCoordCentReturnedScheduledEpoch = registerMockFor(ScheduledArm.class);
+	  Arm coorCenArm = registerMockFor(Arm.class);
+	  
+	  EasyMock.expect(coordCentReturnedScheduledEpoch.getEpoch()).andReturn(epochInCoordCentReturnedScheduledEpoch);
+	  EasyMock.expect(epochInCoordCentReturnedScheduledEpoch.getName()).andReturn("Treatment");
+	  
+	  EasyMock.expect(scheduledEpoch.getRequiresArm()).andReturn(true);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  Arm arm = registerMockFor(Arm.class);
+	  ScheduledArm scheduledArm = registerMockFor(ScheduledArm.class);
+	  EasyMock.expect(epoch.getArmByName("armA")).andReturn(arm);
+	  
+	  EasyMock.expect(coordCentReturnedScheduledEpoch.getScheduledArm()).andReturn(scheduledArmInCoordCentReturnedScheduledEpoch);
+	  EasyMock.expect(scheduledArmInCoordCentReturnedScheduledEpoch.getArm()).andReturn(coorCenArm);
+	  EasyMock.expect(coorCenArm.getName()).andReturn("armA");
+	  
+	  EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(scheduledArm).times(2);
+	  scheduledArm.setArm(arm);
+	  
+	  EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  StudyCoordinatingCenter studyCoordCetner = registerMockFor(StudyCoordinatingCenter.class);
+	  EasyMock.expect(study.getStudyCoordinatingCenter()).andReturn(studyCoordCetner);
+	  HealthcareSite coordCenterOrganization = registerMockFor(HealthcareSite.class);
+	  OrganizationAssignedIdentifier coordinatingCenterAssignedIdentifier = registerMockFor(OrganizationAssignedIdentifier.class);
+	  EasyMock.expect(studyCoordCetner.getHealthcareSite()).andReturn(coordCenterOrganization);
+	  
+	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getGridId()).andReturn("grid Id");
+	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getType()).andReturn("Coordinating Center Assigned Study Subject Identifier");
+	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getValue()).andReturn("identifier value");
+	  scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+	 
+	 replayMocks();
+	 
+	 studySubject.doMutiSiteEnrollment(coordCentReturnedScheduledEpoch, coordinatingCenterAssignedIdentifier);
+	 assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());
+	 assertEquals("Wrong identifier value","identifier value",studySubject.getCoOrdinatingCenterIdentifier().getValue());
+	 
+	 verifyMocks();
+	  
+  }
+  
+  /**
+   * Test do multi site transfer.
+   * 
+   * @throws Exception the exception
+   */
+  public void testDoMultiSiteTransfer() throws Exception{
+	  ScheduledEpoch coordCentReturnedScheduledEpoch = registerMockFor(ScheduledEpoch.class);
+	  Epoch epochInCoordCentReturnedScheduledEpoch = registerMockFor(Epoch.class);
+	  ScheduledArm scheduledArmInCoordCentReturnedScheduledEpoch = registerMockFor(ScheduledArm.class);
+	  Arm coorCenArm = registerMockFor(Arm.class);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(epoch.getName()).andReturn("Treatment");
+	  
+	  EasyMock.expect(coordCentReturnedScheduledEpoch.getEpoch()).andReturn(epochInCoordCentReturnedScheduledEpoch);
+	  EasyMock.expect(epochInCoordCentReturnedScheduledEpoch.getName()).andReturn("Treatment");
+	  
+	  EasyMock.expect(scheduledEpoch.getRequiresArm()).andReturn(true);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  Arm arm = registerMockFor(Arm.class);
+	  ScheduledArm scheduledArm = registerMockFor(ScheduledArm.class);
+	  EasyMock.expect(epoch.getArmByName("armA")).andReturn(arm);
+	  
+	  EasyMock.expect(coordCentReturnedScheduledEpoch.getScheduledArm()).andReturn(scheduledArmInCoordCentReturnedScheduledEpoch);
+	  EasyMock.expect(scheduledArmInCoordCentReturnedScheduledEpoch.getArm()).andReturn(coorCenArm);
+	  EasyMock.expect(coorCenArm.getName()).andReturn("armA");
+	  
+	  EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(scheduledArm).times(2);
+	  scheduledArm.setArm(arm);
+	  
+	  scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  
+	  replayMocks();
+	  
+	  studySubject.doMutiSiteTransfer(coordCentReturnedScheduledEpoch);
+	  
+	  verifyMocks();
+	  
+  }
+  
+  /**
+   * Test do local transfer.
+   * 
+   * @throws Exception the exception
+   */
+  public void testDoLocalTransfer() throws Exception{
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED).times(2);
+	 scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+	 EasyMock.expect(studySite.getStudy()).andReturn(study);
+	 EasyMock.expect(study.getRandomizationType()).andReturn(RandomizationType.CALL_OUT);
+	 replayMocks();
+	 studySubject.doLocalTransfer();
+	 verifyMocks();
+  }
+
+  
+  
     
 }
