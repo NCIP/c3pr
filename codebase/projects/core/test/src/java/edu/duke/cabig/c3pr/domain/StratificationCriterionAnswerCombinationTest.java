@@ -149,5 +149,33 @@ public class StratificationCriterionAnswerCombinationTest extends AbstractTestCa
 		assertFalse("The two criteria should not be equal",scac1.equals(scac2));
 	}
 	
-	
+	public void testHashcode(){
+		StratificationCriterionAnswerCombination scac1 = new StratificationCriterionAnswerCombination();
+		
+		StratificationCriterion sc1 = new StratificationCriterion();
+		StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
+		
+		sc1.setQuestionNumber(1);
+		sc1.setQuestionText(QUESTION_1);
+		scpa1.setPermissibleAnswer(ANSWER_1);
+		sc1.getPermissibleAnswers().add(scpa1);
+		
+		scac1.setStratificationCriterion(sc1);
+		scac1.setStratificationCriterionPermissibleAnswer(scpa1);
+		
+		StratificationCriterionAnswerCombination scac2 = new StratificationCriterionAnswerCombination();
+		
+		StratificationCriterion sc2 = new StratificationCriterion();		
+		StratificationCriterionPermissibleAnswer scpa2 = new StratificationCriterionPermissibleAnswer();
+		
+		sc2.setQuestionNumber(1);
+		sc2.setQuestionText(QUESTION_1);
+		scpa2.setPermissibleAnswer(ANSWER_1);
+		sc2.getPermissibleAnswers().add(scpa2);
+		
+		scac2.setStratificationCriterion(sc2);
+		scac2.setStratificationCriterionPermissibleAnswer(scpa2);
+		
+		assertTrue(scac1.hashCode() == scac2.hashCode());
+	}
 }
