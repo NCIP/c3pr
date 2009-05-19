@@ -208,7 +208,14 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		assertTrue(studyOrganization.getIsCoordinatingCenter());
 	}
 	
-	
+	public void testAddStudyPersonnel(){
+		StudyOrganization studyOrganization = new StudySite();
+		StudyPersonnel studyPersonnel = new StudyPersonnel();
+		studyPersonnel.setRoleCode("Inactive");
+		studyOrganization.addStudyPersonnel(studyPersonnel);
+		
+		assertEquals("Inactive", studyOrganization.getStudyPersonnel().get(0).getRoleCode());
+	}
 	
 }
 
