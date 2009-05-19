@@ -118,14 +118,6 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         return lazyListHelper.getLazyList(StratificationCriterionAnswerCombination.class);
     }
 
-    /**
-     * Sets the stratification criterion answer combination.
-     * 
-     * @param combinationAnswers the new stratification criterion answer combination
-     */
-    public void setStratificationCriterionAnswerCombination(
-                    List<StratificationCriterionAnswerCombination> combinationAnswers) {
-    }
 
     /**
      * Gets the book randomization entry internal.
