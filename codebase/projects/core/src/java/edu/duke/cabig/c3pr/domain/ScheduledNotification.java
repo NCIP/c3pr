@@ -156,14 +156,6 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
         return lazyListHelper.getLazyList(RecipientScheduledNotification.class);
     }
 
-    /**
-     * Sets the recipient scheduled notification.
-     * 
-     * @param recipientScheduledNotification the new recipient scheduled notification
-     */
-    public void setRecipientScheduledNotification(List<RecipientScheduledNotification> recipientScheduledNotification) {
-    }
-    
 
     /**
      * Gets the study organization.
