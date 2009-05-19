@@ -52,7 +52,32 @@ public class StratificationCriterionAnswerCombinationTest extends AbstractTestCa
 		scac2.setStratificationCriterion(sc2);
 		scac2.setStratificationCriterionPermissibleAnswer(scpa2);
 		
-		assertTrue("The two criteria should be equal",sc1.equals(sc2));
+		assertTrue("The two criteria should be equal",scac1.equals(scac2));
+	}
+
+	
+	/**
+	 * Test stratification criterion asnwer combination equals with same object.
+	 * 
+	 * @throws Exception the exception
+	 */
+	public void testStratificationCriterionAnswerCombinationEqualsWithSameObject() throws Exception {
+		StratificationCriterionAnswerCombination scac1 = new StratificationCriterionAnswerCombination();
+		
+		StratificationCriterion sc1 = new StratificationCriterion();
+		StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
+		
+		sc1.setQuestionNumber(1);
+		sc1.setQuestionText(QUESTION_1);
+		scpa1.setPermissibleAnswer(ANSWER_1);
+		sc1.getPermissibleAnswers().add(scpa1);
+		
+		scac1.setStratificationCriterion(sc1);
+		scac1.setStratificationCriterionPermissibleAnswer(scpa1);
+		
+		StratificationCriterionAnswerCombination scac2 = scac1;
+		
+		assertTrue("The two criteria should be equal",scac1.equals(scac2));
 	}
 
 	
@@ -87,7 +112,7 @@ public class StratificationCriterionAnswerCombinationTest extends AbstractTestCa
 		scac2.setStratificationCriterion(sc2);
 		scac2.setStratificationCriterionPermissibleAnswer(scpa2);
 		
-		assertFalse("The two criteria should not be equal",sc1.equals(sc2));
+		assertFalse("The two criteria should not be equal",scac1.equals(scac2));
 	}
 	
 	/**
@@ -121,7 +146,7 @@ public class StratificationCriterionAnswerCombinationTest extends AbstractTestCa
 		scac2.setStratificationCriterion(sc2);
 		scac2.setStratificationCriterionPermissibleAnswer(scpa2);
 		
-		assertFalse("The two criteria should not be equal",sc1.equals(sc2));
+		assertFalse("The two criteria should not be equal",scac1.equals(scac2));
 	}
 	
 	
