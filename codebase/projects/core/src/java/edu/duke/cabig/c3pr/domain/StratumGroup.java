@@ -225,39 +225,35 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
      * question/answer combination. In other words if they have the same
      * stratification_cri_ans_combination.
      */
-    /* (non-Javadoc)
-     * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (getClass() != obj.getClass()) return false;
+//        if (getClass() != obj.getClass()) return false;
         if (obj instanceof StratumGroup) {
             StratumGroup sg = (StratumGroup) obj;
-            List<StratificationCriterionAnswerCombination> scacList;
-            StratificationCriterionAnswerCombination scac;
+            List<StratificationCriterionAnswerCombination> scacList = sg.getStratificationCriterionAnswerCombination();;
+//            StratificationCriterionAnswerCombination scac;
 
-            scacList = sg.getStratificationCriterionAnswerCombination();
-            Iterator iter = scacList.iterator();
-            while (iter.hasNext()) {
-                scac = (StratificationCriterionAnswerCombination) iter.next();
-                if (this.getStratificationCriterionAnswerCombination().contains(scac)) {
-                    continue;
-                }
-                else {
-                    return false;
-                }
+            if(this.getStratificationCriterionAnswerCombination().equals(scacList)){
+            	return true;
             }
-            return true;
+//            Iterator iter = scacList.iterator();
+//            while (iter.hasNext()) {
+//                scac = (StratificationCriterionAnswerCombination) iter.next();
+//                if (this.getStratificationCriterionAnswerCombination().contains(scac)) {
+//                    continue;
+//                }
+//                else {
+//                    return false;
+//                }
+//            }
+//            return true;
         }
         return false;
     }
 
     /*
-     * very basic toString method which is open to modifications.
-     */
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
+     * Basic toString method which is open to modifications.
      */
     @Override
     public String toString() {
