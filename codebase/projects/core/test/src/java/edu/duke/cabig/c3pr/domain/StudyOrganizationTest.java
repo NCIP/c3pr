@@ -208,6 +208,10 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		assertTrue(studyOrganization.getIsCoordinatingCenter());
 	}
 	
+	
+	/**
+	 * Test add study personnel.
+	 */
 	public void testAddStudyPersonnel(){
 		StudyOrganization studyOrganization = new StudySite();
 		StudyPersonnel studyPersonnel = new StudyPersonnel();
