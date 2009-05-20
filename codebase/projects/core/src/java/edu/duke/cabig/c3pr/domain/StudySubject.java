@@ -463,7 +463,7 @@ public Date getInformedConsentSignedDate() {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return "";
 	}
 	
 	/**
@@ -480,7 +480,7 @@ public Date getInformedConsentSignedDate() {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return "";
 	}
 	
 	/**
