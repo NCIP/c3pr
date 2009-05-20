@@ -75,7 +75,6 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
         registration.addScheduledEpoch(epoch);
         registration.setParticipant(patient);
 
-        patient.fillAddress(getAddress());
 
         try {
             marshalledRegistration = getMarshaller().toXML(registration);
