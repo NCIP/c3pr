@@ -134,21 +134,8 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
 
     }
 
-    private void setAddressInternal(Address address) {
-        this.address = address;
-    }
-
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    @Transient
-    public void fillAddress(Address address) {
-        getAddress().setStreetAddress(address.getStreetAddress());
-        getAddress().setCity(address.getCity());
-        getAddress().setStateCode(address.getStateCode());
-        getAddress().setCountryCode(address.getCountryCode());
-        getAddress().setPostalCode(address.getPostalCode());
     }
 
     public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
