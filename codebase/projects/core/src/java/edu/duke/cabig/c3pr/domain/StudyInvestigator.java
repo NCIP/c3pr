@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -57,6 +59,7 @@ public class StudyInvestigator extends AbstractMutableDeletableDomainObject impl
         this.startDate = startDate;
     }
 
+    @Enumerated(EnumType.STRING)
     public InvestigatorStatusCodeEnum getStatusCode() {
 		return statusCode;
 	}
