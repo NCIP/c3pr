@@ -8,7 +8,9 @@ import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.EndPointType;
-import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;;
+import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
+import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
+import edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition;
 
 
 /**
@@ -180,6 +182,22 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		assertTrue(studyOrganization.ifStudyInvestigatorExists(healthcareSiteInvestigator));
 	}
 	
+	/**
+	 * Test if study investigator exists for org with no investigators.
+	 */
+	public void testIfStudyInvestigatorExistsForEmptyList(){
+		StudyOrganization studyOrganization = new StudySite();
+		
+		Investigator investigator = new LocalInvestigator();
+		investigator.setFirstName("John");
+		
+		HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
+		healthcareSiteInvestigator.setInvestigator(investigator);
+		healthcareSiteInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
+		
+		assertFalse(studyOrganization.ifStudyInvestigatorExists(healthcareSiteInvestigator));
+	}
+	
 	
 	/**
 	 * Test is successfull send.
@@ -221,7 +239,20 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		assertEquals("Inactive", studyOrganization.getStudyPersonnel().get(0).getRoleCode());
 	}
 	
+	
+	public void testAddCustomField(){
+		StudyOrganization studyOrganization = new StudySite();
+		CustomFieldDefinition customFieldDefinition = new StudyCustomFieldDefinition();
+		
+		studyOrganization.addCustomFieldDefinition(customFieldDefinition);
+		
+		assertTrue(studyOrganization.getCustomFieldDefinitions().get(0) instanceof StudyCustomFieldDefinition);
+	}
+
+	
 }
+
+
 
 
 
