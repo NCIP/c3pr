@@ -32,6 +32,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -114,6 +115,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     public StudySubject importStudySubject(StudySubject deserialedStudySubject)
 			throws C3PRCodedException {
 		StudySubject studySubject = studySubjectFactory.buildStudySubject(deserialedStudySubject);
+		if(studySubjectDao.getByIdentifiers(studySubject.getIdentifiers()).size()>0){
+        	throw exceptionHelper.getException(
+                    getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
+        }
 		if (studySubject.getParticipant().getId() != null) {
 		    StudySubject exampleSS = new StudySubject(true);
 		    exampleSS.setParticipant(studySubject.getParticipant());
@@ -150,7 +155,16 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			throw this.exceptionHelper
 					.getException(getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
 		}
-		studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
+		boolean hasC3PRAssignedIdentifier=false;
+		for(SystemAssignedIdentifier systemAssignedIdentifier: studySubject.getSystemAssignedIdentifiers()){
+			if(systemAssignedIdentifier.getSystemName().equals("C3PR")){
+				hasC3PRAssignedIdentifier=true;
+				break;
+			}
+		}
+		if(!hasC3PRAssignedIdentifier){
+			studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
+		}
 		studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 		if (studySubject.getScheduledEpoch().isReserving()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);

@@ -11,12 +11,14 @@ import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -53,8 +55,14 @@ public class StudySubjectFactory {
     private ParticipantDao participantDao;
     
     private AnatomicSiteDao anatomicSiteDao;
+    
+    private HealthcareSiteDao healthcareSiteDao;
 
-    public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
 		this.anatomicSiteDao = anatomicSiteDao;
 	}
 
@@ -157,6 +165,11 @@ public class StudySubjectFactory {
                 }
             }
         }
+        for (OrganizationAssignedIdentifier organizationAssignedIdentifier : participant
+                .getOrganizationAssignedIdentifiers()) {
+        	HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(organizationAssignedIdentifier.getHealthcareSite().getNciInstituteCode());
+        	organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
+        }
         addContactsToParticipant(participant);
         return participant;
     }
@@ -250,71 +263,76 @@ public class StudySubjectFactory {
     private ScheduledEpoch buildScheduledEpoch(ScheduledEpoch source, Epoch epoch)
                     throws C3PRCodedException {
         ScheduledEpoch scheduledEpoch = null;
-        if (true) {
-            ScheduledEpoch scheduledEpochSource = source;
-            scheduledEpoch = new ScheduledEpoch();
-            ScheduledEpoch scheduledTreatmentEpoch = scheduledEpoch;
-            scheduledTreatmentEpoch.setEligibilityIndicator(true);
-                if (scheduledEpochSource.getScheduledArm() != null
-                                && scheduledEpochSource.getScheduledArm().getArm() != null
-                                && scheduledEpochSource.getScheduledArm().getArm()
-                                                .getName() != null) {
-                    Arm arm = null;
-                    for (Arm a : (epoch).getArms()) {
-                        if (a.getName().equals(
-                        		scheduledEpochSource.getScheduledArm().getArm()
-                                                        .getName())) {
-                            arm = a;
-                        }
-                    }
-                    if (arm == null) {
-                        throw exceptionHelper
-                                        .getException(
-                                                        getCode("C3PR.EXCEPTION.REGISTRATION.NOTFOUND.ARM_NAME.CODE"),
-                                                        new String[] {
-                                                        	scheduledEpochSource
-                                                                                .getScheduledArm()
-                                                                                .getArm().getName(),
-                                                                                scheduledEpochSource
-                                                                                .getEpoch()
-                                                                                .getName() });
-                    }
-                    scheduledTreatmentEpoch.getScheduledArms().get(0).setArm(arm);
-
+        ScheduledEpoch scheduledEpochSource = source;
+        scheduledEpoch = new ScheduledEpoch();
+        ScheduledEpoch scheduledTreatmentEpoch = scheduledEpoch;
+        scheduledTreatmentEpoch.setEligibilityIndicator(true);
+        if (scheduledEpochSource.getScheduledArm() != null
+                        && scheduledEpochSource.getScheduledArm().getArm() != null
+                        && scheduledEpochSource.getScheduledArm().getArm()
+                                        .getName() != null) {
+            Arm arm = null;
+            for (Arm a : (epoch).getArms()) {
+                if (a.getName().equals(
+                		scheduledEpochSource.getScheduledArm().getArm()
+                                                .getName())) {
+                    arm = a;
                 }
+            }
+            if (arm == null) {
+                throw exceptionHelper
+                                .getException(
+                                                getCode("C3PR.EXCEPTION.REGISTRATION.NOTFOUND.ARM_NAME.CODE"),
+                                                new String[] {
+                                                	scheduledEpochSource
+                                                                        .getScheduledArm()
+                                                                        .getArm().getName(),
+                                                                        scheduledEpochSource
+                                                                        .getEpoch()
+                                                                        .getName() });
+            }
+            scheduledTreatmentEpoch.getScheduledArms().get(0).setArm(arm);
+
         }
         scheduledEpoch.setEpoch(epoch);
         scheduledEpoch.setScEpochWorkflowStatus(source.getScEpochWorkflowStatus());
+        scheduledEpoch.setStratumGroupNumber(source.getStratumGroupNumber());
         return scheduledEpoch;
     }
 
-    private void fillStudySubjectDetails(StudySubject studySubject, StudySubject source) {
+    private void fillStudySubjectDetails(StudySubject studySubject, StudySubject source){
         studySubject.setInformedConsentSignedDate(source.getInformedConsentSignedDate());
         studySubject.setInformedConsentVersion(source.getInformedConsentVersion());
         studySubject.setStartDate(source.getStartDate());
         studySubject.setStratumGroupNumber(source.getStratumGroupNumber());
+        studySubject.setPaymentMethod(source.getPaymentMethod());
         studySubject.getIdentifiers().addAll(source.getIdentifiers());
-        if(studySubject.getTreatingPhysician()!=null){
+        for (OrganizationAssignedIdentifier organizationAssignedIdentifier : studySubject
+                .getOrganizationAssignedIdentifiers()) {
+        	HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(organizationAssignedIdentifier.getHealthcareSite().getNciInstituteCode());
+        	organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
+        }
+        if(source.getTreatingPhysician()!=null){
         	for(StudyInvestigator studyInvestigator:studySubject.getStudySite().getStudyInvestigators()){
-        		if(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getNciIdentifier().equals(studySubject.getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getNciIdentifier())){
+        		if(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getNciIdentifier().equals(source.getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getNciIdentifier())){
         			studySubject.setTreatingPhysician(studyInvestigator);
         			break;
         		}
         	}
         }
-        if(studySubject.getDiseaseHistory()!=null){
-        	if(studySubject.getDiseaseHistory().getStudyDisease()!=null){
+        if(source.getDiseaseHistory()!=null){
+        	if(source.getDiseaseHistory().getStudyDisease()!=null){
         		for(StudyDisease studyDisease: studySubject.getStudySite().getStudy().getStudyDiseases()){
-        			if(studyDisease.getDiseaseTerm().getCtepTerm().equals(studySubject.getDiseaseHistory().getStudyDisease().getDiseaseTerm().getCtepTerm())){
+        			if(studyDisease.getDiseaseTerm().getCtepTerm().equals(source.getDiseaseHistory().getStudyDisease().getDiseaseTerm().getCtepTerm())){
         				studySubject.getDiseaseHistory().setStudyDisease(studyDisease);
         				break;
         			}
         		}
         	}
-        	if(studySubject.getDiseaseHistory().getAnatomicSite()!=null){
-        		List<AnatomicSite> anatomicSites= anatomicSiteDao.searchByExample(studySubject.getDiseaseHistory().getAnatomicSite());
+        	if(source.getDiseaseHistory().getAnatomicSite()!=null){
+        		List<AnatomicSite> anatomicSites= anatomicSiteDao.searchByExample(source.getDiseaseHistory().getAnatomicSite());
         		if(anatomicSites.size()!=1){
-        			studySubject.getDiseaseHistory().setOtherPrimaryDiseaseSiteCode(studySubject.getDiseaseHistory().getAnatomicSite().getName());
+        			studySubject.getDiseaseHistory().setOtherPrimaryDiseaseSiteCode(source.getDiseaseHistory().getAnatomicSite().getName());
         			studySubject.getDiseaseHistory().setAnatomicSite(null);
         		}else{
         			studySubject.getDiseaseHistory().setAnatomicSite(anatomicSites.get(0));
