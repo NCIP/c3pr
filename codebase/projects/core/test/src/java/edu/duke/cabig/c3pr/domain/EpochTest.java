@@ -7,11 +7,22 @@ import edu.duke.cabig.c3pr.constants.RandomizationType;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EpochTest.
  */
 public class EpochTest extends TestCase{
+	
+	/** The Constant QUESTION_1. */
+	public static final String QUESTION_1 = "question 1";
+	
+	/** The Constant QUESTION_2. */
+	public static final String QUESTION_2 = "question 2";
+	
+	/** The Constant ANSWER_1. */
+	public static final String ANSWER_1 = "answer_1";
+	
+	/** The Constant ANSWER_2. */
+	public static final String ANSWER_2 = "answer_2";
 	
 	/**
 	 * Test create epoch with arms.
@@ -191,5 +202,40 @@ public class EpochTest extends TestCase{
 		assertNull("Unexpected arm",epochA.getArmByName("Arm A"));
 	}
 	
+	
+	/**
+	 * Test generate stratum groups. This calls the combinationGenerator internally.
+	 */
+	public void testGenerateStratumGroups(){
+		Epoch epoch = new Epoch();
+		
+		StratificationCriterion sc1 = new StratificationCriterion();
+		sc1.setQuestionNumber(1);
+		sc1.setQuestionText(QUESTION_1);
+
+		StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
+		scpa1.setPermissibleAnswer(ANSWER_1);
+		sc1.getPermissibleAnswers().add(scpa1);
+		
+		StratificationCriterion sc2 = new StratificationCriterion();		
+		sc2.setQuestionNumber(1);
+		sc2.setQuestionText(QUESTION_1);
+
+		StratificationCriterionPermissibleAnswer scpa2 = new StratificationCriterionPermissibleAnswer();
+		scpa2.setPermissibleAnswer(ANSWER_1);
+		sc2.getPermissibleAnswers().add(scpa2);
+		sc2.getPermissibleAnswers().add(scpa1);
+		
+		sc1.getPermissibleAnswers().add(scpa2);
+		
+		epoch.getStratificationCriteria().add(sc1);
+		epoch.getStratificationCriteria().add(sc2);
+		
+		epoch.generateStratumGroups();
+		assertEquals(4, epoch.getStratumGroups().size());
+		
+	}
+	
 
 }
+
