@@ -225,7 +225,65 @@ public class PersonTestCase extends AbstractTestCase {
 		newPerson.setMaidenName("Name");
 		assertFalse("comparing person object to another person", person.equals(newPerson));
 	}
+
+	/**
+	 * Test equals11.
+	 */
+	public void testEquals11(){
+		Person newPerson = new PersonSubClass();
+		person.setMaidenName("Name");
+		person.setFirstName("First");
+		person.setMiddleName("Middle");
+		person.setLastName("Last");
+		assertFalse("comparing person object to another person", person.equals(newPerson));
+	}
 	
+	/**
+	 * Test equals12.
+	 */
+	public void testEquals12(){
+		Person newPerson = new PersonSubClass();
+		newPerson.setFirstName("First");
+		
+		person.setMaidenName("Name");
+		person.setFirstName("First");
+		person.setMiddleName("Middle");
+		person.setLastName("Last");
+		assertFalse("comparing person object to another person", person.equals(newPerson));
+	}
+
+	/**
+	 * Test equals13.
+	 */
+	public void testEquals13(){
+		Person newPerson = new PersonSubClass();
+		newPerson.setFirstName("First");
+		newPerson.setLastName("Last");
+		
+		person.setMaidenName("Name");
+		person.setFirstName("First");
+		person.setMiddleName("Middle");
+		person.setLastName("Last");
+		assertFalse("comparing person object to another person", person.equals(newPerson));
+	}
+
+
+	/**
+	 * Test equals14.
+	 */
+	public void testEquals14(){
+		Person newPerson = new PersonSubClass();
+		newPerson.setFirstName("First");
+		newPerson.setMiddleName("Middle");
+		newPerson.setLastName("Last");
+		
+		person.setMaidenName("Name");
+		person.setFirstName("First");
+		person.setMiddleName("Middle");
+		person.setLastName("Last");
+		assertFalse("comparing person object to another person", person.equals(newPerson));
+	}
+
 	
 	
 }
