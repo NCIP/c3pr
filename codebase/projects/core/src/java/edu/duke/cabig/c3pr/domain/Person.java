@@ -188,25 +188,41 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (getClass() != obj.getClass()) return false;
+    	if (this == obj) 
+    		return true;
+        if (getClass() != obj.getClass()) 
+        	return false;
+        
         final Person other = (Person) obj;
+        
         if (firstName == null) {
-            if (other.firstName != null) return false;
+            if (other.firstName != null) 
+            	return false;
         }
-        else if (!firstName.equals(other.firstName)) return false;
+        else if (!firstName.equals(other.firstName)) 
+        	return false;
+        
         if (lastName == null) {
-            if (other.lastName != null) return false;
+            if (other.lastName != null) 
+           	return false;
         }
-        else if (!lastName.equals(other.lastName)) return false;
-        if (maidenName == null) {
-            if (other.maidenName != null) return false;
-        }
-        else if (!maidenName.equals(other.maidenName)) return false;
+        else if(!lastName.equals(other.lastName)) 
+       		return false;
+        
         if (middleName == null) {
-            if (other.middleName != null) return false;
+            if (other.middleName != null) 
+            	return false;
         }
-        else if (!middleName.equals(other.middleName)) return false;
+        else if(!middleName.equals(other.middleName)) 
+        		return false;
+        
+        if (maidenName == null) {
+            if (other.maidenName != null) 
+            	return false;
+        }
+        else if(!maidenName.equals(other.maidenName)) 
+        		return false;
+        
         return true;
     }
 
