@@ -228,7 +228,7 @@ public class StudyDaoTest extends DaoTestCase {
         scpa.setPermissibleAnswer("lets find out");
         ArrayList scpaList = new ArrayList();
         scpaList.add(scpa);
-        sc.setPermissibleAnswers(scpaList);
+        sc.getPermissibleAnswers().addAll(scpaList);
         ArrayList scList = new ArrayList();
         scList.add(sc);
         epoch1.setStratificationCriteria(scList);
@@ -465,7 +465,7 @@ public class StudyDaoTest extends DaoTestCase {
         scpaList.add(scpa3);
 
         sc.setQuestionText("age?");
-        sc.setPermissibleAnswers(scpaList);
+        sc.getPermissibleAnswers().addAll(scpaList);
         scList.add(sc);
 
         ArrayList<StratificationCriterionPermissibleAnswer> scpa2List = new ArrayList<StratificationCriterionPermissibleAnswer>();
@@ -478,7 +478,7 @@ public class StudyDaoTest extends DaoTestCase {
         scpa2List.add(scpa5);
 
         sc2.setQuestionText("gender?");
-        sc2.setPermissibleAnswers(scpa2List);
+        sc2.getPermissibleAnswers().addAll(scpa2List);
         scList.add(sc2);
 
         te.setStratificationCriteria(scList);

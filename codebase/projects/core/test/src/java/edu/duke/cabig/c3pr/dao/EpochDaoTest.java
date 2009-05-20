@@ -115,7 +115,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         scpa.setPermissibleAnswer("lets find out");
         ArrayList scpaList = new ArrayList();
         scpaList.add(scpa);
-        sc.setPermissibleAnswers(scpaList);
+        sc.getPermissibleAnswers().addAll(scpaList);
         ArrayList scList = new ArrayList();
         scList.add(sc);
         epoch1.setStratificationCriteria(scList);
