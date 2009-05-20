@@ -103,5 +103,23 @@ public class StratificationCriterionTest extends AbstractTestCase{
 		assertFalse("The two criteria should not be equal",sc1.equals(sc2));
 	}
 	
+	/**
+	 * Test stratification criterion equals with different answer.
+	 * 
+	 * @throws Exception the exception
+	 */
+	public void testRemovePermissibleAnswer() throws Exception {
+		StratificationCriterion sc1 = new StratificationCriterion();
+		StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
+		
+		sc1.setQuestionNumber(1);
+		sc1.setQuestionText(QUESTION_1);
+		scpa1.setPermissibleAnswer(ANSWER_1);
+		sc1.getPermissibleAnswers().add(scpa1);
+		
+		sc1.removePermissibleAnswer(scpa1);
+		
+		assertTrue("The two criteria should not be equal",sc1.getPermissibleAnswers().size() == 0);
+	}
 	
 }
