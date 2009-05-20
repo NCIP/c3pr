@@ -28,8 +28,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @Table(name = "strat_criteria")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "strat_criteria_ID_SEQ") })
-public class StratificationCriterion extends AbstractMutableDeletableDomainObject implements
-                Comparable<StratificationCriterion> {
+public class StratificationCriterion extends AbstractMutableDeletableDomainObject  {
 
     /** The lazy list helper. */
     private LazyListHelper lazyListHelper;
@@ -97,10 +96,10 @@ public class StratificationCriterion extends AbstractMutableDeletableDomainObjec
 
     /* (non-Javadoc)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
+     
     public int compareTo(StratificationCriterion o) {
         return 0;
-    }
+    }*/
 
     /**
      * Gets the question number.
@@ -155,12 +154,12 @@ public class StratificationCriterion extends AbstractMutableDeletableDomainObjec
      * Sets the permissible answers.
      * 
      * @param permissibleAnswers the new permissible answers
-     */
+     
     public void setPermissibleAnswers(
                     List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
         lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class,
                         permissibleAnswers);
-    }
+    }*/
 
     /**
      * Gets the permissible answers.
