@@ -581,6 +581,7 @@
 				<fileset dir="${classes.dir}">
 					<include name="**/*.class" />
 					<exclude name="**/Companion.class" />
+					<exclude name="**/C3PRUser.class" />
 					<exclude name="**/ScheduledArm.class" />
 					<exclude name="**/SubjectStratificationAnswer.class" />
 					<exclude name="**/APIName.class" />
