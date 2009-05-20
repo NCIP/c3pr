@@ -455,11 +455,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                	<entry key="studyInvestigatorStatusRefData">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="ACT" />
+                            <property name="code" value="AC" />
                             <property name="desc" value="Active" />
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="INA" />
+                            <property name="code" value="IN" />
                             <property name="desc" value="Inactive" />
                         </bean>                      
                		</list>
