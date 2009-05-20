@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.duke.cabig.c3pr.AbstractTestCase;
 
 public class PersonTestCase extends AbstractTestCase {
@@ -59,6 +62,21 @@ public class PersonTestCase extends AbstractTestCase {
 	public void testGetFaxAsString2(){
 		person.setPhone("1234567890");
 		assertNull("Fax should be null", person.getFaxAsString());
+	}
+	
+	public void testGetContactMechanism(){
+		ContactMechanism contactMechanism = registerMockFor(ContactMechanism.class);
+		List<ContactMechanism> list = new ArrayList<ContactMechanism>();
+		list.add(contactMechanism);
+		person.setContactMechanisms(list);
+		assertEquals("1 contact mechnism found",1, person.getContactMechanisms().size());
+	}
+	
+	public void testGetFullName(){
+		person.setFirstName("First");
+		person.setMiddleName("Middle");
+		person.setLastName("Last");
+		assertEquals("Full name is First Middle Last","First Middle Last", person.getFullName());
 	}
 	
 }
