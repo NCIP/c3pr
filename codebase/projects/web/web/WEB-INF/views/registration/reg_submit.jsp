@@ -129,13 +129,13 @@ function redirectToTab(tabNumber){
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="participant.MRN"/>:</div>
-					<div class="value">${command.studySubject.participant.medicalRecordNumber.value }</div>
+					<div class="value">${command.studySubject.participant.MRN.value }</div>
 				</div>
 			</div>
 			<div class="rightpanel">
 				<div class="row">
 					<div class="label"><fmt:message key="c3pr.common.assigningAuthority"/>:</div>
-					<div class="value">${command.studySubject.participant.medicalRecordNumber.healthcareSite.name }</div>
+					<div class="value">${command.studySubject.participant.MRN.healthcareSite.name }</div>
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="participant.birthDate"/>:</div>
