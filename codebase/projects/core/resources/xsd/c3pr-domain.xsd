@@ -109,7 +109,7 @@
   </xs:complexType>
   <xs:complexType name="HealthcareSiteInvestigatorType">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="investigator" type="LocalInvestigatorType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="investigator" type="LocalInvestigatorType" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="InvestigatorType" abstract="true">
