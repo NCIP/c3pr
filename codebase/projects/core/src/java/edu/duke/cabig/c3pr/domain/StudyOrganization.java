@@ -164,10 +164,10 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
      * Sets the study investigators.
      * 
      * @param studyInvestigators the new study investigators
-     */
+     
     public void setStudyInvestigators(List<StudyInvestigator> studyInvestigators) {
         lazyListHelper.setInternalList(StudyInvestigator.class, studyInvestigators);
-    }
+    }*/
 
     /**
      * Gets the study personnel internal.
@@ -204,10 +204,10 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
      * Sets the study personnel.
      * 
      * @param studyPersonnel the new study personnel
-     */
+     
     public void setStudyPersonnel(List<StudyPersonnel> studyPersonnel) {
         lazyListHelper.setInternalList(StudyPersonnel.class, studyPersonnel);
-    }
+    }*/
 
     /**
      * Gets the healthcare site.
@@ -415,8 +415,6 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     public boolean getIsCoordinatingCenter(){
         return this.study.isCoOrdinatingCenter(this.getHealthcareSite().getNciInstituteCode());
     }
-    
-    
     
     
     /**
