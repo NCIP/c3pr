@@ -15,6 +15,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.multipart.support.StringMultipartFileEditor;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.dao.CompanionStudyAssociationDao;
@@ -126,6 +127,8 @@ public abstract class StudyController<C extends StudyWrapper> extends
                 RandomizationType.class));
         binder.registerCustomEditor(CoordinatingCenterStudyStatus.class, new EnumByNameEditor(
                 CoordinatingCenterStudyStatus.class));
+        binder.registerCustomEditor(InvestigatorStatusCodeEnum.class, new EnumByNameEditor(
+        		InvestigatorStatusCodeEnum.class));
         binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor(
                 SiteStudyStatus.class));
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
