@@ -228,26 +228,24 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-//        if (getClass() != obj.getClass()) return false;
+        if (getClass() != obj.getClass()) return false;
         if (obj instanceof StratumGroup) {
             StratumGroup sg = (StratumGroup) obj;
-            List<StratificationCriterionAnswerCombination> scacList = sg.getStratificationCriterionAnswerCombination();;
-//            StratificationCriterionAnswerCombination scac;
+            List<StratificationCriterionAnswerCombination> scacList;
+            StratificationCriterionAnswerCombination scac;
 
-            if(this.getStratificationCriterionAnswerCombination().equals(scacList)){
-            	return true;
+            scacList = sg.getStratificationCriterionAnswerCombination();
+            Iterator iter = scacList.iterator();
+            while (iter.hasNext()) {
+                scac = (StratificationCriterionAnswerCombination) iter.next();
+                if (this.getStratificationCriterionAnswerCombination().contains(scac)) {
+                    continue;
+                }
+                else {
+                    return false;
+                }
             }
-//            Iterator iter = scacList.iterator();
-//            while (iter.hasNext()) {
-//                scac = (StratificationCriterionAnswerCombination) iter.next();
-//                if (this.getStratificationCriterionAnswerCombination().contains(scac)) {
-//                    continue;
-//                }
-//                else {
-//                    return false;
-//                }
-//            }
-//            return true;
+            return true;
         }
         return false;
     }
