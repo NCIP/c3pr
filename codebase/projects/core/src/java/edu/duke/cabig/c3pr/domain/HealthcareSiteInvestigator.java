@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -78,6 +80,7 @@ public class HealthcareSiteInvestigator extends AbstractMutableDeletableDomainOb
         this.healthcareSite = healthcareSite;
     }
 
+    @Enumerated(EnumType.STRING)
     public InvestigatorStatusCodeEnum getStatusCode() {
 		return statusCode;
 	}
