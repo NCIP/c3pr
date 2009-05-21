@@ -35,6 +35,16 @@ public class DiseaseHistoryTestCase extends AbstractTestCase {
 	}
 	
 	/**
+	 * Test get primary disease str from disease term.
+	 * studyDisease: null
+	 */
+	public void testGetPrimaryDiseaseStrNullStudyDisease(){
+		DiseaseHistory diseaseHistory= new DiseaseHistory();
+		assertEquals("", diseaseHistory.getPrimaryDiseaseStr());
+		verifyMocks();
+	}
+	
+	/**
 	 * Test get primary disease site str other primary disease site.
 	 */
 	public void testGetPrimaryDiseaseSiteStrOtherPrimaryDiseaseSite(){
@@ -53,6 +63,16 @@ public class DiseaseHistoryTestCase extends AbstractTestCase {
 		EasyMock.expect(anatomicSite.getName()).andReturn("TestSite");
 		replayMocks();
 		assertEquals("TestSite", diseaseHistory.getPrimaryDiseaseSiteStr());
+		verifyMocks();
+	}
+	
+	/**
+	 * Test get primary disease site str from anatomic site.
+	 * studyDisease: null
+	 */
+	public void testGetPrimaryDiseaseSiteStrNullStudyDisease(){
+		DiseaseHistory diseaseHistory= new DiseaseHistory();
+		assertEquals("", diseaseHistory.getPrimaryDiseaseSiteStr());
 		verifyMocks();
 	}
 	
