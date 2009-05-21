@@ -5,7 +5,6 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 19, 2007 Time: 3:29:25 PM To change this template
@@ -21,7 +20,8 @@ public class StratumGroupFieldHandler implements FieldHandler {
         	log.warn("Cannot get stratum group number. No scheduled epoch found.");
         	return null;
         }
-        if(!StringUtils.getBlankIfNull(registration.getScheduledEpoch().getStratumGroupNumber().toString()).equals("")){
+        Integer stratumGroupNumber = registration.getScheduledEpoch().getStratumGroupNumber();
+        if(stratumGroupNumber != null && !stratumGroupNumber.toString().equals("")){
         	return registration.getScheduledEpoch().getStratumGroupNumber().toString();
         }
     	try {    
