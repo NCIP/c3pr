@@ -17,7 +17,7 @@ import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 /**
  * The Class InteroperableAbstractMutableDeletableDomainObjectTestCase.
  */
-public class InteroperableAbstractMutableDeletableDomainObjectTestCase extends AbstractTestCase {
+public class InteroperableMutableDeletableDomainObjectTestCase extends AbstractTestCase {
 
 	/** The test object. */
 	private InteroperableAbstractMutableDeletableDomainObject iAMDDObject;
