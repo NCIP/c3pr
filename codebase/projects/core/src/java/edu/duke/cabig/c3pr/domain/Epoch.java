@@ -33,7 +33,6 @@ import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Epoch.
  * 
