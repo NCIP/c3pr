@@ -59,13 +59,7 @@ public class GridEndPoint extends EndPoint {
                 method = getService().getClass().getMethod(apiName.getCode(),
                                 new Class[] { Message.class });
         }
-        catch (IllegalArgumentException e) {
-            throw new RuntimeException("Error invoking the client api",e);
-        }
-        catch (SecurityException e) {
-            throw new RuntimeException("Error invoking the client api",e);
-        }
-        catch (NoSuchMethodException e) {
+        catch (Exception e) {
             throw new RuntimeException("Error invoking the client api",e);
         }
         return method;
@@ -93,25 +87,7 @@ public class GridEndPoint extends EndPoint {
                 service = constructor.newInstance(endPointProperty.getUrl());
             }
         }
-        catch (IllegalArgumentException e) {
-            throw new RuntimeException("Error creating the service instance",e);
-        }
-        catch (InvocationTargetException e) {
-            throw new RuntimeException("Error creating the service instance",e);
-        }
-        catch (SecurityException e) {
-            throw new RuntimeException("Error creating the service instance",e);
-        }
-        catch (NoSuchMethodException e) {
-            throw new RuntimeException("Error creating the service instance",e);
-        }
-        catch (InstantiationException e) {
-            throw new RuntimeException("Error creating the service instance",e);
-        }
-        catch (IllegalAccessException e) {
-            throw new RuntimeException("Error creating the service instance",e);
-        }
-        catch (ClassNotFoundException e) {
+        catch (Exception e) {
             throw new RuntimeException("Error creating the service instance",e);
         }
         return service;
