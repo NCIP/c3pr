@@ -138,6 +138,13 @@ public class GridEndPointTestCase extends AbstractTestCase {
 	}
 	
 	/**
+	 * Test process return type, unknown argument type.
+	 */
+	public void testProcessReturnTypeUnknownTypeArgument(){
+		assertNull(gridEndPoint.processReturnType(new String()));
+	}
+	
+	/**
 	 * Test process return type.
 	 * 
 	 * @throws Exception the exception
