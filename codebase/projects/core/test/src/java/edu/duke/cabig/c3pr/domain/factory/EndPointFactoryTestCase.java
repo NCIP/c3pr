@@ -48,8 +48,10 @@ public class EndPointFactoryTestCase extends AbstractTestCase {
 	/** The grid end point. */
 	private GridEndPoint gridEndPoint;
 	
+	/** The exception helper. */
 	private C3PRExceptionHelper exceptionHelper;
 	
+	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
 	
 	/* (non-Javadoc)

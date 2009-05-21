@@ -86,23 +86,14 @@ public class EndPointFactory {
      */
     private GlobusCredential getCredential(){
         if(delegatedCredentialProvider==null){
-			if (logger.isDebugEnabled()) {
-				logger
-						.debug("getCredential() - delegatedCredentialProvider is null, return null credential");
-			}
+			logger.debug("getCredential() - delegatedCredentialProvider is null, return null credential");
             return null;
         }
         GlobusCredential credential=delegatedCredentialProvider.provideDelegatedCredentials().getCredential();
         if(credential==null){
-			if (logger.isDebugEnabled()) {
-				logger
-						.debug("getCredential() - GlobusCredential is null, return null credential");
-			}
+			logger.debug("getCredential() - GlobusCredential is null, return null credential");
         }else{
-			if (logger.isDebugEnabled()) {
-				logger
-						.debug("getCredential() - found delegatedCredentialProvider, returning credential");
-			}
+			logger.debug("getCredential() - found delegatedCredentialProvider, returning credential");
         }
         return credential;
     }
