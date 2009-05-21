@@ -54,7 +54,7 @@ public class SearchOrganizationAjaxFacade {
         model.addColumn(columnName);
 
         Column columnNci = model.getColumnInstance();
-        columnNci.setTitle("NCI identifier");
+        columnNci.setTitle("CTEP identifier");
         columnNci.setProperty("nciInstituteCode");
         model.addColumn(columnNci);
 
