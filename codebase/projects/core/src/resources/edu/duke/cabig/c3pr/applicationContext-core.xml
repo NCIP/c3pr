@@ -513,6 +513,8 @@
     		</bean>
     	</property>-->
     	 <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider" />
+    	 <property name="exceptionHelper" ref="exceptionHelper" />
+    	 <property name="c3prErrorMessages" ref="c3prErrorMessages" />
     </bean>
     
     <bean id="multisiteDelegatedCredentialProvider" class="edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider">

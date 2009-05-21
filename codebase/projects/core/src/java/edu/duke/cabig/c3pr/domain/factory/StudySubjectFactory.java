@@ -1,10 +1,8 @@
 package edu.duke.cabig.c3pr.domain.factory;
 
-import org.apache.log4j.Logger;
-import org.apache.ws.security.trust.issue.STIssuer;
-
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
