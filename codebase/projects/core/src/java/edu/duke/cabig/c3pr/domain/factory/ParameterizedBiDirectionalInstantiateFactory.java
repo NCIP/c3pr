@@ -63,21 +63,6 @@ public class ParameterizedBiDirectionalInstantiateFactory<T extends DomainObject
                             new Class[] { this.parent.getClass() });
             m.invoke(object, new Object[] { parent });
         }
-        catch (SecurityException e) {
-            e.printStackTrace();
-        }
-        catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-        catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
         catch (Exception e) {
             e.printStackTrace();
         }
