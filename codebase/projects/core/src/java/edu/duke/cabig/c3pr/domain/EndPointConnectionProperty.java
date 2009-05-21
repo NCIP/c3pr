@@ -70,12 +70,6 @@ public class EndPointConnectionProperty extends AbstractMutableDeletableDomainOb
         this.isAuthenticationRequired = isAuthenticationRequired;
     }
 
-    public EndPointConnectionProperty(Boolean isAuthenticationRequired, EndPointType endPointType) {
-        super();
-        this.isAuthenticationRequired = isAuthenticationRequired;
-        this.endPointType = endPointType;
-    }
-    
     @Transient
     public boolean isEndPointDefined(){
         return endPointType!=null && !StringUtils.getBlankIfNull(url).equals("");

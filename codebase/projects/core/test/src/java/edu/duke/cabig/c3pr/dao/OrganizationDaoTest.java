@@ -268,7 +268,10 @@ public class OrganizationDaoTest extends DaoTestCase {
         interruptSession();
         {
             HealthcareSite loaded = this.healthcareSiteDao.getById(savedId);
-            loaded.setStudyEndPointProperty(new EndPointConnectionProperty(true, EndPointType.GRID));
+            //loaded.setStudyEndPointProperty(new EndPointConnectionProperty(true, EndPointType.GRID));
+            EndPointConnectionProperty endPointConnectionProperty= new EndPointConnectionProperty(EndPointType.GRID);
+            endPointConnectionProperty.setIsAuthenticationRequired(true);
+            loaded.setStudyEndPointProperty(endPointConnectionProperty);
             loaded.getStudyEndPointProperty().setUrl("http://");
             this.healthcareSiteDao.save(loaded);
         }

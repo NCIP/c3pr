@@ -142,8 +142,6 @@
 	<classpathentry kind="lib" path="build/lib/xmlParserAPIs-2.0.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/jaxb-api-2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/wsdl4j-1.5.jar"/>
-	<classpathentry kind="lib" path="build/lib/easymock-2.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/easymockclassextension-2.2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/core-commons-testing-77.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/antfiles"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/esb-client"/>
@@ -154,5 +152,8 @@
 	<classpathentry kind="lib" path="build/lib/CoreServices-common-1.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/CoreServices-stubs-1.1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/StudyService"/>
+	<classpathentry kind="lib" path="build/testlib/easymock-2.2.jar"/>
+	<classpathentry kind="lib" path="build/testlib/easymockclassextension-2.2.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RegistrationService"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>
