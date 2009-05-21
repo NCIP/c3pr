@@ -23,8 +23,6 @@ public abstract class EligibilityCriteria extends AbstractMutableDeletableDomain
 
     private String questionText;
 
-    private String name;
-
     @Override
     @Transient
     public void setRetiredIndicatorAsTrue() {
