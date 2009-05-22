@@ -188,15 +188,6 @@ public class InvestigatorGroup extends AbstractMutableDeletableDomainObject impl
     }
 
     /**
-     * Sets the site investigator group affiliations.
-     * 
-     * @param siteInvestigatorGroupAffiliations the new site investigator group affiliations
-     */
-    public void setSiteInvestigatorGroupAffiliations(
-                    List<SiteInvestigatorGroupAffiliation> siteInvestigatorGroupAffiliations) {
-    }
-
-    /**
      * Gets the start date str.
      * 
      * @return the start date str
