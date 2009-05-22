@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain.factory;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.utils.extensions.DomainAbstractSubClass;
 import edu.duke.cabig.c3pr.utils.extensions.DomainPrivateSubClass;
 import edu.duke.cabig.c3pr.utils.extensions.DomainSubClass;
@@ -13,6 +14,28 @@ import gov.nih.nci.cabig.ctms.domain.DomainObject;
  */
 public class ParameterizedBiDirectionalInstantiateFactoryTest extends AbstractTestCase {
 
+	
+	/**
+	 * Test get class to instantiate.
+	 */
+	public void testGetClassToInstantiate(){
+		StudySiteSubClass studySiteSubClass= new StudySiteSubClass();
+		studySiteSubClass.setId(2);
+		ParameterizedBiDirectionalInstantiateFactory<DomainAbstractSubClass> parameterizedInstantiateFactory= new ParameterizedBiDirectionalInstantiateFactory<DomainAbstractSubClass>(DomainAbstractSubClass.class,studySiteSubClass);
+		assertEquals(DomainAbstractSubClass.class, parameterizedInstantiateFactory.getClassToInstantiate());
+	}
+	
+	/**
+	 * Test set class to instantiate.
+	 */
+	public void testSetClassToInstantiate(){
+		StudySiteSubClass studySiteSubClass= new StudySiteSubClass();
+		studySiteSubClass.setId(2);
+		ParameterizedBiDirectionalInstantiateFactory<DomainAbstractSubClass> parameterizedInstantiateFactory= new ParameterizedBiDirectionalInstantiateFactory<DomainAbstractSubClass>(DomainAbstractSubClass.class,studySiteSubClass);
+		parameterizedInstantiateFactory.setClassToInstantiate(AbstractMutableDeletableDomainObject.class);
+		assertEquals(AbstractMutableDeletableDomainObject.class, parameterizedInstantiateFactory.getClassToInstantiate());
+	}
+	
 	/**
 	 * Test create.
 	 */
@@ -51,5 +74,4 @@ public class ParameterizedBiDirectionalInstantiateFactoryTest extends AbstractTe
 		DomainObject domainObject=parameterizedInstantiateFactory.create();
 		assertNull(domainObject);
 	}
-	
 }
