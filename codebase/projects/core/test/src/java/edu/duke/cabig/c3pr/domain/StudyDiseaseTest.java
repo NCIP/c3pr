@@ -46,7 +46,9 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		StudyDisease studyDisease1 = new StudyDisease();
 		StudyDisease studyDisease2 = new StudyDisease();
 		
+		assertTrue("The two study diseases should have been equal",studyDisease1.equals(studyDisease1));
 		assertTrue("The two study diseases should have been equal",studyDisease1.equals(studyDisease2));
+		assertFalse("The two objects cannot be equal",studyDisease1.equals(new AnatomicSite()));
 		
 		Study study = new Study();
 		studyDisease2.setStudy(study);
@@ -71,6 +73,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		studyDisease1.setDiseaseTerm(diseaseTerm1);
 		
 		assertFalse("The two study diseases cannot be equal",studyDisease1.equals(studyDisease2));
+		assertFalse("The two study diseases cannot be equal",studyDisease2.equals(studyDisease1));
 		
 	}
 	
@@ -100,6 +103,29 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		
 		diseaseTerm2.setCtepTerm("ctep_term1");
 		assertTrue("The two study diseases should have been equal",studyDisease1.equals(studyDisease2));
+	}
+	
+	/**
+	 * Test equals3.
+	 * 
+	 * @throws Exception the exception
+	 */
+	public void testEquals4() throws Exception{
+		
+		StudyDisease studyDisease1 = new StudyDisease();
+		StudyDisease studyDisease2 = new StudyDisease();
+		
+		Study study1 = new Study();
+		studyDisease1.setStudy(study1);
+		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+		orgIdentifier.setType("Coordinating Center Identifier");
+		orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
+		
+		study1.addIdentifier(orgIdentifier);
+		
+		Study study2 = new Study();
+		studyDisease2.setStudy(study2);
+		assertFalse("The two study diseases cannot be equal",studyDisease1.equals(studyDisease2));
 	}
 
 }

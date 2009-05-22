@@ -1112,7 +1112,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
   public void testTransferFailWhenNotTransferrable1() throws Exception{
 	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 	  try{
-		  studySubject.transfer();
+		  studySubject.prepareForTransfer();
 		  fail("Transfer should have failed");
 	  } catch(C3PRBaseRuntimeException ex){
 	  }
@@ -1234,6 +1234,66 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  
 	  verifyMocks();
   }
+  
+  /**
+   * Test prepare for enrollment2.
+   * 
+   * @throws Exception the exception
+   */
+  public void testPrepareForEnrollment3() throws Exception{
+	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+	  EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
+	  
+	  StudySubject childStudySubject = registerMockFor(StudySubject.class);
+	  studySubject.addChildStudySubject(childStudySubject);
+	 
+	  Study companionStudy = registerMockFor(Study.class);
+	  List<CompanionStudyAssociation> compStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+	  CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class); 
+	  compStudyAssociations.add(compStudyAssociation);
+	  
+	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
+	  EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
+	  EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
+	  EasyMock.expect(childStudySubject.getDataEntryStatus()).andReturn(true);
+	  
+	  EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+	  EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
+	  EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
+	  EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
+	  
+	  EasyMock.expect(childStudySubject.getRegWorkflowStatus()).andReturn(RegistrationWorkFlowStatus.PENDING);
+	  
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
+	  EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
+	  
+	  EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
+	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
+	  
+	  
+	  Epoch companionStudyEpoch = registerMockFor(Epoch.class);
+	  ScheduledEpoch childScheduledEpoch = registerMockFor(ScheduledEpoch.class);
+	  EasyMock.expect(childScheduledEpoch.getEpoch()).andReturn(companionStudyEpoch).times(1);
+	  
+	  
+	  EasyMock.expect(childStudySubject.getScheduledEpoch()).andReturn(childScheduledEpoch);
+	  EasyMock.expect(companionStudyEpoch.getEnrollmentIndicator()).andReturn(true);
+	  
+	  EasyMock.expect(childStudySubject.getRegWorkflowStatus()).andReturn(RegistrationWorkFlowStatus.PENDING);
+	  
+	  replayMocks();
+	  try{
+		  studySubject.prepareForEnrollment();
+		  fail("Should have thrown exception");
+	  } catch(Exception ex){
+		  
+	  }
+	  
+	  verifyMocks();
+  }
+  
   
   /**
    * Test add custom fields.
@@ -1428,5 +1488,64 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  } catch(Exception ex){
 		assertTrue("Wrong exception message",ex.getMessage().contains("The subject has to be enrolled before being transferred"));
 	  }
+  }
+  
+  /**
+   * Test prepare for transfer2.
+   * 
+   * @throws Exception the exception
+   */
+  public void testPrepareForTransfer2() throws Exception{
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	  try{
+		  studySubject.prepareForTransfer();
+		  fail("Should have thrown exception");
+	  } catch(Exception ex){
+		assertTrue("Wrong exception message",ex.getMessage().contains("The subject can only be transferred to an Epoch with an or higher order"));
+	  }
+  }
+  
+  /**
+   * Test has mandatory companions true.
+   * 
+   * @throws Exception the exception
+   */
+  public void testHasMandatoryCompanionsTrue() throws Exception{
+	  StudySubject childStudySubject = registerMockFor(StudySubject.class);
+	  studySubject.addChildStudySubject(childStudySubject);
+	 
+	  CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
+	  List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+	  companionStudyAssociations.add(compStudyAssociation);
+	  
+	  EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
+	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
+	  
+	  replayMocks();
+	  assertTrue("Wrong result in evaluating if study subject has mandatory companins", studySubject.hasMandatoryCompanions());
+	  verifyMocks();
+  }
+  
+  /**
+   * Test has mandatory companions false.
+   * 
+   * @throws Exception the exception
+   */
+  public void testHasMandatoryCompanionsFalse() throws Exception{
+	  StudySubject childStudySubject = registerMockFor(StudySubject.class);
+	  studySubject.addChildStudySubject(childStudySubject);
+	 
+	  CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
+	  List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+	  companionStudyAssociations.add(compStudyAssociation);
+	  
+	  EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
+	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(false);
+	  
+	  replayMocks();
+	  assertFalse("Wrong result in evaluating if study subject has mandatory companins", studySubject.hasMandatoryCompanions());
+	  verifyMocks();
   }
 }
