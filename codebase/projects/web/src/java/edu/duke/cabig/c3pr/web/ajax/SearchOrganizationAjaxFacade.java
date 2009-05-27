@@ -18,15 +18,30 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 
+/**
+ * The Class SearchOrganizationAjaxFacade.
+ */
 public class SearchOrganizationAjaxFacade {
+    
+    /** The log. */
     private static Log log = LogFactory.getLog(SearchOrganizationAjaxFacade.class);
 
+    /** The healthcare site dao. */
     private HealthcareSiteDao healthcareSiteDao;
 
+    /**
+     * Builds the Organization Search Results table.
+     * 
+     * @param model the model
+     * @param healthcareSites the healthcare sites
+     * 
+     * @return the object
+     * 
+     * @throws Exception the exception
+     */
     public Object build(TableModel model, Collection healthcareSites) throws Exception {
 
         Table table = model.getTableInstance();
@@ -53,14 +68,29 @@ public class SearchOrganizationAjaxFacade {
         columnName.setCell((OrganizationLinkDisplayCell.class).getName());
         model.addColumn(columnName);
 
-        Column columnNci = model.getColumnInstance();
-        columnNci.setTitle("CTEP identifier");
-        columnNci.setProperty("nciInstituteCode");
-        model.addColumn(columnNci);
+        Column columnCtep = model.getColumnInstance();
+        columnCtep.setTitle("CTEP identifier");
+        columnCtep.setProperty("nciInstituteCode");
+        model.addColumn(columnCtep);
 
+        Column columnNci = model.getColumnInstance();
+        columnNci.setTitle("NCI identifier");
+        columnNci.setProperty("externalId");
+        columnNci.setCell((NciIdLinkDisplayCell.class).getName());
+        model.addColumn(columnNci);
+        
         return model.assemble();
     }
 
+    /**
+     * Gets the table.
+     * 
+     * @param parameterMap the parameter map
+     * @param params the params
+     * @param request the request
+     * 
+     * @return the table
+     */
     public String getTable(Map<String, List> parameterMap, String[] params,
                     HttpServletRequest request) {
 
@@ -87,16 +117,26 @@ public class SearchOrganizationAjaxFacade {
         }
         catch (Exception e) {
             log.error("Exception caught in SearchOrganizationFacade");
-            e.printStackTrace();
+            e.printStackTrace(); 
         }
 
         return "";
     }
 
+	/**
+	 * Gets the healthcare site dao.
+	 * 
+	 * @return the healthcare site dao
+	 */
 	public HealthcareSiteDao getHealthcareSiteDao() {
 		return healthcareSiteDao;
 	}
 
+	/**
+	 * Sets the healthcare site dao.
+	 * 
+	 * @param healthcareSiteDao the new healthcare site dao
+	 */
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}

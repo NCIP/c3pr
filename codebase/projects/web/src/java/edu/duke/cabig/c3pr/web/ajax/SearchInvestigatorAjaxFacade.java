@@ -51,9 +51,15 @@ public class SearchInvestigatorAjaxFacade {
         columnName.setCell((InvestigatorLinkDisplayCell.class).getName());
         model.addColumn(columnName);
 
+        Column columnCtep = model.getColumnInstance();
+        columnCtep.setTitle("CTEP identifier");
+        columnCtep.setProperty("nciIdentifier");
+        model.addColumn(columnCtep);
+        
         Column columnNci = model.getColumnInstance();
-        columnNci.setTitle("CTEP identifier");
-        columnNci.setProperty("nciIdentifier");
+        columnNci.setTitle("NCI identifier");
+        columnNci.setProperty("externalId");
+        columnNci.setCell((NciIdLinkDisplayCell.class).getName());
         model.addColumn(columnNci);
 
         return model.assemble();
