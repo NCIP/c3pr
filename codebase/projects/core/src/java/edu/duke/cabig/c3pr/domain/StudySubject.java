@@ -145,6 +145,8 @@ public class StudySubject extends
 	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
 	
+	/** The study subject consent versions. */
+	private List<StudySubjectConsentVersion> studySubjectConsentVersions;
 
 	/**
 	 * Instantiates a new study subject.
@@ -1889,4 +1891,31 @@ public Date getInformedConsentSignedDate() {
 		return false ;
 	}
 	
+	/**
+	 * Gets the study subject consent versions.
+	 * 
+	 * @return the study subject consent versions
+	 */
+	@OneToMany(mappedBy = "studySubject" , fetch = FetchType.LAZY)
+	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<StudySubjectConsentVersion> getStudySubjectConsentVersions() {
+		return studySubjectConsentVersions;
+	}
+
+	/**
+	 * Sets the study subject consent versions.
+	 * 
+	 * @param studySubjectConsentVersions the new study subject consent versions
+	 */
+	public void setStudySubjectConsentVersions(
+			List<StudySubjectConsentVersion> studySubjectConsentVersions) {
+		this.studySubjectConsentVersions = studySubjectConsentVersions;
+	}
+	
+	public void addStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {
+		this.getStudySubjectConsentVersions().add(studySubjectConsentVersion);
+		studySubjectConsentVersion.setStudySubject(this);
+	}
+
+
 }

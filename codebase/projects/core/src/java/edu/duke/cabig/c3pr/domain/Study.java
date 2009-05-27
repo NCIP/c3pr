@@ -50,6 +50,7 @@ import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
+// TODO: Auto-generated Javadoc
 /**
  * A systematic evaluation of an observation or an intervention (for example,
  * treatment, drug, device, procedure or system) in one or more subjects.
@@ -70,67 +71,120 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		implements Comparable<Study> , Customizable, CustomFieldAuthorable{
 
+	/** The blinded indicator. */
 	private Boolean blindedIndicator;
 
+	/** The multi institution indicator. */
 	private Boolean multiInstitutionIndicator;
 
+	/** The randomized indicator. */
 	private Boolean randomizedIndicator;
 
+	/** The companion indicator. */
 	private Boolean companionIndicator;
 
+	/** The stratification indicator. */
 	private Boolean stratificationIndicator;
 
+	/** The short title text. */
 	private String shortTitleText;
 
+	/** The long title text. */
 	private String longTitleText;
 
+	/** The description text. */
 	private String descriptionText;
 
+	/** The precis text. */
 	private String precisText;
 
+	/** The phase code. */
 	private String phaseCode;
 
+	/** The type. */
 	private String type;
 
+	/** The primary identifier. */
 	private String primaryIdentifier;
 
 	// This is for the CADSR exclusion/inclusion criteria file
+	/** The criteria file. */
 	private byte[] criteriaFile;
 
+	/** The target accrual number. */
 	private Integer targetAccrualNumber;
 
+	/** The randomization type. */
 	private RandomizationType randomizationType;
 
+	/** The data entry status. */
 	private StudyDataEntryStatus dataEntryStatus;
 
+	/** The coordinating center study status. */
 	private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
 
+	/** The study diseases. */
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 
+	/** The study organizations. */
 	private List<StudyOrganization> studyOrganizations;
 
+	/** The identifiers. */
 	private List<Identifier> identifiers;
 
 	// TODO move into Command Object
+	/** The disease term ids. */
 	private String[] diseaseTermIds;
 
+	/** The disease category as text. */
 	private String diseaseCategoryAsText;
 
+	/** The consent version. */
 	private String consentVersion;
+	
+	/** The consent validity period. */
+	private String consentValidityPeriod;
 
+	/**
+	 * Gets the consent validity period.
+	 * 
+	 * @return the consent validity period
+	 */
+	public String getConsentValidityPeriod() {
+		return consentValidityPeriod;
+	}
+
+	/**
+	 * Sets the consent validity period.
+	 * 
+	 * @param consentValidityPeriod the new consent validity period
+	 */
+	public void setConsentValidityPeriod(String consentValidityPeriod) {
+		this.consentValidityPeriod = consentValidityPeriod;
+	}
+
+	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
+	/** The c3 pr exception helper. */
 	private C3PRExceptionHelper c3PRExceptionHelper;
 
+	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
 
+	/** The acrruals within last week. */
 	@Transient
 	private int acrrualsWithinLastWeek;
 
+	/** The standalone indicator. */
 	private Boolean standaloneIndicator;
 
+	/** The parent study associations. */
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 
+	/**
+	 * Instantiates a new study.
+	 */
 	public Study() {
 		
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -162,9 +216,14 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
-
+		lazyListHelper.add(Consent.class,new InstantiateFactory<Consent>(Consent.class));
 	}
 
+	/**
+	 * Instantiates a new study.
+	 * 
+	 * @param forSearchByExample the for search by example
+	 */
 	public Study(boolean forSearchByExample) {
 
 		lazyListHelper = new LazyListHelper();
@@ -187,14 +246,25 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+		lazyListHelper.add(Consent.class,new InstantiateFactory<Consent>(Consent.class));
 	}
 
+	/**
+	 * Can open.
+	 * 
+	 * @return the list< error>
+	 */
 	public List<Error> canOpen() {
 		List<Error> errors = new ArrayList<Error>();
 		evaluateDataEntryStatus(errors);
 		return errors;
 	}
 
+	/**
+	 * Gets the local identifiers.
+	 * 
+	 * @return the local identifiers
+	 */
 	@Transient
 	public List<Identifier> getLocalIdentifiers() {
 		List<Identifier> localIdentifiers = new ArrayList<Identifier>();
@@ -209,22 +279,42 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return localIdentifiers;
 	}
 
+	/**
+	 * Gets the study sites.
+	 * 
+	 * @return the study sites
+	 */
 	@Transient
 	public List<StudySite> getStudySites() {
 		return lazyListHelper.getLazyList(StudySite.class);
 	}
 
+	/**
+	 * Gets the study funding sponsors.
+	 * 
+	 * @return the study funding sponsors
+	 */
 	@Transient
 	public List<StudyFundingSponsor> getStudyFundingSponsors() {
 		return lazyListHelper.getLazyList(StudyFundingSponsor.class);
 	}
 
 	
+	/**
+	 * Gets the study coordinating centers.
+	 * 
+	 * @return the study coordinating centers
+	 */
 	@Transient
 	public List<StudyCoordinatingCenter> getStudyCoordinatingCenters() {
 		return lazyListHelper.getLazyList(StudyCoordinatingCenter.class);
 	}
 
+	/**
+	 * Gets the study organizations.
+	 * 
+	 * @return the study organizations
+	 */
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "comp_assoc_id  is null")
@@ -233,6 +323,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return studyOrganizations;
 	}
 
+	/**
+	 * Sets the study organizations.
+	 * 
+	 * @param studyOrganizations the new study organizations
+	 */
 	public void setStudyOrganizations(List<StudyOrganization> studyOrganizations) {
 		this.studyOrganizations = studyOrganizations;
 		// initialize projected list for StudySite, StudyFundingSponsor and
@@ -250,15 +345,32 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 								StudyCoordinatingCenter.class));
 	}
 
+	/**
+	 * Adds the study organization.
+	 * 
+	 * @param studyOrganization the study organization
+	 */
 	public void addStudyOrganization(StudyOrganization studyOrganization) {
 		this.getStudyOrganizations().add(studyOrganization);
 		studyOrganization.setStudy(this);
 	}
 
+	/**
+	 * Removes the study organization.
+	 * 
+	 * @param studyOrganization the study organization
+	 */
 	public void removeStudyOrganization(StudyOrganization studyOrganization) {
 		this.getStudyOrganizations().remove(studyOrganization);
 	}
 
+	/**
+	 * Adds the epoch.
+	 * 
+	 * @param epoch the epoch
+	 * 
+	 * @throws RuntimeException the runtime exception
+	 */
 	public void addEpoch(Epoch epoch) throws RuntimeException {
 		for (Epoch epochPresent : getEpochs()) {
 			if (epochPresent.equals(epoch)) {
@@ -270,40 +382,83 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		getEpochs().add(epoch);
 	}
 
+	/**
+	 * Removes the epoch.
+	 * 
+	 * @param epoch the epoch
+	 */
 	public void removeEpoch(Epoch epoch) {
 		lazyListHelper.getLazyList(Epoch.class).remove(epoch);
 	}
 	
+	/**
+	 * Removes the study disease.
+	 * 
+	 * @param studyDisease the study disease
+	 */
 	public void removeStudyDisease(StudyDisease studyDisease) {
 		this.getStudyDiseases().remove(studyDisease);
 	}
 	
+	/**
+	 * Removes the all study disease.
+	 */
 	public void removeAllStudyDisease() {
 		this.getStudyDiseases().removeAll(this.getStudyDiseases());
 	}
 	
+	/**
+	 * Adds the study site.
+	 * 
+	 * @param studySite the study site
+	 */
 	public void addStudySite(StudySite studySite) {
 		studySite.setStudy(this);
 		lazyListHelper.getLazyList(StudySite.class).add(studySite);
 	}
 
+	/**
+	 * Removes the study site.
+	 * 
+	 * @param studySite the study site
+	 */
 	public void removeStudySite(StudySite studySite) {
 		lazyListHelper.getLazyList(StudySite.class).remove(studySite);
 	}
 
+	/**
+	 * Adds the study disease.
+	 * 
+	 * @param studyDisease the study disease
+	 */
 	public void addStudyDisease(StudyDisease studyDisease) {
 		studyDisease.setStudy(this);
 		studyDiseases.add(studyDisease);
 	}
 
+	/**
+	 * Adds the identifier.
+	 * 
+	 * @param identifier the identifier
+	 */
 	public void addIdentifier(Identifier identifier) {
 		getIdentifiers().add(identifier);
 	}
 
+	/**
+	 * Removes the identifier.
+	 * 
+	 * @param identifier the identifier
+	 */
 	public void removeIdentifier(Identifier identifier) {
 		getIdentifiers().remove(identifier);
 	}
 
+	/**
+	 * Gets the funding sponsor assigned identifier.
+	 * 
+	 * @return the funding sponsor assigned identifier
+	 */
 	@Transient
 	public OrganizationAssignedIdentifier getFundingSponsorAssignedIdentifier() {
 		for (OrganizationAssignedIdentifier orgIdentifier : this
@@ -316,6 +471,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 
+	/**
+	 * Gets the coordinating center assigned identifier.
+	 * 
+	 * @return the coordinating center assigned identifier
+	 */
 	@Transient
 	public OrganizationAssignedIdentifier getCoordinatingCenterAssignedIdentifier() {
 		for (OrganizationAssignedIdentifier orgIdentifier : this
@@ -328,6 +488,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 
+	/**
+	 * Gets the principal investigator full name.
+	 * 
+	 * @return the principal investigator full name
+	 */
 	@Transient
 	public String getPrincipalInvestigatorFullName() {
 		HealthcareSiteInvestigator studyInv = getPrincipalInvestigator();
@@ -337,6 +502,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null ;
 	}
 
+	/**
+	 * Gets the principal investigator.
+	 * 
+	 * @return the principal investigator
+	 */
 	@Transient
 	public HealthcareSiteInvestigator getPrincipalInvestigator() {
 		StudyInvestigator studyInv = getPrincipalStudyInvestigator();
@@ -346,6 +516,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null ;
 	}
 
+	/**
+	 * Gets the principal study investigator.
+	 * 
+	 * @return the principal study investigator
+	 */
 	@Transient
 	public StudyInvestigator getPrincipalStudyInvestigator() {
 		for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
@@ -360,6 +535,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 
+	/**
+	 * Gets the principal investigator study organization.
+	 * 
+	 * @return the principal investigator study organization
+	 */
 	@Transient
 	public StudyOrganization getPrincipalInvestigatorStudyOrganization() {
 		for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
@@ -374,6 +554,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 
+	/**
+	 * Gets the identifiers.
+	 * 
+	 * @return the identifiers
+	 */
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "STU_ID")
@@ -383,6 +568,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return identifiers;
 	}
 
+	/**
+	 * Sets the identifiers.
+	 * 
+	 * @param identifiers the new identifiers
+	 */
 	public void setIdentifiers(List<Identifier> identifiers) {
 		this.identifiers = identifiers;
 		lazyListHelper.setInternalList(SystemAssignedIdentifier.class,
@@ -395,16 +585,31 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 								OrganizationAssignedIdentifier.class));
 	}
 
+	/**
+	 * Gets the system assigned identifiers.
+	 * 
+	 * @return the system assigned identifiers
+	 */
 	@Transient
 	public List<SystemAssignedIdentifier> getSystemAssignedIdentifiers() {
 		return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
 	}
 
+	/**
+	 * Gets the organization assigned identifiers.
+	 * 
+	 * @return the organization assigned identifiers
+	 */
 	@Transient
 	public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
 		return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
 	}
 
+	/**
+	 * Gets the epochs internal.
+	 * 
+	 * @return the epochs internal
+	 */
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
@@ -413,19 +618,39 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getInternalList(Epoch.class);
 	}
 
+	/**
+	 * Gets the epochs.
+	 * 
+	 * @return the epochs
+	 */
 	@Transient
 	public List<Epoch> getEpochs() {
 		return lazyListHelper.getLazyList(Epoch.class);
 	}
 
+	/**
+	 * Sets the epochs.
+	 * 
+	 * @param epochs the new epochs
+	 */
 	public void setEpochs(List<Epoch> epochs) {
 		setEpochsInternal(epochs);
 	}
 
+	/**
+	 * Adds the amendment.
+	 * 
+	 * @param amendment the amendment
+	 */
 	public void addAmendment(final StudyAmendment amendment) {
 		getStudyAmendments().add(amendment);
 	}
 
+	/**
+	 * Gets the study amendments internal.
+	 * 
+	 * @return the study amendments internal
+	 */
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "stu_id", nullable = false)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
@@ -433,15 +658,30 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getInternalList(StudyAmendment.class);
 	}
 
+	/**
+	 * Sets the study amendments internal.
+	 * 
+	 * @param amendments the new study amendments internal
+	 */
 	public void setStudyAmendmentsInternal(final List<StudyAmendment> amendments) {
 		lazyListHelper.setInternalList(StudyAmendment.class, amendments);
 	}
 
+	/**
+	 * Gets the study amendments.
+	 * 
+	 * @return the study amendments
+	 */
 	@Transient
 	public List<StudyAmendment> getStudyAmendments() {
 		return lazyListHelper.getLazyList(StudyAmendment.class);
 	}
 
+	/**
+	 * Gets the previous study amendments.
+	 * 
+	 * @return the previous study amendments
+	 */
 	@Transient
 	public List<StudyAmendment> getPreviousStudyAmendments() {
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING) {
@@ -455,6 +695,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			return getStudyAmendments();
 	}
 
+	/**
+	 * Gets the current study amendment.
+	 * 
+	 * @return the current study amendment
+	 */
 	@Transient
 	public StudyAmendment getCurrentStudyAmendment() {
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING) {
@@ -464,10 +709,20 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			return null;
 	}
 
+	/**
+	 * Sets the study amendments.
+	 * 
+	 * @param amendments the new study amendments
+	 */
 	public void setStudyAmendments(final List<StudyAmendment> amendments) {
 		setStudyAmendmentsInternal(amendments);
 	}
 
+	/**
+	 * Gets the planned notifications internal.
+	 * 
+	 * @return the planned notifications internal
+	 */
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "stu_id", nullable = true)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
@@ -477,87 +732,185 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getInternalList(PlannedNotification.class);
 	}
 
+	/**
+	 * Sets the planned notifications internal.
+	 * 
+	 * @param plannedNotifications the new planned notifications internal
+	 */
 	public void setPlannedNotificationsInternal(
 			final List<PlannedNotification> plannedNotifications) {
 		lazyListHelper.setInternalList(PlannedNotification.class,
 				plannedNotifications);
 	}
 
+	/**
+	 * Gets the planned notifications.
+	 * 
+	 * @return the planned notifications
+	 */
 	@Transient
 	public List<PlannedNotification> getPlannedNotifications() {
 		return lazyListHelper.getLazyList(PlannedNotification.class);
 	}
 
+	/**
+	 * Sets the epochs internal.
+	 * 
+	 * @param epochs the new epochs internal
+	 */
 	public void setEpochsInternal(final List<Epoch> epochs) {
 		lazyListHelper.setInternalList(Epoch.class, epochs);
 	}
 
+	/**
+	 * Gets the study diseases.
+	 * 
+	 * @return the study diseases
+	 */
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudyDisease> getStudyDiseases() {
 		return studyDiseases;
 	}
 
+	/**
+	 * Sets the study diseases.
+	 * 
+	 * @param studyDiseases the new study diseases
+	 */
 	public void setStudyDiseases(List<StudyDisease> studyDiseases) {
 		this.studyDiseases = studyDiseases;
 	}
 
+	/**
+	 * Gets the description text.
+	 * 
+	 * @return the description text
+	 */
 	public String getDescriptionText() {
 		return descriptionText;
 	}
 
+	/**
+	 * Sets the description text.
+	 * 
+	 * @param descriptionText the new description text
+	 */
 	public void setDescriptionText(String descriptionText) {
 		this.descriptionText = descriptionText;
 	}
 
+	/**
+	 * Gets the long title text.
+	 * 
+	 * @return the long title text
+	 */
 	public String getLongTitleText() {
 		return longTitleText;
 	}
 
+	/**
+	 * Sets the long title text.
+	 * 
+	 * @param longTitleText the new long title text
+	 */
 	public void setLongTitleText(String longTitleText) {
 		this.longTitleText = longTitleText;
 	}
 
+	/**
+	 * Gets the phase code.
+	 * 
+	 * @return the phase code
+	 */
 	public String getPhaseCode() {
 		return phaseCode;
 	}
 
+	/**
+	 * Sets the phase code.
+	 * 
+	 * @param phaseCode the new phase code
+	 */
 	public void setPhaseCode(String phaseCode) {
 		this.phaseCode = phaseCode;
 	}
 
+	/**
+	 * Gets the precis text.
+	 * 
+	 * @return the precis text
+	 */
 	public String getPrecisText() {
 		return precisText;
 	}
 
+	/**
+	 * Sets the precis text.
+	 * 
+	 * @param precisText the new precis text
+	 */
 	public void setPrecisText(String precisText) {
 		this.precisText = precisText;
 	}
 
+	/**
+	 * Gets the short title text.
+	 * 
+	 * @return the short title text
+	 */
 	public String getShortTitleText() {
 		return shortTitleText;
 	}
 
+	/**
+	 * Sets the short title text.
+	 * 
+	 * @param shortTitleText the new short title text
+	 */
 	public void setShortTitleText(String shortTitleText) {
 		this.shortTitleText = shortTitleText;
 	}
 
+	/**
+	 * Gets the target accrual number.
+	 * 
+	 * @return the target accrual number
+	 */
 	public Integer getTargetAccrualNumber() {
 		return targetAccrualNumber;
 	}
 
+	/**
+	 * Sets the target accrual number.
+	 * 
+	 * @param targetAccrualNumber the new target accrual number
+	 */
 	public void setTargetAccrualNumber(Integer targetAccrualNumber) {
 		this.targetAccrualNumber = targetAccrualNumber;
 	}
 
+	/**
+	 * Gets the type.
+	 * 
+	 * @return the type
+	 */
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * Sets the type.
+	 * 
+	 * @param type the new type
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo(Study o) {
 		if (this.equals(o))
 			return 0;
@@ -565,6 +918,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -576,6 +932,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -597,11 +956,21 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return true;
 	}
 
+	/**
+	 * Gets the trimmed short title text.
+	 * 
+	 * @return the trimmed short title text
+	 */
 	@Transient
 	public String getTrimmedShortTitleText() {
 		return StringUtils.getTrimmedText(shortTitleText, 40);
 	}
 
+	/**
+	 * Gets the primary identifier.
+	 * 
+	 * @return the primary identifier
+	 */
 	@Transient
 	public String getPrimaryIdentifier() {
 		for (Identifier identifier : getIdentifiers()) {
@@ -613,38 +982,83 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return primaryIdentifier;
 	}
 
+	/**
+	 * Gets the blinded indicator.
+	 * 
+	 * @return the blinded indicator
+	 */
 	public Boolean getBlindedIndicator() {
 		return blindedIndicator;
 	}
 
+	/**
+	 * Sets the blinded indicator.
+	 * 
+	 * @param blindedIndicator the new blinded indicator
+	 */
 	public void setBlindedIndicator(Boolean blindedIndicator) {
 		this.blindedIndicator = blindedIndicator;
 	}
 
+	/**
+	 * Gets the randomized indicator.
+	 * 
+	 * @return the randomized indicator
+	 */
 	public Boolean getRandomizedIndicator() {
 		return randomizedIndicator;
 	}
 
+	/**
+	 * Sets the randomized indicator.
+	 * 
+	 * @param randomizedIndicator the new randomized indicator
+	 */
 	public void setRandomizedIndicator(Boolean randomizedIndicator) {
 		this.randomizedIndicator = randomizedIndicator;
 	}
 
+	/**
+	 * Gets the multi institution indicator.
+	 * 
+	 * @return the multi institution indicator
+	 */
 	public Boolean getMultiInstitutionIndicator() {
 		return multiInstitutionIndicator;
 	}
 
+	/**
+	 * Sets the multi institution indicator.
+	 * 
+	 * @param multiInstitutionIndicator the new multi institution indicator
+	 */
 	public void setMultiInstitutionIndicator(Boolean multiInstitutionIndicator) {
 		this.multiInstitutionIndicator = multiInstitutionIndicator;
 	}
 
+	/**
+	 * Gets the randomization type.
+	 * 
+	 * @return the randomization type
+	 */
 	public RandomizationType getRandomizationType() {
 		return randomizationType;
 	}
 
+	/**
+	 * Sets the randomization type.
+	 * 
+	 * @param randomizationType the new randomization type
+	 */
 	public void setRandomizationType(RandomizationType randomizationType) {
 		this.randomizationType = randomizationType;
 	}
 
+	/**
+	 * Gets the funding sponsor identifier index.
+	 * 
+	 * @return the funding sponsor identifier index
+	 */
 	@Transient
 	public int getFundingSponsorIdentifierIndex() {
 		int i = -1 ;
@@ -658,6 +1072,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return -1;
 	}
 
+	/**
+	 * Checks for elligibility.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasElligibility() {
 
@@ -668,6 +1087,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return false;
 	}
 
+	/**
+	 * Checks for companions.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasCompanions() {
 		List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
@@ -678,6 +1102,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return false;
 	}
 
+	/**
+	 * Checks for randomized epoch.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasRandomizedEpoch() {
 		for (Epoch epoch : this.getEpochs()) {
@@ -687,6 +1116,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return false;
 	}
 
+	/**
+	 * Checks for stratified epoch.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasStratifiedEpoch() {
 		for (Epoch epoch : this.getEpochs()) {
@@ -696,6 +1130,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return false;
 	}
 
+	/**
+	 * Checks for enrolling epoch.
+	 * 
+	 * @return true, if successful
+	 */
 	@Transient
 	public boolean hasEnrollingEpoch() {
 		for (Epoch epoch : this.getEpochs()) {
@@ -705,6 +1144,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return false;
 	}
 
+	/**
+	 * Gets the checks for registered participants.
+	 * 
+	 * @return the checks for registered participants
+	 */
 	@Transient
 	public boolean getHasRegisteredParticipants() {
 		for(StudySite studySite : getStudySites()){
@@ -715,20 +1159,40 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return false;
 	}
 
+	/**
+	 * Gets the data entry status.
+	 * 
+	 * @return the data entry status
+	 */
 	@Enumerated(EnumType.STRING)
 	public StudyDataEntryStatus getDataEntryStatus() {
 		return dataEntryStatus;
 	}
 
+	/**
+	 * Sets the data entry status.
+	 * 
+	 * @param dataEntryStatus the new data entry status
+	 */
 	public void setDataEntryStatus(StudyDataEntryStatus dataEntryStatus) {
 		this.dataEntryStatus = dataEntryStatus;
 	}
 
+	/**
+	 * Gets the coordinating center study status.
+	 * 
+	 * @return the coordinating center study status
+	 */
 	@Transient
 	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
 		return this.getCoordinatingCenterStudyStatusInternal();
 	}
 
+	/**
+	 * Sets the coordinating center study status.
+	 * 
+	 * @param coordinatingCenterStudyStatus the new coordinating center study status
+	 */
 	public void setCoordinatingCenterStudyStatus(
 			CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
             for(StudySite studySite: this.getStudySites()){
@@ -744,34 +1208,69 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
             this.setCoordinatingCenterStudyStatusInternal(coordinatingCenterStudyStatus);
 	}
 	
+	/**
+	 * Gets the coordinating center study status internal.
+	 * 
+	 * @return the coordinating center study status internal
+	 */
 	@Column(name = "status")
         @Enumerated(EnumType.STRING)
         public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatusInternal() {
                 return coordinatingCenterStudyStatus;
         }
 
+        /**
+         * Sets the coordinating center study status internal.
+         * 
+         * @param coordinatingCenterStudyStatus the new coordinating center study status internal
+         */
         public void setCoordinatingCenterStudyStatusInternal(
                         CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
             this.coordinatingCenterStudyStatus=coordinatingCenterStudyStatus;
         }
 
+	/**
+	 * Gets the consent version.
+	 * 
+	 * @return the consent version
+	 */
 	public String getConsentVersion() {
 		return consentVersion;
 	}
 
+	/**
+	 * Sets the consent version.
+	 * 
+	 * @param consentVersion the new consent version
+	 */
 	public void setConsentVersion(String consentVersion) {
 		this.consentVersion = consentVersion;
 	}
 
+	/**
+	 * Gets the criteria file.
+	 * 
+	 * @return the criteria file
+	 */
 	@Transient
 	public byte[] getCriteriaFile() {
 		return criteriaFile;
 	}
 
+	/**
+	 * Sets the criteria file.
+	 * 
+	 * @param criteriaFile the new criteria file
+	 */
 	public void setCriteriaFile(byte[] criteriaFile) {
 		this.criteriaFile = criteriaFile;
 	}
 
+	/**
+	 * Gets the criteria reader.
+	 * 
+	 * @return the criteria reader
+	 */
 	@Transient
 	public Reader getCriteriaReader() {
 		if (criteriaFile != null) {
@@ -781,6 +1280,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 
+	/**
+	 * Gets the criteria input stream.
+	 * 
+	 * @return the criteria input stream
+	 */
 	@Transient
 	public InputStream getCriteriaInputStream() {
 		if (criteriaFile != null) {
@@ -789,6 +1293,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 
+	/**
+	 * Gets the epoch by name.
+	 * 
+	 * @param name the name
+	 * 
+	 * @return the epoch by name
+	 */
 	@Transient
 	public Epoch getEpochByName(String name) {
 		List<Epoch> epochList = getEpochs();
@@ -803,11 +1314,21 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 
+	/**
+	 * Update data entry status.
+	 */
 	public void updateDataEntryStatus() {
 		List<Error> errors = new ArrayList<Error>();
 		this.setDataEntryStatus(evaluateDataEntryStatus(errors));
 	}
 
+	/**
+	 * Evaluate coordinating center study status.
+	 * 
+	 * @return the coordinating center study status
+	 * 
+	 * @throws C3PRCodedException the c3 pr coded exception
+	 */
 	public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus()
 			throws C3PRCodedException {
 
@@ -829,6 +1350,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	}
 
+	/**
+	 * Evaluate amendment status.
+	 * 
+	 * @return true, if successful
+	 * 
+	 * @throws C3PRCodedException the c3 pr coded exception
+	 */
 	public boolean evaluateAmendmentStatus() throws C3PRCodedException {
 
 		if (this.getStudyAmendments().size() > 0) {
@@ -876,6 +1404,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return true;
 	}
 
+	/**
+	 * Evaluate data entry status.
+	 * 
+	 * @param errors the errors
+	 * 
+	 * @return the study data entry status
+	 */
 	public StudyDataEntryStatus evaluateDataEntryStatus(List<Error> errors) {
 
 		if ((!this.hasEnrollingEpoch())) {
@@ -932,6 +1467,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 				: StudyDataEntryStatus.INCOMPLETE;
 	}
 
+	/**
+	 * Open.
+	 */
 	public void open() {
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING) {
 			this.readyToOpen();
@@ -977,6 +1515,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 	}
 
+	/**
+	 * Ready to open.
+	 * 
+	 * @throws C3PRInvalidDataEntryException the c3 pr invalid data entry exception
+	 */
 	public void readyToOpen() throws C3PRInvalidDataEntryException {
 
 		if (!(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING
@@ -1005,6 +1548,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	}
 
+	/**
+	 * Close to accrual.
+	 */
 	public void closeToAccrual() {
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
@@ -1025,6 +1571,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
 	}
 
+	/**
+	 * Close to accrual and treatment.
+	 */
 	public void closeToAccrualAndTreatment() {
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
@@ -1045,11 +1594,17 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 	}
 
+	/**
+	 * Pending.
+	 */
 	public void pending() {
 		this
 				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 	}
 
+	/**
+	 * Temporarily close to accrual and treatment.
+	 */
 	public void temporarilyCloseToAccrualAndTreatment() {
 
 		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
@@ -1065,6 +1620,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
 	}
 
+	/**
+	 * Temporarily close to accrual.
+	 */
 	public void temporarilyCloseToAccrual() {
 
 		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
@@ -1080,11 +1638,21 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
 	}
 
+	/**
+	 * Pending amendment.
+	 */
 	public void pendingAmendment() {
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
 
 	}
 
+	/**
+	 * Evaluate epochs data entry status.
+	 * 
+	 * @param errors the errors
+	 * 
+	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
+	 */
 	public void evaluateEpochsDataEntryStatus(List<Error> errors)
 			throws C3PRCodedRuntimeException {
 		for (Epoch epoch : this.getEpochs()) {
@@ -1092,55 +1660,117 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 	}
 
+	/**
+	 * Gets the c3 pr exception helper.
+	 * 
+	 * @return the c3 pr exception helper
+	 */
 	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
 		return c3PRExceptionHelper;
 	}
 
+	/**
+	 * Sets the c3 pr exception helper.
+	 * 
+	 * @param exceptionHelper the new c3 pr exception helper
+	 */
 	public void setC3PRExceptionHelper(C3PRExceptionHelper exceptionHelper) {
 		this.c3PRExceptionHelper = exceptionHelper;
 	}
 
+	/**
+	 * Gets the code.
+	 * 
+	 * @param errortypeString the errortype string
+	 * 
+	 * @return the code
+	 */
 	@Transient
 	public int getCode(String errortypeString) {
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(
 				errortypeString, null, null));
 	}
 
+	/**
+	 * Gets the c3pr error messages.
+	 * 
+	 * @return the c3pr error messages
+	 */
 	@Transient
 	public MessageSource getC3prErrorMessages() {
 		return c3prErrorMessages;
 	}
 
+	/**
+	 * Sets the c3pr error messages.
+	 * 
+	 * @param errorMessages the new c3pr error messages
+	 */
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
 	}
 
+	/**
+	 * Gets the stratification indicator.
+	 * 
+	 * @return the stratification indicator
+	 */
 	public Boolean getStratificationIndicator() {
 		return stratificationIndicator;
 	}
 
+	/**
+	 * Sets the stratification indicator.
+	 * 
+	 * @param stratificationIndicator the new stratification indicator
+	 */
 	public void setStratificationIndicator(Boolean stratificationIndicator) {
 		this.stratificationIndicator = stratificationIndicator;
 	}
 
+	/**
+	 * Gets the acrruals within last week.
+	 * 
+	 * @return the acrruals within last week
+	 */
 	@Transient
 	public int getAcrrualsWithinLastWeek() {
 		return this.acrrualsWithinLastWeek;
 	}
 
+	/**
+	 * Sets the acrruals within last week.
+	 * 
+	 * @param acrrualsWithinLastWeek the new acrruals within last week
+	 */
 	public void setAcrrualsWithinLastWeek(int acrrualsWithinLastWeek) {
 		this.acrrualsWithinLastWeek = acrrualsWithinLastWeek;
 	}
 
+	/**
+	 * Gets the standalone indicator.
+	 * 
+	 * @return the standalone indicator
+	 */
 	public Boolean getStandaloneIndicator() {
 		return standaloneIndicator;
 	}
 
+	/**
+	 * Sets the standalone indicator.
+	 * 
+	 * @param standaloneIndicator the new standalone indicator
+	 */
 	public void setStandaloneIndicator(Boolean standaloneIndicator) {
 		this.standaloneIndicator = standaloneIndicator;
 	}
 
+	/**
+	 * Gets the companion study associations internal.
+	 * 
+	 * @return the companion study associations internal
+	 */
 	@OneToMany(mappedBy = "parentStudy", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
@@ -1148,31 +1778,61 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getInternalList(CompanionStudyAssociation.class);
 	}
 
+	/**
+	 * Gets the companion study associations.
+	 * 
+	 * @return the companion study associations
+	 */
 	@Transient
 	public List<CompanionStudyAssociation> getCompanionStudyAssociations() {
 		return lazyListHelper.getLazyList(CompanionStudyAssociation.class);
 	}
 
+	/**
+	 * Sets the companion study associations internal.
+	 * 
+	 * @param companionStudyAssociations the new companion study associations internal
+	 */
 	public void setCompanionStudyAssociationsInternal(
 			List<CompanionStudyAssociation> companionStudyAssociations) {
 		lazyListHelper.setInternalList(CompanionStudyAssociation.class,
 				companionStudyAssociations);
 	}
 
+	/**
+	 * Adds the companion study association.
+	 * 
+	 * @param companionStudyAssociation the companion study association
+	 */
 	public void addCompanionStudyAssociation(
 			CompanionStudyAssociation companionStudyAssociation) {
 		this.getCompanionStudyAssociations().add(companionStudyAssociation);
 		companionStudyAssociation.setParentStudy(this);
 	}
 
+	/**
+	 * Gets the companion indicator.
+	 * 
+	 * @return the companion indicator
+	 */
 	public Boolean getCompanionIndicator() {
 		return companionIndicator;
 	}
 
+	/**
+	 * Sets the companion indicator.
+	 * 
+	 * @param companionIndicator the new companion indicator
+	 */
 	public void setCompanionIndicator(Boolean companionIndicator) {
 		this.companionIndicator = companionIndicator;
 	}
 
+	/**
+	 * Gets the parent study associations.
+	 * 
+	 * @return the parent study associations
+	 */
 	@OneToMany(mappedBy = "companionStudy")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
@@ -1180,11 +1840,21 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return parentStudyAssociations;
 	}
 
+	/**
+	 * Sets the parent study associations.
+	 * 
+	 * @param parentStudyAssociations the new parent study associations
+	 */
 	private void setParentStudyAssociations(
 			List<CompanionStudyAssociation> parentStudyAssociations) {
 		this.parentStudyAssociations = parentStudyAssociations;
 	}
 
+	/**
+	 * Builds the map for notification.
+	 * 
+	 * @return the map< object, object>
+	 */
 	@SuppressWarnings("unused")
 	@Transient
 	public Map<Object, Object> buildMapForNotification() {
@@ -1213,6 +1883,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	/*
 	 * Study utility method to return the current accruals for the study
 	 */
+	/**
+	 * Gets the current accrual count.
+	 * 
+	 * @return the current accrual count
+	 */
 	@Transient
 	public Integer getCurrentAccrualCount() {
 		int currentAccrual = 0 ;
@@ -1227,17 +1902,34 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	// return this.evaluateDataEntryStatus() == StudyDataEntryStatus.COMPLETE;
 	// }
 
+	/**
+	 * Checks if is co ordinating center.
+	 * 
+	 * @param nciCode the nci code
+	 * 
+	 * @return true, if is co ordinating center
+	 */
 	@Transient
 	public boolean isCoOrdinatingCenter(String nciCode) {
 		return this.getStudyCoordinatingCenters().get(0).getHealthcareSite()
 				.getNciInstituteCode().equals(nciCode);
 	}
 
+	/**
+	 * Checks if is multisite.
+	 * 
+	 * @return true, if is multisite
+	 */
 	@Transient
 	public boolean isMultisite() {
 		return this.getMultiInstitutionIndicator() && !this.companionIndicator;
 	}
 
+	/**
+	 * Gets the affiliate study sites.
+	 * 
+	 * @return the affiliate study sites
+	 */
 	@Transient
 	public List<StudyOrganization> getAffiliateStudySites() {
 		List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
@@ -1252,11 +1944,23 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return studyOrganizations;
 	}
 
+	/**
+	 * Gets the study coordinating center.
+	 * 
+	 * @return the study coordinating center
+	 */
 	@Transient
 	public StudyOrganization getStudyCoordinatingCenter() {
 		return this.getStudyCoordinatingCenters().get(0);
 	}
 
+	/**
+	 * Gets the study site.
+	 * 
+	 * @param nciCode the nci code
+	 * 
+	 * @return the study site
+	 */
 	@Transient
 	public StudySite getStudySite(String nciCode) {
 		for (StudySite studySite : this.getStudySites()) {
@@ -1271,6 +1975,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 						new String[] { nciCode });
 	}
 
+        /**
+         * Gets the study organization.
+         * 
+         * @param nciCode the nci code
+         * 
+         * @return the study organization
+         */
         @Transient
         public StudyOrganization getStudyOrganization(String nciCode) {
                 for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
@@ -1285,6 +1996,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
                                                 new String[] { nciCode });
         }
 
+	/**
+	 * Gets the companion indicator display value.
+	 * 
+	 * @return the companion indicator display value
+	 */
 	@Transient
 	public String getCompanionIndicatorDisplayValue() {
 		if (getCompanionIndicator()) {
@@ -1295,6 +2011,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject#getEndpoints()
+	 */
 	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "stu_id")
@@ -1302,6 +2021,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return endpoints;
 	}
 
+	/**
+	 * Gets the possible status transitions.
+	 * 
+	 * @return the possible status transitions
+	 */
 	@Transient
 	public List<CoordinatingCenterStudyStatus> getPossibleStatusTransitions() {
 		List<CoordinatingCenterStudyStatus> statuses = new ArrayList<CoordinatingCenterStudyStatus>();
@@ -1353,6 +2077,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return statuses;
 	}
 
+	/**
+	 * Checks if is parent study open.
+	 * 
+	 * @param flag the flag
+	 * 
+	 * @return true, if is parent study open
+	 */
 	private boolean isParentStudyOpen(boolean flag) {
 		for (CompanionStudyAssociation association : this.parentStudyAssociations) {
 			if (association.getParentStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
@@ -1362,6 +2093,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return flag;
 	}
 	
+	/**
+	 * Gets the companion study site.
+	 * 
+	 * @param nciCode the nci code
+	 * 
+	 * @return the companion study site
+	 */
 	@Transient
 	public StudySite getCompanionStudySite(String nciCode) {
 		if(this.getCompanionIndicator()){
@@ -1385,46 +2123,89 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 	
 	
+	/**
+	 * Gets the custom field definitions internal.
+	 * 
+	 * @return the custom field definitions internal
+	 */
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<CustomFieldDefinition> getCustomFieldDefinitionsInternal() {
 		return lazyListHelper.getInternalList(CustomFieldDefinition.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable#getCustomFieldDefinitions()
+	 */
 	@Transient
 	public List<CustomFieldDefinition> getCustomFieldDefinitions() {
 		return lazyListHelper.getLazyList(CustomFieldDefinition.class);
 	}
 
+	/**
+	 * Sets the custom field definitions internal.
+	 * 
+	 * @param customFieldDefinitions the new custom field definitions internal
+	 */
 	public void setCustomFieldDefinitionsInternal(List<CustomFieldDefinition> customFieldDefinitions) {
 		lazyListHelper.setInternalList(CustomFieldDefinition.class,customFieldDefinitions);
 	}
 
+	/**
+	 * Adds the custom field definition.
+	 * 
+	 * @param customFieldDefinition the custom field definition
+	 */
 	public void addCustomFieldDefinition(CustomFieldDefinition customFieldDefinition) {
 		this.getCustomFieldDefinitions().add(customFieldDefinition);
 		customFieldDefinition.setStudy(this);
 	}
 	
+	/**
+	 * Gets the custom fields internal.
+	 * 
+	 * @return the custom fields internal
+	 */
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<CustomField> getCustomFieldsInternal() {
 		return lazyListHelper.getInternalList(CustomField.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.customfield.Customizable#getCustomFields()
+	 */
 	@Transient
 	public List<CustomField> getCustomFields() {
 		return lazyListHelper.getLazyList(CustomField.class);
 	}
 
+	/**
+	 * Sets the custom fields internal.
+	 * 
+	 * @param customFields the new custom fields internal
+	 */
 	public void setCustomFieldsInternal(List<CustomField> customFields) {
 		lazyListHelper.setInternalList(CustomField.class,customFields);
 	}
 
+	/**
+	 * Adds the custom field.
+	 * 
+	 * @param customField the custom field
+	 */
 	public void addCustomField(CustomField customField) {
 		this.getCustomFields().add(customField);
 		customField.setStudy(this);
 	}
 	
+	/**
+	 * Gets the parent study association.
+	 * 
+	 * @param parentStudyId the parent study id
+	 * 
+	 * @return the parent study association
+	 */
 	@Transient
 	public CompanionStudyAssociation getParentStudyAssociation(int parentStudyId){
 		for(CompanionStudyAssociation companionStudyAssociation : this.getParentStudyAssociations()){
@@ -1435,6 +2216,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 	
+	/**
+	 * Gets the latest consent version.
+	 * 
+	 * @return the latest consent version
+	 */
 	@Transient
 	public String getLatestConsentVersion(){
 		String latestConsentVersion=this.consentVersion;
@@ -1443,6 +2229,48 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 					latestConsentVersion=studyAmendment.getConsentVersion();
 			}
 		return latestConsentVersion;
+	}
+	
+
+	/**
+	 * Gets the consents internal.
+	 * 
+	 * @return the consents internal
+	 */
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "study_id", nullable = false)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<Consent> getConsentsInternal() {
+		return lazyListHelper.getInternalList(Consent.class);
+	}
+
+	/**
+	 * Gets the consents.
+	 * 
+	 * @return the consents
+	 */
+	@Transient
+	public List<Consent> getConsents() {
+		return lazyListHelper.getLazyList(Consent.class);
+	}
+
+	/**
+	 * Sets the consents internal.
+	 * 
+	 * @param consents the new consents internal
+	 */
+	public void setConsentsInternal(List<Consent> consents) {
+		lazyListHelper.setInternalList(Consent.class,consents);
+	}
+	
+
+	/**
+	 * Sets the consents.
+	 * 
+	 * @param consents the new consents
+	 */
+	public void setConsents(List<Consent> consents) {
+		setConsentsInternal(consents);
 	}
 	
 }

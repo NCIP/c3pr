@@ -19,7 +19,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;

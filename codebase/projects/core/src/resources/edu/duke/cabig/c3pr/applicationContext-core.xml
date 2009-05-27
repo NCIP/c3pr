@@ -140,6 +140,9 @@
                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
 			   <value>edu.duke.cabig.c3pr.domain.ConsentHistory</value>
+			   <value>edu.duke.cabig.c3pr.domain.Consent</value>
+			   <value>edu.duke.cabig.c3pr.domain.ConsentVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
             </list>
         </property>
         <property name="entityInterceptor">

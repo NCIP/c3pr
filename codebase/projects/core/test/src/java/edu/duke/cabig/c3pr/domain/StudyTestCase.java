@@ -2321,5 +2321,12 @@ public void testSetCoordinatingCenterStudyStatus(){
 	assertEquals("study site coordinating center is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getStudySites().get(0).getCoordinatingCenterStudyStatus());
 }
 
+public void testGetConsents(){
+	Consent consent = new Consent();
+	List<Consent> list = new ArrayList<Consent>();
+	list.add(consent);
+	basicStudy.getConsents().add(consent);
+	assertEquals("1 concent found", 1, basicStudy.getConsents().size());
+}
 
 }

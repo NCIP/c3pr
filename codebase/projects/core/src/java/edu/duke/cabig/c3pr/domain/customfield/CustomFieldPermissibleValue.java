@@ -12,7 +12,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
 @Table(name = "cust_field_perm_values")
