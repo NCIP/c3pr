@@ -33,7 +33,6 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class HealthcareSiteDao.
  * 
