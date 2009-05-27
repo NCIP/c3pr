@@ -19,6 +19,7 @@ public class CreateCompanionStudyController<C extends StudyWrapper> extends Crea
 
     protected void layoutTabs(Flow flow) {
         flow.addTab(new StudyDetailsTab());
+        flow.addTab(new StudyConsentTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());

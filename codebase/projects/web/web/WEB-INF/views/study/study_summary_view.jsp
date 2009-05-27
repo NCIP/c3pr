@@ -56,6 +56,9 @@
         <tags:tabMethod method="reloadCompanion" divElement="'companionDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/>
         }
 
+        setCloseStatus(status){
+        	$('closeStatus').value=closeStatus;
+        }
 		function closeStudy(closeStatus){
 			$('closeStatus').value=closeStatus;
 			changeStudyStatus('close');
@@ -152,6 +155,9 @@
         </c:forEach>
 		<c:if test="${not empty editAuthorizationTask}">
 			<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+				<c:if test="${!empty closed}">
+                	<tags:oneControlPanelItem linkhref="#" onclick="javascript:Effect.SlideDown('close-choices');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Close Study" id="closeStudy"/>
+                </c:if>
                 <c:if test="${!empty open}">
                 	<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('open');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
                 </c:if>
@@ -593,28 +599,6 @@
 <div class="content buttons autoclear">
         <div class="flow-buttons">
         <span class="next">
-<c:if test="${not empty editAuthorizationTask}">
-        	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE"
-                                    authorizationCheckName="domainObjectAuthorizationCheck">
-	            <c:if test="${!empty closed}">
-	            	<tags:button type="button" color="blue" value="Close Study" id="closeStudy"
-							onclick="Effect.SlideDown('close-choices')" size="small"/>
-					<div id="close-choices" class="autocomplete" style="display: none">
-						<ul>
-							<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="closeStudy('Closed_To_Accrual_And_Treatment')">Closed To Accrual And Treatment</li>
-							<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="closeStudy('Closed_To_Accrual')">Closed To Accrual</li>
-							<c:if test="${closed == 'Temporarily_Close'}">
-							<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="closeStudy('Temporarily_Closed_To_Accrual_And_Treatment')">Temporarily Closed To Accrual And Treatment</li>
-							<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="closeStudy('Temporarily_Closed_To_Accrual')">Temporarily Closed To Accrual</li>
-							</c:if>
-						</ul>
-						<div align="right"><tags:button type="button" color="red" value="Cancel" icon="x"
-							onclick="Effect.SlideUp('close-choices')" size="small"/></div>
-					</div>
-	            </c:if>
-            </csmauthz:accesscontrol>
-</c:if>
-<br/>
 </span></div></div>
 
 <div id="errorsOpenDiv" style="display:none">
@@ -656,6 +640,11 @@
 <div id="targetAccrualPage" style="display:none;">
 <div id="targetAccrual" >
 <%@ include file="update_target_accrual.jsp"%>
+</div>
+</div>
+<div id="CloseStudyPage" style="display:none;">
+<div id="closeStudyDiv" >
+<%@ include file="close_study.jsp"%>
 </div>
 </div>
 </body>

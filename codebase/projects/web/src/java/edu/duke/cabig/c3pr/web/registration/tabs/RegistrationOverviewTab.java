@@ -13,6 +13,7 @@ import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
@@ -203,12 +204,13 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	}
 	
 	private boolean canChangeEpoch(StudySubject studySubject) {
-		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY ) {
+		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && studySubject.getStudySite().getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
 			return true;
 		}
 		return false;
 	}
 	
+
 	private boolean reconsentRequired(StudySubject studySubject) {
 		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY
 				&& !(studySubject.getInformedConsentVersion()).equals(studySubject
