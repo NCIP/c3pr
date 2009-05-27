@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -84,6 +85,7 @@ public class ConsentVersion extends AbstractMutableDeletableDomainObject{
 	 * @return the date
 	 */
 	@NotNull
+	@Column(name = "date_value")
 	public Date getDate() {
 		return date;
 	}
