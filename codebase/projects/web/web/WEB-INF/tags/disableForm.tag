@@ -1,7 +1,7 @@
 <script type="text/javascript">
 new Element.descendants("main${hasSummary ? '' : '-no-summary'}-pane").each(function(e){
 			e.disabled="true";
-			el.style.opacity='0.99';
+			e.style.opacity='0.99';
 			(e.type=="button"||e.type=="submit"||e.type=="reset")?e.style.backgroundColor="grey":null;
 			if(el.tagName == 'A'){
 				el.href="#";
