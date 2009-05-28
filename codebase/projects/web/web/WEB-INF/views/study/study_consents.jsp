@@ -5,6 +5,14 @@
 		#main {
 			top:33px;
 		}
+		div.row div.newlabel {
+			font-weight: normal;
+			float: left;
+			margin-left: 0.5em;
+			text-align: right; /* default width; pages might override */
+			width: 18em;
+			font-weight:bold;
+		}
 	</style>
     <title><studyTags:htmlTitle study="${command.study}" /></title>
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
@@ -34,12 +42,6 @@
       		}
         };
 
-     function himanshu(object){
-       	
-	
-         }
-
-
      var genericConsentRowInserterProps= {
           	nested_row_inserter: consentVersionInserterProps,
             add_row_division_id: "consent",
@@ -68,7 +70,7 @@
 	<tags:instructions code="study_consent" />
 	<chrome:division>
 		<div class="row">
-			<div class="label"><fmt:message key="study.consentValidityPeriod"/></div>
+			<div class="newlabel"><fmt:message key="study.consentValidityPeriod"/></div>
 			<div class="value">
 				  <form:input path="study.consentValidityPeriod" size="6" cssClass="validate-notEmpty" />
 				  <tags:hoverHint keyProp="study.consentValidityPeriod" />
@@ -134,7 +136,7 @@
       	</c:when>
       	<c:otherwise>
       		<c:forEach items="${consent.consentVersions}" var="version" varStatus="versionStatus">
-	            <tr id="version-${versionStatus.index}">
+	            <tr id="consentVersion-${versionStatus.index}">
 	                <td valign="top">
 	                	<form:input path="study.consents[${consentCount.index}].consentVersions[${versionStatus.index}].name" size="43" cssClass="validate-notEmpty" />
 	                </td>
@@ -187,7 +189,7 @@
 			<input type="text" size="43" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].name" class="validate-notEmpty" />
 		</td>
 		<td valign="top">
-		 	<input type="text" id="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].date" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].date" class="date validate-DATE&&notEmpty" />
+		 	<input type="text" id="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].date" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].date" class="date validate-DATE&&notEmpty" size="18"/>
 		 	    <a href="#" id="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].date-calbutton">
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
