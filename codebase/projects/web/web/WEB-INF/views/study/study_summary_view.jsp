@@ -56,7 +56,7 @@
         <tags:tabMethod method="reloadCompanion" divElement="'companionDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/>
         }
 
-        setCloseStatus(status){
+        function setCloseStatus(status){
         	$('closeStatus').value=closeStatus;
         }
 		function closeStudy(closeStatus){
