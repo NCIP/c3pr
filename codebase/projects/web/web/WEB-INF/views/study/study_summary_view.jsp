@@ -244,10 +244,6 @@
 		<div class="value">${command.study.phaseCode}</div>
 	</div>
 	<div class="row">
-		<div class="label"><fmt:message key="c3pr.common.dataEntryStatus"/>:</div>
-		<div class="value">${command.study.dataEntryStatus.code}</div>
-	</div>
-	<div class="row">
 		<div class="label"><fmt:message key="c3pr.common.status"/>:</div>
 		<div class="value">${command.study.coordinatingCenterStudyStatus.code}</div>
 	</div>
