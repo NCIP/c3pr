@@ -66,6 +66,10 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	#main {
 		top:35px;
 	}
+	
+	.optionClass{
+		background-color:#99FF66;
+	}
 </style>
 </head>
 <body>
@@ -178,6 +182,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	</div>
 <!-- MAIN BODY ENDS HERE -->
 <!--  CONSENT DIV BEGINS -->
+<c:if test="${fn:length(command.studySubject.studySite.study.consents) > 1}">
 <chrome:division title="Consents">
 	<table class="tablecontent">
 		<tr>
@@ -202,7 +207,11 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 				<select id ="consentVersions" name="studySubject.studySubjectConsentVersions[${status.index}].consentVersion" >
 					<option value="">Please select...</option>
 					<c:forEach items="${consent.consentVersions}" var="consentVersion" varStatus="versionStatus">
-						<option value="${consentVersion.id}" selected="selected">${consentVersion.name }</option>
+						<option value="${consentVersion.id}" ${consentVersion.id==command.studySubject.studySubjectConsentVersions[status.index].consentVersion.id?'selected':'' } 
+									<c:if test="${consent.latestConsentVersion.id == consentVersion.id}">class="optionClass"</c:if>>
+								${consentVersion.name} 
+								<c:if test="${consent.latestConsentVersion.id == consentVersion.id}"><B>(Latest version)</B></c:if>
+						</option>
 					</c:forEach>
 				</select>
 			</td>
@@ -213,6 +222,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	</c:forEach>
 	</table>
 </chrome:division>
+</c:if>
 <!-- CONSENT DIV ENDS -->
 </tags:formPanelBox>
 </c:otherwise>
