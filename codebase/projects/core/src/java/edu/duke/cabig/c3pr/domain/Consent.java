@@ -140,6 +140,12 @@ public class Consent extends AbstractMutableDeletableDomainObject {
 	public void setConsentVersions(List<ConsentVersion> consentVersions) {
 		setConsentVersionsInternal(consentVersions);
 	}
-
+	
+	@Transient
+	public ConsentVersion getLatestConsentVersion(){
+		List<ConsentVersion> versions = this.getConsentVersions();
+		int size = versions.size();
+		return versions.get(size - 1);
+	}
 	
 }

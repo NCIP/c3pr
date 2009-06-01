@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -149,6 +150,8 @@ public class ConsentVersion extends AbstractMutableDeletableDomainObject impleme
 	public StudySubjectConsentVersion getStudySubjectConsentVersion() {
 		return studySubjectConsentVersion;
 	}
+	
+
 	
 	
 }
