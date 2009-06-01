@@ -32,7 +32,6 @@
         <dependencies  defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default);distGrid->master(*),runtime(default)"  >
 			<exclude conf="*" name="cglib" />
 			<exclude conf="*" name="asm-attrs" />
-			<exclude conf="*" org="org.apache.xmlgraphics" name="fop" rev="0.93"/>
 			
 			<!-- c3pr module dependencies -->
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-esb-client" rev="latest.integration" 
@@ -67,7 +66,7 @@
 			<dependency org="org.acegisecurity" name="acegi-security" rev="1.0.3" />
         	<dependency org="castor" name="castor" rev="0.9.9"/>
         	<dependency org="jdom" name="jdom" rev="1.0" />
-        	<dependency org="fop" name="fop" rev="0.20.5" />
+        	<dependency org="org.apache.xmlgraphics" name="fop" rev="0.93" />
         	<dependency org="commons-beanutils" name="commons-beanutils" rev="1.7.0" />
         	<dependency org="org.hibernate" name="hibernate" rev="3.2.1.ga">
         		<exclude conf="*" name="cglib" />
