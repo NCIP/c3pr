@@ -129,7 +129,7 @@ a#firstlevelnav_createNotificationController:active { background-position:0px -9
 .selected a#firstlevelnav_createNotificationController { background-image: url(images/administration_btn_selected.png); }
 
 a#firstlevelnav_createReportController {
-	background-image: url(images/advancedSearch_btn.png);
+	background-image: url(images/reports_btn.png);
 	height: 0px;
 	padding:45px 0px 0px 0px;
 	width: 148px;
@@ -139,7 +139,7 @@ a#firstlevelnav_createReportController {
 a#firstlevelnav_createReportController:link { background-position:0px 0px; }
 a#firstlevelnav_createReportController:hover { background-position:0px -45px; }
 a#firstlevelnav_createReportController:active { background-position:0px -90px; }
-.selected a#firstlevelnav_createReportController { background-image: url(images/advancedSearch_btn_selected.png); }
+.selected a#firstlevelnav_createReportController { background-image: url(images/reports_btn_selected.png); }
 
 /* second-level tabs */
 
