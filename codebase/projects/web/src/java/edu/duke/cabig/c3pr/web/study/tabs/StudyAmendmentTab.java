@@ -87,6 +87,14 @@ public class StudyAmendmentTab extends StudyTab {
                 request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(true));
                 sAmendment.setCompanionChangedIndicator(false);
             }
+            
+            if (sAmendment.getConsentChangedIndicator() != null && sAmendment.getConsentChangedIndicator()) {
+                request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(false));
+            } else {
+                request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(true));
+                sAmendment.setConsentChangedIndicator(false);
+            }
+
 
             // Change the status from Open to Pending_amendment.
             try {

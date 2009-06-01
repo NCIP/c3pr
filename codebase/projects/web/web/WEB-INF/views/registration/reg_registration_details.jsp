@@ -1,11 +1,8 @@
 <%@ include file="taglibs.jsp"%>
-        
 <html>
 <head>
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
-
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
 <tags:dwrJavascriptLink objects="anatomicDiseaseSite" />
 <c:set var="hasInv" value="${fn:length(command.studySubject.studySite.activeStudyInvestigators)>0}"/>
 <script>
@@ -16,6 +13,7 @@ function manageField(box){
 		$('otherDisease').style.display="none";
 	}
 }
+
 function managePhysicianField(box){
 	if(box.value=='' && box.selectedIndex!=0){
 		new Effect.Appear('otherTreatingPhysician');
@@ -46,9 +44,6 @@ AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 ValidationManager.submitPostProcess=function(formElement, flag){
 							if(formElement.id!='command' || !flag)
 								return flag;
-							//if($("treatingPhysician").value!=""){
-							//	$('otherTreatingPhysician').value="";
-							//}
 							if(${hasInv} && $("treatingPhysician").value=="" && $("studySubject.otherTreatingPhysician").value==""){
 								ValidationManager.removeError($("studySubject.otherTreatingPhysician"));
 								ValidationManager.showError($("studySubject.otherTreatingPhysician"),"required");
@@ -86,10 +81,10 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	</tags:panelBox>
 </c:when>
 <c:otherwise>
-<%System.out.println("In otherwise"); %>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <%--<tags:instructions code="enrollment_details" />--%>
 	<c:set var="isConsentPresent" value="${!empty command.studySubject.informedConsentVersion && command.studySubject.informedConsentVersion!=''}"></c:set>
+	<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
@@ -114,6 +109,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<div class="label"><fmt:message key="registration.startDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
 	</div>
+	</c:if>
 	<div class="row">
 		<div class="label"><c:if test="${hasInv}"><tags:requiredIndicator /></c:if><fmt:message key="registration.enrollingPhysician"/></div>
 		<div class="value">
@@ -180,9 +176,44 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 			<tags:hoverHint keyProp="studySubject.primaryDisease"/>
 		</div>
 	</div>
-
-
 <!-- MAIN BODY ENDS HERE -->
+<!--  CONSENT DIV BEGINS -->
+<chrome:division title="Consents">
+	<table class="tablecontent">
+		<tr>
+		  <th>
+          	<tags:requiredIndicator /><fmt:message key="c3pr.common.name"/>
+          	<tags:hoverHint keyProp="study.consent.name" />
+          </th>
+          <th>
+          	<fmt:message key="study.consent.consentVersion.name"/>
+          	<tags:hoverHint keyProp="study.consent.consentVersion.name" />
+          </th>
+          <th>
+          	<fmt:message key="registration.consentSignedDate"/>
+          	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
+          </th>
+		</tr>
+		<c:forEach items="${command.studySubject.studySite.study.consents}" var="consent" varStatus="status">
+		<tr>
+			<td>${consent.name}
+			</td>
+			<td>
+				<select id ="consentVersions" name="studySubject.studySubjectConsentVersions[${status.index}].consentVersion" >
+					<option value="">Please select...</option>
+					<c:forEach items="${consent.consentVersions}" var="consentVersion" varStatus="versionStatus">
+						<option value="${consentVersion.id}" selected="selected">${consentVersion.name }</option>
+					</c:forEach>
+				</select>
+			</td>
+			<td>
+				<tags:dateInput path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
+			</td>
+		</tr>
+	</c:forEach>
+	</table>
+</chrome:division>
+<!-- CONSENT DIV ENDS -->
 </tags:formPanelBox>
 </c:otherwise>
 </c:choose>

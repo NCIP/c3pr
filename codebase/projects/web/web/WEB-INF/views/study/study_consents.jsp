@@ -9,8 +9,9 @@
 			font-weight: normal;
 			float: left;
 			margin-left: 0.5em;
+			margin-right: 0.5em;
 			text-align: right; /* default width; pages might override */
-			width: 18em;
+			width: 19em;
 			font-weight:bold;
 		}
 	</style>
@@ -22,6 +23,18 @@
             $(divID).innerHTML = stringValue;
         }
     }
+
+    ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+    	var strHiddenDiv = '' ;
+		$$('.hiddenDiv').each(function(element){
+			if(element.style.display != 'none'){
+				strHiddenDiv = strHiddenDiv + '|' +element.id.substring(element.id.indexOf("-") + 1, element.id.length) ; 
+			}
+		});
+		$('openSections').value = strHiddenDiv ;
+    	return continueSubmission;
+	} 
+
 
     var consentVersionInserterProps= {
             add_row_division_id: "consentVersion",
@@ -64,35 +77,46 @@
 	</script>
 </head>
 <body>
-<form:form>
+<form:form id="consentForm">
+	<input type="hidden" name="openSections" id="openSections"/>
 	<chrome:box title="Consent">
 	<tags:tabFields tab="${tab}" />
-	<tags:instructions code="study_consent" />
+	<tags:instructions code="study_consents" />
 	<chrome:division>
 		<div class="row">
 			<div class="newlabel"><fmt:message key="study.consentValidityPeriod"/></div>
 			<div class="value">
-				  <form:input path="study.consentValidityPeriod" size="6" cssClass="validate-notEmpty" />
+				  <form:input path="study.consentValidityPeriod" size="6" cssClass="validate-NUMERIC" />
 				  <tags:hoverHint keyProp="study.consentValidityPeriod" />
 			</div>
 		</div>
+		<div class="row">
+			<div class="newlabel"><fmt:message key="study.consentRequired"/></div>
+			<div class="value">
+				  <form:select path="study.consentRequired" cssClass="validate-notEmpty" >
+				  	<form:option value="">Please Select...</form:option>
+				  	<form:options items="${consentRequired}" itemLabel="desc" itemValue="code" />
+				  </form:select>
+				  <tags:hoverHint keyProp="study.consentRequired" />
+			</div>
+		</div>
 	</chrome:division>
-
+<br>
 
 <!-- CONSENT TABLE START -->
 <table id="consent" width="100%" border="0">
 	<tr></tr>
-    <c:forEach items="${command.study.consents}" var="consent"  varStatus="consentCount">
+    <c:forEach items="${command.study.consents}" var="consent"  varStatus="consentCount" >
         <tr id="consent-${consentCount.index}">
             <script type="text/javascript">
                 RowManager.getNestedRowInserter(genericConsentRowInserterProps,${consentCount.index}).updateIndex(${fn:length(command.study.consents[consentCount.index].consentVersions)});
             </script>
             <td>
       			<chrome:deletableDivision divTitle="consentTitle-${consentCount.index}" id="consentBox-${consentCount.index}"
-						title="Consent : ${command.study.consents[consentCount.index].name}" minimize="true" divIdToBeMinimized="consentDiv-${consentCount.index}"
+						title="Consent: ${command.study.consents[consentCount.index].name}" minimize="${(fn:contains(openSections, consentCount.index) || fn:length(command.study.consents) == 1)? 'false':'true'}" divIdToBeMinimized="consentDiv-${consentCount.index}"
 						onclick="RowManager.deleteRow(genericConsentRowInserterProps,${consentCount.index},'${consent.id==null?'HC#':'ID#'}${consent.id==null?consent.hashCode:consent.id}')">
 <!-- CONSENT START-->
-<div id="consentDiv-${consentCount.index}" style="display: none">
+<div id="consentDiv-${consentCount.index}"  style="${(fn:contains(openSections,consentCount.index) || fn:length(command.study.consents) == 1) ? '':'display:none'}" class="hiddenDiv">
 <table width="100%" border="0">
 <tr>
   <td valign="top" width="50%">
@@ -101,7 +125,7 @@
           <td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.name"/></b></td>
           <td align="left" valign="top">
               <form:input path="study.consents[${consentCount.index}].name" cssClass="validate-notEmpty"
-											onkeyup="updateName('consentTitle-${consentCount.index}', 'Consent : ' + this.value);" />
+											onkeyup="updateName('consentTitle-${consentCount.index}', 'Consent: ' + this.value);" size="35"/>
 			  <tags:hoverHint id="study.consent.name-${consentCount.index}" keyProp="study.consent.name" />
           </td>
       </tr>
@@ -138,13 +162,13 @@
       		<c:forEach items="${consent.consentVersions}" var="version" varStatus="versionStatus">
 	            <tr id="consentVersion-${versionStatus.index}">
 	                <td valign="top">
-	                	<form:input path="study.consents[${consentCount.index}].consentVersions[${versionStatus.index}].name" size="43" cssClass="validate-notEmpty" />
+	                	<form:input path="study.consents[${consentCount.index}].consentVersions[${versionStatus.index}].name" size="25" cssClass="validate-notEmpty" />
 	                </td>
 	                <td valign="top">
 	                	<tags:dateInput path="study.consents[${consentCount.index}].consentVersions[${versionStatus.index}].date" cssClass="validate validate-DATE&&notEmpty" />
 	                </td>
 	                <td valign="top" align="left">
-	                	<form:radiobutton path="study.consents[${consentCount.index}].consentVersions[${versionStatus.index}].latestIndicator" />
+	                	<form:checkbox cssClass="latestCheck-${consentCount.index}" path="study.consents[${consentCount.index}].consentVersions[${versionStatus.index}].latestIndicator"></form:checkbox>
 					</td>
 	                <td valign="top" align="left">
 	                    <a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(genericConsentRowInserterProps,${consentCount.index}),${versionStatus.index },'${version.id==null?'HC#':'ID#'}${version.id==null?version.hashCode:version.id}');">
@@ -186,7 +210,7 @@
 <table id="consentVersion" class="tablecontent" width="50%">
 	<tr>
 		<td valign="top">
-			<input type="text" size="43" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].name" class="validate-notEmpty" />
+			<input type="text" size="25" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].name" class="validate-notEmpty" />
 		</td>
 		<td valign="top">
 		 	<input type="text" id="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].date" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].date" class="date validate-DATE&&notEmpty" size="18"/>
@@ -196,7 +220,7 @@
 			
 		</td>
 		<td valign="top">
-			<input type="radio" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].latestIndicator" class="latestIndicator[PAGE.ROW.INDEX]"/>
+			<input type="checkbox" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].latestIndicator" class="latestIndicator[PAGE.ROW.INDEX]"/>
 		</td>
 		<td valign="top" align="left"><a
 			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(genericConsentRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);"><img
@@ -209,15 +233,16 @@
 <table width="100%">
 	<tr valign="top">
 		<td>
-			<chrome:deletableDivision divTitle="divConsentBox-PAGE.ROW.INDEX" id="genericConsentBox-PAGE.ROW.INDEX" title="Consent : " onclick="RowManager.deleteRow(genericConsentRowInserterProps,PAGE.ROW.INDEX,-1)">
+			<chrome:deletableDivision divTitle="divConsentBox-PAGE.ROW.INDEX" id="genericConsentBox-PAGE.ROW.INDEX" title="Consent: " onclick="RowManager.deleteRow(genericConsentRowInserterProps,PAGE.ROW.INDEX,-1)">
+			<div class="hiddenDiv" id="consentDiv-PAGE.ROW.INDEX">
 			<table style="border: 0px red dotted;" width="100%">
 				<tr>
 					<td valign="top" width="50%">
-					<table width="100%" border="0" cellspacing="4" cellpadding="2">
+					<table width="50%" border="0" cellspacing="4" cellpadding="2">
 						<tr>
 							<td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.name"/></b></td>
-							<td align="left"><input type="text" name="study.consents[PAGE.ROW.INDEX].name" size="43" class="validate-notEmpty"
-								onkeyup="updateName('divConsentBox-PAGE.ROW.INDEX', 'Consent : ' + this.value);" />
+							<td align="left"><input type="text" name="study.consents[PAGE.ROW.INDEX].name" class="validate-notEmpty"
+								onkeyup="updateName('divConsentBox-PAGE.ROW.INDEX', 'Consent: ' + this.value);" size="35"/>
 								<tags:hoverHint id="study.consent.name-PAGE.ROW.INDEX" keyProp="study.consent.name" /></td>
 						</tr>
 					</table>
@@ -248,11 +273,13 @@
 				</tr>
 
 			</table>
+			</div>
 			
 
 			<!-- GENERIC END-->
 		</chrome:deletableDivision></td>
 	</tr>
+	
 </table>
 </div>
 

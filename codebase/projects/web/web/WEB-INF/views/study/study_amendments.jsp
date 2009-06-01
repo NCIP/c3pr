@@ -4,44 +4,19 @@
 <head>
     <title><studyTags:htmlTitle study="${command.study}" /></title>
 <jwr:script src="/js/tabbedflow.js" />
-
+<style>
+#main {
+	top:33px;
+}
+</style>
 <script>
-	Calendar.setup({inputField:"study.consentVersionx", ifFormat:"%", button:"consentVersionx-calbutton"});
-    Calendar.setup({inputField:"stud.consentVersiony", ifFormat:"%", button:"consentVersiony-calbutton"});
-	
-	Effect.OpenUp = function(element) {
-        element = $(element);
-        new Effect.BlindDown(element, arguments[1] || {});
-    }
-
-    Effect.CloseDown = function(element) {
-        element = $(element);
-        new Effect.BlindUp(element, arguments[1] || {});
-    }
-        
-    function manageConsentVersionCheckBox(box, num){
-    	if (box.checked) {
-    		if(num == 1){
-    			Effect.OpenUp('study.consentVersion1');
-    		}else {
-    			Effect.OpenUp('study.consentVersion2');
-    		}            
-        }else {
-        	if(num == 1){
-    			Effect.CloseDown('study.consentVersion1');
-    		}else {
-    			Effect.CloseDown('study.consentVersion2');
-    		}             
-        }
-    }    
-    
-    ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+	   ValidationManager.submitPostProcess= function(formElement, continueSubmission){
        
        if(formElement.id="command.study"){
-             box1=document.getElementById('study.currentStudyAmendment.amendmentVersion');
-             box2=document.getElementById('study.currentStudyAmendment.amendmentDate');
-             box3=document.getElementById('study.amendmentVersion');
-             box4=document.getElementById('study.amendmentDate');
+             box1=$('study.currentStudyAmendment.amendmentVersion');
+             box2=$('study.currentStudyAmendment.amendmentDate');
+             box3=$('study.amendmentVersion');
+             box4=$('study.amendmentDate');
            
              if(box1 != null){
              	if(box1.value != ''){
@@ -64,22 +39,20 @@
              	}
              }
              
-             elmt1 = document.getElementById('errorMsg1');
+             elmt1 = $('errorMsg1');
              if(elmt1 != null){
              	elmt1.style.display='';
              } else {
-             	document.getElementById('errorMsg2').style.display='';
+             	$('errorMsg2').style.display='';
              }
          	return false;            
          }         
      } 
 </script>
 </head>
-
 <body>
 <chrome:box title="Amendments">
-<br/>	
-<chrome:division id="study-details" title="Previous Amendments">
+<chrome:division id="study-amendments" title="Previous Amendments">
 	<table id="study.studyAmendments" class="tablecontent">
 			<tr>
 				<th><fmt:message key="study.amendmentVersion"/></th>
@@ -87,38 +60,30 @@
 				<th><fmt:message key="c3pr.common.comments"/></th>
 			</tr>
 			<c:forEach items="${command.study.previousStudyAmendments}"  var="studyAmendments" varStatus="status">
-			<tr id="study.studyAmendments-${status.index}">
-				<td>${studyAmendments.amendmentVersion}</td>
-				<td>${studyAmendments.amendmentDateStr}</td>
-				<td>${studyAmendments.comments}</td>
-			</tr>
+				<tr id="study.studyAmendments-${status.index}">
+					<td>${studyAmendments.amendmentVersion}</td>
+					<td>${studyAmendments.amendmentDateStr}</td>
+					<td>${studyAmendments.comments}</td>
+				</tr>
 			</c:forEach>
 	</table>
 	<br />
 </chrome:division>
 </chrome:box>
-
-
-
 <c:choose>
 <c:when test="${command.study.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
-
-	
 	<form:form name="myform" cssClass="standard">
 	<tags:tabFields tab="${tab}"/>
-
 		<input type="hidden" name="_actionx" value="_actionx"/>
 		<input type="hidden" id="_selected" name="_selected" value=""/>
 		<input type="hidden" id="_selectedSite" name="_selectedSite" value=""/>
-		<br/>
 		<chrome:box title="New Amendment">
-		<chrome:division id="study-details" title="Basic Details">
+		<chrome:division id="study-amendments" title="Basic Details">
 		<div class="row">
 			<div id="errorMsg1" style="display:none">
 				<span id='sid1' style='color:#EE3324'>Please enter the Version# or Amendment Date.</span><br/> 	
 			</div>
 		</div>
-		
     	<div class="row">
             <div class="label"><fmt:message key="study.amendmentVersion"/></div>
             <div class="value">
@@ -139,9 +104,7 @@
             </div>
         </div> 
         </chrome:division>
-        <br/>
-        
-        <chrome:division id="study-details" title="Reasons for Amendment (Atleast One)">
+        <chrome:division id="study-amendments" title="Reasons for Amendment (Atleast One)">
         <table>
         	<tr>
         		<td width="25%"><b><fmt:message key="study.epoch&Arms"/></b></td>
@@ -199,7 +162,7 @@
 		<br/>
 		<chrome:box title="New Amendment">
 		
-		<chrome:division id="study-details" title="Basic Details">
+		<chrome:division id="study-amendments" title="Basic Details">
 		<div class="row">
 			<div id="errorMsg2" style="display:none">
 				<span id='sid2' style='color:#EE3324'>Please enter the Version# or Amendment Date.</span><br/> 	
@@ -229,41 +192,47 @@
         </chrome:division>
         <br/>
         
-        <chrome:division id="study-details" title="Reasons for Amendment (Atleast One)">
-        <table>
-        	<tr>
-        		<td width="25%"><b><fmt:message key="study.epoch&Arms"/></b></td>
-        		<td width="25%"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].eaChangedIndicator" value="true"/></td>        		
-        		<td width="25%"><b><fmt:message key="study.eligibility"/></b></td>
-        		<td width="25%"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].eligibilityChangedIndicator" value="true"/></td>
-        	</tr>
-        	<tr>
-        		<td><b><fmt:message key="study.stratification"/></b></td>
-        		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].stratChangedIndicator" value="true"/></td>
-        		<td><b><fmt:message key="study.diseases"/></b></td>
-        		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].diseasesChangedIndicator" value="true"/></td>
-        	</tr>
-        	<tr>
-        		<td><b><fmt:message key="study.randomization"/></b></td>
-        		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].randomizationChangedIndicator" value="true"/></td>
-        		<td><b><fmt:message key="study.principalInvestigator"/></b></td>
-        		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].piChangedIndicator" value="true"/></td>
-        	</tr>
-        	<tr>
-        		<td><b><fmt:message key="study.consent"/></b></td>
-        		<td><input type="checkbox" name="study.studyAmendments[${amendmentSize}].consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 2);"/></td>
-				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><b><fmt:message key="study.companionStudy"/></b></td>
-				<td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><input type="checkbox" name="study.studyAmendments[${amendmentSize}].companionChangedIndicator" value="true"/></td>        	
-			</tr>
-        </table> 
-
-        <div id="study.consentVersion2" style="display:none;">
-         <b>&nbsp;<fmt:message key="study.consentVersionDate"/></b>
-         <input type="text" name="study.studyAmendments[${amendmentSize}].consentVersion" id="study.consentVersiony" size="9" value="${command.study.consentVersion}" class="date"/>
-         <a href="#" id="consentVersiony-calbutton">
-		    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-		</a>
-        </div>       
+        <chrome:division id="study-amendments" title="Reasons for Amendment (Atleast One)">
+        <div>
+        <div class="leftpanel">
+        	<div class="row">
+        		<div class="label"><fmt:message key="study.epoch&Arms"/></div>
+		       	<div class="value"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].eaChangedIndicator" value="true"/></div>
+	       	</div>
+	       	<div class="row">
+        		<div class="label"><fmt:message key="study.stratification"/></div>
+		       	<div class="value"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].stratChangedIndicator" value="true"/></div>
+	       	</div>
+	       	<div class="row">
+        		<div class="label"><fmt:message key="study.randomization"/></div>
+		       	<div class="value"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].randomizationChangedIndicator" value="true"/> </div>
+	       	</div>
+	       	<div class="row">
+        		<div class="label"><fmt:message key="study.consent"/></div>
+		       	<div class="value"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].consentChangedIndicator" value="true"/></div>
+	       	</div>
+        
+       	</div>
+       	<div class="rightpanel">
+        	<div class="row">
+        		<div class="label"><fmt:message key="study.eligibility"/></div>
+		       	<div class="value"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].eligibilityChangedIndicator" value="true"/></div>
+	       	</div>
+	       	<div class="row">
+        		<div class="label"><fmt:message key="study.diseases"/></div>
+		       	<div class="value"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].diseasesChangedIndicator" value="true"/></div>
+	       	</div>
+	       	<div class="row">
+        		<div class="label"><fmt:message key="study.principalInvestigator"/></div>
+		       	<div class="value"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].piChangedIndicator" value="true"/></div>
+	       	</div>
+	       	<div class="row"  <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
+        		<div class="label"><fmt:message key="study.companionStudy"/></div>
+		       	<div class="value"><input type="checkbox" name="study.studyAmendments[${amendmentSize}].companionChangedIndicator" value="true"/></div>
+	       	</div>
+       	</div>
+        </div> 
+		<div class="division"></div>
         </chrome:division>
 	</chrome:box>
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>  
