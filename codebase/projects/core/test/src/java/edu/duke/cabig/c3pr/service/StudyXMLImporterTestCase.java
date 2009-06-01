@@ -105,10 +105,6 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 							.setValue("pqr" + i);
 			}
 			
-			// clear the session;
-			
-			
-		
 			String[] xmlStudy = (marshaller.toXML(study)).split(">", 2);
 			String studyXml = xmlStudy[0] + "><studies>" + xmlStudy[1]
 					+ "</studies> ";
