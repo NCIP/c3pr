@@ -22,6 +22,18 @@
     <bean id="ccts-study-castor-mapping" class="java.lang.String">
         <constructor-arg value="ccts-study-castor-mapping.xml"/>
     </bean>
+    
+    <!-- Report castor mapping xml -->
+    
+    <bean id="summary-3-report-castor-mapping" class="java.lang.String">
+        <constructor-arg value="summary-3-report-castor-mapping.xml"/>
+    </bean>
+    
+    <!--  Summary Report Generator -->
+    
+    <bean id="summary3ReportGenerator" class="edu.duke.cabig.c3pr.xml.Summary3ReportGenerator">
+    
+    </bean>
 
     <!--Transaction support-->
     <bean id="transactionManager"
@@ -482,6 +494,7 @@
 	<bean id="plannedNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.PlannedNotificationDao" autowire="byName"/>
 	<bean id="scheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledNotificationDao" autowire="byName"/>
 	<bean id="recipientScheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao" autowire="byName"/>
+	<bean id="summary3ReportDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.Summary3ReportDao" autowire="byName"/>
 	
 	
 	<!-- Multisite Request Handlers -->
@@ -541,6 +554,12 @@
           class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl"
           autowire="byName">
           <property name="marshaller" ref="studyXmlUtility"/>
+    </bean>
+    
+    <bean id="summaryReportService" lazy-init="true"
+          class="edu.duke.cabig.c3pr.service.impl.SummaryReportServiceImpl"
+          autowire="byName">
+          <property name="marshaller" ref="summaryReportXmlUtility"/>
     </bean>
 
     <bean id="studySubjectXMLImporterService" lazy-init="true"
@@ -603,6 +622,11 @@
 	<!-- Factories -->
 	<bean id="studyFactory" lazy-init="true" class="edu.duke.cabig.c3pr.domain.factory.StudyFactory"
           autowire="byName"/>
+          
+    <bean id="summary3ReportFactory" lazy-init="true" class="edu.duke.cabig.c3pr.domain.factory.Summary3ReportFactory"
+          autowire="byName"/>
+          
+          
           
           
     <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
@@ -681,9 +705,16 @@
     <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="c3pr-registration-xml-castor-mapping"/>
     </bean>
+    
+    <bean id="summaryReportXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="summary-3-report-castor-mapping"/>
+    </bean>
 
     <bean id="xmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
         <constructor-arg value="c3pr-domain.xsd"/>
+    </bean>
+    <bean id="summaryReportXmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
+        <constructor-arg value="summary-report.xsd"/>
     </bean>
     <bean id="c3prErrorMessages" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="error_messages_c3pr"/>
