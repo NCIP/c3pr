@@ -70,6 +70,9 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	.optionClass{
 		background-color:#99FF66;
 	}
+	.optionClass i {
+	font-style:italic;
+	}
 </style>
 </head>
 <body>
@@ -190,12 +193,12 @@ ValidationManager.submitPostProcess=function(formElement, flag){
           	<tags:requiredIndicator /><fmt:message key="c3pr.common.name"/>
           	<tags:hoverHint keyProp="study.consent.name" />
           </th>
-          <th>
-          	<fmt:message key="study.consent.consentVersion.name"/>
+          <th width="30%">
+          	<tags:requiredIndicator /><fmt:message key="study.consent.consentVersion.name"/>
           	<tags:hoverHint keyProp="study.consent.consentVersion.name" />
           </th>
           <th>
-          	<fmt:message key="registration.consentSignedDate"/>
+          	<tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/>
           	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
           </th>
 		</tr>
@@ -204,19 +207,19 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 			<td>${consent.name}
 			</td>
 			<td>
-				<select id ="consentVersions" name="studySubject.studySubjectConsentVersions[${status.index}].consentVersion" >
+				<select id ="consentVersions" name="studySubject.studySubjectConsentVersions[${status.index}].consentVersion" class="validate-notEmpty">
 					<option value="">Please select...</option>
 					<c:forEach items="${consent.consentVersions}" var="consentVersion" varStatus="versionStatus">
 						<option value="${consentVersion.id}" ${consentVersion.id==command.studySubject.studySubjectConsentVersions[status.index].consentVersion.id?'selected':'' } 
 									<c:if test="${consent.latestConsentVersion.id == consentVersion.id}">class="optionClass"</c:if>>
 								${consentVersion.name} 
-								<c:if test="${consent.latestConsentVersion.id == consentVersion.id}"><em>(Latest version)</em></c:if>
+								<c:if test="${consent.latestConsentVersion.id == consentVersion.id}"><i>(Latest version)</i></c:if>
 						</option>
 					</c:forEach>
 				</select>
 			</td>
 			<td>
-				<tags:dateInput path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
+				<tags:dateInput path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" cssClass="validate-notEmpty"/>
 			</td>
 		</tr>
 	</c:forEach>
