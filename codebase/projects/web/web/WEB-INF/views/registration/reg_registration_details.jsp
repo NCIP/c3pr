@@ -210,7 +210,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 						<option value="${consentVersion.id}" ${consentVersion.id==command.studySubject.studySubjectConsentVersions[status.index].consentVersion.id?'selected':'' } 
 									<c:if test="${consent.latestConsentVersion.id == consentVersion.id}">class="optionClass"</c:if>>
 								${consentVersion.name} 
-								<c:if test="${consent.latestConsentVersion.id == consentVersion.id}"><B>(Latest version)</B></c:if>
+								<c:if test="${consent.latestConsentVersion.id == consentVersion.id}"><em>(Latest version)</em></c:if>
 						</option>
 					</c:forEach>
 				</select>
