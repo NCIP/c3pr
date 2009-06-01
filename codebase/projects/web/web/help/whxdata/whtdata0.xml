@@ -75,7 +75,7 @@
   <item name="Configure C3PR" url="admin_configure.htm" />
   <item name="Configure Password Policy" url="password_policy_configure.htm" />
 </book>
-<book name="Advanced Search" url="report_createReport.htm" >
+<book name="Reporting" url="report_createReport.htm" >
   <item name="Search Registration" url="report_createReport.htm" />
   <item name="Search Study" url="report_createStudyReport.htm" />
 </book>
