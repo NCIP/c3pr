@@ -27,11 +27,15 @@ import org.hibernate.validator.NotNull;
 @Table(name = "consent_versions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "CONSENT_VERSIONS_ID_SEQ") })
-public class ConsentVersion extends AbstractMutableDeletableDomainObject{
+public class ConsentVersion extends AbstractMutableDeletableDomainObject implements Comparable<ConsentVersion>{
 
 	public ConsentVersion(){
 		this.setLatestIndicator(false);
 	}
+	
+	 public int compareTo(ConsentVersion consentVersion) {
+	    return this.date.compareTo(consentVersion.getDate());
+	 }
 	
 	
 	/** The consent version name. */

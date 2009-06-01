@@ -6,7 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -29,6 +32,29 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "CONSENTS_ID_SEQ") })
 public class Consent extends AbstractMutableDeletableDomainObject {
 	
+	/** The study. */
+	private Study study;
+	
+	/**
+	 * Gets the study.
+	 * 
+	 * @return the study
+	 */
+	@ManyToOne
+    @JoinColumn(name = "study_id", nullable = false)
+	public Study getStudy() {
+		return study;
+	}
+
+	/**
+	 * Sets the study.
+	 * 
+	 * @param study the new study
+	 */
+	public void setStudy(Study study) {
+		this.study = study;
+	}
+
 	/** The consent name. */
 	private String name;
 	
@@ -69,6 +95,7 @@ public class Consent extends AbstractMutableDeletableDomainObject {
 	 */
 	@OneToMany(mappedBy = "consent", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OrderBy ("date")
 	public List<ConsentVersion> getConsentVersionsInternal() {
 		return lazyListHelper.getInternalList(ConsentVersion.class);
 	}

@@ -198,7 +198,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		}
 		
 		getHibernateTemplate().initialize(study.getConsentsInternal());
-		
+		for (Consent consent : study.getConsents()) {
+			getHibernateTemplate().initialize(consent.getConsentVersionsInternal());
+		}
 		
 	}
     

@@ -78,6 +78,7 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 	 * 
 	 * @return the study subject
 	 */
+	
 	@ManyToOne
 	@JoinColumn(name="stu_sub_id", nullable=false)
     @Cascade( { CascadeType.LOCK})
