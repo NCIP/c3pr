@@ -25,7 +25,7 @@ var MENU_ITEMS = [
             ['Import Registration', null, null],
             ['Configure C3PR', null, null]
         ],
-        ['Advanced Search', 'http://www.usa.gov', null,
+        ['Reporting', 'http://www.usa.gov', null,
             ['Search Registration', null, null],
             ['Search Study', null, null]
         ]
