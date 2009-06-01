@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.utils;
+/*package edu.duke.cabig.c3pr.utils;
 
 
 //Java
@@ -22,9 +22,9 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.messaging.MessageHandler;
 
 public class xmlToPDFConverter {
-    /**
+    *//**
      * Logger for this class
-     */
+     *//*
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(xmlToPDFConverter.class);
 
     public xmlToPDFConverter() {
@@ -191,3 +191,4 @@ public class xmlToPDFConverter {
     }
 
 }
+*/
