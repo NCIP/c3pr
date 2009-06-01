@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.security;
 
-import org.apache.fop.fo.properties.SrcMaker;
-
 import gov.nih.nci.security.util.StringEncrypter;
 import junit.framework.TestCase;
 
