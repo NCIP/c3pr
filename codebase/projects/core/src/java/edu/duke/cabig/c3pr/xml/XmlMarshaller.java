@@ -25,6 +25,8 @@ import org.xml.sax.InputSource;
 public class XmlMarshaller implements Marshaller, Unmarshaller {
 
     private Logger log = Logger.getLogger(XmlMarshaller.class.getName());
+    
+    private 
 
     gov.nih.nci.common.util.caCOREMarshaller marshaller;
 
