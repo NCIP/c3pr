@@ -86,7 +86,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     }
 
     /**
-	 * Advanced search.
+	 * Reporting.
 	 * 
 	 * @param registration
 	 *            the registration
@@ -166,7 +166,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     }
 
     /*
-     * This is the advanced search method used for Study Reports generation.
+     * This is the Reporting method used for Study Reports generation.
      */
     /**
 	 * Advanced study search.
@@ -452,6 +452,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     
     /**
 	 * Gets the incomplete registrations.
+     * @param studySubject2 
 	 * 
 	 * @param registration
 	 *            the registration
@@ -576,6 +577,24 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     public void save(StudySubject obj) {
         getHibernateTemplate().saveOrUpdate(obj);
     }
+    
+    
+    /*public List<Integer> getStudySubjectIdsWithPendingScheduedEpochs(){
+    	ScrollableResults regIds;
+    	Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+    	String queryString = "select study_subjects.id as id from study_subjects join scheduled_epochs on " +
+    			"(study_subjects.id = scheduled_epochs.spa_id) and scheduled_epochs.sc_epoch_workflow_status='PENDING'";
+
+
+    	SQLQuery sqlQuerry =session.createSQLQuery(queryString);
+    	
+    	regIds =sqlQuerry.scroll();
+    	for(int i=0;i++)
+    	while(regIds.scroll(i)){
+    		
+    	}
+    	return regIds;
+    }*/
 
     /**
 	 * Merge.

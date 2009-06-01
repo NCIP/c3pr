@@ -7,6 +7,8 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -63,5 +65,12 @@ public class AnatomicSiteDao extends GridIdentifiableDao<AnatomicSite> {
     	Criteria anatomicSiteCriteria = getSession().createCriteria(AnatomicSite.class);
     	anatomicSiteCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
     	return (List<AnatomicSite>)anatomicSiteCriteria.add(example).list();
+    }
+    
+    public List<AnatomicSite> getAllOrderedByName(){
+    	Criteria anatomicSiteCriteria =getSession().createCriteria(AnatomicSite.class);
+    	anatomicSiteCriteria.addOrder(Order.asc("name"));
+    	anatomicSiteCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+    	return anatomicSiteCriteria.list();
     }
 }
