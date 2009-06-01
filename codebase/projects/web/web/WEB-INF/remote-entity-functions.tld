@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+
+  <description>Remote Entity functions library</description>
+  <display-name>Remote Entity functions </display-name>
+  <tlib-version>1.1</tlib-version>
+  <short-name>remoteentityfn</short-name>
+  <uri>http://gforge.nci.nih.gov/projects/c3prv2/taglibs/remote-entity-functions</uri>
+
+  <function>
+    <description>
+     Get if the property is a remote property
+    </description>
+    <name>getIfRemoteProperty</name>
+    <function-class>edu.duke.cabig.c3pr.utils.XMLUtils</function-class>
+    <function-signature>java.lang.Boolean getIfRemoteProperty(edu.duke.cabig.c3pr.domain.RemoteResearchStaff ,java.lang.String )</function-signature>
+  </function>
+</taglib>
