@@ -266,6 +266,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/report/createStudyReport.*"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+        <entry key="/pages/report/summary3Report.*"
+        	    value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>	
+       <!-- 	<entry key="/pages/report/pDFReader"  
+			value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />  -->
 
 		<entry key="/pages/admin/viewInbox.*"
                value="edu.duke.cabig.c3pr.domain.Participant:READ"/>

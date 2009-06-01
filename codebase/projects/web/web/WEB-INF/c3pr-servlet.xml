@@ -135,6 +135,12 @@
         <property name="formView" value="report/study_search_report"/>
         <property name="successView" value="report/study_search_report"/>
     </bean>
+  <bean name="/report/summary3Report" id="summary3ReportController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.Summary3ReportController"
+          autowire="byName">
+  </bean>
+  <!--    <bean name="/report/pDFReader" id="pDFReaderController" autowire="byType"
+	class="edu.duke.cabig.c3pr.web.report.PDFReaderController"/>   -->
     <!-- mapping for REPORT task -->
 
 	<!-- mapping for NOTIFICATIONS task  -->
@@ -752,7 +758,7 @@
                 </bean>
                 <bean 
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Advanced Search"
+                        autowire="byType" p:displayName="Reporting"
                         p:mainController="createReportController">
                     <property name="pathMapping" value="/report/**"/>
                     <property name="tasks">
@@ -765,6 +771,10 @@
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Search Study"
                                     p:linkName="createStudyReportController"/>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Summary 3 Report"
+                                    p:linkName="summary3ReportController"/> 
                         </list>
                     </property>
                 </bean>
