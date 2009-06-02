@@ -93,6 +93,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
+        studyCreationHelper.addConsentWithVersion(study);
         study = studyRepository.createStudy(study);
         interruptSession();
         study = studyDao.getById(study.getId());
@@ -120,6 +121,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
+        studyCreationHelper.addConsentWithVersion(study);
         studyDao.save(study);
         interruptSession();
         studyRepository.openStudy(study.getIdentifiers());
@@ -398,6 +400,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
     private Study getPersistedStudy() {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
+        studyCreationHelper.addConsentWithVersion(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         study = studyRepository.createStudy(study);
         interruptSession();
