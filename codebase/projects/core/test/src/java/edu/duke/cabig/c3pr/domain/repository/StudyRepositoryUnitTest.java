@@ -16,8 +16,6 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -92,6 +90,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         ((StudyRepositoryImpl) studyRepository).setC3PRExceptionHelper(c3PRExceptionHelper);
         study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
+        studyCreationHelper.addConsentWithVersion(study);
         studySite = study.getStudySites().get(0);
         list = new ArrayList<Study>();
         list.add(study);
