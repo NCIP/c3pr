@@ -1021,6 +1021,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	ConsentVersion consentVersion = study.getConsents().get(0).getConsentVersions().get(0);
     	StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
     	studySubjectConsentVersion.setConsentVersion(consentVersion);
+    	studySubjectConsentVersion.setInformedConsentSignedDate(new Date());
     	
     	studySubject.addStudySubjectConsentVersion(studySubjectConsentVersion);
     	
