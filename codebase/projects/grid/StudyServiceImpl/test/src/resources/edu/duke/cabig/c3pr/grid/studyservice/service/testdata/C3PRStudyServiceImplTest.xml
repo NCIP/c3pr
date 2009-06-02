@@ -200,4 +200,6 @@
     
     <CONTACT_MECHANISMS id="1000" version="1" />
     <prt_org_associations version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
+     <CONSENTS study_id="1000" name="name" id="1001" mandatory_indicator="0" retired_indicator = "false" />
+    <CONSENT_VERSIONS consent_id="1001" name="name" id="1000" date_value="01-01-2000" latest_indicator="0"/>
 </dataset>
