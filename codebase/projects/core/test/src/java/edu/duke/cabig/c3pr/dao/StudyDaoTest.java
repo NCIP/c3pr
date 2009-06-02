@@ -1676,7 +1676,7 @@ public class StudyDaoTest extends DaoTestCase {
 		
 		Consent consent = new Consent();
 		consent.setName("Name");
-		loadedStudy.getConsents().add(consent);
+		loadedStudy.addConsent(consent);
 		
 		dao.save(loadedStudy);
 		interruptSession();
@@ -1697,7 +1697,7 @@ public class StudyDaoTest extends DaoTestCase {
 		consentVersion.setDate(new Date());
 		consent.addConsentVersion(consentVersion);
 		
-		loadedStudy.getConsents().add(consent);
+		loadedStudy.addConsent(consent);
 		
 		dao.save(loadedStudy);
 		interruptSession();
