@@ -198,6 +198,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
+        studyCreationHelper.addConsentWithVersion(study);
         study = studyRepository.createStudy(study);
         interruptSession();
         study=studyDao.getById(study.getId());;
