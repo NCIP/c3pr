@@ -4,12 +4,40 @@
 <head>
     <title>Manage Investigator</title>
    <tags:dwrJavascriptLink objects="SearchInvestigatorAjaxFacade"/>
+     <tags:dwrJavascriptLink objects="OrganizationAjaxFacade"/>
    <style type="text/css">
         div.content {
             padding: 5px 15px;
         }
    </style>
     <script type="text/javascript">
+
+     var sponsorSiteAutocompleterProps = {
+            basename: "healthcareSite",
+            populator: function(autocompleter, text) {
+            	$('healthcareSite-indicator').style.display='';
+                OrganizationAjaxFacade.matchHealthcareSites(text,function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+            	if(obj.externalId != null){
+            		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
+            	} else {
+            		image = '';
+            	}
+
+            	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+            },
+            afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+	    							$('healthcareSite-indicator').style.display='none';
+			 }
+        }
+
+     AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
+    
         function buildTable(form) {
         	params = new Array(3);
 			var parameterMap = getParameterMap(form);
@@ -17,6 +45,7 @@
             params[0] = document.getElementById("firstName").value;
             params[1] = document.getElementById("lastName").value;
             params[2] = document.getElementById("nciIdentifier").value;
+            params[3] = document.getElementById("healthcareSite-hidden").value;
             
             SearchInvestigatorAjaxFacade.getTable(parameterMap, params, showTable);
         }
@@ -88,7 +117,21 @@
                     <tags:hoverHint keyProp="healthcareSiteInvestigator.nciIdentifier"/>
                 </div>
             </div>
-
+			<div class="row">
+                <div class="label">
+                    <fmt:message key="c3pr.common.organization"/>
+                </div>
+                <div class="value">
+                	 <input type="hidden" id="healthcareSite-hidden"
+					name="healthcareSite" value="${command.healthcareSite.id}" /> <input
+					id="healthcareSite-input" size="60" type="text" name="xyz"
+					value="${command.healthcareSite.name}"
+					class="autocomplete validate-notEmpty" /> 
+                    <tags:hoverHint keyProp="healthcareSiteInvestigator.organization"/>
+                    <img id="healthcareSite-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
+				<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
+                </div>
+            </div>
             <div class="row">
                 <div class="value">
                     <tags:button type="button" icon="search" size="small" color="blue" value="Search" onclick="$('search-indicator').style.display='';buildTable('searchForm');"/>

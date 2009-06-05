@@ -124,7 +124,6 @@
 					class="autocomplete validate-notEmpty" /> 
                     <tags:hoverHint keyProp="researchStaff.organization"/>
                     <img id="healthcareSite-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
-					<img id="healthcareSite-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
 				<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
                 </div>
             </div>

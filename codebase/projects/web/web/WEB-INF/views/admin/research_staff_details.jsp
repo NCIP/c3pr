@@ -128,6 +128,7 @@
 <input type="hidden" name="_selected" value="">
 <input type="hidden" name="_finish" value="true">
 <tags:instructions code="research_staff_details" />
+<tags:errors path="*"/>
 <chrome:division id="site" title="Organization">
         <div class="row">
             <div class="label"><tags:requiredIndicator />

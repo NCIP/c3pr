@@ -92,7 +92,7 @@ div.content {
 		<input type="hidden" name="_action" value="">
 		<input type="hidden" name="_selected" value="">
 		<tags:instructions code="organization_details" />
-
+		<tags:errors path="*"/>
 		<chrome:division id="organization" title="Details">
 
 			<div class="row">

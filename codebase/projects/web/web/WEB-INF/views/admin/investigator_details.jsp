@@ -104,7 +104,6 @@ function submitForm(){
 <body>
 
 <div id="main">
-
 <c:choose>
 	<c:when test="${command.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
 		<c:set var="imageStr" value="&nbsp;<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='22' height='21' border='0' align='middle'/>"/>
@@ -122,57 +121,7 @@ function submitForm(){
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
-
-<chrome:division id="site" title="Organization">
-	<table class="tablecontent" width="60%" border="0" cellspacing="0" id="invesitgatorTable" cellpadding="0">
-		<tr>
-			<th class="label" scope="col" align="left"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.organization"/></b><tags:hoverHint keyProp="healthcareSiteInvestigator.organization"/></th>
-			<th class="label" scope="col" align="left"><tags:requiredIndicator /><b><fmt:message key="investigator.investigatorStatus"/></b><tags:hoverHint keyProp="healthcareSiteInvestigator.statusCode"/></th>
-			<th>&nbsp;</th>
-		</tr>
-
-        <c:forEach items="${command.healthcareSiteInvestigators}" var="hcsInv" varStatus="status">
-			<tr id="invesitgatorTable-${status.index}">
-				<td class="alt"><input type="hidden"
-					id="healthcareSite${status.index}-hidden"
-					name="healthcareSiteInvestigators[${status.index}].healthcareSite"
-					value="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}" />
-					<c:choose>
-						<c:when test="${command.healthcareSiteInvestigators[status.index].healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-							${command.healthcareSiteInvestigators[status.index].healthcareSite.name} &nbsp;
-									<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
-						</c:when>
-						<c:otherwise>
-							<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
-								value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name}" />
-						</c:otherwise>
-					</c:choose>
-					<tags:indicator
-						id="healthcareSite${status.index}-indicator" />
-					<div id="healthcareSite${status.index}-choices"
-						class="autocomplete" style="display: none;"></div>
-				</td>
-                <td class="alt">
-                    <form:select path="healthcareSiteInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
-                    <option value="">Please Select</option>
-                    <form:options items="${studySiteStatusRefData}" itemLabel="desc" itemValue="code" />
-                    </form:select>
-                </td>
-
-                <c:choose>
-					<c:when test="${(status.index == 0) || (not empty hcsInv.id)}"><td>&nbsp;</td></c:when>
-					<c:otherwise>
-						<td class="alt"><a href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},'${hcsInv.id==null?'HC#':'ID#'}${hcsInv.id==null?hcsInv.hashCode:hcsInv.id}');"><img src="<tags:imageUrl name="checkno.gif"/>"></a></td>
-					</c:otherwise>
-				</c:choose>
-					
-			</tr>
-		</c:forEach>
-        
-    </table>
-    <tags:button type="button" color="blue" value="Add Organization" icon="add" onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" size="small"/>
-	
-</chrome:division>
+<tags:errors path="*"/>
 <chrome:division id="investigator-details" title="Basic Details">
 	<div class="leftpanel">
         <div class="row">
@@ -346,8 +295,58 @@ function submitForm(){
         </div>
     </div>
 	 <div class="clear"></div>
-
 </chrome:division>
+<chrome:division id="site" title="Organization">
+	<table class="tablecontent" width="60%" border="0" cellspacing="0" id="invesitgatorTable" cellpadding="0">
+		<tr>
+			<th class="label" scope="col" align="left"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.organization"/></b><tags:hoverHint keyProp="healthcareSiteInvestigator.organization"/></th>
+			<th class="label" scope="col" align="left"><tags:requiredIndicator /><b><fmt:message key="investigator.investigatorStatus"/></b><tags:hoverHint keyProp="healthcareSiteInvestigator.statusCode"/></th>
+			<th>&nbsp;</th>
+		</tr>
+
+        <c:forEach items="${command.healthcareSiteInvestigators}" var="hcsInv" varStatus="status">
+			<tr id="invesitgatorTable-${status.index}">
+				<td class="alt"><input type="hidden"
+					id="healthcareSite${status.index}-hidden"
+					name="healthcareSiteInvestigators[${status.index}].healthcareSite"
+					value="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}" />
+					<c:choose>
+						<c:when test="${command.healthcareSiteInvestigators[status.index].healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+							${command.healthcareSiteInvestigators[status.index].healthcareSite.name} &nbsp;
+									<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
+						</c:when>
+						<c:otherwise>
+							<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
+								value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name}" />
+						</c:otherwise>
+					</c:choose>
+					<tags:indicator
+						id="healthcareSite${status.index}-indicator" />
+					<div id="healthcareSite${status.index}-choices"
+						class="autocomplete" style="display: none;"></div>
+				</td>
+                <td class="alt">
+                    <form:select path="healthcareSiteInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
+                    <option value="">Please Select</option>
+                    <form:options items="${studySiteStatusRefData}" itemLabel="desc" itemValue="code" />
+                    </form:select>
+                </td>
+
+                <c:choose>
+					<c:when test="${(status.index == 0) || (not empty hcsInv.id)}"><td>&nbsp;</td></c:when>
+					<c:otherwise>
+						<td class="alt"><a href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},'${hcsInv.id==null?'HC#':'ID#'}${hcsInv.id==null?hcsInv.hashCode:hcsInv.id}');"><img src="<tags:imageUrl name="checkno.gif"/>"></a></td>
+					</c:otherwise>
+				</c:choose>
+					
+			</tr>
+		</c:forEach>
+        
+    </table>
+    <tags:button type="button" color="blue" value="Add Organization" icon="add" onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" size="small"/>
+	
+</chrome:division>
+
 </form:form> 
 </chrome:box>
 <tags:tabControls tab="${tab}" flow="${flow}"
