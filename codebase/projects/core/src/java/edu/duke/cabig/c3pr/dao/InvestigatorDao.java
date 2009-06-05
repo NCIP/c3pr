@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessException;
@@ -67,6 +68,12 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
         Example example = Example.create(inv).excludeZeroes().ignoreCase();
         try {
             Criteria orgCriteria = getSession().createCriteria(Investigator.class);
+            Criteria healthcareSiteInvestigatorCriteria = orgCriteria.createCriteria("healthcareSiteInvestigatorsInternal");
+            Criteria healthcareSiteCriteria = healthcareSiteInvestigatorCriteria.createCriteria("healthcareSite");
+            
+            if (inv.getHealthcareSiteInvestigators() != null && inv.getHealthcareSiteInvestigators().get(0).getHealthcareSite() != null) {
+            		healthcareSiteCriteria.add(Expression.eq("id", inv.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getId() ));
+            }
             orgCriteria.addOrder(Order.asc("nciIdentifier"));
             orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
