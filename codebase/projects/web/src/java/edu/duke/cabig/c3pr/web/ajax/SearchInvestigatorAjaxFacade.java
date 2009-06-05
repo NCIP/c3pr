@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.extremecomponents.table.bean.Column;
@@ -17,14 +16,27 @@ import org.extremecomponents.table.context.HttpServletRequestContext;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 public class SearchInvestigatorAjaxFacade {
     private static Log log = LogFactory.getLog(SearchInvestigatorAjaxFacade.class);
+    private HealthcareSiteDao healthcareSiteDao;
 
-    private InvestigatorDao investigatorDao;
+    public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	private InvestigatorDao investigatorDao;
 
     public Object build(TableModel model, Collection invResults) throws Exception {
 
@@ -50,6 +62,12 @@ public class SearchInvestigatorAjaxFacade {
         columnName.setProperty("fullName");
         columnName.setCell((InvestigatorLinkDisplayCell.class).getName());
         model.addColumn(columnName);
+        
+        Column organizations = model.getColumnInstance();
+        organizations.setTitle("Organization(s)");
+        organizations.setProperty("healthcareSiteInvestigators");
+        organizations.setCell((HealthcareSiteInvestigatorLinkDisplayCell.class).getName());
+        model.addColumn(organizations);
 
         Column columnCtep = model.getColumnInstance();
         columnCtep.setTitle("CTEP identifier");
@@ -69,15 +87,25 @@ public class SearchInvestigatorAjaxFacade {
                     HttpServletRequest request) {
 
         Investigator inv = new LocalInvestigator();
-        if (!StringUtils.isEmpty(params[0])) {
+        if (!StringUtils.isBlank(params[0])) {
             inv.setFirstName(params[0]);
         }
-        if (!StringUtils.isEmpty(params[1])) {
+        if (!StringUtils.isBlank(params[1])) {
             inv.setLastName(params[1]);
         }
-        if (!StringUtils.isEmpty(params[2])) {
+        if (!StringUtils.isBlank(params[2])) {
             inv.setNciIdentifier(params[2]);
         }
+        if (!StringUtils.isBlank(params[3])) {
+            HealthcareSite healthcareSite = healthcareSiteDao.getById(Integer.parseInt(params[3]));
+//            HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
+//            healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
+//            healthcareSiteInvestigator.setInvestigator(inv);
+//            inv.getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);
+            inv.getHealthcareSiteInvestigators().get(0).setHealthcareSite(healthcareSite);
+            
+        }
+
 
         List<Investigator> invResults = investigatorDao.searchByExample(inv, true);
 

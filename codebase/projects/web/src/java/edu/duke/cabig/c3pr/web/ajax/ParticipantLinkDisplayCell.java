@@ -27,7 +27,7 @@ public static final String VIEW_PARTICIPANT_URL= "viewParticipant?";
     	String cellValue = "";
         
     	for(RaceCode raceCode : races){
-    		cellValue += raceCode.getDisplayName() + " " ;
+    		cellValue += raceCode.getDisplayName() +"<br>"  ;
     	}
     	
         setRowOnClick(model, participant);

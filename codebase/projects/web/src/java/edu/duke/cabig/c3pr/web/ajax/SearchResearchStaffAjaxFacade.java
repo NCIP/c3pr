@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.extremecomponents.table.bean.Column;
@@ -22,6 +21,7 @@ import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 public class SearchResearchStaffAjaxFacade {
     private static Log log = LogFactory.getLog(SearchResearchStaffAjaxFacade.class);
@@ -56,7 +56,7 @@ public class SearchResearchStaffAjaxFacade {
         model.addColumn(columnName);
 
         Column columnSite = model.getColumnInstance();
-        columnSite.setTitle("Site");
+        columnSite.setTitle("Organization");
         columnSite.setCell((OrganizationLinkDisplayCell.class).getName());  
         columnSite.setProperty("healthcareSite.name");
         model.addColumn(columnSite);
@@ -79,16 +79,16 @@ public class SearchResearchStaffAjaxFacade {
                     HttpServletRequest request) {
 
         LocalResearchStaff rStaff = new LocalResearchStaff();
-        if (!StringUtils.isEmpty(params[0])) {
+        if (!StringUtils.isBlank(params[0])) {
             rStaff.setFirstName(params[0]);
         }
-        if (!StringUtils.isEmpty(params[1])) {
+        if (!StringUtils.isBlank(params[1])) {
             rStaff.setLastName(params[1]);
         }
-        if (!StringUtils.isEmpty(params[2])) {
+        if (!StringUtils.isBlank(params[2])) {
             rStaff.setNciIdentifier(params[2]);
         }
-        if (!StringUtils.isEmpty(params[3])) {
+        if (!StringUtils.isBlank(params[3])) {
             HealthcareSite healthcareSite = healthcareSiteDao.getById(Integer.parseInt(params[3]));
             rStaff.setHealthcareSite(healthcareSite);
         }
