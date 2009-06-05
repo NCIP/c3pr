@@ -378,10 +378,12 @@ function getMod10(number) {
 }
 
 function isValidUrl(url){
-	 if (url != '' ) {
-		 return url.match(/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/);
-	 }else{
-		 return true ;
-	 }
+	var v = new RegExp();
+    v.compile("^[A-Za-z]+://([A-Za-z0-9-_]+\\.)*[A-Za-z0-9-_]+(:[0-9]+)?[A-Za-z0-9-_%&\?\/.=]+$");
+    if (!v.test(url)) {
+        return false;
+    }else{
+	        return true;
+    }
 }
 	 
