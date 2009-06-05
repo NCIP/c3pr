@@ -376,7 +376,7 @@
 <chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${not empty flowType}">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
-			<chrome:division title="${epoch.name}" cssClass="indented">
+			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
 				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
 					<h4>Inclusion Eligibility Criteria</h4>
 					<br>
@@ -414,7 +414,7 @@
 <chrome:division title="Stratum Groups" cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${epoch.stratificationIndicator}">
-			<chrome:division title="${epoch.name}" cssClass="indented">
+			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
 				<c:choose>
 					<c:when test="${fn:length(epoch.stratumGroups)> 0}">
 						<table class="tablecontent" width="70%"}">

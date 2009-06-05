@@ -15,20 +15,21 @@
 			<tags:oneControlPanelItem linkhref="javascript:javascript:document.location='../study/viewStudy?studyId=${command.study.id}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage Study" />
 		</tags:controlPanel>
 	</div>
+	<div id="flash-message" class="info">
+		<img src="<tags:imageUrl name='check.png'/>" alt="" style="vertical-align:top;" /> 
+		<font color="green">
+		<c:choose>
+				<c:when test ="${command.study.coordinatingCenterStudyStatus.displayName == 'Open'}">
+	                    Study successfully opened.
+				</c:when>
+				<c:otherwise>
+	                    Study successfully created.
+				</c:otherwise>
+			</c:choose>
+		</font>
+	</div>
 
 	    <chrome:box title="Confirmation" autopad="true">
-				<c:choose>
-					<c:when test ="${command.study.coordinatingCenterStudyStatus.displayName == 'Open'}">
-		            	<div class="row" >
-		                    <h2><font color="green">Study successfully opened.</font></h2>
-		                </div>
-					</c:when>
-					<c:otherwise>
-		            	<div class="row" >
-		                    <h2><font color="green">Study successfully created.</font></h2>
-		                </div>
-					</c:otherwise>
-				</c:choose>
                  <div class="row" >
          			<div class="label"><fmt:message key="study.shortTitle"></fmt:message></div>
          			<div class="value">${command.study.trimmedShortTitleText}</div>
