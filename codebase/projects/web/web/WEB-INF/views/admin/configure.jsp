@@ -185,6 +185,9 @@
 </head>
 <body>
     <form:form action="${action}" cssClass="standard">
+     <c:if test="${updated}">
+			<p class="updated">Settings saved</p>
+      </c:if>
     <chrome:box title="Configure C3PR" autopad="true">
     <c:url value="/pages/admin/configure" var="action"/>
     <tags:errors path="*"/>
