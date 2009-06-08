@@ -46,7 +46,7 @@ public class SearchParticipantAjaxFacade {
         table.setOnInvokeAction("buildTable('assembler')");
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
         table.setShowExports(false);
-        table.setSortable(false);
+        table.setSortable(true);
         model.addTable(table);
 
         Row row = model.getRowInstance();
