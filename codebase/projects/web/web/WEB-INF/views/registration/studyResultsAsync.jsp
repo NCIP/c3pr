@@ -56,7 +56,11 @@ function toggleImage(id){
 				</td>
 				<td align="left">${study.primaryIdentifier}</td>
 				<td align="left">${study.trimmedShortTitleText}</td>
-				<td align="left">${study.identifiers[0].value}</td>
+				<td align="left">
+					<c:if test="${fn:length(study.studyFundingSponsors) > 0}">
+						${study.studyFundingSponsors[0].healthcareSite.name}
+					</c:if>
+				</td>
 				<td align="left">${study.phaseCode}</td>
 				<td align="left">${study.targetAccrualNumber}</td>
 			</tr>
