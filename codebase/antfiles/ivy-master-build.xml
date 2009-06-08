@@ -12,7 +12,7 @@
 	<property name="database.type" value="postgres" />
 	<!-- List of modules that need checkstyle reporting done -->
 	<property name="reportable.projects.list" value="core,web" />
-	<property name="javadoc-reportable.projects.list" value="core,web" />
+	<property name="javadoc-reportable.projects.list" value="core" />
 	<condition property="ivy.available">
 			<available file="${ivy.jar.file}" />
 	</condition>
