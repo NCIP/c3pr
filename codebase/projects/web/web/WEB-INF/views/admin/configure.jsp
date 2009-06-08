@@ -196,7 +196,7 @@
     		<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.app.localSite"/><tags:hoverHint keyProp="configure.localNciInstituteCode" /></div>
         		<div class="value">
-        			<tags:autocompleter name="conf[localNciInstituteCode].value" displayValue="${command.conf['localNciInstituteCode'].value}" value="${command.conf['localNciInstituteCode'].value}" basename="localNCIInstituteCode" cssClass="validate-notEmpty" ></tags:autocompleter>
+        			<tags:autocompleter name="conf[localNciInstituteCode].value" displayValue="${instName} (${command.conf['localNciInstituteCode'].value})" value="${command.conf['localNciInstituteCode'].value}" basename="localNCIInstituteCode" cssClass="validate-notEmpty" ></tags:autocompleter>
         		</div>
         	</div>
         	<div class="row">
