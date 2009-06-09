@@ -17,14 +17,14 @@
 	</xs:complexType>
 	<xs:complexType name="RegistrationCountMapType">
 		<xs:all>
-			<element name="key" type="xs:string" />
-			<element name="value" type="xs:integer" />
+			<xs:element name="key" type="xs:string" />
+			<xs:element name="value" type="xs:integer" />
 		</xs:all>
 	</xs:complexType>
 	<xs:complexType name="reportDiseaseEntryType">
 		<xs:all>
-			<element name="key" type="DiseaseSiteType" />
-			<element name="value" type="RegistrationCountMapType" />
+			<xs:element name="key" type="DiseaseSiteType" />
+			<xs:element name="value" type="RegistrationCountMapType" />
 		</xs:all>
 	</xs:complexType>
 	<xs:complexType name="HealthcareSiteType" abstract="true">
