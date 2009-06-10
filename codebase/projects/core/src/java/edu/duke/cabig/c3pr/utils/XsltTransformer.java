@@ -69,7 +69,7 @@ public class XsltTransformer {
     public void toPdf(String inXml, String outPdfFile, String xsltFile) throws Exception {
 
         String fo = getFO(inXml, xsltFile);
-        System.out.println(fo);
+    //    System.out.println(fo);
 
         FopFactory fopFactory = FopFactory.newInstance();
 
