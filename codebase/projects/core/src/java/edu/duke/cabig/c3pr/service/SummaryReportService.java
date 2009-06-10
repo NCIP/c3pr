@@ -10,5 +10,9 @@ public interface SummaryReportService {
 	public String generateXML(Summary3Report summary3Report);
 	
 	public void buildSummary3Report(Summary3Report summary3Report);
+	
+	public String generateXML(HealthcareSite healthcareSite,String grantNumber,Date startDate,Date endDate);
+	
+	public void buildSummary3Report(HealthcareSite healthcareSite,String grantNumber,Date startDate,Date endDate);
 
 }
