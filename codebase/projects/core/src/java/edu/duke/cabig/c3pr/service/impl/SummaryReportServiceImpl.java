@@ -1,6 +1,9 @@
 package edu.duke.cabig.c3pr.service.impl;
 
+import java.util.Date;
+
 import edu.duke.cabig.c3pr.dao.Summary3ReportDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Summary3Report;
 import edu.duke.cabig.c3pr.domain.factory.Summary3ReportFactory;
 import edu.duke.cabig.c3pr.service.SummaryReportService;
@@ -58,6 +61,18 @@ public class SummaryReportServiceImpl implements SummaryReportService{
 		}
 		
 		return reportXML;
+	}
+
+	public void buildSummary3Report(HealthcareSite healthcareSite,
+			String grantNumber, Date startDate, Date endDate) {
+			Summary3Report summary3Report = new Summary3Report(healthcareSite,grantNumber,startDate,endDate);
+			this.buildSummary3Report(summary3Report);
+	}
+
+	public String generateXML(HealthcareSite healthcareSite,
+			String grantNumber, Date startDate, Date endDate) {
+			Summary3Report summary3Report = new Summary3Report(healthcareSite,grantNumber,startDate,endDate);
+		return this.generateXML(summary3Report);
 	}
 
 }
