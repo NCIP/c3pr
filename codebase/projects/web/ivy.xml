@@ -32,6 +32,8 @@
        
         <dependencies  defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default);distGrid->master(*),runtime(default)"  >
 			<exclude conf="*" name="cglib" />
+			<exclude org="poi" module="poi" name="poi-2.5*"  conf="*"  match="regexp"/>
+			<exclude org="org.apache.poi" module="poi" name="poi-2.5*"  conf="*" match="regexp"/>
 			<!-- c3pr module dependencies -->
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
 				conf="build->default;runtime->default;dist->dist;distGrid->distGrid">
