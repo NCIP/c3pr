@@ -21,6 +21,12 @@ public class Summary3ReportFactory {
 	
 	private HealthcareSiteDao healthcareSiteDao;
 	
+	private Configuration configuration;
+	
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
@@ -46,9 +52,7 @@ public class Summary3ReportFactory {
 	public void buildSummary3Report(Summary3Report summary3Report){
 		
 		if(summary3Report.getReportingSource()== null){
-		//	ConfigurationProperty localNCIInstituteCode = Configuration.LOCAL_NCI_INSTITUTE_CODE;
-			String reportingSourceNCICode = "CRB";
-	//		String reportingSourceNCICode = "duke nci code";
+			String reportingSourceNCICode =	this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);;
 			HealthcareSite reportingOrganization = healthcareSiteDao.getByNciInstituteCode(reportingSourceNCICode);
 			summary3Report.setReportingSource(reportingOrganization.getName());
 		}
@@ -68,11 +72,9 @@ public class Summary3ReportFactory {
 			Integer newlyRegisteredPatientsForGivenAnatomicSite = summary3ReportDao.getNewlyRegisteredPatientsForGivenAnatomicSite(anatomicSite, hcs, reportStartDate, reportEndDate);
 			anatomicSiteRegistrationsCount = anatomicSiteRegistrationsCount + newlyRegisteredPatientsForGivenAnatomicSite;
 			registrationsForDiseaseSite.put("newlyEnrolledTherapeuticPatients", newlyEnrolledTherapeuticPatientsForGivenDiseaseSite);
-			registrationsForDiseaseSite.put("newlyRegisteredPatients", newlyRegisteredPatientsForGivenAnatomicSite);
+			registrationsForDiseaseSite.put("newlyRegisteredPatients", " - ");
 			summary3Report.getReportData().put(anatomicSite,registrationsForDiseaseSite);
 		}
-		
-		
 		
 		// creating a dummy anatomic site which has total as name for reporting purpose.
 		//TODO find a better way to implement this		
@@ -83,7 +85,7 @@ public class Summary3ReportFactory {
 		Integer newlyEnrolledTotalTherapeuticPatients = summary3ReportDao.getNewlyEnrolledTherapeuticStudyPatients( hcs, reportStartDate, reportEndDate);
 		Integer newlyRegisteredTotalPatients = summary3ReportDao.getNewlyRegisteredPatients(hcs, reportStartDate, reportEndDate);
 		totalRegistrationCounts.put("newlyEnrolledTherapeuticPatients", newlyEnrolledTotalTherapeuticPatients);
-		totalRegistrationCounts.put("newlyRegisteredPatients", newlyRegisteredTotalPatients);
+		totalRegistrationCounts.put("newlyRegisteredPatients", " - ");
 		
 		// creating a dummy anatomic site which has UnknwonSites Sites as name for reporting purpose.
 		//TODO find a better way to implement this		
@@ -94,7 +96,7 @@ public class Summary3ReportFactory {
 		Integer unKnownDiseaseSiteNewTherapeuticRegistrations = newlyEnrolledTotalTherapeuticPatients - therapeuticAnatomicSiteRegistrationsCount;
 		Integer unKnownDiseaseSiteNewRegistrations = newlyRegisteredTotalPatients - anatomicSiteRegistrationsCount;
 		unknownAnatomicSiteSiteRegistrationCounts.put("newlyEnrolledTherapeuticPatients", unKnownDiseaseSiteNewTherapeuticRegistrations);
-		unknownAnatomicSiteSiteRegistrationCounts.put("newlyRegisteredPatients", unKnownDiseaseSiteNewRegistrations);
+		unknownAnatomicSiteSiteRegistrationCounts.put("newlyRegisteredPatients", " - ");
 	
 		unKnownAnatomicSite.setName("Unknown Sites");
 		summary3Report.getReportData().put(unKnownAnatomicSite, unknownAnatomicSiteSiteRegistrationCounts);
