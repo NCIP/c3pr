@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -9,149 +10,104 @@ import org.hibernate.criterion.Order;
 
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.Summary3Report;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Summary3ReportDao.
+ */
 public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> implements MutableDomainObjectDao<Summary3Report> {
 
+	/** The log. */
 	Logger log = Logger.getLogger(Summary3Report.class);
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
+	 */
 	@Override
 	public Class<Summary3Report> domainClass() {
 		return Summary3Report.class;
 	}
 
+	/**
+	 * Gets the newly enrolled therapeutic study patients for given anatomic site.
+	 * 
+	 * @param diseaseSite the disease site
+	 * @param hcs the hcs
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * 
+	 * @return the newly enrolled therapeutic study patients for given anatomic site
+	 */
 	public int getNewlyEnrolledTherapeuticStudyPatientsForGivenAnatomicSite(
 			AnatomicSite diseaseSite, HealthcareSite hcs, Date startDate,
 			Date endDate) {
 		
-		Criteria registrationCriteria = getHibernateTemplate()
-				.getSessionFactory().getCurrentSession().createCriteria(
-						StudySubject.class);
-
-		Criteria studySiteCriteria = registrationCriteria
-				.createCriteria("studySite");
-		Criteria healthcareSiteCriteria= studySiteCriteria
-				.createCriteria("healthcareSite");
-		Criteria studyCriteria = studySiteCriteria.createCriteria("study");
-		
-		Criteria diseaseHistoryCriteria = registrationCriteria.createCriteria("diseaseHistoryInternal");
-		Criteria anatomicSiteCriteria = diseaseHistoryCriteria.createCriteria("anatomicSite");
-		
-
-		// Study Criteria
-			studyCriteria.add(Expression.ilike("type","Genetic Therapeutic"));
-
-		// Site criteria
-			healthcareSiteCriteria.add(Expression.eq("nciInstituteCode",hcs.getNciInstituteCode()));
-
-		// registration criteria
-			registrationCriteria.add(Expression.between(
-					"startDate", startDate, endDate));
-
-		// disease site criteria
-			anatomicSiteCriteria.add(Expression.eq("name", diseaseSite.getName()));
-
-		registrationCriteria
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		registrationCriteria.addOrder(Order.asc("id"));
-		return registrationCriteria.list().size();
-
+		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate > ? and ss.startDate < ? and " +
+		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.nciInstituteCode = ? " +
+		 		"and ss.studySite.study.type = ?",
+                         new Object[] {startDate,endDate,diseaseSite.getName(),hcs.getNciInstituteCode(),"Genetic Therapeutic"}).size();
 	}
 
+	/**
+	 * Gets the newly registered patients for given anatomic site.
+	 * 
+	 * @param diseaseSite the disease site
+	 * @param hcs the hcs
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * 
+	 * @return the newly registered patients for given anatomic site
+	 */
 	public int getNewlyRegisteredPatientsForGivenAnatomicSite(AnatomicSite diseaseSite,
 			HealthcareSite hcs, Date startDate, Date endDate) {
 		
-
-		Criteria registrationCriteria = getHibernateTemplate()
-				.getSessionFactory().getCurrentSession().createCriteria(
-						StudySubject.class);
-
-		Criteria studySiteCriteria = registrationCriteria
-				.createCriteria("studySite");
-		Criteria healthcareSiteCriteria= studySiteCriteria
-				.createCriteria("healthcareSite");
-		
-		Criteria diseaseHistoryCriteria = registrationCriteria.createCriteria("diseaseHistoryInternal");
-		Criteria anatomicSiteCriteria = diseaseHistoryCriteria.createCriteria("anatomicSite");
-		
-		// Site criteria
-			healthcareSiteCriteria.add(Expression.ilike("nciInstituteCode",hcs.getNciInstituteCode()));
-
-			// registration criteria
-			registrationCriteria.add(Expression.between(
-					"startDate", startDate, endDate));
-
-		// participant/subject criteria
-			anatomicSiteCriteria.add(Expression.eq("name",diseaseSite.getName()));
-
-		registrationCriteria
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		registrationCriteria.addOrder(Order.asc("id"));
-		return registrationCriteria.list().size();
+		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate > ? and ss.startDate < ? and " +
+		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.nciInstituteCode = ?",
+                        new Object[] {startDate,endDate,diseaseSite.getName(),hcs.getNciInstituteCode()}).size();
 	}
 	
+	/**
+	 * Gets the newly enrolled therapeutic study patients.
+	 * 
+	 * @param hcs the hcs
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * 
+	 * @return the newly enrolled therapeutic study patients
+	 */
 	public int getNewlyEnrolledTherapeuticStudyPatients(HealthcareSite hcs, Date startDate,
 			Date endDate) {
 		
-		Criteria registrationCriteria = getHibernateTemplate()
-				.getSessionFactory().getCurrentSession().createCriteria(
-						StudySubject.class);
-
-		Criteria studySiteCriteria = registrationCriteria
-				.createCriteria("studySite");
-		Criteria healthcareSiteCriteria= studySiteCriteria
-				.createCriteria("healthcareSite");
-		Criteria studyCriteria = studySiteCriteria.createCriteria("study");
-		
-		// Study Criteria
-			studyCriteria.add(Expression.ilike("type","Genetic Therapeutic"));
-
-		// Site criteria
-			healthcareSiteCriteria.add(Expression.eq("nciInstituteCode",hcs.getNciInstituteCode()));
-
-		// registration criteria
-			registrationCriteria.add(Expression.between(
-					"startDate", startDate, endDate));
-
-		registrationCriteria
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		registrationCriteria.addOrder(Order.asc("id"));
-		return registrationCriteria.list().size();
-
+		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate > ? and ss.startDate < ? and " +
+			 		"ss.studySite.healthcareSite.nciInstituteCode = ? and ss.studySite.study.type = ?",
+	                         new Object[] {startDate,endDate,hcs.getNciInstituteCode(),"Genetic Therapeutic"}).size();
 	}
-
 	
+	/**
+	 * Gets the newly registered patients.
+	 * 
+	 * @param hcs the hcs
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * 
+	 * @return the newly registered patients
+	 */
 	public int getNewlyRegisteredPatients(HealthcareSite hcs, Date startDate, Date endDate) {
 		
-
-		Criteria registrationCriteria = getHibernateTemplate()
-				.getSessionFactory().getCurrentSession().createCriteria(
-						StudySubject.class);
-
-		Criteria studySiteCriteria = registrationCriteria
-				.createCriteria("studySite");
-		Criteria healthcareSiteCriteria= studySiteCriteria
-				.createCriteria("healthcareSite");
-		
-		// Site criteria
-			healthcareSiteCriteria.add(Expression.ilike("nciInstituteCode",hcs.getNciInstituteCode()));
-
-			// registration criteria
-			registrationCriteria.add(Expression.between(
-					"startDate", startDate, endDate));
-
-		registrationCriteria
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		registrationCriteria.addOrder(Order.asc("id"));
-		return registrationCriteria.list().size();
+		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate > ? and ss.startDate < ? and " +
+			 		"ss.studySite.healthcareSite.nciInstituteCode = ?",
+	                        new Object[] {startDate,endDate,hcs.getNciInstituteCode()}).size();
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao#save(gov.nih.nci.cabig.ctms.domain.MutableDomainObject)
+	 */
 	public void save(Summary3Report arg0) {
 		// not required
-		
 	}
-
 
 }
