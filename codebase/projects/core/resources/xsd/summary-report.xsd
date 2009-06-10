@@ -9,6 +9,13 @@
 	<xs:annotation>
 		<xs:documentation xml:lang="en">Summary Report schema</xs:documentation>
 	</xs:annotation>
+	<xs:element name="summary3Report" type="Summary3Report"/>
+	
+	<xs:element name="reportingOrganization" type="HealthcareSiteType"/>
+	<xs:element name="grantNumber" type="xs:string"/>
+	<xs:element name="startDate" type="xs:date"/>
+	<xs:element name="endDate" type="xs:date"/>
+	
 	<xs:complexType name="LocalHealthcareSiteType">
 		<xs:complexContent mixed="false">
 			<xs:extension base="HealthcareSiteType">
@@ -41,6 +48,8 @@
 	<xs:complexType name="Summary3Report">
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="1" name="reportingSource"
+				type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="grantNumber"
 				type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="startDate"
 				type="xs:date" />
