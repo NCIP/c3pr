@@ -20,8 +20,15 @@
 	</style>
 
 <script language="JavaScript" type="text/JavaScript">
-	  function submitForm(){
+	  function submitPDFForm(){
 		  	document.getElementById('_finish').value='true';
+		  	document.getElementById('format').value='PDF';
+			document.getElementById('command').submit();
+	}
+
+	  function submitExcelForm(){
+		  	document.getElementById('_finish').value='true';
+			document.getElementById('format').value='Excel';
 			document.getElementById('command').submit();
 	}
 
@@ -32,14 +39,16 @@
 <body>
 <div id="controlPanel">
 	<tags:controlPanel>					
-				<tags:oneControlPanelItem linkhref="javascript:submitForm();" imgsrc="/c3pr/templates/mocha/images/controlPanel/pdf_icon.png" linktext="Export As PDF" />
+				<tags:oneControlPanelItem linkhref="javascript:submitPDFForm();" imgsrc="/c3pr/templates/mocha/images/controlPanel/pdf_icon.png" linktext="Export As PDF" />
+				<tags:oneControlPanelItem linkhref="javascript:submitExcelForm();" imgsrc="/c3pr/templates/mocha/images/controlPanel/excel_32.png" linktext="Export As Excel" />
 	</tags:controlPanel>
 </div>
 <form:form name="summary3ReportForm">
 	<div>
     	<input type="hidden" name="_finish" id="_finish" value="true"/>
+		<input type="hidden" name="format" id="format" value=""/>
 	</div>
-	<chrome:box title="Summary 3: Reportable Patients/Participation in Therapeutic Protocols"  htmlContent="2P30CA654321-50">
+	<chrome:box title="Summary 3: Reportable Patients/Participation in Therapeutic Protocols"  htmlContent="${command.grantNumber}">
 		<tags:tabFields tab="${tab}" />
 
 		<chrome:division>
@@ -76,7 +85,10 @@
 		<br>
 		<div align="right">
 				    	<tags:button type="submit" color="green" id="flow-update"
-						value="Export As PDF" onclick="javascript:submitForm();" />
+						value="Export As PDF" onclick="javascript:submitPDFForm();" />
+						
+						<tags:button type="submit" color="green" id="flow-update"
+						value="Export As Excel" onclick="javascript:submitExcelForm();" />
 		</div>
 	</chrome:box>
 </form:form>
