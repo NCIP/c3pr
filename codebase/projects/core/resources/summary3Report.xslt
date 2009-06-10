@@ -76,7 +76,7 @@
 								</fo:table-cell>
 								<fo:table-cell>
 									<fo:block font-size="10pt" font-family="arial"
-										text-align-last="left"> 2P30CA654321-50</fo:block>
+										text-align-last="left"> <xsl:value-of select="summary3Report/grantNumber" /></fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 						</fo:table-body>
@@ -145,7 +145,7 @@
 											text-align-last="left">
 											<fo:inline xsl:use-attribute-sets="normal"
 												font-size="11">
-												<xsl:value-of select="value[1]/value" />
+												
 											</fo:inline>
 										</fo:block>
 									</fo:table-cell>
