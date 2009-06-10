@@ -32,10 +32,6 @@
         <dependencies  defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default);distGrid->master(*),runtime(default)"  >
 			<exclude conf="*" name="cglib" />
 			<exclude conf="*" name="asm-attrs" />
-			<exclude org="poi" module="poi" name="poi-2.5*"  conf="*"  match="regexp"/>
-			<exclude org="org.apache.poi" module="poi" name="poi-2.5*"  conf="*" match="regexp"/>
-			<exclude org="poi" module="poi" name="poi-3.0*"  conf="*"  match="regexp"/>
-			<exclude org="org.apache.poi" module="poi" name="poi-3.0*"  conf="*" match="regexp"/>
 			
 			<!-- c3pr module dependencies -->
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-esb-client" rev="latest.integration" 
@@ -169,7 +165,7 @@
 			<dependency org="jaxb" name="jaxb-xjc" rev="2.0-SNAPSHOT"/>
 			
 			<!-- EXCEL related API -->
-			<dependency org="org.apache" name="poi" rev="3.5-beta5" force="true"/>
+			<dependency org="poi" name="poi" rev="3.5-beta5" force="true"/>
 			<dependency org="xjc-plugin" name="collection-setter-injector" rev="1.0"/>
 			
 			<!--  Rules Compiler -->
