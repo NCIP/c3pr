@@ -32,10 +32,6 @@
        
         <dependencies  defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default);distGrid->master(*),runtime(default)"  >
 			<exclude conf="*" name="cglib" />
-			<exclude org="poi" module="poi" name="poi-2.5*"  conf="*"  match="regexp"/>
-			<exclude org="org.apache.poi" module="poi" name="poi-2.5*"  conf="*" match="regexp"/>
-			<exclude org="poi" module="poi" name="poi-3.0*"  conf="*"  match="regexp"/>
-			<exclude org="org.apache.poi" module="poi" name="poi-3.0*"  conf="*" match="regexp"/>
 			<!-- c3pr module dependencies -->
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
 				conf="build->default;runtime->default;dist->dist;distGrid->distGrid">
@@ -139,7 +135,7 @@
 			<!-- Web specific dependencies -->
 			<dependency org="org.directwebremoting" name="dwr" rev="2.0.rc2" />
 			<dependency org="org.extremecomponents" name="extremecomponents" rev="1.0.1" />
-			<dependency org="org.apache" name="poi" rev="3.5-beta5" force="true" />
+			<dependency org="poi" name="poi" rev="3.5-beta5" force="true" />
 			<dependency org="displaytag" name="displaytag" rev="1.1" />
 			<!-- <dependency org="jboss" name="mvel-1.3.4-java1.4.2" rev="1.3.4" />-->
         </dependencies>
