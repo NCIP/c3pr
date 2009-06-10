@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.report;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.OutputStream;
 import java.rmi.RemoteException;
 import java.util.Date;
@@ -19,6 +20,8 @@ import edu.duke.cabig.c3pr.dao.Summary3ReportDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Summary3Report;
 import edu.duke.cabig.c3pr.service.SummaryReportService;
+import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
@@ -33,6 +36,12 @@ public class Summary3ReportController<C extends Summary3Report> extends  Automat
 	
 	private Summary3ReportDao summary3ReportDao;
 	
+	private Configuration configuration;
+	
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
 	public void setSummary3ReportDao(Summary3ReportDao summary3ReportDao) {
 		this.summary3ReportDao = summary3ReportDao;
 	}
@@ -67,12 +76,12 @@ public class Summary3ReportController<C extends Summary3Report> extends  Automat
 		protected Object formBackingObject(HttpServletRequest request)
 				throws Exception {
 			Summary3Report summary3Report = new Summary3Report();
-	//		String localOrganizationNCIInstituteCode =  Configuration.LOCAL_NCI_INSTITUTE_CODE.getDefault().toString();
-			String localOrganizationNCIInstituteCode =  "CRB";
+			String localOrganizationNCIInstituteCode =  this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
 			HealthcareSite reportingOrganization = healthcareSiteDao.getByNciInstituteCode(localOrganizationNCIInstituteCode);
 			summary3Report.setReportingOrganization(reportingOrganization);
 			Date startDate = new Date();
-		//	Calendar cal = new GregorianCalendar();
+			//TODO
+			// move away from using deprecated methods 
 			int year = startDate.getYear();
 			startDate.setMonth(0);
 			startDate.setDate(1);
@@ -143,24 +152,56 @@ public class Summary3ReportController<C extends Summary3Report> extends  Automat
 		protected ModelAndView processFinish(HttpServletRequest request,
 				HttpServletResponse response, Object command, BindException errors)
 				throws Exception {
+			
+			
+			
 			String filePath = System.getenv("CATALINA_HOME") + System.getProperty("file.separator")
 	        + "conf" + System.getProperty("file.separator") + "c3pr"  + System.getProperty("file.separator") +"SummaryReports" + System.getProperty("file.separator") ;
-			
+			 // the following 2 lines create directory if doesn't exist already
+			File outputXMLDir = new File(filePath);
+		     outputXMLDir.mkdirs();
 			Summary3Report summary3Report = (Summary3Report) command;
 	   		try {
 	   			
-	    			String xml =  summaryReportService.generateXML(summary3Report);;
+	    			String xml =  summaryReportService.generateXML(summary3Report);
+	    			File file = new File(filePath + generateSummaryReportFileName(summary3Report)+".xml");
 	    			
-		    			String pdfOutFile = "summaryReport-"+summary3Report.getReportingOrganization()+".pdf";
+	    			FileWriter fileWriter = new FileWriter(file);
+	    			fileWriter.write(xml);
+	    			fileWriter.flush();
+	    			fileWriter.close();
+	    			
+	    			String outFile = "";
+	    			
+	    			String format = request.getParameter("format");
+	    			if (format.equals("PDF")){
+		    			outFile = generateSummaryReportFileName(summary3Report);
 		    	        // generate report and send ...
-		    	        summary3ReportGenerator.generatePdf(xml,filePath+pdfOutFile);
-		    			generateOutput(pdfOutFile,filePath,response);
+		    	        summary3ReportGenerator.generatePdf(xml,filePath+outFile);
+		    	        generateOutput(outFile+".pdf",filePath,response);
+	    			} else if(format.equals("Excel")){
+	    				outFile = generateSummaryReportFileName(summary3Report);
+	    				  summary3ReportGenerator.generateExcel(xml,filePath+outFile);
+	    				  generateOutput(outFile +".xls",filePath,response);
+	    			}
 				} catch (Exception e) {
 					e.printStackTrace();
-					throw new RemoteException ("Error generating PDF ",e);
+					throw new RemoteException ("Error generating report ",e);
 				}
 				
 			return null;
+		}
+		
+		private String generateSummaryReportFileName(Summary3Report summary3Report){
+			String pdfOutFile = "";
+			
+			String startDateStr = DateUtil.toString(summary3Report.getStartDate(), "yyyy-MM-dd");
+			String endDateStr = DateUtil.toString(summary3Report.getEndDate(), "yyyy-MM-dd");
+			
+			pdfOutFile = "summaryReport_"+summary3Report.getReportingOrganization().getNciInstituteCode()+"_" + startDateStr+"_" + endDateStr;
+			
+			return pdfOutFile;
+			
 		}
 
 		@Override
