@@ -95,7 +95,7 @@ public class Summary3ReportFactory {
 		AnatomicSite unKnownAnatomicSite = new AnatomicSite();
 		Integer unKnownDiseaseSiteNewTherapeuticRegistrations = newlyEnrolledTotalTherapeuticPatients - therapeuticAnatomicSiteRegistrationsCount;
 		Integer unKnownDiseaseSiteNewRegistrations = newlyRegisteredTotalPatients - anatomicSiteRegistrationsCount;
-		unknownAnatomicSiteSiteRegistrationCounts.put("newlyEnrolledTherapeuticPatients", unKnownDiseaseSiteNewTherapeuticRegistrations);
+		unknownAnatomicSiteSiteRegistrationCounts.put("newlyEnrolledTherapeuticPatients", unKnownDiseaseSiteNewTherapeuticRegistrations < 0 ? 0 :unKnownDiseaseSiteNewTherapeuticRegistrations);
 		unknownAnatomicSiteSiteRegistrationCounts.put("newlyRegisteredPatients", " - ");
 	
 		unKnownAnatomicSite.setName("Unknown Sites");
