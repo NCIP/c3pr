@@ -46,7 +46,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 			AnatomicSite diseaseSite, HealthcareSite hcs, Date startDate,
 			Date endDate) {
 		
-		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate > ? and ss.startDate < ? and " +
+		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
 		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.nciInstituteCode = ? " +
 		 		"and ss.studySite.study.type = ?",
                          new Object[] {startDate,endDate,diseaseSite.getName(),hcs.getNciInstituteCode(),"Genetic Therapeutic"}).size();
@@ -65,7 +65,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	public int getNewlyRegisteredPatientsForGivenAnatomicSite(AnatomicSite diseaseSite,
 			HealthcareSite hcs, Date startDate, Date endDate) {
 		
-		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate > ? and ss.startDate < ? and " +
+		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
 		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.nciInstituteCode = ?",
                         new Object[] {startDate,endDate,diseaseSite.getName(),hcs.getNciInstituteCode()}).size();
 	}
@@ -82,7 +82,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	public int getNewlyEnrolledTherapeuticStudyPatients(HealthcareSite hcs, Date startDate,
 			Date endDate) {
 		
-		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate > ? and ss.startDate < ? and " +
+		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
 			 		"ss.studySite.healthcareSite.nciInstituteCode = ? and ss.studySite.study.type = ?",
 	                         new Object[] {startDate,endDate,hcs.getNciInstituteCode(),"Genetic Therapeutic"}).size();
 	}
@@ -98,7 +98,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	 */
 	public int getNewlyRegisteredPatients(HealthcareSite hcs, Date startDate, Date endDate) {
 		
-		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate > ? and ss.startDate < ? and " +
+		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
 			 		"ss.studySite.healthcareSite.nciInstituteCode = ?",
 	                        new Object[] {startDate,endDate,hcs.getNciInstituteCode()}).size();
 	}
