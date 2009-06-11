@@ -39,8 +39,8 @@
 <body>
 <div id="controlPanel">
 	<tags:controlPanel>					
-				<tags:oneControlPanelItem linkhref="javascript:submitPDFForm();" imgsrc="/c3pr/templates/mocha/images/controlPanel/pdf_icon.png" linktext="Export As PDF" />
-				<tags:oneControlPanelItem linkhref="javascript:submitExcelForm();" imgsrc="/c3pr/templates/mocha/images/controlPanel/excel_32.png" linktext="Export As Excel" />
+				<tags:oneControlPanelItem linkhref="javascript:submitPDFForm();" imgsrc="/c3pr/templates/mocha/images/controlPanel/pdf_icon.png" linktext="Export as PDF" />
+				<tags:oneControlPanelItem linkhref="javascript:submitExcelForm();" imgsrc="/c3pr/templates/mocha/images/controlPanel/excel_32.png" linktext="Export as Excel" />
 	</tags:controlPanel>
 </div>
 <form:form name="summary3ReportForm">
@@ -85,10 +85,10 @@
 		<br>
 		<div align="right">
 				    	<tags:button type="submit" color="green" id="flow-update"
-						value="Export As PDF" onclick="javascript:submitPDFForm();" />
+						value="Export as PDF" onclick="javascript:submitPDFForm();" />
 						
 						<tags:button type="submit" color="green" id="flow-update"
-						value="Export As Excel" onclick="javascript:submitExcelForm();" />
+						value="Export as Excel" onclick="javascript:submitExcelForm();" />
 		</div>
 	</chrome:box>
 </form:form>
