@@ -174,13 +174,13 @@
 		<xsl:param name="date" />
 		<xsl:if test="$date">
 			<!-- Month -->
-			<xsl:value-of select="substring($date, 6, 2)" />
+			<xsl:value-of select="substring($date, 1, 2)" />
 			<xsl:text>/</xsl:text>
 			<!-- Day -->
-			<xsl:value-of select="substring($date, 9, 2)" />
+			<xsl:value-of select="substring($date, 4, 2)" />
 			<xsl:text>/</xsl:text>
 			<!-- Year -->
-			<xsl:value-of select="substring($date, 1, 4)" />
+			<xsl:value-of select="substring($date, 7, 4)" />
 		</xsl:if>
 	</xsl:template>
 	<xsl:template name="left-trim">
