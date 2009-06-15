@@ -1406,14 +1406,14 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	 * @return the study data entry status
 	 */
 	public StudyDataEntryStatus evaluateDataEntryStatus(List<Error> errors) {
-		if ((!this.hasConsentVersion())) {
-			errors
-					.add(new Error(
-							getC3PRExceptionHelper()
-									.getRuntimeException(
-											getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.CONSENT_VERSION.CODE"))
-									.getMessage()));
-		}
+//		if ((!this.hasConsentVersion())) {
+//			errors
+//					.add(new Error(
+//							getC3PRExceptionHelper()
+//									.getRuntimeException(
+//											getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.CONSENT_VERSION.CODE"))
+//									.getMessage()));
+//		}
 
 		if ((!this.hasEnrollingEpoch())) {
 			errors
