@@ -526,7 +526,7 @@
                 </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Registration"
+                        autowire="byType" p:displayName="Registrations"
                         p:mainController="createRegistrationController">
                     <property name="pathMapping"
                               value="/registration/**"/>
@@ -581,7 +581,7 @@
                 </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Person &amp; Organization"
+                        autowire="byType" p:displayName="Person &amp; Organizations"
                         p:mainController="searchParticipantController">
                     <property name="pathMapping" value="/personAndOrganization/**/**"/>
                     <property name="tasks">
