@@ -14,11 +14,13 @@
    <ns2:SchemaElement type="localInvestigator" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="Message" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="organizationAssignedIdentifier" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="randomization" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="registration" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="scheduledEpoch" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="studies" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="study" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="studyCoordinatingCenter" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="studyDisease" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="studyFundingSponsor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="studyOrganization" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="studySite" xsi:type="ns2:SchemaElementType"/>

@@ -76,6 +76,27 @@ public class RegistrationServiceClient extends RegistrationServiceClientBase imp
 		}
 	}
 
+  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
+    return portType.getMultipleResourceProperties(params);
+    }
+  }
+
+  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getResourceProperty");
+    return portType.getResourceProperty(params);
+    }
+  }
+
+  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"queryResourceProperties");
+    return portType.queryResourceProperties(params);
+    }
+  }
+
   public gov.nih.nci.cabig.ccts.domain.Message enroll(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"enroll");
@@ -120,27 +141,6 @@ public class RegistrationServiceClient extends RegistrationServiceClientBase imp
     params.setMessage(messageContainer);
     edu.duke.cabig.c3pr.grid.registrationservice.stubs.GetRegistrationsResponse boxedResult = portType.getRegistrations(params);
     return boxedResult.getMessage();
-    }
-  }
-
-  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
-    return portType.getMultipleResourceProperties(params);
-    }
-  }
-
-  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getResourceProperty");
-    return portType.getResourceProperty(params);
-    }
-  }
-
-  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"queryResourceProperties");
-    return portType.queryResourceProperties(params);
     }
   }
 

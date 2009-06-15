@@ -26,12 +26,6 @@ public class StudyServiceProviderImpl{
 	}
 	
 
-    public edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyResponse createAndOpenStudy(edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyRequest params) throws RemoteException {
-    edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyResponse boxedResult = new edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyResponse();
-    impl.createAndOpenStudy(params.getMessage().getMessage());
-    return boxedResult;
-  }
-
     public edu.duke.cabig.c3pr.grid.studyservice.stubs.ActivateStudySiteResponse activateStudySite(edu.duke.cabig.c3pr.grid.studyservice.stubs.ActivateStudySiteRequest params) throws RemoteException {
     edu.duke.cabig.c3pr.grid.studyservice.stubs.ActivateStudySiteResponse boxedResult = new edu.duke.cabig.c3pr.grid.studyservice.stubs.ActivateStudySiteResponse();
     impl.activateStudySite(params.getMessage().getMessage());
@@ -119,6 +113,12 @@ public class StudyServiceProviderImpl{
     public edu.duke.cabig.c3pr.grid.studyservice.stubs.TemporarilyCloseStudySiteToAccrualResponse temporarilyCloseStudySiteToAccrual(edu.duke.cabig.c3pr.grid.studyservice.stubs.TemporarilyCloseStudySiteToAccrualRequest params) throws RemoteException {
     edu.duke.cabig.c3pr.grid.studyservice.stubs.TemporarilyCloseStudySiteToAccrualResponse boxedResult = new edu.duke.cabig.c3pr.grid.studyservice.stubs.TemporarilyCloseStudySiteToAccrualResponse();
     impl.temporarilyCloseStudySiteToAccrual(params.getMessage().getMessage());
+    return boxedResult;
+  }
+
+    public edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyResponse createAndOpenStudy(edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyRequest params) throws RemoteException {
+    edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyResponse boxedResult = new edu.duke.cabig.c3pr.grid.studyservice.stubs.CreateAndOpenStudyResponse();
+    impl.createAndOpenStudy(params.getMessage().getMessage());
     return boxedResult;
   }
 

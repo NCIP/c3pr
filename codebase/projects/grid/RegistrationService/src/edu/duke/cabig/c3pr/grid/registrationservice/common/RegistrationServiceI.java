@@ -12,6 +12,12 @@ import java.rmi.RemoteException;
  */
 public interface RegistrationServiceI {
 
+  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
+
+  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;
+
+  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException ;
+
   public gov.nih.nci.cabig.ccts.domain.Message enroll(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
 
   public gov.nih.nci.cabig.ccts.domain.Message transfer(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
@@ -19,12 +25,6 @@ public interface RegistrationServiceI {
   public void offStudy(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
 
   public gov.nih.nci.cabig.ccts.domain.Message getRegistrations(gov.nih.nci.cabig.ccts.domain.Message message) throws RemoteException ;
-
-  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
-
-  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;
-
-  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException ;
 
 }
 
