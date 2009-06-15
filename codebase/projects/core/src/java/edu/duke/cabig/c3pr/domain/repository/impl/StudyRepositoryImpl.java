@@ -346,6 +346,27 @@ public class StudyRepositoryImpl implements StudyRepository {
     }
     
     @Transactional
+    public Study createAndOpenStudy(Study study) {
+        study.readyToOpen();
+        study.open();
+        if(study.isMultisite() && studyService.isMultisiteEnable()){
+        	//if C3PR instance is at Coordinating Center
+            if(study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
+                createAndOpenStudyAtAffiliates(study.getIdentifiers());
+            //if C3PR instance is running at one of the affiliate sites.
+            }else{
+                try{
+                	StudySite studySite = study.getStudySite(studyService.getLocalNCIInstituteCode());
+                	studySite.setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
+                }catch(C3PRCodedRuntimeException ex){
+                	// catching exception
+                }
+            }
+        }
+        return this.merge(study);
+    }
+    
+    @Transactional
     public Study createStudy(List<Identifier> studyIdentifiers) {
         Study study = getUniqueStudy(studyIdentifiers);
         return createStudy(study);

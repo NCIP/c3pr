@@ -41,6 +41,8 @@ public interface StudyRepository {
     public Study createStudy(Study study);
     
     public Study createStudy(List<Identifier> studyIdentifiers);
+    
+    public Study createAndOpenStudy(Study study);
 
     public Study openStudy(List<Identifier> studyIdentifiers);
 
