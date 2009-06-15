@@ -187,6 +187,9 @@
     </script>
 </head>
 <body>
+	<c:set var="totalMemory"><%= java.lang.Runtime.getRuntime().totalMemory()/(1024*1024) %></c:set>
+   <c:set var="freeMemory"><%= java.lang.Runtime.getRuntime().freeMemory()/(1024*1024) %></c:set>
+   <c:set var="maxMemory"><%= java.lang.Runtime.getRuntime().maxMemory()/(1024*1024) %></c:set>
     <form:form action="${action}" cssClass="standard">
      <c:if test="${updated}">
 			<p class="updated">Settings saved</p>
@@ -475,11 +478,29 @@
 	        	</div>
         	</div>
         </chrome:division>
+	   <chrome:division title="System Memory Usage">
+	   	<div class="row">
+	   		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.system.totalMemory"/><tags:hoverHint keyProp="configure.system.totalMemory" /></div>
+	   		<div class="value">
+	   			${totalMemory } MB
+	   		</div>
+	   	</div><div class="row">
+	   		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.system.freeMemory"/><tags:hoverHint keyProp="configure.system.freeMemory" /></div>
+	   		<div class="value">
+	   			${freeMemory } MB
+	   		</div>
+	   	</div>
+	   	<div class="row">
+	   		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.system.maxMemory"/><tags:hoverHint keyProp="configure.system.maxMemory" /></div>
+	   		<div class="value">
+	   			${maxMemory } MB
+	   		</div>
+	   	</div>
+	   </chrome:division>
      </chrome:box>
          <div class="row submit">
             <tags:button type="submit" color="green" value="Save" icon="save"/>
         </div>
     </form:form>
-    
 </body>
 </html>
