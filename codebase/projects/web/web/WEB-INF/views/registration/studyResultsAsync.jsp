@@ -78,22 +78,27 @@ function toggleImage(id){
 							</thead>
 							<%int j=i*100; %>
 							<c:forEach items="${study.studySites}" var="site" varStatus="siteIndex">
-								<%--<c:if test='${site.siteStudyStatus.code=="Active"}'>--%>
-								<%
-									Calendar yearOld=Calendar.getInstance();
-									yearOld.add(Calendar.YEAR, -1);
-									pageContext.setAttribute("yearOld",yearOld);
-								%>
-
-                                <c:set var="singleQuote" value="'" />
+							<c:set var="singleQuote" value="'" />
                                 <c:set var="singleQuoteAlias" value="\\&#39" />
                                 <c:set var="siteName" value="${fn:replace(site.healthcareSite.name, singleQuote, singleQuoteAlias)}" />
-
-                                <c:set var="expiredIrb" value="${site.irbApprovalDate.time le yearOld.timeInMillis}"></c:set>
 								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.id}','${siteName}','${study.shortTitleText}','${study.identifiers[0].value}')"/>
-								<c:if test="${expiredIrb}">
-									<c:set var="javLink" value="alert('The IRB approval date for this site has expired. Its more than an year old');"/>
-								</c:if>
+								<c:choose>
+									<c:when test='${site.siteStudyStatus.code=="Active"}'>
+										<%
+											Calendar yearOld=Calendar.getInstance();
+											yearOld.add(Calendar.YEAR, -1);
+											pageContext.setAttribute("yearOld",yearOld);
+										%>
+										<c:set var="expiredIrb" value="${site.irbApprovalDate.time le yearOld.timeInMillis}"></c:set>
+										<c:if test="${expiredIrb}">
+											<c:set var="javLink" value="alert('The IRB approval date for this site has expired. Its more than an year old');"/>
+										</c:if>
+									</c:when>
+									<c:otherwise>
+										<c:set var="javLink" value="alert('${site.healthcareSite.name} is not activated.');"/>
+									</c:otherwise>
+								</c:choose>
+								<%--<c:if test='${site.siteStudyStatus.code=="Active"}'>--%>
 								<csmauthz:accesscontrol domainObject="${site}"
 		                                                  hasPrivileges="ACCESS"  authorizationCheckName="studySiteAuthorizationCheck">
 									<% String currClassJ=j%2==0? "odd":"even"; %>
@@ -101,7 +106,17 @@ function toggleImage(id){
 												style="cursor:pointer;" onMouseOut="this.className='<%= currClass %>'" 
 										onClick="${javLink }">
 										<td>${site.healthcareSite.name}</td>
-										<td>${site.irbApprovalDateStr}<c:if test="${expiredIrb}"><font color='Red'><i>(expired)</i></font></c:if></td>
+										<td>
+											<c:choose>
+												<c:when test="${empty site.irbApprovalDateStr}">
+													<font color='Red'><i>not available</i></font>
+												</c:when>
+												<c:otherwise>
+													${site.irbApprovalDateStr}
+												</c:otherwise>
+											</c:choose>
+											<c:if test="${expiredIrb}"><font color='Red'><i>(expired)</i></font></c:if>
+										</td>
 									</tr>
 								</csmauthz:accesscontrol>
 								<%--</c:if>--%>
