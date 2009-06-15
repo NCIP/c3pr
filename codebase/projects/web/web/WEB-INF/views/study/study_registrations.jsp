@@ -17,7 +17,7 @@
 </form:form>
     <chrome:box title="${tab.shortTitle}">
     	<c:choose>
-    		<c:when test="${fn:length(participantAssignments) != 0} ">
+    		<c:when test="${fn:length(participantAssignments) != 0}">
     			<registrationTags:searchResults registrations="${participantAssignments }"/>
     		</c:when>
     		<c:otherwise>
