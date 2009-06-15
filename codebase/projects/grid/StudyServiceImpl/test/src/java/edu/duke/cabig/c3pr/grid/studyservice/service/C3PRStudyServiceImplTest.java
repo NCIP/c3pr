@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
@@ -21,6 +22,7 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ccts.domain.Message;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
+@Transactional(readOnly= false)
 public class C3PRStudyServiceImplTest extends StudyDaoTestCaseTemplate{
 
 	private StudyServiceI studyGridService;

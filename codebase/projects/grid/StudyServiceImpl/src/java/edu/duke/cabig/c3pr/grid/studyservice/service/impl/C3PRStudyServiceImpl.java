@@ -36,7 +36,6 @@ import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ccts.domain.Message;
 
-@Transactional(readOnly=false)
 public class C3PRStudyServiceImpl implements StudyServiceI {
 
     private XmlMarshaller xmlMarshaller;
@@ -75,8 +74,9 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
                 studyCoordinatingCenter.setHostedMode(false);
             }
             study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-            study=studyRepository.createStudy(study);
-            studyRepository.openStudy(study.getIdentifiers());
+//            study=studyRepository.createStudy(study);
+//            studyRepository.openStudy(study.getIdentifiers());
+            studyRepository.createAndOpenStudy(study);
         }catch (C3PRCodedException e) {
             throw new RemoteException("error building the study", e);
         }finally{

@@ -21,6 +21,7 @@
 		<property name="interceptor" ref="openSessionInViewInterceptor"/>
 		<property name="studyRepository" ref="studyRepository"/>
 		<property name="studyFactory" ref="studyFactory"/>
+		<property name="studySiteDao" ref="studySiteDao"/>
 	</bean>
 	
 </beans>
