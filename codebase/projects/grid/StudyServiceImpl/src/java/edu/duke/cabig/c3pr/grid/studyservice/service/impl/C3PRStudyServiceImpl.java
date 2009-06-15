@@ -12,11 +12,13 @@ import org.oasis.wsrf.properties.GetResourcePropertyResponse;
 import org.oasis.wsrf.properties.QueryResourcePropertiesResponse;
 import org.oasis.wsrf.properties.QueryResourceProperties_Element;
 import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.WebRequest;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -34,6 +36,7 @@ import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ccts.domain.Message;
 
+@Transactional(readOnly=false)
 public class C3PRStudyServiceImpl implements StudyServiceI {
 
     private XmlMarshaller xmlMarshaller;
@@ -43,6 +46,8 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
     private OpenSessionInViewInterceptor interceptor;
     
     private StudyRepository studyRepository;
+    
+    private StudySiteDao studySiteDao;
     
     private XMLUtils xmUtils;
     
@@ -136,7 +141,10 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         }
         WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
         try {
-            studyRepository.getUniqueStudy(identifiers).getStudySite(studySiteList.get(0).getHealthcareSite().getNciInstituteCode()).setIrbApprovalDate(studySiteList.get(0).getIrbApprovalDate());
+        	StudySite studySite= studyRepository.getUniqueStudy(identifiers).getStudySite(studySiteList.get(0).getHealthcareSite().getNciInstituteCode());
+        	studySite.setIrbApprovalDate(studySiteList.get(0).getIrbApprovalDate());
+        	studySite.setStartDate(studySiteList.get(0).getStartDate());
+        	studySiteDao.save(studySite);
             studyRepository.activateStudySite(identifiers, studySiteList.get(0).getHealthcareSite().getNciInstituteCode());
         }
         catch (Exception e) {
@@ -402,5 +410,9 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
     public void setStudyFactory(StudyFactory studyFactory) {
         this.studyFactory = studyFactory;
     }
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
+	}
 
 }

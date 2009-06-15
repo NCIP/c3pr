@@ -24,6 +24,7 @@
 		<property name="interceptor" ref="openSessionInViewInterceptor"/>
 		<property name="studyRepository" ref="studyRepository"/>
 		<property name="studyFactory" ref="studyFactory"/>
+		<property name="studySiteDao" ref="studySiteDao"/>
 	</bean>
 	
 	<bean id="studyAuthorization" class="edu.duke.cabig.c3pr.grid.studyservice.service.impl.StudyServiceAuthorizationImpl">
