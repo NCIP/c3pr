@@ -246,7 +246,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             return DateUtil.formatDate(irbApprovalDate, "MM/dd/yyyy");
         }
         catch (Exception e) {
-            throw new C3PRBaseRuntimeException(e.getMessage());
+        	return "";
         }
     }
 
@@ -261,7 +261,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             return DateUtil.formatDate(startDate, "MM/dd/yyyy");
         }
         catch (Exception e) {
-        	throw new C3PRBaseRuntimeException(e.getMessage());
+        	return "";
         }
     }
 

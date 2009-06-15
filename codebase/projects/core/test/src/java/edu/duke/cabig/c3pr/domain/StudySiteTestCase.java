@@ -91,16 +91,15 @@ public class StudySiteTestCase extends AbstractTestCase{
 	}
 	
 	/**
-	 * Test get irb approval date , throws exception.
+	 * Test get irb approval date , null date.
 	 */
 	public void testGetIrbApprovalDateException(){
 		try {
-			studySite.getIrbApprovalDateStr();
+			assertEquals("",studySite.getIrbApprovalDateStr());
 		} catch (C3PRBaseRuntimeException e) {
 			e.printStackTrace();
-			return;
+			fail("Shouldn't have failed");
 		}
-		fail("Should have failed");
 	}
 	
 	/**
@@ -117,16 +116,15 @@ public class StudySiteTestCase extends AbstractTestCase{
 	}
 	
 	/**
-	 * Test get start date, throws exception.
+	 * Test get start date, null date.
 	 */
 	public void testGetStartDateException(){
 		try {
-			studySite.getStartDateStr();
+			assertEquals("", studySite.getStartDateStr());
 		} catch (C3PRBaseRuntimeException e) {
 			e.printStackTrace();
-			return;
+			fail("Shouldn't have failed");
 		}
-		fail("Should have failed");
 	}
 	
 	/**
