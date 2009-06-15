@@ -91,7 +91,6 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <%--<tags:instructions code="enrollment_details" />--%>
 	<c:set var="isConsentPresent" value="${!empty command.studySubject.informedConsentVersion && command.studySubject.informedConsentVersion!=''}"></c:set>
-	<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
@@ -116,7 +115,6 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<div class="label"><fmt:message key="registration.startDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
 	</div>
-	</c:if>
 	<div class="row">
 		<div class="label"><c:if test="${hasInv}"><tags:requiredIndicator /></c:if><fmt:message key="registration.enrollingPhysician"/></div>
 		<div class="value">
