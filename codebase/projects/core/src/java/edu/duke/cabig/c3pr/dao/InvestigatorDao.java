@@ -68,11 +68,11 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
         Example example = Example.create(inv).excludeZeroes().ignoreCase();
         try {
             Criteria orgCriteria = getSession().createCriteria(Investigator.class);
-            Criteria healthcareSiteInvestigatorCriteria = orgCriteria.createCriteria("healthcareSiteInvestigatorsInternal");
-            Criteria healthcareSiteCriteria = healthcareSiteInvestigatorCriteria.createCriteria("healthcareSite");
             
             if (inv.getHealthcareSiteInvestigators() != null && inv.getHealthcareSiteInvestigators().get(0).getHealthcareSite() != null) {
-            		healthcareSiteCriteria.add(Expression.eq("id", inv.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getId() ));
+            	Criteria healthcareSiteInvestigatorCriteria = orgCriteria.createCriteria("healthcareSiteInvestigatorsInternal");
+                Criteria healthcareSiteCriteria = healthcareSiteInvestigatorCriteria.createCriteria("healthcareSite");
+            	healthcareSiteCriteria.add(Expression.eq("id", inv.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getId() ));
             }
             orgCriteria.addOrder(Order.asc("nciIdentifier"));
             orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
