@@ -2215,4 +2215,25 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return latestConsentVersion;
 	}
 	
+	@Transient
+	public List<StudySubject> getAllStudySubjects(){
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		for(StudySite studySite: this.getStudySites()){
+			studySubjects.addAll(studySite.getStudySubjects());
+		}
+		return studySubjects;
+	}
+	
+	@Transient
+	public List<AnatomicSite> getDiseaseSites(){
+		List<AnatomicSite> diseaseSites = new ArrayList<AnatomicSite>();
+		for(StudySubject studySubject: this.getAllStudySubjects()){
+			if(studySubject.getDiseaseHistory()!=null && studySubject.getDiseaseHistory().getAnatomicSite()!=null){
+				diseaseSites.add(studySubject.getDiseaseHistory().getAnatomicSite());
+			}
+		}
+		return diseaseSites;
+		
+	}
+	
 }
