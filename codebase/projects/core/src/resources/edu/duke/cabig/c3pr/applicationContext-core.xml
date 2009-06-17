@@ -491,6 +491,7 @@
 	<bean id="scheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledNotificationDao" autowire="byName"/>
 	<bean id="recipientScheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao" autowire="byName"/>
 	<bean id="summary3ReportDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.Summary3ReportDao" autowire="byName"/>
+	<bean id="accrualDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.accrual.AccrualDao" autowire="byName"/>
 	
 	
 	<!-- Multisite Request Handlers -->
@@ -556,6 +557,11 @@
           class="edu.duke.cabig.c3pr.service.impl.SummaryReportServiceImpl"
           autowire="byName">
           <property name="marshaller" ref="summaryReportXmlUtility"/>
+    </bean>
+    
+    <bean id="accrualService" lazy-init="true"
+          class="edu.duke.cabig.c3pr.service.impl.AccrualServiceImpl"
+          autowire="byName">
     </bean>
 
     <bean id="studySubjectXMLImporterService" lazy-init="true"
