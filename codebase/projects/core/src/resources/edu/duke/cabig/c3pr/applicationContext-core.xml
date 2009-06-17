@@ -152,9 +152,6 @@
                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
 			   <value>edu.duke.cabig.c3pr.domain.ConsentHistory</value>
-			   <value>edu.duke.cabig.c3pr.domain.Consent</value>
-			   <value>edu.duke.cabig.c3pr.domain.ConsentVersion</value>
-			   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -452,7 +449,6 @@
     <bean id="scheduledEpochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledEpochDao"
           autowire="byName"/>
     <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byName"/>
-    <bean id="consentVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ConsentVersionDao" autowire="byName"/>
     <bean id="endpointDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EndpointDao" autowire="byName"/>
     <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byName"/>
     <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byName">
