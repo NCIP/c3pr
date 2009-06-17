@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import edu.duke.cabig.c3pr.web.study.tabs.StudyAmendmentTab;
-import edu.duke.cabig.c3pr.web.study.tabs.StudyConsentTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
@@ -33,7 +32,6 @@ public class AmendCompanionStudyController extends AmendStudyController {
         boolean editMode = false;
         flow.addTab(new StudyAmendmentTab());
         flow.addTab(new StudyDetailsTab());
-        flow.addTab(new StudyConsentTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());

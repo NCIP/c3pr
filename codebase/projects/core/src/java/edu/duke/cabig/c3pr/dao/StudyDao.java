@@ -19,7 +19,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
-import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -196,12 +195,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 				getHibernateTemplate().initialize(studyOrganization.getHealthcareSite().getHealthcareSiteInvestigators());
 			}
 		}
-		
-		getHibernateTemplate().initialize(study.getConsentsInternal());
-		for (Consent consent : study.getConsents()) {
-			getHibernateTemplate().initialize(consent.getConsentVersionsInternal());
-		}
-		
 	}
     
     /**

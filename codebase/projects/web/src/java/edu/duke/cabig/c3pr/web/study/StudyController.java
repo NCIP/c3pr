@@ -14,7 +14,6 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.multipart.support.StringMultipartFileEditor;
 
-import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -138,8 +137,6 @@ public abstract class StudyController<C extends StudyWrapper> extends
                 new ByteArrayMultipartFileEditor());
         binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor(
                 studyDao));
-        binder.registerCustomEditor(ConsentRequired.class, new EnumByNameEditor(
-                ConsentRequired.class));
     }
 
     @Override

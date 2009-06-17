@@ -29,7 +29,6 @@ import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ConsentVersion;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -43,7 +42,6 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -1012,24 +1010,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	
     	assertEquals("Wrong number of study identifiers retrieved",1,loadedStudy.getIdentifiers().size());
     	assertEquals("Wrong number of study subject identifiers retrieved",2,loadedStudySubject.getIdentifiers().size());
-    }
-    
-    public void testCreateStudySubjectWithStudySubjectConsentVersion(){
-    	StudySubject studySubject = studySubjectDao.getById(1000);
-    	Study study = studyDao.getById(1000);
-    	
-    	ConsentVersion consentVersion = study.getConsents().get(0).getConsentVersions().get(0);
-    	StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
-    	studySubjectConsentVersion.setConsentVersion(consentVersion);
-    	studySubjectConsentVersion.setInformedConsentSignedDate(new Date());
-    	
-    	studySubject.addStudySubjectConsentVersion(studySubjectConsentVersion);
-    	
-    	dao.save(studySubject);
-    	
-    	assertEquals("one study subject consent version retrieved",1,studySubject.getStudySubjectConsentVersions().size());
-    	assertEquals("one study consent version retrieved woth name equal to name","name",studySubject.getStudySubjectConsentVersions().get(0).getConsentVersion().getName());
-    	
     }
     
     		

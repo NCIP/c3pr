@@ -67,12 +67,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		top:35px;
 	}
 	
-	.optionClass{
-		background-color:#99FF66;
-	}
-	.optionClass i {
-	font-style:italic;
-	}
+
 </style>
 </head>
 <body>
@@ -182,49 +177,6 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		</div>
 	</div>
 <!-- MAIN BODY ENDS HERE -->
-<!--  CONSENT DIV BEGINS -->
-<c:if test="${fn:length(command.studySubject.studySite.study.consents) > 1}">
-<chrome:division title="Consents">
-	<table class="tablecontent">
-		<tr>
-		  <th>
-          	<tags:requiredIndicator /><fmt:message key="c3pr.common.name"/>
-          	<tags:hoverHint keyProp="study.consent.name" />
-          </th>
-          <th width="30%">
-          	<tags:requiredIndicator /><fmt:message key="study.consent.consentVersion.name"/>
-          	<tags:hoverHint keyProp="study.consent.consentVersion.name" />
-          </th>
-          <th>
-          	<tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/>
-          	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
-          </th>
-		</tr>
-		<c:forEach items="${command.studySubject.studySite.study.consents}" var="consent" varStatus="status">
-		<tr>
-			<td>${consent.name}
-			</td>
-			<td>
-				<select id ="consentVersions" name="studySubject.studySubjectConsentVersions[${status.index}].consentVersion" class="validate-notEmpty">
-					<option value="">Please select...</option>
-					<c:forEach items="${consent.consentVersions}" var="consentVersion" varStatus="versionStatus">
-						<option value="${consentVersion.id}" ${consentVersion.id==command.studySubject.studySubjectConsentVersions[status.index].consentVersion.id?'selected':'' } 
-									<c:if test="${consent.latestConsentVersion.id == consentVersion.id}">class="optionClass"</c:if>>
-								${consentVersion.name} 
-								<c:if test="${consent.latestConsentVersion.id == consentVersion.id}"><i>(Latest version)</i></c:if>
-						</option>
-					</c:forEach>
-				</select>
-			</td>
-			<td>
-				<tags:dateInput path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" cssClass="validate-notEmpty"/>
-			</td>
-		</tr>
-	</c:forEach>
-	</table>
-</chrome:division>
-</c:if>
-<!-- CONSENT DIV ENDS -->
 </tags:formPanelBox>
 </c:otherwise>
 </c:choose>

@@ -25,8 +25,6 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
-import edu.duke.cabig.c3pr.domain.Consent;
-import edu.duke.cabig.c3pr.domain.ConsentVersion;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -1670,41 +1668,4 @@ public class StudyDaoTest extends DaoTestCase {
     	assertEquals("Wrong number of records",2,list.size());
     }
     
-    
-    public void testSaveConsent() {
-		Study loadedStudy = dao.getById(1000);
-		
-		Consent consent = new Consent();
-		consent.setName("Name");
-		loadedStudy.addConsent(consent);
-		
-		dao.save(loadedStudy);
-		interruptSession();
-		
-        Study reloadedStudy = dao.getById(1000);
-        assertEquals("one consent found for study",1,reloadedStudy.getConsents().size());
-		
     }
-
-    public void testSaveConsentVersion() {
-		Study loadedStudy = dao.getById(1000);
-		
-		Consent consent = new Consent();
-		consent.setName("Name");
-		
-		ConsentVersion consentVersion = new ConsentVersion();
-		consentVersion.setName("version");
-		consentVersion.setDate(new Date());
-		consent.addConsentVersion(consentVersion);
-		
-		loadedStudy.addConsent(consent);
-		
-		dao.save(loadedStudy);
-		interruptSession();
-		
-        Study reloadedStudy = dao.getById(1000);
-        assertEquals("one consent found for study",1,reloadedStudy.getConsents().size());
-        assertEquals("one consent version found for study",1,reloadedStudy.getConsents().get(0).getConsentVersions().size());
-		
-    }
-}

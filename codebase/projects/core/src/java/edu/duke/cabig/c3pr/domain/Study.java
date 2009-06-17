@@ -32,7 +32,6 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -143,9 +142,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	/** The consent version. */
 	private String consentVersion;
 	
-	/** The consent validity period. */
-	private Integer consentValidityPeriod;
-	
 	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
@@ -164,17 +160,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	/** The parent study associations. */
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
-	
-	private ConsentRequired consentRequired ;
-	
-    @Enumerated(EnumType.STRING)
-	public ConsentRequired getConsentRequired() {
-		return consentRequired;
-	}
-
-	public void setConsentRequired(ConsentRequired consentRequired) {
-		this.consentRequired = consentRequired;
-	}
 
 	/**
 	 * Instantiates a new study.
@@ -193,7 +178,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 		standaloneIndicator = true;
 		companionIndicator = false;
-		setConsentValidityPeriod(90);
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(StudySite.class,new ParameterizedBiDirectionalInstantiateFactory<StudySite>(StudySite.class, this));
 		lazyListHelper.add(StudyFundingSponsor.class,new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class, this));
@@ -210,7 +194,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
-		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
 	}
 
 	/**
@@ -240,7 +223,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
-		lazyListHelper.add(Consent.class,new InstantiateFactory<Consent>(Consent.class));
 	}
 
 	/**
@@ -1470,24 +1452,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	/**
-	 * Checks for consent version.
-	 * 
-	 * @return true, if successful
-	 */
-	private boolean hasConsentVersion() {
-		boolean hasConsentVersion = false ;
-		for(Consent consent : this.getConsents()){
-			if(consent.getConsentVersions().size() == 0){
-				hasConsentVersion = false;
-				break;
-			}else{
-				hasConsentVersion = true;
-			}
-		}
-		return hasConsentVersion;
-	}
-
-	/**
 	 * Open.
 	 */
 	public void open() {
@@ -2249,79 +2213,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 					latestConsentVersion=studyAmendment.getConsentVersion();
 			}
 		return latestConsentVersion;
-	}
-	
-
-	/**
-	 * Gets the consents internal.
-	 * 
-	 * @return the consents internal
-	 * 
-	 */
-	
-	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@Where(clause = "retired_indicator  = 'false'")
-	@OrderBy ("id")
-	public List<Consent> getConsentsInternal() {
-		return lazyListHelper.getInternalList(Consent.class);
-	}
-
-	/**
-	 * Gets the consents.
-	 * 
-	 * @return the consents
-	 */
-	@Transient
-	public List<Consent> getConsents() {
-		return lazyListHelper.getLazyList(Consent.class);
-	}
-
-	/**
-	 * Sets the consents internal.
-	 * 
-	 * @param consents the new consents internal
-	 */
-	public void setConsentsInternal(List<Consent> consents) {
-		lazyListHelper.setInternalList(Consent.class,consents);
-	}
-	
-	
-	/**
-	 * Adds the consent.
-	 * 
-	 * @param consent the consent
-	 */
-	public void addConsent(Consent consent) {
-		this.getConsents().add(consent);
-		consent.setStudy(this);
-	}
-	
-	/**
-	 * Sets the consents.
-	 * 
-	 * @param consents the new consents
-	 */
-	public void setConsents(List<Consent> consents) {
-		setConsentsInternal(consents);
-	}
-
-	/**
-	 * Sets the consent validity period.
-	 * 
-	 * @param consentValidityPeriod the new consent validity period
-	 */
-	public void setConsentValidityPeriod(Integer consentValidityPeriod) {
-		this.consentValidityPeriod = consentValidityPeriod;
-	}
-
-	/**
-	 * Gets the consent validity period.
-	 * 
-	 * @return the consent validity period
-	 */
-	public Integer getConsentValidityPeriod() {
-		return consentValidityPeriod;
 	}
 	
 }

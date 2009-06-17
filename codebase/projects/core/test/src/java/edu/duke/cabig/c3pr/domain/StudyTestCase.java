@@ -74,7 +74,6 @@ public class StudyTestCase extends AbstractTestCase{
 		replayMocks();
 		try {
 			List<Error> errors = new ArrayList<Error>();
-			basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 			basicStudy.evaluateDataEntryStatus(errors);
 			//fail("Should have thrown C3PRCodedException");
 		} catch (C3PRCodedRuntimeException e) {
@@ -95,7 +94,6 @@ public class StudyTestCase extends AbstractTestCase{
 		replayMocks();
 		try {
 			List<Error> errors = new ArrayList<Error>();
-			basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 			basicStudy.evaluateDataEntryStatus(errors);
 //			fail("Should have thrown C3PRCodedException");
 		} catch (C3PRCodedRuntimeException e) {
@@ -119,7 +117,6 @@ public class StudyTestCase extends AbstractTestCase{
 		replayMocks();
 		try {
 			List<Error> errors = new ArrayList<Error>();
-			basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 			basicStudy.evaluateDataEntryStatus(errors);
 //			fail("Should have thrown C3PRCodedException");
 		} catch (C3PRCodedRuntimeException e) {
@@ -143,7 +140,6 @@ public class StudyTestCase extends AbstractTestCase{
 		replayMocks();	
 		try {
 			List<Error> errors = new ArrayList<Error>();
-			basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 			basicStudy.evaluateDataEntryStatus(errors);
 //			fail("Should have thrown C3PRCodedRuntimeException");
 		} catch (C3PRCodedRuntimeException e) {
@@ -165,7 +161,6 @@ public class StudyTestCase extends AbstractTestCase{
 		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(304),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(304, "exception message"));
 		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
-		basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 		replayMocks();	
 		try {
 			List<Error> errors = new ArrayList<Error>();
@@ -191,7 +186,6 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.setRandomizationType(RandomizationType.PHONE_CALL);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setRandomization(new PhoneCallRandomization());
-		basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("308");
 		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(308),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(308, "exception message"));
 		replayMocks();	
@@ -215,7 +209,6 @@ public class StudyTestCase extends AbstractTestCase{
 		study.setRandomizedIndicator(true);
 		study.setRandomizationType(RandomizationType.PHONE_CALL);
 		study.getEpochs().get(0).setStratificationIndicator(true);
-		study =studyCreationHelper.addConsentWithVersion(study);
 		study.getEpochs().get(0).setRandomization(new PhoneCallRandomization());
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("308");
 		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(308),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(308, "exception message"));
@@ -234,7 +227,6 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testDataEntryStatusCompleteCase1() throws Exception {
 		studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 		basicStudy.setStratificationIndicator(false);
-		basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 		replayMocks();
 			List<Error> errors = new ArrayList<Error>();
 			assertEquals("Data Entry Status should evaluate to Complete",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus(errors));
@@ -250,7 +242,6 @@ public class StudyTestCase extends AbstractTestCase{
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
 		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
-		basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 		replayMocks();	
 		List<Error> errors = new ArrayList<Error>();
 		assertEquals("Wrong Data Entry Status",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus(errors));
@@ -277,7 +268,6 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testSiteStudyStatusActiveCase1() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
 		basicStudy.setStratificationIndicator(false);
-		basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 		basicStudy.setCoordinatingCenterStudyStatus(basicStudy.evaluateCoordinatingCenterStudyStatus());
 		assertEquals("Study status should evaluate to Active",CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
 		assertEquals("Site Study status should evaluate to Open",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
@@ -1271,7 +1261,6 @@ public void testGetEpochByName2(){
 public void testUpdateDataEntryStatus(){
 	basicStudy.setStratificationIndicator(true);
 	basicStudy.setRandomizedIndicator(true);
-	basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 	
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(300)).andReturn(new C3PRCodedRuntimeException(300, "exception message"));
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(303)).andReturn(new C3PRCodedRuntimeException(303, "exception message"));
@@ -1296,7 +1285,6 @@ public void testUpdateDataEntryStatus(){
 public void testEvaluateCoordinatingCenterStudyStatus(){
 	basicStudy.setStratificationIndicator(true);
 	basicStudy.setRandomizedIndicator(true);
-	basicStudy =studyCreationHelper.addConsentWithVersion(basicStudy);
 	
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(300)).andReturn(new C3PRCodedRuntimeException(300, "exception message"));
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(303)).andReturn(new C3PRCodedRuntimeException(303, "exception message"));
@@ -1323,7 +1311,6 @@ public void testEvaluateCoordinatingCenterStudyStatus(){
 public void testEvaluateCoordinatingCenterStudyStatus1(){
 	basicStudy.setStratificationIndicator(false);
 	basicStudy.setRandomizedIndicator(false);
-	studyCreationHelper.addConsentWithVersion(basicStudy);
 	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 	CoordinatingCenterStudyStatus status = null;
 	try{
@@ -1342,7 +1329,6 @@ public void testEvaluateCoordinatingCenterStudyStatus2(){
 	basicStudy.setCompanionIndicator(true);
 	basicStudy.setStandaloneIndicator(false);
 	basicStudy.setRandomizedIndicator(false);
-	studyCreationHelper.addConsentWithVersion(basicStudy);
 	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 	CoordinatingCenterStudyStatus status = null;
 	try{
@@ -1370,7 +1356,6 @@ public void testEvaluateCoordinatingCenterStudyStatus4(){
 	basicStudy.setCompanionIndicator(false);
 	basicStudy.setStandaloneIndicator(false);
 	basicStudy.setRandomizedIndicator(false);
-	studyCreationHelper.addConsentWithVersion(basicStudy);
 	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 	CoordinatingCenterStudyStatus status = null;
 	try{
@@ -1390,7 +1375,6 @@ public void testEvaluateCoordinatingCenterStudyStatus5(){
 	basicStudy.setStandaloneIndicator(true);
 	basicStudy.setRandomizedIndicator(false);
 	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
-	studyCreationHelper.addConsentWithVersion(basicStudy);
 	CoordinatingCenterStudyStatus status = null;
 	try{
 		 status = basicStudy.evaluateCoordinatingCenterStudyStatus();
@@ -1408,7 +1392,6 @@ public void testEvaluateCoordinatingCenterStudyStatus6(){
 	basicStudy.setCompanionIndicator(false);
 	basicStudy.setStandaloneIndicator(true);
 	basicStudy.setRandomizedIndicator(false);
-	studyCreationHelper.addConsentWithVersion(basicStudy);
 	studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 	CoordinatingCenterStudyStatus status = null;
 	try{
@@ -2336,14 +2319,6 @@ public void testSetCoordinatingCenterStudyStatus(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 	assertEquals("coordinating center status is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
 	assertEquals("study site coordinating center is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getStudySites().get(0).getCoordinatingCenterStudyStatus());
-}
-
-public void testGetConsents(){
-	Consent consent = new Consent();
-	List<Consent> list = new ArrayList<Consent>();
-	list.add(consent);
-	basicStudy.getConsents().add(consent);
-	assertEquals("1 concent found", 1, basicStudy.getConsents().size());
 }
 
 }

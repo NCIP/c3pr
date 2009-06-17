@@ -90,7 +90,6 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         ((StudyRepositoryImpl) studyRepository).setC3PRExceptionHelper(c3PRExceptionHelper);
         study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
-        studyCreationHelper.addConsentWithVersion(study);
         studySite = study.getStudySites().get(0);
         list = new ArrayList<Study>();
         list.add(study);

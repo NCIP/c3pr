@@ -28,7 +28,6 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
-        studyCreationHelper.addConsentWithVersion(study);
         study = studyRepository.createStudy(study);
         interruptSession();
         study = studyDao.getById(study.getId());
@@ -54,7 +53,6 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
-        studyCreationHelper.addConsentWithVersion(study);
         studyDao.save(study);
         interruptSession();
         studyRepository.openStudy(study.getIdentifiers());

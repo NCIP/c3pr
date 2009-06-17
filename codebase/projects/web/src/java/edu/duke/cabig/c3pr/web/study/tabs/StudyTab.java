@@ -52,8 +52,6 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
 
     public static final String DISABLE_FORM_EPOCH_AND_ARMS = "DISABLE_FORM_EPOCH_AND_ARMS";
     
-    public static final String DISABLE_FORM_CONSENT = "DISABLE_FORM_CONSENT";
-
     public static final String DISABLE_FORM_ELIGIBILITY = "DISABLE_FORM_ELIGIBILITY";
 
     public static final String DISABLE_FORM_STRATIFICATION = "DISABLE_FORM_STRATIFICATION";

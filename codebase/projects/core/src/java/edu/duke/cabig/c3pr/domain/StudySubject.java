@@ -176,7 +176,6 @@ public class StudySubject extends
 		setIdentifiers(new ArrayList<Identifier>());
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 		lazyListHelper.add(ConsentHistory.class, new ParameterizedBiDirectionalInstantiateFactory<ConsentHistory>(ConsentHistory.class, this));
-		lazyListHelper.add(StudySubjectConsentVersion.class, new ParameterizedBiDirectionalInstantiateFactory<StudySubjectConsentVersion>(StudySubjectConsentVersion.class, this));
 		// mandatory, so that the lazy-projected list is managed properly.
 	}
 
@@ -206,7 +205,6 @@ public class StudySubject extends
 		}
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 		lazyListHelper.add(ConsentHistory.class, new ParameterizedBiDirectionalInstantiateFactory<ConsentHistory>(ConsentHistory.class, this));
-		lazyListHelper.add(StudySubjectConsentVersion.class, new ParameterizedBiDirectionalInstantiateFactory<StudySubjectConsentVersion>(StudySubjectConsentVersion.class, this));
 	}
 
 	/**
@@ -1883,59 +1881,4 @@ public Date getInformedConsentSignedDate() {
 		return false ;
 	}
 	
-
-	/**
-	 * Gets the study subject consent versions internal.
-	 * 
-	 * @return the study subject consent versions internal
-	 */
-	@OneToMany(mappedBy = "studySubject", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@OrderBy ("id")
-	public List<StudySubjectConsentVersion> getStudySubjectConsentVersionsInternal() {
-		return lazyListHelper.getInternalList(StudySubjectConsentVersion.class);
-	}
-
-	/**
-	 * Gets the study subject consent versions.
-	 * 
-	 * @return the study subject consent versions
-	 */
-	@Transient
-	public List<StudySubjectConsentVersion> getStudySubjectConsentVersions() {
-		return lazyListHelper.getLazyList(StudySubjectConsentVersion.class);
-	}
-
-	
-	/**
-	 * Sets the study subject consent versions internal.
-	 * 
-	 * @param studySubjectConsentVersions the new study subject consent versions internal
-	 */
-	public void setStudySubjectConsentVersionsInternal(List<StudySubjectConsentVersion> studySubjectConsentVersions) {
-		lazyListHelper.setInternalList(StudySubjectConsentVersion.class,studySubjectConsentVersions);
-	}
-	
-
-	/**
-	 * Sets the study subject consent versions.
-	 * 
-	 * @param studySubjectConsentVersions the new study subject consent versions
-	 */
-	public void setStudySubjectConsentVersions(List<StudySubjectConsentVersion> studySubjectConsentVersions) {
-		setStudySubjectConsentVersions(studySubjectConsentVersions);
-	}
-
-	
-	/**
-	 * Adds the study subject consent version.
-	 * 
-	 * @param studySubjectConsentVersion the study subject consent version
-	 */
-	public void addStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {
-		this.getStudySubjectConsentVersions().add(studySubjectConsentVersion);
-		studySubjectConsentVersion.setStudySubject(this);
-	}
-
-
 }

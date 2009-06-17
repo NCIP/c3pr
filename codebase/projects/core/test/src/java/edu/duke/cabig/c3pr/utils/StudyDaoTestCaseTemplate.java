@@ -31,7 +31,6 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
-import edu.duke.cabig.c3pr.tools.Configuration;
 
 public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
 
@@ -198,7 +197,6 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
-        studyCreationHelper.addConsentWithVersion(study);
         study = studyRepository.createStudy(study);
         interruptSession();
         study=studyDao.getById(study.getId());;

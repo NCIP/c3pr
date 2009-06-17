@@ -13,8 +13,6 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
-import edu.duke.cabig.c3pr.domain.Consent;
-import edu.duke.cabig.c3pr.domain.ConsentVersion;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -469,18 +467,4 @@ public class StudyCreationHelper {
 		 return child;
 	 }
 	 
-	 public Study addConsentWithVersion(Study basicStudy){
-		 ConsentVersion version = new ConsentVersion();
-		 version.setName("Name");
-		 version.setDate(new Date());
-		 version.setLatestIndicator(true);
-		 
-		 Consent consent = new Consent();
-		 consent.setName("Name");
-		 consent.setRetiredIndicatorAsFalse();
-		 consent.addConsentVersion(version);
-		 
-		 basicStudy.addConsent(consent);
-		 return basicStudy;
-	 }
 }

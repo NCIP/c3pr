@@ -1,13 +1,27 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.web.study.tabs.*;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
+
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
+import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyEligibilityChecklistTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyOverviewTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyRandomizationTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyStratificationTab;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
  * Controller class to handle the work flow in the Creation of a Study Design This uses
@@ -19,7 +33,6 @@ public class CreateCompanionStudyController<C extends StudyWrapper> extends Crea
 
     protected void layoutTabs(Flow flow) {
         flow.addTab(new StudyDetailsTab());
-        flow.addTab(new StudyConsentTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());
