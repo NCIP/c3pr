@@ -73,4 +73,13 @@ public class AnatomicSiteDao extends GridIdentifiableDao<AnatomicSite> {
     	anatomicSiteCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
     	return anatomicSiteCriteria.list();
     }
+    
+    
+    public int getTotalAccrual(AnatomicSite diseaseSite){
+    	int accrual = 0;
+    	
+    	accrual = getHibernateTemplate().find("from StudySubject ss where ss.diseaseHistoryInternal.anatomicSite.name = ?",new Object[]{diseaseSite.getName()}).size();
+    	
+    	return accrual;
+    }
 }
