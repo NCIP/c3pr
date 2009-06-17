@@ -1,0 +1,108 @@
+<dataset>
+
+	<CSM_USER user_id="1000" login_name="c3pr_admin_etc" first_name="c3pr_etc" last_name="admin_etc" />   
+	<CSM_GROUP group_id="1000" group_name="edu.duke.cabig.c3pr.domain.HealthcareSite.RM-TST-ID-1000	" group_desc="" application_id="1" /> 
+	<CSM_ROLE role_id="1000" role_name="dbunit_user" application_id="1" active_flag="1" />
+	<CSM_PROTECTION_GROUP protection_group_id="6" protection_group_name="dbunitparent" application_id="1" large_element_count_flag="0" />
+	<CSM_PROTECTION_GROUP protection_group_id="1000" protection_group_name="dbunit" application_id="1" large_element_count_flag="0" parent_protection_group_id="6"/>
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
+      
+    <STUDIES id="1100" version="1" blinded_indicator="1" long_title_text="long_title_text" multi_institution_indicator="1"
+   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123" type="Genetic Therapeutic"
+    description_text="description" precis_text="precis_text" status="OPEN" data_entry_status="COMPLETE" />
+    
+    <STUDIES id="1200" version="1" blinded_indicator="1" long_title_text="long_title_text1" multi_institution_indicator="1"
+   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text1" target_accrual_number="2343" type="Genetic Therapeutic"
+    description_text="description" precis_text="precis_text" status="OPEN" data_entry_status="COMPLETE" />
+   
+	<ADDRESSES id="1100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
+  
+    <ORGANIZATIONS id="1000" version="1" name="duke healthcare 2" description_text="duke healthcare 2" dtype="Local" address_id="1100" nci_institute_code="duke nci code" />    
+	<ORGANIZATIONS id="1100" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100" nci_institute_code="code" />
+    
+    <STUDY_ORGANIZATIONS id="1100" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2000" end_date="01-01-2012" study_id="1100"
+    hcs_id="1100" type="SST"/>
+    
+    <STUDY_ORGANIZATIONS id="1200" version="1" irb_approval_date="01-01-2002" role_code="role" site_study_status="ACTIVE" start_date="01-01-2002" end_date="01-01-2011" study_id="1200"
+    hcs_id="1000" type="SST"/>
+
+    <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
+
+    <EPOCHS id="1100" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1100" treatment_indicator="1"/>
+    
+    <ARMS id="1100" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1100" />
+        
+    <RESEARCH_STAFF id="1100" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1100" dtype="Local" />
+    
+    <INVESTIGATORS id="1100" version="1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" />
+    
+    <HC_SITE_INVESTIGATORS id="1100" version="1" status_code="AC" status_date="01-01-2000" inv_id="1100" hcs_id="1100"/>
+    
+    <STUDY_INVESTIGATORS id="1100" version="1" hsi_id="1100" sto_id="1100" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="AC"/>
+    
+    <DISEASE_CATEGORIES id="1100" version="1" name="AIDS-related Human Papillomavirus"/>
+    
+    <DISEASE_TERMS id="1100" version="1" term="AIDS-related anal cancer" ctep_term="AIDS-related anal cancer" category_id="1" medra_code="10065860"/>
+   
+    <STUDY_DISEASES id="1100" version="1" study_id="1100" disease_term_id="1000" lead_disease="1"/>
+    
+    <ELIGIBILITY_CRITERIA id="1100" version="1" question_number="1" eph_id="1100" question_text="inclusion question 1" dtype="I"/>
+    
+    <STRAT_CRITERIA id="1100" version="1" question_text="question" eph_id="1100" question_number="1"/>
+    
+    <STRAT_CRI_PER_ANS id="1100" version="1" permissible_answer="answer" str_cri_id="1100"/>  
+     
+    <STRATUM_GROUPS id="1100" version="1" current_position="1" stratum_group_number="8" epochs_id="1100" />
+    
+    <BOOK_RNDM_ENTRY id="1100" version="1" position="1" str_grp_id="1100" arms_id="1100" rndm_id="1100" />             
+
+   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2006-12-12" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="AAAAA11111GridID"/>
+   	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2006-12-12" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID"/>   	
+
+	<CONTACT_MECHANISMS id="1000" version="1"/>
+
+    <ANATOMIC_SITES id="1100" version="1" name="Skin" category="skin" />
+    <ANATOMIC_SITES id="1101" version="1" name="Blood" category="Blood" />
+    <ANATOMIC_SITES id="1102" version="1" name="Abdomen" category="Abdomen" /> 
+    <ANATOMIC_SITES id="1103" version="1" name="ab" category="skin" />
+    <ANATOMIC_SITES id="1104" version="1" name="bc" category="Blood" />
+    <ANATOMIC_SITES id="1105" version="1" name="cd" category="Abdomen" /> 
+    <ANATOMIC_SITES id="1106" version="1" name="de" category="skin" />
+    <ANATOMIC_SITES id="1107" version="1" name="ef" category="Blood" />
+    <ANATOMIC_SITES id="1108" version="1" name="gh" category="Abdomen" /> 
+    <ANATOMIC_SITES id="1109" version="1" name="hi" category="skin" />
+    <ANATOMIC_SITES id="1110" version="1" name="ij" category="Blood" />
+    <ANATOMIC_SITES id="1111" version="1" name="jk" category="Abdomen" /> 
+    <ANATOMIC_SITES id="1112" version="1" name="kl" category="skin" />
+    <ANATOMIC_SITES id="1113" version="1" name="lm" category="Blood" />
+    <ANATOMIC_SITES id="1114" version="1" name="mn" category="Abdomen" /> 
+    <ANATOMIC_SITES id="1115" version="1" name="no" category="skin" />
+    <ANATOMIC_SITES id="1116" version="1" name="op" category="Blood" />
+    <ANATOMIC_SITES id="1117" version="1" name="pq" category="Abdomen" /> 
+    <ANATOMIC_SITES id="1118" version="1" name="qr" category="skin" />
+    <ANATOMIC_SITES id="1119" version="1" name="rs" category="Blood" />
+    
+
+    <DISEASE_HISTORY id="1000" version="1" anatomic_site_id="1100"/>
+    <DISEASE_HISTORY id="1100" version="1" anatomic_site_id="1102"/>
+    <DISEASE_HISTORY id="1200" version="1" anatomic_site_id="1103"/>
+
+	<STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="2006-08-12" informed_consent_signed_date="2006-12-12" disease_history_id="1000" prt_id="1000" sto_id="1100" sti_id="1100" retired_indicator = "false" />
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="2007-08-08" informed_consent_signed_date="2006-09-09" disease_history_id="1100" prt_id="1100" sto_id="1100" sti_id="1100"/>
+	<STUDY_SUBJECTS reg_workflow_status="ENROLLED" reg_data_entry_status="COMPLETE" id="1200" version="1" start_date="2008-10-11" informed_consent_signed_date="2008-11-11" disease_history_id="1200" prt_id="1100" sto_id="1200" sti_id="1100"/>
+   
+    <SCHEDULED_EPOCHS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1100" eph_id="1100" sc_epoch_workflow_status="INVALID" sc_epoch_data_entry_status="INCOMPLETE"/>  
+
+	<SUBJECT_STRAT_ANS id="1100" version="1" sceph_id="1100" str_cri_id="1100"/>
+	
+	<SUBJECT_ELIGIBILITY_ANS id="1100" version="1" sceph_id="1100" elgct_id="1100"/>
+	
+    <SCHEDULED_ARMS id="1100" version="1" start_date="2006-12-12" eligibility_indicator="1" arm_id="1100" SCEPH_ID="1100" />  
+
+    <STRAT_CRI_ANS_CMB id="1000" version="1" />
+	
+	<STUDY_AMENDMENTS/>
+
+    <IDENTIFIERS id="1100" version="1" value="nci" type="Coordinating Center Identifier" system_name="nci" dtype="SAI"/>
+</dataset>
+
