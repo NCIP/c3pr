@@ -28,7 +28,7 @@
 			<xs:element name="value" type="xs:integer" />
 		</xs:all>
 	</xs:complexType>
-	<xs:complexType name="reportDiseaseEntryType">
+	<xs:complexType name="ReportDiseaseEntryType">
 		<xs:all>
 			<xs:element name="key" type="DiseaseSiteType" />
 			<xs:element name="value" type="RegistrationCountMapType" />
@@ -58,7 +58,7 @@
 			<xs:element minOccurs="0" maxOccurs="1"
 				name="reportingOrganization" type="HealthcareSiteType" />
 			<xs:element minOccurs="0" maxOccurs="unbounded" name="reportData"
-				type="reportDiseaseEntryType" />
+				type="ReportDiseaseEntryType" />
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
