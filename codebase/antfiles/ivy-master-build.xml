@@ -31,11 +31,13 @@
       		<fileset file="${projects.dir}/esb-client/ivy-build.xml" />
     		<fileset file="${projects.dir}/grid/StudyService/ivy-build.xml" />
     		<fileset file="${projects.dir}/grid/RegistrationService/ivy-build.xml" />
+    		<fileset file="${projects.dir}/grid/ReportService/ivy-build.xml" />
     		<fileset file="${projects.dir}/core/ivy-build.xml" />
 			<fileset file="${projects.dir}/rules/ivy-build.xml" />
     		<fileset file="${projects.dir}/web/ivy-build.xml" />
     		<fileset file="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" />
     		<fileset file="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" />
+    		<fileset file="${projects.dir}/grid/ReportServiceImpl/ivy-build.xml" />
     	</ivy:buildlist>
   		<property name="buildlist.done" value="true" />
   		<echo message="buildList : ${build-path}" />
@@ -260,7 +262,7 @@
 	
 	<target name="deploy-c3prregistrationService" depends="deploy-registrationService, deploy-registrationServiceImpl"/>
 	
-	<target name="deploy-c3prGridService" depends="deploy-registrationService, deploy-studyService, build-rules">
+	<target name="deploy-c3prGridService" depends="deploy-registrationService, deploy-studyService,deploy-reportService, build-rules">
 		<ant target="deployRegistrationServiceImpl" antfile="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" dir="${grid.dir}/RegistrationServiceImpl" inheritall="false">
 			<property name="env.skip.test" value="true"></property>
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
@@ -269,7 +271,43 @@
 			<property name="env.skip.test" value="true"></property>
 			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
 		</ant>
+		<ant target="deployReportServiceImpl" antfile="${projects.dir}/grid/ReportServiceImpl/ivy-build.xml" dir="${grid.dir}/ReportServiceImpl" inheritall="false">
+					<property name="env.skip.test" value="true"></property>
+					<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+		</ant>
 	</target>
+	
+	<target name="deploy-reportServiceImpl" depends="build-rules"
+			description="Builds all c3pr modules and deploys webapp on your web/web local">
+			<ant target="deployReportServiceImpl" antfile="${projects.dir}/grid/ReportServiceImpl/ivy-build.xml" dir="${grid.dir}/ReportServiceImpl" inheritall="false">
+				<property name="env.skip.test" value="true"></property>
+				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+			</ant>
+	</target>
+	
+	<target name="build-reportServiceImpl" depends="build-rules"
+				description="Builds all c3pr modules and deploys webapp on your web/web local">
+				<ant target="publish-local" antfile="${projects.dir}/grid/ReportServiceImpl/ivy-build.xml" dir="${grid.dir}/ReportServiceImpl" inheritall="false">
+					<property name="env.skip.test" value="true"></property>
+					<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+				</ant>
+			</target>
+		
+		<target name="undeploy-reportService">
+			<ant target="undeployTomcat" antfile="${projects.dir}/grid/ReportService/build.xml" dir="${grid.dir}/ReportService" inheritall="false">
+				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+				<property name="webapp.localtion" value="aaa" />
+				<property name="service.deployment.dir.name" value="abc" />
+			</ant>
+		</target>
+
+		<target name="deploy-reportService">
+			<ant target="deployTomcat" antfile="${projects.dir}/grid/ReportService/build.xml" dir="${grid.dir}/ReportService" inheritall="false">
+				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+			</ant>
+		</target>
+		
+		<target name="deploy-c3prreportService" depends="deploy-reportService, deploy-reportServiceImpl"/>
 	
 	<!-- ==========================================================
 		target : tomcat.security
@@ -343,6 +381,7 @@
 			<zipfileset dir="${projects.dir}/rules" prefix="projects/rules"/>
         	<zipfileset dir="${projects.dir}/grid/StudyService" prefix="projects/grid/StudyService"/>
         	<zipfileset dir="${projects.dir}/grid/RegistrationService" prefix="projects/grid/RegistrationService"/>
+        	<zipfileset dir="${projects.dir}/grid/ReportService" prefix="projects/grid/ReportService"/>
         </zip>
         <zip destfile="${projects.dir}/installer/installpack/ivy2.zip">
             <zipfileset dir="${ivy.cache}" prefix="${ivy.cache.name}"/>
