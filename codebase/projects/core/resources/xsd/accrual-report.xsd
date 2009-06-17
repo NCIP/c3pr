@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
+	elementFormDefault="qualified" targetNamespace="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Accrual service schema</xs:documentation>
+	</xs:annotation>
+	<xs:element name="siteAccrualReport" type="SiteAcccrualReportType"/>
+	
+	<xs:element name="diseaseSiteAccrualReport" type="DiseaseSiteAccrualReportType"/>
+	<xs:element name="accrual" type="AccrualType"/>
+	<xs:element name="studyAccrualType" type="StudyAccrualReportType"/>
+	<xs:element name="endDate" type="xs:date"/>
+	<xs:element name="startDate" type="xs:date"/>
+	
+	<xs:complexType name="AccrualType">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="1" name="value"
+				type="xs:int" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="DiseaseSiteAccrualReportType">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="1" name="name"
+				type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="accrual"
+				type="AccrualType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="StudyAccrualReportType">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="1" name="identifier"
+				type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="shortTitle"
+				type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="accrual"
+				type="AccrualType" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="diseaseAccrualReports"
+				type="DiseaseSiteAccrualReportType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="SiteAcccrualReportType">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="1" name="ctepId"
+				type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="name"
+				type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="address"
+				type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="lat"
+				type="xs:double" />
+			<xs:element minOccurs="0" maxOccurs="1" name="long"
+				type="xs:double" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="accrual"
+				type="AccrualType" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="studyAccrualReports"
+				type="StudyAccrualReportType" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
