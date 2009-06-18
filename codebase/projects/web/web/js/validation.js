@@ -111,6 +111,7 @@ var ValidationManager = {
 					ValidationManager.log("<input type='button' value='submit this form' onClick='ValidationManager.resumeSubmit()'/>")
 				}else
 					formVar._submit()
+					openInfoDialog();
 			}
 		}
 	},
@@ -185,6 +186,7 @@ var ValidationManager = {
 				},
 	resumeSubmit: function(){
 						this.currentFormVar._submit()
+						openInfoDialog()
 					},
 	loggerDiv: "ValidationManagerLog",
 	log: function(string){

@@ -15,6 +15,7 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EndPoint;
@@ -79,20 +80,6 @@ public class StudySitesTab extends StudyTab {
 				.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
 		refdata.put("openSections",request.getParameter("openSections"));
 		return refdata;
-	}
-
-	@SuppressWarnings("unchecked")
-	public ModelAndView showEndpointMessage(HttpServletRequest request,
-			Object obj, Errors errors) {
-		StudyWrapper wrapper = (StudyWrapper) obj;
-		Study study = wrapper.getStudy();
-		String nciCode = request.getParameter("nciCode");
-		String localNciCode = request.getParameter("localNciCode");
-		StudyOrganization studyOrganization = study.getStudyOrganization(nciCode);
-		Map map = new HashMap();
-		map.put("site", studyOrganization);
-		map.put("localSite", study.getStudyOrganization(localNciCode));
-		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 
 	@Override
@@ -214,10 +201,9 @@ public class StudySitesTab extends StudyTab {
 		Study study = wrapper.getStudy();
 		// updating study with irb approval date, target accrual and activation date.
 		study = studyDao.merge(study);
-		
+		Map map = new HashMap();
 		String nciInstituteCode = request.getParameter("nciCode");
 		String studySiteType = request.getParameter("studySiteType");
-		;
 		List<Identifier> studyIdentifiers = study.getIdentifiers();
 		StudySite studySite;
 		EndPoint endPoint = null;
@@ -228,81 +214,54 @@ public class StudySitesTab extends StudyTab {
 		}
 
 		APIName apiName = APIName.valueOf(request.getParameter("action"));
-		if (apiName == APIName.CREATE_STUDY_DEFINITION) {
-			endPoint = studyRepository.createStudyAtAffiliate(studyIdentifiers,
-					nciInstituteCode);
-		} else if (apiName == APIName.CREATE_AND_OPEN_STUDY) {
-			endPoint = studyRepository.createAndOpenStudyAtAffiliate(studyIdentifiers,
-					nciInstituteCode);
-		} else if (apiName == APIName.OPEN_STUDY) {
-			endPoint = studyRepository.openStudyAtAffiliate(studyIdentifiers,
-					nciInstituteCode);
-		} else if (apiName == APIName.AMEND_STUDY) {
-			studyRepository.amendStudyAtAffiliates(studyIdentifiers, study);
-		} else if (apiName == APIName.CLOSE_STUDY_TO_ACCRUAL) {
-			endPoint = studyRepository.closeStudyToAccrualAtAffiliate(studyIdentifiers,
-					nciInstituteCode);
-		}else if (apiName == APIName.CLOSE_STUDY_TO_ACCRUAL_AND_TREATMENT) {
-			endPoint = studyRepository.closeStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
-					nciInstituteCode);
-		}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_TO_ACCRUAL) {
-			endPoint = studyRepository.temporarilyCloseStudyToAccrualAtAffiliate(studyIdentifiers,
-					nciInstituteCode);
-		}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_TO_ACCRUAL_AND_TREATMENT) {
-			endPoint = studyRepository.temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
-					nciInstituteCode);
-		} 
-		else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
-			try {
+		try {
+			if (apiName == APIName.CREATE_STUDY_DEFINITION) {
+				endPoint = studyRepository.createStudyAtAffiliate(studyIdentifiers,
+						nciInstituteCode);
+			} else if (apiName == APIName.CREATE_AND_OPEN_STUDY) {
+				endPoint = studyRepository.createAndOpenStudyAtAffiliate(studyIdentifiers,
+						nciInstituteCode);
+			} else if (apiName == APIName.OPEN_STUDY) {
+				endPoint = studyRepository.openStudyAtAffiliate(studyIdentifiers,
+						nciInstituteCode);
+			} else if (apiName == APIName.AMEND_STUDY) {
+				studyRepository.amendStudyAtAffiliates(studyIdentifiers, study);
+			} else if (apiName == APIName.CLOSE_STUDY_TO_ACCRUAL) {
+				endPoint = studyRepository.closeStudyToAccrualAtAffiliate(studyIdentifiers,
+						nciInstituteCode);
+			}else if (apiName == APIName.CLOSE_STUDY_TO_ACCRUAL_AND_TREATMENT) {
+				endPoint = studyRepository.closeStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
+						nciInstituteCode);
+			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_TO_ACCRUAL) {
+				endPoint = studyRepository.temporarilyCloseStudyToAccrualAtAffiliate(studyIdentifiers,
+						nciInstituteCode);
+			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_TO_ACCRUAL_AND_TREATMENT) {
+				endPoint = studyRepository.temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
+						nciInstituteCode);
+			} 
+			else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
 				studySite = studyRepository.activateStudySite(studyIdentifiers,
-						studySite);
-			} catch (MultisiteException e) {
-				e.printStackTrace();
-			} catch (C3PRCodedRuntimeException e) {
-				request.setAttribute("actionError", e);
-			}
-		} else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL) {
-			try {
+							studySite);
+			} else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL) {
 				studySite = studyRepository.closeStudySiteToAccrual(studyIdentifiers,
-						nciInstituteCode);
-			} catch (MultisiteException e) {
-				e.printStackTrace();
-			} catch (C3PRCodedRuntimeException e) {
-				request.setAttribute("actionError", e);
-			}
-		}else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
-			try {
+							nciInstituteCode);
+			}else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
 				studySite = studyRepository.closeStudySiteToAccrualAndTreatment(studyIdentifiers,
-						nciInstituteCode);
-			} catch (MultisiteException e) {
-				e.printStackTrace();
-			} catch (C3PRCodedRuntimeException e) {
-				request.setAttribute("actionError", e);
-			}
-		}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL) {
-			try {
+							nciInstituteCode);
+			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL) {
 				studySite = studyRepository.temporarilyCloseStudySiteToAccrual(studyIdentifiers,
-						nciInstituteCode);
-			} catch (MultisiteException e) {
-				e.printStackTrace();
-			} catch (C3PRCodedRuntimeException e) {
-				request.setAttribute("actionError", e);
-			}
-		}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
-			try {
+							nciInstituteCode);
+			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
 				studySite = studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(studyIdentifiers,
-						nciInstituteCode);
-			} catch (MultisiteException e) {
-				e.printStackTrace();
-			} catch (C3PRCodedRuntimeException e) {
-				request.setAttribute("actionError", e);
+							nciInstituteCode);
 			}
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			map.put("errorMessage", e.getMessage());
 		}
-		if (studySite == null) {
-			studySite = wrapper.getStudy().getStudySite(
-					studySite.getHealthcareSite().getNciInstituteCode());
+		if(endPoint!=null && endPoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED){
+			map.put("errorMessage", endPoint.getLastAttemptError().getErrorMessage());
 		}
-		Map map = new HashMap();
 		wrapper.setStudy(studyRepository
 						.getUniqueStudy(study.getIdentifiers()));
 		studyDao.initialize(wrapper.getStudy());
@@ -314,7 +273,14 @@ public class StudySitesTab extends StudyTab {
 					nciInstituteCode);
 		}
 		map.put("site", studySite);
-
+		map.put("apiName", apiName);
+		Integer index=null;
+		for(int i=0 ; i<wrapper.getStudy().getStudySites().size(); i++){
+			if(wrapper.getStudy().getStudySites().get(i).getHealthcareSite().getNciInstituteCode().equals(nciInstituteCode)){
+				index=i;
+			}
+		}
+		map.put("siteIndex", index);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 	
@@ -336,7 +302,7 @@ public class StudySitesTab extends StudyTab {
 		setCoordinatingCenterStudyStatus(request, study, studySite);
 		Map map = new HashMap();
 		map.put("site", studySite);
-		map.put("index", study.getStudySites().size() - 1); 
+		map.put("siteIndex", study.getStudySites().size() - 1); 
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 	

@@ -282,3 +282,9 @@ function launchPrint(){
 function confirmationMessage(message){
 	Dialog.confirm(message, {className: "alphacube", width: 500,  okLabel: "Ok", cancel:function(win){return false;}, ok:function(win) {return true;}});
 }
+
+function openInfoDialog()
+{ 
+	//Dialog.info('<img alt="http://www.usaautowarranty.com/images/progress_bar.gif" src="http://www.usaautowarranty.com/images/progress_bar.gif">', {width:380, height:80, className:'alert_lite'});
+	Dialog.info('<img src="/c3pr/images/Please_Wait.gif"><div><h3>Please Wait... Loading</h3></div>', {width:280, height:230, className:'alert_lite'});
+}

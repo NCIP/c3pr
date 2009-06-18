@@ -73,7 +73,6 @@
                 <c:out value="${studies}" escapeXml="false"/>
             </div>
         </chrome:division>
-
 </chrome:box>
 </c:if>
 </body>
