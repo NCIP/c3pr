@@ -105,11 +105,6 @@
 		if($("targetAccrual-"+nciCode)){
 			submitStr+='&'+$("targetAccrual-"+nciCode).name+'='+$("targetAccrual-"+nciCode).value;
 		}
-		if($("hostedMode-"+nciCode)){
-			submitStr+='&'+$("hostedMode-"+nciCode).name+'='+$("hostedMode-"+nciCode).value;
-			submitStr+='&'+$("_hostedMode-"+nciCode).name+'='+$("_hostedMode-"+nciCode).value;
-			submitStr+='&'+$("hostedMode-wasHosted-"+nciCode).name+'='+$("hostedMode-wasHosted-"+nciCode).value;
-		}
 		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/updatedStudySiteSection" divElement="'siteSection_'+nciCode" javaScriptParam="submitStr"/>
 		Element.show('sendingMessage-'+nciCode);
 	}

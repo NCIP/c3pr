@@ -12,11 +12,13 @@
 <%@attribute name="maximized"%>
 <%@attribute name="action" type="edu.duke.cabig.c3pr.constants.APIName"%>
 <%@attribute name="errorMessage"%>
+<%@attribute name="isNewStudySite"%>
 <c:set var="keepOpen" value="${(!empty maximized && maximized) || fn:contains(openSections, site.healthcareSite.nciInstituteCode)}"/>
 <c:set var="isActionSuccess" value="${empty errorMessage?true:false}" />
 <c:set var="isLocalSiteCoordinating" value="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}"/>
 <c:set var="isSiteLocal" value="${localNCICode==site.healthcareSite.nciInstituteCode}"></c:set>
 <c:set var="isSiteManageable" value="${site.hostedMode || isLocalSiteCoordinating || isSiteLocal}"/>
+<c:set var="showActionButtons" value="${empty isNewStudySite || !isNewStudySite}"/>
 <chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="deleteStudySite('${site.healthcareSite.nciInstituteCode}');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.nciInstituteCode}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
 <div id="site-${site.healthcareSite.nciInstituteCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
@@ -78,7 +80,7 @@
 						<c:when test="${isLocalSiteCoordinating}">
 							<input type="checkbox" id="hostedMode-${site.healthcareSite.nciInstituteCode}" name="study.studySites[${index}].hostedMode" ${site.hostedMode?'checked':'' } />
 	            			<input type="hidden" id="_hostedMode-${site.healthcareSite.nciInstituteCode}" value="1" name="_study.studySites[${index}].hostedMode"/>
-       						<input type="hidden" id="" name="hostedMode-wasHosted-${site.healthcareSite.nciInstituteCode}" value="${site.hostedMode}"/>
+       						<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.nciInstituteCode}" name="${site.healthcareSite.nciInstituteCode}-wasHosted" value="${site.hostedMode}"/>
 						</c:when>
 						<c:otherwise>
 							${empty site.hostedMode?'No':(site.hostedMode?'Yes':'No') }
@@ -93,7 +95,7 @@
 			</div>
 		</div>
 	</div>
-	<c:if test="${fn:length(site.possibleTransitions)>0 && isSiteManageable}">
+	<c:if test="${showActionButtons && fn:length(site.possibleTransitions)>0 && isSiteManageable}">
 	<div class="row">
 		<c:set var="close" value="false"/>
 		<c:set var="temporary" value="false"/>
@@ -147,8 +149,7 @@
 				<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="site.action.success.${action}" /></div>
 			</c:when>
 			<c:otherwise>
-				<div style="float:left" width="5%"><img src="<tags:imageUrl name='error.gif'/>" width="16" height="16"></div>
-				<div align="left"><font color="red"><fmt:message key="site.action.error.${action}" /> ${errorMessage}</font></div>
+			<div id="flash-message" class="error"><img src="<tags:imageUrl name='alert.png'/>" style="vertical-align:bottom;">&nbsp;<fmt:message key="site.action.error.${action}" />&nbsp;${errorMessage}</div>
 				
 			</c:otherwise>
 		</c:choose>
