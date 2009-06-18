@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -23,15 +24,20 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.axis.AxisFault;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
@@ -72,6 +78,12 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     /** The study organization. */
     protected StudyOrganization studyOrganization;
     
+	/** The c3 pr exception helper. */
+	private C3PRExceptionHelper c3PRExceptionHelper;
+
+	/** The c3pr error messages. */
+	private MessageSource c3prErrorMessages;
+    
     /** The Constant STUDY_XML_CASTOR_MAPPING_FILE_NAME. */
     public static final String STUDY_XML_CASTOR_MAPPING_FILE_NAME="c3pr-study-xml-castor-mapping.xml";
     
@@ -82,7 +94,13 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
 	 * Instantiates a new end point.
 	 */
 	public EndPoint(){
-        
+		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+		resourceBundleMessageSource.setBasename("error_messages_multisite");
+		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
+		resourceBundleMessageSource1.setBasename("error_messages_c3pr");
+		resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
+		this.c3prErrorMessages = resourceBundleMessageSource1;
+		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
     }
     
     /**
@@ -143,7 +161,7 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
      * 
      * @throws InvocationTargetException the invocation target exception
      */
-    public void invoke(Object argument) throws InvocationTargetException{
+    public void invoke(Object argument) throws InvocationTargetException, C3PRCodedRuntimeException{
         try {
             Object service=getService(); 
             Method method=getAPI();
@@ -152,19 +170,28 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
             this.setStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
         }
         catch (InvocationTargetException e) {
-        	e.getTargetException().printStackTrace();
-            String errorMsg=e.getTargetException().getMessage();
-            String code="500";
-            Pattern p=Pattern.compile(".*([0-9][0-9][0-9]):(.*)");
-            Matcher matcher=p.matcher(errorMsg);
-            if(matcher.find()){
-                code=matcher.group(1);
-                errorMsg=matcher.group(2);
-            }else{
-                System.out.println("code not found.");
-            }
-            this.errors.add(new Error(this.toString(),code,"Error invoking "+(this.apiName==null?"":this.apiName.getCode())+":"+errorMsg));
-            this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+        	this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+        	String errorMsg=e.getTargetException().getMessage();
+        	if (e.getTargetException() instanceof AxisFault) {
+				AxisFault fault = (AxisFault) e.getTargetException();
+				if(fault.detail instanceof ConnectException){
+					Integer code= getCode("C3PR.EXCEPTION.ENDPOINT.CONNECTION_EXCEPTION.CODE");
+					C3PRCodedRuntimeException codedRuntimeException= c3PRExceptionHelper.getRuntimeException(code);
+					this.errors.add(new Error(this.toString(),code.toString(),codedRuntimeException.getCodedExceptionMesssage()));
+					throw codedRuntimeException;
+				}
+			}else{
+				String code="500";
+	            Pattern p=Pattern.compile(".*([0-9][0-9][0-9]):(.*)");
+	            Matcher matcher=p.matcher(errorMsg);
+	            if(matcher.find()){
+	                code=matcher.group(1);
+	                errorMsg=matcher.group(2);
+	            }else{
+	                System.out.println("code not found.");
+	            }
+	            this.errors.add(new Error(this.toString(),code,"Error invoking "+(this.apiName==null?"":this.apiName.getDisplayName())+":"+errorMsg));
+			}
             throw e;
         }
         catch (Exception e) {
@@ -397,5 +424,38 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
 	 */
 	public void setStudyOrganization(StudyOrganization studyOrganization) {
 		this.studyOrganization = studyOrganization;
+	}
+	
+	/**
+	 * Gets the c3 pr exception helper.
+	 * 
+	 * @return the c3 pr exception helper
+	 */
+	@Transient
+	public C3PRExceptionHelper getC3PRExceptionHelper() {
+		return c3PRExceptionHelper;
+	}
+
+	/**
+	 * Gets the code.
+	 * 
+	 * @param errortypeString the errortype string
+	 * 
+	 * @return the code
+	 */
+	@Transient
+	public int getCode(String errortypeString) {
+		return Integer.parseInt(this.c3prErrorMessages.getMessage(
+				errortypeString, null, null));
+	}
+
+	/**
+	 * Gets the c3pr error messages.
+	 * 
+	 * @return the c3pr error messages
+	 */
+	@Transient
+	public MessageSource getC3prErrorMessages() {
+		return c3prErrorMessages;
 	}
 }

@@ -2,15 +2,18 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.apache.axis.AxisFault;
 import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 
 public class EndpointTest extends AbstractTestCase {
 
@@ -37,7 +40,7 @@ public class EndpointTest extends AbstractTestCase {
 		verifyMocks();
 	}
 	
-	public void testInvokeException1()throws NoSuchMethodException{
+	public void testInvokeException1()throws Exception{
 		someMock.someExceptionAPI();
 		EasyMock.expectLastCall().andThrow(new RuntimeException("200:some message"));
 		EndpointSubclass endpointSubclass= new EndpointSubclass("someExceptionAPI", new Class[]{});
@@ -66,6 +69,28 @@ public class EndpointTest extends AbstractTestCase {
 		}catch (InvocationTargetException invocationTargetException){
 			fail("Wrong Exception");
 		}
+	}
+	
+	public void testInvokeException3()throws Exception{
+		AxisFault axisFault= new AxisFault();
+		axisFault.detail=new ConnectException("Some Connection Exception");
+		InvocationTargetException e1= new InvocationTargetException(axisFault);
+		someMock.someExceptionAPI();
+		EasyMock.expectLastCall().andThrow(axisFault);
+		EndpointSubclass endpointSubclass= new EndpointSubclass("someExceptionAPI", new Class[]{});
+		replayMocks();
+		try {
+			endpointSubclass.invoke(null);
+			fail("Should have failed");
+		} catch (C3PRCodedRuntimeException e2) {
+			e2.printStackTrace();
+			assertEquals("Wrong exception code",504, e2.getExceptionCode());
+			assertEquals(WorkFlowStatusType.MESSAGE_SEND_FAILED, endpointSubclass.getStatus());
+		}catch (InvocationTargetException e3) {
+			e3.printStackTrace();
+			fail("Should have thrown c3pr coded runtime exception");
+		}
+		verifyMocks();
 	}
 	
 	public void testGetXMLUtilsNullServiceName(){
@@ -119,7 +144,7 @@ public class EndpointTest extends AbstractTestCase {
 	interface SomeMock{
 		public void someAPI();
 		public String someStringAPI(String s);
-		public void someExceptionAPI();
+		public void someExceptionAPI() throws AxisFault;
 	}
 	
 	class EndpointSubclass extends EndPoint{
