@@ -78,12 +78,12 @@ public class AccrualServiceImpl implements AccrualService{
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.service.AccrualService#getAccrual(edu.duke.cabig.c3pr.domain.accrual.DiseaseSiteAccrualReport, edu.duke.cabig.c3pr.domain.accrual.StudyAccrualReport, java.util.Date, java.util.Date)
 	 */
-	public SiteAccrualReport getAccrual(
-			DiseaseSiteAccrualReport diseaseSiteAccrualReport,
-			StudyAccrualReport studyAccrualReport, Date start, Date end) {
+	public SiteAccrualReport getSiteAccrualReport(
+			String diseaseSiteName,
+			String studyShortTitleText, Date startDate, Date endDate) {
 		SiteAccrualReport siteAccrualReport = buildSiteAccrualReport(getSiteCtepId());
 		Accrual accrual = new Accrual();
-		accrual.setValue(accrualDao.getSiteAccrual(siteAccrualReport, diseaseSiteAccrualReport, studyAccrualReport, start, end));
+		accrual.setValue(accrualDao.getSiteAccrual(siteAccrualReport, diseaseSiteName, studyShortTitleText, startDate, endDate));
 		siteAccrualReport.setAccrual(accrual);
 		return siteAccrualReport;
 			
@@ -129,7 +129,11 @@ public class AccrualServiceImpl implements AccrualService{
 		SiteAccrualReport siteAccrualReport =new SiteAccrualReport();
 		siteAccrualReport.setName(localHealthcareSite.getName());
 		siteAccrualReport.setCtepId(nciInstituteCode);
-		siteAccrualReport.setAddress(localHealthcareSite.getAddress().toString());
+		siteAccrualReport.setStreetAddress(localHealthcareSite.getAddress().getStreetAddress());
+		siteAccrualReport.setCity(localHealthcareSite.getAddress().getCity());
+		siteAccrualReport.setStateCode(localHealthcareSite.getAddress().getStateCode());
+		siteAccrualReport.setPostalCode(localHealthcareSite.getAddress().getPostalCode());
+		siteAccrualReport.setCountryCode(localHealthcareSite.getAddress().getCountryCode());
 		siteAccrualReport.setStudyAccrualReports(accrualDao.getStudyAccrualReports());
 		
 		return siteAccrualReport;
