@@ -48,7 +48,15 @@
 				type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="name"
 				type="xs:string" />
-			<xs:element minOccurs="1" maxOccurs="1" name="address"
+			<xs:element minOccurs="0" maxOccurs="1" name="streetAddress"
+				type="xs:string" />
+			<xs:element minOccurs="1" maxOccurs="1" name="city"
+				type="xs:string" />
+			<xs:element minOccurs="1" maxOccurs="1" name="stateCode"
+				type="xs:string" />
+			<xs:element minOccurs="1" maxOccurs="1" name="postalCode"
+				type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="countryCode"
 				type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="lat"
 				type="xs:double" />
