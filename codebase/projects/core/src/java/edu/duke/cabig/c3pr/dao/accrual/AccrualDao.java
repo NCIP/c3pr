@@ -56,8 +56,8 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 	}
 
 	public int getSiteAccrual(SiteAccrualReport siteAccrualReport,
-			DiseaseSiteAccrualReport diseaseSiteAccrualReport,
-			StudyAccrualReport studyAccrualReport, Date startDate, Date endDate) {
+			String diseaseSiteName,
+			String studyShortTitleText, Date startDate, Date endDate) {
 
 		Criteria registrationCriteria = getHibernateTemplate()
 				.getSessionFactory().getCurrentSession().createCriteria(
@@ -76,8 +76,8 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 
 		// Study Criteria
 		
-		if(studyAccrualReport!=null && studyAccrualReport.getShortTitle()!=null){
-			studyCriteria.add(Expression.eq("shortTitleText",studyAccrualReport.getShortTitle()));
+		if(studyShortTitleText!=null){
+			studyCriteria.add(Expression.eq("shortTitleText",studyShortTitleText));
 		}
 
 		// Site criteria
@@ -96,8 +96,8 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 
 		// disease site criteria
 		
-		if(diseaseSiteAccrualReport!=null && diseaseSiteAccrualReport.getName()!=null){
-			anatomicSiteCriteria.add(Expression.eq("name", diseaseSiteAccrualReport.getName()));
+		if(diseaseSiteName!=null){
+			anatomicSiteCriteria.add(Expression.eq("name", diseaseSiteName));
 		}
 
 		registrationCriteria
