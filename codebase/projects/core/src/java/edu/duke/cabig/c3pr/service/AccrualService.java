@@ -59,8 +59,8 @@ public interface AccrualService {
 	 * @return the accrual
 	 */
 
-	public SiteAccrualReport getAccrual(
-			DiseaseSiteAccrualReport diseaseSiteAccrualReport,
-			StudyAccrualReport studyAccrualReport, Date start, Date end);
+	public SiteAccrualReport getSiteAccrualReport(
+			String diseaseSiteName,
+			String studyShortTitleText, Date startDate, Date endDate);
 
 }
