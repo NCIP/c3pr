@@ -6,7 +6,7 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
-public class StudyAccrualReport extends AbstractMutableDeletableDomainObject implements Cloneable {
+public class StudyAccrualReport implements Cloneable {
     protected String identifier;
     protected String shortTitle;
     protected Accrual accrual;

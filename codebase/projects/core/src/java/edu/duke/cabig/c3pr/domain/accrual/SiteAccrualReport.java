@@ -8,11 +8,16 @@ import java.util.List;
 public class SiteAccrualReport {
 	 	private String name;
 	    private String ctepId;
-	    private String address = null;
+	    private String streetAddress = null;
+	    private String city = null;
+	    private String stateCode = null;
+	    private String postalCode = null;
+	    private String countryCode = null;
 	    private Double lat = null;
 	    private Double lng = null;
 	    private Accrual accrual;
 	    private List<StudyAccrualReport> studyAccrualReports;
+	    
 	    
 	    public SiteAccrualReport()
 	    {
@@ -60,16 +65,6 @@ public class SiteAccrualReport {
 	        this.lng = lng;
 	    }
 	 
-	    public String getAddress()
-	    {
-	        return address;
-	    }
-
-	    public void setAddress(String address)
-	    {
-	        this.address = address;
-	    }
-
 	    public Accrual getAccrual()
 	    {
 	        return accrual;
@@ -102,14 +97,79 @@ public class SiteAccrualReport {
 	        SiteAccrualReport obj = new SiteAccrualReport(getName(), getCtepId());
 	        obj.setLat(getLat());
 	        obj.setLng(getLat());
-	        obj.setAddress(getAddress());
+	        obj.setStreetAddress(getStreetAddress());
+	        obj.setCity(city);
+	        obj.setStateCode(stateCode);
+	        obj.setPostalCode(postalCode);
+	        obj.setCountryCode(countryCode);
 	        Accrual totalAccrual = getAccrual();
 	        if (totalAccrual != null) obj.setAccrual((Accrual) totalAccrual.clone());
 	        obj.setStudyAccrualReports(StudyAccrualReport.clone(getStudyAccrualReports()));
 	        return obj;
 	    }
 
-	    public static List<SiteAccrualReport> clone(List<SiteAccrualReport> siteAccrualReports)   {
+	    public String getStreetAddress() {
+			return streetAddress;
+		}
+
+		public void setStreetAddress(String streetAddress) {
+			this.streetAddress = streetAddress;
+		}
+
+		public String getCity() {
+			return city;
+		}
+
+		public void setCity(String city) {
+			this.city = city;
+		}
+
+		public String getStateCode() {
+			return stateCode;
+		}
+
+		public void setStateCode(String stateCode) {
+			this.stateCode = stateCode;
+		}
+
+		public String getPostalCode() {
+			return postalCode;
+		}
+
+		public void setPostalCode(String postalCode) {
+			this.postalCode = postalCode;
+		}
+
+		public String getCountryCode() {
+			return countryCode;
+		}
+
+		public void setCountryCode(String countryCode) {
+			this.countryCode = countryCode;
+		}
+		
+		public String getAddress(){
+			StringBuffer address = new StringBuffer();
+			if(streetAddress != null){
+				address = address.append(streetAddress);
+			}
+			if(city != null){
+				address = address.append("\t"+ city);
+			}
+			if(stateCode != null){
+				address = address.append("\t" + stateCode);
+			}
+			if(postalCode != null){
+				address = address.append("\t" + postalCode);
+			}
+			if(countryCode != null){
+				address = address.append("\t" + countryCode);
+			}
+		
+			return address.toString();
+		}
+
+		public static List<SiteAccrualReport> clone(List<SiteAccrualReport> siteAccrualReports)   {
 	    	 List<SiteAccrualReport> siteAccrualReportObjects = new ArrayList<SiteAccrualReport>();
 	         for (int i = 0; i < siteAccrualReports.size(); i++) {
 	        	 SiteAccrualReport siteAccrualReportObject = null;

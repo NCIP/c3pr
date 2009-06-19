@@ -2,9 +2,9 @@ package edu.duke.cabig.c3pr.domain.accrual;
 
 import java.io.PrintStream;
 
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
-public class Accrual extends AbstractMutableDeletableDomainObject implements Cloneable 
+public class Accrual extends AbstractMutableDomainObject implements Cloneable 
 {
     protected int value;
     
