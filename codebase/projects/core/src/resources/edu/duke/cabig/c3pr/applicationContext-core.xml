@@ -29,6 +29,10 @@
         <constructor-arg value="summary-3-report-castor-mapping.xml"/>
     </bean>
     
+    <bean id="accrual-report-castor-mapping" class="java.lang.String">
+        <constructor-arg value="accrual-report-castor-mapping.xml"/>
+    </bean>
+    
     <!--  Summary Report Generator -->
     
     <bean id="summary3ReportGenerator" class="edu.duke.cabig.c3pr.xml.Summary3ReportGenerator">
@@ -711,12 +715,19 @@
     <bean id="summaryReportXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="summary-3-report-castor-mapping"/>
     </bean>
+    
+     <bean id="accrualReportXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="accrual-report-castor-mapping"/>
+    </bean>
 
     <bean id="xmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
         <constructor-arg value="c3pr-domain.xsd"/>
     </bean>
     <bean id="summaryReportXmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
         <constructor-arg value="summary-report.xsd"/>
+    </bean>
+    <bean id="accrualReportXmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
+        <constructor-arg value="accrual-report.xsd"/>
     </bean>
     <bean id="c3prErrorMessages" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="error_messages_c3pr"/>
