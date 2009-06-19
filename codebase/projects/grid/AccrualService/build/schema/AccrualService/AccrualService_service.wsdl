@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="AccrualService" targetNamespace="http://accrualservice.grid.c3pr.cabig.duke.edu/AccrualService/service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:binding="http://accrualservice.grid.c3pr.cabig.duke.edu/AccrualService/bindings" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://accrualservice.grid.c3pr.cabig.duke.edu/AccrualService/bindings" location="AccrualService_bindings.wsdl"/>
+  <wsdl:service name="AccrualService">
+    <wsdl:port name="AccrualServicePortTypePort" binding="binding:AccrualServicePortTypeSOAPBinding">
+      <soap:address location="http://localhost:8080/wsrf/services/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,11 @@
+#Introduce Properties
+#Fri Jun 19 16:39:13 EDT 2009
+introduce.skeleton.services.list=AccrualService
+introduce.skeleton.extensions=
+introduce.skeleton.timestamp=1245442888108
+introduce.skeleton.service.name=AccrualService
+introduce.skeleton.resource.options=main,singleton,identifiable,resourcePropertyManagement
+introduce.skeleton.destination.dir=C\:\\Users\\Iris\\workspace\\codebase\\projects\\grid\\AccrualService
+introduce.skeleton.namespace.domain=http\://accrualservice.grid.c3pr.cabig.duke.edu/AccrualService
+introduce.ns.excludes=\ -x gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security
+introduce.soap.binding.excludes=\ 
