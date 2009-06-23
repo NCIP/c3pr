@@ -84,6 +84,7 @@
 						</c:when>
 						<c:otherwise>
 							${empty site.hostedMode?'No':(site.hostedMode?'Yes':'No') }
+							<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.nciInstituteCode}" name="${site.healthcareSite.nciInstituteCode}-wasHosted" value="${site.hostedMode}"/>
 						</c:otherwise>
 					</c:choose>
 					</div>
