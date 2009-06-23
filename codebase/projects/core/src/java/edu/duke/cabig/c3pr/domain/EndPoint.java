@@ -180,18 +180,27 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
 					this.errors.add(new Error(this.toString(),code.toString(),codedRuntimeException.getCodedExceptionMesssage()));
 					throw codedRuntimeException;
 				}
-			}else{
-				String code="500";
-	            Pattern p=Pattern.compile(".*([0-9][0-9][0-9]):(.*)");
-	            Matcher matcher=p.matcher(errorMsg);
-	            if(matcher.find()){
-	                code=matcher.group(1);
-	                errorMsg=matcher.group(2);
-	            }else{
-	                System.out.println("code not found.");
-	            }
-	            this.errors.add(new Error(this.toString(),code,"Error invoking "+(this.apiName==null?"":this.apiName.getDisplayName())+":"+errorMsg));
 			}
+        	if(errorMsg.contains("AuthorizationException")){
+        		Pattern p=Pattern.compile(".*/CN=(.*)\".*");
+                Matcher matcher=p.matcher(errorMsg);
+                if(matcher.find()){
+                	Integer code= getCode("C3PR.EXCEPTION.MULTISITE.CODE");
+					C3PRCodedRuntimeException codedRuntimeException= c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.ENDPOINT.AUTHORIZATION_EXCEPTION.CODE"),new String[] { matcher.group(1), this.apiName.getDisplayName(), this.studyOrganization.getHealthcareSite().getName() });
+					this.errors.add(new Error(this.toString(),code.toString(),codedRuntimeException.getCodedExceptionMesssage()));
+					throw codedRuntimeException;
+                }
+        	}
+			String code="500";
+            Pattern p=Pattern.compile(".*([0-9][0-9][0-9]):(.*)");
+            Matcher matcher=p.matcher(errorMsg);
+            if(matcher.find()){
+                code=matcher.group(1);
+                errorMsg=matcher.group(2);
+            }else{
+                System.out.println("code not found.");
+            }
+            this.errors.add(new Error(this.toString(),code,"Error invoking "+(this.apiName==null?"":this.apiName.getDisplayName())+":"+errorMsg));
             throw e;
         }
         catch (Exception e) {

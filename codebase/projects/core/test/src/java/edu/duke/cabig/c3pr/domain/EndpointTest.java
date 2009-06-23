@@ -11,6 +11,7 @@ import org.apache.axis.AxisFault;
 import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
@@ -85,6 +86,30 @@ public class EndpointTest extends AbstractTestCase {
 		} catch (C3PRCodedRuntimeException e2) {
 			e2.printStackTrace();
 			assertEquals("Wrong exception code",504, e2.getExceptionCode());
+			assertEquals(WorkFlowStatusType.MESSAGE_SEND_FAILED, endpointSubclass.getStatus());
+		}catch (InvocationTargetException e3) {
+			e3.printStackTrace();
+			fail("Should have thrown c3pr coded runtime exception");
+		}
+		verifyMocks();
+	}
+	
+	public void testInvokeException4()throws Exception{
+		someMock.someExceptionAPI();
+		EasyMock.expectLastCall().andThrow(new RuntimeException("org.globus.wsrf.impl.security.authorization.exceptions.AuthorizationException: \"/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=SmokeTest\" is not authorized to use operation: {http://studyservice.grid.c3pr.cabig.duke.edu/StudyService}createAndOpenStudy on this service"));
+		EndpointSubclass endpointSubclass= new EndpointSubclass("someExceptionAPI", new Class[]{});
+		endpointSubclass.setApiName(APIName.CREATE_AND_OPEN_STUDY);
+		endpointSubclass.setStudyOrganization(registerMockFor(StudyOrganization.class));
+		HealthcareSite healthcareSite= registerMockFor(HealthcareSite.class);
+		EasyMock.expect(endpointSubclass.getStudyOrganization().getHealthcareSite()).andReturn(healthcareSite);
+		EasyMock.expect(healthcareSite.getName()).andReturn("Some Name");
+		replayMocks();
+		try {
+			endpointSubclass.invoke(null);
+			fail("Should have failed");
+		} catch (C3PRCodedRuntimeException e2) {
+			e2.printStackTrace();
+			assertEquals("Wrong exception code",505, e2.getExceptionCode());
 			assertEquals(WorkFlowStatusType.MESSAGE_SEND_FAILED, endpointSubclass.getStatus());
 		}catch (InvocationTargetException e3) {
 			e3.printStackTrace();
