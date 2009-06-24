@@ -1,0 +1,94 @@
+<gme: / ccts.cabig / gov.nih.nci.cabig.ccts.domain xmlns:gme="">
+	<ns1:ctepId xmlns:ns1="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">RM-TST-ID2</ns1:ctepId>
+	<ns2:name xmlns:ns2="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">Montreal Childrens Hospital Remote
+		2</ns2:name>
+	<ns3:city xsi:nil="true"
+		xmlns:ns3="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+	<ns4:stateCode xsi:nil="true"
+		xmlns:ns4="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+	<ns5:postalCode xsi:nil="true"
+		xmlns:ns5="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+	<ns6:accrual value="4"
+		xmlns:ns6="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
+	<ns7:studyAccrualReport
+		xmlns:ns7="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<ns7:identifier xsi:nil="true"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<ns7:shortTitle>test study</ns7:shortTitle>
+	</ns7:studyAccrualReport>
+	<ns8:studyAccrualReport
+		xmlns:ns8="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<ns8:identifier xsi:nil="true"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<ns8:shortTitle>test study</ns8:shortTitle>
+	</ns8:studyAccrualReport>
+	<ns9:studyAccrualReport
+		xmlns:ns9="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<ns9:identifier xsi:nil="true"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<ns9:shortTitle>test study</ns9:shortTitle>
+	</ns9:studyAccrualReport>
+	<ns10:studyAccrualReport
+		xmlns:ns10="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<ns10:identifier xsi:nil="true"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<ns10:shortTitle>test study</ns10:shortTitle>
+	</ns10:studyAccrualReport>
+	<ns11:studyAccrualReport
+		xmlns:ns11="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<ns11:identifier xsi:nil="true"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<ns11:shortTitle>test create</ns11:shortTitle>
+		<ns11:diseaseSiteAccrualReport>
+			<ns11:name>Pharnyx</ns11:name>
+			<ns11:accrual value="0" />
+		</ns11:diseaseSiteAccrualReport>
+		<ns11:diseaseSiteAccrualReport>
+			<ns11:name>Sinuses</ns11:name>
+			<ns11:accrual value="0" />
+		</ns11:diseaseSiteAccrualReport>
+	</ns11:studyAccrualReport>
+	<ns12:studyAccrualReport
+		xmlns:ns12="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<ns12:identifier xsi:nil="true"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<ns12:shortTitle>test update</ns12:shortTitle>
+	</ns12:studyAccrualReport>
+	<ns13:studyAccrualReport
+		xmlns:ns13="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<ns13:identifier xsi:nil="true"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<ns13:shortTitle>test study</ns13:shortTitle>
+	</ns13:studyAccrualReport>
+	<ns14:studyAccrualReport
+		xmlns:ns14="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<ns14:identifier xsi:nil="true"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<ns14:shortTitle>test create 1</ns14:shortTitle>
+	</ns14:studyAccrualReport>
+	<ns15:studyAccrualReport
+		xmlns:ns15="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<ns15:identifier xsi:nil="true"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<ns15:shortTitle>book randomized study</ns15:shortTitle>
+		<ns15:diseaseSiteAccrualReport>
+			<ns15:name>Nose</ns15:name>
+			<ns15:accrual value="1" />
+		</ns15:diseaseSiteAccrualReport>
+		<ns15:diseaseSiteAccrualReport>
+			<ns15:name>Nasopharynx</ns15:name>
+			<ns15:accrual value="1" />
+		</ns15:diseaseSiteAccrualReport>
+		<ns15:diseaseSiteAccrualReport>
+			<ns15:name>Bladder</ns15:name>
+			<ns15:accrual value="1" />
+		</ns15:diseaseSiteAccrualReport>
+		<ns15:diseaseSiteAccrualReport>
+			<ns15:name>Cervix</ns15:name>
+			<ns15:accrual value="1" />
+		</ns15:diseaseSiteAccrualReport>
+	</ns15:studyAccrualReport>
+</gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain>
