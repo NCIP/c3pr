@@ -81,7 +81,7 @@ public class AccrualServiceImpl implements AccrualService{
 	public SiteAccrualReport getSiteAccrualReport(
 			String diseaseSiteName,
 			String studyShortTitleText, Date startDate, Date endDate) {
-		SiteAccrualReport siteAccrualReport = buildSiteAccrualReport(getSiteCtepId());
+		SiteAccrualReport siteAccrualReport = buildSiteAccrualReport(getSiteCtepId(),studyShortTitleText);
 		Accrual accrual = new Accrual();
 		accrual.setValue(accrualDao.getSiteAccrual(siteAccrualReport, diseaseSiteName, studyShortTitleText, startDate, endDate));
 		siteAccrualReport.setAccrual(accrual);
@@ -94,9 +94,8 @@ public class AccrualServiceImpl implements AccrualService{
 	 */
 	public List<DiseaseSiteAccrualReport> getDiseaseSiteAccrualReports() {
 		String nciInstituteCode = getSiteCtepId();
-		SiteAccrualReport siteAccrualReport = buildSiteAccrualReport(nciInstituteCode);
 		
-		return siteAccrualReport.findDiseaseSiteAccrualReports();
+		return accrualDao.getAllDiseaseSiteAccrualReports(nciInstituteCode);
 	}
 
 	/* (non-Javadoc)
@@ -113,17 +112,18 @@ public class AccrualServiceImpl implements AccrualService{
 	 * @see edu.duke.cabig.c3pr.service.AccrualService#getStudyAccrualReports()
 	 */
 	public List<StudyAccrualReport> getStudyAccrualReports() {
-		return accrualDao.getStudyAccrualReports();
+		return accrualDao.getStudyAccrualReports(getSiteCtepId(),null);
 	}
 	
 	/**
 	 * Builds the site accrual report.
 	 * 
 	 * @param nciInstituteCode the nci institute code
+	 * @param shortTitleText the short title text
 	 * 
 	 * @return the site accrual report
 	 */
-	public SiteAccrualReport buildSiteAccrualReport(String nciInstituteCode){
+	public SiteAccrualReport buildSiteAccrualReport(String nciInstituteCode, String shortTitleText){
 		
 		HealthcareSite localHealthcareSite = healthcareSiteDao.getByNciInstituteCode(nciInstituteCode);
 		SiteAccrualReport siteAccrualReport =new SiteAccrualReport();
@@ -134,7 +134,7 @@ public class AccrualServiceImpl implements AccrualService{
 		siteAccrualReport.setStateCode(localHealthcareSite.getAddress().getStateCode());
 		siteAccrualReport.setPostalCode(localHealthcareSite.getAddress().getPostalCode());
 		siteAccrualReport.setCountryCode(localHealthcareSite.getAddress().getCountryCode());
-		siteAccrualReport.setStudyAccrualReports(accrualDao.getStudyAccrualReports());
+		siteAccrualReport.setStudyAccrualReports(accrualDao.getStudyAccrualReports(nciInstituteCode,shortTitleText));
 		
 		return siteAccrualReport;
 		
