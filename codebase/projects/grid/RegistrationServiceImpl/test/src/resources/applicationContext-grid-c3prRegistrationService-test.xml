@@ -24,6 +24,9 @@
 		<property name="participantDao" ref="participantDao"/>
 		<property name="c3prErrorMessages" ref="c3prErrorMessages"/>
 		<property name="exceptionHelper" ref="exceptionHelper"/>
+		<property name="configuration" ref="configuration"/>
+		<property name="scheduledNotificationService" ref="scheduledNotificationService"/>
+		<property name="schedulerService" ref="schedulerService"/>
 	</bean>
 	
 </beans>

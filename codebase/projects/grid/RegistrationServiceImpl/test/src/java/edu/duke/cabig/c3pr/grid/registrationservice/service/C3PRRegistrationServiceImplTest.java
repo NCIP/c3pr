@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.grid.registrationservice.service;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
