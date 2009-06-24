@@ -65,7 +65,7 @@
     <!-- Creates the war file                                           -->
     <!-- ============================================================== -->
     <target name="war" depends="jar" description="Builds the war files">
-        <war destfile="${war.dir}/${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+        <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
             <webinf dir="${web.dir}/WEB-INF">
                 <include name="**/*"/>
                 <exclude name="web.xml"/>
