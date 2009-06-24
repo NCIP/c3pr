@@ -12,6 +12,12 @@ import java.rmi.RemoteException;
  */
 public interface AccrualServiceI {
 
+  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
+
+  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;
+
+  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException ;
+
   public gov.nih.nci.cabig.ccts.domain.SiteAcccrualReportType getSiteAccrualReport(java.lang.String diseaseSiteName,java.lang.String studyShortTitleText,java.util.Date startDate,java.util.Date endDate) throws RemoteException ;
 
   public gov.nih.nci.cabig.ccts.domain.DiseaseSiteAccrualReportType[] getDiseaseSiteAccrualReports() throws RemoteException ;
@@ -19,12 +25,6 @@ public interface AccrualServiceI {
   public java.lang.String getSiteCtepId() throws RemoteException ;
 
   public gov.nih.nci.cabig.ccts.domain.StudyAccrualReportType[] getStudyAccrualReports() throws RemoteException ;
-
-  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
-
-  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;
-
-  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException ;
 
 }
 
