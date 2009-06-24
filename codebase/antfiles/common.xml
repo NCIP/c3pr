@@ -209,8 +209,9 @@
 		target : download-ant-contrib Its only called by reports-style in ivy-master-build
 		It does not download if ant.contrib.available is set to true
 	====================================================== -->
-	<target name="download-ant-contrib" unless="ant.contrib.available">
+	<target name="download-ant-contrib" depends="resolve" unless="ant.contrib.available">
 		<echo message="Downloading ant-contrib....." />
+		<ivy:resolve inline="true" organisation="ant-contrib" module="ant-contrib" revision="1.0b2" />
 		<get src="${ant-contrib.jar.location}" dest="${lib.dir}/ant-contrib-1.0b2.jar" verbose="true" usetimestamp="true"/>
 	</target>
 	
