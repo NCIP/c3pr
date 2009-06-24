@@ -423,7 +423,9 @@
 	                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
 	            </classpath>
 	        </taskdef>
-			
+			<ant target="resolve" antfile="${projects.dir}/core/ivy-build.xml" dir="${projects.dir}/core" inheritall="false">
+	    		<property name="env.skip.test" value="true"></property>
+	    	</ant>
 			<property name="javadoc.dir" value="${reports.dir}/javadoc"/>
 			<delete dir="${javadoc.dir}"/>
 			<mkdir dir="${javadoc.dir}"/>
