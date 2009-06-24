@@ -5,30 +5,22 @@
 	<xs:annotation>
 		<xs:documentation xml:lang="en">Accrual report schema</xs:documentation>
 	</xs:annotation>
-	
-	<xs:element name="siteAccrualReport" type="SiteAcccrualReportType"/>
-	<xs:element name="diseaseSiteAccrualReport" type="DiseaseSiteAccrualReportType"/>
-	<xs:element name="accrual" type="AccrualType"/>
-	<xs:element name="studyAccrualReport" type="StudyAccrualReportType"/>
-	<xs:element name="endDate" type="xs:date"/>
-	<xs:element name="startDate" type="xs:date"/>
-	
+	<xs:element name="siteAccrualReport" type="SiteAcccrualReportType" />
+	<xs:element name="diseaseSiteAccrualReport" type="DiseaseSiteAccrualReportType" />
+	<xs:element name="accrual" type="AccrualType" />
+	<xs:element name="studyAccrualReport" type="StudyAccrualReportType" />
+	<xs:element name="endDate" type="xs:date" />
+	<xs:element name="startDate" type="xs:date" />
 	<xs:complexType name="AccrualType">
-		<xs:sequence>
-			<xs:element minOccurs="0" maxOccurs="1" name="value"
-				type="xs:int" />
-		</xs:sequence>
+		<xs:attribute name="value" type="xs:int" />
 	</xs:complexType>
-	
 	<xs:complexType name="DiseaseSiteAccrualReportType">
 		<xs:sequence>
-			<xs:element minOccurs="1" maxOccurs="1" name="name"
-				type="xs:string" />
+			<xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="accrual"
 				type="AccrualType" />
 		</xs:sequence>
 	</xs:complexType>
-	
 	<xs:complexType name="StudyAccrualReportType">
 		<xs:sequence>
 			<xs:element minOccurs="1" maxOccurs="1" name="identifier"
@@ -37,35 +29,29 @@
 				type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="accrual"
 				type="AccrualType" />
-			<xs:element minOccurs="0" maxOccurs="unbounded" name="diseaseAccrualReports"
-				type="DiseaseSiteAccrualReportType" />
+			<xs:element minOccurs="0" maxOccurs="unbounded"
+				ref="diseaseSiteAccrualReport" />
 		</xs:sequence>
 	</xs:complexType>
-	
 	<xs:complexType name="SiteAcccrualReportType">
 		<xs:sequence>
 			<xs:element minOccurs="1" maxOccurs="1" name="ctepId"
 				type="xs:string" />
-			<xs:element minOccurs="0" maxOccurs="1" name="name"
-				type="xs:string" />
+			<xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="streetAddress"
 				type="xs:string" />
-			<xs:element minOccurs="1" maxOccurs="1" name="city"
-				type="xs:string" />
+			<xs:element minOccurs="1" maxOccurs="1" name="city" type="xs:string" />
 			<xs:element minOccurs="1" maxOccurs="1" name="stateCode"
 				type="xs:string" />
 			<xs:element minOccurs="1" maxOccurs="1" name="postalCode"
 				type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="countryCode"
 				type="xs:string" />
-			<xs:element minOccurs="0" maxOccurs="1" name="lat"
-				type="xs:double" />
-			<xs:element minOccurs="0" maxOccurs="1" name="long"
-				type="xs:double" />
+			<xs:element minOccurs="0" maxOccurs="1" name="lat" type="xs:double" />
+			<xs:element minOccurs="0" maxOccurs="1" name="long" type="xs:double" />
 			<xs:element minOccurs="0" maxOccurs="1" name="accrual"
 				type="AccrualType" />
-			<xs:element minOccurs="0" maxOccurs="unbounded" name="studyAccrualReports"
-				type="StudyAccrualReportType" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" ref="studyAccrualReport" />
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
