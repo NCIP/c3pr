@@ -200,7 +200,16 @@
 				subVarElmt.options[4].disabled = "";
 				subVarElmt.options[5].disabled = "";
 				subVarElmt.options[6].disabled = "";
-			} else {
+			} else if(stringValue == 'MULTISITE_REGISTRATION_FAILURE'){
+				for(i=0;i<subVarElmt.length;i++){
+					subVarElmt.options[i].disabled = "disabled";
+				}
+				subVarElmt.options[3].disabled = "";
+				subVarElmt.options[4].disabled = "";
+				subVarElmt.options[5].disabled = "";
+				subVarElmt.options[6].disabled = "";
+				
+			}  else {
 				for(i=0;i<subVarElmt.length;i++){
 					subVarElmt.options[i].disabled = "";
 				}
