@@ -172,10 +172,11 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         catch (InvocationTargetException e) {
         	this.setStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
         	String errorMsg=e.getTargetException().getMessage();
+        	Integer code=500;
         	if (e.getTargetException() instanceof AxisFault) {
 				AxisFault fault = (AxisFault) e.getTargetException();
 				if(fault.detail instanceof ConnectException){
-					Integer code= getCode("C3PR.EXCEPTION.ENDPOINT.CONNECTION_EXCEPTION.CODE");
+					code= getCode("C3PR.EXCEPTION.ENDPOINT.CONNECTION_EXCEPTION.CODE");
 					C3PRCodedRuntimeException codedRuntimeException= c3PRExceptionHelper.getRuntimeException(code);
 					this.errors.add(new Error(this.toString(),code.toString(),codedRuntimeException.getCodedExceptionMesssage()));
 					throw codedRuntimeException;
@@ -185,22 +186,23 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
         		Pattern p=Pattern.compile(".*/CN=(.*)\".*");
                 Matcher matcher=p.matcher(errorMsg);
                 if(matcher.find()){
-                	Integer code= getCode("C3PR.EXCEPTION.MULTISITE.CODE");
+                	code= getCode("C3PR.EXCEPTION.MULTISITE.CODE");
 					C3PRCodedRuntimeException codedRuntimeException= c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.ENDPOINT.AUTHORIZATION_EXCEPTION.CODE"),new String[] { matcher.group(1), this.apiName.getDisplayName(), this.studyOrganization.getHealthcareSite().getName() });
 					this.errors.add(new Error(this.toString(),code.toString(),codedRuntimeException.getCodedExceptionMesssage()));
 					throw codedRuntimeException;
                 }
         	}
-			String code="500";
             Pattern p=Pattern.compile(".*([0-9][0-9][0-9]):(.*)");
             Matcher matcher=p.matcher(errorMsg);
             if(matcher.find()){
-                code=matcher.group(1);
-                errorMsg=matcher.group(2);
-            }else{
-                System.out.println("code not found.");
+            	code= getCode("C3PR.EXCEPTION.MULTISITE.BUSINESS_ERROR.CODE");
+            	errorMsg=matcher.group(2);
+				C3PRCodedRuntimeException codedRuntimeException= c3PRExceptionHelper.getRuntimeException(code,new String[] {this.studyOrganization.getHealthcareSite().getName(), errorMsg });
+				this.errors.add(new Error(this.toString(), code.toString(), codedRuntimeException.getCodedExceptionMesssage()));
+				throw codedRuntimeException;
             }
-            this.errors.add(new Error(this.toString(),code,"Error invoking "+(this.apiName==null?"":this.apiName.getDisplayName())+":"+errorMsg));
+            System.out.println("code not found.");
+            this.errors.add(new Error(this.toString(),code.toString(),"Error invoking "+(this.apiName==null?"":this.apiName.getDisplayName())+":"+errorMsg));
             throw e;
         }
         catch (Exception e) {
