@@ -19,18 +19,40 @@ import edu.duke.cabig.c3pr.domain.accrual.SiteAccrualReport;
 import edu.duke.cabig.c3pr.domain.accrual.StudyAccrualReport;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AccrualDao.
+ */
 public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 		MutableDomainObjectDao<Accrual> {
 
+	/** The anatomic site dao. */
 	private AnatomicSiteDao anatomicSiteDao;
 
+	/**
+	 * Sets the anatomic site dao.
+	 * 
+	 * @param anatomicSiteDao the new anatomic site dao
+	 */
 	public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
 		this.anatomicSiteDao = anatomicSiteDao;
 	}
 
-	public List<StudyAccrualReport> getStudyAccrualReports() {
+	/**
+	 * Gets the study accrual reports.
+	 * 
+	 * @param nciInstituteCode the nci institute code
+	 * @param shortTitleText the short title text
+	 * 
+	 * @return the study accrual reports
+	 */
+	public List<StudyAccrualReport> getStudyAccrualReports(String nciInstituteCode,String shortTitleText) {
 		List<Study> studies = new ArrayList<Study>();
-		studies = (List<Study>) getHibernateTemplate().find("from Study");
+		if(shortTitleText== null){
+			studies = (List<Study>) getHibernateTemplate().find("Select s from Study s, StudySite ss where ss.healthcareSite.nciInstituteCode = ? and ss = any elements(s.studyOrganizations)",new Object[]{nciInstituteCode});
+		} else {
+			studies = (List<Study>) getHibernateTemplate().find("Select s from Study s, StudySite ss where ss.healthcareSite.nciInstituteCode = ? and ss = any elements(s.studyOrganizations) and s.shortTitleText = ?",new Object[]{nciInstituteCode,shortTitleText});
+		}
 
 		List<StudyAccrualReport> studyAccrualReports = new ArrayList<StudyAccrualReport>();
 		for (Study study : studies) {
@@ -43,7 +65,7 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 				DiseaseSiteAccrualReport diseaseSiteAccrualReport = new DiseaseSiteAccrualReport();
 				diseaseSiteAccrualReport.setName(diseaseSite.getName());
 				Accrual accrual = new Accrual();
-				accrual.setValue(anatomicSiteDao.getTotalAccrual(diseaseSite));
+				accrual.setValue(getAccrual(nciInstituteCode,shortTitleText,diseaseSite.getName()));
 				diseaseSiteAccrualReport.setAccrual(accrual);
 				diseaseSiteAccrualReports.add(diseaseSiteAccrualReport);
 			}
@@ -55,6 +77,17 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 		return studyAccrualReports;
 	}
 
+	/**
+	 * Gets the site accrual.
+	 * 
+	 * @param siteAccrualReport the site accrual report
+	 * @param diseaseSiteName the disease site name
+	 * @param studyShortTitleText the study short title text
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * 
+	 * @return the site accrual
+	 */
 	public int getSiteAccrual(SiteAccrualReport siteAccrualReport,
 			String diseaseSiteName,
 			String studyShortTitleText, Date startDate, Date endDate) {
@@ -106,13 +139,51 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 		return registrationCriteria.list().size();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
+	 */
 	@Override
 	public Class<Accrual> domainClass() {
 		return Accrual.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao#save(gov.nih.nci.cabig.ctms.domain.MutableDomainObject)
+	 */
 	public void save(Accrual arg0) {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public List<DiseaseSiteAccrualReport> getAllDiseaseSiteAccrualReports(String nciInstituteCode){
+		List<AnatomicSite> anatomicSites = (List<AnatomicSite>) getHibernateTemplate().find("from AnatomicSite order by name");
+		
+		List<DiseaseSiteAccrualReport> diseaseSiteAccrualReports = new ArrayList<DiseaseSiteAccrualReport>();
+		
+		for(AnatomicSite anatomicSite:anatomicSites){
+			DiseaseSiteAccrualReport diseaseSiteAccrualReport = new DiseaseSiteAccrualReport();
+			diseaseSiteAccrualReport.setName(anatomicSite.getName());
+			
+			Accrual accrual = new Accrual();
+			accrual.setValue(getAccrual(nciInstituteCode, null, anatomicSite.getName()));
+			diseaseSiteAccrualReport.setAccrual(accrual);
+			
+			diseaseSiteAccrualReports.add(diseaseSiteAccrualReport);
+		}
+		
+		return diseaseSiteAccrualReports;
+	}
+	
+	public int getAccrual(String nciInstituteCode, String shortTitleText,String diseaseSteName){
+    	int accrual = 0;
+    	
+    	if(shortTitleText != null){
+    		accrual = getHibernateTemplate().find("Select ss from StudySubject ss where ss.studySite.healthcareSite.nciInstituteCode = ? and ss.studySite.study.shortTitleText = ? and ss.diseaseHistoryInternal.anatomicSite.name = ?",new Object[]{nciInstituteCode,shortTitleText,diseaseSteName}).size();
+    	}else {
+    		accrual = getHibernateTemplate().find("Select ss from StudySubject ss where ss.studySite.healthcareSite.nciInstituteCode = ? and ss.diseaseHistoryInternal.anatomicSite.name = ?",new Object[]{nciInstituteCode,diseaseSteName}).size();
+    	}
+    	
+    	return accrual;
+    }
+	
 }
