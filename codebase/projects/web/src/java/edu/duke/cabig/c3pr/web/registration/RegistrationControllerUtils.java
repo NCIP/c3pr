@@ -8,15 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Companion;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
@@ -446,11 +449,22 @@ public class RegistrationControllerUtils {
 				}
 			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING){
 				imageAndMessage.add("error");
+				EndPoint endpoint= studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getLastAttemptedRegistrationEndpoint();
 				if(isTransfer){
-					imageAndMessage.add("TRANSFER.INCOMPLETE") ;
+					if(endpoint.getApiName()==APIName.CHANGE_EPOCH && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED && endpoint.getLastAttemptError()!=null){
+						imageAndMessage.add("site.action.error."+endpoint.getAPI());
+						imageAndMessage.add(endpoint.getLastAttemptError().getErrorMessage());
+					}else{
+						imageAndMessage.add("TRANSFER.INCOMPLETE") ;
+					}
 					return imageAndMessage ;
 				}else{
-					imageAndMessage.add("REGISTRATION.INCOMPLETE") ;
+					if(endpoint.getApiName()==APIName.ENROLL_SUBJECT && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED && endpoint.getLastAttemptError()!=null){
+						imageAndMessage.add("site.action.error."+endpoint.getApiName());
+						imageAndMessage.add(endpoint.getLastAttemptError().getErrorMessage());
+					}else{
+						imageAndMessage.add("REGISTRATION.INCOMPLETE") ;
+					}
 					return imageAndMessage ;
 				}
 			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED && studySubject.getParentStudySubject() != null){

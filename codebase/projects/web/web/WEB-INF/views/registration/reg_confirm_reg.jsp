@@ -32,27 +32,20 @@ function createReg(studySite, participant, parentRegistrationId){
 </style>
 </head>
 <body>
-	<c:choose>
-				<c:when test="${command.studySubject.dataEntryStatusString=='Incomplete'}">
-					<c:set var="formType"
-					value="edit" />
-				</c:when>
-				<c:otherwise>
-					<c:set var="formType"
-					value="manage" />	
-				</c:otherwise>
-	</c:choose>
-	<tags:controlPanel>
-	  <c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' }">
-			<form id="manage" name="manage" action="../registration/manageRegistration" method="get" style="display:inline;">
-				<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
-				<c:if test="${command.studySubject.regWorkflowStatus != 'PENDING'}">
-					<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage this registration" linkhref="javascript:doManage('${formType}',paramString)"/>
-				</c:if>
-			</form>
-	  </c:if>
-	  <tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
-	</tags:controlPanel>
+<tags:controlPanel>
+ <c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' }">
+	<form id="manage" name="manage" action="../registration/manageRegistration" method="get" style="display:inline;">
+		<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
+		<c:if test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED'}">
+			<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit registration" linkhref="javascript:doManage('edit',paramString)"/>
+		</c:if>
+		<c:if test="${command.studySubject.regWorkflowStatus != 'PENDING'}">
+			<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage registration" linkhref="javascript:doManage('manage',paramString)"/>
+		</c:if>
+	</form>
+ </c:if>
+ <tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
+</tags:controlPanel>
 <form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="manageCompanion">
 	<input type="hidden" name="_page1" id="_page" value="1"/>
 	<input type="hidden" name="_target1" id="_target" value="1"/>
@@ -76,34 +69,16 @@ function createReg(studySite, participant, parentRegistrationId){
 </c:choose>
 <form name="navigationForm" id="navigationForm" method="post"></form>
 <tags:panelBox title="Confirmation" boxId="ConfMessage">
-	<c:choose>
-	<c:when test="${fn:length(command.studySubject.studySite.registrationEndpoints)>0 && command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status=='MESSAGE_SEND_FAILED'} ">
-		<font color='<fmt:message key="REGISTRATION.MULTISITE.ERROR.COlOR"/>'><strong><fmt:message key="REGISTRATION.MULTISITE.ERROR"/> Please <a href="javascript:showEndpointError();">click</a> here to see the detail error message.</strong></font>
-		<div id="endpoint-error" style="display: none;">
-			<chrome:box title="Multisite registration messages for ${command.studySubject.studySite.healthcareSite.name}">
-			<chrome:division title="${command.studySubject.studySite.lastAttemptedRegistrationEndpoint.apiName.displayName } at ${command.studySubject.studySite.healthcareSite.name }" style="text-align: left;">
-			<div align="left" style="font-size: 1.4em; color: red">${command.studySubject.studySite.lastAttemptedRegistrationEndpoint.status.code }</div>
-			<tags:displayErrors id="endpoint-errors" errors="${command.studySubject.studySite.lastAttemptedRegistrationEndpoint.errors}"></tags:displayErrors>
-			</chrome:division>
-			</chrome:box>
-			<script>
-				function showEndpointError(){
-					Dialog.alert($("endpoint-error").innerHTML,{className: "alphacube", width:540, okLabel: "Done"});
-				}
-			</script>
-		</div>
-	</c:when>
-	<c:otherwise>		
 		<div id="flash-message" class="${imageAndMessageList[0]}">
 			<img src="<tags:imageUrl name="${imageAndMessageList[0] == 'info' ? 'check.png' :'error-red.png'}" />" alt="" style="vertical-align:top;" /> 
-			<fmt:message key="${imageAndMessageList[1]}"/> 
+			<fmt:message key="${imageAndMessageList[1]}"/>&nbsp;
+			<c:if test="${fn:contains(imageAndMessageList[1],'site.action.error')}">
+					${imageAndMessageList[2] }&nbsp;
+			</c:if>
 			<c:if test="${imageAndMessageList[0] == 'info'}">
 				Please <a href="javascript:launchPrint();">print</a> and save this confirmation in the subject's records.
 			</c:if>
 		</div>
-	</c:otherwise>
-	</c:choose>
-	
 	<div id="printable">
 		<chrome:division id="Subject Information" title="Subject">
 			<div class="row">

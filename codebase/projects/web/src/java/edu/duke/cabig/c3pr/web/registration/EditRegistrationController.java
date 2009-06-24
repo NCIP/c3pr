@@ -5,9 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
+import edu.duke.cabig.c3pr.exception.MultisiteException;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
@@ -55,9 +59,19 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
         }else if(wrapper.getShouldRegister()){
         	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
         }else if(wrapper.getShouldTransfer()){
-        	studySubject=studySubjectRepository.transferSubject(studySubject);
+        	try {
+        		studySubject=studySubjectRepository.transferSubject(studySubject);
+			} catch (MultisiteException e) {
+				//eating the multisite error. This error will be shown on the confirmation page.
+				logger.error(e);
+			}
         }else if(wrapper.getShouldEnroll()){
-        	studySubject=studySubjectRepository.enroll(studySubject);
+        	try {
+				studySubject=studySubjectRepository.enroll(studySubject);
+			} catch (MultisiteException e) {
+				//eating the multisite error. This error will be shown on the confirmation page.
+				logger.error(e);
+			}
         }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
