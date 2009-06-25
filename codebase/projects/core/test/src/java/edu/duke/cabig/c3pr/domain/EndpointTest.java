@@ -45,13 +45,17 @@ public class EndpointTest extends AbstractTestCase {
 		someMock.someExceptionAPI();
 		EasyMock.expectLastCall().andThrow(new RuntimeException("200:some message"));
 		EndpointSubclass endpointSubclass= new EndpointSubclass("someExceptionAPI", new Class[]{});
+		endpointSubclass.setStudyOrganization(registerMockFor(StudyOrganization.class));
+		HealthcareSite healthcareSite= registerMockFor(HealthcareSite.class);
+		EasyMock.expect(endpointSubclass.getStudyOrganization().getHealthcareSite()).andReturn(healthcareSite);
+		EasyMock.expect(healthcareSite.getName()).andReturn("Some Name");
 		replayMocks();
 		try {
 			endpointSubclass.invoke(null);
 			fail("Should have failed");
-		} catch (InvocationTargetException e) {
+		} catch (C3PRCodedRuntimeException e) {
 			e.printStackTrace();
-			assertEquals(200+"", endpointSubclass.getErrors().get(0).getErrorCode());
+			assertEquals(506+"", endpointSubclass.getErrors().get(0).getErrorCode());
 			assertEquals(WorkFlowStatusType.MESSAGE_SEND_FAILED, endpointSubclass.getStatus());
 		}
 		verifyMocks();
