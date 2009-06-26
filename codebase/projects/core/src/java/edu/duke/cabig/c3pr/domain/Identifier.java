@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -9,7 +10,6 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Identifier.
  * 
@@ -23,7 +23,7 @@ import org.hibernate.annotations.Parameter;
 public abstract class Identifier extends AbstractMutableDeletableDomainObject {
 
     /** The type. */
-    private String type;
+    private String typeInternal;
 
     /** The value. */
     private String value;
@@ -42,25 +42,17 @@ public abstract class Identifier extends AbstractMutableDeletableDomainObject {
         return getPrimaryIndicator() == null ? false : getPrimaryIndicator();
     }
 
-    /**
-     * Gets the type.
-     * 
-     * @return the type
-     */
-    public String getType() {
-        return type;
+    @Column(name="type")
+    public String getTypeInternal(){
+    	return typeInternal;
+    }
+    
+    public void setTypeInternal(String type){
+    	this.typeInternal = type;
     }
 
-    /**
-     * Sets the type.
-     * 
-     * @param type the new type
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
 
-    /**
+	/**
      * Gets the value.
      * 
      * @return the value
@@ -106,7 +98,7 @@ public abstract class Identifier extends AbstractMutableDeletableDomainObject {
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((type == null) ? 0 : type.hashCode());
+        result = PRIME * result + ((getTypeInternal() == null) ? 0 : getTypeInternal().hashCode());
         return result;
     }
 
@@ -119,10 +111,10 @@ public abstract class Identifier extends AbstractMutableDeletableDomainObject {
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
         final Identifier other = (Identifier) obj;
-        if (type == null) {
-            if (other.type != null) return false;
+        if (getTypeInternal() == null) {
+            if (other.getTypeInternal() != null) return false;
         }
-        else if (!type.equalsIgnoreCase(other.type)) return false;
+        else if (!getTypeInternal().equals(other.getTypeInternal())) return false;
         return true;
     }
 

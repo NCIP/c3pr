@@ -22,6 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
@@ -346,7 +347,8 @@ private String administrativeGenderCode;
 		for (OrganizationAssignedIdentifier orgIdentifier : this
 				.getOrganizationAssignedIdentifiers()) {
 			// null check on the orgIdentifier is required as sometimes the projected list may contain null objects in the middle of the list.
-			if (orgIdentifier!=null && orgIdentifier.getType() != null && orgIdentifier.getType().equalsIgnoreCase("MRN")) return orgIdentifier;
+			if (orgIdentifier!=null && orgIdentifier.getType() != null && orgIdentifier.getType().equals(OrganizationIdentifierTypeEnum.MRN)) 
+				return orgIdentifier;
 		}
 		return null;
 	}

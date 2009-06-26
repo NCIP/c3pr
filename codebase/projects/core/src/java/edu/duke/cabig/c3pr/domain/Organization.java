@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
@@ -17,7 +18,10 @@ import org.hibernate.annotations.Where;
 
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.EndPointType;
+import edu.duke.cabig.c3pr.domain.factory.ParameterizedInstantiateFactory;
+import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
@@ -38,9 +42,85 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
 
     private List<OrganizationAssignedIdentifier> identifiers = new ArrayList<OrganizationAssignedIdentifier>();
     
+    private List<Identifier> identifiersAssignedToOrganization = new ArrayList<Identifier>();
+    
     private EndPointConnectionProperty studyEndPointProperty;
     
     private EndPointConnectionProperty registrationEndPointProperty;
+    
+    protected List<ContactMechanism> contactMechanisms = new ArrayList<ContactMechanism>();
+
+    public void addContactMechanism(ContactMechanism contactMechanism) {
+        contactMechanisms.add(contactMechanism);
+    }
+
+    public void removeContactMechanism(ContactMechanism contactMechanism) {
+        contactMechanisms.remove(contactMechanism);
+    }
+    
+    public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
+        this.contactMechanisms = contactMechanisms;
+    }
+
+    @OneToMany
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name = "ORG_ID")
+    @OrderBy("id")
+    public List<ContactMechanism> getContactMechanisms() {
+        return contactMechanisms;
+    }
+    
+    @Transient
+	public String getEmailAsString(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.EMAIL){
+				return contactMechanism.getValue();
+			}
+		}
+		return null;
+	}
+	
+	@Transient
+	public String getPhoneAsString(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.PHONE){
+				return contactMechanism.getValue();
+			}
+		}
+		return null;
+	}
+	
+	@Transient
+	public String getFaxAsString(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.Fax){
+				return contactMechanism.getValue();
+			}
+		}
+		return null;
+	}
+	
+	public void setEmail(String email){
+		ContactMechanism emailContactMechanism = new ContactMechanism();
+		emailContactMechanism.setType(ContactMechanismType.EMAIL);
+		emailContactMechanism.setValue(email);
+		this.addContactMechanism(emailContactMechanism);
+	}
+	
+	public void setPhone(String phone){
+		ContactMechanism phoneContactMechanism = new ContactMechanism();
+		phoneContactMechanism.setType(ContactMechanismType.PHONE);
+		phoneContactMechanism.setValue(phone);
+		this.addContactMechanism(phoneContactMechanism);
+	}
+	
+	public void setFax(String fax){
+		ContactMechanism faxContactMechanism = new ContactMechanism();
+		faxContactMechanism.setType(ContactMechanismType.Fax);
+		faxContactMechanism.setValue(fax);
+		this.addContactMechanism(faxContactMechanism);
+	}
+	
     
     private LazyListHelper lazyListHelper;
     
@@ -49,6 +129,13 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(PlannedNotification.class, new InstantiateFactory<PlannedNotification>(
         		PlannedNotification.class));
+		lazyListHelper.add(OrganizationAssignedIdentifier.class,
+				new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(
+						OrganizationAssignedIdentifier.class));
+		lazyListHelper.add(SystemAssignedIdentifier.class,
+				new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
+						SystemAssignedIdentifier.class));
+        setIdentifiersAssignedToOrganization(new ArrayList<Identifier>());
     }
 
     @RemoteProperty
@@ -78,6 +165,11 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         this.studyOrganizations = studyOrganizations;
     }
 
+    /**
+     * These are the identifiers assigned BY this organization to other entities like 
+     * study, person or maybe even organization.
+     * @return
+     */
     @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
    // @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     public List<OrganizationAssignedIdentifier> getIdentifiers() {
@@ -87,6 +179,61 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
     public void setIdentifiers(List<OrganizationAssignedIdentifier> identifiers) {
         this.identifiers = identifiers;
     }
+    
+	
+    /**
+	 * Gets the identifiers assigned TO the organization.
+	 * 
+	 * @return the identifiers
+	 */
+	@OneToMany(fetch = FetchType.LAZY)
+	@Cascade({CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "ORG_ID")
+	@Where(clause = "retired_indicator  = 'false'")
+	@OrderBy
+	public List<Identifier> getIdentifiersAssignedToOrganization() {
+		return identifiersAssignedToOrganization;
+	}
+
+	/**
+	 * Sets the identifiers assigned TO the organization.
+	 * 
+	 * @param identifiers the new identifiers
+	 */
+	private void setIdentifiersAssignedToOrganization(List<Identifier> identifiers) {
+		this.identifiersAssignedToOrganization = identifiers;
+		// initialize projected list for OrganizationAssigned and
+		// SystemAssignedIdentifier
+		lazyListHelper.setInternalList(OrganizationAssignedIdentifier.class,
+				new ProjectedList<OrganizationAssignedIdentifier>(
+					this.identifiersAssignedToOrganization,
+						OrganizationAssignedIdentifier.class));
+		lazyListHelper.setInternalList(SystemAssignedIdentifier.class,
+				new ProjectedList<SystemAssignedIdentifier>(
+					this.identifiersAssignedToOrganization,
+						SystemAssignedIdentifier.class));
+	}
+
+	/**
+	 * Gets the system assigned identifiers assigned TO the organization.
+	 * 
+	 * @return the system assigned identifiers
+	 */
+	@Transient
+	public List<SystemAssignedIdentifier> getSystemAssignedIdentifiers() {
+		return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
+	}
+
+	/**
+	 * Gets the organization assigned identifiers assigned TO the organization.
+	 * 
+	 * @return the organization assigned identifiers
+	 */
+	@Transient
+	public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
+		return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
+	}
+    
 
     @OneToOne(cascade = { javax.persistence.CascadeType.ALL }, optional = false)
     @JoinColumn(name = "ADDRESS_ID", nullable = false)

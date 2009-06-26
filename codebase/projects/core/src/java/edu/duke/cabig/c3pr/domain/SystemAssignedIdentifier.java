@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("SAI")
@@ -12,6 +13,15 @@ public class SystemAssignedIdentifier extends Identifier implements
 
     public String getSystemName() {
         return systemName;
+    }
+    
+    public void setType(String type){
+    	setTypeInternal(type);
+    }
+    
+    @Transient
+    public String getType(){
+    	return getTypeInternal();
     }
 
     public void setSystemName(String systemName) {

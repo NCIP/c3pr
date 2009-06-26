@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -18,9 +19,11 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class HealthcareSite.
  * 
@@ -35,9 +38,6 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "organizations_id_seq") })
 @Where(clause = "retired_indicator  = 'false'")
 public abstract class HealthcareSite extends Organization implements Comparable<HealthcareSite> {
-
-    /** The nci institute code. */
-    private String nciInstituteCode;
 
     /** The healthcare site investigators. */
     private List<HealthcareSiteInvestigator> healthcareSiteInvestigators = new ArrayList<HealthcareSiteInvestigator>();
@@ -161,22 +161,59 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     }
     
     /**
-     * Gets the nci institute code.
+     * Gets the ctep code.
      * 
-     * @return the nci institute code
+     * @return the ctep code
      */
     @Transient
-    public String getNciInstituteCode() {
-        return nciInstituteCode;
+    public String getCtepCode() {
+    	if(getOrganizationAssignedIdentifiers().size() > 0){
+    		Iterator iter = getOrganizationAssignedIdentifiers().iterator();
+    		OrganizationAssignedIdentifier identifier = null;
+    		while(iter.hasNext()){
+    			identifier = (OrganizationAssignedIdentifier)iter.next();
+    			if(identifier.getType().equals(OrganizationIdentifierTypeEnum.CTEP)){
+    				return identifier.getValue();
+    			}
+    		}
+    	}
+		return "";
     }
-
+    
     /**
-     * Sets the nci institute code.
+     * Gets the Primary code.
+     * 
+     * @return the Primary code
+     */
+    @Transient
+    public String getPrimaryIdentifier() {
+    	if(getOrganizationAssignedIdentifiers().size() > 0 ||
+    			getSystemAssignedIdentifiers().size() > 0){
+    		Iterator iter = getIdentifiersAssignedToOrganization().iterator();
+    		Identifier identifier = null;
+    		while(iter.hasNext()){
+    			identifier = (Identifier)iter.next();
+    			if(identifier.isPrimary()){
+    				return identifier.getValue();
+    			}
+    		}
+    	}
+		return "";
+    }
+    
+    /**
+     * Sets the Ctep code in the IdentifiersAssignedToOrganization.
      * 
      * @param nciInstituteCode the new nci institute code
      */
-    public void setNciInstituteCode(String nciInstituteCode) {
-        this.nciInstituteCode = nciInstituteCode;
+    public void setCtepCode(String ctepCode) {
+    	if(!StringUtils.isEmpty(ctepCode)){
+    		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
+    		identifier.setType(OrganizationIdentifierTypeEnum.CTEP);
+    		identifier.setValue(ctepCode);
+    		
+    		getIdentifiersAssignedToOrganization().add(identifier);
+    	}
     }
 
     /* (non-Javadoc)
@@ -194,7 +231,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     public int hashCode() {
         final int PRIME = 31;
         int result = super.hashCode();
-        result = PRIME * result + ((nciInstituteCode == null) ? 0 : nciInstituteCode.hashCode());
+        result = PRIME * result + ((getPrimaryIdentifier() == null) ? 0 : getPrimaryIdentifier().hashCode());
         return result;
     }
 
@@ -207,10 +244,10 @@ public abstract class HealthcareSite extends Organization implements Comparable<
         if (!super.equals(obj)) return false;
         if (getClass() != obj.getClass()) return false;
         final HealthcareSite other = (HealthcareSite) obj;
-        if (nciInstituteCode == null) {
-            if (other.nciInstituteCode != null) return false;
+        if (getPrimaryIdentifier() == null) {
+            if (other.getPrimaryIdentifier() != null) return false;
         }
-        else if (!nciInstituteCode.equals(other.nciInstituteCode)) return false;
+        else if (!getPrimaryIdentifier().equals(other.getPrimaryIdentifier())) return false;
         return true;
     }
 

@@ -20,7 +20,6 @@ import org.hibernate.annotations.Parameter;
 
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ResearchStaff.
  * 

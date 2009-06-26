@@ -413,7 +413,7 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
      */
     @Transient
     public boolean getIsCoordinatingCenter(){
-        return this.study.isCoOrdinatingCenter(this.getHealthcareSite().getNciInstituteCode());
+        return this.study.isCoOrdinatingCenter(this.getHealthcareSite().getPrimaryIdentifier());
     }
     
     
