@@ -152,12 +152,29 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 	}
 		
 	
+	public void testHCSIDaoGetBySubnames(){
+		String[] names= {"lucas"};
+		
+    	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
+    	HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
+    	
+    	HealthcareSite healthcareSiteWithNciId = new LocalHealthcareSite();
+    	healthcareSiteWithNciId.setCtepCode("NC010");
+    	hcsi.setHealthcareSite(healthcareSiteWithNciId);
+    	
+    	remoteInvestigator.getHealthcareSiteInvestigators().add(hcsi);
+    	
+    	List<Object> invList = remoteInvestigatorResolver.find(remoteInvestigator);
+		assertNotNull(invList);
+	}
+	
+	
 	private RemoteInvestigator getSampleRemoteInvestigatorWithOrganization(){
 		RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
 
 		HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
 		HealthcareSite healthcareSite = new LocalHealthcareSite();
-		healthcareSite.setNciInstituteCode("MI025");
+		healthcareSite.setCtepCode("MI025");
 		hcsi.setHealthcareSite(healthcareSite);
 		
 		remoteInvestigator.getHealthcareSiteInvestigators().add(hcsi);

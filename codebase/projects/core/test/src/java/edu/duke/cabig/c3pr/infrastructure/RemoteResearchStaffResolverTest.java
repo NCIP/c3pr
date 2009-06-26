@@ -184,7 +184,7 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 		address.setCountryCode("");
 		remoteResearchStaff.setAddress(address);
 		HealthcareSite healthcareSite = new LocalHealthcareSite();
-		healthcareSite.setNciInstituteCode("NCIMB");
+		healthcareSite.setCtepCode("NCIMB");
 		remoteResearchStaff.setHealthcareSite(healthcareSite);
 		return remoteResearchStaff;
 	}
