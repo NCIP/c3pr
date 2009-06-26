@@ -137,7 +137,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	
 		//Add the studyOrganization containing the site which is linked to by PlannedNotifications
 		for(StudyOrganization ss: soList){
-			if(ss.getHealthcareSite().getNciInstituteCode().equals(plannedNotification.getHealthcareSite().getNciInstituteCode())){
+			if(ss.getHealthcareSite().getPrimaryIdentifier().equals(plannedNotification.getHealthcareSite().getPrimaryIdentifier())){
 				scheduledNotification.setStudyOrganization(ss);
 			}
 		}

@@ -113,7 +113,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
         catch (CSTransactionException e) {
             log.warn("Could not create group for organization:"
-                            + organization.getNciInstituteCode());
+                            + organization.getPrimaryIdentifier());
             throw new C3PRBaseException("Cannot create group for organization.", e);
         }
         return org;
@@ -168,11 +168,11 @@ public class OrganizationServiceImpl implements OrganizationService {
         this.csmApplicationContextName = csmApplicationContextName;
     }
 
-    public String getSiteNameByNciIdentifier(String nciId) {
-        if (nciId == null || nciId.trim().equals("")) return "";
+    public String getSiteNameByNciIdentifier(String ctepId) {
+        if (ctepId == null || ctepId.trim().equals("")) return "";
         
         try {
-            return healthcareSiteDao.getByNciIdentifier(nciId).get(0).getName();
+            return healthcareSiteDao.getByCtepCode(ctepId).getName();
         } catch (Exception e) {
             log.warn("The site name could not be retrieved by NCI ID Code.");
             return "";

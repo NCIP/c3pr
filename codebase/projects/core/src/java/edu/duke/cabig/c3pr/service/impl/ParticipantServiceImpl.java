@@ -87,16 +87,13 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     public List<Participant> searchByMRN(OrganizationAssignedIdentifier identifier)
                     throws C3PRCodedException {
-        HealthcareSite healthcareSite = this.healthcareSiteDao.getByNciInstituteCode(identifier
-                        .getHealthcareSite().getNciInstituteCode());
+        HealthcareSite healthcareSite = this.healthcareSiteDao.getByCtepCode(identifier
+                        .getHealthcareSite().getPrimaryIdentifier());
         if (healthcareSite == null) {
             throw this.exceptionHelper
-                            .getException(
-                                            getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
-                                            new String[] {
-                                                    identifier.getHealthcareSite()
-                                                                    .getNciInstituteCode(),
-                                                    identifier.getType() });
+                .getException(getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
+                     new String[] {identifier.getHealthcareSite().getPrimaryIdentifier(),
+                                                    identifier.getType().getName() });
         }
         identifier.setHealthcareSite(healthcareSite);
         return participantDao.searchByOrgIdentifier(identifier);
