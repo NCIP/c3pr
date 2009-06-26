@@ -125,7 +125,7 @@ public class AccrualServiceImpl implements AccrualService{
 	 */
 	public SiteAccrualReport buildSiteAccrualReport(String nciInstituteCode, String shortTitleText){
 		
-		HealthcareSite localHealthcareSite = healthcareSiteDao.getByNciInstituteCode(nciInstituteCode);
+		HealthcareSite localHealthcareSite = healthcareSiteDao.getByCtepCode(nciInstituteCode);
 		SiteAccrualReport siteAccrualReport =new SiteAccrualReport();
 		siteAccrualReport.setName(localHealthcareSite.getName());
 		siteAccrualReport.setCtepId(nciInstituteCode);
