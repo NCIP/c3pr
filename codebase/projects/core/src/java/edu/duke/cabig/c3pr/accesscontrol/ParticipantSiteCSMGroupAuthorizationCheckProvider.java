@@ -35,14 +35,14 @@ public class ParticipantSiteCSMGroupAuthorizationCheckProvider implements CSMAut
         	
         	List<HealthcareSite> hcsList = participant.getHealthcareSites();
             for(HealthcareSite hcs: hcsList){
-            	log.debug("### Checking permission for user on site:" + hcs.getNciInstituteCode());
+            	log.debug("### Checking permission for user on site:" + hcs.getPrimaryIdentifier());
             	hasPermission = hasPermission || csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,
                         permission, siteObjectIdGenerator.generateId(hcs));
             }
             
             List<OrganizationAssignedIdentifier> oaiList = participant.getOrganizationAssignedIdentifiers();
         	for(OrganizationAssignedIdentifier oai: oaiList){
-        		log.debug("### Checking permission for user on site:" + oai.getHealthcareSite().getNciInstituteCode());
+        		log.debug("### Checking permission for user on site:" + oai.getHealthcareSite().getPrimaryIdentifier());
             	hasPermission = hasPermission || csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,
                         permission, siteObjectIdGenerator.generateId(oai.getHealthcareSite()));
         	}

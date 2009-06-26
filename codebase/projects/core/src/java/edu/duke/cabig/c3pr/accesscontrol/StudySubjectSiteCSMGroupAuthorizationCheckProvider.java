@@ -31,12 +31,12 @@ public class StudySubjectSiteCSMGroupAuthorizationCheckProvider implements CSMAu
             HealthcareSite hcs = studySubject.getStudySite().getHealthcareSite();
             HealthcareSite coordinatingCenterOfStudySubject = 
             	studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite();
-            log.debug("### Checking permission for user on coordinating center of studySubject:" + coordinatingCenterOfStudySubject.getNciInstituteCode());
+            log.debug("### Checking permission for user on coordinating center of studySubject:" + coordinatingCenterOfStudySubject.getPrimaryIdentifier());
             if(csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,
                     permission, siteObjectIdGenerator.generateId(coordinatingCenterOfStudySubject))){
             	return true;
             }
-            log.debug("### Checking permission for user on site:" + hcs.getNciInstituteCode());
+            log.debug("### Checking permission for user on site:" + hcs.getPrimaryIdentifier());
             return csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,
                             permission, siteObjectIdGenerator.generateId(hcs));
 

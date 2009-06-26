@@ -38,7 +38,7 @@ public class StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider implements
                 for (StudyOrganization site : study.getStudyOrganizations()) {
                     HealthcareSite hcs = site.getHealthcareSite();
                     log.debug("### Checking permission for user on site:"
-                                    + hcs.getNciInstituteCode());
+                                    + hcs.getPrimaryIdentifier());
                     hasPermission = csmGroupAuthorizationCheck.checkAuthorizationForObjectId(
                                     authentication, permission, siteObjectIdGenerator
                                                     .generateId(hcs));
