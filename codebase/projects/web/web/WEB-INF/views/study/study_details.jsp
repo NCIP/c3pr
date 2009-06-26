@@ -88,7 +88,7 @@
             		image = '';
             	}
 
-            	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+            	return (obj.name+" ("+obj.ctepCode+")" + image)
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
@@ -111,7 +111,7 @@
             		image = '';
             	}
 
-            	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+            	return (obj.name+" ("+obj.ctepCode+")" + image)
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=coCenterAutocompleterProps.basename+"-hidden"
@@ -135,7 +135,7 @@
             		image = '';
             	}
 
-            	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+            	return (obj.name+" ("+obj.ctepCode+")" + image)
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=piCoCenterAutocompleterProps.basename+"-hidden"
@@ -324,7 +324,7 @@
 					<c:set var="_codeCoord" value="" />
 					<c:set var="_nameCoord" value="" />
 						<c:if test="${fn:length(command.study.studyCoordinatingCenters)>0}">				
-							<c:set var="_codeCoord" value="(${command.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode})" />
+							<c:set var="_codeCoord" value="(${command.study.studyCoordinatingCenters[0].healthcareSite.ctepCode})" />
 							<c:set var="_nameCoord" value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" />
 						</c:if>
 						<tags:autocompleter cssClass="validate-notEmpty" hintKey="study.healthcareSite.name" name="study.studyCoordinatingCenters[0].healthcareSite" displayValue="${_nameCoord} ${_codeCoord }" value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" basename="coCenter"></tags:autocompleter>
@@ -360,7 +360,7 @@
 				<c:set var="_code" value="" />
 				<c:set var="_name" value="" />
 				<c:if test="${fn:length(command.study.studyFundingSponsors)>0}">				
-					<c:set var="_code" value="(${command.study.studyFundingSponsors[0].healthcareSite.nciInstituteCode})" />
+					<c:set var="_code" value="(${command.study.studyFundingSponsors[0].healthcareSite.ctepCode})" />
 					<c:set var="_name" value="${command.study.studyFundingSponsors[0].healthcareSite.name}" />
 				</c:if>
 				<tags:autocompleter name="study.studyFundingSponsors[0].healthcareSite" displayValue="${_name} ${_code}" value="${fn:length(command.study.studyFundingSponsors)>0?command.study.studyFundingSponsors[0].healthcareSite.id:''}" basename="healthcareSite" hintKey="study.studyFundingSponsor"></tags:autocompleter>
@@ -396,7 +396,7 @@
 				<c:set var="_codeOrgPI" value="" />
 				<c:set var="_nameOrgPI" value="" />
 				<c:if test="${command.study.principalInvestigatorStudyOrganization != null}">				
-					<c:set var="_codeOrgPI" value="(${command.study.principalInvestigatorStudyOrganization.healthcareSite.nciInstituteCode})" />
+					<c:set var="_codeOrgPI" value="(${command.study.principalInvestigatorStudyOrganization.healthcareSite.ctepCode})" />
 					<c:set var="_nameOrgPI" value="${command.study.principalInvestigatorStudyOrganization.healthcareSite.name}" />
 				</c:if>
                 <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>

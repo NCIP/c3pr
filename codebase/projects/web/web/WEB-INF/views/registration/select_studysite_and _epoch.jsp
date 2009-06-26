@@ -50,7 +50,7 @@ function manageEpochSelection(element){
 		               			${studySite.healthcareSite.name} 
 		               		</td>
 		               		<td>
-		               			${studySite.healthcareSite.nciInstituteCode}
+		               			${studySite.healthcareSite.ctepCode}
 		               		</td>
 		               	 </tr>
 		               </c:forEach>

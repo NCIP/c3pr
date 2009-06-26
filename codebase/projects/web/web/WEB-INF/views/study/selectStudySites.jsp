@@ -35,16 +35,16 @@ function closePopup(){
                 <c:forEach items="${healthcareSiteList}" var="healthcareSite" >
 				  	<tr>
 				  		<td>
-	            			<input class="studySiteCheck" type="checkbox" checked="checked" value="${healthcareSite.nciInstituteCode}"/>
+	            			<input class="studySiteCheck" type="checkbox" checked="checked" value="${healthcareSite.ctepCode}"/>
 	                	</td>
 				  		<td>
 	             			<input size="40"  type="text" value="${healthcareSite.name}" disabled="disabled" />
 		   				</td>
 	                	<td> 
-	                		<input size="20"  type="text" value="${healthcareSite.nciInstituteCode}" disabled="disabled" />
+	                		<input size="20"  type="text" value="${healthcareSite.ctepCode}" disabled="disabled" />
 	            		</td> 
 	                	<td>
-	            			<input class="studySiteIRBDate" type="checkbox" checked="checked" value="${healthcareSite.nciInstituteCode}"/>
+	            			<input class="studySiteIRBDate" type="checkbox" checked="checked" value="${healthcareSite.ctepCode}"/>
 	                	</td>
 	                	
             		</tr> 

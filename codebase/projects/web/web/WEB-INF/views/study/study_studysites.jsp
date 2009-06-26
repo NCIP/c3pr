@@ -70,7 +70,7 @@ var singleHealthcareSiteAutocompleterProps = {
     	} else {
     		image = '';
     	}
-    	 return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+    	 return (obj.name+" ("+obj.ctepCode+")" + image)
     }
 }
 
@@ -127,7 +127,7 @@ Event.observe(window, "load", function() {
 									<c:set var="_codeSite" value="" />
 									<c:set var="_nameSite" value="" />
 									<c:if test="${fn:length(command.study.studySites)>0}">	
-										<c:set var="_codeSite" value="(${command.study.studySites[0].healthcareSite.nciInstituteCode})" />
+										<c:set var="_codeSite" value="(${command.study.studySites[0].healthcareSite.ctepCode})" />
 										<c:set var="_nameSite" value="${command.study.studySites[0].healthcareSite.name}" />
 									</c:if>
                       				 value='<c:out value="${_nameSite} ${_codeSite}" />'/>
@@ -200,7 +200,7 @@ var healthcareSiteAutocompleterProps = {
     	} else {
     		image = '';
     	}
-    	 return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+    	 return (obj.name+" ("+obj.ctepCode+")" + image)
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -276,7 +276,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                       				 value="${command.study.studySites[status.index].healthcareSite.id}"/>
                 			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input"
                        				size="40"
-                      				 value="${command.study.studySites[status.index].healthcareSite.name} (${command.study.studySites[status.index].healthcareSite.nciInstituteCode})"/>
+                      				 value="${command.study.studySites[status.index].healthcareSite.name} (${command.study.studySites[status.index].healthcareSite.ctepCode})"/>
                   		 	<tags:indicator id="healthcareSite${status.index}-indicator"/>
                   			<div id="healthcareSite${status.index}-choices" class="autocomplete" style="display: none;"></div>
            			 </td>
@@ -293,7 +293,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             			<td>
             			<c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
             			<form:checkbox path="study.studySites[${status.index}].hostedMode"/>
-            				<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.nciInstituteCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
+            				<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.ctepCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
             			</td> 
             			</c:if>
                         <td><a
@@ -328,7 +328,7 @@ onclick="$('h-multiSite').show();javascript:RowManager.addRow(instanceRowInserte
 	                <c:forEach items="${parentStudyAssociation.studySites}" var="companionStudySite" varStatus="status">
 					  	<tr>
 					  		<td>
-		             			<input size="40"  type="text" value="${companionStudySite.healthcareSite.name} (${companionStudySite.healthcareSite.nciInstituteCode})" disabled="disabled" />
+		             			<input size="40"  type="text" value="${companionStudySite.healthcareSite.name} (${companionStudySite.healthcareSite.ctepCode})" disabled="disabled" />
 			   				</td>
 		                	<td>
 		                		<input size="12"  type="text" name="study.parentStudyAssociations[${parentStudySiteStaus.index}].studySites[${status.index}].startDate" id="companionStudySites[${status.index}].startDate" class="date validate-DATE" value="${companionStudySite.startDateStr}" />

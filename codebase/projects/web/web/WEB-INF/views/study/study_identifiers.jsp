@@ -22,7 +22,7 @@ var healthcareSiteAutocompleterProps = {
     		image = '';
     	}
 
-    	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+    	return (obj.name+" ("+obj.ctepCode+")" + image)
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -92,7 +92,7 @@ function manageIdentifierRadio(element){
 				</tr>
 				<tr>
 					<td><fmt:message key="c3pr.common.organization" /></td>
-					<td>${command.study.organizationAssignedIdentifiers[0].healthcareSite.name} (${command.study.organizationAssignedIdentifiers[0].healthcareSite.nciInstituteCode})</td>
+					<td>${command.study.organizationAssignedIdentifiers[0].healthcareSite.name} (${command.study.organizationAssignedIdentifiers[0].healthcareSite.ctepCode})</td>
 					<td>${command.study.organizationAssignedIdentifiers[0].type}</td>
 					<td>${command.study.organizationAssignedIdentifiers[0].value}</td>
 					<td><input type="radio" class="identifierRadios" value="${command.study.organizationAssignedIdentifiers[0].primaryIndicator}" id="organizationAssignedIdentifiers[0].primaryIndicator-radio" onclick="manageIdentifierRadio(this);"/></td>
@@ -101,7 +101,7 @@ function manageIdentifierRadio(element){
 				<c:if test="${!empty command.study.fundingSponsorAssignedIdentifier}">
 				<tr>
 					<td><fmt:message key="c3pr.common.organization" /></td>
-					<td>${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} (${command.study.fundingSponsorAssignedIdentifier.healthcareSite.nciInstituteCode})</td>
+					<td>${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} (${command.study.fundingSponsorAssignedIdentifier.healthcareSite.ctepCode})</td>
 					<td>${command.study.fundingSponsorAssignedIdentifier.type}</td>
 					<td>${command.study.fundingSponsorAssignedIdentifier.value}</td>
 					<td><input type="radio" class="identifierRadios" value="${command.study.organizationAssignedIdentifiers[command.study.fundingSponsorIdentifierIndex].primaryIndicator }" id="organizationAssignedIdentifiers[${command.study.fundingSponsorIdentifierIndex}].primaryIndicator-radio" onclick="manageIdentifierRadio(this);"/></td>
@@ -115,7 +115,7 @@ function manageIdentifierRadio(element){
 					</c:if>
 					<tr id="organizationIdentifier-${organizationStatus.index}">
 						<td><fmt:message key="c3pr.common.organization" /></td>
-						<td> ${orgIdentifier.healthcareSite.name} (${orgIdentifier.healthcareSite.nciInstituteCode}) </td>
+						<td> ${orgIdentifier.healthcareSite.name} (${orgIdentifier.healthcareSite.ctepCode}) </td>
 						<td>
 						<c:choose>
 						<c:when test="${handleDifferently}">
