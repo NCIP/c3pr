@@ -62,7 +62,7 @@ public class AccrualServiceClient extends AccrualServiceClientBase implements Ac
 			  Date startDate = new Date();
 			  Date endDate = new Date();
 			  startDate.setYear(10);
-			  SiteAcccrualReportType siteReport = client.getSiteAccrualReport(null, "book randomized study",null , null);
+			  SiteAcccrualReportType siteReport = client.getSiteAccrualReport(null, null,startDate , endDate);
 			  InputStream is = AccrualServiceClient.class.getClassLoader().getResourceAsStream("edu/duke/cabig/c3pr/grid/accrualservice/client/client-config.wsdd");
 			  
 				Utils.serializeObject( siteReport, new QName("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"), stringWriter,is);
