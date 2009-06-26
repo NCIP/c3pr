@@ -1,14 +1,14 @@
 package edu.duke.cabig.c3pr.dao;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
@@ -23,52 +23,11 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
 
     private static Log log = LogFactory.getLog(StudyDao.class);
 
+	/** The remote session. */
+	private RemoteSession remoteSession;
+	
     public Class<HealthcareSite> domainClass() {
         return HealthcareSite.class;
-    }
-
- /*   *//**
-     * Search by example.
-     * 
-     * @param hcs the hcs
-     * @param isWildCard the is wild card
-     * 
-     * @return the list< healthcare site>
-     *//*
-    public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard) {
-        List<HealthcareSite> result = new ArrayList<HealthcareSite>();
-        Example example = Example.create(hcs).excludeZeroes().ignoreCase();
-        try {
-            Criteria orgCriteria = getSession().createCriteria(Organization.class);
-            orgCriteria.addOrder(Order.asc("name"));
-            orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-            orgCriteria.setMaxResults(50);
-            if (isWildCard) {
-                example.enableLike(MatchMode.ANYWHERE);
-            }
-            example.excludeProperty("studyEndPointProperty");
-            example.excludeProperty("registrationEndPointProperty");
-            result = orgCriteria.add(example).list();
-        }
-        catch (Exception e) {
-        	log.error(e.getMessage());
-        }
-        return result;
-    }
-*/
-    /**
-     * Gets the by nci identifier.
-     * 
-     * @param nciIdentifier the nci identifier
-     * 
-     * @return the by nci identifier
-     */
-    public List<HealthcareSite> getByNciIdentifier(String nciIdentifier) {
-    	HibernateTemplate hibernateTemplate = getHibernateTemplate();
-    	hibernateTemplate.setFetchSize(30);
-    	return ((List<HealthcareSite>) hibernateTemplate
-				.find("from HealthcareSite h where h.nciInstituteCode like '" + nciIdentifier + "'"));
-    	
     }
     
 
@@ -76,8 +35,15 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
      * @see gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao#save(gov.nih.nci.cabig.ctms.domain.MutableDomainObject)
      */
     @Transactional(readOnly = false)
-    public void save(HealthcareSite obj) {
-        getHibernateTemplate().saveOrUpdate(obj);
+    public void save(HealthcareSite healthcareSite) {
+    	if(healthcareSite instanceof RemoteHealthcareSite){
+    		Object healthcareSiteObject = remoteSession.saveOrUpdate(healthcareSite);
+    		if(healthcareSiteObject != null && healthcareSiteObject instanceof HealthcareSite){
+    			getHibernateTemplate().saveOrUpdate((HealthcareSite)healthcareSite);
+    		}
+    	} else {
+    		getHibernateTemplate().saveOrUpdate(healthcareSite);
+    	}
     }
     
 	/* Saves a domain object
@@ -85,7 +51,18 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
      */
     @Transactional(readOnly = false)
 	public Organization merge(DomainObject domainObject) {
-		return (Organization)getHibernateTemplate().merge(domainObject);
+    	if(domainObject instanceof RemoteHealthcareSite){
+    		//domainObject = remoteSession.saveOrUpdate();
+    	}
+    	return (Organization)getHibernateTemplate().merge(domainObject);
+	}
+
+	public RemoteSession getRemoteSession() {
+		return remoteSession;
+	}
+
+	public void setRemoteSession(RemoteSession remoteSession) {
+		this.remoteSession = remoteSession;
 	}
 
 }

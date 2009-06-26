@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.dao;
 
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
@@ -71,7 +72,7 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 	 */
 	protected List<T> findBySubname(String[] subnames, List<String> substringMatchProperties,
 			List<String> exactMatchProperties) {
-		return findBySubname(subnames, null, null, substringMatchProperties, exactMatchProperties);
+		return findBySubname(subnames, null, null, substringMatchProperties, exactMatchProperties, null);
 	}
 
 	/**
@@ -132,9 +133,12 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 	@SuppressWarnings("unchecked")
 	protected List<T> findBySubname(String[] subnames, String extraConditions,
 			List<Object> extraParameters, List<String> substringMatchProperties,
-			List<String> exactMatchProperties) {
-		StringBuilder query = new StringBuilder("from ").append(domainClass().getName()).append(
+			List<String> exactMatchProperties, String extraClasses) {
+		StringBuilder query = new StringBuilder("select o from ").append(domainClass().getName()).append(
 		" o ");
+		if(!StringUtils.isEmpty(extraClasses)){
+			query.append(" , " + extraClasses);
+		}
 		List<Object> params = new LinkedList<Object>();
 		if(extraConditions != null || extraParameters != null || subnames.length > 0){
 			query.append("where ") ;

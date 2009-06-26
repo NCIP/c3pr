@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
@@ -76,7 +77,7 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
 //    	
 //    	HealthcareSite healthcareSite = healthcareSiteDao.getById(healthcareSiteId);
 //    	HealthcareSite healthcareSiteWithNciId = new LocalHealthcareSite();
-//    	healthcareSiteWithNciId.setNciInstituteCode(healthcareSite.getNciInstituteCode());
+//    	healthcareSiteWithNciId.setCtepCode(healthcareSite.getCtepCode());
 //    	hcsi.setHealthcareSite(healthcareSiteWithNciId);
 //    	
 //    	remoteInvestigator.getHealthcareSiteInvestigators().add(hcsi);
@@ -84,7 +85,7 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
 //    	investigatorDao.getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
     	
     	return findBySubname(subnames, "o.healthcareSite.id = '" + healthcareSiteId + "'",
-                        EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+                        EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, null);
     }
 
     /**
@@ -99,10 +100,9 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
     public HealthcareSiteInvestigator getSiteInvestigator(HealthcareSite site,
                     Investigator investigator) {
         return CollectionUtils
-                        .firstElement((List<HealthcareSiteInvestigator>) getHibernateTemplate()
-                                        .find(
-                                                        "from HealthcareSiteInvestigator a where a.healthcareSite = ? and a.investigator = ?",
-                                                        new Object[] { site, investigator }));
+                	.firstElement((List<HealthcareSiteInvestigator>) getHibernateTemplate()
+                       .find("from HealthcareSiteInvestigator a where a.healthcareSite = ? and a.investigator = ?",
+                                            new Object[] { site, investigator }));
     }
     
     /**
@@ -114,9 +114,12 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
      * @return the by sub name and sub email
      */
     public List<HealthcareSiteInvestigator> getBySubNameAndSubEmail(String[] subnames, String nciInstituteCode) {
-        return findBySubname(subnames, 
-        		"o.healthcareSite.nciInstituteCode = '"+ nciInstituteCode + "'",
-                 EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+        String extraClasses= Identifier.class.getName() + " " + "I" + " ";
+        
+    	return findBySubname(subnames, 
+    			"I.value='"+ nciInstituteCode + "'" + " and I.typeInternal='CTEP' and I=any elements(o.healthcareSite.identifiersAssignedToOrganization)",
+        		//"o.healthcareSite.nciInstituteCode = '"+ nciInstituteCode + "'",
+                 EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, extraClasses);
     }
 
 	public InvestigatorDao getInvestigatorDao() {

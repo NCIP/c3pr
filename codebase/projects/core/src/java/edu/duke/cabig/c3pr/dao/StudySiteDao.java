@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
@@ -36,14 +37,14 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
     /**
      * Gets the by nci institute code.
      * 
-     * @param nciInstituteCode the nci institute code
+     * @param ctepCode the nci institute code
      * 
      * @return the by nci institute code
      */
-    public List<StudySite> getByNciInstituteCode(String nciInstituteCode) {
+    public List<StudySite> getByCtepCode(String ctepCode) {
         return getHibernateTemplate().find(
-                        "from StudySite s where s.healthcareSite.nciInstituteCode = ?",
-                        nciInstituteCode);
+               "Select s from StudySite s, Identifier I where I.value=? and I.typeInternal=? and I=any elements(s.healthcareSite.identifiersAssignedToOrganization)",
+               new Object[] {ctepCode, OrganizationIdentifierTypeEnum.CTEP.getName()});
     }
     
     /**

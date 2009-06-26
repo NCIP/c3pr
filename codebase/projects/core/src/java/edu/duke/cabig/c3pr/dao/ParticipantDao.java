@@ -15,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -119,14 +120,16 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     	if(identifier.getType()!=null && identifier.getHealthcareSite()!=null && identifier.getValue()!=null){
     		if(identifier.getHealthcareSite().getId() != null){
     			return (List<Participant>) getHibernateTemplate()
-                .find("select P from Participant P, Identifier I where I.healthcareSite.id=?" + " and I.value=? and I.type=? and I=any elements(P.identifiers)",
+                .find("select P from Participant P, Identifier I where I.healthcareSite.id=?" + " and I.value=? and I.typeInternal=? and I=any elements(P.identifiers)",
                                 new Object[] { identifier.getHealthcareSite().getId(),identifier.getValue(), identifier.getType() });
     		}else{
     			return (List<Participant>) getHibernateTemplate()
-                .find("select P from Participant P, Identifier I where I.healthcareSite.nciInstituteCode=?" + " and I.value=? and I.type=? and I=any elements(P.identifiers)",
-                                new Object[] { identifier.getHealthcareSite().getNciInstituteCode(),identifier.getValue(), identifier.getType() });
+            		.find("select P from Participant P, Identifier I where I.healthcareSite.id in " + 
+		    			  "(select h.id from HealthcareSite h, Identifier I where " +
+		    			  "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))" +
+		    			  " and I.value=? and I.typeInternal=? and I=any elements(P.identifiers)", 
+		    			  new Object[]{identifier.getHealthcareSite().getCtepCode(), OrganizationIdentifierTypeEnum.CTEP.getName(), identifier.getValue(), identifier.getType().getName()});
     		}
-        
     	} 
     	return new ArrayList<Participant>();
     }
@@ -145,11 +148,9 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     	// we have to use criteria API or branch the query if there are null values
     	if(id.getType()!=null && id.getSystemName()!=null && id.getValue()!=null){
         return (List<Participant>) getHibernateTemplate()
-                        .find(
-                                        "select P from Participant P, Identifier I where I.systemName=?"
-                                                        + " and I.value=? and I.type=? and I=any elements(P.identifiers)",
-                                        new Object[] { id.getSystemName(),
-                                                id.getValue(), id.getType() });
+                    .find("select P from Participant P, Identifier I where I.systemName=?"
+                         + " and I.value=? and I.typeInternal=? and I=any elements(P.identifiers)",
+                            new Object[] { id.getSystemName(),id.getValue(), id.getType() });
     	} 
     	return new ArrayList<Participant>();
     }
@@ -206,7 +207,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     public List<OrganizationAssignedIdentifier> getSubjectIdentifiersWithMRN(String MRN,
                     HealthcareSite site) throws DataAccessException {
         List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
-                        .find("from Identifier I where I.type='MRN' and I.healthcareSite = ?", site);
+                        .find("from Identifier I where I.typeInternal='MRN' and I.healthcareSite = ?", site);
         List<OrganizationAssignedIdentifier> subIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
         for (OrganizationAssignedIdentifier subIdent : orgAssignedIdentifiers) {
             if (subIdent.getValue().equalsIgnoreCase(MRN)) {

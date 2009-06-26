@@ -27,10 +27,12 @@ import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -105,7 +107,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			int healthcareSite) {
 		return findBySubname(subnames, "o.healthcareSite.id = '"
 				+ healthcareSite + "'", EXTRA_PARAMS,
-				SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+				SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, null);
 	}
 
 	/**
@@ -113,16 +115,21 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * 
 	 * @param subnames
 	 *            the subnames
-	 * @param nciInstituteCode
+	 * @param ctepCode
 	 *            the nci institute code
 	 * 
 	 * @return the by sub name and sub email
 	 */
 	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames,
-			String nciInstituteCode) {
-		return findBySubname(subnames, "o.healthcareSite.nciInstituteCode = '"
-				+ nciInstituteCode + "'", EXTRA_PARAMS,
-				SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+			String ctepCode) {
+		
+		String extraClasses= Identifier.class.getName() + " " + "I" + " ";
+		return findBySubname(subnames, 
+				"I.value='"+ ctepCode + "'" + " and I.typeInternal='CTEP' and I=any elements(o.healthcareSite.identifiersAssignedToOrganization)",
+				//"o.healthcareSite.nciInstituteCode = '" + nciInstituteCode + "'", 
+				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, extraClasses);
+		//select H from HealthcareSite H, Identifier I where "
+		//+ "I.value=? and I.type=? and I=any elements(H.identifiersAssignedToOrganization)
 	}
 
 	/**
@@ -363,14 +370,26 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		remoteResearchStaff.setHealthcareSite(healthcareSite);
 		getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
 
-		// run a query against the updated database to get all research staff
-		List<ResearchStaff> completeResearchStaffListFromDatabase = getHibernateTemplate()
-				.find(
-						"from ResearchStaff rs where rs.healthcareSite.nciInstituteCode = '"
-								+ healthcareSite.getNciInstituteCode() + "'");
-		return completeResearchStaffListFromDatabase;
+		//run a query against the updated database to get all research staff
+		return getResearchStaffByOrganizationCtepCodeFromLocal(healthcareSite);
 	}
 
+	/**
+	 * 
+	 * @param healthcareSite
+	 * @return
+	 */
+	public List<ResearchStaff> getResearchStaffByOrganizationCtepCodeFromLocal(
+			HealthcareSite healthcareSite) {
+		//run a query against the updated database to get all research staff
+		return getHibernateTemplate()
+				.find("from ResearchStaff rs where rs.healthcareSite.id in " +
+					  "(select h.id from HealthcareSite h, Identifier I where " +
+					  "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
+					  new Object[]{healthcareSite.getCtepCode(), OrganizationIdentifierTypeEnum.CTEP.getName()});
+	}
+	
+	
 	/**
 	 * Gets the remote research staff by organization nci institute code from
 	 * the resolver and updates the db.
@@ -399,12 +418,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				// get the corresponding hcs from the dto object and save that
 				// organization and then save this staff
 				HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao
-						.getByNciInstituteCodeFromLocal(retrievedRemoteResearchStaff
-								.getHealthcareSite().getNciInstituteCode());
+						.getByCtepCodeFromLocal(retrievedRemoteResearchStaff
+								.getHealthcareSite().getPrimaryIdentifier());
 				if (matchingHealthcareSiteFromDb == null) {
 					log.error("No corresponding org exists for the nci Code:"
 							+ retrievedRemoteResearchStaff.getHealthcareSite()
-									.getNciInstituteCode());
+									.getPrimaryIdentifier());
 				} else {
 					// we have the retrieved staff's Org in our db...link up
 					// with the same and persist
@@ -502,7 +521,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		try {
 			User csmUser = getCSMUser(staff);
 			csmUser.setOrganization(staff.getHealthcareSite()
-					.getNciInstituteCode());
+					.getPrimaryIdentifier());
 			assignUserToGroup(csmUser, siteObjectIdGenerator.generateId(staff
 					.getHealthcareSite()));
 			log.debug("Successfully assigned user to organization group"
@@ -651,7 +670,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		try {
 			User csmUser = getCSMUser(staff);
 			csmUser.setOrganization(staff.getHealthcareSite()
-					.getNciInstituteCode());
+					.getPrimaryIdentifier());
 			assignUserToGroup(csmUser, siteObjectIdGenerator.generateId(staff
 					.getHealthcareSite()));
 			log.debug("Successfully assigned user to organization group"

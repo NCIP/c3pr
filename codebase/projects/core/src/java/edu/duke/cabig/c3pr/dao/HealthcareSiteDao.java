@@ -18,6 +18,7 @@ import org.springframework.dao.DataAccessException;
 
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -171,7 +172,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 
 		//get all by nciId next
 		RemoteHealthcareSite remoteHealthcareSiteNciID = new RemoteHealthcareSite();
-		remoteHealthcareSiteNciID.setNciInstituteCode(subnames[0]);
+		remoteHealthcareSiteNciID.setCtepCode(subnames[0]);
 		remoteHealthcareSites
 				.addAll(getFromResolver(remoteHealthcareSiteNciID));
 		
@@ -187,12 +188,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * Goto Copa if no match is fouind in local db.
 	 * We always defer to local db in cases of queries where only one result is expected.
 	 * 
-	 * @param nciInstituteCode the nci institute code
+	 * @param ctepCode the nci institute code
 	 * @return the HealthcareSite
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
-	public HealthcareSite getByNciInstituteCode(String nciInstituteCode) {
+	public HealthcareSite getByCtepCode(String ctepCode) {
 		
-		HealthcareSite healthcareSite = getByNciInstituteCodeFromLocal(nciInstituteCode);
+		HealthcareSite healthcareSite = getByCtepCodeFromLocal(ctepCode);
 		if(healthcareSite == null){
 			List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
 			remoteHealthcareSites.addAll(getFromResolver(new RemoteHealthcareSite()));
@@ -200,9 +201,9 @@ public class HealthcareSiteDao extends OrganizationDao {
 			
 			return CollectionUtils
 					.firstElement((List<HealthcareSite>) getHibernateTemplate()
-							.find(
-									"from HealthcareSite h where h.nciInstituteCode = ?",
-									nciInstituteCode));
+							.find("select h from HealthcareSite h, Identifier I where "
+								+ "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization)", 
+									new Object[] { ctepCode, OrganizationIdentifierTypeEnum.CTEP.getName()}));
 		}
 		return healthcareSite;
 	}
@@ -210,14 +211,16 @@ public class HealthcareSiteDao extends OrganizationDao {
 	/**
 	 * Gets by nci institute code from local.
 	 * 
-	 * @param nciInstituteCode the nci institute code
+	 * @param ctepCode the nci institute code
 	 * @return the HealthcareSite
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
-	public HealthcareSite getByNciInstituteCodeFromLocal(String nciInstituteCode) {
+	public HealthcareSite getByCtepCodeFromLocal(String ctepCode) {
 		
 		return CollectionUtils
-				.firstElement((List<HealthcareSite>) getHibernateTemplate()
-					.find("from HealthcareSite h where h.nciInstituteCode = ?",nciInstituteCode));
+		.firstElement((List<HealthcareSite>) getHibernateTemplate()
+				.find("select H from HealthcareSite H, Identifier I where "
+					+ "I.value=? and I.typeInternal=? and I=any elements(H.identifiersAssignedToOrganization)", 
+						new Object[] { ctepCode, OrganizationIdentifierTypeEnum.CTEP.getName()}));
 	}
 
 
@@ -235,10 +238,10 @@ public class HealthcareSiteDao extends OrganizationDao {
 		}else{
 			remoteHealthcareSite.setName(healthcareSite.getName());
 		}
-		if(healthcareSite.getNciInstituteCode() == null){
-			remoteHealthcareSite.setNciInstituteCode(null);
+		if(healthcareSite.getPrimaryIdentifier() == null){
+			remoteHealthcareSite.setCtepCode(null);
 		}else{
-			remoteHealthcareSite.setNciInstituteCode(healthcareSite.getNciInstituteCode());
+			remoteHealthcareSite.setCtepCode(healthcareSite.getPrimaryIdentifier());
 		}
 		
 		remoteHealthcareSite.setAddress(healthcareSite.getAddress());
@@ -280,13 +283,13 @@ public class HealthcareSiteDao extends OrganizationDao {
 					} else {
 						HealthcareSite healthcareSiteWithSameNCICode = null;
 						// check if a healthcare site with this NCI code already exists in DB
-						healthcareSiteWithSameNCICode = getByNciInstituteCodeFromLocal(remoteHealthcareSiteTemp.getNciInstituteCode());
+						healthcareSiteWithSameNCICode = getByCtepCodeFromLocal(remoteHealthcareSiteTemp.getPrimaryIdentifier());
 						if(healthcareSiteWithSameNCICode == null){
 							// this site doesn't exist
 							createGroupForOrganization(remoteHealthcareSiteTemp);
 							getHibernateTemplate().save(remoteHealthcareSiteTemp);
 						} else{
-							log.error("Healthcare site with NCI Institute Code:" + remoteHealthcareSiteTemp.getNciInstituteCode() + "already exists in database");
+							log.error("Healthcare site with NCI Institute Code:" + remoteHealthcareSiteTemp.getPrimaryIdentifier() + "already exists in database");
 						}
 					}
 					getHibernateTemplate().flush();
@@ -377,7 +380,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 							+ csmApplicationContextName + "' in CSM", e);
 		} catch (CSTransactionException e) {
 			log.warn("Could not create group for organization:"
-					+ organization.getNciInstituteCode());
+					+ organization.getPrimaryIdentifier());
 			throw new C3PRBaseException(
 					"Cannot create group for organization.", e);
 		}
@@ -403,9 +406,11 @@ public class HealthcareSiteDao extends OrganizationDao {
         try {
             Criteria orgCriteria = getHibernateTemplate().getSessionFactory()
             .getCurrentSession().createCriteria(HealthcareSite.class);
+            Criteria identifiersAssignedToOrganizationCriteria = orgCriteria.createCriteria("identifiersAssignedToOrganization");
            
-            if(hcs.getNciInstituteCode() != null && hcs.getNciInstituteCode() != ""){
-            	orgCriteria.add(Expression.ilike("nciInstituteCode", "%" + hcs.getNciInstituteCode() + "%"));
+            if(hcs.getPrimaryIdentifier() != null && hcs.getPrimaryIdentifier() != ""){
+            	identifiersAssignedToOrganizationCriteria.add(Expression.ilike("value", "%" + hcs.getPrimaryIdentifier() + "%"));
+            	identifiersAssignedToOrganizationCriteria.add(Expression.eq("typeInternal", OrganizationIdentifierTypeEnum.CTEP.getName()));
             }
             if(hcs.getName() != null && hcs.getName() != ""){
             	orgCriteria.add(Expression.ilike("name", "%" + hcs.getName() + "%"));
@@ -457,7 +462,7 @@ public class HealthcareSiteDao extends OrganizationDao {
   	@SuppressWarnings("unchecked")
 		public List<HealthcareSite> getRemoteOrganizations(HealthcareSite organization){
 	  	HealthcareSite searchCriteria = new RemoteHealthcareSite();
-	  	searchCriteria.setNciInstituteCode(organization.getNciInstituteCode());
+	  	searchCriteria.setCtepCode(organization.getPrimaryIdentifier());
 	  	return (List)remoteSession.find(searchCriteria);
 	  }
 	  

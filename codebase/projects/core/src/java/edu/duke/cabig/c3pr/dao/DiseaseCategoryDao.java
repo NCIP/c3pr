@@ -69,7 +69,7 @@ public class DiseaseCategoryDao extends GridIdentifiableDao<DiseaseCategory> {
             extraConds.append(" o.parentCategory is null");
         }
         return findBySubname(subnames, extraConds.toString(), extraParams,
-                        SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+                        SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, null);
     }
     
     /**
