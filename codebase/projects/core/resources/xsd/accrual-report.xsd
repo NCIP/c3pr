@@ -29,8 +29,7 @@
 				type="xs:string" />
 			<xs:element minOccurs="0" maxOccurs="1" name="accrual"
 				type="AccrualType" />
-			<xs:element minOccurs="0" maxOccurs="unbounded"
-				ref="diseaseSiteAccrualReport" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="diseaseSiteAccrualReport" type="DiseaseSiteAccrualReportType" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SiteAcccrualReportType">
@@ -51,7 +50,7 @@
 			<xs:element minOccurs="0" maxOccurs="1" name="long" type="xs:double" />
 			<xs:element minOccurs="0" maxOccurs="1" name="accrual"
 				type="AccrualType" />
-			<xs:element minOccurs="0" maxOccurs="unbounded" ref="studyAccrualReport" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="studyAccrualReport" type="StudyAccrualReportType" />
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
