@@ -16,17 +16,14 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
-import edu.duke.cabig.c3pr.dao.OrganizationDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
-import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
-import edu.duke.cabig.c3pr.exception.MultisiteException;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -42,7 +39,7 @@ public class StudySitesTab extends StudyTab {
 
 	protected Configuration configuration;
 
-	protected OrganizationDao organizationDao;
+	protected HealthcareSiteDao healthcareSiteDao;
 	
 	private MessageSource c3prErrorMessages;
 
@@ -54,12 +51,12 @@ public class StudySitesTab extends StudyTab {
 		c3prErrorMessages = errorMessages;
 	}
 
-	public OrganizationDao getOrganizationDao() {
-		return organizationDao;
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
 	}
 
-	public void setOrganizationDao(OrganizationDao organizationDao) {
-		this.organizationDao = organizationDao;
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
 	public void setConfiguration(Configuration configuration) {
@@ -102,8 +99,8 @@ public class StudySitesTab extends StudyTab {
 		if (studySite.getIsCoordinatingCenter() || studySite.getHostedMode()) {
 			studySite.setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
 		} else if (WebUtils.hasSubmitParameter(request, "submitted") 
-				&& (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getNciInstituteCode()+ "-wasHosted") 
-				|| request.getParameter(studySite.getHealthcareSite().getNciInstituteCode()+ "-wasHosted").equalsIgnoreCase("true"))) 
+				&& (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getCtepCode()+ "-wasHosted") 
+				|| request.getParameter(studySite.getHealthcareSite().getCtepCode()+ "-wasHosted").equalsIgnoreCase("true"))) 
 		{
 			studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		}
@@ -143,8 +140,8 @@ public class StudySitesTab extends StudyTab {
 			if (StringUtils.equals(parentAssociationId, parentStudyAssociation
 					.getId().toString())) {
 				for (String nciCode : nciCodeList) {
-					HealthcareSite healthcareSite = (HealthcareSite) organizationDao
-							.getByNciIdentifier(nciCode).get(0);
+					HealthcareSite healthcareSite = (HealthcareSite) healthcareSiteDao
+							.getByCtepCode(nciCode);
 					StudySite studySite = new StudySite();
 					studySite.setHealthcareSite(healthcareSite);
 					studySite.setStudy(study);
@@ -183,7 +180,7 @@ public class StudySitesTab extends StudyTab {
 			StudySite studySite = studySiteDao.getById(Integer
 					.parseInt(studySiteId));
 			String nciCode = studySite.getHealthcareSite()
-					.getNciInstituteCode();
+					.getCtepCode();
 			CompanionStudyAssociation companionStudyAssociation = study
 					.getCompanionStudySite(nciCode)
 					.getCompanionStudyAssociation();
@@ -276,7 +273,7 @@ public class StudySitesTab extends StudyTab {
 		map.put("apiName", apiName);
 		Integer index=null;
 		for(int i=0 ; i<wrapper.getStudy().getStudySites().size(); i++){
-			if(wrapper.getStudy().getStudySites().get(i).getHealthcareSite().getNciInstituteCode().equals(nciInstituteCode)){
+			if(wrapper.getStudy().getStudySites().get(i).getHealthcareSite().getCtepCode().equals(nciInstituteCode)){
 				index=i;
 			}
 		}
@@ -289,9 +286,9 @@ public class StudySitesTab extends StudyTab {
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
 		String nciCode = request.getParameter("nciCode");
-		HealthcareSite healthcareSite = (HealthcareSite)organizationDao.getByNciIdentifier(nciCode).get(0);
+		HealthcareSite healthcareSite = (HealthcareSite)healthcareSiteDao.getByCtepCode(nciCode);
 		for(StudySite site : study.getStudySites()){
-			if(site.getHealthcareSite().getNciInstituteCode().equals(nciCode)){
+			if(site.getHealthcareSite().getCtepCode().equals(nciCode)){
 				return new ModelAndView("study/exist_study_site");
 			}
 		}
