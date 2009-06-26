@@ -181,7 +181,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         healthcaresite.setAddress(getAddress());
         healthcaresite.setName("duke healthcare");
         healthcaresite.setDescriptionText("duke healthcare");
-        healthcaresite.setNciInstituteCode("Nci duke");
+        healthcaresite.setCtepCode("Nci duke");
 
         StudySite studySite = new StudySite();
         studyObject.addStudySite(studySite);
