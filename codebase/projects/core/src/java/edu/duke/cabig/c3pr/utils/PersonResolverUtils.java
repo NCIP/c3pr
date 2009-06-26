@@ -18,8 +18,6 @@ import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
 import edu.duke.cabig.c3pr.esb.Metadata;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
-import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
-import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import gov.nih.nci.coppa.po.IdentifiedOrganization;
@@ -215,6 +213,18 @@ public class PersonResolverUtils {
 		return broadcastCoppaMessage(personXml, mData);
 	}
 	
+	/**
+	 * Broadcast healthcare site create.
+	 * 
+	 * @param healhtcareSiteXml the healhtcare site xml
+	 * @return the string
+	 * @throws C3PRCodedException the c3pr coded exception
+	 */
+	public String broadcastOrganizationCreate(String healhtcareSiteXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.create.getName(), "externalId", ServiceTypeEnum.ORGANIZATION.getName());
+		return broadcastCoppaMessage(healhtcareSiteXml, mData);
+	}
 	
 	/**
 	 * Broadcast coppa message. The actual call to the esb-client.

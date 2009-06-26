@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.jackrabbit.uuid.UUID;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -19,7 +20,7 @@ public class IdentifierGenerator {
 	public OrganizationAssignedIdentifier generateOrganizationAssignedIdentifier(StudySubject studySubject){
 		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
-		orgIdentifier.setType("Coordinating Center Assigned Study Subject Identifier");
+		orgIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER);
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 		if(studySubject.getParentStudySubject() == null ){
 			studySubjects = studyDao.getStudySubjectsForStudy(studySubject.getStudySite().getStudy().getId());
