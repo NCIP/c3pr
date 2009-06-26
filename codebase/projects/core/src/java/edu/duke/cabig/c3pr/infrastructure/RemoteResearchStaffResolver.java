@@ -49,7 +49,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 				//search based on nci id of person
 				log.debug("Searching based on NciId");
 				remoteResearchStaffList = searchStaffBasedOnNciId(remoteResearchStaff);
-			} else if(remoteResearchStaff.getHealthcareSite() != null && remoteResearchStaff.getHealthcareSite().getNciInstituteCode() != null){
+			} else if(remoteResearchStaff.getHealthcareSite() != null && remoteResearchStaff.getHealthcareSite().getPrimaryIdentifier() != null){
 				//search based on Organization
 				log.debug("Searching based on Organization");
 				remoteResearchStaffList = searchStaffBasedOnOrganization(remoteResearchStaff);
@@ -94,7 +94,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
         
         //get IdentifiedOrganization by ctepId(nciId)
         IdentifiedOrganization identifiedOrganizationSearchCriteria = CoppaObjectFactory.getCoppaIdentfiedOrganizationSearchCriteriaOnCTEPId
-        			(remoteResearchStaffExample.getHealthcareSite().getNciInstituteCode());
+        			(remoteResearchStaffExample.getHealthcareSite().getPrimaryIdentifier());
         String payload = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganizationSearchCriteria);
         String results = "";
 		try {
@@ -312,7 +312,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 				IdentifiedOrganization identifiedOrganization = personResolverUtils.getIdentifiedOrganization(coppaOrganization);
 				
 				healthcareSite = new RemoteHealthcareSite();
-				healthcareSite.setNciInstituteCode(identifiedOrganization.getAssignedId().getExtension());
+				healthcareSite.setCtepCode(identifiedOrganization.getAssignedId().getExtension());
 				healthcareSite.setName(coppaOrganization.getName().toString());
 				
 				remoteResearchStaff.setHealthcareSite(healthcareSite);
@@ -338,7 +338,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		
 		//Build HealthcareSite
 		HealthcareSite healthcareSite = new RemoteHealthcareSite();
-		healthcareSite.setNciInstituteCode(identifiedOrganization.getAssignedId().getExtension());
+		healthcareSite.setCtepCode(identifiedOrganization.getAssignedId().getExtension());
 		remoteResearchStaff.setHealthcareSite(healthcareSite);
 		return remoteResearchStaff;
 	}
@@ -351,6 +351,12 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 
 	public void setPersonResolverUtils(PersonResolverUtils personResolverUtils) {
 		this.personResolverUtils = personResolverUtils;
+	}
+
+
+	public Object saveOrUpdate(Object example) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

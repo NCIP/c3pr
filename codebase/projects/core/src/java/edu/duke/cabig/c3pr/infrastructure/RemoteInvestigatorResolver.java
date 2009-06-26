@@ -6,12 +6,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
-import org.iso._21090.CD;
-import org.iso._21090.DSETAD;
-import org.iso._21090.DSETTEL;
 import org.iso._21090.II;
-import org.iso._21090.NullFlavor;
-import org.iso._21090.ST;
 
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
@@ -21,12 +16,10 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.PersonResolverUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
-import gov.nih.nci.coppa.po.ClinicalResearchStaff;
 import gov.nih.nci.coppa.po.HealthCareProvider;
 import gov.nih.nci.coppa.po.IdentifiedOrganization;
 import gov.nih.nci.coppa.po.IdentifiedPerson;
@@ -79,7 +72,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 				IdentifiedOrganization identifiedOrganization = personResolverUtils.getIdentifiedOrganization(coppaOrganization);
 
 				healthcareSite = new RemoteHealthcareSite();
-				healthcareSite.setNciInstituteCode(identifiedOrganization.getAssignedId().getExtension());
+				healthcareSite.setCtepCode(identifiedOrganization.getAssignedId().getExtension());
 				healthcareSite.setName(coppaOrganization.getName().toString());
 				
 				HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
@@ -111,7 +104,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		
 		//Build HealthcareSite
 		HealthcareSite healthcareSite = new RemoteHealthcareSite();
-		healthcareSite.setNciInstituteCode(identifiedOrganization.getAssignedId().getExtension());
+		healthcareSite.setCtepCode(identifiedOrganization.getAssignedId().getExtension());
 		
 		HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
 		hcsi.setHealthcareSite(healthcareSite);
@@ -136,7 +129,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 				remoteInvestigatorList = searchInvestigatorBasedOnNciId(remoteInvestigator);
 			} else if(remoteInvestigator.getHealthcareSiteInvestigators().size() > 0 &&
 						remoteInvestigator.getHealthcareSiteInvestigators().get(0).getHealthcareSite() != null && 
-						remoteInvestigator.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getNciInstituteCode() != null){
+						remoteInvestigator.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getPrimaryIdentifier() != null){
 				//search based on Organization
 				log.debug("Searching based on Organization");
 				remoteInvestigatorList = searchInvestigatorBasedOnOrganization(remoteInvestigator);
@@ -155,7 +148,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
         
         //get IdentifiedOrganization by ctepId(nciId)
         IdentifiedOrganization identifiedOrganizationSearchCriteria = CoppaObjectFactory.getCoppaIdentfiedOrganizationSearchCriteriaOnCTEPId
-        			(remoteInvestigatorExample.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getNciInstituteCode());
+        			(remoteInvestigatorExample.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getPrimaryIdentifier());
         String payload = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganizationSearchCriteria);
         String results = "";
 		try {
@@ -375,6 +368,11 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 
 	public void setPersonResolverUtils(PersonResolverUtils personResolverUtils) {
 		this.personResolverUtils = personResolverUtils;
+	}
+
+	public Object saveOrUpdate(Object example) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

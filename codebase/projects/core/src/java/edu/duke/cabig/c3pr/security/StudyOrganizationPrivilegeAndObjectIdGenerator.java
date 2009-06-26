@@ -25,7 +25,7 @@ public final class StudyOrganizationPrivilegeAndObjectIdGenerator extends
         assertSupports(object);
         StudyOrganization studyOrganization = (StudyOrganization) object;
         
-        return HealthcareSite.class.getName() + getPathSeperator() + studyOrganization.getHealthcareSite().getNciInstituteCode();
+        return HealthcareSite.class.getName() + getPathSeperator() + studyOrganization.getHealthcareSite().getPrimaryIdentifier();
     }
 
     @Override
