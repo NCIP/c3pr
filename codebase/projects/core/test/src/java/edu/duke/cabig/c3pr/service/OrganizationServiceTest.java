@@ -42,7 +42,7 @@ public class OrganizationServiceTest extends DaoTestCase {
         dummySite = new LocalHealthcareSite();
         dummySite.setName(HCS_NAME);
         dummySite.setDescriptionText(strValue);
-        dummySite.setNciInstituteCode(strValue);
+        dummySite.setCtepCode(strValue);
 
     }
 
@@ -56,7 +56,7 @@ public class OrganizationServiceTest extends DaoTestCase {
 
     public void testUPM() throws Exception {
         organizationService.save(dummySite);
-        assertEquals(organizationService.getSiteNameByNciIdentifier(dummySite.getNciInstituteCode()),dummySite.getName());
+        assertEquals(organizationService.getSiteNameByNciIdentifier(dummySite.getCtepCode()),dummySite.getName());
 //        assertEquals(1, jdbcTemplate.queryForInt("Select count(*) from csm_group where group_name='edu.duke.cabig.c3pr.domain.HealthcareSite."
 //                                                        + dummySite.getNciInstituteCode() + "'"));
 

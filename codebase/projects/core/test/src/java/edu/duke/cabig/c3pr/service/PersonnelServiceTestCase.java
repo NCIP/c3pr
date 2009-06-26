@@ -51,7 +51,7 @@ public class PersonnelServiceTestCase extends DaoTestCase {
     public void testCreateReasearchStaff() throws Exception {
         // first create the organization
         HealthcareSite site = new LocalHealthcareSite();
-        site.setNciInstituteCode(strValue);
+        site.setCtepCode(strValue);
         site.setName(strValue);
         site.setDescriptionText(strValue);
         organizationService.save(site);
