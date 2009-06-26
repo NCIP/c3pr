@@ -248,7 +248,7 @@
 	<div class="rightpanel">
         <div class="row">
             <div class="label"><fmt:message key="site.NCIInstitutionCode"/>:</div>
-            <div class="value">${command.studySubject.studySite.healthcareSite.nciInstituteCode}</div>
+            <div class="value">${command.studySubject.studySite.healthcareSite.ctepCode}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="site.IRBApprovalDate"/>:</div>

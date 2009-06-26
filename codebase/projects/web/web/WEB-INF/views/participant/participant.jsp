@@ -14,7 +14,7 @@ var healthcareSiteAutocompleterProps = {
         })
     },
     valueSelector: function(obj) {
-    	return (obj.name+" ("+obj.nciInstituteCode+")")
+    	return (obj.name+" ("+obj.ctepCode+")")
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -55,7 +55,7 @@ function clearField(field) {
                 })
             },
             valueSelector: function(obj) {
-            	return (obj.name+" ("+obj.nciInstituteCode+")")
+            	return (obj.name+" ("+obj.ctepCode+")")
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -185,7 +185,7 @@ top:83px;
 									<c:set var="_code" value="" />
 									<c:set var="_name" value="" />
 									<c:if test="${fn:length(command.organizationAssignedIdentifiers)>0}">				
-									<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.nciInstituteCode})" />
+									<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.ctepCode})" />
 									<c:set var="_name" value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" />
 									</c:if>
 			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
@@ -246,7 +246,7 @@ top:83px;
 							id="organizationIdentifiersTable-${organizationStatus.index}">
 							<c:set var="_code" value="" />
 							<c:set var="_name" value="" />
-							<c:set var="_code" value="(${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.nciInstituteCode})" />
+							<c:set var="_code" value="(${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.ctepCode})" />
 							<c:set var="_name" value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
 							<td class="alt"><input type="hidden"
 								id="healthcareSite${organizationStatus.index}-hidden"
@@ -256,7 +256,7 @@ top:83px;
 								id="healthcareSite${organizationStatus.index}-input" size="50"
 								value='<c:out value="${_name} ${_code}" />'/>
 							<tags:indicator
-								id="healthcareSite${organizationStatus.index}-indicator" />
+								id="healthcareSite${organizationStatus.index}-indicator" /> 
 							<div id="healthcareSite${organizationStatus.index}-choices"
 								class="autocomplete"  style="display: none;"></div>
 							</td>
