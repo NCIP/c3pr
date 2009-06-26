@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>Notification: ${command.name}:${command.nciInstituteCode}</title>
+    <title>Notification: ${command.name}:${command.ctepCode}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <title>Confirmation</title>
 </head>

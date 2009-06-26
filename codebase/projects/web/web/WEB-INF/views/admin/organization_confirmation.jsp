@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>Organization: ${command.name}:${command.nciInstituteCode}</title>
+    <title>Organization: ${command.name}:${command.ctepCode}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <title>Confirmation</title>
 </head>
@@ -10,7 +10,7 @@
 	<div id="main">
 		<div id="controlPanel">
 			<tags:controlPanel>
-				<tags:oneControlPanelItem linkhref="javascript:document.location='editOrganization?nciIdentifier=${command.nciInstituteCode}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='editOrganization?nciIdentifier=${command.ctepCode}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 				<tags:oneControlPanelItem linkhref="javascript:document.location='createOrganization';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchOrganizationController.png" linktext="Create organization" />
 			</tags:controlPanel>
 		</div>
@@ -30,7 +30,7 @@
 				</div>
 				<div class="row" >
 					<div class="label"><fmt:message key="organization.NCIInstitueCode"/>:</div>
-					<div class="value">${command.nciInstituteCode}</div>
+					<div class="value">${command.ctepCode}</div>
 				</div>
 		<br/>
 		</chrome:box>
