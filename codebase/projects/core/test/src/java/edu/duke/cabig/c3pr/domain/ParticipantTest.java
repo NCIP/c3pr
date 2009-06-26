@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import junit.framework.TestCase;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
@@ -139,19 +140,19 @@ public class ParticipantTest extends TestCase{
 		
 		Participant participant1 = new Participant();
 		OrganizationAssignedIdentifier orgIdentifier1 = new OrganizationAssignedIdentifier();
-		orgIdentifier1.setType("MRN");
+		orgIdentifier1.setType(OrganizationIdentifierTypeEnum.MRN);
 		orgIdentifier1.setValue("1232");
 		participant1.addIdentifier(orgIdentifier1);
 		
 		Participant participant2 = new Participant();
 		OrganizationAssignedIdentifier orgIdentifier2 = new OrganizationAssignedIdentifier();
-		orgIdentifier2.setType("MRN");
+		orgIdentifier2.setType(OrganizationIdentifierTypeEnum.MRN);
 		orgIdentifier2.setValue("123");
 		participant2.addIdentifier(orgIdentifier2);
 		
 		Participant participant3 = new Participant();
 		OrganizationAssignedIdentifier orgIdentifier3 = new OrganizationAssignedIdentifier();
-		orgIdentifier3.setType("MRN");
+		orgIdentifier3.setType(OrganizationIdentifierTypeEnum.MRN);
 		orgIdentifier3.setValue("1232");
 		participant3.addIdentifier(orgIdentifier3);
 		
@@ -168,7 +169,7 @@ public class ParticipantTest extends TestCase{
 		Participant participant1 = new Participant();
 		OrganizationAssignedIdentifier orgIdentifier1 = new OrganizationAssignedIdentifier();
 		orgIdentifier1.setPrimaryIndicator(true);
-		orgIdentifier1.setType("MRN");
+		orgIdentifier1.setType(OrganizationIdentifierTypeEnum.MRN);
 		orgIdentifier1.setValue("1232");
 		participant1.addIdentifier(orgIdentifier1);
 		

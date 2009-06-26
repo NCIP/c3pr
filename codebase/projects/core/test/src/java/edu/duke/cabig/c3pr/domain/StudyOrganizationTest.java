@@ -215,7 +215,7 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		StudyCoordinatingCenter studyCoordinatingCenter = new StudyCoordinatingCenter();
 		HealthcareSite healthcareSite = new LocalHealthcareSite();
 		studyCoordinatingCenter.setHealthcareSite(healthcareSite);
-		healthcareSite.setNciInstituteCode("NCIID");
+		healthcareSite.setCtepCode("NCIID");
 		
 		study.getStudyCoordinatingCenters().add(studyCoordinatingCenter);
 		

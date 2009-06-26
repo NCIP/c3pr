@@ -83,12 +83,14 @@ public class HealthcareSiteInvestigatorTest extends AbstractTestCase {
 	public void testEquals3() throws Exception{
 		 HealthcareSiteInvestigator hcsInv1= new HealthcareSiteInvestigator();
 		 LocalHealthcareSite healthcareSite1 = new LocalHealthcareSite();
-		 healthcareSite1.setNciInstituteCode("ABC");
+		 healthcareSite1.setCtepCode("ABC");
+		 healthcareSite1.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		 hcsInv1.setHealthcareSite(healthcareSite1);
 		 
 		 HealthcareSiteInvestigator hcsInv2= new HealthcareSiteInvestigator();
 		 LocalHealthcareSite healthcareSite2 = new LocalHealthcareSite();
-		 healthcareSite2.setNciInstituteCode("DEF");
+		 healthcareSite2.setCtepCode("DEF");
+		 healthcareSite2.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		 hcsInv2.setHealthcareSite(healthcareSite2);
 		 
 		 assertFalse("The two healthcareSite investigators cannot be equal ",hcsInv1.equals(hcsInv2));

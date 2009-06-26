@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -16,7 +17,7 @@ public class OrganizationAssignedIdentifierTest extends AbstractTestCase{
 	public void testCompareTo1() throws Exception{
 		OrganizationAssignedIdentifier orgIdentifier1 = new OrganizationAssignedIdentifier();
 		HealthcareSite localHealthcareSite1 = new LocalHealthcareSite();
-		localHealthcareSite1.setNciInstituteCode("NCI_ORG1");
+		localHealthcareSite1.setCtepCode("NCI_ORG1");
 		orgIdentifier1.setHealthcareSite(localHealthcareSite1);
 		
 		OrganizationAssignedIdentifier orgIdentifier2 = new OrganizationAssignedIdentifier();
@@ -31,7 +32,7 @@ public class OrganizationAssignedIdentifierTest extends AbstractTestCase{
 	public void testCompareTo2() throws Exception{
 		OrganizationAssignedIdentifier orgIdentifier1 = new OrganizationAssignedIdentifier();
 		HealthcareSite localHealthcareSite1 = new LocalHealthcareSite();
-		localHealthcareSite1.setNciInstituteCode("NCI_ORG1");
+		localHealthcareSite1.setCtepCode("NCI_ORG1");
 		orgIdentifier1.setHealthcareSite(localHealthcareSite1);
 		
 		OrganizationAssignedIdentifier orgIdentifier2 = new OrganizationAssignedIdentifier();
@@ -46,8 +47,8 @@ public class OrganizationAssignedIdentifierTest extends AbstractTestCase{
 	 */
 	public void testHashCode() throws Exception{
 		
-		Identifier organizationAssignedIdenifier = new OrganizationAssignedIdentifier();
-		organizationAssignedIdenifier.setType("MRN");
+		OrganizationAssignedIdentifier organizationAssignedIdenifier = new OrganizationAssignedIdentifier();
+		organizationAssignedIdenifier.setType(OrganizationIdentifierTypeEnum.MRN);
 		HealthcareSite healthcareSite = new LocalHealthcareSite();
 		((OrganizationAssignedIdentifier) organizationAssignedIdenifier).setHealthcareSite(healthcareSite);
 		assertEquals("Wrong value of hash code",31*(31+"MRN".hashCode())+healthcareSite.hashCode(),organizationAssignedIdenifier.hashCode());
@@ -73,17 +74,17 @@ public class OrganizationAssignedIdentifierTest extends AbstractTestCase{
 	 * @throws Exception the exception
 	 */
 	public void testEquals2() throws Exception{
-		Identifier orgIdentifier1 = new OrganizationAssignedIdentifier();
-		Identifier orgIdentifier2 = new OrganizationAssignedIdentifier();
-		orgIdentifier2.setType("MRN");
+		OrganizationAssignedIdentifier orgIdentifier1 = new OrganizationAssignedIdentifier();
+		OrganizationAssignedIdentifier orgIdentifier2 = new OrganizationAssignedIdentifier();
+		orgIdentifier2.setType(OrganizationIdentifierTypeEnum.MRN);
 		
 		assertFalse("The 2 identifiers cannot be equal",orgIdentifier1.equals(orgIdentifier2));
 		
-		orgIdentifier1.setType("Cooperative Group Identifier");
+		orgIdentifier1.setType(OrganizationIdentifierTypeEnum.COOPERATIVE_GROUP_IDENTIFIER);
 		
 		assertFalse("The 2 identifiers cannot be equal",orgIdentifier1.equals(orgIdentifier2));
 		
-		orgIdentifier1.setType("MRN");
+		orgIdentifier1.setType(OrganizationIdentifierTypeEnum.MRN);
 		assertTrue("The 2 identifiers have to be equal",orgIdentifier1.equals(orgIdentifier2));
 	}
 }

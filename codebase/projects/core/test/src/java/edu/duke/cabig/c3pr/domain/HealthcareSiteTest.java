@@ -116,7 +116,8 @@ public class HealthcareSiteTest extends AbstractTestCase{
 		HealthcareSite healthcareSite2 = new LocalHealthcareSite();
 		assertEquals("The two healthcareSites should be same",0,healthcareSite1.compareTo(healthcareSite2));
 		
-		healthcareSite1.setNciInstituteCode("NCI_ORG1");
+		healthcareSite1.setCtepCode("NCI_ORG1");
+		healthcareSite1.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		assertEquals("The two healthcareSites should be different",1,healthcareSite1.compareTo(healthcareSite2));
 	}
 	
@@ -129,7 +130,8 @@ public class HealthcareSiteTest extends AbstractTestCase{
 		HealthcareSite healthcareSite1 = new LocalHealthcareSite();
 		assertEquals("Wrong hash code",31*(31),healthcareSite1.hashCode());
 		String nciCode = "NCI_ORG1";
-		healthcareSite1.setNciInstituteCode(nciCode);
+		healthcareSite1.setCtepCode(nciCode);
+		healthcareSite1.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		assertEquals("Wrong hash code",31*(31) + nciCode.hashCode(),healthcareSite1.hashCode());
 	}
 	
@@ -155,9 +157,11 @@ public class HealthcareSiteTest extends AbstractTestCase{
 		HealthcareSite healthcareSite1 = new LocalHealthcareSite();
 		HealthcareSite healthcareSite2 = new LocalHealthcareSite();
 		
-		healthcareSite2.setNciInstituteCode("NCI_ORG2");
+		healthcareSite2.setCtepCode("NCI_ORG2");
+		healthcareSite2.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		assertFalse("The two healthcareSites cannot be equal",healthcareSite1.equals(healthcareSite2));
-		healthcareSite1.setNciInstituteCode("NCI_ORG1");
+		healthcareSite1.setCtepCode("NCI_ORG1");
+		healthcareSite1.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		assertFalse("The two healthcareSites should be equal",healthcareSite1.equals(healthcareSite2));
 	}
 	

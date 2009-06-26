@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 
 public class StudyDiseaseTest extends AbstractTestCase{
 	
@@ -118,7 +119,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		Study study1 = new Study();
 		studyDisease1.setStudy(study1);
 		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
-		orgIdentifier.setType("Coordinating Center Identifier");
+		orgIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
 		orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
 		
 		study1.addIdentifier(orgIdentifier);

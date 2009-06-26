@@ -10,6 +10,7 @@ import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
@@ -488,7 +489,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		assertEquals("Wrong number of identifiers",0,studySubject.getIdentifiers().size());
 		OrganizationAssignedIdentifier orgIdentifier1 = new OrganizationAssignedIdentifier();
 		orgIdentifier1.setPrimaryIndicator(true);
-		orgIdentifier1.setType("MRN");
+		orgIdentifier1.setType(OrganizationIdentifierTypeEnum.MRN);
 		orgIdentifier1.setValue("1232");
 		studySubject.addIdentifier(orgIdentifier1);
 		
@@ -621,7 +622,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testIsStudySite() throws Exception{
     	HealthcareSite localHealthcareSite = registerMockFor(HealthcareSite.class);
     	EasyMock.expect(studySite.getHealthcareSite()).andReturn(localHealthcareSite);
-    	EasyMock.expect(localHealthcareSite.getNciInstituteCode()).andReturn("NCI100");
+    	EasyMock.expect(localHealthcareSite.getPrimaryIdentifier()).andReturn("NCI100");
     	
     	replayMocks();
     	assertTrue("Expected to be a study site",studySubject.isStudySite("NCI100"));
@@ -1408,7 +1409,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(studyCoordCetner.getHealthcareSite()).andReturn(coordCenterOrganization);
 	  
 	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getGridId()).andReturn("grid Id");
-	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getType()).andReturn("Coordinating Center Assigned Study Subject Identifier");
+	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getType()).andReturn(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER);
 	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getValue()).andReturn("identifier value");
 	  scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 	 
