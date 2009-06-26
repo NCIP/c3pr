@@ -183,7 +183,7 @@
                 })
             },
             valueSelector: function(obj){
-                return (obj.name + " (" + obj.nciInstituteCode + ")")
+                return (obj.name + " (" + obj.ctepCode + ")")
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice){
                 hiddenField = inputElement.id.split("-")[0] + "-hidden";
