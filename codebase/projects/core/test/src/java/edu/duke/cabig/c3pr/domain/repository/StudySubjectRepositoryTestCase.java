@@ -9,6 +9,7 @@ import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.EpochDao;
@@ -142,7 +143,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 	        orgIdentifier.setHealthcareSite(studySubject.getStudySite().getHealthcareSite());
 	        orgIdentifier.setValue("MRN Value");
-	        orgIdentifier.setType("MRN");
+	        orgIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
 	        studySubject.getParticipant().addIdentifier(orgIdentifier);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
