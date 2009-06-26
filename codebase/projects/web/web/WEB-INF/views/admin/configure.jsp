@@ -128,11 +128,11 @@
                 })
             },
             valueSelector: function(obj) {
-            	return obj.name + "("+(obj.nciInstituteCode)+")" ;
+            	return obj.name + "("+(obj.ctepCode)+")" ;
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=localNCIInstituteCodeAutocompleterProps.basename+"-hidden"
-	    							$(hiddenField).value=selectedChoice.nciInstituteCode;
+	    							$(hiddenField).value=selectedChoice.ctepCode;
 			}
 		}
     AutocompleterManager.addAutocompleter(localNCIInstituteCodeAutocompleterProps);

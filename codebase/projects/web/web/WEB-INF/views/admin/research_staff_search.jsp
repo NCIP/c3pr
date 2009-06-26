@@ -25,7 +25,7 @@
             		image = '';
             	}
 
-            	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+            	return (obj.name+" ("+obj.ctepCode+")" + image)
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"

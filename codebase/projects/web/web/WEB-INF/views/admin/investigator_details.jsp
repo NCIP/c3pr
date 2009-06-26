@@ -19,7 +19,7 @@ var healthcareSiteAutocompleterProps = {
     		image = '';
     	}
 
-    	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+    	return (obj.name+" ("+obj.ctepCode+")" + image)
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";

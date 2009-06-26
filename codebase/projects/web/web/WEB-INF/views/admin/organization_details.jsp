@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<title>Organization: ${command.name}:${command.nciInstituteCode}</title>
+<title>Organization: ${command.name}:${command.ctepCode}</title>
 <style type="text/css">
 div.content {
 	padding: 5px 15px;
@@ -142,11 +142,11 @@ div.content {
         		</div>
         		<div class="value">
 	        		<c:if test="${FLOW == 'EDIT_FLOW'}">
-					${command.nciInstituteCode}
+					${command.ctepCode}
 	            	<tags:hoverHint keyProp="organization.nciInstituteCode"/>
 	        		</c:if>
 	        		<c:if test="${FLOW == 'SAVE_FLOW'}">
-                		<form:input path="nciInstituteCode" size="20" cssClass="validate-notEmpty"/>
+                		<form:input path="ctepCode" size="20" cssClass="validate-notEmpty"/>
                 		<tags:hoverHint keyProp="organization.nciInstituteCode"/>
 	        		</c:if>
         		</div>
@@ -347,7 +347,7 @@ div.content {
 					value=${rdStatus.index } id="remoteorg-radio"
 					onClick="javascript:selectOrg('${rdStatus.index}');" /></td>
 				<td align="left">${remOrg.name}</td>
-				<td align="left">${remOrg.nciInstituteCode}</td>
+				<td align="left">${remOrg.ctepCode}</td>
 			</tr>
 		</c:forEach>
 	</table>
