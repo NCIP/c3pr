@@ -165,7 +165,7 @@ public class StudySubjectFactory {
         }
         for (OrganizationAssignedIdentifier organizationAssignedIdentifier : participant
                 .getOrganizationAssignedIdentifiers()) {
-        	HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(organizationAssignedIdentifier.getHealthcareSite().getNciInstituteCode());
+        	HealthcareSite healthcareSite= healthcareSiteDao.getByCtepCode(organizationAssignedIdentifier.getHealthcareSite().getPrimaryIdentifier());
         	organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
         }
         addContactsToParticipant(participant);
@@ -219,7 +219,7 @@ public class StudySubjectFactory {
         if (studies.get(0).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
             throw exceptionHelper.getException(
                             getCode("C3PR.EXCEPTION.REGISTRATION.STUDY_NOT_ACTIVE"), new String[] {
-                                    identifier.getHealthcareSite().getNciInstituteCode(),
+                                    identifier.getHealthcareSite().getPrimaryIdentifier(),
                                     identifier.getValue() });
         }
         return studies.get(0);
@@ -227,14 +227,14 @@ public class StudySubjectFactory {
 
     public StudySite buildStudySite(StudySite studySite, Study study) throws C3PRCodedException {
         for (StudySite temp : study.getStudySites()) {
-            if (temp.getHealthcareSite().getNciInstituteCode().equals(
-                            studySite.getHealthcareSite().getNciInstituteCode())) {
+            if (temp.getHealthcareSite().getPrimaryIdentifier().equals(
+                            studySite.getHealthcareSite().getPrimaryIdentifier())) {
                 if (temp.getSiteStudyStatus() != SiteStudyStatus.ACTIVE) {
                     throw exceptionHelper
                                     .getException(
                                                     getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSITE_NOT_ACTIVE"),
                                                     new String[] { temp.getHealthcareSite()
-                                                                    .getNciInstituteCode() });
+                                                                    .getPrimaryIdentifier() });
                 }
                 return temp;
             }
@@ -243,7 +243,7 @@ public class StudySubjectFactory {
                         .getException(
                                         getCode("C3PR.EXCEPTION.REGISTRATION.NOTFOUND.STUDYSITE_WITH_NCICODE.CODE"),
                                         new String[] { studySite.getHealthcareSite()
-                                                        .getNciInstituteCode() });
+                                                        .getPrimaryIdentifier() });
     }
 
     private Epoch buildEpoch(List<Epoch> epochs, ScheduledEpoch scheduledEpoch)
@@ -307,7 +307,7 @@ public class StudySubjectFactory {
         studySubject.getIdentifiers().addAll(source.getIdentifiers());
         for (OrganizationAssignedIdentifier organizationAssignedIdentifier : studySubject
                 .getOrganizationAssignedIdentifiers()) {
-        	HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(organizationAssignedIdentifier.getHealthcareSite().getNciInstituteCode());
+        	HealthcareSite healthcareSite= healthcareSiteDao.getByCtepCode(organizationAssignedIdentifier.getHealthcareSite().getPrimaryIdentifier());
         	organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
         }
         if(source.getTreatingPhysician()!=null){

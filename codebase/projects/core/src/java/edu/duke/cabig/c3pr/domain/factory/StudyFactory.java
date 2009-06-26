@@ -54,14 +54,14 @@ public class StudyFactory {
 		// load study orgs from db Not to be imported
 		for (StudyOrganization organization : study.getStudyOrganizations()) {
 			HealthcareSite loadedSite = healthcareSiteDao
-					.getByNciInstituteCode(organization.getHealthcareSite()
-							.getNciInstituteCode());
+					.getByCtepCode(organization.getHealthcareSite()
+							.getPrimaryIdentifier());
 			if (loadedSite == null) {
 				throw exceptionHelper
 						.getException(
 								getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
 								new String[] { organization.getHealthcareSite()
-										.getNciInstituteCode() });
+										.getPrimaryIdentifier() });
 			}
 			organization.setHealthcareSite(loadedSite);
 
@@ -96,8 +96,8 @@ public class StudyFactory {
 		for (OrganizationAssignedIdentifier identifier : study
 				.getOrganizationAssignedIdentifiers()) {
 			HealthcareSite loadedSite = healthcareSiteDao
-					.getByNciInstituteCode(identifier.getHealthcareSite()
-							.getNciInstituteCode());
+					.getByCtepCode(identifier.getHealthcareSite()
+							.getPrimaryIdentifier());
 			identifier.setHealthcareSite(loadedSite);
 		}
 		
