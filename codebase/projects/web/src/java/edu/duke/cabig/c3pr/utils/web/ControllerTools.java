@@ -57,12 +57,12 @@ public class ControllerTools {
     public static String createParameterString(Identifier identifier){
     	if (identifier instanceof OrganizationAssignedIdentifier) {
 			OrganizationAssignedIdentifier organizationAssignedIdentifier = (OrganizationAssignedIdentifier) identifier;
-			 return ASSIGNED_BY_PARAM_NAME+"="+ASSIGNED_BY_ORG_VALUE+"&"+ORG_NCI_PARAM_NAME+"="+organizationAssignedIdentifier.getHealthcareSite().getNciInstituteCode()
-					+"&"+IDENTIFIER_TYPE_PARAM_NAME+"="+identifier.getType()+"&"+IDENTIFIER_VALUE_PARAM_NAME+"="+identifier.getValue();
+			 return ASSIGNED_BY_PARAM_NAME+"="+ASSIGNED_BY_ORG_VALUE+"&"+ORG_NCI_PARAM_NAME+"="+organizationAssignedIdentifier.getHealthcareSite().getPrimaryIdentifier()
+					+"&"+IDENTIFIER_TYPE_PARAM_NAME+"="+identifier.getTypeInternal()+"&"+IDENTIFIER_VALUE_PARAM_NAME+"="+identifier.getValue();
 		}
     	SystemAssignedIdentifier systemAssignedIdentifier=(SystemAssignedIdentifier)identifier;
     	return ASSIGNED_BY_PARAM_NAME+"="+ASSIGNED_BY_SYS_VALUE+"&"+SYSYEM_NAME_PARAM_NAME+"="+systemAssignedIdentifier.getSystemName()
-		+"&"+IDENTIFIER_TYPE_PARAM_NAME+"="+identifier.getType()+"&"+IDENTIFIER_VALUE_PARAM_NAME+"="+identifier.getValue();
+		+"&"+IDENTIFIER_TYPE_PARAM_NAME+"="+identifier.getTypeInternal()+"&"+IDENTIFIER_VALUE_PARAM_NAME+"="+identifier.getValue();
     }
     
     public static Identifier getIdentifierInRequest(HttpServletRequest request){
@@ -71,7 +71,7 @@ public class ControllerTools {
     		if(request.getParameter(ASSIGNED_BY_PARAM_NAME).equals(ASSIGNED_BY_ORG_VALUE)){
     			OrganizationAssignedIdentifier orgAssignedIdentifier = new OrganizationAssignedIdentifier();
     			orgAssignedIdentifier.setHealthcareSite(new LocalHealthcareSite());
-    			orgAssignedIdentifier.getHealthcareSite().setNciInstituteCode(request.getParameter(ORG_NCI_PARAM_NAME));
+    			orgAssignedIdentifier.getHealthcareSite().setCtepCode(request.getParameter(ORG_NCI_PARAM_NAME));
     			identifier=orgAssignedIdentifier;
     		}else if(request.getParameter(ASSIGNED_BY_PARAM_NAME).equals(ASSIGNED_BY_SYS_VALUE)){
     			SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
@@ -81,7 +81,7 @@ public class ControllerTools {
     			throw new RuntimeException("Incomplete URL. The identifier information in the URL is incomplete.");
     		}
     		identifier.setValue(request.getParameter(IDENTIFIER_VALUE_PARAM_NAME));
-    		identifier.setType(request.getParameter(IDENTIFIER_TYPE_PARAM_NAME));
+    		identifier.setTypeInternal(request.getParameter(IDENTIFIER_TYPE_PARAM_NAME));
     	}
     	return identifier;
     }

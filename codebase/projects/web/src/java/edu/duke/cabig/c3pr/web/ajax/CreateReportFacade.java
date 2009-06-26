@@ -165,7 +165,7 @@ public class CreateReportFacade {
         }
 
         if (siteNciId != null && siteNciId != "") {
-            hcs.setNciInstituteCode(siteNciId);
+            hcs.setCtepCode(siteNciId);
         }
 
         StudySite studySite = new StudySite();

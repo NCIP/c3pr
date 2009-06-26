@@ -174,7 +174,7 @@ public class CreateParticipantController<C extends Participant> extends
         if (request.getParameter("async") != null) {
             response.getWriter().print(
             		participant.getFirstName() + " " + participant.getLastName() + " ("
-                                            + participant.getIdentifiers().get(0).getType() + " - "
+                                            + participant.getIdentifiers().get(0).getTypeInternal() + " - "
                                             + participant.getIdentifiers().get(0).getValue() + ")"
                                             + "||" + participant.getId());
             return null;
@@ -195,7 +195,7 @@ public class CreateParticipantController<C extends Participant> extends
     	HealthcareSite hcs = personnelService.getLoggedInUsersOrganization(request);
     	List<HealthcareSite> hcsList = participant.getHealthcareSites();
     	if(hcs == null){
-    		hcs = healthcareSiteDao.getByNciInstituteCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
+    		hcs = healthcareSiteDao.getByCtepCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
     	}
     	hcsList.add(hcs);
     	

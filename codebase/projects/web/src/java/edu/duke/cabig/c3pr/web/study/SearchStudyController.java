@@ -100,13 +100,13 @@ public class SearchStudyController extends SimpleFormController {
 			ResearchStaff rStaff = researchStaffDao.getByEmailAddress(user.getEmailId());
 			if (rStaff != null) {
 				String nciCodeOfUserOrg = rStaff.getHealthcareSite()
-						.getNciInstituteCode();
+						.getPrimaryIdentifier();
 				Boolean shouldDelete;
 				for (Study filteredStudy : studies) {
 					shouldDelete = Boolean.TRUE;
 					for (StudyCoordinatingCenter scc : filteredStudy
 							.getStudyCoordinatingCenters()) {
-						if (scc.getHealthcareSite().getNciInstituteCode()
+						if (scc.getHealthcareSite().getPrimaryIdentifier()
 								.equals(nciCodeOfUserOrg)) {
 							//if users Org is coordinating center dont delete study
 							shouldDelete = Boolean.FALSE;
@@ -114,7 +114,7 @@ public class SearchStudyController extends SimpleFormController {
 					}
 
 					for (StudySite ss : filteredStudy.getStudySites()) {
-						if (ss.getHealthcareSite().getNciInstituteCode()
+						if (ss.getHealthcareSite().getPrimaryIdentifier()
 								.equals(nciCodeOfUserOrg)) {
 							//if users Org is one of the  study sites dont delete study
 							shouldDelete = Boolean.FALSE;

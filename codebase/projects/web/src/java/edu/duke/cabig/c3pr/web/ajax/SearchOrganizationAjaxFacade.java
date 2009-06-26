@@ -70,7 +70,7 @@ public class SearchOrganizationAjaxFacade {
 
         Column columnCtep = model.getColumnInstance();
         columnCtep.setTitle("CTEP identifier");
-        columnCtep.setProperty("nciInstituteCode");
+        columnCtep.setProperty("ctepCode");
         model.addColumn(columnCtep);
 
         Column columnNci = model.getColumnInstance();
@@ -99,7 +99,7 @@ public class SearchOrganizationAjaxFacade {
             hcs.setName(params[0]);
         }
         if (!StringUtils.isEmpty(params[1])) {
-            hcs.setNciInstituteCode(params[1]);
+            hcs.setCtepCode(params[1]);
         }
         List<HealthcareSite> orgResults = healthcareSiteDao.searchByExample(hcs, true);
 

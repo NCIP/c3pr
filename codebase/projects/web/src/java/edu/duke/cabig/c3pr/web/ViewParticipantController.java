@@ -19,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -152,9 +153,9 @@ public class ViewParticipantController<C extends Participant> extends
 	        		}else if(assignedBy.equals("organization")){
 		        			if(request.getParameter("organizationNciId")!=null ) {
 		        			OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier(); 
-		        			HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(name);
+		        			HealthcareSite healthcareSite= healthcareSiteDao.getByCtepCode(name);
 		        			orgIdentifier.setHealthcareSite(healthcareSite);
-		        			orgIdentifier.setType(type);
+		        			orgIdentifier.setType(OrganizationAssignedIdentifier.getOrganizationIdentifierEnumByCode(type));
 		        			orgIdentifier.setValue(value);
 		        			
 		        			participants = participantDao.searchByOrgIdentifier(orgIdentifier);
@@ -181,7 +182,8 @@ public class ViewParticipantController<C extends Participant> extends
         return new Participant();
     }
     
-    @Override
+
+	@Override
     protected ModelAndView showForm(HttpServletRequest request,
     		HttpServletResponse response, BindException errors)
     		throws Exception {
@@ -218,6 +220,8 @@ public class ViewParticipantController<C extends Participant> extends
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
         binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(
                         ContactMechanismType.class));
+        binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor(
+                OrganizationIdentifierTypeEnum.class));
     }
 
 //    @Override

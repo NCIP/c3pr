@@ -99,7 +99,7 @@ public class UserAjaxFacade {
     	String nciInstituteCode = null;
     	
     	if(rStaff != null){
-    		nciInstituteCode =  rStaff.getHealthcareSite().getNciInstituteCode();
+    		nciInstituteCode =  rStaff.getHealthcareSite().getPrimaryIdentifier();
     	} else {
     		//Defaulting to the hosting site...as no site was found for logged in user.
     		nciInstituteCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);

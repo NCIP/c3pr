@@ -163,7 +163,7 @@ public class CreateReportController extends SimpleFormController {
         }
 
         if (siteNciId != null && siteNciId != "") {
-            hcs.setNciInstituteCode(siteNciId);
+            hcs.setCtepCode(siteNciId);
         }
 
         StudySite studySite = new StudySite();

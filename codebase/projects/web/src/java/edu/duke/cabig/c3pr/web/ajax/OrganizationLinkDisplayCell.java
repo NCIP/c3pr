@@ -33,7 +33,7 @@ public class OrganizationLinkDisplayCell extends AbstractCell {
     }
     
     public void setRowOnClick(TableModel tableModel, HealthcareSite organization){    	
-    	String url = "document.location='" + VIEW_ORG_URL + organization.getNciInstituteCode().toString() + "'";
+    	String url = "document.location='" + VIEW_ORG_URL + organization.getPrimaryIdentifier().toString() + "'";
     	tableModel.getRowHandler().getRow().setOnclick(url);
     	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
     }
