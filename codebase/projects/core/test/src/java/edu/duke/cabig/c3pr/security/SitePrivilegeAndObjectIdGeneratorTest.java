@@ -21,7 +21,7 @@ public class SitePrivilegeAndObjectIdGeneratorTest extends ApplicationTestCase {
                         .getBean("sitePrivilegeAndObjectIdGenerator");
 
         site = new LocalHealthcareSite();
-        site.setNciInstituteCode("testSite");
+        site.setCtepCode("testSite");
     }
 
     public void testPrivilegeGenerator() {
@@ -44,7 +44,7 @@ public class SitePrivilegeAndObjectIdGeneratorTest extends ApplicationTestCase {
     public void testObjectIdGenerator() {
         String id = sitePrivilegeAndObjectIdGenerator.generateId(site);
         assertNotNull(id);
-        assertEquals(id, "edu.duke.cabig.c3pr.domain.HealthcareSite" + "." + site.getNciInstituteCode());
+        assertEquals(id, "edu.duke.cabig.c3pr.domain.HealthcareSite" + "." + site.getPrimaryIdentifier());
     }
 
 }
