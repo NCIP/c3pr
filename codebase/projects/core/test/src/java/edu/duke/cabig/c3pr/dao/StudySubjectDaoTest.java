@@ -25,6 +25,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
@@ -231,7 +232,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             OrganizationAssignedIdentifier id = studySubject1.getOrganizationAssignedIdentifiers()
                             .get(0);
             id.setHealthcareSite(healthcareSiteDao.getById(1002));
-            id.setType("Test");
+            id.setType(OrganizationIdentifierTypeEnum.MRN);
             id.setValue("Test");
             Object saved = reviewAndSave(currentFormObject(onBindFormObject));
 
@@ -321,7 +322,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	
         OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
         orgIdentifier.setHealthcareSite(studySubject.getStudySite().getHealthcareSite());
-        orgIdentifier.setType("Coordinating Center Identifier");
+        orgIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
         orgIdentifier.setValue("nci1");
     	
     	studySubject.addIdentifier(orgIdentifier);
@@ -785,7 +786,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
        StudySubject studySubject = studySubjectDao.getById(1000);
        OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
        orgIdentifier.setHealthcareSite(studySubject.getStudySite().getHealthcareSite());
-       orgIdentifier.setType("Coordinating Center Identifier");
+       orgIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
        orgIdentifier.setValue("CoordinatingCenterIdValue");
        Study study = studySubject.getStudySite().getStudy();
        study.addIdentifier(orgIdentifier);
@@ -1011,6 +1012,5 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	assertEquals("Wrong number of study identifiers retrieved",1,loadedStudy.getIdentifiers().size());
     	assertEquals("Wrong number of study subject identifiers retrieved",2,loadedStudySubject.getIdentifiers().size());
     }
-    
     		
 }
