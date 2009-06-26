@@ -53,7 +53,7 @@ public class Summary3ReportFactory {
 		
 		if(summary3Report.getReportingSource()== null){
 			String reportingSourceNCICode =	this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);;
-			HealthcareSite reportingOrganization = healthcareSiteDao.getByNciInstituteCode(reportingSourceNCICode);
+			HealthcareSite reportingOrganization = healthcareSiteDao.getByCtepCode(reportingSourceNCICode);
 			summary3Report.setReportingSource(reportingOrganization.getName());
 		}
 		Date reportStartDate = summary3Report.getStartDate();
