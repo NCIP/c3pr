@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
+import edu.duke.cabig.c3pr.tools.Configuration;
 
 public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
 
@@ -106,7 +107,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
             healthcaresite.setAddress(address);
             healthcaresite.setName("duke healthcare");
             healthcaresite.setDescriptionText("duke healthcare");
-            healthcaresite.setNciInstituteCode("Nci duke");
+            healthcaresite.setCtepCode("Nci duke");
             healthcareSitedao.save(healthcaresite);
 
             // HCSI
@@ -235,7 +236,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
 		healthcaresite.setAddress(address);
 		healthcaresite.setName("duke healthcare");
 		healthcaresite.setDescriptionText("duke healthcare");
-		healthcaresite.setNciInstituteCode("Nci-Cood");
+		healthcaresite.setCtepCode("Nci-Cood");
 		healthcareSitedao.save(healthcaresite);
 		studyCoordinatingCenter.setHealthcareSite(healthcaresite);
 		studyCoordinatingCenter.setStudy(study);
@@ -253,7 +254,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         healthcaresite.setAddress(address);
         healthcaresite.setName("duke healthcare");
         healthcaresite.setDescriptionText("duke healthcare");
-        healthcaresite.setNciInstituteCode(nciCode);
+        healthcaresite.setCtepCode(nciCode);
         healthcareSitedao.save(healthcaresite);
         StudySite studySite = new StudySite();
         study.addStudySite(studySite);

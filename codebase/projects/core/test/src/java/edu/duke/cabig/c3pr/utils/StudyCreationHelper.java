@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.Arm;
@@ -377,17 +378,16 @@ public class StudyCreationHelper {
         return study;
 	}
 
-	public Study addOrganizationAssignedIdentifier(Study study, String type, String value){
+	public Study addOrganizationAssignedIdentifier(Study study, OrganizationIdentifierTypeEnum type, String value){
 		OrganizationAssignedIdentifier orgIdentifier =  new OrganizationAssignedIdentifier();
 		orgIdentifier.setType(type);
 		orgIdentifier.setValue(value);
 		orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
-		orgIdentifier.setPrimaryIndicator(true);
 		study.getOrganizationAssignedIdentifiers().add(orgIdentifier);
 		return study;
 	}
 	
-	public Study addOrganizationAssignedIdentifierNonPrimary(Study study, String type, String value){
+	public Study addOrganizationAssignedIdentifierNonPrimary(Study study, OrganizationIdentifierTypeEnum type, String value){
 		OrganizationAssignedIdentifier orgIdentifier =  new OrganizationAssignedIdentifier();
 		orgIdentifier.setType(type);
 		orgIdentifier.setValue(value);
@@ -458,7 +458,8 @@ public class StudyCreationHelper {
 		 
 		 StudySite site = new StudySite();
 		 HealthcareSite hcs = new LocalHealthcareSite();
-		 hcs.setNciInstituteCode("NCI_CODE");
+		 hcs.setCtepCode("NCI_CODE");
+		 hcs.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		 site.setHealthcareSite(hcs);
 		 
 		 association.addStudySite(site);
@@ -466,5 +467,4 @@ public class StudyCreationHelper {
 		 child.getParentStudyAssociations().add(association);
 		 return child;
 	 }
-	 
 }
