@@ -49,7 +49,7 @@ public class AnatomicSiteDao extends GridIdentifiableDao<AnatomicSite> {
      */
     public List<AnatomicSite> getBySubnames(String[] subnames) {
         return findBySubname(subnames, null, EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES,
-                        EXACT_MATCH_PROPERTIES);
+                        EXACT_MATCH_PROPERTIES, null);
     }
     
     

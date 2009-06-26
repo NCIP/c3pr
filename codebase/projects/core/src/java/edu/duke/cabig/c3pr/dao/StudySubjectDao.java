@@ -113,6 +113,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         Criteria participantCriteria = registrationCriteria.createCriteria("participant");
         Criteria studyCriteria = studySiteCriteria.createCriteria("study");
         Criteria siteCriteria = studySiteCriteria.createCriteria("healthcareSite");
+        Criteria identifiersAssignedToOrganizationCriteria = siteCriteria.createCriteria("identifiersAssignedToOrganization");
         Criteria identifiersCriteria = studyCriteria.createCriteria("identifiers");
 
         // Study Criteria
@@ -128,11 +129,11 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
             siteCriteria.add(Expression.ilike("name", "%"
                             + registration.getStudySite().getHealthcareSite().getName() + "%"));
         }
-        if (registration.getStudySite().getHealthcareSite().getNciInstituteCode() != null
-                        && !registration.getStudySite().getHealthcareSite().getNciInstituteCode()
+        if (registration.getStudySite().getHealthcareSite().getPrimaryIdentifier() != null
+                        && !registration.getStudySite().getHealthcareSite().getPrimaryIdentifier()
                                         .equals("")) {
-            siteCriteria.add(Expression.ilike("nciInstituteCode", "%"
-                            + registration.getStudySite().getHealthcareSite().getNciInstituteCode()
+        	identifiersAssignedToOrganizationCriteria.add(Expression.ilike("value", "%"
+                            + registration.getStudySite().getHealthcareSite().getPrimaryIdentifier()
                             + "%"));
         }
 
@@ -166,7 +167,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     }
 
     /*
-     * This is the Reporting method used for Study Reports generation.
+     * This is the advanced search method used for Study Reports generation.
      */
     /**
 	 * Advanced study search.
@@ -452,7 +453,6 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     
     /**
 	 * Gets the incomplete registrations.
-     * @param studySubject2 
 	 * 
 	 * @param registration
 	 *            the registration
@@ -513,37 +513,31 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     /**
 	 * Search by sys identifier.
 	 * 
-	 * @param id
-	 *            the id
+	 * @param id  the id
 	 * 
 	 * @return the list< study subject>
 	 */
     @SuppressWarnings("unchecked")
     public List<StudySubject> searchBySysIdentifier(SystemAssignedIdentifier id) {
         return (List<StudySubject>) getHibernateTemplate()
-                        .find(
-                                        "select S from StudySubject S, SystemAssignedIdentifier I where I.systemName=?"
-                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
-                                        new Object[] { id.getSystemName(),
-                                                id.getValue(), id.getType() });
+                    .find("select S from StudySubject S, SystemAssignedIdentifier I where I.systemName=?"
+                        + " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
+                        new Object[] { id.getSystemName(), id.getValue(), id.getType()});
     }
     
     /**
 	 * Search by org identifier.
 	 * 
-	 * @param id
-	 *            the id
+	 * @param id   the id
 	 * 
 	 * @return the list< study subject>
 	 */
     @SuppressWarnings("unchecked")
     public List<StudySubject> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
         return (List<StudySubject>) getHibernateTemplate()
-                        .find(
-                                        "select S from StudySubject S, OrganizationAssignedIdentifier I where I.healthcareSite.nciInstituteCode=?"
-                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
-                                        new Object[] { id.getHealthcareSite().getNciInstituteCode(),
-                                                id.getValue(), id.getType() });
+                .find("select S from StudySubject S, OrganizationAssignedIdentifier I where " + 
+                	  "I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
+                      new Object[]{id.getValue(), id.getTypeInternal()});
     }
     
     /**
@@ -577,24 +571,6 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     public void save(StudySubject obj) {
         getHibernateTemplate().saveOrUpdate(obj);
     }
-    
-    
-    /*public List<Integer> getStudySubjectIdsWithPendingScheduedEpochs(){
-    	ScrollableResults regIds;
-    	Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-    	String queryString = "select study_subjects.id as id from study_subjects join scheduled_epochs on " +
-    			"(study_subjects.id = scheduled_epochs.spa_id) and scheduled_epochs.sc_epoch_workflow_status='PENDING'";
-
-
-    	SQLQuery sqlQuerry =session.createSQLQuery(queryString);
-    	
-    	regIds =sqlQuerry.scroll();
-    	for(int i=0;i++)
-    	while(regIds.scroll(i)){
-    		
-    	}
-    	return regIds;
-    }*/
 
     /**
 	 * Merge.

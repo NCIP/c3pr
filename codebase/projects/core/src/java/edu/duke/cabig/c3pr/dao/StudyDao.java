@@ -18,6 +18,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -82,11 +83,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     @SuppressWarnings("unchecked")
     public List<Study> searchBySysIdentifier(SystemAssignedIdentifier id) {
         return (List<Study>) getHibernateTemplate()
-                        .find(
-                                        "select S from Study S, Identifier I where I.systemName=?"
-                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
-                                        new Object[] { id.getSystemName(),
-                                                id.getValue(), id.getType() });
+                        .find("select S from Study S, Identifier I where I.systemName=?"
+                            + " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
+                            new Object[] { id.getSystemName(), id.getValue(), id.getType()});
     }
 
     /**
@@ -99,11 +98,11 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     @SuppressWarnings("unchecked")
     public List<Study> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
         return (List<Study>) getHibernateTemplate()
-                        .find(
-                                        "select S from Study S, Identifier I where I.healthcareSite.nciInstituteCode=?"
-                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
-                                        new Object[] { id.getHealthcareSite().getNciInstituteCode(),
-                                                id.getValue(), id.getType() });
+                .find("select S from Study S, Identifier I where I.healthcareSite.id in " + 
+            		"(select h.id from HealthcareSite h, Identifier I where " +
+              		"I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))" +
+                    " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
+                    new Object[] {id.getHealthcareSite().getCtepCode(), OrganizationIdentifierTypeEnum.CTEP.getName(), id.getValue(), id.getType().getName()});
     }
 
     /**
@@ -195,6 +194,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 				getHibernateTemplate().initialize(studyOrganization.getHealthcareSite().getHealthcareSiteInvestigators());
 			}
 		}
+		
 	}
     
     /**
@@ -220,7 +220,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     	
     	List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("shortTitleText","identifiers.value");
     	
-    	List<Study> studies = findBySubname(subnames, "LOWER(o.identifiers.type) LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    	List<Study> studies = findBySubname(subnames, "LOWER(o.identifiers.typeInternal) LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, null);
     	for(Study study: studies){
     		getHibernateTemplate().initialize(study.getIdentifiers());
     	}
@@ -356,9 +356,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public List<OrganizationAssignedIdentifier> getCoordinatingCenterIdentifiersWithValue(
                     String coordinatingCetnerIdentifierValue, HealthcareSite site) {
         List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
-                        .find(
-                                        "from Identifier I where I.type='Coordinating Center Identifier' and I.healthcareSite = ?",
-                                        site);
+                  .find("from Identifier I where I.typeInternal='COORDINATING_CENTER_IDENTIFIER' and I.healthcareSite = ?",site);
         List<OrganizationAssignedIdentifier> ccIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
         for (OrganizationAssignedIdentifier studyIdent : orgAssignedIdentifiers) {
             if (studyIdent.getValue().equalsIgnoreCase(coordinatingCetnerIdentifierValue)) {
@@ -380,9 +378,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public List<OrganizationAssignedIdentifier> getFundingSponsorIdentifiersWithValue(
                     String fundingSponsorIdentifierValue, HealthcareSite site) {
         List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
-                        .find(
-                                        "from Identifier I where I.type='Protocol Authority Identifier' and I.healthcareSite = ?",
-                                        site);
+                  .find("from Identifier I where I.typeInternal='PROTOCOL_AUTHORITY_IDENTIFIER' and I.healthcareSite = ?", site);
         List<OrganizationAssignedIdentifier> fsIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
         for (OrganizationAssignedIdentifier subIdent : orgAssignedIdentifiers) {
             if (subIdent.getValue().equalsIgnoreCase(fundingSponsorIdentifierValue)) {
@@ -493,8 +489,10 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         for (Identifier identifier : studyIdentifiers) {
             if (identifier instanceof SystemAssignedIdentifier) studies
                             .addAll(searchBySysIdentifier((SystemAssignedIdentifier) identifier));
-            else if (identifier instanceof OrganizationAssignedIdentifier) studies
-                            .addAll(searchByOrgIdentifier((OrganizationAssignedIdentifier) identifier));
+            else if (identifier instanceof OrganizationAssignedIdentifier){ 
+            	getHibernateTemplate().initialize(((OrganizationAssignedIdentifier)identifier).getHealthcareSite());	
+            	studies.addAll(searchByOrgIdentifier((OrganizationAssignedIdentifier) identifier));
+            }
         }
         Set<Study> set = new LinkedHashSet<Study>(studies);
         studies.clear();
