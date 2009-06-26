@@ -18,6 +18,7 @@ import java.util.List;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -653,7 +654,7 @@ public class StudyDaoTest extends DaoTestCase {
             healthcaresite.setAddress(address);
             healthcaresite.setName("duke healthcare");
             healthcaresite.setDescriptionText("duke healthcare");
-            healthcaresite.setNciInstituteCode("Nci duke");
+            healthcaresite.setCtepCode("Nci duke");
 
             healthcareSitedao.save(healthcaresite);
             System.out.println("hc site id ************" + healthcaresite.getId());
@@ -863,7 +864,7 @@ public class StudyDaoTest extends DaoTestCase {
             healthcaresite.setAddress(address);
             healthcaresite.setName("duke healthcare");
             healthcaresite.setDescriptionText("duke healthcare");
-            healthcaresite.setNciInstituteCode("Nci duke");
+            healthcaresite.setCtepCode("Nci duke");
             healthcareSitedao.save(healthcaresite);
             
             // HCSI
@@ -1346,12 +1347,12 @@ public class StudyDaoTest extends DaoTestCase {
         HealthcareSite site = healthcareSitedao.getById(1000);
         OrganizationAssignedIdentifier orgId1 = new OrganizationAssignedIdentifier();
         orgId1.setHealthcareSite(site);
-        orgId1.setType("Study Funding Sponsor");
+        orgId1.setType(OrganizationIdentifierTypeEnum.STUDY_FUNDING_SPONSOR);
         orgId1.setValue("abc");
 
         OrganizationAssignedIdentifier orgId2 = new OrganizationAssignedIdentifier();
         orgId2.setHealthcareSite(site);
-        orgId2.setType("Study Funding Sponsor");
+        orgId2.setType(OrganizationIdentifierTypeEnum.STUDY_FUNDING_SPONSOR);
         orgId2.setValue("abcd");
         loadedStudy1.addIdentifier(orgId1);
         
@@ -1518,9 +1519,9 @@ public class StudyDaoTest extends DaoTestCase {
     public void testGetStudyByOrganizationAssignedIdentifier(){
         OrganizationAssignedIdentifier organizationAssignedId=new OrganizationAssignedIdentifier();
         organizationAssignedId.setHealthcareSite(new LocalHealthcareSite());
-        organizationAssignedId.getHealthcareSite().setNciInstituteCode("Duke");
+        organizationAssignedId.getHealthcareSite().setCtepCode("Duke");
         organizationAssignedId.setValue("nci1");
-        organizationAssignedId.setType("Coordinating Center Identifier");
+        organizationAssignedId.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
         List<Study> studies=dao.searchByOrgIdentifier(organizationAssignedId);
         assertEquals("Wrong size of list",1, studies.size());
     }
@@ -1533,7 +1534,6 @@ public class StudyDaoTest extends DaoTestCase {
         List<Identifier> identifiers=new ArrayList<Identifier>();
         for(Study study: dao.getAll())
             identifiers.addAll(study.getIdentifiers());
-        interruptSession();
         List<Study> studies=dao.getByIdentifiers(identifiers);
         assertEquals("Wrong size of list",4, studies.size());
     }
@@ -1647,7 +1647,7 @@ public class StudyDaoTest extends DaoTestCase {
         OrganizationAssignedIdentifier identifier1 = new OrganizationAssignedIdentifier();
         HealthcareSite loadedSite = healthcareSitedao.getById(1000);
         identifier1.setHealthcareSite(loadedSite);
-        identifier1.setType("Coordinating Center Assigned Identifier");
+        identifier1.setType(OrganizationIdentifierTypeEnum.COOPERATIVE_GROUP_IDENTIFIER);
         identifier1.setValue("123");
 
         SystemAssignedIdentifier sysId = new SystemAssignedIdentifier();
@@ -1657,7 +1657,7 @@ public class StudyDaoTest extends DaoTestCase {
        
         loadedStudy.addIdentifier(identifier1);
         loadedStudy.addIdentifier(sysId);
-        dao.save(loadedStudy);
+        dao.save(loadedStudy);        
         Study reloadedStudy = dao.getById(1000);
         assertEquals("Wrong number of identifiers for study",4,reloadedStudy.getIdentifiers().size());
     }
@@ -1667,5 +1667,4 @@ public class StudyDaoTest extends DaoTestCase {
     	List<StudySubject> list = dao.getStudySubjectsForCompanionStudy(studyId);
     	assertEquals("Wrong number of records",2,list.size());
     }
-    
-    }
+}
