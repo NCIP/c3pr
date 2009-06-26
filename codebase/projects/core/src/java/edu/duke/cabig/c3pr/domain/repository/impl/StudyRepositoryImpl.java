@@ -13,14 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.ServiceName;
-import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EndPoint;
-import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -93,12 +91,12 @@ public class StudyRepositoryImpl implements StudyRepository {
             }
 
             for (StudyOrganization organization : study.getStudyOrganizations()) {
-                if (healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite()
-                                .getNciInstituteCode()) == null) {
+                if (healthcareSiteDao.getByCtepCode(organization.getHealthcareSite()
+                                .getPrimaryIdentifier()) == null) {
                     throw new StudyValidationException(
                                     "Could not find Organization with NCI Institute code:"
                                                     + organization.getHealthcareSite()
-                                                                    .getNciInstituteCode());
+                                                                    .getPrimaryIdentifier());
                 }
             }
         }
@@ -110,13 +108,13 @@ public class StudyRepositoryImpl implements StudyRepository {
 
     public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)
                     throws C3PRCodedException {
-        HealthcareSite healthcareSite = this.healthcareSiteDao.getByNciInstituteCode(identifier
-                        .getHealthcareSite().getNciInstituteCode());
+        HealthcareSite healthcareSite = this.healthcareSiteDao.getByCtepCode(identifier
+                        .getHealthcareSite().getPrimaryIdentifier());
         if (healthcareSite == null) {
             throw c3PRExceptionHelper.getException(
                             getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
-                            new String[] { identifier.getHealthcareSite().getNciInstituteCode(),
-                                    identifier.getType() });
+                            new String[] { identifier.getHealthcareSite().getPrimaryIdentifier(),
+                                    identifier.getType().getName() });
         }
         identifier.setHealthcareSite(healthcareSite);
         return studyDao.searchByOrgIdentifier(identifier);
@@ -427,7 +425,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySiteObj){
         Study study = getUniqueStudy(studyIdentifiers);
-        String nciInstituteCode = studySiteObj.getHealthcareSite().getNciInstituteCode();
+        String nciInstituteCode = studySiteObj.getHealthcareSite().getCtepCode();
         StudySite studySite;
         CompanionStudyAssociation companionStudyAssociaton = studySiteObj.getCompanionStudyAssociation() ;
         if(companionStudyAssociaton != null ){
@@ -461,7 +459,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 		Study study = getUniqueStudy(studyIdentifiers);
 		for (StudySite studySite : study.getStudySites()) {
 			createStudyAtAffiliate(studyIdentifiers, studySite
-					.getHealthcareSite().getNciInstituteCode());
+					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
 
@@ -475,7 +473,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 				&& studyService.canMultisiteBroadcast(studySite)) {
 			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
 			domainObjects.add(study);
-			endPoint=handleAffiliateSiteBroadcast(studySite.getHealthcareSite().getNciInstituteCode(), study,  APIName.CREATE_STUDY_DEFINITION,
+			endPoint=handleAffiliateSiteBroadcast(studySite.getHealthcareSite().getPrimaryIdentifier(), study,  APIName.CREATE_STUDY_DEFINITION,
 					domainObjects);
 			updateCoordinatingCenterStatusForStudySite(studySite,
 					APIName.CREATE_STUDY_DEFINITION,
@@ -488,7 +486,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 		Study study = getUniqueStudy(studyIdentifiers);
 		for (StudySite studySite : study.getStudySites()) {
 			createAndOpenStudyAtAffiliate(studyIdentifiers, studySite
-					.getHealthcareSite().getNciInstituteCode());
+					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
 	
@@ -502,7 +500,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 				&& studyService.canMultisiteBroadcast(studySite)) {
 			List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
 			domainObjects.add(study);
-			endPoint=handleAffiliateSiteBroadcast(studySite.getHealthcareSite().getNciInstituteCode(), study,  APIName.CREATE_AND_OPEN_STUDY,
+			endPoint=handleAffiliateSiteBroadcast(studySite.getHealthcareSite().getPrimaryIdentifier(), study,  APIName.CREATE_AND_OPEN_STUDY,
 					domainObjects);
 			updateCoordinatingCenterStatusForStudySite(studySite,
 					APIName.CREATE_AND_OPEN_STUDY, CoordinatingCenterStudyStatus.OPEN);
@@ -514,7 +512,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 		Study study = getUniqueStudy(studyIdentifiers);
 		for (StudySite studySite : study.getStudySites()) {
 			openStudyAtAffiliate(studyIdentifiers, studySite
-					.getHealthcareSite().getNciInstituteCode());
+					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
 
@@ -561,7 +559,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 		Study study = getUniqueStudy(studyIdentifiers);
 		for (StudySite studySite : study.getStudySites()) {
 			closeStudyToAccrualAtAffiliate(studyIdentifiers, studySite
-					.getHealthcareSite().getNciInstituteCode());
+					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
 	
@@ -586,7 +584,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 		Study study = getUniqueStudy(studyIdentifiers);
 		for (StudySite studySite : study.getStudySites()) {
 			closeStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers, studySite
-					.getHealthcareSite().getNciInstituteCode());
+					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
 	
@@ -611,7 +609,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 		Study study = getUniqueStudy(studyIdentifiers);
 		for (StudySite studySite : study.getStudySites()) {
 			temporarilyCloseStudyToAccrualAtAffiliate(studyIdentifiers, studySite
-					.getHealthcareSite().getNciInstituteCode());
+					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
 	
@@ -636,7 +634,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 		Study study = getUniqueStudy(studyIdentifiers);
 		for (StudySite studySite : study.getStudySites()) {
 			temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers, studySite
-					.getHealthcareSite().getNciInstituteCode());
+					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
 
