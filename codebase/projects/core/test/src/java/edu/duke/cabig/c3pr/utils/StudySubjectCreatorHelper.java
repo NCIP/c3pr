@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.utils;
 import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -342,7 +343,7 @@ public class StudySubjectCreatorHelper {
         healthcaresite.setAddress(address);
         healthcaresite.setName("Northwestern Memorial Hospital");
         healthcaresite.setDescriptionText("NU healthcare");
-        healthcaresite.setNciInstituteCode("NU healthcare");
+        healthcaresite.setCtepCode("NU healthcare");
         studySite.setHealthcareSite(healthcaresite);
         studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         studySite.setStudy(study);
@@ -364,7 +365,7 @@ public class StudySubjectCreatorHelper {
             healthcaresite.setAddress(address);
             healthcaresite.setName("Duke");
             healthcaresite.setDescriptionText("DUKE healthcare");
-            healthcaresite.setNciInstituteCode("DUKE NCI");
+            healthcaresite.setCtepCode("DUKE NCI");
             stC.setHealthcareSite(healthcaresite);
         }
         addIdentifierToStudy(study);
@@ -398,7 +399,7 @@ public class StudySubjectCreatorHelper {
         OrganizationAssignedIdentifier identifier=studyIdentifiers.get(studyIdentifiers.size());
         identifier.setHealthcareSite(study.getStudyCoordinatingCenters().get(0).getHealthcareSite());
         identifier.setValue("test id");
-        identifier.setType("Coordinating Center Identifier");
+        identifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
         identifier.setPrimaryIndicator(true);
     }
     
@@ -407,7 +408,7 @@ public class StudySubjectCreatorHelper {
         OrganizationAssignedIdentifier identifier=prtIdentifiers.get(prtIdentifiers.size());
         identifier.setHealthcareSite(healthcareSite);
         identifier.setValue("test id"+Math.random());
-        identifier.setType("MRN");
+        identifier.setType(OrganizationIdentifierTypeEnum.MRN);
         identifier.setPrimaryIndicator(true);
     }
 }
