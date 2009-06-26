@@ -11,6 +11,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
@@ -288,9 +289,9 @@ public class StudyTestCase extends AbstractTestCase{
 	 * this method tests if study has Protocol Authority Identifier it shd return empty arraylist
 	 */
 	public void testGetLocalIdentifiers2(){
-		Identifier identifier  = registerMockFor(Identifier.class);
+		OrganizationAssignedIdentifier identifier  = registerMockFor(OrganizationAssignedIdentifier.class);
 		simpleStudy.getIdentifiers().add(identifier);
-		EasyMock.expect(identifier.getType()).andReturn("Protocol Authority Identifier");
+		EasyMock.expect(identifier.getTypeInternal()).andReturn(OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER.getName());
 		replayMocks();
 		List<Identifier> identifiers = simpleStudy.getLocalIdentifiers();
 		assertEquals("No local identifierfound", 0 , identifiers.size());
@@ -302,9 +303,9 @@ public class StudyTestCase extends AbstractTestCase{
 	 * this method tests if study has coordinating center identifier it shd return empty arraylist
 	 */
 	public void testGetLocalIdentifiers3(){
-		Identifier identifier  = registerMockFor(Identifier.class);
+		OrganizationAssignedIdentifier identifier  = registerMockFor(OrganizationAssignedIdentifier.class);
 		simpleStudy.getIdentifiers().add(identifier);
-		EasyMock.expect(identifier.getType()).andReturn("Coordinating Center Identifier").times(2);
+		EasyMock.expect(identifier.getTypeInternal()).andReturn(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.getName()).times(2);
 		replayMocks();
 		List<Identifier> identifiers = simpleStudy.getLocalIdentifiers();
 		assertEquals("No local identifierfound", 0 , identifiers.size());
@@ -316,16 +317,16 @@ public class StudyTestCase extends AbstractTestCase{
 	 * this method tests if study has identifiers.
 	 */
 	public void testGetLocalIdentifiers4(){
-		Identifier identifier  = registerMockFor(Identifier.class);
-		Identifier identifier1 = registerMockFor(Identifier.class);
-		Identifier identifier2  = registerMockFor(Identifier.class);
+		OrganizationAssignedIdentifier identifier  = registerMockFor(OrganizationAssignedIdentifier.class);
+		OrganizationAssignedIdentifier identifier1 = registerMockFor(OrganizationAssignedIdentifier.class);
+		OrganizationAssignedIdentifier identifier2  = registerMockFor(OrganizationAssignedIdentifier.class);
 		simpleStudy.getIdentifiers().add(identifier);
 		simpleStudy.getIdentifiers().add(identifier1);
 		simpleStudy.getIdentifiers().add(identifier2);
 		
-		EasyMock.expect(identifier.getType()).andReturn("Coordinating Center Identifier").times(2);
-		EasyMock.expect(identifier1.getType()).andReturn("C3D").times(2) ;
-		EasyMock.expect(identifier2.getType()).andReturn("C3PR").times(2) ;
+		EasyMock.expect(identifier.getTypeInternal()).andReturn(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.getName()).times(2);
+		EasyMock.expect(identifier1.getTypeInternal()).andReturn(OrganizationIdentifierTypeEnum.C3D_IDENTIFIER.getName()).times(2) ;
+		EasyMock.expect(identifier2.getTypeInternal()).andReturn(OrganizationIdentifierTypeEnum.C3PR.getName()).times(2) ;
 		replayMocks();
 		List<Identifier> identifiers = simpleStudy.getLocalIdentifiers();
 		assertEquals("Local Idnetifier C3D and C3PR Present", 2 , identifiers.size());
@@ -553,7 +554,7 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
 		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
+		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC010");
 		
 		replayMocks();
 
@@ -579,7 +580,7 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
 		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC011");
+		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC011");
 		
 		replayMocks();
 
@@ -599,7 +600,7 @@ public class StudyTestCase extends AbstractTestCase{
 		organization.setStudy(simpleStudy);
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		EasyMock.expect(organization.getHealthcareSite()).andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
+		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC010");
 		
 		replayMocks();
 		
@@ -639,8 +640,8 @@ public class StudyTestCase extends AbstractTestCase{
 		coordinatingCenter.setStudy(simpleStudy);
 		coordinatingCenter.setHealthcareSite(healthcareSite1);
 		
-		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
-		EasyMock.expect(healthcareSite1.getNciInstituteCode()).andReturn("NC011");
+		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC010");
+		EasyMock.expect(healthcareSite1.getPrimaryIdentifier()).andReturn("NC011");
 		
 		replayMocks();
 		
@@ -669,8 +670,8 @@ public class StudyTestCase extends AbstractTestCase{
 		coordinatingCenter.setStudy(simpleStudy);
 		coordinatingCenter.setHealthcareSite(healthcareSite1);
 		
-		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC011");
-		EasyMock.expect(healthcareSite1.getNciInstituteCode()).andReturn("NC011");
+		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC011");
+		EasyMock.expect(healthcareSite1.getPrimaryIdentifier()).andReturn("NC011");
 		
 		replayMocks();
 		
@@ -1039,7 +1040,8 @@ public class StudyTestCase extends AbstractTestCase{
 	 * test equals, if one study object has null coordinating center identifier
 	 */
 	public void testEquals1(){
-		basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "value");
+		basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier
+							(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "value");
 		Study study = new Study();
 		assertFalse("both objects has null coordinating center identifer  hence unequal", basicStudy.equals(study));
 	}
@@ -1048,9 +1050,11 @@ public class StudyTestCase extends AbstractTestCase{
 	 * test equals, if  coordinating center identifier value is different
 	 */
 	public void testEquals2(){
-		basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "value");
+		basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier
+							(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "value");
 		Study study = new Study();
-		study = studyCreationHelper.addOrganizationAssignedIdentifier(study, "Coordinating Center Identifier", "testValue");
+		study = studyCreationHelper.addOrganizationAssignedIdentifier
+							(study, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "testValue");
 		assertFalse("coordinating center identifer values are different hence unequal", basicStudy.equals(study));
 	}
 	
@@ -1058,9 +1062,9 @@ public class StudyTestCase extends AbstractTestCase{
 	 * test equals, if  coordinating center identifier value are same
 	 */
 	public void testEquals3(){
-		basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "value");
+		basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "value");
 		Study study = new Study();
-		study = studyCreationHelper.addOrganizationAssignedIdentifier(study, "Coordinating Center Identifier", "value");
+		study = studyCreationHelper.addOrganizationAssignedIdentifier(study, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "value");
 		assertTrue("coordinating center identifer values are same hence equal", basicStudy.equals(study));
 	}
 
@@ -1078,7 +1082,8 @@ public class StudyTestCase extends AbstractTestCase{
  * Test get primary indicator
  */
 public void testGetPrimaryIndicator(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "TestValue");
+	basicStudy.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 	assertEquals("Primary identifier value is Test Value","TestValue", basicStudy.getPrimaryIdentifier());
 }
 
@@ -1087,7 +1092,7 @@ public void testGetPrimaryIndicator(){
  * Test get primary indicator
  */
 public void testGetPrimaryIndicator1(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifierNonPrimary(basicStudy, "Coordinating Center Identifier", "TestValue");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifierNonPrimary(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "TestValue");
 	assertNull("Primary identifier not found", basicStudy.getPrimaryIdentifier());
 }
 
@@ -1103,10 +1108,10 @@ public void testGetPrimaryIndicator2(){
  * Test get funding sponsor identifier index 
  */
 public void testGetFundingSponsorIdentifierIndex(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3D", "C3D");
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Protocol Authority Identifier", "identifier");
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3PR", "C3PR");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "TestValue");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER, "C3D");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER, "identifier");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3PR, "C3PR");
 	
 	assertEquals("Index of funding sponsorer should be 2",2, basicStudy.getFundingSponsorIdentifierIndex());
 }
@@ -1116,9 +1121,9 @@ public void testGetFundingSponsorIdentifierIndex(){
  * Test get funding sponsor identifier index 
  */
 public void testGetFundingSponsorIdentifierIndex1(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3D", "C3D");
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3PR", "C3PR");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "TestValue");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER, "C3D");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3PR, "C3PR");
 	
 	assertEquals("Index of funding sponsorer should be -1",-1, basicStudy.getFundingSponsorIdentifierIndex());
 }
@@ -1128,10 +1133,10 @@ public void testGetFundingSponsorIdentifierIndex1(){
  * Test get funding sponsor identifier index 
  */
 public void testGetFundingSponsorIdentifierIndex2(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "TestValue");
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, null, "C3D");
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Protocol Authority Identifier", "identifier");
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3PR", "C3PR");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "TestValue");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER, "C3D");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER, "identifier");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3PR, "C3PR");
 	
 	assertEquals("Index of funding sponsorer should be 2",2, basicStudy.getFundingSponsorIdentifierIndex());
 }
@@ -1901,7 +1906,7 @@ public void testCloseToAccrualAndTreatment4(){
  * test getFundingSponsorAssignedIdentifier
  */
 public void testGetFundingSponsorAssignedIdentifier(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Protocol Authority Identifier", "Value");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER, "Value");
 	assertNotNull("Funding Sponsorer Identifier Found", basicStudy.getFundingSponsorAssignedIdentifier());
 	
 }
@@ -1918,7 +1923,7 @@ public void testGetFundingSponsorAssignedIdentifier1(){
  * test getFundingSponsorAssignedIdentifier
  */
 public void testGetFundingSponsorAssignedIdentifier2(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, null , "Value");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER , "Value");
 	assertNull("Funding Sponsorer Identifier not Found", basicStudy.getFundingSponsorAssignedIdentifier());
 }
 
@@ -1927,7 +1932,7 @@ public void testGetFundingSponsorAssignedIdentifier2(){
  * test getFundingSponsorAssignedIdentifier
  */
 public void testGetFundingSponsorAssignedIdentifier3(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3D" , "Value");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER , "Value");
 	assertNull("Funding Sponsorer Identifier not Found", basicStudy.getFundingSponsorAssignedIdentifier());
 }
 
@@ -1937,7 +1942,7 @@ public void testGetFundingSponsorAssignedIdentifier3(){
  * test getCoordinatingCenterAssignedIdentifier
  */
 public void testGetCoordinatingCenterAssignedIdentifier(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "Coordinating Center Identifier", "Value");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "Value");
 	assertNotNull("Coordinating Center Assigned Identifier Found", basicStudy.getCoordinatingCenterAssignedIdentifier());
 	
 }
@@ -1954,7 +1959,7 @@ public void testGetCoordinatingCenterAssignedIdentifier1(){
  * test getCoordinatingCenterAssignedIdentifier
  */
 public void testGetCoordinatingCenterAssignedIdentifier2(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, null , "Value");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER , "Value");
 	assertNull("Coordinating Center Assigned Identifier not Found", basicStudy.getCoordinatingCenterAssignedIdentifier());
 }
 
@@ -1963,7 +1968,7 @@ public void testGetCoordinatingCenterAssignedIdentifier2(){
  * test getCoordinatingCenterAssignedIdentifier
  */
 public void testGetCoordinatingCenterAssignedIdentifier3(){
-	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, "C3D" , "Value");
+	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER, "Value");
 	assertNull("Coordinating Center Assigned Identifier not Found", basicStudy.getCoordinatingCenterAssignedIdentifier());
 }
 
@@ -1976,7 +1981,7 @@ public void testGetStudyOrganization2(){
 	organization.setStudy(simpleStudy);
 	HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 	EasyMock.expect(organization.getHealthcareSite()).andReturn(healthcareSite);
-	EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("NC010");
+	EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC010");
 	
 	replayMocks();
 	
@@ -2320,5 +2325,6 @@ public void testSetCoordinatingCenterStudyStatus(){
 	assertEquals("coordinating center status is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
 	assertEquals("study site coordinating center is open ", CoordinatingCenterStudyStatus.OPEN,basicStudy.getStudySites().get(0).getCoordinatingCenterStudyStatus());
 }
+
 
 }

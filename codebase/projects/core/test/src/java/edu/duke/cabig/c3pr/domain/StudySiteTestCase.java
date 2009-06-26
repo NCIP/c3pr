@@ -91,7 +91,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	}
 	
 	/**
-	 * Test get irb approval date , null date.
+	 * Test get irb approval date , throws exception.
 	 */
 	public void testGetIrbApprovalDateException(){
 		try {
@@ -772,16 +772,16 @@ public class StudySiteTestCase extends AbstractTestCase{
 		EasyMock.expect(study.getCompanionIndicator()).andReturn(false);
 		EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(comList);
 		EasyMock.expect(companionStudyAssociation.getStudySites()).andReturn(stuList);
-		EasyMock.expect(healthcareSite.getNciInstituteCode()).andReturn("test1").times(3);
+		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("test1").times(3);
 		EasyMock.expect(companionStudySite1.getHealthcareSite()).andReturn(healthcareSite1);
-		EasyMock.expect(healthcareSite1.getNciInstituteCode()).andReturn("test1");
+		EasyMock.expect(healthcareSite1.getPrimaryIdentifier()).andReturn("test1");
 		EasyMock.expect(companionStudySite1.getSiteStudyStatus()).andReturn(SiteStudyStatus.PENDING);
 		companionStudySite1.activate();
 		EasyMock.expect(companionStudySite2.getHealthcareSite()).andReturn(healthcareSite2);
-		EasyMock.expect(healthcareSite2.getNciInstituteCode()).andReturn("test1");
+		EasyMock.expect(healthcareSite2.getPrimaryIdentifier()).andReturn("test1");
 		EasyMock.expect(companionStudySite2.getSiteStudyStatus()).andReturn(SiteStudyStatus.ACTIVE);
 		EasyMock.expect(companionStudySite3.getHealthcareSite()).andReturn(healthcareSite3);
-		EasyMock.expect(healthcareSite3.getNciInstituteCode()).andReturn("test2");
+		EasyMock.expect(healthcareSite3.getPrimaryIdentifier()).andReturn("test2");
 		studySite.setIrbApprovalDate(new Date());
 		studySite.setStartDate(new Date());
 		
