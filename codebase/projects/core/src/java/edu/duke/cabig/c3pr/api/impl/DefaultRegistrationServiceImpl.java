@@ -4,9 +4,11 @@ import edu.duke.cabig.c3pr.api.RegistrationService;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 
 /**
  * @author Ram Chilukuri
@@ -42,7 +44,14 @@ public class DefaultRegistrationServiceImpl implements RegistrationService {
     }
 
     private boolean validateIdentifier(Identifier newIdentifier) {
-        if (newIdentifier.getType() == null) {
+    	Object type = null;
+    	if(newIdentifier instanceof SystemAssignedIdentifier){
+    		type= ((SystemAssignedIdentifier)newIdentifier).getType();
+    	}
+    	if(newIdentifier instanceof OrganizationAssignedIdentifier){
+    		type= ((OrganizationAssignedIdentifier)newIdentifier).getType();
+    	}
+        if (type == null) {
             throw new IllegalArgumentException(
                             "New Identifier does not have a type. Please specify a type.");
         }
