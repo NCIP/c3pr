@@ -33,6 +33,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
@@ -52,7 +53,6 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StudySubject.
  * 
@@ -721,8 +721,8 @@ public Date getInformedConsentSignedDate() {
 	@Transient
 	public OrganizationAssignedIdentifier getCoOrdinatingCenterIdentifier() {
 		for (OrganizationAssignedIdentifier organizationAssignedIdentifier : getOrganizationAssignedIdentifiers()) {
-			if (organizationAssignedIdentifier.getType().equalsIgnoreCase(
-					"Coordinating Center Assigned Study Subject Identifier")) {
+			if (organizationAssignedIdentifier.getType().equals(
+					OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER)) {
 				return organizationAssignedIdentifier;
 			}
 		}
@@ -739,7 +739,7 @@ public Date getInformedConsentSignedDate() {
 				.get(0);
 		identifier.setHealthcareSite(this.getStudySite().getStudy()
 				.getStudyCoordinatingCenters().get(0).getHealthcareSite());
-		identifier.setType("Coordinating Center Assigned Study Subject Identifier");
+		identifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER);
 		identifier.setValue(value);
 	}
 
@@ -894,7 +894,7 @@ public Date getInformedConsentSignedDate() {
 	 */
 	@Transient
 	public boolean isStudySite(String nciCode) {
-		return this.getStudySite().getHealthcareSite().getNciInstituteCode()
+		return this.getStudySite().getHealthcareSite().getPrimaryIdentifier()
 				.equals(nciCode);
 	}
 

@@ -518,7 +518,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             if(!study.getCompanionIndicator()){
             	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
             		for(StudySite studySite : companionStudyAssociation.getStudySites()){
-            			if(studySite.getHealthcareSite().getNciInstituteCode() == this.getHealthcareSite().getNciInstituteCode()){
+            			if(studySite.getHealthcareSite().getPrimaryIdentifier() == this.getHealthcareSite().getPrimaryIdentifier()){
             				if(studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){
             					studySite.activate();
             				}

@@ -34,6 +34,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
@@ -245,9 +246,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public List<Identifier> getLocalIdentifiers() {
 		List<Identifier> localIdentifiers = new ArrayList<Identifier>();
 		for (Identifier identifier : getIdentifiers()) {
-			if ("Protocol Authority Identifier".equals(identifier.getType()) || "Coordinating Center Identifier".equals(identifier
-							.getType())) {
-				// nothing
+			if ("Protocol Authority Identifier".equals(identifier.getTypeInternal()) || 
+					"Coordinating Center Identifier".equals(identifier.getTypeInternal())) {
+				// nothing. change the above to not use the typeInternal in the future.
+				//instead typecast after instnceof to OAI and SAI and call getType()
 			} else {
 				localIdentifiers.add(identifier);
 			}
@@ -440,8 +442,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		for (OrganizationAssignedIdentifier orgIdentifier : this
 				.getOrganizationAssignedIdentifiers()) {
 			if ((orgIdentifier.getType() != null)
-					&& (orgIdentifier.getType()
-							.equalsIgnoreCase("Protocol Authority Identifier")))
+					&& (orgIdentifier.getType().equals(OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER)))
 				return orgIdentifier;
 		}
 		return null;
@@ -458,7 +459,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 				.getOrganizationAssignedIdentifiers()) {
 			if ((orgIdentifier.getType() != null)
 					&& (orgIdentifier.getType()
-							.equalsIgnoreCase("Coordinating Center Identifier")))
+							.equals(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER)))
 				return orgIdentifier;
 		}
 		return null;
@@ -1040,7 +1041,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		int i = -1 ;
 		for(OrganizationAssignedIdentifier identifier : this.getOrganizationAssignedIdentifiers()){
 			i++ ;
-			if(identifier.getType() != null && StringUtils.equals("Protocol Authority Identifier", identifier.getType())){
+			if(identifier.getType() != null && identifier.getType().equals(OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER)){
 				return i ;
 			}
 		}
@@ -1896,7 +1897,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	@Transient
 	public boolean isCoOrdinatingCenter(String nciCode) {
 		return this.getStudyCoordinatingCenters().get(0).getHealthcareSite()
-				.getNciInstituteCode().equals(nciCode);
+				.getPrimaryIdentifier().equals(nciCode);
 	}
 
 	/**
@@ -1918,10 +1919,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public List<StudyOrganization> getAffiliateStudySites() {
 		List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
 		for (StudySite studySite : this.getStudySites()) {
-			if (!studySite.getHealthcareSite().getNciInstituteCode()
+			if (!studySite.getHealthcareSite().getPrimaryIdentifier()
 					.equalsIgnoreCase(
 							this.getStudyCoordinatingCenter()
-									.getHealthcareSite().getNciInstituteCode())) {
+									.getHealthcareSite().getPrimaryIdentifier())) {
 				studyOrganizations.add(studySite);
 			}
 		}
@@ -1948,7 +1949,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	@Transient
 	public StudySite getStudySite(String nciCode) {
 		for (StudySite studySite : this.getStudySites()) {
-			if (studySite.getHealthcareSite().getNciInstituteCode()
+			if (studySite.getHealthcareSite().getCtepCode()
 					.equalsIgnoreCase(nciCode)) {
 				return studySite;
 			}
@@ -1969,7 +1970,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         @Transient
         public StudyOrganization getStudyOrganization(String nciCode) {
                 for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
-                        if (studyOrganization.getHealthcareSite().getNciInstituteCode()
+                        if (studyOrganization.getHealthcareSite().getCtepCode()
                                         .equalsIgnoreCase(nciCode)) {
                                 return studyOrganization;
                         }
@@ -2089,7 +2090,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		if(this.getCompanionIndicator()){
 			for(CompanionStudyAssociation parentStudyAssociation : this.getParentStudyAssociations()){
 				for(StudySite studySite : parentStudyAssociation.getStudySites()){
-					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciInstituteCode())){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getPrimaryIdentifier())){
 						return studySite ;
 					}
 				}
@@ -2097,7 +2098,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}else{
 			for(CompanionStudyAssociation companionStudyAssociation : this.getCompanionStudyAssociations()){
 				for(StudySite studySite : companionStudyAssociation.getStudySites()){
-					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciInstituteCode())){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getPrimaryIdentifier())){
 						return studySite ;
 					}
 				}
