@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.semanticbits.coppa.infrastructure.RemoteSession;
-import com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
@@ -15,6 +14,7 @@ import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
 import edu.duke.cabig.c3pr.constants.EndPointType;
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
@@ -31,16 +32,15 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * Test for loading an Organization by Id.
  * 
@@ -69,11 +69,11 @@ public class OrganizationDaoTest extends DaoTestCase {
     /** The healthcare site dao. */
     private HealthcareSiteDao healthcareSiteDao;
     
+    /** The organization dao. */
+    private OrganizationDao organizationDao;
+    
     /** The remote session. */
     private RemoteSession remoteSession;
-    
-    /** The remote entity interceptor. */
-    private RemoteEntityInterceptor remoteEntityInterceptor;
     
     /** The remote healthcare site resolver. */
     private RemoteHealthcareSiteResolver remoteHealthcareSiteResolver;
@@ -87,8 +87,8 @@ public class OrganizationDaoTest extends DaoTestCase {
         investigatorGroupDao = (InvestigatorGroupDao) getApplicationContext().getBean("investigatorGroupDao");
         healthcareSiteInvestigatorDao = (HealthcareSiteInvestigatorDao) getApplicationContext().getBean("healthcareSiteInvestigatorDao");
         healthcareSiteDao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
+        organizationDao = (OrganizationDao) getApplicationContext().getBean("organizationDao");
         remoteSession = (RemoteSession) getApplicationContext().getBean("remoteSession");
-        remoteEntityInterceptor = (RemoteEntityInterceptor) getApplicationContext().getBean("remoteEntityInterceptor");
         remoteHealthcareSiteResolver = (RemoteHealthcareSiteResolver)getApplicationContext().getBean("remoteHealthcareSiteResolver");
 	}
     
@@ -108,7 +108,17 @@ public class OrganizationDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testGetByNciIdentifier() throws Exception {
-        HealthcareSite hcs = healthcareSiteDao.getByNciInstituteCode("du code");
+        HealthcareSite hcs = healthcareSiteDao.getByCtepCode("du code");
+        assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
+    }
+    
+    /**
+     * Test get by nci identifier.
+     * 
+     * @throws Exception the exception
+     */
+    public void testGetByNciIdentifierFromLocal() throws Exception {
+        HealthcareSite hcs = healthcareSiteDao.getByCtepCodeFromLocal("du code");
         assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
     }
     
@@ -120,7 +130,8 @@ public class OrganizationDaoTest extends DaoTestCase {
      */
     public void testSearchByExampleWithNciCodeAndWildCardTrue(){
     	HealthcareSite org  = new LocalHealthcareSite();
-    	org.setNciInstituteCode("du code");
+    	org.setCtepCode("du code");
+    	org.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
     	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true);
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
@@ -147,7 +158,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     public void testSearchByExampleWithNameAndNciCodeAndWildCardTrue(){
     	HealthcareSite org  = new LocalHealthcareSite();
     	org.setName("Duke");
-    	org.setNciInstituteCode("du code");
+    	org.setCtepCode("du code");
     	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true);
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
@@ -162,7 +173,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     public void testSearchByExampleWithWildCardFalse(){
     	//HealthcareSite org = healthcareSiteDao.getById(1000);
     	HealthcareSite org  = new LocalHealthcareSite();
-    	org.setNciInstituteCode("du code");
+    	org.setCtepCode("du code");
     	org.setName("Duke Comprehensive Cancer Center");
     	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, false);
     	assertNotNull(hcsList);
@@ -189,7 +200,7 @@ public class OrganizationDaoTest extends DaoTestCase {
             healthcaresite.setAddress(address);
             healthcaresite.setName("Northwestern Memorial Hospital");
             healthcaresite.setDescriptionText("NU healthcare");
-            healthcaresite.setNciInstituteCode("NCI northwestern");
+            healthcaresite.setCtepCode("NCI northwestern");
             Organization org = this.healthcareSiteDao.merge(healthcaresite);
 
             savedId = org.getId();
@@ -224,7 +235,7 @@ public class OrganizationDaoTest extends DaoTestCase {
             healthcaresite.setAddress(address);
             healthcaresite.setName("Northwestern Memorial Hospital");
             healthcaresite.setDescriptionText("NU healthcare");
-            healthcaresite.setNciInstituteCode("NCI northwestern");
+            healthcaresite.setCtepCode("NCI northwestern");
             this.healthcareSiteDao.save(healthcaresite);
 
             savedId = healthcaresite.getId();
@@ -258,7 +269,7 @@ public class OrganizationDaoTest extends DaoTestCase {
             healthcaresite.setAddress(address);
             healthcaresite.setName("Northwestern Memorial Hospital");
             healthcaresite.setDescriptionText("NU healthcare");
-            healthcaresite.setNciInstituteCode("NCI northwestern");
+            healthcaresite.setCtepCode("NCI northwestern");
             this.healthcareSiteDao.save(healthcaresite);
             
             savedId = healthcaresite.getId();
@@ -282,6 +293,55 @@ public class OrganizationDaoTest extends DaoTestCase {
         }
     }
 
+    /**
+     * Test save new organization with identifiers.
+     */
+    public void testSaveNewOrganizationWithIdentifiers() {
+        Integer savedId;
+        {
+            HealthcareSite healthcaresite = new LocalHealthcareSite();
+            HealthcareSite duke = this.healthcareSiteDao.getById(1000);
+            
+            Address address = new Address();
+            address.setCity("Chicago");
+            address.setCountryCode("USA");
+            address.setPostalCode("83929");
+            address.setStateCode("IL");
+            address.setStreetAddress("123 Lake Shore Dr");
+
+            healthcaresite.setAddress(address);
+            healthcaresite.setName("Northwestern Memorial Hospital");
+            healthcaresite.setDescriptionText("NU healthcare");
+            
+            OrganizationAssignedIdentifier oai = new OrganizationAssignedIdentifier();
+            oai.setType(OrganizationIdentifierTypeEnum.AI);
+            oai.setValue("AOI-1");
+            //set the assigning organization in the OAI.
+            oai.setHealthcareSite(duke);
+            healthcaresite.getOrganizationAssignedIdentifiers().add(oai);
+            
+            
+            SystemAssignedIdentifier sai = new SystemAssignedIdentifier();
+            sai.setType("Assigned Organization Identifier");
+            sai.setValue("AOI-2");
+            healthcaresite.getSystemAssignedIdentifiers().add(sai);
+            
+            this.healthcareSiteDao.save(healthcaresite);
+            
+            savedId = healthcaresite.getId();
+            assertNotNull("The saved organization didn't get an id", savedId);
+        }
+        interruptSession();
+        {
+        	HealthcareSite loaded = this.healthcareSiteDao.getById(savedId);
+        	
+            assertEquals(3, loaded.getIdentifiersAssignedToOrganization().size(), 3);
+           	assertEquals("AOI-1", loaded.getOrganizationAssignedIdentifiers().get(0).getValue());
+           	assertEquals("AOI-2", loaded.getSystemAssignedIdentifiers().get(0).getValue());
+           	assertEquals(1000, loaded.getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getId().intValue());
+        }        
+    }
+    
     /**
      * Test get by id for investigator groups.
      * 
@@ -607,7 +667,7 @@ public class OrganizationDaoTest extends DaoTestCase {
 			HealthcareSite healthcareSite = new RemoteHealthcareSite();
 			// nci institute code is being set to some code as the mock service returns 3 organizations by default.
 			// this should be later changed to correct nci code once intergration with actual COPPA services is done
-			healthcareSite.setNciInstituteCode("Some Code");
+			healthcareSite.setCtepCode("Some Code");
 			List<?> organizations = healthcareSiteDao.getRemoteOrganizations(healthcareSite);
 			assertEquals(3,organizations.size());
 			//check if return object is of type RemoteOrganization

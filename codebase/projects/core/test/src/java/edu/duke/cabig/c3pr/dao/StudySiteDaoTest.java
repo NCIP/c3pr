@@ -51,10 +51,10 @@ public class StudySiteDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testGetByNciInstituteCode() throws Exception {
-        List<StudySite> sites = dao.getByNciInstituteCode("code");
+        List<StudySite> sites = dao.getByCtepCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
-            assertEquals(site.getHealthcareSite().getNciInstituteCode(), "code");
+            assertEquals(site.getHealthcareSite().getCtepCode(), "code");
         }
     }
     
@@ -64,10 +64,10 @@ public class StudySiteDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testSaveStudySiteWithEndPoint() throws Exception {
-        List<StudySite> sites = dao.getByNciInstituteCode("code");
+        List<StudySite> sites = dao.getByCtepCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
-            assertEquals(site.getHealthcareSite().getNciInstituteCode(), "code");
+            assertEquals(site.getHealthcareSite().getCtepCode(), "code");
         }
         StudySite studySite=sites.get(0);
         EndPoint endPoint=new GridEndPoint();

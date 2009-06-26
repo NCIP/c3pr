@@ -11,8 +11,10 @@ import java.util.Date;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -276,7 +278,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
         orgIdentifier.setHealthcareSite(healthcareSiteDao.getById(1001));
         orgIdentifier.setValue("Identifier Value");
-        orgIdentifier.setType("MRN");
+        orgIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
         participant.addIdentifier(orgIdentifier);
 
         participantDao.save(participant);
@@ -289,9 +291,11 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 
         interruptSession();
         OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
-        organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getById(1001));
+        HealthcareSite healthcareSite = new LocalHealthcareSite();
+        healthcareSite.setCtepCode("code");
+        organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
         organizationAssignedIdentifier.setValue("Identifier Value");
-        organizationAssignedIdentifier.setType("MRN");
+        organizationAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
         List<Participant> pList = participantDao.searchByOrgIdentifier(organizationAssignedIdentifier);
         assertEquals("wrong size of list", 1, pList.size());
     }
@@ -328,7 +332,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 	    HealthcareSite healthcareSite = healthcareSiteDao.getById(1001);
 	    orgAssignedIdentifier.setHealthcareSite(healthcareSite);
 	    orgAssignedIdentifier.setValue("Identifier Value");
-	    orgAssignedIdentifier.setType("MRN");
+	    orgAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
 	    participant.addIdentifier(orgAssignedIdentifier);
 	    
 	    return participant;

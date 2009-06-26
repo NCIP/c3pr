@@ -49,10 +49,10 @@ public class EndpointDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testSaveEndPoint() throws Exception {
-        List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
+        List<StudySite> sites = studySiteDao.getByCtepCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
-            assertEquals(site.getHealthcareSite().getNciInstituteCode(), "code");
+            assertEquals(site.getHealthcareSite().getPrimaryIdentifier(), "code");
         }
         StudyOrganization studySite=sites.get(0);
         Date date1=new Date();
@@ -92,10 +92,10 @@ public class EndpointDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testSaveTwoEndPointsWithDifferentAttemptedDates() throws Exception {
-        List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
+        List<StudySite> sites = studySiteDao.getByCtepCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
-            assertEquals(site.getHealthcareSite().getNciInstituteCode(), "code");
+            assertEquals(site.getHealthcareSite().getPrimaryIdentifier(), "code");
         }
         StudyOrganization studySite=sites.get(0);
         Date date1=new Date();
@@ -136,10 +136,10 @@ public class EndpointDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testMergeStudySiteWithEndPoint() throws Exception {
-        List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
+        List<StudySite> sites = studySiteDao.getByCtepCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
-            assertEquals(site.getHealthcareSite().getNciInstituteCode(), "code");
+            assertEquals(site.getHealthcareSite().getPrimaryIdentifier(), "code");
         }
         StudyOrganization studySite=sites.get(0);
         EndPoint endPoint=new GridEndPoint();
@@ -163,10 +163,10 @@ public class EndpointDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testMergeStudySiteWithEndPointAndErrors() throws Exception {
-        List<StudySite> sites = studySiteDao.getByNciInstituteCode("code");
+        List<StudySite> sites = studySiteDao.getByCtepCode("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
-            assertEquals(site.getHealthcareSite().getNciInstituteCode(), "code");
+            assertEquals(site.getHealthcareSite().getPrimaryIdentifier(), "code");
         }
         StudyOrganization studySite=sites.get(0);
         EndPoint endPoint=new GridEndPoint();

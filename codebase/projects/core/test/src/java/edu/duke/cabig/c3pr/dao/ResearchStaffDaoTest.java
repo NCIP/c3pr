@@ -142,7 +142,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);
     	researchStaff.setHealthcareSite(healthcareSite);
     	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
-    	assertEquals("Incorrect Size of retrieved list",4,researchStaffList.size());
+    	assertEquals("Incorrect Size of retrieved list",5,researchStaffList.size());
     }
     
     /**
@@ -186,6 +186,11 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 		//assertEquals("Research Bill", staff.getFirstName());
     }
     
+    public void testGetResearchStaffByOrganizationNCIInstituteCode (){
+    	HealthcareSite healthcareSite = healthcareSiteDao.getById(1001);
+    	List<ResearchStaff> rsList = getDao().getResearchStaffByOrganizationCtepCodeFromLocal(healthcareSite);
+    	assertEquals(1, rsList.size());
+    }
     
     /**
      * Test search research staff by query.
