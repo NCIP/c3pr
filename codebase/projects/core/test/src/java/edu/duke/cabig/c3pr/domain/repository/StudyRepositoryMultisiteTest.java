@@ -208,12 +208,11 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         studyDao.merge(study);
         interruptSession();
         try {
-            studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+            studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         }
         catch (C3PRCodedRuntimeException e) {
             e.printStackTrace();
-            assertEquals("Wrong exception message", e.getExceptionCode(),
-                            323);
+            assertEquals("Wrong exception message", e.getExceptionCode(), 323);
             return;
         }
         catch (Exception e) {
@@ -229,7 +228,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         interruptSession();
         try {
-            studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+            studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getPrimaryIdentifier());
         }
         catch (RuntimeException e) {
             return;
@@ -246,7 +245,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         addNewCooordinatingCenter(study);
         studyDao.merge(study);
         interruptSession();
-        StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+        StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus() );
     }
 
@@ -257,13 +256,13 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         studyDao.merge(study);
         interruptSession();
-        StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+        StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus() );
     }
     
     public void testCloseStudyLocal() throws Exception {
         study=getOpenedStudy();
-        study.getStudySites().get(0).getHealthcareSite().setNciInstituteCode("CRB");
+        study.getStudySites().get(0).getHealthcareSite().setCtepCode("CRB");
         configuration.set(Configuration.LOCAL_NCI_INSTITUTE_CODE, "CRB");
         configuration.set(Configuration.MULTISITE_ENABLE, "false");
         studyRepository.closeStudyToAccrual(study.getIdentifiers());
@@ -276,7 +275,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         interruptSession();
-        StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+        StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus() );
     }
 
@@ -309,7 +308,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
             healthcaresite.setAddress(address);
             healthcaresite.setName("duke healthcare");
             healthcaresite.setDescriptionText("duke healthcare");
-            healthcaresite.setNciInstituteCode("Nci duke");
+            healthcaresite.setCtepCode("Nci duke");
             healthcareSitedao.save(healthcaresite);
 
             // HCSI
@@ -437,7 +436,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         healthcaresite.setAddress(address);
         healthcaresite.setName("duke healthcare");
         healthcaresite.setDescriptionText("duke healthcare");
-        healthcaresite.setNciInstituteCode("Nci-Cood");
+        healthcaresite.setCtepCode("Nci-Cood");
         healthcareSitedao.save(healthcaresite);
         studyCoordinatingCenter.setHealthcareSite(healthcaresite);
         studyCoordinatingCenter.setStudy(study);

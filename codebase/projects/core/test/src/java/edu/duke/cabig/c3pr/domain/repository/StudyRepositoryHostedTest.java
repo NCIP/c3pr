@@ -141,7 +141,7 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         studyDao.merge(study);
         interruptSession();
         try {
-            studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+            studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         }
         catch (C3PRCodedRuntimeException e) {
             e.printStackTrace();
@@ -162,7 +162,7 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         interruptSession();
         try {
-            studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+            studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         }
         catch (RuntimeException e) {
             return;
@@ -179,7 +179,7 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         addNewCooordinatingCenter(study);
         studyDao.merge(study);
         interruptSession();
-        StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+        StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus() );
     }
 
@@ -190,7 +190,7 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         studyDao.merge(study);
         interruptSession();
-        StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+        StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus() );
     }
     
@@ -206,7 +206,7 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         interruptSession();
-        StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
+        StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus() );
     }
 }

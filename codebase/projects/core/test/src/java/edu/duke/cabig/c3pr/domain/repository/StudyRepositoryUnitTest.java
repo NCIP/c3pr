@@ -16,6 +16,8 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -108,7 +110,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void testCreateStudyCompleteDataEntryCoCenter() {
     	EasyMock.expect(studyService.isMultisiteEnable()).andReturn(true);
     	EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(2);
-    	EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
+    	//EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
     	EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(1);
     	EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(1);
     	EasyMock.expect(studyDao.merge(study)).andReturn(study);
@@ -418,7 +420,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 
     public HealthcareSite buildHealthcareSite() {
         HealthcareSite hcs = new LocalHealthcareSite();
-        hcs.setNciInstituteCode("hcs-001");
+        hcs.setCtepCode("hcs-001");
         return hcs;
     }
 
@@ -461,7 +463,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         healthcaresite.setAddress(address);
         healthcaresite.setName("duke healthcare");
         healthcaresite.setDescriptionText("duke healthcare");
-        healthcaresite.setNciInstituteCode("Duke");
+        healthcaresite.setCtepCode("Duke");
 
         // HCSI
         HealthcareSiteInvestigator hcsiSave = new HealthcareSiteInvestigator();
@@ -546,7 +548,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         healthcaresite.setAddress(address);
         healthcaresite.setName("duke healthcare");
         healthcaresite.setDescriptionText("duke healthcare");
-        healthcaresite.setNciInstituteCode("Nci-Cood");
+        healthcaresite.setCtepCode("Nci-Cood");
         studyCoordinatingCenter.setHealthcareSite(healthcaresite);
         studyCoordinatingCenter.setStudy(study);
     }
