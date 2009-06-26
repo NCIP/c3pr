@@ -9,9 +9,9 @@
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1001" version="1" street_address="123 Main Street" city="Reston" state_code="VA" postal_code="20190" country_code="USA"  retired_indicator = "false" />
    
-    <ORGANIZATIONS id="1000" version="1" name="Duke Comprehensive Cancer Center" description_text="duke healthcare" address_id="1000" dtype="Local" nci_institute_code="du code" external_id="" retired_indicator = "false" />
-    <ORGANIZATIONS id="1001" version="1" name="Wake Forest Comprehensive Cancer Center" description_text="wake healthcare" address_id="1001" dtype="Local" nci_institute_code="wf code" retired_indicator = "false" />
-    <ORGANIZATIONS id="1002" version="1" name="Remote organization name" description_text="wake healthcare" address_id="1001" dtype="Remote" nci_institute_code="RM-TST-ID"  external_id="CP-RM-TST-ID" retired_indicator = "false" />
+    <ORGANIZATIONS id="1000" version="1" name="Duke Comprehensive Cancer Center" description_text="duke healthcare" address_id="1000" dtype="Local" external_id="" retired_indicator="false" />
+    <ORGANIZATIONS id="1001" version="1" name="Wake Forest Comprehensive Cancer Center" description_text="wake healthcare" address_id="1001" dtype="Local" retired_indicator="false" />
+    <ORGANIZATIONS id="1002" version="1" name="Remote organization name" description_text="wake healthcare" address_id="1001" dtype="Remote" external_id="CP-RM-TST-ID" retired_indicator="false" />
     
     <INVESTIGATORS id="1000" version="1" nci_identifier="bill" first_name="Investigator Bill" last_name="Staff1"
                    retired_indicator="false" dtype="Local"/>
@@ -42,4 +42,10 @@
 
     <contact_mechanisms id="1000" version="1" />
 
+    <IDENTIFIERS id="1001" version="1" value="nci" type="local" system_name="nci" dtype="SAI"  retired_indicator = "false"  org_id="1000"/>
+    <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI"  retired_indicator = "false"  org_id="1000"/>    
+    <IDENTIFIERS id="1003" version="1" value="du code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"/>
+    <IDENTIFIERS id="1004" version="1" value="wf code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/>
+    <IDENTIFIERS id="1005" version="1" value="RM-TST-ID" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"/>
+    
 </dataset>

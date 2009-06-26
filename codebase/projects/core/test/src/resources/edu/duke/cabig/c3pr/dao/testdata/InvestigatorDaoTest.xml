@@ -21,15 +21,21 @@
                country_code="USA" retired_indicator="false"/>
     
    	<ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" dtype="Local"
-                   nci_institute_code="Duke" retired_indicator="false" external_id=""/>
+                   retired_indicator="false" external_id=""/>
     <ORGANIZATIONS id="1001" version="1" name="National Cancer Institute" description_text="National Cancer Institute"
-                   address_id="1001" dtype="Local" nci_institute_code="NCI" retired_indicator="false"/>
+                   address_id="1001" dtype="Local" retired_indicator="false"/>
     <ORGANIZATIONS id="1002" version="1" name="Nairobi Hospital" description_text="Nairobi Hospital"
-                   address_id="1001" dtype="Remote" nci_institute_code="RM-TST-ID"  external_id="CP-RM-TST-ID" retired_indicator="false"/>
+                   address_id="1001" dtype="Remote" external_id="CP-RM-TST-ID" retired_indicator="false"/>
     <ORGANIZATIONS id="1003" version="1" name="Montreal Childrens Hospital Remote 2" description_text="Montreal Childrens Hospital Remote 2"
-   				   address_id="1001" dtype="Remote" nci_institute_code="RM-TST-ID2" retired_indicator="false" external_id="CP-RM-TST-ID2"/>
+   				   address_id="1001" dtype="Remote" retired_indicator="false" external_id="CP-RM-TST-ID2"/>
     <ORGANIZATIONS id="1004" version="1" name="Sydney Cancer Centre Remote 3" description_text="Sydney Cancer Centre Remote 3"
-   				   address_id="1001" dtype="Remote" nci_institute_code="RM-TST-ID3" retired_indicator="false" external_id="CP-RM-TST-ID3"/>
+   				   address_id="1001" dtype="Remote" retired_indicator="false" external_id="CP-RM-TST-ID3"/>
+   				   
+    <IDENTIFIERS id="1000" version="1" value="Duke" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"/>
+    <IDENTIFIERS id="1001" version="1" value="NCI" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/>
+   	<IDENTIFIERS id="1002" version="1" value="RM-TST-ID" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"/>
+   	<IDENTIFIERS id="1003" version="1" value="RM-TST-ID2" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1003"/>
+   	<IDENTIFIERS id="1004" version="1" value="RM-TST-ID3" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1004"/>
     
     <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="AC" status_date="01-01-2000" inv_id="1000"
                            hcs_id="1000" retired_indicator="false"/>
