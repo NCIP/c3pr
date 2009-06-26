@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web.admin;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,17 +11,25 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.EndPointType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.repository.OrganizationRepository;
 import edu.duke.cabig.c3pr.service.OrganizationService;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 /*
  * @author Vinay Gangoli
@@ -59,7 +69,26 @@ public class CreateOrganizationController extends SimpleFormController {
 	private String SAVE_FLOW = "SAVE_FLOW";
 
 	private String FLOW = "FLOW";
+	
+	private ConfigurationProperty configurationProperty;
 
+    @Override
+    protected Map<String, Object> referenceData(HttpServletRequest request) throws Exception  {
+    	Map<String, Object> refdata = new HashMap<String, Object>();
+    	Map<String, List<Lov>> configMap = configurationProperty.getMap();
+    	
+    	refdata.put("orgIdentifiersTypeRefData",  configMap.get("orgIdentifiersTypeRefData"));
+        return refdata;
+    }
+    
+    @Override
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+            throws Exception {
+        super.initBinder(request, binder);
+        binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor(
+                healthcareSiteDao));
+    }
+    
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
@@ -67,17 +96,49 @@ public class CreateOrganizationController extends SimpleFormController {
 
 		if (request.getParameter("nciIdentifier") != null) {
 			log.info(" Request URl  is:" + request.getRequestURL().toString());
-			hcs = healthcareSiteDao.getByNciIdentifier(
-					request.getParameter("nciIdentifier")).get(0);
+			hcs = healthcareSiteDao.getByCtepCode(request.getParameter("nciIdentifier"));
 			request.getSession().setAttribute(FLOW, EDIT_FLOW);
 			log.info(" HCS's ID is:" + hcs.getId());
 		} else {
 			hcs = new LocalHealthcareSite();
 			request.getSession().setAttribute(FLOW, SAVE_FLOW);
 		}
+		
+		int cmSize = hcs.getContactMechanisms().size();
+        if (cmSize == 0) {
+            addContactsToSite(hcs);
+        }
+        if (cmSize == 1) {
+            ContactMechanism contactMechanismPhone = new ContactMechanism();
+            ContactMechanism contactMechanismFax = new ContactMechanism();
+            contactMechanismPhone.setType(ContactMechanismType.PHONE);
+            contactMechanismFax.setType(ContactMechanismType.Fax);
+            hcs.addContactMechanism(contactMechanismPhone);
+            hcs.addContactMechanism(contactMechanismFax);
+        }
+        if (cmSize == 2) {
+            ContactMechanism contactMechanismFax = new ContactMechanism();
+            contactMechanismFax.setType(ContactMechanismType.Fax);
+            hcs.addContactMechanism(contactMechanismFax);
+        }
+
 		return hcs;
 	}
 
+	
+    private void addContactsToSite(Organization hcs) {
+        ContactMechanism contactMechanismEmail = new ContactMechanism();
+        ContactMechanism contactMechanismPhone = new ContactMechanism();
+        ContactMechanism contactMechanismFax = new ContactMechanism();
+        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
+        contactMechanismPhone.setType(ContactMechanismType.PHONE);
+        contactMechanismFax.setType(ContactMechanismType.Fax);
+        hcs.addContactMechanism(contactMechanismEmail);
+        hcs.addContactMechanism(contactMechanismPhone);
+        hcs.addContactMechanism(contactMechanismFax);
+    }
+    
+    
 	@Override
 	protected void onBindAndValidate(HttpServletRequest request,
 			Object command, BindException errors) throws Exception {
@@ -88,13 +149,13 @@ public class CreateOrganizationController extends SimpleFormController {
 						.getSession().getAttribute(FLOW).equals(EDIT_FLOW))) {
 			if (!request.getParameter("_action").equals("syncOrganization")) {
 				HealthcareSite hcsFromDB = healthcareSiteDao
-						.getByNciInstituteCodeFromLocal(healthcareSite
-								.getNciInstituteCode());
+						.getByCtepCodeFromLocal(healthcareSite
+								.getPrimaryIdentifier());
 				if (hcsFromDB != null
 						&& !hcsFromDB.getId().equals(healthcareSite.getId())) {
 					errors.reject("LOCAL_ORG_EXISTS",
 							"Organization with NCI Institute Code "
-									+ healthcareSite.getNciInstituteCode()
+									+ healthcareSite.getPrimaryIdentifier()
 									+ " already exisits");
 					return;
 				}
@@ -103,8 +164,8 @@ public class CreateOrganizationController extends SimpleFormController {
 					.getRemoteOrganizations(healthcareSite);
 			boolean matchingExternalHealthcareSitePresent = false;
 			for (HealthcareSite remoteOrg : remoteOrgs) {
-				if (remoteOrg.getNciInstituteCode().equals(
-						healthcareSite.getNciInstituteCode())) {
+				if (remoteOrg.getPrimaryIdentifier().equals(
+						healthcareSite.getPrimaryIdentifier())) {
 					healthcareSite.addExternalOrganization(remoteOrg);
 					matchingExternalHealthcareSitePresent = true;
 				}
@@ -118,7 +179,7 @@ public class CreateOrganizationController extends SimpleFormController {
 					healthcareSite.setExternalOrganizations(remoteOrgs);
 					errors.reject("REMOTE_ORG_EXISTS",
 							"Organization with NCI Institute Code "
-									+ healthcareSite.getNciInstituteCode()
+									+ healthcareSite.getPrimaryIdentifier()
 									+ " exisits in external system");
 				}
 			}
@@ -215,4 +276,12 @@ public class CreateOrganizationController extends SimpleFormController {
 	public void setOrganizationService(OrganizationService organizationService) {
 		this.organizationService = organizationService;
 	}
+	
+    public ConfigurationProperty getConfigurationProperty() {
+        return configurationProperty;
+    }
+
+    public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
+        this.configurationProperty = configurationProperty;
+    }
 }
