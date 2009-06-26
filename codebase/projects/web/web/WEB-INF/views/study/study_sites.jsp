@@ -84,12 +84,12 @@
 	    	} else {
 	    		image = '';
 	    	}
-	    	 return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+	    	 return (obj.name+" ("+obj.ctepCode+")" + image)
 	    },
 	    afterUpdateElement: 
 		    function(inputElement, selectedElement, selectedChoice) {
 	    			hiddenField=inputElement.id.split("-")[0]+"-hidden";
-		    		$(hiddenField).value=selectedChoice.nciInstituteCode;
+		    		$(hiddenField).value=selectedChoice.ctepCode;
 		    		$('addStudySite').disabled=false ;
 		}
 	}
@@ -182,13 +182,13 @@
 			 		<div id="parentStudySiteDiv-${parentStudySiteStaus.index}">
 						<chrome:division title="${parentStudyAssociation.parentStudy.shortTitleText}">
 							<c:forEach items="${parentStudyAssociation.parentStudy.studySites}" varStatus="status" var="site">
-								<chrome:division title="${site.healthcareSite.name} (${site.healthcareSite.nciInstituteCode})" minimize="true" divIdToBeMinimized="site-${status.index}" >
+								<chrome:division title="${site.healthcareSite.name} (${site.healthcareSite.ctepCode})" minimize="true" divIdToBeMinimized="site-${status.index}" >
 									<div id="companionsite-${status.index}" style="display:none;">
 										<div class="row">
 											<div class="leftpanel">
 												<div class="row">
 													<div class="label"><fmt:message key="site.IRBApprovalDate" /></div>
-													<div class="value" id="companionSiteIRB-${site.healthcareSite.nciInstituteCode }">
+													<div class="value" id="companionSiteIRB-${site.healthcareSite.ctepCode }">
 														<tags:dateInput path="study.studySites[${status.index}].irbApprovalDate"/>
 													</div>
 												</div>
@@ -200,32 +200,32 @@
 												</div>
 												<div class="row" id="companionActions-${status.index}">
 													<div class="label"><fmt:message key="site.actions" /></div>
-													<div class="value" id="companionActions-${site.healthcareSite.nciInstituteCode }">
+													<div class="value" id="companionActions-${site.healthcareSite.ctepCode }">
 					           							<c:set var="noAction" value="true"/>
-					           							<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode || localNCICode==site.healthcareSite.nciInstituteCode)}">
+					           							<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode || localNCICode==site.healthcareSite.ctepCode)}">
 				           									<c:forEach items="${site.possibleTransitions}" var="possibleAction">
 				           										<c:choose>
 				  														<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
-				  															<%--<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode))}">--%>
-				  															<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.nciInstituteCode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode)}">
-				  																<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}', '${status.index}');" size="small"/>
+				  															<%--<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.ctepCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode))}">--%>
+				  															<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.ctepCode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode)}">
+				  																<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.ctepCode}', '${possibleAction}', '${status.index}');" size="small"/>
 				  																<c:set var="noAction" value="false"/>
 				  															</c:if>
 				  														</c:when>
 				  														<%--<c:when test="${possibleAction=='APPROVE_STUDY_SITE_FOR_ACTIVATION'}">
-				  															<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}">
+				  															<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode}">
 				  																<option value="${possibleAction}">${possibleAction.displayName }</option>
 				  																<c:set var="noAction" value="false"/>
 				  															</c:if>
 				  														</c:when>--%>
 									   								<c:otherwise>
-											   							<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}', '${status.index}');" size="small"/>
+											   							<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.ctepCode}', '${possibleAction}', '${status.index}');" size="small"/>
 											   							<c:set var="noAction" value="false"/>
 											   						</c:otherwise>
 																</c:choose>
 				           									</c:forEach>
 														</c:if>
-														<div id="companionSendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
+														<div id="companionSendingMessage-${site.healthcareSite.ctepCode }" class="working" style="display: none">
 															Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
 														</div>
 													</div>
@@ -237,17 +237,17 @@
 												</div>
 												<div class="row" id="companionMessage-${status.index}">
 													<div class="label"><fmt:message key="site.messages" /></div>
-													<div class="value" id="companionMessages-${site.healthcareSite.nciInstituteCode }">
+													<div class="value" id="companionMessages-${site.healthcareSite.ctepCode }">
 														<c:choose>
 															<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
 																<c:choose>
 																	<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
 																		<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-																		Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the error messages
+																		Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.ctepCode }','${site.healthcareSite.ctepCode }');">here</a> to see the error messages
 																	</c:when>
 																	<c:otherwise>
 																		<font color="green">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-																		Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.nciInstituteCode }','${site.healthcareSite.nciInstituteCode }');">here</a> to see the messages
+																		Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.ctepCode }','${site.healthcareSite.ctepCode }');">here</a> to see the messages
 																	</c:otherwise>
 																</c:choose>
 															</c:when>
@@ -270,13 +270,13 @@
 														<div class="label"><fmt:message key="site.hostedMode" /></div>
 														<div class="value">
 									            			<form:checkbox path="study.studySites[${status.index}].hostedMode"/>
-					           								<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.nciInstituteCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
+					           								<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.ctepCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
 														</div>
 					   			        			</c:if>
 												</div>
 												<div class="row">
 													<div class="label"><fmt:message key="c3pr.common.status" /></div>
-													<div class="value" id="companionSiteStatus-${site.healthcareSite.nciInstituteCode }">${site.siteStudyStatus.code}</div>
+													<div class="value" id="companionSiteStatus-${site.healthcareSite.ctepCode }">${site.siteStudyStatus.code}</div>
 												</div>
 											</div>
 										</div>
