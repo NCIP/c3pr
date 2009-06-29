@@ -64,7 +64,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		List<String> nciCodeList = new ArrayList<String>();
 		for(HealthcareSite hcs: hcsList){
 			if(hcs != null){
-				nciCodeList.add(hcs.getNciInstituteCode());
+				nciCodeList.add(hcs.getPrimaryIdentifier());
 			}
 		}
 		
@@ -372,7 +372,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 				while(iter.hasNext()){
 					studyOrg = iter.next();
 					//ensure that the host org is in the studyOrg list for the study
-					if(studyOrg.getHealthcareSite().getNciInstituteCode().equalsIgnoreCase(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE))){
+					if(studyOrg.getHealthcareSite().getPrimaryIdentifier().equalsIgnoreCase(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE))){
 						studyAccruals = calculateStudyAccrual(studySubject);
 						threshold = studySubject.getStudySite().getStudy().getTargetAccrualNumber().intValue();
 						//if accruals exceed specified threshold value then send out email
@@ -386,7 +386,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			if(pn.getEventName().equals(NotificationEventTypeEnum.STUDY_SITE_ACCRUAL_EVENT)){
 				studySite = studySubject.getStudySite();
 				//ensure that the host org is in the studySite list for the study
-				if(studySite.getHealthcareSite().getNciInstituteCode().equalsIgnoreCase(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE))){
+				if(studySite.getHealthcareSite().getPrimaryIdentifier().equalsIgnoreCase(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE))){
 					studyAccruals = calculateStudySiteAccrual(studySubject);
 					threshold = studySubject.getStudySite().getTargetAccrualNumber().intValue();
 					//if accruals exceed specified threshold value then send out email
@@ -421,7 +421,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		//defaulting to the hosting site if nothing is found
 		if(hcsList.size() == 0){
 			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-			hcsList.add(healthcareSiteDao.getByNciInstituteCodeFromLocal(localNciCode));
+			hcsList.add(healthcareSiteDao.getByCtepCodeFromLocal(localNciCode));
 		}
 		
 		removeDuplicates(hcsList);
