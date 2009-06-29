@@ -10,6 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -375,7 +376,7 @@ public class C3PRStudyServiceImplTest extends StudyDaoTestCaseTemplate{
     	study.getIdentifiers().clear();
         OrganizationAssignedIdentifier organizationAssignedIdentifier= study.getOrganizationAssignedIdentifiers().get(0);
         organizationAssignedIdentifier.setHealthcareSite(study.getStudySites().get(0).getHealthcareSite());
-        organizationAssignedIdentifier.setType("Coordinating Center Identifier");
+        organizationAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
         organizationAssignedIdentifier.setValue("test-id"+new Random().nextInt(1000));
     }
     
@@ -384,7 +385,7 @@ public class C3PRStudyServiceImplTest extends StudyDaoTestCaseTemplate{
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.READY_TO_OPEN);
         OrganizationAssignedIdentifier organizationAssignedIdentifier= study.getOrganizationAssignedIdentifiers().get(0);
         organizationAssignedIdentifier.setHealthcareSite(study.getStudySites().get(0).getHealthcareSite());
-        organizationAssignedIdentifier.setType("Coordinating Center Identifier");
+        organizationAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
         organizationAssignedIdentifier.setValue("test-id"+new Random().nextInt(1000));
         if(open){
         	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
