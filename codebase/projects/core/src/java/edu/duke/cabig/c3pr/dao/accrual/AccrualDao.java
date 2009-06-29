@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
@@ -19,7 +20,6 @@ import edu.duke.cabig.c3pr.domain.accrual.SiteAccrualReport;
 import edu.duke.cabig.c3pr.domain.accrual.StudyAccrualReport;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AccrualDao.
  */
@@ -49,9 +49,17 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 	public List<StudyAccrualReport> getStudyAccrualReports(String nciInstituteCode,String shortTitleText) {
 		List<Study> studies = new ArrayList<Study>();
 		if(shortTitleText== null){
-			studies = (List<Study>) getHibernateTemplate().find("Select s from Study s, StudySite ss where ss.healthcareSite.nciInstituteCode = ? and ss = any elements(s.studyOrganizations)",new Object[]{nciInstituteCode});
+			studies = (List<Study>) getHibernateTemplate().find(
+					"Select s from Study s, StudySite ss where ss = any elements(s.studyOrganizations) and ss.healthcareSite.id in " +
+					"(select h.id from HealthcareSite h, Identifier I where " +
+	    			"I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
+					new Object[]{nciInstituteCode, OrganizationIdentifierTypeEnum.CTEP.getName()});
 		} else {
-			studies = (List<Study>) getHibernateTemplate().find("Select s from Study s, StudySite ss where ss.healthcareSite.nciInstituteCode = ? and ss = any elements(s.studyOrganizations) and s.shortTitleText = ?",new Object[]{nciInstituteCode,shortTitleText});
+			studies = (List<Study>) getHibernateTemplate().find(
+					"Select s from Study s, StudySite ss where ss = any elements(s.studyOrganizations) and s.shortTitleText = ? and ss.healthcareSite.id in " +
+					"(select h.id from HealthcareSite h, Identifier I where " +
+	    			"I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
+					new Object[]{shortTitleText, nciInstituteCode, OrganizationIdentifierTypeEnum.CTEP.getName()});
 		}
 
 		List<StudyAccrualReport> studyAccrualReports = new ArrayList<StudyAccrualReport>();
@@ -100,6 +108,8 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 				.createCriteria("studySite");
 		Criteria healthcareSiteCriteria = studySiteCriteria
 				.createCriteria("healthcareSite");
+		Criteria identifiersAssignedToOrganizationCriteria = healthcareSiteCriteria.createCriteria("identifiersAssignedToOrganization");
+		
 		Criteria studyCriteria = studySiteCriteria.createCriteria("study");
 
 		Criteria diseaseHistoryCriteria = registrationCriteria
@@ -114,8 +124,10 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 		}
 
 		// Site criteria
-		healthcareSiteCriteria.add(Expression.eq("nciInstituteCode", siteAccrualReport.getCtepId()));
-
+		//healthcareSiteCriteria.add(Expression.eq("nciInstituteCode", siteAccrualReport.getCtepId()));
+		identifiersAssignedToOrganizationCriteria.add(Expression.ilike("value", "%"
+		                    + siteAccrualReport.getCtepId() + "%"));
+		
 		// registration criteria
 		
 		if(startDate!=null && endDate!=null){
@@ -178,9 +190,19 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
     	int accrual = 0;
     	
     	if(shortTitleText != null){
-    		accrual = getHibernateTemplate().find("Select ss from StudySubject ss where ss.studySite.healthcareSite.nciInstituteCode = ? and ss.studySite.study.shortTitleText = ? and ss.diseaseHistoryInternal.anatomicSite.name = ?",new Object[]{nciInstituteCode,shortTitleText,diseaseSteName}).size();
+    		accrual = getHibernateTemplate().find(
+    				"Select ss from StudySubject ss where ss.studySite.study.shortTitleText = ? " +
+    				"and ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.id in " +
+    				"(select h.id from HealthcareSite h, Identifier I where " +
+	    			"I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
+					new Object[]{shortTitleText, diseaseSteName, nciInstituteCode, OrganizationIdentifierTypeEnum.CTEP.getName()}).size();
     	}else {
-    		accrual = getHibernateTemplate().find("Select ss from StudySubject ss where ss.studySite.healthcareSite.nciInstituteCode = ? and ss.diseaseHistoryInternal.anatomicSite.name = ?",new Object[]{nciInstituteCode,diseaseSteName}).size();
+    		accrual = getHibernateTemplate().find(
+    				"Select ss from StudySubject ss where ss.diseaseHistoryInternal.anatomicSite.name = ? and " +
+    				"ss.studySite.healthcareSite.id in " +
+    				"(select h.id from HealthcareSite h, Identifier I where " +
+	    			"I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
+    				new Object[]{diseaseSteName, nciInstituteCode, OrganizationIdentifierTypeEnum.CTEP.getName()}).size();
     	}
     	
     	return accrual;
