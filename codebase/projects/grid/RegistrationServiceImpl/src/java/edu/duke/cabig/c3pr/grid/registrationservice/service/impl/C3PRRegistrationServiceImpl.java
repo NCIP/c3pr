@@ -111,7 +111,7 @@ public class C3PRRegistrationServiceImpl implements RegistrationServiceI, Applic
         		try {
 					Study study= studySubjectFactory.buildStudy(objects.get(0).getStudySite().getStudy());
 					for(StudySite studySite: study.getStudySites()){
-						if(studySite.getHealthcareSite().getNciInstituteCode().equals(localNciCode)){
+						if(studySite.getHealthcareSite().getPrimaryIdentifier().equals(localNciCode)){
 							objects.get(0).setStudySite(studySite);
 							break;
 						}
@@ -121,7 +121,7 @@ public class C3PRRegistrationServiceImpl implements RegistrationServiceI, Applic
 				}
         	}else{
         		for(StudySite studySite: studySubject.getStudySite().getStudy().getStudySites()){
-					if(studySite.getHealthcareSite().getNciInstituteCode().equals(localNciCode)){
+					if(studySite.getHealthcareSite().getPrimaryIdentifier().equals(localNciCode)){
 						objects.get(0).setStudySite(studySite);
 						break;
 					}
