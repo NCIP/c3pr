@@ -135,7 +135,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		map.put("armAssignedLabel", armAssignedLabel);
 		map.put("takeSubjectOffStudy", canTakeSubjectOffStudy(studySubject));
 		map.put("canEdit", canEditRegistration(studySubject));
-		map.put("reconsentRequired", reconsentRequired(studySubject));
+//		map.put("reconsentRequired", reconsentRequired(studySubject));
 		map.put("registerableWithCompanions", registrationControllerUtils
 				.registerableAsorWithCompanion(studySubject));
 		map.put("requiresMultiSite", studySubjectService
@@ -211,14 +211,14 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	}
 	
 
-	private boolean reconsentRequired(StudySubject studySubject) {
-		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY
-				&& !(studySubject.getInformedConsentVersion()).equals(studySubject
-						.getStudySite().getStudy().getLatestConsentVersion())) {
-			return true;
-		}
-		return false;
-	}
+//	private boolean reconsentRequired(StudySubject studySubject) {
+//		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY
+//				&& !(studySubject.getInformedConsentVersion()).equals(studySubject
+//						.getStudySite().getStudy().getLatestConsentVersion())) {
+//			return true;
+//		}
+//		return false;
+//	}
 
 	private boolean canTakeSubjectOffStudy(StudySubject studySubject) {
 		if (studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED

@@ -16,8 +16,6 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -528,7 +526,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(term1);
         studyDisease.setDiseaseTerm(term2);
-        studyDisease.setStudy(study);
+        studyDisease.setStudyVersion(study.getLatestStudyVersion());
 
         study.addStudyDisease(studyDisease);
 

@@ -123,10 +123,10 @@ public class StudyDesignTab extends StudyTab {
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
 		Epoch epoch = new Epoch();
-		epoch.setStudy(study);
+//fix		epoch.setStudy(study);
 		study.addEpoch(epoch);
 		Map map = new HashMap();
-		map.put("index", study.getEpochsInternal().size() - 1);
+//fix		map.put("index", study.getEpochsInternal().size() - 1);
 		map.put("command", wrapper);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}

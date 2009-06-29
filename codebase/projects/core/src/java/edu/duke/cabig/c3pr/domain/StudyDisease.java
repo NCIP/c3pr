@@ -24,7 +24,7 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
                 Comparable<StudyDisease> {
 
     /** The study. */
-    private Study study;
+    private StudyVersion studyVersion;
 
     /** The disease term. */
     private DiseaseTerm diseaseTerm;
@@ -49,9 +49,9 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
      * @return the study
      */
     @ManyToOne
-    @JoinColumn(name = "study_id")
-    public Study getStudy() {
-        return study;
+    @JoinColumn(name = "stu_version_id")
+    public StudyVersion getStudyVersion() {
+        return studyVersion;
     }
 
     /**
@@ -59,8 +59,8 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
      * 
      * @param study the new study
      */
-    public void setStudy(Study study) {
-        this.study = study;
+    public void setStudyVersion(StudyVersion studyVersion) {
+        this.studyVersion = studyVersion;
     }
 
     /**
@@ -121,7 +121,7 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
 		int result = 1;
 		result = prime * result
 				+ ((diseaseTerm == null) ? 0 : diseaseTerm.hashCode());
-		result = prime * result + ((study == null) ? 0 : study.hashCode());
+		result = prime * result + ((studyVersion == null) ? 0 : studyVersion.hashCode());
 		return result;
 	}
 
@@ -142,10 +142,10 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
 				return false;
 		} else if (!diseaseTerm.equals(other.diseaseTerm))
 			return false;
-		if (study == null) {
-			if (other.study != null)
+		if (studyVersion == null) {
+			if (other.studyVersion != null)
 				return false;
-		} else if (!study.equals(other.study))
+		} else if (!studyVersion.equals(other.studyVersion))
 			return false;
 		return true;
 	}

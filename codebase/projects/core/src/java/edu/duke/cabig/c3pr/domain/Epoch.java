@@ -40,7 +40,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
  */
 @Entity
 @Table(name = "epochs", uniqueConstraints = { @UniqueConstraint(columnNames = {
-		"stu_id", "name" }) })
+		"stu_version_id", "name" }) })
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "EPOCHS_ID_SEQ") })
 public class Epoch extends AbstractMutableDeletableDomainObject implements
 		Comparable<Epoch> {
@@ -52,7 +52,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	private String descriptionText;
 
 	/** The study. */
-	private Study study;
+	private StudyVersion studyVersion;
 
 	/** The epoch order. */
 	private Integer epochOrder;
@@ -190,24 +190,14 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		this.currentBookRandomizationEntryPosition = currentBookRandomizationEntryPosition;
 	}
 
-	/**
-	 * Gets the study.
-	 * 
-	 * @return the study
-	 */
 	@ManyToOne
-	@JoinColumn(name = "stu_id", nullable = false)
-	public Study getStudy() {
-		return study;
+	@JoinColumn(name = "stu_version_id", nullable = false)
+	public StudyVersion getStudyVersion() {
+		return studyVersion;
 	}
 
-	/**
-	 * Sets the study.
-	 * 
-	 * @param study the new study
-	 */
-	public void setStudy(Study study) {
-		this.study = study;
+	public void setStudyVersion(StudyVersion studyVersion) {
+		this.studyVersion = studyVersion;
 	}
 
 	/**
@@ -934,7 +924,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 			}
 		}
 		
-		if (this.study.getRandomizationType() == (RandomizationType.BOOK)) {
+		if (this.studyVersion.getRandomizationType() == (RandomizationType.BOOK)) {
 			if (this.getRandomizedIndicator()) {
 				if (!this.hasBookRandomizationEntry()) {
 					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
@@ -944,7 +934,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 			}
 		}
 
-		if (this.study.getRandomizationType() == (RandomizationType.PHONE_CALL)) {
+		if (this.studyVersion.getRandomizationType() == (RandomizationType.PHONE_CALL)) {
 			if (this.getRandomizedIndicator()) {
 				Randomization randomization = this.getRandomization();
 				if (randomization instanceof PhoneCallRandomization) {

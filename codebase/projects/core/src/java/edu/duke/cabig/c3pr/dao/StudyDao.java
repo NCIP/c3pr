@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -30,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -57,8 +57,13 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     
     /** The epoch dao. */
     private EpochDao epochDao;
+    private StudyVersionDao studyVersionDao ;
 
-    /**
+    public void setStudyVersionDao(StudyVersionDao studyVersionDao) {
+		this.studyVersionDao = studyVersionDao;
+	}
+
+	/**
      * Clears the Hibernate Session.
      */
     public void clear() {
@@ -135,20 +140,13 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     @Transactional(readOnly = false)
     public void initialize(Study study) 	{
 
-    	getHibernateTemplate().initialize(study.getEpochsInternal());
-		for (Epoch epoch : study.getEpochsInternal()) {
-			if (epoch != null) {
-				epochDao.initialize(epoch);
-			}
+    	getHibernateTemplate().initialize(study.getStudyVersions());
+    	for(StudyVersion studyVersion : study.getStudyVersions()){
+			studyVersionDao.initialize(studyVersion);
 		}
-    	getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
+    	
     	getHibernateTemplate().initialize(study.getEndpoints());
-		getHibernateTemplate().initialize(study.getStudyDiseases());
-		for(StudyDisease studyDisease : study.getStudyDiseases()){
-			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory().getTerms());
-			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory());
-			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory().getChildCategories());
-		}
+		
 		getHibernateTemplate().initialize(study.getStudyOrganizations());
 		getHibernateTemplate().initialize(study.getIdentifiers());
 		getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
@@ -194,7 +192,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 				getHibernateTemplate().initialize(studyOrganization.getHealthcareSite().getHealthcareSiteInvestigators());
 			}
 		}
-		
 	}
     
     /**

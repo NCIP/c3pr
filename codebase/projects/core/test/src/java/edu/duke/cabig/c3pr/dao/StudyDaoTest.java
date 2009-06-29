@@ -150,31 +150,6 @@ public class StudyDaoTest extends DaoTestCase {
     }
 
     /**
-     * Test amend an existing study.
-     * 
-     * @throws Exception the exception
-     */
-    public void testAmendAnExistingStudy() throws Exception {
-        Study loadedStudy1 = dao.getById(1002);
-        StudyAmendment amendment = new StudyAmendment();
-        Date amendmentDate = new Date();
-        amendment.setAmendmentDate(amendmentDate);
-        amendment.setComments("This is the first change in the study");
-        loadedStudy1.addAmendment(amendment);
-
-        dao.save(loadedStudy1);
-
-        interruptSession();
-
-        Study amendedStudy = dao.getById(1002);
-        assertEquals("Could not save study with amendment", 1, amendedStudy.getStudyAmendments()
-                        .size());
-        assertEquals("Amendment comments null or wrong", "This is the first change in the study",
-                        amendedStudy.getStudyAmendments().get(0).getComments());
-
-    }
-
-    /**
      * Test Saving of a Study with all associations present Also tests the Security aspect.
      * 
      * @throws Exception the exception
@@ -770,14 +745,13 @@ public class StudyDaoTest extends DaoTestCase {
     public void testGetEpochsAgain() throws Exception {
 
         Study study = dao.getById(1000);
-
+        
         Epoch te = new Epoch();
         te.setName("test");
-        te.setStudy(study);
+        te.setStudyVersion(study.getLatestStudyVersion());
         study.addEpoch(te);
 
         dao.save(study);
-
         interruptSession();
         study = dao.getById(1000);
 
@@ -942,7 +916,7 @@ public class StudyDaoTest extends DaoTestCase {
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term2Id));
-        studyDisease.setStudy(study);
+        studyDisease.setStudyVersion(study.getLatestStudyVersion());
 
         study.addStudyDisease(studyDisease);
 
@@ -1361,41 +1335,6 @@ public class StudyDaoTest extends DaoTestCase {
         
         loadedStudy2.addIdentifier(orgId2);
         dao.save(loadedStudy2);
-
-    }
-
-    /**
-     * Test save new study with amendment.
-     * 
-     * @throws Exception the exception
-     */
-    public void testSaveNewStudyWithAmendment() throws Exception {
-
-        Study study = new Study();
-        study.setPrecisText("New study");
-        study.setShortTitleText("ShortTitleText");
-        study.setLongTitleText("LongTitleText");
-        study.setPhaseCode("PhaseCode");
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-        study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
-        study.setTargetAccrualNumber(150);
-        study.setType("Type");
-        study.setMultiInstitutionIndicator(Boolean.TRUE);
-        StudyAmendment amendment = new StudyAmendment();
-        Date amendmentDate = new Date();
-        amendment.setAmendmentDate(amendmentDate);
-        amendment.setComments("Capturing a study with an existing amendment");
-        study.addAmendment(amendment);
-
-        dao.save(study);
-        interruptSession();
-
-        Study amendedStudy = dao.getById(study.getId());
-        assertEquals("Could not save study with amendment", 1, amendedStudy.getStudyAmendments()
-                        .size());
-        assertEquals("Amendment comments null or wrong",
-                        "Capturing a study with an existing amendment", amendedStudy
-                                        .getStudyAmendments().get(0).getComments());
 
     }
 

@@ -387,7 +387,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term2Id));
-        studyDisease.setStudy(study);
+        studyDisease.setStudyVersion(study.getLatestStudyVersion());
 
         study.addStudyDisease(studyDisease);
 

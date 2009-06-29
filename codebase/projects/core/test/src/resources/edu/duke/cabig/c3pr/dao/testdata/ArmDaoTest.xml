@@ -9,6 +9,14 @@
     <STUDIES id="1002" version="1" blinded_indicator="0" long_title_text="long_title_text"  multi_institution_indicator="1"
    	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123" type="ty"
     description_text="description" precis_text="precis_text" status="OPEN" data_entry_status="COMPLETE"  retired_indicator = "false" />
+   	
+   	 <STUDY_VERSIONS id="1000" version="1" long_title_text="long_title_text"  short_title_text="short_title_text" target_accrual_number="123" description_text="description" 
+   	 precis_text="precis_text"  data_entry_status="COMPLETE"  retired_indicator = "false" study_id="1000"/>
+   	 <STUDY_VERSIONS id="1001" version="1" long_title_text="long_title_text"  short_title_text="short_title_text" target_accrual_number="123" description_text="description" 
+   	 precis_text="precis_text"  data_entry_status="COMPLETE"  retired_indicator = "false" study_id="1001"/>
+   	 <STUDY_VERSIONS id="1002" version="1" long_title_text="long_title_text"  short_title_text="short_title_text" target_accrual_number="123" description_text="description" 
+   	 precis_text="precis_text"  data_entry_status="COMPLETE"  retired_indicator = "false" study_id="1002"/>
+   
     
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />
@@ -30,10 +38,10 @@
     <IDENTIFIERS id="1002" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"/>
     <IDENTIFIERS id="1003" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/>    
     
-    <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_id="1000" treatment_indicator="1"  retired_indicator = "false" />
-    <EPOCHS id="1001" version="1" name="Cancer" description_text="cancer desc" stu_id="1000" treatment_indicator="1" retired_indicator = "false" />
-    <EPOCHS id="1002" version="1" name="Treatment" description_text="treatement desc" stu_id="1001" treatment_indicator="1"  retired_indicator = "false" />
-    <EPOCHS id="1003" version="1" name="Cancer" description_text="cancer desc" stu_id="1001" treatment_indicator="1"  retired_indicator = "false" />
+    <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_version_id="1000" treatment_indicator="1"  retired_indicator = "false" />
+    <EPOCHS id="1001" version="1" name="Cancer" description_text="cancer desc" stu_version_id="1000" treatment_indicator="1" retired_indicator = "false" />
+    <EPOCHS id="1002" version="1" name="Treatment" description_text="treatement desc" stu_version_id="1001" treatment_indicator="1"  retired_indicator = "false" />
+    <EPOCHS id="1003" version="1" name="Cancer" description_text="cancer desc" stu_version_id="1001" treatment_indicator="1"  retired_indicator = "false" />
     
     <ARMS id="1000" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1000"  retired_indicator = "false" />
     <ARMS id="1001" version="1" name="Arm 1001" description_text="Arm 1001 desc" target_accrual_number="1001" eph_id="1000"  retired_indicator = "false" />

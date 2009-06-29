@@ -360,10 +360,10 @@ public class StudyTestCase extends AbstractTestCase{
 	 */
 	public void testRemoveEpoch(){
 		Epoch epoch  = registerMockFor(Epoch.class);
-		epoch.setStudy(simpleStudy);
+		epoch.setStudyVersion(simpleStudy.getLatestStudyVersion());
 
 		Epoch epoch1  = registerMockFor(Epoch.class);
-		epoch1.setStudy(simpleStudy);
+		epoch1.setStudyVersion(simpleStudy.getLatestStudyVersion());
 
 		replayMocks();
 
@@ -382,9 +382,9 @@ public class StudyTestCase extends AbstractTestCase{
 	 */
 	public void testRemoveStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
-		disease.setStudy(simpleStudy);
+		disease.setStudyVersion(simpleStudy.getLatestStudyVersion());
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		disease2.setStudy(simpleStudy);
+		disease2.setStudyVersion(simpleStudy.getLatestStudyVersion());
 		replayMocks();
 		simpleStudy.addStudyDisease(disease2);
 		simpleStudy.addStudyDisease(disease);
@@ -401,10 +401,10 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testRemoveAllStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
-		disease.setStudy(simpleStudy);
+		disease.setStudyVersion(simpleStudy.getLatestStudyVersion());
 		
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		disease2.setStudy(simpleStudy);
+		disease2.setStudyVersion(simpleStudy.getLatestStudyVersion());
 		
 		replayMocks();
 		
@@ -460,30 +460,6 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("Study should have 1 identifier", 1 , simpleStudy.getIdentifiers().size());
 		verifyMocks();
 	}
-	
-	/**
-	 * Test get latest consent version
-	 * 
-	 */
-	public void testGetLatestConsentVersion(){
-		simpleStudy.setConsentVersion("10/08/1981");
-		assertEquals("Latest consent version should be 10/08/1981", "10/08/1981" , simpleStudy.getLatestConsentVersion());
-	}
-	
-	/**
-	 * Test get latest consent version
-	 * 
-	 */
-	public void testGetLatestConsentVersion1(){
-		simpleStudy.setConsentVersion("10/08/1970");
-		StudyAmendment amendment  = registerMockFor(StudyAmendment.class);
-		EasyMock.expect(amendment.getConsentVersion()).andReturn("10/08/1981");
-		EasyMock.expect(amendment.getConsentChangedIndicator()).andReturn(true);
-		replayMocks();
-		simpleStudy.getStudyAmendments().add(amendment);
-		
-		assertEquals("Latest consent version should be 10/08/1981", "10/08/1981" , simpleStudy.getLatestConsentVersion());
-		}
 	
 	/**
 	 * Test get companion indicator display value
@@ -930,95 +906,6 @@ public class StudyTestCase extends AbstractTestCase{
 	
 
 	/**
-	 * test set Amendments
-	 */
-	public void testSetAmendments(){
-		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
-		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
-		amendments.add(amendment);
-		replayMocks();
-		simpleStudy.setStudyAmendments(amendments);
-		assertEquals("study has 1 amenment",1, simpleStudy.getStudyAmendments().size());
-		verifyMocks();
-		
-	}
-	
-	/**
-	 * test get current study amendment
-	 */
-	public void testGetCurrentStudyAmendment(){
-		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-		assertNull("no current amendment pending for study", simpleStudy.getCurrentStudyAmendment());
-	}
-	
-
-	/**
-	 * test get current study amendment
-	 */
-	public void testGetCurrentStudyAmendment1(){
-		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
-		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
-		amendments.add(amendment);
-		replayMocks();
-		simpleStudy.setStudyAmendments(amendments);
-		
-		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-		assertNotNull("current amendment found for study", simpleStudy.getCurrentStudyAmendment());
-		
-		verifyMocks();
-	}
-	
-	/**
-	 * test get previous study amendment
-	 */
-	public void testGetPreviousStudyAmendment(){
-		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
-		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
-		amendments.add(amendment);
-		replayMocks();
-		simpleStudy.setStudyAmendments(amendments);
-		
-		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-		assertEquals("one previous amendment found for study", 1,  simpleStudy.getPreviousStudyAmendments().size());
-		
-		verifyMocks();
-	}
-	
-	/**
-	 * test get previous study amendment
-	 */
-	public void testGetPreviousStudyAmendment1(){
-		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
-		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
-		amendments.add(amendment);
-		replayMocks();
-		simpleStudy.setStudyAmendments(amendments);
-		
-		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-		assertNull("no previous amendment found for study", simpleStudy.getPreviousStudyAmendments());
-		
-		verifyMocks();
-	}
-	
-	/**
-	 * test get previous study amendment
-	 */
-	public void testGetPreviousStudyAmendment2(){
-		StudyAmendment amendment = registerMockFor(StudyAmendment.class);
-		StudyAmendment amendment1 = registerMockFor(StudyAmendment.class);
-		List<StudyAmendment> amendments = new ArrayList<StudyAmendment>();
-		amendments.add(amendment);
-		amendments.add(amendment1);
-		replayMocks();
-		simpleStudy.setStudyAmendments(amendments);
-		
-		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-		assertEquals("one previous amendment found for study", 1 , simpleStudy.getPreviousStudyAmendments().size());
-		
-		verifyMocks();
-	}
-	
-	/**
 	 * test compare to
 	 */
 	public void testCompareTo(){
@@ -1162,27 +1049,6 @@ public void testHasEligibility1(){
 	
 	assertTrue("eligibility present for this study",basicStudy.hasElligibility());
 	
-}
-
-/**
- * test has companions
- */
-public void testHasCompanion(){
-	assertFalse("no companion present for basic study",basicStudy.hasCompanions());
-	
-}
-
-
-/**
- * test has companions
- */
-public void testHasCompanion1(){
-	CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
-	association.setParentStudy(basicStudy);
-	replayMocks();
-	basicStudy.addCompanionStudyAssociation(association);
-	assertTrue("companion present for basic study",basicStudy.hasCompanions());
-	verifyMocks();
 }
 
 /**
@@ -1995,22 +1861,6 @@ public void testGetStudyOrganization2(){
 	
 	verifyMocks();
 }
-
-
-/**
- * Test get latest consent version
- * 
- */
-public void testGetLatestConsentVersion2(){
-	simpleStudy.setConsentVersion("10/08/1970");
-	StudyAmendment amendment  = registerMockFor(StudyAmendment.class);
-	EasyMock.expect(amendment.getConsentVersion()).andReturn("10/08/1981");
-	EasyMock.expect(amendment.getConsentChangedIndicator()).andReturn(false);
-	replayMocks();
-	simpleStudy.getStudyAmendments().add(amendment);
-	assertEquals("Latest consent version should be 10/08/1970", "10/08/1970" , simpleStudy.getLatestConsentVersion());
-	
-	}
 
 /**
  * test get parent association

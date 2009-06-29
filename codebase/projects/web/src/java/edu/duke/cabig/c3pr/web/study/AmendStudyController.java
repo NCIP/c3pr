@@ -113,7 +113,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
-        study.getStudyAmendments().size();
+//        study.getStudyAmendments().size();
         wrapper.setStudy(study);
         return wrapper;
     }

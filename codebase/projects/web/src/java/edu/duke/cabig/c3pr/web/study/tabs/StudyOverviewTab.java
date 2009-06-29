@@ -105,7 +105,7 @@ public class StudyOverviewTab extends StudyTab {
     public Map referenceData(HttpServletRequest request, StudyWrapper command) {
         request.setAttribute("isCCTSEnv", isCCTSEnv());
         List<Error> dataEntryErrors = new ArrayList<Error>();
-            command.getStudy().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus(dataEntryErrors));
+            command.getStudy().getLatestStudyVersion().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus(dataEntryErrors));
         	request.setAttribute("errors", dataEntryErrors);
         return super.referenceData(request, command);
     }
@@ -113,7 +113,7 @@ public class StudyOverviewTab extends StudyTab {
     private String handleInPlaceEditing(HttpServletRequest request, StudyWrapper command,
                     String property, String value) throws Exception{
     	if (property.contains("changedTargetAccrualNumber")) {
-            command.getStudy().setTargetAccrualNumber(new Integer(value));
+            command.getStudy().getLatestStudyVersion().setTargetAccrualNumber(new Integer(value));
             return command.getStudy().getTargetAccrualNumber().toString();
         } else {
             return command.getStudy().getCoordinatingCenterStudyStatus().getCode();

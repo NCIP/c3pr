@@ -341,26 +341,6 @@ public class StudyCreationHelper {
         studyCoordinatingCenter.setStudy(study);
     }
 
-	public Study buildStudyWithAmendment() {
-		Study amendedStudy = this.createBasicStudy();
-        StudyAmendment amendment = new StudyAmendment();
-        Date amendmentDate = new Date();
-        amendment.setAmendmentDate(amendmentDate);
-        amendment.setComments("This is the first change in the study");
-        amendedStudy.addAmendment(amendment);
-        amendedStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-        return amendedStudy ;
-	}
-
-	public Study buildStudyWithAmendmentWithNoAmendmentDate() {
-		Study amendedStudy = this.createBasicStudy();
-        StudyAmendment amendment = new StudyAmendment();
-        amendment.setComments("This is the first change in the study");
-        amendedStudy.addAmendment(amendment);
-        amendedStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-        return amendedStudy ;
-	}
-	
 	public Study createBasicStudyObject(){
  		Study study = new Study(false);
         study.setPrecisText("New study");
@@ -416,25 +396,6 @@ public class StudyCreationHelper {
 	        study.addEpoch(epoch);
 	        return study;
 	    }
-	 
-	 public Study addAmendmentToBasicStudy(Study study){
-        StudyAmendment amendment = new StudyAmendment();
-        amendment.setComments("This is the first change in the study");
-        amendment.setVersion(1);
-        study.addAmendment(amendment);
-        return study ;
-	 }
-	 
-	 public Study addAmendmentWithDateToBasicStudy(Study study){
-	        StudyAmendment amendment = new StudyAmendment();
-	        GregorianCalendar cal = new GregorianCalendar();
-	        cal.add(Calendar.MONTH, 1);
-	        amendment.setAmendmentDate(cal.getTime());
-	        amendment.setVersion(1);
-	        amendment.setComments("This is the first change in the study");
-	        study.addAmendment(amendment);
-	        return study ;
-		 }
 	 
 	 public Study addParentStudyAssociation(Study parent, Study child){
 		 parent.setCompanionIndicator(false);

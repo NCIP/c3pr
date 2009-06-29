@@ -29,7 +29,7 @@ public class RandomizationTypeFieldHandler implements FieldHandler {
     	if(value==null) return;
     	if (object instanceof Study) {
         	Study study = (Study) object;
-        	study.setRandomizationType(RandomizationType.getByCode((Integer) value));
+//        	study.setRandomizationType(RandomizationType.getByCode((Integer) value));
 		}else if (object instanceof RandomizationHolder) {
 			RandomizationHolder randomizationHolder = (RandomizationHolder) object;
 			randomizationHolder.setRandomizationType(RandomizationType.getByCode((Integer) value));
@@ -39,7 +39,7 @@ public class RandomizationTypeFieldHandler implements FieldHandler {
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
     	if (object instanceof Study) {
         	Study study = (Study) object;
-        	study.setRandomizationType(null);
+//        	study.setRandomizationType(null);
 		}else if (object instanceof RandomizationHolder) {
 			RandomizationHolder randomizationHolder = (RandomizationHolder) object;
 			randomizationHolder.setRandomizationType(null);

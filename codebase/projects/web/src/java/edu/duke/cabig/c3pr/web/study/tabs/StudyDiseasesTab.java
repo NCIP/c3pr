@@ -100,7 +100,7 @@ public class StudyDiseasesTab extends StudyTab {
 			DiseaseTerm diseaseTerm = diseaseTermDao.getById(Integer.parseInt(token));
 		   	StudyDisease studyDisease = new StudyDisease();
 		   	studyDisease.setDiseaseTerm(diseaseTerm);
-		   	studyDisease.setStudy(study);
+//fix		   	studyDisease.setStudy(study);
 			study.addStudyDisease(studyDisease);
 		}
 		Study modifiedStudy = studyDao.merge(study);

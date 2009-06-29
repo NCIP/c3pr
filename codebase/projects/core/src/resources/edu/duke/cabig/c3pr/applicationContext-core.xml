@@ -156,6 +156,12 @@
                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
 			   <value>edu.duke.cabig.c3pr.domain.ConsentHistory</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudyVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.AmendmentReason</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.Consent</value>
+			   <value>edu.duke.cabig.c3pr.domain.ConsentVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -331,6 +337,12 @@
 	                <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
 	                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
 	                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
+	               <value>edu.duke.cabig.c3pr.domain.StudyVersion</value>
+				   <value>edu.duke.cabig.c3pr.domain.AmendmentReason</value>
+				   <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
+				   <value>edu.duke.cabig.c3pr.domain.Consent</value>
+				   <value>edu.duke.cabig.c3pr.domain.ConsentVersion</value>
+				   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
               </list>
         </property> 
         <!--  <property name="auditAll">
@@ -496,7 +508,7 @@
 	<bean id="recipientScheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao" autowire="byName"/>
 	<bean id="summary3ReportDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.Summary3ReportDao" autowire="byName"/>
 	<bean id="accrualDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.accrual.AccrualDao" autowire="byName"/>
-	
+	<bean id="studyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyVersionDao" autowire="byName"/>	
 	
 	<!-- Multisite Request Handlers -->
     <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">

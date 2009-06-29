@@ -20,13 +20,13 @@ public class StudyDataEntryStatusFieldHandler implements FieldHandler {
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
         Study study = (Study) object;
-        study.setDataEntryStatus(StudyDataEntryStatus.valueOf((String) value));
+//        study.setDataEntryStatus(StudyDataEntryStatus.valueOf((String) value));
 
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
         Study study = (Study) object;
-        study.setDataEntryStatus(null);
+//        study.setDataEntryStatus(null);
     }
 
     /**
