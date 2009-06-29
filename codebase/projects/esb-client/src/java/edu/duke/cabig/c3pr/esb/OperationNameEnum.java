@@ -12,6 +12,7 @@ public enum OperationNameEnum implements CodedEnum<String> {
 	createPerson("createPerson"),
 	validate("validate"),
 	search("search"),
+	create("create"),
 	updatePerson("updatePerson"),
 	updatePersonStatus("updatePersonStatus"),
 	getOrganization("getOrganization"),
