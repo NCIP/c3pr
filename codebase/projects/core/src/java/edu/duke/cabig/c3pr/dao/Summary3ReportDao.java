@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -47,9 +48,11 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 			Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
-		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.nciInstituteCode = ? " +
-		 		"and ss.studySite.study.type = ?",
-                         new Object[] {startDate,endDate,diseaseSite.getName(),hcs.getNciInstituteCode(),"Genetic Therapeutic"}).size();
+		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.study.type = ? " +
+		 		"and ss.studySite.healthcareSite.id in " +
+		 		"(select h.id from HealthcareSite h, Identifier I where " +
+  			    "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
+                new Object[] {startDate, endDate, diseaseSite.getName(), "Genetic Therapeutic", hcs.getCtepCode(), OrganizationIdentifierTypeEnum.CTEP.getName()}).size();
 	}
 
 	/**
@@ -66,8 +69,10 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 			HealthcareSite hcs, Date startDate, Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
-		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.nciInstituteCode = ?",
-                        new Object[] {startDate,endDate,diseaseSite.getName(),hcs.getNciInstituteCode()}).size();
+		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.id in " +
+		 		"(select h.id from HealthcareSite h, Identifier I where " +
+  			    "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
+                new Object[] {startDate, endDate, diseaseSite.getName(), hcs.getCtepCode(), OrganizationIdentifierTypeEnum.CTEP.getName()}).size();
 	}
 	
 	/**
@@ -83,8 +88,10 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 			Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
-			 		"ss.studySite.healthcareSite.nciInstituteCode = ? and ss.studySite.study.type = ?",
-	                         new Object[] {startDate,endDate,hcs.getNciInstituteCode(),"Genetic Therapeutic"}).size();
+		 		"ss.studySite.study.type = ? and ss.studySite.healthcareSite.id in " +
+		 		"(select h.id from HealthcareSite h, Identifier I where " +
+  			    "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
+                new Object[] {startDate, endDate, "Genetic Therapeutic", hcs.getCtepCode(), OrganizationIdentifierTypeEnum.CTEP.getName()}).size();
 	}
 	
 	/**
@@ -99,8 +106,10 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	public int getNewlyRegisteredPatients(HealthcareSite hcs, Date startDate, Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
-			 		"ss.studySite.healthcareSite.nciInstituteCode = ?",
-	                        new Object[] {startDate,endDate,hcs.getNciInstituteCode()}).size();
+			 		"ss.studySite.healthcareSite.id in " +
+			 		"(select h.id from HealthcareSite h, Identifier I where " +
+	  			    "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
+	                new Object[] {startDate, endDate, hcs.getCtepCode(), OrganizationIdentifierTypeEnum.CTEP.getName()}).size();
 	}
 
 	/* (non-Javadoc)

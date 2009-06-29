@@ -14,14 +14,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import jxl.format.Alignment;
-
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFTextbox;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -47,13 +44,13 @@ public class Summary3ReportServiceTest extends DaoTestCase {
 	private Configuration configuration;
 
 	private String xslFOXsltFile = "summary3Report.xslt";
+	
+	private Summary3ReportGenerator summary3ReportGenerator;
 
 	public void setSummary3ReportGenerator(
 			Summary3ReportGenerator summary3ReportGenerator) {
 		this.summary3ReportGenerator = summary3ReportGenerator;
 	}
-
-	private Summary3ReportGenerator summary3ReportGenerator;
 
 	public void setSummaryReportSerivice(
 			SummaryReportService summaryReportService) {
