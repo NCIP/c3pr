@@ -1,7 +1,12 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
@@ -23,8 +28,18 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
      * Test for loading a plannedNotification by Id
      * @throws Exception
      */
-	 private ScheduledNotificationDao scheduledNotificationDao = (ScheduledNotificationDao) getApplicationContext().getBean("scheduledNotificationDao");
-	
+	 private ScheduledNotificationDao scheduledNotificationDao;
+	 private SessionFactory sessionFactory;
+	 
+    @Override
+    protected void setUp() throws Exception {
+    	
+    	super.setUp();
+    	sessionFactory = (SessionFactory)getApplicationContext().getBean("sessionFactory");
+    	scheduledNotificationDao = (ScheduledNotificationDao) getApplicationContext().getBean("scheduledNotificationDao");
+    	
+    }	 
+	 
     public void testGetById() throws Exception {
         PlannedNotification plannedNotification = getDao().getById(1000);
         assertEquals("STUDY_STATUS_CHANGED_EVENT", plannedNotification.getEventName().toString());
@@ -68,6 +83,22 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
         }
     }
     
+    /** This tests the sql query in getPlannedNotifications in NotificationInterceptor class.
+     * Move this to the NotificationInterceptorTest class when its created.  
+     * 
+     *
+     */
+    public void testGetPlannedNotifications(){
+        Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
+        List<String> nciCodeList = new ArrayList<String>();
+        nciCodeList.add("du code");
+        List<PlannedNotification> result = null;
+        Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and " +
+                "o.identifiersAssignedToOrganization.primaryIndicator = 'true' and " +
+                "o.identifiersAssignedToOrganization.value in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
+        result = query.list();
+        assertEquals(result.size(), 1);
+    }
     
     public void testDeletePlannedNotificationWithScheduledNotficationsAndRecipients() throws Exception {
     	Integer snId = -1;
