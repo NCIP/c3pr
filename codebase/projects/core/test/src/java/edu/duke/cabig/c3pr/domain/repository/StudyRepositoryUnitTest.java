@@ -108,12 +108,12 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void testCreateStudyCompleteDataEntryCoCenter() {
     	EasyMock.expect(studyService.isMultisiteEnable()).andReturn(true);
     	EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(2);
-    	//EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
+    	EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
     	EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(1);
     	EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(1);
     	EasyMock.expect(studyDao.merge(study)).andReturn(study);
         replayMocks();
-        studyRepository.createStudy(study);
+		studyRepository.createStudy(study);
         verifyMocks();
     }
 
@@ -462,6 +462,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         healthcaresite.setName("duke healthcare");
         healthcaresite.setDescriptionText("duke healthcare");
         healthcaresite.setCtepCode("Duke");
+        healthcaresite.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 
         // HCSI
         HealthcareSiteInvestigator hcsiSave = new HealthcareSiteInvestigator();
