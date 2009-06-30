@@ -26,7 +26,6 @@ import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
@@ -74,10 +73,11 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		result = new ArrayList<PlannedNotification>();
         try {
           //Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
-          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
-//          Query query = session.createQuery("Select p from PlannedNotification as p, o from HealthcareSite as o where p.id = o.plannedNotificationsInternal.id and" +
-//          		"o.nci_institute_code in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
-//          query.setEntity(0, nciCodeList);
+          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and " +
+          "o.identifiersAssignedToOrganization.primaryIndicator = 'true' and " +
+          "o.identifiersAssignedToOrganization.value in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
+          //"o.nciInstituteCode in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
+          
           result = query.list();
         }
         catch (DataAccessResourceFailureException e) {
@@ -95,8 +95,6 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
         	session.close();
         }
         return result;
-        //result = organizationDao.getByNciIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).get(0).getPlannedNotifications();
-        //return result;
 	}
 
 	
