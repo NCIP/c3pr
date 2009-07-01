@@ -425,7 +425,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySiteObj){
         Study study = getUniqueStudy(studyIdentifiers);
-        String nciInstituteCode = studySiteObj.getHealthcareSite().getCtepCode();
+        String nciInstituteCode = studySiteObj.getHealthcareSite().getPrimaryIdentifier();
         StudySite studySite;
         CompanionStudyAssociation companionStudyAssociaton = studySiteObj.getCompanionStudyAssociation() ;
         if(companionStudyAssociaton != null ){
