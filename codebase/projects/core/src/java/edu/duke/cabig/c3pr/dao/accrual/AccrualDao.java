@@ -56,7 +56,7 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 					new Object[]{nciInstituteCode, OrganizationIdentifierTypeEnum.CTEP.getName()});
 		} else {
 			studies = (List<Study>) getHibernateTemplate().find(
-					"Select s from Study s, StudySite ss where ss = any elements(s.studyOrganizations) and s.shortTitleText = ? and ss.healthcareSite.id in " +
+					"Select s from Study s, StudySite ss, StudyVersion sv where ss = any elements(s.studyOrganizations) and sv.shortTitleText = ? and ss.healthcareSite.id in " +
 					"(select h.id from HealthcareSite h, Identifier I where " +
 	    			"I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
 					new Object[]{shortTitleText, nciInstituteCode, OrganizationIdentifierTypeEnum.CTEP.getName()});
