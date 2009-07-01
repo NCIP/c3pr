@@ -389,5 +389,13 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	
 	private Study study;
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		return false;
+	}
+
 
 }

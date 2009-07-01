@@ -183,7 +183,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public List<Identifier> getLocalIdentifiers() {
 		List<Identifier> localIdentifiers = new ArrayList<Identifier>();
 		for (Identifier identifier : getIdentifiers()) {
-			if (!OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER.equals(identifier.getTypeInternal()) && !OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.equals(identifier.getTypeInternal())) {
+			if (!(OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER.getName()).equals(identifier.getTypeInternal()) && !(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.getName()).equals(identifier.getTypeInternal())) {
 				localIdentifiers.add(identifier);
 			}
 		}
