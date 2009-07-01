@@ -7,13 +7,18 @@
 	<CSM_PROTECTION_GROUP protection_group_id="1000" protection_group_name="dbunit" application_id="1" large_element_count_flag="0" parent_protection_group_id="6"/>
 	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
       
-    <STUDIES id="1100" version="1" blinded_indicator="1" long_title_text="long_title_text" multi_institution_indicator="1"
-   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123" type="Genetic Therapeutic"
-    description_text="description" precis_text="precis_text" status="OPEN" data_entry_status="COMPLETE" />
+    <STUDIES id="1100" version="1" blinded_indicator="1" multi_institution_indicator="1"
+   	phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic"
+    status="OPEN" />
     
-    <STUDIES id="1200" version="1" blinded_indicator="1" long_title_text="long_title_text1" multi_institution_indicator="1"
-   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text1" target_accrual_number="2343" type="Genetic Therapeutic"
-    description_text="description" precis_text="precis_text" status="OPEN" data_entry_status="COMPLETE" />
+    <STUDIES id="1200" version="1" blinded_indicator="1" multi_institution_indicator="1"
+   	phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic"
+    status="OPEN" />
+   
+    <STUDY_VERSIONS id="1100" study_id="1100" long_title_text="long_title_text" short_title_text="short_title_text" target_accrual_number="123"  description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS id="1201" study_id="1200" long_title_text="long_title_text2" short_title_text="short_title_text2" target_accrual_number="123"  description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+   
+   
    
 	<ADDRESSES id="1100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
   
@@ -28,7 +33,7 @@
 
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
 
-    <EPOCHS id="1100" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1100" treatment_indicator="1"/>
+    <EPOCHS id="1100" version="1" name="Treatment1000" description_text="treatement desc" stu_version_id="1100" treatment_indicator="1"/>
     
     <ARMS id="1100" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1100" />
         
@@ -44,7 +49,7 @@
     
     <DISEASE_TERMS id="1100" version="1" term="AIDS-related anal cancer" ctep_term="AIDS-related anal cancer" category_id="1" medra_code="10065860"/>
    
-    <STUDY_DISEASES id="1100" version="1" study_id="1100" disease_term_id="1000" lead_disease="1"/>
+    <STUDY_DISEASES id="1100" version="1" stu_version_id="1100" disease_term_id="1000" lead_disease="1"/>
     
     <ELIGIBILITY_CRITERIA id="1100" version="1" question_number="1" eph_id="1100" question_text="inclusion question 1" dtype="I"/>
     
