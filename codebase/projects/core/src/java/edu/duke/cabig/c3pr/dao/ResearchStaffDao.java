@@ -120,15 +120,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * 
 	 * @return the by sub name and sub email
 	 */
-	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames,
-			String ctepCode) {
-		
+	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames, String ctepCode) {
 		return findBySubname(subnames, 
 				"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ ctepCode + "'" + 
         		" and o.healthcareSite.identifiersAssignedToOrganization.typeInternal = '" + OrganizationIdentifierTypeEnum.CTEP.getName() +"'", 
 				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
-		//select H from HealthcareSite H, Identifier I where "
-		//+ "I.value=? and I.type=? and I=any elements(H.identifiersAssignedToOrganization)
 	}
 
 	/**

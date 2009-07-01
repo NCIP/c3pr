@@ -115,10 +115,7 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
      * @return the by sub name and sub email
      */
     public List<HealthcareSiteInvestigator> getBySubNameAndSubEmail(String[] subnames, String nciInstituteCode) {
-//        String extraClasses= Identifier.class.getName() + " " + "I" + " ";
-        
     	return findBySubname(subnames, 
-    			//"I.value='"+ nciInstituteCode + "'" + " and I.typeInternal='CTEP' and I=any elements(o.healthcareSite.identifiersAssignedToOrganization)",
         		"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ nciInstituteCode + "'" + 
         		" and o.healthcareSite.identifiersAssignedToOrganization.typeInternal = '" + OrganizationIdentifierTypeEnum.CTEP.getName() +"'",
                  EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
