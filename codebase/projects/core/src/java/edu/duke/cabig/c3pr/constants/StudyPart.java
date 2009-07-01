@@ -7,7 +7,8 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 
 public enum StudyPart implements CodedEnum<String>{
-	ONE("One"), ALL("All");
+	DETAIL("detail"),CONSENT("Consent"), DESIGN("design"), STRATIFICATION("Stratification"), ELIGIBILITY("Eligibility"), DISEASE("Disease"), 
+	RANDOMIZATION("Randomization"),COMPANION("Companion");
 
     private String code;
 
