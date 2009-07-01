@@ -964,7 +964,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	@Transient
 	public StudySite getStudySite(String nciCode) {
 		for (StudySite studySite : this.getStudySites()) {
-			if (studySite.getHealthcareSite().getCtepCode()
+			if (studySite.getHealthcareSite().getPrimaryIdentifier()
 					.equalsIgnoreCase(nciCode)) {
 				return studySite;
 			}
@@ -978,7 +978,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         @Transient
         public StudyOrganization getStudyOrganization(String nciCode) {
                 for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
-                        if (studyOrganization.getHealthcareSite().getCtepCode()
+                        if (studyOrganization.getHealthcareSite().getPrimaryIdentifier()
                                         .equalsIgnoreCase(nciCode)) {
                                 return studyOrganization;
                         }
