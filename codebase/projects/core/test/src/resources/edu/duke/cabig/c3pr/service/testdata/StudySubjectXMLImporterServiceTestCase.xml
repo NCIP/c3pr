@@ -7,10 +7,13 @@
 	<CSM_PROTECTION_GROUP protection_group_id="1000" protection_group_name="dbunit" application_id="1" large_element_count_flag="0" parent_protection_group_id="6"/>
 	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
       
-    <STUDIES id="1100" version="1" blinded_indicator="1" long_title_text="long_title_text" multi_institution_indicator="1"
-   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123" type="ty"
-    description_text="description" precis_text="precis_text" status="OPEN" data_entry_status="COMPLETE" />
-   
+    <STUDIES id="1100" version="1" blinded_indicator="1" multi_institution_indicator="1"
+   	phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic"
+    status="OPEN" />
+    
+    
+    <STUDY_VERSIONS id="1100" study_id="1100" long_title_text="long_title_text" short_title_text="short_title_text" target_accrual_number="123"  description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    
 	<ADDRESSES id="1100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
   
     <ORGANIZATIONS id="1100" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100" />
