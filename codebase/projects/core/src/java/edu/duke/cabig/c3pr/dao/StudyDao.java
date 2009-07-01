@@ -314,7 +314,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * @return the list< study>
      */
     public List<Study> searchByExample(Study study, boolean isWildCard, int maxResults) {
-        return searchByExample(study, isWildCard, maxResults, "ascending", "shortTitleText");
+        return searchByExample(study, isWildCard, maxResults, "ascending", "id");
     }
 
     /**

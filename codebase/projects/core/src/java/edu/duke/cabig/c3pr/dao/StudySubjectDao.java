@@ -112,6 +112,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         Criteria studySiteCriteria = registrationCriteria.createCriteria("studySite");
         Criteria participantCriteria = registrationCriteria.createCriteria("participant");
         Criteria studyCriteria = studySiteCriteria.createCriteria("study");
+        Criteria studyVersionCriteria = studyCriteria.createCriteria("studyVersionsInternal");
         Criteria siteCriteria = studySiteCriteria.createCriteria("healthcareSite");
         Criteria identifiersAssignedToOrganizationCriteria = siteCriteria.createCriteria("identifiersAssignedToOrganization");
         Criteria identifiersCriteria = studyCriteria.createCriteria("identifiers");
@@ -119,7 +120,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         // Study Criteria
         if (registration.getStudySite().getStudy().getShortTitleText() != null
                         && !registration.getStudySite().getStudy().getShortTitleText().equals("")) {
-            studyCriteria.add(Expression.ilike("shortTitleText", "%"
+        	studyVersionCriteria.add(Expression.ilike("shortTitleText", "%"
                             + registration.getStudySite().getStudy().getShortTitleText() + "%"));
         }
 
@@ -184,13 +185,14 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         Criteria studySiteCriteria = studySubjectCriteria.createCriteria("studySite");
         Criteria participantCriteria = studySubjectCriteria.createCriteria("participant");
         Criteria studyCriteria = studySiteCriteria.createCriteria("study");
+        Criteria studyVersionCriteria = studyCriteria.createCriteria("studyVersionsInternal");
         Criteria sIdentifiersCriteria = studyCriteria.createCriteria("identifiers");
         Criteria pIdentifiersCriteria = participantCriteria.createCriteria("identifiers");
 
         // Study Criteria
         if (studySubject.getStudySite().getStudy().getShortTitleText() != null
                         && !studySubject.getStudySite().getStudy().getShortTitleText().equals("")) {
-            studyCriteria.add(Expression.ilike("shortTitleText", "%"
+        	studyVersionCriteria.add(Expression.ilike("shortTitleText", "%"
                             + studySubject.getStudySite().getStudy().getShortTitleText() + "%"));
         }
         if (studySubject.getStudySite().getStudy().getIdentifiers().size() > 0) {
