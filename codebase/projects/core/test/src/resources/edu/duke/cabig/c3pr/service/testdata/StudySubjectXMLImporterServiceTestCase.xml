@@ -24,7 +24,7 @@
 
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
 
-    <EPOCHS id="1100" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1100" treatment_indicator="1"/>
+    <EPOCHS id="1100" version="1" name="Treatment1000" description_text="treatement desc" stu_version_id="1100" treatment_indicator="1"/>
     
     <ARMS id="1100" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1100" />
         
@@ -40,7 +40,7 @@
     
     <DISEASE_TERMS id="1100" version="1" term="AIDS-related anal cancer" ctep_term="AIDS-related anal cancer" category_id="1" medra_code="10065860"/>
    
-    <STUDY_DISEASES id="1100" version="1" study_id="1100" disease_term_id="1000" lead_disease="1"/>
+    <STUDY_DISEASES id="1100" version="1" stu_version_id="1100" disease_term_id="1000" lead_disease="1"/>
     
     <ELIGIBILITY_CRITERIA id="1100" version="1" question_number="1" eph_id="1100" question_text="inclusion question 1" dtype="I"/>
     
