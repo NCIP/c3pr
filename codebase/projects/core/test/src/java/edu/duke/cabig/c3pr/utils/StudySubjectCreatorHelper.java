@@ -344,6 +344,7 @@ public class StudySubjectCreatorHelper {
         healthcaresite.setName("Northwestern Memorial Hospital");
         healthcaresite.setDescriptionText("NU healthcare");
         healthcaresite.setCtepCode("NU healthcare");
+        healthcaresite.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
         studySite.setHealthcareSite(healthcaresite);
         studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         studySite.setStudy(study);
@@ -366,6 +367,7 @@ public class StudySubjectCreatorHelper {
             healthcaresite.setName("Duke");
             healthcaresite.setDescriptionText("DUKE healthcare");
             healthcaresite.setCtepCode("DUKE NCI");
+            healthcaresite.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
             stC.setHealthcareSite(healthcaresite);
         }
         addIdentifierToStudy(study);

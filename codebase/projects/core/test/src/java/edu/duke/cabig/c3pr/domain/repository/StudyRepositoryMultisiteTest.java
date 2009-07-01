@@ -205,8 +205,10 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
-        studyDao.merge(study);
+        study = studyDao.merge(study);
+        int id = study.getId();
         interruptSession();
+        study = studyDao.getById(id);
         try {
             studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         }
@@ -274,7 +276,9 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         study=getPersistedStudy();
         study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
+        int id = study.getId();
         interruptSession();
+        study = studyDao.getById(id);
         healthcareSitedao.initialize(study.getStudySites().get(0).getHealthcareSite());
         StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus() );
