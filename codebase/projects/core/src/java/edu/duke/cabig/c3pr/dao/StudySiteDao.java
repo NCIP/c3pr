@@ -43,7 +43,7 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
      */
     public List<StudySite> getByCtepCode(String ctepCode) {
         return getHibernateTemplate().find(
-               "Select s from StudySite s, Identifier I where I.value=? and I.typeInternal=? and I=any elements(s.healthcareSite.identifiersAssignedToOrganization)",
+               "Select s from StudySite s where s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.typeInternal = ? )",
                new Object[] {ctepCode, OrganizationIdentifierTypeEnum.CTEP.getName()});
     }
     
