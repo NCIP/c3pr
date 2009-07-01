@@ -130,6 +130,9 @@ public class HealthcareSiteDao extends OrganizationDao {
 	}
 
 
+	public void initialize(HealthcareSite healthcareSite){
+		getHibernateTemplate().initialize(healthcareSite.getOrganizationAssignedIdentifiers());
+	}
 	/**
 	 * Gets all HealthcarSite objects.
 	 * @return HealthcareSite
@@ -200,10 +203,10 @@ public class HealthcareSiteDao extends OrganizationDao {
 			updateDatabaseWithRemoteContent(remoteHealthcareSites);
 			
 			return CollectionUtils
-					.firstElement((List<HealthcareSite>) getHibernateTemplate()
-							.find("select h from HealthcareSite h, Identifier I where "
-								+ "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization)", 
-									new Object[] { ctepCode, OrganizationIdentifierTypeEnum.CTEP.getName()}));
+				.firstElement((List<HealthcareSite>) getHibernateTemplate()
+					.find("select H from HealthcareSite H where " +
+						  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.typeInternal=?", 
+							new Object[] {ctepCode, OrganizationIdentifierTypeEnum.CTEP.getName()}));
 		}
 		return healthcareSite;
 	}
@@ -218,8 +221,10 @@ public class HealthcareSiteDao extends OrganizationDao {
 		
 		return CollectionUtils
 		.firstElement((List<HealthcareSite>) getHibernateTemplate()
-				.find("select H from HealthcareSite H, Identifier I where "
-					+ "I.value=? and I.typeInternal=? and I=any elements(H.identifiersAssignedToOrganization)", 
+				.find("select H from HealthcareSite H where " +
+					  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.typeInternal=?", 
+//				.find("select H from HealthcareSite H, Identifier I where "
+//					+ "I.value=? and I.typeInternal=? and I=any elements(H.identifiersAssignedToOrganization)", 
 						new Object[] { ctepCode, OrganizationIdentifierTypeEnum.CTEP.getName()}));
 	}
 
