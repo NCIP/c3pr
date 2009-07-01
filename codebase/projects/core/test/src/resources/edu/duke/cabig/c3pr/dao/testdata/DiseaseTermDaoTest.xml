@@ -1,17 +1,10 @@
 <dataset>
 
-    <STUDIES id="1000" version="1" blinded_indicator="1" long_title_text="long_title_text"
-             multi_institution_indicator="1"
-             phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123"
-             type="ty"
-             description_text="description" precis_text="precis_text" status="OPEN" data_entry_status="COMPLETE"
-             randomization_type="2" retired_indicator="false"/>
-    <STUDIES id="1001" version="1" blinded_indicator="0" long_title_text="long_title_text2"
-             multi_institution_indicator="1"
-             phase_code="Ph2" randomized_indicator="1" short_title_text="short_title_text2"
-             target_accrual_number="123" type="ty"
-             description_text="description2" precis_text="precis_text2" status="OPEN" data_entry_status="COMPLETE"
-             retired_indicator="false"/>
+<STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
+    <STUDIES id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty"  status="OPEN" retired_indicator = "false" />
+	
+	<STUDY_VERSIONS id="1000" study_id="1000" long_title_text="long_title_text" short_title_text="short_title_text" target_accrual_number="123"  description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS id="1001" study_id="1001" long_title_text="long_title_text2" short_title_text="short_title_text2" target_accrual_number="123"  description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
 
     <DISEASE_CATEGORIES id="1000" version="1" parent_id="1001" name="AIDS-related Human Papillomavirus" retired_indicator="false"/>
     <DISEASE_CATEGORIES id="1001" version="1" parent_id="1000" name="Leukemia" retired_indicator="false"/>
@@ -21,9 +14,9 @@
     <DISEASE_TERMS id="1001" version="1" term="AIDS-related cervical cancer" ctep_term="AIDS-related cervical cancer"
                    category_id="1001" medra_code="10008229" retired_indicator="false"/>
 
-    <STUDY_DISEASES id="1000" version="1" study_id="1000" disease_term_id="1000" lead_disease="1"
+    <STUDY_DISEASES id="1000" version="1" stu_version_id="1000" disease_term_id="1000" lead_disease="1"
                     retired_indicator="false"/>
-    <STUDY_DISEASES id="1001" version="1" study_id="1000" disease_term_id="1001" lead_disease="1"
+    <STUDY_DISEASES id="1001" version="1" stu_version_id="1000" disease_term_id="1001" lead_disease="1"
                     retired_indicator="false"/>
 
     <DISEASE_HISTORY id="1000" version="1" retired_indicator="false"/>
