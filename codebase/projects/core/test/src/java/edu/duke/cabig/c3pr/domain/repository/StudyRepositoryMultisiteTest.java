@@ -275,6 +275,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         interruptSession();
+        healthcareSitedao.initialize(study.getStudySites().get(0).getHealthcareSite());
         StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus() );
     }
