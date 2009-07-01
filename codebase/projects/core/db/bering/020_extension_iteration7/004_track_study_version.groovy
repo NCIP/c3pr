@@ -64,6 +64,7 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
         
 		addColumn('studies','consent_required', 'string');
         addColumn('studies','consent_validity_period', 'string');
+        
         addColumn('epochs','stu_version_id', 'integer');
         addColumn('study_diseases','stu_version_id', 'integer');
 
@@ -86,7 +87,7 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 	    dropTable('stu_site_stu_versions')
 	    
 	    dropColumn('studies','consent_required');
-        dropColumn('studies','consent_valid_period');
+        dropColumn('studies','consent_validity_period');
         dropColumn('epochs','stu_version_id');
         dropColumn('study_diseases','stu_version_id');
     }
