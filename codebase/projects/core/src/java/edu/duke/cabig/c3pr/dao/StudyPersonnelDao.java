@@ -48,6 +48,6 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 */
     public List<StudyPersonnel> getBySubnames(String[] subnames, int healthcareSiteId) {
         return findBySubname(subnames, "o.studyOrganization.healthcareSite.id = '" + healthcareSiteId + "'",
-                        EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, null);
+                        EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -85,7 +86,7 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
 //    	investigatorDao.getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
     	
     	return findBySubname(subnames, "o.healthcareSite.id = '" + healthcareSiteId + "'",
-                        EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, null);
+                        EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
     /**
@@ -114,12 +115,13 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
      * @return the by sub name and sub email
      */
     public List<HealthcareSiteInvestigator> getBySubNameAndSubEmail(String[] subnames, String nciInstituteCode) {
-        String extraClasses= Identifier.class.getName() + " " + "I" + " ";
+//        String extraClasses= Identifier.class.getName() + " " + "I" + " ";
         
     	return findBySubname(subnames, 
-    			"I.value='"+ nciInstituteCode + "'" + " and I.typeInternal='CTEP' and I=any elements(o.healthcareSite.identifiersAssignedToOrganization)",
-        		//"o.healthcareSite.nciInstituteCode = '"+ nciInstituteCode + "'",
-                 EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, extraClasses);
+    			//"I.value='"+ nciInstituteCode + "'" + " and I.typeInternal='CTEP' and I=any elements(o.healthcareSite.identifiersAssignedToOrganization)",
+        		"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ nciInstituteCode + "'" + 
+        		" and o.healthcareSite.identifiersAssignedToOrganization.typeInternal = '" + OrganizationIdentifierTypeEnum.CTEP.getName() +"'",
+                 EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
 	public InvestigatorDao getInvestigatorDao() {

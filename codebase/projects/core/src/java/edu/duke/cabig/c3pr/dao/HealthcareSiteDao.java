@@ -45,7 +45,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 
 	/** The SUBSTRING_ match_ properties. */
 	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name",
-			"nciInstituteCode");
+			"identifiersAssignedToOrganization.value");
 
 	/** The EXACT_ match_ properties. */
 	private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();

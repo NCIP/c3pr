@@ -217,7 +217,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     	
     	List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("shortTitleText","identifiers.value");
     	
-    	List<Study> studies = findBySubname(subnames, "LOWER(o.identifiers.typeInternal) LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, null);
+    	List<Study> studies = findBySubname(subnames, "LOWER(o.identifiers.typeInternal) LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     	for(Study study: studies){
     		getHibernateTemplate().initialize(study.getIdentifiers());
     	}

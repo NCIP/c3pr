@@ -107,7 +107,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			int healthcareSite) {
 		return findBySubname(subnames, "o.healthcareSite.id = '"
 				+ healthcareSite + "'", EXTRA_PARAMS,
-				SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, null);
+				SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
 	}
 
 	/**
@@ -123,11 +123,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames,
 			String ctepCode) {
 		
-		String extraClasses= Identifier.class.getName() + " " + "I" + " ";
 		return findBySubname(subnames, 
-				"I.value='"+ ctepCode + "'" + " and I.typeInternal='CTEP' and I=any elements(o.healthcareSite.identifiersAssignedToOrganization)",
-				//"o.healthcareSite.nciInstituteCode = '" + nciInstituteCode + "'", 
-				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, extraClasses);
+				"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ ctepCode + "'" + 
+        		" and o.healthcareSite.identifiersAssignedToOrganization.typeInternal = '" + OrganizationIdentifierTypeEnum.CTEP.getName() +"'", 
+				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
 		//select H from HealthcareSite H, Identifier I where "
 		//+ "I.value=? and I.type=? and I=any elements(H.identifiersAssignedToOrganization)
 	}
