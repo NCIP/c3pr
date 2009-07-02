@@ -314,6 +314,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
             healthcaresite.setName("duke healthcare");
             healthcaresite.setDescriptionText("duke healthcare");
             healthcaresite.setCtepCode("Nci duke");
+            healthcaresite.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
             healthcareSitedao.save(healthcaresite);
 
             // HCSI
