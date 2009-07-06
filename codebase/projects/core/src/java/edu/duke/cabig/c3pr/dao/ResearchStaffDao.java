@@ -123,7 +123,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames, String ctepCode) {
 		return findBySubname(subnames, 
 				"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ ctepCode + "'" + 
-        		" and o.healthcareSite.identifiersAssignedToOrganization.typeInternal = '" + OrganizationIdentifierTypeEnum.CTEP.getName() +"'", 
+        		" and o.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'",
 				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
 	}
 
@@ -379,9 +379,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		//run a query against the updated database to get all research staff
 		return getHibernateTemplate()
 				.find("from ResearchStaff rs where rs.healthcareSite.id in " +
-					  "(select h.id from HealthcareSite h, Identifier I where " +
-					  "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))",
-					  new Object[]{healthcareSite.getCtepCode(), OrganizationIdentifierTypeEnum.CTEP.getName()});
+					  "(select h.id from HealthcareSite h where " +
+					  "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
+					  new Object[]{healthcareSite.getCtepCode()});
 	}
 	
 	

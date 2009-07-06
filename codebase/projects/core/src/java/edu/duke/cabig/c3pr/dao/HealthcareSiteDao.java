@@ -205,8 +205,8 @@ public class HealthcareSiteDao extends OrganizationDao {
 			return CollectionUtils
 				.firstElement((List<HealthcareSite>) getHibernateTemplate()
 					.find("select H from HealthcareSite H where " +
-						  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.typeInternal=?", 
-							new Object[] {ctepCode, OrganizationIdentifierTypeEnum.CTEP.getName()}));
+						  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'", 
+							new Object[] {ctepCode}));
 		}
 		return healthcareSite;
 	}
@@ -222,10 +222,8 @@ public class HealthcareSiteDao extends OrganizationDao {
 		return CollectionUtils
 		.firstElement((List<HealthcareSite>) getHibernateTemplate()
 				.find("select H from HealthcareSite H where " +
-					  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.typeInternal=?", 
-//				.find("select H from HealthcareSite H, Identifier I where "
-//					+ "I.value=? and I.typeInternal=? and I=any elements(H.identifiersAssignedToOrganization)", 
-						new Object[] { ctepCode, OrganizationIdentifierTypeEnum.CTEP.getName()}));
+					  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'", 
+						new Object[] {ctepCode}));
 	}
 
 

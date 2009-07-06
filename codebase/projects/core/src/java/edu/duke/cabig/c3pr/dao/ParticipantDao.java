@@ -120,15 +120,16 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     	if(identifier.getType()!=null && identifier.getHealthcareSite()!=null && identifier.getValue()!=null){
     		if(identifier.getHealthcareSite().getId() != null){
     			return (List<Participant>) getHibernateTemplate()
-                .find("select P from Participant P, Identifier I where I.healthcareSite.id=?" + " and I.value=? and I.typeInternal=? and I=any elements(P.identifiers)",
-                                new Object[] { identifier.getHealthcareSite().getId(),identifier.getValue(), identifier.getType() });
+                .find("select P from Participant P, Identifier I where I.healthcareSite.id=?" + " and I.value=? and " +
+                	  "I.typeInternal=? and I=any elements(P.identifiers)",
+                      new Object[] { identifier.getHealthcareSite().getId(),identifier.getValue(), identifier.getType() });
     		}else{
     			return (List<Participant>) getHibernateTemplate()
             		.find("select P from Participant P, Identifier I where I.healthcareSite.id in " + 
-		    			  "(select h.id from HealthcareSite h, Identifier I where " +
-		    			  "I.value=? and I.typeInternal=? and I=any elements(h.identifiersAssignedToOrganization))" +
+		    			  "(select h.id from HealthcareSite h where " +
+		    			  "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')" +
 		    			  " and I.value=? and I.typeInternal=? and I=any elements(P.identifiers)", 
-		    			  new Object[]{identifier.getHealthcareSite().getCtepCode(), OrganizationIdentifierTypeEnum.CTEP.getName(), identifier.getValue(), identifier.getType().getName()});
+		    			  new Object[]{identifier.getHealthcareSite().getPrimaryIdentifier(), identifier.getValue(), identifier.getType().getName()});
     		}
     	} 
     	return new ArrayList<Participant>();
