@@ -1,6 +1,6 @@
 <dataset>
 
-  <STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
+    <STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
     <STUDIES id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty"  status="OPEN" retired_indicator = "false" />
     <STUDIES id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" />
     
@@ -47,7 +47,7 @@
                          hcs_id="1002" type="SCC" retired_indicator="false"/>
 
     <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" hcs_id="1000"
-                 retired_indicator="false"/>
+                 retired_indicator="false" primary_indicator="false"/>
 	<IDENTIFIERS id="0909" version="1" value="nci1" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1000" 
                  retired_indicator="false"/>
     <IDENTIFIERS id="1002" version="1" value="nci2" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1001" 
@@ -56,9 +56,9 @@
     			 retired_indicator="false"/>
     <IDENTIFIERS id="1003" version="1" value="nci4" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1002" 
     			  retired_indicator="false"/>
-	<IDENTIFIERS id="1006" version="1" value="Duke" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1000"/>
-	<IDENTIFIERS id="1007" version="1" value="NCI" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1001"/>
-	<IDENTIFIERS id="1008" version="1" value="CALGB" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1002"/>
+	<IDENTIFIERS id="1006" version="1" value="Duke" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="true"/>
+	<IDENTIFIERS id="1007" version="1" value="NCI" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1001" primary_indicator="true"/>
+	<IDENTIFIERS id="1008" version="1" value="CALGB" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1002" primary_indicator="true"/>
 	
     <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000"
                     prt_id="1000" sto_id="1000" sti_id="1000" retired_indicator="false"/>
