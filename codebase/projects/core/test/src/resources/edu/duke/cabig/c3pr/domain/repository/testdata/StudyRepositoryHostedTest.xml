@@ -55,9 +55,9 @@
     			retired_indicator="false"/>
     <IDENTIFIERS id="1003" version="1" value="nci4" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1002" 
     			retired_indicator="false"/>
-    <IDENTIFIERS id="1004" version="1" value="Duke" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="true"/>
-    <IDENTIFIERS id="1005" version="1" value="NCI" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1001" primary_indicator="true"/>
-    <IDENTIFIERS id="1006" version="1" value="CALGB" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1002" primary_indicator="true"/>
+    <IDENTIFIERS id="1004" version="1" value="Duke" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="true"/>
+    <IDENTIFIERS id="1005" version="1" value="NCI" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001" primary_indicator="true"/>
+    <IDENTIFIERS id="1006" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002" primary_indicator="true"/>
 
     <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000"
                     prt_id="1000" sto_id="1000" sti_id="1000" retired_indicator="false"/>
