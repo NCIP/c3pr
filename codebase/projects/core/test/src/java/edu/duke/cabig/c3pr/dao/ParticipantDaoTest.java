@@ -293,6 +293,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
         HealthcareSite healthcareSite = new LocalHealthcareSite();
         healthcareSite.setCtepCode("code");
+        healthcareSite.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
         organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
         organizationAssignedIdentifier.setValue("Identifier Value");
         organizationAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
