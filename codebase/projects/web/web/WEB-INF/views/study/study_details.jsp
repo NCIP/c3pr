@@ -255,12 +255,6 @@
         	</c:choose>
         </div>
         <input type="hidden" name="study.multiInstitutionIndicator" value="true"/>
-        <div class="row">
-             <div class="label"><tags:requiredIndicator /><fmt:message key="study.consentVersionDate"/></div>
-             <div class="value">
-            	<tags:dateInput path="study.consentVersion" validateDate="false" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
-             	<tags:hoverHint keyProp="study.consentVersion"/></div>
-        </div>
         <div class="row" <c:if test="${ (empty command.study.companionIndicator) || command.study.companionIndicator=='false' ||((!empty param.embeddedStudy) && command.study.companionIndicator=='true' && param.embeddedStudy=='true')}">style="display:none;"</c:if>>
 	        <div class="label"><tags:requiredIndicator />Standalone Study:</div>
 	        <div class="value">
