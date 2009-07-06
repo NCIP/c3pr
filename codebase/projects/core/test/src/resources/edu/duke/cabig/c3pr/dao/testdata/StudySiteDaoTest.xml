@@ -1,6 +1,6 @@
 <dataset>
       
-   <STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
+    <STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
     
     <STUDY_VERSIONS id="1000" study_id="1000" long_title_text="long_title_text" short_title_text="short_title_text" target_accrual_number="123"  description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
    	     
@@ -15,17 +15,17 @@
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />    
   
-  <ENDPOINT_PROPS id="1000" version="1" url="http://xyz.com" end_point_type="GRID"/>
+    <ENDPOINT_PROPS id="1000" version="1" url="http://xyz.com" end_point_type="GRID"/>
   
-  <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000" retired_indicator = "false" study_endpoint_props_id="1000"/>
-  <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1001" retired_indicator = "false" study_endpoint_props_id="1000"/>
+    <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000" retired_indicator = "false" study_endpoint_props_id="1000"/>
+    <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1001" retired_indicator = "false" study_endpoint_props_id="1000"/>
   
     <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
     hcs_id="1000" type="SST" retired_indicator = "false" />
     <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
     hcs_id="1001" type="SST" retired_indicator = "false" />  
   
-  <ENDPOINTS id="1000" version="0" service_name="STUDY" api_name="OPEN_STUDY" endpoint_prop_id="1000" dtype="GRID"/>
+    <ENDPOINTS id="1000" version="0" service_name="STUDY" api_name="OPEN_STUDY" endpoint_prop_id="1000" dtype="GRID"/>
               
    	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1000"  retired_indicator = "false" />
     <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1001"  retired_indicator = "false" />
@@ -35,10 +35,10 @@
    	<prt_org_associations version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
    	<prt_org_associations version="1" prt_id="1002" org_id="1000"  retired_indicator = "false"/>
    	
-    <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" prt_id="1000" org_id="1000" retired_indicator = "false" />
+    <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" prt_id="1000" org_id="1000" retired_indicator = "false" primary_indicator="false"/>
     <IDENTIFIERS id="1001" version="1" value="grid" type="local" system_name="wake" dtype="SAI" stu_id="1000" prt_id="1001" retired_indicator = "false" />
-    <IDENTIFIERS id="1002" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"/>
-    <IDENTIFIERS id="1003" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/>
+    <IDENTIFIERS id="1002" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="true"/>
+    <IDENTIFIERS id="1003" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001" primary_indicator="true"/>
     
     <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1000" retired_indicator = "false" />
     <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1001" retired_indicator = "false" />

@@ -85,13 +85,13 @@
    	<prt_org_associations version="1" prt_id="1002" org_id="1000"  retired_indicator = "false"/>
    	<prt_org_associations version="1" prt_id="1010" org_id="1000"  retired_indicator = "false"/>
    	
-   	<IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" prt_id="1000" stu_id="1000" hcs_id="1000" org_id="1000" retired_indicator = "false" />
+   	<IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" prt_id="1000" stu_id="1000" hcs_id="1000" org_id="1000" retired_indicator = "false" primary_indicator="false"/>
    	<IDENTIFIERS id="1001" version="1" value="nci" type="local" system_name="nci" dtype="SAI" prt_id="1000" retired_indicator = "false" />
     <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator = "false" />   
     <IDENTIFIERS id="1003" version="1" value="mrn_value" type="MRN" system_name="nci" dtype="OAI" prt_id="1000" hcs_id="1000" retired_indicator = "false" />  
-	<IDENTIFIERS id="1004" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"/>
-	<IDENTIFIERS id="1005" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/>
-	<IDENTIFIERS id="1006" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"/>
+	<IDENTIFIERS id="1004" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="true"/>
+	<IDENTIFIERS id="1005" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001" primary_indicator="true"/>
+	<IDENTIFIERS id="1006" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002" primary_indicator="true"/>
 
     <ANATOMIC_SITES id="1000" version="1" name="Skin" category="skin"  retired_indicator = "false" />     
 
