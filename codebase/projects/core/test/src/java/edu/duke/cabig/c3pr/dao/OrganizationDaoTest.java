@@ -313,6 +313,15 @@ public class OrganizationDaoTest extends DaoTestCase {
             healthcaresite.setName("Northwestern Memorial Hospital");
             healthcaresite.setDescriptionText("NU healthcare");
             
+            OrganizationAssignedIdentifier oai_ctep = new OrganizationAssignedIdentifier();
+            oai_ctep.setType(OrganizationIdentifierTypeEnum.CTEP);
+            oai_ctep.setValue("ctep value 1");
+            oai_ctep.setPrimaryIndicator(true);
+            //set the assigning organization in the OAI.
+            oai_ctep.setHealthcareSite(duke);
+            healthcaresite.getOrganizationAssignedIdentifiers().add(oai_ctep);
+            
+            
             OrganizationAssignedIdentifier oai = new OrganizationAssignedIdentifier();
             oai.setType(OrganizationIdentifierTypeEnum.AI);
             oai.setValue("AOI-1");
@@ -336,7 +345,8 @@ public class OrganizationDaoTest extends DaoTestCase {
         	HealthcareSite loaded = this.healthcareSiteDao.getById(savedId);
         	
             assertEquals(3, loaded.getIdentifiersAssignedToOrganization().size(), 3);
-           	assertEquals("AOI-1", loaded.getOrganizationAssignedIdentifiers().get(0).getValue());
+           	assertEquals(2, loaded.getOrganizationAssignedIdentifiers().size());
+           	assertEquals("ctep value 1", loaded.getCtepCode());
            	assertEquals("AOI-2", loaded.getSystemAssignedIdentifiers().get(0).getValue());
            	assertEquals(1000, loaded.getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getId().intValue());
         }        
