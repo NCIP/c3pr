@@ -120,7 +120,8 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 		// Study Criteria
 		
 		if(studyShortTitleText!=null){
-			studyCriteria.add(Expression.eq("shortTitleText",studyShortTitleText));
+			Criteria studyVersionCriteria  = studyCriteria.createCriteria("studyVersionsInternal");
+			studyVersionCriteria.add(Expression.eq("shortTitleText",studyShortTitleText));
 		}
 
 		// Site criteria

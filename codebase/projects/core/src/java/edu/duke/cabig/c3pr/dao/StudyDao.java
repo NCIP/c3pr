@@ -202,7 +202,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * @return List of studies
      */
     public List<Study> getBySubnames(String[] subnames) {
-        return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+        return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, "StudyVersion", "studyVersionsInternal");
     }
 
     
@@ -215,7 +215,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      */
     public List<Study> getStudiesBySubnamesWithExtraConditionsForPrimaryIdentifier(String[] subnames) {
     	
-    	List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("shortTitleText","identifiers.value");
+    	List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("identifiers.value");
     	
     	List<Study> studies = findBySubname(subnames, "LOWER(o.identifiers.typeInternal) LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     	for(Study study: studies){
