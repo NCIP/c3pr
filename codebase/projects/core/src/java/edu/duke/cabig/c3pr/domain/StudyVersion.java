@@ -150,6 +150,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
 		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
 		lazyListHelper.add(AmendmentReason.class,new InstantiateFactory<AmendmentReason>(AmendmentReason.class));
+		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
 		
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 	}
@@ -167,6 +168,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
 		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
 		lazyListHelper.add(AmendmentReason.class,new InstantiateFactory<AmendmentReason>(AmendmentReason.class));
+		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
 		
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 	}
@@ -396,6 +398,30 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 			return true;
 		return false;
 	}
+	
+	@OneToMany(mappedBy = "parentStudyVersion", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<CompanionStudyAssociation> getCompanionStudyAssociationsInternal() {
+		return lazyListHelper.getInternalList(CompanionStudyAssociation.class);
+	}
+
+	@Transient
+	public List<CompanionStudyAssociation> getCompanionStudyAssociations() {
+		return lazyListHelper.getLazyList(CompanionStudyAssociation.class);
+	}
+
+	public void setCompanionStudyAssociationsInternal(
+			List<CompanionStudyAssociation> companionStudyAssociations) {
+		lazyListHelper.setInternalList(CompanionStudyAssociation.class,
+				companionStudyAssociations);
+	}
+
+	public void addCompanionStudyAssociation(CompanionStudyAssociation companionStudyAssociation) {
+		this.getCompanionStudyAssociations().add(companionStudyAssociation);
+		companionStudyAssociation.setParentStudyVersion(this);
+	}
+
 
 
 }

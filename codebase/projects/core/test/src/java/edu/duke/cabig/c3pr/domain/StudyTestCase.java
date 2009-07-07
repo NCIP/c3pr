@@ -521,7 +521,7 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testGetCompanionStudySite(){
 		simpleStudy.setCompanionIndicator(false);
 		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
-		association.setParentStudy(simpleStudy);
+		association.setParentStudyVersion(simpleStudy.getLatestStudyVersion());
 		
 		List<StudySite> listStudySite = new ArrayList<StudySite>();
 		StudySite studySite = registerMockFor(StudySite.class);
@@ -534,7 +534,7 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		replayMocks();
 
-		simpleStudy.addCompanionStudyAssociation(association);
+		simpleStudy.getLatestStudyVersion().addCompanionStudyAssociation(association);
 		
 		assertNotNull("study site found with nc010", simpleStudy.getCompanionStudySite("NC010"));
 		verifyMocks();
@@ -547,7 +547,7 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testGetCompanionStudySite2(){
 		simpleStudy.setCompanionIndicator(false);
 		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
-		association.setParentStudy(simpleStudy);
+		association.setParentStudyVersion(simpleStudy.getLatestStudyVersion());
 		
 		List<StudySite> listStudySite = new ArrayList<StudySite>();
 		StudySite studySite = registerMockFor(StudySite.class);
@@ -560,7 +560,7 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		replayMocks();
 
-		simpleStudy.addCompanionStudyAssociation(association);
+		simpleStudy.getLatestStudyVersion().addCompanionStudyAssociation(association);
 		
 		assertNull("study site not found with nc010", simpleStudy.getCompanionStudySite("NC010"));
 		verifyMocks();

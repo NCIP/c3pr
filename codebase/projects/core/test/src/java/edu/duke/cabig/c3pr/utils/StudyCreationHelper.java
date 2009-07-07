@@ -402,7 +402,7 @@ public class StudyCreationHelper {
 		 child.setCompanionIndicator(true);
 		 CompanionStudyAssociation association = new CompanionStudyAssociation();
 		 association.setId(1);
-		 association.setParentStudy(parent);
+		 association.setParentStudyVersion(parent.getLatestStudyVersion());
 		 association.setCompanionStudy(child);
 		 
 		 child.getParentStudyAssociations().add(association);
@@ -414,7 +414,7 @@ public class StudyCreationHelper {
 		 child.setCompanionIndicator(true);
 		 CompanionStudyAssociation association = new CompanionStudyAssociation();
 		 association.setId(1);
-		 association.setParentStudy(parent);
+		 association.setParentStudyVersion(parent.getLatestStudyVersion());
 		 association.setCompanionStudy(child);
 		 
 		 StudySite site = new StudySite();

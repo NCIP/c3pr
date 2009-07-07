@@ -115,7 +115,7 @@ public class StudyFactory {
 		}
 		
 		// build all the companion studies of the study.
-		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+		for (CompanionStudyAssociation companionStudyAssociation : study.getLatestStudyVersion().getCompanionStudyAssociations()){
 			buildStudy(companionStudyAssociation.getCompanionStudy());
 		}
 		

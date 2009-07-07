@@ -21,21 +21,21 @@ import org.hibernate.annotations.Parameter;
 
 public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObject{
 
-	 private Study parentStudy ;
-	 private Study companionStudy ;
+	 private StudyVersion parentStudyVersion ;
+     private Study companionStudy ;
 	 private Boolean mandatoryIndicator ;
 	 private List<StudySite> studySites = new ArrayList<StudySite>();
 	 
-	
 	 @ManyToOne
-	 @JoinColumn(name = "parent_study_id")
-	@Cascade( { CascadeType.LOCK })
-	public Study getParentStudy() {
-		return parentStudy;
-	}
-	public void setParentStudy(Study parentStudy) {
-		this.parentStudy = parentStudy;
-	}
+	 @JoinColumn(name = "parent_version_id")
+	 @Cascade( { CascadeType.LOCK })
+	 public StudyVersion getParentStudyVersion() {
+		 return parentStudyVersion;
+	 }
+
+	 public void setParentStudyVersion(StudyVersion parentStudyVersion) {
+		 this.parentStudyVersion = parentStudyVersion;
+	 }
 	
 	@ManyToOne
     @JoinColumn(name = "companion_study_id", nullable=false)
@@ -61,7 +61,7 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 				+ ((mandatoryIndicator == null) ? 0 : mandatoryIndicator
 						.hashCode());
 		result = prime * result
-				+ ((parentStudy == null) ? 0 : parentStudy.hashCode());
+				+ ((parentStudyVersion == null) ? 0 : parentStudyVersion.hashCode());
 		return result;
 	}
 	@Override
@@ -83,10 +83,10 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 				return false;
 		} else if (!mandatoryIndicator.equals(other.mandatoryIndicator))
 			return false;
-		if (parentStudy == null) {
-			if (other.parentStudy != null)
+		if (parentStudyVersion == null) {
+			if (other.parentStudyVersion != null)
 				return false;
-		} else if (!parentStudy.equals(other.parentStudy))
+		} else if (!parentStudyVersion.equals(other.parentStudyVersion))
 			return false;
 		return true;
 	}

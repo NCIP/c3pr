@@ -34,14 +34,14 @@ public class CompanionStudyAssociationDaoTest extends ContextDaoTestCase<StudyDa
     	CompanionStudyAssociation companionStudyAssociation =new CompanionStudyAssociation();
     	companionStudyAssociation.setMandatoryIndicator(false);
     	companionStudyAssociation.setCompanionStudy(studyDao.getById(1001));
-    	companionStudyAssociation.setParentStudy(studyDao.getById(1000));
+    	companionStudyAssociation.setParentStudyVersion(studyDao.getById(1000).getLatestStudyVersion());
     	assertNull("companionStudyAssociation should not have an Id",companionStudyAssociation.getId());
     	companionStudyAssociationDao.save(companionStudyAssociation);
     	
     	Integer savedId = companionStudyAssociation.getId();
     	CompanionStudyAssociation loadedCompanionStudyAssociation = companionStudyAssociationDao.getById(savedId);
     	
-    	assertEquals("Parent study wrong or not found","short_title_text",loadedCompanionStudyAssociation.getParentStudy().getShortTitleText());
+    	assertEquals("Parent study wrong or not found","short_title_text",loadedCompanionStudyAssociation.getParentStudyVersion().getShortTitleText());
     	assertEquals("Companion study wrong or not found","short_title_text2",loadedCompanionStudyAssociation.getCompanionStudy().getShortTitleText());
     }
   

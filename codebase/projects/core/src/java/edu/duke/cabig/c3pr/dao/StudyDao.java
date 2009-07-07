@@ -151,26 +151,26 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		getHibernateTemplate().initialize(study.getIdentifiers());
 		getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
 		getHibernateTemplate().initialize(study.getParentStudyAssociations());
-		getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
-		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
-			this.initialize(companionStudyAssociation.getCompanionStudy());
-		}
-		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
-			getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
-			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
-		}
+//		getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
+//		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
+//			this.initialize(companionStudyAssociation.getCompanionStudy());
+//		}
+//		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
+//			getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
+//			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
+//		}
 		
-		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
-			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
-		}
+//		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+//			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
+//		}
 		
-		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
-			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
-		}
+//		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
+//			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
+//		}
 		
-		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
-			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy().getStudyOrganizations());
-		}
+//		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+//			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy().getStudyOrganizations());
+//		}
 		
 		for (PlannedNotification plannedNotification : study.getPlannedNotificationsInternal()) {
 			if (plannedNotification != null) {

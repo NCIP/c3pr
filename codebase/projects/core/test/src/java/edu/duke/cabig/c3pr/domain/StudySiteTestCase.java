@@ -770,7 +770,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		HealthcareSite healthcareSite3= registerMockFor(HealthcareSite.class);
 		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
 		EasyMock.expect(study.getCompanionIndicator()).andReturn(false);
-		EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(comList);
+		EasyMock.expect(study.getLatestStudyVersion().getCompanionStudyAssociations()).andReturn(comList);
 		EasyMock.expect(companionStudyAssociation.getStudySites()).andReturn(stuList);
 		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("test1").times(3);
 		EasyMock.expect(companionStudySite1.getHealthcareSite()).andReturn(healthcareSite1);

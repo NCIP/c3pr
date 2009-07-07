@@ -1389,9 +1389,9 @@ public class StudyDaoTest extends DaoTestCase {
 
         CompanionStudyAssociation csa = new CompanionStudyAssociation();
         csa.setCompanionStudy(dao.getById(1001));
-        csa.setParentStudy(study);
+        csa.setParentStudyVersion(study.getLatestStudyVersion());
         csa.setMandatoryIndicator(true);
-        study.getCompanionStudyAssociations().add(csa);
+        study.getLatestStudyVersion().getCompanionStudyAssociations().add(csa);
 
         dao.save(study);
         int savedId = study.getId();
@@ -1400,8 +1400,7 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
 
         assertNotNull("Companion Association exists", dao.getById(savedId));
-        assertNotNull("Companion Association has Parent Study", dao.getById(savedId)
-                        .getCompanionStudyAssociations());
+        assertNotNull("Companion Association has Parent Study", dao.getById(savedId).getLatestStudyVersion().getCompanionStudyAssociations());
     }
 
     /**
@@ -1409,7 +1408,7 @@ public class StudyDaoTest extends DaoTestCase {
      */
     public void testGetParentStudyFromCompanionStudy() {
         Study companionStudy = dao.getById(1002);
-        Study parentStudy = companionStudy.getParentStudyAssociations().get(0).getParentStudy();
+        Study parentStudy = companionStudy.getParentStudyAssociations().get(0).getParentStudyVersion().getStudy();
         assertNotNull("parent study is not null ", parentStudy);
 
         int id = parentStudy.getId();
@@ -1424,11 +1423,11 @@ public class StudyDaoTest extends DaoTestCase {
         Study parentStudy = dao.getById(1001);
         dao.initialize(parentStudy);
         interruptSession();
-        List<CompanionStudyAssociation> assocList = parentStudy.getCompanionStudyAssociations();
+        List<CompanionStudyAssociation> assocList = parentStudy.getLatestStudyVersion().getCompanionStudyAssociations();
         assocList.remove(0);
         dao.merge(parentStudy);
         assertNotNull("parent study is not null ", parentStudy);
-        assertEquals(parentStudy.getCompanionStudyAssociations().size(), 0);
+        assertEquals(parentStudy.getLatestStudyVersion().getCompanionStudyAssociations().size(), 0);
 
     }
 

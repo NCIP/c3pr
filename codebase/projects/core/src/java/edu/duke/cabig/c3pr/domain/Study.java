@@ -138,7 +138,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
-		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudy"));
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
@@ -152,7 +151,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	 */
 	public Study(boolean forSearchByExample) {
 		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudy"));
 		lazyListHelper.add(StudySite.class, new ParameterizedBiDirectionalInstantiateFactory<StudySite>(StudySite.class, this));
 		lazyListHelper.add(StudyFundingSponsor.class,new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class, this));
 		lazyListHelper.add(StudyCoordinatingCenter.class, new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this));
@@ -650,7 +648,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		if (this.companionIndicator && !this.standaloneIndicator) {
 			for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
-				if (this.parentStudyAssociations.get(i).getParentStudy()
+				if (this.parentStudyAssociations.get(i).getParentStudyVersion().getStudy()
 						.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
 					throw getC3PRExceptionHelper()
 							.getRuntimeException(
@@ -658,8 +656,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 				}
 			}
 		}
-		if (this.getCompanionStudyAssociations().size() > 0) {
-			for (CompanionStudyAssociation compStudyAssoc : this
+		if (this.getLatestStudyVersion().getCompanionStudyAssociations().size() > 0) {
+			for (CompanionStudyAssociation compStudyAssoc : this.getLatestStudyVersion()
 					.getCompanionStudyAssociations()) {
 				if (compStudyAssoc.getCompanionStudy()
 						.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_TO_OPEN
@@ -845,29 +843,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void setStandaloneIndicator(Boolean standaloneIndicator) {
 		this.standaloneIndicator = standaloneIndicator;
-	}
-
-	@OneToMany(mappedBy = "parentStudy", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@Where(clause = "retired_indicator  = 'false'")
-	public List<CompanionStudyAssociation> getCompanionStudyAssociationsInternal() {
-		return lazyListHelper.getInternalList(CompanionStudyAssociation.class);
-	}
-
-	@Transient
-	public List<CompanionStudyAssociation> getCompanionStudyAssociations() {
-		return lazyListHelper.getLazyList(CompanionStudyAssociation.class);
-	}
-
-	public void setCompanionStudyAssociationsInternal(
-			List<CompanionStudyAssociation> companionStudyAssociations) {
-		lazyListHelper.setInternalList(CompanionStudyAssociation.class,
-				companionStudyAssociations);
-	}
-
-	public void addCompanionStudyAssociation(CompanionStudyAssociation companionStudyAssociation) {
-		this.getCompanionStudyAssociations().add(companionStudyAssociation);
-		companionStudyAssociation.setParentStudy(this);
 	}
 
 	public Boolean getCompanionIndicator() {
@@ -1062,7 +1037,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	private boolean isParentStudyOpen(boolean flag) {
 		for (CompanionStudyAssociation association : this.parentStudyAssociations) {
-			if (association.getParentStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
+			if (association.getParentStudyVersion().getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
 				flag = false;
 			}
 		}
@@ -1080,7 +1055,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 				}
 			}
 		}else{
-			for(CompanionStudyAssociation companionStudyAssociation : this.getCompanionStudyAssociations()){
+			for(CompanionStudyAssociation companionStudyAssociation : this.getLatestStudyVersion().getCompanionStudyAssociations()){
 				for(StudySite studySite : companionStudyAssociation.getStudySites()){
 					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getPrimaryIdentifier())){
 						return studySite ;
@@ -1139,9 +1114,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 	
 	@Transient
-	public CompanionStudyAssociation getParentStudyAssociation(int parentStudyId){
+	public CompanionStudyAssociation getParentStudyAssociation(int parentStudyVersionId){
 		for(CompanionStudyAssociation companionStudyAssociation : this.getParentStudyAssociations()){
-			if(companionStudyAssociation.getParentStudy().getId() == parentStudyId){
+			if(companionStudyAssociation.getParentStudyVersion().getId() == parentStudyVersionId){
 				return companionStudyAssociation;
 			}
 		}

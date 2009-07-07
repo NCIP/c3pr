@@ -94,7 +94,7 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 			study.getCoordinatingCenterAssignedIdentifier().setValue("abc" + i);
 			if (study.getFundingSponsorAssignedIdentifier() != null)
 				study.getFundingSponsorAssignedIdentifier().setValue("abc" + i);
-			for (CompanionStudyAssociation companionStudyAssociation : study
+			for (CompanionStudyAssociation companionStudyAssociation : study.getLatestStudyVersion()
 					.getCompanionStudyAssociations()) {
 				Study companionStudy = companionStudyAssociation
 						.getCompanionStudy();
