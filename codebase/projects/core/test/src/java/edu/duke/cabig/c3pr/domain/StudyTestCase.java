@@ -1867,7 +1867,9 @@ public void testGetStudyOrganization2(){
  */
 public void testGetParentStudyAssociation(){
 	basicStudy.setId(1);
+	basicStudy.getLatestStudyVersion().setId(1);
 	simpleStudy.setId(2);
+	simpleStudy.getLatestStudyVersion().setId(2);
 	simpleStudy = studyCreationHelper.addParentStudyAssociation(basicStudy, simpleStudy);
 	assertNotNull("parent association found for this study", simpleStudy.getParentStudyAssociation(1));
 }
@@ -1877,7 +1879,9 @@ public void testGetParentStudyAssociation(){
  */
 public void testGetParentStudyAssociation1(){
 	basicStudy.setId(1);
+	basicStudy.getLatestStudyVersion().setId(1);
 	simpleStudy.setId(2);
+	simpleStudy.getLatestStudyVersion().setId(2);
 	simpleStudy = studyCreationHelper.addParentStudyAssociation(basicStudy, simpleStudy);
 	assertNull("parent association found for this study", simpleStudy.getParentStudyAssociation(2));
 }

@@ -758,6 +758,11 @@ public class StudySiteTestCase extends AbstractTestCase{
 		List<CompanionStudyAssociation> comList= new ArrayList<CompanionStudyAssociation>();
 		CompanionStudyAssociation companionStudyAssociation= registerMockFor(CompanionStudyAssociation.class);
 		comList.add(companionStudyAssociation);
+		
+		List<StudyVersion> studyVersionList= new ArrayList<StudyVersion>();
+		StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		studyVersionList.add(studyVersion);
+		
 		List<StudySite> stuList= new ArrayList<StudySite>();
 		StudySite companionStudySite1= registerMockFor(StudySite.class);
 		stuList.add(companionStudySite1);
@@ -770,7 +775,10 @@ public class StudySiteTestCase extends AbstractTestCase{
 		HealthcareSite healthcareSite3= registerMockFor(HealthcareSite.class);
 		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
 		EasyMock.expect(study.getCompanionIndicator()).andReturn(false);
-		EasyMock.expect(study.getLatestStudyVersion().getCompanionStudyAssociations()).andReturn(comList);
+		EasyMock.expect(study.getLatestStudyVersion()).andReturn(studyVersion);
+		EasyMock.expect(study.getStudyVersions()).andReturn(studyVersionList);
+		
+		EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(comList);
 		EasyMock.expect(companionStudyAssociation.getStudySites()).andReturn(stuList);
 		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("test1").times(3);
 		EasyMock.expect(companionStudySite1.getHealthcareSite()).andReturn(healthcareSite1);
