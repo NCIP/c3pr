@@ -99,8 +99,8 @@ public class StudySitesTab extends StudyTab {
 		if (studySite.getIsCoordinatingCenter() || studySite.getHostedMode()) {
 			studySite.setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
 		} else if (WebUtils.hasSubmitParameter(request, "submitted") 
-				&& (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getCtepCode()+ "-wasHosted") 
-				|| request.getParameter(studySite.getHealthcareSite().getCtepCode()+ "-wasHosted").equalsIgnoreCase("true"))) 
+				&& (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getPrimaryIdentifier()+ "-wasHosted") 
+				|| request.getParameter(studySite.getHealthcareSite().getPrimaryIdentifier()+ "-wasHosted").equalsIgnoreCase("true"))) 
 		{
 			studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		}
@@ -180,7 +180,7 @@ public class StudySitesTab extends StudyTab {
 			StudySite studySite = studySiteDao.getById(Integer
 					.parseInt(studySiteId));
 			String nciCode = studySite.getHealthcareSite()
-					.getCtepCode();
+					.getPrimaryIdentifier();
 			CompanionStudyAssociation companionStudyAssociation = study
 					.getCompanionStudySite(nciCode)
 					.getCompanionStudyAssociation();
@@ -273,7 +273,7 @@ public class StudySitesTab extends StudyTab {
 		map.put("apiName", apiName);
 		Integer index=null;
 		for(int i=0 ; i<wrapper.getStudy().getStudySites().size(); i++){
-			if(wrapper.getStudy().getStudySites().get(i).getHealthcareSite().getCtepCode().equals(nciInstituteCode)){
+			if(wrapper.getStudy().getStudySites().get(i).getHealthcareSite().getPrimaryIdentifier().equals(nciInstituteCode)){
 				index=i;
 			}
 		}
@@ -288,7 +288,7 @@ public class StudySitesTab extends StudyTab {
 		String nciCode = request.getParameter("nciCode");
 		HealthcareSite healthcareSite = (HealthcareSite)healthcareSiteDao.getByCtepCode(nciCode);
 		for(StudySite site : study.getStudySites()){
-			if(site.getHealthcareSite().getCtepCode().equals(nciCode)){
+			if(site.getHealthcareSite().getPrimaryIdentifier().equals(nciCode)){
 				return new ModelAndView("study/exist_study_site");
 			}
 		}
