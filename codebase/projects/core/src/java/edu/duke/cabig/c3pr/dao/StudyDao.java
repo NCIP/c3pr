@@ -155,10 +155,10 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 //		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
 //			this.initialize(companionStudyAssociation.getCompanionStudy());
 //		}
-//		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
-//			getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
-//			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
-//		}
+		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
+			getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
+			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudyVersion().getStudy().getStudyOrganizations());
+		}
 		
 //		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
 //			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
