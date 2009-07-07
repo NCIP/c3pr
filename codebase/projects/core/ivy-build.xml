@@ -105,12 +105,20 @@
 	</target>
 	
 	<target name="drop-and-create-existing-database" description="drop the database and create new database" depends="resolve, find-datasource">
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+            </classpath>
+        </taskdef>
 		<property file="${dsFile}"/>    
 		<echo message="${datasource.driver}"/>    
 		<echo message="${datasource.url}"/>    
 		<echo message="${datasource.username}"/>    
 		<echo message="${datasource.password}"/>  
-		<sql userid="${datasource.username}" password="${datasource.password}" url="jdbc:postgresql://localhost:5432/postgres"  driver="${datasource.driver}"
+        <propertyregex property="datasource.base" input="${datasource.url}" regexp="${datasource.schema}" replace="postgres"/>
+		<echo message="old vale was ${datasource.url}"/>
+		<echo message="The value is now ${datasource.base}"/>
+		<sql userid="${datasource.username}" password="${datasource.password}" url="${datasource.base}"  driver="${datasource.driver}"
 			classpathref="main.classpath" onerror="abort" autocommit="true">
 			DROP DATABASE IF EXISTS ${datasource.schema} ;
 			CREATE DATABASE ${datasource.schema};
