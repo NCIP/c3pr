@@ -60,7 +60,7 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
     		List<Identifier> identifiers=new ArrayList<Identifier>();
     		identifiers.add(identifier);
     		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
-    		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()){
+    		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations()){
     			Companion companion = new Companion();
     			Study companionStudy = companionStudyAssoc.getCompanionStudy();
     			companion.setCompanionStudyShortTitle(companionStudy.getShortTitleText());

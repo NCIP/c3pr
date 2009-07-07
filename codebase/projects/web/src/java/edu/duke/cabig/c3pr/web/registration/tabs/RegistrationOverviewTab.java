@@ -126,7 +126,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		if (studySubject.getScheduledEpochs().size() == 1) {
 			newRegistration = true;
 		}
-		map.put("hasCompanions", studySubject.getStudySite().getStudy()
+		map.put("hasCompanions", studySubject.getStudySite().getStudy().getLatestStudyVersion()
 				.getCompanionStudyAssociations().size() > 0);
 		map.put("actionRequired", actionRequired);
 		map.put("actionLabel", actionLabel);
@@ -290,7 +290,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		if(!epoch.getEnrollmentIndicator()){
 			return false ; 
 		}
-		for(CompanionStudyAssociation companionStudyAssociation : studySubject.getStudySite().getStudy().getCompanionStudyAssociations()){
+		for(CompanionStudyAssociation companionStudyAssociation : studySubject.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations()){
 			if (companionStudyAssociation.getMandatoryIndicator()) {
 				boolean hasCorrespondingStudySubject = false;
 				for (StudySubject childStudySubject : studySubject.getChildStudySubjects()) {

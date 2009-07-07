@@ -55,7 +55,7 @@ public class CompanionStudyTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
     	Study study = wrapper.getStudy();
-    	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+    	for(CompanionStudyAssociation companionStudyAssociation : study.getLatestStudyVersion().getCompanionStudyAssociations()){
     		if(companionStudyAssociation.getId() == null ){
     			Study companionStudy = companionStudyAssociation.getCompanionStudy() ; 
     			updateBlindedRandomization(companionStudy);
