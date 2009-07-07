@@ -43,7 +43,7 @@ public class OrganizationServiceTest extends DaoTestCase {
         dummySite.setName(HCS_NAME);
         dummySite.setDescriptionText(strValue);
         dummySite.setCtepCode(strValue);
-
+        dummySite.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
     }
 
     protected void setUp() throws Exception {
