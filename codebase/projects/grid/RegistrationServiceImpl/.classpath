@@ -25,7 +25,6 @@
 	<classpathentry kind="lib" path="build/lib/avalon-framework-impl-4.3.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/axis-4.0.3-globus.jar"/>
 	<classpathentry kind="lib" path="build/lib/backport-util-concurrent-2.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/batik-1.5-fop-0.20-5.jar"/>
 	<classpathentry kind="lib" path="build/lib/batik-awt-util-1.6-1.jar"/>
 	<classpathentry kind="lib" path="build/lib/batik-bridge-1.6-1.jar"/>
 	<classpathentry kind="lib" path="build/lib/batik-css-1.6-1.jar"/>
@@ -73,7 +72,6 @@
 	<classpathentry kind="lib" path="build/lib/checkstyle-4.4.jar"/>
 	<classpathentry kind="lib" path="build/lib/client-1.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/clm-3.2.1-ctms00.jar"/>
-	<classpathentry kind="lib" path="build/lib/cobertura-1.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/cog-axis-4.0.3-globus.jar"/>
 	<classpathentry kind="lib" path="build/lib/cog-jglobus-1.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/cog-tomcat-4.0.3-globus.jar"/>
@@ -115,7 +113,6 @@
 	<classpathentry kind="lib" path="build/lib/drools-jsr94-4.0.6.jar"/>
 	<classpathentry kind="lib" path="build/lib/drools-repository-4.0.6.jar"/>
 	<classpathentry kind="lib" path="build/lib/ehcache-1.2.3.jar"/>
-	<classpathentry kind="lib" path="build/lib/fop-0.20.5.jar"/>
 	<classpathentry kind="lib" path="build/lib/freemarker-2.3.4.jar"/>
 	<classpathentry kind="lib" path="build/lib/ganymed-ssh2-build210.jar"/>
 	<classpathentry kind="lib" path="build/lib/geronimo-j2ee-management_1.0_spec-1.0.jar"/>
@@ -165,7 +162,6 @@
 	<classpathentry kind="lib" path="build/lib/oro-2.0.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/pdfbox-0.6.4.jar"/>
 	<classpathentry kind="lib" path="build/lib/persistence-api-1.0.jar"/>
-	<classpathentry kind="lib" path="build/lib/poi-2.5.1-final-20040804.jar"/>
 	<classpathentry kind="lib" path="build/lib/postgresql-8.2-504.jdbc3.jar"/>
 	<classpathentry kind="lib" path="build/lib/puretls-4.0.3-globus.jar"/>
 	<classpathentry kind="lib" path="build/lib/quartz-all-1.6.0.jar"/>
@@ -200,5 +196,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/esb-client"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/rules"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RegistrationService"/>
+	<classpathentry kind="lib" path="build/lib/poi-3.5-beta5.jar"/>
+	<classpathentry kind="lib" path="build/lib/fop-0.93.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
