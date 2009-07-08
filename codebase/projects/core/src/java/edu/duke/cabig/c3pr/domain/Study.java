@@ -648,7 +648,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		if (this.companionIndicator && !this.standaloneIndicator) {
 			for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
-				if (this.parentStudyAssociations.get(i).getParentStudyVersion().getStudy()
+				if (this.parentStudyAssociations.get(i).getParentStudy()
 						.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
 					throw getC3PRExceptionHelper()
 							.getRuntimeException(
@@ -1037,7 +1037,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	private boolean isParentStudyOpen(boolean flag) {
 		for (CompanionStudyAssociation association : this.parentStudyAssociations) {
-			if (association.getParentStudyVersion().getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
+			if (association.getParentStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
 				flag = false;
 			}
 		}
@@ -1214,15 +1214,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return getLatestStudyVersion().hasElligibility();
 	}
 
-//	@Transient
-//	public boolean hasCompanions() {
-//		List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
-//		companionStudyAssociations.addAll(this.getCompanionStudyAssociations());
-//		if (companionStudyAssociations.size() > 0) {
-//			return true;
-//		}
-//		return false;
-//	}
+	@Transient
+	public boolean hasCompanions() {
+		return getLatestStudyVersion().hasCompanions();
+	}
 
 	@Transient
 	public boolean hasRandomizedEpoch() {
@@ -1243,7 +1238,18 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		getLatestStudyVersion().evaluateEpochsDataEntryStatus(errors);
 	}
 	
-
+	public void addCompanionStudyAssociation(CompanionStudyAssociation companionStudyAssociation) {
+		getLatestStudyVersion().addCompanionStudyAssociation(companionStudyAssociation);
+	}
+	
+	@Transient
+	public List<CompanionStudyAssociation> getCompanionStudyAssociations() {
+		return getLatestStudyVersion().getCompanionStudyAssociations();
+	}
+	
+	public void setStudyDiseases(List<StudyDisease> studyDiseases) {
+		getLatestStudyVersion().setStudyDiseases(studyDiseases);
+	}
 	
 	
 }

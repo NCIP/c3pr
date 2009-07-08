@@ -15,6 +15,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -387,5 +388,49 @@ public class StudyValidator implements Validator {
         }
         return msg;
     }
+    
+    public void validateConsentTab(Object target, Errors errors) {
+//        Study study = (Study) target;
+//        List<Consent> consents = study.getConsents();
+//        try {
+//            Set<Consent> uniqueConsents = new HashSet<Consent>();
+//            uniqueConsents.addAll(consents);
+//            if (consents.size() > uniqueConsents.size()) {
+//                errors.rejectValue("study.consents", 
+//                			new Integer(getCode("C3PR.STUDY.DUPLICATE.CONSENT.ERROR")).toString(),
+//                                getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.CONSENT.ERROR"), null, null));
+//            }
+//
+//        }
+//        catch (Exception ex) {
+//            log.debug(ex.getMessage());
+//        }
+    }
+    
+    public void validateConsents(Object target, Errors errors) {
+//        Study study = (Study) target;
+//        List<Consent> consents = study.getConsents();
+//        try {
+//            for (int consentIndex = 0; consentIndex < consents.size(); consentIndex++) {
+//                errors.pushNestedPath("study.consents[" + consentIndex + "]");
+//                ValidationUtils.invokeValidator(this.consentValidator, consents.get(consentIndex), errors);
+//                errors.popNestedPath();
+//            }
+//        }
+//        catch (Exception ex) {
+//            log.debug(ex.getMessage());
+//        }
+    }
+    
+    private ConsentValidator consentValidator;
+
+    public ConsentValidator getConsentValidator() {
+		return consentValidator;
+	}
+
+	public void setConsentValidator(ConsentValidator consentValidator) {
+		this.consentValidator = consentValidator;
+	}
+
 
 }

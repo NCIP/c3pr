@@ -534,7 +534,7 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		replayMocks();
 
-		simpleStudy.getLatestStudyVersion().addCompanionStudyAssociation(association);
+		simpleStudy.addCompanionStudyAssociation(association);
 		
 		assertNotNull("study site found with nc010", simpleStudy.getCompanionStudySite("NC010"));
 		verifyMocks();
@@ -560,7 +560,7 @@ public class StudyTestCase extends AbstractTestCase{
 		
 		replayMocks();
 
-		simpleStudy.getLatestStudyVersion().addCompanionStudyAssociation(association);
+		simpleStudy.addCompanionStudyAssociation(association);
 		
 		assertNull("study site not found with nc010", simpleStudy.getCompanionStudySite("NC010"));
 		verifyMocks();

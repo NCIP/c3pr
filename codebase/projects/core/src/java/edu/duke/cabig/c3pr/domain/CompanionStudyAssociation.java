@@ -127,4 +127,9 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 		companionStudy = new Study();
 		companionStudy.setCompanionIndicator(true);
 	}
+	
+	@Transient
+	public Study getParentStudy(){
+		return getParentStudyVersion().getStudy();
+	}
 }

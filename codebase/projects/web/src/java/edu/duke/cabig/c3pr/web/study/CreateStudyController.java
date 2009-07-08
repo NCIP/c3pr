@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.tabs.CompanionStudyTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyConsentTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
@@ -32,7 +33,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * Controller class to handle the work flow in the Creation of a Study Design
  * This uses AbstractWizardController to implement tabbed workflow
  *
- * @author Priyatam
+ * @author Priyatam, Himanshu
  */
 public class CreateStudyController<C extends StudyWrapper> extends StudyController<C> {
 
@@ -50,17 +51,12 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
      * @param request - HttpServletRequest
      * @throws ServletException
      */
-    protected Object formBackingObject(HttpServletRequest request)
-            throws ServletException {
+    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         StudyWrapper wrapper = new StudyWrapper();
         String studyId = request.getParameter("studyId");
         if (!StringUtils.isBlank(studyId)) {
-            Study study = studyDao.getById(Integer.parseInt(request
-                    .getParameter("studyId")));
+            Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
             studyDao.initialize(study);
-            if (study != null) {
-                log.debug("Retrieving Study Details for Id: " + study.getId());
-            }
             wrapper.setStudy(study);
             return wrapper;
         } else {
@@ -77,6 +73,7 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
      */
     protected void layoutTabs(Flow flow) {
         flow.addTab(new StudyDetailsTab());
+        flow.addTab(new StudyConsentTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());
@@ -87,14 +84,12 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
     }
 
     @Override
-    protected Map referenceData(HttpServletRequest request, int arg1)
-            throws Exception {
+    protected Map referenceData(HttpServletRequest request, int page) throws Exception {
         request.setAttribute(FLOW_TYPE, CREATE_STUDY);
-        return super.referenceData(request, arg1);
+        return super.referenceData(request, page);
     }
 
-    protected boolean suppressValidation(HttpServletRequest request,
-                                         Object command) {
+    protected boolean suppressValidation(HttpServletRequest request, Object command) {
         if (request.getParameter("_finish") != null
                 && request.getParameter("_finish").equals("true")
                 && request.getParameter("_activate") != null
@@ -113,9 +108,7 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
       * org.springframework.validation.BindException)
       */
     @Override
-    protected ModelAndView processFinish(HttpServletRequest request,
-                                         HttpServletResponse response, Object command, BindException errors)
-            throws Exception {
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         Study study = ((StudyWrapper) command).getStudy();
         if(request.getParameter("_action").equals("open")){
             study= studyRepository.openStudy(study.getIdentifiers());
@@ -125,12 +118,10 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
         ((StudyWrapper) command).setStudy(study);
         response.sendRedirect("confirm?studyId=" + study.getId());
         return null;
-
     }
 
     @Override
-    protected boolean shouldPersist(HttpServletRequest request, C command,
-			Tab<C> tab) {
+    protected boolean shouldPersist(HttpServletRequest request, C command, Tab<C> tab) {
     	Study study = command.getStudy();
 		if (WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")) {
 			return false;
@@ -152,8 +143,7 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
                                    Errors errors, int page) throws Exception {
         Study study = ((StudyWrapper) command).getStudy();
   //      study.setDataEntryStatus(false);
-        study
-                .setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         for (StudySite studySite : study.getStudySites()) {
             studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
         }

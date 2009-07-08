@@ -14,10 +14,12 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.multipart.support.StringMultipartFileEditor;
 
+import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.constants.StudyPart;
 import edu.duke.cabig.c3pr.dao.CompanionStudyAssociationDao;
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -44,11 +46,9 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * @author kherm
  * @author Himanshu
  */
-public abstract class StudyController<C extends StudyWrapper> extends
-        AutomaticSaveAjaxableFormController<C, Study, StudyDao> {
+public abstract class StudyController<C extends StudyWrapper> extends AutomaticSaveAjaxableFormController<C, Study, StudyDao> {
     protected static final Log log = LogFactory.getLog(StudyController.class);
 
-    // private RowManager rowManager;
     protected StudyService studyService;
 
     protected StudyDao studyDao;
@@ -65,6 +65,10 @@ public abstract class StudyController<C extends StudyWrapper> extends
 
     protected Boolean companionIndicator;
     
+    protected CompanionStudyAssociationDao companionStudyAssociationDao;
+    
+    protected static List<HealthcareSite> healthcareSites;
+    
     //used for flowType refData var
     public static final String FLOW_TYPE = "flowType";
     public static final String CREATE_STUDY = "CREATE_STUDY";
@@ -74,16 +78,16 @@ public abstract class StudyController<C extends StudyWrapper> extends
     public static final String EDIT_COMPANION_STUDY = "EDIT_COMPANION_STUDY";
     public static final String AMEND_COMPANION_STUDY = "AMEND_COMPANION_STUDY";
     
-
-    protected CompanionStudyAssociationDao companionStudyAssociationDao;
-    protected static List<HealthcareSite> healthcareSites;
-
-    public StudyController(String title) {
-        setCommandClass(StudyWrapper.class);
+    public StudyController(String title) { setCommandClass(StudyWrapper.class);
         Flow<C> flow = new Flow<C>(title);
         layoutTabs(flow);
         setFlow(flow);
     }
+    
+    /**
+     * Template method to let the subclass decide the order of tab
+     */
+    protected abstract void layoutTabs(Flow flow);
 
     @Override
     protected Study getPrimaryDomainObject(C command) {
@@ -96,54 +100,34 @@ public abstract class StudyController<C extends StudyWrapper> extends
     }
 
     @Override
-    protected void onBind(HttpServletRequest request, Object command, BindException errors)
-            throws Exception {
+    protected void onBind(HttpServletRequest request, Object command, BindException errors) throws Exception {
         super.onBind(request, command, errors);
     }
     
     @Override
-    protected Object currentFormObject(HttpServletRequest request,
-    		Object command) throws Exception {
+    protected Object currentFormObject(HttpServletRequest request, Object command) throws Exception {
     	return command;
     }
     
-    /**
-     * Template method to let the subclass decide the order of tab
-     */
-    protected abstract void layoutTabs(Flow flow);
-
     @Override
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
-            throws Exception {
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));
-        binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor(
-                healthcareSiteDao));
-        binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(),
-                new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
-        binder.registerCustomEditor(researchStaffDao.domainClass(), new NullIdDaoBasedEditor(
-                researchStaffDao));
-        binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(
-                RandomizationType.class));
-        binder.registerCustomEditor(CoordinatingCenterStudyStatus.class, new EnumByNameEditor(
-                CoordinatingCenterStudyStatus.class));
-        binder.registerCustomEditor(InvestigatorStatusCodeEnum.class, new EnumByNameEditor(
-        		InvestigatorStatusCodeEnum.class));
-        binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor(
-                SiteStudyStatus.class));
+        binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor( healthcareSiteDao));
+        binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(), new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
+        binder.registerCustomEditor(researchStaffDao.domainClass(), new NullIdDaoBasedEditor( researchStaffDao));
+        binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor( RandomizationType.class));
+        binder.registerCustomEditor(CoordinatingCenterStudyStatus.class, new EnumByNameEditor( CoordinatingCenterStudyStatus.class));
+        binder.registerCustomEditor(InvestigatorStatusCodeEnum.class, new EnumByNameEditor( InvestigatorStatusCodeEnum.class));
+        binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor( SiteStudyStatus.class));
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
         binder.registerCustomEditor(String.class, "file", new StringMultipartFileEditor());
-        binder.registerCustomEditor(byte[].class, "study.criteriaFile",
-                new ByteArrayMultipartFileEditor());
-        binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor(
-                studyDao));
+        binder.registerCustomEditor(byte[].class, "study.criteriaFile", new ByteArrayMultipartFileEditor());
+        binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor( studyDao));
+        binder.registerCustomEditor(StudyPart.class, new EnumByNameEditor( StudyPart.class));
+        binder.registerCustomEditor(ConsentRequired.class, new EnumByNameEditor( ConsentRequired.class));
     }
-
-    @Override
-    protected String getFormSessionAttributeName(HttpServletRequest httpServletRequest) {
-        return super.getFormSessionAttributeName(httpServletRequest);
-    }
-
+  
     /**
      * Override this in sub controller if summary is needed
      *
@@ -253,5 +237,10 @@ public abstract class StudyController<C extends StudyWrapper> extends
 
     public void setCompanionIndicator(Boolean companionIndicator) {
         this.companionIndicator = companionIndicator;
+    }
+    
+    @Override
+    protected String getFormSessionAttributeName(HttpServletRequest request) {
+    	return super.getFormSessionAttributeName(request);
     }
 }

@@ -41,7 +41,7 @@ public class SelectStudySiteController extends AbstractController {
 		if (!StringUtils.isBlank(studyId)) {
 			for (CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()) {
 				if (StringUtils.equals(parentAssociationId,parentStudyAssociation.getId().toString())) {
-					map.put("shortTitle", parentStudyAssociation.getParentStudyVersion().getShortTitleText());
+					map.put("shortTitle", parentStudyAssociation.getParentStudy().getShortTitleText());
 					map.put("studyId", parentStudyAssociation.getCompanionStudy().getId().toString());
 					map.put("associationId", parentStudyAssociation.getId().toString());
 					List<HealthcareSite> tempList = new ArrayList<HealthcareSite>();
@@ -50,7 +50,7 @@ public class SelectStudySiteController extends AbstractController {
 						tempList.add(studySite.getHealthcareSite());
 					}
 					List<HealthcareSite> healthcareSiteList = new ArrayList<HealthcareSite>();
-					for(StudySite studySite : parentStudyAssociation.getParentStudyVersion().getStudy().getStudySites()){
+					for(StudySite studySite : parentStudyAssociation.getParentStudy().getStudySites()){
 						if(!tempList.contains(studySite.getHealthcareSite())){
 							healthcareSiteList.add(studySite.getHealthcareSite());
 						}

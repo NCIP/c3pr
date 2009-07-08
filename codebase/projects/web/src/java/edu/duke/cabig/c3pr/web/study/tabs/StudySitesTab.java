@@ -147,7 +147,7 @@ public class StudySitesTab extends StudyTab {
 					studySite.setStudy(study);
 					if (irbApprovalList.contains(nciCode)) {
 						studySite.setIrbApprovalDate(parentStudyAssociation
-								.getParentStudyVersion().getStudy().getStudySite(nciCode)
+								.getParentStudy().getStudySite(nciCode)
 								.getIrbApprovalDate());
 					}
 					parentStudyAssociation.addStudySite(studySite);

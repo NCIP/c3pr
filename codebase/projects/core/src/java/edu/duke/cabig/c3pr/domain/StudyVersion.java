@@ -340,15 +340,15 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return false;
 	}
 
-//	@Transient
-//	public boolean hasCompanions() {
-//		List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
-//		companionStudyAssociations.addAll(this.getCompanionStudyAssociations());
-//		if (companionStudyAssociations.size() > 0) {
-//			return true;
-//		}
-//		return false;
-//	}
+	@Transient
+	public boolean hasCompanions() {
+		List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+		companionStudyAssociations.addAll(this.getCompanionStudyAssociations());
+		if (companionStudyAssociations.size() > 0) {
+			return true;
+		}
+		return false;
+	}
 
 	@Transient
 	public boolean hasRandomizedEpoch() {

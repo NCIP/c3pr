@@ -452,7 +452,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     private boolean isCompanionForCurrentStudy(Study companionStudy, Study parentStudy){
     	List<CompanionStudyAssociation> companionStudyAssoc = companionStudy.getLatestStudyVersion().getCompanionStudyAssociations();
     	if(companionStudyAssoc.size() == 1){
-    		if(parentStudy.equals(companionStudyAssoc.get(0).getParentStudyVersion().getStudy())){
+    		if(parentStudy.equals(companionStudyAssoc.get(0).getParentStudy())){
     			return true ;
     		}
     	}

@@ -1408,7 +1408,7 @@ public class StudyDaoTest extends DaoTestCase {
      */
     public void testGetParentStudyFromCompanionStudy() {
         Study companionStudy = dao.getById(1002);
-        Study parentStudy = companionStudy.getParentStudyAssociations().get(0).getParentStudyVersion().getStudy();
+        Study parentStudy = companionStudy.getParentStudyAssociations().get(0).getParentStudy();
         assertNotNull("parent study is not null ", parentStudy);
 
         int id = parentStudy.getId();

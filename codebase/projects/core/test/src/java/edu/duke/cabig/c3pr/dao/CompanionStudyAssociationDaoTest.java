@@ -41,7 +41,7 @@ public class CompanionStudyAssociationDaoTest extends ContextDaoTestCase<StudyDa
     	Integer savedId = companionStudyAssociation.getId();
     	CompanionStudyAssociation loadedCompanionStudyAssociation = companionStudyAssociationDao.getById(savedId);
     	
-    	assertEquals("Parent study wrong or not found","short_title_text",loadedCompanionStudyAssociation.getParentStudyVersion().getShortTitleText());
+    	assertEquals("Parent study wrong or not found","short_title_text",loadedCompanionStudyAssociation.getParentStudy().getShortTitleText());
     	assertEquals("Companion study wrong or not found","short_title_text2",loadedCompanionStudyAssociation.getCompanionStudy().getShortTitleText());
     }
   
