@@ -25,15 +25,6 @@
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/axis.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/axis-url.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/bootstrap.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/caGrid-advertisement-1.2.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/caGrid-core-1.2.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/caGrid-Introduce-serviceTools-1.2.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/caGrid-metadata-security-1.2.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/caGrid-ServiceSecurityProvider-client-1.2.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/caGrid-ServiceSecurityProvider-common-1.2.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/caGrid-ServiceSecurityProvider-service-1.2.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/caGrid-ServiceSecurityProvider-stubs-1.2.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/castor-0.9.9.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/cog-axis.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/cog-jglobus.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/cog-tomcat.jar"/>
@@ -57,14 +48,9 @@
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_transfer_test.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_usage_core.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_usage_packets_common.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_wsrf_mds_aggregator_stubs.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_wsrf_mds_aggregator.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_wsrf_servicegroup_stubs.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_wsrf_servicegroup.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_wsrf_tools_test.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/jaxrpc.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/jce-jdk13-125.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/jdom-1.0.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/jgss.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/junit.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/log4j-1.2.8.jar"/>
@@ -74,15 +60,9 @@
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/naming-resources.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/opensaml.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/puretls.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/quotes.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/resolver.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/saaj.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/servlet.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/StockManager-client.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/StockManager-common.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/StockManager-service.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/StockManager-stubs.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/StockManager-tests.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/wsdl4j.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/wsrf_common.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/wsrf_core_registry_stubs.jar"/>
