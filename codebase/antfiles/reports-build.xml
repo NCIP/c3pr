@@ -38,7 +38,7 @@
             	<delete includeemptydirs="true" dir="${projects.dir}/@{project.name}/build/checkstyle-report" />
 				<mkdir dir="${projects.dir}/@{project.name}/build/checkstyle-report" />
             					
-    			<checkstyle config="${antfiles.dir}/c3pr_checks.xml" failOnViolation="false">
+    			<checkstyle config="${antfiles.dir}/c3pr_checkstyle.xml" failOnViolation="false">
     	            <fileset dir="${projects.dir}/@{project.name}" includes="**/*.java"/>
     	            <formatter type="plain" toFile="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.txt"/>
     	            <formatter type="xml" toFile="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.xml"/>
