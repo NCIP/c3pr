@@ -36,8 +36,6 @@
 		<dependency org="commons-io" name="commons-io"
 			rev="1.3.1" />
 		
-		<dependency org="cobertura" name="cobertura" rev="1.9rc1" />
-		<dependency org="checkstyle" name="checkstyle" rev="4.4" />
 		<!-- CTMS commons dependencies -->
 		<dependency org="gov.nih.nci.cabig.ctms"
 			name="ctms-commons-base" rev="${ctmsi.commons.version}" transitive="false" />
@@ -52,6 +50,14 @@
 			name="ctms-commons-lang" rev="${ctmsi.commons.version}" transitive="false" />
 		<dependency org="gov.nih.nci.cabig.ctms"
 			name="ctms-commons-testing-uctrace" rev="${ctmsi.commons.version}" />
+			
+		<!--  jars required for reporting purpose -->	
+		<dependency org="ant-contrib" name="ant-contrib" rev="1.0b2" />
+		<dependency org="cobertura" name="cobertura" rev="1.9rc1" />
+		<dependency org="pmd" name="pmd" rev="4.2.5" />
+		<dependency org="checkstyle" name="checkstyle" rev="4.4" />
+		<!-- dependency org="com.google.code.findbugs" name="findbugs" rev="1.3.8" / -->
+		<dependency org="redhill" name="simian" rev="2.2.4"  />
 
 	</dependencies>
 </ivy-module>

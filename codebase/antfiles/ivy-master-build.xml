@@ -3,15 +3,14 @@
     <property file="build.properties" />
 	<property file="selenium.properties" />
 	<property file="c3pr-ivy.properties" />
-    <import file="${basedir}/common.xml"/>
+    <import file="${basedir}/build-reports.xml"/>
+	<import file="${basedir}/common.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
 	<property name="grid.dir" value="${basedir}/../projects/grid" />
 	<property name="reports.dir" value="${basedir}/../reports" />
 	<!-- created database type var for CI to make single target independant of database type
 		provide -Ddatabase.type=oracle for ORACLE and  -Ddatabase.type=postgres for POSTGRES    -->
 	<property name="database.type" value="postgres" />
-	<!-- List of modules that need checkstyle reporting done -->
-	<property name="reportable.projects.list" value="core,web" />
 	<property name="javadoc-reportable.projects.list" value="core" />
 	<condition property="ivy.available">
 			<available file="${ivy.jar.file}" />
@@ -379,44 +378,7 @@
     	</cobertura-report>
 	</target>
 	
-	<!-- =============================================================== -->
-    <!-- Call check-style for each project log results                   -->
-    <!-- =============================================================== -->
-    <target name="reports-style" depends="resolve, download-ant-contrib" description="Check the style of all the projects.">
-        <taskdef resource="checkstyletask.properties"  classpathref="main.classpath" />
-		<taskdef resource="net/sf/antcontrib/antlib.xml">
-            <classpath>
-                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
-            </classpath>
-        </taskdef>
 	
-        <!-- call run-report-style for each project or call checkstyle directly -->
-        <for list="${reportable.projects.list}" parallel="false" param="project.name" trim="true">
-            <sequential>
-                <echo message="Reporting style for project @{project.name}." />
-	
-				<mkdir dir="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report" />
-            	<property name="antfiles.dir" location="${basedir}/../../codebase/antfiles" />
-            					
-    			<checkstyle config="${antfiles.dir}/c3pr_checks.xml" failOnViolation="false">
-    	            <fileset dir="src" includes="**/*.java"/>
-    	            <formatter type="plain" toFile="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.txt"/>
-    	            <formatter type="xml" toFile="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.xml"/>
-    	        </checkstyle>
-    			<xslt in="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.xml" 
-    		      out="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.html"
-    	              style="${antfiles.dir}/checkstyle.xsl">
-    	            <param name="project" expression="@{project.name}"/>
-    	        </xslt>
-    			
-    			<echo>================================================================</echo>
-    	    	<echo>CheckStyle Report available at </echo>
-    	    	<echo>${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report</echo>
-    	    	<echo>================================================================</echo>	
-            </sequential>
-        </for>		
-    </target>
-    
 	<target name="reports-javadoc" depends="download-ant-contrib" description="Generates javadoc">
 			<taskdef resource="net/sf/antcontrib/antlib.xml">
 	            <classpath>
@@ -542,6 +504,5 @@
 	    		<property name="testcase.type" value="ui"/>
 	    	</subant>
 	    </target>
-
-
+	 	
 </project>

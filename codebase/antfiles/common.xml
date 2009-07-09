@@ -2,6 +2,9 @@
 <project name="common" basedir="."
          xmlns:ivy="antlib:org.apache.ivy.ant">
 	
+	<property name="antfiles.dir" location="${basedir}/../../codebase/antfiles" />
+	<property name="lib.dir" location="${antfiles.dir}/lib" />
+	
 	<property environment="env" />
 	<property name="catalina.home" value="${env.CATALINA_HOME}"/>
 	<!-- Ivy jar location -->
@@ -205,16 +208,6 @@
 		<get src="${ivy.jar.location}" dest="${ivy.jar.file}" usetimestamp="true"/>
 	</target>
 	
-	<!-- ==================================================
-		target : download-ant-contrib Its only called by reports-style in ivy-master-build
-		It does not download if ant.contrib.available is set to true
-	====================================================== -->
-	<target name="download-ant-contrib" depends="resolve" unless="ant.contrib.available">
-		<echo message="Downloading ant-contrib....." />
-		<ivy:resolve inline="true" organisation="ant-contrib" module="ant-contrib" revision="1.0b2" />
-		<get src="${ant-contrib.jar.location}" dest="${lib.dir}/ant-contrib-1.0b2.jar" verbose="true" usetimestamp="true"/>
-	</target>
-	
 	<!-- ====================================================
 		target: load-ivy         
             This target is not necessary if you put ivy.jar in your ant lib directory
@@ -336,13 +329,7 @@
 		<delete includeemptydirs="true" dir="${instrumented.classes.dir}" />
 	</target>
 	
-	<!-- ================================= 
-          target: clean-checkstyle-dir             
-         ================================= -->
-	<target name="clean-checkstyle-dir" description="--> clean the checkstyle dir">
-		<echo message="Executing in ${ant.project.name}" />
-		<delete includeemptydirs="true" dir="${checkstyle.dir}" />
-	</target>
+	
 	
 	<!-- =====================================================================
 		target : ivy-new-version 
@@ -503,7 +490,7 @@
     <target name="clean-lib" description="--> clean the project libraries directory (dependencies)">
     	<echo message="Executing in ${ant.project.name}" />
     	<echo message="Executing in ${ant.project.name}" />
-        <delete includeemptydirs="true" dir="${lib.dir}"/>
+    	<delete includeemptydirs="true" dir="${lib.dir}"/>
     </target>
 	
 	<!-- ====================================================
@@ -600,12 +587,7 @@
 				</fileset>
 			</cobertura-instrument>
 		</target>
-	<!-- ============================================================== 
-			target: checkstyle-init                                                
-		============================================================== -->
-	<target name="checkstyle-init" depends="clean-checkstyle-dir">		
-		<mkdir dir="${basedir}/build/checkstyle-report" />			
-    </target>
+	
 	<!-- ============================================================== 
 		target: test. If no Db property is given, the test target will set db
 		as test-postgres                                                
@@ -718,7 +700,6 @@
     <target name="uctrace-report-temp" depends="load-ivy, resolve" description="--> Tracebility matrix report">
     	<ivy:retrieve organisation="log4j" module="log4j" revision="1.2.12" inline="true" pattern="${lib.dir}/log4j-1.2.14.jar" sync="true"/>
     	<ivy:retrieve organisation="edu.duke.cabig.c3pr" module="c3pr-management" revision="2.1.1" inline="true" pattern="${lib.dir}/c3pr-management-1.0.jar" sync="true"/>
-    	<property name="antfiles.dir" location="${basedir}/../../antfiles"/>
     	<taskdef name="useCaseTraceabilityReport" classname="edu.duke.cabig.c3pr.ant.UseCaseTraceabilityReport">
     	            <classpath>
     	                <pathelement location="${antfiles.dir}"/>
@@ -780,26 +761,7 @@
 			<echo message="catalina.home=${catalina.home}" />
 	</target>
 	
-	<!-- CheckStyle for individual projects - accepts project as a param-->
-	<target name="run-report-style" depends="checkstyle-init" description="Check the style for a single project." >
-
-		<checkstyle config="${antfiles.dir}/c3pr_checks.xml" failOnViolation="false">
-            <fileset dir="src" includes="**/*.java"/>
-            <formatter type="plain" toFile="${basedir}/build/checkstyle-report/${project}.txt"/>
-            <formatter type="xml" toFile="${basedir}/build/checkstyle-report/${project}.xml"/>
-        </checkstyle>
-		<xslt in="${basedir}/build/checkstyle-report/${project}.xml" 
-		      out="${basedir}/build/checkstyle-report/${project}.html"
-              style="${antfiles.dir}/checkstyle.xsl">
-            <param name="project" expression="${project}"/>
-        </xslt>
 		
-		<echo>================================================================</echo>
-    	<echo>CheckStyle Report available at </echo>
-    	<echo>${basedir}/build/checkstyle-report</echo>
-    	<echo>================================================================</echo>
-    </target>
-	
 	<!-- ========================================================================
 			target: load-datasource
 				Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.caaers/ 
