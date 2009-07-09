@@ -3,7 +3,7 @@
     <property file="build.properties" />
 	<property file="selenium.properties" />
 	<property file="c3pr-ivy.properties" />
-    <import file="${basedir}/build-reports.xml"/>
+    <import file="${basedir}/reports-build.xml"/>
 	<import file="${basedir}/common.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
 	<property name="grid.dir" value="${basedir}/../projects/grid" />
