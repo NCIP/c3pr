@@ -128,6 +128,15 @@
             </sequential>
         </for>		
     </target>
+    	
+    	
+<!-- ==================================================================
+=================== COBERTURA  REPORTS ===============================
+======================================================================= -->   	
+
+    	
+    	
+    	
 
 	<target name="static-analysis" description="Check the style of all the projects.">
 		<antcall target="reports-checkstyle"> </antcall>
