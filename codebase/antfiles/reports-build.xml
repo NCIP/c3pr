@@ -25,7 +25,9 @@
 <!-- generates checkstyle report for each project present in  checkstyle-reportable.projects.list -->
 <!-- =============================================================== -->
     <target name="reports-checkstyle" depends="resolve" description="Check the style of all the projects.">
-        <taskdef resource="checkstyletask.properties"  classpathref="main.classpath" />
+    	<ivy:resolve inline="true" organisation="checkstyle" module="checkstyle" revision="4.4" />
+    	<ivy:cachepath organisation="checkstyle" module="checkstyle" revision="4.4" inline="true" pathid="checkstyle.classpath"/>
+        <taskdef resource="checkstyletask.properties"  classpathref="checkstyle.classpath" />
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
                 <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
@@ -66,7 +68,9 @@
 <!-- generates PMD report for each project present in  pmd-reportable.projects.list -->
 <!-- =============================================================== -->
     <target name="reports-pmd" depends="resolve" description="Validate all modules againest PMD Rulesets">
-    	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="main.classpath"/>
+    	<ivy:resolve inline="true" organisation="pmd" module="pmd" revision="4.2.5" />
+    	<ivy:cachepath organisation="pmd" module="pmd" revision="4.2.5" inline="true" pathid="pmd.classpath"/>
+    	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath"/>
     	<taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
                 <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
@@ -103,7 +107,9 @@
 <!-- generates simian report for each project present in  simian-reportable.projects.list -->
 <!-- =============================================================== -->
     <target name="reports-simian" depends="resolve" description="Check for code duplicacy of all the projects.">
-    	<taskdef resource="simiantask.properties" classpathref="main.classpath"/>
+    	<ivy:resolve inline="true" organisation="redhill" module="simian" revision="2.2.4" />
+    	<ivy:cachepath organisation="redhill" module="simian" revision="2.2.4" inline="true" pathid="simian.classpath"/>
+    	<taskdef resource="simiantask.properties" classpathref="simian.classpath"/>
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
                 <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
