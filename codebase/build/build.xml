@@ -538,7 +538,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	</target>
 
 	<target name="test:c3pr-webapp" depends="init" description="Calls test target for sub-project">
-		<ant inheritAll="false" inheritRefs="false" antfile="${c3pr-webapp.test.file}" target="test" dir="${c3pr-webapp.base.dir}">
+		<ant inheritAll="false" inheritRefs="false" antfile="${c3pr-webapp.base.dir}/${c3pr-webapp.build.file}" target="autobuild-ci-c3pr" >
 			<property name="dist.dir" value="${c3pr-webapp.dist.dir}" />
 		</ant>
 	</target>
