@@ -17,6 +17,7 @@ import org.springframework.web.multipart.support.StringMultipartFileEditor;
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyPart;
@@ -126,6 +127,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor( studyDao));
         binder.registerCustomEditor(StudyPart.class, new EnumByNameEditor( StudyPart.class));
         binder.registerCustomEditor(ConsentRequired.class, new EnumByNameEditor( ConsentRequired.class));
+        binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor( OrganizationIdentifierTypeEnum.class));
     }
   
     /**
