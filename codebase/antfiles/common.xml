@@ -560,7 +560,7 @@
     <!-- ================================= 
           target: clean              
          ================================= -->
-	<target name="clean" depends="clean-classes, clean-classes-test, clean-dist, clean-lib, clean-lib-test, clean-test-results, clean-test-reports, clean-cobertura-instruments,clean-cobertura-dir, clean-local-repo" description="--> clean the project" />
+	<target name="clean" depends="clean-classes, clean-classes-test, clean-dist, clean-lib, clean-lib-test,  clean-local-repo" description="--> clean the project" />
 
 	
 	<!-- ============================================================== 
