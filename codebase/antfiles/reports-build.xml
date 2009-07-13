@@ -46,7 +46,7 @@
     	            <formatter type="xml" toFile="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.xml"/>
     	        </checkstyle>
     			<xslt in="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.xml" 
-    		      out="${projects.dir}/@{project.nam	e}/build/checkstyle-report/@{project.name}.html" style="${antfiles.dir}/checkstyle.xsl">
+    		      out="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.html" style="${antfiles.dir}/checkstyle.xsl">
     	            <param name="project" expression="@{project.name}"/>
     	        </xslt>
     			
