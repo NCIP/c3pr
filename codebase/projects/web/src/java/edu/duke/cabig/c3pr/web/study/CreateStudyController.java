@@ -45,12 +45,6 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
     private StudyRepository studyRepository;
     private final String DO_NOT_SAVE = "_doNotSave" ; 
 
-    /**
-     * Create a nested object graph that Create Study Design needs
-     *
-     * @param request - HttpServletRequest
-     * @throws ServletException
-     */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         StudyWrapper wrapper = new StudyWrapper();
         String studyId = request.getParameter("studyId");
@@ -99,14 +93,6 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
         return false;
     }
 
-    /*
-      * (non-Javadoc)
-      *
-      * @seeorg.springframework.web.servlet.mvc.AbstractWizardFormController#
-      * processFinish (javax.servlet.http.HttpServletRequest,
-      * javax.servlet.http.HttpServletResponse, java.lang.Object,
-      * org.springframework.validation.BindException)
-      */
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         Study study = ((StudyWrapper) command).getStudy();
@@ -139,10 +125,8 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
     }
 
     @Override
-    protected void postProcessPage(HttpServletRequest request, Object command,
-                                   Errors errors, int page) throws Exception {
+    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
         Study study = ((StudyWrapper) command).getStudy();
-  //      study.setDataEntryStatus(false);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         for (StudySite studySite : study.getStudySites()) {
             studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);

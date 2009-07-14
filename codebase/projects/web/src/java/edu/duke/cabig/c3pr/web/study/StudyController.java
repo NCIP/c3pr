@@ -70,7 +70,6 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     
     protected static List<HealthcareSite> healthcareSites;
     
-    //used for flowType refData var
     public static final String FLOW_TYPE = "flowType";
     public static final String CREATE_STUDY = "CREATE_STUDY";
     public static final String EDIT_STUDY = "EDIT_STUDY";
@@ -117,24 +116,22 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor( healthcareSiteDao));
         binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(), new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
         binder.registerCustomEditor(researchStaffDao.domainClass(), new NullIdDaoBasedEditor( researchStaffDao));
+        binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor( studyDao));
+        
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
+        binder.registerCustomEditor(String.class, "file", new StringMultipartFileEditor());
+        binder.registerCustomEditor(byte[].class, "study.criteriaFile", new ByteArrayMultipartFileEditor());
+
+        binder.registerCustomEditor(StudyPart.class, new EnumByNameEditor( StudyPart.class));
+        binder.registerCustomEditor(ConsentRequired.class, new EnumByNameEditor( ConsentRequired.class));
+        binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor( OrganizationIdentifierTypeEnum.class));
         binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor( RandomizationType.class));
         binder.registerCustomEditor(CoordinatingCenterStudyStatus.class, new EnumByNameEditor( CoordinatingCenterStudyStatus.class));
         binder.registerCustomEditor(InvestigatorStatusCodeEnum.class, new EnumByNameEditor( InvestigatorStatusCodeEnum.class));
         binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor( SiteStudyStatus.class));
-        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
-        binder.registerCustomEditor(String.class, "file", new StringMultipartFileEditor());
-        binder.registerCustomEditor(byte[].class, "study.criteriaFile", new ByteArrayMultipartFileEditor());
-        binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor( studyDao));
-        binder.registerCustomEditor(StudyPart.class, new EnumByNameEditor( StudyPart.class));
-        binder.registerCustomEditor(ConsentRequired.class, new EnumByNameEditor( ConsentRequired.class));
-        binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor( OrganizationIdentifierTypeEnum.class));
+     
     }
   
-    /**
-     * Override this in sub controller if summary is needed
-     *
-     * @return
-     */
     protected boolean isSummaryEnabled() {
         return false;
     }

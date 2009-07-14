@@ -37,11 +37,12 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * Controller class to handle the work flow in the Updation of a Study Design This uses
  * AbstractWizardController to implement tabbed workflow
  *
- * @author kherm
+ * @author kherm, Himanshu
  */
 public class EditStudyController extends StudyController<StudyWrapper> {
 
     protected static final Log log = LogFactory.getLog(EditStudyController.class);
+
     private Task editTask;
     private final String DO_NOT_SAVE = "_doNotSave" ; 
 
@@ -63,13 +64,6 @@ public class EditStudyController extends StudyController<StudyWrapper> {
         setBindOnNewForm(true);
     }
 
-    /**
-     * Create a nested object graph that Create Study Design needs
-     *
-     * @param request -
-     *                HttpServletRequest
-     * @throws ServletException
-     */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         StudyWrapper wrapper = new StudyWrapper();
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
@@ -95,11 +89,9 @@ public class EditStudyController extends StudyController<StudyWrapper> {
     }
 
     @Override
-    protected Map referenceData(HttpServletRequest request, Object command, Errors e, int arg1)
-            throws Exception {
-        // TODO Auto-generated method stub
+    protected Map referenceData(HttpServletRequest request, Object command, Errors e, int page) throws Exception {
 
-        String softDelete = "false";
+    	String softDelete = "false";
         request.setAttribute(FLOW_TYPE, EDIT_STUDY);
         request.setAttribute("editFlow", "true");
 
@@ -122,7 +114,7 @@ public class EditStudyController extends StudyController<StudyWrapper> {
 
         request.setAttribute("softDelete", softDelete);
         request.setAttribute("isAdmin", isAdmin);
-        return super.referenceData(request, command, e, arg1);
+        return super.referenceData(request, command, e, page);
     }
 
     @Override
@@ -133,31 +125,14 @@ public class EditStudyController extends StudyController<StudyWrapper> {
         }
         return shouldSave ;
     }
-    
-  /*  protected boolean shouldSave(HttpServletRequest request, StudyWrapper command, Tab<StudyWrapper> tab) {
-        boolean shouldSave = super.shouldSave(request, command, tab) && StringUtils.isBlank(request.getParameter("_action"));
-        if(WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")){
-            shouldSave = false;
-        }
-        return shouldSave ; 
-    }
-*/
+
     @Override
     protected boolean isSummaryEnabled() {
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
-     *      (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     *      java.lang.Object, org.springframework.validation.BindException)
-     */
     @Override
-    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
-                                         Object command, BindException errors) throws Exception {
-        // Redirect to Search page
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         ModelAndView modelAndView = new ModelAndView(new RedirectView("searchStudy"));
         return modelAndView;
     }

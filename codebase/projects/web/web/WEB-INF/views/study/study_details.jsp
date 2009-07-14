@@ -333,7 +333,7 @@
                 <div class="value">
                 	<input type="text" name="study.organizationAssignedIdentifiers[0].value" size="33" maxlength="30"
 								value="${command.study.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
-					<input type="hidden" name="study.organizationAssignedIdentifiers[0].type" value="Coordinating Center Identifier"/>
+					<input type="hidden" name="study.organizationAssignedIdentifiers[0].type" value="COORDINATING_CENTER_IDENTIFIER"/>
 					<c:if test="${empty command.study.id}">
 						<input type="hidden" name="study.organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
 					</c:if>

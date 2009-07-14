@@ -262,10 +262,6 @@
 		<div class="value">${command.study.blindedIndicator=="true"?"Yes":"No"}</div>
 	</div>
 	<div class="row">
-		<div class="label"><fmt:message key="study.consentVersionDate"/>:</div>
-		<div class="value">${command.study.consentVersion}</div>
-	</div>
-	<div class="row">
 		<div class="label"><fmt:message key="study.stratified"/>:</div>
 		<div class="value">${command.study.stratificationIndicator=="true"?"Yes":"No"}</div>
 	</div>
@@ -534,24 +530,6 @@
         </c:choose>
 	</chrome:division>
 </div>
-<c:if test="${fn:length(command.study.studyAmendments) > 0}">
-<chrome:division title="Amendments" cssClass="big">
-	<table class="tablecontent" width="60%">
-	       <tr>
-	           <th width="15%" scope="col" align="left"><fmt:message key="study.amendmentVersion"/></th>
-	           <th width="30%" scope="col" align="left"><fmt:message key="study.amendmentDate"/></th>
-	           <th width="55%" scope="col" align="left"><fmt:message key="c3pr.common.comments"/></th>
-	       </tr>
-	       <c:forEach items="${command.study.studyAmendments}" var="amendment">
-	           <tr class="results">
-	               <td class="alt" align="left">${amendment.amendmentVersion}</td>
-	               <td class="alt" align="left">${amendment.amendmentDateStr}</td>
-	               <td class="alt" align="left">${amendment.comments}</td>
-	           </tr>
-	       </c:forEach>
-    </table>
-</chrome:division>
-</c:if>
 
 <c:if test="${command.study.coordinatingCenterStudyStatus == 'OPEN' && isCCTSEnv}">
     <chrome:division title="CCTS Workflow" cssClass="big">
