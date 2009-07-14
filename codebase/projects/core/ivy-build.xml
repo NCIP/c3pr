@@ -297,5 +297,29 @@
             <param name="project" value="core"/>
         </antcall>
     </target>
+	
+	<!-- =========================================================================== 
+          target: load-ajc              
+    ============================================================================= -->
+    <target name="load-ajc" unless="loaded.ajc" description="--> define the ajc task">
+        <taskdef name="ajc" classname="org.aspectj.tools.ant.taskdefs.Ajc10">
+            <classpath>
+                 <pathelement location="${lib.dir}/aspectjtools-1.5.3.jar"/>
+            </classpath>
+        </taskdef>    
+        <property name="loaded.ajc" value="true" />
+    </target>
+
+    <!-- =============================================================================
+        target : aspectj-compile-test
+            Passes the test files in core through the ajc
+    ================================================================================== -->
+    <target name="compile" depends="common.compile, load-ajc" description="Passes the test files in core through the ajc">
+            <ajc srcdir="${main.src}" destdir="${classes.dir}" includes="**/LayerOneAspect*" source="1.5">
+            <classpath>
+                <path refid="main.classpath"/>
+            </classpath>
+        </ajc>
+    </target>
 
 </project>

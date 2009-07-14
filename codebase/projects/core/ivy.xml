@@ -190,6 +190,13 @@
 			<dependency name="jackrabbit-jcr-server" org="org.apache.jackrabbit" rev="1.2.1" />		
 			<!-- COPPA Common dependencies --> 
 			<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="0.3.16" />
-
+			<!-- Infrared dependencies --> 
+            <dependency org="net.sf.infrared.aspects.aj" name="infrared" rev="2.4.1.BETA" >
+                <exclude org="trove" name="trove"/>
+                <exclude org="qdox" name="qdox"/>
+                <exclude org="jrexx" name="jrexx"/>
+            </dependency>
+            
+            <dependency org="aspectj" name="aspectjtools" rev="1.5.3" />
         </dependencies>
 </ivy-module>
