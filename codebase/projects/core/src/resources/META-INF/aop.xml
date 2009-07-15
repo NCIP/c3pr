@@ -1,6 +1,8 @@
 <aspectj>
     <aspects>
-        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.LayerOneAspect"/> 
+        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.BroadcasterLayerAspect"/> 
+        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.DaoLayerAspect"/> 
+        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.InfrastructureLayerAspect"/> 
         <exclude within="org.springframework..*"/>         
     </aspects>
     
