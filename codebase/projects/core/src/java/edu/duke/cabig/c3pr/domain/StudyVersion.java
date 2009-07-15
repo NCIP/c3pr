@@ -58,6 +58,15 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private C3PRExceptionHelper c3PRExceptionHelper;
 	private MessageSource c3prErrorMessages;
 	private Date versiontDate;
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Date getVersionDate() {
 		return versiontDate;

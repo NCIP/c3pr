@@ -1251,5 +1251,14 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		getLatestStudyVersion().setStudyDiseases(studyDiseases);
 	}
 	
+	@Transient
+	public String getVersionName() {
+		return getLatestStudyVersion().getName();
+	}
+
+	public void setName(String name) {
+		getLatestStudyVersion().setName(name);
+	}
+	
 	
 }
