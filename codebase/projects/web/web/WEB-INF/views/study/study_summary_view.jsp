@@ -1,5 +1,4 @@
 <%@ include file="taglibs.jsp" %>
-
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}"/></title>
@@ -15,8 +14,8 @@
         function doExportAction() {
             $("exportForm").submit();
         }
-        function getBroadcastStatus() {
 
+        function getBroadcastStatus() {
             $('viewDetails').disable('broadcastBtn');
             $('viewDetails').disable('broadcastStatusBtn');
 
@@ -27,8 +26,6 @@
 
         function doSendMessageToESB() {
             $('broadcastResponse').innerHTML = 'Sending Message...';
-
-
             $('viewDetails').disable('broadcastBtn');
             $('viewDetails').disable('broadcastStatusBtn');
 
@@ -41,7 +38,6 @@
             $('viewDetails').enable('broadcastBtn');
             $('viewDetails').enable('broadcastStatusBtn');
         }
-
 
         function statusChangeCallback(statusCode) {
             elmt = document.getElementById('amendButtonDisplayDiv');
@@ -65,7 +61,6 @@
 		}
 		
         function changeStudyStatus(status) {
-
         	if (${fn:length(errors)} > 0){
                 if(status=='open'){
         			var d = $('errorsOpenDiv');
@@ -85,7 +80,6 @@
 
         }
 
-
 		function closePopup() {
 			win.close();
 		}
@@ -99,7 +93,6 @@
 			return flag;
 		}
         
-
         function updateTargetAccrual(){
         	Element.hide('flash-message-targetaccrual');
    			var arr= $$("#targetAccrual");
@@ -207,10 +200,12 @@
     <input type="hidden" name="statusChange" id="statusChange"/>
     <input type="hidden" name="closeStatus" id="closeStatus"/>
 </form:form>
+
 <form:form id="exportForm" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
 <input type="hidden" id="_action" name="_action" value="export"/>
 </form:form>
+
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
 <c:if test="${not empty studyMessage}">
@@ -220,6 +215,7 @@
     <input type="hidden" name="_finish" value="true"/> 
     <input type="hidden" name="_action" value="">
 </div>
+    
 <div id="summary">
 <div id="printable">
 <chrome:division id="study-details" cssClass="big" title="Study Details">
@@ -252,6 +248,7 @@
 		<div class="value">${command.study.type}</div>
 	</div>
 </div>
+
 <div class="rightpanel">
 	<div class="row">
 		<div class="label"><fmt:message key="study.multiInstitution"/>:</div>
@@ -269,12 +266,13 @@
 		<div class="label"><fmt:message key="study.randomized"/>:</div>
 		<div class="value">${command.study.randomizedIndicator=="true"?"Yes":"No"}</div>
 	</div>
-	<div class="row">
+	<div class="row" <c:if test="${!command.study.randomizedIndicator}">style="display:none;"</c:if>>
 		<div class="label"><fmt:message key="study.randomizationType"/>:</div>
 		<div class="value">${command.study.randomizationType.displayName}</div>
 	</div>
 </div>
 </chrome:division>
+
 <chrome:division id="study-pi" cssClass="big" title="Principal Investigator">
 <div class="leftpanel">
 	<div class="row">
@@ -306,7 +304,7 @@
 					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} </td>
 			  </c:otherwise>
 			</c:choose>
-           	<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
+           	<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type.displayName}</td>
             <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
            </tr>
          </c:if>
@@ -320,7 +318,7 @@
 						<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} </td>
 				   </c:otherwise>
 				</c:choose>
-                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type}</td>
+                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type.displayName}</td>
                 <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
             </tr>
         </c:if>
@@ -406,14 +404,15 @@
 			</chrome:division>
 		</c:if>
     </c:forEach>
-</chrome:division>  
-<chrome:division title="Stratum Groups" cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}">
-	<c:forEach items="${command.study.epochs}" var="epoch">
+</chrome:division>
+<div <c:if test="${!command.hasStratifiedEpoch}">style="display:none;"</c:if>>
+<chrome:division title="Stratum Groups"  cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}" >
+    <c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${epoch.stratificationIndicator}">
 			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
 				<c:choose>
 					<c:when test="${fn:length(epoch.stratumGroups)> 0}">
-						<table class="tablecontent" width="70%"}">
+						<table class="tablecontent" width="70%">
 					        <tr>
 					            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
 	            				<th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
@@ -435,6 +434,7 @@
 		</c:if>
     </c:forEach>
 </chrome:division>
+</div>
 <chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${diseaseTab}')" condition="${not empty flowType}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.studyDiseases) >0}">
