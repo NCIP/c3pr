@@ -256,7 +256,7 @@
         </div>
         <input type="hidden" name="study.multiInstitutionIndicator" value="true"/>
         <div class="row" <c:if test="${ (empty command.study.companionIndicator) || command.study.companionIndicator=='false' ||((!empty param.embeddedStudy) && command.study.companionIndicator=='true' && param.embeddedStudy=='true')}">style="display:none;"</c:if>>
-	        <div class="label"><tags:requiredIndicator />Standalone Study:</div>
+	        <div class="label"><tags:requiredIndicator /><fmt:message key="study.standaloneIndicator"/></div>
 	        <div class="value">
 	        	<form:select path="study.standaloneIndicator" cssClass="validate-notEmpty" >
 	            	<option value="">Please Select</option>
@@ -264,6 +264,13 @@
 	        	</form:select>
 	        	<tags:hoverHint keyProp="study.standaloneIndicator"/></div>
 	        </div>
+    	</div>
+        <div class="row">
+	        <div class="label"><tags:requiredIndicator /><fmt:message key="study.versionNameNumber"/></div>
+	       <div class="value">
+            	<form:input path="study.versionName" cssClass="validate-notEmpty" />
+            	<tags:hoverHint keyProp="study.versionNameNumber"/>
+            </div>
     	</div>
 </chrome:division>
 

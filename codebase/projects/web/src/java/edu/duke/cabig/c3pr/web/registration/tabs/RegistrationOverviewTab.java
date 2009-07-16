@@ -6,10 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -126,7 +122,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		if (studySubject.getScheduledEpochs().size() == 1) {
 			newRegistration = true;
 		}
-		map.put("hasCompanions", studySubject.getStudySite().getStudy().getLatestStudyVersion()
+		map.put("hasCompanions", studySubject.getStudySite().getStudy().getStudyVersion()
 				.getCompanionStudyAssociations().size() > 0);
 		map.put("actionRequired", actionRequired);
 		map.put("actionLabel", actionLabel);
@@ -290,7 +286,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		if(!epoch.getEnrollmentIndicator()){
 			return false ; 
 		}
-		for(CompanionStudyAssociation companionStudyAssociation : studySubject.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations()){
+		for(CompanionStudyAssociation companionStudyAssociation : studySubject.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()){
 			if (companionStudyAssociation.getMandatoryIndicator()) {
 				boolean hasCorrespondingStudySubject = false;
 				for (StudySubject childStudySubject : studySubject.getChildStudySubjects()) {

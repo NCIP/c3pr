@@ -99,10 +99,8 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
             throws Exception {
         super.initBinder(req, binder);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
-                "MM/dd/yyyy"), true));
-        binder.registerCustomEditor(Boolean.class, "epochAndArmsIndicator",
-                new CustomBooleanEditor(false));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
+        binder.registerCustomEditor(Boolean.class, "epochAndArmsIndicator",new CustomBooleanEditor(false));
     }
 
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
@@ -113,7 +111,6 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
-//        study.getStudyAmendments().size();
         wrapper.setStudy(study);
         return wrapper;
     }
@@ -129,16 +126,13 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
     }
 
     @Override
-    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
-                                         Object command, BindException errors) throws Exception {
-        // Redirect to Search page
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         ModelAndView modelAndView = new ModelAndView(new RedirectView("searchStudy"));
         return modelAndView;
     }
 
     @Override
-    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
-                                   int page) throws Exception {
+    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
         super.postProcessPage(request, command, errors, page);
     }
 

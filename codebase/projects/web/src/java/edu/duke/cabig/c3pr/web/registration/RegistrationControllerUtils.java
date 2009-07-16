@@ -61,7 +61,7 @@ public class RegistrationControllerUtils {
     }
     
     public static boolean registrableStandalone(StudySubject studySubject){
-    	return studySubject.getParentStudySubject()==null && studySubject.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations().size()==0;
+    	return studySubject.getParentStudySubject()==null && studySubject.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations().size()==0;
     }
     public Map buildMap(StudySubject studySubject) {
 		Map map = new HashMap();
@@ -164,7 +164,7 @@ public class RegistrationControllerUtils {
 		map.put("epoch_nonenrolled", epoch_nonenrolled);
 		map.put("epoch_unrandomized", epoch_unrandomized);
 		map.put("hasParent", studySubject.getParentStudySubject()!=null);
-		map.put("hasCompanions", studySubject.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations().size()>0);
+		map.put("hasCompanions", studySubject.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations().size()>0);
 		map.put("registerableWithCompanions", registerableAsorWithCompanion(studySubject));
 		map.put("isDataEntryComplete", studySubject.isDataEntryComplete());
 		map.put("has_mandatory_companions", studySubject.hasMandatoryCompanions());
@@ -206,9 +206,9 @@ public class RegistrationControllerUtils {
 	public boolean registerableAsorWithCompanion(StudySubject studySubject) {
 		if(studySubject.getParentStudySubject()!=null)
 			return false;
-		if (studySubject.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations().size() > 0) {
+		if (studySubject.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations().size() > 0) {
 			Map<Integer, Object> compIds = new HashMap<Integer, Object>();
-			for (CompanionStudyAssociation companionStudyAssociation : studySubject.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations()) {
+			for (CompanionStudyAssociation companionStudyAssociation : studySubject.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()) {
 				if (companionStudyAssociation.getMandatoryIndicator()) {
 					compIds.put(companionStudyAssociation.getCompanionStudy().getId(), new Object());
 				}
@@ -392,7 +392,7 @@ public class RegistrationControllerUtils {
     		List<Identifier> identifiers=new ArrayList<Identifier>();
     		identifiers.add(identifier);
 //    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
-    		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations()){
+    		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()){
     			Companion companion = new Companion();
     			Study companionStudy = companionStudyAssoc.getCompanionStudy();
     			companion.setCompanionStudyShortTitle(companionStudy.getShortTitleText());
@@ -417,7 +417,7 @@ public class RegistrationControllerUtils {
 		List<String> imageAndMessage = new ArrayList<String>();
 		boolean hasCompanion = false ;
 		boolean isTransfer = false ;
-		if(studySubject.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations().size() > 0){
+		if(studySubject.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations().size() > 0){
 			hasCompanion = true ;
 		}
 		int epochs = studySubject.getScheduledEpochs().size() ; 

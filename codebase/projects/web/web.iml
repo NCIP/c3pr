@@ -36,6 +36,8 @@
       <sourceFolder url="file://$MODULE_DIR$/test/resources" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/src/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/src/resources" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/bin1" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">

@@ -100,7 +100,7 @@ public class RegistrationConfirmAndRandomizeController extends
 	            studySubjectDao.initialize(studySubject);
 	            Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
 	    	    studyDao.initialize(study);
-	    	    for(CompanionStudyAssociation companionStudyAssoc : study.getLatestStudyVersion().getCompanionStudyAssociations()){
+	    	    for(CompanionStudyAssociation companionStudyAssoc : study.getStudyVersion().getCompanionStudyAssociations()){
 	    	    	Study companionStudy = companionStudyAssoc.getCompanionStudy();
 	    	    	studyDao.initialize(companionStudy);
 	    	    }
