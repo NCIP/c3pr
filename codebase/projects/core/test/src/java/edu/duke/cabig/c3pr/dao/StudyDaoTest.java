@@ -747,7 +747,7 @@ public class StudyDaoTest extends DaoTestCase {
         
         Epoch te = new Epoch();
         te.setName("test");
-        te.setStudyVersion(study.getLatestStudyVersion());
+        te.setStudyVersion(study.getStudyVersion());
         study.addEpoch(te);
 
         dao.save(study);
@@ -915,7 +915,7 @@ public class StudyDaoTest extends DaoTestCase {
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term2Id));
-        studyDisease.setStudyVersion(study.getLatestStudyVersion());
+        studyDisease.setStudyVersion(study.getStudyVersion());
 
         study.addStudyDisease(studyDisease);
 
@@ -1389,9 +1389,9 @@ public class StudyDaoTest extends DaoTestCase {
 
         CompanionStudyAssociation csa = new CompanionStudyAssociation();
         csa.setCompanionStudy(dao.getById(1001));
-        csa.setParentStudyVersion(study.getLatestStudyVersion());
+        csa.setParentStudyVersion(study.getStudyVersion());
         csa.setMandatoryIndicator(true);
-        study.getLatestStudyVersion().getCompanionStudyAssociations().add(csa);
+        study.getStudyVersion().getCompanionStudyAssociations().add(csa);
 
         dao.save(study);
         int savedId = study.getId();
@@ -1400,7 +1400,7 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
 
         assertNotNull("Companion Association exists", dao.getById(savedId));
-        assertNotNull("Companion Association has Parent Study", dao.getById(savedId).getLatestStudyVersion().getCompanionStudyAssociations());
+        assertNotNull("Companion Association has Parent Study", dao.getById(savedId).getStudyVersion().getCompanionStudyAssociations());
     }
 
     /**
@@ -1423,11 +1423,11 @@ public class StudyDaoTest extends DaoTestCase {
         Study parentStudy = dao.getById(1001);
         dao.initialize(parentStudy);
         interruptSession();
-        List<CompanionStudyAssociation> assocList = parentStudy.getLatestStudyVersion().getCompanionStudyAssociations();
+        List<CompanionStudyAssociation> assocList = parentStudy.getStudyVersion().getCompanionStudyAssociations();
         assocList.remove(0);
         dao.merge(parentStudy);
         assertNotNull("parent study is not null ", parentStudy);
-        assertEquals(parentStudy.getLatestStudyVersion().getCompanionStudyAssociations().size(), 0);
+        assertEquals(parentStudy.getStudyVersion().getCompanionStudyAssociations().size(), 0);
 
     }
 

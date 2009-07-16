@@ -52,7 +52,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		assertFalse("The two objects cannot be equal",studyDisease1.equals(new AnatomicSite()));
 		
 		Study study = new Study();
-		studyDisease2.setStudyVersion(study.getLatestStudyVersion());
+		studyDisease2.setStudyVersion(study.getStudyVersion());
 		
 		assertFalse("The two study diseases cannot be equal",studyDisease1.equals(studyDisease2));
 	}
@@ -63,9 +63,9 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		StudyDisease studyDisease2 = new StudyDisease();
 		
 		Study study = new Study();
-		studyDisease2.setStudyVersion(study.getLatestStudyVersion());
+		studyDisease2.setStudyVersion(study.getStudyVersion());
 		
-		studyDisease1.setStudyVersion(study.getLatestStudyVersion());
+		studyDisease1.setStudyVersion(study.getStudyVersion());
 		
 		assertTrue("The two study diseases should have been equal",studyDisease1.equals(studyDisease2));
 		
@@ -89,8 +89,8 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		StudyDisease studyDisease2 = new StudyDisease();
 		
 		Study study = new Study();
-		studyDisease2.setStudyVersion(study.getLatestStudyVersion());
-		studyDisease1.setStudyVersion(study.getLatestStudyVersion());
+		studyDisease2.setStudyVersion(study.getStudyVersion());
+		studyDisease1.setStudyVersion(study.getStudyVersion());
 		
 		DiseaseTerm diseaseTerm1 = new DiseaseTerm();
 		diseaseTerm1.setCtepTerm("ctep_term1");
@@ -117,7 +117,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		StudyDisease studyDisease2 = new StudyDisease();
 		
 		Study study1 = new Study();
-		studyDisease1.setStudyVersion(study1.getLatestStudyVersion());
+		studyDisease1.setStudyVersion(study1.getStudyVersion());
 		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 		orgIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
 		orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
@@ -125,7 +125,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		study1.addIdentifier(orgIdentifier);
 		
 		Study study2 = new Study();
-		studyDisease2.setStudyVersion(study2.getLatestStudyVersion());
+		studyDisease2.setStudyVersion(study2.getStudyVersion());
 		assertFalse("The two study diseases cannot be equal",studyDisease1.equals(studyDisease2));
 	}
 

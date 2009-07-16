@@ -1451,7 +1451,7 @@ public Date getInformedConsentSignedDate() {
 	public CompanionStudyAssociation getMatchingCompanionStudyAssociation(
 			StudySubject childStudySubject) {
 		for (CompanionStudyAssociation companionStudyAssociation : this
-				.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations()) {
+				.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()) {
 			if (companionStudyAssociation.getCompanionStudy().equals(
 					childStudySubject.getStudySite().getStudy())) {
 				return companionStudyAssociation;
@@ -1776,7 +1776,7 @@ public Date getInformedConsentSignedDate() {
 		if(!this.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
 			return false ; 
 		}
-		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations()){
+		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()){
 			if (companionStudyAssociation.getMandatoryIndicator()) {
 				boolean hasCorrespondingStudySubject = false;
 				for (StudySubject childStudySubject : this.getChildStudySubjects()) {
@@ -1819,7 +1819,7 @@ public Date getInformedConsentSignedDate() {
 	@Transient
 	public boolean hasMandatoryCompanions(){
 		
-		for(CompanionStudyAssociation companionStudyAssociation:this.getStudySite().getStudy().getLatestStudyVersion().getCompanionStudyAssociations()){
+		for(CompanionStudyAssociation companionStudyAssociation:this.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()){
 			if(companionStudyAssociation.getMandatoryIndicator()){
 				return true;
 			}

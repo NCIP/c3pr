@@ -29,7 +29,6 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -516,7 +515,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             this.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
             Study study = this.getStudy();
             if(!study.getCompanionIndicator()){
-            	for(CompanionStudyAssociation companionStudyAssociation : study.getLatestStudyVersion().getCompanionStudyAssociations()){
+            	for(CompanionStudyAssociation companionStudyAssociation : study.getStudyVersion().getCompanionStudyAssociations()){
             		for(StudySite studySite : companionStudyAssociation.getStudySites()){
             			if(studySite.getHealthcareSite().getPrimaryIdentifier() == this.getHealthcareSite().getPrimaryIdentifier()){
             				if(studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){

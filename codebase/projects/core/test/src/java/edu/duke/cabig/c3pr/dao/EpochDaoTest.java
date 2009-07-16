@@ -55,7 +55,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             aList.add(armA);
             epoch1.getArms().addAll(aList);
             epoch1.setName("epoch1");
-            epoch1.setStudyVersion(study.getLatestStudyVersion());
+            epoch1.setStudyVersion(study.getStudyVersion());
             
             BookRandomization bRandomization = new BookRandomization();
             BookRandomizationEntry bre = new BookRandomizationEntry();
@@ -252,7 +252,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             Epoch epoch = new Epoch();
 
             epoch.setName("Anoter Treatment Epoch");
-            epoch.setStudyVersion(loadedStudy.getLatestStudyVersion());
+            epoch.setStudyVersion(loadedStudy.getStudyVersion());
             getDao().save(epoch);
             savedId = epoch.getId();
         }
@@ -321,7 +321,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
             Epoch epoch = new Epoch();
             epoch.setName("epoch Name");
-            epoch.setStudyVersion(study.getLatestStudyVersion());
+            epoch.setStudyVersion(study.getStudyVersion());
             StratificationCriterion stratCrit = new StratificationCriterion();
             stratCrit.setQuestionText("Stratification question");
             stratCrit.setQuestionNumber(2);

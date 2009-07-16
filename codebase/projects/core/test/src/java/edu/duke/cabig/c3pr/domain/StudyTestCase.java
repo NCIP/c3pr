@@ -360,10 +360,10 @@ public class StudyTestCase extends AbstractTestCase{
 	 */
 	public void testRemoveEpoch(){
 		Epoch epoch  = registerMockFor(Epoch.class);
-		epoch.setStudyVersion(simpleStudy.getLatestStudyVersion());
+		epoch.setStudyVersion(simpleStudy.getStudyVersion());
 
 		Epoch epoch1  = registerMockFor(Epoch.class);
-		epoch1.setStudyVersion(simpleStudy.getLatestStudyVersion());
+		epoch1.setStudyVersion(simpleStudy.getStudyVersion());
 
 		replayMocks();
 
@@ -382,9 +382,9 @@ public class StudyTestCase extends AbstractTestCase{
 	 */
 	public void testRemoveStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
-		disease.setStudyVersion(simpleStudy.getLatestStudyVersion());
+		disease.setStudyVersion(simpleStudy.getStudyVersion());
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		disease2.setStudyVersion(simpleStudy.getLatestStudyVersion());
+		disease2.setStudyVersion(simpleStudy.getStudyVersion());
 		replayMocks();
 		simpleStudy.addStudyDisease(disease2);
 		simpleStudy.addStudyDisease(disease);
@@ -401,10 +401,10 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testRemoveAllStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
-		disease.setStudyVersion(simpleStudy.getLatestStudyVersion());
+		disease.setStudyVersion(simpleStudy.getStudyVersion());
 		
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		disease2.setStudyVersion(simpleStudy.getLatestStudyVersion());
+		disease2.setStudyVersion(simpleStudy.getStudyVersion());
 		
 		replayMocks();
 		
@@ -521,7 +521,7 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testGetCompanionStudySite(){
 		simpleStudy.setCompanionIndicator(false);
 		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
-		association.setParentStudyVersion(simpleStudy.getLatestStudyVersion());
+		association.setParentStudyVersion(simpleStudy.getStudyVersion());
 		
 		List<StudySite> listStudySite = new ArrayList<StudySite>();
 		StudySite studySite = registerMockFor(StudySite.class);
@@ -547,7 +547,7 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testGetCompanionStudySite2(){
 		simpleStudy.setCompanionIndicator(false);
 		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
-		association.setParentStudyVersion(simpleStudy.getLatestStudyVersion());
+		association.setParentStudyVersion(simpleStudy.getStudyVersion());
 		
 		List<StudySite> listStudySite = new ArrayList<StudySite>();
 		StudySite studySite = registerMockFor(StudySite.class);
@@ -1867,9 +1867,9 @@ public void testGetStudyOrganization2(){
  */
 public void testGetParentStudyAssociation(){
 	basicStudy.setId(1);
-	basicStudy.getLatestStudyVersion().setId(1);
+	basicStudy.getStudyVersion().setId(1);
 	simpleStudy.setId(2);
-	simpleStudy.getLatestStudyVersion().setId(2);
+	simpleStudy.getStudyVersion().setId(2);
 	simpleStudy = studyCreationHelper.addParentStudyAssociation(basicStudy, simpleStudy);
 	assertNotNull("parent association found for this study", simpleStudy.getParentStudyAssociation(1));
 }
@@ -1879,9 +1879,9 @@ public void testGetParentStudyAssociation(){
  */
 public void testGetParentStudyAssociation1(){
 	basicStudy.setId(1);
-	basicStudy.getLatestStudyVersion().setId(1);
+	basicStudy.getStudyVersion().setId(1);
 	simpleStudy.setId(2);
-	simpleStudy.getLatestStudyVersion().setId(2);
+	simpleStudy.getStudyVersion().setId(2);
 	simpleStudy = studyCreationHelper.addParentStudyAssociation(basicStudy, simpleStudy);
 	assertNull("parent association found for this study", simpleStudy.getParentStudyAssociation(2));
 }

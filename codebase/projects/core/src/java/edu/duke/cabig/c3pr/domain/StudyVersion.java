@@ -39,12 +39,11 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @Table(name = "STUDY_VERSIONS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_VERSIONS_ID_SEQ") })
-public class StudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<Study> {
-	
-	public int compareTo(Study o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+public class StudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<StudyVersion> {
+
+    public int compareTo(StudyVersion studyVersion) {
+		return this.versionDate.compareTo(studyVersion.getVersionDate());
+   	}
 	
 	private StatusType versionStatus;
 	private StudyDataEntryStatus dataEntryStatus;
@@ -57,7 +56,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private LazyListHelper lazyListHelper;
 	private C3PRExceptionHelper c3PRExceptionHelper;
 	private MessageSource c3prErrorMessages;
-	private Date versiontDate;
+	private Date versionDate;
 	private String name;
 
 	public String getName() {
@@ -69,11 +68,11 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
 	public Date getVersionDate() {
-		return versiontDate;
+		return versionDate;
 	}
 
-	public void setVersionDate(Date versiontDate) {
-		this.versiontDate = versiontDate;
+	public void setVersionDate(Date versionDate) {
+		this.versionDate = versionDate;
 	}
 	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
@@ -359,7 +358,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return false;
 	}
 
-	@Transient
+    @Transient
 	public boolean hasRandomizedEpoch() {
 		for (Epoch epoch : this.getEpochs()) {
 			if (epoch.getRandomizedIndicator())
@@ -394,8 +393,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	
 	@Transient
 	public int getCode(String errortypeString) {
-		return Integer.parseInt(this.c3prErrorMessages.getMessage(
-				errortypeString, null, null));
+		return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
 	}
 	
 	private Study study;
@@ -403,9 +401,26 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj){
 			return true;
-		return false;
+        }
+        StudyVersion studyVersion = (StudyVersion) obj;
+        if(this.getStudy().equals(studyVersion.getStudy())){
+         if(this.name.equals(studyVersion.name)){
+            return true;
+         }
+        }
+    	return false;
+	}
+
+    @Override
+    public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result;
+        result = PRIME * result + ((study == null) ? 0 : study.hashCode());
+		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
 	
 	@OneToMany(mappedBy = "parentStudyVersion", fetch = FetchType.LAZY)
@@ -430,7 +445,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.getCompanionStudyAssociations().add(companionStudyAssociation);
 		companionStudyAssociation.setParentStudyVersion(this);
 	}
-
 
 
 }

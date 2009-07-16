@@ -4,11 +4,8 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
-
-import com.sun.org.apache.xerces.internal.util.URI;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -94,7 +91,7 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 			study.getCoordinatingCenterAssignedIdentifier().setValue("abc" + i);
 			if (study.getFundingSponsorAssignedIdentifier() != null)
 				study.getFundingSponsorAssignedIdentifier().setValue("abc" + i);
-			for (CompanionStudyAssociation companionStudyAssociation : study.getLatestStudyVersion()
+			for (CompanionStudyAssociation companionStudyAssociation : study.getStudyVersion()
 					.getCompanionStudyAssociations()) {
 				Study companionStudy = companionStudyAssociation
 						.getCompanionStudy();

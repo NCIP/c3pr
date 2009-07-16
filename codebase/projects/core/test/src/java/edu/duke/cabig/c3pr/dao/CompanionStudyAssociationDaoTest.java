@@ -34,7 +34,7 @@ public class CompanionStudyAssociationDaoTest extends ContextDaoTestCase<StudyDa
     	CompanionStudyAssociation companionStudyAssociation =new CompanionStudyAssociation();
     	companionStudyAssociation.setMandatoryIndicator(false);
     	companionStudyAssociation.setCompanionStudy(studyDao.getById(1001));
-    	companionStudyAssociation.setParentStudyVersion(studyDao.getById(1000).getLatestStudyVersion());
+    	companionStudyAssociation.setParentStudyVersion(studyDao.getById(1000).getStudyVersion());
     	assertNull("companionStudyAssociation should not have an Id",companionStudyAssociation.getId());
     	companionStudyAssociationDao.save(companionStudyAssociation);
     	

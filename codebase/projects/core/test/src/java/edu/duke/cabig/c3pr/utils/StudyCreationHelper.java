@@ -2,8 +2,6 @@ package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
@@ -27,7 +25,6 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyAmendment;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
@@ -402,7 +399,7 @@ public class StudyCreationHelper {
 		 child.setCompanionIndicator(true);
 		 CompanionStudyAssociation association = new CompanionStudyAssociation();
 		 association.setId(1);
-		 association.setParentStudyVersion(parent.getLatestStudyVersion());
+		 association.setParentStudyVersion(parent.getStudyVersion());
 		 association.setCompanionStudy(child);
 		 
 		 child.getParentStudyAssociations().add(association);
@@ -414,7 +411,7 @@ public class StudyCreationHelper {
 		 child.setCompanionIndicator(true);
 		 CompanionStudyAssociation association = new CompanionStudyAssociation();
 		 association.setId(1);
-		 association.setParentStudyVersion(parent.getLatestStudyVersion());
+		 association.setParentStudyVersion(parent.getStudyVersion());
 		 association.setCompanionStudy(child);
 		 
 		 StudySite site = new StudySite();

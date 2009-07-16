@@ -5,10 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -79,6 +76,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	private String phaseCode;
 	private String type;
 	private ConsentRequired consentRequired ;
+    private StudyVersion studyVersion;
 	
 	@Enumerated(EnumType.STRING)
 	public ConsentRequired getConsentRequired() {
@@ -230,11 +228,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	public void addEpoch(Epoch epoch) throws RuntimeException {
-		getLatestStudyVersion().addEpoch(epoch);
+		getStudyVersion().addEpoch(epoch);
 	}
 
 	public void removeEpoch(Epoch epoch) {
-		getLatestStudyVersion().removeEpoch(epoch);
+		getStudyVersion().removeEpoch(epoch);
 	}
 	
 	public void removeStudyDisease(StudyDisease studyDisease) {
@@ -244,7 +242,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public void removeAllStudyDisease() {
 		this.getStudyDiseases().removeAll(this.getStudyDiseases());
 	}
-	
+
 	public void addStudySite(StudySite studySite) {
 		studySite.setStudy(this);
 		lazyListHelper.getLazyList(StudySite.class).add(studySite);
@@ -255,7 +253,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	public void addStudyDisease(StudyDisease studyDisease) {
-		studyDisease.setStudyVersion(this.getLatestStudyVersion());
+		studyDisease.setStudyVersion(this.getStudyVersion());
 		getStudyDiseases().add(studyDisease);
 	}
 
@@ -361,11 +359,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public List<Epoch> getEpochs() {
-		return getLatestStudyVersion().getEpochs();
+		return getStudyVersion().getEpochs();
 	}
 
 	public void setEpochs(List<Epoch> epochs) {
-		getLatestStudyVersion().setEpochs(epochs);
+		getStudyVersion().setEpochs(epochs);
 	}
 
 	@OneToMany(fetch = FetchType.LAZY)
@@ -390,17 +388,17 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient 
 	public List<StudyDisease> getStudyDiseases(){
-		return getLatestStudyVersion().getStudyDiseases();
+		return getStudyVersion().getStudyDiseases();
 	}
 
 	@Transient
 	public String getDescriptionText() {
-		return getLatestStudyVersion().getDescriptionText();
+		return getStudyVersion().getDescriptionText();
 	}
 	
 	@Transient
 	public String getLongTitleText() {
-		return getLatestStudyVersion().getLongTitleText();
+		return getStudyVersion().getLongTitleText();
 	}
 
 	public String getPhaseCode() {
@@ -413,17 +411,17 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public String getPrecisText() {
-		return getLatestStudyVersion().getPrecisText();
+		return getStudyVersion().getPrecisText();
 	}
 
 	@Transient
 	public String getShortTitleText() {
-		return getLatestStudyVersion().getShortTitleText();
+		return getStudyVersion().getShortTitleText();
 	}
 
 	@Transient
 	public Integer getTargetAccrualNumber() {
-		return getLatestStudyVersion().getTargetAccrualNumber();
+		return getStudyVersion().getTargetAccrualNumber();
 	}
 
 	public String getType() {
@@ -516,7 +514,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public RandomizationType getRandomizationType() {
-		return getLatestStudyVersion().getRandomizationType();
+		return getStudyVersion().getRandomizationType();
 	}
 
 	@Transient
@@ -544,7 +542,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public StudyDataEntryStatus getDataEntryStatus() {
-		return getLatestStudyVersion().getDataEntryStatus();
+		return getStudyVersion().getDataEntryStatus();
 	}
 
 	@Transient
@@ -604,12 +602,12 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public Epoch getEpochByName(String name) {
-		return getLatestStudyVersion().getEpochByName(name); 	
+		return getStudyVersion().getEpochByName(name);
 	}
 
 	public void updateDataEntryStatus() {
 		List<Error> errors = new ArrayList<Error>();
-		getLatestStudyVersion().setDataEntryStatus(evaluateDataEntryStatus(errors));
+		getStudyVersion().setDataEntryStatus(evaluateDataEntryStatus(errors));
 	}
 
 	public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus() throws C3PRCodedException {
@@ -628,36 +626,31 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 
 	public StudyDataEntryStatus evaluateDataEntryStatus(List<Error> errors) {
-		return getLatestStudyVersion().evaluateDataEntryStatus(errors);
+		return getStudyVersion().evaluateDataEntryStatus(errors);
 	}
 
 	public void open() {
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING) {
 			this.readyToOpen();
 		}
-		if (!(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_TO_OPEN
-				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING
-				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL || this
-				.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
-			throw getC3PRExceptionHelper()
-					.getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE"),
-							new String[] { this
-									.getCoordinatingCenterStudyStatus()
-									.getDisplayName() });
+		if (!(coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.READY_TO_OPEN
+				|| coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.AMENDMENT_PENDING
+				|| coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
+                || coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
+			throw getC3PRExceptionHelper().getRuntimeException( getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE"),
+							            new String[] { this.getCoordinatingCenterStudyStatus() .getDisplayName() });
 		}
+        
 		if (this.companionIndicator && !this.standaloneIndicator) {
 			for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
-				if (this.parentStudyAssociations.get(i).getParentStudy()
-						.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
-					throw getC3PRExceptionHelper()
-							.getRuntimeException(
-									getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY_OPEN.CODE"));
+				if (this.parentStudyAssociations.get(i).getParentStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY_OPEN.CODE"));
 				}
 			}
 		}
-		if (this.getLatestStudyVersion().getCompanionStudyAssociations().size() > 0) {
-			for (CompanionStudyAssociation compStudyAssoc : this.getLatestStudyVersion()
+
+        if (this.getStudyVersion().getCompanionStudyAssociations().size() > 0) {
+			for (CompanionStudyAssociation compStudyAssoc : this.getStudyVersion()
 					.getCompanionStudyAssociations()) {
 				if (compStudyAssoc.getCompanionStudy()
 						.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_TO_OPEN
@@ -1055,7 +1048,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 				}
 			}
 		}else{
-			for(CompanionStudyAssociation companionStudyAssociation : this.getLatestStudyVersion().getCompanionStudyAssociations()){
+			for(CompanionStudyAssociation companionStudyAssociation : this.getStudyVersion().getCompanionStudyAssociations()){
 				for(StudySite studySite : companionStudyAssociation.getStudySites()){
 					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getPrimaryIdentifier())){
 						return studySite ;
@@ -1172,93 +1165,108 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	
 	@Transient
 	public StudyVersion getLatestStudyVersion(){
-		int size = this.getStudyVersions().size();
-		if(size < 1){
+        List<StudyVersion> studyVersions = this.getStudyVersions();
+        int size = studyVersions.size();
+        if( size < 1){
 			return  getStudyVersions().get(0);
-		}else{
-			return  getStudyVersions().get(size - 1);
+        }else{
+            Collections.sort(studyVersions);
+			return  studyVersions.get(size - 1 );
 		}
-		
 	}
 	
 	public void setShortTitleText(String shortTitleText){
-		this.getLatestStudyVersion().setShortTitleText(shortTitleText);
+		this.getStudyVersion().setShortTitleText(shortTitleText);
 	}
 	
 	public void setLongTitleText(String longTitleText){
-		this.getLatestStudyVersion().setLongTitleText(longTitleText);
+		this.getStudyVersion().setLongTitleText(longTitleText);
 	}
 	
 	public void setDescriptionText(String descriptionText){
-		this.getLatestStudyVersion().setDescriptionText(descriptionText);
+		this.getStudyVersion().setDescriptionText(descriptionText);
 	}
 	
 	public void setPrecisText(String precisText){
-		this.getLatestStudyVersion().setPrecisText(precisText);
+		this.getStudyVersion().setPrecisText(precisText);
 	}
 	
 	public void setDataEntryStatus(StudyDataEntryStatus dataEntryStatus){
-		this.getLatestStudyVersion().setDataEntryStatus(dataEntryStatus);
+		this.getStudyVersion().setDataEntryStatus(dataEntryStatus);
 	}
 	
 	public void setRandomizationType(RandomizationType randomizationType){
-		this.getLatestStudyVersion().setRandomizationType(randomizationType);
+		this.getStudyVersion().setRandomizationType(randomizationType);
 	}
 	
 	public void setTargetAccrualNumber(Integer targetAccrualNumber){
-		this.getLatestStudyVersion().setTargetAccrualNumber(targetAccrualNumber);
+		this.getStudyVersion().setTargetAccrualNumber(targetAccrualNumber);
 	}
 	
 	@Transient
 	public boolean hasElligibility() {
-		return getLatestStudyVersion().hasElligibility();
+		return getStudyVersion().hasElligibility();
 	}
 
 	@Transient
 	public boolean hasCompanions() {
-		return getLatestStudyVersion().hasCompanions();
+		return getStudyVersion().hasCompanions();
 	}
 
 	@Transient
 	public boolean hasRandomizedEpoch() {
-		return getLatestStudyVersion().hasRandomizedEpoch();
+		return getStudyVersion().hasRandomizedEpoch();
 	}
 
 	@Transient
 	public boolean hasStratifiedEpoch() {
-		return getLatestStudyVersion().hasStratifiedEpoch();
+		return getStudyVersion().hasStratifiedEpoch();
 	}
 
 	@Transient
 	public boolean hasEnrollingEpoch() {
-		return getLatestStudyVersion().hasEnrollingEpoch();
+		return getStudyVersion().hasEnrollingEpoch();
 	}
 	
 	public void evaluateEpochsDataEntryStatus(List<Error> errors) throws C3PRCodedRuntimeException {
-		getLatestStudyVersion().evaluateEpochsDataEntryStatus(errors);
+		getStudyVersion().evaluateEpochsDataEntryStatus(errors);
 	}
 	
 	public void addCompanionStudyAssociation(CompanionStudyAssociation companionStudyAssociation) {
-		getLatestStudyVersion().addCompanionStudyAssociation(companionStudyAssociation);
+		getStudyVersion().addCompanionStudyAssociation(companionStudyAssociation);
 	}
 	
 	@Transient
 	public List<CompanionStudyAssociation> getCompanionStudyAssociations() {
-		return getLatestStudyVersion().getCompanionStudyAssociations();
+		return getStudyVersion().getCompanionStudyAssociations();
 	}
 	
 	public void setStudyDiseases(List<StudyDisease> studyDiseases) {
-		getLatestStudyVersion().setStudyDiseases(studyDiseases);
+		getStudyVersion().setStudyDiseases(studyDiseases);
 	}
 	
 	@Transient
 	public String getVersionName() {
-		return getLatestStudyVersion().getName();
+		return getStudyVersion().getName();
 	}
 
-	public void setName(String name) {
-		getLatestStudyVersion().setName(name);
+	public void setVersionName(String name) {
+		getStudyVersion().setName(name);
 	}
+
+    @Transient
+	public StudyVersion getStudyVersion() {
+		if(studyVersion != null){
+            return studyVersion ;
+       }else{
+            return getLatestStudyVersion();
+        }
+	}
+
+	public void setStudyVersion(StudyVersion studyVersion) {
+		this.studyVersion = studyVersion;
 	
-	
+	}
+
+
 }

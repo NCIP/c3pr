@@ -527,7 +527,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(term1);
         studyDisease.setDiseaseTerm(term2);
-        studyDisease.setStudyVersion(study.getLatestStudyVersion());
+        studyDisease.setStudyVersion(study.getStudyVersion());
 
         study.addStudyDisease(studyDisease);
 
