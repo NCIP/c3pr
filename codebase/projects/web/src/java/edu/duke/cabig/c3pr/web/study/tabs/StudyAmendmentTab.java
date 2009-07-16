@@ -21,9 +21,7 @@ public class StudyAmendmentTab extends StudyTab {
     @Override
     public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
-        // this will ensure the amendment form isnt disabled.
         refdata.put("disableForm", new Boolean(false));
-        // this will ensure all other tabs/forms are disabled
         refdata.put("mandatory", "true");
         disableAll(request);
         return refdata;

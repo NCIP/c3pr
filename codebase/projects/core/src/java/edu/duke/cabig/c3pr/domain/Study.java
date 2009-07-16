@@ -97,6 +97,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
 	private List<StudyOrganization> studyOrganizations;
 	private List<Identifier> identifiers;
+    private List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
 
 	private LazyListHelper lazyListHelper;
 	private C3PRExceptionHelper c3PRExceptionHelper;
@@ -134,7 +135,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
-		lazyListHelper.add(StudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudyVersion>(StudyVersion.class, this));
 	}
 
 	/**
@@ -161,7 +161,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
-		lazyListHelper.add(StudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudyVersion>(StudyVersion.class, this));
 	}
 
 	public List<Error> canOpen() {
@@ -1132,22 +1131,18 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return diseaseSites;
 		
 	}
-	
-	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+
+    @OneToMany
+	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "study_id    ")
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy ("versionDate")
-	public List<StudyVersion> getStudyVersionsInternal() {
-		return lazyListHelper.getInternalList(StudyVersion.class);
-	}
-
-	@Transient
 	public List<StudyVersion> getStudyVersions() {
-		return lazyListHelper.getLazyList(StudyVersion.class);
+		return studyVersions;
 	}
 
 	public void setStudyVersionsInternal(List<StudyVersion> studyVersions) {
-		lazyListHelper.setInternalList(StudyVersion.class,studyVersions);
+		this.studyVersions = studyVersions ;
 	}
 
 	public void addStudyVersion(StudyVersion studyVersion) {
@@ -1164,11 +1159,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         List<StudyVersion> studyVersions = this.getStudyVersions();
         int size = studyVersions.size();
         if( size < 1){
-			return  getStudyVersions().get(0);
-        }else{
-            Collections.sort(studyVersions);
-			return  studyVersions.get(size - 1 );
-		}
+		    this.setStudyVersion(new StudyVersion());
+        }
+        Collections.sort(studyVersions);
+        return  studyVersions.get(size - 1 );
 	}
 	
 	public void setShortTitleText(String shortTitleText){

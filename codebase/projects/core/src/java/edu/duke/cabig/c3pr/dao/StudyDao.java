@@ -150,7 +150,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     @Transactional(readOnly = false)
     public void initialize(Study study) 	{
 
-    	getHibernateTemplate().initialize(study.getStudyVersions());
     	for(StudyVersion studyVersion : study.getStudyVersions()){
 			studyVersionDao.initialize(studyVersion);
 		}
