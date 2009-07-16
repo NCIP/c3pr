@@ -76,14 +76,14 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
-		return c3PRExceptionHelper;
+		return c3PRExceptionHelper;                                                                 
 	}
 
+    @Enumerated(EnumType.STRING)
 	public StatusType getVersionStatus() {
 		return versionStatus;
 	}
 	
-	@Enumerated(EnumType.STRING)
 	public void setVersionStatus(StatusType versionStatus) {
 		this.versionStatus = versionStatus;
 	}
@@ -161,6 +161,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
 		
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
+        versionStatus = StatusType.IN ;
 	}
 	
 	public StudyVersion(boolean forSearchByExample){

@@ -27,12 +27,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import edu.duke.cabig.c3pr.constants.ConsentRequired;
-import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
-import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.RandomizationType;
-import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.*;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
@@ -667,6 +662,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			}
 		}
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+        this.getStudyVersion().setVersionStatus(StatusType.AC);
 	}
 
 	public void readyToOpen() throws C3PRInvalidDataEntryException {

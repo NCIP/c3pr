@@ -171,7 +171,7 @@
 		                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
 		                    </c:otherwise>
 		                </c:choose>
-	                    <c:if test="${command.study.standaloneIndicator && command.study.coordinatingCenterStudyStatus != 'PENDING'}">
+	                    <c:if test="${command.study.standaloneIndicator && canAmendStudy}">
 	                    	<c:choose>
 			                    <c:when test="${command.study.companionIndicator=='true'}">
 			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Amend Study" />

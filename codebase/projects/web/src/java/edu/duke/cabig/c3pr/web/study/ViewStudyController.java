@@ -117,19 +117,15 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
      */
     @Override
     protected boolean isFormSubmission(HttpServletRequest httpServletRequest) {
-        return super.isFormSubmission(httpServletRequest); // To change body of overridden methods
-        // use File | Settings | File Templates.
+        return super.isFormSubmission(httpServletRequest);
     }
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request,
                                                  HttpServletResponse response) throws Exception {
         // study export
-        if (request.getParameterMap().keySet().contains("_action")
-                && StringUtils.getBlankIfNull(request.getParameter("_action"))
-                .equalsIgnoreCase("export")) {
+        if (StringUtils.getBlankIfNull(request.getParameter("_action")).equalsIgnoreCase("export")) {
             response.reset();
-
             StudyWrapper wrapper = (StudyWrapper) currentFormObject(request, request.getSession().getAttribute(getFormSessionAttributeName()));
             Study study = wrapper.getStudy();
             response.setContentType("application/xml");
@@ -140,15 +136,13 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
 
             return null;
         }
-
         return super.handleRequestInternal(request, response);
     }
 
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException e)
             throws Exception {
         Study study = ((StudyWrapper) command).getStudy();
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("editStudy?studyId="
-                + study.getId()));
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("editStudy?studyId=" + study.getId()));
         return modelAndView;
     }
 
@@ -169,8 +163,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
     }
 
     @Override
-    protected boolean shouldPersist(HttpServletRequest request, StudyWrapper command,
-                    Tab<StudyWrapper> tab) {
+    protected boolean shouldPersist(HttpServletRequest request, StudyWrapper command, Tab<StudyWrapper> tab) {
         if(WebUtils.hasSubmitParameter(request, DO_NOT_SAVE) && StringUtils.equals(request.getParameter(DO_NOT_SAVE), "true")){
             return false;
         }

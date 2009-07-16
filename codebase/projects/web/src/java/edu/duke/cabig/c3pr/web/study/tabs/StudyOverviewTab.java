@@ -13,6 +13,7 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -103,11 +104,14 @@ public class StudyOverviewTab extends StudyTab {
 
     @Override
     public Map referenceData(HttpServletRequest request, StudyWrapper command) {
+
         request.setAttribute("isCCTSEnv", isCCTSEnv());
         List<Error> dataEntryErrors = new ArrayList<Error>();
-            command.getStudy().getStudyVersion().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus(dataEntryErrors));
-        	request.setAttribute("errors", dataEntryErrors);
-        return super.referenceData(request, command);
+        command.getStudy().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus(dataEntryErrors));
+        request.setAttribute("errors", dataEntryErrors);
+        Map<String, Object> refdata = super.referenceData(request, command);
+        refdata.put("canAmendStudy", canAmendStudy(command.getStudy()));
+        return refdata ;
     }
 
     private String handleInPlaceEditing(HttpServletRequest request, StudyWrapper command,
@@ -199,5 +203,19 @@ public class StudyOverviewTab extends StudyTab {
     public ModelAndView updateTargetAccrual(HttpServletRequest request, Object command , Errors error) {
     	return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
+
+    private boolean canAmendStudy(Study study){
+        List<CoordinatingCenterStudyStatus> permissibleStatus = new ArrayList<CoordinatingCenterStudyStatus>();
+        
+        permissibleStatus.add(CoordinatingCenterStudyStatus.OPEN);
+        permissibleStatus.add(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+        permissibleStatus.add(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+
+        return permissibleStatus.contains(study.getCoordinatingCenterStudyStatus()) && study.getStudyVersion() == study.getLatestStudyVersion() 
+                && study.getStudyVersion().getVersionStatus() == StatusType.AC ;
+                   
+    }
+
+
 
 }
