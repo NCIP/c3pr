@@ -59,6 +59,16 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     private EpochDao epochDao;
     private StudyVersionDao studyVersionDao ;
 
+    public HealthcareSiteDao getHealthcareSiteDao() {
+        return healthcareSiteDao;
+    }
+
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+        this.healthcareSiteDao = healthcareSiteDao;
+    }
+
+    private HealthcareSiteDao healthcareSiteDao ;
+
     public void setStudyVersionDao(StudyVersionDao studyVersionDao) {
 		this.studyVersionDao = studyVersionDao;
 	}
@@ -146,8 +156,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		}
     	
     	getHibernateTemplate().initialize(study.getEndpoints());
-		
-		getHibernateTemplate().initialize(study.getStudyOrganizations());
+
 		getHibernateTemplate().initialize(study.getIdentifiers());
 		getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
 		getHibernateTemplate().initialize(study.getParentStudyAssociations());
@@ -183,15 +192,13 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 			}
 		}
 		
-		
+        getHibernateTemplate().initialize(study.getStudyOrganizations());
 		for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
-			if (studyOrganization != null) {
-				getHibernateTemplate().initialize(studyOrganization.getStudyInvestigatorsInternal());
-				getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
-				getHibernateTemplate().initialize(studyOrganization.getEndpoints());
-				getHibernateTemplate().initialize(studyOrganization.getHealthcareSite().getHealthcareSiteInvestigators());
-			}
-		}
+            getHibernateTemplate().initialize(studyOrganization.getStudyInvestigatorsInternal());
+            getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
+            getHibernateTemplate().initialize(studyOrganization.getEndpoints());
+            healthcareSiteDao.initialize(studyOrganization.getHealthcareSite());
+        }
 	}
     
     /**
