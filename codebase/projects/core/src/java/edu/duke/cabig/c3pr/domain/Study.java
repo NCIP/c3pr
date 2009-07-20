@@ -53,7 +53,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
  * observations of a primary study, enrolling the same, or a subset of the same,
  * subjects as the primary study. A Clinical Trial is a Study with type=
  * "intervention" with subjects of type="human".
- * 
+ *
  * @author Priyatam
  */
 
@@ -72,7 +72,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	private String type;
 	private ConsentRequired consentRequired ;
     private StudyVersion studyVersion;
-	
+
 	@Enumerated(EnumType.STRING)
 	public ConsentRequired getConsentRequired() {
 		return consentRequired;
@@ -97,7 +97,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
 	private List<StudyOrganization> studyOrganizations;
 	private List<Identifier> identifiers;
-    private List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
 
 	private LazyListHelper lazyListHelper;
 	private C3PRExceptionHelper c3PRExceptionHelper;
@@ -135,11 +134,12 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+		lazyListHelper.add(StudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudyVersion>(StudyVersion.class, this));
 	}
 
 	/**
 	 * Instantiates a new study.
-	 * 
+	 *
 	 * @param forSearchByExample the for search by example
 	 */
 	public Study(boolean forSearchByExample) {
@@ -161,6 +161,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+		lazyListHelper.add(StudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudyVersion>(StudyVersion.class, this));
 	}
 
 	public List<Error> canOpen() {
@@ -228,11 +229,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public void removeEpoch(Epoch epoch) {
 		getStudyVersion().removeEpoch(epoch);
 	}
-	
+
 	public void removeStudyDisease(StudyDisease studyDisease) {
 		this.getStudyDiseases().remove(studyDisease);
 	}
-	
+
 	public void removeAllStudyDisease() {
 		this.getStudyDiseases().removeAll(this.getStudyDiseases());
 	}
@@ -314,7 +315,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	/**
 	 * Gets the principal investigator study organization.
-	 * 
+	 *
 	 * @return the principal investigator study organization
 	 */
 	@Transient
@@ -380,7 +381,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getLazyList(PlannedNotification.class);
 	}
 
-	@Transient 
+	@Transient
 	public List<StudyDisease> getStudyDiseases(){
 		return getStudyVersion().getStudyDiseases();
 	}
@@ -389,7 +390,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public String getDescriptionText() {
 		return getStudyVersion().getDescriptionText();
 	}
-	
+
 	@Transient
 	public String getLongTitleText() {
 		return getStudyVersion().getLongTitleText();
@@ -520,7 +521,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 				return i ;
 			}
 		}
-		
+
 		return -1;
 	}
 
@@ -558,7 +559,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
             }
             this.setCoordinatingCenterStudyStatusInternal(coordinatingCenterStudyStatus);
 	}
-	
+
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatusInternal() {
@@ -634,7 +635,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			throw getC3PRExceptionHelper().getRuntimeException( getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE"),
 							            new String[] { this.getCoordinatingCenterStudyStatus() .getDisplayName() });
 		}
-        
+
 		if (this.companionIndicator && !this.standaloneIndicator) {
 			for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
 				if (this.parentStudyAssociations.get(i).getParentStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
@@ -686,7 +687,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 					" Study is invalid because data entry is not complete",
 					errors);
 		}
-		
+
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
 
 	}
@@ -703,7 +704,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 					new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
 							.getDisplayName() });
 		}
-		
+
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING)
 			throw getC3PRExceptionHelper()
@@ -866,14 +867,14 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 										.getDisplayName());
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(),
 				getId() == null ? "id" : getId().toString());
-		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(), 
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(),
 				getShortTitleText() == null ? "Short Title": getShortTitleText().toString());
-		
+
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_CURRENT_ACCRUAL.toString(),
 				getCurrentAccrualCount() == null ? "current accrual" : getCurrentAccrualCount().toString());
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD.toString(),
 				getTargetAccrualNumber() == null ? "target accrual" : getTargetAccrualNumber().toString());
-		
+
 		return map;
 	}
 
@@ -1031,7 +1032,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		return flag;
 	}
-	
+
 	@Transient
 	public StudySite getCompanionStudySite(String nciCode) {
 		if(this.getCompanionIndicator()){
@@ -1053,8 +1054,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		return null;
 	}
-	
-	
+
+
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<CustomFieldDefinition> getCustomFieldDefinitionsInternal() {
@@ -1077,7 +1078,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.getCustomFieldDefinitions().add(customFieldDefinition);
 		customFieldDefinition.setStudy(this);
 	}
-	
+
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<CustomField> getCustomFieldsInternal() {
@@ -1100,7 +1101,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.getCustomFields().add(customField);
 		customField.setStudy(this);
 	}
-	
+
 	@Transient
 	public CompanionStudyAssociation getParentStudyAssociation(int parentStudyVersionId){
 		for(CompanionStudyAssociation companionStudyAssociation : this.getParentStudyAssociations()){
@@ -1110,7 +1111,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		return null;
 	}
-	
+
 	@Transient
 	public List<StudySubject> getAllStudySubjects(){
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
@@ -1119,7 +1120,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		return studySubjects;
 	}
-	
+
 	@Transient
 	public List<AnatomicSite> getDiseaseSites(){
 		List<AnatomicSite> diseaseSites = new ArrayList<AnatomicSite>();
@@ -1129,20 +1130,24 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			}
 		}
 		return diseaseSites;
-		
+
 	}
 
-    @OneToMany
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "study_id    ")
+	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy ("versionDate")
+	public List<StudyVersion> getStudyVersionsInternal() {
+		return lazyListHelper.getInternalList(StudyVersion.class);
+	}
+
+	@Transient
 	public List<StudyVersion> getStudyVersions() {
-		return studyVersions;
+		return lazyListHelper.getLazyList(StudyVersion.class);
 	}
 
 	public void setStudyVersionsInternal(List<StudyVersion> studyVersions) {
-		this.studyVersions = studyVersions ;
+		lazyListHelper.setInternalList(StudyVersion.class,studyVersions);
 	}
 
 	public void addStudyVersion(StudyVersion studyVersion) {
@@ -1153,46 +1158,47 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public void setStudyVersions(List<StudyVersion> studyVersions) {
 		setStudyVersionsInternal(studyVersions);
 	}
-	
+
 	@Transient
 	public StudyVersion getLatestStudyVersion(){
         List<StudyVersion> studyVersions = this.getStudyVersions();
         int size = studyVersions.size();
         if( size < 1){
-		    this.setStudyVersion(new StudyVersion());
-        }
-        Collections.sort(studyVersions);
-        return  studyVersions.get(size - 1 );
+			return  getStudyVersions().get(0);
+        }else{
+            Collections.sort(studyVersions);
+			return  studyVersions.get(size - 1 );
+		}
 	}
-	
+
 	public void setShortTitleText(String shortTitleText){
 		this.getStudyVersion().setShortTitleText(shortTitleText);
 	}
-	
+
 	public void setLongTitleText(String longTitleText){
 		this.getStudyVersion().setLongTitleText(longTitleText);
 	}
-	
+
 	public void setDescriptionText(String descriptionText){
 		this.getStudyVersion().setDescriptionText(descriptionText);
 	}
-	
+
 	public void setPrecisText(String precisText){
 		this.getStudyVersion().setPrecisText(precisText);
 	}
-	
+
 	public void setDataEntryStatus(StudyDataEntryStatus dataEntryStatus){
 		this.getStudyVersion().setDataEntryStatus(dataEntryStatus);
 	}
-	
+
 	public void setRandomizationType(RandomizationType randomizationType){
 		this.getStudyVersion().setRandomizationType(randomizationType);
 	}
-	
+
 	public void setTargetAccrualNumber(Integer targetAccrualNumber){
 		this.getStudyVersion().setTargetAccrualNumber(targetAccrualNumber);
 	}
-	
+
 	@Transient
 	public boolean hasElligibility() {
 		return getStudyVersion().hasElligibility();
@@ -1217,24 +1223,24 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public boolean hasEnrollingEpoch() {
 		return getStudyVersion().hasEnrollingEpoch();
 	}
-	
+
 	public void evaluateEpochsDataEntryStatus(List<Error> errors) throws C3PRCodedRuntimeException {
 		getStudyVersion().evaluateEpochsDataEntryStatus(errors);
 	}
-	
+
 	public void addCompanionStudyAssociation(CompanionStudyAssociation companionStudyAssociation) {
 		getStudyVersion().addCompanionStudyAssociation(companionStudyAssociation);
 	}
-	
+
 	@Transient
 	public List<CompanionStudyAssociation> getCompanionStudyAssociations() {
 		return getStudyVersion().getCompanionStudyAssociations();
 	}
-	
+
 	public void setStudyDiseases(List<StudyDisease> studyDiseases) {
 		getStudyVersion().setStudyDiseases(studyDiseases);
 	}
-	
+
 	@Transient
 	public String getVersionName() {
 		return getStudyVersion().getName();
@@ -1255,7 +1261,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void setStudyVersion(StudyVersion studyVersion) {
 		this.studyVersion = studyVersion;
-	
+
 	}
 
 

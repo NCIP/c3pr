@@ -150,6 +150,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     @Transactional(readOnly = false)
     public void initialize(Study study) 	{
 
+        getHibernateTemplate().initialize(study.getStudyVersions());
     	for(StudyVersion studyVersion : study.getStudyVersions()){
 			studyVersionDao.initialize(studyVersion);
 		}
@@ -244,7 +245,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * objects based on your sample study object
      */
 
-    /**
+    /**                                       
      * Searches by example.
      * 
      * @param study the example study
@@ -258,7 +259,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 
     /**
      * Search by example.
-     * 
+     *                                                                                                                           
      * @param study the exmple study
      * @param isWildCard the wild card
      * @param maxResults the max results
