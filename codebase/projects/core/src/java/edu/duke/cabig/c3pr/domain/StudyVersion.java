@@ -39,7 +39,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @Table(name = "STUDY_VERSIONS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_VERSIONS_ID_SEQ") })
-public class StudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<StudyVersion> {
+public class StudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<StudyVersion>, Cloneable {
 
     public int compareTo(StudyVersion studyVersion) {
 		return this.versionDate.compareTo(studyVersion.getVersionDate());
@@ -58,6 +58,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private MessageSource c3prErrorMessages;
 	private Date versionDate;
 	private String name;
+    private String comments;
 
 	public String getName() {
 		return name;
@@ -399,32 +400,8 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	
 	private Study study;
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj){
-			return true;
-        }
-        StudyVersion studyVersion = (StudyVersion) obj;
-        if(this.getStudy().equals(studyVersion.getStudy())){
-         if(this.name.equals(studyVersion.name)){
-            return true;
-         }
-        }
-    	return false;
-	}
 
-    @Override
-    public int hashCode() {
-		final int PRIME = 31;
-		int result = super.hashCode();
-		result = PRIME * result;
-        result = PRIME * result + ((study == null) ? 0 : study.hashCode());
-		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-	
-	@OneToMany(mappedBy = "parentStudyVersion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parentStudyVersion", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<CompanionStudyAssociation> getCompanionStudyAssociationsInternal() {
@@ -442,10 +419,40 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 				companionStudyAssociations);
 	}
 
+    public void setCompanionStudyAssociations(List<CompanionStudyAssociation> companionStudyAssociations) {
+		setCompanionStudyAssociationsInternal(companionStudyAssociations);
+	}
+
 	public void addCompanionStudyAssociation(CompanionStudyAssociation companionStudyAssociation) {
 		this.getCompanionStudyAssociations().add(companionStudyAssociation);
 		companionStudyAssociation.setParentStudyVersion(this);
 	}
 
+    protected Object clone() throws CloneNotSupportedException{
+        StudyVersion clone = new StudyVersion();
 
+        // create a copy of current object in clone object and return clone.
+        clone.setCompanionStudyAssociations(this.getCompanionStudyAssociations());
+        clone.setConsents(this.getConsents());
+        clone.setStudy(this.getStudy());
+        clone.setDescriptionText(this.getDescriptionText());
+        clone.setEpochs(this.getEpochs());
+        clone.setLongTitleText(this.getLongTitleText());
+        clone.setPrecisText(this.getPrecisText());
+        clone.setRandomizationType(this.getRandomizationType());
+        clone.setShortTitleText(this.getShortTitleText());
+        clone.setStudyDiseases(this.getStudyDiseases());
+        clone.setTargetAccrualNumber(this.getTargetAccrualNumber());
+
+        return clone ; 
+    }
+
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 }

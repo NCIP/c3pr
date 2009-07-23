@@ -1264,5 +1264,41 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	}
 
+    @Transient
+    public StudyVersion getCurrentStudyAmendment(){
+        StudyVersion studyVersion = getStudyVersion() ;
+        if(studyVersion.getVersionStatus() == StatusType.IN){
+            return studyVersion ;
+        }else{
+            try {
+                return (StudyVersion)studyVersion.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+        }
+        return null ;
+    }
+
+    @Transient
+    public List<StudyVersion> getPreviousStudyAmendments(){
+        int size = this.getStudyVersions().size() ;
+        if(this.getStudyVersion().getVersionStatus() == StatusType.IN) {
+            if(size > 2){
+                return this.getStudyVersions().subList(1, size - 1) ;
+            }else{
+                return null ;
+            }
+        }else{
+             if(size > 2){
+                return this.getStudyVersions().subList(1, size) ;
+            }else{
+                return null ;
+            }
+        }
+    }
+
+    
+
 
 }
