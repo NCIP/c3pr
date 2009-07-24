@@ -242,7 +242,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
             //for every hcs_inv in the remoteInv.....ensure the corresponding org is in the database and link it to the hcs_inv before saving the remoteInv.
             for(HealthcareSiteInvestigator healthcareSiteInvestigator: retrievedRemoteInvestigator.getHealthcareSiteInvestigators()){
                     ctepCode = healthcareSiteInvestigator.getHealthcareSite().getPrimaryIdentifier();
-                    healthcareSite = healthcareSiteDao.getByCtepCodeFromLocal(ctepCode);
+                    healthcareSite = healthcareSiteDao.getByPrimaryIdentifierFromLocal(ctepCode);
                     //The org related to the remoteInv does not exist...load it from COPPA and save it; then link it to the remoteInv
                     if(healthcareSite == null){
                         healthcareSiteDao.save(healthcareSiteInvestigator.getHealthcareSite());

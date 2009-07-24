@@ -87,7 +87,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     public List<Participant> searchByMRN(OrganizationAssignedIdentifier identifier)
                     throws C3PRCodedException {
-        HealthcareSite healthcareSite = this.healthcareSiteDao.getByCtepCode(identifier
+        HealthcareSite healthcareSite = this.healthcareSiteDao.getByPrimaryIdentifier(identifier
                         .getHealthcareSite().getPrimaryIdentifier());
         if (healthcareSite == null) {
             throw this.exceptionHelper

@@ -108,7 +108,7 @@ public class OrganizationDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testGetByNciIdentifier() throws Exception {
-        HealthcareSite hcs = healthcareSiteDao.getByCtepCode("du code");
+        HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifier("du code");
         assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
     }
     
@@ -118,7 +118,7 @@ public class OrganizationDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testGetByNciIdentifierFromLocal() throws Exception {
-        HealthcareSite hcs = healthcareSiteDao.getByCtepCodeFromLocal("du code");
+        HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifierFromLocal("du code");
         assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
     }
     

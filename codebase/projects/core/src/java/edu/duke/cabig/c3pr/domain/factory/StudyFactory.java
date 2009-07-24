@@ -54,7 +54,7 @@ public class StudyFactory {
 		// load study orgs from db Not to be imported
 		for (StudyOrganization organization : study.getStudyOrganizations()) {
 			HealthcareSite loadedSite = healthcareSiteDao
-					.getByCtepCode(organization.getHealthcareSite()
+					.getByPrimaryIdentifier(organization.getHealthcareSite()
 							.getPrimaryIdentifier());
 			if (loadedSite == null) {
 				throw exceptionHelper
@@ -96,7 +96,7 @@ public class StudyFactory {
 		for (OrganizationAssignedIdentifier identifier : study
 				.getOrganizationAssignedIdentifiers()) {
 			HealthcareSite loadedSite = healthcareSiteDao
-					.getByCtepCode(identifier.getHealthcareSite()
+					.getByPrimaryIdentifier(identifier.getHealthcareSite()
 							.getPrimaryIdentifier());
 			identifier.setHealthcareSite(loadedSite);
 		}

@@ -22,6 +22,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
@@ -407,13 +408,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				// passed in...this shudnt happen going fwd
 				// retrievedRemoteResearchStaff.setHealthcareSite(
 				// remoteResearchStaff.getHealthcareSite());
-				log
-						.error("RemoteResearchStaffResolver returned staff without organization!");
+				log.error("RemoteResearchStaffResolver returned staff without organization!");
 			} else if (retrievedRemoteResearchStaff.getHealthcareSite() != null) {
 				// get the corresponding hcs from the dto object and save that
 				// organization and then save this staff
 				HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao
-						.getByCtepCodeFromLocal(retrievedRemoteResearchStaff
+						.getByPrimaryIdentifierFromLocal(retrievedRemoteResearchStaff
 								.getHealthcareSite().getPrimaryIdentifier());
 				if (matchingHealthcareSiteFromDb == null) {
 					log.error("No corresponding org exists for the nci Code:"
@@ -428,8 +428,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			} else {
 				// if the resolver hasnt set the hcs and if it hasn't been
 				// passed in then.. I'm lost!
-				log
-						.error("RemoteResearchStaffResolver returned staff without organization!");
+				log.error("RemoteResearchStaffResolver returned staff without organization!");
 			}
 			researchStaffList.add(retrievedRemoteResearchStaff);
 		}
@@ -453,40 +452,29 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				List<ResearchStaff> researchStaffFromDatabase = getByExternalIdentifierFromLocal(remoteResearchStaff
 						.getExternalId());
 				if (researchStaffFromDatabase.size() > 0) {
-					// this guy already exists....make sure his emailID is not
-					// currently in db and update the database
-					// Not doing anything for now....this pre-existing person
-					// whould be up to date.
-					// mergeResearchStaff(researchStaffFromDatabase.get(0));
+					// this guy already exists as remote staff...and should be up to date.
 				} else {
-					// this guy doesnt exist in the db...save him.
+					// this guy doesnt exist in the db as remote...check the local staff before saving him.
 					// This if condition is temporary. once we have the logic to
-					// fetch the org of the retrieved staff then we can remove
-					// this.
+					// fetch the org of the retrieved staff then we can remove this.
 					if (remoteResearchStaff.getHealthcareSite() != null) {
-
 						// checking for the uniquness of email and NCI
 						// Identifier before saving into database
-						ResearchStaff researchStaffWithMatchingEmail = null;
-						researchStaffWithMatchingEmail = getByEmailAddressFromLocal(remoteResearchStaff
-								.getEmailAsString());
-						ResearchStaff researchStaffWithMatchingNCIIdentifier = null;
-						researchStaffWithMatchingNCIIdentifier = getByNciIdentifierFromLocal(remoteResearchStaff
-								.getNciIdentifier());
+						ResearchStaff researchStaffWithMatchingEmail = getByEmailAddressFromLocal(remoteResearchStaff
+																				.getEmailAsString());
+						ResearchStaff researchStaffWithMatchingNCIIdentifier = getByNciIdentifierFromLocal(remoteResearchStaff
+																				.getNciIdentifier());
 						if (researchStaffWithMatchingEmail == null
-								&& researchStaffWithMatchingNCIIdentifier == null) {
+									&& researchStaffWithMatchingNCIIdentifier == null) {
 							saveResearchStaff(remoteResearchStaff);
 						} else {
-							log
-									.error("This remote research person : "	+ remoteResearchStaff.getFullName()
-											+ "'s email id : " + remoteResearchStaff
-													.getEmailAsString()	+ "and/or NCI Identifier: "
-											+ remoteResearchStaff.getNciIdentifier()
-											+ " is already in the database. Deferring to the local. :");
+							log.error("This remote research person : "	+ remoteResearchStaff.getFullName()
+										+ "'s email id : " + remoteResearchStaff.getEmailAsString()	
+										+ "and/or NCI Identifier: "+ remoteResearchStaff.getNciIdentifier()
+										+ " is already in the database. Deferring to the local. :");
 						}
 					} else {
-						log
-								.error("Remote Staff does not have a healthcareSite associated with it!");
+						log.error("Remote Staff does not have a healthcareSite associated with it!");
 					}
 				}
 			}
@@ -543,6 +531,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @throws C3PRBaseException
 	 * @throws MailException
 	 */
+	@Transactional
 	private void save(C3PRUser c3prUser,
 			gov.nih.nci.security.authorization.domainobjects.User csmUser)
 			throws C3PRBaseException, MailException {

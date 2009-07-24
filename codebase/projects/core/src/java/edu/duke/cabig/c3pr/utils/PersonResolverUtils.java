@@ -13,7 +13,11 @@ import org.springframework.context.MessageSource;
 
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
 import edu.duke.cabig.c3pr.esb.Metadata;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
@@ -84,8 +88,6 @@ public class PersonResolverUtils {
         return identifiedPerson;
 	}
     
-
-
 	
 	public IdentifiedOrganization getIdentifiedOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization){
 		if(coppaOrganization != null){
@@ -157,6 +159,21 @@ public class PersonResolverUtils {
 		c3prUser.setFax(faxNumber);
 		return c3prUser;
 	}
+	
+	/**
+	 * Sets a primaryOAI as the ctep from given extension
+	 * @param remoteOrganization
+	 * @param extension
+	 */
+	public void setCtepCodeFromExtension(HealthcareSite remoteOrganization, String extension) {
+		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
+		identifier.setType(OrganizationIdentifierTypeEnum.CTEP);
+		identifier.setValue(extension);
+		identifier.setPrimaryIndicator(true);
+
+		remoteOrganization.setCtepCode(identifier);
+	}
+	
 	
 	/**
 	 * Broadcast organization search.

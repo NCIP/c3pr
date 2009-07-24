@@ -198,7 +198,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     			}
     		}
     	}
-		return "";
+		return null;
     }
     
     /**
@@ -213,6 +213,16 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     		identifier.setValue(ctepCode);
     		
     		getIdentifiersAssignedToOrganization().add(identifier);
+    	}
+    }
+    
+    /**
+     * Sets the Ctep Identifier in the IdentifiersAssignedToOrganization.
+     * Overloaded to accept an identifier instead of string
+     */
+    public void setCtepCode(OrganizationAssignedIdentifier ctepIdentifier) {
+    	if(ctepIdentifier != null){
+    		getIdentifiersAssignedToOrganization().add(ctepIdentifier);
     	}
     }
 

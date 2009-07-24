@@ -91,7 +91,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             }
 
             for (StudyOrganization organization : study.getStudyOrganizations()) {
-                if (healthcareSiteDao.getByCtepCode(organization.getHealthcareSite()
+                if (healthcareSiteDao.getByPrimaryIdentifier(organization.getHealthcareSite()
                                 .getPrimaryIdentifier()) == null) {
                     throw new StudyValidationException(
                                     "Could not find Organization with NCI Institute code:"
@@ -108,7 +108,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 
     public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)
                     throws C3PRCodedException {
-        HealthcareSite healthcareSite = this.healthcareSiteDao.getByCtepCode(identifier
+        HealthcareSite healthcareSite = this.healthcareSiteDao.getByPrimaryIdentifier(identifier
                         .getHealthcareSite().getPrimaryIdentifier());
         if (healthcareSite == null) {
             throw c3PRExceptionHelper.getException(

@@ -312,7 +312,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 				IdentifiedOrganization identifiedOrganization = personResolverUtils.getIdentifiedOrganization(coppaOrganization);
 				
 				healthcareSite = new RemoteHealthcareSite();
-				healthcareSite.setCtepCode(identifiedOrganization.getAssignedId().getExtension());
+				personResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
 				healthcareSite.setName(coppaOrganization.getName().toString());
 				
 				remoteResearchStaff.setHealthcareSite(healthcareSite);
@@ -338,7 +338,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		
 		//Build HealthcareSite
 		HealthcareSite healthcareSite = new RemoteHealthcareSite();
-		healthcareSite.setCtepCode(identifiedOrganization.getAssignedId().getExtension());
+		personResolverUtils.setCtepCodeFromExtension(healthcareSite,identifiedOrganization.getAssignedId().getExtension());
 		remoteResearchStaff.setHealthcareSite(healthcareSite);
 		return remoteResearchStaff;
 	}

@@ -18,13 +18,10 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FormattingResults;
 import org.apache.fop.apps.FOUserAgent;
-import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.FormattingResults;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.fop.apps.PageSequenceResults;
 import org.springframework.core.io.ClassPathResource;
-import org.apache.fop.apps.PageSequenceResults;
 
 public class XsltTransformer {
 

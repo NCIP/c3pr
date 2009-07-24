@@ -72,7 +72,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 				IdentifiedOrganization identifiedOrganization = personResolverUtils.getIdentifiedOrganization(coppaOrganization);
 
 				healthcareSite = new RemoteHealthcareSite();
-				healthcareSite.setCtepCode(identifiedOrganization.getAssignedId().getExtension());
+				personResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
 				healthcareSite.setName(coppaOrganization.getName().toString());
 				
 				HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
@@ -104,7 +104,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		
 		//Build HealthcareSite
 		HealthcareSite healthcareSite = new RemoteHealthcareSite();
-		healthcareSite.setCtepCode(identifiedOrganization.getAssignedId().getExtension());
+		personResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
 		
 		HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
 		hcsi.setHealthcareSite(healthcareSite);

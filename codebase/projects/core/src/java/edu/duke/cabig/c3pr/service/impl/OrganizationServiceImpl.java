@@ -172,7 +172,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (ctepId == null || ctepId.trim().equals("")) return "";
         
         try {
-            return healthcareSiteDao.getByCtepCode(ctepId).getName();
+            return healthcareSiteDao.getByPrimaryIdentifier(ctepId).getName();
         } catch (Exception e) {
             log.warn("The site name could not be retrieved by NCI ID Code.");
             return "";

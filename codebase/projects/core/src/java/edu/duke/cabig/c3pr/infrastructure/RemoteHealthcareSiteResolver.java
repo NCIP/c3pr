@@ -10,8 +10,10 @@ import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
 import edu.duke.cabig.c3pr.constants.CoppaStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Organization;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -60,7 +62,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 				identifiedOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganization(results.get(0));
 				if (identifiedOrganization.getAssignedId() != null ) {
 					//Setting the CTEP ID 
-					remoteHealthcareSite.setCtepCode(identifiedOrganization.getAssignedId().getExtension());	
+					personResolverUtils.setCtepCodeFromExtension(remoteHealthcareSite, identifiedOrganization.getAssignedId().getExtension());	
 				} 
 			}	
 			
@@ -75,6 +77,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		
 		return remoteHealthcareSite;
 	}
+
 	
 	/**
 	 * Populate remote organization including the nciCode.
@@ -89,7 +92,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		RemoteHealthcareSite remoteOrganization = new RemoteHealthcareSite();
 		if (identifiedOrganization.getAssignedId() != null ) {
 			//Setting the CTEP ID 
-			remoteOrganization.setCtepCode(identifiedOrganization.getAssignedId().getExtension());	
+			personResolverUtils.setCtepCodeFromExtension(remoteOrganization, identifiedOrganization.getAssignedId().getExtension());
 		} 	
 		
 		Address address = getAddressFromCoppaOrganization(coppaOrganization);

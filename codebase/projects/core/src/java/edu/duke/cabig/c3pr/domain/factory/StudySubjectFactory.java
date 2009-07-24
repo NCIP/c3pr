@@ -165,7 +165,7 @@ public class StudySubjectFactory {
         }
         for (OrganizationAssignedIdentifier organizationAssignedIdentifier : participant
                 .getOrganizationAssignedIdentifiers()) {
-        	HealthcareSite healthcareSite= healthcareSiteDao.getByCtepCode(organizationAssignedIdentifier.getHealthcareSite().getPrimaryIdentifier());
+        	HealthcareSite healthcareSite= healthcareSiteDao.getByPrimaryIdentifier(organizationAssignedIdentifier.getHealthcareSite().getPrimaryIdentifier());
         	organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
         }
         addContactsToParticipant(participant);
@@ -307,7 +307,7 @@ public class StudySubjectFactory {
         studySubject.getIdentifiers().addAll(source.getIdentifiers());
         for (OrganizationAssignedIdentifier organizationAssignedIdentifier : studySubject
                 .getOrganizationAssignedIdentifiers()) {
-        	HealthcareSite healthcareSite= healthcareSiteDao.getByCtepCode(organizationAssignedIdentifier.getHealthcareSite().getPrimaryIdentifier());
+        	HealthcareSite healthcareSite= healthcareSiteDao.getByPrimaryIdentifier(organizationAssignedIdentifier.getHealthcareSite().getPrimaryIdentifier());
         	organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
         }
         if(source.getTreatingPhysician()!=null){
