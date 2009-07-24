@@ -193,12 +193,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * Goto Copa if no match is fouind in local db.
 	 * We always defer to local db in cases of queries where only one result is expected.
 	 * 
-	 * @param ctepCode the nci institute code
+	 * @param primaryIdentifierCode the nci institute code
 	 * @return the HealthcareSite
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
-	public HealthcareSite getByCtepCode(String ctepCode) {
+	public HealthcareSite getByPrimaryIdentifier(String primaryIdentifierCode) {
 		
-		HealthcareSite healthcareSite = getByCtepCodeFromLocal(ctepCode);
+		HealthcareSite healthcareSite = getByPrimaryIdentifierFromLocal(primaryIdentifierCode);
 		if(healthcareSite == null){
 			List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
 			remoteHealthcareSites.addAll(getFromResolver(new RemoteHealthcareSite()));
@@ -208,27 +208,40 @@ public class HealthcareSiteDao extends OrganizationDao {
 				.firstElement((List<HealthcareSite>) getHibernateTemplate()
 					.find("select H from HealthcareSite H where " +
 						  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'", 
-							new Object[] {ctepCode}));
+							new Object[] {primaryIdentifierCode}));
 		}
 		return healthcareSite;
 	}
 	
 	/**
-	 * Gets by nci institute code from local.
+	 * Gets by primary IDentifier code from local.
 	 * 
-	 * @param ctepCode the nci institute code
+	 * @param primaryIdentifierCode the nci institute code
+	 * @return the HealthcareSite
+	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
+	public HealthcareSite getByPrimaryIdentifierFromLocal(String primaryIdentifierCode) {
+		
+		return CollectionUtils
+		.firstElement((List<HealthcareSite>) getHibernateTemplate()
+				.find("select H from HealthcareSite H where " +
+					  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'", 
+						new Object[] {primaryIdentifierCode}));
+	}
+
+	/**
+	 * Gets by ctep code from local.
+	 * 
+	 * @param primaryIdentifierCode the nci institute code
 	 * @return the HealthcareSite
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	public HealthcareSite getByCtepCodeFromLocal(String ctepCode) {
 		
 		return CollectionUtils
 		.firstElement((List<HealthcareSite>) getHibernateTemplate()
-				.find("select H from HealthcareSite H where " +
-					  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'", 
-						new Object[] {ctepCode}));
+				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.typeInternal=? and " +
+					  "H.identifiersAssignedToOrganization.value=?", 
+						new Object[] {OrganizationIdentifierTypeEnum.CTEP.getName(), ctepCode}));
 	}
-
-
 	/**
 	 * Gets the organizations from the resolver.
 	 * 
@@ -243,11 +256,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 		}else{
 			remoteHealthcareSite.setName(healthcareSite.getName());
 		}
-		if(healthcareSite.getPrimaryIdentifier() == null){
-			remoteHealthcareSite.setCtepCode(null);
-		}else{
-			remoteHealthcareSite.setCtepCode(healthcareSite.getPrimaryIdentifier());
-		}
+		remoteHealthcareSite.setCtepCode(healthcareSite.getPrimaryIdentifier());
 		
 		remoteHealthcareSite.setAddress(healthcareSite.getAddress());
 		if(healthcareSite.getAddress().getCity() == null){
@@ -280,21 +289,25 @@ public class HealthcareSiteDao extends OrganizationDao {
 			for (HealthcareSite remoteHealthcareSite : remoteHealthcareSiteList) {
 				if(remoteHealthcareSite != null){
 					RemoteHealthcareSite remoteHealthcareSiteTemp = (RemoteHealthcareSite)remoteHealthcareSite;
-					HealthcareSite healthcareSiteFromDatabase = getByUniqueIdentifier(remoteHealthcareSiteTemp
-							.getExternalId());
-					if (healthcareSiteFromDatabase != null) {
-						//this healthcare site already exists....make sure it's NCI institute code is not currently in db and update the database
-						//Not doing anything for now....this pre-existing site should be up to date.
-					} else {
-						HealthcareSite healthcareSiteWithSameNCICode = null;
-						// check if a healthcare site with this NCI code already exists in DB
-						healthcareSiteWithSameNCICode = getByCtepCodeFromLocal(remoteHealthcareSiteTemp.getPrimaryIdentifier());
-						if(healthcareSiteWithSameNCICode == null){
+					HealthcareSite healthcareSiteFromDatabase = 
+									getByUniqueIdentifier(remoteHealthcareSiteTemp.getExternalId());
+					//If healthcareSiteFromDatabase is not null then it already exists as a remoteOrg
+					//this pre-existing site should be up to date.
+					
+					if (healthcareSiteFromDatabase == null) {
+						HealthcareSite healthcareSiteWithSameCtepCode = null;
+						//If healthcareSiteFromDatabase is null then it doesnt exists as a remoteOrg
+						//check to see if it exists as localOrg
+
+						// check by ctepCode
+						healthcareSiteWithSameCtepCode = getByCtepCodeFromLocal(remoteHealthcareSiteTemp.getCtepCode());
+						if(healthcareSiteWithSameCtepCode == null){
 							// this site doesn't exist
 							createGroupForOrganization(remoteHealthcareSiteTemp);
 							getHibernateTemplate().save(remoteHealthcareSiteTemp);
 						} else{
-							log.error("Healthcare site with NCI Institute Code:" + remoteHealthcareSiteTemp.getPrimaryIdentifier() + "already exists in database");
+							log.error("Healthcare site with CTEP: " + remoteHealthcareSiteTemp.getCtepCode() + 
+									  " already exists in database");
 						}
 					}
 					getHibernateTemplate().flush();
