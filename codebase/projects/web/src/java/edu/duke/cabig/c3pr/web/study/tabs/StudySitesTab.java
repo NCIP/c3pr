@@ -141,7 +141,7 @@ public class StudySitesTab extends StudyTab {
 					.getId().toString())) {
 				for (String nciCode : nciCodeList) {
 					HealthcareSite healthcareSite = (HealthcareSite) healthcareSiteDao
-							.getByCtepCode(nciCode);
+							.getByPrimaryIdentifier(nciCode);
 					StudySite studySite = new StudySite();
 					studySite.setHealthcareSite(healthcareSite);
 					studySite.setStudy(study);
@@ -286,7 +286,7 @@ public class StudySitesTab extends StudyTab {
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
 		String nciCode = request.getParameter("nciCode");
-		HealthcareSite healthcareSite = (HealthcareSite)healthcareSiteDao.getByCtepCode(nciCode);
+		HealthcareSite healthcareSite = (HealthcareSite)healthcareSiteDao.getByPrimaryIdentifier(nciCode);
 		for(StudySite site : study.getStudySites()){
 			if(site.getHealthcareSite().getPrimaryIdentifier().equals(nciCode)){
 				return new ModelAndView("study/exist_study_site");

@@ -77,7 +77,7 @@ public class Summary3ReportController<C extends Summary3Report> extends  Automat
 				throws Exception {
 			Summary3Report summary3Report = new Summary3Report();
 			String localOrganizationNCIInstituteCode =  this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-			HealthcareSite reportingOrganization = healthcareSiteDao.getByCtepCode(localOrganizationNCIInstituteCode);
+			HealthcareSite reportingOrganization = healthcareSiteDao.getByPrimaryIdentifier(localOrganizationNCIInstituteCode);
 			summary3Report.setReportingOrganization(reportingOrganization);
 			Date startDate = new Date();
 			//TODO

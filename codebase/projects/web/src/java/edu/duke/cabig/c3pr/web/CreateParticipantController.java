@@ -195,7 +195,7 @@ public class CreateParticipantController<C extends Participant> extends
     	HealthcareSite hcs = personnelService.getLoggedInUsersOrganization(request);
     	List<HealthcareSite> hcsList = participant.getHealthcareSites();
     	if(hcs == null){
-    		hcs = healthcareSiteDao.getByCtepCode(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
+    		hcs = healthcareSiteDao.getByPrimaryIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
     	}
     	hcsList.add(hcs);
     	

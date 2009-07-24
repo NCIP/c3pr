@@ -94,7 +94,7 @@ public class CreateNotificationController extends SimpleFormController {
     		return researchStaff.getHealthcareSite();
     	} else {
     		String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-    		Organization org = healthcareSiteDao.getByCtepCode(localNciCode);
+    		Organization org = healthcareSiteDao.getByPrimaryIdentifier(localNciCode);
             return org;
     	}
     }
@@ -140,7 +140,7 @@ public class CreateNotificationController extends SimpleFormController {
     		hcs = researchStaff.getHealthcareSite();
     	} else {
     		String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-    		hcs = healthcareSiteDao.getByCtepCode(localNciCode);
+    		hcs = healthcareSiteDao.getByPrimaryIdentifier(localNciCode);
     	}
     	
     	if (isAjaxRequest(request)) {

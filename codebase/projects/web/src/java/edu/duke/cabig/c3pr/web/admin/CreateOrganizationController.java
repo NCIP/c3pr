@@ -96,7 +96,7 @@ public class CreateOrganizationController extends SimpleFormController {
 
 		if (request.getParameter("nciIdentifier") != null) {
 			log.info(" Request URl  is:" + request.getRequestURL().toString());
-			hcs = healthcareSiteDao.getByCtepCode(request.getParameter("nciIdentifier"));
+			hcs = healthcareSiteDao.getByPrimaryIdentifier(request.getParameter("nciIdentifier"));
 			request.getSession().setAttribute(FLOW, EDIT_FLOW);
 			log.info(" HCS's ID is:" + hcs.getId());
 		} else {
@@ -149,7 +149,7 @@ public class CreateOrganizationController extends SimpleFormController {
 						.getSession().getAttribute(FLOW).equals(EDIT_FLOW))) {
 			if (!request.getParameter("_action").equals("syncOrganization")) {
 				HealthcareSite hcsFromDB = healthcareSiteDao
-						.getByCtepCodeFromLocal(healthcareSite
+						.getByPrimaryIdentifierFromLocal(healthcareSite
 								.getPrimaryIdentifier());
 				if (hcsFromDB != null
 						&& !hcsFromDB.getId().equals(healthcareSite.getId())) {

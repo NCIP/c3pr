@@ -175,7 +175,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
             		
             		if(remoteRStaffSelected.getHealthcareSite() != null){
             			//get the corresponding hcs from the dto object and save that organization and then save this staff
-            			HealthcareSite matchingHealthcareSiteFromDb = getHealthcareSiteDao().getByCtepCode(remoteRStaffSelected.getHealthcareSite().getCtepCode());
+            			HealthcareSite matchingHealthcareSiteFromDb = getHealthcareSiteDao().getByPrimaryIdentifier(remoteRStaffSelected.getHealthcareSite().getPrimaryIdentifier());
             			if(matchingHealthcareSiteFromDb == null){
             				getHealthcareSiteDao().save(remoteRStaffSelected.getHealthcareSite());
             			} else{

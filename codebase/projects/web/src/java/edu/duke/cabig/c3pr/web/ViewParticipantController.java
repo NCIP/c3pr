@@ -153,7 +153,7 @@ public class ViewParticipantController<C extends Participant> extends
 	        		}else if(assignedBy.equals("organization")){
 		        			if(request.getParameter("organizationNciId")!=null ) {
 		        			OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier(); 
-		        			HealthcareSite healthcareSite= healthcareSiteDao.getByCtepCode(name);
+		        			HealthcareSite healthcareSite= healthcareSiteDao.getByPrimaryIdentifier(name);
 		        			orgIdentifier.setHealthcareSite(healthcareSite);
 		        			orgIdentifier.setType(OrganizationAssignedIdentifier.getOrganizationIdentifierEnumByCode(type));
 		        			orgIdentifier.setValue(value);

@@ -61,12 +61,12 @@ public class SearchOrganizationAjaxFacade {
         Row row = model.getRowInstance();
         row.setHighlightRow(Boolean.TRUE);
         model.addRow(row);
-
-        Column columnName = model.getColumnInstance();
-        columnName.setTitle("Name");
-        columnName.setProperty("name");
-        columnName.setCell((OrganizationLinkDisplayCell.class).getName());
-        model.addColumn(columnName);
+		
+		Column columnName = model.getColumnInstance();
+		columnName.setTitle("Name");
+		columnName.setProperty("name");
+		columnName.setCell((OrganizationLinkDisplayCell.class).getName());
+		model.addColumn(columnName);
 
         Column columnCtep = model.getColumnInstance();
         columnCtep.setTitle("CTEP identifier");
@@ -117,7 +117,7 @@ public class SearchOrganizationAjaxFacade {
         }
         catch (Exception e) {
             log.error("Exception caught in SearchOrganizationFacade");
-            e.printStackTrace(); 
+            log.error(e.getMessage()); 
         }
 
         return "";
