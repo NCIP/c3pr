@@ -192,7 +192,7 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
     	
     	if(shortTitleText != null){
     		accrual = getHibernateTemplate().find(
-    				"Select ss from StudySubject ss where ss.studySite.study.shortTitleText = ? " +
+    				"Select ss from StudySubject ss,StudyVersion sv where sv=any elements(ss.studySite.study.studyVersionsInternal)and sv.shortTitleText = ? " +
     				"and ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
     				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
