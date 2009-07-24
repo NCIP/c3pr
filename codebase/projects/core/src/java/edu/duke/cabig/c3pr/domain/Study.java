@@ -126,7 +126,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		lazyListHelper.add(StudyCoordinatingCenter.class,new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this));
 		lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
-		lazyListHelper.add(StudyAmendment.class,new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
 		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
@@ -149,7 +148,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		lazyListHelper.add(StudyCoordinatingCenter.class, new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this));
 		lazyListHelper.add(SystemAssignedIdentifier.class,new ParameterizedInstantiateFactory<SystemAssignedIdentifier>( SystemAssignedIdentifier.class));
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
-		lazyListHelper.add(StudyAmendment.class,new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
 		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
