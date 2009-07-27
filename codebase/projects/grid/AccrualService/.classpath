@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="resources/" kind="src" path="src"/>
 	<classpathentry kind="src" path="test/src"/>
 	<classpathentry kind="src" path="build/stubs-AccrualService/src"/>
+	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry kind="lib" path="C:/Globus/ws-core-4.0.3/lib/addressing-1.0.jar"/>
 	<classpathentry kind="lib" path="C:/Globus/ws-core-4.0.3/lib/axis.jar"/>
 	<classpathentry kind="lib" path="C:/Globus/ws-core-4.0.3/lib/axis-url.jar"/>
@@ -64,20 +65,20 @@
 	<classpathentry kind="lib" path="C:/Globus/ws-core-4.0.3/lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="C:/Globus/ws-core-4.0.3/lib/xmlsec.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-advertisement-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/caGrid-core-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-Introduce-serviceTools-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-metadata-security-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-ServiceSecurityProvider-client-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-ServiceSecurityProvider-common-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-ServiceSecurityProvider-service-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-ServiceSecurityProvider-stubs-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/castor-0.9.9.jar"/>
 	<classpathentry kind="lib" path="lib/globus_wsrf_mds_aggregator.jar"/>
 	<classpathentry kind="lib" path="lib/globus_wsrf_mds_aggregator_stubs.jar"/>
 	<classpathentry kind="lib" path="lib/globus_wsrf_servicegroup.jar"/>
 	<classpathentry kind="lib" path="lib/globus_wsrf_servicegroup_stubs.jar"/>
 	<classpathentry kind="lib" path="lib/jdom-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/client-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-core-1.2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/core"/>
 	<classpathentry kind="lib" path="lib/spring-2.0.7.jar"/>
-	<classpathentry kind="lib" path="/core/build/dist/c3pr-core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

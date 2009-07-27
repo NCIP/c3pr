@@ -58,7 +58,6 @@ public class AccrualServiceImpl extends AccrualServiceImplBase {
 		SiteAccrualReport siteAccrualReport = accrualService
 				.getSiteAccrualReport(diseaseSiteName, studyShortTitleText,
 						startDate, endDate);
-		InputStream is = getClass().getClassLoader().getResourceAsStream("edu/duke/cabig/c3pr/grid/accrualservice/client/client-config.wsdd");
 		String xmlSiteReport = "";
 		
 		try {
