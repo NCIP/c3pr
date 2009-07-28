@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.exolab.castor.mapping.Mapping;
@@ -34,8 +37,11 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
 
     // Override the default by calling setMappingFile
     private String mappingFile = "c3pr-study-xml-castor-mapping.xml";
+    
+    /** The common mapping files. The default value is set. This can be overriden */
+    private List<String> commonMappingFiles= Arrays.asList("common-mapping.xml");
 
-    public XmlMarshaller() {
+	public XmlMarshaller() {
         marshaller = new caCOREMarshaller();
         unmarshaller = new caCOREUnmarshaller();
     }
@@ -116,7 +122,15 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
                     return null;
                 }
             };
-            org.xml.sax.InputSource mappIS = new org.xml.sax.InputSource(Thread.currentThread()
+            Mapping localMapping = new Mapping();
+            localMapping.setEntityResolver(resolver);
+            log.debug("Loading common mappinf files.");
+            for(String commonMappingFileName: commonMappingFiles){
+            	InputSource commonMappingSource = new InputSource(Thread.currentThread()
+                        .getContextClassLoader().getResourceAsStream(commonMappingFileName));
+            	localMapping.loadMapping(commonMappingSource);
+            }
+            InputSource mappingFileSource = new InputSource(Thread.currentThread()
                             .getContextClassLoader().getResourceAsStream(this.mappingFile));
             log.debug("Using " + mappingFile + " mapping file.");
             java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(
@@ -133,15 +147,14 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
             }
             finally {
                 if (br != null) br.close();
-                System.out.println(sb.toString());
+                log.debug(sb.toString());
             }
-            Mapping localMapping = new Mapping();
-            localMapping.setEntityResolver(resolver);
-            localMapping.loadMapping(mappIS);
+            localMapping.loadMapping(mappingFileSource);
             return localMapping;
         }
         catch (Exception e) {
             log.error("Error reading default xml mapping file " + e.getMessage()); // To change
+            System.out.println(e);
             // body of catch
             // statement use
             // File |
@@ -167,4 +180,13 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
     public Object getBaseUnmarshaller() {
         return unmarshaller.getBaseUnmarshaller();
     }
+    
+    /**
+     * Sets the common mapping files that will be loaded each time.
+     * 
+     * @param commonMappingFiles the new common mapping files
+     */
+    public void setCommonMappingFiles(List<String> commonMappingFiles) {
+		this.commonMappingFiles = commonMappingFiles;
+	}
 }
