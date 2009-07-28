@@ -174,17 +174,18 @@ public class StudyCreationHelper {
         epoch1.getStratumGroups().addAll(sgList);
     }
 
-    private Study buildBasicStudy(Boolean multiSite, RandomizationType randomizationType) {
+    public Study buildBasicStudy(Boolean multiSite, RandomizationType randomizationType) {
         Study study = new Study();
         study.setPrecisText("Study with randomization");
         study.setShortTitleText("ShortTitleText1");
         study.setLongTitleText("LongTitleText1");
-        study.setPhaseCode("PhaseCode1");
+        study.setPhaseCode("Phase I Trial");
         study.setStratificationIndicator(true);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         study.setTargetAccrualNumber(150);
-        study.setType("Type");
+        study.setType("Diagnostic");
+        study.setDescriptionText("Description Text");
         study.setMultiInstitutionIndicator(multiSite);
         if (randomizationType != null) {
             study.setRandomizedIndicator(Boolean.TRUE);
