@@ -37,7 +37,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<os family="windows" />
 	</condition>
 	<property name="tomcat.home" value="${application.base.path}/${tomcat.relative.path}"/>
-
+	<property name="catalina.home" value="${tomcat.home}"/>
 
 	<!-- added for remote deployments since file is copied to root of install dir -->
 	<basename property="properties.file.name" file="${properties.file}" />
@@ -135,7 +135,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<property name="commonlibrary.dir" location="${commonlibrary.dir}" />
 		<property name="target.dir" location="${target.dir}"/>
 	</ant>
-	
+
 	<!-- Paths -->
 	<path id="bda-utils.classpath">
 		<fileset dir="${bda-utils.dir}">
@@ -260,7 +260,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			product.name="${c3pr-webapp.install.name}"
 			product.version="${c3pr-webapp.version}"
 			/>
-		<ant inheritAll="false" inheritRefs="false" 
+		<ant inheritAll="false" inheritRefs="false"
 			antfile="install.xml"
 			target="build:installer"
 			dir="${build.dir}/gui-installer"
@@ -351,8 +351,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<copy todir="${dist.exploded.dir}" overwrite="true">
 			<fileset dir="${build.dir}">
 				<include name="upgrade.properties" />
-			</fileset>              
-		</copy>         
+			</fileset>
+		</copy>
 		<delete file="${dist.exploded.dir}/install.properties"/>
 		<replaceregexp file="${dist.exploded.dir}/upgrade.properties" byline="true" match="^(env.name)=.*" replace="\1=external" />
 
@@ -391,7 +391,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 				<include name="local.properties" />
 			</zipfileset>
 			-->
-		</zip>          
+		</zip>
 	</target>
 
 	<target name="dist:upgrade:tier:tomcat" depends="dist:installer:prep">
@@ -409,7 +409,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 				<include name="properties.template" />
 				<include name="project.properties" />
 			</zipfileset>
-		</zip>          
+		</zip>
 	</target>
 
 	<target name="dist:upgrade:tier"
@@ -481,7 +481,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		build:all,
 		dist:upgrade:tier:db
 		">
-		<deploy-files 
+		<deploy-files
 			ssh.user="${db.ssh.server.username}"
 			ssh.host="${db.ssh.server.hostname}"
 			remote.directory.property.name="db.ssh.dir.temp"
@@ -494,7 +494,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		build:all,
 		dist:upgrade:tier:tomcat
 		">
-		<deploy-files 
+		<deploy-files
 			ssh.user="${tomcat.ssh.server.username}"
 			ssh.host="${tomcat.ssh.server.hostname}"
 			remote.directory.property.name="tomcat.ssh.dir.temp"
@@ -509,13 +509,13 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	<target name="report:grand" depends="dist:installer:prep" description="Generates target flow diagrams for build files">
 		<!-- Temporary fix to make grand work for install.xml -->
 
-		<report-grand 
-			build.file.location="build.xml" 
-			output.file.dir="${grand.rpt.dir}" 
+		<report-grand
+			build.file.location="build.xml"
+			output.file.dir="${grand.rpt.dir}"
 			output.file.name="generic-root-build.xml" />
-		<report-grand 
-			build.file.location="${dist.exploded.dir}/build.xml" 
-			output.file.dir="${grand.rpt.dir}" 
+		<report-grand
+			build.file.location="${dist.exploded.dir}/build.xml"
+			output.file.dir="${grand.rpt.dir}"
 			output.file.name="generic-root-install.xml" />
 	</target>
 
@@ -625,7 +625,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			<arg line=" &quot;${selenium.report.dir}/${selenium.report.file}&quot;"/>
 			<arg line=" -timeout 30"/>
 			<arg line=" -log ${temp.dir}/selenium-debug.log"/>
-		</java> 
+		</java>
 		-->
 		<osfamily property="os.family" />
 		<if>
@@ -725,7 +725,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<path id="jdbc.driver.classpath">
 			<pathelement location="${database.driver.file}"/>
 		</path>
-	
+
 		<echoproperties prefix="database"/>
 		<copy todir="${working.dir}/" filtering="true"  overwrite="true">
 			<fileset dir="${db.src.dir}">
@@ -770,23 +770,23 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	</target>
 
 	<target name="report:erd">
-		<generate-erd   
+		<generate-erd
 			schemaspy.jar="schemaspy-3.1.1.jar"
 			database.driver.jar="mysql-connector-java-5.0.5.jar"
-			/>                      
+			/>
 	</target>
 
 	<target name="report:uml">
 		<property name="uml.dir" value="${reports.dir}/uml"/>
 		<path id="c3pr.classpath.ref">
 			<fileset dir="${lib.dir}/runtime">
-				<include name="**/*.jar" />     
-			</fileset>              
-		</path>         
-		<generate-uml   
-			uml.dir="${uml.dir}"    
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		<generate-uml
+			uml.dir="${uml.dir}"
 			src.java.dir="${c3pr-webapp.base.dir}/src/java"
 			uml.source.path="c3pr.classpath.ref"
-			/>                      
+			/>
 	</target>
 </project>
