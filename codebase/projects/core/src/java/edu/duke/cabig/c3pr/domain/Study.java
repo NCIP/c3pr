@@ -509,6 +509,15 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public RandomizationType getRandomizationType() {
 		return getStudyVersion().getRandomizationType();
 	}
+	
+	@Transient
+	public List<Consent> getConsents() {
+		return getStudyVersion().getConsents();
+	}
+	
+	public void addConsent(Consent consent) {
+		getStudyVersion().addConsent(consent);
+	}
 
 	@Transient
 	public int getFundingSponsorIdentifierIndex() {

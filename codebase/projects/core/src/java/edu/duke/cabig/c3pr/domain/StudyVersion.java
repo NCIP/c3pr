@@ -560,6 +560,10 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public List<StudyPart> getAmendmentReasons() {
 		return amendmentReasons;
 	}
+	
+	public void addAmendmentReason(StudyPart studyPart){
+		this.amendmentReasons.add(studyPart);
+	}
 
 	public String getAmendmentReason() {
 		String amendmentReason = "" ;
