@@ -7,7 +7,7 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 
 public enum StudyPart implements CodedEnum<String>{
-	DETAIL("detail"),CONSENT("Consent"), DESIGN("design"), STRATIFICATION("Stratification"), ELIGIBILITY("Eligibility"), DISEASE("Disease"), 
+	DETAIL("Detail"),CONSENT("Consent"), DESIGN("Design"), STRATIFICATION("Stratification"), ELIGIBILITY("Eligibility"), DISEASE("Disease"),
 	RANDOMIZATION("Randomization"),COMPANION("Companion");
 
     private String code;
@@ -29,5 +29,8 @@ public enum StudyPart implements CodedEnum<String>{
         return sentenceCasedName(this);
     }
 
+    public String getName() {
+        return name();
+    }
 
 }

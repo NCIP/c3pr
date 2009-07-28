@@ -1264,16 +1264,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
     @Transient
     public StudyVersion getCurrentStudyAmendment(){
-        StudyVersion studyVersion = getStudyVersion() ;
-        if(studyVersion.getVersionStatus() == StatusType.IN){
-            return studyVersion ;
-        }else{
-            try {
-                return (StudyVersion)studyVersion.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-
+        if(getLatestStudyVersion().getVersionStatus() == StatusType.IN){
+            return getLatestStudyVersion() ;
         }
         return null ;
     }
@@ -1283,20 +1275,28 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         int size = this.getStudyVersions().size() ;
         if(this.getStudyVersion().getVersionStatus() == StatusType.IN) {
             if(size > 2){
-                return this.getStudyVersions().subList(1, size - 1) ;
+            	List<StudyVersion> versions = this.getStudyVersions().subList(1, size - 1) ;
+                return versions ;
             }else{
                 return null ;
             }
         }else{
              if(size > 2){
-                return this.getStudyVersions().subList(1, size) ;
+            	 List<StudyVersion> versions = this.getStudyVersions().subList(1, size) ;
+                 return versions ;
             }else{
                 return null ;
             }
         }
     }
 
-    
+    @Transient
+    public List<StudyVersion> getSortedStudyVersions(){
+    	  List<StudyVersion> studyVersions = this.getStudyVersions();
+          Collections.sort(studyVersions);
+          return studyVersions ;
+  		}
+
 
 
 }

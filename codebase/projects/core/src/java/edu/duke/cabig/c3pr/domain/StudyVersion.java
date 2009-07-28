@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,21 +20,25 @@ import javax.persistence.Transient;
 import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.StudyPart;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-/** 
+/**
  * @author Himanshu
  */
 
@@ -42,9 +48,9 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class StudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<StudyVersion>, Cloneable {
 
     public int compareTo(StudyVersion studyVersion) {
-		return this.versionDate.compareTo(studyVersion.getVersionDate());
+    	return this.versionDate.compareTo(studyVersion.getVersionDate());
    	}
-	
+
 	private StatusType versionStatus;
 	private StudyDataEntryStatus dataEntryStatus;
 	private String  descriptionText;
@@ -59,6 +65,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private Date versionDate;
 	private String name;
     private String comments;
+    private List<StudyPart> amendmentReasons ;
 
 	public String getName() {
 		return name;
@@ -77,18 +84,18 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
-		return c3PRExceptionHelper;                                                                 
+		return c3PRExceptionHelper;
 	}
 
     @Enumerated(EnumType.STRING)
 	public StatusType getVersionStatus() {
 		return versionStatus;
 	}
-	
+
 	public void setVersionStatus(StatusType versionStatus) {
 		this.versionStatus = versionStatus;
 	}
-	
+
 	@Enumerated(EnumType.STRING)
 	public StudyDataEntryStatus getDataEntryStatus() {
 		return dataEntryStatus;
@@ -129,7 +136,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public void setPrecisText(String precisText) {
 		this.precisText = precisText;
 	}
-	
+
 	public RandomizationType getRandomizationType() {
 		return randomizationType;
 	}
@@ -145,7 +152,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public void setTargetAccrualNumber(Integer targetAccrualNumber) {
 		this.targetAccrualNumber = targetAccrualNumber;
 	}
-	
+
 	public StudyVersion(){
 		lazyListHelper = new LazyListHelper();
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -155,16 +162,17 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
 		this.c3prErrorMessages = resourceBundleMessageSource1;
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
-		
+
 		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
 		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
-		lazyListHelper.add(AmendmentReason.class,new InstantiateFactory<AmendmentReason>(AmendmentReason.class));
 		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
-		
+
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
         versionStatus = StatusType.IN ;
+        amendmentReasons = new ArrayList<StudyPart>();
+        versionDate = new Date();
 	}
-	
+
 	public StudyVersion(boolean forSearchByExample){
 		lazyListHelper = new LazyListHelper();
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -174,39 +182,38 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
 		this.c3prErrorMessages = resourceBundleMessageSource1;
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
-		
+
 		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
 		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
-		lazyListHelper.add(AmendmentReason.class,new InstantiateFactory<AmendmentReason>(AmendmentReason.class));
 		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
-		
+
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 	}
-	
-	public void addAmendmentReason(final AmendmentReason amendment) {
-		getAmendmentReasons().add(amendment);
-	}
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "stu_version_id", nullable = false)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	public List<AmendmentReason> getAmendmentReasonsInternal() {
-		return lazyListHelper.getInternalList(AmendmentReason.class);
-	}
+//	public void addAmendmentReason(final AmendmentReason amendment) {
+//		getAmendmentReasons().add(amendment);
+//	}
+//
+//	@OneToMany(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "stu_version_id", nullable = false)
+//	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+//	public List<AmendmentReason> getAmendmentReasonsInternal() {
+//		return lazyListHelper.getInternalList(AmendmentReason.class);
+//	}
+//
+//	public void setAmendmentReasonsInternal(final List<AmendmentReason> amendments) {
+//		lazyListHelper.setInternalList(AmendmentReason.class, amendments);
+//	}
+//
+//	@Transient
+//	public List<AmendmentReason> getAmendmentReasons() {
+//		return lazyListHelper.getLazyList(AmendmentReason.class);
+//	}
+//
+//	public void setAmendmentReasons(final List<AmendmentReason> amendments) {
+//		setAmendmentReasonsInternal(amendments);
+//	}
 
-	public void setAmendmentReasonsInternal(final List<AmendmentReason> amendments) {
-		lazyListHelper.setInternalList(AmendmentReason.class, amendments);
-	}
-
-	@Transient
-	public List<AmendmentReason> getAmendmentReasons() {
-		return lazyListHelper.getLazyList(AmendmentReason.class);
-	}
-	
-	public void setAmendmentReasons(final List<AmendmentReason> amendments) {
-		setAmendmentReasonsInternal(amendments);
-	}
-	
 	@OneToMany(mappedBy = "studyVersion", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
@@ -214,11 +221,11 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public List<Epoch> getEpochsInternal() {
 		return lazyListHelper.getInternalList(Epoch.class);
 	}
-	
+
 	public void setEpochsInternal(final List<Epoch> epochs) {
 		lazyListHelper.setInternalList(Epoch.class, epochs);
 	}
-	
+
 	@Transient
 	public List<Epoch> getEpochs() {
 		return lazyListHelper.getLazyList(Epoch.class);
@@ -227,7 +234,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public void setEpochs(List<Epoch> epochs) {
 		setEpochsInternal(epochs);
 	}
-	
+
 	public void addEpoch(Epoch epoch) throws RuntimeException {
 		for (Epoch epochPresent : getEpochs()) {
 			if (epochPresent.equals(epoch)) {
@@ -241,7 +248,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public void removeEpoch(Epoch epoch) {
 		lazyListHelper.getLazyList(Epoch.class).remove(epoch);
 	}
-	
+
 	@Transient
 	public Epoch getEpochByName(String name) {
 		for(Epoch epoch : getEpochs()){
@@ -251,7 +258,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		}
 		return null;
 	}
-	
+
 	@OneToMany(mappedBy = "studyVersion", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
@@ -287,7 +294,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public void setStudy(Study study) {
 		this.study = study;
 	}
-	
+
 	@OneToMany(mappedBy = "studyVersion", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudyDisease> getStudyDiseases() {
@@ -297,20 +304,20 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public void setStudyDiseases(List<StudyDisease> studyDiseases) {
 		this.studyDiseases = studyDiseases;
 	}
-	
+
 	public void removeStudyDisease(StudyDisease studyDisease) {
 		this.getStudyDiseases().remove(studyDisease);
 	}
-	
+
 	public void removeAllStudyDisease() {
 		this.getStudyDiseases().removeAll(this.getStudyDiseases());
 	}
-	
+
 	public void addStudyDisease(StudyDisease studyDisease) {
 		studyDisease.setStudyVersion(this);
 		studyDiseases.add(studyDisease);
 	}
-	
+
 	public StudyDataEntryStatus evaluateDataEntryStatus(List<Error> errors) {
 		if ((!this.hasEnrollingEpoch())) {
 			errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE")).getMessage()));
@@ -329,7 +336,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 
 //		for (CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()) {
 //			if (compStudyAssoc.getMandatoryIndicator() != null) {
-//				if (compStudyAssoc.getMandatoryIndicator() && !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_TO_OPEN 
+//				if (compStudyAssoc.getMandatoryIndicator() && !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_TO_OPEN
 //						|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN)) {
 //					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE")).getMessage()));
 //				}
@@ -337,7 +344,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 //
 //		}
 		evaluateEpochsDataEntryStatus(errors);
-		
+
 		return errors.size() == 0 ? StudyDataEntryStatus.COMPLETE : StudyDataEntryStatus.INCOMPLETE;
 	}
 
@@ -386,18 +393,18 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		}
 		return false;
 	}
-	
+
 	public void evaluateEpochsDataEntryStatus(List<Error> errors) throws C3PRCodedRuntimeException {
 		for (Epoch epoch : this.getEpochs()) {
 			epoch.evaluateStatus(errors);
 		}
 	}
-	
+
 	@Transient
 	public int getCode(String errortypeString) {
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
 	}
-	
+
 	private Study study;
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 
@@ -428,23 +435,107 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		companionStudyAssociation.setParentStudyVersion(this);
 	}
 
-    protected Object clone() throws CloneNotSupportedException{
+    public Object clone() throws CloneNotSupportedException{
         StudyVersion clone = new StudyVersion();
-
         // create a copy of current object in clone object and return clone.
-        clone.setCompanionStudyAssociations(this.getCompanionStudyAssociations());
-        clone.setConsents(this.getConsents());
-        clone.setStudy(this.getStudy());
         clone.setDescriptionText(this.getDescriptionText());
-        clone.setEpochs(this.getEpochs());
         clone.setLongTitleText(this.getLongTitleText());
         clone.setPrecisText(this.getPrecisText());
         clone.setRandomizationType(this.getRandomizationType());
         clone.setShortTitleText(this.getShortTitleText());
-        clone.setStudyDiseases(this.getStudyDiseases());
         clone.setTargetAccrualNumber(this.getTargetAccrualNumber());
+        clone.setVersionDate(new Date());
 
-        return clone ; 
+        for(StudyDisease disease : this.getStudyDiseases()){
+        	StudyDisease cloneDisease = new StudyDisease();
+        	cloneDisease.setDiseaseTerm(disease.getDiseaseTerm());
+        	clone.addStudyDisease(cloneDisease);
+        }
+
+        for(CompanionStudyAssociation association : this.getCompanionStudyAssociations()){
+        	CompanionStudyAssociation cloneAssociation = new CompanionStudyAssociation();
+        	cloneAssociation.setMandatoryIndicator(association.getMandatoryIndicator());
+        	cloneAssociation.setCompanionStudy(association.getCompanionStudy());
+        	clone.addCompanionStudyAssociation(cloneAssociation);
+        }
+
+        for(Consent consent : this.getConsents()){
+        	Consent cloneConsent =  new Consent();
+        	cloneConsent.setName(consent.getName());
+        	for(ConsentVersion consentVersion : consent.getConsentVersions()){
+        		ConsentVersion cloneConsentVersion = new ConsentVersion();
+        		cloneConsentVersion.setEffectiveDate(consentVersion.getEffectiveDate());
+        		cloneConsentVersion.setName(consentVersion.getName());
+        		cloneConsent.addConsentVersion(cloneConsentVersion);
+        	}
+        	clone.addConsent(cloneConsent);
+        }
+
+        for(Epoch epoch : this.getEpochs()){
+        	Epoch cloneEpoch = new Epoch();
+        	cloneEpoch.setAccrualCeiling(epoch.getAccrualCeiling());
+        	cloneEpoch.setAccrualIndicator(epoch.getAccrualIndicator());
+        	cloneEpoch.setDescriptionText(epoch.getDescriptionText());
+        	cloneEpoch.setEnrollmentIndicator(epoch.getEnrollmentIndicator());
+        	cloneEpoch.setEpochOrder(epoch.getEpochOrder());
+        	cloneEpoch.setName(epoch.getName());
+        	cloneEpoch.setRandomizedIndicator(epoch.getRandomizedIndicator());
+        	cloneEpoch.setReservationIndicator(epoch.getReservationIndicator());
+        	cloneEpoch.setStratificationIndicator(epoch.getStratificationIndicator());
+        	cloneEpoch.setTreatmentIndicator(epoch.getTreatmentIndicator());
+
+        	for(Arm arm : epoch.getArms()){
+        		Arm cloneArm = new Arm();
+        		cloneArm.setDescriptionText(arm.getDescriptionText());
+        		cloneArm.setName(arm.getName());
+        		cloneArm.setTargetAccrualNumber(arm.getTargetAccrualNumber());
+        		cloneEpoch.addArm(cloneArm);
+        	}
+
+        	for(StratificationCriterion criteria : epoch.getStratificationCriteria()){
+        		StratificationCriterion cloneCriteria = new StratificationCriterion();
+        		cloneCriteria.setQuestionNumber(criteria.getQuestionNumber());
+        		cloneCriteria.setQuestionText(criteria.getQuestionText());
+        		for(StratificationCriterionPermissibleAnswer permissibleAnswer : criteria.getPermissibleAnswers()){
+        			StratificationCriterionPermissibleAnswer clonePermissibleAnswer = new StratificationCriterionPermissibleAnswer();
+        			clonePermissibleAnswer.setPermissibleAnswer(permissibleAnswer.getPermissibleAnswer());
+        			cloneCriteria.addPermissibleAnswer(clonePermissibleAnswer);
+        		}
+        		cloneEpoch.addStratificationCriterion(cloneCriteria);
+        	}
+
+        	for(EligibilityCriteria inclusionEligibility : epoch.getInclusionEligibilityCriteria()){
+        		EligibilityCriteria cloneInclusionEligibility = new InclusionEligibilityCriteria() ;
+        		cloneInclusionEligibility.setNotApplicableIndicator(inclusionEligibility.getNotApplicableIndicator());
+        		cloneInclusionEligibility.setQuestionNumber(inclusionEligibility.getQuestionNumber());
+        		cloneInclusionEligibility.setQuestionText(inclusionEligibility.getQuestionText());
+        		cloneEpoch.addEligibilityCriterion(cloneInclusionEligibility);
+        	}
+
+        	for(EligibilityCriteria exclusionEligibility : epoch.getExclusionEligibilityCriteria()){
+        		EligibilityCriteria cloneExclusionEligibility = new ExclusionEligibilityCriteria() ;
+        		cloneExclusionEligibility.setNotApplicableIndicator(exclusionEligibility.getNotApplicableIndicator());
+        		cloneExclusionEligibility.setQuestionNumber(exclusionEligibility.getQuestionNumber());
+        		cloneExclusionEligibility.setQuestionText(exclusionEligibility.getQuestionText());
+        		cloneEpoch.addEligibilityCriterion(cloneExclusionEligibility);
+        	}
+
+//        	for(StratumGroup group : epoch.getStratumGroups()){
+//        		StratumGroup cloneGroup = new StratumGroup();
+//        		cloneGroup.setStratumGroupNumber(group.getStratumGroupNumber());
+//        		cloneGroup.setCurrentPosition(group.getCurrentPosition());
+//
+//
+//        		for(StratificationCriterionAnswerCombination answerCombination : group.getStratificationCriterionAnswerCombination()){
+//        			StratificationCriterionAnswerCombination cloneAnswerCombination = new StratificationCriterionAnswerCombination();
+//        			cloneAnswerCombination.se
+//        		}
+//
+//
+//        	}
+        	clone.addEpoch(cloneEpoch);
+        }
+        return clone ;
     }
 
 
@@ -455,4 +546,48 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
     public void setComments(String comments) {
         this.comments = comments;
     }
+
+    @Transient
+    public String getVersionDateStr(){
+        return CommonUtils.getDateString(versionDate);
+    }
+
+	public void setAmendmentReasons(List<StudyPart> amendmentReasons) {
+		this.amendmentReasons = amendmentReasons;
+	}
+
+	@Transient
+	public List<StudyPart> getAmendmentReasons() {
+		return amendmentReasons;
+	}
+
+	public String getAmendmentReason() {
+		String amendmentReason = "" ;
+		for(StudyPart reason : amendmentReasons){
+			if( reason != null ){
+				if(amendmentReason != "" ){
+					amendmentReason =  amendmentReason + " : " + reason.getName();
+				}else{
+					amendmentReason = amendmentReason + reason.getName();
+				}
+			}
+		}
+		return amendmentReason;
+	}
+
+	/**
+	 * Sets the race code.
+	 *
+	 * @param raceCode the new race code
+	 */
+	public void setAmendmentReason(String amendmentReason) {
+		amendmentReasons = new ArrayList<StudyPart>();
+		if (!StringUtils.isBlank(amendmentReason)) {
+			StringTokenizer tokenizer = new StringTokenizer(amendmentReason, " : ");
+			while (tokenizer.hasMoreTokens()) {
+				StudyPart reason = (StudyPart) Enum.valueOf(StudyPart.class, tokenizer.nextToken());
+				amendmentReasons.add(reason);
+			};
+		}
+	}
 }

@@ -5,8 +5,11 @@ import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 
+import java.text.ParseException;
+import java.util.Date;
+
 public class CommonUtils {
-	
+
 	public static Boolean isAdmin() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
@@ -20,5 +23,17 @@ public class CommonUtils {
         }
         return new Boolean(false);
     }
-	
+
+
+    public static String getDateString(Date date){
+      if (date != null) {
+		try {
+				return DateUtil.formatDate(date, "MM/dd/yyyy");
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+    }
+
 }
