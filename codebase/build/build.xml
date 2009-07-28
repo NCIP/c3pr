@@ -239,7 +239,10 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<ant inheritAll="false" inheritRefs="false" antfile="${c3pr-webapp.build.file}" target="${c3pr-webapp.build.target}" dir="${c3pr-webapp.base.dir}">
 			<property name="dist.dir" value="${c3pr-webapp.dist.dir}" />
 			<property name="env.GLOBUS_LOCATION" value="${env.GLOBUS_LOCATION}"/>
+			<property name="env.CATALINA_LOCATION" value="${tomcat.home}"/>
 		</ant>
+		<echo message="########## ${tomcat.home} ###########">
+		<echo message="########## ${env.CATALINA_LOCATION} ###########">
 		<!-- copied war file to exploded folder -->
 		<copy file="${location.warfile}/${c3pr-webapp.file.name}" todir="${c3pr-webapp.dist.dir}" overwrite="true" />
 		<!-- copying cog-jglobus jar to exploded folder , we will copy it to tomcat commons lib dir later on -->
