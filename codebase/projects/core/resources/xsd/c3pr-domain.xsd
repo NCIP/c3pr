@@ -130,7 +130,17 @@
       <xs:extension base="IdentifierType">
         <xs:sequence>
           <xs:element minOccurs="0" name="healthcareSite" type="HealthcareSiteType" />
-          <xs:element minOccurs="0" maxOccurs="1" name="type" type="OrganizationAssignedIdentifierTypeValue" />
+          <xs:element minOccurs="1" maxOccurs="1" name="type" type="OrganizationAssignedIdentifierTypeValue" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SystemAssignedIdentifierType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="IdentifierType">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="systemName" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="type" type="xs:string" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -199,10 +209,10 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="RandomizationTypeValue">
-    <xs:restriction base="xs:int">
-      <xs:enumeration value="1" />
-      <xs:enumeration value="2" />
-      <xs:enumeration value="3" />
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PHONE_CALL" />
+      <xs:enumeration value="BOOK" />
+      <xs:enumeration value="CALL_OUT" />
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="Registration">
@@ -267,7 +277,7 @@
       <xs:element minOccurs="0" maxOccurs="1" name="blindedIndicator" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="multiInstitutionIndicator" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="randomizedIndicator" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="randomizationType" type="RandomizationType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="randomizationType" type="RandomizationTypeValue" />
       <xs:element minOccurs="1" maxOccurs="1" name="stratificationIndicator" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="standaloneIndicator" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="companionIndicator" type="xs:string" />
@@ -293,7 +303,7 @@
   <xs:complexType name="Consent">
     <xs:sequence>
       <xs:element name="name" minOccurs="1" maxOccurs="1" type="xs:string"/>
-      <xs:element minOccurs="1" maxOccurs="unbounded" name="consent" type="Consent"/>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="consentVersion" type="ConsentVersion"/>
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
@@ -321,12 +331,7 @@
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
-  <xs:complexType name="AmendmentReasonType">
-    <xs:sequence>
-      <xs:element minOccurs="1" maxOccurs="1" name="studyPart" type="StudyPartType"></xs:element>    
-    </xs:sequence>
-  </xs:complexType>
-  <xs:simpleType name="StudyPartType">
+  <xs:simpleType name="AmendmentReasonType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Detail" />
       <xs:enumeration value="Consent" />
@@ -415,8 +420,8 @@
           <xs:element minOccurs="0" maxOccurs="1" name="irbApprovalDate" type="xs:date" />
           <xs:element minOccurs="0" maxOccurs="1" name="roleCode" type="xs:string" />
           <xs:element minOccurs="0" maxOccurs="1" name="startDate" type="xs:date" />
-          <xs:element minOccurs="0" maxOccurs="1" name="siteStudyStatus" type="SiteStudyStatusType" />
           <xs:element minOccurs="0" maxOccurs="1" name="endDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="siteStudyStatus" type="SiteStudyStatusType" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -450,22 +455,23 @@
   </xs:simpleType>
   <xs:simpleType name="OrganizationAssignedIdentifierTypeValue">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="CTEP Identifier" />
-      <xs:enumeration value="NCI Identifier" />
-      <xs:enumeration value="Assigned Identifier" />
-      <xs:enumeration value="Coordinating Center Identifier" />
-      <xs:enumeration value="Coordinating Center Assigned Study Subject Identifier" />
-      <xs:enumeration value="ClinicalTrials.gov Identifier" />
-      <xs:enumeration value="Cooperative Group Identifier" />
-      <xs:enumeration value="Study Funding Sponsor" />
+      <xs:enumeration value="CTEP" />
+      <xs:enumeration value="NCI" />
+      <xs:enumeration value="AI" />
+      <xs:enumeration value="COORDINATING_CENTER_IDENTIFIER" />
+      <xs:enumeration value="COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER" />
+      <xs:enumeration value="CLINICAL_TRIALS_GOV_IDENTIFIER" />
+      <xs:enumeration value="COOPERATIVE_GROUP_IDENTIFIER" />
+      <xs:enumeration value="LOCAL" />
+      <xs:enumeration value="STUDY_FUNDING_SPONSOR" />
       <xs:enumeration value="MRN" />
-      <xs:enumeration value="Protocol Authority Identifier" />
-      <xs:enumeration value="C3D Identifier" />
+      <xs:enumeration value="PROTOCOL_AUTHORITY_IDENTIFIER" />
+      <xs:enumeration value="C3D_IDENTIFIER" />
       <xs:enumeration value="C3PR" />
-      <xs:enumeration value="Site IRB Identifier" />
-      <xs:enumeration value="Site Identifier" />
-      <xs:enumeration value="Study Subject Identifier" />
-      <xs:enumeration value="Grid Identifier" />
+      <xs:enumeration value="SITE_IRB_IDENTIFIER" />
+      <xs:enumeration value="SITE_IDENTIFIER" />
+      <xs:enumeration value="STUDY_SUBJECT_IDENTIFIER" />
+      <xs:enumeration value="GRID_IDENTIFIER" />
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="StudyFundingSponsorType">
@@ -476,16 +482,6 @@
   <xs:complexType name="StudyCoordinatingCenterType">
     <xs:complexContent mixed="false">
       <xs:extension base="StudyOrganizationType" />
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="SystemAssignedIdentifierType">
-    <xs:complexContent mixed="false">
-      <xs:extension base="IdentifierType">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="systemName" type="xs:string" />
-          <xs:element minOccurs="0" maxOccurs="1" name="type" type="xs:string" />
-        </xs:sequence>
-      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="StudyDiseaseType">
@@ -520,7 +516,7 @@
   </xs:complexType>
   <xs:complexType name="StratificationCriterionPermissibleAnswerType">
     <xs:sequence>
-      <xs:element minOccurs="1" maxOccurs="1" name="permissibleAnswer" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="answerText" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
