@@ -3,37 +3,29 @@ package edu.duke.cabig.c3pr.xml;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
-import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.StudyPart;
+import edu.duke.cabig.c3pr.domain.AmendmentReason;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 25, 2007 Time: 10:31:43 AM To change this
  * template use File | Settings | File Templates.
  */
-public class RandomizationTypeFieldHandler implements FieldHandler {
+public class StudyPartFieldHandler implements FieldHandler {
 
     public Object getValue(Object object) throws IllegalStateException {
-        if (object instanceof Study) {
-        	Study study = (Study) object;
-            return study.getRandomizationType()==null?null:study.getRandomizationType().toString();
-		}else if (object instanceof RandomizationHolder) {
-			RandomizationHolder randomizationHolder = (RandomizationHolder) object;
-            return randomizationHolder.getRandomizationType()==null?null:randomizationHolder.getRandomizationType().toString();
-		}
-    	return null;
+        AmendmentReason amendmentReason = (AmendmentReason) object;
+        return amendmentReason.getStudyPart().toString();
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
-    	if(value==null) return;
-    	if (object instanceof Study) {
-        	Study study = (Study) object;
-        	study.setRandomizationType(RandomizationType.valueOf((String) value));
-		}else if (object instanceof RandomizationHolder) {
-			RandomizationHolder randomizationHolder = (RandomizationHolder) object;
-			randomizationHolder.setRandomizationType(RandomizationType.valueOf((String) value));
-		}
+    	AmendmentReason amendmentReason = (AmendmentReason) object;
+//        study.setDataEntryStatus(StudyDataEntryStatus.valueOf((String) value));
+        amendmentReason.setStudyPart(StudyPart.valueOf((String) value));
+
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
