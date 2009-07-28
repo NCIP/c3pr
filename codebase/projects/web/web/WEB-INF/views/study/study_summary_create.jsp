@@ -30,7 +30,7 @@ function activateAndSaveStudy(){
 function createStudy(){
 	if (${fn:length(errors)} > 0){
 		var d = $('errorsCreateDiv');
-		Dialog.alert(d.innerHTML, 
+		Dialog.alert(d.innerHTML,
 		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
 	} else {
 		document.getElementById("_activate").value="false";
@@ -56,11 +56,11 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 function updateTargetAccrual(){
 	Element.hide('flash-message-targetaccrual');
 		var arr= $$("#targetAccrual");
-		win = new Window({className :"mac_os_x", title: "Update Target Accrual", 
-								hideEffect:Element.hide, 
+		win = new Window({className :"mac_os_x", title: "Update Target Accrual",
+								hideEffect:Element.hide,
 								zIndex:100, width:500, height:150 , minimizable:false, maximizable:false, closable : false,
-								showEffect:Element.show 
-								}) 
+								showEffect:Element.show
+								})
 		win.setContent(arr[0]) ;
 		win.showCenter(true);
 }
@@ -148,10 +148,6 @@ function updateTargetAccrual(){
 		<div class="value">${command.study.blindedIndicator=="true"?"Yes":"No"}</div>
 	</div>
 	<div class="row">
-		<div class="label"><fmt:message key="study.consentVersionDate"/>:</div>
-		<div class="value">${command.study.consentVersion}</div>
-	</div>
-	<div class="row">
 		<div class="label"><fmt:message key="study.stratified"/>:</div>
 		<div class="value">${command.study.stratificationIndicator=="true"?"Yes":"No"}</div>
 	</div>
@@ -196,7 +192,7 @@ function updateTargetAccrual(){
 					<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.healthcareSite.name} </td>
 			  </c:otherwise>
 			</c:choose>
-           	<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type}</td>
+           	<td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.type.displayName}</td>
             <td class="alt" align="left">${command.study.coordinatingCenterAssignedIdentifier.value}</td>
            </tr>
          </c:if>
@@ -210,7 +206,7 @@ function updateTargetAccrual(){
 						<td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.healthcareSite.name} </td>
 				   </c:otherwise>
 				</c:choose>
-                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type}</td>
+                <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.type.displayName}</td>
                 <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
             </tr>
         </c:if>
@@ -231,13 +227,13 @@ function updateTargetAccrual(){
 		                <c:if test="${not empty epoch.arms}">
 		                    <td>
 		                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-		
+
 		                            <tr>
 		                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
 		                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b></th>
 		                                <th/>
 		                            </tr>
-		
+
 		                            <tr>
 		                                <c:forEach items="${epoch.arms}" var="arm">
 		                                <tr>
@@ -269,7 +265,7 @@ function updateTargetAccrual(){
 				        <tr>
 				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
 				        </tr>
-				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">	
+				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">
 					        <tr>
 					        	<td class="alt">${inclusionCriteria.questionText}</td>
 							</tr>
@@ -295,7 +291,7 @@ function updateTargetAccrual(){
 			</chrome:division>
 		</c:if>
     </c:forEach>
-</chrome:division>  
+</chrome:division>
 <chrome:division title="Stratum Groups" cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${epoch.stratificationIndicator}">
@@ -307,7 +303,7 @@ function updateTargetAccrual(){
 					            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
 	            				<th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
 					        </tr>
-					        <c:forEach items="${epoch.stratumGroups}" var="stratGrp">	
+					        <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
 						        <tr>
 						        	<td class="alt">${stratGrp.stratumGroupNumber}</td>
 	                    			<td class="alt">${stratGrp.answerCombinations}</td>
@@ -369,7 +365,7 @@ function updateTargetAccrual(){
 	        </c:when>
 	        <c:otherwise>
 	        	<div align="left"><span><fmt:message key="study.noCompanionsAvailable"/></span></div>
-	        </c:otherwise>  
+	        </c:otherwise>
         </c:choose>
     </chrome:division>
 </div>
@@ -403,9 +399,9 @@ function updateTargetAccrual(){
 			Cannot Open Study. Please review the data.
 		</font>
 	</div>
-	
+
 	<br>
-	
+
 	<c:forEach items="${errors}" var="error" >
 		<div class="value" align="left">
 			<font size="1" face="Verdana" color="black">
@@ -421,9 +417,9 @@ function updateTargetAccrual(){
 		</font>
 	</div>
 </div>
-	
+
 	<br>
-	
+
 	<c:forEach items="${errors}" var="error" >
 		<div class="value" align="left">
 			<font size="1" face="Verdana" color="black">

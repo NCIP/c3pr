@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.web.study.tabs.CompanionStudyTab;
@@ -62,7 +63,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
     }
 
     @Override
-    protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
+    protected Map referenceData(HttpServletRequest request, Object command, Errors e, int page) throws Exception {
         request.setAttribute(FLOW_TYPE, AMEND_STUDY);
         request.setAttribute("amendFlow", "true");
 
@@ -75,11 +76,14 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
                 isAdmin = "true";
             }
         }
+        StudyWrapper wrapper = (StudyWrapper) command ;
         request.setAttribute("softDelete", "true");
         request.setAttribute("editAuthorizationTask", editTask);
         request.setAttribute("isAdmin", isAdmin);
-        return super.referenceData(request, arg1);
+        return super.referenceData(request,command, e , page);
     }
+
+
 
     @Override
     protected void layoutTabs(Flow flow) {
@@ -96,8 +100,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
     }
 
     @Override
-    protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
-            throws Exception {
+    protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(req, binder);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
         binder.registerCustomEditor(Boolean.class, "epochAndArmsIndicator",new CustomBooleanEditor(false));
@@ -112,6 +115,16 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
         wrapper.setStudy(study);
+        boolean resumeAmendment = wrapper.resumeAmendment();
+        if(!resumeAmendment){
+        	try {
+        		StudyVersion studyVersion = study.getLatestStudyVersion();
+				study.addStudyVersion((StudyVersion)studyVersion.clone());
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+        }
+        request.setAttribute("resumeAmendment", resumeAmendment);
         return wrapper;
     }
 
@@ -119,7 +132,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
     protected boolean shouldPersist(HttpServletRequest request, StudyWrapper command, Tab<StudyWrapper> tab) {
         return super.shouldSave(request, command, tab) && StringUtils.isBlank(request.getParameter("_action"));
     }
-    
+
     @Override
     protected boolean isSummaryEnabled() {
         return true;

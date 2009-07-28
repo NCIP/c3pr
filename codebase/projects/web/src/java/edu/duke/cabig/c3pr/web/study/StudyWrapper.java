@@ -4,9 +4,14 @@ import javax.persistence.Transient;
 
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.StatusType;
+
+import java.util.List;
+import java.util.ArrayList;
 
 public class StudyWrapper {
-	
+
 	private Study study ;
 	private String file;
 	private boolean hasStratifiedEpoch ;
@@ -36,7 +41,7 @@ public class StudyWrapper {
 	public void setStudy(Study study) {
 		this.study = study;
 	}
-	
+
 	@Transient
 	public String getFile() {
 		if (file != null) {
@@ -48,5 +53,23 @@ public class StudyWrapper {
 	public void setFile(String file) {
 		this.file = file;
 	}
+
+     public boolean canAmendStudy(){
+    	Study study = this.getStudy();
+    	List<CoordinatingCenterStudyStatus> permissibleStatus = new ArrayList<CoordinatingCenterStudyStatus>();
+        permissibleStatus.add(CoordinatingCenterStudyStatus.OPEN);
+        permissibleStatus.add(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+        permissibleStatus.add(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+
+        return permissibleStatus.contains(study.getCoordinatingCenterStudyStatus()) && study.getStudyVersion() == study.getLatestStudyVersion();
+
+    }
+
+     public boolean resumeAmendment(){
+    	 if(canAmendStudy() && getStudy().getCurrentStudyAmendment() != null ){
+             return true;
+         }
+         return false;
+     }
 
 }

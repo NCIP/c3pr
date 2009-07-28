@@ -13,7 +13,6 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
-import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -42,7 +41,7 @@ public class StudyOverviewTab extends StudyTab {
     public StudyOverviewTab(String longTitle, String shortTitle, String viewName, Boolean willSave) {
         super(longTitle, shortTitle, viewName,willSave);
     }
-    
+
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
                     Errors errors) {
@@ -70,7 +69,7 @@ public class StudyOverviewTab extends StudyTab {
             wrapper.setStudy(study);
         }
     }
-    
+
     public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj,
                                                   Errors error) {
         Study study = ((StudyWrapper) commandObj).getStudy();
@@ -110,7 +109,8 @@ public class StudyOverviewTab extends StudyTab {
         command.getStudy().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus(dataEntryErrors));
         request.setAttribute("errors", dataEntryErrors);
         Map<String, Object> refdata = super.referenceData(request, command);
-        refdata.put("canAmendStudy", canAmendStudy(command.getStudy()));
+        refdata.put("canAmendStudy", command.canAmendStudy());
+        refdata.put("resumeAmendment", command.resumeAmendment());
         return refdata ;
     }
 
@@ -123,7 +123,7 @@ public class StudyOverviewTab extends StudyTab {
             return command.getStudy().getCoordinatingCenterStudyStatus().getCode();
         }
     }
-    
+
     @SuppressWarnings("finally")
     @Override
     protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, StudyWrapper command,
@@ -150,7 +150,7 @@ public class StudyOverviewTab extends StudyTab {
         if(!isAdmin()){
             retValue = "<script>alert('You dont have admin privileges to take this action.')</script>";
             map.put(AjaxableUtils.getFreeTextModelName(), retValue);
-            return new ModelAndView("", map);        
+            return new ModelAndView("", map);
         }
         if(property==null || value==null){
             retValue = "<script>alert('no value specified')</script>";
@@ -175,7 +175,7 @@ public class StudyOverviewTab extends StudyTab {
         map.put(AjaxableUtils.getFreeTextModelName(), retValue);
         return new ModelAndView("", map);
     }
-    
+
     protected boolean suppressValidation(HttpServletRequest request, Object study) {
         if (request.getParameter("_activate") != null
                 && request.getParameter("_activate").equals("true")) {
@@ -199,23 +199,10 @@ public class StudyOverviewTab extends StudyTab {
     public ModelAndView reloadCompanion(HttpServletRequest request, Object command , Errors error) {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
-    
+
     public ModelAndView updateTargetAccrual(HttpServletRequest request, Object command , Errors error) {
     	return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
-
-    private boolean canAmendStudy(Study study){
-        List<CoordinatingCenterStudyStatus> permissibleStatus = new ArrayList<CoordinatingCenterStudyStatus>();
-        
-        permissibleStatus.add(CoordinatingCenterStudyStatus.OPEN);
-        permissibleStatus.add(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
-        permissibleStatus.add(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
-
-        return permissibleStatus.contains(study.getCoordinatingCenterStudyStatus()) && study.getStudyVersion() == study.getLatestStudyVersion() 
-                && study.getStudyVersion().getVersionStatus() == StatusType.AC ;
-                   
-    }
-
 
 
 }

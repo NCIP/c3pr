@@ -43,7 +43,7 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
     }
 
     private StudyRepository studyRepository;
-    private final String DO_NOT_SAVE = "_doNotSave" ; 
+    private final String DO_NOT_SAVE = "_doNotSave" ;
 
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         StudyWrapper wrapper = new StudyWrapper();
@@ -67,7 +67,6 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
      */
     protected void layoutTabs(Flow flow) {
         flow.addTab(new StudyDetailsTab());
-        flow.addTab(new StudyConsentTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());

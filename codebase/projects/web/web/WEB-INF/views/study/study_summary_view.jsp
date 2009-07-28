@@ -59,7 +59,7 @@
 			$('closeStatus').value=closeStatus;
 			changeStudyStatus('close');
 		}
-		
+
         function changeStudyStatus(status) {
         	if (${fn:length(errors)} > 0){
                 if(status=='open'){
@@ -69,7 +69,7 @@
                 }
         		Dialog.alert(d.innerHTML, {className: "alphacube", width:400, okLabel: "Close" });
         	} else if(status=='close') {
-				Dialog.confirm("Are you sure you want to close the study?", 
+				Dialog.confirm("Are you sure you want to close the study?",
 				               {width:300, height:85, okLabel: "Ok",
 				               ok:function(win) {$('statusChange').value = 'close';  $('command').submit();}
 				              });
@@ -83,7 +83,7 @@
 		function closePopup() {
 			win.close();
 		}
-		
+
 		ValidationManager.submitPostProcess=function(formElement, flag){
 			if(formElement.id =='targetAccrualForm' && flag ){
 				<tags:tabMethod method="updateTargetAccrual" divElement="'targetAccrualDiv'" formName="'targetAccrualForm'"  viewName="/study/asynchronous/target_accrual_section" onComplete="closePopup"/>
@@ -92,15 +92,15 @@
 			}
 			return flag;
 		}
-        
+
         function updateTargetAccrual(){
         	Element.hide('flash-message-targetaccrual');
    			var arr= $$("#targetAccrual");
-   			win = new Window({className :"mac_os_x", title: "Update Target Accrual", 
-   									hideEffect:Element.hide, 
+   			win = new Window({className :"mac_os_x", title: "Update Target Accrual",
+   									hideEffect:Element.hide,
    									zIndex:100, width:500, height:150 , minimizable:false, maximizable:false, closable : false,
-   									showEffect:Element.show 
-   									}) 
+   									showEffect:Element.show
+   									})
    			win.setContent(arr[0]) ;
    			win.showCenter(true);
         }
@@ -159,6 +159,9 @@
 	            </c:if>
             </csmauthz:accesscontrol>
 			<c:if test="${not empty flowType}">
+				<c:if test="${resumeAmendment}">
+            		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('finishAmendment')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Finish amendment" />
+	            </c:if>
 				<tags:oneControlPanelItem linkhref="javascript:document.location='../study/viewStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Manage Study" />
 			</c:if>
 			<c:if test="${empty flowType}">
@@ -172,19 +175,20 @@
 		                    </c:otherwise>
 		                </c:choose>
 	                    <c:if test="${command.study.standaloneIndicator && canAmendStudy}">
+	                    	<c:set var="amend" value="${resumeAmendment?'Resume Amendment':'Amend Study'}"></c:set>
 	                    	<c:choose>
 			                    <c:when test="${command.study.companionIndicator=='true'}">
-			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Amend Study" />
+			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
 			                    </c:when>
 			                    <c:otherwise>
-			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Amend Study" />
+			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
 			                    </c:otherwise>
 			                </c:choose>
 	                     </c:if>
 	                </csmauthz:accesscontrol>
 	                <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 						<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Edit Accrual" />
-					</csmauthz:accesscontrol>						
+					</csmauthz:accesscontrol>
 				<tags:oneControlPanelItem linkhref="javascript:doExportAction();;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 				<tags:oneControlPanelItem linkhref="javascript:launchPrint();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 			</c:if>
@@ -212,10 +216,10 @@
 <font color='<fmt:message key="${ studyMessage}.COLOR"/>'><strong><fmt:message key="${studyMessage}"/></strong></font>
 </c:if>
 <div>
-    <input type="hidden" name="_finish" value="true"/> 
+    <input type="hidden" name="_finish" value="true"/>
     <input type="hidden" name="_action" value="">
 </div>
-    
+
 <div id="summary">
 <div id="printable">
 <chrome:division id="study-details" cssClass="big" title="Study Details">
@@ -322,7 +326,7 @@
                 <td class="alt" align="left">${command.study.fundingSponsorAssignedIdentifier.value}</td>
             </tr>
         </c:if>
-         
+
     </table>
 </chrome:division>
 <chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${not empty flowType}">
@@ -340,13 +344,13 @@
 		                <c:if test="${not empty epoch.arms}">
 		                    <td>
 		                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-		
+
 		                            <tr>
 		                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
 		                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b></th>
 		                                <th/>
 		                            </tr>
-		
+
 		                            <tr>
 		                                <c:forEach items="${epoch.arms}" var="arm">
 		                                <tr>
@@ -378,7 +382,7 @@
 				        <tr>
 				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
 				        </tr>
-				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">	
+				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">
 					        <tr>
 					        	<td class="alt">${inclusionCriteria.questionText}</td>
 							</tr>
@@ -417,7 +421,7 @@
 					            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
 	            				<th scope="col" align="left"><b><fmt:message key="study.answerCombination"/></b></th>
 					        </tr>
-					        <c:forEach items="${epoch.stratumGroups}" var="stratGrp">	
+					        <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
 						        <tr>
 						        	<td class="alt">${stratGrp.stratumGroupNumber}</td>
 	                    			<td class="alt">${stratGrp.answerCombinations}</td>
@@ -477,14 +481,14 @@
 		                    <td class="alt">
 		                        <c:choose>
 		                            <c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'OPEN') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_TO_OPEN')}">
-		                                <tags:button id="manageCompanionStudy" type="button" color="blue" value="View" 
+		                                <tags:button id="manageCompanionStudy" type="button" color="blue" value="View"
 											onclick="javascript:document.location='viewStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
 		                            </c:when>
 		                            <c:otherwise>
 		                                <c:if test="${not empty editAuthorizationTask}">
 		                                    <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
 		                                                            authorizationCheckName="taskAuthorizationCheck">
-		                                        <tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" 
+		                                        <tags:button id="editCompanionStudy" type="button" color="blue" value="Edit"
 													onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
 		                                    </csmauthz:accesscontrol>
 		                                </c:if>
@@ -497,7 +501,7 @@
 	        </c:when>
 	        <c:otherwise>
 	        	<div align="left"><span><fmt:message key="study.noCompanionsAvailable"/></span></div>
-	        </c:otherwise>  
+	        </c:otherwise>
         </c:choose>
     </chrome:division>
 </div>
@@ -516,10 +520,10 @@
 		                    <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
 		                    <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
 		                    <td class="alt">
-		                    	<tags:button id="manageParentStudy" type="button" color="blue" value="View" 
+		                    	<tags:button id="manageParentStudy" type="button" color="blue" value="View"
 									onclick="javascript:document.location='viewStudy?studyId=${parentStudyAssociation.parentStudy.id}'" size="small"/>
 		                    </td>
-		
+
 		                </tr>
 		            </c:forEach>
 		        </table>
@@ -557,11 +561,11 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                        	<tags:button id="broadcastStatusBtn" type="button" color="blue" value="Refresh" 
+                        	<tags:button id="broadcastStatusBtn" type="button" color="blue" value="Refresh"
 							onclick="getBroadcastStatus();" size="small"/>
-							<tags:button id="broadcastBtn" type="button" color="blue" value="Broadcast" 
+							<tags:button id="broadcastBtn" type="button" color="blue" value="Broadcast"
 							onclick="doSendMessageToESB();" size="small"/>
-                            
+
                         </td>
                     </tr>
                 </table>
@@ -581,9 +585,9 @@
 			Cannot Open Study. Please review the data.
 		</font>
 	</div>
-	
+
 	<br>
-	
+
 	<c:forEach items="${errors}" var="error" >
 		<div class="value" align="left">
 			<font size="1" face="Verdana" color="black">
@@ -598,9 +602,9 @@
 			Cannot Create Study. Please review the data.
 		</font>
 	</div>
-	
+
 	<br>
-	
+
 	<c:forEach items="${errors}" var="error" >
 		<div class="value" align="left">
 			<font size="1" face="Verdana" color="black">
