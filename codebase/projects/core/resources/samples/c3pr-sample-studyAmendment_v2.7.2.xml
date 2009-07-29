@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
-	<blindedIndicator>false</blindedIndicator>
-	<multiInstitutionIndicator>true</multiInstitutionIndicator>
-	<randomizedIndicator>true</randomizedIndicator>
-	<randomizationType>BOOK</randomizationType>
-	<stratificationIndicator>true</stratificationIndicator>
-	<standaloneIndicator>true</standaloneIndicator>
-	<companionIndicator>false</companionIndicator>
+<studyAmendment xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<studyIdentifiers>
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="OrganizationAssignedIdentifierType">
+			<value>cocenter id</value>
+			<primaryIndicator>false</primaryIndicator>
+			<healthcareSite xsi:type="LocalHealthcareSiteType">
+				<address/>
+				<identifier xsi:type="OrganizationAssignedIdentifierType">
+					<value>site_ctep_id</value>
+					<primaryIndicator>false</primaryIndicator>
+					<type>CTEP</type>
+				</identifier>
+			</healthcareSite>
+			<type>COORDINATING_CENTER_IDENTIFIER</type>
+		</identifier>
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="OrganizationAssignedIdentifierType">
+			<value>funding sponsor id</value>
+			<primaryIndicator>false</primaryIndicator>
+			<healthcareSite xsi:type="LocalHealthcareSiteType">
+				<address/>
+				<identifier xsi:type="OrganizationAssignedIdentifierType">
+					<value>site_ctep_id</value>
+					<primaryIndicator>false</primaryIndicator>
+					<type>CTEP</type>
+				</identifier>
+			</healthcareSite>
+			<type>PROTOCOL_AUTHORITY_IDENTIFIER</type>
+		</identifier>
+	</studyIdentifiers>
+	<versionDate>2009-07-29</versionDate>
+	<versionName>1.1</versionName>
 	<shortTitleText>ShortTitleText1</shortTitleText>
 	<longTitleText>LongTitleText1</longTitleText>
 	<descriptionText>Description Text</descriptionText>
 	<precisText>Study with randomization</precisText>
-	<phaseCode>Phase I Trial</phaseCode>
-	<dataEntryStatus>COMPLETE</dataEntryStatus>
-	<coordinatingCenterStudyStatus>OPEN</coordinatingCenterStudyStatus>
-	<type>Diagnostic</type>
-	<targetAccrualNumber>150</targetAccrualNumber>
-	<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:type="OrganizationAssignedIdentifierType">
-		<value>cocenter id</value>
-		<primaryIndicator>false</primaryIndicator>
-		<healthcareSite xsi:type="LocalHealthcareSiteType">
-			<address/>
-			<identifier xsi:type="OrganizationAssignedIdentifierType">
-				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
-				<type>CTEP</type>
-			</identifier>
-		</healthcareSite>
-		<type>COORDINATING_CENTER_IDENTIFIER</type>
-	</identifier>
-	<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:type="OrganizationAssignedIdentifierType">
-		<value>funding sponsor id</value>
-		<primaryIndicator>false</primaryIndicator>
-		<healthcareSite xsi:type="LocalHealthcareSiteType">
-			<address/>
-			<identifier xsi:type="OrganizationAssignedIdentifierType">
-				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
-				<type>CTEP</type>
-			</identifier>
-		</healthcareSite>
-		<type>PROTOCOL_AUTHORITY_IDENTIFIER</type>
-	</identifier>
+	<amendmentReason>COMPANION</amendmentReason>
+	<amendmentReason>CONSENT</amendmentReason>
+	<amendmentReason>DESIGN</amendmentReason>
+	<amendmentReason>DETAIL</amendmentReason>
+	<amendmentReason>DISEASE</amendmentReason>
+	<amendmentReason>ELIGIBILITY</amendmentReason>
+	<amendmentReason>RANDOMIZATION</amendmentReason>
+	<amendmentReason>STRATIFICATION</amendmentReason>
 	<epoch gridId="grid">
 		<name>epoch 1</name>
 		<epochOrder>1</epochOrder>
@@ -105,76 +105,6 @@
 			<type>BOOK</type>
 		</randomization>
 	</epoch>
-	<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gridId="co center"
-		xsi:type="StudyCoordinatingCenterType">
-		<healthcareSite xsi:type="LocalHealthcareSiteType">
-			<address/>
-			<identifier xsi:type="OrganizationAssignedIdentifierType">
-				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
-				<type>CTEP</type>
-			</identifier>
-		</healthcareSite>
-		<studyInvestigator>
-			<roleCode>Site Investigator</roleCode>
-			<healthcareSiteInvestigator>
-				<investigator xsi:type="LocalInvestigatorType">
-					<nciIdentifier>ctep_assigned_id</nciIdentifier>
-					<fullName>first last</fullName>
-				</investigator>
-			</healthcareSiteInvestigator>
-		</studyInvestigator>
-		<studyInvestigator>
-			<roleCode>Site Investigator</roleCode>
-			<healthcareSiteInvestigator>
-				<investigator xsi:type="RemoteInvestigatorType">
-					<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
-					<fullName>first last</fullName>
-					<externalId>external_id</externalId>
-				</investigator>
-			</healthcareSiteInvestigator>
-		</studyInvestigator>
-	</studyOrganization>
-	<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		gridId="funding sponsor" xsi:type="StudyFundingSponsorType">
-		<healthcareSite xsi:type="LocalHealthcareSiteType">
-			<address/>
-			<identifier xsi:type="OrganizationAssignedIdentifierType">
-				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
-				<type>CTEP</type>
-			</identifier>
-		</healthcareSite>
-	</studyOrganization>
-	<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:type="StudySiteType">
-		<healthcareSite xsi:type="LocalHealthcareSiteType">
-			<address/>
-			<identifier xsi:type="OrganizationAssignedIdentifierType">
-				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
-				<type>CTEP</type>
-			</identifier>
-		</healthcareSite>
-		<irbApprovalDate>2009-07-29</irbApprovalDate>
-		<endDate>2009-07-29</endDate>
-		<siteStudyStatus>PENDING</siteStudyStatus>
-	</studyOrganization>
-	<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:type="StudySiteType">
-		<healthcareSite xsi:type="RemoteHealthcareSiteType">
-			<address/>
-			<identifier xsi:type="OrganizationAssignedIdentifierType">
-				<value>remote_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
-				<type>CTEP</type>
-			</identifier>
-			<externalId>external_id</externalId>
-		</healthcareSite>
-		<irbApprovalDate>2009-07-29</irbApprovalDate>
-		<endDate>2009-07-29</endDate>
-		<siteStudyStatus>PENDING</siteStudyStatus>
-	</studyOrganization>
 	<companionStudy>
 		<study>
 			<blindedIndicator>false</blindedIndicator>
@@ -624,22 +554,4 @@
 		</study>
 		<mandatoryIndicator>true</mandatoryIndicator>
 	</companionStudy>
-	<consent>
-		<name>Male</name>
-		<consentVersion>
-			<name>consent name 1</name>
-			<effectiveDate>2009-07-29</effectiveDate>
-		</consentVersion>
-		<consentVersion>
-			<name>consent name 2</name>
-			<effectiveDate>2009-07-29</effectiveDate>
-		</consentVersion>
-	</consent>
-	<consent>
-		<name>Female</name>
-		<consentVersion>
-			<name>consent name 3</name>
-			<effectiveDate>2009-07-29</effectiveDate>
-		</consentVersion>
-	</consent>
-</study>
+</studyAmendment>

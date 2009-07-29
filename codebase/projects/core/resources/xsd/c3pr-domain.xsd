@@ -9,8 +9,29 @@
   <xs:element name="registration" type="Registration" />
   <xs:element name="study" type="Study" />
   <xs:element name="patricipant" type="ParticipantType" />
-  <xs:element name="study_amendment" type="StudyAmendment" />
+  <xs:element name="studyAmendment" type="StudyAmendmentType" />
   <!--for import-->
+  <xs:element name="participants">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="patricipant" type="ParticipantType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="healthcareSites">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="healthcareSite" type="HealthcareSiteType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="investigators">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="investigator" type="InvestigatorType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="studies">
     <xs:complexType>
       <xs:sequence>
@@ -25,6 +46,7 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <!-- for grid messaging -->
   <xs:element name="Message">
     <xs:complexType>
       <xs:sequence>
@@ -218,7 +240,7 @@
   <xs:complexType name="Registration">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="1" name="studySite" type="StudySiteType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="studyRef" type="StudyRefType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="studyRef" type="IdentifiersType" />
       <xs:element minOccurs="0" maxOccurs="1" name="participant" type="ParticipantType" />
       <xs:element minOccurs="0" maxOccurs="1" name="startDate" type="xs:date" />
       <xs:element minOccurs="0" maxOccurs="1" name="informedConsentFormSignedDate" type="xs:date" />
@@ -313,18 +335,17 @@
       <xs:element minOccurs="1" maxOccurs="1" name="effectiveDate" type="xs:date" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="StudyAmendment">
+  <xs:complexType name="StudyAmendmentType">
     <xs:sequence>
-      <xs:element minOccurs="1" maxOccurs="1" name="studyRef" type="StudyRefType"/>
-      <xs:element minOccurs="0" maxOccurs="1" name="versionStatus" type="StatusType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="randomizationType" type="RandomizationType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="studyIdentifiers" type="IdentifiersType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="versionDate" type="xs:date" />
+      <xs:element minOccurs="0" maxOccurs="1" name="versionName" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="shortTitleText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="longTitleText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="descriptionText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="precisText" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="versionDate" type="xs:date" />
-      <xs:element minOccurs="0" maxOccurs="1" name="versionName" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="amendmentReason" type="AmendmentReasonType"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="randomizationType" type="RandomizationType" />
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="amendmentReason" type="AmendmentReasonType"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="epoch" type="EpochType"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="companionStudy" type="CompanionStudyAssignmentType"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="studyDisease" type="StudyDiseaseType"/>
@@ -333,13 +354,14 @@
   </xs:complexType>
   <xs:simpleType name="AmendmentReasonType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="Detail" />
-      <xs:enumeration value="Consent" />
-      <xs:enumeration value="Design" />
-      <xs:enumeration value="Stratification" />
-      <xs:enumeration value="Disease" />
-      <xs:enumeration value="Randomization" />
-      <xs:enumeration value="Companion" />
+      <xs:enumeration value="COMPANION" />
+      <xs:enumeration value="CONSENT" />
+      <xs:enumeration value="DESIGN" />
+      <xs:enumeration value="DETAIL" />
+      <xs:enumeration value="DISEASE" />
+      <xs:enumeration value="ELIGIBILITY" />
+      <xs:enumeration value="RANDOMIZATION" />
+      <xs:enumeration value="STRATIFICATION" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="StatusType">
@@ -350,17 +372,14 @@
   </xs:simpleType>
   <xs:complexType name="CompanionStudyAssignmentType">
     <xs:sequence>
-      <xs:element minOccurs="1" maxOccurs="1" name="companionStudy" type="Study" />
+      <xs:element minOccurs="1" maxOccurs="1" name="study" type="Study" />
       <xs:element minOccurs="1" maxOccurs="1" name="mandatoryIndicator" type="xs:string" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
-    <xs:attribute name="version" type="xs:integer" />
   </xs:complexType>
-  <xs:complexType name="StudyRefType">
+  <xs:complexType name="IdentifiersType">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="1" name="shortTitleText" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="longTitleText" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>

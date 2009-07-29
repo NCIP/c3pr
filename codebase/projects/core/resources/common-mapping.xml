@@ -133,6 +133,16 @@
         </field>
     </class>
     
+    <class name="edu.duke.cabig.c3pr.xml.IdentifiersHolder">
+        <map-to xml="identifiers" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
+               collection="collection">
+            <bind-xml node="element"
+                      name="identifier"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+    
     <class name="edu.duke.cabig.c3pr.domain.Organization">
         <map-to xml="organization" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="gridId" type="string">
