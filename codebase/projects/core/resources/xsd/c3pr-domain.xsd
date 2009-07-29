@@ -4,17 +4,14 @@
   <xs:annotation>
     <xs:documentation xml:lang="en">C3PR domain schema</xs:documentation>
   </xs:annotation>
-  <xs:element name="healthcareSite"  type="HealthcareSiteType" />
-  <xs:element name="investigator" type="InvestigatorType" />
   <xs:element name="registration" type="Registration" />
   <xs:element name="study" type="Study" />
-  <xs:element name="patricipant" type="ParticipantType" />
   <xs:element name="studyAmendment" type="StudyAmendmentType" />
   <!--for import-->
   <xs:element name="participants">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="unbounded" name="patricipant" type="ParticipantType" />
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="participant" type="ParticipantType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -115,13 +112,13 @@
       <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="descriptionText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="address" type="AddressType" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
   <xs:complexType name="HealthcareSiteInvestigatorType">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="1" name="investigator" type="InvestigatorType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="investigator" type="InvestigatorType" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="InvestigatorType" abstract="true">
@@ -137,12 +134,7 @@
   </xs:complexType>
   <xs:complexType name="IdentifierType" abstract="true">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="1" name="source" type="xs:string" />
-      <!-- Removing this element from identifier since its no more common
-        between SystemAssigned and Organization Assigned
-      <xs:element minOccurs="0" maxOccurs="1" name="type" type="xs:string" />
-      -->
-      <xs:element minOccurs="0" maxOccurs="1" name="value" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="value" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" default="false" name="primaryIndicator" type="xs:boolean" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
@@ -177,7 +169,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="HealthcareSiteType">
         <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="1" name="externalId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="externalId" type="xs:string" />
           <xs:element minOccurs="0" maxOccurs="1" name="coppaStatusCode" type="CoppaStatus" />
         </xs:sequence>
       </xs:extension>
@@ -201,25 +193,37 @@
     <xs:complexContent mixed="false">
       <xs:extension base="InvestigatorType">
         <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="1" name="externalId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="externalId" type="xs:string" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ParticipantType">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="1" name="firstName" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="lastName" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="firstName" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="lastName" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="address" type="AddressType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="administrativeGenderCode" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="birthDate" type="xs:date" />
-      <xs:element minOccurs="0" maxOccurs="1" name="ethnicGroupCode" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="maritalStatusCode" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="raceCode" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="administrativeGenderCode" type="GenderCodeType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="birthDate" type="xs:date" />
+      <xs:element minOccurs="1" maxOccurs="1" name="ethnicGroupCode" type="EthnicGroupCodeType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="raceCode" type="RaceCodeType" />
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
+  <xs:simpleType name="RaceCodeType">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="((Asian|Black_or_African_American|White|American_Indian_or_Alaska_Native|Native_Hawaiian_or_Pacific_Islander|Not_Reported|Asian : Unknown) : )*(Asian|Black_or_African_American|White|American_Indian_or_Alaska_Native|Native_Hawaiian_or_Pacific_Islander|Not_Reported|Asian : Unknown)"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EthnicGroupCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Hispanic or Latino" />
+      <xs:enumeration value="Non Hispanic or Latino" />
+      <xs:enumeration value="Not Reported" />
+      <xs:enumeration value="Unknown" />
+    </xs:restriction>
+  </xs:simpleType>
   <xs:simpleType name="PhaseCodeType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Phase 0 Trial" />
@@ -228,6 +232,14 @@
       <xs:enumeration value="Phase II Trial" />
       <xs:enumeration value="Phase III Trial" />
       <xs:enumeration value="Phase IV Trial" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="GenderCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Male" />
+      <xs:enumeration value="Female" />
+      <xs:enumeration value="Unknown" />
+      <xs:enumeration value="Not Reported" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="RandomizationTypeValue">
@@ -338,10 +350,10 @@
   <xs:complexType name="StudyAmendmentType">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="studyIdentifiers" type="IdentifiersType"/>
-      <xs:element minOccurs="0" maxOccurs="1" name="versionDate" type="xs:date" />
-      <xs:element minOccurs="0" maxOccurs="1" name="versionName" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="shortTitleText" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="longTitleText" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="versionDate" type="xs:date" />
+      <xs:element minOccurs="1" maxOccurs="1" name="versionName" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="shortTitleText" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="longTitleText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="descriptionText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="precisText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="randomizationType" type="RandomizationType" />
@@ -412,7 +424,7 @@
   </xs:simpleType>
   <xs:complexType name="StudyOrganizationType" abstract="true">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="healthcareSite" type="HealthcareSiteType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="healthcareSite" type="HealthcareSiteType" />
       <xs:element minOccurs="0" maxOccurs="unbounded" name="studyInvestigator" type="StudyInvestigatorType" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
@@ -429,7 +441,7 @@
       <xs:element minOccurs="0" maxOccurs="1" name="statusCode" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="startDate" type="xs:date" />
       <xs:element minOccurs="0" maxOccurs="1" name="endDate" type="xs:date" />
-      <xs:element minOccurs="0" maxOccurs="1" name="healthcareSiteInvestigator" type="HealthcareSiteInvestigatorType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="healthcareSiteInvestigator" type="HealthcareSiteInvestigatorType" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="StudySiteType">

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<participants xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+    <participant>
+        <firstName>First</firstName>
+        <lastName>Last</lastName>
+        <address><streetAddress>1391 Park Center Rd, Ste#420</streetAddress><city>Herndon</city><stateCode>VA</stateCode><postalCode>20170</postalCode><countryCode>US</countryCode></address>
+        <administrativeGenderCode>Male</administrativeGenderCode>
+        <birthDate>2009-07-29</birthDate>
+        <ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>
+        <raceCode>Asian : Unknown</raceCode>
+        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:type="OrganizationAssignedIdentifierType">
+            <value>org id value</value>
+            <primaryIndicator>false</primaryIndicator>
+            <type>MRN</type>
+        </identifier>
+        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:type="OrganizationAssignedIdentifierType">
+            <value>org id value</value>
+            <primaryIndicator>false</primaryIndicator>
+            <healthcareSite xsi:type="LocalHealthcareSiteType">
+                <address/>
+                <identifier xsi:type="OrganizationAssignedIdentifierType">
+                    <value>site_ctep_id</value>
+                    <primaryIndicator>false</primaryIndicator>
+                    <type>CTEP</type>
+                </identifier>
+            </healthcareSite>
+            <type>MRN</type>
+        </identifier>
+        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:type="SystemAssignedIdentifierType">
+            <value>sys id value</value>
+            <primaryIndicator>false</primaryIndicator>
+            <systemName>some_system</systemName>
+            <type>some_system_id_type</type>
+        </identifier>
+    </participant>
+</participants>

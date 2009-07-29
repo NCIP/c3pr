@@ -285,10 +285,6 @@
             <bind-xml name="ethnicGroupCode" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="maritalStatusCode" type="string">
-            <bind-xml name="maritalStatusCode" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
         <field name="raceCode" type="string">
             <bind-xml name="raceCode" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
