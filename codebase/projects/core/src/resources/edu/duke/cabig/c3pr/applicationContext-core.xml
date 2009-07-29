@@ -18,25 +18,25 @@
 	<bean id="c3pr-registration-xml-castor-mapping" class="java.lang.String">
         <constructor-arg value="c3pr-registration-xml-castor-mapping.xml"/>
     </bean>
-    
+
     <bean id="ccts-study-castor-mapping" class="java.lang.String">
         <constructor-arg value="ccts-study-castor-mapping.xml"/>
     </bean>
-    
+
     <!-- Report castor mapping xml -->
-    
+
     <bean id="summary-3-report-castor-mapping" class="java.lang.String">
         <constructor-arg value="summary-3-report-castor-mapping.xml"/>
     </bean>
-    
+
     <bean id="accrual-report-castor-mapping" class="java.lang.String">
         <constructor-arg value="accrual-report-castor-mapping.xml"/>
     </bean>
-    
+
     <!--  Summary Report Generator -->
-    
+
     <bean id="summary3ReportGenerator" class="edu.duke.cabig.c3pr.xml.Summary3ReportGenerator">
-    
+
     </bean>
 
     <!--Transaction support-->
@@ -128,7 +128,6 @@
                 <value>edu.duke.cabig.c3pr.domain.BookRandomization</value>
                 <value>edu.duke.cabig.c3pr.domain.PhoneCallRandomization</value>
                 <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
-                <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
                 <value>edu.duke.cabig.c3pr.tools.C3prConfigurationEntry</value>
                 <value>edu.duke.cabig.c3pr.domain.PlannedNotification</value>
                 <value>edu.duke.cabig.c3pr.domain.Recipient</value>
@@ -177,9 +176,9 @@
 
     <bean id="configuration" parent="configurationDaoTemplate"
       class="edu.duke.cabig.c3pr.tools.Configuration"/>
-      
 
-    
+
+
     <!--  Another Session Factory for Local to Remote Entity Conversion -->
 	<!-- Start -->
 	<bean id="converterSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" autowire="byName">
@@ -202,20 +201,20 @@
             <ref bean="converterSessionFactory"/>
         </property>
     </bean>
-	
+
 	<bean id="converterDaoTemplate" abstract="true">
         <property name="hibernateTemplate">
             <ref local="converterHibernateTemplate"/>
         </property>
     </bean>
-	
+
 	<!-- DAOs -->
-	
+
 	<bean id="organizationConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationConverterDao"/>
 	<bean id="researchStaffConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffConverterDao"/>
 	<bean id="investigatorConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorConverterDao"/>
 	<!-- End -->
-    
+
 
 	<!-- Auditing related beans definition start here-->
 
@@ -249,23 +248,23 @@
             </list>
         </property>
     </bean>
-    
-    <!-- InterceptorNotifier overrides the list of interceptors defined under chainedInterceptor 
+
+    <!-- InterceptorNotifier overrides the list of interceptors defined under chainedInterceptor
     	See the InterceptorNotifier.java for details -->
-    <bean id="interceptorNotifier" class="edu.duke.cabig.c3pr.infrastructure.InterceptorNotifier" autowire="byName" />     
-    
+    <bean id="interceptorNotifier" class="edu.duke.cabig.c3pr.infrastructure.InterceptorNotifier" autowire="byName" />
+
     <bean id="chainedInterceptor" class="gov.nih.nci.cabig.ctms.audit.ChainedInterceptor" >
 		<property name="interceptors">
 			<list>
 				<ref local="gridIdentifierInterceptor"/>
-				<ref local="auditInterceptor"/> 
+				<ref local="auditInterceptor"/>
 				<ref local="remoteEntityInterceptor"/>
 			</list>
 		</property>
 	</bean>
 
     <bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl">
-        <property name="dataAuditRepository" ref="dataAuditRepository"></property> 
+        <property name="dataAuditRepository" ref="dataAuditRepository"></property>
          <property name="auditableEntities">
               <list>
 	                <value>edu.duke.cabig.c3pr.domain.Study</value>
@@ -311,7 +310,6 @@
 	                <value>edu.duke.cabig.c3pr.domain.BookRandomization</value>
 	                <value>edu.duke.cabig.c3pr.domain.PhoneCallRandomization</value>
 	                <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
-	                <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
 	                <value>edu.duke.cabig.c3pr.domain.PlannedNotification</value>
 	                <value>edu.duke.cabig.c3pr.domain.Recipient</value>
 	                <value>edu.duke.cabig.c3pr.domain.UserBasedRecipient</value>
@@ -344,13 +342,13 @@
 				   <value>edu.duke.cabig.c3pr.domain.ConsentVersion</value>
 				   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
               </list>
-        </property> 
+        </property>
         <!--  <property name="auditAll">
             <value>true</value>
         </property> -->
-    </bean> 
-    
-    <!-- Resolver util used by researchStaffReslver and investigatorResolver 
+    </bean>
+
+    <!-- Resolver util used by researchStaffReslver and investigatorResolver
     <property name="exceptionHelper" ref="exceptionHelper"/>
     	 <property name="c3prErrorMessages">
 			<ref bean="c3prErrorMessages"/>
@@ -358,18 +356,18 @@
 		-->
     <bean id="personResolverUtils" class="edu.duke.cabig.c3pr.utils.PersonResolverUtils" autowire="byName">
     </bean>
-    
+
     <bean id="remoteHealthcareSiteResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
     </bean>
     <bean id="remoteResearchStaffResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver" autowire="byName">
     </bean>
     <bean id="remoteInvestigatorResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteInvestigatorResolver" autowire="byName">
     </bean>
-    
+
     <bean id="remoteSession" class="com.semanticbits.coppa.infrastructure.RemoteSession" init-method="init">
         <property name="enableCaching" value="true"/>
         <property name="enabled" value="${coppaEnable}"/>
-        
+
         <property name="remoteEntities">
             <list>
                 <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
@@ -385,13 +383,13 @@
             </list>
         </property>
     </bean>
-    
+
     <bean name="dataAuditRepository" class="gov.nih.nci.cabig.ctms.audit.dao.DataAuditRepository">
         <property name="sessionFactory">
             <ref local="auditSessionFactory"/>
         </property>
     </bean>
-    										
+
     <bean name="auditHistoryRepository" class="edu.duke.cabig.c3pr.domain.repository.AuditHistoryRepository">
         <property name="sessionFactory">
             <ref local="auditSessionFactory"/>
@@ -403,12 +401,12 @@
 
     <bean id="gridIdentifierInterceptor" class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
           autowire="byName"/>
-          
+
     <bean id="remoteEntityInterceptor" class="com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor" lazy-init="true">
     	<property name="enabled" value="${coppaEnable}"/>
     	<property name="remoteSession" ref="remoteSession"/>
     </bean>
-          
+
     <bean id="hibernateTemplate"
           class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="checkWriteOperations" value="true"/>
@@ -508,22 +506,22 @@
 	<bean id="recipientScheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao" autowire="byName"/>
 	<bean id="summary3ReportDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.Summary3ReportDao" autowire="byName"/>
 	<bean id="accrualDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.accrual.AccrualDao" autowire="byName"/>
-	<bean id="studyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyVersionDao" autowire="byName"/>	
-	
+	<bean id="studyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyVersionDao" autowire="byName"/>
+
 	<!-- Multisite Request Handlers -->
     <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
     	<property name="studySubjectService" ref="studySubjectService"></property>
     	<property name="xmlUtility" ref="registrationXmlUtility"/>
         <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
     </bean>
-    
+
     <bean id="coOrdinatingCenterResponseHandler" class="edu.duke.cabig.c3pr.utils.CoOrdinatingCenterResponseHandler">
     	<property name="studySubjectService" ref="studySubjectService">
     	</property>
 		<property name="xmlUtility" ref="registrationXmlUtility"/>
         <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
     </bean>-->
-    
+
     <!-- Services -->
     <bean id="workflowService" class="edu.duke.cabig.c3pr.service.impl.WorkflowServiceImpl"
           abstract="true" autowire="byType">
@@ -534,7 +532,7 @@
           autowire="byName" parent="workflowService">
           <property name="dao" ref="studyDao"/>
     </bean>
-    
+
     <bean id="endPointFactory" class="edu.duke.cabig.c3pr.domain.factory.EndPointFactory">
     	<!--<property name="delegatedCredentialProvider">
     		<bean class="edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider">
@@ -546,12 +544,12 @@
     	 <property name="exceptionHelper" ref="exceptionHelper" />
     	 <property name="c3prErrorMessages" ref="c3prErrorMessages" />
     </bean>
-    
+
     <bean id="multisiteDelegatedCredentialProvider" class="edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider">
 		<property name="idpUrl"><value>${idp.url}</value></property>
 		<property name="ifsUrl"><value>${ifs.url}</value></property>
 	</bean>
-    
+
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
           autowire="byName"/>
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
@@ -568,13 +566,13 @@
           autowire="byName">
           <property name="marshaller" ref="studyXmlUtility"/>
     </bean>
-    
+
     <bean id="summaryReportService" lazy-init="true"
           class="edu.duke.cabig.c3pr.service.impl.SummaryReportServiceImpl"
           autowire="byName">
           <property name="marshaller" ref="summaryReportXmlUtility"/>
     </bean>
-    
+
     <bean id="accrualService" lazy-init="true"
           class="edu.duke.cabig.c3pr.service.impl.AccrualServiceImpl"
           autowire="byName">
@@ -605,48 +603,48 @@
             <value>19</value>
         </property>
     </bean>
-    
+
     <bean id="passwordManagerService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordManagerServiceImpl" autowire="byName"/>
 	<bean id="passwordPolicyService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordPolicyServiceImpl" autowire="byName"/>
-	
+
 	<bean id="scheduledNotificationService" class="edu.duke.cabig.c3pr.service.impl.ScheduledNotificationServiceImpl" autowire="byName"/>
-	
+
 		<!-- Quartz Scheduler Service Classes-->
 	<bean id="schedulerService" class="edu.duke.cabig.c3pr.service.impl.SchedulerServiceImpl" autowire="byName">
 		<property name="scheduler">
 			<ref bean="schedulerFactory"/>
 		</property>
 	</bean>
-	
+
 	<!-- Scheduler jobs -->
 	<bean id="scheduledNotificationJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob" autowire="byName" />
-	
-	
+
+
     <!-- Repositories -->
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
           autowire="byName">
           <property name="c3PRExceptionHelper" ref="exceptionHelper"/>
     </bean>
-          
+
     <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
           autowire="byName"/>
 	<bean id="participantRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.ParticipantRepositoryImpl"
           autowire="byName"/>
-          
+
 	<bean id="organizationRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.OrganizationRepositoryImpl"
           autowire="byName"/>
-	
+
 
 	<!-- Factories -->
 	<bean id="studyFactory" lazy-init="true" class="edu.duke.cabig.c3pr.domain.factory.StudyFactory"
           autowire="byName"/>
-          
+
     <bean id="summary3ReportFactory" lazy-init="true" class="edu.duke.cabig.c3pr.domain.factory.Summary3ReportFactory"
           autowire="byName"/>
-          
-          
-          
-          
+
+
+
+
     <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
           lazy-init="true" autowire="byType">
         <property name="mailSender" ref="mailSender"/>
@@ -656,14 +654,14 @@
         <property name="userDao" ref="userDao"/>
         <property name="researchStaffDao" ref="researchStaffDao"/>
     </bean>
-          
+
     <!-- Repositories -->
-	
+
 	<bean id="xmlTransformer" class="edu.duke.cabig.c3pr.xml.XMLTransformer"/>
-          
+
     <!-- Factories -->
     <bean id="studySubjectFactory" class="edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory" autowire="byName"/>
-          
+
 
     <!--Should be in appContext-security and applied thru aop-->
      <bean id="domainObjectPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.DomainObjectPrivilegeAndObjectIdGenerator">
@@ -675,26 +673,26 @@
     	<property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
         <property name="pathSeperator" value="."/>
     </bean>
-    
+
      <bean id="studyOrganizationPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.StudyOrganizationPrivilegeAndObjectIdGenerator">
     	<property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
         <property name="pathSeperator" value="."/>
     </bean>
 
-    
+
     <!--Utilities-->
-    <bean id="mailSender" class="edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl"> 
+    <bean id="mailSender" class="edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl">
     	<property name="configuration" ref="configuration" />
-    	<property name="host" value="${outgoingMailServer}" /> 
-    	<property name="port" value="${outgoingMailServerPort}" /> 
-    	<property name="protocol" value="${smtpProtocol}" /> 
-    	<property name="username" value="${outgoingMailUsername}" /> 
-    	<property name="password" value="${outgoingMailPassword}" /> 
-    	<property name="javaMailProperties"> 
-    	<props> 
-    		<prop key="dummy">dummy</prop> 
-    	</props> 
-    	</property> 
+    	<property name="host" value="${outgoingMailServer}" />
+    	<property name="port" value="${outgoingMailServerPort}" />
+    	<property name="protocol" value="${smtpProtocol}" />
+    	<property name="username" value="${outgoingMailUsername}" />
+    	<property name="password" value="${outgoingMailPassword}" />
+    	<property name="javaMailProperties">
+    	<props>
+    		<prop key="dummy">dummy</prop>
+    	</props>
+    	</property>
     </bean>
 
     <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"
@@ -715,19 +713,19 @@
     <bean id="studyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="c3pr-study-xml-castorMapping"/>
     </bean>
-    
+
     <bean id="cctsStudyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="ccts-study-castor-mapping"/>
     </bean>
-    
+
     <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="c3pr-registration-xml-castor-mapping"/>
     </bean>
-    
+
     <bean id="summaryReportXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="summary-3-report-castor-mapping"/>
     </bean>
-    
+
      <bean id="accrualReportXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="accrual-report-castor-mapping"/>
     </bean>
@@ -748,7 +746,7 @@
 	<bean id="multsiteErrorMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="error_messages_multisite"/>
 	</bean>
-	
+
 	<bean id="exceptionHelper" class="edu.duke.cabig.c3pr.exception.C3PRExceptionHelper">
 		<property name="errorMessages">
 			<ref bean="c3prErrorMessages"/>
@@ -756,5 +754,5 @@
 	</bean>
 
 	<bean id="identifierGenerator" class="edu.duke.cabig.c3pr.utils.IdentifierGenerator" autowire="byName"/>
-   
+
 </beans>
