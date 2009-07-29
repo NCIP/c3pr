@@ -31,19 +31,19 @@ public class StudySiteTestCase extends AbstractTestCase{
 
 	/** The study site. */
 	private StudySite studySite;
-	
+
 	/** The study. */
 	private Study study;
-	
+
 	/** The c3 pr exception helper. */
     private C3PRExceptionHelper c3PRExceptionHelper;
-    
+
     /** The message source. */
     private MessageSource messageSource;
-    
+
     /** The healthcare site. */
     private HealthcareSite healthcareSite;
-	
+
 	/* (non-Javadoc)
 	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
 	 */
@@ -60,7 +60,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		messageSource= registerMockFor(MessageSource.class);
 		studySite.setC3prErrorMessages(messageSource);
 	}
-	
+
 	/**
 	 * Test compare different types of StudySites.
 	 */
@@ -68,7 +68,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		StudySiteSubClass studySiteSubClass= new StudySiteSubClass();
 		assertEquals(1, studySite.compareTo(studySiteSubClass));
 	}
-	
+
 	/**
 	 * Test compare same reference.
 	 */
@@ -76,7 +76,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		StudySite studySite1=studySite;
 		assertEquals(0, studySite.compareTo(studySite1));
 	}
-	
+
 	/**
 	 * Test get irb approval date.
 	 */
@@ -89,7 +89,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 			fail("Shouldn't have failed");
 		}
 	}
-	
+
 	/**
 	 * Test get irb approval date , throws exception.
 	 */
@@ -101,7 +101,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 			fail("Shouldn't have failed");
 		}
 	}
-	
+
 	/**
 	 * Test get start date.
 	 */
@@ -114,7 +114,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 			fail("Shouldn't have failed");
 		}
 	}
-	
+
 	/**
 	 * Test get start date, null date.
 	 */
@@ -126,7 +126,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 			fail("Shouldn't have failed");
 		}
 	}
-	
+
 	/**
 	 * Test get current accrual count.
 	 */
@@ -152,12 +152,12 @@ public class StudySiteTestCase extends AbstractTestCase{
 		studySite.addStudySubject(studySubject);
 		assertEquals(3, studySite.getCurrentAccrualCount());
 	}
-	
-	
+
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: ClosedToAccrual
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus1() throws Exception{
@@ -166,11 +166,11 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: ClosedToAccrualAndTreatment
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus2() throws Exception{
@@ -179,11 +179,11 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: TemporarilyClosedToAccrual
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus3() throws Exception{
@@ -192,11 +192,11 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: TemporarilyClosedToAccrualAndTreatment
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus4() throws Exception{
@@ -205,28 +205,28 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: AmendmentPending
 	 * siteStudyStatus: Active
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
-	public void testEvaluateSiteStudyStatus5() throws Exception{
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(5);
-		studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
-		replayMocks();
-		assertEquals(SiteStudyStatus.AMENDMENT_PENDING, studySite.evaluateSiteStudyStatus());
-		verifyMocks();
-	}
-	
+//	public void testEvaluateSiteStudyStatus5() throws Exception{
+//		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(5);
+//		studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+//		replayMocks();
+//		assertEquals(SiteStudyStatus.AMENDMENT_PENDING, studySite.evaluateSiteStudyStatus());
+//		verifyMocks();
+//	}
+//
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: null
 	 * id: not null
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus6() throws Exception{
@@ -249,13 +249,13 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: null
 	 * id: null
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus7() throws Exception{
@@ -264,12 +264,12 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.PENDING, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: Future
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus8() throws Exception{
@@ -296,13 +296,13 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: Future
 	 * id: null
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus9() throws Exception{
@@ -315,12 +315,12 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.PENDING, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: expired
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus10() throws Exception{
@@ -347,13 +347,13 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: expired
 	 * id: null
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus11() throws Exception{
@@ -366,14 +366,14 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.PENDING, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: correct
 	 * startDate: null
 	 * id: not null
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus12() throws Exception{
@@ -396,14 +396,14 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: correct
 	 * startDate: Future
 	 * id: not null
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus13() throws Exception{
@@ -430,14 +430,14 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: correct
 	 * startDate: null
 	 * id: null
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus14() throws Exception{
@@ -447,13 +447,13 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.PENDING, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: correct
 	 * startDate: correct
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus15() throws Exception{
@@ -464,11 +464,11 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.ACTIVE, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: Pending
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus16() throws Exception{
@@ -479,11 +479,11 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.PENDING, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test evaluate site study status.
 	 * study.coordinatingCenterStudyStatus: ReadyToOpen
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEvaluateSiteStudyStatus17() throws Exception{
@@ -494,8 +494,8 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(SiteStudyStatus.PENDING, studySite.evaluateSiteStudyStatus());
 		verifyMocks();
 	}
-	
-	
+
+
 	/**
 	 * Test activate.
 	 * siteStudyStatus: Active
@@ -516,7 +516,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 			verifyMocks();
 		}
 	}
-	
+
 	/**
 	 * Test activate.CloseToAccrual
 	 */
@@ -536,7 +536,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 			verifyMocks();
 		}
 	}
-	
+
 	/**
 	 * Test activate.CloseToAccrualAndTreatment
 	 */
@@ -556,12 +556,12 @@ public class StudySiteTestCase extends AbstractTestCase{
 			verifyMocks();
 		}
 	}
-	
+
 	/**
 	 * Test Activate.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: null
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testActivateNullIRB() throws Exception{
@@ -583,12 +583,12 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test Activate.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: Future
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testActivateFutureIRB() throws Exception{
@@ -614,12 +614,12 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test Activate.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: expired
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testActivateExpiredIRB() throws Exception{
@@ -645,13 +645,13 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test activate.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: correct
 	 * startDate: null
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testActivateNullStartDate() throws Exception{
@@ -673,13 +673,13 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test activate.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * irbApprovalDate: correct
 	 * startDate: Future
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testActivateFutureStartDate() throws Exception{
@@ -705,11 +705,11 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test activate.
 	 * study.coordinatingCenterStudyStatus: Not Open
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testActivateStudyNotOpen() throws Exception{
@@ -729,12 +729,12 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test activate.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * study.companionIndicator: true
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testActivate() throws Exception{
@@ -746,23 +746,23 @@ public class StudySiteTestCase extends AbstractTestCase{
 		studySite.activate();
 		assertEquals(SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus());
 	}
-	
+
 	/**
 	 * Test activate with companions.
 	 * study.coordinatingCenterStudyStatus: Open
 	 * study.companionIndicator: false
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testActivateWithCompanions() throws Exception{
 		List<CompanionStudyAssociation> comList= new ArrayList<CompanionStudyAssociation>();
 		CompanionStudyAssociation companionStudyAssociation= registerMockFor(CompanionStudyAssociation.class);
 		comList.add(companionStudyAssociation);
-		
+
 		List<StudyVersion> studyVersionList= new ArrayList<StudyVersion>();
 		StudyVersion studyVersion = registerMockFor(StudyVersion.class);
 		studyVersionList.add(studyVersion);
-		
+
 		List<StudySite> stuList= new ArrayList<StudySite>();
 		StudySite companionStudySite1= registerMockFor(StudySite.class);
 		stuList.add(companionStudySite1);
@@ -777,7 +777,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		EasyMock.expect(study.getCompanionIndicator()).andReturn(false);
 		EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
 		EasyMock.expect(study.getStudyVersions()).andReturn(studyVersionList);
-		
+
 		EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(comList);
 		EasyMock.expect(companionStudyAssociation.getStudySites()).andReturn(stuList);
 		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("test1").times(3);
@@ -792,12 +792,12 @@ public class StudySiteTestCase extends AbstractTestCase{
 		EasyMock.expect(healthcareSite3.getPrimaryIdentifier()).andReturn("test2");
 		studySite.setIrbApprovalDate(new Date());
 		studySite.setStartDate(new Date());
-		
+
 		replayMocks();
 		studySite.activate();
 		assertEquals(SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus());
 	}
-	
+
 	/**
 	 * Test close to accrual.
 	 * siteStudyStatus: closeToAccrual
@@ -819,7 +819,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test close to accrual.
 	 * siteStudyStatus: amendmentPending
@@ -841,7 +841,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test close to accrual.
 	 * siteStudyStatus: pending
@@ -863,7 +863,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test close to accrual.
 	 * siteStudyStatus: active
@@ -873,7 +873,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		studySite.closeToAccrual();
 		assertEquals(SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus());
 	}
-	
+
 	/**
 	 * Test close to accrual and treatment.
 	 * siteStudyStatus: closeToAccrualAndTreatment
@@ -895,7 +895,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test close to accrual and treatment.
 	 * siteStudyStatus: amendmentPending
@@ -917,7 +917,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test close to accrual and treatment.
 	 * siteStudyStatus: pending
@@ -939,7 +939,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test close to accrual and treatment.
 	 * siteStudyStatus: closedToAccrual
@@ -961,7 +961,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test close to accrual and treatment.
 	 * siteStudyStatus: active
@@ -971,7 +971,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		studySite.closeToAccrualAndTreatment();
 		assertEquals(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT, studySite.getSiteStudyStatus());
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual.
 	 * siteStudyStatus: closeToAccrual
@@ -993,7 +993,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual.
 	 * siteStudyStatus: closeToAccrualAndTreatment
@@ -1015,7 +1015,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual.
 	 * siteStudyStatus: amendmentPending
@@ -1037,7 +1037,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual.
 	 * siteStudyStatus: pending
@@ -1059,7 +1059,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual.
 	 * siteStudyStatus: active
@@ -1069,7 +1069,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		studySite.temporarilyCloseToAccrual();
 		assertEquals(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus());
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual and treatment.
 	 * siteStudyStatus: closeToAccrual
@@ -1091,7 +1091,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual and treatment.
 	 * siteStudyStatus: closeToAccrualAndTreatment
@@ -1113,7 +1113,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual and treatment.
 	 * siteStudyStatus: amendmentPending
@@ -1135,7 +1135,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual and treatment.
 	 * siteStudyStatus: pending
@@ -1157,7 +1157,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test temporarily close to accrual and treatment.
 	 * siteStudyStatus: active
@@ -1167,7 +1167,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		studySite.temporarilyCloseToAccrualAndTreatment();
 		assertEquals(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT, studySite.getSiteStudyStatus());
 	}
-	
+
 	/**
 	 * Test pending amendment.
 	 */
@@ -1175,7 +1175,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		studySite.pendingAmendment();
 		assertEquals(SiteStudyStatus.AMENDMENT_PENDING, studySite.getSiteStudyStatus());
 	}
-	
+
 	/**
 	 * Test build map for notification.
 	 */
@@ -1193,8 +1193,8 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals("1", map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD.toString()));
 		verifyMocks();
 	}
-	
-	
+
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: ReadyToOpen
@@ -1208,7 +1208,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(APIName.CREATE_STUDY_DEFINITION, apiNames.get(0));
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: ReadyToOpen
@@ -1233,7 +1233,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1248,7 +1248,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(APIName.CREATE_AND_OPEN_STUDY, apiNames.get(0));
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1263,7 +1263,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(APIName.OPEN_STUDY, apiNames.get(0));
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1288,77 +1288,77 @@ public class StudySiteTestCase extends AbstractTestCase{
 		}
 		fail("Should have failed");
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: AmendmentPending
 	 * studySite.coordinatingCenterStudyStatus: Pending
 	 */
-	public void testGetPossibleTransition6(){
-		studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(2);
-		replayMocks();
-		List<APIName> apiNames= studySite.getPossibleTransitions();
-		assertEquals(1, apiNames.size());
-		assertEquals(APIName.CREATE_AND_OPEN_STUDY, apiNames.get(0));
-		verifyMocks();
-	}
-	
+//	public void testGetPossibleTransition6(){
+//		studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
+//		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(2);
+//		replayMocks();
+//		List<APIName> apiNames= studySite.getPossibleTransitions();
+//		assertEquals(1, apiNames.size());
+//		assertEquals(APIName.CREATE_AND_OPEN_STUDY, apiNames.get(0));
+//		verifyMocks();
+//	}
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: AmendmentPending
 	 * studySite.coordinatingCenterStudyStatus: ReadyToOpen
 	 */
-	public void testGetPossibleTransition7(){
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(2);
-		replayMocks();
-		List<APIName> apiNames= studySite.getPossibleTransitions();
-		assertEquals(1, apiNames.size());
-		assertEquals(APIName.OPEN_STUDY, apiNames.get(0));
-		verifyMocks();
-	}
-	
+//	public void testGetPossibleTransition7(){
+//		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+//		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(2);
+//		replayMocks();
+//		List<APIName> apiNames= studySite.getPossibleTransitions();
+//		assertEquals(1, apiNames.size());
+//		assertEquals(APIName.OPEN_STUDY, apiNames.get(0));
+//		verifyMocks();
+//	}
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: AmendmentPending
 	 * studySite.coordinatingCenterStudyStatus: Open
 	 */
-	public void testGetPossibleTransition8(){
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(2);
-		replayMocks();
-		List<APIName> apiNames= studySite.getPossibleTransitions();
-		assertEquals(1, apiNames.size());
-		assertEquals(APIName.AMEND_STUDY, apiNames.get(0));
-		verifyMocks();
-	}
-	
+//	public void testGetPossibleTransition8(){
+//		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+//		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(2);
+//		replayMocks();
+//		List<APIName> apiNames= studySite.getPossibleTransitions();
+//		assertEquals(1, apiNames.size());
+//		assertEquals(APIName.AMEND_STUDY, apiNames.get(0));
+//		verifyMocks();
+//	}
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: AmendmentPending
 	 * studySite.coordinatingCenterStudyStatus: ClosedToAccrual
 	 */
-	public void testGetPossibleTransition9(){
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(2);
-		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE", null, null)).andReturn("1");
-		EasyMock.expect(healthcareSite.getName()).andReturn("test");
-		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
-		replayMocks();
-		try {
-			studySite.getPossibleTransitions();
-		} catch (C3PRCodedRuntimeException e) {
-			e.printStackTrace();
-			assertEquals(1, e.getExceptionCode());
-			return;
-		}finally{
-			verifyMocks();
-		}
-		fail("Should have failed");
-	}
-	
+//	public void testGetPossibleTransition9(){
+//		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+//		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.AMENDMENT_PENDING).times(2);
+//		C3PRCodedRuntimeException c3CodedException= new C3PRCodedRuntimeException(1,"test");
+//		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE", null, null)).andReturn("1");
+//		EasyMock.expect(healthcareSite.getName()).andReturn("test");
+//		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
+//		replayMocks();
+//		try {
+//			studySite.getPossibleTransitions();
+//		} catch (C3PRCodedRuntimeException e) {
+//			e.printStackTrace();
+//			assertEquals(1, e.getExceptionCode());
+//			return;
+//		}finally{
+//			verifyMocks();
+//		}
+//		fail("Should have failed");
+//	}
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Not Open
@@ -1373,7 +1373,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(0, apiNames.size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1390,7 +1390,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(APIName.ACTIVATE_STUDY_SITE, apiNames.get(0));
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1407,7 +1407,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(APIName.ACTIVATE_STUDY_SITE, apiNames.get(0));
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1427,7 +1427,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT, apiNames.get(3));
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1446,7 +1446,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT, apiNames.get(2));
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1465,7 +1465,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT, apiNames.get(2));
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1481,7 +1481,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(0, apiNames.size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get possible transition.
 	 * study.coordinatingCenterStudyStatus: Open
@@ -1497,5 +1497,5 @@ public class StudySiteTestCase extends AbstractTestCase{
 		assertEquals(0, apiNames.size());
 		verifyMocks();
 	}
-	
+
 }

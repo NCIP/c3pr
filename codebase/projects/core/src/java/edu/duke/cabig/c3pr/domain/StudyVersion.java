@@ -3,9 +3,9 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,17 +17,14 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
@@ -58,7 +55,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private String  shortTitleText;
 	private String precisText;
 	private RandomizationType randomizationType;
-	private Integer targetAccrualNumber;
 	private LazyListHelper lazyListHelper;
 	private C3PRExceptionHelper c3PRExceptionHelper;
 	private MessageSource c3prErrorMessages;
@@ -66,6 +62,9 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private String name;
     private String comments;
     private List<StudyPart> amendmentReasons ;
+    private Boolean mandatoryIndicator ;
+	private Study study;
+	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 
 	public String getName() {
 		return name;
@@ -82,6 +81,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public void setVersionDate(Date versionDate) {
 		this.versionDate = versionDate;
 	}
+
 	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
 		return c3PRExceptionHelper;
@@ -145,14 +145,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.randomizationType = randomizationType;
 	}
 
-	public Integer getTargetAccrualNumber() {
-		return targetAccrualNumber;
-	}
-
-	public void setTargetAccrualNumber(Integer targetAccrualNumber) {
-		this.targetAccrualNumber = targetAccrualNumber;
-	}
-
 	public StudyVersion(){
 		lazyListHelper = new LazyListHelper();
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -190,30 +182,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 	}
 
-//	public void addAmendmentReason(final AmendmentReason amendment) {
-//		getAmendmentReasons().add(amendment);
-//	}
-//
-//	@OneToMany(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "stu_version_id", nullable = false)
-//	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-//	public List<AmendmentReason> getAmendmentReasonsInternal() {
-//		return lazyListHelper.getInternalList(AmendmentReason.class);
-//	}
-//
-//	public void setAmendmentReasonsInternal(final List<AmendmentReason> amendments) {
-//		lazyListHelper.setInternalList(AmendmentReason.class, amendments);
-//	}
-//
-//	@Transient
-//	public List<AmendmentReason> getAmendmentReasons() {
-//		return lazyListHelper.getLazyList(AmendmentReason.class);
-//	}
-//
-//	public void setAmendmentReasons(final List<AmendmentReason> amendments) {
-//		setAmendmentReasonsInternal(amendments);
-//	}
-
 	@OneToMany(mappedBy = "studyVersion", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
@@ -236,13 +204,19 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
 	public void addEpoch(Epoch epoch) throws RuntimeException {
-		for (Epoch epochPresent : getEpochs()) {
-			if (epochPresent.equals(epoch)) {
-				throw new RuntimeException("epoch with same name already exists in study");
-			}
+		if(getEpochs().contains(epoch)){
+			throw new RuntimeException("epoch with same name already exists in study");
+		}else{
+			epoch.setStudyVersion(this);
+			getEpochs().add(epoch);
 		}
-		epoch.setStudyVersion(this);
-		getEpochs().add(epoch);
+//		for (Epoch epochPresent : getEpochs()) {
+//			if (epochPresent.equals(epoch)) {
+//				throw new RuntimeException("epoch with same name already exists in study");
+//			}
+//		}
+//		epoch.setStudyVersion(this);
+//		getEpochs().add(epoch);
 	}
 
 	public void removeEpoch(Epoch epoch) {
@@ -405,8 +379,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
 	}
 
-	private Study study;
-	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 
     @OneToMany(mappedBy = "parentStudyVersion", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
@@ -443,7 +415,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         clone.setPrecisText(this.getPrecisText());
         clone.setRandomizationType(this.getRandomizationType());
         clone.setShortTitleText(this.getShortTitleText());
-        clone.setTargetAccrualNumber(this.getTargetAccrualNumber());
         clone.setVersionDate(new Date());
 
         for(StudyDisease disease : this.getStudyDiseases()){
@@ -520,6 +491,28 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         		cloneEpoch.addEligibilityCriterion(cloneExclusionEligibility);
         	}
 
+        	Randomization randomization = epoch.getRandomization() ;
+        	if( randomization instanceof PhoneCallRandomization){
+        		PhoneCallRandomization phoneCallRandomization = (PhoneCallRandomization) randomization ;
+        		PhoneCallRandomization cloneRandomization =  new PhoneCallRandomization();
+        		cloneRandomization.setPhoneNumber(phoneCallRandomization.getPhoneNumber());
+        		cloneEpoch.setRandomization(cloneRandomization);
+        	}
+//        	if( randomization instanceof BookRandomization){
+//        		BookRandomization bookRandomization = (BookRandomization) randomization ;
+//        		BookRandomization cloneRandomization =  new BookRandomization();
+//        		for(BookRandomizationEntry bookRandomizationEntry : bookRandomization.getBookRandomizationEntry()){
+//        			BookRandomizationEntry cloneBookRandomizationEntry = new BookRandomizationEntry();
+//        			cloneBookRandomizationEntry.setPosition(bookRandomizationEntry.getPosition());
+//        			cloneBookRandomizationEntry.set
+//        		}
+//
+//
+//
+//        		cloneEpoch.setRandomization(cloneRandomization);
+//        	}
+
+
 //        	for(StratumGroup group : epoch.getStratumGroups()){
 //        		StratumGroup cloneGroup = new StratumGroup();
 //        		cloneGroup.setStratumGroupNumber(group.getStratumGroupNumber());
@@ -560,12 +553,13 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public List<StudyPart> getAmendmentReasons() {
 		return amendmentReasons;
 	}
-	
+
 	public void addAmendmentReason(StudyPart studyPart){
 		this.amendmentReasons.add(studyPart);
 	}
 
-	public String getAmendmentReason() {
+	@Column(name = "amendment_reason")
+	public String getAmendmentReasonInternal() {
 		String amendmentReason = "" ;
 		for(StudyPart reason : amendmentReasons){
 			if( reason != null ){
@@ -579,12 +573,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return amendmentReason;
 	}
 
-	/**
-	 * Sets the race code.
-	 *
-	 * @param raceCode the new race code
-	 */
-	public void setAmendmentReason(String amendmentReason) {
+	public void setAmendmentReasonInternal(String amendmentReason) {
 		amendmentReasons = new ArrayList<StudyPart>();
 		if (!StringUtils.isBlank(amendmentReason)) {
 			StringTokenizer tokenizer = new StringTokenizer(amendmentReason, " : ");
@@ -593,5 +582,13 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 				amendmentReasons.add(reason);
 			};
 		}
+	}
+
+	public void setMandatoryIndicator(Boolean mandatoryIndicator) {
+		this.mandatoryIndicator = mandatoryIndicator;
+	}
+
+	public Boolean getMandatoryIndicator() {
+		return mandatoryIndicator;
 	}
 }

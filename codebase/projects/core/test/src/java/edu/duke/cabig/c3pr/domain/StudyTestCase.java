@@ -27,10 +27,10 @@ import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
  * The Class StudyTestCase.
  */
 public class StudyTestCase extends AbstractTestCase{
-	
+
 	/** The simple study. */
 	private Study simpleStudy ;
-	
+
 	/* (non-Javadoc)
 	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
 	 */
@@ -42,22 +42,22 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.setC3PRExceptionHelper(c3prExceptionHelper);
 		simpleStudy = new Study();
 	}
-	
+
 	/** The c3pr exception helper. */
 	C3PRExceptionHelper c3prExceptionHelper = registerMockFor(C3PRExceptionHelper.class);
-	
+
 	/** The c3pr error messages. */
 	MessageSource c3prErrorMessages = registerMockFor(MessageSource.class);
-	
+
 	/** The study creation helper. */
 	private StudyCreationHelper studyCreationHelper = new StudyCreationHelper() ;
-	
+
 	/** The basic study. */
 	private Study basicStudy;
-	
+
 	/**
 	 * Sets the study creation helper.
-	 * 
+	 *
 	 * @param studyCreationHelper the new study creation helper
 	 */
 	public void setStudyCreationHelper(StudyCreationHelper studyCreationHelper) {
@@ -66,7 +66,7 @@ public class StudyTestCase extends AbstractTestCase{
 
 //	/**
 //	 * Test data entry status incomplete case1.
-//	 * 
+//	 *
 //	 * @throws Exception the exception
 //	 */
 //	public void testDataEntryStatusIncompleteCase1() throws Exception {
@@ -78,14 +78,14 @@ public class StudyTestCase extends AbstractTestCase{
 //			basicStudy.evaluateDataEntryStatus(errors);
 //			//fail("Should have thrown C3PRCodedException");
 //		} catch (C3PRCodedRuntimeException e) {
-//			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+//			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
 //		}
 //		verifyMocks();
 //	}
-//	
+//
 //	/**
 //	 * Test data entry status incomplete case2.
-//	 * 
+//	 *
 //	 * @throws Exception the exception
 //	 */
 //	public void testDataEntryStatusIncompleteCase2() throws Exception {
@@ -98,15 +98,15 @@ public class StudyTestCase extends AbstractTestCase{
 //			basicStudy.evaluateDataEntryStatus(errors);
 ////			fail("Should have thrown C3PRCodedException");
 //		} catch (C3PRCodedRuntimeException e) {
-//			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+//			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
 //		}
 //		verifyMocks();
-//		
+//
 //	}
-//	
+//
 //	/**
 //	 * Test data entry status incomplete case3.
-//	 * 
+//	 *
 //	 * @throws Exception the exception
 //	 */
 //	public void testDataEntryStatusIncompleteCase3() throws Exception {
@@ -121,14 +121,14 @@ public class StudyTestCase extends AbstractTestCase{
 //			basicStudy.evaluateDataEntryStatus(errors);
 ////			fail("Should have thrown C3PRCodedException");
 //		} catch (C3PRCodedRuntimeException e) {
-//			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+//			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
 //		}
 //		verifyMocks();
 //	}
-//	
+//
 	/**
 	 * Test data entry status incomplete case4.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testDataEntryStatusIncompleteCase4() throws Exception {
@@ -138,20 +138,20 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.setStratificationIndicator(false);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("306");
 		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(306),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(306, "exception message"));
-		replayMocks();	
+		replayMocks();
 		try {
 			List<Error> errors = new ArrayList<Error>();
 			basicStudy.evaluateDataEntryStatus(errors);
 //			fail("Should have thrown C3PRCodedRuntimeException");
 		} catch (C3PRCodedRuntimeException e) {
-			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
 		}
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test data entry status incomplete case5.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testDataEntryStatusIncompleteCase5() throws Exception {
@@ -162,20 +162,20 @@ public class StudyTestCase extends AbstractTestCase{
 		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(304),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(304, "exception message"));
 		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
-		replayMocks();	
+		replayMocks();
 		try {
 			List<Error> errors = new ArrayList<Error>();
 			basicStudy.evaluateDataEntryStatus(errors);
 //			fail("Should have thrown C3PRCodedRuntimeException");
 		} catch (C3PRCodedRuntimeException e) {
-			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
 		}
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test data entry status incomplete case6.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testDataEntryStatusIncompleteCase6() throws Exception {
@@ -189,16 +189,16 @@ public class StudyTestCase extends AbstractTestCase{
 		basicStudy.getEpochs().get(0).setRandomization(new PhoneCallRandomization());
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("308");
 		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(308),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(308, "exception message"));
-		replayMocks();	
+		replayMocks();
 		List<Error> errors = new ArrayList<Error>();
 		basicStudy.evaluateDataEntryStatus(errors);
-		assertEquals("Wrong number of errors returned ",1, errors.size()); 
+		assertEquals("Wrong number of errors returned ",1, errors.size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test data entry status incomplete case7.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testDataEntryStatusIncompleteCase7() throws Exception {
@@ -213,16 +213,16 @@ public class StudyTestCase extends AbstractTestCase{
 		study.getEpochs().get(0).setRandomization(new PhoneCallRandomization());
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("308");
 		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(308),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedRuntimeException(308, "exception message"));
-		replayMocks();	
+		replayMocks();
 		List<Error> errors = new ArrayList<Error>();
 		study.evaluateDataEntryStatus(errors);
-		assertEquals("Wrong number of errors returned ",1, errors.size()); 
+		assertEquals("Wrong number of errors returned ",1, errors.size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test data entry status complete case1.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testDataEntryStatusCompleteCase1() throws Exception {
@@ -233,37 +233,37 @@ public class StudyTestCase extends AbstractTestCase{
 			assertEquals("Data Entry Status should evaluate to Complete",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus(errors));
 			verifyMocks();
 	}
-	
+
 	/**
 	 * Test data entry status complete case2.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testDataEntryStatusCompleteCase2() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
 		basicStudy.setStratificationIndicator(true);
 		basicStudy.getEpochs().get(0).setStratificationIndicator(true);
-		replayMocks();	
+		replayMocks();
 		List<Error> errors = new ArrayList<Error>();
 		assertEquals("Wrong Data Entry Status",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus(errors));
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test site study status pending case1.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testSiteStudyStatusPendingCase1() throws Exception {
 		studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		assertEquals("Wrong Site study status",SiteStudyStatus.PENDING,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
-		
+
 	}
-	
+
 	/**
 	 * Test site study status active case1.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testSiteStudyStatusActiveCase1() throws Exception {
@@ -273,7 +273,7 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("Study status should evaluate to Active",CoordinatingCenterStudyStatus.OPEN,basicStudy.getCoordinatingCenterStudyStatus());
 		assertEquals("Site Study status should evaluate to Open",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
 	}
-	
+
 	/**
 	 * Test get local identifiers
 	 * this method tests if study doesnt have local identifier, it should return empty arraylist
@@ -282,7 +282,7 @@ public class StudyTestCase extends AbstractTestCase{
 		List<Identifier> identifiers = basicStudy.getLocalIdentifiers();
 		assertEquals("No local identifierfound", 0 , identifiers.size());
 	}
-	
+
 
 	/**
 	 * Test get local identifiers
@@ -297,7 +297,7 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("No local identifierfound", 0 , identifiers.size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get local identifiers
 	 * this method tests if study has coordinating center identifier it shd return empty arraylist
@@ -311,7 +311,7 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("No local identifierfound", 0 , identifiers.size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get local identifiers
 	 * this method tests if study has identifiers.
@@ -323,7 +323,7 @@ public class StudyTestCase extends AbstractTestCase{
 		simpleStudy.getIdentifiers().add(identifier);
 		simpleStudy.getIdentifiers().add(identifier1);
 		simpleStudy.getIdentifiers().add(identifier2);
-		
+
 		EasyMock.expect(identifier.getTypeInternal()).andReturn(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.getName()).times(2);
 		EasyMock.expect(identifier1.getTypeInternal()).andReturn(OrganizationIdentifierTypeEnum.C3D_IDENTIFIER.getName()).times(2) ;
 		EasyMock.expect(identifier2.getTypeInternal()).andReturn(OrganizationIdentifierTypeEnum.C3PR.getName()).times(2) ;
@@ -332,31 +332,31 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("Local Idnetifier C3D and C3PR Present", 2 , identifiers.size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test remove study organization
-	 * 
+	 *
 	 */
 	public void testRemoveStudyOrganization(){
 		StudyOrganization organization  = registerMockFor(StudyOrganization.class);
 		organization.setStudy(simpleStudy);
-		
+
 		StudyOrganization organization2  = registerMockFor(StudyOrganization.class);
 		organization2.setStudy(simpleStudy);
-		
+
 		replayMocks();
 		simpleStudy.addStudyOrganization(organization);
 		simpleStudy.addStudyOrganization(organization2);
-		
+
 		assertEquals("Study should have 2 study organization", 2 , simpleStudy.getStudyOrganizations().size());
 		simpleStudy.removeStudyOrganization(organization2);
 		assertEquals("Study should have only 1 study organization", 1 , simpleStudy.getStudyOrganizations().size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test remove epoch
-	 * 
+	 *
 	 */
 	public void testRemoveEpoch(){
 		Epoch epoch  = registerMockFor(Epoch.class);
@@ -375,10 +375,10 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("Study should have 1 epoch ", 1 , simpleStudy.getEpochs().size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test remove study disease
-	 * 
+	 *
 	 */
 	public void testRemoveStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
@@ -393,95 +393,95 @@ public class StudyTestCase extends AbstractTestCase{
 		assertEquals("Study should have only 1 study disease", 1 , simpleStudy.getStudyDiseases().size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test remove all study disease
-	 * 
+	 *
 	 */
-	
+
 	public void testRemoveAllStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
 		disease.setStudyVersion(simpleStudy.getStudyVersion());
-		
+
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
 		disease2.setStudyVersion(simpleStudy.getStudyVersion());
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyDisease(disease2);
 		simpleStudy.addStudyDisease(disease);
-		
+
 		assertEquals("Study should have 2 study disease", 2 , simpleStudy.getStudyDiseases().size());
 		simpleStudy.removeAllStudyDisease();
 		assertEquals("Study should have 0 study disease", 0 , simpleStudy.getStudyDiseases().size());
 		verifyMocks();
 	}
-	
+
 
 	/**
 	 * Test remove study site
-	 * 
+	 *
 	 */
 	public void testRemoveStudySite(){
 		StudySite site  = registerMockFor(StudySite.class);
 		site.setStudy(simpleStudy);
-		
+
 		StudySite site2  = registerMockFor(StudySite.class);
 		site2.setStudy(simpleStudy);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudySite(site2);
 		simpleStudy.addStudySite(site);
-		
+
 		assertEquals("Study should have 2 study sites", 2 , simpleStudy.getStudyOrganizations().size());
-		
+
 		simpleStudy.removeStudySite(site2);
 		assertEquals("Study should have only 1 study site", 1 , simpleStudy.getStudyOrganizations().size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test remove identifiers
-	 * 
+	 *
 	 */
 	public void testRemoveIdentifiers(){
 		Identifier identifier  = registerMockFor(Identifier.class);
 		Identifier identifier1  = registerMockFor(Identifier.class);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addIdentifier(identifier1);
 		simpleStudy.addIdentifier(identifier);
-		
+
 		assertEquals("Study should have 2 identifiers", 2 , simpleStudy.getIdentifiers().size());
-		
+
 		simpleStudy.removeIdentifier(identifier);
 		assertEquals("Study should have 1 identifier", 1 , simpleStudy.getIdentifiers().size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test get companion indicator display value
-	 * 
+	 *
 	 */
 	public void testGetCompanionIndicatorDisplayValue(){
 		simpleStudy.setCompanionIndicator(false);
 		assertEquals("Companion indicator display value should be No", "No", simpleStudy.getCompanionIndicatorDisplayValue());
 	}
-	
+
 	/**
 	 * Test get companion indicator display value
-	 * 
+	 *
 	 */
 	public void testGetCompanionIndicatorDisplayValue1(){
 		simpleStudy.setCompanionIndicator(true);
 		assertEquals("Companion indicator display value should be Yes", "Yes", simpleStudy.getCompanionIndicatorDisplayValue());
 	}
-	
+
 	/**
 	 * Test add custom field
-	 * 
+	 *
 	 */
 	public void testAddCustomField(){
 		CustomField customField  = registerMockFor(CustomField.class);
@@ -491,14 +491,14 @@ public class StudyTestCase extends AbstractTestCase{
 		replayMocks();
 		simpleStudy.addCustomField(customField);
 		simpleStudy.addCustomField(customField1);
-		
+
 		assertEquals("Study should have 2 custom fields", 2 , simpleStudy.getCustomFields().size());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * Test add custom field definition
-	 * 
+	 *
 	 */
 	public void testAddCustomFieldDefinition(){
 		CustomFieldDefinition customFieldDefinition  = registerMockFor(CustomFieldDefinition.class);
@@ -508,68 +508,68 @@ public class StudyTestCase extends AbstractTestCase{
 		replayMocks();
 		simpleStudy.addCustomFieldDefinition(customFieldDefinition);
 		simpleStudy.addCustomFieldDefinition(customFieldDefinition1);
-		
+
 		assertEquals("Study should have 2 custom fields", 2 , simpleStudy.getCustomFieldDefinitions().size());
 		verifyMocks();
 	}
 
-	
+
 	/**
 	 * Test get companion study site by nci identifier
-	 * 
+	 *
 	 */
 	public void testGetCompanionStudySite(){
 		simpleStudy.setCompanionIndicator(false);
 		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
 		association.setParentStudyVersion(simpleStudy.getStudyVersion());
-		
+
 		List<StudySite> listStudySite = new ArrayList<StudySite>();
 		StudySite studySite = registerMockFor(StudySite.class);
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		listStudySite.add(studySite);
-		
+
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
 		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
 		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC010");
-		
+
 		replayMocks();
 
 		simpleStudy.addCompanionStudyAssociation(association);
-		
+
 		assertNotNull("study site found with nc010", simpleStudy.getCompanionStudySite("NC010"));
 		verifyMocks();
 	}
 
 	/**
 	 * Test get companion study site by nci identifier
-	 * 
+	 *
 	 */
 	public void testGetCompanionStudySite2(){
 		simpleStudy.setCompanionIndicator(false);
 		CompanionStudyAssociation association = registerMockFor(CompanionStudyAssociation.class);
 		association.setParentStudyVersion(simpleStudy.getStudyVersion());
-		
+
 		List<StudySite> listStudySite = new ArrayList<StudySite>();
 		StudySite studySite = registerMockFor(StudySite.class);
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		listStudySite.add(studySite);
-		
+
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
 		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
 		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC011");
-		
+
 		replayMocks();
 
 		simpleStudy.addCompanionStudyAssociation(association);
-		
+
 		assertNull("study site not found with nc010", simpleStudy.getCompanionStudySite("NC010"));
 		verifyMocks();
 	}
-	
-	
+
+
 	/**
 	 * Test get study organization by nci identifier
-	 * 
+	 *
 	 */
 	public void testGetStudyOrganization(){
 		StudyOrganization organization = registerMockFor(StudyOrganization.class);
@@ -577,228 +577,228 @@ public class StudyTestCase extends AbstractTestCase{
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		EasyMock.expect(organization.getHealthcareSite()).andReturn(healthcareSite);
 		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC010");
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyOrganization(organization);
 
 		assertNotNull("study site found with nc010", simpleStudy.getStudyOrganization("NC010"));
-		
+
 		verifyMocks();
 	}
-	
+
 
 	/**
 	 * Test get study organization by nci identifier
-	 * 
+	 *
 	 */
 	public void testGetStudyOrganization1(){
 		try {
 			simpleStudy.getStudyOrganization("NC010");
 		} catch (C3PRCodedRuntimeException e) {
-			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+			assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
 		}
 	}
-	
+
 	/**
-	 * Test get affiliate study sites 
-	 * 
+	 * Test get affiliate study sites
+	 *
 	 */
 	public void testGetAffiliateStudySites(){
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		HealthcareSite healthcareSite1 = registerMockFor(HealthcareSite.class);
-		
+
 		StudySite studySite = new StudySite();
 		studySite.setStudy(simpleStudy);
 		studySite.setHealthcareSite(healthcareSite);
-		
+
 		StudyCoordinatingCenter coordinatingCenter = new StudyCoordinatingCenter();
 		coordinatingCenter.setStudy(simpleStudy);
 		coordinatingCenter.setHealthcareSite(healthcareSite1);
-		
+
 		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC010");
 		EasyMock.expect(healthcareSite1.getPrimaryIdentifier()).andReturn("NC011");
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudySite(studySite);
 		simpleStudy.addStudyOrganization(coordinatingCenter);
 
 		assertEquals("one affiliate study site present", 1 ,simpleStudy.getAffiliateStudySites().size());
-		
+
 		verifyMocks();
 	}
-	
+
 
 	/**
-	 * Test get affiliate study sites 
-	 * 
+	 * Test get affiliate study sites
+	 *
 	 */
 	public void testGetAffiliateStudySites1(){
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		HealthcareSite healthcareSite1 = registerMockFor(HealthcareSite.class);
-		
+
 		StudySite studySite = new StudySite();
 		studySite.setStudy(simpleStudy);
 		studySite.setHealthcareSite(healthcareSite);
-		
+
 		StudyCoordinatingCenter coordinatingCenter = new StudyCoordinatingCenter();
 		coordinatingCenter.setStudy(simpleStudy);
 		coordinatingCenter.setHealthcareSite(healthcareSite1);
-		
+
 		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC011");
 		EasyMock.expect(healthcareSite1.getPrimaryIdentifier()).andReturn("NC011");
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudySite(studySite);
 		simpleStudy.addStudyOrganization(coordinatingCenter);
 
 		assertEquals("no affiliate study site present", 0 ,simpleStudy.getAffiliateStudySites().size());
-		
+
 		verifyMocks();
 	}
 
-	
+
 	/**
 	 * Test isMultisite
-	 * 
+	 *
 	 */
 	public void testIsMultisite(){
 		simpleStudy.setMultiInstitutionIndicator(true);
 		simpleStudy.setCompanionIndicator(true);
 		assertFalse("This is not a multisite study", simpleStudy.isMultisite());
 	}
-	
+
 	/**
 	 * Test isMultisite
-	 * 
+	 *
 	 */
 	public void testIsMultisite1(){
 		simpleStudy.setMultiInstitutionIndicator(true);
 		simpleStudy.setCompanionIndicator(false);
 		assertTrue("This is  a multisite study", simpleStudy.isMultisite());
 	}
-	
+
 
 	/**
 	 * Test isMultisite
-	 * 
+	 *
 	 */
 	public void testIsMultisite12(){
 		simpleStudy.setMultiInstitutionIndicator(false);
 		simpleStudy.setCompanionIndicator(true);
 		assertFalse("This is not a multisite study", simpleStudy.isMultisite());
 	}
-	
+
 
 	/**
 	 * Test isMultisite
-	 * 
+	 *
 	 */
 	public void testIsMultisite2(){
 		simpleStudy.setMultiInstitutionIndicator(false);
 		simpleStudy.setCompanionIndicator(false);
 		assertFalse("This is not a multisite study", simpleStudy.isMultisite());
 	}
-	
-	
+
+
 	/**
 	 * test get accrual count
 	 */
 	public void testGetAccrualCount(){
-		
+
 		// will do it later
 		// might need method level mocking for classes
 	}
-	
+
 	/**
-	 * test get principal study investigator 
+	 * test get principal study investigator
 	 */
 	public void testGetPricipalStudyInvestigator(){
 		StudyOrganization organization = registerMockFor(StudyOrganization.class);
 		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
 		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
 		studyInvs.add(studyInv);
-		
+
 		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
 		EasyMock.expect(studyInv.getRoleCode()).andReturn("Principal Investigator");
 		organization.setStudy(simpleStudy);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyOrganization(organization);
-		
+
 		assertNotNull("principal study investigator found", simpleStudy.getPrincipalStudyInvestigator());
 		verifyMocks();
 	}
-	
+
 	/**
-	 * test get principal study investigator 
+	 * test get principal study investigator
 	 */
 	public void testGetPricipalStudyInvestigator1(){
 		StudyOrganization organization = registerMockFor(StudyOrganization.class);
 		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
 		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
 		studyInvs.add(studyInv);
-		
+
 		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
 		EasyMock.expect(studyInv.getRoleCode()).andReturn("Study Investigator");
 		organization.setStudy(simpleStudy);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyOrganization(organization);
-		
+
 		assertNull("principal study investigator not found", simpleStudy.getPrincipalStudyInvestigator());
 		verifyMocks();
 	}
-	
+
 
 	/**
-	 * test get principal  investigator 
+	 * test get principal  investigator
 	 */
 	public void testGetPricipalInvestigator(){
 		StudyOrganization organization = registerMockFor(StudyOrganization.class);
-		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);	
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
 		HealthcareSiteInvestigator healthcareSiteInv = registerMockFor(HealthcareSiteInvestigator.class);
 		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
 		studyInvs.add(studyInv);
-		
+
 		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
 		EasyMock.expect(studyInv.getRoleCode()).andReturn("Principal Investigator");
 		EasyMock.expect(studyInv.getHealthcareSiteInvestigator()).andReturn(healthcareSiteInv);
 		organization.setStudy(simpleStudy);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyOrganization(organization);
-		
+
 		assertNotNull("principal investigator  found", simpleStudy.getPrincipalInvestigator());
 		verifyMocks();
 	}
-	
+
 	/**
-	 * test get principal  investigator 
+	 * test get principal  investigator
 	 */
 	public void testGetPricipalInvestigator1(){
 		StudyOrganization organization = registerMockFor(StudyOrganization.class);
-		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);	
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
 		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
 		studyInvs.add(studyInv);
-		
+
 		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
 		EasyMock.expect(studyInv.getRoleCode()).andReturn("Study Investigator");
 		organization.setStudy(simpleStudy);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyOrganization(organization);
-		
+
 		assertNull("principal investigator not found", simpleStudy.getPrincipalInvestigator());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * test get principal  investigator full name
 	 */
@@ -806,90 +806,90 @@ public class StudyTestCase extends AbstractTestCase{
 		StudyOrganization organization = registerMockFor(StudyOrganization.class);
 		Investigator inv = registerMockFor(Investigator.class);
 		HealthcareSiteInvestigator healthcareSiteInv = registerMockFor(HealthcareSiteInvestigator.class);
-		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);	
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
 		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
 		studyInvs.add(studyInv);
-		
+
 		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
 		EasyMock.expect(studyInv.getRoleCode()).andReturn("Principal Investigator");
 		EasyMock.expect(inv.getFullName()).andReturn("Ronald Regan");
 		EasyMock.expect(studyInv.getHealthcareSiteInvestigator()).andReturn(healthcareSiteInv);
 		EasyMock.expect(healthcareSiteInv.getInvestigator()).andReturn(inv);
-		
+
 		organization.setStudy(simpleStudy);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyOrganization(organization);
-		
+
 		assertEquals("principal investigator full name is Ronald Regan", "Ronald Regan",simpleStudy.getPrincipalInvestigatorFullName());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * test get principal  investigator Full Name
 	 */
 	public void testGetPricipalInvestigatorFullName1(){
 		StudyOrganization organization = registerMockFor(StudyOrganization.class);
-		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);	
+		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
 		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
 		studyInvs.add(studyInv);
-		
+
 		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
 		EasyMock.expect(studyInv.getRoleCode()).andReturn("Study Investigator");
 		organization.setStudy(simpleStudy);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyOrganization(organization);
-		
+
 		assertNull("principal investigator not found", simpleStudy.getPrincipalInvestigatorFullName());
 		verifyMocks();
 	}
-	
+
 	/**
-	 * test get principal investigator's study organization 
-	 */	
+	 * test get principal investigator's study organization
+	 */
 	public void testGetPricipalInvestigatorStudyOrg(){
 		StudyOrganization organization = registerMockFor(StudyOrganization.class);
 		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
 		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
 		studyInvs.add(studyInv);
-		
+
 		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
 		EasyMock.expect(studyInv.getRoleCode()).andReturn("Principal Investigator");
 		EasyMock.expect(studyInv.getStudyOrganization()).andReturn(organization);
 		organization.setStudy(simpleStudy);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyOrganization(organization);
-		
+
 		assertNotNull("principal investigator's study site found", simpleStudy.getPrincipalInvestigatorStudyOrganization());
 		verifyMocks();
 	}
-	
+
 	/**
-	 * test get principal investigator's study organization 
+	 * test get principal investigator's study organization
 	 */
 	public void testGetPricipalInvestigatorStudyOrg1(){
 		StudyOrganization organization = registerMockFor(StudyOrganization.class);
 		StudyInvestigator studyInv = registerMockFor(StudyInvestigator.class);
 		List<StudyInvestigator> studyInvs = new ArrayList<StudyInvestigator>();
 		studyInvs.add(studyInv);
-		
+
 		EasyMock.expect(organization.getStudyInvestigators()).andReturn(studyInvs);
 		EasyMock.expect(studyInv.getRoleCode()).andReturn("Study Investigator");
 		organization.setStudy(simpleStudy);
-		
+
 		replayMocks();
-		
+
 		simpleStudy.addStudyOrganization(organization);
-		
+
 		assertNull("principal investigator's study site not found", simpleStudy.getPrincipalInvestigatorStudyOrganization());
 		verifyMocks();
 	}
-	
+
 	/**
 	 * test set epochs
 	 */
@@ -901,9 +901,9 @@ public class StudyTestCase extends AbstractTestCase{
 		simpleStudy.setEpochs(epochs);
 		assertEquals("study has 1 epoch",1, simpleStudy.getEpochs().size());
 		verifyMocks();
-		
+
 	}
-	
+
 
 	/**
 	 * test compare to
@@ -913,7 +913,7 @@ public class StudyTestCase extends AbstractTestCase{
 		Study study2 = study1;
 		assertEquals("condition should come out as false", 0 ,study1.compareTo(study2));
 	}
-	
+
 	/**
 	 * test equals, if objects are of different class
 	 */
@@ -922,7 +922,7 @@ public class StudyTestCase extends AbstractTestCase{
 		Epoch epoch = new Epoch();
 		assertFalse("objects are from differnt class", study1.equals(epoch));
 	}
-	
+
 	/**
 	 * test equals, if one study object has null coordinating center identifier
 	 */
@@ -932,7 +932,7 @@ public class StudyTestCase extends AbstractTestCase{
 		Study study = new Study();
 		assertFalse("both objects has null coordinating center identifer  hence unequal", basicStudy.equals(study));
 	}
-	
+
 	/**
 	 * test equals, if  coordinating center identifier value is different
 	 */
@@ -944,7 +944,7 @@ public class StudyTestCase extends AbstractTestCase{
 							(study, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "testValue");
 		assertFalse("coordinating center identifer values are different hence unequal", basicStudy.equals(study));
 	}
-	
+
 	/**
 	 * test equals, if  coordinating center identifier value are same
 	 */
@@ -992,39 +992,39 @@ public void testGetPrimaryIndicator2(){
 }
 
 /**
- * Test get funding sponsor identifier index 
+ * Test get funding sponsor identifier index
  */
 public void testGetFundingSponsorIdentifierIndex(){
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "TestValue");
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER, "C3D");
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER, "identifier");
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3PR, "C3PR");
-	
+
 	assertEquals("Index of funding sponsorer should be 2",2, basicStudy.getFundingSponsorIdentifierIndex());
 }
 
 
 /**
- * Test get funding sponsor identifier index 
+ * Test get funding sponsor identifier index
  */
 public void testGetFundingSponsorIdentifierIndex1(){
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "TestValue");
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER, "C3D");
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3PR, "C3PR");
-	
+
 	assertEquals("Index of funding sponsorer should be -1",-1, basicStudy.getFundingSponsorIdentifierIndex());
 }
 
 
 /**
- * Test get funding sponsor identifier index 
+ * Test get funding sponsor identifier index
  */
 public void testGetFundingSponsorIdentifierIndex2(){
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "TestValue");
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3D_IDENTIFIER, "C3D");
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER, "identifier");
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.C3PR, "C3PR");
-	
+
 	assertEquals("Index of funding sponsorer should be 2",2, basicStudy.getFundingSponsorIdentifierIndex());
 }
 
@@ -1034,9 +1034,9 @@ public void testGetFundingSponsorIdentifierIndex2(){
 public void testHasEligibility(){
 	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy, "name1");
 	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy, "name2");
-	
+
 	assertFalse("no eligibility for this study",basicStudy.hasElligibility());
-	
+
 }
 
 
@@ -1046,9 +1046,9 @@ public void testHasEligibility(){
 public void testHasEligibility1(){
 	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy, "epoch1");
 	basicStudy = studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy, "epoch 2");
-	
+
 	assertTrue("eligibility present for this study",basicStudy.hasElligibility());
-	
+
 }
 
 /**
@@ -1057,7 +1057,7 @@ public void testHasEligibility1(){
 public void testHasRandomizedEpoch(){
 	basicStudy = studyCreationHelper.addStudySiteAndRandomizedTreatmentEpochToBasicStudy(basicStudy);
 	assertTrue("randomized epoch present for this study",basicStudy.hasRandomizedEpoch());
-	
+
 }
 
 
@@ -1132,11 +1132,11 @@ public void testGetEpochByName2(){
 //public void testUpdateDataEntryStatus(){
 //	basicStudy.setStratificationIndicator(true);
 //	basicStudy.setRandomizedIndicator(true);
-//	
+//
 //	EasyMock.expect(c3prExceptionHelper.getRuntimeException(300)).andReturn(new C3PRCodedRuntimeException(300, "exception message"));
 //	EasyMock.expect(c3prExceptionHelper.getRuntimeException(303)).andReturn(new C3PRCodedRuntimeException(303, "exception message"));
 //	EasyMock.expect(c3prExceptionHelper.getRuntimeException(328)).andReturn(new C3PRCodedRuntimeException(328, "exception message"));
-//	
+//
 //	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE", null, null)).andReturn("300");
 //	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZED_EPOCH_FOR_RANDOMIZED_STUDY.CODE", null, null)).andReturn("303");
 //	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFIED_EPOCH_FOR_STRATIFIED_STUDY.CODE", null, null)).andReturn("328");
@@ -1144,7 +1144,7 @@ public void testGetEpochByName2(){
 //	try{
 //		basicStudy.updateDataEntryStatus();
 //	}catch(Exception e){
-//		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+//		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
 //	}
 //	verifyMocks();
 //}
@@ -1156,11 +1156,11 @@ public void testGetEpochByName2(){
 //public void testEvaluateCoordinatingCenterStudyStatus(){
 //	basicStudy.setStratificationIndicator(true);
 //	basicStudy.setRandomizedIndicator(true);
-//	
+//
 //	EasyMock.expect(c3prExceptionHelper.getRuntimeException(300)).andReturn(new C3PRCodedRuntimeException(300, "exception message"));
 //	EasyMock.expect(c3prExceptionHelper.getRuntimeException(303)).andReturn(new C3PRCodedRuntimeException(303, "exception message"));
 //	EasyMock.expect(c3prExceptionHelper.getRuntimeException(328)).andReturn(new C3PRCodedRuntimeException(328, "exception message"));
-//	
+//
 //	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE", null, null)).andReturn("300");
 //	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZED_EPOCH_FOR_RANDOMIZED_STUDY.CODE", null, null)).andReturn("303");
 //	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFIED_EPOCH_FOR_STRATIFIED_STUDY.CODE", null, null)).andReturn("328");
@@ -1370,15 +1370,6 @@ public void testEvaluateEpochsDataEntryStatus2(){
 	assertEquals("no error found", 0 , errors.size());
 }
 
-
-/**
- * test pending amendment
- */
-public void testPendingAmendment(){
-	basicStudy.pendingAmendment();
-	assertEquals("study coordinating center status should be amendment pending", CoordinatingCenterStudyStatus.AMENDMENT_PENDING,  basicStudy.getCoordinatingCenterStudyStatus());
-}
-
 /**
  * test pending
  */
@@ -1406,11 +1397,11 @@ public void testTemporarilyCloseToAccrual(){
  */
 public void testTemporarilyCloseToAccrual1(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.temporarilyCloseToAccrual();
@@ -1426,12 +1417,12 @@ public void testTemporarilyCloseToAccrual1(){
  * test temporarilyCloseToAccrual
  */
 public void testTemporarilyCloseToAccrual2(){
-	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-	
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.temporarilyCloseToAccrual();
@@ -1448,11 +1439,11 @@ public void testTemporarilyCloseToAccrual2(){
  */
 public void testTemporarilyCloseToAccrual3(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.temporarilyCloseToAccrual();
@@ -1469,11 +1460,11 @@ public void testTemporarilyCloseToAccrual3(){
  */
 public void testTemporarilyCloseToAccrual4(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.temporarilyCloseToAccrual();
@@ -1503,11 +1494,11 @@ public void testTemporarilyCloseToAccrualAndTreatment(){
  */
 public void testTemporarilyCloseToAccrualAndTreatment1(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.temporarilyCloseToAccrualAndTreatment();
@@ -1523,12 +1514,12 @@ public void testTemporarilyCloseToAccrualAndTreatment1(){
  * test temporarilyCloseToAccrualAndTreatment
  */
 public void testTemporarilyCloseToAccrualAndTreatment2(){
-	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-	
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.temporarilyCloseToAccrualAndTreatment();
@@ -1545,10 +1536,10 @@ public void testTemporarilyCloseToAccrualAndTreatment2(){
  */
 public void testTemporarilyCloseToAccrualAndTreatment3(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
+
 	replayMocks();
 	try{
 		basicStudy.temporarilyCloseToAccrualAndTreatment();
@@ -1568,7 +1559,7 @@ public void testTemporarilyCloseToAccrualAndTreatment4(){
 
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
+
 	replayMocks();
 	try{
 		basicStudy.temporarilyCloseToAccrualAndTreatment();
@@ -1599,11 +1590,11 @@ public void testCloseToAccrual(){
  */
 public void testCloseToAccrual1(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.closeToAccrual();
@@ -1619,12 +1610,12 @@ public void testCloseToAccrual1(){
  * test closeToAccrual
  */
 public void testCloseToAccrual2(){
-	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-	
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.closeToAccrual();
@@ -1641,12 +1632,12 @@ public void testCloseToAccrual2(){
  */
 public void testCloseToAccrual3(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-	
+
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE", null, null)).andReturn("344");
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(344, "exception message"));
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.closeToAccrual();
@@ -1663,10 +1654,10 @@ public void testCloseToAccrual3(){
  */
 public void testCloseToAccrual4(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(344, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE", null, null)).andReturn("344");
-	
+
 	replayMocks();
 	try{
 		basicStudy.closeToAccrual();
@@ -1696,11 +1687,11 @@ public void testCloseToAccrualAndTreatment(){
  */
 public void testCloseToAccrualAndTreatment1(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.closeToAccrualAndTreatment();
@@ -1716,12 +1707,12 @@ public void testCloseToAccrualAndTreatment1(){
  * test closeToAccrualAndTreatment
  */
 public void testCloseToAccrualAndTreatment2(){
-	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-	
+	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(320, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE", null, null)).andReturn("320");
-	
-	
+
+
 	replayMocks();
 	try{
 		basicStudy.closeToAccrualAndTreatment();
@@ -1736,10 +1727,10 @@ public void testCloseToAccrualAndTreatment2(){
  */
 public void testCloseToAccrualAndTreatment3(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(344, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE", null, null)).andReturn("344");
-	
+
 	replayMocks();
 	try{
 		basicStudy.closeToAccrualAndTreatment();
@@ -1755,10 +1746,10 @@ public void testCloseToAccrualAndTreatment3(){
  */
 public void testCloseToAccrualAndTreatment4(){
 	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-	
+
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[]{CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(344, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE", null, null)).andReturn("344");
-	
+
 	replayMocks();
 	try{
 		basicStudy.closeToAccrualAndTreatment();
@@ -1774,7 +1765,7 @@ public void testCloseToAccrualAndTreatment4(){
 public void testGetFundingSponsorAssignedIdentifier(){
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER, "Value");
 	assertNotNull("Funding Sponsorer Identifier Found", basicStudy.getFundingSponsorAssignedIdentifier());
-	
+
 }
 
 
@@ -1810,7 +1801,7 @@ public void testGetFundingSponsorAssignedIdentifier3(){
 public void testGetCoordinatingCenterAssignedIdentifier(){
 	basicStudy = studyCreationHelper.addOrganizationAssignedIdentifier(basicStudy, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER, "Value");
 	assertNotNull("Coordinating Center Assigned Identifier Found", basicStudy.getCoordinatingCenterAssignedIdentifier());
-	
+
 }
 
 
@@ -1840,7 +1831,7 @@ public void testGetCoordinatingCenterAssignedIdentifier3(){
 
 /**
  * Test get study organization by nci identifier
- * 
+ *
  */
 public void testGetStudyOrganization2(){
 	StudyOrganization organization = registerMockFor(StudyOrganization.class);
@@ -1848,17 +1839,17 @@ public void testGetStudyOrganization2(){
 	HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 	EasyMock.expect(organization.getHealthcareSite()).andReturn(healthcareSite);
 	EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn("NC010");
-	
+
 	replayMocks();
-	
+
 	simpleStudy.addStudyOrganization(organization);
 
 	try {
 		simpleStudy.getStudyOrganization("NC011");
 	} catch (C3PRCodedRuntimeException e) {
-		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException); 
+		assertEquals("Exception should have been of type C3PRCodedRuntimeException",true, e instanceof C3PRCodedRuntimeException);
 	}
-	
+
 	verifyMocks();
 }
 
@@ -1891,7 +1882,7 @@ public void testGetParentStudyAssociation1(){
  */
 public void testGetParentStudyAssociation2(){
 	assertNull("parent association found for this study", simpleStudy.getParentStudyAssociation(1));
-	
+
 }
 
 /**
@@ -1901,9 +1892,9 @@ public void testGetCompanionStudySite3(){
 	basicStudy.setCompanionIndicator(true);
 	simpleStudy.setCompanionIndicator(false);
 	basicStudy = studyCreationHelper.addParentStudyAssociationWithSite(simpleStudy, basicStudy);
-	
+
 	assertNotNull("study site found with NCI_CODE nci identifier", basicStudy.getCompanionStudySite("NCI_CODE"));
-	
+
 }
 
 
@@ -2060,15 +2051,15 @@ public void testGetPossibleStatusTransition9(){
 	assertContains(list, CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
 }
 
-/**
- * test get possible status transition
- */
-public void testGetPossibleStatusTransition10(){
-	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
-	assertEquals("1 possible status found", 1 , list.size());
-	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
-}
+///**
+// * test get possible status transition
+// */
+//public void testGetPossibleStatusTransition10(){
+//	basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+//	List<CoordinatingCenterStudyStatus> list =  basicStudy.getPossibleStatusTransitions() ;
+//	assertEquals("1 possible status found", 1 , list.size());
+//	assertContains(list, CoordinatingCenterStudyStatus.OPEN);
+//}
 
 
 /**
@@ -2133,7 +2124,7 @@ public void testReadyToOpen(){
 
 	EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(319),EasyMock.aryEq(new String[]{basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()}))).andReturn(new C3PRCodedRuntimeException(319, "exception message"));
 	EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE", null, null)).andReturn("319");
-	
+
 	replayMocks();
 	try{
 		basicStudy.readyToOpen();
@@ -2141,7 +2132,7 @@ public void testReadyToOpen(){
 		assertEquals("Exception is instance of C3PRCodedRuntimeException", true , e instanceof C3PRCodedRuntimeException);
 	}
 	verifyMocks();
-		
+
 	}
 
 /**

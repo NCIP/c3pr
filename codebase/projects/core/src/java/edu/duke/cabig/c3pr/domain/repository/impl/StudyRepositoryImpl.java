@@ -51,9 +51,9 @@ public class StudyRepositoryImpl implements StudyRepository {
     private StudySiteDao studySiteDao;
 
     private StudyService studyService;
-    
+
     private StudyFactory studyFactory;
-    
+
     public void save(Study study) throws C3PRCodedException {
         // TODO call ESB to broadcast protocol, POC
         studyDao.save(study);
@@ -74,7 +74,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 
     /**
      * Validate a study against a set of validation rules
-     * 
+     *
      * @param study
      * @throws StudyValidationException
      * @throws C3PRCodedException
@@ -141,14 +141,6 @@ public class StudyRepositoryImpl implements StudyRepository {
         throw new RuntimeException("Not yet implemented");
     }
 
-//    @Transactional
-//    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
-//                    String nciInstituteCode){
-//        Study study=getUniqueStudy(studyIdentifiers);
-//        StudySite studySite = study.getStudySite(nciInstituteCode);
-//        return approveStudySiteForActivation(studyIdentifiers, studySite);
-//    }
-
     @Transactional
     public Study closeStudyToAccrual(List<Identifier> studyIdentifiers) {
         Study study = getUniqueStudy(studyIdentifiers);
@@ -204,7 +196,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         }
         return this.merge(study);
     }
-    
+
     @Transactional
     public Study updateStudyStatus(List<Identifier> studyIdentifiers,
                     CoordinatingCenterStudyStatus status){
@@ -305,7 +297,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 
         return studySite;
     }
-    
+
     @Transactional
     public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers){
         Study study = getUniqueStudy(studyIdentifiers);
@@ -324,7 +316,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 
     @Transactional
     public Study createStudy(Study study) {
-    	
+
         study.readyToOpen();
         if(study.isMultisite() && studyService.isMultisiteEnable()){
         	//if C3PR instance is at Coordinating Center
@@ -342,7 +334,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         }
         return this.merge(study);
     }
-    
+
     @Transactional
     public Study createAndOpenStudy(Study study) {
         study.readyToOpen();
@@ -363,7 +355,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         }
         return this.merge(study);
     }
-    
+
     @Transactional
     public Study createStudy(List<Identifier> studyIdentifiers) {
         Study study = getUniqueStudy(studyIdentifiers);
@@ -398,7 +390,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 
     }
 
-    
+
 //    @Transactional
 //    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers, StudySite studySiteObj){
 //        Study study=getUniqueStudy(studyIdentifiers);
@@ -454,7 +446,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         studySite=studySiteDao.merge(studySite);
         return studySite;
     }
-    
+
     public void createStudyAtAffiliates(List<Identifier> studyIdentifiers) {
 		Study study = getUniqueStudy(studyIdentifiers);
 		for (StudySite studySite : study.getStudySites()) {
@@ -481,7 +473,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 		}
 		return endPoint;
 	}
-	
+
 	public void createAndOpenStudyAtAffiliates(List<Identifier> studyIdentifiers) {
 		Study study = getUniqueStudy(studyIdentifiers);
 		for (StudySite studySite : study.getStudySites()) {
@@ -489,7 +481,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
-	
+
 	public EndPoint createAndOpenStudyAtAffiliate(List<Identifier> studyIdentifiers,
 			String nciInstituteCode) {
 		Study study = getUniqueStudy(studyIdentifiers);
@@ -562,7 +554,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
-	
+
 	public EndPoint closeStudyToAccrualAndTreatmentAtAffiliate(List<Identifier> studyIdentifiers,
 			String nciInstituteCode) {
 		Study study = getUniqueStudy(studyIdentifiers);
@@ -587,7 +579,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
-	
+
 	public EndPoint temporarilyCloseStudyToAccrualAtAffiliate(List<Identifier> studyIdentifiers,
 			String nciInstituteCode) {
 		Study study = getUniqueStudy(studyIdentifiers);
@@ -612,7 +604,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 					.getHealthcareSite().getPrimaryIdentifier());
 		}
 	}
-	
+
 	public EndPoint temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(List<Identifier> studyIdentifiers,
 			String nciInstituteCode) {
 		Study study = getUniqueStudy(studyIdentifiers);
@@ -663,7 +655,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 			}
 		}
 	}
-    
+
     public EndPoint handleAffiliateSiteBroadcast(String nciInstituteCode,
 			Study study, APIName multisiteAPIName, List domainObjects) {
         for(EndPoint endPoint: study.getStudySite(nciInstituteCode).getEndpoints()){
@@ -752,6 +744,6 @@ public class StudyRepositoryImpl implements StudyRepository {
     public void setC3prErrorMessages(MessageSource errorMessages) {
         c3prErrorMessages = errorMessages;
     }
-    
+
 
 }

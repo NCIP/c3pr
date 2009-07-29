@@ -5,7 +5,11 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +31,13 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import edu.duke.cabig.c3pr.constants.*;
+import edu.duke.cabig.c3pr.constants.ConsentRequired;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.StatusType;
+import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
@@ -72,24 +82,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	private String type;
 	private ConsentRequired consentRequired ;
     private StudyVersion studyVersion;
-
-	@Enumerated(EnumType.STRING)
-	public ConsentRequired getConsentRequired() {
-		return consentRequired;
-	}
-
-	public void setConsentRequired(ConsentRequired consentRequired) {
-		this.consentRequired = consentRequired;
-	}
-
-	public Integer getConsentValidityPeriod() {
-		return consentValidityPeriod;
-	}
-
-	public void setConsentValidityPeriod(Integer consentValidityPeriod) {
-		this.consentValidityPeriod = consentValidityPeriod;
-	}
-
 	private Integer consentValidityPeriod;
 	// This is for the CADSR exclusion/inclusion criteria file
 	/** The criteria file. */
@@ -105,6 +97,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	@Transient
 	private int acrrualsWithinLastWeek;
 	private Boolean standaloneIndicator;
+	private Integer targetAccrualNumber;
+
 	/** The parent study associations. */
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 	public Study() {
@@ -127,7 +121,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
 		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
-		// mandatory, so that the lazy-projected list is managed properly.
+
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
@@ -149,7 +143,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		lazyListHelper.add(SystemAssignedIdentifier.class,new ParameterizedInstantiateFactory<SystemAssignedIdentifier>( SystemAssignedIdentifier.class));
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
 		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
-		// mandatory, so that the lazy-projected list is managed properly.
+
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
 		if (!forSearchByExample) {
@@ -172,7 +166,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public List<Identifier> getLocalIdentifiers() {
 		List<Identifier> localIdentifiers = new ArrayList<Identifier>();
 		for (Identifier identifier : getIdentifiers()) {
-			if (!(OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER.getName()).equals(identifier.getTypeInternal()) && !(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.getName()).equals(identifier.getTypeInternal())) {
+			if (!(OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER.getName()).equals(identifier.getTypeInternal())
+					&& !(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.getName()).equals(identifier.getTypeInternal())) {
 				localIdentifiers.add(identifier);
 			}
 		}
@@ -204,8 +199,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void setStudyOrganizations(List<StudyOrganization> studyOrganizations) {
 		this.studyOrganizations = studyOrganizations;
-		// initialize projected list for StudySite, StudyFundingSponsor and
-		// StudyCoordinatingCenter
+		// initialize projected list for StudySite, StudyFundingSponsor and StudyCoordinatingCenter
 		lazyListHelper.setInternalList(StudySite.class, new ProjectedList<StudySite>(this.studyOrganizations,StudySite.class));
 		lazyListHelper.setInternalList(StudyFundingSponsor.class,new ProjectedList<StudyFundingSponsor>(this.studyOrganizations,StudyFundingSponsor.class));
 		lazyListHelper.setInternalList(StudyCoordinatingCenter.class,new ProjectedList<StudyCoordinatingCenter>(this.studyOrganizations,StudyCoordinatingCenter.class));
@@ -260,8 +254,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public OrganizationAssignedIdentifier getFundingSponsorAssignedIdentifier() {
-		for (OrganizationAssignedIdentifier orgIdentifier : this
-				.getOrganizationAssignedIdentifiers()) {
+		for (OrganizationAssignedIdentifier orgIdentifier : this.getOrganizationAssignedIdentifiers()) {
 			if ((orgIdentifier.getType() != null)
 					&& (orgIdentifier.getType().equals(OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER)))
 				return orgIdentifier;
@@ -271,11 +264,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public OrganizationAssignedIdentifier getCoordinatingCenterAssignedIdentifier() {
-		for (OrganizationAssignedIdentifier orgIdentifier : this
-				.getOrganizationAssignedIdentifiers()) {
+		for (OrganizationAssignedIdentifier orgIdentifier : this.getOrganizationAssignedIdentifiers()) {
 			if ((orgIdentifier.getType() != null)
-					&& (orgIdentifier.getType()
-							.equals(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER)))
+					&& (orgIdentifier.getType().equals(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER)))
 				return orgIdentifier;
 		}
 		return null;
@@ -311,11 +302,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return null;
 	}
 
-	/**
-	 * Gets the principal investigator study organization.
-	 *
-	 * @return the principal investigator study organization
-	 */
 	@Transient
 	public StudyOrganization getPrincipalInvestigatorStudyOrganization() {
 		StudyInvestigator studyInvestigator = getPrincipalStudyInvestigator();
@@ -412,11 +398,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return getStudyVersion().getShortTitleText();
 	}
 
-	@Transient
-	public Integer getTargetAccrualNumber() {
-		return getStudyVersion().getTargetAccrualNumber();
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -425,9 +406,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.type = type;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	public int compareTo(Study o) {
 		if (this.equals(o)){
 			return 0;
@@ -435,9 +413,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return 1;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -446,9 +421,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -509,12 +481,12 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public RandomizationType getRandomizationType() {
 		return getStudyVersion().getRandomizationType();
 	}
-	
+
 	@Transient
 	public List<Consent> getConsents() {
 		return getStudyVersion().getConsents();
 	}
-	
+
 	public void addConsent(Consent consent) {
 		getStudyVersion().addConsent(consent);
 	}
@@ -636,7 +608,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			this.readyToOpen();
 		}
 		if (!(coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.READY_TO_OPEN
-				|| coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.AMENDMENT_PENDING
 				|| coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
                 || coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
 			throw getC3PRExceptionHelper().getRuntimeException( getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE"),
@@ -676,8 +647,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 		if (!(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
-				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT || this
-				.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING)) {
+				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT )) {
 			throw getC3PRExceptionHelper()
 					.getRuntimeException(
 							getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE"),
@@ -690,35 +660,23 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 		errors = canOpen();
 		if (errors.size() > 0) {
-			throw new C3PRInvalidDataEntryException(
-					" Study is invalid because data entry is not complete",
-					errors);
+			throw new C3PRInvalidDataEntryException(" Study is invalid because data entry is not complete", errors);
 		}
-
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
-
 	}
 
-	/**
-	 * Close to accrual.
-	 */
 	public void closeToAccrual() {
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
-			throw getC3PRExceptionHelper()
-			.getRuntimeException(
-					getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
-					new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
-							.getDisplayName() });
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
+					new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName() });
 		}
 
-		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING
-				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING)
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING){
 			throw getC3PRExceptionHelper()
-					.getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-							new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
-									.getDisplayName() });
+					.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+							new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName() });
+		}
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
 	}
 
@@ -726,71 +684,41 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
 			throw getC3PRExceptionHelper()
-			.getRuntimeException(
-					getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
-					new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
-							.getDisplayName() });
+			.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
+					new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName() });
 		}
 
-		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING)))
-			throw getC3PRExceptionHelper()
-					.getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-							new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
-									.getDisplayName() });
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+							new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName() });
+		}
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 	}
 
-	/**
-	 * Pending.
-	 */
 	public void pending() {
-		this
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 	}
 
 	public void temporarilyCloseToAccrualAndTreatment() {
-
-		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
-			throw getC3PRExceptionHelper()
-					.getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-							new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
-									.getDisplayName() });
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING
+				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
+				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+							new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName() });
 		}
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
 	}
 
-	/**
-	 * Temporarily close to accrual.
-	 */
 	public void temporarilyCloseToAccrual() {
 
 		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
 				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
-			throw getC3PRExceptionHelper()
-					.getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-							new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
-									.getDisplayName() });
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
+							new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL.getDisplayName() });
 		}
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
 	}
-
-	/**
-	 * Pending amendment.
-	 */
-	public void pendingAmendment() {
-		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
-
-	}
-
 
 	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
@@ -897,11 +825,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return currentAccrual ;
 	}
 
-	// @Transient
-	// public boolean isCreatable() {
-	// return this.evaluateDataEntryStatus() == StudyDataEntryStatus.COMPLETE;
-	// }
-
 	@Transient
 	public boolean isCoOrdinatingCenter(String nciCode) {
 		return this.getStudyCoordinatingCenters().get(0).getHealthcareSite()
@@ -970,9 +893,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject#getEndpoints()
-	 */
 	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "stu_id")
@@ -988,8 +908,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 				statuses.add(CoordinatingCenterStudyStatus.READY_TO_OPEN);
 				boolean flag = true;
 				flag = isParentStudyOpen(flag);
-				if (flag)
+				if (flag){
 					statuses.add(CoordinatingCenterStudyStatus.OPEN);
+				}
 			} else {
 				statuses.add(CoordinatingCenterStudyStatus.OPEN);
 			}
@@ -1016,16 +937,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 					.add(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
 			return statuses;
 		}
-		if (this.coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.AMENDMENT_PENDING) {
-			statuses.add(CoordinatingCenterStudyStatus.OPEN);
-			return statuses;
-		}
 		if (this.coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
 				|| this.coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT) {
 			statuses.add(CoordinatingCenterStudyStatus.OPEN);
 			statuses.add(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-			statuses
-					.add(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+			statuses.add(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 			return statuses;
 		}
 		return statuses;
@@ -1069,9 +985,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getInternalList(CustomFieldDefinition.class);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable#getCustomFieldDefinitions()
-	 */
 	@Transient
 	public List<CustomFieldDefinition> getCustomFieldDefinitions() {
 		return lazyListHelper.getLazyList(CustomFieldDefinition.class);
@@ -1092,9 +1005,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getInternalList(CustomField.class);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.domain.customfield.Customizable#getCustomFields()
-	 */
 	@Transient
 	public List<CustomField> getCustomFields() {
 		return lazyListHelper.getLazyList(CustomField.class);
@@ -1170,7 +1080,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public StudyVersion getLatestStudyVersion(){
         List<StudyVersion> studyVersions = this.getStudyVersions();
         int size = studyVersions.size();
-        if( size < 1){
+        if( size == 0){
 			return  getStudyVersions().get(0);
         }else{
             Collections.sort(studyVersions);
@@ -1200,10 +1110,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void setRandomizationType(RandomizationType randomizationType){
 		this.getStudyVersion().setRandomizationType(randomizationType);
-	}
-
-	public void setTargetAccrualNumber(Integer targetAccrualNumber){
-		this.getStudyVersion().setTargetAccrualNumber(targetAccrualNumber);
 	}
 
 	@Transient
@@ -1279,33 +1185,46 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         return null ;
     }
 
-    @Transient
-    public List<StudyVersion> getPreviousStudyAmendments(){
-        int size = this.getStudyVersions().size() ;
-        if(this.getStudyVersion().getVersionStatus() == StatusType.IN) {
-            if(size > 2){
-            	List<StudyVersion> versions = this.getStudyVersions().subList(1, size - 1) ;
-                return versions ;
-            }else{
-                return null ;
-            }
-        }else{
-             if(size > 2){
-            	 List<StudyVersion> versions = this.getStudyVersions().subList(1, size) ;
-                 return versions ;
-            }else{
-                return null ;
-            }
-        }
-    }
+	@Transient
+	public List<StudyVersion> getStudyAmendments() {
+		int size = this.getStudyVersions().size();
+		if (size > 2) {
+			return this.getStudyVersions().subList(1, size);
+		}
+		return null;
+	}
 
-    @Transient
-    public List<StudyVersion> getSortedStudyVersions(){
-    	  List<StudyVersion> studyVersions = this.getStudyVersions();
-          Collections.sort(studyVersions);
-          return studyVersions ;
-  		}
+	@Transient
+	public List<StudyVersion> getSortedStudyVersions() {
+		List<StudyVersion> studyVersions = this.getStudyVersions();
+		Collections.sort(studyVersions);
+		return studyVersions;
+	}
 
+	public void setTargetAccrualNumber(Integer targetAccrualNumber) {
+		this.targetAccrualNumber = targetAccrualNumber;
+	}
+
+	public Integer getTargetAccrualNumber() {
+		return targetAccrualNumber;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public ConsentRequired getConsentRequired() {
+		return consentRequired;
+	}
+
+	public void setConsentRequired(ConsentRequired consentRequired) {
+		this.consentRequired = consentRequired;
+	}
+
+	public Integer getConsentValidityPeriod() {
+		return consentValidityPeriod;
+	}
+
+	public void setConsentValidityPeriod(Integer consentValidityPeriod) {
+		this.consentValidityPeriod = consentValidityPeriod;
+	}
 
 
 }
