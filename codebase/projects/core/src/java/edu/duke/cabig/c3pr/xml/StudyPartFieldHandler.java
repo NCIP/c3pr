@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.xml;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
@@ -16,16 +19,21 @@ import edu.duke.cabig.c3pr.domain.StudyVersion;
 public class StudyPartFieldHandler implements FieldHandler {
 
     public Object getValue(Object object) throws IllegalStateException {
-        AmendmentReason amendmentReason = (AmendmentReason) object;
-        return amendmentReason.getStudyPart().toString();
+        StudyVersion studyVersion = (StudyVersion) object;
+        List<String> parts= new ArrayList<String>();
+        for(StudyPart studyPart: studyVersion.getAmendmentReasons()){
+        	parts.add(studyPart.toString());
+        }
+        return parts;
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
-    	AmendmentReason amendmentReason = (AmendmentReason) object;
-//        study.setDataEntryStatus(StudyDataEntryStatus.valueOf((String) value));
-        amendmentReason.setStudyPart(StudyPart.valueOf((String) value));
-
+    	StudyVersion studyVersion = (StudyVersion) object;
+    	studyVersion.setAmendmentReasons(new ArrayList<StudyPart>());
+    	for(String part: (List<String>) value){
+    		studyVersion.addAmendmentReason(StudyPart.valueOf(part));
+    	}
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {

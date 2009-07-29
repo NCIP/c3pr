@@ -1,15 +1,14 @@
 package edu.duke.cabig.c3pr.xml;
 
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
-
-import org.exolab.castor.mapping.Mapping;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
+import java.util.List;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.StatusType;
+import edu.duke.cabig.c3pr.constants.StudyPart;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
@@ -37,9 +36,10 @@ import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
-public class StudyCastorMappingTestCase extends AbstractTestCase{
+public class CastorMappingTestCase extends AbstractTestCase{
 
 	private StudyCreationHelper studyCreationHelper;
 	
@@ -287,7 +287,7 @@ public class StudyCastorMappingTestCase extends AbstractTestCase{
 		study.addCompanionStudyAssociation(companionStudyAssociation2);
 	}
 	
-	public void testMarshalling() throws Exception{
+	public void testStudyMarshalling() throws Exception{
 		Study study= getStudyWithDetails(RandomizationType.BOOK);
 		addConsent(study);
 		addStudyDesign(study);
@@ -300,6 +300,37 @@ public class StudyCastorMappingTestCase extends AbstractTestCase{
 		addStudySites(study);
 		addInvestigators(study.getStudyCoordinatingCenter());
 		String xml= marshaller.toXML(study);
+		System.out.println(xml);
+		assertNotNull(xml);
+	}
+	
+	public void testStudyAmendmentMarshalling() throws Exception{
+		Study study= getStudyWithDetails(RandomizationType.BOOK);
+		addConsent(study);
+		addStudyDesign(study);
+		Epoch epoch= study.getEpochs().get(0);
+		addEligibility(epoch);
+		addStratification(epoch);
+		addRandomization(study, epoch);
+		addCompanions(study);
+		addDisease(study);
+		addStudySites(study);
+		addInvestigators(study.getStudyCoordinatingCenter());
+		StudyVersion studyVersion= study.getStudyVersion();
+		studyVersion.setVersionStatus(StatusType.IN);
+		studyVersion.setName("1.1");
+		studyVersion.setVersionDate(new Date());
+		List<StudyPart> studyParts= new ArrayList<StudyPart>();
+		studyParts.add(StudyPart.COMPANION);
+		studyParts.add(StudyPart.CONSENT);
+		studyParts.add(StudyPart.DESIGN);
+		studyParts.add(StudyPart.DETAIL);
+		studyParts.add(StudyPart.DISEASE);
+		studyParts.add(StudyPart.ELIGIBILITY);
+		studyParts.add(StudyPart.RANDOMIZATION);
+		studyParts.add(StudyPart.STRATIFICATION);
+		studyVersion.setAmendmentReasons(studyParts);
+		String xml= marshaller.toXML(studyVersion);
 		System.out.println(xml);
 		assertNotNull(xml);
 	}
