@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyViewAmendmentsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyNotificationTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyOverviewTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyPersonnelTab;
@@ -38,7 +39,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
     private edu.duke.cabig.c3pr.utils.web.navigation.Task editTask;
 
     private XmlMarshaller xmlUtility;
-    private final String DO_NOT_SAVE = "_doNotSave" ; 
+    private final String DO_NOT_SAVE = "_doNotSave" ;
 
     public ViewStudyController() {
         super("View Study Details");
@@ -72,6 +73,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
         flow.addTab(new StudyRegistrationsTab());
+        flow.addTab(new StudyViewAmendmentsTab());
     }
 
     @Override
@@ -88,7 +90,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         Map<String, Object> refdata = super.referenceData(request, o, errors, i);
 //        String softDelete = "false";
 //        String isAdmin = "false";
-        
+
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         GrantedAuthority[] groups = auth.getAuthorities();
@@ -101,7 +103,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
 //                isAdmin = "true";
 //            }
         }
-       
+
 //        if (((StudyWrapper) o).getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING) {
 //            softDelete = "true";
 //        }

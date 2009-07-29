@@ -117,7 +117,7 @@ public class StudyOverviewTab extends StudyTab {
     private String handleInPlaceEditing(HttpServletRequest request, StudyWrapper command,
                     String property, String value) throws Exception{
     	if (property.contains("changedTargetAccrualNumber")) {
-            command.getStudy().getStudyVersion().setTargetAccrualNumber(new Integer(value));
+            command.getStudy().setTargetAccrualNumber(new Integer(value));
             return command.getStudy().getTargetAccrualNumber().toString();
         } else {
             return command.getStudy().getCoordinatingCenterStudyStatus().getCode();
