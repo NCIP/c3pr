@@ -13,6 +13,7 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -65,6 +66,9 @@ public class StudyOverviewTab extends StudyTab {
             		study = studyRepository.temporarilyCloseStudy(study.getIdentifiers());
             	}
                 request.setAttribute("studyMessage", "STUDY.CLOSED_SUCCESSFULLY");
+            }else if(request.getParameter("statusChange").equals("applyAmendment")){
+            	study = studyRepository.applyAmendment(study.getIdentifiers());
+            	request.setAttribute("studyMessage", "STUDY.AMENDED_SUCCESSFULLY");
             }
             wrapper.setStudy(study);
         }
@@ -111,6 +115,7 @@ public class StudyOverviewTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(request, command);
         refdata.put("canAmendStudy", command.canAmendStudy());
         refdata.put("resumeAmendment", command.resumeAmendment());
+        refdata.put("applyAmendment", command.applyAmendment());
         return refdata ;
     }
 
@@ -203,6 +208,5 @@ public class StudyOverviewTab extends StudyTab {
     public ModelAndView updateTargetAccrual(HttpServletRequest request, Object command , Errors error) {
     	return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
-
 
 }

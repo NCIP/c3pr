@@ -10,18 +10,35 @@
 </style>
 <script>
 function viewStudy(){
-
+	alert("show study");
 }
+
+function applyAmendment(){
+	Dialog.confirm("Are you sure you want to apply current amendment to the study?",
+	        {width:300, height:85, okLabel: "Ok", ok:function(win) {
+		  		<tags:tabMethod method="applyAmendment" divElement="'study-amendment'" formName="'tabMethodForm'"  viewName="/study/study_amendment_section"/>
+    		}
+	  });
+}
+
 </script>
 </head>
 <body>
 <chrome:box title="Amendments">
 <c:choose>
 	<c:when test="${fn:length(command.study.studyAmendments) > 0}">
+	<c:choose>
+    	<c:when test="${amendment.study.companionIndicator=='true'}">
+        	<c:set  var="resumeAmendmentUrl" value="javascript:document.location='../study/amendCompanionStudy?studyId=${command.study.id}'" />
+        </c:when>
+        <c:otherwise>
+        	<c:set  var="resumeAmendmentUrl" value="javascript:document.location='../study/amendStudy?studyId=${command.study.id}'" />
+        </c:otherwise>
+    </c:choose>
 	<table id="studyAmendmets" class="tablecontent">
 		<tr>
 			<th width="25%">
-				<fmt:message key="study.version.name" />
+				<fmt:message key="study.versionNameNumber" />
 				<tags:hoverHint keyProp="study.version.name" />
 			</th>
 			<th width="17%">
@@ -40,20 +57,28 @@ function viewStudy(){
 			</th>
 		</tr>
 		<c:forEach items="${command.study.studyAmendments}" var="amendment" varStatus="status">
+			<div id="amendment-${status.index}"></div>
 			<tr>
 				<td>${amendment.name}</td>
 				<td>${amendment.versionDateStr}</td>
 				<td>${amendment.mandatoryIndicator ? 'Yes' : 'No'}</td>
 				<td>${amendment.versionStatus.code}</td>
 				<td>
-					<tags:button color="blue" icon="search" onclick="viewStudy();" size="small" value="View"></tags:button>
-					<c:if test="${amendment.versionStatus == 'IN'}">
-						<tags:button color="blue" icon="amend" onclick="resumeAmendment();" size="small" value="Resume amendment"></tags:button>
-					</c:if>
+					<c:choose>
+						<c:when test="${amendment.versionStatus == 'IN'}">
+							<tags:button color="blue" icon="amend" onclick="${resumeAmendmentUrl}" size="small" value="Resume Amendment"></tags:button>
+							<c:if test="${applyAmendment}">
+								<tags:button color="blue" icon="apply" onclick="applyAmendment();" size="small" value="Apply Amendment"></tags:button>
+							</c:if>
+						</c:when>
+						<c:otherwise>
+							<tags:button color="blue" icon="search" onclick="viewStudy();" size="small" value="View"></tags:button>
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
+			</div>
 		</c:forEach>
-
 	</table>
 	</c:when>
 	<c:otherwise>

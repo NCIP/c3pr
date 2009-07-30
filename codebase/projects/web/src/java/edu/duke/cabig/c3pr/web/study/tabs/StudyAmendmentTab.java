@@ -25,6 +25,7 @@ public class StudyAmendmentTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(wrapper);
         refdata.put("disableForm", new Boolean(false));
         refdata.put("mandatory", "true");
+        addConfigMapToRefdata(refdata, "yesNo");
         disableAll(request);
         return refdata;
     }

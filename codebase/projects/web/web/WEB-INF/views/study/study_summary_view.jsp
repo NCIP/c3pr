@@ -69,15 +69,35 @@
                 }
         		Dialog.alert(d.innerHTML, {className: "alphacube", width:400, okLabel: "Close" });
         	} else if(status=='close') {
-				Dialog.confirm("Are you sure you want to close the study?",
-				               {width:300, height:85, okLabel: "Ok",
-				               ok:function(win) {$('statusChange').value = 'close';  $('command').submit();}
-				              });
-        	}else {
-	            $('statusChange').value = status;
-	            $('command').submit();
+        		confirmChangeStudyStatus(status, "Are you sure you want to close the study?");
+        	}else if(status=='applyAmendment') {
+        		confirmChangeStudyStatus(status, "Are you sure you want to apply current amendment to the study?");
+        	}else if(status=='open') {
+        		confirmChangeStudyStatus(status, "Are you sure you want to open the study?");
+        	}else if(status=='readyToOpen') {
+        		confirmChangeStudyStatus(status, "Are you sure you want to put study in ready to open status?");
         	}
+        }
 
+        function amendStudy(id, companionIndicator){
+        	Dialog.confirm("Are you sure you want to amend the study?",
+		               {width:300, height:85, okLabel: "Ok",
+		               ok:function(win) {
+	               			if(companionIndicator == 'true' ){
+	               				document.location='../study/amendCompanionStudy?studyId='+id
+	               			}else{
+	               				document.location='../study/amendStudy?studyId='+id
+	               			}
+		               }
+		         });
+        }
+
+        function confirmChangeStudyStatus(status, message){
+        	Dialog.confirm(message,
+		               {width:300, height:85, okLabel: "Ok",
+		               ok:function(win) {$('statusChange').value = status;
+		               $('command').submit();}
+		         });
         }
 
 		function closePopup() {
@@ -157,11 +177,11 @@
                 <c:if test="${!empty readyToOpen}">
             		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('readyToOpen')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Ready to open" />
 	            </c:if>
+	            <c:if test="${applyAmendment}">
+            		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('applyAmendment')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Apply Amendment" />
+	            </c:if>
             </csmauthz:accesscontrol>
 			<c:if test="${not empty flowType}">
-				<c:if test="${resumeAmendment}">
-            		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('finishAmendment')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Finish amendment" />
-	            </c:if>
 				<tags:oneControlPanelItem linkhref="javascript:document.location='../study/viewStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Manage Study" />
 			</c:if>
 			<c:if test="${empty flowType}">
@@ -176,14 +196,7 @@
 		                </c:choose>
 	                    <c:if test="${command.study.standaloneIndicator && canAmendStudy}">
 	                    	<c:set var="amend" value="${resumeAmendment?'Resume Amendment':'Amend Study'}"></c:set>
-	                    	<c:choose>
-			                    <c:when test="${command.study.companionIndicator=='true'}">
-			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
-			                    </c:when>
-			                    <c:otherwise>
-			                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/amendStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
-			                    </c:otherwise>
-			                </c:choose>
+			                <tags:oneControlPanelItem linkhref="javascript:amendStudy(${command.study.id},${command.study.companionIndicator})" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
 	                     </c:if>
 	                </csmauthz:accesscontrol>
 	                <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
@@ -613,6 +626,11 @@
 		</div>
 	</c:forEach>
 </div>
+</div>
+<div align="right">
+	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="domainObjectAuthorizationCheck">
+		<tags:button color="blue" value="Apply Amendment" icon="applyAmendment" onclick="javascript:changeStudyStatus('applyAmendment')"/>
+	</csmauthz:accesscontrol>
 </div>
 </form:form>
 <div id="targetAccrualPage" style="display:none;">

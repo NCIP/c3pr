@@ -1,14 +1,14 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Transient;
 
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.constants.StatusType;
-
-import java.util.List;
-import java.util.ArrayList;
 
 public class StudyWrapper {
 
@@ -70,6 +70,13 @@ public class StudyWrapper {
              return true;
          }
          return false;
+     }
+
+     public boolean applyAmendment(){
+     	if(resumeAmendment() && getStudy().getDataEntryStatus() == StudyDataEntryStatus.COMPLETE){
+     		return true ;
+     	}
+     	return false ;
      }
 
 }

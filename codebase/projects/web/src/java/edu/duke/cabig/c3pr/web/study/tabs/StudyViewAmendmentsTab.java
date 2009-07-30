@@ -20,6 +20,7 @@ public class StudyViewAmendmentsTab extends StudyTab {
     @Override
     public Map<String, Object> referenceData(StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
+        refdata.put("applyAmendment", wrapper.applyAmendment());
         return refdata;
     }
 

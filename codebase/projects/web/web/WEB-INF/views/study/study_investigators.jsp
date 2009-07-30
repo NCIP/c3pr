@@ -81,7 +81,7 @@ function showDiseases() {
     var categoryId = $("disease-sub-category").value;
     var subCategorySelect = $("disease-sub-category")
     var siteSelect = $("site").value;
-    
+
     // If all is selected
     if (subCategorySelect.value == "") {
         var diseaseTermSelect = $("disease-term")
@@ -192,20 +192,20 @@ Event.observe(window, "load", function() {
     Event.observe("disease-sub-category", "change", function() {
         showDiseases()
     })
-    
+
     // Using a if loop since 'createInvestigator' only exists if logged in user has create Inv access
     if($('createInvestigator') != null){
     	 $('createInvestigator').observe('click', function(event) {
-    	
+
     	win = new Window(
 				{title: "Create Investigator", top:35, left:35, width:850, height:400, zIndex:100,
 				url: "<c:url value='/pages/personAndOrganization/investigator/createInvestigator?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
-				) 
+				)
 		win.showCenter(true);
-       
+
 		});
     }
-   
+
     populateSelectsOnLoad();
 })
 
@@ -217,7 +217,7 @@ function closePopup() {
 </head>
 
 <body>
-<!-- selected_site is a c:set var which is request attrubute. 
+<!-- selected_site is a c:set var which is request attrubute.
 it has the value that is set in the _selectedSite by the controller.
 and the controller gets the selected index via the hidden variable _selectedSite.
 (Look at the fireAction() method in the js on top.) -->
@@ -244,34 +244,34 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		<table border="0" id="table1" cellspacing="10" width="100%">
 			<tr>
 			<td valign="top" width="45%">
-			<tags:errors path="study.studySites[0].studyInvestigators"/> 
+			<tags:errors path="study.studySites[0].studyInvestigators"/>
 				<chrome:box title="${tab.shortTitle}">
 					<div>
 			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnStudySite"/></b><br>
 			            <input:hidden id="disease"/>
-			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
+			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">
 			                    <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
 			                        <csmauthz:accesscontrol domainObject="${studySite}" hasPrivileges="ACCESS"
 			                                                authorizationCheckName="studySiteAuthorizationCheck">
 			                        <c:if test="${selected_site == status.index }">
 			                            <option selected="selected" value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name}
-			                            </option>			                            
+			                            </option>
 			                        </c:if>
 			                        <c:if test="${selected_site != status.index }">
-			                            <option value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name} 
+			                            <option value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name}
 			                            </option>
 			                        </c:if>
 			                        </csmauthz:accesscontrol>
 			                    </c:forEach>
 			                </select>
 			            <tags:indicator id="disease-indicator"/>
-			            
-			            <p id="disease-selected" style="display: none"></p>			
+
+			            <p id="disease-selected" style="display: none"></p>
 			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.selectInvGroupToAdd"/></b><br>
 			            <select multiple size="1" style="width:400px" id="disease-sub-category">
 			                <option value="">Please select a Group first</option>
 			            </select>
-			
+
 			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.participatingSiteInv"/></b><br>
 			            <select multiple size="1" style="width:400px" id="disease-term">
 			                <option value="">Please select a Group first</option>
@@ -279,10 +279,10 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            <select multiple size="10" id="disease-sel">
 			                <option value="">No Selected Investigators</option>
 			            </select>
-			            
+
 			            <form:select id="disease-sel-hidden" size="1" path="study.studySites[${selected_site}].studyInvestigatorIds" />
 			        <br/>
-	               </div>	        
+	               </div>
 			    </chrome:box>
 			</td>
 			<td valign="middle">
@@ -294,7 +294,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			        <c:choose>
 			            <c:when test="${fn:length(command.study.studySites[selected_site].studyInvestigators) == 0}">
 			                <fmt:message key="c3pr.common.noInvestigators" />
-			            </c:when>			
+			            </c:when>
 			            <c:otherwise>
 			                <table border="1" class="tablecontent" >
 			                    <tr>
@@ -305,7 +305,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                    <c:forEach items="${command.study.studySites[selected_site].studyInvestigators}" var="studyInvestigator"
 			                               varStatus="status">
 									<c:if test="${studyInvestigator.roleCode != 'Principal Investigator'}">
-										
+
 			                        <tr>
 			                            <td>
 			                              ${studyInvestigator.healthcareSiteInvestigator.investigator.firstName}&nbsp;${studyInvestigator.healthcareSiteInvestigator.investigator.lastName}
@@ -326,9 +326,9 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                </table>
 			            </c:otherwise>
 			        </c:choose>
-			    </chrome:box>  
+			    </chrome:box>
 			</td>
-			</tr>			
+			</tr>
 		</table>
 
   </c:otherwise>

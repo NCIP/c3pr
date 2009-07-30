@@ -14,7 +14,6 @@ import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -24,6 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.web.study.tabs.CompanionStudyTab;
@@ -53,6 +53,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
     }
 
     private Task editTask;
+    private StudyRepository studyRepository;
 
     public Task getEditTask() {
         return editTask;
@@ -76,14 +77,12 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
                 isAdmin = "true";
             }
         }
-        StudyWrapper wrapper = (StudyWrapper) command ;
+
         request.setAttribute("softDelete", "true");
         request.setAttribute("editAuthorizationTask", editTask);
         request.setAttribute("isAdmin", isAdmin);
         return super.referenceData(request,command, e , page);
     }
-
-
 
     @Override
     protected void layoutTabs(Flow flow) {
@@ -103,12 +102,11 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(req, binder);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
-        binder.registerCustomEditor(Boolean.class, "epochAndArmsIndicator",new CustomBooleanEditor(false));
     }
 
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         StudyWrapper wrapper = new StudyWrapper();
-        request.getSession().removeAttribute(getReplacedCommandSessionAttributeName(request));
+//        request.getSession().removeAttribute(getReplacedCommandSessionAttributeName(request));
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
         studyDao.initialize(study);
         if (study != null) {
@@ -117,12 +115,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         wrapper.setStudy(study);
         boolean resumeAmendment = wrapper.resumeAmendment();
         if(!resumeAmendment){
-        	try {
-        		StudyVersion studyVersion = study.getLatestStudyVersion();
-				study.addStudyVersion((StudyVersion)studyVersion.clone());
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-			}
+        	studyRepository.createAmendment(study.getIdentifiers());
         }
         request.setAttribute("resumeAmendment", resumeAmendment);
         return wrapper;
@@ -148,5 +141,13 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
         super.postProcessPage(request, command, errors, page);
     }
+
+	public void setStudyRepository(StudyRepository studyRepository) {
+		this.studyRepository = studyRepository;
+	}
+
+	public StudyRepository getStudyRepository() {
+		return studyRepository;
+	}
 
 }
