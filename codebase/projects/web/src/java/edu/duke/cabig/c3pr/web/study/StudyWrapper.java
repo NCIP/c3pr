@@ -73,10 +73,7 @@ public class StudyWrapper {
      }
 
      public boolean applyAmendment(){
-     	if(resumeAmendment() && getStudy().getDataEntryStatus() == StudyDataEntryStatus.COMPLETE){
-     		return true ;
-     	}
-     	return false ;
+     	return resumeAmendment();
      }
 
 }

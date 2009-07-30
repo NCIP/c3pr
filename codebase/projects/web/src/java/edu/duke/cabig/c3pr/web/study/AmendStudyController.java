@@ -106,7 +106,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
 
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         StudyWrapper wrapper = new StudyWrapper();
-//        request.getSession().removeAttribute(getReplacedCommandSessionAttributeName(request));
+        request.getSession().removeAttribute(getReplacedCommandSessionAttributeName(request));
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
         studyDao.initialize(study);
         if (study != null) {

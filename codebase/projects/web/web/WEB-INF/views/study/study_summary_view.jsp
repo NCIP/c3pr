@@ -628,9 +628,11 @@
 </div>
 </div>
 <div align="right">
+	<c:if test="${!empty flowType && applyAmendment}">
 	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="domainObjectAuthorizationCheck">
 		<tags:button color="blue" value="Apply Amendment" icon="applyAmendment" onclick="javascript:changeStudyStatus('applyAmendment')"/>
 	</csmauthz:accesscontrol>
+	</c:if>
 </div>
 </form:form>
 <div id="targetAccrualPage" style="display:none;">
