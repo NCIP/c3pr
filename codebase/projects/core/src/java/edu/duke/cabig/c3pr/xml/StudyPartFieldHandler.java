@@ -30,10 +30,7 @@ public class StudyPartFieldHandler implements FieldHandler {
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
     	StudyVersion studyVersion = (StudyVersion) object;
-    	studyVersion.setAmendmentReasons(new ArrayList<StudyPart>());
-    	for(String part: (List<String>) value){
-    		studyVersion.addAmendmentReason(StudyPart.valueOf(part));
-    	}
+    	studyVersion.addAmendmentReason(StudyPart.valueOf((String)value));
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {

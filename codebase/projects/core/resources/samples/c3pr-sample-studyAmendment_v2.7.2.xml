@@ -30,7 +30,7 @@
 			<type>PROTOCOL_AUTHORITY_IDENTIFIER</type>
 		</identifier>
 	</studyIdentifiers>
-	<versionDate>2009-07-29</versionDate>
+	<versionDate>2009-07-30</versionDate>
 	<versionName>1.1</versionName>
 	<shortTitleText>ShortTitleText1</shortTitleText>
 	<longTitleText>LongTitleText1</longTitleText>
@@ -119,7 +119,6 @@
 			<descriptionText>Description Text</descriptionText>
 			<precisText>Study with randomization</precisText>
 			<phaseCode>Phase I Trial</phaseCode>
-			<dataEntryStatus>COMPLETE</dataEntryStatus>
 			<coordinatingCenterStudyStatus>OPEN</coordinatingCenterStudyStatus>
 			<type>Diagnostic</type>
 			<targetAccrualNumber>150</targetAccrualNumber>
@@ -273,8 +272,8 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-07-29</irbApprovalDate>
-				<endDate>2009-07-29</endDate>
+				<irbApprovalDate>2009-07-30</irbApprovalDate>
+				<endDate>2009-07-30</endDate>
 				<siteStudyStatus>PENDING</siteStudyStatus>
 			</studyOrganization>
 			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -307,26 +306,26 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-07-29</irbApprovalDate>
-				<endDate>2009-07-29</endDate>
+				<irbApprovalDate>2009-07-30</irbApprovalDate>
+				<endDate>2009-07-30</endDate>
 				<siteStudyStatus>PENDING</siteStudyStatus>
 			</studyOrganization>
 			<consent>
 				<name>Male</name>
 				<consentVersion>
 					<name>consent name 1</name>
-					<effectiveDate>2009-07-29</effectiveDate>
+					<effectiveDate>2009-07-30</effectiveDate>
 				</consentVersion>
 				<consentVersion>
 					<name>consent name 2</name>
-					<effectiveDate>2009-07-29</effectiveDate>
+					<effectiveDate>2009-07-30</effectiveDate>
 				</consentVersion>
 			</consent>
 			<consent>
 				<name>Female</name>
 				<consentVersion>
 					<name>consent name 3</name>
-					<effectiveDate>2009-07-29</effectiveDate>
+					<effectiveDate>2009-07-30</effectiveDate>
 				</consentVersion>
 			</consent>
 		</study>
@@ -345,7 +344,6 @@
 			<descriptionText>Description Text</descriptionText>
 			<precisText>Study with randomization</precisText>
 			<phaseCode>Phase I Trial</phaseCode>
-			<dataEntryStatus>COMPLETE</dataEntryStatus>
 			<coordinatingCenterStudyStatus>OPEN</coordinatingCenterStudyStatus>
 			<type>Diagnostic</type>
 			<targetAccrualNumber>150</targetAccrualNumber>
@@ -495,8 +493,8 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-07-29</irbApprovalDate>
-				<endDate>2009-07-29</endDate>
+				<irbApprovalDate>2009-07-30</irbApprovalDate>
+				<endDate>2009-07-30</endDate>
 				<siteStudyStatus>PENDING</siteStudyStatus>
 			</studyOrganization>
 			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -529,26 +527,26 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-07-29</irbApprovalDate>
-				<endDate>2009-07-29</endDate>
+				<irbApprovalDate>2009-07-30</irbApprovalDate>
+				<endDate>2009-07-30</endDate>
 				<siteStudyStatus>PENDING</siteStudyStatus>
 			</studyOrganization>
 			<consent>
 				<name>Male</name>
 				<consentVersion>
 					<name>consent name 1</name>
-					<effectiveDate>2009-07-29</effectiveDate>
+					<effectiveDate>2009-07-30</effectiveDate>
 				</consentVersion>
 				<consentVersion>
 					<name>consent name 2</name>
-					<effectiveDate>2009-07-29</effectiveDate>
+					<effectiveDate>2009-07-30</effectiveDate>
 				</consentVersion>
 			</consent>
 			<consent>
 				<name>Female</name>
 				<consentVersion>
 					<name>consent name 3</name>
-					<effectiveDate>2009-07-29</effectiveDate>
+					<effectiveDate>2009-07-30</effectiveDate>
 				</consentVersion>
 			</consent>
 		</study>

@@ -32,7 +32,9 @@ public class IdentifiersHolderFieldHandler implements FieldHandler {
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
     	if(value==null) return;
+    	IdentifiersHolder identifiersHolder= (IdentifiersHolder) value;
     	Study study= new Study();
+    	study.getIdentifiers().addAll(identifiersHolder.getIdentifiers());
     	if (object instanceof StudyVersion) {
 			StudyVersion studyVersion = (StudyVersion) object;
 			studyVersion.setStudy(study);

@@ -113,7 +113,9 @@ public class DomainObjectCreationHelper {
 		epoch.setEpochOrder(1);
 		epoch.setGridId("grid");
 		epoch.setName("epoch 1");
-		epoch.setRandomizedIndicator(true);
+		if(study.getRandomizedIndicator()){
+			epoch.setRandomizedIndicator(true);
+		}
 		epoch.setReservationIndicator(false);
 		epoch.setStratificationIndicator(true);
 		epoch.setTreatmentIndicator(true);
@@ -163,6 +165,7 @@ public class DomainObjectCreationHelper {
 	}
 	
 	public static void addRandomization(Study study, Epoch epoch){
+		if(!epoch.getRandomizedIndicator()) return;
 		if(study.getRandomizationType() == RandomizationType.PHONE_CALL){
 			PhoneCallRandomization phoneCallRandomization= new PhoneCallRandomization();
 			phoneCallRandomization.setPhoneNumber("000-111-2222");

@@ -7,6 +7,7 @@
   <xs:element name="registration" type="Registration" />
   <xs:element name="study" type="Study" />
   <xs:element name="studyAmendment" type="StudyAmendmentType" />
+  <xs:element name="participant" type="ParticipantType" />
   <!--for import-->
   <xs:element name="participants">
     <xs:complexType>
@@ -320,7 +321,6 @@
       <xs:element minOccurs="0" maxOccurs="1" name="descriptionText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="precisText" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="phaseCode" type="PhaseCodeType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="dataEntryStatus" type="StudyDataEntryStatusType" />
       <xs:element minOccurs="0" maxOccurs="1" name="coordinatingCenterStudyStatus" type="CoordinatingCenterStudyStatusType" />
       <xs:element minOccurs="1" maxOccurs="1" name="type" type="studyType" />
       <xs:element minOccurs="1" maxOccurs="1" name="targetAccrualNumber" type="xs:integer" />

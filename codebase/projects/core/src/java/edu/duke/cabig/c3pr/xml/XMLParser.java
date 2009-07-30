@@ -31,9 +31,9 @@ public class XMLParser {
 
     protected static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
-    public XMLParser(String schemaFile) throws Exception {
+    public XMLParser(String schemaFileName) throws Exception {
         org.xml.sax.InputSource in = new org.xml.sax.InputSource(Thread.currentThread()
-                        .getContextClassLoader().getResourceAsStream(schemaFile));
+                        .getContextClassLoader().getResourceAsStream(schemaFileName));
 
         parserFactory = SAXParserFactory.newInstance();
         parserFactory.setValidating(true);

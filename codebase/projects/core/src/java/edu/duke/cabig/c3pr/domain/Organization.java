@@ -194,6 +194,15 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
 	public List<Identifier> getIdentifiersAssignedToOrganization() {
 		return identifiersAssignedToOrganization;
 	}
+	
+	/**
+	 * Adds the identifier to the organization.
+	 * 
+	 * @return the identifiers
+	 */
+	public void addIdentifiersAssignedToOrganization(Identifier identifier) {
+		identifiersAssignedToOrganization.add(identifier);
+	}
 
 	/**
 	 * Sets the identifiers assigned TO the organization.
