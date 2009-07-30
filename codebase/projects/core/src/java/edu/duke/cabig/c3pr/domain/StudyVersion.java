@@ -293,6 +293,12 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
 	public StudyDataEntryStatus evaluateDataEntryStatus(List<Error> errors) {
+		if(StringUtils.isBlank(this.getName())){
+			errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.VERSION_NAME.CODE")).getMessage()));
+		}
+		if(this.getVersionDate() == null){
+			errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.VERSION_DATE.CODE")).getMessage()));
+		}
 		if ((!this.hasEnrollingEpoch())) {
 			errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE")).getMessage()));
 		}

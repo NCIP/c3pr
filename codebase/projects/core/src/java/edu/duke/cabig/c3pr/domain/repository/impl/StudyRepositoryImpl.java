@@ -1,4 +1,4 @@
-    package edu.duke.cabig.c3pr.domain.repository.impl;
+package edu.duke.cabig.c3pr.domain.repository.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.ServiceName;
+import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -25,6 +26,7 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.factory.StudyFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -745,5 +747,52 @@ public class StudyRepositoryImpl implements StudyRepository {
         c3prErrorMessages = errorMessages;
     }
 
+    public Study createAmendment(List<Identifier> identifiers){
+		Study study = getUniqueStudy(identifiers);
+		StudyVersion studyVersion = study.getLatestStudyVersion();
+		if(study.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
+		}
+		if(studyVersion.getVersionStatus() != StatusType.AC){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_EXISTING_AMENDMENT.CODE"));
+		}
+		try {
+			study.addStudyVersion((StudyVersion)studyVersion.clone());
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return this.merge(study);
+    }
+
+	public Study applyAmendment(List<Identifier> identifiers) {
+		Study study = getUniqueStudy(identifiers);
+		StudyVersion studyVersion = study.getLatestStudyVersion();
+		if(study.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
+		}
+		if(studyVersion.getVersionStatus() == StatusType.AC){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NO_EXISTING_AMENDMENT.CODE"));
+		}
+		study.applyAmendment();
+		return this.merge(study);
+	}
+
+	public Study amend(List<Identifier> identifiers, StudyVersion studyVersion) {
+		Study study = getUniqueStudy(identifiers);
+		if(study.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
+		}
+		study.amend(studyVersion);
+		return this.merge(study);
+	}
+
+//	public StudyVersion applyAmendment(StudyVersion studyVersion){
+//		Study study = studyVersion.getStudy();
+//		if(studyVersion.getVersionStatus() == StatusType.AC){
+//			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_AMENDMENT_ALREADY_APPLIED.CODE"));
+//		}
+//		studyVersion.applyAmendment();
+//		return
+//	}
 
 }

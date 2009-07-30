@@ -1226,5 +1226,23 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.consentValidityPeriod = consentValidityPeriod;
 	}
 
+	public void applyAmendment() {
+		List<Error> errors = new ArrayList<Error>();
+		evaluateDataEntryStatus(errors) ;
+		if (errors.size() > 0) {
+			throw new C3PRInvalidDataEntryException(" Amendment cannot be applied because data entry is not complete", errors);
+		}
+		this.getStudyVersion().setVersionStatus(StatusType.AC);
+	}
+
+	public void amend(StudyVersion studyVersion){
+		List<Error> errors = new ArrayList<Error>();
+		studyVersion.evaluateDataEntryStatus(errors) ;
+		if (errors.size() > 0) {
+			throw new C3PRInvalidDataEntryException(" Amendment cannot be applied because data entry is not complete", errors);
+		}
+		studyVersion.setVersionStatus(StatusType.AC);
+		this.addStudyVersion(studyVersion);
+	}
 
 }
