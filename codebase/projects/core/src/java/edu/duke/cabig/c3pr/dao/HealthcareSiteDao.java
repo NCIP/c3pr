@@ -135,21 +135,6 @@ public class HealthcareSiteDao extends OrganizationDao {
          getHibernateTemplate().initialize(healthcareSite.getHealthcareSiteInvestigators());
 	}
 	/**
-	 * Gets all HealthcarSite objects.
-	 * @return HealthcareSite
-	 */
-	public List<HealthcareSite> getAll() {
-		
-		List<HealthcareSite> dataBaseHealthcareSites = new ArrayList<HealthcareSite>();
-		dataBaseHealthcareSites = getHibernateTemplate().find("from HealthcareSite");
-		
-		List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
-		remoteHealthcareSites = getFromResolver(new RemoteHealthcareSite());
-		
-		return mergeRemoteWithLocalLists(remoteHealthcareSites, dataBaseHealthcareSites);
-	}
-
-	/**
 	 * Clear.
 	 */
 	public void clear() {
