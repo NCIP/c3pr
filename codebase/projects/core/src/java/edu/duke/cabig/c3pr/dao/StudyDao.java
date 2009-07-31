@@ -201,6 +201,43 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         }
 	}
     
+    
+    /**
+     * Initializes the study.
+     * 
+     * @param study the study
+     * 
+     */
+    @Transactional(readOnly = false)
+    public void initializeWithCompanion(Study study) 	{
+        initialize(study);
+        getHibernateTemplate().initialize(study.getCompanionStudyAssociations());
+		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
+			this.initialize(companionStudyAssociation.getCompanionStudy());
+		}
+		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
+			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
+		}
+		
+		for (PlannedNotification plannedNotification : study.getPlannedNotificationsInternal()) {
+			if (plannedNotification != null) {
+				getHibernateTemplate().initialize(plannedNotification.getUserBasedRecipientInternal());
+				getHibernateTemplate().initialize(plannedNotification.getRoleBasedRecipientInternal());
+				getHibernateTemplate().initialize(plannedNotification.getContactMechanismBasedRecipientInternal());
+			}
+			for(ContactMechanismBasedRecipient cmbr: plannedNotification.getContactMechanismBasedRecipient()){
+				getHibernateTemplate().initialize(cmbr.getContactMechanismsInternal());
+			}
+		}
+		
+        getHibernateTemplate().initialize(study.getStudyOrganizations());
+		for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
+            getHibernateTemplate().initialize(studyOrganization.getStudyInvestigatorsInternal());
+            getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
+            getHibernateTemplate().initialize(studyOrganization.getEndpoints());
+            healthcareSiteDao.initialize(studyOrganization.getHealthcareSite());
+        }
+	}
     /**
      * Gets the study by subnames.
      * 
