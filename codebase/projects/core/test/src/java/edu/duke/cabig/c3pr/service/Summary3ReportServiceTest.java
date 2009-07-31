@@ -82,7 +82,7 @@ public class Summary3ReportServiceTest extends DaoTestCase {
 
 		Summary3Report summary3Report = new Summary3Report(hcs,grantNumber, startDate,
 				endDate);
-		String reportingSource = healthcareSiteDao.getAll().get(0).getName();
+		String reportingSource = healthcareSiteDao.getById(1000).getName();
 		summary3Report.setReportingSource(reportingSource);
 
 		summaryReportService.buildSummary3Report(summary3Report);
@@ -112,7 +112,7 @@ public class Summary3ReportServiceTest extends DaoTestCase {
 
 		Summary3Report summary3Report = new Summary3Report(hcs, grantNumber,startDate,
 				endDate);
-		String reportingSource = healthcareSiteDao.getAll().get(0).getName();
+		String reportingSource = healthcareSiteDao.getById(1000).getName();
 		summary3Report.setReportingSource(reportingSource);
 
 		summaryReportService.buildSummary3Report(summary3Report);
