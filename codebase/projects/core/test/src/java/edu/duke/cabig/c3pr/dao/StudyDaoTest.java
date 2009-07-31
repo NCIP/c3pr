@@ -923,15 +923,6 @@ public class StudyDaoTest extends DaoTestCase {
     }
 
     /**
-     * Gets the healthcare sites.
-     * 
-     * @return the healthcare sites
-     */
-    private List<HealthcareSite> getHealthcareSites() {
-        return healthcareSitedao.getAll();
-    }
-
-    /**
      * Test save new study with epoch and arms.
      * 
      * @throws Exception the exception
