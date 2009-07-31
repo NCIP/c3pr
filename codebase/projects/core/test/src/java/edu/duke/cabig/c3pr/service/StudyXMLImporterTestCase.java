@@ -50,42 +50,17 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 	}
 	
 
-	public void testStudyValidation() throws Exception {
-
-			try {
-				
-				InputStream inputStream = getClass().getClassLoader().getResourceAsStream("c3pr-sample-study.xml");
-				
-				byte[] bytes = new byte[8000];
-				ByteArrayOutputStream outputStream = new ByteArrayOutputStream(8000);
-
-				int readBytes;
-				while((readBytes = inputStream.read(bytes)) > 0) {
-			        outputStream.write(bytes, 0, readBytes);
-				}
-			        byte[] byteData = outputStream.toByteArray();
-			    
-		        // Close the streams
-		        inputStream.close();
-		        outputStream.close();
-
-				xmlParser.validate(byteData);
-			} catch (Exception e) {
-				e.printStackTrace();
-				fail("Unable to Validate");
-			}
-	}
-
 	public void testGetStudies() throws Exception {
 		for (int i = 1000; i < 1003; i++) {
 			Study study = getDao().getById(i);
-			getDao().initialize(study);
-			interruptSession();
+			getDao().initializeWithCompanion(study);
 			// have to set the coordinating center identifier to something
 			// differnt to prevent duplicate study exception.
 			// The studies in daoTest.xml have already been inserted into
 			// database.
 			HealthcareSite healthcareSite = healthcareSitedao.getById(i);
+			healthcareSitedao.initialize(healthcareSite);
+			interruptSession();
 			study.getCoordinatingCenterAssignedIdentifier().setHealthcareSite(
 					healthcareSite);
 			study.getCoordinatingCenterAssignedIdentifier().setValue("abc" + i);
