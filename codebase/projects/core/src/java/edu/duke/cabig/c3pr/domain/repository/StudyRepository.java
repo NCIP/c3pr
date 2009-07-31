@@ -57,7 +57,7 @@ public interface StudyRepository {
 
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySite);
 
-    public Study amendStudy(List<Identifier> studyIdentifiers, Study amendedStudyDetails);
+    public Study amendStudy(List<Identifier> studyIdentifiers, Study study);
 
     public StudySite updateStudySiteProtocolVersion(List<Identifier> studyIdentifiers,
                     String nciInstituteCode, String version);
@@ -95,7 +95,7 @@ public interface StudyRepository {
 
     public EndPoint openStudyAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
 
-    public void amendStudyAtAffiliates(List<Identifier> studyIdentifiers, Study amendedStudyDetails);
+    public void amendStudyAtAffiliates(List<Identifier> studyIdentifiers, Study study);
 
     public void updateAffliateProtocolVersion(List<Identifier> studyIdentifiers,
                     String nciInstituteCode, String version);
