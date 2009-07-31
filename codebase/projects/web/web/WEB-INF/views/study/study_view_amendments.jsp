@@ -13,10 +13,10 @@ function viewStudy(){
 	alert("show study");
 }
 
-function applyAmendment(){
+function applyAmendment(index){
 	Dialog.confirm("Are you sure you want to apply current amendment to the study?",
 	        {width:300, height:85, okLabel: "Ok", ok:function(win) {
-		  		<tags:tabMethod method="applyAmendment" divElement="'study-amendment'" formName="'tabMethodForm'"  viewName="/study/study_amendment_section"/>
+		  		<tags:tabMethod method="applyAmendment" divElement="'study-amendment-'+index" formName="'tabMethodForm'" javaScriptParam="'statusIndex='+index" viewName="/study/asynchronous/study_amendment_section"/>
     		}
 	  });
 }
@@ -58,6 +58,7 @@ function applyAmendment(){
 		</tr>
 		<c:forEach items="${command.study.studyAmendments}" var="amendment" varStatus="status">
 			<div id="amendment-${status.index}"></div>
+			<div id="study-amendment-${status.index}">
 			<tr>
 				<td>${amendment.name}</td>
 				<td>${amendment.versionDateStr}</td>
@@ -68,7 +69,7 @@ function applyAmendment(){
 						<c:when test="${amendment.versionStatus == 'IN'}">
 							<tags:button color="blue" icon="amend" onclick="${resumeAmendmentUrl}" size="small" value="Resume Amendment"></tags:button>
 							<c:if test="${applyAmendment}">
-								<tags:button color="blue" icon="apply" onclick="applyAmendment();" size="small" value="Apply Amendment"></tags:button>
+								<tags:button color="blue" icon="apply" onclick="applyAmendment('${status.index}');" size="small" value="Apply Amendment"></tags:button>
 							</c:if>
 						</c:when>
 						<c:otherwise>

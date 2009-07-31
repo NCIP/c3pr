@@ -40,7 +40,7 @@ public class StudySitesTab extends StudyTab {
 	protected Configuration configuration;
 
 	protected HealthcareSiteDao healthcareSiteDao;
-	
+
 	private MessageSource c3prErrorMessages;
 
 	public MessageSource getC3prErrorMessages() {
@@ -98,9 +98,9 @@ public class StudySitesTab extends StudyTab {
 			Study study, StudySite studySite) {
 		if (studySite.getIsCoordinatingCenter() || studySite.getHostedMode()) {
 			studySite.setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
-		} else if (WebUtils.hasSubmitParameter(request, "submitted") 
-				&& (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getPrimaryIdentifier()+ "-wasHosted") 
-				|| request.getParameter(studySite.getHealthcareSite().getPrimaryIdentifier()+ "-wasHosted").equalsIgnoreCase("true"))) 
+		} else if (WebUtils.hasSubmitParameter(request, "submitted")
+				&& (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getPrimaryIdentifier()+ "-wasHosted")
+				|| request.getParameter(studySite.getHealthcareSite().getPrimaryIdentifier()+ "-wasHosted").equalsIgnoreCase("true")))
 		{
 			studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		}
@@ -235,7 +235,7 @@ public class StudySitesTab extends StudyTab {
 			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_TO_ACCRUAL_AND_TREATMENT) {
 				endPoint = studyRepository.temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
 						nciInstituteCode);
-			} 
+			}
 			else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
 				studySite = studyRepository.activateStudySite(studyIdentifiers,
 							studySite);
@@ -280,7 +280,7 @@ public class StudySitesTab extends StudyTab {
 		map.put("siteIndex", index);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public ModelAndView addStudySite(HttpServletRequest request, Object obj,Errors errors) {
 		StudyWrapper wrapper = (StudyWrapper) obj;
@@ -299,10 +299,10 @@ public class StudySitesTab extends StudyTab {
 		setCoordinatingCenterStudyStatus(request, study, studySite);
 		Map map = new HashMap();
 		map.put("site", studySite);
-		map.put("siteIndex", study.getStudySites().size() - 1); 
+		map.put("siteIndex", study.getStudySites().size() - 1);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public ModelAndView deleteStudySite(HttpServletRequest request, Object obj,Errors errors) {
 		StudyWrapper wrapper = (StudyWrapper) obj;
@@ -313,7 +313,7 @@ public class StudySitesTab extends StudyTab {
 		Study modifiedStudy = studyDao.merge(study);
 		wrapper.setStudy(modifiedStudy);
 		Map map = new HashMap();
-		map.put("command", wrapper); 
+		map.put("command", wrapper);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 }
