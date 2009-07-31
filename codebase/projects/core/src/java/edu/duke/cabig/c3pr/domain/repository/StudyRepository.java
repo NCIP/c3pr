@@ -131,8 +131,6 @@ public interface StudyRepository {
 
 	public Study applyAmendment(List<Identifier> identifiers);
 
-	public Study amend(List<Identifier> identifiers, StudyVersion studyVersion);
-
-//	public StudyVersion applyAmendment(StudyVersion studyVersion);
+	public Study applyAmendment(List<Identifier> identifiers, StudyVersion studyVersion);
 
 }

@@ -1227,6 +1227,12 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	public void applyAmendment() {
+		if(this.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
+		}
+		if(this.getStudyVersion().getVersionStatus() == StatusType.AC){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NO_EXISTING_AMENDMENT.CODE"));
+		}
 		List<Error> errors = new ArrayList<Error>();
 		evaluateDataEntryStatus(errors) ;
 		if (errors.size() > 0) {
@@ -1235,7 +1241,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.getStudyVersion().setVersionStatus(StatusType.AC);
 	}
 
-	public void amend(StudyVersion studyVersion){
+	public void applyAmendment(StudyVersion studyVersion){
+		if(this.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
+		}
 		List<Error> errors = new ArrayList<Error>();
 		studyVersion.evaluateDataEntryStatus(errors) ;
 		if (errors.size() > 0) {
@@ -1243,6 +1252,20 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		studyVersion.setVersionStatus(StatusType.AC);
 		this.addStudyVersion(studyVersion);
+	}
+
+	public void createAmendment() {
+		if(this.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
+		}
+		if(this.getStudyVersion().getVersionStatus() != StatusType.AC){
+			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_EXISTING_AMENDMENT.CODE"));
+		}
+		try {
+			this.addStudyVersion((StudyVersion) getStudyVersion().clone());
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

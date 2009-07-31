@@ -749,50 +749,20 @@ public class StudyRepositoryImpl implements StudyRepository {
 
     public Study createAmendment(List<Identifier> identifiers){
 		Study study = getUniqueStudy(identifiers);
-		StudyVersion studyVersion = study.getLatestStudyVersion();
-		if(study.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
-			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
-		}
-		if(studyVersion.getVersionStatus() != StatusType.AC){
-			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_EXISTING_AMENDMENT.CODE"));
-		}
-		try {
-			study.addStudyVersion((StudyVersion)studyVersion.clone());
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
+		study.createAmendment();
 		return this.merge(study);
     }
 
 	public Study applyAmendment(List<Identifier> identifiers) {
 		Study study = getUniqueStudy(identifiers);
-		StudyVersion studyVersion = study.getLatestStudyVersion();
-		if(study.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
-			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
-		}
-		if(studyVersion.getVersionStatus() == StatusType.AC){
-			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NO_EXISTING_AMENDMENT.CODE"));
-		}
 		study.applyAmendment();
 		return this.merge(study);
 	}
 
-	public Study amend(List<Identifier> identifiers, StudyVersion studyVersion) {
+	public Study applyAmendment(List<Identifier> identifiers, StudyVersion studyVersion) {
 		Study study = getUniqueStudy(identifiers);
-		if(study.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
-			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
-		}
-		study.amend(studyVersion);
+		study.applyAmendment(studyVersion);
 		return this.merge(study);
 	}
-
-//	public StudyVersion applyAmendment(StudyVersion studyVersion){
-//		Study study = studyVersion.getStudy();
-//		if(studyVersion.getVersionStatus() == StatusType.AC){
-//			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_AMENDMENT_ALREADY_APPLIED.CODE"));
-//		}
-//		studyVersion.applyAmendment();
-//		return
-//	}
 
 }
