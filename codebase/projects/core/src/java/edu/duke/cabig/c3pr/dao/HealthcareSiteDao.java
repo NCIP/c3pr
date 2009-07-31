@@ -131,7 +131,6 @@ public class HealthcareSiteDao extends OrganizationDao {
 
 
 	public void initialize(HealthcareSite healthcareSite){
-		getHibernateTemplate().initialize(healthcareSite.getOrganizationAssignedIdentifiers());
         getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
          getHibernateTemplate().initialize(healthcareSite.getHealthcareSiteInvestigators());
 	}
