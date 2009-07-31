@@ -57,22 +57,6 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         assertNotNull("Participant 1 not found", participant);
         assertEquals("Wrong last name", "Clooney", participant.getLastName());
     }
-    
-    /**
-     * Test for loading a Participant by Id and ensuring its identifiers are initialized
-     * 
-     * @throws Exception
-     */
-    public void testGetByIdWithIdentifiers() throws Exception {
-        Participant participant = participantDao.getById(1000, true);
-        assertNotNull("Participant 1 not found", participant);
-        assertEquals("Wrong last name", "Clooney", participant.getLastName());
-        try{
-        	participant.getIdentifiers().get(0);
-        }catch(Exception e){
-        	fail("Identifiers were not initialized");
-        }
-    }
 
     /**
      * Test for loading all Participants

@@ -15,13 +15,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -218,35 +215,15 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         return subIdentifiers;
     }
 
-    /**
-     * An overloaded method to return Participant Object along with the collection of associated
-     * identifiers.
-     * 
-     * @param id the id
-     * @param withIdentifiers the with identifiers
-     * 
-     * @return Participant Object based on the id
-     * 
-     * @throws DataAccessException      */
-    public Participant getById(int id, boolean withIdentifiers) {
-
-        Participant participant = (Participant) getHibernateTemplate().get(domainClass(), id);
-        if (withIdentifiers) {
-            List<Identifier> identifiers = participant.getIdentifiers();
-            int size = identifiers.size();
-        }
-        List<ContactMechanism> contactMechanisms = participant.getContactMechanisms();
-        contactMechanisms.size();
-
-        return participant;
-    }
 
     /* (non-Javadoc)
      * @see gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao#getById(int)
      */
     @Override
     public Participant getById(int id) {
-        return super.getById(id);
+        Participant participant = super.getById(id);
+        initialize(participant);
+        return participant;
     }
 
     /**
@@ -284,6 +261,9 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         getHibernateTemplate().initialize(participant.getIdentifiers());
         getHibernateTemplate().initialize(participant.getContactMechanisms());
         getHibernateTemplate().initialize(participant.getRaceCodes());
+        for(HealthcareSite  healthcareSite: participant.getHealthcareSites()){
+        	getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
+        }
     }
     
     /**
@@ -306,7 +286,6 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     @Transactional(readOnly = false)
     public void reassociate(Participant p) {
         getHibernateTemplate().update(p);
-        
     }
 
     /* (non-Javadoc)
@@ -363,10 +342,8 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     @SuppressWarnings("unchecked")
     public List<Participant> searchBySysIdentifier(SystemAssignedIdentifier id) {
         return (List<Participant>) getHibernateTemplate()
-                        .find(
-                                        "select S from Participant S, SystemAssignedIdentifier I where I.systemName=?"
-                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
-                                        new Object[] { id.getSystemName(),
-                                                id.getValue(), id.getType() });
+                        .find("select S from Participant S, SystemAssignedIdentifier I where I.systemName=?"
+                               + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
+                                   new Object[] { id.getSystemName(), id.getValue(), id.getType() });
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.annotation.ExpectedException;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
-import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -28,8 +27,6 @@ public class OrganizationServiceTest extends DaoTestCase {
 
     private HealthcareSite dummySite;
 
-    private OrganizationDao organizationDao;
-    
     public static final String HCS_NAME = "Duke";
 
     public OrganizationServiceTest() {
@@ -98,11 +95,4 @@ public class OrganizationServiceTest extends DaoTestCase {
         this.csmAuthorizationDao = csmAuthorizationDao;
     }
 
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
-
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
-    }
 }

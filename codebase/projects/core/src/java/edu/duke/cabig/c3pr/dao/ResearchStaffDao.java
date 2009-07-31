@@ -34,6 +34,7 @@ import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -94,6 +95,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		return ResearchStaff.class;
 	}
 
+	public void initialize(ResearchStaff researchStaff){
+        getHibernateTemplate().initialize(researchStaff.getHealthcareSite().getIdentifiersAssignedToOrganization());
+	}
 	/**
 	 * Gets the by subnames.
 	 * 

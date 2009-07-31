@@ -496,7 +496,6 @@
             />
 
     <bean id="anatomicSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.AnatomicSiteDao" autowire="byName"/>
-    <bean id="organizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationDao" autowire="byName"/>
     <bean id="studyOrganizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyOrganizationDao" autowire="byName"/>
     <bean id="stratificationAnswerDao" parent="daoTemplate"
           class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byName"/>

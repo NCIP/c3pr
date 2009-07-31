@@ -18,7 +18,7 @@ import gov.nih.nci.cabig.ctms.domain.DomainObject;
  * @author Vinay Gangoli
  * @version 1.0
  */
-public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> implements
+public abstract class OrganizationDao extends GridIdentifiableDao<HealthcareSite> implements
                 MutableDomainObjectDao<HealthcareSite> {
 
     private static Log log = LogFactory.getLog(StudyDao.class);
@@ -30,21 +30,9 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
         return HealthcareSite.class;
     }
     
-
-    /* Saves a domain object
-     * @see gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao#save(gov.nih.nci.cabig.ctms.domain.MutableDomainObject)
-     */
-    @Transactional(readOnly = false)
-    public void save(HealthcareSite healthcareSite) {
-    	if(healthcareSite instanceof RemoteHealthcareSite){
-    		Object healthcareSiteObject = remoteSession.saveOrUpdate(healthcareSite);
-    		if(healthcareSiteObject != null && healthcareSiteObject instanceof HealthcareSite){
-    			getHibernateTemplate().saveOrUpdate((HealthcareSite)healthcareSite);
-    		}
-    	} else {
-    		getHibernateTemplate().saveOrUpdate(healthcareSite);
-    	}
-    }
+	public void initialize(Organization organization){
+        getHibernateTemplate().initialize(organization.getIdentifiersAssignedToOrganization());
+	}
     
 	/* Saves a domain object
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#merge(gov.nih.nci.cabig.ctms.domain.DomainObject)
