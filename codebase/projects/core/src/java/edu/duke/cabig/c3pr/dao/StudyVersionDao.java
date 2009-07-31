@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.dao;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
@@ -49,6 +50,12 @@ public class StudyVersionDao extends GridIdentifiableDao<StudyVersion> implement
 		for(CompanionStudyAssociation companionStudyAssociation : studyVersion.getCompanionStudyAssociations()){
 			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy().getStudyOrganizations());
 		}
+		
+		getHibernateTemplate().initialize(studyVersion.getConsents());
+		for(Consent consent: studyVersion.getConsents()){
+			getHibernateTemplate().initialize(consent.getConsentVersions());
+		}
+		
 	}
 
 }
