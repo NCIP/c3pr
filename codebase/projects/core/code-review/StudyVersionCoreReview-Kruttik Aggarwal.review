@@ -1,0 +1,455 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Review id="StudyVersionCoreReview">
+  <ReviewIssue id="FXT8W2C9">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:25:30:585 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:25:40:333 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File></File>
+    <Type>item.type.label.codingStandards</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Add Javadocs</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT8WJVA">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:25:53:302 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:28:35:209 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="47">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.suggestion</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>rearrange the method location</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT8Z1AS">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:27:49:204 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:28:20:397 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="213">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.clarity</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>Remove the unused codes</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT90QLW">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:29:08:660 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:39:04:127 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="317">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>Why is it commented.</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT91WSC">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:30:03:324 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:30:14:161 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="507">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.clarity</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>Remove</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT93VBV">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:31:34:747 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:32:16:512 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="148">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.codingStandards</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>Constructor should be at the begening of the class</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT96T1C">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:33:51:744 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:34:19:876 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="189">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>Why is this bi-directional</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT99SJX">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:36:11:085 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:36:28:439 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="290">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>Why is this bi-directional</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT9GXKY">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:41:44:194 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:42:11:166 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="332">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.irrelevant</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Unused method</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT9I8B8">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:42:44:756 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:42:59:892 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="341">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.irrelevant</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Unused Method</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT9NFX9">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:46:47:901 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:47:05:968 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="274">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Should not be bi-rectional</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXT9OA1Z">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:47:26:951 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:47:50:292 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="416">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Make sure all data elements are getting captured</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTAAFT5">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:04:40:841 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:05:00:387 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="537">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
+    <Type>item.type.label.missing</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Why are companions not getting copied</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTBNDHZ">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:42:43:991 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:43:17:788 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="88">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>This is UI specific. Remove it and add it to the StudyWrapper</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTBP57T">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:44:06:569 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:44:34:813 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="603">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.missing</Type>
+    <Severity>item.severity.label.critical</Severity>
+    <Summary>Missing checks for StudyOrganizations</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTBT9G6">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:47:18:678 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:48:01:314 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="684">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>Check the if logic</Summary>
+    <Description>Should be able to close study to treatment if the study is closed to accrual</Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTBUPBU">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:48:25:914 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:48:43:094 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="698">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.irrelevant</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Unused method</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTBWA2E">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:49:39:446 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:50:11:065 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="835">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Check if its used anywhere and if it is used, make sure its required</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTBZWUE">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:52:28:934 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:54:16:817 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="1115">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.irrelevant</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Unused Methods</Summary>
+    <Description>@Transient
+	public boolean hasElligibility() {
+		return getStudyVersion().hasElligibility();
+	}
+public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRCodedRuntimeException {
+		getStudyVersion().evaluateEpochsDataEntryStatus(errors);
+	}
+	@Transient
+	public boolean hasCompanions() {
+		return getStudyVersion().hasCompanions();
+	}
+
+	@Transient
+	public boolean hasRandomizedEpoch() {
+		return getStudyVersion().hasRandomizedEpoch();
+	}
+
+	@Transient
+	public boolean hasStratifiedEpoch() {
+		return getStudyVersion().hasStratifiedEpoch();
+	}
+
+	@Transient
+	public boolean hasEnrollingEpoch() {
+		return getStudyVersion().hasEnrollingEpoch();
+	}&#13;public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRCodedRuntimeException {
+		getStudyVersion().evaluateEpochsDataEntryStatus(errors);
+	}</Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTC3HA0">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:55:15:384 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:56:09:380 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="1171">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.critical</Severity>
+    <Summary>set the studyversion if its null</Summary>
+    <Description>change "return getLatestStudyVersion();" to&#13;studyVersion = getLatestStudyVersion;&#13;return getLatestStudyVersion();</Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTC6AFB">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:57:26:471 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:57:53:192 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="1181">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.clarity</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>try renaming the method to getPendingAmendment</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTC7H7A">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:58:21:910 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:58:51:193 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="1182">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>Should this be using the "getStudyAmendments" list rather than getLatestStudyVersion</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTC9EX2">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:59:52:262 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:00:09:606 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="1081">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.usability</Type>
+    <Severity>item.severity.label.major</Severity>
+    <Summary>try reusing the "getSortedStudyVersions" method</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTCAZZU">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:01:06:234 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:02:10:357 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="1229">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.critical</Severity>
+    <Summary>Shouldnt the "getLatestStudyVersion" be used to apply amendment instead of "getStudyVersion"?</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="FXTCDS2D">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:03:15:925 EDT</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:03:24:282 EDT</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>Kruttik Aggarwal</ReviewerId>
+    <AssignedTo>Himanshu Gupta</AssignedTo>
+    <File line="1257">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <Type>item.type.label.programLogic</Type>
+    <Severity>item.severity.label.critical</Severity>
+    <Summary>Shouldnt the "getLatestStudyVersion" be used to apply amendment instead of "getStudyVersion"?</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.label.unset</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+</Review>
