@@ -20,7 +20,7 @@
   <ReviewIssue id="FXT8WJVA">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:25:53:302 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:28:35:209 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:13:42:038 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -31,13 +31,13 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXT8Z1AS">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:27:49:204 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:28:20:397 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:15:26:219 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -48,13 +48,13 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.unsureValidity</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXT90QLW">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:29:08:660 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:39:04:127 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:16:22:173 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -65,24 +65,24 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXT91WSC">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:30:03:324 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:30:14:161 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:20:26:588 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
     <File line="507">src/java/edu/duke/cabig/c3pr/domain/StudyVersion.java</File>
     <Type>item.type.label.clarity</Type>
     <Severity>item.severity.label.normal</Severity>
-    <Summary>Remove</Summary>
+    <Summary>Uncomment it</Summary>
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXT93VBV">
@@ -105,7 +105,7 @@
   <ReviewIssue id="FXT96T1C">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:33:51:744 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:34:19:876 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:15:12:371 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -116,13 +116,13 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXT99SJX">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:36:11:085 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:36:28:439 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:15:58:034 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -133,13 +133,13 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXT9GXKY">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:41:44:194 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:42:11:166 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:16:42:799 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -150,13 +150,13 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXT9I8B8">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:42:44:756 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:42:59:892 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:16:57:012 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -167,13 +167,13 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXT9NFX9">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:46:47:901 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 14:47:05:968 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:15:40:320 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -184,7 +184,7 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXT9OA1Z">
@@ -207,7 +207,7 @@
   <ReviewIssue id="FXTAAFT5">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:04:40:841 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:05:00:387 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:20:58:778 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -218,13 +218,13 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.invalidWontfix</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBNDHZ">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:42:43:991 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:43:17:788 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:22:36:910 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -235,13 +235,13 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBP57T">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:44:06:569 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:44:34:813 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:24:40:091 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -250,15 +250,15 @@
     <Severity>item.severity.label.critical</Severity>
     <Summary>Missing checks for StudyOrganizations</Summary>
     <Description></Description>
-    <Annotation></Annotation>
+    <Annotation>Check for other required field which are not part fo study version</Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBT9G6">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:47:18:678 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:48:01:314 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:26:31:060 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -269,13 +269,13 @@
     <Description>Should be able to close study to treatment if the study is closed to accrual</Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBUPBU">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:48:25:914 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:48:43:094 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:26:52:687 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -286,13 +286,13 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBWA2E">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:49:39:446 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:50:11:065 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:27:25:976 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -303,7 +303,7 @@
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validFixlater</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBZWUE">
@@ -353,7 +353,7 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
   <ReviewIssue id="FXTC3HA0">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:55:15:384 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:56:09:380 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:28:50:056 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -364,13 +364,13 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     <Description>change "return getLatestStudyVersion();" to&#13;studyVersion = getLatestStudyVersion;&#13;return getLatestStudyVersion();</Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTC6AFB">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:57:26:471 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:57:53:192 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:35:27:666 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -379,9 +379,9 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     <Severity>item.severity.label.normal</Severity>
     <Summary>try renaming the method to getPendingAmendment</Summary>
     <Description></Description>
-    <Annotation></Annotation>
+    <Annotation>write one more th</Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTC7H7A">
@@ -404,7 +404,7 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
   <ReviewIssue id="FXTC9EX2">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:59:52:262 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:00:09:606 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:28:02:753 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -415,13 +415,13 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTCAZZU">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:01:06:234 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:02:10:357 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:47:28:569 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -432,13 +432,13 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTCDS2D">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:03:15:925 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:03:24:282 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:47:37:382 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
@@ -449,7 +449,7 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     <Description></Description>
     <Annotation></Annotation>
     <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
 </Review>
