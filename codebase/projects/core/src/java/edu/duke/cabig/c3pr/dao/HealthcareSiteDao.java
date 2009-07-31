@@ -15,11 +15,13 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -129,11 +131,35 @@ public class HealthcareSiteDao extends OrganizationDao {
 		return HealthcareSite.class;
 	}
 
+    @Override
+    public HealthcareSite getById(int arg0) {
+    	HealthcareSite healthcareSite = super.getById(arg0);
+    	initialize((Organization)healthcareSite);
+    	return healthcareSite;
+    }
 
 	public void initialize(HealthcareSite healthcareSite){
-        getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
-         getHibernateTemplate().initialize(healthcareSite.getHealthcareSiteInvestigators());
+		super.initialize((Organization)healthcareSite);
+        getHibernateTemplate().initialize(healthcareSite.getHealthcareSiteInvestigators());
 	}
+	
+	/* Saves a domain object
+     * @see gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao#save(gov.nih.nci.cabig.ctms.domain.MutableDomainObject)
+     */
+    @Transactional(readOnly = false)
+    public void save(HealthcareSite healthcareSite) {
+    	//uncomment this when CREATE PO for COPPA is available.
+//    	if(healthcareSite instanceof RemoteHealthcareSite){
+//    		Object healthcareSiteObject = remoteSession.saveOrUpdate(healthcareSite);
+//    		if(healthcareSiteObject != null && healthcareSiteObject instanceof HealthcareSite){
+//    			getHibernateTemplate().saveOrUpdate((HealthcareSite)healthcareSite);
+//    		}
+//    	} else {
+    		getHibernateTemplate().saveOrUpdate(healthcareSite);
+//    	}
+    }
+    
+    
 	/**
 	 * Clear.
 	 */
