@@ -533,21 +533,6 @@ public class OrganizationDaoTest extends DaoTestCase {
     }
     
     /**
-     * Test get all.
-     * 
-     * @throws Exception the exception
-     */
-    public void testGetAll() throws Exception{
-    	ConfigurationProperty coppaEnable = Configuration.COPPA_ENABLE;
-    	assertNotNull("Missing the property 'COPPA_ENABLE'",coppaEnable);
-    	if(Boolean.parseBoolean(coppaEnable.getDefault().toString())){
-    		assertEquals("wrong number of organizations",5,healthcareSiteDao.getAll().size());
-    	} else {
-    		assertEquals("wrong number of organizations",3,healthcareSiteDao.getAll().size());
-    	}
-    }
-    
-    /**
      * Test for clear.
      * 
      * @throws Exception the exception
