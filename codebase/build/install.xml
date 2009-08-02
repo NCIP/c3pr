@@ -171,12 +171,10 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 			<!-- added for liquibase -->
 			<filter token="db-upgrade.run.dir" value="${db-upgrade.dir.dest}/${database.type}"/>
 			<filter token="tomcat.home" value="${tomcat.home}"/>
-			<filter token="catalina.home" value="${tomcat.home}"/>
 			<filter token="database.dialect" value="${database.dialect}"/>
 			<filter token="hibernate.cfg.file.path" value="${hibernate.cfg.file.path}"/>
 			<filter token="env.LOGNAME" value="${env.LOGNAME}"/>
 			<filter token="env.JAVA_HOME" value="${env.JAVA_HOME}"/>
-			<filter token="env.CATALINA_HOME" value="${tomcat.home}"/>
 			<filter token="project.name" value="project.name"/>
 			<filter token="" value=""/>
 		</filterset>
@@ -583,15 +581,16 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
     	<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@AUDIT_DIALECT@" value="${audit.dialect}" />
 
 		<!-- calling tomcat.security target to generate csm_jass and hibernate.cfg.xml and app context files -->
-		<ant target="tomcat.security" antfile="ivy-master-build.xml" dir="${software.dir}/../../../antfiles" inheritall="false"></ant>
+		<ant target="tomcat.security" antfile="ivy-master-build.xml" dir="${software.dir}/../../../antfiles" inheritall="false">
+			<property name="catalina.home" value="${tomcat.home}"></property>
+		</ant>
 
 		<!-- updating catalina.properties in tomcat conf folder -->
-		<echo file="${tomcat.home}/conf/catalina.properties" append="true">&#x0A;gov.nih.nci.security.configFile=${tomcat.home}/conf/cabig/ApplicationSecurityConfig.xml&#x0A;java.security.auth.login.config=${catalina.home}/conf/cabig/csm_jaas.config</echo>
+		<echo file="${tomcat.home}/conf/catalina.properties" append="true">&#x0A;gov.nih.nci.security.configFile=${catalina.home}/conf/cabig/ApplicationSecurityConfig.xml&#x0A;java.security.auth.login.config=${catalina.home}/conf/cabig/csm_jaas.config</echo>
 
 		<!-- call migrate on c3pr-->
 		<ant target="migrate" antfile="ivy-master-build.xml" dir="${software.dir}/../../../antfiles" inheritall="false">
-			<property name="catalina.home" value="${catalina.home}"></property>
-			<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
+			<property name="catalina.home" value="${tomcat.home}"></property>
 		</ant>
    	</target>
 
@@ -613,8 +612,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		</condition>
 		<echo message="application.base.path=${application.base.path}"/>
 		<property name="tomcat.home" value="${application.base.path}/${tomcat.relative.path}"/>
-		<property name="catalina.home" value="${tomcat.home}"/>
-		<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
 	</target>
 
 	<target name="init:upgrade" depends="
@@ -653,8 +650,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 				</condition>
 				<echo message="application.base.path=${application.base.path}"/>
 				<property name="tomcat.home" value="${application.base.path}/${tomcat.relative.path}"/>
-				<property name="catalina.home" value="${tomcat.home}"/>
-				<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
 			</then>
 		</if>
 
