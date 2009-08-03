@@ -259,6 +259,9 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     @Transactional(readOnly = false)
     public void initialize(Participant participant) throws DataAccessException {
         getHibernateTemplate().initialize(participant.getIdentifiers());
+        for(OrganizationAssignedIdentifier identifier : participant.getOrganizationAssignedIdentifiers()){
+        	getHibernateTemplate().initialize(identifier.getHealthcareSite().getIdentifiersAssignedToOrganization());
+        }
         getHibernateTemplate().initialize(participant.getContactMechanisms());
         getHibernateTemplate().initialize(participant.getRaceCodes());
         for(HealthcareSite  healthcareSite: participant.getHealthcareSites()){
