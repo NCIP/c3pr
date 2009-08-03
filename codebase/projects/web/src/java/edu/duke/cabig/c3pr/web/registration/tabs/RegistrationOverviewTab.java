@@ -260,16 +260,16 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	}
 
 	private boolean isNotRegisterable(StudySubject studySubject, Epoch epoch) {
-		if (epoch.getEpochOrder() == studySubject.getCurrentScheduledEpoch().getEpoch().getEpochOrder() && studySubject.getCurrentScheduledEpoch().getEpoch().getId() != epoch.getId()) {
+		if (epoch.getEpochOrder() == studySubject.getScheduledEpoch().getEpoch().getEpochOrder() && studySubject.getScheduledEpoch().getEpoch().getId() != epoch.getId()) {
 			return true;
-		} else if (epoch.getEpochOrder() < studySubject.getCurrentScheduledEpoch().getEpoch().getEpochOrder()) {
+		} else if (epoch.getEpochOrder() < studySubject.getScheduledEpoch().getEpoch().getEpochOrder()) {
 			return true;
 		}
 		return false;
 	}
 
 	private boolean isCurrentScheduledEpoch(StudySubject studySubject, Epoch epoch) {
-		if (studySubject.getCurrentScheduledEpoch().getEpoch().getId().intValue() == epoch.getId().intValue()) {
+		if (studySubject.getScheduledEpoch().getEpoch().getId().intValue() == epoch.getId().intValue()) {
 			return true;
 		}
 		return false;
