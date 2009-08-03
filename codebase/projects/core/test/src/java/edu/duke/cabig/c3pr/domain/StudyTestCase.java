@@ -22,7 +22,6 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StudyTestCase.
  */
@@ -31,9 +30,6 @@ public class StudyTestCase extends AbstractTestCase{
 	/** The simple study. */
 	private Study simpleStudy ;
 
-	/* (non-Javadoc)
-	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
-	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
