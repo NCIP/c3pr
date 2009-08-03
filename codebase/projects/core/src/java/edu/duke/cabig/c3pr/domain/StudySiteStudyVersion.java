@@ -24,7 +24,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	private Date irbApprovalDate;
 	private Date startDate;
 	private Integer targetAccrual;
-	private List<StudySubjectStudyVersion> studySubjectStudyVersion = new ArrayList<StudySubjectStudyVersion>();
+	private List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
 	private StudySite studySite;
 	private StudyVersion studyVersion ;
 
@@ -73,14 +73,15 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	public void setTargetAccrual(Integer targetAccrual) {
 		this.targetAccrual = targetAccrual;
 	}
-	public void setStudySubjectStudyVersion(List<StudySubjectStudyVersion> studySubjectStudyVersion) {
-		this.studySubjectStudyVersion = studySubjectStudyVersion;
-	}
-
+	
 	@OneToMany(mappedBy = "studySiteStudyVersion")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	public List<StudySubjectStudyVersion> getStudySubjectStudyVersion() {
-		return studySubjectStudyVersion;
+	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
+		return studySubjectStudyVersions;
 	}
-
+	public void setStudySubjectStudyVersions(
+			List<StudySubjectStudyVersion> studySubjectStudyVersions) {
+		this.studySubjectStudyVersions = studySubjectStudyVersions;
+	}
+	
 }

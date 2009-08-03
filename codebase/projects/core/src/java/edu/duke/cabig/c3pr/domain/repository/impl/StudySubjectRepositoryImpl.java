@@ -325,7 +325,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             StudySubject multisiteReturnedStudySubject=(StudySubject)((List) endPoint.getReturnValue()).get(0);
             studySubjectDao.initialize(multisiteReturnedStudySubject);
 			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
-			studySubject.doMutiSiteEnrollment(multisiteReturnedStudySubject.getCurrentScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
+			studySubject.doMutiSiteEnrollment(multisiteReturnedStudySubject.getScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
 		}else{
 			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
 				studySubject.addIdentifier(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject));
@@ -380,7 +380,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             StudySubject multisiteReturnedStudySubject=(StudySubject)((List) endPoint.getReturnValue()).get(0);
             studySubjectDao.initialize(multisiteReturnedStudySubject);
 			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
-            studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getCurrentScheduledEpoch());
+            studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getScheduledEpoch());
 		}else{
 			studySubject.doLocalTransfer();
 		}
@@ -409,7 +409,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             StudySubject multisiteReturnedStudySubject=(StudySubject)((List) endPoint.getReturnValue()).get(0);
             studySubjectDao.initialize(multisiteReturnedStudySubject);
 			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
-            studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getCurrentScheduledEpoch());
+            studySubject.doMutiSiteTransfer(multisiteReturnedStudySubject.getScheduledEpoch());
 		}else{
 			studySubject.doLocalTransfer();
 		}

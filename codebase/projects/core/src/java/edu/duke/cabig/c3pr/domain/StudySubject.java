@@ -31,6 +31,7 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.util.CollectionUtils;
 
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
@@ -72,9 +73,6 @@ public class StudySubject extends
 	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
-	/** The scheduled epochs. */
-	private List<ScheduledEpoch> scheduledEpochs = new ArrayList<ScheduledEpoch>();
-
 	/** The consent history list. */
 	private List<ConsentHistory> consentHistoryList = new ArrayList<ConsentHistory>();
 
@@ -86,9 +84,6 @@ public class StudySubject extends
 
 	/** The off study date. */
 	private Date offStudyDate;
-
-	/** The study site. */
-	private StudySite studySite;
 
 	/** The participant. */
 	private Participant participant;
@@ -146,6 +141,8 @@ public class StudySubject extends
 	private MessageSource c3prErrorMessages;
 
 	private List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+	
+	private StudySubjectStudyVersion studySubjectStudyVersion;
 	/**
 	 * Instantiates a new study subject.
 	 */
@@ -213,31 +210,63 @@ public class StudySubject extends
 	 *
 	 * @return the scheduled epochs
 	 */
-	@OneToMany
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "SPA_ID", nullable = false)
 	public List<ScheduledEpoch> getScheduledEpochs() {
-		return scheduledEpochs;
+		return getStudySubjectStudyVersion().getScheduledEpochs();
 	}
 
-	/**
-	 * Sets the scheduled epochs.
-	 *
-	 * @param scheduledEpochs the new scheduled epochs
-	 */
-	private void setScheduledEpochs(List<ScheduledEpoch> scheduledEpochs) {
-		this.scheduledEpochs = scheduledEpochs;
-		lazyListHelper.setInternalList(ScheduledEpoch.class,new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,ScheduledEpoch.class));
-		lazyListHelper.setInternalList(ScheduledEpoch.class,new ProjectedList<ScheduledEpoch>(this.scheduledEpochs,ScheduledEpoch.class));
+	public void setStudySubjectStudyVersions(
+			List<StudySubjectStudyVersion> studySubjectStudyVersions) {
+		this.studySubjectStudyVersions = studySubjectStudyVersions;
 	}
 
+	@OneToMany(mappedBy = "studySubject")
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
+		return studySubjectStudyVersions;
+	}
+	
+	public void addStudySubjectStudyVersion(StudySubjectStudyVersion studySubjectStudyVersion){
+		studySubjectStudyVersion.setStudySubject(this);
+		getStudySubjectStudyVersions().add(studySubjectStudyVersion);
+	}
+	
+	@Transient
+	public StudySubjectStudyVersion getLatestStudySubjectVersion(){
+        if( getStudySubjectStudyVersions().size() == 0){
+        	StudySubjectStudyVersion studySubjectStudyVersion= new StudySubjectStudyVersion();
+        	addStudySubjectStudyVersion(studySubjectStudyVersion);
+			return studySubjectStudyVersion;
+        }else{
+        	List<StudySubjectStudyVersion> sortedSubejctStudyVersions = new ArrayList<StudySubjectStudyVersion>(); 
+            sortedSubejctStudyVersions.addAll(this.getStudySubjectStudyVersions());
+            Collections.sort(sortedSubejctStudyVersions);
+			return sortedSubejctStudyVersions.get(sortedSubejctStudyVersions.size() - 1 );
+		}
+	}
+	
+	public StudySubjectStudyVersion getStudySubjectStudyVersion() {
+		if(studySubjectStudyVersion == null){
+			studySubjectStudyVersion = getLatestStudySubjectVersion();
+		}
+		return studySubjectStudyVersion;
+	}
+
+	public void setStudySubjectStudyVersion(
+			StudySubjectStudyVersion studySubjectStudyVersion) {
+		this.studySubjectStudyVersion = studySubjectStudyVersion;
+	}
+	
+	public StudySiteStudyVersion getStudySiteVersion(){
+		return getStudySubjectStudyVersion().getStudySiteStudyVersion();
+	}
+	
 	/**
 	 * Adds the scheduled epoch.
 	 *
 	 * @param scheduledEpoch the scheduled epoch
 	 */
 	public void addScheduledEpoch(ScheduledEpoch scheduledEpoch) {
-		getScheduledEpochs().add(scheduledEpoch);
+		getStudySubjectStudyVersion().addScheduledEpoch(scheduledEpoch);
 	}
 
 	/**
@@ -247,22 +276,19 @@ public class StudySubject extends
 	 */
 	@Transient
 	public ScheduledEpoch getScheduledEpoch() {
-		return getCurrentScheduledEpoch();
+		return getStudySubjectStudyVersion().getCurrentScheduledEpoch();
 	}
-
+	
 	/**
-	 * Gets the current scheduled epoch.
+	 * Gets the scheduled epoch.
 	 *
-	 * @return the current scheduled epoch
+	 * @return the scheduled epoch
 	 */
 	@Transient
-	public ScheduledEpoch getCurrentScheduledEpoch() {
-		List<ScheduledEpoch> tempList = new ArrayList<ScheduledEpoch>();
-		tempList.addAll(getScheduledEpochs());
-		Collections.sort(tempList);
-		if (tempList.size() == 0)
-			return null;
-		return tempList.get(tempList.size() - 1);
+	public ScheduledEpoch getScheduledEpochByName(String epochName) {
+		Epoch epoch= new Epoch();
+		epoch.setName(epochName);
+		return getStudySubjectStudyVersion().getScheduledEpoch(epoch);
 	}
 
 	/**
@@ -313,7 +339,7 @@ public class StudySubject extends
 	 * @param studySite the new study site
 	 */
 	public void setStudySite(StudySite studySite) {
-		this.studySite = studySite;
+		this.getStudySubjectStudyVersion().getStudySiteStudyVersion().setStudySite(studySite);
 	}
 
 	/**
@@ -321,11 +347,8 @@ public class StudySubject extends
 	 *
 	 * @return the study site
 	 */
-	@ManyToOne
-	@JoinColumn(name = "STO_ID", nullable = false)
-	@Cascade( { CascadeType.LOCK })
 	public StudySite getStudySite() {
-		return studySite;
+		return getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite();
 	}
 
 	/**
@@ -419,8 +442,8 @@ public Date getInformedConsentSignedDate() {
 		if (startDate != null ? !startDate.equals(that.startDate)
 				: that.startDate != null)
 			return false;
-		if (studySite != null ? !studySite.equals(that.studySite)
-				: that.studySite != null)
+		if (getStudySite() != null ? !getStudySite().equals(that.getStudySite())
+				: that.getStudySite() != null)
 			return false;
 		// Participant#equals calls this method, so we can't use it here
 		if (!DomainObjectTools.equalById(participant, that.participant))
@@ -435,7 +458,7 @@ public Date getInformedConsentSignedDate() {
 	@Override
 	public int hashCode() {
 		int result =1;
-		result = 29*result + (studySite != null ? studySite.hashCode() : 0);
+		result = 29*result + (getStudySite() != null ? getStudySite().hashCode() : 0);
 		result = 29 * result
 				+ (participant != null ? participant.hashCode() : 0);
 		result = 29 * result + (startDate != null ? startDate.hashCode() : 0);
@@ -1146,29 +1169,20 @@ public Date getInformedConsentSignedDate() {
 	 *
 	 * @return true, if successful
 	 */
-	public boolean ifScheduledEpochCreatedForThisEpoch(Epoch epoch) {
-		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs())
-			if (scheduledEpoch.getEpoch().equals(epoch)) {
-				return true;
-			}
-
-		return false;
+	public boolean hasScheduledEpoch(Epoch epoch) {
+		return getStudySubjectStudyVersion().hasScehduledEpoch(epoch);
 	}
 
-	/**
-	 * Gets the matching scheduled epoch.
-	 *
-	 * @param epoch the epoch
-	 *
-	 * @return the matching scheduled epoch
-	 */
-	public ScheduledEpoch getMatchingScheduledEpoch(Epoch epoch) {
-		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs())
-			if (scheduledEpoch.getEpoch().equals(epoch)) {
-				return scheduledEpoch;
-			}
-		return null;
-	}
+//	/**
+//	 * Gets the matching scheduled epoch.
+//	 *
+//	 * @param epoch the epoch
+//	 *
+//	 * @return the matching scheduled epoch
+//	 */
+//	public ScheduledEpoch getMatchingScheduledEpoch(Epoch epoch) {
+//		return getStudySubjectStudyVersion().getScheduledEpoch(epoch);
+//	}
 
 	// returns errors if cannot register.
 	/**
@@ -1495,15 +1509,7 @@ public Date getInformedConsentSignedDate() {
 	 */
 	@Transient
 	public boolean isTransferrable() {
-		if(getScheduledEpochs().size() < 2) return false;
-		List<ScheduledEpoch> tempList = new ArrayList<ScheduledEpoch>();
-		tempList.addAll(getScheduledEpochs());
-		Collections.sort(tempList);
-		if (tempList.get(tempList.size() - 1).getEpoch().getEpochOrder() < tempList
-				.get(tempList.size() - 2).getEpoch().getEpochOrder()) {
-			return false;
-		}
-		return true;
+		return getStudySubjectStudyVersion().isTransferrable();
 	}
 
 	/**
@@ -1612,8 +1618,8 @@ public Date getInformedConsentSignedDate() {
 	public void doMutiSiteEnrollment(
 			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch,
 			OrganizationAssignedIdentifier coordinatingCenterAssignedIdentifier) {
-		ScheduledEpoch scheduledEpoch = this
-				.getScheduledEpochByEpochName(coordinatingCenterReturnedScheduledEpoch.getEpoch().getName());
+		ScheduledEpoch scheduledEpoch = this.getStudySubjectStudyVersion()
+				.getScheduledEpoch(coordinatingCenterReturnedScheduledEpoch.getEpoch());
 		if (scheduledEpoch.getRequiresArm()) {
 			Arm arm = scheduledEpoch.getEpoch().getArmByName(
 					coordinatingCenterReturnedScheduledEpoch
@@ -1622,7 +1628,7 @@ public Date getInformedConsentSignedDate() {
 			scheduledArm.setArm(arm);
 		}
 		OrganizationAssignedIdentifier organizationAssignedIdentifier=new OrganizationAssignedIdentifier();
-		organizationAssignedIdentifier.setHealthcareSite(this.studySite.getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+		organizationAssignedIdentifier.setHealthcareSite(this.getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
 		organizationAssignedIdentifier.setGridId(coordinatingCenterAssignedIdentifier.getGridId());
 		organizationAssignedIdentifier.setType(coordinatingCenterAssignedIdentifier.getType());
 		organizationAssignedIdentifier.setValue(coordinatingCenterAssignedIdentifier.getValue());
@@ -1635,22 +1641,22 @@ public Date getInformedConsentSignedDate() {
 
 	}
 
-	/**
-	 * Gets the scheduled epoch by epoch name.
-	 *
-	 * @param epochName the epoch name
-	 *
-	 * @return the scheduled epoch by epoch name
-	 */
-	public ScheduledEpoch getScheduledEpochByEpochName(String epochName) {
-		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs()) {
-			if (scheduledEpoch.getEpoch().getName().equalsIgnoreCase(epochName)) {
-				return scheduledEpoch;
-			}
-		}
-
-		return null;
-	}
+//	/**
+//	 * Gets the scheduled epoch by epoch name.
+//	 *
+//	 * @param epochName the epoch name
+//	 *
+//	 * @return the scheduled epoch by epoch name
+//	 */
+//	public ScheduledEpoch getScheduledEpochByEpochName(String epochName) {
+//		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs()) {
+//			if (scheduledEpoch.getEpoch().getName().equalsIgnoreCase(epochName)) {
+//				return scheduledEpoch;
+//			}
+//		}
+//
+//		return null;
+//	}
 
 	/**
 	 * Do muti site transfer.
@@ -1659,8 +1665,8 @@ public Date getInformedConsentSignedDate() {
 	 */
 	public void doMutiSiteTransfer(
 			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch) {
-		ScheduledEpoch scheduledEpoch = this
-		.getScheduledEpochByEpochName(coordinatingCenterReturnedScheduledEpoch.getEpoch().getName());
+		ScheduledEpoch scheduledEpoch = this.getStudySubjectStudyVersion()
+		.getScheduledEpoch(coordinatingCenterReturnedScheduledEpoch.getEpoch());
 		if (scheduledEpoch.getRequiresArm()) {
 			Arm arm = scheduledEpoch.getEpoch().getArmByName(
 					coordinatingCenterReturnedScheduledEpoch
@@ -1880,17 +1886,6 @@ public Date getInformedConsentSignedDate() {
 			return true ;
 		}
 		return false ;
-	}
-
-	public void setStudySubjectStudyVersions(
-			List<StudySubjectStudyVersion> studySubjectStudyVersions) {
-		this.studySubjectStudyVersions = studySubjectStudyVersions;
-	}
-
-	@OneToMany(mappedBy = "studySubject")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
-		return studySubjectStudyVersions;
 	}
 
 }

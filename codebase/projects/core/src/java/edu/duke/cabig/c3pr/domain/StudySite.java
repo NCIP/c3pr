@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -79,7 +79,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private String startDateStr;
 
     /** The study subjects. */
-    private List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    //private List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 
     /** The lazy list helper. */
     private LazyListHelper lazyListHelper;
@@ -108,25 +108,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     }
 
     /**
-     * Adds the study subject.
-     *
-     * @param spAssignments the sp assignments
-     */
-    public void addStudySubject(StudySubject spAssignments) {
-        studySubjects.add(spAssignments);
-        studySubjects.size();
-    }
-
-    /**
-     * Removes the study subject.
-     *
-     * @param studySubject the study subject
-     */
-    public void removeStudySubject(StudySubject studySubject) {
-        studySubjects.remove(studySubject);
-    }
-
-    /**
      * Are there any assignments using this relationship?.
      *
      * @return true, if checks if is used
@@ -139,22 +120,20 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     // / BEAN PROPERTIES
 
     /**
-     * Sets the study subjects.
-     *
-     * @param studySubjects the new study subjects
-     */
-    public void setStudySubjects(List<StudySubject> studySubjects) {
-        this.studySubjects = studySubjects;
-    }
-
-    /**
      * Gets the study subjects.
      *
      * @return the study subjects
      */
-    @OneToMany(mappedBy = "studySite", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     public List<StudySubject> getStudySubjects() {
+    	List<StudySubject> studySubjects= new ArrayList<StudySubject>();
+    	for (StudySiteStudyVersion studySiteStudyVersion: getStudySiteStudyVersions()){
+    		for(StudySubjectStudyVersion studySubjectStudyVersion: studySiteStudyVersion.getStudySubjectStudyVersions()){
+    			studySubjects.add(studySubjectStudyVersion.getStudySubject());    			
+    		}
+    	}
+    	HashSet<StudySubject> h = new HashSet<StudySubject>(studySubjects);
+    	studySubjects.clear();
+    	studySubjects.addAll(h);
         return studySubjects;
     }
 

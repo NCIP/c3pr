@@ -206,7 +206,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         ScheduledEpoch scheduledEpoch2 = new ScheduledEpoch();
         studySubject.addScheduledEpoch(scheduledEpoch1);
         studySubject.addScheduledEpoch(scheduledEpoch2);
-        assertEquals("current epoch is wrong", studySubject.getCurrentScheduledEpoch(),
+        assertEquals("current epoch is wrong", studySubject.getScheduledEpoch(),
                         scheduledEpoch2);
     }
 

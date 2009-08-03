@@ -788,27 +788,27 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testIfScheduledEpochCreatedForThisEpoch() throws Exception{
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
     	studySubject.getScheduledEpochs().remove(0);
-    	assertFalse("Unexpected scheduled epoch",studySubject.ifScheduledEpochCreatedForThisEpoch(new Epoch()));
+    	assertFalse("Unexpected scheduled epoch",studySubject.hasScheduledEpoch(new Epoch()));
     	Epoch epoch1 = Epoch.createEpoch("treatment epoch");
     	studySubject.addScheduledEpoch(studySubject.createScheduledEpoch(epoch1));
     	
-    	assertTrue("Scheduled epoch was expected with given epoch:" + epoch1.getName(),studySubject.ifScheduledEpochCreatedForThisEpoch(epoch1));
+    	assertTrue("Scheduled epoch was expected with given epoch:" + epoch1.getName(),studySubject.hasScheduledEpoch(epoch1));
     }
     
-    /**
-     * Test get matching scheduled epoch.
-     * 
-     * @throws Exception the exception
-     */
-    public void testGetMatchingScheduledEpoch() throws Exception{
-    	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
-    	Epoch epoch1 = Epoch.createEpoch("treatment epoch");
-    	assertNull("Unexpected scheduled epoch",studySubject.getMatchingScheduledEpoch(epoch1));
-    	studySubject.addScheduledEpoch(studySubject.createScheduledEpoch(epoch1));
-    	
-    	assertNotNull("Scheduled epoch was expected with given epoch:", studySubject.getMatchingScheduledEpoch(epoch1));
-    }
+//    /**
+//     * Test get matching scheduled epoch.
+//     * 
+//     * @throws Exception the exception
+//     */
+//    public void testGetMatchingScheduledEpoch() throws Exception{
+//    	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
+//    	studySubject.getScheduledEpochs().remove(0);
+//    	Epoch epoch1 = Epoch.createEpoch("treatment epoch");
+//    	assertNull("Unexpected scheduled epoch",studySubject.getMatchingScheduledEpoch(epoch1));
+//    	studySubject.addScheduledEpoch(studySubject.createScheduledEpoch(epoch1));
+//    	
+//    	assertNotNull("Scheduled epoch was expected with given epoch:", studySubject.getMatchingScheduledEpoch(epoch1));
+//    }
     
     /**
      * Test can reserve.
@@ -1366,8 +1366,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(epoch.getName()).andReturn("Treatment").times(2);
 	  
 	  replayMocks();
-	  assertNull("Unexpected Scheduled Epoch",studySubject.getScheduledEpochByEpochName("Arbitrary Epoch Name"));
-	  assertEquals("Wrong Scheduled Epoch",scheduledEpoch,studySubject.getScheduledEpochByEpochName("Treatment"));
+	  assertNull("Unexpected Scheduled Epoch",studySubject.getScheduledEpochByName("Arbitrary Epoch Name"));
+	  assertEquals("Wrong Scheduled Epoch",scheduledEpoch,studySubject.getScheduledEpochByName("Treatment"));
 	  
 	  verifyMocks();
   }
