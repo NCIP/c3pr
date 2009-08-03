@@ -158,6 +158,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
 		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
 		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
+		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
 
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
         versionStatus = StatusType.IN ;
@@ -178,6 +179,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
 		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
 		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
+		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
 
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 	}
@@ -597,4 +599,26 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public Boolean getMandatoryIndicator() {
 		return mandatoryIndicator;
 	}
+
+	@OneToMany(mappedBy = "studyVersion")
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<StudySiteStudyVersion> getStudySiteStudyVersionsInternal() {
+		return lazyListHelper.getInternalList(StudySiteStudyVersion.class);
+	}
+
+	@Transient
+	public List<StudySiteStudyVersion> getStudySiteStudyVersions() {
+		return lazyListHelper.getLazyList(StudySiteStudyVersion.class);
+	}
+
+	public void setStudySiteStudyVersionsInternal(List<StudySiteStudyVersion> studySiteStudyVersions) {
+		lazyListHelper.setInternalList(StudySiteStudyVersion.class,studySiteStudyVersions);
+	}
+
+	public void addStudySiteStudyVersion(StudySiteStudyVersion studySiteStudyVersion) {
+		this.getStudySiteStudyVersions().add(studySiteStudyVersion);
+		studySiteStudyVersion.setStudyVersion(this);
+	}
+
 }

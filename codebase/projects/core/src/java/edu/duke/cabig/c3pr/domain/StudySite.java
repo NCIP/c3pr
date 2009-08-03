@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
@@ -29,6 +30,7 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -101,6 +103,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         this.c3prErrorMessages = resourceBundleMessageSource1;
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
         siteStudyStatus = SiteStudyStatus.PENDING;
+        lazyListHelper = new LazyListHelper();
+		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
     }
 
     /**
@@ -870,4 +874,29 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 			CompanionStudyAssociation companionStudyAssociation) {
 		this.companionStudyAssociation = companionStudyAssociation;
 	}
+
+	@OneToMany(mappedBy = "studySite")
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<StudySiteStudyVersion> getStudySiteStudyVersionsInternal() {
+		return lazyListHelper.getInternalList(StudySiteStudyVersion.class);
+	}
+
+	@Transient
+	public List<StudySiteStudyVersion> getStudySiteStudyVersions() {
+		return lazyListHelper.getLazyList(StudySiteStudyVersion.class);
+	}
+
+	public void setStudySiteStudyVersionsInternal(List<StudySiteStudyVersion> studySiteStudyVersions) {
+		lazyListHelper.setInternalList(StudySiteStudyVersion.class,studySiteStudyVersions);
+	}
+
+	public void addStudySiteStudyVersion(StudySiteStudyVersion studySiteStudyVersion) {
+		this.getStudySiteStudyVersions().add(studySiteStudyVersion);
+		studySiteStudyVersion.setStudySite(this);
+	}
+
+
+
+
 }

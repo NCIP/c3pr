@@ -55,13 +55,13 @@ import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 
 /**
  * The Class StudySubject.
- * 
+ *
  * @author Ram Chilukuri
  */
 
 /**
  * @author Kruttik Aggarwal
- * 
+ *
  */
 @Entity
 @Table(name = "STUDY_SUBJECTS")
@@ -74,7 +74,7 @@ public class StudySubject extends
 
 	/** The scheduled epochs. */
 	private List<ScheduledEpoch> scheduledEpochs = new ArrayList<ScheduledEpoch>();
-	
+
 	/** The consent history list. */
 	private List<ConsentHistory> consentHistoryList = new ArrayList<ConsentHistory>();
 
@@ -144,7 +144,8 @@ public class StudySubject extends
 
 	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
-	
+
+	private List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
 	/**
 	 * Instantiates a new study subject.
 	 */
@@ -182,7 +183,7 @@ public class StudySubject extends
 	// / BEAN PROPERTIES
 	/**
 	 * Instantiates a new study subject.
-	 * 
+	 *
 	 * @param forExample the for example
 	 */
 	public StudySubject(boolean forExample) {
@@ -209,7 +210,7 @@ public class StudySubject extends
 
 	/**
 	 * Gets the scheduled epochs.
-	 * 
+	 *
 	 * @return the scheduled epochs
 	 */
 	@OneToMany
@@ -221,7 +222,7 @@ public class StudySubject extends
 
 	/**
 	 * Sets the scheduled epochs.
-	 * 
+	 *
 	 * @param scheduledEpochs the new scheduled epochs
 	 */
 	private void setScheduledEpochs(List<ScheduledEpoch> scheduledEpochs) {
@@ -232,7 +233,7 @@ public class StudySubject extends
 
 	/**
 	 * Adds the scheduled epoch.
-	 * 
+	 *
 	 * @param scheduledEpoch the scheduled epoch
 	 */
 	public void addScheduledEpoch(ScheduledEpoch scheduledEpoch) {
@@ -241,7 +242,7 @@ public class StudySubject extends
 
 	/**
 	 * Gets the scheduled epoch.
-	 * 
+	 *
 	 * @return the scheduled epoch
 	 */
 	@Transient
@@ -251,7 +252,7 @@ public class StudySubject extends
 
 	/**
 	 * Gets the current scheduled epoch.
-	 * 
+	 *
 	 * @return the current scheduled epoch
 	 */
 	@Transient
@@ -266,7 +267,7 @@ public class StudySubject extends
 
 	/**
 	 * Gets the disease history.
-	 * 
+	 *
 	 * @return the disease history
 	 */
 	@Transient
@@ -278,7 +279,7 @@ public class StudySubject extends
 
 	/**
 	 * Sets the disease history.
-	 * 
+	 *
 	 * @param diseaseHistory the new disease history
 	 */
 	public void setDiseaseHistory(DiseaseHistory diseaseHistory) {
@@ -287,7 +288,7 @@ public class StudySubject extends
 
 	/**
 	 * Gets the disease history internal.
-	 * 
+	 *
 	 * @return the disease history internal
 	 */
 	@OneToOne
@@ -299,7 +300,7 @@ public class StudySubject extends
 
 	/**
 	 * Sets the disease history internal.
-	 * 
+	 *
 	 * @param diseaseHistory the new disease history internal
 	 */
 	public void setDiseaseHistoryInternal(DiseaseHistory diseaseHistory) {
@@ -308,7 +309,7 @@ public class StudySubject extends
 
 	/**
 	 * Sets the study site.
-	 * 
+	 *
 	 * @param studySite the new study site
 	 */
 	public void setStudySite(StudySite studySite) {
@@ -317,7 +318,7 @@ public class StudySubject extends
 
 	/**
 	 * Gets the study site.
-	 * 
+	 *
 	 * @return the study site
 	 */
 	@ManyToOne
@@ -329,7 +330,7 @@ public class StudySubject extends
 
 	/**
 	 * Sets the participant.
-	 * 
+	 *
 	 * @param participant the new participant
 	 */
 	public void setParticipant(Participant participant) {
@@ -338,7 +339,7 @@ public class StudySubject extends
 
 	/**
 	 * Gets the participant.
-	 * 
+	 *
 	 * @return the participant
 	 */
 	@ManyToOne
@@ -351,7 +352,7 @@ public class StudySubject extends
 //	@Transient
 	/**
  * Gets the informed consent signed date.
- * 
+ *
  * @return the informed consent signed date
  */
 public Date getInformedConsentSignedDate() {
@@ -360,7 +361,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the informed consent signed date.
-	 * 
+	 *
 	 * @param informedConsentSignedDate the new informed consent signed date
 	 */
 	public void setInformedConsentSignedDate(Date informedConsentSignedDate) {
@@ -369,7 +370,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the disapproval reason text.
-	 * 
+	 *
 	 * @return the disapproval reason text
 	 */
 	public String getDisapprovalReasonText() {
@@ -378,7 +379,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the disapproval reason text.
-	 * 
+	 *
 	 * @param disapprovalReasonText the new disapproval reason text
 	 */
 	public void setDisapprovalReasonText(String disapprovalReasonText) {
@@ -387,7 +388,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the start date.
-	 * 
+	 *
 	 * @return the start date
 	 */
 	public Date getStartDate() {
@@ -396,7 +397,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the start date.
-	 * 
+	 *
 	 * @param startDate the new start date
 	 */
 	public void setStartDate(Date startDate) {
@@ -443,7 +444,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the informed consent signed date str.
-	 * 
+	 *
 	 * @return the informed consent signed date str
 	 */
 	@Transient
@@ -457,10 +458,10 @@ public Date getInformedConsentSignedDate() {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Gets the off study date str.
-	 * 
+	 *
 	 * @return the off study date str
 	 */
 	@Transient
@@ -474,10 +475,10 @@ public Date getInformedConsentSignedDate() {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Gets the start date str.
-	 * 
+	 *
 	 * @return the start date str
 	 */
 	@Transient
@@ -494,7 +495,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the identifiers.
-	 * 
+	 *
 	 * @return the identifiers
 	 */
 	@OneToMany
@@ -508,7 +509,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the identifiers.
-	 * 
+	 *
 	 * @param identifiers the new identifiers
 	 */
 	private void setIdentifiers(List<Identifier> identifiers) {
@@ -527,7 +528,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the system assigned identifiers.
-	 * 
+	 *
 	 * @return the system assigned identifiers
 	 */
 	@Transient
@@ -537,7 +538,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the organization assigned identifiers.
-	 * 
+	 *
 	 * @return the organization assigned identifiers
 	 */
 	@Transient
@@ -547,7 +548,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Adds the identifier.
-	 * 
+	 *
 	 * @param identifier the identifier
 	 */
 	public void addIdentifier(Identifier identifier) {
@@ -556,7 +557,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Removes the identifier.
-	 * 
+	 *
 	 * @param identifier the identifier
 	 */
 	public void removeIdentifier(Identifier identifier) {
@@ -565,7 +566,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the primary identifier.
-	 * 
+	 *
 	 * @return the primary identifier
 	 */
 	@Transient
@@ -581,7 +582,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the informed consent version.
-	 * 
+	 *
 	 * @return the informed consent version
 	 */
 	@Column(name = "informedConsentVersion", nullable = true)
@@ -591,7 +592,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the informed consent version.
-	 * 
+	 *
 	 * @param informedConsentVersion the new informed consent version
 	 */
 	public void setInformedConsentVersion(String informedConsentVersion) {
@@ -600,7 +601,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the treating physician.
-	 * 
+	 *
 	 * @return the treating physician
 	 */
 	@OneToOne
@@ -611,7 +612,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the treating physician.
-	 * 
+	 *
 	 * @param treatingPhysician the new treating physician
 	 */
 	public void setTreatingPhysician(StudyInvestigator treatingPhysician) {
@@ -620,7 +621,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the other treating physician.
-	 * 
+	 *
 	 * @return the other treating physician
 	 */
 	public String getOtherTreatingPhysician() {
@@ -629,7 +630,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the other treating physician.
-	 * 
+	 *
 	 * @param otherTreatingPhysician the new other treating physician
 	 */
 	public void setOtherTreatingPhysician(String otherTreatingPhysician) {
@@ -638,7 +639,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the treating physician full name.
-	 * 
+	 *
 	 * @return the treating physician full name
 	 */
 	@Transient
@@ -651,7 +652,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the reg workflow status.
-	 * 
+	 *
 	 * @return the reg workflow status
 	 */
 	@Enumerated(EnumType.STRING)
@@ -661,7 +662,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the reg workflow status.
-	 * 
+	 *
 	 * @param registrationWorkFlowStatus the new reg workflow status
 	 */
 	public void setRegWorkflowStatus(
@@ -671,7 +672,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the reg data entry status.
-	 * 
+	 *
 	 * @return the reg data entry status
 	 */
 	@Enumerated(EnumType.STRING)
@@ -681,7 +682,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the reg data entry status.
-	 * 
+	 *
 	 * @param registrationDataEntryStatus the new reg data entry status
 	 */
 	public void setRegDataEntryStatus(
@@ -691,7 +692,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the data entry status string.
-	 * 
+	 *
 	 * @return the data entry status string
 	 */
 	@Transient
@@ -700,10 +701,10 @@ public Date getInformedConsentSignedDate() {
 				&& this.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE ? "Complete"
 				: "Incomplete";
 	}
-	
+
 	/**
 	 * Gets the data entry status.
-	 * 
+	 *
 	 * @return the data entry status
 	 */
 	@Transient
@@ -715,7 +716,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the co ordinating center identifier.
-	 * 
+	 *
 	 * @return the co ordinating center identifier
 	 */
 	@Transient
@@ -731,7 +732,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the co ordinating center identifier.
-	 * 
+	 *
 	 * @param value the new co ordinating center identifier
 	 */
 	public void setCoOrdinatingCenterIdentifier(String value) {
@@ -745,7 +746,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the c3 d identifier.
-	 * 
+	 *
 	 * @return the c3 d identifier
 	 */
 	@Transient
@@ -757,7 +758,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the c3 d identifier.
-	 * 
+	 *
 	 * @param value the new c3 d identifier
 	 */
 	public void setC3DIdentifier(String value) {
@@ -770,7 +771,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the off study date.
-	 * 
+	 *
 	 * @return the off study date
 	 */
 	public Date getOffStudyDate() {
@@ -779,7 +780,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the off study date.
-	 * 
+	 *
 	 * @param offStudyDate the new off study date
 	 */
 	public void setOffStudyDate(Date offStudyDate) {
@@ -788,7 +789,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the off study reason text.
-	 * 
+	 *
 	 * @return the off study reason text
 	 */
 	public String getOffStudyReasonText() {
@@ -797,7 +798,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the off study reason text.
-	 * 
+	 *
 	 * @param offStudyReasonText the new off study reason text
 	 */
 	public void setOffStudyReasonText(String offStudyReasonText) {
@@ -807,7 +808,7 @@ public Date getInformedConsentSignedDate() {
 	// TODO to be deleted
 	/**
 	 * Gets the stratum group number.
-	 * 
+	 *
 	 * @return the stratum group number
 	 */
 	public Integer getStratumGroupNumber() {
@@ -817,7 +818,7 @@ public Date getInformedConsentSignedDate() {
 	// TODO to be deleted
 	/**
 	 * Sets the stratum group number.
-	 * 
+	 *
 	 * @param stratumGroupNumber the new stratum group number
 	 */
 	public void setStratumGroupNumber(Integer stratumGroupNumber) {
@@ -827,7 +828,7 @@ public Date getInformedConsentSignedDate() {
 	// Adding refactored code
 	/**
 	 * Evaluate registration data entry status.
-	 * 
+	 *
 	 * @return the registration data entry status
 	 */
 	public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus() {
@@ -849,7 +850,7 @@ public Date getInformedConsentSignedDate() {
 	// Adding refactored code
 	/**
 	 * Evaluate registration data entry status.
-	 * 
+	 *
 	 * @param errors the errors
 	 */
 	public void evaluateRegistrationDataEntryStatus(List<Error> errors) {
@@ -869,14 +870,14 @@ public Date getInformedConsentSignedDate() {
 		if(this.getParentStudySubject() == null && getWorkPendingOnMandatoryCompanionRegistrations()){
 			errors.add(new Error("Mandatory companion is not registered"));
 		}
-		
+
 	}
 
 	/**
 	 * Evaluate scheduled epoch data entry status.
-	 * 
+	 *
 	 * @param errors the errors
-	 * 
+	 *
 	 * @return the scheduled epoch data entry status
 	 */
 	public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(
@@ -887,9 +888,9 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Checks if is study site.
-	 * 
+	 *
 	 * @param nciCode the nci code
-	 * 
+	 *
 	 * @return true, if is study site
 	 */
 	@Transient
@@ -901,7 +902,7 @@ public Date getInformedConsentSignedDate() {
 	/**
 	 * Data Entry is considered complete if both Registrations and Scheduled
 	 * Epoch data entry status are complete.
-	 * 
+	 *
 	 * @return true, if checks if is data entry complete
 	 */
 	@Transient
@@ -915,19 +916,19 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Ready for randomization.
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	public boolean readyForRandomization() {
 		return regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
 				&& getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE;
 	}
-	
+
 	/**
 	 * Computes if co-ordinating center needs to approve a record for successful
 	 * registration. which is true if the study is multisite and the epoch is
 	 * enrolling.
-	 * 
+	 *
 	 * @return true, if requires coordinating center approval
 	 */
 	public boolean requiresCoordinatingCenterApproval() {
@@ -937,9 +938,9 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Checks if is co ordinating center.
-	 * 
+	 *
 	 * @param nciCode the nci code
-	 * 
+	 *
 	 * @return true, if is co ordinating center
 	 */
 	@Transient
@@ -956,7 +957,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Update data entry status.
-	 * 
+	 *
 	 * @return the list< error>
 	 */
 	public List<Error> updateDataEntryStatus() {
@@ -969,7 +970,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the payment method.
-	 * 
+	 *
 	 * @return the payment method
 	 */
 	public String getPaymentMethod() {
@@ -978,7 +979,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the payment method.
-	 * 
+	 *
 	 * @param paymentMethod the new payment method
 	 */
 	public void setPaymentMethod(String paymentMethod) {
@@ -987,7 +988,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Requires affiliate site response.
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	public boolean requiresAffiliateSiteResponse() {
@@ -998,7 +999,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the child study subjects.
-	 * 
+	 *
 	 * @return the child study subjects
 	 */
 	@OneToMany(mappedBy = "parentStudySubject")
@@ -1006,28 +1007,28 @@ public Date getInformedConsentSignedDate() {
 	public List<StudySubject> getChildStudySubjects() {
 		return childStudySubjects;
 	}
-	
+
 	/**
 	 * Removes the child study subject.
-	 * 
+	 *
 	 * @param studySubject the study subject
 	 */
 	public void removeChildStudySubject(StudySubject studySubject) {
 		getChildStudySubjects().remove(studySubject);
 	}
-	
+
 	/**
 	 * Adds the child study subject.
-	 * 
+	 *
 	 * @param studySubject the study subject
 	 */
 	public void addChildStudySubject(StudySubject studySubject) {
 		getChildStudySubjects().add(studySubject);
 	}
-	
+
 	/**
 	 * Sets the child study subjects.
-	 * 
+	 *
 	 * @param childStudySubjects the new child study subjects
 	 */
 	public void setChildStudySubjects(List<StudySubject> childStudySubjects) {
@@ -1036,7 +1037,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the parent study subject.
-	 * 
+	 *
 	 * @return the parent study subject
 	 */
 	@ManyToOne
@@ -1048,7 +1049,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the parent study subject.
-	 * 
+	 *
 	 * @param parentStudySubject the new parent study subject
 	 */
 	public void setParentStudySubject(StudySubject parentStudySubject) {
@@ -1057,7 +1058,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Builds the map for notification.
-	 * 
+	 *
 	 * @return the map< object, object>
 	 */
 	@SuppressWarnings("unused")
@@ -1127,9 +1128,9 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Creates the scheduled epoch.
-	 * 
+	 *
 	 * @param epoch the epoch
-	 * 
+	 *
 	 * @return the scheduled epoch
 	 */
 	public ScheduledEpoch createScheduledEpoch(Epoch epoch) {
@@ -1140,9 +1141,9 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * If scheduled epoch created for this epoch.
-	 * 
+	 *
 	 * @param epoch the epoch
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	public boolean ifScheduledEpochCreatedForThisEpoch(Epoch epoch) {
@@ -1156,9 +1157,9 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the matching scheduled epoch.
-	 * 
+	 *
 	 * @param epoch the epoch
-	 * 
+	 *
 	 * @return the matching scheduled epoch
 	 */
 	public ScheduledEpoch getMatchingScheduledEpoch(Epoch epoch) {
@@ -1172,7 +1173,7 @@ public Date getInformedConsentSignedDate() {
 	// returns errors if cannot register.
 	/**
 	 * Can register.
-	 * 
+	 *
 	 * @return the list< error>
 	 */
 	public List<Error> canRegister() {
@@ -1181,7 +1182,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Can reserve.
-	 * 
+	 *
 	 * @return the list< error>
 	 */
 	public List<Error> canReserve() {
@@ -1230,7 +1231,7 @@ public Date getInformedConsentSignedDate() {
 					// previous registration status.
 					if (this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING || this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED) {
 						this
-								.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED); 
+								.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
 						if(this.getParentStudySubject()!=null){
 							this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 						}
@@ -1272,7 +1273,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Checks if is randomized on scheduled epoch.
-	 * 
+	 *
 	 * @return true, if is randomized on scheduled epoch
 	 */
 	@Transient
@@ -1338,7 +1339,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the next arm for unstratified study.
-	 * 
+	 *
 	 * @return the next arm for unstratified study
 	 */
 	@Transient
@@ -1365,14 +1366,14 @@ public Date getInformedConsentSignedDate() {
 		if (arm == null) {
 			throw getC3PRExceptionHelper().getRuntimeException(
                     getCode("C3PR.EXCEPTION.REGISTRATION.NO.ARM.AVAILABLE.BOOK.EXHAUSTED.CODE"));
-			
+
 		}
 		return arm;
 	}
 
 	/**
 	 * Take subject off study.
-	 * 
+	 *
 	 * @param offStudyReasonText the off study reason text
 	 * @param offStudyDate the off study date
 	 */
@@ -1388,7 +1389,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Transfer.
-	 * 
+	 *
 	 * @return the study subject
 	 */
 	public StudySubject transfer() {
@@ -1443,9 +1444,9 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the matching companion study association.
-	 * 
+	 *
 	 * @param childStudySubject the child study subject
-	 * 
+	 *
 	 * @return the matching companion study association
 	 */
 	public CompanionStudyAssociation getMatchingCompanionStudyAssociation(
@@ -1462,7 +1463,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Checks if is stand alone study subject.
-	 * 
+	 *
 	 * @return true, if is stand alone study subject
 	 */
 	@Transient
@@ -1472,7 +1473,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Checks for c3 pr system identifier.
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	@Transient
@@ -1489,7 +1490,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Checks if is transferrable.
-	 * 
+	 *
 	 * @return true, if is transferrable
 	 */
 	@Transient
@@ -1507,7 +1508,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the c3 pr exception helper.
-	 * 
+	 *
 	 * @return the c3 pr exception helper
 	 */
 	@Transient
@@ -1517,7 +1518,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the c3 pr exception helper.
-	 * 
+	 *
 	 * @param exceptionHelper the new c3 pr exception helper
 	 */
 	public void setC3PRExceptionHelper(C3PRExceptionHelper exceptionHelper) {
@@ -1526,9 +1527,9 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the code.
-	 * 
+	 *
 	 * @param errortypeString the errortype string
-	 * 
+	 *
 	 * @return the code
 	 */
 	@Transient
@@ -1539,7 +1540,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the c3pr error messages.
-	 * 
+	 *
 	 * @return the c3pr error messages
 	 */
 	@Transient
@@ -1549,7 +1550,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the c3pr error messages.
-	 * 
+	 *
 	 * @param errorMessages the new c3pr error messages
 	 */
 	public void setC3prErrorMessages(MessageSource errorMessages) {
@@ -1564,7 +1565,7 @@ public Date getInformedConsentSignedDate() {
 		if (!this.getStudySite().getStudy().getStandaloneIndicator() && this.getParentStudySubject() != null && this.getParentStudySubject().regWorkflowStatus!=RegistrationWorkFlowStatus.ENROLLED) {
 			throw new C3PRBaseRuntimeException(" Cannot directly register on the embedded study. The registration can happen only through the parent");
 		}
-		
+
 		if(getWorkPendingOnMandatoryCompanionRegistrations()){
 			throw new C3PRBaseRuntimeException(" First register on the mandatory companions before enrolling on the parent");
 		}
@@ -1579,7 +1580,7 @@ public Date getInformedConsentSignedDate() {
 				}
 			}
 		}
-		
+
 
 		if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
 			register();
@@ -1604,7 +1605,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Do muti site enrollment.
-	 * 
+	 *
 	 * @param coordinatingCenterReturnedScheduledEpoch the coordinating center returned scheduled epoch
 	 * @param coordinatingCenterAssignedIdentifier the coordinating center assigned identifier
 	 */
@@ -1636,9 +1637,9 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the scheduled epoch by epoch name.
-	 * 
+	 *
 	 * @param epochName the epoch name
-	 * 
+	 *
 	 * @return the scheduled epoch by epoch name
 	 */
 	public ScheduledEpoch getScheduledEpochByEpochName(String epochName) {
@@ -1653,7 +1654,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Do muti site transfer.
-	 * 
+	 *
 	 * @param coordinatingCenterReturnedScheduledEpoch the coordinating center returned scheduled epoch
 	 */
 	public void doMutiSiteTransfer(
@@ -1704,16 +1705,16 @@ public Date getInformedConsentSignedDate() {
 		}
 
 	}
-	
+
 	/**
 	 * Can enroll.
-	 * 
+	 *
 	 * @param errors the errors
-	 * 
+	 *
 	 * @return the list< error>
 	 */
 	public List<Error> canEnroll(List<Error> errors){
-		
+
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			CompanionStudyAssociation matchingCompanionStudyAssociation = null;
 			matchingCompanionStudyAssociation = getMatchingCompanionStudyAssociation(childStudySubject);
@@ -1721,16 +1722,16 @@ public Date getInformedConsentSignedDate() {
 				if (matchingCompanionStudyAssociation.getMandatoryIndicator()) {
 					childStudySubject.evaluateRegistrationDataEntryStatus(errors);
 					childStudySubject.evaluateScheduledEpochDataEntryStatus(errors);
-					
+
 				}
 			}
 		}
 		return errors;
 	}
-	
+
 	/**
 	 * Gets the custom fields internal.
-	 * 
+	 *
 	 * @return the custom fields internal
 	 */
 	@OneToMany(mappedBy = "studySubject", fetch = FetchType.LAZY)
@@ -1749,7 +1750,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the custom fields internal.
-	 * 
+	 *
 	 * @param customFields the new custom fields internal
 	 */
 	public void setCustomFieldsInternal(List<CustomField> customFields) {
@@ -1758,23 +1759,23 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Adds the custom field.
-	 * 
+	 *
 	 * @param customField the custom field
 	 */
 	public void addCustomField(CustomField customField) {
 		this.getCustomFields().add(customField);
 		customField.setStudySubject(this);
 	}
-	
+
 	/**
 	 * Gets the work pending on mandatory companion registrations.
-	 * 
+	 *
 	 * @return the work pending on mandatory companion registrations
 	 */
 	@Transient
 	public boolean getWorkPendingOnMandatoryCompanionRegistrations(){
 		if(!this.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
-			return false ; 
+			return false ;
 		}
 		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()){
 			if (companionStudyAssociation.getMandatoryIndicator()) {
@@ -1788,7 +1789,7 @@ public Date getInformedConsentSignedDate() {
 				if (!hasCorrespondingStudySubject)
 					return true;
 			}
-		}	
+		}
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			if(!childStudySubject.getDataEntryStatus()){
 				return true ;
@@ -1803,22 +1804,22 @@ public Date getInformedConsentSignedDate() {
 						if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
 							return true;
 						}
-						
+
 					}
 				}
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Checks for mandatory companions.
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	@Transient
 	public boolean hasMandatoryCompanions(){
-		
+
 		for(CompanionStudyAssociation companionStudyAssociation:this.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()){
 			if(companionStudyAssociation.getMandatoryIndicator()){
 				return true;
@@ -1826,10 +1827,10 @@ public Date getInformedConsentSignedDate() {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Gets the consent history list.
-	 * 
+	 *
 	 * @return the consent history list
 	 */
 	@OneToMany
@@ -1841,7 +1842,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Sets the consent history list.
-	 * 
+	 *
 	 * @param consentHistoryList the new consent history list
 	 */
 	private void setConsentHistoryList(List<ConsentHistory> consentHistoryList) {
@@ -1851,16 +1852,16 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Adds the consent history.
-	 * 
+	 *
 	 * @param consentHistory the consent history
 	 */
 	public void addConsentHistory(ConsentHistory consentHistory) {
 		getConsentHistoryList().add(consentHistory);
 	}
-	
+
 	/**
 	 * Gets the current consent history.
-	 * 
+	 *
 	 * @return the current consent history
 	 */
 	@Transient
@@ -1870,7 +1871,7 @@ public Date getInformedConsentSignedDate() {
 
 	/**
 	 * Gets the checks if is direct arm assigment.
-	 * 
+	 *
 	 * @return the checks if is direct arm assigment
 	 */
 	@Transient
@@ -1880,5 +1881,16 @@ public Date getInformedConsentSignedDate() {
 		}
 		return false ;
 	}
-	
+
+	public void setStudySubjectStudyVersions(
+			List<StudySubjectStudyVersion> studySubjectStudyVersions) {
+		this.studySubjectStudyVersions = studySubjectStudyVersions;
+	}
+
+	@OneToMany(mappedBy = "studySubject")
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
+		return studySubjectStudyVersions;
+	}
+
 }
