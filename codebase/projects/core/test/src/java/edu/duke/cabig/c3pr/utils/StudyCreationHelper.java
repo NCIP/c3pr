@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
@@ -27,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 
 public class StudyCreationHelper {
 
@@ -54,7 +56,7 @@ public class StudyCreationHelper {
         study.addEpoch(epoch);
         return study;
     }
-    
+
     public Study getLocalRandomizedStudy(RandomizationType randomizationType) throws Exception {
         Study study = buildBasicStudy(false, randomizationType);
         Epoch epoch = getTreatmentEpochWithArm();
@@ -116,7 +118,7 @@ public class StudyCreationHelper {
         epoch.setEnrollmentIndicator(true);
         return epoch;
     }
-    
+
     private Epoch getNonRandomizedNonStratifiedEnrollingEpochWithoutArm() {
 
         Epoch epoch = new Epoch();
@@ -252,13 +254,21 @@ public class StudyCreationHelper {
         study.setType("Type");
         study.setMultiInstitutionIndicator(Boolean.TRUE);
         study.setStratificationIndicator(Boolean.FALSE);
+
+
+
+        StudyVersion studyVersion = new StudyVersion();
+        studyVersion.setName("name");
+        studyVersion.setVersionDate(new Date());
+
+        study.addStudyVersion(studyVersion);
         return study;
     }
 
     public Study addStudySiteAndEnrollingEpochToBasicStudy(Study study) {
     	return addStudySiteAndEnrollingEpochToBasicStudy(study,"Name");
     }
-    
+
     public Study addStudySiteAndEnrollingEpochToBasicStudy(Study study, String name) {
     	EligibilityCriteria criteria = new InclusionEligibilityCriteria();
         study.addStudySite(new StudySite());
@@ -270,7 +280,7 @@ public class StudyCreationHelper {
         return study;
     }
 
-    
+
     public Study addStudySiteAndRandomizedTreatmentEpochToBasicStudy(Study study) {
 
         study.addStudySite(new StudySite());
@@ -364,7 +374,7 @@ public class StudyCreationHelper {
 		study.getOrganizationAssignedIdentifiers().add(orgIdentifier);
 		return study;
 	}
-	
+
 	public Study addOrganizationAssignedIdentifierNonPrimary(Study study, OrganizationIdentifierTypeEnum type, String value){
 		OrganizationAssignedIdentifier orgIdentifier =  new OrganizationAssignedIdentifier();
 		orgIdentifier.setType(type);
@@ -374,11 +384,11 @@ public class StudyCreationHelper {
 		study.getOrganizationAssignedIdentifiers().add(orgIdentifier);
 		return study;
 	}
-	
+
 	 public Study addNonEnrollingEpochToBasicStudy(Study study) {
 	        return addNonEnrollingEpochToBasicStudy(study, "Name");
 	    }
-	 
+
 	 public Study addNonEnrollingEpochToBasicStudy(Study study, String name) {
 	        Epoch epoch = new Epoch();
 	        epoch.setName(name);
@@ -386,7 +396,7 @@ public class StudyCreationHelper {
 	        study.addEpoch(epoch);
 	        return study;
 	    }
-	 
+
 	 public Study addStratifiedEpochToBasicStudy(Study study, String name) {
 	        Epoch epoch = new Epoch();
 	        epoch.setName(name);
@@ -394,7 +404,7 @@ public class StudyCreationHelper {
 	        study.addEpoch(epoch);
 	        return study;
 	    }
-	 
+
 	 public Study addParentStudyAssociation(Study parent, Study child){
 		 parent.setCompanionIndicator(false);
 		 child.setCompanionIndicator(true);
@@ -402,11 +412,11 @@ public class StudyCreationHelper {
 		 association.setId(1);
 		 association.setParentStudyVersion(parent.getStudyVersion());
 		 association.setCompanionStudy(child);
-		 
+
 		 child.getParentStudyAssociations().add(association);
 		 return child;
 	 }
-	 
+
 	 public Study addParentStudyAssociationWithSite(Study parent, Study child){
 		 parent.setCompanionIndicator(false);
 		 child.setCompanionIndicator(true);
@@ -414,15 +424,15 @@ public class StudyCreationHelper {
 		 association.setId(1);
 		 association.setParentStudyVersion(parent.getStudyVersion());
 		 association.setCompanionStudy(child);
-		 
+
 		 StudySite site = new StudySite();
 		 HealthcareSite hcs = new LocalHealthcareSite();
 		 hcs.setCtepCode("NCI_CODE");
 		 hcs.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		 site.setHealthcareSite(hcs);
-		 
+
 		 association.addStudySite(site);
-		 
+
 		 child.getParentStudyAssociations().add(association);
 		 return child;
 	 }
