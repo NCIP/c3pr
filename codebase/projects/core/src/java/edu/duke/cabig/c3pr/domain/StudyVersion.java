@@ -621,4 +621,22 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		studySiteStudyVersion.setStudyVersion(this);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		final StudyVersion other = (StudyVersion) obj;
+		if (this.getStudy().equals(other.getStudy()))  {
+			if(this.getName() == other.getName()){
+				return true;
+			}else{
+				return false ;
+			}
+		}else{
+			return false;
+		}
+	}
+
 }
