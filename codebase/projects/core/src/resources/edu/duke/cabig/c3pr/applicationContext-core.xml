@@ -356,7 +356,7 @@
 			<ref bean="c3prErrorMessages"/>
 		</property>
 		-->
-    <bean id="personResolverUtils" class="edu.duke.cabig.c3pr.utils.PersonResolverUtils" autowire="byName">
+    <bean id="personOrganizationResolverUtils" class="edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils" autowire="byName">
     </bean>
 
     <bean id="remoteHealthcareSiteResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
