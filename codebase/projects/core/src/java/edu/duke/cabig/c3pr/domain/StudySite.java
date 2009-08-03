@@ -124,6 +124,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      *
      * @return the study subjects
      */
+    @Transient
     public List<StudySubject> getStudySubjects() {
     	List<StudySubject> studySubjects= new ArrayList<StudySubject>();
     	for (StudySiteStudyVersion studySiteStudyVersion: getStudySiteStudyVersions()){

@@ -27,7 +27,6 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 
 	private ConsentVersion consentVersion;
 	private Date informedConsentSignedDate ;
-	private StudySubject studySubject ;
 
 	@OneToOne
     @JoinColumn(name="consent_version_id", nullable=false)
@@ -46,17 +45,6 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 
 	public Date getInformedConsentSignedDate() {
 		return informedConsentSignedDate;
-	}
-	
-	@ManyToOne
-	@JoinColumn(name="stu_sub_id", nullable=false)
-    @Cascade( { CascadeType.LOCK})
-	public StudySubject getStudySubject() {
-		return studySubject;
-	}
-
-	public void setStudySubject(StudySubject studySubject) {
-		this.studySubject = studySubject;
 	}
 	
 	@Transient

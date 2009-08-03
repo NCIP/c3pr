@@ -1,20 +1,26 @@
 package edu.duke.cabig.c3pr.domain;
 
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "stu_sub_stu_versions")
@@ -24,10 +30,43 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	private StudySubject studySubject;
 	private StudySiteStudyVersion studySiteStudyVersion;
 	private List<ScheduledEpoch> scheduledEpochs = new ArrayList<ScheduledEpoch>();
+	/** The lazy list helper. */
+	private LazyListHelper lazyListHelper;
 
 
+	public StudySubjectStudyVersion() {
+		lazyListHelper = new LazyListHelper();
+		lazyListHelper.add(StudySubjectConsentVersion.class,
+				new InstantiateFactory<StudySubjectConsentVersion>(StudySubjectConsentVersion.class));
+	}
+	
+	@OneToMany
+	@JoinColumn(name = "stu_sub_stu_ver_id")
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<StudySubjectConsentVersion> getStudySubjectConsentVersionsInternal() {
+		return lazyListHelper.getInternalList(StudySubjectConsentVersion.class);
+	}
+
+	@Transient
+	public List<StudySubjectConsentVersion> getStudySubjectConsentVersions() {
+		return lazyListHelper.getLazyList(StudySubjectConsentVersion.class);
+	}
+
+	public void setStudySubjectConsentVersionsInternal(List<StudySubjectConsentVersion> studySubjectConsentVersions) {
+		lazyListHelper.setInternalList(StudySubjectConsentVersion.class,studySubjectConsentVersions);
+	}
+
+	public void addStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {
+		this.getStudySubjectConsentVersions().add(studySubjectConsentVersion);
+	}
+
+	public void setStudySubjectConsentVersions(List<StudySubjectConsentVersion> studySubjectConsentVersions) {
+		setStudySubjectConsentVersionsInternal(studySubjectConsentVersions);
+	}
+	
 	@ManyToOne
-    @JoinColumn(name = "stu_sub_id", nullable=false)
+    @JoinColumn(name = "spa_id", nullable=false)
     @Cascade( { CascadeType.SAVE_UPDATE, CascadeType.MERGE})
 	public StudySubject getStudySubject() {
 		return studySubject;
@@ -38,7 +77,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	}
 
 	@ManyToOne
-	 @JoinColumn(name = "stu_site_stu_ver_id", nullable=false)
+	 @JoinColumn(name = "stu_site_ver_id", nullable=false)
 	 @Cascade( { CascadeType.LOCK })
 	public StudySiteStudyVersion getStudySiteStudyVersion() {
 		return studySiteStudyVersion;
@@ -102,6 +141,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	 *
 	 * @return the matching scheduled epoch
 	 */
+	@Transient
 	public ScheduledEpoch getScheduledEpoch(Epoch epoch) {
 		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs())
 			if (scheduledEpoch.getEpoch().equals(epoch)) {

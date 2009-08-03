@@ -156,10 +156,6 @@ public class StudySubject extends
 		this.c3prErrorMessages = resourceBundleMessageSource1;
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
 		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(ScheduledEpoch.class,
-				new InstantiateFactory<ScheduledEpoch>(ScheduledEpoch.class));
-		lazyListHelper.add(ScheduledEpoch.class,
-				new InstantiateFactory<ScheduledEpoch>(ScheduledEpoch.class));
 		this.startDate = new Date();
 		this.regDataEntryStatus = RegistrationDataEntryStatus.INCOMPLETE;
 		this.regWorkflowStatus = RegistrationWorkFlowStatus.PENDING;
@@ -210,6 +206,7 @@ public class StudySubject extends
 	 *
 	 * @return the scheduled epochs
 	 */
+	@Transient
 	public List<ScheduledEpoch> getScheduledEpochs() {
 		return getStudySubjectStudyVersion().getScheduledEpochs();
 	}
@@ -244,6 +241,7 @@ public class StudySubject extends
 		}
 	}
 	
+	@Transient
 	public StudySubjectStudyVersion getStudySubjectStudyVersion() {
 		if(studySubjectStudyVersion == null){
 			studySubjectStudyVersion = getLatestStudySubjectVersion();
@@ -256,6 +254,7 @@ public class StudySubject extends
 		this.studySubjectStudyVersion = studySubjectStudyVersion;
 	}
 	
+	@Transient
 	public StudySiteStudyVersion getStudySiteVersion(){
 		return getStudySubjectStudyVersion().getStudySiteStudyVersion();
 	}
@@ -347,6 +346,7 @@ public class StudySubject extends
 	 *
 	 * @return the study site
 	 */
+	@Transient
 	public StudySite getStudySite() {
 		return getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite();
 	}
