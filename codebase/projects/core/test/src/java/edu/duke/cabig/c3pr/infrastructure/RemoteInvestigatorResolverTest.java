@@ -14,7 +14,7 @@ import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
 import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ApplicationContextTest;
-import edu.duke.cabig.c3pr.utils.PersonResolverUtils;
+import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import gov.nih.nci.coppa.po.HealthCareProvider;
 import gov.nih.nci.coppa.po.Person;
@@ -28,7 +28,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 	
 	RemoteInvestigatorResolver remoteInvestigatorResolver = null;
 	CaXchangeMessageBroadcasterImpl coppaMessageBroadcaster = null;
-	PersonResolverUtils personResolverUtils = null;
+	PersonOrganizationResolverUtils personResolverUtils = null;
 	
 	public static final String idpUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
 	public static final String ifsUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
@@ -46,7 +46,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 		super.setUp();
 		remoteInvestigatorResolver = (RemoteInvestigatorResolver) getApplicationContext().getBean("remoteInvestigatorResolver");
 		coppaMessageBroadcaster = (CaXchangeMessageBroadcasterImpl) getApplicationContext().getBean("coppaMessageBroadcaster");
-		personResolverUtils = (PersonResolverUtils)getApplicationContext().getBean("personResolverUtils");
+		personResolverUtils = (PersonOrganizationResolverUtils)getApplicationContext().getBean("personResolverUtils");
 		
 		TestMultisiteDelegatedCredentialProvider testMultisiteDelegatedCredentialProvider = new TestMultisiteDelegatedCredentialProvider(username, password);
 		testMultisiteDelegatedCredentialProvider.setIdpUrl(idpUrl);

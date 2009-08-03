@@ -3,7 +3,7 @@
   <ReviewIssue id="FXTBEX6E">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:36:09:590 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:36:36:260 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 16:18:54:886 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
@@ -12,15 +12,15 @@
     <Severity>item.severity.label.normal</Severity>
     <Summary>Organize Imports</Summary>
     <Description>edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBQKVK">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:45:13:520 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:45:23:441 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 16:18:26:870 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
@@ -28,181 +28,181 @@
     <Type>item.type.label.codingStandards</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Organize Imports</Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Description />
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBSUR6">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:46:59:634 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:47:49:695 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 16:18:33:493 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="32">src/java/edu/duke/cabig/c3pr/utils/PersonResolverUtils.java</File>
+    <File line="31">src/java/edu/duke/cabig/c3pr/utils/PersonResolverUtils.java</File>
     <Type>item.type.label.clarity</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Rename PersonResolverUtils to PersonOrganizationResolverUtils</Summary>
     <Description>PersonResolverUtils</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBUAHH">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:48:06:677 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:49:30:601 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 16:18:37:334 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="51">src/java/edu/duke/cabig/c3pr/utils/PersonResolverUtils.java</File>
+    <File line="50">src/java/edu/duke/cabig/c3pr/utils/PersonResolverUtils.java</File>
     <Type>item.type.label.codingStandards</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Add comments for generating Java Docs for all methods</Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Description />
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTBZ44Y">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:51:51:730 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:53:28:340 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 11:52:18:103 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="95">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="94">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.usability</Type>
     <Severity>item.severity.label.normal</Severity>
-    <Summary>Add comments for generating Java Docs for complicated logic. </Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Summary>Add comments for generating Java Docs for complicated logic.</Summary>
+    <Description />
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTC79U4">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:58:12:364 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 15:59:39:707 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 16:21:28:328 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="108">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="107">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
-    <Summary>use CoppaStatusCodeEnum.getByCode(String code). </Summary>
+    <Summary>use CoppaStatusCodeEnum.getByCode(String code).</Summary>
     <Description>This method is not required</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation>use the getByCode in enum class.</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTCWU9I">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:18:05:238 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:18:44:105 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 16:24:45:239 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="44">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="42">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.clarity</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Refactor method signature</Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Description />
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTD436Q">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:23:43:394 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:24:05:042 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 16:39:27:998 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="55">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="53">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
-    <Summary>What if the result xml is null ? </Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Summary>What if the result xml is null ?</Summary>
+    <Description />
+    <Annotation>abort the flow as we cant save Org without CTEP Id. throw runtime exception.</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTD6H5Z">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:25:34:823 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:26:16:978 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 16:39:53:871 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="90">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="89">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.clarity</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Method should return void. Refactor signature</Summary>
     <Description>populateRemoteHealthcareSite</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation>change to getRemoteHealthcareSite</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTD9GL0">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:27:54:036 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:28:18:858 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 17:17:08:053 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="126">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="107">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.suggestion</Type>
     <Severity>item.severity.label.minor</Severity>
     <Summary>Move this method to some utility class</Summary>
     <Description>getAddressFromCoppaOrganization</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation>move to POUtils? think abt it.</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.invalidWontfix</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTDC0OY">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:29:53:410 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:30:14:860 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 11:34:17:975 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="143">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="142">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.suggestion</Type>
-    <Severity>item.severity.label.minor</Severity>
+    <Severity>item.severity.label.trivial</Severity>
     <Summary>Should return RemoteHealthcareSite</Summary>
     <Description>Object</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Annotation>can change return type</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.validFixlater</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTDE9H2">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:31:38:102 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:32:31:243 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 16:46:49:491 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="157">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="156">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Catch specific exception</Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Description />
+    <Annotation>throw runtimeException from personResolverUtils</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTDGXCZ">
     <ReviewIssueMeta>
@@ -211,13 +211,13 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File></File>
+    <File line="" />
     <Type>item.type.label.codingStandards</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Apply proper logging for all exceptions</Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
+    <Description />
+    <Annotation />
+    <Revision />
     <Resolution>item.label.unset</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
@@ -228,54 +228,54 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File></File>
+    <File line="" />
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Add proper logging if important when result set size is 0</Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
+    <Description />
+    <Annotation />
+    <Revision />
     <Resolution>item.label.unset</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTDSEB8">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:42:37:556 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:43:24:792 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 11:21:49:696 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="257">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="256">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.codingStandards</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Add @Override annotation</Summary>
     <Description>saveOrUpdate</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validFixlater</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTDXVIL">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:46:53:133 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:47:43:133 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 11:20:01:464 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="267">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="266">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Improve error handling</Summary>
     <Description>C3PRCodedException</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Annotation>Should thrown runtime exception(un-checked) as it is non-recoverable situation.</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.validFixlater</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTEDECU">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:58:57:390 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:59:56:380 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 12:08:45:389 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
@@ -283,16 +283,16 @@
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.major</Severity>
     <Summary>What if the primaryIndicator value is 'true' or 1 in the database</Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Description />
+    <Annotation>write test case</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.validFixlater</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTEF2ZP">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:00:15:973 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:00:33:162 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 12:08:21:454 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
@@ -301,100 +301,100 @@
     <Severity>item.severity.label.minor</Severity>
     <Summary>Refactor method name</Summary>
     <Description>getByPrimaryIdentifierFromLocal</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validWontfix</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTEJHY5">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:03:41:981 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:05:17:278 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 17:17:14:557 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="247">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
+    <File line="249">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
     <Type>item.type.label.irrelevant</Type>
     <Severity>item.severity.label.minor</Severity>
     <Summary>No need to set city and country code again. Should be already set in set address</Summary>
     <Description>remoteHealthcareSite</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.invalidWontfix</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTEM3XL">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:05:43:785 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:06:43:013 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 17:08:15:291 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="270">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
+    <File line="272">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
     <Type>item.type.label.clarity</Type>
     <Severity>item.severity.label.minor</Severity>
     <Summary>Rename method name to updateDatabaseWithRemoteHealthcareSites</Summary>
     <Description>updateDatabaseWithRemoteContent</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTEPBA6">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:08:13:278 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:09:19:284 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 12:06:22:707 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="312">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
+    <File line="314">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
     <Type>item.type.label.suggestion</Type>
     <Severity>item.severity.label.minor</Severity>
     <Summary>Update java docs. They are not relevant to the method signature</Summary>
-    <Description></Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Description />
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTERNNW">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:10:02:636 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:10:27:542 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 17:09:08:900 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="335">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
+    <File line="337">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
     <Type>item.type.label.clarity</Type>
     <Severity>item.severity.label.minor</Severity>
     <Summary>Rename org to group</Summary>
     <Description>org</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTEWMCA">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:13:54:202 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:14:57:188 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 17:09:53:328 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="235">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
+    <File line="236">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
     <Type>item.type.label.usability</Type>
     <Severity>item.severity.label.minor</Severity>
     <Summary>Change method name to getExternalOrganizationsByExample</Summary>
     <Description>getFromResolver</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTF2NRV">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:18:35:995 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:19:31:414 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 12:05:22:022 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
@@ -403,49 +403,49 @@
     <Severity>item.severity.label.normal</Severity>
     <Summary>What if indicator is 'true' or 1?</Summary>
     <Description>TRUE</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
+    <Annotation>write test case with vairous values for true</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.validFixlater</Resolution>
     <Status>item.status.label.open</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTF72GX">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:22:01:665 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:24:00:908 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 17:10:53:910 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="398">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
+    <File line="401">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
     <Type>item.type.label.codingStandards</Type>
     <Severity>item.severity.label.minor</Severity>
     <Summary>Make sure the comments for java docs show the correct exceptions thrown by the methods</Summary>
-    <Description> * @throws C3PRBaseException   	 * @throws C3PRBaseRuntimeException   	 */</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Description>* @throws C3PRBaseException   	 * @throws C3PRBaseRuntimeException   	 */</Description>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTFD3T7">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:26:43:339 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:27:07:097 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 17:12:04:758 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="317">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
+    <File line="319">src/java/edu/duke/cabig/c3pr/dao/HealthcareSiteDao.java</File>
     <Type>item.type.label.missing</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Handle the case when externalId is null</Summary>
     <Description>externalId</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation>do the check.</Annotation>
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTFX0TG">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:42:12:580 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:43:23:850 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-03 :: 17:16:47:151 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
@@ -454,9 +454,10 @@
     <Severity>item.severity.label.normal</Severity>
     <Summary>Handle case when ctepCode is null</Summary>
     <Description>ctepCode</Description>
-    <Annotation></Annotation>
-    <Revision></Revision>
-    <Resolution>item.label.unset</Resolution>
-    <Status>item.status.label.open</Status>
+    <Annotation />
+    <Revision />
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
 </Review>
+

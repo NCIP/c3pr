@@ -25,6 +25,7 @@ import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.security.UserProvisioningManager;
@@ -39,8 +40,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 /**
  * The Class HealthcareSiteDao.
  * 
- * @author Ramakrishna
- * @author kherm
+ * @author Ramakrishna, Vinay Gangoli, kherm
  * @version 1.0
  */
 public class HealthcareSiteDao extends OrganizationDao {
@@ -183,16 +183,16 @@ public class HealthcareSiteDao extends OrganizationDao {
 		RemoteHealthcareSite remoteHealthcareSiteName = new RemoteHealthcareSite();
 		remoteHealthcareSiteName.setName(subnames[0]);
 		remoteHealthcareSites
-				.addAll(getFromResolver(remoteHealthcareSiteName));
+				.addAll(getExternalOrganizationsByExampleFromResolver(remoteHealthcareSiteName));
 
 		//get all by nciId next
 		RemoteHealthcareSite remoteHealthcareSiteNciID = new RemoteHealthcareSite();
 		remoteHealthcareSiteNciID.setCtepCode(subnames[0]);
 		remoteHealthcareSites
-				.addAll(getFromResolver(remoteHealthcareSiteNciID));
+				.addAll(getExternalOrganizationsByExampleFromResolver(remoteHealthcareSiteNciID));
 		
 		//save both sets to the db
-		updateDatabaseWithRemoteContent(remoteHealthcareSites);
+		updateDatabaseWithRemoteHealthcareSites(remoteHealthcareSites);
 
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
@@ -205,20 +205,16 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * 
 	 * @param primaryIdentifierCode the nci institute code
 	 * @return the HealthcareSite
-	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
+	 **/
 	public HealthcareSite getByPrimaryIdentifier(String primaryIdentifierCode) {
 		
 		HealthcareSite healthcareSite = getByPrimaryIdentifierFromLocal(primaryIdentifierCode);
 		if(healthcareSite == null){
 			List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
-			remoteHealthcareSites.addAll(getFromResolver(new RemoteHealthcareSite()));
-			updateDatabaseWithRemoteContent(remoteHealthcareSites);
+			remoteHealthcareSites.addAll(getExternalOrganizationsByExampleFromResolver(new RemoteHealthcareSite()));
+			updateDatabaseWithRemoteHealthcareSites(remoteHealthcareSites);
 			
-			return CollectionUtils
-				.firstElement((List<HealthcareSite>) getHibernateTemplate()
-					.find("select H from HealthcareSite H where " +
-						  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'", 
-							new Object[] {primaryIdentifierCode}));
+			return getByPrimaryIdentifierFromLocal(primaryIdentifierCode);
 		}
 		return healthcareSite;
 	}
@@ -230,9 +226,10 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @return the HealthcareSite
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	public HealthcareSite getByPrimaryIdentifierFromLocal(String primaryIdentifierCode) {
-		
-		return CollectionUtils
-		.firstElement((List<HealthcareSite>) getHibernateTemplate()
+		if(StringUtils.isEmpty(primaryIdentifierCode)){
+			return null;
+		}
+		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
 				.find("select H from HealthcareSite H where " +
 					  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'", 
 						new Object[] {primaryIdentifierCode}));
@@ -245,9 +242,10 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @return the HealthcareSite
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	public HealthcareSite getByCtepCodeFromLocal(String ctepCode) {
-		
-		return CollectionUtils
-		.firstElement((List<HealthcareSite>) getHibernateTemplate()
+		if(StringUtils.isEmpty(ctepCode)){
+			return null;
+		}
+		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
 				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.typeInternal=? and " +
 					  "H.identifiersAssignedToOrganization.value=?", 
 						new Object[] {OrganizationIdentifierTypeEnum.CTEP.getName(), ctepCode}));
@@ -258,7 +256,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @param healthcareSite the healthcare site
 	 * @return the healthcare sites
 	 */
-	public List<HealthcareSite> getFromResolver(HealthcareSite healthcareSite) {
+	public List<HealthcareSite> getExternalOrganizationsByExampleFromResolver(HealthcareSite healthcareSite) {
 
 		RemoteHealthcareSite remoteHealthcareSite = new RemoteHealthcareSite();
 		if(healthcareSite.getName() == null){
@@ -293,7 +291,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * 
 	 * @param remoteHealthcareSiteList the health care site list
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
-	public void updateDatabaseWithRemoteContent(List<HealthcareSite> remoteHealthcareSiteList) {
+	public void updateDatabaseWithRemoteHealthcareSites(List<HealthcareSite> remoteHealthcareSiteList) {
 
 		try {
 			for (HealthcareSite remoteHealthcareSite : remoteHealthcareSiteList) {
@@ -334,16 +332,17 @@ public class HealthcareSiteDao extends OrganizationDao {
 		} 
 	}
 
-	/*
-	 * Gets by nci institute code.
-	 * 
-	 * @param nciInstituteCode the nci institute code
-	 * @return the HealthcareSite
-	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
+
+	/**Gets by the unique Identifier
+	 * @param externalId
+	 * @return
+	 */
 	public HealthcareSite getByUniqueIdentifier(String externalId) {
-		return CollectionUtils
-		.firstElement((List<HealthcareSite>) getHibernateTemplate()
-			.find("from RemoteHealthcareSite h where h.externalId = ?", externalId));
+		if(StringUtils.isEmpty(externalId)){
+			return null;
+		}
+		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
+					.find("from RemoteHealthcareSite h where h.externalId = ?", externalId));
 	}
 
 	/**
@@ -421,13 +420,13 @@ public class HealthcareSiteDao extends OrganizationDao {
   	 * @param hcs the hcs
   	 * @param isWildCard the is wild card
   	 * @return the list< healthcare site>
-  	 * @throws C3PRBaseException   	 * @throws C3PRBaseRuntimeException   	 */
+  	 */
 	
     public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard){
     	
     	List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
-		remoteHealthcareSites.addAll(getFromResolver(hcs));
-		updateDatabaseWithRemoteContent(remoteHealthcareSites);
+		remoteHealthcareSites.addAll(getExternalOrganizationsByExampleFromResolver(hcs));
+		updateDatabaseWithRemoteHealthcareSites(remoteHealthcareSites);
 
 		List<HealthcareSite> result = new ArrayList<HealthcareSite>();
         Example example = Example.create(hcs).excludeZeroes().ignoreCase();

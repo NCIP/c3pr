@@ -15,7 +15,7 @@ import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-import edu.duke.cabig.c3pr.utils.PersonResolverUtils;
+import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import gov.nih.nci.coppa.po.ClinicalResearchStaff;
@@ -32,7 +32,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	/** The log. */
     private static Log log = LogFactory.getLog(RemoteResearchStaffResolver.class);
 	
-    private PersonResolverUtils personResolverUtils;
+    private PersonOrganizationResolverUtils personOrganizationResolverUtils;
 	
 	/* (non-Javadoc)
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#find(java.lang.Object)
@@ -70,14 +70,14 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		if (remoteResearchStaffExample.getNciIdentifier() != null) {
              //get Identified Organization ...
              IdentifiedPerson identifiedPersonToSearch = CoppaObjectFactory.getCoppaIdentfiedPersonSearchCriteriaOnCTEPId(remoteResearchStaffExample.getNciIdentifier());
-             IdentifiedPerson identifiedPerson = personResolverUtils.getIdentifiedPerson(identifiedPersonToSearch);
+             IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(identifiedPersonToSearch);
              if (identifiedPerson == null) {
                  return remoteResearchStaffList;
              }
              II ii = identifiedPerson.getPlayerIdentifier();
              String iiXml = CoppaObjectFactory.getCoppaIIXml(ii);
              try {
-                 String resultXml = personResolverUtils.broadcastPersonGetById(iiXml);
+                 String resultXml = personOrganizationResolverUtils.broadcastPersonGetById(iiXml);
                  tempRemoteResearchStaff = loadResearchStaffForPersonResult(resultXml);
                  remoteResearchStaffList.add(tempRemoteResearchStaff);
              } catch (Exception e) {
@@ -98,7 +98,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
         String payload = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganizationSearchCriteria);
         String results = "";
 		try {
-			results = personResolverUtils.broadcastIdentifiedOrganizationSearch(payload);
+			results = personOrganizationResolverUtils.broadcastIdentifiedOrganizationSearch(payload);
 		} catch (C3PRCodedException e) {
 			log.error(e.getMessage());
 		}
@@ -111,7 +111,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
             //Get Organizations based on player id of above IdentifiedOrganizations.
             String organizationResults = "";
 			try {
-				organizationResults = personResolverUtils.broadcastOrganizationGetById(iiXml);
+				organizationResults = personOrganizationResolverUtils.broadcastOrganizationGetById(iiXml);
 			} catch (C3PRCodedException e) {
 				log.error(e);
 			}
@@ -126,7 +126,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
                 String coppaClinicalResearchStaffXml = CoppaObjectFactory.getClinicalResearchStaffXml(clinicalResearchStaff);
                 String sRolesXml = "";
                 try {
-                    sRolesXml = personResolverUtils.broadcastClinicalResearchStaffSearch(coppaClinicalResearchStaffXml);
+                    sRolesXml = personOrganizationResolverUtils.broadcastClinicalResearchStaffSearch(coppaClinicalResearchStaffXml);
                 } catch (C3PRCodedException e) {
                 	log.error(e);
                 }
@@ -139,11 +139,11 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
                     //above player id is the Id of a Person ... now get  the Person by Id
                     String personResultXml = "";
                     try {
-                        personResultXml = personResolverUtils.broadcastPersonGetById(idXml);
+                        personResultXml = personOrganizationResolverUtils.broadcastPersonGetById(idXml);
                         List<String> persons = XMLUtils.getObjectsFromCoppaResponse(personResultXml);  
                         for(String personXml: persons){
                             Person person = CoppaObjectFactory.getCoppaPerson(personXml);
-                            IdentifiedPerson identifiedPerson = personResolverUtils.getIdentifiedPerson(person.getIdentifier());
+                            IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(person.getIdentifier());
                             String nciIdentifier = null;
                             if (identifiedPerson != null) {
                                 nciIdentifier = identifiedPerson.getAssignedId().getExtension();
@@ -168,7 +168,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 				CoppaObjectFactory.getCoppaPerson(remoteResearchStaff.getFirstName(), remoteResearchStaff.getMiddleName(), remoteResearchStaff.getLastName()));
 		String resultXml = "";
 		try {
-			resultXml = personResolverUtils.broadcastPersonSearch(personXml);
+			resultXml = personOrganizationResolverUtils.broadcastPersonSearch(personXml);
 		} catch (Exception e) {
 			System.out.print(e);
 		}
@@ -198,7 +198,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		String iiXml = CoppaObjectFactory.getCoppaIIXml(ii);
 		String resultXml = "";
 		try {
-			resultXml = personResolverUtils.broadcastPersonGetById(iiXml);
+			resultXml = personOrganizationResolverUtils.broadcastPersonGetById(iiXml);
 		} catch (C3PRCodedException e) {
 			log.error(e.getMessage());
 		}
@@ -225,7 +225,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
         if (results.size() > 0) {
             coppaPerson = CoppaObjectFactory.getCoppaPerson(results.get(0));
             coppaOrganizationList = getOrganizationsForPerson(coppaPerson);
-            IdentifiedPerson identifiedPerson = personResolverUtils.getIdentifiedPerson(coppaPerson.getIdentifier());
+            IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(coppaPerson.getIdentifier());
             
             if (identifiedPerson != null ) {
                     nciIdentifier = identifiedPerson.getAssignedId().getExtension();
@@ -253,7 +253,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		String coppaClinicalResearchStaffXml = CoppaObjectFactory.getCoppaClinicalResearchStaffXml(clinicalResearchStaff);
 		String sRolesXml = "";
 		try {
-			sRolesXml = personResolverUtils.broadcastClinicalResearchStaffSearch(coppaClinicalResearchStaffXml);
+			sRolesXml = personOrganizationResolverUtils.broadcastClinicalResearchStaffSearch(coppaClinicalResearchStaffXml);
 		} catch (C3PRCodedException e) {
 			System.out.print(e);
 		}
@@ -265,7 +265,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 				ClinicalResearchStaff crs = CoppaObjectFactory.getCoppaClinicalResearchStaff(sRole);
 				String orgIiXml = CoppaObjectFactory.getCoppaIIXml(crs.getScoperIdentifier());
 				try {
-					orgResultXml = personResolverUtils.broadcastOrganizationGetById(orgIiXml);
+					orgResultXml = personOrganizationResolverUtils.broadcastOrganizationGetById(orgIiXml);
 				} catch (Exception e) {
 					System.out.print(e);
 				}
@@ -290,14 +290,14 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	 */
 	public RemoteResearchStaff populateRemoteResearchStaff(Person coppaPerson, String staffNciIdentifier, List<gov.nih.nci.coppa.po.Organization> coppaOrganizationList){
 		
-		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff)personResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
+		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff)personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
 		remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
 		
 		if(!StringUtils.isEmpty(staffNciIdentifier)){
 			remoteResearchStaff.setNciIdentifier(staffNciIdentifier);
 		} else {
 			II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(coppaPerson.getIdentifier().getExtension());
-			IdentifiedPerson identifiedPerson = personResolverUtils.getIdentifiedPerson(ii);
+			IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(ii);
 			if(identifiedPerson  != null){
 				remoteResearchStaff.setNciIdentifier(identifiedPerson.getAssignedId().getExtension());
 			} else {
@@ -309,10 +309,10 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		HealthcareSite healthcareSite = null;
 		if(coppaOrganizationList != null && coppaOrganizationList.size()>0){
 			for(gov.nih.nci.coppa.po.Organization coppaOrganization: coppaOrganizationList){
-				IdentifiedOrganization identifiedOrganization = personResolverUtils.getIdentifiedOrganization(coppaOrganization);
+				IdentifiedOrganization identifiedOrganization = personOrganizationResolverUtils.getIdentifiedOrganization(coppaOrganization);
 				
 				healthcareSite = new RemoteHealthcareSite();
-				personResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
+				personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
 				healthcareSite.setName(coppaOrganization.getName().toString());
 				
 				remoteResearchStaff.setHealthcareSite(healthcareSite);
@@ -332,25 +332,25 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	 */
 	public RemoteResearchStaff populateRemoteResearchStaff(Person coppaPerson, String staffNciIdentifier, IdentifiedOrganization identifiedOrganization){
 
-		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff)personResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
+		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff)personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
 		remoteResearchStaff.setNciIdentifier(staffNciIdentifier);
 		remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
 		
 		//Build HealthcareSite
 		HealthcareSite healthcareSite = new RemoteHealthcareSite();
-		personResolverUtils.setCtepCodeFromExtension(healthcareSite,identifiedOrganization.getAssignedId().getExtension());
+		personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite,identifiedOrganization.getAssignedId().getExtension());
 		remoteResearchStaff.setHealthcareSite(healthcareSite);
 		return remoteResearchStaff;
 	}
 	
 	
-	public PersonResolverUtils getPersonResolverUtils() {
-		return personResolverUtils;
+	public PersonOrganizationResolverUtils getPersonOrganizationResolverUtils() {
+		return personOrganizationResolverUtils;
 	}
 
 
-	public void setPersonResolverUtils(PersonResolverUtils personResolverUtils) {
-		this.personResolverUtils = personResolverUtils;
+	public void setPersonOrganizationResolverUtils(PersonOrganizationResolverUtils personResolverUtils) {
+		this.personOrganizationResolverUtils = personResolverUtils;
 	}
 
 

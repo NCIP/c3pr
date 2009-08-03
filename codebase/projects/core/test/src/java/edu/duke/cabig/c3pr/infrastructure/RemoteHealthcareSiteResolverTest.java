@@ -10,7 +10,7 @@ import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
 import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ApplicationContextTest;
-import edu.duke.cabig.c3pr.utils.PersonResolverUtils;
+import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
 
 /**
  * The Class RemoteHealthcareSiteResolverTest.
@@ -21,7 +21,7 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 	
 	RemoteHealthcareSiteResolver remoteHealthcareSiteResolver = null;
 	CaXchangeMessageBroadcasterImpl coppaMessageBroadcaster = null;
-	PersonResolverUtils personResolverUtils = null;
+	PersonOrganizationResolverUtils personResolverUtils = null;
 	
 	public static final String idpUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
 	public static final String ifsUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
@@ -37,7 +37,7 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 		super.setUp();
 		remoteHealthcareSiteResolver = (RemoteHealthcareSiteResolver) getApplicationContext().getBean("remoteHealthcareSiteResolver");
 		coppaMessageBroadcaster = (CaXchangeMessageBroadcasterImpl) getApplicationContext().getBean("coppaMessageBroadcaster");
-		personResolverUtils = (PersonResolverUtils) getApplicationContext().getBean("personResolverUtils");
+		personResolverUtils = (PersonOrganizationResolverUtils) getApplicationContext().getBean("personResolverUtils");
 		
 		TestMultisiteDelegatedCredentialProvider testMultisiteDelegatedCredentialProvider = new TestMultisiteDelegatedCredentialProvider(username, password);
 		testMultisiteDelegatedCredentialProvider.setIdpUrl(idpUrl);
@@ -196,11 +196,11 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 	
 	
 
-	public PersonResolverUtils getPersonResolverUtils() {
+	public PersonOrganizationResolverUtils getPersonResolverUtils() {
 		return personResolverUtils;
 	}
 
-	public void setPersonResolverUtils(PersonResolverUtils personResolverUtils) {
+	public void setPersonResolverUtils(PersonOrganizationResolverUtils personResolverUtils) {
 		this.personResolverUtils = personResolverUtils;
 	}
 }

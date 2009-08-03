@@ -17,7 +17,6 @@ import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
 import edu.duke.cabig.c3pr.esb.Metadata;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
@@ -29,7 +28,7 @@ import gov.nih.nci.coppa.po.IdentifiedPerson;
 import gov.nih.nci.coppa.po.Person;
 
 
-public class PersonResolverUtils {
+public class PersonOrganizationResolverUtils {
 	
 	/** The message broadcaster. */
 	private CCTSMessageBroadcaster coppaMessageBroadcaster;
@@ -41,7 +40,7 @@ public class PersonResolverUtils {
 	private MessageSource c3prErrorMessages;
 	
 	/** The log. */
-    private static Log log = LogFactory.getLog(PersonResolverUtils.class);
+    private static Log log = LogFactory.getLog(PersonOrganizationResolverUtils.class);
 	
 	public static final String username = "ccts@nih.gov";
 	public static final String password = "!Ccts@nih.gov1";
