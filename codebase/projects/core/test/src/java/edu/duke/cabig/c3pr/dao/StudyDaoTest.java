@@ -57,7 +57,7 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
 /**
  * JUnit Tests for StudyDao.
- * 
+ *
  * @author Priyatam
  * @author kherm
  * @testType unit
@@ -66,7 +66,7 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 @C3PRUseCases( { CREATE_STUDY, UPDATE_STUDY, SEARCH_STUDY, CREATE_STUDY_INVESTIGATOR,
         ADD_STRATIFICATION, ADD_DISEASE, VERIFY_SUBJECT })
 public class StudyDaoTest extends DaoTestCase {
-    
+
     /** The dao. */
     private StudyDao dao;
 
@@ -102,18 +102,18 @@ public class StudyDaoTest extends DaoTestCase {
         investigatorDao = (InvestigatorDao) getApplicationContext().getBean("investigatorDao");
         diseaseTermDao = (DiseaseTermDao) getApplicationContext().getBean("diseaseTermDao");
         diseaseCategoryDao = (DiseaseCategoryDao) getApplicationContext()
-        	.getBean("diseaseCategoryDao");        
+        	.getBean("diseaseCategoryDao");
         xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean(
                         "c3pr-study-xml-castorMapping"));
     }
 
-    
+
     /*
      * Test the where retired indicator clause for inclusionCriteria.
      */
     /**
      * Test where and where.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testWhereAndWhere() throws Exception {
@@ -125,7 +125,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test for loading a Study by Id.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetById() throws Exception {
@@ -136,7 +136,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test for loading all Studies.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetAll() throws Exception {
@@ -150,7 +150,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test Saving of a Study with all associations present Also tests the Security aspect.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveNewStudyWithSecurity() throws Exception {
@@ -192,7 +192,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Adds the stratum group to epoch.
-     * 
+     *
      * @param epoch1 the epoch1
      */
     public void addStratumGroupToEpoch(Epoch epoch1) {
@@ -225,7 +225,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Builds the study.
-     * 
+     *
      * @return the study
      */
     public Study buildStudy() {
@@ -244,7 +244,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test save study with ans comb.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveStudyWithAnsComb() throws Exception {
@@ -350,9 +350,9 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Clone scac.
-     * 
+     *
      * @param scacList the scac list
-     * 
+     *
      * @return the list< stratification criterion answer combination>
      */
     public List<StratificationCriterionAnswerCombination> cloneScac(
@@ -368,7 +368,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test Saving of a Study with all Randomization associations present.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveStudyWithRandomizations() throws Exception {
@@ -476,13 +476,13 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Combo generator.
-     * 
+     *
      * @param te the te
      * @param myArr the my arr
      * @param intRecurseLevel the int recurse level
      * @param sgList the sg list
      * @param strLine the str line
-     * 
+     *
      * @return the array list< stratum group>
      */
     public ArrayList<StratumGroup> comboGenerator(Epoch te,
@@ -520,7 +520,7 @@ public class StudyDaoTest extends DaoTestCase {
      * strMyLine = ""; for(int i= 0; i< myArr[intRecurseLevel].length ; i++){ strPositionVal =
      * myArr[intRecurseLevel][i]; if(strLine.length() > 0){ strMyLine = strLine +"/"+
      * strPositionVal; } else { strMyLine = strPositionVal; }
-     * 
+     *
      * if(intRecurseLevel < myArr.length-1){ strResult = comboGenerator(myArr, intRecurseLevel + 1,
      * strResult, strMyLine); } else { strResult = strResult + "\n" + strMyLine; } } return
      * strResult; }
@@ -528,7 +528,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test Saving of a Study with all associations present.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveNewStudyWithAssociations() throws Exception {
@@ -561,7 +561,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test save study with notifications.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveStudyWithNotifications() throws Exception {
@@ -611,7 +611,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test hibernate bug.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testHibernateBug() throws Exception {
@@ -708,7 +708,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test for retrieving all study sites associated with this Study.
-     * 
+     *
      * @throws Exception the exception
      */
 
@@ -723,7 +723,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test for retrieving all Epochs associated with this Study.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetEpochs() throws Exception {
@@ -738,13 +738,13 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test get epochs again.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetEpochsAgain() throws Exception {
 
         Study study = dao.getById(1000);
-        
+
         Epoch te = new Epoch();
         te.setName("test");
         te.setStudyVersion(study.getStudyVersion());
@@ -764,13 +764,13 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test for retrieving all Arms associated with this Studies' epochs.
-     * 
+     *
      * @throws Exception the exception
      */
 
     /**
      * Test for Study Paticipant Assignments for a given Study
-     * 
+     *
      * @throws Exception
      */
     public void testGetStudySubjectsForStudy() throws Exception {
@@ -782,7 +782,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test for searching Studies without wildcards.
-     * 
+     *
      * @throws Exception      */
     public void testSearchStudySimple() {
         Study studySearchCriteria = new Study(true);
@@ -805,9 +805,9 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Creates the default study with design.
-     * 
+     *
      * @param study the study
-     * 
+     *
      * @return the study
      */
     private Study createDefaultStudyWithDesign(Study study) {
@@ -839,13 +839,13 @@ public class StudyDaoTest extends DaoTestCase {
             healthcaresite.setDescriptionText("duke healthcare");
             healthcaresite.setCtepCode("Nci duke");
             healthcareSitedao.save(healthcaresite);
-            
+
             // HCSI
             HealthcareSiteInvestigator hcsiSave = new HealthcareSiteInvestigator();
             invSave.addHealthcareSiteInvestigator(hcsiSave);
             hcsiSave.setHealthcareSite(healthcaresite);
             hcsidao.save(hcsiSave);
-            
+
             DiseaseTerm term1 = new DiseaseTerm();
             term1.setTerm("AIDS-related anal cancer");
             term1.setCtepTerm("AIDS-related anal cancer");
@@ -860,10 +860,10 @@ public class StudyDaoTest extends DaoTestCase {
             System.out.println("disease term1 id ************" + term1.getId());
             diseaseTermDao.save(term2);
             System.out.println("disease term2 id ************" + term2.getId());
-            
+
             interruptSession();
             System.out.println("hc site id ************" + healthcaresite.getId());
-            
+
             disId=disCatSaved.getId();
             invId=invSave.getId();
             hcsId=healthcaresite.getId();
@@ -872,14 +872,14 @@ public class StudyDaoTest extends DaoTestCase {
             term2Id=term2.getId();
             System.out.println("hcsi id ************" + hcsiId);
         }
-        
+
         DiseaseCategory disCat=diseaseCategoryDao.getById(disId);
         Investigator inv=investigatorDao.getById(invId);
 
         study.addEpoch(Epoch.createEpoch("Screening"));
         study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
         study.addEpoch(Epoch.createEpoch("Follow up"));
-        
+
         // Study Site
         StudySite studySite = new StudySite();
         study.addStudySite(studySite);
@@ -924,7 +924,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test save new study with epoch and arms.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveNewStudyWithEpochAndArms() throws Exception {
@@ -964,7 +964,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test save new study with epochs.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveNewStudyWithEpochs() throws Exception {
@@ -1025,7 +1025,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test save new study with treatment epochs and arms.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveNewStudyWithTreatmentEpochsAndArms() throws Exception {
@@ -1076,7 +1076,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test for searching Studies using wildcards.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSearchStudyByWildCards() throws Exception {
@@ -1088,7 +1088,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test for retrieving all study funding sponsors associated with this Study.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetStudyFundingSponsors() throws Exception {
@@ -1104,7 +1104,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test for retrieving all study coordinating centers associated with this Study.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetStudyCoordinatingCenters() throws Exception {
@@ -1118,7 +1118,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test save new study with funding sponsor.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveNewStudyWithFundingSponsor() throws Exception {
@@ -1168,7 +1168,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test save new study with coordinating center.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveNewStudyWithCoordinatingCenter() throws Exception {
@@ -1226,7 +1226,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test failure save two identifiers with same org and same type in study.
-     * 
+     *
      * @throws Exception the exception
      */
    /* public void testFailureSaveTwoIdentifiersWithSameOrgAndSameTypeInStudy() throws Exception {
@@ -1260,7 +1260,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test failure save two study organizations with same org and same type.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testFailureSaveTwoStudyOrganizationsWithSameOrgAndSameType() throws Exception {
@@ -1283,7 +1283,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test failure two epochs with same name in study.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testFailureTwoEpochsWithSameNameInStudy() throws Exception {
@@ -1302,7 +1302,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     /**
      * Test failure save two study funding sponsor identifiers with same value.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testFailureSaveTwoStudyFundingSponsorIdentifiersWithSameValue() throws Exception {
@@ -1319,10 +1319,10 @@ public class StudyDaoTest extends DaoTestCase {
         orgId2.setType(OrganizationIdentifierTypeEnum.STUDY_FUNDING_SPONSOR);
         orgId2.setValue("abcd");
         loadedStudy1.addIdentifier(orgId1);
-        
+
         loadedStudy1.getSystemAssignedIdentifiers();
         dao.save(loadedStudy1);
-        
+
         loadedStudy2.addIdentifier(orgId2);
         dao.save(loadedStudy2);
 
@@ -1406,7 +1406,7 @@ public class StudyDaoTest extends DaoTestCase {
         assertEquals(1001, id);
 
     }
-    
+
     /**
      * Test delete companion assoc from parent study.
      */
@@ -1434,7 +1434,7 @@ public class StudyDaoTest extends DaoTestCase {
         assertEquals("Wrong size of list", 1, studies.size());
         assertEquals("Wrong study", new Integer(1000), studies.get(0).getId());
     }
-    
+
     public void testGetStudyBySystemAssignedIdentifier(){
         SystemAssignedIdentifier systemAssignedIdentifier=new SystemAssignedIdentifier();
         systemAssignedIdentifier.setSystemName("nci");
@@ -1443,7 +1443,7 @@ public class StudyDaoTest extends DaoTestCase {
         List<Study> studies=dao.searchBySysIdentifier(systemAssignedIdentifier);
         assertEquals("Wrong size of list",1, studies.size());
     }
-    
+
     public void testGetStudyByOrganizationAssignedIdentifier(){
         OrganizationAssignedIdentifier organizationAssignedId=new OrganizationAssignedIdentifier();
         organizationAssignedId.setHealthcareSite(new LocalHealthcareSite());
@@ -1453,8 +1453,8 @@ public class StudyDaoTest extends DaoTestCase {
         List<Study> studies=dao.searchByOrgIdentifier(organizationAssignedId);
         assertEquals("Wrong size of list",1, studies.size());
     }
-    
-    
+
+
     /**
      * Test get by identifiers multiple study.
      */
@@ -1465,74 +1465,74 @@ public class StudyDaoTest extends DaoTestCase {
         List<Study> studies=dao.getByIdentifiers(identifiers);
         assertEquals("Wrong size of list",4, studies.size());
     }
-    
-    
+
+
     /**
      * Test get by sub name with extra conditions for primary identifier.
      * used by study autocompleters
      */
     public void testGetBySubNameWithExtraConditionsForPrimaryIdentifier(){
     	String[] subName = new String[]{"nci1"};
-    	
+
     	List<Study> studies=dao.getStudiesBySubnamesWithExtraConditionsForPrimaryIdentifier(subName);
     	assertEquals("Wrong number is studies", 1, studies.size());
     }
-    
+
     public void testGetBySubNameMultipleStudies(){
     	String[] subName=new String[]{"short_title_text"};
     	List<Study> studies=dao.getBySubnames(subName);
     	interruptSession();
     	assertEquals("Wrong number is studies", 4, studies.size());
     }
-    
+
     public void testGetBySubNameSingleStudy(){
     	String[] subName=new String[]{"short_title_text2"};
     	List<Study> studies=dao.getBySubnames(subName);
     	interruptSession();
     	assertEquals("Wrong number is studies", 1, studies.size());
     }
-    
+
     public void testGetBySubNameNoStudy(){
     	String[] subName=new String[]{"TestNotAvailable"};
     	List<Study> studies=dao.getBySubnames(subName);
     	interruptSession();
     	assertEquals("Wrong number is studies", 0, studies.size());
     }
-    
+
     /**
      * Test search by example using study status.
      */
     public void testSearchByExampleUsingStudyStatus(){
         Study exampleStudy = new Study();
-        List<Study> studySearchResults = dao.searchByStatus(exampleStudy, "Amendment pending", true);
-        assertEquals("Wrong Number of studies retrieved",1,studySearchResults.size());
-        
+        List<Study> studySearchResults = dao.searchByStatus(exampleStudy, "Open", true);
+        assertEquals("Wrong Number of studies retrieved",4,studySearchResults.size());
+
     }
-    
+
     public void testGetCoordinatingCenterIdentifiersWithValue(){
     	List<OrganizationAssignedIdentifier> orgList=dao.getCoordinatingCenterIdentifiersWithValue("nci1", healthcareSitedao.getById(1000));
     	assertEquals("Wrong number of identifiers",1, orgList.size());
     	orgList=dao.getCoordinatingCenterIdentifiersWithValue("nci2", healthcareSitedao.getById(1000));
     	assertEquals("Wrong number of identifiers",1, orgList.size());
     }
-    
+
     public void testGetCoordinatingCenterIdentifiersWithValueNoIdentifier(){
     	List<OrganizationAssignedIdentifier> orgList=dao.getCoordinatingCenterIdentifiersWithValue("nci", healthcareSitedao.getById(1000));
     	assertEquals("Wrong number of identifiers",0, orgList.size());
     }
-    
+
     public void testGetFundingSponsorIdentifiersWithValue(){
     	List<OrganizationAssignedIdentifier> orgList=dao.getFundingSponsorIdentifiersWithValue("pai1", healthcareSitedao.getById(1000));
     	assertEquals("Wrong number of identifiers",1, orgList.size());
     	orgList=dao.getFundingSponsorIdentifiersWithValue("pai2", healthcareSitedao.getById(1000));
     	assertEquals("Wrong number of identifiers",1, orgList.size());
     }
-    
+
     public void testGetFundingSponsorIdentifiersWithValueNoIdentifier(){
     	List<OrganizationAssignedIdentifier> orgList=dao.getFundingSponsorIdentifiersWithValue("pai", healthcareSitedao.getById(1000));
     	assertEquals("Wrong number of identifiers",0, orgList.size());
     }
-    
+
     public void testCountAcrrualsByDate1(){
     	Study study=dao.getById(1000);
     	Calendar startCalendar=Calendar.getInstance();
@@ -1540,10 +1540,10 @@ public class StudyDaoTest extends DaoTestCase {
     	Calendar endCalendar=Calendar.getInstance();
     	endCalendar.set(2000, Calendar.JANUARY, 2);
     	int accruals=dao.countAcrrualsByDate(study, startCalendar.getTime(), endCalendar.getTime());
-    	
+
     	assertEquals("Wrong acrual count", 1, accruals);
     }
-    
+
     public void testCountAcrrualsByDate2(){
     	Study study=dao.getById(1000);
     	Calendar startCalendar=Calendar.getInstance();
@@ -1553,25 +1553,25 @@ public class StudyDaoTest extends DaoTestCase {
     	int accruals=dao.countAcrrualsByDate(study, startCalendar.getTime(), endCalendar.getTime());
     	assertEquals("Wrong acrual count", 2, accruals);
     }
-    
+
     public void testGetByDiseaseTermId(){
     	List<StudyDisease> stuList=dao.getByDiseaseTermId(1000);
     	assertEquals("Wrong number of study diseases",1, stuList.size());
     }
-    
+
     public void testRefresh(){
     	Study study=dao.getById(1001);
     	dao.refresh(study);
     }
-    
+
     public void testSearchByIdentifier(){
     	List<Study> studies=dao.searchByIdentifier(1000);
     	assertEquals("Wronf number of studies", 1, studies.size());
     }
-    
+
     public void testSaveOneOrganizationIdentifiersAndOneSystemAssignedIdentifier() throws Exception {
         Study loadedStudy = dao.getById(1000);
-        
+
         OrganizationAssignedIdentifier identifier1 = new OrganizationAssignedIdentifier();
         HealthcareSite loadedSite = healthcareSitedao.getById(1000);
         identifier1.setHealthcareSite(loadedSite);
@@ -1582,14 +1582,14 @@ public class StudyDaoTest extends DaoTestCase {
         sysId.setSystemName("sys_name");
         sysId.setValue("123");
         sysId.setType("Coordinating Center Assigned Identifier");
-       
+
         loadedStudy.addIdentifier(identifier1);
         loadedStudy.addIdentifier(sysId);
-        dao.save(loadedStudy);        
+        dao.save(loadedStudy);
         Study reloadedStudy = dao.getById(1000);
         assertEquals("Wrong number of identifiers for study",4,reloadedStudy.getIdentifiers().size());
     }
-    
+
     public void testGetStudySubjectsForCompanionStudy() throws Exception {
     	int studyId = 1000 ;
     	List<StudySubject> list = dao.getStudySubjectsForCompanionStudy(studyId);
