@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.xml;
 
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	protected void setUp() throws Exception {
 		super.setUp();
 		marshaller= new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
-		xmlParser= new XMLParser("xsd/c3pr-domain.xsd");
+		xmlParser= new XMLParser("c3pr-domain.xsd");
 	}
 	
 	public Study buildStudy(){
