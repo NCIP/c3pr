@@ -26,23 +26,23 @@
     <ORGANIZATIONS id="1002" version="1" name="CALGB" description_text="CALGB"  dtype="Local" address_id="1000"
                    retired_indicator="false"/>
 
-    <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role"
+    <STUDY_ORGANIZATIONS id="1000" version="1" role_code="role"
                          start_date="01-01-2001" study_id="1000" hcs_id="1000" type="SST" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
+    <STUDY_ORGANIZATIONS id="1001" version="1" role_code="role2" start_date="01-01-2001"
                          study_id="1000" hcs_id="1001" type="SFS" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1004" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
+    <STUDY_ORGANIZATIONS id="1004" version="1" role_code="role2" start_date="01-01-2001"
                          study_id="1000" hcs_id="1002" type="SCC" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1002" version="1" irb_approval_date="01-01-2000" role_code="role"
+    <STUDY_ORGANIZATIONS id="1002" version="1" role_code="role"
                          start_date="01-01-2001" study_id="1001" hcs_id="1000" type="SST" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
+    <STUDY_ORGANIZATIONS id="1003" version="1" role_code="role2" start_date="01-01-2001"
                          study_id="1001" hcs_id="1001" type="SFS" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1005" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
+    <STUDY_ORGANIZATIONS id="1005" version="1" role_code="role2" start_date="01-01-2001"
                          study_id="1001" hcs_id="1002" type="SCC" retired_indicator="false"/>
                          
     <STUDY_SITE_VERSIONS id="1000" version="1" irb_approval_date="01-01-2000" start_date="01-01-2001" target_accrual="0" 
-    						site_study_status="ACTIVE" stu_version_id="1000" stu_site_id="1000" retired_indicator="false"/>
+    						site_study_status="ACTIVE" stu_version_id="1000" sto_id="1000" retired_indicator="false"/>
     <STUDY_SITE_VERSIONS id="1002" version="1" irb_approval_date="01-01-2000" start_date="01-01-2001" target_accrual="0" 
-     						site_study_status="ACTIVE" stu_version_id="1001" stu_site_id="1002" retired_indicator="false"/>
+     						site_study_status="ACTIVE" stu_version_id="1001" sto_id="1002" retired_indicator="false"/>
 
     <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" hcs_id="1000"
                  retired_indicator="false" primary_indicator="false"/>
@@ -169,8 +169,6 @@
     <SUBJECT_STRAT_ANS id="1000" version="1" sceph_id="1000" str_cri_id="1000" retired_indicator="false"/>
 
     <STRAT_CRI_ANS_CMB id="1000" version="1" retired_indicator="false"/>
-
-    <STUDY_AMENDMENTS id="1000" stu_id="1000" retired_indicator="false"/>
 
     <PLANNED_NOTFNS id="1000" stu_id="1000" retired_indicator="false" version="1"/>
 
