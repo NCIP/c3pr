@@ -1,17 +1,15 @@
 <dataset>
-
-   
- <STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
+ 	<STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
     <STUDIES id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty"  status="OPEN" retired_indicator = "false" />
     <STUDIES id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" />
     <STUDIES id="1003" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" />
-    
+
     <STUDY_VERSIONS id="1000" study_id="1000" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS id="1001" study_id="1001" long_title_text="long_title_text2" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS id="1002" study_id="1002" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS id="1003" study_id="1003" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
 
-   <comp_stu_associations id="1000" mandatory_indicator="1" parent_version_id='1001' companion_study_id='1002' retired_indicator='false'/>
+    <comp_stu_associations id="1000" mandatory_indicator="1" parent_version_id='1001' companion_study_id='1002' retired_indicator='false'/>
 
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA"
                postal_code="20191" country_code="USA" retired_indicator="false"/>
@@ -20,8 +18,8 @@
 
     <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000"
                   administrative_gender_code="M" race_code="White" add_id="1000" retired_indicator="false"/>
-	
-   	
+
+
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000"
                    retired_indicator="false"/>
     <ORGANIZATIONS id="1001" version="1" name="National Cancer Institute" description_text="National Cancer Institute" dtype="Local"
@@ -30,47 +28,34 @@
                    retired_indicator="false"/>
 
 
-    <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role"
-                         site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
-                         hcs_id="1000" type="SST" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1000"
-                         hcs_id="1001" type="SFS" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1004" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1000"
-                         hcs_id="1002" type="SCC" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1002" version="1" irb_approval_date="01-01-2000" role_code="role"
-                         site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
-                         hcs_id="1000" type="SST" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1001"
-                         hcs_id="1001" type="SFS" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1005" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1001"
-                         hcs_id="1002" type="SCC" retired_indicator="false"/>
+ 	<STUDY_ORGANIZATIONS id="1000" version="1"  role_code="role" study_id="1000" hcs_id="1000" type="SST" retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1001" version="1"  role_code="role2" study_id="1000"  hcs_id="1001" type="SST" retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1002" version="1"  role_code="role"  study_id="1001" hcs_id="1000" type="SST" retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1003" version="1"  role_code="role2"  study_id="1001" hcs_id="1001" type="SST" retired_indicator = "false" />
 
-    <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" hcs_id="1000" org_id="1000" 
+	<STUDY_SITE_VERSIONS id="1000" start_date="01-01-2000" stu_version_id="1000" site_study_status="ACTIVE" irb_approval_date="01-01-2000" sto_id="1100"/>
+	<STUDY_SITE_VERSIONS id="1001" start_date="01-01-2002" stu_version_id="1000" site_study_status="ACTIVE" irb_approval_date="01-01-2000" sto_id="1200"/>
+	<STUDY_SITE_VERSIONS id="1002" start_date="01-01-2000" stu_version_id="1001" site_study_status="ACTIVE" irb_approval_date="01-01-2000" sto_id="1100"/>
+	<STUDY_SITE_VERSIONS id="1003" start_date="01-01-2002" stu_version_id="1001" site_study_status="ACTIVE" irb_approval_date="01-01-2000" sto_id="1200"/>
+
+
+    <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" hcs_id="1000" org_id="1000"
                  retired_indicator="false"/>
-	<IDENTIFIERS id="0909" version="1" value="nci1" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1000" 
+	<IDENTIFIERS id="0909" version="1" value="nci1" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1000"
                  retired_indicator="false"/>
-    <IDENTIFIERS id="1002" version="1" value="nci2" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1001" 
+    <IDENTIFIERS id="1002" version="1" value="nci2" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1001"
     			retired_indicator="false"/>
-    <IDENTIFIERS id="10021" version="1" value="nci3" type="TEST" system_name="nci" dtype="SAI" stu_id="1001" 
+    <IDENTIFIERS id="10021" version="1" value="nci3" type="TEST" system_name="nci" dtype="SAI" stu_id="1001"
     			retired_indicator="false"/>
-    <IDENTIFIERS id="1003" version="1" value="nci4" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1002" 
+    <IDENTIFIERS id="1003" version="1" value="nci4" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1002"
     			retired_indicator="false"/>
-    <IDENTIFIERS id="1004" version="1" value="pai1" type="Protocol Authority Identifier" hcs_id="1000" dtype="OAI" stu_id="1003" 
+    <IDENTIFIERS id="1004" version="1" value="pai1" type="Protocol Authority Identifier" hcs_id="1000" dtype="OAI" stu_id="1003"
                  retired_indicator="false"/>
-    <IDENTIFIERS id="1005" version="1" value="pai2" type="Protocol Authority Identifier" hcs_id="1000" dtype="OAI" stu_id="1002" 
+    <IDENTIFIERS id="1005" version="1" value="pai2" type="Protocol Authority Identifier" hcs_id="1000" dtype="OAI" stu_id="1002"
                  retired_indicator="false"/>
     <IDENTIFIERS id="1006" version="1" value="Duke" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"/>
-    <IDENTIFIERS id="1007" version="1" value="NCI" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/> 
-    <IDENTIFIERS id="1008" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"/>                
-
-    <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" informed_consent_signed_date="01-01-2000"
-                    prt_id="1000" sto_id="1000" sti_id="1000" retired_indicator="false"/>
-    <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" informed_consent_signed_date="01-01-2000"
-                    prt_id="1000" sto_id="1000" sti_id="1001" retired_indicator="false"/>
+    <IDENTIFIERS id="1007" version="1" value="NCI" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/>
+    <IDENTIFIERS id="1008" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"/>
 
     <RANDOMIZATIONS id="1001" version="1" dtype="BR" retired_indicator="false"/>
 
@@ -86,10 +71,6 @@
             treatment_indicator="1" retired_indicator="false" epoch_order="1"/>
     <EPOCHS id="1005" version="1" name="NonTreatment1005" description_text="non treatment cancer desc" stu_version_id="1000"
             treatment_indicator="1" retired_indicator="false" epoch_order="3"/>
-
-    <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="1"
-                      ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000" eph_id="1000"
-                      retired_indicator="false"/>
 
     <ARMS id="1000" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000"
           eph_id="1000" retired_indicator="false"/>
@@ -165,24 +146,18 @@
     <ELIGIBILITY_CRITERIA id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1"
                           dtype="E" retired_indicator="false"/>
 
-    <SUBJECT_ELIGIBILITY_ANS id="1000" version="1" sceph_id="1000" elgct_id="2000" retired_indicator="false"/>
-
     <STRAT_CRITERIA id="1000" version="1" question_text="question" question_number="1" retired_indicator="false"/>
 
     <STRAT_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000" retired_indicator="false"/>
 
-    <SUBJECT_STRAT_ANS id="1000" version="1" sceph_id="1000" str_cri_id="1000" retired_indicator="false"/>
-
     <STRAT_CRI_ANS_CMB id="1000" version="1" retired_indicator="false"/>
 
-    <STUDY_AMENDMENTS id="1000" stu_id="1000" retired_indicator="false"/>
-    
     <PLANNED_NOTFNS id="1000" stu_id="1000" retired_indicator="false" version="1"/>
-    
+
     <SCHLD_NOTFNS id="1000" version="1"/>
 
-    <RECIPIENTS id="1000" version="1" planned_notfns_id="1000" retired_indicator="false"/> 
-    
+    <RECIPIENTS id="1000" version="1" planned_notfns_id="1000" retired_indicator="false"/>
+
     <CONTACT_MECHANISMS id="1000" version="1" />
     <prt_org_associations version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
 </dataset>

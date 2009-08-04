@@ -22,8 +22,8 @@
     <STUDY_ORGANIZATIONS id="1100" version="1"  role_code="role" hcs_id="1100" type="SST" study_id="1100"/>
     <STUDY_ORGANIZATIONS id="1200" version="1"  role_code="role"  hcs_id="1000" type="SST" study_id="1200"/>
 
-	<STUDY_SITE_VERSIONS id="1100" start_date="01-01-2000" stu_version_id="1100" site_study_status="ACTIVE" irb_approval_date="01-01-2000" stu_site_id="1100"/>
-	<STUDY_SITE_VERSIONS id="1200" start_date="01-01-2002" stu_version_id="1200" site_study_status="ACTIVE" irb_approval_date="01-01-2002" stu_site_id="1200"/>
+	<STUDY_SITE_VERSIONS id="1100" start_date="01-01-2000" stu_version_id="1100" site_study_status="ACTIVE" irb_approval_date="01-01-2000" sto_id="1100"/>
+	<STUDY_SITE_VERSIONS id="1200" start_date="01-01-2002" stu_version_id="1200" site_study_status="ACTIVE" irb_approval_date="01-01-2002" sto_id="1200"/>
 
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>
 

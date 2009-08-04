@@ -5,13 +5,13 @@ import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
  * JUnit Tests for CompanionStudyAssociationDao.
- * 
+ *
  * @author Ramakrishna
  * @testType unit
  */
 
 public class CompanionStudyAssociationDaoTest extends ContextDaoTestCase<StudyDao> {
-    
+
     /** The dao. */
     private CompanionStudyAssociationDao companionStudyAssociationDao;
     private StudyDao studyDao;
@@ -25,7 +25,7 @@ public class CompanionStudyAssociationDaoTest extends ContextDaoTestCase<StudyDa
         companionStudyAssociationDao = (CompanionStudyAssociationDao) getApplicationContext().getBean("companionStudyAssociationDao");
         studyDao = (StudyDao) getApplicationContext().getBean("studyDao");
     }
-    
+
     public void testDomainClass() throws Exception{
     	assertEquals("Wrong domain class",CompanionStudyAssociation.class,companionStudyAssociationDao.domainClass());
     }
@@ -37,12 +37,12 @@ public class CompanionStudyAssociationDaoTest extends ContextDaoTestCase<StudyDa
     	companionStudyAssociation.setParentStudyVersion(studyDao.getById(1000).getStudyVersion());
     	assertNull("companionStudyAssociation should not have an Id",companionStudyAssociation.getId());
     	companionStudyAssociationDao.save(companionStudyAssociation);
-    	
+
     	Integer savedId = companionStudyAssociation.getId();
     	CompanionStudyAssociation loadedCompanionStudyAssociation = companionStudyAssociationDao.getById(savedId);
-    	
+
     	assertEquals("Parent study wrong or not found","short_title_text",loadedCompanionStudyAssociation.getParentStudy().getShortTitleText());
     	assertEquals("Companion study wrong or not found","short_title_text2",loadedCompanionStudyAssociation.getCompanionStudy().getShortTitleText());
     }
-  
+
 }
