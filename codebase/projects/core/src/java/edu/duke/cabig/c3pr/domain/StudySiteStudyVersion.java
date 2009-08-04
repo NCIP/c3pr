@@ -16,8 +16,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
-@Table(name = "stu_site_stu_versions")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STU_SITE_STU_VERSION_ID_SEQ") })
+@Table(name = "study_site_versions")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SITE_VERSION_ID_SEQ") })
 public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject {
 
 	private Date endDate;
@@ -73,7 +73,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	public void setTargetAccrual(Integer targetAccrual) {
 		this.targetAccrual = targetAccrual;
 	}
-	
+
 	@OneToMany(mappedBy = "studySiteStudyVersion")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
@@ -83,5 +83,5 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 			List<StudySubjectStudyVersion> studySubjectStudyVersions) {
 		this.studySubjectStudyVersions = studySubjectStudyVersions;
 	}
-	
+
 }
