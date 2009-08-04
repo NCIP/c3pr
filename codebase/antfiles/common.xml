@@ -646,6 +646,7 @@
 					<exclude name="edu/duke/cabig/**/StudyServiceAuthorization*.class"/>
 					<exclude name="edu/duke/cabig/**/RegistrationServiceAuthorization*.class"/>
 					<exclude name="edu/duke/cabig/**/Summary3ReportServiceTest.class"/>
+					<exclude name="edu/duke/cabig/**/XMLTransformerTest.class"/> <!--commented until xsd for CCTS support is finalized -->
 					
 					<!-- we have commented couple of test cases in StudySubjectServiceIntegrationTestCase , we need to fix them later-->
 				</fileset>
