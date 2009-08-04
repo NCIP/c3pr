@@ -16,17 +16,28 @@
     <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1001" retired_indicator = "false" />  
     <ORGANIZATIONS id="1002" version="1" name="wake forest" description_text="wake forest" dtype="Local" address_id="1001" retired_indicator = "false" />  
     
-    <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1000" version="1" role_code="role" start_date="01-01-2001" study_id="1000"
     hcs_id="1000" type="SST" retired_indicator = "false" />
-    <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1001" version="1" role_code="role2" start_date="01-01-2001" study_id="1000"
     hcs_id="1001" type="SST" retired_indicator = "false" />
-    <STUDY_ORGANIZATIONS id="1002" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
+    <STUDY_ORGANIZATIONS id="1002" version="1" role_code="role" start_date="01-01-2001" study_id="1001"
     hcs_id="1000" type="SST" retired_indicator = "false" />
-    <STUDY_ORGANIZATIONS id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
+    <STUDY_ORGANIZATIONS id="1003" version="1" role_code="role2" start_date="01-01-2001" study_id="1001"
     hcs_id="1001" type="SST" retired_indicator = "false" />
-    <STUDY_ORGANIZATIONS id="1010" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1010" version="1" role_code="role2" start_date="01-01-2001" study_id="1000"
     hcs_id="1002" type="SST" retired_indicator = "false" />
         
+    <study_site_versions id="1000" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1000" sto_id="1000"/>
+    <study_site_versions id="1001" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1000" sto_id="1001"/>
+    <study_site_versions id="1002" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1001" sto_id="1002"/>
+    <study_site_versions id="1003" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1001" sto_id="1003"/>
+    <study_site_versions id="1010" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1000" sto_id="1010"/>
+    
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
             
     <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_version_id="1000" retired_indicator = "false" />
@@ -104,14 +115,17 @@
 
     <DISEASE_HISTORY id="1000" version="1" retired_indicator = "false" />
 
-    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1000" retired_indicator = "false" />
-    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1001" retired_indicator = "false" />
+    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sti_id="1000" retired_indicator = "false" />
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sti_id="1001" retired_indicator = "false" />
+	
+	<study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
+    <study_subject_versions id="1001" version="1" study_site_ver_id="1000" spa_id="1001" retired_indicator = "false" />
 	
 	<stu_sub_associations parent_stu_sub_id="1000" child_stu_sub_id="1001" />
     
-    <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000"  eph_id="1000" sc_epoch_workflow_status="REGISTERED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
-    <SCHEDULED_EPOCHS id="1001" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000"  eph_id="1005" sc_epoch_workflow_status="REGISTERED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
-	<SCHEDULED_EPOCHS id="1002" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000"  eph_id="1001" sc_epoch_workflow_status="PENDING" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
+    <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="REGISTERED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1001" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="REGISTERED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
+	<SCHEDULED_EPOCHS id="1002" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1001" sc_epoch_workflow_status="PENDING" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
     
 	<SUBJECT_STRAT_ANS id="1000" version="1" sceph_id="1000" str_cri_id="1000" retired_indicator = "false" />
 	
@@ -120,8 +134,6 @@
     <SCHEDULED_ARMS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="1" arm_id="1000" SCEPH_ID="1000"  retired_indicator = "false" />  
 
     <STRAT_CRI_ANS_CMB id="1001" version="1" sc_id="1000" scpa_id="1000" retired_indicator = "false" />
-    
-    <STUDY_AMENDMENTS/>
     
     <IDENTIFIERS id="1001" version="1" value="nci" type="local" system_name="nci" dtype="SAI" prt_id="1000" org_id="1000" retired_indicator="false" spa_id="1000" primary_indicator="false"/>
     <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator="false"  spa_id="1001"/>    
