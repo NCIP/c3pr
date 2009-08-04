@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -840,7 +841,11 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	
 	@Transient
 	public StudySiteStudyVersion getLatestStudySiteStudyVersion(){
-		return getStudySiteStudyVersions().get(getStudySiteStudyVersions().size()-1);
+		if(getStudySiteStudyVersions().size()==0)
+			return getStudySiteStudyVersions().get(0);
+		List<StudySiteStudyVersion> studySiteStudyVersions = this.getStudySiteStudyVersions();
+		Collections.sort(studySiteStudyVersions);
+		return studySiteStudyVersions.get(studySiteStudyVersions.size()-1);
 	}
 	
 	@OneToMany(mappedBy = "studySite")

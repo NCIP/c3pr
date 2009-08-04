@@ -22,7 +22,7 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 @Entity
 @Table(name = "study_site_versions")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SITE_VERSIONS_ID_SEQ") })
-public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject {
+public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<StudySiteStudyVersion>{
 
 	private Date irbApprovalDate;
 	private Date startDate;
@@ -99,6 +99,10 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	public void setStudySubjectStudyVersions(
 			List<StudySubjectStudyVersion> studySubjectStudyVersions) {
 		this.studySubjectStudyVersions = studySubjectStudyVersions;
+	}
+
+	public int compareTo(StudySiteStudyVersion studySiteStudyVersion) {
+		return this.irbApprovalDate.compareTo(studySiteStudyVersion.getIrbApprovalDate());
 	}
 
 }
