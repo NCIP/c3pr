@@ -11,10 +11,11 @@ class MigrateToStudyVersionFropColumns extends edu.northwestern.bioinformatics.b
       	addColumn('comp_stu_associations', 'parent_version_id', 'integer');
       	execute("update comp_stu_associations set parent_version_id=parent_study_id");
       	dropColumn('comp_stu_associations', 'parent_study_id');
-      	
+
       	dropColumn('study_organizations','end_date')
       	dropColumn('study_organizations','site_study_status')
       	dropColumn('study_organizations','irb_approval_date')
+      	dropTable('study_amendments')
     }
 
 	void down() {
