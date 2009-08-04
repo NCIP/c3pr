@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 
@@ -151,6 +152,11 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
         study.addEpoch(Epoch.createEpoch("Follow up"));
         study.getEpochs().get(1).setEnrollmentIndicator(true);
+        
+        //Study
+        
+        StudyVersion studyVersion = new StudyVersion();
+        study.addStudyVersion(studyVersion);
 
         // Study Site
         StudySite studySite = new StudySite();
