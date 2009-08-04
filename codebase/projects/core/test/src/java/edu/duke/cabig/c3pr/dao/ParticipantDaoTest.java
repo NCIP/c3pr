@@ -23,7 +23,7 @@ import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
  * JUnit Tests for ParticipantDao
- * 
+ *
  * @author Priyatam
  * @testType Integration
  */
@@ -32,24 +32,22 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     private ParticipantDao participantDao;
 
     private HealthcareSiteDao healthcareSiteDao;
-    private OrganizationDao organizationDao;
 
     public ParticipantDaoTest() {
     	participantDao = (ParticipantDao) getApplicationContext().getBean("participantDao");
     	healthcareSiteDao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
-    	organizationDao = (OrganizationDao) getApplicationContext().getBean("organizationDao");
 	}
-    
+
     /**
 	 * Test domain class.
 	 */
 	public void testDomainClass() {
 		assertEquals("Wrong Domain Class", Participant.class, getDao().domainClass());
 	}
-    
+
     /**
      * Test for loading a Participant by Id
-     * 
+     *
      * @throws Exception
      */
     public void testGetById() throws Exception {
@@ -60,7 +58,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 
     /**
      * Test for loading all Participants
-     * 
+     *
      * @throws Exception
      */
     public void testGetAll() throws Exception {
@@ -72,23 +70,23 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         assertContains("Wrong Participant found", ids, 1002);
     }
 
-    
+
     /**
      * Test get subject identifiers with mrn.
      */
     public void testGetSubjectIdentifiersWithMRN(){
     	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);
-    	
+
     	List<OrganizationAssignedIdentifier> oaiList = getDao().getSubjectIdentifiersWithMRN("mrn_value", healthcareSite);
     	assertEquals(1, oaiList.size());
     	assertEquals(oaiList.get(0).getValue(), "mrn_value");
     	assertEquals(oaiList.get(0).getHealthcareSite(), healthcareSite);
     }
-    
-    
+
+
     /**
      * Test for retrieving all Participant Assignments associated with this Participant
-     * 
+     *
      * @throws Exception
      */
     public void testGetStudySubjects() throws Exception {
@@ -101,10 +99,10 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         assertContains("Missing expected Study Participant Identifier", ids, 1001);
     }
 
-   
+
     /**
      * Test search by example for participant without wildcard.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSearchByExampleForParticipantWithoutWildcard() throws Exception {
@@ -114,10 +112,10 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         assertEquals("Wrong number of Participants", 1, results.size());
     }
 
-   
+
     /**
      * Test search by example for participant with wildcard.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSearchByExampleForParticipantWithWildcard() throws Exception {
@@ -126,7 +124,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         List<Participant> results = participantDao.searchByExample(searchCriteria);
         assertEquals("Wrong number of Participants", 1, results.size());
     }
-    
+
     /**
      * Test search by example with identifier.
      */
@@ -135,15 +133,15 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	SystemAssignedIdentifier systemAssignedIdentifier = new SystemAssignedIdentifier();
     	systemAssignedIdentifier.setType("local");
     	systemAssignedIdentifier.setValue("nci");
-    	
+
     	participant.getIdentifiers().add(systemAssignedIdentifier);
-    	
+
     	List<Participant> participantList = getDao().searchByExample(participant, true);
-    	
+
     	assertEquals(1, participantList.size());
     	assertEquals("Rudolph", participantList.get(0).getFirstName());
 	}
-    
+
     /**
      * Test search by identifier.
      */
@@ -153,43 +151,43 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	assertEquals("Rudolph", participantList.get(0).getFirstName());
 	}
 
-    
+
     /**
      * Test search by subnames by first name.
      */
     public void testSearchBySubnamesByFirstName() {
 		String[] namesArray = new String[] {"Rudo"};
     	List<Participant> participantList = getDao().getBySubnames(namesArray, 6);
-    	
+
     	assertEquals(1, participantList.size());
     	assertEquals("Rudolph", participantList.get(0).getFirstName());
 	}
-    
+
     /**
      * Test search by subnames by last name.
      */
     public void testSearchBySubnamesByLastName() {
 		String[] namesArray = new String[] {"mez"};
     	List<Participant> participantList = getDao().getBySubnames(namesArray, 0);
-    	
+
     	assertEquals(1, participantList.size());
     	assertEquals("Andrez", participantList.get(0).getFirstName());
 	}
-    
+
     /**
      * Test search by subnames by identifier.
-     
+
     public void testSearchBySubnamesByIdentifier() {
 		String[] idsArray = new String[] {"mrn"};
     	List<Participant> participantList = getDao().getBySubnames(idsArray, 1);
-    	
+
     	assertEquals(1, participantList.size());
     	assertEquals("Rudolph", participantList.get(0).getFirstName());
 	}*/
-    
+
     /**
      * Test for Creating Participant with basic details and address and healthcareSite
-     * 
+     *
      * @throws Exception
      */
 
@@ -205,7 +203,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.getAddress().setCountryCode("USA");
         participant.getAddress().setStateCode("NC");
         participant.getAddress().setStreetAddress("350 Glen Dale Avenue");
-        HealthcareSite hcs = organizationDao.getById(1000);
+        HealthcareSite hcs = healthcareSiteDao.getById(1000);
         List<HealthcareSite> hcsList = new ArrayList<HealthcareSite>();
         hcsList.add(hcs);
         participant.setHealthcareSites(hcsList);
@@ -223,7 +221,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 
     /**
      * Test for Creating Participant with system assigned identifier
-     * 
+     *
      * @throws Exception
      */
 
@@ -287,7 +285,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 
     /**
      * Test for Creating Participant with organization assigned identifier
-     * 
+     *
      * @throws Exception
      */
 
@@ -302,10 +300,10 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         assertEquals("duke healthcare", savedParticipant
                         .getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getName());
     }
-    
-    
+
+
     public Participant buildParticipantWithOrganizationAssignedIdentifier() {
-		
+
 	    Participant participant = new Participant();
 	    participant.setLastName("Barry");
 	    participant.setFirstName("Bonds");
@@ -319,18 +317,18 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 	    orgAssignedIdentifier.setValue("Identifier Value");
 	    orgAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
 	    participant.addIdentifier(orgAssignedIdentifier);
-	    
+
 	    return participant;
     }
     /**
      * Test for Retrieving Participant with organization assigned identifier
-     * 
+     *
      * @throws Exception
      */
-    
+
     /**
      * Test for Search Participant with system assigned identifier
-     * 
+     *
      * @throws Exception
      */
 
@@ -339,28 +337,28 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         systemAssignedIdentifier.setSystemName("nci");
         systemAssignedIdentifier.setType("local");
         systemAssignedIdentifier.setValue("grid");
-        
+
         List<Participant> participants = participantDao.searchBySystemAssignedIdentifier(systemAssignedIdentifier);
         assertEquals("Expected to get 1 participant",1, participants.size());
-        
+
         SystemAssignedIdentifier systemAssignedIdentifier1 = new SystemAssignedIdentifier();
         systemAssignedIdentifier1.setSystemName("nci");
         systemAssignedIdentifier1.setType("local");
         systemAssignedIdentifier1.setValue("nci");
-        
+
         List<Participant> participants1 = participantDao.searchBySystemAssignedIdentifier(systemAssignedIdentifier1);
         assertEquals("Expected to get 2 participants",2, participants1.size());
-        
+
         SystemAssignedIdentifier systemAssignedIdentifier2 = new SystemAssignedIdentifier();
         systemAssignedIdentifier2.setSystemName("nci123");
         systemAssignedIdentifier2.setType("local");
         systemAssignedIdentifier2.setValue("nci");
-        
+
         List<Participant> participants2 = participantDao.searchBySystemAssignedIdentifier(systemAssignedIdentifier2);
         assertEquals("Expected to get 0 participant",0, participants2.size());
     }
-    
-    
+
+
     /**
      * Test initialize and ensure lazylists are initialized.
      */
@@ -375,7 +373,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 			fail();
 		}
 	}
-    
+
     /**
      * Test initialize and ensure studySubjects are initalized.
      */
@@ -388,7 +386,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 			fail();
 		}
 	}
-    
+
     /**
      * Test merge.
      */
@@ -404,7 +402,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         assertEquals("duke healthcare", savedParticipant
                         .getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getName());
 	}
-    
+
     public void testReassociate() {
     	Participant participant = getDao().getById(1000);
     	participant.setMaidenName("mani");

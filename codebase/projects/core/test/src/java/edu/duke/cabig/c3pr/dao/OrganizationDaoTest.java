@@ -43,41 +43,38 @@ import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
 
 /**
  * Test for loading an Organization by Id.
- * 
+ *
  * @throws Exception  */
 @C3PRUseCases( { CREATE_ORGANIZATION })
 public class OrganizationDaoTest extends DaoTestCase {
-	
+
 	/** The Constant MESSAGE_BODY. */
 	public static final String MESSAGE_BODY = "You get this message and your domain model is working";
-	
+
 	/** The Constant TITLE. */
 	public static final String TITLE = "Vanguard";
-	
+
     /** The research staff dao. */
     private ResearchStaffDao researchStaffDao;
-    
+
     /** The planned notification dao. */
     private PlannedNotificationDao plannedNotificationDao;
-    
+
     /** The investigator group dao. */
     private InvestigatorGroupDao investigatorGroupDao;
-    
+
     /** The healthcare site investigator dao. */
     private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
-    
+
     /** The healthcare site dao. */
     private HealthcareSiteDao healthcareSiteDao;
-    
-    /** The organization dao. */
-    private OrganizationDao organizationDao;
-    
+
     /** The remote session. */
     private RemoteSession remoteSession;
-    
+
     /** The remote healthcare site resolver. */
     private RemoteHealthcareSiteResolver remoteHealthcareSiteResolver;
-    
+
     /**
      * Instantiates a new organization dao test.
      */
@@ -87,14 +84,13 @@ public class OrganizationDaoTest extends DaoTestCase {
         investigatorGroupDao = (InvestigatorGroupDao) getApplicationContext().getBean("investigatorGroupDao");
         healthcareSiteInvestigatorDao = (HealthcareSiteInvestigatorDao) getApplicationContext().getBean("healthcareSiteInvestigatorDao");
         healthcareSiteDao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
-        organizationDao = (OrganizationDao) getApplicationContext().getBean("organizationDao");
         remoteSession = (RemoteSession) getApplicationContext().getBean("remoteSession");
         remoteHealthcareSiteResolver = (RemoteHealthcareSiteResolver)getApplicationContext().getBean("remoteHealthcareSiteResolver");
 	}
-    
+
     /**
      * Test get by id.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetById() throws Exception {
@@ -104,28 +100,28 @@ public class OrganizationDaoTest extends DaoTestCase {
 
     /**
      * Test get by nci identifier.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetByNciIdentifier() throws Exception {
         HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifier("du code");
         assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
     }
-    
+
     /**
      * Test get by nci identifier.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetByNciIdentifierFromLocal() throws Exception {
         HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifierFromLocal("du code");
         assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
     }
-    
-    
+
+
     /**
      * Test search by example with wild card true.
-     * 
+     *
      * @throws C3PRBaseException      * @throws C3PRBaseRuntimeException
      */
     public void testSearchByExampleWithNciCodeAndWildCardTrue(){
@@ -136,10 +132,10 @@ public class OrganizationDaoTest extends DaoTestCase {
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
     }
-    
+
     /**
      * Test search by example with wild card true.
-     * 
+     *
      * @throws C3PRBaseException      * @throws C3PRBaseRuntimeException
      */
     public void testSearchByExampleWithNameAndWildCardTrue(){
@@ -149,10 +145,10 @@ public class OrganizationDaoTest extends DaoTestCase {
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
     }
-    
+
     /**
      * Test search by example with wild card true.
-     * 
+     *
      * @throws C3PRBaseException      * @throws C3PRBaseRuntimeException
      */
     public void testSearchByExampleWithNameAndNciCodeAndWildCardTrue(){
@@ -163,11 +159,11 @@ public class OrganizationDaoTest extends DaoTestCase {
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
     }
-    
-    
+
+
     /**
      * Test search by example with wild card false.
-     * 
+     *
      * @throws C3PRBaseException      * @throws C3PRBaseRuntimeException
      */
     public void testSearchByExampleWithWildCardFalse(){
@@ -179,9 +175,9 @@ public class OrganizationDaoTest extends DaoTestCase {
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
     }
-    
-    
-    
+
+
+
     /**
      * Test merge new organization.
      */
@@ -215,8 +211,8 @@ public class OrganizationDaoTest extends DaoTestCase {
             assertEquals("Wrong city", "Chicago", loaded.getAddress().getCity());
         }
     }
-    
-    
+
+
     /**
      * Test save new organization.
      */
@@ -250,7 +246,7 @@ public class OrganizationDaoTest extends DaoTestCase {
             assertEquals("Wrong city", "Chicago", loaded.getAddress().getCity());
         }
     }
-    
+
     /**
      * Test save new organization with endpoint.
      */
@@ -271,7 +267,7 @@ public class OrganizationDaoTest extends DaoTestCase {
             healthcaresite.setDescriptionText("NU healthcare");
             healthcaresite.setCtepCode("NCI northwestern");
             this.healthcareSiteDao.save(healthcaresite);
-            
+
             savedId = healthcaresite.getId();
             assertNotNull("The saved organization didn't get an id", savedId);
         }
@@ -301,7 +297,7 @@ public class OrganizationDaoTest extends DaoTestCase {
         {
             HealthcareSite healthcaresite = new LocalHealthcareSite();
             HealthcareSite duke = this.healthcareSiteDao.getById(1000);
-            
+
             Address address = new Address();
             address.setCity("Chicago");
             address.setCountryCode("USA");
@@ -312,7 +308,7 @@ public class OrganizationDaoTest extends DaoTestCase {
             healthcaresite.setAddress(address);
             healthcaresite.setName("Northwestern Memorial Hospital");
             healthcaresite.setDescriptionText("NU healthcare");
-            
+
             OrganizationAssignedIdentifier oai_ctep = new OrganizationAssignedIdentifier();
             oai_ctep.setType(OrganizationIdentifierTypeEnum.CTEP);
             oai_ctep.setValue("ctep value 1");
@@ -320,41 +316,41 @@ public class OrganizationDaoTest extends DaoTestCase {
             //set the assigning organization in the OAI.
             oai_ctep.setHealthcareSite(duke);
             healthcaresite.getOrganizationAssignedIdentifiers().add(oai_ctep);
-            
-            
+
+
             OrganizationAssignedIdentifier oai = new OrganizationAssignedIdentifier();
             oai.setType(OrganizationIdentifierTypeEnum.AI);
             oai.setValue("AOI-1");
             //set the assigning organization in the OAI.
             oai.setHealthcareSite(duke);
             healthcaresite.getOrganizationAssignedIdentifiers().add(oai);
-            
-            
+
+
             SystemAssignedIdentifier sai = new SystemAssignedIdentifier();
             sai.setType("Assigned Organization Identifier");
             sai.setValue("AOI-2");
             healthcaresite.getSystemAssignedIdentifiers().add(sai);
-            
+
             this.healthcareSiteDao.save(healthcaresite);
-            
+
             savedId = healthcaresite.getId();
             assertNotNull("The saved organization didn't get an id", savedId);
         }
         interruptSession();
         {
         	HealthcareSite loaded = this.healthcareSiteDao.getById(savedId);
-        	
+
             assertEquals(3, loaded.getIdentifiersAssignedToOrganization().size(), 3);
            	assertEquals(2, loaded.getOrganizationAssignedIdentifiers().size());
            	assertEquals("ctep value 1", loaded.getCtepCode());
            	assertEquals("AOI-2", loaded.getSystemAssignedIdentifiers().get(0).getValue());
            	assertEquals(1000, loaded.getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getId().intValue());
-        }        
+        }
     }
-    
+
     /**
      * Test get by id for investigator groups.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetByIdForInvestigatorGroups() throws Exception {
@@ -364,7 +360,7 @@ public class OrganizationDaoTest extends DaoTestCase {
 
     /**
      * Test add investigator group to healthcare site.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testAddInvestigatorGroupToHealthcareSite() throws Exception {
@@ -375,14 +371,14 @@ public class OrganizationDaoTest extends DaoTestCase {
             investigatorGroup.setHealthcareSite(org);
             investigatorGroup.setDescriptionText("InvestigatorGroupDescription");
             investigatorGroup.setName("inv_grp");
-            
-           
+
+
             HealthcareSiteInvestigator healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(1001);
-            
+
             SiteInvestigatorGroupAffiliation siga = new SiteInvestigatorGroupAffiliation();
             siga.setHealthcareSiteInvestigator(healthcareSiteInvestigator);
             siga.setInvestigatorGroup(investigatorGroup);
-            
+
             investigatorGroup.getSiteInvestigatorGroupAffiliations().add(siga);
             org.getInvestigatorGroups().add(investigatorGroup);
             //investigatorGroupDao.save(investigatorGroup);
@@ -390,7 +386,7 @@ public class OrganizationDaoTest extends DaoTestCase {
             savedId = investigatorGroup.getId();
             //org.getInvestigatorGroups().get(1).setName("Physicians Group");
         }
-        
+
         interruptSession();
         HealthcareSite loadedOrg = healthcareSiteDao.getById(1000);
         assertEquals("Expected 3 investigator groups", 3, loadedOrg.getInvestigatorGroups().size());
@@ -398,46 +394,46 @@ public class OrganizationDaoTest extends DaoTestCase {
         assertEquals("inv_grp", investigatorGroup.getName());
         assertEquals("InvestigatorGroupDescription", investigatorGroup.getDescriptionText());
     }
-    
+
     /**
      * Test save notification with message details and recepients.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testSaveNotificationWithMessageDetailsAndRecepients() throws Exception {
     	{
     		HealthcareSite org = healthcareSiteDao.getById(1000);
-			org.getPlannedNotifications().add(buildNotificationWithRecepientsAndMesssageDetails(org));    		
+			org.getPlannedNotifications().add(buildNotificationWithRecepientsAndMesssageDetails(org));
 			this.healthcareSiteDao.save(org);
     	}
     	interruptSession();
-    	
+
     	HealthcareSite loadedOrg = healthcareSiteDao.getById(1000);
     	assertNotNull("Could not reload notifications", loadedOrg.getPlannedNotifications());
         assertEquals("Notification list not the right size", 1, loadedOrg.getPlannedNotifications().size());
-        
+
         assertEquals("Wrong Frequency", NotificationFrequencyEnum.IMMEDIATE, loadedOrg.getPlannedNotifications().get(0).getFrequency());
         assertEquals("Wrong title", OrganizationDaoTest.TITLE, loadedOrg.getPlannedNotifications().get(0).getTitle());
         assertEquals("Wrong message", OrganizationDaoTest.MESSAGE_BODY, loadedOrg.getPlannedNotifications().get(0).getMessage());
 
         assertEquals("Wrong Event Name", NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT, loadedOrg.getPlannedNotifications().get(0).getEventName());
         assertEquals("Wrong Delivery Mechanism", DeliveryMechanismEnum.EMAIL, loadedOrg.getPlannedNotifications().get(0).getDeliveryMechanism());
-        
+
         assertEquals("Wrong Role", "admin", loadedOrg.getPlannedNotifications().get(0).getRoleBasedRecipient().get(0).getRole());
         assertEquals("Wrong User", "Research Bill", loadedOrg.getPlannedNotifications().get(0).getUserBasedRecipient().get(0).getResearchStaff().getFirstName());
         assertEquals("Wrong contact","vinay.gangoli@semanticbits.com", loadedOrg.getPlannedNotifications().get(0).getContactMechanismBasedRecipient().get(0).getContactMechanisms().get(0).getValue());
     }
-    
+
     /**
      * Builds the notification with recepients and messsage details.
-     * 
+     *
      * @param org the org
-     * 
+     *
      * @return the planned notification
      */
     public PlannedNotification buildNotificationWithRecepientsAndMesssageDetails(HealthcareSite org){
     	PlannedNotification plannedNotification = new PlannedNotification();
-    	
+
     	plannedNotification.setHealthcareSite(org);
     	plannedNotification.setDeliveryMechanism(DeliveryMechanismEnum.EMAIL);
     	plannedNotification.setEventName(NotificationEventTypeEnum.STUDY_STATUS_CHANGED_EVENT);
@@ -450,24 +446,24 @@ public class OrganizationDaoTest extends DaoTestCase {
     	ResearchStaff researchStaff = researchStaffDao.getById(1000);
         ubr.setResearchStaff(researchStaff);
         plannedNotification.getUserBasedRecipient().add(ubr);
-        
+
         RoleBasedRecipient rbr = new RoleBasedRecipient();
         rbr.setRole("admin");
         plannedNotification.getRoleBasedRecipient().add(rbr);
-        
+
         ContactMechanism cm = new ContactMechanism();
         cm.setType(ContactMechanismType.EMAIL);
         cm.setValue("vinay.gangoli@semanticbits.com");
-        
+
         ContactMechanismBasedRecipient cmbr = new ContactMechanismBasedRecipient();
         cmbr.getContactMechanisms().add(cm);
         plannedNotification.getContactMechanismBasedRecipient().add(cmbr);
 
-    	
+
     	return plannedNotification;
     }
-    
-    
+
+
     /**
      * Test save scheduled notification.
      */
@@ -481,7 +477,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     		savedId = plannedNotification.getId();
     	}
     	interruptSession();
-	
+
     	PlannedNotification plannedNotification = plannedNotificationDao.getById(savedId);
     	assertNotNull(plannedNotification);
     	assertEquals(plannedNotification.getScheduledNotifications().get(0).getMessage(), "composedMessage");
@@ -495,23 +491,23 @@ public class OrganizationDaoTest extends DaoTestCase {
     		}
     	}
     }
-    
+
     /**
      * Adds the scheduled notification.
-     * 
+     *
      * @param plannedNotification the planned notification
      * @param composedMessage the composed message
-     * 
+     *
      * @return the scheduled notification
      */
     public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String composedMessage){
-    	
+
     	ScheduledNotification scheduledNotification = new ScheduledNotification();
     	plannedNotification.getScheduledNotifications().add(scheduledNotification);
     	scheduledNotification.setDateSent(new Date());
 		scheduledNotification.setMessage(composedMessage);
 		scheduledNotification.setTitle(plannedNotification.getTitle());
-    	RecipientScheduledNotification rsn; 
+    	RecipientScheduledNotification rsn;
     	for(RoleBasedRecipient rbr: plannedNotification.getRoleBasedRecipient()){
     		rsn = new RecipientScheduledNotification();
     		rsn.setRecipient(rbr);
@@ -520,7 +516,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     		rsn.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.PENDING);
     		scheduledNotification.getRecipientScheduledNotification().add(rsn);
     	}
-    	
+
     	for(UserBasedRecipient ubr: plannedNotification.getUserBasedRecipient()){
     		rsn = new RecipientScheduledNotification();
     		rsn.setRecipient(ubr);
@@ -531,10 +527,10 @@ public class OrganizationDaoTest extends DaoTestCase {
     	}
     	return scheduledNotification;
     }
-    
+
     /**
      * Test for clear.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testForClear() throws Exception{
@@ -546,13 +542,13 @@ public class OrganizationDaoTest extends DaoTestCase {
     	organization.getHealthcareSiteInvestigators().get(0);
     	fail("Should throw lazy initialization");
     	}catch(org.hibernate.LazyInitializationException ex){
-    		
+
     	}
     }
-    
+
     /**
      * Test get by subname.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetBySubname() throws Exception {
@@ -560,10 +556,10 @@ public class OrganizationDaoTest extends DaoTestCase {
         assertEquals("Wrong number of matches", 1, actual.size());
         assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
     }
-    
+
     /**
      * Test get by subname for nci code.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testGetBySubnameForNciCode() throws Exception {
@@ -571,19 +567,19 @@ public class OrganizationDaoTest extends DaoTestCase {
         assertEquals("Wrong number of matches", 2, actual.size());
         assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
     }
-    
+
     /**
      * Test domain class.
-     * 
+     *
      * @throws Exception the exception
      */
   public void testDomainClass() throws Exception{
     	assertEquals("Wrong domain class",HealthcareSite.class, healthcareSiteDao.domainClass());
     }
-    
+
     /**
      * Test remote session load on coppa enabled.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testRemoteSessionLoadOnCoppaEnabled() throws Exception {
@@ -593,12 +589,12 @@ public class OrganizationDaoTest extends DaoTestCase {
     		Object object = remoteSession.load(RemoteHealthcareSite.class,"CP-RM-TST-ID2" );
     		assertNotNull("Remote object cannot be null as coppa services are enabled", object);
     	}
-    	
+
     }
-    
+
     /**
      * Test remote session find on coppa enabled.
-     * 
+     *
      * @throws Exception the exception
      */
     public void testRemoteSessionFindOnCoppaEnabled() throws Exception {
@@ -609,12 +605,12 @@ public class OrganizationDaoTest extends DaoTestCase {
 	    	Object object = remoteSession.find(remoteHealthcareSite);
 	    	assertNotNull("Remote object cannot be null as coppa services are enabled", object);
     	}
-    	
+
     }
-	
+
 	/**
 	 * Test get remote entity by unique id.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testGetRemoteEntityByUniqueId() throws Exception{
@@ -630,12 +626,12 @@ public class OrganizationDaoTest extends DaoTestCase {
 					.getRemoteEntityByUniqueId("CP-RM-TST-ID3");
 			assertEquals(organization.getName().trim(),
 					"Sydney Cancer Centre Remote 3".trim());
-		}		
+		}
 	}
-	
+
 	/**
 	 * Test find.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testFind() throws Exception{
@@ -645,14 +641,14 @@ public class OrganizationDaoTest extends DaoTestCase {
 			List<Object> organizations = remoteHealthcareSiteResolver.find(remoteOrgExample);
 			assertEquals(3,organizations.size());
 			//check if return object is of type RemoteOrganization
-			Organization obj = (RemoteHealthcareSite)organizations.get(0);	
+			Organization obj = (RemoteHealthcareSite)organizations.get(0);
     	}
-		
+
 	}
-	
+
 	/**
 	 * Test get remote organizations.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testGetRemoteOrganizations() throws Exception{
@@ -666,9 +662,9 @@ public class OrganizationDaoTest extends DaoTestCase {
 			List<?> organizations = healthcareSiteDao.getRemoteOrganizations(healthcareSite);
 			assertEquals(3,organizations.size());
 			//check if return object is of type RemoteOrganization
-			Organization obj = (RemoteHealthcareSite)organizations.get(0);	
+			Organization obj = (RemoteHealthcareSite)organizations.get(0);
     	}
-		
+
 	}
 
 }
