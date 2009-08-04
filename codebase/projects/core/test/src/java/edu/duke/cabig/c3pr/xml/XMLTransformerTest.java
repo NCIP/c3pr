@@ -1,15 +1,11 @@
 package edu.duke.cabig.c3pr.xml;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import edu.duke.cabig.c3pr.domain.Participant;
 
 public class XMLTransformerTest extends AbstractXMLMarshalling{
 	
@@ -25,7 +21,7 @@ public class XMLTransformerTest extends AbstractXMLMarshalling{
 	                        // Templates.
 	    }
     
-    public void testStudyTransformation() throws Exception{
+    /*public void testStudyTransformation() throws Exception{
         String xslName="ccts-study-transformer.xsl";
         String sampleXml="ccts-sample-study.xml";
         try {
@@ -56,7 +52,7 @@ public class XMLTransformerTest extends AbstractXMLMarshalling{
         String xslName="ccts-registration-transformer.xsl";
         String sampleXml="c3pr-sample-registration.xml";
         System.out.println(new XMLTransformer().transform(readFile(xslName), readFile(sampleXml)));
-    }
+    }*/
     
     private String readFile(String filename) throws Exception{
         java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(
