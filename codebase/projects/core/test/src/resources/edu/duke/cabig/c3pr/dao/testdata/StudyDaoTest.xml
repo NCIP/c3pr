@@ -19,6 +19,8 @@
     <STUDY_VERSIONS id="1002" study_id="1002" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS id="1003" study_id="1003" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
 
+	
+
     <comp_stu_associations id="1000" mandatory_indicator="1" parent_version_id='1001' companion_study_id='1002' retired_indicator='false'/>
 
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA"
@@ -38,33 +40,40 @@
                    retired_indicator="false"/>
 
 
-    <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role"
-                         site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1000" version="1" role_code="role"
+                         start_date="01-01-2001" study_id="1000"
                          hcs_id="1000" type="SST" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1001" version="1" role_code="role2" start_date="01-01-2001"
+                         study_id="1000"
                          hcs_id="1001" type="SFS" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1004" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1004" version="1" role_code="role2" start_date="01-01-2001"
+                         study_id="1000"
                          hcs_id="1002" type="SCC" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1002" version="1" irb_approval_date="01-01-2000" role_code="role"
-                         site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
+    <STUDY_ORGANIZATIONS id="1002" version="1" role_code="role"
+                         start_date="01-01-2001" study_id="1001"
                          hcs_id="1000" type="SST" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1001"
+    <STUDY_ORGANIZATIONS id="1003" version="1" role_code="role2" start_date="01-01-2001"
+                         study_id="1001"
                          hcs_id="1001" type="SFS" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1005" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1001"
+    <STUDY_ORGANIZATIONS id="1005" version="1" role_code="role2" start_date="01-01-2001"
+                         study_id="1001"
                          hcs_id="1002" type="SCC" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1006" version="1" irb_approval_date="01-01-2000" role_code="role"
-                         site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1002"
+    <STUDY_ORGANIZATIONS id="1006" version="1" role_code="role"
+                         start_date="01-01-2001" study_id="1002"
                          hcs_id="1000" type="SST" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1007" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1002"
+    <STUDY_ORGANIZATIONS id="1007" version="1" role_code="role2" start_date="01-01-2001"
+                         study_id="1002"
                          hcs_id="1001" type="SFS" retired_indicator="false"/>
-    <STUDY_ORGANIZATIONS id="1008" version="1" irb_approval_date="01-01-2000" role_code="role2" start_date="01-01-2001"
-                         end_date="01-01-2002" study_id="1002"
+    <STUDY_ORGANIZATIONS id="1008" version="1" role_code="role2" start_date="01-01-2001"
+                         study_id="1002"
                          hcs_id="1002" type="SCC" retired_indicator="false"/>
+    
+    <study_site_versions id="1000" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1000" sto_id="1000"/>
+    <study_site_versions id="1002" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1001" sto_id="1002"/>
+    <study_site_versions id="1006" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1002" sto_id="1006"/>
 
     <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" hcs_id="1000" org_id="1000"
                  retired_indicator="false" primary_indicator="false"/>
@@ -85,9 +94,12 @@
 	<IDENTIFIERS id="1008" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002" primary_indicator="true"/>
 
     <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" informed_consent_signed_date="01-01-2000"
-                    prt_id="1000" sto_id="1000" sti_id="1000" retired_indicator="false"/>
+                    prt_id="1000" sti_id="1000" retired_indicator="false"/>
     <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" informed_consent_signed_date="01-01-2000"
-                    prt_id="1000" sto_id="1000" sti_id="1001" retired_indicator="false"/>
+                    prt_id="1000" sti_id="1001" retired_indicator="false"/>
+                    
+    <study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
+    <study_subject_versions id="1001" version="1" study_site_ver_id="1000" spa_id="1001" retired_indicator = "false" />
 
     <RANDOMIZATIONS id="1001" version="1" dtype="BR" retired_indicator="false"/>
 
@@ -105,7 +117,7 @@
             treatment_indicator="1" retired_indicator="false" epoch_order="3"/>
 
     <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="1"
-                      ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000" eph_id="1000"
+                      ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000" eph_id="1000"
                       retired_indicator="false"/>
 
     <ARMS id="1000" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000"
@@ -192,8 +204,6 @@
     <SUBJECT_STRAT_ANS id="1000" version="1" sceph_id="1000" str_cri_id="1000" retired_indicator="false"/>
 
     <STRAT_CRI_ANS_CMB id="1000" version="1" retired_indicator="false"/>
-
-    <STUDY_AMENDMENTS id="1000" stu_id="1000" retired_indicator="false"/>
 
     <PLANNED_NOTFNS id="1000" stu_id="1000" retired_indicator="false" version="1"/>
 
