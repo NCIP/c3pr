@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.Iterator;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
