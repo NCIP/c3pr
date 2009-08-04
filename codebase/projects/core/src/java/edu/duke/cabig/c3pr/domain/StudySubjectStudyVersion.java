@@ -23,7 +23,7 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "stu_sub_stu_versions")
+@Table(name = "study_subject_versions")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STU_SUB_STU_VERSION_ID_SEQ") })
 public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<StudySubjectStudyVersion>{
 
@@ -41,7 +41,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	}
 	
 	@OneToMany
-	@JoinColumn(name = "stu_sub_stu_ver_id")
+	@JoinColumn(name = "study_subject_ver_id")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<StudySubjectConsentVersion> getStudySubjectConsentVersionsInternal() {
@@ -77,7 +77,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	}
 
 	@ManyToOne
-	 @JoinColumn(name = "stu_site_ver_id", nullable=false)
+	 @JoinColumn(name = "study_site_ver_id", nullable=false)
 	 @Cascade( { CascadeType.LOCK })
 	public StudySiteStudyVersion getStudySiteStudyVersion() {
 		return studySiteStudyVersion;
@@ -90,7 +90,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "stu_sub_stu_ver_id")
+	@JoinColumn(name = "study_subject_ver_id")
 	public List<ScheduledEpoch> getScheduledEpochs() {
 		return scheduledEpochs;
 	}

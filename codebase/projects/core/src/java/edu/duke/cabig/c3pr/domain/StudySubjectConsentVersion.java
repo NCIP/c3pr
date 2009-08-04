@@ -20,7 +20,7 @@ import org.hibernate.annotations.Parameter;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 
 @Entity
-@Table(name = "stu_sub_cosnt_vers")
+@Table(name = "study_subject_consents")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STU_SUB_COSNT_VERS_ID_SEQ") })
 public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainObject{
