@@ -2,9 +2,7 @@ package edu.duke.cabig.c3pr.service;
 
 import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
