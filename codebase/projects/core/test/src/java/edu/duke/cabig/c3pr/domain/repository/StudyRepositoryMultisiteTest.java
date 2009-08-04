@@ -30,6 +30,8 @@ import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
@@ -360,6 +362,12 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
         // Study Site
         StudySite studySite = new StudySite();
+        StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
+        StudyVersion studyVersion = new StudyVersion();
+        studySiteStudyVersion.setStudyVersion(studyVersion);
+        studySiteStudyVersion.setTargetAccrual(1000);
+        studyVersion.setStudy(study);
+        studySite.addStudySiteStudyVersion(studySiteStudyVersion);
         study.addStudySite(studySite);
         studySite.setHealthcareSite(healthcareSitedao.getById(hcsId)); //
         studySite.setStartDate(new Date());
