@@ -48,9 +48,6 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @DiscriminatorValue(value = "SST")
 public class StudySite extends StudyOrganization implements Comparable<StudySite> {
 
-    /** The irb approval date. */
-    private Date irbApprovalDate;
-
     /** The role code. */
     private String roleCode;
 
@@ -139,7 +136,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      * @param irbApprovalDate the new irb approval date
      */
     public void setIrbApprovalDate(Date irbApprovalDate) {
-        this.irbApprovalDate = irbApprovalDate;
+        getStudySiteStudyVersion().setIrbApprovalDate(irbApprovalDate);
     }
 
     /**
@@ -147,8 +144,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      *
      * @return the irb approval date
      */
+    @Transient
     public Date getIrbApprovalDate() {
-        return irbApprovalDate;
+        return getStudySiteStudyVersion().getIrbApprovalDate();
     }
 
     /**
@@ -203,7 +201,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     @Transient
     public String getIrbApprovalDateStr() {
         try {
-            return DateUtil.formatDate(irbApprovalDate, "MM/dd/yyyy");
+            return DateUtil.formatDate(getIrbApprovalDate(), "MM/dd/yyyy");
         }
         catch (Exception e) {
         	return "";
