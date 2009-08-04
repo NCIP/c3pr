@@ -20,10 +20,15 @@
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000" retired_indicator = "false" study_endpoint_props_id="1000"/>
     <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1001" retired_indicator = "false" study_endpoint_props_id="1000"/>
   
-    <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1000" version="1" role_code="role" start_date="01-01-2001" study_id="1000"
     hcs_id="1000" type="SST" retired_indicator = "false" />
-    <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
-    hcs_id="1001" type="SST" retired_indicator = "false" />  
+    <STUDY_ORGANIZATIONS id="1001" version="1" role_code="role2" start_date="01-01-2001" study_id="1000"
+    hcs_id="1001" type="SST" retired_indicator = "false" /> 
+    
+    <study_site_versions id="1000" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1000" sto_id="1000"/>
+    <study_site_versions id="1001" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1000" sto_id="1001"/> 
   
     <ENDPOINTS id="1000" version="0" service_name="STUDY" api_name="OPEN_STUDY" endpoint_prop_id="1000" dtype="GRID"/>
               
@@ -40,10 +45,13 @@
     <IDENTIFIERS id="1002" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="true"/>
     <IDENTIFIERS id="1003" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001" primary_indicator="true"/>
     
-    <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1000" retired_indicator = "false" />
-    <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1001" retired_indicator = "false" />
+    <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sti_id="1000" retired_indicator = "false" />
+    <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sti_id="1001" retired_indicator = "false" />
+    
+	<study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
+    <study_subject_versions id="1001" version="1" study_site_ver_id="1000" spa_id="1001" retired_indicator = "false" />
 
-    <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000" eph_id="1000" retired_indicator = "false" />  
+    <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000" eph_id="1000" retired_indicator = "false" />  
 
     <SCHEDULED_ARMS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="1" arm_id="1000" SCEPH_ID="1000"  retired_indicator = "false" />  
      
