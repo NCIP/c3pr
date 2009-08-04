@@ -21,6 +21,8 @@ class StudySubjectVersionChanges extends edu.northwestern.bioinformatics.bering.
 		   	execute('rename SEQ_study_subject_versions_ID to study_subject_versions_ID_SEQ');
 		   	execute('rename SEQ_study_subject_consents_ID to study_subject_consents_ID_SEQ');
 	 	}
+	 	
+	 	dropTable('consent_history')
     }
 
 	void down() {
