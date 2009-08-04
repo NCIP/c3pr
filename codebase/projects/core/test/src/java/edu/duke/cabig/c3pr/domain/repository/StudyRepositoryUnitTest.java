@@ -35,6 +35,8 @@ import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -492,6 +494,15 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         StudySite studySite=study.getStudySites().get(0);
         studySite.setHealthcareSite(healthcaresite); //
         studySite.setStartDate(new Date());
+        
+        StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
+        StudyVersion studyVersion = new StudyVersion();
+        studySiteStudyVersion.setStudyVersion(studyVersion);
+        studySiteStudyVersion.setTargetAccrual(1000);
+        studyVersion.setStudy(study);
+        studySite.addStudySiteStudyVersion(studySiteStudyVersion);
+        study.addStudySite(studySite);
+        
         studySite.setIrbApprovalDate(new Date());
         studySite.setRoleCode("role");
         
