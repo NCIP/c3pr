@@ -14,6 +14,7 @@ class MigrateToStudyVersionFropColumns extends edu.northwestern.bioinformatics.b
       	
       	dropColumn('study_organizations','end_date')
       	dropColumn('study_organizations','site_study_status')
+      	dropColumn('study_organizations','irb_approval_date')
     }
 
 	void down() {
