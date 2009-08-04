@@ -153,11 +153,6 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         study.addEpoch(Epoch.createEpoch("Follow up"));
         study.getEpochs().get(1).setEnrollmentIndicator(true);
         
-        //Study
-        
-        StudyVersion studyVersion = new StudyVersion();
-        study.addStudyVersion(studyVersion);
-
         // Study Site
         StudySite studySite = new StudySite();
         study.addStudySite(studySite);
