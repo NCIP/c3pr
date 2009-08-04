@@ -21,7 +21,7 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 
 @Entity
 @Table(name = "study_site_versions")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SITE_VERSION_ID_SEQ") })
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SITE_VERSIONS_ID_SEQ") })
 public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject {
 
 	private Date irbApprovalDate;
