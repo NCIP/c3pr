@@ -338,9 +338,6 @@
         <field name="startDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="startDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="endDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
-            <bind-xml name="endDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
         <field name="siteStudyStatus" type="string"
                handler="edu.duke.cabig.c3pr.xml.StudySiteStudyStatusHandler">
             <bind-xml name="siteStudyStatus" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>

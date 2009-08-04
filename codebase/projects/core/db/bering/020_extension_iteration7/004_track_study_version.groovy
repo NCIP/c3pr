@@ -40,10 +40,10 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
         	t.addColumn('retired_indicator', 'string', nullable:true)
        		t.addColumn('grid_id' , 'string' , nullable:true)
        		t.addVersionColumn()
-            t.addColumn('end_date', 'date')
             t.addColumn('start_date', 'date')
             t.addColumn('irb_approval_date', 'date')
             t.addColumn('target_accrual', 'integer')
+            t.addColumn('site_study_status', 'string')
             t.addColumn('stu_version_id', 'integer')
             t.addColumn('stu_site_id', 'integer')
         }

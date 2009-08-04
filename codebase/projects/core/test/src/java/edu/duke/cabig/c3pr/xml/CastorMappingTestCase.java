@@ -314,7 +314,6 @@ public class CastorMappingTestCase extends AbstractTestCase{
 			StudySite actualSite= (StudySite) actual;
 			assertEquals(expectedSite.getIrbApprovalDateStr(), actualSite.getIrbApprovalDateStr());
 			assertEquals(expectedSite.getStartDateStr(), actualSite.getStartDateStr());
-			assertEquals(new SimpleDateFormat("MM/dd/yyyy").format(expectedSite.getEndDate()), new SimpleDateFormat("MM/dd/yyyy").format(actualSite.getEndDate()));
 			assertEquals(expectedSite.getRoleCode(), actualSite.getRoleCode());
 			assertEquals(expectedSite.getSiteStudyStatus(), actualSite.getSiteStudyStatus());
 		}

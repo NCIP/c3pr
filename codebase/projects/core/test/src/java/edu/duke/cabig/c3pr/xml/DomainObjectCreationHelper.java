@@ -216,7 +216,6 @@ public class DomainObjectCreationHelper {
 	public static StudySite createStudySite(boolean local){
 		StudySite studySite= new StudySite();
 		studySite.setIrbApprovalDate(new Date());
-		studySite.setEndDate(new Date());
 		HealthcareSite healthcareSite= createHealthcareSite(local);
 		studySite.setHealthcareSite(healthcareSite);
 		return studySite;
