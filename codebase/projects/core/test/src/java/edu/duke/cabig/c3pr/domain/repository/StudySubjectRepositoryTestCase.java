@@ -39,38 +39,38 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     private StudySubjectDao studySubjectDao;
 
     private EpochDao epochDao;
-    
+
     private ParticipantDao participantDao;
 
     private StratumGroupDao stratumGroupDao;
-    
+
     private C3PRExceptionHelper exceptionHelper;
 
     private MessageSource c3prErrorMessages;
-    
+
     private StudySubjectFactory studySubjectFactory;
-    
+
     private StudySubjectRepository studySubjectRepository;
-    
+
     private StudySubject studySubject;
-    
+
     private StudySubjectService studySubjectService;
-    
+
     private StudySubjectCreatorHelper studySubjectCreatorHelper;
-    
+
     private StudyTargetAccrualNotificationEmail notificationEmailer;
-    
+
     private IdentifierGenerator identifierGenerator ;
-    
+
     private Logger log = Logger.getLogger(StudySubjectRepositoryTestCase.class.getName());
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         studySubjectDao=registerDaoMockFor(StudySubjectDao.class);
         epochDao=registerDaoMockFor(EpochDao.class);
         stratumGroupDao=registerDaoMockFor(StratumGroupDao.class);
-        participantDao=registerDaoMockFor(ParticipantDao.class); 
+        participantDao=registerDaoMockFor(ParticipantDao.class);
         studySubjectFactory=registerMockFor(StudySubjectFactory.class);
         studySubjectService=registerMockFor(StudySubjectService.class);
         notificationEmailer=registerMockFor(StudyTargetAccrualNotificationEmail.class);
@@ -92,7 +92,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubject.setParticipant(studySubjectCreatorHelper.createNewParticipant());
         identifierGenerator = (IdentifierGenerator) ApplicationTestCase.getDeployedCoreApplicationContext().getBean("identifierGenerator");
     }
-    
+
     public ScheduledEpoch buildScheduledEpoch(){
     	ScheduledEpoch scheduledTreatmentEpoch = new ScheduledEpoch();
     	ScheduledArm scheduledArm = new ScheduledArm();
@@ -100,13 +100,13 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     	treatmentEpoch.setName("Treatmen Epoch 1");
     	Arm arm = new Arm();
     	arm.setId(001);
-    	arm.setEpoch(treatmentEpoch);
+    	treatmentEpoch.addArm(arm);
     	scheduledArm.setArm(arm);
-    	
+
     	scheduledTreatmentEpoch.getScheduledArms().add(scheduledArm);
     	scheduledTreatmentEpoch.setEpoch(treatmentEpoch);
     	scheduledTreatmentEpoch.setEligibilityIndicator(true);
-    	
+
     	return scheduledTreatmentEpoch;
     }
 
@@ -116,7 +116,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     	participant.setLastName("Cash");
     	participant.setBirthDate(new Date());
     	participant.setAdministrativeGenderCode("Male");
-    	return participant;    	
+    	return participant;
     }
 
 	public StudySubjectCreatorHelper getStudySubjectCreatorHelper() {
@@ -127,7 +127,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 			StudySubjectCreatorHelper studySubjectCreatorHelper) {
 		this.studySubjectCreatorHelper = studySubjectCreatorHelper;
 	}
-	
+
 	  public void testCreate() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
 	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
@@ -175,7 +175,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        assertSame("The study subject should have only 1 system assigned Identifier",1, studySubject.getSystemAssignedIdentifiers().size());
 	        verifyMocks();
 	    }
-	  
+
 	  public void testEnrollOnNonRandomizedEpochWithoutArm() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
 	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
@@ -192,10 +192,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 //	        EasyMock.expect(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject)).andReturn(new OrganizationAssignedIdentifier());
-	        
+
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        
+
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -225,7 +225,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
 	    }
-	  
+
 	  public void testEnrollOnPhoneCallRandomizedEpoch() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
 	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
@@ -302,7 +302,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        	}
 	        verifyMocks();
 	    }
-	  
+
 	  public void testTransferEpoch1() throws Exception{
 	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySite(RandomizationType.BOOK,true));
 	        studySubjectCreatorHelper.addScheduledEnrollingEpochFromStudyEpochs(studySubject);
@@ -333,7 +333,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        	}
 	        verifyMocks();
 	    }
-	  
+
 	  public void testTransferEpoch2() throws Exception{
 	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalRandomizedStudySiteWith2EnrollingEpochs(RandomizationType.BOOK,true));
 	        studySubjectCreatorHelper.addScheduledEnrollingEpochFromStudyEpochs(studySubject);
