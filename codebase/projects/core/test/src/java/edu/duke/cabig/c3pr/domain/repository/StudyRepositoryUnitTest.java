@@ -60,13 +60,13 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     StudySite studySite;
 
     List<Study> list;
-    
+
     List<Identifier> ids;
-    
+
     private EndPoint endPoint=new GridEndPoint();
-    
-    private StudyCreationHelper studyCreationHelper= new StudyCreationHelper(); 
-    
+
+    private StudyCreationHelper studyCreationHelper= new StudyCreationHelper();
+
     private HealthcareSiteDao healthcareSiteDao;
     private C3PRExceptionHelper c3PRExceptionHelper;
     private MessageSource c3prErrorMessages;
@@ -131,7 +131,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
             fail("Wrong Exception thrown");
         }
     }
-    
+
     public void testOpenStudyNoStudyFound() {
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(new ArrayList<Study>());
         replayMocks();
@@ -179,7 +179,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         studyRepository.openStudy(ids);
         verifyMocks();
     }
-    
+
     public void testOpenClosedStudy() throws C3PRCodedException {
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
@@ -218,7 +218,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 //        }
 //        fail("Should have thrown Exception");
 //    }
-//    
+//
 //    public void testApproveStudySiteForActivationClosedStudySite() {
 //    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
 //    	studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
@@ -241,7 +241,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 //        }
 //        fail("Should have thrown Exception");
 //    }
-//    
+//
 //    public void testApproveStudySiteForActivationInvaidNCICode() {
 //        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
 //        replayMocks();
@@ -278,7 +278,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         try {
             studyRepository.activateStudySite(ids, "Duke");
         }
-        
+
         catch (C3PRCodedRuntimeException e) {
             e.printStackTrace();
             assertEquals("Wrong exception message", 323 ,e.getExceptionCode());
@@ -292,7 +292,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         }
         fail("Should have thrown Exception");
     }
-    
+
     public void testActivateStudySiteClosedStudySite() {
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
     	studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
@@ -315,7 +315,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         }
         fail("Should have thrown Exception");
     }
-    
+
     public void testActivateCoordinatingCenterStudySite() throws C3PRCodedException {
     	studySite.setHostedMode(false);
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
@@ -340,7 +340,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         studyRepository.activateStudySite(ids, "Duke");
         verifyMocks();
     }
-    
+
     public void testCloseStudyHosted() throws C3PRCodedException {
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
@@ -443,7 +443,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public int getCode(String errortypeString) {
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
-    
+
     private Study createDefaultStudyWithDesign(Study study) {
         study.setStratificationIndicator(false);
         DiseaseCategory disCatSaved = new DiseaseCategory();
@@ -485,16 +485,16 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         DiseaseCategory disCat = disCatSaved;
         Investigator inv = invSave;
 
-        study.addEpoch(Epoch.createEpoch("Screening"));
-        study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
-        study.addEpoch(Epoch.createEpoch("Follow up"));
+        study.addEpoch(studyCreationHelper.createEpoch("Screening"));
+        study.addEpoch(studyCreationHelper.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
+        study.addEpoch(studyCreationHelper.createEpoch("Follow up"));
         study.getEpochs().get(1).setEnrollmentIndicator(true);
 
         // Study Site
         StudySite studySite=study.getStudySites().get(0);
         studySite.setHealthcareSite(healthcaresite); //
         studySite.setStartDate(new Date());
-        
+
         StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
         StudyVersion studyVersion = new StudyVersion();
         studySiteStudyVersion.setStudyVersion(studyVersion);
@@ -502,10 +502,10 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         studyVersion.setStudy(study);
         studySite.addStudySiteStudyVersion(studySiteStudyVersion);
         study.addStudySite(studySite);
-        
+
         studySite.setIrbApprovalDate(new Date());
         studySite.setRoleCode("role");
-        
+
         StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
         .get(0);
 		studyCoordinatingCenter.setHealthcareSite(healthcaresite);
@@ -538,13 +538,11 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(term1);
         studyDisease.setDiseaseTerm(term2);
-        studyDisease.setStudyVersion(study.getStudyVersion());
-
         study.addStudyDisease(studyDisease);
 
         return study;
     }
-    
+
     public void addNewCooordinatingCenter(Study study) {
         StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
                         .get(0);

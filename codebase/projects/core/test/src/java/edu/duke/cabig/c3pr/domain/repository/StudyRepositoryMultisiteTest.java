@@ -63,7 +63,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
     private DiseaseCategoryDao diseaseCategoryDao;
 
     private StudyCreationHelper studyCreationHelper;
-    
+
     private Configuration configuration;
 
     protected void setUp() throws Exception {
@@ -110,7 +110,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
             studyRepository.createStudy(study);
         }
         catch (C3PRInvalidDataEntryException e) {
-            
+
         }
         catch (Exception e) {
         	e.printStackTrace();
@@ -157,7 +157,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 //        }
 //        fail("Should have thrown Exception");
 //    }
-    
+
 //    public void testApproveStudySiteForActivationInvaidNCICode() throws Exception{
 //        study = getOpenedStudy();
 //        try {
@@ -172,7 +172,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 //            fail("Wrong Exception thrown");
 //        }
 //    }
-//    
+//
 //    public void testApproveStudySiteForActivationClosedStudySite() throws Exception{
 //        study=getOpenedStudy();
 //        study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
@@ -190,7 +190,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 //        }
 //        fail("Should have thrown Exception");
 //    }
-//    
+//
 //    public void testApproveCoordinatingCenterStudySiteForActivation() throws Exception {
 //        study=getOpenedStudy();
 //        StudySite studySite=studyRepository.approveStudySiteForActivation(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getNciInstituteCode());
@@ -225,7 +225,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         }
         fail("Should have thrown Exception");
     }
-    
+
     public void testActivateStudySiteClosedStudySite() {
         study=getPersistedStudy();
         study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
@@ -243,7 +243,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         }
         fail("Should have thrown Exception");
     }
-    
+
     public void testActivatePendingStudySite() throws Exception {
         study=getOpenedStudy();
         addNewCooordinatingCenter(study);
@@ -263,7 +263,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus() );
     }
-    
+
     public void testCloseStudyLocal() throws Exception {
         study=getOpenedStudy();
         study.getStudySites().get(0).getHealthcareSite().setCtepCode("CRB");
@@ -286,7 +286,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus() );
     }
 
-    
+
     private Study createDefaultStudyWithDesign(Study study) {
         study.setStratificationIndicator(false);
         int disId;
@@ -355,9 +355,9 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         DiseaseCategory disCat = diseaseCategoryDao.getById(disId);
         Investigator inv = investigatorDao.getById(invId);
 
-        study.addEpoch(Epoch.createEpoch("Screening"));
-        study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
-        study.addEpoch(Epoch.createEpoch("Follow up"));
+        study.addEpoch(studyCreationHelper.createEpoch("Screening"));
+        study.addEpoch(studyCreationHelper.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
+        study.addEpoch(studyCreationHelper.createEpoch("Follow up"));
         study.getEpochs().get(1).setEnrollmentIndicator(true);
 
         // Study Site
@@ -401,7 +401,6 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term2Id));
-        studyDisease.setStudyVersion(study.getStudyVersion());
 
         study.addStudyDisease(studyDisease);
 
@@ -418,7 +417,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         studyDao.initialize(study);
         return study;
     }
-    
+
     private Study getDiffCoCenterPersistedStudy() {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
@@ -427,7 +426,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         interruptSession();
         return studyDao.getById(study.getId());
     }
-    
+
     private Study getOpenedStudy() throws Exception{
         Study study=getPersistedStudy();
         study=studyRepository.openStudy(study.getIdentifiers());
@@ -436,7 +435,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         studyDao.initialize(study);
         return study;
     }
-    
+
     public void addNewCooordinatingCenter(Study study) {
         StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
                         .get(0);
