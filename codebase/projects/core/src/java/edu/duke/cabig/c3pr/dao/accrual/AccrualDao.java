@@ -104,8 +104,9 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 				.getSessionFactory().getCurrentSession().createCriteria(
 						StudySubject.class);
 
-		Criteria studySiteCriteria = registrationCriteria
-				.createCriteria("studySite");
+		Criteria studySubjectStudyVersionCriteria = registrationCriteria.createCriteria("studySubjectStudyVersions");
+		Criteria studySiteVersionCriteria = studySubjectStudyVersionCriteria.createCriteria("studySiteStudyVersion");
+		Criteria studySiteCriteria = studySiteVersionCriteria.createCriteria("studySite");
 		Criteria healthcareSiteCriteria = studySiteCriteria
 				.createCriteria("healthcareSite");
 		Criteria identifiersAssignedToOrganizationCriteria = healthcareSiteCriteria.createCriteria("identifiersAssignedToOrganization");
@@ -192,15 +193,17 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
     	
     	if(shortTitleText != null){
     		accrual = getHibernateTemplate().find(
-    				"Select ss from StudySubject ss,StudyVersion sv where sv=any elements(ss.studySite.study.studyVersionsInternal)and sv.shortTitleText = ? " +
-    				"and ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.id in " +
+    				"Select ss from StudySubject ss,StudyVersion sv,StudySubjectStudyVersion ssv where sv=any elements" +
+    				"(ss.studySite.study.studyVersionsInternal)and " +
+    				"ssv=any elements(ss.studySubjectStudyVersions) and sv.shortTitleText = ? " +
+    				"and ss.diseaseHistoryInternal.anatomicSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
     				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
 					new Object[]{shortTitleText, diseaseSteName, nciInstituteCode}).size();
     	}else {
     		accrual = getHibernateTemplate().find(
-    				"Select ss from StudySubject ss where ss.diseaseHistoryInternal.anatomicSite.name = ? and " +
-    				"ss.studySite.healthcareSite.id in " +
+    				"Select ss from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and " +
+    				"ss.diseaseHistoryInternal.anatomicSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
     				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
     				new Object[]{diseaseSteName, nciInstituteCode}).size();
