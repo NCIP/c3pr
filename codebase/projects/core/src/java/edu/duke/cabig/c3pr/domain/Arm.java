@@ -17,8 +17,6 @@ import org.hibernate.annotations.Parameter;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "ARMS_ID_SEQ") })
 public class Arm extends AbstractMutableDeletableDomainObject implements Comparable<Arm> {
 
-    private Epoch epoch;
-
     private String name;
 
     private String descriptionText;
@@ -30,18 +28,6 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
     public void setRetiredIndicatorAsTrue() {
         super.setRetiredIndicatorAsTrue();
     }
-
-    @Transient
-    public String getQualifiedName() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(epoch.getName());
-        if (epoch.isMultipleArms()) {
-            sb.append(": ").append(getName());
-        }
-        return sb.toString();
-    }
-
-    // / BEAN PROPERTIES
 
     public String getName() {
         return name;
@@ -57,18 +43,6 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
 
     public void setDescriptionText(String descriptionText) {
         this.descriptionText = descriptionText;
-    }
-
-    // This is annotated this way so that the IndexColumn in the parent
-    // will work with the bidirectional mapping
-    @ManyToOne
-    @JoinColumn(name = "eph_id")
-    public Epoch getEpoch() {
-        return epoch;
-    }
-
-    public void setEpoch(Epoch epoch) {
-        this.epoch = epoch;
     }
 
     public void setTargetAccrualNumber(Integer targetAccrualNumber) {

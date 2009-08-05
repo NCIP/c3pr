@@ -109,7 +109,6 @@ public class StudyCreationHelper {
         armA.setName("A");
 
         Epoch epoch = new Epoch();
-        armA.setEpoch(epoch);
         ArrayList<Arm> aList = new ArrayList<Arm>();
         aList.add(armA);
         epoch.getArms().addAll(aList);
@@ -436,4 +435,31 @@ public class StudyCreationHelper {
 		 child.getParentStudyAssociations().add(association);
 		 return child;
 	 }
+
+	 public Epoch createEpochWithArms(String epochName,
+				String... armNames) {
+			Epoch epoch = new Epoch();
+			epoch.setName(epochName);
+			if (armNames.length == 0) {
+				addNewArm(epoch,epochName);
+			} else {
+				for (String armName : armNames) {
+					addNewArm(epoch, armName);
+				}
+			}
+			return epoch;
+		}
+
+		public Epoch createEpoch(String epochName) {
+			Epoch epoch = new Epoch();
+			epoch.setName(epochName);
+			return epoch;
+		}
+
+		public void addNewArm(Epoch epoch, String armName) {
+			Arm arm = new Arm();
+			arm.setName(armName);
+			epoch.addArm(arm);
+		}
+
 }

@@ -184,7 +184,8 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 	}
 
-	@OneToMany(mappedBy = "studyVersion", fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="stu_version_id")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("epochOrder")
@@ -209,16 +210,8 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		if(getEpochs().contains(epoch)){
 			throw new RuntimeException("epoch with same name already exists in study");
 		}else{
-			epoch.setStudyVersion(this);
 			getEpochs().add(epoch);
 		}
-//		for (Epoch epochPresent : getEpochs()) {
-//			if (epochPresent.equals(epoch)) {
-//				throw new RuntimeException("epoch with same name already exists in study");
-//			}
-//		}
-//		epoch.setStudyVersion(this);
-//		getEpochs().add(epoch);
 	}
 
 	public void removeEpoch(Epoch epoch) {
@@ -271,7 +264,8 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.study = study;
 	}
 
-	@OneToMany(mappedBy = "studyVersion", fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="stu_version_id")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudyDisease> getStudyDiseases() {
 		return studyDiseases;
@@ -290,7 +284,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
 	public void addStudyDisease(StudyDisease studyDisease) {
-		studyDisease.setStudyVersion(this);
 		studyDiseases.add(studyDisease);
 	}
 
@@ -378,8 +371,72 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 
 	public void evaluateEpochsDataEntryStatus(List<Error> errors) throws C3PRCodedRuntimeException {
 		for (Epoch epoch : this.getEpochs()) {
-			epoch.evaluateStatus(errors);
+			evaluateStratificationDataEntryStatus(epoch, errors);
+			evaluateRandomizationDataEntryStatus(epoch, errors);
 		}
+	}
+
+	/**
+	 * Evaluate stratification data entry status.
+	 *
+	 * @param errors the errors
+	 *
+	 * @return true, if successful
+	 *
+	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
+	 */
+
+	private boolean evaluateStratificationDataEntryStatus(Epoch epoch, List<Error> errors)
+			throws C3PRCodedRuntimeException {
+		if (epoch.getStratificationIndicator()) {
+			if (!epoch.hasStratification() || !epoch.hasStratumGroups()) {
+				errors.add(new Error(
+								getC3PRExceptionHelper().getRuntimeException(
+												getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
+												new String[] { this.getName() }).getMessage()));
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Evaluate randomization data entry status.
+	 *
+	 * @param errors the errors
+	 *
+	 * @return true, if successful
+	 *
+	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
+	 */
+	public boolean evaluateRandomizationDataEntryStatus(Epoch epoch, List<Error> errors) throws C3PRCodedRuntimeException {
+
+		if (epoch.getRandomizedIndicator()) {
+			if ((epoch.getArms().size() < 2)||(epoch.getRandomization() == null)) {
+				if (epoch.getArms().size() < 2) {
+					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
+							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE"),
+							new String[] { this.getName() }).getMessage()));
+				}
+			}else{
+				if (this.getRandomizationType() == (RandomizationType.BOOK)) {
+						if (!epoch.hasBookRandomizationEntry()) {
+							errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
+									getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.BOOK_ENTRIES_FOR_BOOK_RANDOMIZED_EPOCH.CODE"),
+									new String[] { this.getName() }).getMessage()));
+						}
+				}else if(this.getRandomizationType() == (RandomizationType.PHONE_CALL)) {
+						Randomization randomization = epoch.getRandomization();
+						if (randomization instanceof PhoneCallRandomization) {
+							if (StringUtils.isBlank(((PhoneCallRandomization) randomization).getPhoneNumber())) {
+								errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
+										getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE"),
+										new String[] { this.getName() }).getMessage()));
+						}
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	@Transient

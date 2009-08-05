@@ -11,37 +11,6 @@ import edu.duke.cabig.c3pr.AbstractTestCase;
 public class ArmTestCase extends AbstractTestCase{
 
 	/**
-	 * Test get qualified name.
-	 * epoch.isMultipleArms(): true
-	 */
-	public void testGetQualifiedName1(){
-		Arm arm= new Arm();
-		arm.setName("Arm");
-		Epoch epoch= registerMockFor(Epoch.class);
-		EasyMock.expect(epoch.getName()).andReturn("Test");
-		EasyMock.expect(epoch.isMultipleArms()).andReturn(true);
-		replayMocks();
-		arm.setEpoch(epoch);
-		assertEquals("Test: Arm", arm.getQualifiedName());
-		verifyMocks();
-	}
-	
-	/**
-	 * Test get qualified name.
-	 * epoch.isMultipleArms(): false
-	 */
-	public void testGetQualifiedName2(){
-		Arm arm= new Arm();
-		Epoch epoch= registerMockFor(Epoch.class);
-		EasyMock.expect(epoch.getName()).andReturn("Test");
-		EasyMock.expect(epoch.isMultipleArms()).andReturn(false);
-		replayMocks();
-		arm.setEpoch(epoch);
-		assertEquals("Test", arm.getQualifiedName());
-		verifyMocks();
-	}
-	
-	/**
 	 * Test hash code.
 	 */
 	public void testHashCode(){
@@ -51,7 +20,7 @@ public class ArmTestCase extends AbstractTestCase{
 		arm2.setName("Test");
 		assertTrue(arm1.hashCode()==arm2.hashCode());
 	}
-	
+
 	/**
 	 * Test equals for arms with same reference.
 	 */
@@ -61,7 +30,7 @@ public class ArmTestCase extends AbstractTestCase{
 		arm1.setName("Test");
 		assertTrue(arm1.equals(arm2));
 	}
-	
+
 	/**
 	 * Test equals for arms with different class types.
 	 */
@@ -72,7 +41,7 @@ public class ArmTestCase extends AbstractTestCase{
 		arm2.setName("Test");
 		assertFalse(arm1.equals(arm2));
 	}
-	
+
 	/**
 	 * Test equals with one arm having null name.
 	 */
@@ -82,7 +51,7 @@ public class ArmTestCase extends AbstractTestCase{
 		arm2.setName("Test");
 		assertFalse(arm1.equals(arm2));
 	}
-	
+
 	/**
 	 * Test equals for arms with different names.
 	 */
@@ -92,7 +61,7 @@ public class ArmTestCase extends AbstractTestCase{
 		arm2.setName("Test");
 		assertFalse(arm1.equals(arm2));
 	}
-	
+
 	/**
 	 * Test equals for arms with same name.
 	 */
@@ -103,12 +72,12 @@ public class ArmTestCase extends AbstractTestCase{
 		arm1.setName("Test");
 		assertTrue(arm1.equals(arm2));
 	}
-	
+
 	/**
 	 * The Class ArmSubClass.
 	 */
 	class ArmSubClass extends Arm{
-		
+
 	}
-	
+
 }

@@ -10,28 +10,6 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		super.setUp();
 	}
 
-	/**
-	 * Test compare to.
-	 *
-	 * @throws Exception the exception
-	 */
-	public void testCompareTo() throws Exception{
-
-		StudyDisease studyDisease1 = new StudyDisease();
-		DiseaseTerm diseaseTerm1 = new DiseaseTerm();
-		diseaseTerm1.setCtepTerm("ctep_term1");
-		studyDisease1.setDiseaseTerm(diseaseTerm1);
-
-		StudyDisease studyDisease2 = new StudyDisease();
-		DiseaseTerm diseaseTerm2 = new DiseaseTerm();
-		diseaseTerm2.setCtepTerm("ctep_term2");
-		studyDisease2.setDiseaseTerm(diseaseTerm2);
-
-		assertEquals("Both the study diseases should not have been same",1,studyDisease1.compareTo(studyDisease2));
-		diseaseTerm2.setCtepTerm("ctep_term1");
-		assertEquals("Both the study diseases should have been same",0,studyDisease1.compareTo(studyDisease2));
-	}
-
 	public void testHashCode() throws Exception{
 
 		StudyDisease studyDisease1 = new StudyDisease();
@@ -52,7 +30,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		assertFalse("The two objects cannot be equal",studyDisease1.equals(new AnatomicSite()));
 
 		Study study = new Study();
-		studyDisease2.setStudyVersion(study.getStudyVersion());
+		study.addStudyDisease(studyDisease2);
 
 		assertFalse("The two study diseases cannot be equal",studyDisease1.equals(studyDisease2));
 	}
@@ -63,9 +41,9 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		StudyDisease studyDisease2 = new StudyDisease();
 
 		Study study = new Study();
-		studyDisease2.setStudyVersion(study.getStudyVersion());
+		study.addStudyDisease(studyDisease2);
 
-		studyDisease1.setStudyVersion(study.getStudyVersion());
+		study.addStudyDisease(studyDisease1);
 
 		assertTrue("The two study diseases should have been equal",studyDisease1.equals(studyDisease2));
 
@@ -89,8 +67,9 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		StudyDisease studyDisease2 = new StudyDisease();
 
 		Study study = new Study();
-		studyDisease2.setStudyVersion(study.getStudyVersion());
-		studyDisease1.setStudyVersion(study.getStudyVersion());
+		study.addStudyDisease(studyDisease2);
+
+		study.addStudyDisease(studyDisease1);
 
 		DiseaseTerm diseaseTerm1 = new DiseaseTerm();
 		diseaseTerm1.setCtepTerm("ctep_term1");
@@ -117,7 +96,9 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		StudyDisease studyDisease2 = new StudyDisease();
 
 		Study study1 = new Study();
-		studyDisease1.setStudyVersion(study1.getStudyVersion());
+
+
+		study1.addStudyDisease(studyDisease1);
 		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 		orgIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
 		orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
@@ -125,7 +106,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		study1.addIdentifier(orgIdentifier);
 
 		Study study2 = new Study();
-		studyDisease2.setStudyVersion(study2.getStudyVersion());
+		study2.addStudyDisease(studyDisease2);
 		assertFalse("The two study diseases cannot be equal",studyDisease1.equals(studyDisease2));
 	}
 

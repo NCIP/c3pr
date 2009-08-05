@@ -26,6 +26,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: May 11, 2007 Time: 11:41:32 AM To change this
@@ -57,6 +58,8 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
     protected String studyGridId;
 
     String siteGridId;
+
+	private StudyCreationHelper studyCreationHelper = new StudyCreationHelper() ;
 
     static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -111,7 +114,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
 
     /**
      * Will create a dummy study for the provided gridId
-     * 
+     *
      * @param gridId
      * @return
      */
@@ -145,9 +148,9 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         studyObject.addIdentifier(identifierObject);
         studyObject.addStudySite(studySiteObject);
 
-        studyObject.addEpoch(Epoch.createEpoch("Screening"));
-        studyObject.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
-        studyObject.addEpoch(Epoch.createEpoch("Follow up"));
+        studyObject.addEpoch(studyCreationHelper.createEpoch("Screening"));
+        studyObject.addEpoch(studyCreationHelper.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
+        studyObject.addEpoch(studyCreationHelper.createEpoch("Follow up"));
 
         // healthcare site
         HealthcareSite healthcaresite = new LocalHealthcareSite();

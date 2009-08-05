@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -25,34 +24,28 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
  * The Class Epoch.
- * 
+ *
  * @author Ram Chilukuri, Priyatam
  */
 @Entity
 @Table(name = "epochs", uniqueConstraints = { @UniqueConstraint(columnNames = {
 		"stu_version_id", "name" }) })
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "EPOCHS_ID_SEQ") })
-public class Epoch extends AbstractMutableDeletableDomainObject implements
-		Comparable<Epoch> {
+public class Epoch extends AbstractMutableDeletableDomainObject{
 
 	/** The name. */
 	private String name;
 
 	/** The description text. */
 	private String descriptionText;
-
-	/** The study. */
-	private StudyVersion studyVersion;
 
 	/** The epoch order. */
 	private Integer epochOrder;
@@ -77,7 +70,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/** The accrual ceiling. */
 	private Integer accrualCeiling;
-	
+
 	/** The current book randomization entry position. */
 	private Integer currentBookRandomizationEntryPosition;
 
@@ -97,44 +90,8 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	private Boolean treatmentIndicator = false;
 
 	/**
-	 * Factory method.
-	 * 
-	 * @param epochName the epoch name
-	 * @param armNames the arm names
-	 * 
-	 * @return the epoch
-	 */
-
-	public static Epoch createEpochWithArms(String epochName,
-			String... armNames) {
-		Epoch epoch = new Epoch();
-		epoch.setName(epochName);
-		if (armNames.length == 0) {
-			epoch.addNewArm(epochName);
-		} else {
-			for (String armName : armNames) {
-				epoch.addNewArm(armName);
-			}
-		}
-		return epoch;
-	}
-
-	/**
-	 * Creates the epoch.
-	 * 
-	 * @param epochName the epoch name
-	 * 
-	 * @return the epoch
-	 */
-	public static Epoch createEpoch(String epochName) {
-		Epoch epoch = new Epoch();
-		epoch.setName(epochName);
-		return epoch;
-	}
-
-	/**
 	 * Gets the requires arm.
-	 * 
+	 *
 	 * @return the requires arm
 	 */
 	@Transient
@@ -144,7 +101,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Checks if is reserving.
-	 * 
+	 *
 	 * @return true, if is reserving
 	 */
 	@Transient
@@ -154,7 +111,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the name.
-	 * 
+	 *
 	 * @return the name
 	 */
 	public String getName() {
@@ -163,16 +120,16 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the name.
-	 * 
+	 *
 	 * @param name the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Gets the current book randomization entry position.
-	 * 
+	 *
 	 * @return the current book randomization entry position
 	 */
 	@Column(name = "current_bk_rand_entry")
@@ -182,7 +139,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the current book randomization entry position.
-	 * 
+	 *
 	 * @param currentBookRandomizationEntryPosition the new current book randomization entry position
 	 */
 	public void setCurrentBookRandomizationEntryPosition(
@@ -190,19 +147,9 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		this.currentBookRandomizationEntryPosition = currentBookRandomizationEntryPosition;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "stu_version_id", nullable = false)
-	public StudyVersion getStudyVersion() {
-		return studyVersion;
-	}
-
-	public void setStudyVersion(StudyVersion studyVersion) {
-		this.studyVersion = studyVersion;
-	}
-
 	/**
 	 * Sets the description text.
-	 * 
+	 *
 	 * @param descriptionText the new description text
 	 */
 	public void setDescriptionText(String descriptionText) {
@@ -211,21 +158,11 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the description text.
-	 * 
+	 *
 	 * @return the description text
 	 */
 	public String getDescriptionText() {
 		return descriptionText;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	public int compareTo(Epoch o) {
-		if (this.equals(o))
-			return 0;
-		else
-			return 1;
 	}
 
 	/* (non-Javadoc)
@@ -258,7 +195,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the epoch order.
-	 * 
+	 *
 	 * @return the epoch order
 	 */
 	public Integer getEpochOrder() {
@@ -267,18 +204,16 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the epoch order.
-	 * 
+	 *
 	 * @param epochOrder the new epoch order
 	 */
 	public void setEpochOrder(Integer epochOrder) {
 		this.epochOrder = epochOrder;
 	}
 
-	// Code from Non-Treatment Epoch
-
 	/**
 	 * Gets the accrual ceiling.
-	 * 
+	 *
 	 * @return the accrual ceiling
 	 */
 	public Integer getAccrualCeiling() {
@@ -287,7 +222,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the accrual ceiling.
-	 * 
+	 *
 	 * @param accrualCeiling the new accrual ceiling
 	 */
 	public void setAccrualCeiling(Integer accrualCeiling) {
@@ -296,7 +231,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the accrual indicator.
-	 * 
+	 *
 	 * @return the accrual indicator
 	 */
 	public Boolean getAccrualIndicator() {
@@ -305,7 +240,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the accrual indicator.
-	 * 
+	 *
 	 * @param accrualIndicator the new accrual indicator
 	 */
 	public void setAccrualIndicator(Boolean accrualIndicator) {
@@ -314,7 +249,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the enrollment indicator.
-	 * 
+	 *
 	 * @return the enrollment indicator
 	 */
 	public Boolean getEnrollmentIndicator() {
@@ -323,7 +258,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the enrollment indicator.
-	 * 
+	 *
 	 * @param enrollmentIndicator the new enrollment indicator
 	 */
 	public void setEnrollmentIndicator(Boolean enrollmentIndicator) {
@@ -332,7 +267,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the reservation indicator.
-	 * 
+	 *
 	 * @return the reservation indicator
 	 */
 	public Boolean getReservationIndicator() {
@@ -341,7 +276,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the reservation indicator.
-	 * 
+	 *
 	 * @param reservationIndicator the new reservation indicator
 	 */
 	public void setReservationIndicator(Boolean reservationIndicator) {
@@ -354,7 +289,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	 * Instantiates a new epoch.
 	 */
 	public Epoch() {
-		
+
 		currentBookRandomizationEntryPosition = new Integer(0);
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 		resourceBundleMessageSource.setBasename("error_messages_multisite");
@@ -390,22 +325,9 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	}
 
-	// / LOGIC
-
-	/**
-	 * Adds the new arm.
-	 * 
-	 * @param armName the arm name
-	 */
-	public void addNewArm(String armName) {
-		Arm arm = new Arm();
-		arm.setName(armName);
-		addArm(arm);
-	}
-
 	/**
 	 * Adds the arm.
-	 * 
+	 *
 	 * @param arm the arm
 	 */
 	public void addArm(Arm arm) {
@@ -416,7 +338,6 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 			}
 		}
 		getArms().add(arm);
-		arm.setEpoch(this);
 	}
 
 	/* (non-Javadoc)
@@ -489,7 +410,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Checks if is multiple arms.
-	 * 
+	 *
 	 * @return true, if is multiple arms
 	 */
 	@Transient
@@ -499,7 +420,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the arms internal.
-	 * 
+	 *
 	 * @return the arms internal
 	 */
 	@OneToMany(fetch = FetchType.LAZY)
@@ -512,7 +433,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the arms.
-	 * 
+	 *
 	 * @return the arms
 	 */
 	@Transient
@@ -522,7 +443,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the arms internal.
-	 * 
+	 *
 	 * @param arms the new arms internal
 	 */
 	public void setArmsInternal(List<Arm> arms) {
@@ -531,7 +452,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the arms.
-	 * 
+	 *
 	 * @param arms the new arms
 	 */
 	public void setArms(List<Arm> arms) {
@@ -540,16 +461,16 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Adds the eligibility criterion.
-	 * 
+	 *
 	 * @param eligibilityCriterion the eligibility criterion
 	 */
 	public void addEligibilityCriterion(EligibilityCriteria eligibilityCriterion) {
 		this.getEligibilityCriteria().add(eligibilityCriterion);
 	}
-	
+
 	/**
 	 * Gets the stratification criteria internal.
-	 * 
+	 *
 	 * @return the stratification criteria internal
 	 */
 	@OneToMany(fetch = FetchType.LAZY)
@@ -562,7 +483,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the stratification criteria.
-	 * 
+	 *
 	 * @return the stratification criteria
 	 */
 	@Transient
@@ -572,7 +493,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the stratification criteria.
-	 * 
+	 *
 	 * @param stratificationCriteria the new stratification criteria
 	 */
 	public void setStratificationCriteria(
@@ -583,7 +504,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the stratification criteria internal.
-	 * 
+	 *
 	 * @param stratificationCriteria the new stratification criteria internal
 	 */
 	public void setStratificationCriteriaInternal(
@@ -594,17 +515,17 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Adds the stratification criterion.
-	 * 
+	 *
 	 * @param stratificationCriterion the stratification criterion
 	 */
 	public void addStratificationCriterion(
 			StratificationCriterion stratificationCriterion) {
 		this.getStratificationCriteria().add(stratificationCriterion);
 	}
-	
+
 	/**
 	 * Gets the eligibility criteria.
-	 * 
+	 *
 	 * @return the eligibility criteria
 	 */
 	@OneToMany
@@ -617,7 +538,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the eligibility criteria.
-	 * 
+	 *
 	 * @param eligibilityCriteria the new eligibility criteria
 	 */
 	public void setEligibilityCriteria(List<EligibilityCriteria> eligibilityCriteria) {
@@ -634,7 +555,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the inclusion eligibility criteria.
-	 * 
+	 *
 	 * @return the inclusion eligibility criteria
 	 */
 	@Transient
@@ -644,7 +565,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the inclusion eligibility criteria.
-	 * 
+	 *
 	 * @param inclusionEligibilityCriteria the new inclusion eligibility criteria
 	 */
 	public void setInclusionEligibilityCriteria(
@@ -654,7 +575,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the exclusion eligibility criteria.
-	 * 
+	 *
 	 * @return the exclusion eligibility criteria
 	 */
 	@Transient
@@ -664,7 +585,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the exclusion eligibility criteria.
-	 * 
+	 *
 	 * @param exclusionEligibilityCriteria the new exclusion eligibility criteria
 	 */
 	public void setExclusionEligibilityCriteria(
@@ -672,11 +593,11 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		// do nothing
 	}
 
-	
+
 
 	/**
 	 * Gets the stratum groups internal.
-	 * 
+	 *
 	 * @return the stratum groups internal
 	 */
 	@OneToMany(fetch = FetchType.LAZY)
@@ -687,10 +608,10 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 	public List<StratumGroup> getStratumGroupsInternal() {
 		return lazyListHelper.getInternalList(StratumGroup.class);
 	}
-	
+
 	/**
 	 * Sets the stratum groups internal.
-	 * 
+	 *
 	 * @param stratumGroup the new stratum groups internal
 	 */
 	public void setStratumGroupsInternal(List<StratumGroup> stratumGroup) {
@@ -699,7 +620,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the stratum groups.
-	 * 
+	 *
 	 * @return the stratum groups
 	 */
 	@Transient
@@ -709,17 +630,17 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the stratum groups.
-	 * 
+	 *
 	 * @param stratumGroup the new stratum groups
 	 */
 	public void setStratumGroups(List<StratumGroup> stratumGroup) {
 	}
 
-	
+
 
 	/**
 	 * Gets the randomization.
-	 * 
+	 *
 	 * @return the randomization
 	 */
 	@OneToOne
@@ -731,7 +652,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the randomization.
-	 * 
+	 *
 	 * @param randomization the new randomization
 	 */
 	public void setRandomization(Randomization randomization) {
@@ -740,7 +661,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Checks for book randomization entry.
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	@Transient
@@ -760,9 +681,9 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the stratum group for ans combination.
-	 * 
+	 *
 	 * @param scacList the scac list
-	 * 
+	 *
 	 * @return the stratum group for ans combination
 	 */
 	@Transient
@@ -792,9 +713,9 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the stratum group by number.
-	 * 
+	 *
 	 * @param number the number
-	 * 
+	 *
 	 * @return the stratum group by number
 	 */
 	@Transient
@@ -814,7 +735,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Checks for stratification.
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	@Transient
@@ -824,7 +745,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Checks for stratum groups.
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	@Transient
@@ -834,7 +755,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Checks for eligibility.
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	@Transient
@@ -844,7 +765,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the randomized indicator.
-	 * 
+	 *
 	 * @return the randomized indicator
 	 */
 	public Boolean getRandomizedIndicator() {
@@ -853,7 +774,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the randomized indicator.
-	 * 
+	 *
 	 * @param randomizedIndicator the new randomized indicator
 	 */
 	public void setRandomizedIndicator(Boolean randomizedIndicator) {
@@ -862,117 +783,26 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Evaluate status.
-	 * 
+	 *
 	 * @param errors the errors
-	 * 
+	 *
 	 * @return true, if successful
-	 * 
+	 *
 	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
 	 */
 	public void evaluateStatus(List<Error> errors) throws C3PRCodedRuntimeException {
-		evaluateStratificationDataEntryStatus(errors);
-		evaluateRandomizationDataEntryStatus(errors);
-		evaluateEligibilityDataEntryStatus(errors);
-	}
-
-	/**
-	 * Evaluate stratification data entry status.
-	 * 
-	 * @param errors the errors
-	 * 
-	 * @return true, if successful
-	 * 
-	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
-	 */
-	public boolean evaluateStratificationDataEntryStatus(List<Error> errors)
-			throws C3PRCodedRuntimeException {
-		
-			if (this.getStratificationIndicator()) {
-				if (!this.hasStratification() || !this.hasStratumGroups()) {
-					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
-							new String[] { this.getName() }).getMessage()));
-					
-				}
-			}
-
-		return true;
 
 	}
 
-	/**
-	 * Evaluate randomization data entry status.
-	 * 
-	 * @param errors the errors
-	 * 
-	 * @return true, if successful
-	 * 
-	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
-	 */
-	public boolean evaluateRandomizationDataEntryStatus(List<Error> errors)
-			throws C3PRCodedRuntimeException {
-		
-		if (this.getRandomizedIndicator()) {
-			if ((this.getArms().size() < 2)||(this.getRandomization() == null)) {
-				if (this.getArms().size() < 2) {
-					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE"),
-							new String[] { this.getName() }).getMessage()));
-				}
 
 
-			}
-		}
-		
-		if (this.studyVersion.getRandomizationType() == (RandomizationType.BOOK)) {
-			if (this.getRandomizedIndicator()) {
-				if (!this.hasBookRandomizationEntry()) {
-					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.BOOK_ENTRIES_FOR_BOOK_RANDOMIZED_EPOCH.CODE"),
-							new String[] { this.getName() }).getMessage()));
-				}
-			}
-		}
 
-		if (this.studyVersion.getRandomizationType() == (RandomizationType.PHONE_CALL)) {
-			if (this.getRandomizedIndicator()) {
-				Randomization randomization = this.getRandomization();
-				if (randomization instanceof PhoneCallRandomization) {
-					if (StringUtils
-							.isBlank(((PhoneCallRandomization) randomization)
-									.getPhoneNumber())) {
-						errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
-								getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE"),
-								new String[] { this.getName() }).getMessage()));
-					}
-				}
-			}
-		}
-
-		return true;
-
-	}
-
-	/**
-	 * Evaluate eligibility data entry status.
-	 * 
-	 * @param errors the errors
-	 * 
-	 * @return true, if successful
-	 * 
-	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
-	 */
-	public boolean evaluateEligibilityDataEntryStatus(List<Error> errors)
-			throws C3PRCodedRuntimeException {
-		// Default returns true unless more information is obtained
-		return true;
-	}
 
 	/**
 	 * Gets the code.
-	 * 
+	 *
 	 * @param errortypeString the errortype string
-	 * 
+	 *
 	 * @return the code
 	 */
 	@Transient
@@ -983,7 +813,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the c3 pr exception helper.
-	 * 
+	 *
 	 * @return the c3 pr exception helper
 	 */
 	@Transient
@@ -993,7 +823,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the exception helper.
-	 * 
+	 *
 	 * @param c3PRExceptionHelper the new exception helper
 	 */
 	public void setExceptionHelper(C3PRExceptionHelper c3PRExceptionHelper) {
@@ -1002,7 +832,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the c3pr error messages.
-	 * 
+	 *
 	 * @return the c3pr error messages
 	 */
 	@Transient
@@ -1012,7 +842,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the c3pr error messages.
-	 * 
+	 *
 	 * @param errorMessages the new c3pr error messages
 	 */
 	public void setC3prErrorMessages(MessageSource errorMessages) {
@@ -1021,7 +851,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Checks if is enrolling.
-	 * 
+	 *
 	 * @return true, if is enrolling
 	 */
 	@Transient
@@ -1031,7 +861,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the stratification indicator.
-	 * 
+	 *
 	 * @return the stratification indicator
 	 */
 	public Boolean getStratificationIndicator() {
@@ -1040,7 +870,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the stratification indicator.
-	 * 
+	 *
 	 * @param stratificationIndicator the new stratification indicator
 	 */
 	public void setStratificationIndicator(Boolean stratificationIndicator) {
@@ -1049,7 +879,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Gets the treatment indicator.
-	 * 
+	 *
 	 * @return the treatment indicator
 	 */
 	public Boolean getTreatmentIndicator() {
@@ -1058,18 +888,18 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 
 	/**
 	 * Sets the treatment indicator.
-	 * 
+	 *
 	 * @param treatmentIndicator the new treatment indicator
 	 */
 	public void setTreatmentIndicator(Boolean treatmentIndicator) {
 		this.treatmentIndicator = treatmentIndicator;
 	}
-	
+
 	/**
 	 * Gets the arm by name.
-	 * 
+	 *
 	 * @param armName the arm name
-	 * 
+	 *
 	 * @return the arm by name
 	 */
 	@Transient
@@ -1081,10 +911,10 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Generate stratum groups.
-	 * 
+	 *
 	 * @param request the request
 	 * @param commandObj the command obj
 	 * @param error the error
@@ -1116,18 +946,18 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 			this.getStratumGroups().addAll(stratumGroupList);
 		}
 	}
-	
+
 	/**
 	 * Stratum group combination generator.
 	 * recursive method which computes all possible combinations
 	 * of sc and scpa and creates a list of stratum Groups for the same.
-	 * 
+	 *
 	 * @param epoch the epoch
 	 * @param permissibleAnswersArray the permissible answers array
 	 * @param intRecurseLevel the int recurse level
 	 * @param stratumGroupList the stratum group list
 	 * @param generatedAnswerCombinationList the generated answer combination list
-	 * 
+	 *
 	 * @return the array list< stratum group>
 	 */
 	private ArrayList<StratumGroup> stratumGroupCombinationGenerator(StratificationCriterionPermissibleAnswer[][] permissibleAnswersArray,
@@ -1136,7 +966,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination ;
 		ArrayList<StratificationCriterionAnswerCombination> stratificationCriterionAnswerCombinationList;
 		int numberOfStratumGroups = 0;
-		
+
 		for (int i = 0; i < permissibleAnswersArray[intRecurseLevel].length; i++) {
 			stratificationCriterionAnswerCombination = new StratificationCriterionAnswerCombination();
 			stratificationCriterionAnswerCombinationList = new ArrayList<StratificationCriterionAnswerCombination>();
@@ -1166,12 +996,12 @@ public class Epoch extends AbstractMutableDeletableDomainObject implements
 		}
 		return stratumGroupList;
 	}
-	
+
 	/**
 	 * Clones the StratificationCriterionAnswerCombination for the comboGenerator.
-	 * 
+	 *
 	 * @param stratificationCriterionAnswerCombinationList the stratification criterion answer combination list
-	 * 
+	 *
 	 * @return the list< stratification criterion answer combination>
 	 */
 	private List<StratificationCriterionAnswerCombination> cloneStratificationCriterionAnswerCombination(

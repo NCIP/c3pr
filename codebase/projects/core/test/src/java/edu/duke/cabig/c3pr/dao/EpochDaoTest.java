@@ -23,7 +23,7 @@ import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
  * JUnit Tests for EpochDao
- * 
+ *
  * @author Priyatam
  * @testType unit
  */
@@ -45,18 +45,17 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
-            
+
             Epoch epoch1 = new Epoch();
             Arm armA = new Arm();
             armA.setName("A");
-            armA.setEpoch(epoch1);
             armA.setName("Arm name");
             ArrayList<Arm> aList = new ArrayList<Arm>();
             aList.add(armA);
             epoch1.getArms().addAll(aList);
             epoch1.setName("epoch1");
-            epoch1.setStudyVersion(study.getStudyVersion());
-            
+            study.addEpoch(epoch1);
+
             BookRandomization bRandomization = new BookRandomization();
             BookRandomizationEntry bre = new BookRandomizationEntry();
             bre.setPosition(10);
@@ -175,7 +174,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
     /**
      * Test for loading an Epoch by Id
-     * 
+     *
      * @throws Exception
      * @testType unit
      */
@@ -187,7 +186,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
     /**
      * Test for loading all Epochs
-     * 
+     *
      * @throws Exception
      */
     public void testGetAll() throws Exception {
@@ -202,7 +201,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
     /**
      * Test for loading all the Arms associated with this Epoch
-     * 
+     *
      * @throws Exception
      */
     public void testGetArmsForTreatmentEpoch() throws Exception {
@@ -217,7 +216,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
     /**
      * Test for loading all the EligibilityCriteria associated with this Epoch
-     * 
+     *
      * @throws Exception
      */
     public void testGetEligibilityCriteriaForTreatmentEpoch() throws Exception {
@@ -252,7 +251,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             Epoch epoch = new Epoch();
 
             epoch.setName("Anoter Treatment Epoch");
-            epoch.setStudyVersion(loadedStudy.getStudyVersion());
+            loadedStudy.addEpoch(epoch);
             getDao().save(epoch);
             savedId = epoch.getId();
         }
@@ -321,7 +320,6 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
             Epoch epoch = new Epoch();
             epoch.setName("epoch Name");
-            epoch.setStudyVersion(study.getStudyVersion());
             StratificationCriterion stratCrit = new StratificationCriterion();
             stratCrit.setQuestionText("Stratification question");
             stratCrit.setQuestionNumber(2);
@@ -380,12 +378,12 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
         }
     }
-    
+
     public void testDomainClass() throws Exception{
     	assertEquals("Wrong domain class",Epoch.class, epochDao.domainClass());
     }
-    
-    
+
+
     public void testInitialize() throws Exception{
     	Epoch epoch = epochDao.getById(1000);
     	epochDao.initialize(epoch);
@@ -397,5 +395,5 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
     		fail("Should not have thrown lazy initialization error as the object is initialized");
     	}
     }
-    
-}	
+
+}

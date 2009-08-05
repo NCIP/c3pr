@@ -73,9 +73,9 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         diseaseTermDao = (DiseaseTermDao) applicationContext.getBean("diseaseTermDao");
 
         diseaseCategoryDao = (DiseaseCategoryDao) applicationContext.getBean("diseaseCategoryDao");
-        
+
     }
-    
+
     protected Study createDefaultStudyWithDesign(Study study) {
         study.setStratificationIndicator(false);
         int disId;
@@ -148,9 +148,9 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         diseaseCategoryDao.initialize(disCat);
         Investigator inv = investigatorDao.getById(invId);
 
-        study.addEpoch(Epoch.createEpoch("Screening"));
-        study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
-        study.addEpoch(Epoch.createEpoch("Follow up"));
+        study.addEpoch(studyCreationHelper.createEpoch("Screening"));
+        study.addEpoch(studyCreationHelper.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
+        study.addEpoch(studyCreationHelper.createEpoch("Follow up"));
         study.getEpochs().get(1).setEnrollmentIndicator(true);
         
         // Study Site
@@ -188,8 +188,6 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term2Id));
-        studyDisease.setStudyVersion(study.getStudyVersion());
-
         study.addStudyDisease(studyDisease);
 
         return study;
@@ -205,7 +203,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         studyDao.initialize(study);
         return study;
     }
-    
+
     protected Study getDiffCoCenterPersistedStudy() {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
@@ -214,7 +212,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         interruptSession();
         return studyDao.getById(study.getId());
     }
-    
+
     protected Study getOpenedStudy() throws Exception{
         Study study=getPersistedStudy();
         study=studyRepository.openStudy(study.getIdentifiers());
@@ -223,7 +221,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         studyDao.initialize(study);
         return study;
     }
-    
+
     protected void addNewCooordinatingCenter(Study study) {
     	StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
         .get(0);
@@ -242,7 +240,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
 		studyCoordinatingCenter.setHealthcareSite(healthcaresite);
 		studyCoordinatingCenter.setStudy(study);
 	}
-    
+
     protected void addNewStudySite(Study study, String nciCode) {
     	// healthcare site
         HealthcareSite healthcaresite = new LocalHealthcareSite();

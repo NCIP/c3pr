@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
 import junit.framework.TestCase;
 
@@ -11,93 +12,60 @@ import junit.framework.TestCase;
  * The Class EpochTest.
  */
 public class EpochTest extends TestCase{
-	
+
 	/** The Constant QUESTION_1. */
 	public static final String QUESTION_1 = "question 1";
-	
+
 	/** The Constant QUESTION_2. */
 	public static final String QUESTION_2 = "question 2";
-	
+
 	/** The Constant ANSWER_1. */
 	public static final String ANSWER_1 = "answer_1";
-	
+
 	/** The Constant ANSWER_2. */
 	public static final String ANSWER_2 = "answer_2";
-	
-	/**
-	 * Test create epoch with arms.
-	 * 
-	 * @throws Exception the exception
-	 */
-	public void testCreateEpochWithArms() throws Exception{
-		
-		Epoch epoch = Epoch.createEpochWithArms("treatment", new String[0]);
-		
-		assertEquals("Wrong number of arms",1,epoch.getArms().size());
-		assertEquals("Wrong arm name in epoch","treatment",epoch.getArms().get(0).getName());
-		
-	}
-	
-	/**
-	 * Test compare to.
-	 * 
-	 * @throws Exception the exception
-	 */
-	public void testCompareTo() throws Exception{
-		
-		Epoch epoch1 = new Epoch();
-		epoch1.setName("epochA");
-		
-		Epoch epoch2 = new Epoch();
-		epoch2.setName("epochB");
-		
-		Epoch epoch3 = new Epoch();
-		epoch3.setName("epochA");
-		
-		assertEquals("The 2 epochs cannot be same",1, epoch1.compareTo(epoch2));
-		assertEquals("The 2 epochs should have been same",0, epoch1.compareTo(epoch3));
-	}
-	
+
+	StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
 	/**
 	 * Test equals.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testEquals1() throws Exception{
 		Epoch epoch1 = new Epoch();
-		
+
 		Epoch epoch2 = new Epoch();
 		epoch2.setName("epochB");
-		
+
 		assertFalse("The two epochs cannot be equal",epoch1.equals(epoch2));
 	}
-	
+
 	public void testEquals2() throws Exception{
 		Epoch epoch1 = new Epoch();
-		
+
 		Epoch epoch2 = new Epoch();
-		
+
 		assertTrue("The two epochs have be equal",epoch1.equals(epoch2));
 	}
-	
+
 	/**
 	 * Test is multiple arms.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testIsMultipleArms() throws Exception{
-		Epoch epoch = Epoch.createEpochWithArms("epochA", new String[]{"Arm A","Arm B"});
+		Epoch epoch = studyCreationHelper.createEpochWithArms("epochA", new String[]{"Arm A","Arm B"});
 		assertTrue("The epoch should have multiple arms",epoch.isMultipleArms());
 	}
-	
+
 	public void testIsMultipleArmsWhenNoArmsPresent() throws Exception{
 		Epoch epoch =new Epoch();
 		assertFalse("The epoch cannot have multiple arms",epoch.isMultipleArms());
 	}
-	
+
 	/**
 	 * Test set arms.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testSetArms() throws Exception{
@@ -108,58 +76,58 @@ public class EpochTest extends TestCase{
 		List<Arm> arms = new ArrayList<Arm>();
 		arms.add(armA);arms.add(armB);
 		epoch.setArms(arms);
-		
+
 		assertEquals("Wrong number of arms",2,epoch.getArms().size());
 		assertEquals("Wrong arm",armB, epoch.getArms().get(1));
 	}
-	
-	
+
+
 	/**
 	 * Test has book randomization entry.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testHasBookRandomizationEntry() throws Exception{
 		Epoch epoch = new Epoch();
 		assertFalse("There should not have been any book randomization entries",epoch.hasBookRandomizationEntry());
 	}
-	
+
 	/**
 	 * Test get stratum group by number.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testGetStratumGroupByNumber() throws Exception{
 		StratumGroup sg1 = new StratumGroup();
 		sg1.setStratumGroupNumber(new Integer(1));
-		
+
 		StratumGroup sg2 = new StratumGroup();
 		sg2.setStratumGroupNumber(new Integer(2));
-		
+
 		StratumGroup sg3 = new StratumGroup();
 		sg3.setStratumGroupNumber(new Integer(3));
-		
+
 		List<StratumGroup> stratumGroups = new ArrayList<StratumGroup>();
 		stratumGroups.add(sg1);stratumGroups.add(sg2);stratumGroups.add(sg3);
-		
+
 		Epoch epoch1 = new Epoch();
-		
+
 		epoch1.setStratumGroupsInternal(stratumGroups);
-		
+
 		assertEquals("Wrong stratum group",sg2,epoch1.getStratumGroupByNumber(new Integer(2)));
-		
+
 		Epoch epoch2 = new Epoch();
 		assertNull("Should have returned null",epoch2.getStratumGroupByNumber(new Integer(1)));
-		
+
 	}
-	
+
 	/**
 	 * Test has eligibility.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testHasEligibility() throws Exception{
-		
+
 		Epoch epoch1 = new Epoch();
 		assertFalse("The epoch should not have had eligibility criteria", epoch1.hasEligibility());
 		EligibilityCriteria eligCritera1 = new InclusionEligibilityCriteria();
@@ -167,48 +135,27 @@ public class EpochTest extends TestCase{
 		assertTrue("Theepoch should have had eligibility criteria",epoch1.hasEligibility());
 
 	}
-	
-	/**
-	 * Test evaluate randomization status.
-	 * 
-	 * @throws Exception the exception
-	 */
-	public void testEvaluateRandomizationStatus() throws Exception{
-		
-		Study study = new Study();
-		study.setRandomizedIndicator(true);
-		study.setRandomizationType(RandomizationType.BOOK);
-		Epoch epoch = new Epoch();
-		epoch.setName("epoch");
-		
-		study.addEpoch(epoch);
-		epoch.setRandomizedIndicator(true);
-		epoch.setRandomization(new BookRandomization());
-		List<Error> errors = new ArrayList<Error>();
-		epoch.evaluateRandomizationDataEntryStatus(errors);
-		assertEquals("Wrong number of error messages",2,errors.size());
-	}
-	
+
 	/**
 	 * Test get arm by name.
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public void testGetArmByName() throws Exception{
-		Epoch epoch = Epoch.createEpochWithArms("epochA", new String[]{"Arm A","Arm B","Arm C"});
+		Epoch epoch = studyCreationHelper.createEpochWithArms("epochA", new String[]{"Arm A","Arm B","Arm C"});
 		assertEquals("Wrong arm","Arm C",epoch.getArmByName("Arm C").getName());
-		
+
 		Epoch epochA = new Epoch();
 		assertNull("Unexpected arm",epochA.getArmByName("Arm A"));
 	}
-	
-	
+
+
 	/**
 	 * Test generate stratum groups. This calls the combinationGenerator internally.
 	 */
 	public void testGenerateStratumGroups(){
 		Epoch epoch = new Epoch();
-		
+
 		StratificationCriterion sc1 = new StratificationCriterion();
 		sc1.setQuestionNumber(1);
 		sc1.setQuestionText(QUESTION_1);
@@ -216,8 +163,8 @@ public class EpochTest extends TestCase{
 		StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
 		scpa1.setPermissibleAnswer(ANSWER_1);
 		sc1.getPermissibleAnswers().add(scpa1);
-		
-		StratificationCriterion sc2 = new StratificationCriterion();		
+
+		StratificationCriterion sc2 = new StratificationCriterion();
 		sc2.setQuestionNumber(1);
 		sc2.setQuestionText(QUESTION_1);
 
@@ -225,18 +172,18 @@ public class EpochTest extends TestCase{
 		scpa2.setPermissibleAnswer(ANSWER_1);
 		sc2.getPermissibleAnswers().add(scpa2);
 		sc2.getPermissibleAnswers().add(scpa1);
-		
+
 		sc1.getPermissibleAnswers().add(scpa2);
-		
+
 		epoch.getStratificationCriteria().add(sc1);
 		epoch.getStratificationCriteria().add(sc2);
-		
+
 		epoch.generateStratumGroups();
 		assertEquals(4, epoch.getStratumGroups().size());
-		
+
 	}
-	
-	
+
+
 }
 
 

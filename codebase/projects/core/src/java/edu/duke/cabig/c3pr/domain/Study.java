@@ -240,7 +240,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	public void addStudyDisease(StudyDisease studyDisease) {
-		studyDisease.setStudyVersion(this.getStudyVersion());
 		getStudyDiseases().add(studyDisease);
 	}
 

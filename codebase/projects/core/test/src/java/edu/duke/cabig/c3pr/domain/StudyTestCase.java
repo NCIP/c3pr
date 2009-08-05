@@ -356,10 +356,9 @@ public class StudyTestCase extends AbstractTestCase{
 	 */
 	public void testRemoveEpoch(){
 		Epoch epoch  = registerMockFor(Epoch.class);
-		epoch.setStudyVersion(simpleStudy.getStudyVersion());
-
+		simpleStudy.addEpoch(epoch);
 		Epoch epoch1  = registerMockFor(Epoch.class);
-		epoch1.setStudyVersion(simpleStudy.getStudyVersion());
+		simpleStudy.addEpoch(epoch1);
 
 		replayMocks();
 
@@ -378,9 +377,9 @@ public class StudyTestCase extends AbstractTestCase{
 	 */
 	public void testRemoveStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
-		disease.setStudyVersion(simpleStudy.getStudyVersion());
+		simpleStudy.addStudyDisease(disease);
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		disease2.setStudyVersion(simpleStudy.getStudyVersion());
+		simpleStudy.addStudyDisease(disease2);
 		replayMocks();
 		simpleStudy.addStudyDisease(disease2);
 		simpleStudy.addStudyDisease(disease);
@@ -397,10 +396,10 @@ public class StudyTestCase extends AbstractTestCase{
 
 	public void testRemoveAllStudyDisease(){
 		StudyDisease disease  = registerMockFor(StudyDisease.class);
-		disease.setStudyVersion(simpleStudy.getStudyVersion());
+		simpleStudy.addStudyDisease(disease);
 
 		StudyDisease disease2  = registerMockFor(StudyDisease.class);
-		disease2.setStudyVersion(simpleStudy.getStudyVersion());
+		simpleStudy.addStudyDisease(disease2);
 
 		replayMocks();
 

@@ -53,6 +53,7 @@ import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
+import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
 /**
@@ -87,6 +88,8 @@ public class StudyDaoTest extends DaoTestCase {
 
     /** The xml utility. */
     private XmlMarshaller xmlUtility;
+
+    StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
 
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.utils.DaoTestCase#setUp()
@@ -255,7 +258,6 @@ public class StudyDaoTest extends DaoTestCase {
             armA.setName("A");
 
             Epoch epoch1 = new Epoch();
-            armA.setEpoch(epoch1);
             armA.setName("Arm name");
             ArrayList<Arm> aList = new ArrayList<Arm>();
             aList.add(armA);
@@ -379,7 +381,6 @@ public class StudyDaoTest extends DaoTestCase {
             armA.setName("A");
 
             Epoch epoch1 = new Epoch();
-            armA.setEpoch(epoch1);
             armA.setName("Arm name");
             ArrayList<Arm> aList = new ArrayList<Arm>();
             aList.add(armA);
@@ -658,9 +659,9 @@ public class StudyDaoTest extends DaoTestCase {
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-            study.addEpoch(Epoch.createEpoch("Screening"));
-            study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
-            study.addEpoch(Epoch.createEpoch("Follow up"));
+            study.addEpoch(studyCreationHelper.createEpoch("Screening"));
+            study.addEpoch(studyCreationHelper.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
+            study.addEpoch(studyCreationHelper.createEpoch("Follow up"));
 
             // Identifiers
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
@@ -747,7 +748,6 @@ public class StudyDaoTest extends DaoTestCase {
 
         Epoch te = new Epoch();
         te.setName("test");
-        te.setStudyVersion(study.getStudyVersion());
         study.addEpoch(te);
 
         dao.save(study);
@@ -876,9 +876,9 @@ public class StudyDaoTest extends DaoTestCase {
         DiseaseCategory disCat=diseaseCategoryDao.getById(disId);
         Investigator inv=investigatorDao.getById(invId);
 
-        study.addEpoch(Epoch.createEpoch("Screening"));
-        study.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
-        study.addEpoch(Epoch.createEpoch("Follow up"));
+        study.addEpoch(studyCreationHelper.createEpoch("Screening"));
+        study.addEpoch(studyCreationHelper.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
+        study.addEpoch(studyCreationHelper.createEpoch("Follow up"));
 
         // Study Site
         StudySite studySite = new StudySite();
@@ -915,7 +915,6 @@ public class StudyDaoTest extends DaoTestCase {
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term2Id));
-        studyDisease.setStudyVersion(study.getStudyVersion());
 
         study.addStudyDisease(studyDisease);
 
@@ -939,10 +938,10 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
-            study.addEpoch(Epoch.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
+            study.addEpoch(studyCreationHelper.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
                             "Arm C"));
             study.getEpochs().get(0).setEpochOrder(0);
-            study.addEpoch(Epoch.createEpoch("TestTreatmentEpoch2"));
+            study.addEpoch(studyCreationHelper.createEpoch("TestTreatmentEpoch2"));
             study.getEpochs().get(1).setEpochOrder(1);
             dao.save(study);
 
@@ -981,7 +980,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-            study.addEpoch(Epoch.createEpoch("TestNonTreatmentEpoch"));
+            study.addEpoch(studyCreationHelper.createEpoch("TestNonTreatmentEpoch"));
             study.getEpochs().get(0).setEpochOrder(2);
 
             Epoch newEpoch = new Epoch();
@@ -1041,7 +1040,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-            study.addEpoch(Epoch.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
+            study.addEpoch(studyCreationHelper.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
                             "Arm C"));
             study.getEpochs().get(0).setEpochOrder(0);
             Epoch epoch = new Epoch();

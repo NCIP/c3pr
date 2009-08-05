@@ -13,18 +13,14 @@ import org.hibernate.annotations.Parameter;
 // TODO: Auto-generated Javadoc
 /**
  * The Class StudyDisease.
- * 
+ *
  * @author Priyatam
  */
 
 @Entity
 @Table(name = "study_diseases")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_DISEASES_ID_SEQ") })
-public class StudyDisease extends AbstractMutableDeletableDomainObject implements
-                Comparable<StudyDisease> {
-
-    /** The study. */
-    private StudyVersion studyVersion;
+public class StudyDisease extends AbstractMutableDeletableDomainObject {
 
     /** The disease term. */
     private DiseaseTerm diseaseTerm;
@@ -32,40 +28,9 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
     /** The lead disease. */
     private Boolean leadDisease;
 
-    /*
-     * Constructor -- Initializes participation at create time
-     * 
-     */
-    /**
-     * Instantiates a new study disease.
-     */
-    public StudyDisease() {
-        super();
-    }
-
-    /**
-     * Gets the study.
-     * 
-     * @return the study
-     */
-    @ManyToOne
-    @JoinColumn(name = "stu_version_id")
-    public StudyVersion getStudyVersion() {
-        return studyVersion;
-    }
-
-    /**
-     * Sets the study.
-     * 
-     * @param study the new study
-     */
-    public void setStudyVersion(StudyVersion studyVersion) {
-        this.studyVersion = studyVersion;
-    }
-
     /**
      * Gets the disease term.
-     * 
+     *
      * @return the disease term
      */
     @ManyToOne
@@ -77,7 +42,7 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
 
     /**
      * Sets the disease term.
-     * 
+     *
      * @param diseaseTerm the new disease term
      */
     public void setDiseaseTerm(DiseaseTerm diseaseTerm) {
@@ -86,7 +51,7 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
 
     /**
      * Gets the lead disease.
-     * 
+     *
      * @return the lead disease
      */
     public Boolean getLeadDisease() {
@@ -95,21 +60,11 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
 
     /**
      * Sets the lead disease.
-     * 
+     *
      * @param leadDisease the new lead disease
      */
     public void setLeadDisease(Boolean leadDisease) {
         this.leadDisease = leadDisease;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(StudyDisease o) {
-        if (this.equals(o)) {
-            return 0;
-        }
-        else return 1;
     }
 
 	/* (non-Javadoc)
@@ -121,7 +76,7 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
 		int result = 1;
 		result = prime * result
 				+ ((diseaseTerm == null) ? 0 : diseaseTerm.hashCode());
-		result = prime * result + ((studyVersion == null) ? 0 : studyVersion.hashCode());
+
 		return result;
 	}
 
@@ -142,11 +97,7 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
 				return false;
 		} else if (!diseaseTerm.equals(other.diseaseTerm))
 			return false;
-		if (studyVersion == null) {
-			if (other.studyVersion != null)
-				return false;
-		} else if (!studyVersion.equals(other.studyVersion))
-			return false;
+
 		return true;
 	}
 
