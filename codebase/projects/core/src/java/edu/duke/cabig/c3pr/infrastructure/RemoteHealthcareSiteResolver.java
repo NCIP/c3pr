@@ -33,11 +33,13 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
     
 	private PersonOrganizationResolverUtils personOrganizationResolverUtils = null;
 	
-	/**
-	 * Populate remote organization including the nciCode.
+	
+	/** Populate Remote Organization , given the Coppa Organization.
+	 *  Populate the ctepCode   from  IdentifiedOrganization.assignedId.extension by calling the IdentifiedOrganization search.
+	 *  Populate the externalId from  IdentifiedOrganization.identifier.extension by calling the IdentifiedOrganization search.
 	 * 
-	 * @param organizationDto the organization dto
-	 * @return the list< object>
+	 * @param coppaOrganization
+	 * @return RemoteHealthcareSite
 	 */
 	private RemoteHealthcareSite getRemoteHealthcareSite(gov.nih.nci.coppa.po.Organization coppaOrganization){
 
@@ -79,7 +81,8 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 
 	
 	/**
-	 * Populate remote organization including the nciCode.
+	 * Populate remote organization including the nciCode given the IdentifiedOrganization.
+	 * No calls need to be invoked as the IdentifiedOrg is already provided
 	 * 
 	 * @param coppaOrganization the coppa organization
 	 * @param identifiedOrganization the identified organization
@@ -104,6 +107,11 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	}
 
 
+	/** Populate the Address object from the coppaOrganization which is passed into it.
+	 * 
+	 * @param coppaOrganization
+	 * @return Address
+	 */
 	private Address getAddressFromCoppaOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization) {
 		Address address  = new Address();
 		
@@ -118,12 +126,16 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 
 
 
-	/* (non-Javadoc)
+	/**This is called by the interceptor when the object is loaded. 
+	 * This is not used by the searches. It accpets the externalId as a parameter and 
+	 * calls the getById on the Organization.
+	 * 
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#getRemoteEntityByUniqueId(java.lang.String)
+	 * @return RemoteHealthcareSite
 	 */
-	public Object getRemoteEntityByUniqueId(String externalId) {
+	public RemoteHealthcareSite getRemoteEntityByUniqueId(String externalId) {
 		gov.nih.nci.coppa.po.Organization coppaOrganization = null;
-		// using external id (coppa id ) 
+		// using external id (coppa id) 
 		II ii = CoppaObjectFactory.getIISearchCriteria(externalId);
 
 		try {
@@ -143,6 +155,9 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	
 	/**
 	 * Gets the remote organization by nci identifier.
+	 * 
+	 * First calls the Organization.search with the nciId set in the payload.
+	 * Then calls the IdentifiedOrganization.search for every organization returned by the previous call.
 	 * 
 	 * @param nciInstituteCode the nci institute code
 	 * @return the remote organization by nci identifier
@@ -181,7 +196,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	}
 	
 	/**
-	 * Searches Coppa database for orgs simliar to the example RemoteHelathcareSite that is passed in
+	 * Searches Coppa database for orgs simliar to the example RemoteHelathcareSite that is passed into it.
 	 * 
 	 * @param Object the remote HealthcareSite
 	 * @return the object list; list of remoteHealthcareSites
@@ -226,14 +241,17 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 			if (remoteHealthcareSite != null) {
 				remoteHealthcareSites.add(remoteHealthcareSite);
 			}
-		}	
+		}
 		
 		return remoteHealthcareSites;
 	}
 	
 	
-	/**  
+	/**
 	 * Saves orUpdates the remoteOrganization to Coppa.
+	 * This is utilized by the write/pdate flow and is currently not in use.
+	 * 
+	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#saveOrUpdate(java.lang.Object)
 	 */
 	public Object saveOrUpdate(Object remoteOrg) {
 		RemoteHealthcareSite remoteHealthcareSite = (RemoteHealthcareSite)remoteOrg;
