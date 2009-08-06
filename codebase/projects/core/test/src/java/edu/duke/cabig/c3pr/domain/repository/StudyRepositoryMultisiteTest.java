@@ -19,7 +19,6 @@ import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
