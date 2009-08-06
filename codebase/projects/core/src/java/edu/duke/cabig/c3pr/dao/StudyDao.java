@@ -479,8 +479,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      */
     public List<StudySubject> getStudySubjectsForStudy(Integer studyId) {
         return getHibernateTemplate().find(
-                        "select a from Study s join s.studyOrganizations so "
-                                        + "join so.studySubjects a where s.id = ? ", studyId);
+                        "select ssub from Study s join s.studyOrganizations so join so.studySiteStudyVersionsInternal ssisv " +
+                        "join ssisv.studySubjectStudyVersions ssbsv join ssbsv.studySubject ssub where s.id = ? ", studyId);
     }
 
     /*
