@@ -841,8 +841,12 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	
 	@Transient
 	public StudySiteStudyVersion getLatestStudySiteStudyVersion(){
-		if(getStudySiteStudyVersions().size()==0)
-			return getStudySiteStudyVersions().get(0);
+		if(getStudySiteStudyVersions().size()==0){
+			StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
+			studySiteStudyVersion.setStudyVersion(getStudy().getStudyVersion());
+			this.addStudySiteStudyVersion(studySiteStudyVersion);
+			return studySiteStudyVersion;
+		}
 		List<StudySiteStudyVersion> studySiteStudyVersions = this.getStudySiteStudyVersions();
 		Collections.sort(studySiteStudyVersions);
 		return studySiteStudyVersions.get(studySiteStudyVersions.size()-1);
