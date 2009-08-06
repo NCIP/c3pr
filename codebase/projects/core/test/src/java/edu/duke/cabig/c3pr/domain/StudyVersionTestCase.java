@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.easymock.EasyMock;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
@@ -240,7 +241,66 @@ public class StudyVersionTestCase extends AbstractTestCase {
 	}
 
 	public void testHasRandomizedEpoch1() throws Exception{
-		assertFalse("No Epoch present, hence not randomized epoch", basicStudyVersion.hasRandomizedEpoch());
+		Epoch epoch = registerMockFor(Epoch.class);
+		EasyMock.expect(epoch.getRandomizedIndicator()).andReturn(false);
+		basicStudyVersion.addEpoch(epoch);
+		replayMocks();
+		assertFalse("no randomized epoch", basicStudyVersion.hasRandomizedEpoch());
+		verifyMocks();
 	}
+
+	public void testHasRandomizedEpoch2() throws Exception{
+		Epoch epoch = registerMockFor(Epoch.class);
+		EasyMock.expect(epoch.getRandomizedIndicator()).andReturn(true);
+		basicStudyVersion.addEpoch(epoch);
+		replayMocks();
+		assertTrue("randomized epoch present", basicStudyVersion.hasRandomizedEpoch());
+		verifyMocks();
+	}
+
+	public void testHasEnrollingEpoch() throws Exception{
+		assertFalse("No Epoch present, hence not Enrolling epoch", basicStudyVersion.hasEnrollingEpoch());
+	}
+
+	public void testHasEnrollingEpoch1() throws Exception{
+		Epoch epoch = registerMockFor(Epoch.class);
+		EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(false);
+		basicStudyVersion.addEpoch(epoch);
+		replayMocks();
+		assertFalse("no Enrolling epoch", basicStudyVersion.hasEnrollingEpoch());
+		verifyMocks();
+	}
+
+	public void testHasEnrollingEpoch2() throws Exception{
+		Epoch epoch = registerMockFor(Epoch.class);
+		EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
+		basicStudyVersion.addEpoch(epoch);
+		replayMocks();
+		assertTrue("Enrolling epoch present", basicStudyVersion.hasEnrollingEpoch());
+		verifyMocks();
+	}
+
+	public void testHasStratifiedEpoch() throws Exception{
+		assertFalse("No Epoch present, hence not Stratified epoch", basicStudyVersion.hasStratifiedEpoch());
+	}
+
+	public void testHasStratifiedEpoch1() throws Exception{
+		Epoch epoch = registerMockFor(Epoch.class);
+		EasyMock.expect(epoch.getStratificationIndicator()).andReturn(false);
+		basicStudyVersion.addEpoch(epoch);
+		replayMocks();
+		assertFalse("no Stratified epoch", basicStudyVersion.hasStratifiedEpoch());
+		verifyMocks();
+	}
+
+	public void testHasStratifiedEpoch2() throws Exception{
+		Epoch epoch = registerMockFor(Epoch.class);
+		EasyMock.expect(epoch.getStratificationIndicator()).andReturn(true);
+		basicStudyVersion.addEpoch(epoch);
+		replayMocks();
+		assertTrue("Stratified epoch present", basicStudyVersion.hasStratifiedEpoch());
+		verifyMocks();
+	}
+
 
 }
