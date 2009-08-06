@@ -338,7 +338,7 @@ public class StudySubject extends
 	 * @param studySite the new study site
 	 */
 	public void setStudySite(StudySite studySite) {
-		this.getStudySubjectStudyVersion().getStudySiteStudyVersion().setStudySite(studySite);
+		this.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySite.getStudySiteStudyVersion());
 	}
 
 	/**
