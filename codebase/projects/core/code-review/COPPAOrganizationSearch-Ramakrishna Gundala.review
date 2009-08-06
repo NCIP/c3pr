@@ -75,7 +75,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="94">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="97">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.usability</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Add comments for generating Java Docs for complicated logic.</Summary>
@@ -92,7 +92,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="107">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="110">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>use CoppaStatusCodeEnum.getByCode(String code).</Summary>
@@ -109,7 +109,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="42">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="37">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.clarity</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Refactor method signature</Summary>
@@ -126,7 +126,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="53">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="55">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>What if the result xml is null ?</Summary>
@@ -143,7 +143,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="89">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="92">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.clarity</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Method should return void. Refactor signature</Summary>
@@ -160,7 +160,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="107">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="110">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.suggestion</Type>
     <Severity>item.severity.label.minor</Severity>
     <Summary>Move this method to some utility class</Summary>
@@ -177,7 +177,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="142">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="145">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.suggestion</Type>
     <Severity>item.severity.label.trivial</Severity>
     <Summary>Should return RemoteHealthcareSite</Summary>
@@ -194,7 +194,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="156">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="159">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Catch specific exception</Summary>
@@ -245,7 +245,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="256">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="259">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.codingStandards</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Add @Override annotation</Summary>
@@ -262,7 +262,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Ramakrishna Gundala</ReviewerId>
     <AssignedTo>Vinay Gangoli</AssignedTo>
-    <File line="266">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
+    <File line="269">src/java/edu/duke/cabig/c3pr/infrastructure/RemoteHealthcareSiteResolver.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Improve error handling</Summary>
