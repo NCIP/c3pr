@@ -54,7 +54,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
     
 	@ManyToOne
     @JoinColumn(name = "sto_id", nullable=false)
-    @Cascade( { CascadeType.LOCK, CascadeType.SAVE_UPDATE, CascadeType.MERGE})
+    @Cascade( { CascadeType.LOCK})
 	public StudySite getStudySite() {
 		return studySite;
 	}
@@ -64,7 +64,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 
 	@ManyToOne
     @JoinColumn(name = "stu_version_id", nullable=false)
-    @Cascade( { CascadeType.LOCK, CascadeType.SAVE_UPDATE, CascadeType.MERGE})
+    @Cascade( { CascadeType.LOCK})
 	public StudyVersion getStudyVersion() {
 		return studyVersion;
 	}
@@ -92,7 +92,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	}
 
 	@OneToMany(mappedBy = "studySiteStudyVersion")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.LOCK, CascadeType.DELETE_ORPHAN })
 	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
 		return studySubjectStudyVersions;
 	}
