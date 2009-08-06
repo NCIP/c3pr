@@ -843,7 +843,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public StudySiteStudyVersion getLatestStudySiteStudyVersion(){
 		if(getStudySiteStudyVersions().size()==0){
 			StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
-			studySiteStudyVersion.setStudyVersion(getStudy().getStudyVersion());
+		//	studySiteStudyVersion.setStudyVersion(getStudy().getStudyVersion());
 			this.addStudySiteStudyVersion(studySiteStudyVersion);
 			return studySiteStudyVersion;
 		}
@@ -872,8 +872,17 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		this.getStudySiteStudyVersions().add(studySiteStudyVersion);
 		studySiteStudyVersion.setStudySite(this);
 	}
-
-
-
+	
+	@Override
+	@Transient
+	public Study getStudy() {
+		return super.getStudy();
+	}
+	
+	@Override
+	public void setStudy(Study study) {
+		super.setStudy(study);
+		this.getStudySiteStudyVersion().setStudyVersion(study.getStudyVersion());
+	}
 
 }

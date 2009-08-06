@@ -189,7 +189,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return lazyListHelper.getLazyList(StudyCoordinatingCenter.class);
 	}
 
-	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "studyInternal", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "comp_assoc_id  is null")
 	@OrderBy

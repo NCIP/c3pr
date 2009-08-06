@@ -270,7 +270,7 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     @ManyToOne
     @JoinColumn(name = "study_id", nullable = false)
     @Cascade( { CascadeType.LOCK })
-    public Study getStudy() {
+    public Study getStudyInternal() {
         return study;
     }
 
@@ -279,8 +279,17 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
      * 
      * @param study the new study
      */
-    public void setStudy(Study study) {
+    public void setStudyInternal(Study study) {
         this.study = study;
+    }
+    
+    @Transient
+    public Study getStudy(){
+    	return getStudyInternal();
+    }
+    
+    public void setStudy(Study study){
+    	this.study = study;
     }
 
     /**
