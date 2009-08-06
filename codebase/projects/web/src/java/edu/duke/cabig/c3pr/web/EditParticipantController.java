@@ -99,7 +99,7 @@ public class EditParticipantController<C extends Participant> extends
         	List<Identifier> identifiers=new ArrayList<Identifier>();
         	identifiers.add(identifier);
         	participant=participantRepository.getUniqueParticipant(identifiers);
-             participantDao.initialize(participant);
+            participantDao.initialize(participant);
             log.debug(" Participant's ID is:" + participant.getId());
         }else{
         	participant =  new Participant();

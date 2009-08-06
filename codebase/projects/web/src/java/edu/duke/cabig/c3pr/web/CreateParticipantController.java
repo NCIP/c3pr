@@ -263,6 +263,7 @@ public class CreateParticipantController<C extends Participant> extends
     protected C save(C command, Errors errors) {
     	Participant participant = (Participant)command;
         command = (C)participantDao.merge(participant);
+        participantDao.initialize(command);
         return command;
     }
 
