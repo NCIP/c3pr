@@ -857,7 +857,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	@Transient
 	public StudySite getStudySite(String nciCode) {
 		for (StudySite studySite : this.getStudySites()) {
-			if (studySite.getHealthcareSite().getPrimaryIdentifier()
+			if (studySite.getHealthcareSite().getNciIdentifierAsString()
 					.equalsIgnoreCase(nciCode)) {
 				return studySite;
 			}
@@ -868,19 +868,20 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 						new String[] { nciCode });
 	}
 
-        @Transient
-        public StudyOrganization getStudyOrganization(String nciCode) {
-                for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
-                        if (studyOrganization.getHealthcareSite().getPrimaryIdentifier()
-                                        .equalsIgnoreCase(nciCode)) {
-                                return studyOrganization;
-                        }
-                }
-                throw this.c3PRExceptionHelper
-                                .getRuntimeException(
-                                                getCode("C3PR.EXCEPTION.STUDY.STUDYSITE_NOT_FOUND_INVALID_NCICODE.CODE"),
-                                                new String[] { nciCode });
-        }
+	
+    @Transient
+    public StudyOrganization getStudyOrganization(String nciCode) {
+            for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
+                    if (studyOrganization.getHealthcareSite().getNciIdentifierAsString()
+                                    .equalsIgnoreCase(nciCode)) {
+                            return studyOrganization;
+                    }
+            }
+            throw this.c3PRExceptionHelper
+                            .getRuntimeException(
+                                            getCode("C3PR.EXCEPTION.STUDY.STUDYSITE_NOT_FOUND_INVALID_NCICODE.CODE"),
+                                            new String[] { nciCode });
+    }
 
 	@Transient
 	public String getCompanionIndicatorDisplayValue() {
@@ -960,7 +961,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		if(this.getCompanionIndicator()){
 			for(CompanionStudyAssociation parentStudyAssociation : this.getParentStudyAssociations()){
 				for(StudySite studySite : parentStudyAssociation.getStudySites()){
-					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getPrimaryIdentifier())){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciIdentifierAsString())){
 						return studySite ;
 					}
 				}
@@ -968,7 +969,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}else{
 			for(CompanionStudyAssociation companionStudyAssociation : this.getStudyVersion().getCompanionStudyAssociations()){
 				for(StudySite studySite : companionStudyAssociation.getStudySites()){
-					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getPrimaryIdentifier())){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciIdentifierAsString())){
 						return studySite ;
 					}
 				}

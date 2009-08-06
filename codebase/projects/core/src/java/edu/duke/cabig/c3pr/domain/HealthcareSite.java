@@ -202,6 +202,27 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     }
     
     /**
+     * Gets the nci code.
+     * 
+     * @return the nci code
+     */
+    @Transient
+    public String getNciIdentifierAsString() {
+    	if(getOrganizationAssignedIdentifiers().size() > 0){
+    		Iterator iter = getOrganizationAssignedIdentifiers().iterator();
+    		OrganizationAssignedIdentifier identifier = null;
+    		while(iter.hasNext()){
+    			identifier = (OrganizationAssignedIdentifier)iter.next();
+    			if(identifier.getType().equals(OrganizationIdentifierTypeEnum.NCI)){
+    				return identifier.getValue();
+    			}
+    		}
+    	}
+		return "";
+    }
+    
+    
+    /**
      * Sets the Ctep code in the IdentifiersAssignedToOrganization.
      * 
      * @param nciInstituteCode the new nci institute code
