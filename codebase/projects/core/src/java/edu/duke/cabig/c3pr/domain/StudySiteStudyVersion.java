@@ -53,7 +53,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
     }
     
 	@ManyToOne
-    @JoinColumn(name = "stu_site_id", nullable=false)
+    @JoinColumn(name = "sto_id", nullable=false)
     @Cascade( { CascadeType.LOCK, CascadeType.SAVE_UPDATE, CascadeType.MERGE})
 	public StudySite getStudySite() {
 		return studySite;
