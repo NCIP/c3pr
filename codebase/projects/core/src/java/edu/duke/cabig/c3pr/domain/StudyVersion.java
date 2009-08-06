@@ -674,6 +674,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		}
 	}
 
+	@Transient
 	public MessageSource getC3prErrorMessages() {
 		return c3prErrorMessages;
 	}
