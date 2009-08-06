@@ -351,27 +351,6 @@ public class StudyTestCase extends AbstractTestCase{
 	}
 
 	/**
-	 * Test remove epoch
-	 *
-	 */
-	public void testRemoveEpoch(){
-		Epoch epoch  = registerMockFor(Epoch.class);
-		simpleStudy.addEpoch(epoch);
-		Epoch epoch1  = registerMockFor(Epoch.class);
-		simpleStudy.addEpoch(epoch1);
-
-		replayMocks();
-
-		simpleStudy.addEpoch(epoch1);
-		simpleStudy.addEpoch(epoch);
-
-		assertEquals("Study should have 2 epochs ", 2 , simpleStudy.getEpochs().size());
-		simpleStudy.removeEpoch(epoch);
-		assertEquals("Study should have 1 epoch ", 1 , simpleStudy.getEpochs().size());
-		verifyMocks();
-	}
-
-	/**
 	 * Test remove study disease
 	 *
 	 */
@@ -1023,82 +1002,6 @@ public void testGetFundingSponsorIdentifierIndex2(){
 	assertEquals("Index of funding sponsorer should be 2",2, basicStudy.getFundingSponsorIdentifierIndex());
 }
 
-/**
- * test has eligibility
- */
-public void testHasEligibility(){
-	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy, "name1");
-	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy, "name2");
-
-	assertFalse("no eligibility for this study",basicStudy.hasElligibility());
-
-}
-
-
-/**
- * test has eligibility
- */
-public void testHasEligibility1(){
-	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy, "epoch1");
-	basicStudy = studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy, "epoch 2");
-
-	assertTrue("eligibility present for this study",basicStudy.hasElligibility());
-
-}
-
-/**
- * test has randomized epoch
- */
-public void testHasRandomizedEpoch(){
-	basicStudy = studyCreationHelper.addStudySiteAndRandomizedTreatmentEpochToBasicStudy(basicStudy);
-	assertTrue("randomized epoch present for this study",basicStudy.hasRandomizedEpoch());
-
-}
-
-
-/**
- * test has randomized epoch
- */
-public void testHasRandomizedEpoch1(){
-	assertFalse("randomized epoch present for this study",basicStudy.hasRandomizedEpoch());
-}
-
-/**
- * test has randomized epoch
- */
-public void testHasRandomizedEpoch2(){
-	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy);
-	assertFalse("randomized epoch present for this study",basicStudy.hasRandomizedEpoch());
-}
-
-/**
- * test has stratified epoch
- */
-public void testHasStratifiedEpoch(){
-	basicStudy = studyCreationHelper.addStratifiedEpochToBasicStudy(basicStudy, "epoch 1");
-	assertTrue("stratified epoch present for this study",basicStudy.hasStratifiedEpoch());
-}
-
-/**
- * test has stratified epoch
- */
-public void testHasStratifiedEpoch2(){
-	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy);
-	assertFalse("stratified epoch not present for this study",basicStudy.hasStratifiedEpoch());
-}
-
-
-/**
- * test has stratified epoch
- */
-public void testHasStratifiedEpoch1(){
-	assertFalse("stratified epoch not present for this study",basicStudy.hasStratifiedEpoch());
-}
-
-
-/**
- * test get epoch by name
- */
 public void testGetEpochByName(){
 	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy,"epoch 1");
 	assertNotNull("epoch present with name 'epoch 1'",basicStudy.getEpochByName("epoch 1"));
@@ -1119,7 +1022,6 @@ public void testGetEpochByName1(){
 public void testGetEpochByName2(){
 	assertNull("no epoch present with name 'epoch 1'",basicStudy.getEpochByName("epoch 1"));
 }
-
 
 ///**
 // * test update data entry status
@@ -1334,36 +1236,6 @@ public void testGetC3PRErrorMessages(){
 	assertEquals("c3pr error message is instance of ResourceBundleMessageSource", true,  simpleStudy.getC3prErrorMessages() instanceof ResourceBundleMessageSource) ;
 }
 
-/**
- * test evaluateEpochsDataEntryStatus
- */
-public void testEvaluateEpochsDataEntryStatus(){
-	basicStudy = studyCreationHelper.addStratifiedEpochToBasicStudy(basicStudy, "Name");
-	ArrayList<Error> errors = new ArrayList<Error>();
-	basicStudy.evaluateEpochsDataEntryStatus(errors);
-	assertEquals("size of errors is 1", 1 , errors.size());
-}
-
-
-/**
- * test evaluateEpochsDataEntryStatus
- */
-public void testEvaluateEpochsDataEntryStatus1(){
-	basicStudy = studyCreationHelper.addNonEnrollingEpochToBasicStudy(basicStudy);
-	ArrayList<Error> errors = new ArrayList<Error>();
-		basicStudy.evaluateEpochsDataEntryStatus(errors);
-		assertEquals("no error found", 0 , errors.size());
-}
-
-
-/**
- * test evaluateEpochsDataEntryStatus
- */
-public void testEvaluateEpochsDataEntryStatus2(){
-	ArrayList<Error> errors = new ArrayList<Error>();
-	basicStudy.evaluateEpochsDataEntryStatus(errors);
-	assertEquals("no error found", 0 , errors.size());
-}
 
 /**
  * test pending

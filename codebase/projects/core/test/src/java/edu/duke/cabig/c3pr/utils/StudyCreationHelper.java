@@ -13,6 +13,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -460,6 +461,12 @@ public class StudyCreationHelper {
 			Arm arm = new Arm();
 			arm.setName(armName);
 			epoch.addArm(arm);
+		}
+
+		public Consent createConsent(String consentName) {
+			Consent consent  = new Consent();
+			consent.setName(consentName);
+			return consent;
 		}
 
 }

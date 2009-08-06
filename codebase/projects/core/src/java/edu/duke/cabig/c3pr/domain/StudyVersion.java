@@ -44,10 +44,6 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_VERSIONS_ID_SEQ") })
 public class StudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<StudyVersion>, Cloneable {
 
-    public int compareTo(StudyVersion studyVersion) {
-    	return this.versionDate.compareTo(studyVersion.getVersionDate());
-   	}
-
 	private StatusType versionStatus;
 	private StudyDataEntryStatus dataEntryStatus;
 	private String  descriptionText;
@@ -58,6 +54,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private LazyListHelper lazyListHelper;
 	private C3PRExceptionHelper c3PRExceptionHelper;
 	private MessageSource c3prErrorMessages;
+
 	private Date versionDate;
 	private String name;
     private String comments;
@@ -85,6 +82,10 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	@Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {
 		return c3PRExceptionHelper;
+	}
+
+	public void setC3PRExceptionHelper(C3PRExceptionHelper c3prExceptionHelper) {
+		c3PRExceptionHelper = c3prExceptionHelper;
 	}
 
     @Enumerated(EnumType.STRING)
@@ -163,7 +164,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
         versionStatus = StatusType.IN ;
         amendmentReasons = new ArrayList<StudyPart>();
-        versionDate = new Date();
 	}
 
 	public StudyVersion(boolean forSearchByExample){
@@ -214,10 +214,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		}
 	}
 
-	public void removeEpoch(Epoch epoch) {
-		lazyListHelper.getLazyList(Epoch.class).remove(epoch);
-	}
-
 	@Transient
 	public Epoch getEpochByName(String name) {
 		for(Epoch epoch : getEpochs()){
@@ -246,8 +242,12 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
 	public void addConsent(Consent consent) {
-		this.getConsents().add(consent);
-		consent.setStudyVersion(this);
+		if(getConsents().contains(consent)){
+			throw new RuntimeException("Consent with same name already exists in study");
+		}else{
+			this.getConsents().add(consent);
+			consent.setStudyVersion(this);
+		}
 	}
 
 	public void setConsents(List<Consent> consents) {
@@ -323,25 +323,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return errors.size() == 0 ? StudyDataEntryStatus.COMPLETE : StudyDataEntryStatus.INCOMPLETE;
 	}
 
-	@Transient
-	public boolean hasElligibility() {
-		for (Epoch epoch : this.getEpochs()) {
-			if (epoch.hasEligibility())
-				return true;
-		}
-		return false;
-	}
-
-	@Transient
-	public boolean hasCompanions() {
-		List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
-		companionStudyAssociations.addAll(this.getCompanionStudyAssociations());
-		if (companionStudyAssociations.size() > 0) {
-			return true;
-		}
-		return false;
-	}
-
     @Transient
 	public boolean hasRandomizedEpoch() {
 		for (Epoch epoch : this.getEpochs()) {
@@ -369,7 +350,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return false;
 	}
 
-	public void evaluateEpochsDataEntryStatus(List<Error> errors) throws C3PRCodedRuntimeException {
+	private void evaluateEpochsDataEntryStatus(List<Error> errors) throws C3PRCodedRuntimeException {
 		for (Epoch epoch : this.getEpochs()) {
 			evaluateStratificationDataEntryStatus(epoch, errors);
 			evaluateRandomizationDataEntryStatus(epoch, errors);
@@ -480,7 +461,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         clone.setPrecisText(this.getPrecisText());
         clone.setRandomizationType(this.getRandomizationType());
         clone.setShortTitleText(this.getShortTitleText());
-        clone.setVersionDate(new Date());
 
         for(StudyDisease disease : this.getStudyDiseases()){
         	StudyDisease cloneDisease = new StudyDisease();
@@ -627,13 +607,11 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public String getAmendmentReasonInternal() {
 		String amendmentReason = "" ;
 		for(StudyPart reason : amendmentReasons){
-			if( reason != null ){
 				if(amendmentReason != "" ){
 					amendmentReason =  amendmentReason + " : " + reason.getName();
 				}else{
 					amendmentReason = amendmentReason + reason.getName();
 				}
-			}
 		}
 		return amendmentReason;
 	}
@@ -695,5 +673,25 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 			return false;
 		}
 	}
+
+	public MessageSource getC3prErrorMessages() {
+		return c3prErrorMessages;
+	}
+
+	public void setC3prErrorMessages(MessageSource c3prErrorMessages) {
+		this.c3prErrorMessages = c3prErrorMessages;
+	}
+
+	public int compareTo(StudyVersion studyVersion) {
+    	if(this.versionDate == null && studyVersion.getVersionDate() == null){
+    		return 0;
+    	}else if(this.versionDate == null && studyVersion.getVersionDate() != null){
+    		return -1;
+    	}else if(this.versionDate != null && studyVersion.getVersionDate() == null){
+    		return 1;
+    	}else{
+    		return this.versionDate.compareTo(studyVersion.getVersionDate());
+    	}
+   	}
 
 }

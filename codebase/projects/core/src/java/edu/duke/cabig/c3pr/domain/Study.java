@@ -218,10 +218,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		getStudyVersion().addEpoch(epoch);
 	}
 
-	public void removeEpoch(Epoch epoch) {
-		getStudyVersion().removeEpoch(epoch);
-	}
-
 	public void removeStudyDisease(StudyDisease studyDisease) {
 		this.getStudyDiseases().remove(studyDisease);
 	}
@@ -868,20 +864,19 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 						new String[] { nciCode });
 	}
 
-	
-    @Transient
-    public StudyOrganization getStudyOrganization(String nciCode) {
-            for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
+        @Transient
+        public StudyOrganization getStudyOrganization(String nciCode) {
+                for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
                     if (studyOrganization.getHealthcareSite().getNciIdentifierAsString()
-                                    .equalsIgnoreCase(nciCode)) {
-                            return studyOrganization;
-                    }
-            }
-            throw this.c3PRExceptionHelper
-                            .getRuntimeException(
-                                            getCode("C3PR.EXCEPTION.STUDY.STUDYSITE_NOT_FOUND_INVALID_NCICODE.CODE"),
-                                            new String[] { nciCode });
-    }
+                                        .equalsIgnoreCase(nciCode)) {
+                                return studyOrganization;
+                        }
+                }
+                throw this.c3PRExceptionHelper
+                                .getRuntimeException(
+                                                getCode("C3PR.EXCEPTION.STUDY.STUDYSITE_NOT_FOUND_INVALID_NCICODE.CODE"),
+                                                new String[] { nciCode });
+        }
 
 	@Transient
 	public String getCompanionIndicatorDisplayValue() {
@@ -1110,35 +1105,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void setRandomizationType(RandomizationType randomizationType){
 		this.getStudyVersion().setRandomizationType(randomizationType);
-	}
-
-	@Transient
-	public boolean hasElligibility() {
-		return getStudyVersion().hasElligibility();
-	}
-
-	@Transient
-	public boolean hasCompanions() {
-		return getStudyVersion().hasCompanions();
-	}
-
-	@Transient
-	public boolean hasRandomizedEpoch() {
-		return getStudyVersion().hasRandomizedEpoch();
-	}
-
-	@Transient
-	public boolean hasStratifiedEpoch() {
-		return getStudyVersion().hasStratifiedEpoch();
-	}
-
-	@Transient
-	public boolean hasEnrollingEpoch() {
-		return getStudyVersion().hasEnrollingEpoch();
-	}
-
-	public void evaluateEpochsDataEntryStatus(List<Error> errors) throws C3PRCodedRuntimeException {
-		getStudyVersion().evaluateEpochsDataEntryStatus(errors);
 	}
 
 	public void addCompanionStudyAssociation(CompanionStudyAssociation companionStudyAssociation) {

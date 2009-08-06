@@ -30,16 +30,16 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "CONSENTS_ID_SEQ") })
 public class Consent extends AbstractMutableDeletableDomainObject implements Comparable<Consent>{
-	
+
 	public int compareTo(Consent o) {
 		if (this.equals(o))
 			return 0;
 		else
 			return 1;
 	}
-	
+
 	private StudyVersion studyVersion;
-	
+
 	@ManyToOne
     @JoinColumn(name = "stu_version_id", nullable = false)
 	public StudyVersion getStudyVersion() {
@@ -51,7 +51,7 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	}
 
 	private String name;
-	
+
 	@NotNull
 	public String getName() {
 		return name;
@@ -62,12 +62,12 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	}
 
 	private LazyListHelper lazyListHelper;
-	
+
 	public Consent(){
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(ConsentVersion.class,new ParameterizedBiDirectionalInstantiateFactory<ConsentVersion>(ConsentVersion.class, this));
 	}
-	
+
 	@OneToMany(mappedBy = "consent", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@OrderBy(clause="effectiveDate")
@@ -88,11 +88,11 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 		this.getConsentVersions().add(consentVersion);
 		consentVersion.setConsent(this);
 	}
-	
+
 	public void setConsentVersions(List<ConsentVersion> consentVersions) {
 		setConsentVersionsInternal(consentVersions);
 	}
-	
+
 	@Override
     public int hashCode() {
         final int PRIME = 31;
@@ -113,7 +113,7 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
         else if (!name.equalsIgnoreCase(other.name)) return false;
         return true;
     }
-    
+
     @Transient
 	public ConsentVersion getLatestConsentVersion(){
     	TreeSet<ConsentVersion> consentVersions = new TreeSet<ConsentVersion>();
@@ -121,12 +121,12 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
     	int size = consentVersions.size();
 		return consentVersions.last();
 	}
-    
+
     @Transient
     public List<ConsentVersion> getConsentVersionListForRegistration(){
     	List<ConsentVersion> versions = getConsentVersions();
     	Collections.reverse(versions);
     	return versions;
     }
-    
+
 }
