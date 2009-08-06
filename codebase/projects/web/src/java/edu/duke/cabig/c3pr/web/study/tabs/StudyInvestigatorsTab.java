@@ -10,11 +10,9 @@ import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -29,8 +27,6 @@ public class StudyInvestigatorsTab extends StudyTab {
     private StudyValidator studyValidator;
 
     private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
-
-    private OrganizationDao organizationDao;
 
     StudySiteDao studySiteDao = null;
 
@@ -118,14 +114,6 @@ public class StudyInvestigatorsTab extends StudyTab {
 
     public void setStudyValidator(StudyValidator studyValidator) {
         this.studyValidator = studyValidator;
-    }
-
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
-
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
     }
 
     public StudySiteDao getStudySiteDao() {
