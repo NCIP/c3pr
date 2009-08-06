@@ -24,7 +24,7 @@ import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "study_subject_versions")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STU_SUB_STU_VERSION_ID_SEQ") })
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "study_subject_versions_id_seq") })
 public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<StudySubjectStudyVersion>{
 
 	private StudySubject studySubject;
