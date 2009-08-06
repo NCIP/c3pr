@@ -399,7 +399,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         registrationCriteria.add(example);
         registrationCriteria.createCriteria("participant").add(
                         Restrictions.like("id", registration.getParticipant().getId()));
-        registrationCriteria.createCriteria("studySite").add(
+        registrationCriteria.createCriteria("studySubjectStudyVersions").createCriteria("studySiteStudyVersion").createCriteria("studySite").add(
                         Restrictions.like("id", registration.getStudySite().getId()));
         return registrationCriteria.list();
 
@@ -420,7 +420,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         Criteria registrationCriteria = getHibernateTemplate().getSessionFactory()
                         .getCurrentSession().createCriteria(StudySubject.class);
         registrationCriteria.add(example);
-        registrationCriteria.createCriteria("scheduledEpochs").createCriteria("epoch").add(
+        
+       registrationCriteria.createCriteria("studySubjectStudyVersions").createCriteria("scheduledEpochs").createCriteria("epoch").add(
                         Restrictions.like("id", scheduledEpoch.getEpoch().getId()));
         return registrationCriteria.list();
 
