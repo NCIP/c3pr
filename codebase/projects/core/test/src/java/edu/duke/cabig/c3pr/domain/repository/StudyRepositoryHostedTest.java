@@ -29,10 +29,8 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         study = studyRepository.createStudy(study);
-        interruptSession();
         study = studyDao.getById(study.getId());
-        assertEquals("Wrong Data entry status", study.getDataEntryStatus(),
-                        StudyDataEntryStatus.COMPLETE);
+        assertEquals("Wrong Data entry status",StudyDataEntryStatus.COMPLETE,study.getDataEntryStatus());
         assertEquals("Wrong Coordinating center status", study.getCoordinatingCenterStudyStatus(),
                         CoordinatingCenterStudyStatus.READY_TO_OPEN);
     }
@@ -54,7 +52,6 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         studyDao.save(study);
-        interruptSession();
         studyRepository.openStudy(study.getIdentifiers());
         interruptSession();
         study = studyDao.getById(study.getId());
