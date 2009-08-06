@@ -18,7 +18,6 @@ import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorGroupDao;
-import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
@@ -33,8 +32,6 @@ public class OrganizationAjaxFacade {
     private HealthcareSiteDao healthcareSiteDao;
 
     private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
-
-    private OrganizationDao organizationDao;
 
     private InvestigatorGroupDao investigatorGroupDao;
 
@@ -105,7 +102,7 @@ public class OrganizationAjaxFacade {
     public List<InvestigatorGroup> getInvestigatorGroups(int organizationId,
                     HttpServletRequest request) throws Exception {
 
-        HealthcareSite healthcareSite = organizationDao.getById(organizationId);
+        HealthcareSite healthcareSite = healthcareSiteDao.getById(organizationId);
         if (healthcareSite.getInvestigatorGroups() != null
                         && healthcareSite.getInvestigatorGroups().size() > 0) {
 
@@ -174,14 +171,6 @@ public class OrganizationAjaxFacade {
     public void setHealthcareSiteInvestigatorDao(
                     HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
         this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
-    }
-
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
-
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
     }
 
     public InvestigatorGroupDao getInvestigatorGroupDao() {

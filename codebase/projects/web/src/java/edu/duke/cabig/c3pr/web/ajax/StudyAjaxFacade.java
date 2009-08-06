@@ -31,7 +31,6 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorGroupDao;
-import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
@@ -73,8 +72,6 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     private DiseaseCategoryDao diseaseCategoryDao;
 
     private DiseaseTermDao diseaseTermDao;
-
-    private OrganizationDao organizationDao;
 
     private HealthcareSiteDao healthcareSiteDao;
 
@@ -577,14 +574,6 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
         this.healthcareSiteDao = healthcareSiteDao;
-    }
-
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
-
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
     }
 
     public InvestigatorGroupDao getInvestigatorGroupDao() {

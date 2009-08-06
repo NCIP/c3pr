@@ -35,7 +35,7 @@ public static final String VIEW_PARTICIPANT_URL= "viewParticipant?";
     }
     
     public void setRowOnClick(TableModel tableModel, Participant participant ){    	
-    	String url = "document.location='" + VIEW_PARTICIPANT_URL + ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)) + "'";
+    	String url = "document.location='" + VIEW_PARTICIPANT_URL + participant.getPrimaryIdentifier() + "'";
     	//+ VIEW_PARTICIPANT_URL + participant.getNciInstituteCode().toString() + "'";
     	tableModel.getRowHandler().getRow().setOnclick(url);
     	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
