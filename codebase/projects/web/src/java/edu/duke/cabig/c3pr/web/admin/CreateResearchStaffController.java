@@ -55,41 +55,41 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
      * @throws ServletException
      */
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        ResearchStaff rs;
+        ResearchStaff researchStaff;
         String email = request.getParameter("emailId") ;
         if (!StringUtils.isBlank(email)) {
-            rs = researchStaffDao.getByEmailAddress(email);
-            int cmSize = rs.getContactMechanisms().size();
+            researchStaff = researchStaffDao.getByEmailAddress(email);
+            int cmSize = researchStaff.getContactMechanisms().size();
             if (cmSize == 0) {
-                addContactsToResearchStaff(rs);
+                addContactsToResearchStaff(researchStaff);
             }
             if (cmSize == 1) {
                 ContactMechanism contactMechanismPhone = new ContactMechanism();
                 ContactMechanism contactMechanismFax = new ContactMechanism();
                 contactMechanismPhone.setType(ContactMechanismType.PHONE);
                 contactMechanismFax.setType(ContactMechanismType.Fax);
-                rs.addContactMechanism(contactMechanismPhone);
-                rs.addContactMechanism(contactMechanismFax);
+                researchStaff.addContactMechanism(contactMechanismPhone);
+                researchStaff.addContactMechanism(contactMechanismFax);
             }
             if (cmSize == 2) {
                 ContactMechanism contactMechanismFax = new ContactMechanism();
                 contactMechanismFax.setType(ContactMechanismType.Fax);
-                rs.addContactMechanism(contactMechanismFax);
+                researchStaff.addContactMechanism(contactMechanismFax);
             }
 
-            rs.setGroups(personnelService.getGroups(rs));
+            researchStaff.setGroups(personnelService.getGroups(researchStaff));
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
         }
         else {
-            rs = new LocalResearchStaff();
-            rs.setVersion(Integer.parseInt("1"));
+            researchStaff = new LocalResearchStaff();
+            researchStaff.setVersion(Integer.parseInt("1"));
 
-            addContactsToResearchStaff(rs);
+            addContactsToResearchStaff(researchStaff);
 
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
         }
-
-        return rs;
+        researchStaffDao.initialize(researchStaff);
+        return researchStaff;
     }
 
     public void addContactsToResearchStaff(ResearchStaff rs) {

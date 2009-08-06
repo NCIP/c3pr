@@ -28,7 +28,6 @@ import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
-import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
@@ -58,7 +57,6 @@ public class CreateNotificationController extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(CreateNotificationController.class);
 
-    private OrganizationDao organizationDao;
     private HealthcareSiteDao healthcareSiteDao;
     private ResearchStaffDao researchStaffDao;
     private InvestigatorDao investigatorDao;
@@ -298,14 +296,6 @@ public class CreateNotificationController extends SimpleFormController {
 
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
-    }
-
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
-
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
     }
     
 	public ConfigurationProperty getConfigurationProperty() {
