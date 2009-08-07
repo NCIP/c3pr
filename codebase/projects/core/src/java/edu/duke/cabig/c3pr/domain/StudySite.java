@@ -95,6 +95,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
         this.c3prErrorMessages = resourceBundleMessageSource1;
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
+        studySiteStudyVersions= new ArrayList<StudySiteStudyVersion>();
     }
 
     /**
