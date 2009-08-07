@@ -243,10 +243,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		getIdentifiers().add(identifier);
 	}
 
-	public void removeIdentifier(Identifier identifier) {
-		getIdentifiers().remove(identifier);
-	}
-
 	@Transient
 	public OrganizationAssignedIdentifier getFundingSponsorAssignedIdentifier() {
 		for (OrganizationAssignedIdentifier orgIdentifier : this.getOrganizationAssignedIdentifiers()) {
@@ -609,6 +605,12 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 							            new String[] { this.getCoordinatingCenterStudyStatus() .getDisplayName() });
 		}
 
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
+				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
+					new String[] { this.getCoordinatingCenterStudyStatus().getDisplayName() });
+		}
+
 		if (this.companionIndicator && !this.standaloneIndicator) {
 			for (int i = 0; i < this.parentStudyAssociations.size(); i++) {
 				if (this.parentStudyAssociations.get(i).getParentStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
@@ -627,6 +629,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 					compStudyAssoc.getCompanionStudy()
 							.setCoordinatingCenterStudyStatus(
 									CoordinatingCenterStudyStatus.OPEN);
+					compStudyAssoc.getCompanionStudy().getStudyVersion().setVersionStatus(StatusType.AC);
 				} else if (compStudyAssoc.getMandatoryIndicator()) {
 					throw getC3PRExceptionHelper()
 							.getRuntimeException(
@@ -651,6 +654,12 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 									.getDisplayName() });
 		}
 
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
+				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
+					new String[] { this.getCoordinatingCenterStudyStatus().getDisplayName() });
+		}
+
 		List<Error> errors = new ArrayList<Error>();
 
 		errors = canOpen();
@@ -664,53 +673,54 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
 			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
-					new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName() });
+					new String[] { this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING){
 			throw getC3PRExceptionHelper()
 					.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-							new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName() });
+							new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
 	}
 
 	public void closeToAccrualAndTreatment() {
-		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
-				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
 			throw getC3PRExceptionHelper()
 			.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
-					new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName() });
+					new String[] { this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING){
 			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-							new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName() });
+							new String[] { this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 	}
 
-	public void pending() {
-		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-	}
-
 	public void temporarilyCloseToAccrualAndTreatment() {
-		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING
-				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
-				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING) {
 			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-							new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName() });
+							new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
+		}
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
+				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
+					new String[] { this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
 	}
 
 	public void temporarilyCloseToAccrual() {
 
-		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
-				|| ((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
+		if (((this.getCoordinatingCenterStudyStatus()) == (CoordinatingCenterStudyStatus.PENDING))) {
 			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-							new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL.getDisplayName() });
+							new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
+		}
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
+				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE"),
+					new String[] { this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
 	}
@@ -1228,7 +1238,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_EXISTING_AMENDMENT.CODE"));
 		}
 		try {
-			this.addStudyVersion((StudyVersion) getStudyVersion().clone());
+			this.addStudyVersion((StudyVersion) getLatestStudyVersion().clone());
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
