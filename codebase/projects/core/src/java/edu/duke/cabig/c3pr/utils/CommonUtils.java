@@ -27,11 +27,7 @@ public class CommonUtils {
 
     public static String getDateString(Date date){
       if (date != null) {
-		try {
-				return DateUtil.formatDate(date, "MM/dd/yyyy");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			return DateUtil.formatDate(date, "MM/dd/yyyy");
 		}
 		return "";
     }

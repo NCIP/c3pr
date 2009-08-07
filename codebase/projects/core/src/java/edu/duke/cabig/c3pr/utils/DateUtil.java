@@ -281,11 +281,10 @@ public class DateUtil extends DateUtils {
 
     public static String getFormattedDate(String formatStr, Date d) {
         SimpleDateFormat formatter = new SimpleDateFormat(formatStr);
-        Date currentDate = new Date();
         return formatter.format(d);
     }
 
-    public static final String formatDate(Date date, String toFormat) throws ParseException {
+    public static final String formatDate(Date date, String toFormat) {
         return new SimpleDateFormat(toFormat).format(date);
     }
 

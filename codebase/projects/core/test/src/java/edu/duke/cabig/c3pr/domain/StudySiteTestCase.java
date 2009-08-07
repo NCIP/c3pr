@@ -82,12 +82,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	 */
 	public void testGetIrbApprovalDateStr(){
 		studySite.setIrbApprovalDate(new Date());
-		try {
-			assertEquals(DateUtil.formatDate(new Date(), "MM/dd/yyyy"), studySite.getIrbApprovalDateStr());
-		} catch (ParseException e) {
-			e.printStackTrace();
-			fail("Shouldn't have failed");
-		}
+		assertEquals(DateUtil.formatDate(new Date(), "MM/dd/yyyy"), studySite.getIrbApprovalDateStr());
 	}
 
 	/**
@@ -107,12 +102,7 @@ public class StudySiteTestCase extends AbstractTestCase{
 	 */
 	public void testGetStartDateStr(){
 		studySite.setStartDate(new Date());
-		try {
-			assertEquals(DateUtil.formatDate(new Date(), "MM/dd/yyyy"), studySite.getStartDateStr());
-		} catch (ParseException e) {
-			e.printStackTrace();
-			fail("Shouldn't have failed");
-		}
+		assertEquals(DateUtil.formatDate(new Date(), "MM/dd/yyyy"), studySite.getStartDateStr());
 	}
 
 	/**

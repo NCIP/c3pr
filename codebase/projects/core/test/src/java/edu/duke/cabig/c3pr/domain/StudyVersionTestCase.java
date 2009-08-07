@@ -194,10 +194,7 @@ public class StudyVersionTestCase extends AbstractTestCase {
 
 	public void testGetVersionDateStr() throws Exception{
 		basicStudyVersion.setVersionDate(new Date());
-		try {
-			assertEquals( DateUtil.formatDate(new Date(), "MM/dd/yyyy"), basicStudyVersion.getVersionDateStr());
-		} catch (ParseException e) {
-		}
+		assertEquals( DateUtil.formatDate(new Date(), "MM/dd/yyyy"), basicStudyVersion.getVersionDateStr());
 	}
 
 	public void testCompareTo1() throws Exception{

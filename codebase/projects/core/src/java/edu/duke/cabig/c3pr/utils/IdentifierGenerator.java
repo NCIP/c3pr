@@ -21,13 +21,13 @@ public class IdentifierGenerator {
 		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 		orgIdentifier.setHealthcareSite(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getHealthcareSite());
 		orgIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER);
-		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-		if(studySubject.getParentStudySubject() == null ){
-			studySubjects = studyDao.getStudySubjectsForStudy(studySubject.getStudySite().getStudy().getId());
-		}else{
-			studySubjects = studyDao.getStudySubjectsForCompanionStudy(studySubject.getStudySite().getStudy().getId());
-		}
-		
+//		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+//		if(studySubject.getParentStudySubject() == null ){
+//			studySubjects = studyDao.getStudySubjectsForStudy(studySubject.getStudySite().getStudy().getId());
+//		}else{
+//			studySubjects = studyDao.getStudySubjectsForCompanionStudy(studySubject.getStudySite().getStudy().getId());
+//		}
+		List<StudySubject> studySubjects = studyDao.getStudySubjectsForStudy(studySubject.getStudySite().getStudy().getId());
 		int count = 1 ;
 		for(StudySubject s : studySubjects){
 			if (s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED) {
