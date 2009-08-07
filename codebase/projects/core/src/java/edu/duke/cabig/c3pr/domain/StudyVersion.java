@@ -636,7 +636,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
 	@OneToMany(mappedBy = "studyVersion")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.LOCK, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<StudySiteStudyVersion> getStudySiteStudyVersionsInternal() {
 		return lazyListHelper.getInternalList(StudySiteStudyVersion.class);
