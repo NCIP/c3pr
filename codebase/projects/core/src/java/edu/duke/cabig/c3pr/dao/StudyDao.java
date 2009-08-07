@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
@@ -310,7 +311,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         List<Study> result = new ArrayList<Study>();
 
         Example example = Example.create(study).excludeZeroes().ignoreCase();
+        Example subExample = Example.create(study.getStudyVersion()).excludeZeroes().ignoreCase();
         Criteria studyCriteria = getSession().createCriteria(Study.class);
+        studyCriteria.createCriteria("studyVersionsInternal").add(subExample);
 
         if ("ascending".equals(order)) {
             studyCriteria.addOrder(Order.asc(orderBy));
@@ -450,15 +453,19 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * @return the accural
      */
     public int countAcrrualsByDate(Study study, Date startDate, Date endDate) {
-        Criteria regCriteria = getHibernateTemplate().getSessionFactory().getCurrentSession()
-                        .createCriteria(StudySubject.class);
-        Criteria studySiteCriteria = regCriteria.createCriteria("studySite");
-        Criteria studyCriteria = studySiteCriteria.createCriteria("study");
-
-        regCriteria.add(Expression.between("startDate", startDate, endDate));
-        studyCriteria.add(Restrictions.eq("id", study.getId()));
-
-        return regCriteria.list().size();
+//        Criteria regCriteria = getHibernateTemplate().getSessionFactory().getCurrentSession()
+//                        .createCriteria(StudySubject.class);
+//        Criteria studySiteCriteria = regCriteria.createCriteria("studySite");
+//        Criteria studyCriteria = studySiteCriteria.createCriteria("study");
+//
+//        regCriteria.add(Expression.between("startDate", startDate, endDate));
+//        studyCriteria.add(Restrictions.eq("id", study.getId()));
+//
+//        return regCriteria.list().size();
+        return getHibernateTemplate().find(
+                "select ssub from Study study join study.studyOrganizations so join so.studySiteStudyVersions ssisv " +
+                "join ssisv.studySubjectStudyVersions ssbsv join ssbsv.studySubject ssub " +
+                "where so.class=StudySite and ssub.startDate between ? and ? and study.id = ? ", new Object[]{startDate, endDate, study.getId()}).size();
     }
 
     /**
@@ -479,8 +486,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      */
     public List<StudySubject> getStudySubjectsForStudy(Integer studyId) {
         return getHibernateTemplate().find(
-                        "select ssub from Study s join s.studyOrganizations so join so.studySiteStudyVersionsInternal ssisv " +
-                        "join ssisv.studySubjectStudyVersions ssbsv join ssbsv.studySubject ssub where s.id = ? ", studyId);
+                        "select ssub from Study study join study.studyOrganizations so join so.studySiteStudyVersions ssisv " +
+                        "join ssisv.studySubjectStudyVersions ssbsv join ssbsv.studySubject ssub where so.class=StudySite and study.id = ? ", studyId);
     }
 
     /*
@@ -565,8 +572,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     }
     
     
-    @SuppressWarnings("unchecked")
-	public List<StudySubject> getStudySubjectsForCompanionStudy(Integer studyId) {
-    	return getHibernateTemplate().find("select ss from StudySubject ss where ss.studySite.study.id = ? ", studyId);
-    }
+//    @SuppressWarnings("unchecked")
+//	public List<StudySubject> getStudySubjectsForCompanionStudy(Integer studyId) {
+//    	return getHibernateTemplate().find("select ss from StudySubject ss where ss.studySite.study.id = ? ", studyId);
+//    }
 }

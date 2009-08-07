@@ -161,11 +161,7 @@ public class Summary3Report extends AbstractMutableDeletableDomainObject{
 	@Transient
 	public String getStartDateStr() {
 		if(startDate!=null){
-			try {
-				return DateUtil.formatDate(startDate, "MM/dd/yyyy");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			return DateUtil.formatDate(startDate, "MM/dd/yyyy");
 		}
 		return "";
 	}
@@ -179,11 +175,7 @@ public class Summary3Report extends AbstractMutableDeletableDomainObject{
 	@Transient
 	public String getEndDateStr() {
 		if(endDate!=null){
-			try {
-				return DateUtil.formatDate(endDate, "MM/dd/yyyy");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			return DateUtil.formatDate(endDate, "MM/dd/yyyy");
 		}
 		return "";
 	}

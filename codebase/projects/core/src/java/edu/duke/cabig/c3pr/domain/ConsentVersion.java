@@ -101,11 +101,7 @@ public class ConsentVersion extends AbstractMutableDeletableDomainObject impleme
 	@Transient
 	public String getEffectiveDateStr() {
 		if (effectiveDate != null) {
-			try {
-				return DateUtil.formatDate(effectiveDate, "MM/dd/yyyy");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			return DateUtil.formatDate(effectiveDate, "MM/dd/yyyy");
 		}
 		return "";
 	}

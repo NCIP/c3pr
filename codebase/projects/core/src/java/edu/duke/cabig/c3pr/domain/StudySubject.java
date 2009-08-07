@@ -473,11 +473,7 @@ public Date getInformedConsentSignedDate() {
 	@Transient
 	public String getInformedConsentSignedDateStr() {
 		if (informedConsentSignedDate != null) {
-		try {
-				return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
 		}
 		return "";
 	}
@@ -490,11 +486,7 @@ public Date getInformedConsentSignedDate() {
 	@Transient
 	public String getOffStudyDateStr() {
 		if (offStudyDate != null) {
-			try {
-				return DateUtil.formatDate(offStudyDate, "MM/dd/yyyy");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			return DateUtil.formatDate(offStudyDate, "MM/dd/yyyy");
 		}
 		return "";
 	}
@@ -507,11 +499,7 @@ public Date getInformedConsentSignedDate() {
 	@Transient
 	public String getStartDateStr() {
 		if(startDate!=null){
-			try {
-				return DateUtil.formatDate(startDate, "MM/dd/yyyy");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			return DateUtil.formatDate(startDate, "MM/dd/yyyy");
 		}
 		return "";
 	}

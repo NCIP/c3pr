@@ -50,11 +50,7 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 	@Transient
 	public String getInformedConsentSignedDateStr() {
 		if (informedConsentSignedDate != null) {
-		try {
-				return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
 		}
 		return "";
 	}

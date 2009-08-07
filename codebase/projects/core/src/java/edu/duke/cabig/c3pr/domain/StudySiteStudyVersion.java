@@ -63,7 +63,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	}
 
 	@ManyToOne
-    @JoinColumn(name = "stu_version_id", nullable=false)
+    @JoinColumn(name = "stu_version_id")
     @Cascade( { CascadeType.LOCK})
 	public StudyVersion getStudyVersion() {
 		return studyVersion;

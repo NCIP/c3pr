@@ -328,13 +328,7 @@ private String administrativeGenderCode;
 		if (birthDate == null ||birthDate.equals("") ) {
 			return "";
 		}
-		try {
-			return DateUtil.formatDate(birthDate, "MM/dd/yyyy");
-		}
-		catch (ParseException e) {
-			// do nothing
-		}
-		return "";
+		return DateUtil.formatDate(birthDate, "MM/dd/yyyy");
 	}
 
 	/**

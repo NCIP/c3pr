@@ -305,7 +305,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                 allowedOldDate = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
                 todayDate = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
             }
-            catch (ParseException e) {
+            catch (Exception e) {
                 throw getC3PRExceptionHelper().getException(
                                 getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"),
                                 new String[] { this.getHealthcareSite().getName() });
@@ -384,7 +384,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                 allowedOldDate = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
                 todayDate = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
             }
-            catch (ParseException e) {
+            catch (Exception e) {
                 throw getC3PRExceptionHelper().getRuntimeException(
                                 getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"),
                                 new String[] { this.getHealthcareSite().getName() });
