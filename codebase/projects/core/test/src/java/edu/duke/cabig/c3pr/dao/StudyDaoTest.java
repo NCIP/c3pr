@@ -1591,7 +1591,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     public void testGetStudySubjectsForCompanionStudy() throws Exception {
     	int studyId = 1000 ;
-    	List<StudySubject> list = dao.getStudySubjectsForCompanionStudy(studyId);
+    	List<StudySubject> list = dao.getStudySubjectsForStudy(studyId);
     	assertEquals("Wrong number of records",2,list.size());
     }
 }
