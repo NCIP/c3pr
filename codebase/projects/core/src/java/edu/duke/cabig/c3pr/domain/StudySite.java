@@ -73,9 +73,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     /** The study subjects. */
     //private List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 
-    /** The lazy list helper. */
-    private LazyListHelper lazyListHelper;
-
     /** The c3 pr exception helper. */
     private C3PRExceptionHelper c3PRExceptionHelper;
 
@@ -83,6 +80,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private MessageSource c3prErrorMessages;
     
     private StudySiteStudyVersion studySiteStudyVersion;
+    
+    private List<StudySiteStudyVersion> studySiteStudyVersions;
 
     /**
      * Instantiates a new study site.
@@ -96,8 +95,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
         this.c3prErrorMessages = resourceBundleMessageSource1;
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
-        lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
     }
 
     /**
@@ -362,59 +359,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     }
 
     /**
-     * Sets the work flow site study status.
-     *
-     * @param status the status
-     *
-     * @return the study
-     *
-     * @throws C3PRCodedException the c3 pr coded exception
-     */
-//    public Study setWorkFlowSiteStudyStatus(SiteStudyStatus status) throws C3PRCodedException {
-//        SiteStudyStatus currentSiteStatus = this.getSiteStudyStatus();
-//        if ((status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
-//                        || (status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
-//            if (((currentSiteStatus) == (SiteStudyStatus.ACTIVE))
-//                            || ((currentSiteStatus) == (SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL))) {
-//                this.setSiteStudyStatus(status);
-//            }
-//        }
-//        else if ((status == SiteStudyStatus.CLOSED_TO_ACCRUAL)
-//                        || (status == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
-//            if (((currentSiteStatus) == (SiteStudyStatus.PENDING))
-//                            || ((currentSiteStatus) == (SiteStudyStatus.AMENDMENT_PENDING))
-//                            || ((currentSiteStatus) == (SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
-//                if ((this.getId() != null)) {
-//                    throw getC3PRExceptionHelper()
-//                                    .getException(
-//                                                    getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-//                                                    new String[] { status.getDisplayName() });
-//                }
-//                return getStudy();
-//            }
-//            else this.setSiteStudyStatus(status);
-//        }
-//        else {
-//            if (status == evaluateSiteStudyStatus()) {
-//                this.setSiteStudyStatus(status);
-//            }
-//            else {
-//                if ((getStudy().getId() != null)) {
-//                    throw getC3PRExceptionHelper()
-//                                    .getException(
-//                                                    getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),
-//                                                    new String[] {
-//                                                            status.getDisplayName(),
-//                                                            getStudy()
-//                                                                            .getCoordinatingCenterStudyStatus()
-//                                                                            .getDisplayName() });
-//                }
-//            }
-//        }
-//        return getStudy();
-//    }
-
-    /**
      * Activate.
      */
     public void activate() {
@@ -579,32 +523,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     public void pendingAmendment() {
         this.setSiteStudyStatus(SiteStudyStatus.AMENDMENT_PENDING);
     }
-
-//    public void approveForActivation() {
-//        if (this.getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
-//            throw getC3PRExceptionHelper().getRuntimeException(
-//                            getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_STUDY_NOT_OPEN.CODE"));
-//        }
-//        if (!(this.siteStudyStatus == SiteStudyStatus.PENDING
-//                        || this.siteStudyStatus == SiteStudyStatus.AMENDMENT_PENDING || this.siteStudyStatus == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)) {
-//            throw getC3PRExceptionHelper().getRuntimeException(
-//                            getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE"),
-//                            new String[] { this.getSiteStudyStatus().getDisplayName() });
-//        }
-//        this.setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
-//        Study study = this.getStudy();
-//        if(!study.getCompanionIndicator()){
-//        	for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
-//        		for(StudySite studySite : companionStudyAssociation.getStudySites()){
-//        			if(studySite.getHealthcareSite().getNciInstituteCode() == this.getHealthcareSite().getNciInstituteCode()){
-//        				if(studySite.getSiteStudyStatus() != SiteStudyStatus.APPROVED_FOR_ACTIVTION || studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){
-//        					studySite.approveForActivation();
-//        				}
-//        			}
-//        		}
-//        	}
-//        }
-//    }
 
     /**
      * Gets the code.
@@ -843,29 +761,25 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public StudySiteStudyVersion getLatestStudySiteStudyVersion(){
 		if(getStudySiteStudyVersions().size()==0){
 			StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
-		//	studySiteStudyVersion.setStudyVersion(getStudy().getStudyVersion());
 			this.addStudySiteStudyVersion(studySiteStudyVersion);
 			return studySiteStudyVersion;
 		}
-		List<StudySiteStudyVersion> studySiteStudyVersions = this.getStudySiteStudyVersions();
-		Collections.sort(studySiteStudyVersions);
-		return studySiteStudyVersions.get(studySiteStudyVersions.size()-1);
+		List<StudySiteStudyVersion> temp = new ArrayList<StudySiteStudyVersion>();
+		temp.addAll(this.getStudySiteStudyVersions());
+		Collections.sort(temp);
+		return temp.get(temp.size()-1);
 	}
 	
 	@OneToMany(mappedBy = "studySite")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@Where(clause = "retired_indicator  = 'false'")
-	public List<StudySiteStudyVersion> getStudySiteStudyVersionsInternal() {
-		return lazyListHelper.getInternalList(StudySiteStudyVersion.class);
-	}
-
-	@Transient
 	public List<StudySiteStudyVersion> getStudySiteStudyVersions() {
-		return lazyListHelper.getLazyList(StudySiteStudyVersion.class);
+		return studySiteStudyVersions;
 	}
 
-	public void setStudySiteStudyVersionsInternal(List<StudySiteStudyVersion> studySiteStudyVersions) {
-		lazyListHelper.setInternalList(StudySiteStudyVersion.class,studySiteStudyVersions);
+	
+	public void setStudySiteStudyVersions(
+			List<StudySiteStudyVersion> studySiteStudyVersions) {
+		this.studySiteStudyVersions = studySiteStudyVersions;
 	}
 
 	public void addStudySiteStudyVersion(StudySiteStudyVersion studySiteStudyVersion) {

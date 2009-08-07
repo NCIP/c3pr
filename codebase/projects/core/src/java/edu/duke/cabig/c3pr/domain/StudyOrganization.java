@@ -49,7 +49,7 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     private HealthcareSite healthcareSite;
 
     /** The lazy list helper. */
-    private LazyListHelper lazyListHelper;
+    protected LazyListHelper lazyListHelper;
 
     // TODO move into Command Object
     /** The study investigator ids. */
