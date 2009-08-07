@@ -94,7 +94,7 @@ public class Summary3ReportServiceTest extends DaoTestCase {
 		XsltTransformer xsltTrans = new XsltTransformer();
 
 		try {
-			xsltTrans.toPdf(xmlString, "C:/users/iris/Reports/testReport.pdf",
+			xsltTrans.toPdf(xmlString, "testReport.pdf",
 					xslFOXsltFile);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,7 +118,7 @@ public class Summary3ReportServiceTest extends DaoTestCase {
 		summaryReportService.buildSummary3Report(summary3Report);
 
 		String xmlString = summaryReportService.generateXML(summary3Report);
-		File file = new File("C:/users/iris/Reports/testReport.xml");
+		File file = new File("testReport.xml");
 
 		FileWriter fileWriter = new FileWriter(file);
 		fileWriter.write(xmlString);
