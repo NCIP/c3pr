@@ -153,6 +153,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 		lazyListHelper.add(StudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudyVersion>(StudyVersion.class, this));
+		addStudyVersion(new StudyVersion(true));
 	}
 
 	public List<Error> canOpen() {

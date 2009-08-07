@@ -168,23 +168,13 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
 	public StudyVersion(boolean forSearchByExample){
+		amendmentReasons = new ArrayList<StudyPart>();
 		lazyListHelper = new LazyListHelper();
-		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
-		resourceBundleMessageSource.setBasename("error_messages_multisite");
-		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
-		resourceBundleMessageSource1.setBasename("error_messages_c3pr");
-		resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
-		this.c3prErrorMessages = resourceBundleMessageSource1;
-		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
-
 		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
 		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
 		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
 		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
-
-		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 	}
-
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="stu_version_id")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
