@@ -311,8 +311,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 						ExclusionEligibilityCriteria.class,
 						new ParameterizedInstantiateFactory<ExclusionEligibilityCriteria>(
 								ExclusionEligibilityCriteria.class));
-		lazyListHelper.add(Arm.class, new BiDirectionalInstantiateFactory<Arm>(
-				Arm.class, this));
+		lazyListHelper.add(Arm.class, new InstantiateFactory<Arm>(Arm.class));
 		lazyListHelper.add(InclusionEligibilityCriteria.class,
 				new InstantiateFactory<InclusionEligibilityCriteria>(
 						InclusionEligibilityCriteria.class));
