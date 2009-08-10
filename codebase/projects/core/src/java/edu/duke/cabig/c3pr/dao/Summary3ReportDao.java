@@ -47,9 +47,10 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 			AnatomicSite diseaseSite, HealthcareSite hcs, Date startDate,
 			Date endDate) {
 		
-		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
-		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.study.type = ? " +
-		 		"and ss.studySite.healthcareSite.id in " +
+		 return  getHibernateTemplate().find("from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and " +
+		 		"ss.startDate >= ? and ss.startDate <= ? and " +
+		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ssv.studySiteStudyVersion.studySite.studyInternal.type = ? " +
+		 		"and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
   			    "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
                 new Object[] {startDate, endDate, diseaseSite.getName(), "Genetic Therapeutic", hcs.getCtepCode()}).size();
@@ -68,8 +69,9 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	public int getNewlyRegisteredPatientsForGivenAnatomicSite(AnatomicSite diseaseSite,
 			HealthcareSite hcs, Date startDate, Date endDate) {
 		
-		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
-		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ss.studySite.healthcareSite.id in " +
+		 return  getHibernateTemplate().find("from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and" +
+		 		" ss.startDate >= ? and ss.startDate <= ? and " +
+		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
 		 		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'))",
                 new Object[] {startDate, endDate, diseaseSite.getName(), hcs.getCtepCode()}).size();
@@ -87,8 +89,9 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	public int getNewlyEnrolledTherapeuticStudyPatients(HealthcareSite hcs, Date startDate,
 			Date endDate) {
 		
-		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
-		 		"ss.studySite.study.type = ? and ss.studySite.healthcareSite.id in " +
+		 return  getHibernateTemplate().find("from StudySubject ss, StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions)and " +
+		 		"ss.startDate >= ? and ss.startDate <= ? and " +
+		 		"ssv.studySiteStudyVersion.studySite.studyInternal.type = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
 		 		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'))",
                 new Object[] {startDate, endDate, "Genetic Therapeutic", hcs.getCtepCode()}).size();
@@ -105,8 +108,9 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	 */
 	public int getNewlyRegisteredPatients(HealthcareSite hcs, Date startDate, Date endDate) {
 		
-		 return  getHibernateTemplate().find("from StudySubject ss where ss.startDate >= ? and ss.startDate <= ? and " +
-			 		"ss.studySite.healthcareSite.id in " +
+		 return  getHibernateTemplate().find("from StudySubject ss, StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions)and" +
+		 		" ss.startDate >= ? and ss.startDate <= ? and " +
+			 		"ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 			 		"(select h.id from HealthcareSite h, Identifier I where " +
 			 		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'))",
 	                new Object[] {startDate, endDate, hcs.getCtepCode()}).size();
