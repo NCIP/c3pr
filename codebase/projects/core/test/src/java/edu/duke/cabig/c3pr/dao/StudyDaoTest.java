@@ -1594,4 +1594,25 @@ public class StudyDaoTest extends DaoTestCase {
     	List<StudySubject> list = dao.getStudySubjectsForStudy(studyId);
     	assertEquals("Wrong number of records",2,list.size());
     }
+    
+    public void testSaveStudyWithStudyVersionAndStudySite() throws Exception {
+    	Study study = new Study();
+    	study.setPhaseCode("");
+    	study.setShortTitleText("short title");
+    	study.setType("type");
+    	study.getStudyVersion().setPrecisText("");
+    	StudySite studySite = new StudySite();
+    	studySite.getStudySiteStudyVersion().setStudyVersion(study.getStudyVersion());
+    	HealthcareSite healthcareSite = healthcareSitedao.getById(1000);
+    	studySite.setHealthcareSite(healthcareSite);
+    	studySite.setStudy(study);
+    	study.addStudySite(studySite);
+    	studySite.setRoleCode("test role code");
+    	dao.save(study);
+    	interruptSession();
+    	assertNotNull("id is null",study.getId());
+    	assertEquals("wrong number of study sites",1,study.getStudySites().size());
+    	assertEquals("wrong role code","test role code",study.getStudySites().get(0).getRoleCode());
+    	
+    }
 }
