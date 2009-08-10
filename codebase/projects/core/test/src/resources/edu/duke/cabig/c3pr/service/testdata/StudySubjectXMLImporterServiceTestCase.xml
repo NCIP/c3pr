@@ -1,16 +1,6 @@
 <dataset>
 
-	<CSM_USER user_id="1000" login_name="c3pr_admin_etc" first_name="c3pr_etc" last_name="admin_etc" />   
-	<CSM_GROUP group_id="1000" group_name="edu.duke.cabig.c3pr.domain.HealthcareSite.RM-TST-ID-1000	" group_desc="" application_id="1" /> 
-	<CSM_ROLE role_id="1000" role_name="dbunit_user" application_id="1" active_flag="1" />
-	<CSM_PROTECTION_GROUP protection_group_id="6" protection_group_name="dbunitparent" application_id="1" large_element_count_flag="0" />
-	<CSM_PROTECTION_GROUP protection_group_id="1000" protection_group_name="dbunit" application_id="1" large_element_count_flag="0" parent_protection_group_id="6"/>
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
-      
-    <STUDIES id="1100" version="1" blinded_indicator="1" multi_institution_indicator="1"
-   	phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic"
-    status="OPEN" />
-    
+    <STUDIES id="1100" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN"   retired_indicator = "false" />
     
     <STUDY_VERSIONS id="1100" study_id="1100" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     
@@ -19,8 +9,11 @@
     <ORGANIZATIONS id="1100" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100" />
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100" />    
 
-    <STUDY_ORGANIZATIONS id="1100" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1100"
+    <STUDY_ORGANIZATIONS id="1100" version="1"  role_code="role" start_date="01-01-2001" study_id="1100"
     hcs_id="1100" type="SST"/>
+    
+    <study_site_versions id="1100" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1100" sto_id="1100"/>
 
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
 
@@ -61,9 +54,11 @@
 
     <DISEASE_HISTORY id="1100" version="1"/>
 
-    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1100" sto_id="1100" sti_id="1100"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" disease_history_id="1100" prt_id="1100" sti_id="1100" retired_indicator = "false" />
+	
+	<study_subject_versions id="1100" version="1" study_site_ver_id="1100" spa_id="1100" retired_indicator = "false" />
 
-    <SCHEDULED_EPOCHS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1100" eph_id="1100" sc_epoch_workflow_status="INVALID" sc_epoch_data_entry_status="INCOMPLETE"/>  
+    <SCHEDULED_EPOCHS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1100" eph_id="1100" sc_epoch_workflow_status="INVALID" sc_epoch_data_entry_status="INCOMPLETE"/>  
 
 	<SUBJECT_STRAT_ANS id="1100" version="1" sceph_id="1100" str_cri_id="1100"/>
 	
@@ -73,8 +68,6 @@
 
     <STRAT_CRI_ANS_CMB id="1000" version="1" />
 	
-	<STUDY_AMENDMENTS/>
-
     <IDENTIFIERS id="1100" version="1" value="nci" type="Coordinating Center Identifier" system_name="nci" dtype="SAI"/>
     <IDENTIFIERS id="1001" version="1" value="code" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1100"/>
     <IDENTIFIERS id="1002" version="1" value="duke nci code" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1000"/>
