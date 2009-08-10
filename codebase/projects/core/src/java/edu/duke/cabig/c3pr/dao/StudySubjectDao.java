@@ -33,6 +33,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
@@ -179,55 +180,110 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	 * @return the list< study subject>
 	 */
     public List<StudySubject> advancedStudySearch(StudySubject studySubject) {
-        Criteria studySubjectCriteria = getHibernateTemplate().getSessionFactory()
-                        .getCurrentSession().createCriteria(StudySubject.class);
+    	String selectClause = "select ssub from StudySubject ssub ";                
 
-        Criteria studySiteCriteria = studySubjectCriteria.createCriteria("studySite");
-        Criteria participantCriteria = studySubjectCriteria.createCriteria("participant");
-        Criteria studyCriteria = studySiteCriteria.createCriteria("study");
-        Criteria studyVersionCriteria = studyCriteria.createCriteria("studyVersionsInternal");
-        Criteria sIdentifiersCriteria = studyCriteria.createCriteria("identifiers");
-        Criteria pIdentifiersCriteria = participantCriteria.createCriteria("identifiers");
-
-        // Study Criteria
-        if (studySubject.getStudySite().getStudy().getShortTitleText() != null
-                        && !studySubject.getStudySite().getStudy().getShortTitleText().equals("")) {
-        	studyVersionCriteria.add(Expression.ilike("shortTitleText", "%"
-                            + studySubject.getStudySite().getStudy().getShortTitleText() + "%"));
+    	String whereClause = "";
+    	
+    	List<Object> params = new ArrayList<Object>();
+    	
+    	Study study= studySubject.getStudySite().getStudy();
+    	boolean addStudySelectClause = true;
+    	String studyClause="join ssub.studySubjectStudyVersions ssbsv " +
+        			"join ssbsv.studySiteStudyVersion ssisv " +
+        			"join ssisv.studyVersion sv ";
+        if (!StringUtils.getBlankIfNull(study.getShortTitleText()).equals("")) {
+        	selectClause += studyClause;
+        	whereClause += "sv.shortTitleText like ? ";
+        	params.add(study.getShortTitleText());
+        	addStudySelectClause = false;
         }
-        if (studySubject.getStudySite().getStudy().getIdentifiers().size() > 0) {
-            if (studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue() != null
-                            && studySubject.getStudySite().getStudy().getIdentifiers().get(0)
-                                            .getValue() != "") {
-                sIdentifiersCriteria.add(Expression.ilike("value", "%"
-                                + studySubject.getStudySite().getStudy().getIdentifiers().get(0)
-                                                .getValue() + "%"));
-            }
+        if (study.getIdentifiers().size() > 0){
+        	if(addStudySelectClause)
+        		selectClause += studyClause;
+        	selectClause += "join sv.study study join study.identifiers sid ";
+        	whereClause += "and sid.value = ? ";
+        	params.add(study.getIdentifiers().get(0).getValue());
         }
-
-        // participant/subject criteria
-        if (studySubject.getParticipant().getFirstName() != null
-                        && !studySubject.getParticipant().getFirstName().equals("")) {
-            participantCriteria.add(Expression.ilike("firstName", "%"
-                            + studySubject.getParticipant().getFirstName() + "%"));
+        
+        Participant participant= studySubject.getParticipant();
+        boolean addParticipantSelectClause = true;
+        String participantClause = "join ssub.participant prt ";
+        if(!StringUtils.getBlankIfNull(participant.getFirstName()).equals("")){
+        	selectClause += participantClause;
+        	whereClause += "and prt.firstName like ? ";
+        	params.add(participant.getFirstName());
+        	addParticipantSelectClause = false;
         }
-        if (studySubject.getParticipant().getLastName() != null
-                        && !studySubject.getParticipant().getLastName().equals("")) {
-            participantCriteria.add(Expression.ilike("lastName", "%"
-                            + studySubject.getParticipant().getLastName() + "%"));
+        
+        if(!StringUtils.getBlankIfNull(participant.getLastName()).equals("")){
+        	if(addParticipantSelectClause)
+        		selectClause += participantClause;
+        	whereClause += "and prt.lastName like ? ";
+        	params.add(participant.getLastName());
+        	addParticipantSelectClause = false;
         }
-        if (studySubject.getParticipant().getIdentifiers().size() > 0) {
-            if (studySubject.getParticipant().getIdentifiers().get(0).getValue() != null
-                            && !studySubject.getParticipant().getIdentifiers().get(0).getValue()
-                                            .equals("")) {
-                pIdentifiersCriteria.add(Expression.ilike("value", "%"
-                                + studySubject.getParticipant().getIdentifiers().get(0).getValue()
-                                + "%"));
-            }
+    	
+        if (participant.getIdentifiers().size() > 0){
+        	if(addParticipantSelectClause)
+        		selectClause += participantClause;
+        	selectClause += "join prt.identifiers pid ";
+        	whereClause += "and pid.value = ?";
+        	params.add(participant.getIdentifiers().get(0).getValue());
         }
-
-        studySubjectCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return studySubjectCriteria.list();
+        whereClause = "where " + (whereClause.startsWith("and")?whereClause.replaceFirst("and", ""):whereClause);
+        String advanceQuery = selectClause + whereClause;
+        
+        return (List<StudySubject>)getHibernateTemplate().find(advanceQuery, params.toArray());
+        
+//    	Criteria studySubjectCriteria = getHibernateTemplate().getSessionFactory()
+//                        .getCurrentSession().createCriteria(StudySubject.class);
+//
+//        Criteria studySiteCriteria = studySubjectCriteria.createCriteria("studySite");
+//        Criteria participantCriteria = studySubjectCriteria.createCriteria("participant");
+//        Criteria studyCriteria = studySiteCriteria.createCriteria("study");
+//        Criteria studyVersionCriteria = studyCriteria.createCriteria("studyVersionsInternal");
+//        Criteria sIdentifiersCriteria = studyCriteria.createCriteria("identifiers");
+//        Criteria pIdentifiersCriteria = participantCriteria.createCriteria("identifiers");
+//
+//        // Study Criteria
+//        if (studySubject.getStudySite().getStudy().getShortTitleText() != null
+//                        && !studySubject.getStudySite().getStudy().getShortTitleText().equals("")) {
+//        	studyVersionCriteria.add(Expression.ilike("shortTitleText", "%"
+//                            + studySubject.getStudySite().getStudy().getShortTitleText() + "%"));
+//        }
+//        if (studySubject.getStudySite().getStudy().getIdentifiers().size() > 0) {
+//            if (studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue() != null
+//                            && studySubject.getStudySite().getStudy().getIdentifiers().get(0)
+//                                            .getValue() != "") {
+//                sIdentifiersCriteria.add(Expression.ilike("value", "%"
+//                                + studySubject.getStudySite().getStudy().getIdentifiers().get(0)
+//                                                .getValue() + "%"));
+//            }
+//        }
+//
+//        // participant/subject criteria
+//        if (studySubject.getParticipant().getFirstName() != null
+//                        && !studySubject.getParticipant().getFirstName().equals("")) {
+//            participantCriteria.add(Expression.ilike("firstName", "%"
+//                            + studySubject.getParticipant().getFirstName() + "%"));
+//        }
+//        if (studySubject.getParticipant().getLastName() != null
+//                        && !studySubject.getParticipant().getLastName().equals("")) {
+//            participantCriteria.add(Expression.ilike("lastName", "%"
+//                            + studySubject.getParticipant().getLastName() + "%"));
+//        }
+//        if (studySubject.getParticipant().getIdentifiers().size() > 0) {
+//            if (studySubject.getParticipant().getIdentifiers().get(0).getValue() != null
+//                            && !studySubject.getParticipant().getIdentifiers().get(0).getValue()
+//                                            .equals("")) {
+//                pIdentifiersCriteria.add(Expression.ilike("value", "%"
+//                                + studySubject.getParticipant().getIdentifiers().get(0).getValue()
+//                                + "%"));
+//            }
+//        }
+//
+//        studySubjectCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        return studySubjectCriteria.list();
     }
 
     /*

@@ -168,33 +168,218 @@ public class StudySubjectDaoTest extends DaoTestCase {
     /*
      * Test for the advanced search for studies(reporting use case).
      */
-    public void testAdvancedStudySearch() {
+    public void testAdvancedStudySearch1() {
         List<StudySubject> ssList;
         {
             Study study = new Study();
-            study.setShortTitleText("");
-
-            SystemAssignedIdentifier id = new SystemAssignedIdentifier();
-            id.setValue(null);
-            study.addIdentifier(id);
+            study.setShortTitleText("%short%");
 
             Participant participant = new Participant();
-            id = new SystemAssignedIdentifier();
-            id.setValue(null);
-            participant.addIdentifier(id);
-
-            participant.setFirstName("Alfred");
-            participant.setLastName("");
 
             StudySite studySite = new StudySite();
             studySite.setStudy(study);
-            studySite.setHealthcareSite(new LocalHealthcareSite());
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(3, ssList.size());
+        }
+        interruptSession();
+        {
+            Study study = new Study();
+            study.setShortTitleText("%short%2");
+
+            Participant participant = new Participant();
+
+            StudySite studySite = new StudySite();
+            studySite.setStudy(study);
+
+            StudySubject studySubject = new StudySubject();
+            studySubject.setStudySite(studySite);
+            studySubject.setParticipant(participant);
+
+            ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(1, ssList.size());
+        }
+        interruptSession();
+        
+        {
+            Study study = new Study();
+            study.setShortTitleText("%short%1");
+
+            Participant participant = new Participant();
+
+            StudySite studySite = new StudySite();
+            studySite.setStudy(study);
+
+            StudySubject studySubject = new StudySubject();
+            studySubject.setStudySite(studySite);
+            studySubject.setParticipant(participant);
+
+            ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(2, ssList.size());
+        }
+        interruptSession();
+    }
+    
+    /*
+     * Test for the advanced search for studies(reporting use case).
+     */
+    public void testAdvancedStudySearch2() {
+        List<StudySubject> ssList;
+        {
+            Study study = new Study();
+
+            SystemAssignedIdentifier id = new SystemAssignedIdentifier();
+            id.setValue("nci%");
+            study.addIdentifier(id);
+
+            Participant participant = new Participant();
+
+            StudySite studySite = new StudySite();
+            studySite.setStudy(study);
+
+            StudySubject studySubject = new StudySubject();
+            studySubject.setStudySite(studySite);
+            studySubject.setParticipant(participant);
+
+            ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(3, ssList.size());
+        }
+        interruptSession();
+        {
+            Study study = new Study();
+
+            SystemAssignedIdentifier id = new SystemAssignedIdentifier();
+            id.setValue("nci1");
+            study.addIdentifier(id);
+
+            Participant participant = new Participant();
+
+            StudySite studySite = new StudySite();
+            studySite.setStudy(study);
+
+            StudySubject studySubject = new StudySubject();
+            studySubject.setStudySite(studySite);
+            studySubject.setParticipant(participant);
+
+            ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(2, ssList.size());
+        }
+        interruptSession();
+        {
+            Study study = new Study();
+
+            OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
+            id.setValue("nci2");
+            study.addIdentifier(id);
+
+            Participant participant = new Participant();
+
+            StudySite studySite = new StudySite();
+            studySite.setStudy(study);
+
+            StudySubject studySubject = new StudySubject();
+            studySubject.setStudySite(studySite);
+            studySubject.setParticipant(participant);
+
+            ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(1, ssList.size());
+        }
+        interruptSession();
+    }
+    
+    /*
+     * Test for the advanced search for participant(reporting use case).
+     */
+    public void testAdvancedStudySearch3() {
+        List<StudySubject> ssList;
+        {
+            Study study = new Study();
+
+
+            Participant participant = new Participant();
+
+            participant.setFirstName("Rudolf");
+
+            StudySite studySite = new StudySite();
+            studySite.setStudy(study);
+
+            StudySubject studySubject = new StudySubject();
+            studySubject.setStudySite(studySite);
+            studySubject.setParticipant(participant);
+
+            ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(1, ssList.size());
+        }
+        interruptSession();
+        {
+            Study study = new Study();
+
+
+            Participant participant = new Participant();
+
+            participant.setLastName("Douglas");
+
+            StudySite studySite = new StudySite();
+            studySite.setStudy(study);
+
+            StudySubject studySubject = new StudySubject();
+            studySubject.setStudySite(studySite);
+            studySubject.setParticipant(participant);
+
+            ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(1, ssList.size());
+        }
+        interruptSession();
+        {
+            Study study = new Study();
+
+
+            Participant participant = new Participant();
+
+            participant.setLastName("A%");
+            participant.setLastName("%o%");
+
+            StudySite studySite = new StudySite();
+            studySite.setStudy(study);
+
+            StudySubject studySubject = new StudySubject();
+            studySubject.setStudySite(studySite);
+            studySubject.setParticipant(participant);
+
+            ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(2, ssList.size());
+        }
+        interruptSession();
+    }
+    
+    /*
+     * Test for the advanced search for participant(reporting use case).
+     */
+    public void testAdvancedStudySearch4() {
+        List<StudySubject> ssList;
+        {
+            Study study = new Study();
+
+
+            Participant participant = new Participant();
+            OrganizationAssignedIdentifier id2 = new OrganizationAssignedIdentifier();
+            id2.setValue("mrn");
+            participant.addIdentifier(id2);
+
+
+            StudySite studySite = new StudySite();
+            studySite.setStudy(study);
+
+            StudySubject studySubject = new StudySubject();
+            studySubject.setStudySite(studySite);
+            studySubject.setParticipant(participant);
+
+            ssList = studySubjectDao.advancedStudySearch(studySubject);
+            assertEquals(1, ssList.size());
         }
         interruptSession();
     }
