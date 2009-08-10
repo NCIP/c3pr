@@ -313,7 +313,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         Example example = Example.create(study).excludeZeroes().ignoreCase();
         Example subExample = Example.create(study.getStudyVersion()).excludeZeroes().ignoreCase();
         Criteria studyCriteria = getSession().createCriteria(Study.class);
-        studyCriteria.createCriteria("studyVersionsInternal").add(subExample);
 
         if ("ascending".equals(order)) {
             studyCriteria.addOrder(Order.asc(orderBy));
@@ -328,7 +327,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 
         if (isWildCard) {
             example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
-            studyCriteria.add(example);
+            subExample.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
+            //studyCriteria.add(example);
+            //studyCriteria.createCriteria("studyVersionsInternal").add(subExample);
             if (study.getIdentifiers().size() > 1) {
                 studyCriteria.createCriteria("identifiers").add(
                                 Restrictions.ilike("value", "%"
@@ -344,8 +345,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                                                 + study.getIdentifiers().get(0).getValue()
                                                 + "%"));
             }
-            result = studyCriteria.list();
+            //result = studyCriteria.list();
         }
+        studyCriteria.createCriteria("studyVersionsInternal").add(subExample);
         result = studyCriteria.add(example).list();
         return result;
 
