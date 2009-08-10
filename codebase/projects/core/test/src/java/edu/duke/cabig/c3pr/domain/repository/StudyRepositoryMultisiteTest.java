@@ -94,9 +94,11 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
-        study = studyRepository.createStudy(study);
+        studyDao.save(study);
         interruptSession();
         study = studyDao.getById(study.getId());
+        study = studyRepository.createStudy(study);
+        
         assertEquals("Wrong Data entry status", study.getDataEntryStatus(),
                         StudyDataEntryStatus.COMPLETE);
         assertEquals("Wrong Coordinating center status", study.getCoordinatingCenterStudyStatus(),
@@ -206,7 +208,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
-        study = studyDao.merge(study);
+        studyDao.save(study);
         int id = study.getId();
         interruptSession();
         study = studyDao.getById(id);
@@ -215,7 +217,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         }
         catch (C3PRCodedRuntimeException e) {
             e.printStackTrace();
-            assertEquals("Wrong exception message", e.getExceptionCode(), 323);
+            assertEquals("Wrong exception message",323, e.getExceptionCode());
             return;
         }
         catch (Exception e) {
@@ -246,7 +248,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
     public void testActivatePendingStudySite() throws Exception {
         study=getOpenedStudy();
         addNewCooordinatingCenter(study);
-        studyDao.merge(study);
+        studyDao.save(study);
         interruptSession();
         StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus() );
@@ -257,7 +259,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         addNewCooordinatingCenter(study);
         //study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
-        studyDao.merge(study);
+        studyDao.save(study);
         interruptSession();
         StudySite studySite=studyRepository.activateStudySite(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.ACTIVE, studySite.getSiteStudyStatus() );
@@ -410,9 +412,10 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         Study study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
-        study = studyRepository.createStudy(study);
+        studyDao.save(study);
         interruptSession();
         study=studyDao.getById(study.getId());;
+        study = studyRepository.createStudy(study);
         studyDao.initialize(study);
         return study;
     }
