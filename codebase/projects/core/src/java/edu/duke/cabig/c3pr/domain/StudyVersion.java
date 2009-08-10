@@ -596,12 +596,12 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 
 	@Column(name = "amendment_reason")
 	public String getAmendmentReasonInternal() {
-		String amendmentReason = "" ;
+		String amendmentReason = null ;
 		for(StudyPart reason : amendmentReasons){
-				if(amendmentReason != "" ){
+				if(amendmentReason != null ){
 					amendmentReason =  amendmentReason + " : " + reason.getName();
 				}else{
-					amendmentReason = amendmentReason + reason.getName();
+					amendmentReason = reason.getName();
 				}
 		}
 		return amendmentReason;
