@@ -111,7 +111,7 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 				.createCriteria("healthcareSite");
 		Criteria identifiersAssignedToOrganizationCriteria = healthcareSiteCriteria.createCriteria("identifiersAssignedToOrganization");
 		
-		Criteria studyCriteria = studySiteCriteria.createCriteria("study");
+		Criteria studyCriteria = studySiteCriteria.createCriteria("studyInternal");
 
 		Criteria diseaseHistoryCriteria = registrationCriteria
 				.createCriteria("diseaseHistoryInternal");
@@ -193,9 +193,10 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
     	
     	if(shortTitleText != null){
     		accrual = getHibernateTemplate().find(
-    				"Select ss from StudySubject ss,StudyVersion sv,StudySubjectStudyVersion ssv where sv=any elements" +
-    				"(ss.studySite.study.studyVersionsInternal)and " +
-    				"ssv=any elements(ss.studySubjectStudyVersions) and sv.shortTitleText = ? " +
+    				"Select ss from StudySubject ss,StudyVersion sv,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) " +
+    				"and sv=any elements" +
+    				"(ssv.studySiteStudyVersion.studySite.studyInternal.studyVersionsInternal)and " +
+    				"sv.shortTitleText = ? " +
     				"and ss.diseaseHistoryInternal.anatomicSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
     				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
