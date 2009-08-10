@@ -255,13 +255,9 @@ public class StudyCreationHelper {
         study.setMultiInstitutionIndicator(Boolean.TRUE);
         study.setStratificationIndicator(Boolean.FALSE);
 
+        study.getStudyVersion().setName("name");
+        study.getStudyVersion().setVersionDate(new Date());
 
-
-        StudyVersion studyVersion = new StudyVersion();
-        studyVersion.setName("name");
-        studyVersion.setVersionDate(new Date());
-
-        study.addStudyVersion(studyVersion);
         return study;
     }
 
