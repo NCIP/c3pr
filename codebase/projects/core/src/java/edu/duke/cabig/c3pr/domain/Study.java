@@ -1141,11 +1141,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
     @Transient
 	public StudyVersion getStudyVersion() {
-		if(studyVersion != null){
-            return studyVersion ;
-       }else{
-            return getLatestStudyVersion();
+		if(studyVersion == null){
+            studyVersion= getLatestStudyVersion();
         }
+		return studyVersion;
 	}
 
 	public void setStudyVersion(StudyVersion studyVersion) {
