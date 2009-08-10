@@ -43,6 +43,7 @@ public class StudySiteDaoTest extends DaoTestCase {
     public void testGetById() throws Exception {
         StudySite studySite = dao.getById(1000);
         assertNotNull("StudySite 1000 not found", studySite);
+        assertEquals("StudySiteStudyVersions not found for studysite",1,studySite.getStudySiteStudyVersions().size());
     }
 
     /**
