@@ -132,9 +132,9 @@ public class StudyRepositoryImpl implements StudyRepository {
     }
 
     @Transactional
-    public StudySite activateStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode){
+    public StudySite activateStudySite(List<Identifier> studyIdentifiers, String ctepCode){
         Study study = getUniqueStudy(studyIdentifiers);
-        StudySite studySite = study.getStudySite(nciInstituteCode);
+        StudySite studySite = study.getStudySite(ctepCode);
         return activateStudySite(studyIdentifiers, studySite);
     }
 
