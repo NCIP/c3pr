@@ -73,9 +73,6 @@ public class StudySubject extends
 	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
-	/** The consent history list. */
-	private List<ConsentHistory> consentHistoryList = new ArrayList<ConsentHistory>();
-
 	/** The name. */
 	private String name;
 
@@ -169,7 +166,6 @@ public class StudySubject extends
 						SystemAssignedIdentifier.class));
 		setIdentifiers(new ArrayList<Identifier>());
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
-		lazyListHelper.add(ConsentHistory.class, new ParameterizedBiDirectionalInstantiateFactory<ConsentHistory>(ConsentHistory.class, this));
 		// mandatory, so that the lazy-projected list is managed properly.
 	}
 
@@ -198,7 +194,6 @@ public class StudySubject extends
 			this.startDate = new Date();
 		}
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
-		lazyListHelper.add(ConsentHistory.class, new ParameterizedBiDirectionalInstantiateFactory<ConsentHistory>(ConsentHistory.class, this));
 	}
 
 	/**
@@ -1820,47 +1815,6 @@ public Date getInformedConsentSignedDate() {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Gets the consent history list.
-	 *
-	 * @return the consent history list
-	 */
-	@OneToMany
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "STU_SUB_ID", nullable = false)
-	public List<ConsentHistory> getConsentHistoryList() {
-		return consentHistoryList;
-	}
-
-	/**
-	 * Sets the consent history list.
-	 *
-	 * @param consentHistoryList the new consent history list
-	 */
-	private void setConsentHistoryList(List<ConsentHistory> consentHistoryList) {
-		this.consentHistoryList = consentHistoryList;
-		lazyListHelper.setInternalList(ConsentHistory.class,new ProjectedList<ConsentHistory>(this.consentHistoryList,ConsentHistory.class));
-	}
-
-	/**
-	 * Adds the consent history.
-	 *
-	 * @param consentHistory the consent history
-	 */
-	public void addConsentHistory(ConsentHistory consentHistory) {
-		getConsentHistoryList().add(consentHistory);
-	}
-
-	/**
-	 * Gets the current consent history.
-	 *
-	 * @return the current consent history
-	 */
-	@Transient
-	public ConsentHistory getCurrentConsentHistory() {
-		return this.getConsentHistoryList().get(getConsentHistoryList().size() - 1);
 	}
 
 	/**

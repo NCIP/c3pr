@@ -154,7 +154,6 @@
                <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
-			   <value>edu.duke.cabig.c3pr.domain.ConsentHistory</value>
 			   <value>edu.duke.cabig.c3pr.domain.StudyVersion</value>
 			   <value>edu.duke.cabig.c3pr.domain.AmendmentReason</value>
 			   <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
