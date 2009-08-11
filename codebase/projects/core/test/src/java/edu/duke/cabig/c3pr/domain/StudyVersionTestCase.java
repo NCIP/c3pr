@@ -203,12 +203,12 @@ public class StudyVersionTestCase extends AbstractTestCase {
 
 	public void testCompareTo2() throws Exception{
 		basicStudyVersion.setVersionDate(new Date());
-		assertEquals("basicStudyVersion is latest then simpleStudyversion because version date is null in simpleStudyVersion", -1, simpleStudyVersion.compareTo(basicStudyVersion));
+		assertEquals("simpleStudyVersion is latest then basicStudyversion because version date is null in simpleStudyVersion", 1, simpleStudyVersion.compareTo(basicStudyVersion));
 	}
 
 	public void testCompareTo3() throws Exception{
 		basicStudyVersion.setVersionDate(new Date());
-		assertEquals("simpleStudyVersion is latest then basicStudyversion because version date is null in basicStudyVersion", 1, basicStudyVersion.compareTo(simpleStudyVersion));
+		assertEquals("basicStudyVersion is latest then simpleStudyversion because version date is null in simpleStudyVersion", -1, basicStudyVersion.compareTo(simpleStudyVersion));
 	}
 
 	public void testCompareTo4() throws Exception{
