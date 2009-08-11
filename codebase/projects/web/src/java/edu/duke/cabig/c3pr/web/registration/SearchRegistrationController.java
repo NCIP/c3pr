@@ -72,14 +72,14 @@ public class SearchRegistrationController extends SimpleFormController {
             Participant participant = new Participant();
             String subjectOption = request.getParameter("subjectOption") ;
             if (id == null) {
-            	registrations = studySubjectDao.searchByParticipant(participant);
+            	registrations = studySubjectDao.getAll();
             }else{
             	 if (StringUtils.equals(subjectOption,"N") || StringUtils.equals(subjectOption,"F")) {
                  	registrations = studySubjectDao.searchByParticipantId(id);
                  }
                  else if(StringUtils.equals(subjectOption, "Identifier")){
                  	participant = participantDao.searchByIdentifier(id).get(0) ;
-                 	registrations = studySubjectDao.searchByParticipant(participant);
+                 	registrations = studySubjectDao.searchByParticipantId(participant.getId());
                  }
             }
            
@@ -88,14 +88,14 @@ public class SearchRegistrationController extends SimpleFormController {
             Study study = new Study(true);
             String studyOption = request.getParameter("studyOption");
             if (id == null) {
-            	registrations = studySubjectDao.searchByStudy(study);
+            	registrations = studySubjectDao.getAll();
             }else{
                 if (StringUtils.equals(studyOption, "shortTitle")) {
                 	registrations = studySubjectDao.searchByStudyId(id);
                 }
                 else if(StringUtils.equals(studyOption, "id")){
                 	study = studyDao.searchByIdentifier(id).get(0);
-                	registrations = studySubjectDao.searchByStudy(study);
+                	registrations = studySubjectDao.searchByStudyId(study.getId());
                 }
             }
         }
