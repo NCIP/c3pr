@@ -333,7 +333,9 @@ public class StudySubject extends
 	 * @param studySite the new study site
 	 */
 	public void setStudySite(StudySite studySite) {
-		this.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySite.getStudySiteStudyVersion());
+		if(studySite!=null){
+			this.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySite.getStudySiteStudyVersion());
+		}
 	}
 
 	/**
@@ -343,7 +345,10 @@ public class StudySubject extends
 	 */
 	@Transient
 	public StudySite getStudySite() {
-		return getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite();
+		if(getStudySubjectStudyVersion().getStudySiteStudyVersion()!= null){
+			return getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite();
+		}
+		return null;
 	}
 
 	/**
