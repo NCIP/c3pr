@@ -110,9 +110,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         Criteria registrationCriteria = getHibernateTemplate().getSessionFactory()
                         .getCurrentSession().createCriteria(StudySubject.class);
 
-        Criteria studySiteCriteria = registrationCriteria.createCriteria("studySite");
+        Criteria studySiteCriteria = registrationCriteria.createCriteria("studySubjectStudyVersions").createCriteria("studySiteStudyVersion").createCriteria("studySite");
         Criteria participantCriteria = registrationCriteria.createCriteria("participant");
-        Criteria studyCriteria = studySiteCriteria.createCriteria("study");
+        Criteria studyCriteria = studySiteCriteria.createCriteria("studyInternal");
         Criteria studyVersionCriteria = studyCriteria.createCriteria("studyVersionsInternal");
         Criteria siteCriteria = studySiteCriteria.createCriteria("healthcareSite");
         Criteria identifiersAssignedToOrganizationCriteria = siteCriteria.createCriteria("identifiersAssignedToOrganization");
@@ -201,7 +201,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         	if(addStudySelectClause)
         		selectClause += studyClause;
         	selectClause += "join sv.study study join study.identifiers sid ";
-        	whereClause += "and sid.value = ? ";
+        	whereClause += "and sid.value like ? ";
         	params.add(study.getIdentifiers().get(0).getValue());
         }
         
@@ -227,7 +227,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         	if(addParticipantSelectClause)
         		selectClause += participantClause;
         	selectClause += "join prt.identifiers pid ";
-        	whereClause += "and pid.value = ?";
+        	whereClause += "and pid.value like ?";
         	params.add(participant.getIdentifiers().get(0).getValue());
         }
         whereClause = "where " + (whereClause.startsWith("and")?whereClause.replaceFirst("and", ""):whereClause);
@@ -289,32 +289,6 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     /*
      * Used by searchRegistrationsController
      */
-    /**
-	 * Search by participant.
-	 * 
-	 * @param participant
-	 *            the participant
-	 * 
-	 * @return the list< study subject>
-	 */
-    public List<StudySubject> searchByParticipant(Participant participant){
-    	List<StudySubject> registrations = new ArrayList<StudySubject>();
-    	
-    	List<Participant> participantList = participantDao.searchByExample(participant);
-        Set<Participant> participantSet = new TreeSet<Participant>();
-        participantSet.addAll(participantList);
-        List<Participant> uniqueParticipants = new ArrayList<Participant>();
-        uniqueParticipants.addAll(participantSet);
-        for (Participant partVar : uniqueParticipants) {
-            registrations.addAll(partVar.getStudySubjects());
-        }
-        return registrations;
-    }
-    
-
-    /*
-     * Used by searchRegistrationsController
-     */
 	/**
 	 * Search by participant id.
 	 * 
@@ -327,33 +301,6 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 		return participantDao.getById(participantId).getStudySubjects();
 	}
     
-	/*
-     * Used by searchRegistrationsController
-     */
-	/**
-	 * Search by study.
-	 * 
-	 * @param study
-	 *            the study
-	 * 
-	 * @return the list< study subject>
-	 */
-	public List<StudySubject> searchByStudy(Study study) {
-		List<StudySubject> registrations = new ArrayList<StudySubject>();
-		List<Study> studies = studyDao.searchByExample(study, true);
-        Set<Study> studySet = new TreeSet<Study>();
-        List<Study> uniqueStudies = new ArrayList<Study>();
-        studySet.addAll(studies);
-        uniqueStudies.addAll(studySet);
-        for (Study studyVar : uniqueStudies) {
-            for (StudySite studySite : studyVar.getStudySites()) {
-                for (StudySubject studySubject : studySite.getStudySubjects()) {
-                    registrations.add(studySubject);
-                }
-            }
-        }
-        return registrations;
-	}
 	
 	/*
      * Used by searchRegistrationsController
@@ -525,7 +472,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     	if(maxResults > 0){
     		template.setMaxResults(maxResults);
     	}
-    	List<StudySubject> studySubjects = (List<StudySubject>) template.find( "select ss from StudySubject ss join ss.scheduledEpochs se where  (se.scEpochWorkflowStatus = 'PENDING' OR se.scEpochWorkflowStatus = 'REGISTERED_BUT_NOT_RANDOMIZED')");
+    	List<StudySubject> studySubjects = (List<StudySubject>) template.find( "select distinct ss from StudySubject ss join ss.studySubjectStudyVersions sssv join sssv.scheduledEpochs se where  (se.scEpochWorkflowStatus = 'PENDING' OR se.scEpochWorkflowStatus = 'REGISTERED_BUT_NOT_RANDOMIZED')");
     	for(StudySubject studySubject : studySubjects){
     		initialize(studySubject);
     	}
@@ -550,7 +497,6 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyInvestigatorsInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyPersonnelInternal());
         getHibernateTemplate().initialize(studySubject.getChildStudySubjects());
-        getHibernateTemplate().initialize(studySubject.getConsentHistoryList());
         
         getHibernateTemplate().initialize(studySubject.getParticipant().getIdentifiers());
         getHibernateTemplate().initialize(studySubject.getParticipant().getRaceCodes());
