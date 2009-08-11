@@ -42,7 +42,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
     public SiteStudyStatus getSiteStudyStatus() {
         return siteStudyStatus;
     }
-    
+
     /**
      * Sets the site study status.
      *
@@ -51,7 +51,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
     public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus) {
         this.siteStudyStatus = siteStudyStatus;
     }
-    
+
 	@ManyToOne
     @JoinColumn(name = "sto_id", nullable=false)
     @Cascade( { CascadeType.LOCK})
@@ -100,6 +100,12 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 			List<StudySubjectStudyVersion> studySubjectStudyVersions) {
 		this.studySubjectStudyVersions = studySubjectStudyVersions;
 	}
+
+	public void addStudySubjectStudyVersion(StudySubjectStudyVersion studySubjectStudyVersion) {
+		this.getStudySubjectStudyVersions().add(studySubjectStudyVersion);
+		studySubjectStudyVersion.setStudySiteStudyVersion(this);
+	}
+
 
 	public int compareTo(StudySiteStudyVersion studySiteStudyVersion) {
 		return this.irbApprovalDate.compareTo(studySiteStudyVersion.getIrbApprovalDate());
