@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.easymock.classextension.EasyMock;
@@ -159,8 +160,6 @@ public class StudyTestCase extends AbstractTestCase {
 		StudyDisease disease2 = registerMockFor(StudyDisease.class);
 		simpleStudy.addStudyDisease(disease2);
 		replayMocks();
-		simpleStudy.addStudyDisease(disease2);
-		simpleStudy.addStudyDisease(disease);
 		assertEquals("Study should have 2 study disease", 2, simpleStudy
 				.getStudyDiseases().size());
 		simpleStudy.removeStudyDisease(disease2);
@@ -182,10 +181,6 @@ public class StudyTestCase extends AbstractTestCase {
 		simpleStudy.addStudyDisease(disease2);
 
 		replayMocks();
-
-		simpleStudy.addStudyDisease(disease2);
-		simpleStudy.addStudyDisease(disease);
-
 		assertEquals("Study should have 2 study disease", 2, simpleStudy
 				.getStudyDiseases().size());
 		simpleStudy.removeAllStudyDisease();
@@ -290,11 +285,8 @@ public class StudyTestCase extends AbstractTestCase {
 		listStudySite.add(studySite);
 
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
-		EasyMock.expect(studySite.getHealthcareSite())
-				.andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn(
-				"NC010");
-
+		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
+		EasyMock.expect(healthcareSite.getNciIdentifierAsString()).andReturn("NC010");
 		replayMocks();
 
 		simpleStudy.addCompanionStudyAssociation(association);
@@ -321,8 +313,7 @@ public class StudyTestCase extends AbstractTestCase {
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
 		EasyMock.expect(studySite.getHealthcareSite())
 				.andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn(
-				"NC011");
+		EasyMock.expect(healthcareSite.getNciIdentifierAsString()).andReturn("NC011");
 
 		replayMocks();
 
@@ -343,8 +334,7 @@ public class StudyTestCase extends AbstractTestCase {
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		EasyMock.expect(organization.getHealthcareSite()).andReturn(
 				healthcareSite);
-		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn(
-				"NC010");
+		EasyMock.expect(healthcareSite.getNciIdentifierAsString()).andReturn("NC010");
 
 		replayMocks();
 
@@ -1087,49 +1077,31 @@ public class StudyTestCase extends AbstractTestCase {
 	/**
 	 * test temporarilyCloseToAccrual
 	 */
+
 	public void testTemporarilyCloseToAccrual() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 		try {
 			basicStudy.temporarilyCloseToAccrual();
 		} catch (Exception e) {
 			assertNull("Error not theorwn", e);
 		}
-		assertEquals("study coordinating center status should be  pending",
-				CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL,
-				basicStudy.getCoordinatingCenterStudyStatus());
+		assertEquals("study coordinating center status should be  pending",CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL,basicStudy.getCoordinatingCenterStudyStatus());
 	}
 
 	/**
 	 * test temporarilyCloseToAccrual
 	 */
 	public void testTemporarilyCloseToAccrual1() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[] {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() })))
+				.andReturn(new C3PRCodedRuntimeException(320, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",null, null)).andReturn("320");
 
 		replayMocks();
 		try {
 			basicStudy.temporarilyCloseToAccrual();
 		} catch (Exception e) {
-			assertEquals("Exception is instance of C3PRCodedRuntimeException",
-					true, e instanceof C3PRCodedRuntimeException);
+			assertEquals("Exception is instance of C3PRCodedRuntimeException", true, e instanceof C3PRCodedRuntimeException);
 		}
 		verifyMocks();
 	}
@@ -1138,25 +1110,10 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test temporarilyCloseToAccrual
 	 */
 	public void testTemporarilyCloseToAccrual2() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[] { basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()})))
+				.andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",null, null)).andReturn("344");
 
 		replayMocks();
 		try {
@@ -1171,27 +1128,12 @@ public class StudyTestCase extends AbstractTestCase {
 	/**
 	 * test temporarilyCloseToAccrual
 	 */
+
 	public void testTemporarilyCloseToAccrual3() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
-
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[] { basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()})))
+		.andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",null, null)).andReturn("344");
 		replayMocks();
 		try {
 			basicStudy.temporarilyCloseToAccrual();
@@ -1201,31 +1143,14 @@ public class StudyTestCase extends AbstractTestCase {
 		}
 		verifyMocks();
 	}
-
 	/**
 	 * test temporarilyCloseToAccrual
 	 */
 	public void testTemporarilyCloseToAccrual4() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
-
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[] { basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()})))
+		.andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",null, null)).andReturn("344");
 		replayMocks();
 		try {
 			basicStudy.temporarilyCloseToAccrual();
@@ -1240,8 +1165,7 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test temporarilyCloseToAccrualAndTreatment
 	 */
 	public void testTemporarilyCloseToAccrualAndTreatment() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 		try {
 			basicStudy.temporarilyCloseToAccrualAndTreatment();
 		} catch (Exception e) {
@@ -1259,23 +1183,9 @@ public class StudyTestCase extends AbstractTestCase {
 	public void testTemporarilyCloseToAccrualAndTreatment1() {
 		basicStudy
 				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[] {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() })))
+		.andReturn(new C3PRCodedRuntimeException(320, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",null, null)).andReturn("320");
 
 		replayMocks();
 		try {
@@ -1286,32 +1196,14 @@ public class StudyTestCase extends AbstractTestCase {
 		}
 		verifyMocks();
 	}
-
 	/**
 	 * test temporarilyCloseToAccrualAndTreatment
 	 */
 	public void testTemporarilyCloseToAccrualAndTreatment2() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
-
-		replayMocks();
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[] { basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()})))
+		.andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",null, null)).andReturn("344");		replayMocks();
 		try {
 			basicStudy.temporarilyCloseToAccrualAndTreatment();
 		} catch (Exception e) {
@@ -1325,60 +1217,10 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test temporarilyCloseToAccrualAndTreatment
 	 */
 	public void testTemporarilyCloseToAccrualAndTreatment3() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
-
-		replayMocks();
-		try {
-			basicStudy.temporarilyCloseToAccrualAndTreatment();
-		} catch (Exception e) {
-			assertEquals("Exception is instance of C3PRCodedRuntimeException",
-					true, e instanceof C3PRCodedRuntimeException);
-		}
-		verifyMocks();
-	}
-
-	/**
-	 * test temporarilyCloseToAccrualAndTreatment
-	 */
-	public void testTemporarilyCloseToAccrualAndTreatment4() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
-
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[] { basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()})))
+		.andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",null, null)).andReturn("344");
 		replayMocks();
 		try {
 			basicStudy.temporarilyCloseToAccrualAndTreatment();
@@ -1393,8 +1235,7 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test closeToAccrual
 	 */
 	public void testCloseToAccrual() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 		try {
 			basicStudy.closeToAccrual();
 		} catch (Exception e) {
@@ -1410,26 +1251,10 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test closeToAccrual
 	 */
 	public void testCloseToAccrual1() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
-
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[] {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() })))
+		.andReturn(new C3PRCodedRuntimeException(320, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",null, null)).andReturn("320");
 		replayMocks();
 		try {
 			basicStudy.closeToAccrual();
@@ -1444,26 +1269,10 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test closeToAccrual
 	 */
 	public void testCloseToAccrual2() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
-
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[] { basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()})))
+		.andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",null, null)).andReturn("344");
 		replayMocks();
 		try {
 			basicStudy.closeToAccrual();
@@ -1479,57 +1288,10 @@ public class StudyTestCase extends AbstractTestCase {
 	 */
 	public void testCloseToAccrual3() {
 		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-
-		EasyMock.expect(
-				c3prErrorMessages.getMessage(
-						"C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",
-						null, null)).andReturn("344");
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(344),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(344, "exception message"));
-
-		replayMocks();
-		try {
-			basicStudy.closeToAccrual();
-		} catch (Exception e) {
-			assertEquals("Exception is instance of C3PRCodedRuntimeException",
-					true, e instanceof C3PRCodedRuntimeException);
-		}
-		verifyMocks();
-	}
-
-	/**
-	 * test closeToAccrual
-	 */
-	public void testCloseToAccrual4() {
-		basicStudy
 				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(344),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(344, "exception message"));
-		EasyMock.expect(
-				c3prErrorMessages.getMessage(
-						"C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",
-						null, null)).andReturn("344");
-
-		replayMocks();
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[] { basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()})))
+		.andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",null, null)).andReturn("344");				replayMocks();
 		try {
 			basicStudy.closeToAccrual();
 		} catch (Exception e) {
@@ -1543,8 +1305,7 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test closeToAccrualAndTreatment
 	 */
 	public void testCloseToAccrualAndTreatment() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 		try {
 			basicStudy.closeToAccrualAndTreatment();
 		} catch (Exception e) {
@@ -1560,26 +1321,10 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test closeToAccrualAndTreatment
 	 */
 	public void testCloseToAccrualAndTreatment1() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
-
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(320),EasyMock.aryEq(new String[] {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() })))
+		.andReturn(new C3PRCodedRuntimeException(320, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",null, null)).andReturn("320");
 		replayMocks();
 		try {
 			basicStudy.closeToAccrualAndTreatment();
@@ -1594,90 +1339,10 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test closeToAccrualAndTreatment
 	 */
 	public void testCloseToAccrualAndTreatment2() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(320),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(320, "exception message"));
-		EasyMock
-				.expect(
-						c3prErrorMessages
-								.getMessage(
-										"C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE",
-										null, null)).andReturn("320");
-
-		replayMocks();
-		try {
-			basicStudy.closeToAccrualAndTreatment();
-		} catch (Exception e) {
-			assertEquals("Exception is instance of C3PRCodedRuntimeException",
-					true, e instanceof C3PRCodedRuntimeException);
-		}
-		verifyMocks();
-	}
-
-	/**
-	 * test closeToAccrualAndTreatment
-	 */
-	public void testCloseToAccrualAndTreatment3() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(344),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(344, "exception message"));
-		EasyMock.expect(
-				c3prErrorMessages.getMessage(
-						"C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",
-						null, null)).andReturn("344");
-
-		replayMocks();
-		try {
-			basicStudy.closeToAccrualAndTreatment();
-		} catch (Exception e) {
-			assertEquals("Exception is instance of C3PRCodedRuntimeException",
-					true, e instanceof C3PRCodedRuntimeException);
-		}
-		verifyMocks();
-	}
-
-	/**
-	 * test closeToAccrualAndTreatment
-	 */
-	public void testCloseToAccrualAndTreatment4() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-
-		EasyMock
-				.expect(
-						c3prExceptionHelper
-								.getRuntimeException(
-										EasyMock.eq(344),
-										EasyMock
-												.aryEq(new String[] { CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
-														.getDisplayName() })))
-				.andReturn(
-						new C3PRCodedRuntimeException(344, "exception message"));
-		EasyMock.expect(
-				c3prErrorMessages.getMessage(
-						"C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",
-						null, null)).andReturn("344");
-
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(344),EasyMock.aryEq(new String[] { basicStudy.getCoordinatingCenterStudyStatus().getDisplayName()})))
+		.andReturn(new C3PRCodedRuntimeException(344, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STATUS_ALREADY_CLOSED.CODE",null, null)).andReturn("344");
 		replayMocks();
 		try {
 			basicStudy.closeToAccrualAndTreatment();
@@ -1784,7 +1449,7 @@ public class StudyTestCase extends AbstractTestCase {
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		EasyMock.expect(organization.getHealthcareSite()).andReturn(
 				healthcareSite);
-		EasyMock.expect(healthcareSite.getPrimaryIdentifier()).andReturn(
+		EasyMock.expect(healthcareSite.getNciIdentifierAsString()).andReturn(
 				"NC010");
 
 		replayMocks();
@@ -2184,22 +1849,9 @@ public class StudyTestCase extends AbstractTestCase {
 	}
 
 	public void testCreateAmendment() throws Exception {
-		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(239))).andReturn(new C3PRCodedRuntimeException(239, "exception message"));
-		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE",null, null)).andReturn("239");
-		replayMocks();
-		try {
-			simpleStudy.createAmendment();
-		} catch (Exception e) {
-			assertEquals("Exception is instance of C3PRCodedRuntimeException", true, e instanceof C3PRCodedRuntimeException);
-		}
-		verifyMocks();
-	}
-
-	public void testCreateAmendment1() throws Exception {
-		simpleStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-		StudyVersion studyVersion = registerMockFor(StudyVersion.class);
-		EasyMock.expect(studyVersion.getVersionStatus()).andReturn(StatusType.IN);
-		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(239))).andReturn(new C3PRCodedRuntimeException(239, "exception message"));
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(239),EasyMock.aryEq(new String[]
+        {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() }))).andReturn( new C3PRCodedRuntimeException(239, "exception message"));
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE",null, null)).andReturn("239");
 		replayMocks();
 		try {
@@ -2209,5 +1861,38 @@ public class StudyTestCase extends AbstractTestCase {
 		}
 		verifyMocks();
 	}
+
+	public void testCreateAmendment1() throws Exception {
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+		basicStudy .getStudyVersion().setVersionStatus(StatusType.IN);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(240),EasyMock.aryEq(new String[]
+           {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() }))).andReturn( new C3PRCodedRuntimeException(240, "exception message"));
+   		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STUDY_EXISTING_AMENDMENT.CODE",null, null)).andReturn("240");
+
+		replayMocks();
+		try {
+			basicStudy.createAmendment();
+		} catch (Exception e) {
+			assertEquals("Exception is instance of C3PRCodedRuntimeException", true, e instanceof C3PRCodedRuntimeException);
+		}
+		verifyMocks();
+	}
+
+	public void testCreateAmendment2() throws Exception {
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+		basicStudy .getStudyVersion().setVersionStatus(StatusType.AC);
+		basicStudy .getStudyVersion().setVersionDate(new Date());
+		int size = basicStudy.getStudyVersions().size();
+		try {
+			basicStudy.createAmendment();
+		} catch (Exception e) {
+			assertEquals("Exception is instance of C3PRCodedRuntimeException", true, e instanceof C3PRCodedRuntimeException);
+		}
+		assertEquals("created one study version for amendment", size + 1, basicStudy.getStudyVersions().size());
+		assertEquals("Latest study version has to be inactive", StatusType.IN, basicStudy.getLatestStudyVersion().getVersionStatus());
+
+	}
+
+
 
 }

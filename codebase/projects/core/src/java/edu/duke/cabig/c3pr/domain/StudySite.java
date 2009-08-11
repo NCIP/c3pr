@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -22,7 +21,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
@@ -31,12 +29,10 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
-import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.DateUtil;
-import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -78,9 +74,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /** The c3pr error messages. */
     private MessageSource c3prErrorMessages;
-    
+
     private StudySiteStudyVersion studySiteStudyVersion;
-    
+
     private List<StudySiteStudyVersion> studySiteStudyVersions;
 
     /**
@@ -120,7 +116,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     	List<StudySubject> studySubjects= new ArrayList<StudySubject>();
     	for (StudySiteStudyVersion studySiteStudyVersion: getStudySiteStudyVersions()){
     		for(StudySubjectStudyVersion studySubjectStudyVersion: studySiteStudyVersion.getStudySubjectStudyVersions()){
-    			studySubjects.add(studySubjectStudyVersion.getStudySubject());    			
+    			studySubjects.add(studySubjectStudyVersion.getStudySubject());
     		}
     	}
     	HashSet<StudySubject> h = new HashSet<StudySubject>(studySubjects);
@@ -757,7 +753,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		}
 		return studySiteStudyVersion;
 	}
-	
+
 	@Transient
 	public StudySiteStudyVersion getLatestStudySiteStudyVersion(){
 		if(getStudySiteStudyVersions().size()==0){
@@ -770,14 +766,14 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		Collections.sort(temp);
 		return temp.get(temp.size()-1);
 	}
-	
+
 	@OneToMany(mappedBy = "studySite")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudySiteStudyVersion> getStudySiteStudyVersions() {
 		return studySiteStudyVersions;
 	}
 
-	
+
 	public void setStudySiteStudyVersions(
 			List<StudySiteStudyVersion> studySiteStudyVersions) {
 		this.studySiteStudyVersions = studySiteStudyVersions;
@@ -787,13 +783,13 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		this.getStudySiteStudyVersions().add(studySiteStudyVersion);
 		studySiteStudyVersion.setStudySite(this);
 	}
-	
+
 	@Override
 	@Transient
 	public Study getStudy() {
 		return super.getStudy();
 	}
-	
+
 	@Override
 	public void setStudy(Study study) {
 		super.setStudy(study);

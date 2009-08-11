@@ -423,7 +423,7 @@ public class StudyCreationHelper {
 
 		 StudySite site = new StudySite();
 		 HealthcareSite hcs = new LocalHealthcareSite();
-		 hcs.setCtepCode("NCI_CODE");
+		 hcs.setNCICode("NCI_CODE");
 		 hcs.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		 site.setHealthcareSite(hcs);
 

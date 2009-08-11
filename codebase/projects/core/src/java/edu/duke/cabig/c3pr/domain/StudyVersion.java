@@ -678,9 +678,9 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
     	if(this.versionDate == null && studyVersion.getVersionDate() == null){
     		return 0;
     	}else if(this.versionDate == null && studyVersion.getVersionDate() != null){
-    		return -1;
-    	}else if(this.versionDate != null && studyVersion.getVersionDate() == null){
     		return 1;
+    	}else if(this.versionDate != null && studyVersion.getVersionDate() == null){
+    		return -1;
     	}else{
     		return this.versionDate.compareTo(studyVersion.getVersionDate());
     	}

@@ -26,10 +26,10 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
  * The Class HealthcareSite.
- * 
+ *
  * @author Priyatam
  * @author Kulasekaran
- * 
+ *
  * Currently points to the newly renamed organizations table instead of the healthcareSite table.
  */
 @Entity
@@ -44,16 +44,16 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /** The research staffs. */
     private List<ResearchStaff> researchStaffs = new ArrayList<ResearchStaff>();
-    
+
     /** The participants. */
     private List<Participant> participants = new ArrayList<Participant>();
-    
+
     /** The external organizations. */
     protected List<HealthcareSite> externalOrganizations = new ArrayList<HealthcareSite>();
 
     /**
      * Sets the external organizations.
-     * 
+     *
      * @param externalOrganizations the new external organizations
      */
     public void setExternalOrganizations(List<HealthcareSite> externalOrganizations) {
@@ -62,7 +62,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
 	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
-    
+
     /**
      * Instantiates a new healthcare site.
      */
@@ -75,7 +75,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Adds the healthcare site investigator.
-     * 
+     *
      * @param hcsi the hcsi
      */
     public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
@@ -85,7 +85,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Adds the investigator group.
-     * 
+     *
      * @param invGroup the inv group
      */
     public void addInvestigatorGroup(InvestigatorGroup invGroup) {
@@ -94,7 +94,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Removes the healthcare site investigator.
-     * 
+     *
      * @param hcsi the hcsi
      */
     public void removeHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
@@ -103,7 +103,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Gets the healthcare site investigators.
-     * 
+     *
      * @return the healthcare site investigators
      */
     @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
@@ -114,7 +114,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Sets the healthcare site investigators.
-     * 
+     *
      * @param healthcareSiteInvestigators the new healthcare site investigators
      */
     public void setHealthcareSiteInvestigators(
@@ -124,7 +124,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Gets the research staffs.
-     * 
+     *
      * @return the research staffs
      */
     @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
@@ -135,7 +135,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Sets the research staffs.
-     * 
+     *
      * @param researchStaffs the new research staffs
      */
     public void setResearchStaffs(List<ResearchStaff> researchStaffs) {
@@ -144,7 +144,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Adds the research staff.
-     * 
+     *
      * @param rs the rs
      */
     public void addResearchStaff(ResearchStaff rs) {
@@ -153,16 +153,16 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Removes the research staff.
-     * 
+     *
      * @param rs the rs
      */
     public void removeResearchStaff(ResearchStaff rs) {
         researchStaffs.remove(rs);
     }
-    
+
     /**
      * Gets the ctep code.
-     * 
+     *
      * @return the ctep code
      */
     @Transient
@@ -179,10 +179,10 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     	}
 		return "";
     }
-    
+
     /**
      * Gets the Primary code.
-     * 
+     *
      * @return the Primary code
      */
     @Transient
@@ -200,10 +200,10 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     	}
 		return null;
     }
-    
+
     /**
      * Gets the nci code.
-     * 
+     *
      * @return the nci code
      */
     @Transient
@@ -220,11 +220,11 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     	}
 		return "";
     }
-    
-    
+
+
     /**
      * Sets the Ctep code in the IdentifiersAssignedToOrganization.
-     * 
+     *
      * @param nciInstituteCode the new nci institute code
      */
     public void setCtepCode(String ctepCode) {
@@ -232,11 +232,20 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
     		identifier.setType(OrganizationIdentifierTypeEnum.CTEP);
     		identifier.setValue(ctepCode);
-    		
+
     		getIdentifiersAssignedToOrganization().add(identifier);
     	}
     }
-    
+
+    public void setNCICode(String nciCode) {
+    	if(!StringUtils.isEmpty(nciCode)){
+    		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
+    		identifier.setType(OrganizationIdentifierTypeEnum.NCI);
+    		identifier.setValue(nciCode);
+    		getIdentifiersAssignedToOrganization().add(identifier);
+    	}
+    }
+
     /**
      * Sets the Ctep Identifier in the IdentifiersAssignedToOrganization.
      * Overloaded to accept an identifier instead of string
@@ -284,7 +293,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Gets the investigator groups internal.
-     * 
+     *
      * @return the investigator groups internal
      */
     @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
@@ -295,7 +304,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Sets the investigator groups internal.
-     * 
+     *
      * @param investigatorGroups the new investigator groups internal
      */
     public void setInvestigatorGroupsInternal(List<InvestigatorGroup> investigatorGroups) {
@@ -304,7 +313,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Gets the investigator groups.
-     * 
+     *
      * @return the investigator groups
      */
     @Transient
@@ -314,15 +323,15 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Sets the investigator groups.
-     * 
+     *
      * @param investigatorGroups the new investigator groups
      */
     public void setInvestigatorGroups(List<InvestigatorGroup> investigatorGroups) {
     }
-    
+
     /**
      * Gets the participants.
-     * 
+     *
      * @return the participants
      */
     @ManyToMany(mappedBy = "healthcareSites" )
@@ -333,26 +342,26 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     /**
      * Sets the participants.
-     * 
+     *
      * @param participants the new participants
      */
     public void setParticipants(List<Participant> participants) {
     	this.participants = participants;
     }
-    
+
     /**
      * Gets the external organizations.
-     * 
+     *
      * @return the external organizations
      */
     @Transient
 	public List<HealthcareSite> getExternalOrganizations() {
 		return externalOrganizations;
 	}
-    
+
     /**
      * Adds the external organization.
-     * 
+     *
      * @param externalHealthcareSite the external healthcare site
      */
     public void addExternalOrganization(HealthcareSite externalHealthcareSite){
