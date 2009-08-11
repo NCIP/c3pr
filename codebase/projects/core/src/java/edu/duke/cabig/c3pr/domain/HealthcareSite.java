@@ -232,7 +232,17 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
     		identifier.setType(OrganizationIdentifierTypeEnum.CTEP);
     		identifier.setValue(ctepCode);
+    		identifier.setPrimaryIndicator(false);
+    		getIdentifiersAssignedToOrganization().add(identifier);
+    	}
+    }
 
+    public void setCtepCode(String ctepCode, Boolean primaryIndicator) {
+    	if(!StringUtils.isEmpty(ctepCode)){
+    		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
+    		identifier.setType(OrganizationIdentifierTypeEnum.CTEP);
+    		identifier.setValue(ctepCode);
+    		identifier.setPrimaryIndicator(primaryIndicator);
     		getIdentifiersAssignedToOrganization().add(identifier);
     	}
     }
@@ -242,6 +252,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
     		identifier.setType(OrganizationIdentifierTypeEnum.NCI);
     		identifier.setValue(nciCode);
+    		identifier.setPrimaryIndicator(false);
     		getIdentifiersAssignedToOrganization().add(identifier);
     	}
     }
