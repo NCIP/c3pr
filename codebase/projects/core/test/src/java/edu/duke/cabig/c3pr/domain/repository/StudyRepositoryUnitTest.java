@@ -106,13 +106,15 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         studyRepository.createStudy(study);
         verifyMocks();
     }
-
+    
+    //TODO
+    // check the method calls and logic for the workflow in the following test case
     public void testCreateStudyCompleteDataEntryCoCenter() {
     	EasyMock.expect(studyService.isMultisiteEnable()).andReturn(true);
-    	EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(2);
-    	EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
-    	EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(1);
-    	EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(1);
+    	EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(3);
+    	EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(3);
+    	EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(2);
+    	EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(2);
     	EasyMock.expect(studyDao.merge(study)).andReturn(study);
         replayMocks();
 		studyRepository.createStudy(study);
@@ -167,14 +169,17 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         }
         verifyMocks();
     }
+    
+    //TODO 
+    // check the logic and method calls for this test case.
 
     public void testOpenStudyMultisite() throws C3PRCodedException {
-        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(6);
+        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(8);
         EasyMock.expect(studyDao.merge(study)).andReturn(study).times(2);
         EasyMock.expect(studyService.isMultisiteEnable()).andReturn(true).times(2);
-        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(4);
-        EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(2);
-        EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(2);
+        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(6);
+        EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(4);
+        EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(4);
         replayMocks();
         studyRepository.openStudy(ids);
         verifyMocks();
