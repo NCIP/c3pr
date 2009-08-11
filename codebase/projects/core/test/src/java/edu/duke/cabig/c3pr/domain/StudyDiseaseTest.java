@@ -17,7 +17,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		diseaseTerm1.setCtepTerm("ctep_term1");
 		studyDisease1.setDiseaseTerm(diseaseTerm1);
 
-		assertEquals("Wrong hash code",31*(31 +diseaseTerm1.hashCode()),studyDisease1.hashCode());
+		assertEquals("Wrong hash code",31 * 1 + (diseaseTerm1.hashCode()),studyDisease1.hashCode());
 	}
 
 	public void testEquals1() throws Exception{
@@ -32,7 +32,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		Study study = new Study();
 		study.addStudyDisease(studyDisease2);
 
-		assertFalse("The two study diseases cannot be equal",studyDisease1.equals(studyDisease2));
+		assertTrue("The two study diseases are equal",studyDisease1.equals(studyDisease2));
 	}
 
 	public void testEquals2() throws Exception{
@@ -83,31 +83,6 @@ public class StudyDiseaseTest extends AbstractTestCase{
 
 		diseaseTerm2.setCtepTerm("ctep_term1");
 		assertTrue("The two study diseases should have been equal",studyDisease1.equals(studyDisease2));
-	}
-
-	/**
-	 * Test equals3.
-	 *
-	 * @throws Exception the exception
-	 */
-	public void testEquals4() throws Exception{
-
-		StudyDisease studyDisease1 = new StudyDisease();
-		StudyDisease studyDisease2 = new StudyDisease();
-
-		Study study1 = new Study();
-
-
-		study1.addStudyDisease(studyDisease1);
-		OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
-		orgIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
-		orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
-
-		study1.addIdentifier(orgIdentifier);
-
-		Study study2 = new Study();
-		study2.addStudyDisease(studyDisease2);
-		assertFalse("The two study diseases cannot be equal",studyDisease1.equals(studyDisease2));
 	}
 
 }
