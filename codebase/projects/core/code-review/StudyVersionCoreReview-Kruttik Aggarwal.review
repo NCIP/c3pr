@@ -245,7 +245,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="603">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="599">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.missing</Type>
     <Severity>item.severity.label.critical</Severity>
     <Summary>Missing checks for StudyOrganizations</Summary>
@@ -262,7 +262,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="684">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="680">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>Check the if logic</Summary>
@@ -279,7 +279,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="698">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="690">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.irrelevant</Type>
     <Severity>item.severity.label.major</Severity>
     <Summary>Unused method</Summary>
@@ -296,7 +296,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="835">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="827">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.major</Severity>
     <Summary>Check if its used anywhere and if it is used, make sure its required</Summary>
@@ -313,7 +313,7 @@
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="1115">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="1107">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.irrelevant</Type>
     <Severity>item.severity.label.major</Severity>
     <Summary>Unused Methods</Summary>
@@ -357,7 +357,7 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="1171">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="1163">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.critical</Severity>
     <Summary>set the studyversion if its null</Summary>
@@ -374,7 +374,7 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="1181">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="1173">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.clarity</Type>
     <Severity>item.severity.label.normal</Severity>
     <Summary>try renaming the method to getPendingAmendment</Summary>
@@ -391,7 +391,7 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="1182">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="1174">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.major</Severity>
     <Summary>Should this be using the "getStudyAmendments" list rather than getLatestStudyVersion</Summary>
@@ -408,7 +408,7 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="1081">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="1073">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.usability</Type>
     <Severity>item.severity.label.major</Severity>
     <Summary>try reusing the "getSortedStudyVersions" method</Summary>
@@ -421,11 +421,11 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
   <ReviewIssue id="FXTCAZZU">
     <ReviewIssueMeta>
       <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 16:01:06:234 EDT</CreationDate>
-      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-07-31 :: 17:47:28:569 EDT</LastModificationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2009-08-06 :: 14:50:27:203 EDT</LastModificationDate>
     </ReviewIssueMeta>
     <ReviewerId>Kruttik Aggarwal</ReviewerId>
     <AssignedTo>Himanshu Gupta</AssignedTo>
-    <File line="1229">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
+    <File line="1221">src/java/edu/duke/cabig/c3pr/domain/Study.java</File>
     <Type>item.type.label.programLogic</Type>
     <Severity>item.severity.label.critical</Severity>
     <Summary>Shouldnt the "getLatestStudyVersion" be used to apply amendment instead of "getStudyVersion"?</Summary>
@@ -433,7 +433,7 @@ public void evaluateEpochsDataEntryStatus(List&lt;Error&gt; errors) throws C3PRC
     <Annotation></Annotation>
     <Revision></Revision>
     <Resolution>item.resolution.label.validNeedsfixing</Resolution>
-    <Status>item.status.label.open</Status>
+    <Status>item.status.label.resolved</Status>
   </ReviewIssue>
   <ReviewIssue id="FXTCDS2D">
     <ReviewIssueMeta>
