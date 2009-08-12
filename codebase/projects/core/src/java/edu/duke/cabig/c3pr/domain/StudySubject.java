@@ -1164,10 +1164,12 @@ public Date getInformedConsentSignedDate() {
 	 * Register.
 	 */
 	public void register() {
-		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
+		ScheduledEpoch scheduledEpoch = getScheduledEpoch();
+		Epoch epoch = scheduledEpoch.getEpoch();
+		if (scheduledEpoch.getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
 			throw new C3PRBaseRuntimeException(
 					"StudySubject already registered on the epoch :"
-							+ getScheduledEpoch().getEpoch().getName());
+							+ epoch.getName());
 		} else {
 			// This returns errors
 			List<Error> errors = new ArrayList<Error>();
@@ -1178,8 +1180,8 @@ public Date getInformedConsentSignedDate() {
 				// if the epoch requires randomization set it status to
 				// 'Registered But Not Randomized', else set it status to
 				// 'Registered'
-				if (getScheduledEpoch().getEpoch().getRandomizedIndicator()) {
-					getScheduledEpoch()
+				if (epoch.getRandomizedIndicator()) {
+					scheduledEpoch
 							.setScEpochWorkflowStatus(
 									ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED);
 					// only if the study subject is still unregistered(i.e. for
@@ -1192,8 +1194,8 @@ public Date getInformedConsentSignedDate() {
 					}
 
 				} else {
-					if(!getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
-						getScheduledEpoch().setScEpochWorkflowStatus(
+					if(!epoch.getEnrollmentIndicator()){
+						scheduledEpoch.setScEpochWorkflowStatus(
 							ScheduledEpochWorkFlowStatus.REGISTERED);
 					}
 					// only if the study subject is still unregistered(i.e. for
@@ -1225,19 +1227,22 @@ public Date getInformedConsentSignedDate() {
 		if (this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.PENDING) {
 			throw new C3PRBaseRuntimeException(
 					"The subject cannot be reserved a spot on the study site. The subject is already registered or enrolled on the study site.");
-		} else if (!this.getScheduledEpoch().getEpoch().getReservationIndicator()) {
-			throw new C3PRBaseRuntimeException(
-			"The epoch has to be reserving in order to reserve a spot for the subject");
-		}else {
-			List<Error> errors = new ArrayList<Error>();
-			errors = canReserve();
-			if (errors.size() > 0) {
-				throw new C3PRInvalidDataEntryException(
-						" Cannot reserve a spot because data entry is not complete",
-						errors);
-			} else {
-				this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
-				this.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
+		} else {
+			ScheduledEpoch scheduledEpoch = this.getScheduledEpoch();
+			if (!scheduledEpoch.getEpoch().getReservationIndicator()) {
+				throw new C3PRBaseRuntimeException(
+				"The epoch has to be reserving in order to reserve a spot for the subject");
+			}else {
+				List<Error> errors = new ArrayList<Error>();
+				errors = canReserve();
+				if (errors.size() > 0) {
+					throw new C3PRInvalidDataEntryException(
+							" Cannot reserve a spot because data entry is not complete",
+							errors);
+				} else {
+					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+					this.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
+				}
 			}
 		}
 	}
@@ -1300,11 +1305,12 @@ public Date getInformedConsentSignedDate() {
 	 * Do phone call randomization.
 	 */
 	private void doPhoneCallRandomization() {
-		if (this.getScheduledEpoch().getScheduledArm() == null) {
+		ScheduledEpoch scheduledEpoch = this.getScheduledEpoch();
+		if (scheduledEpoch.getScheduledArm() == null) {
 			if(!this.getStudySite().getStudy().getBlindedIndicator())
 			throw new C3PRBaseRuntimeException(
 					"The subject should have been already assigned to a Scheduled Arm for the Scheduled Epoch :"
-							+ getScheduledEpoch().getEpoch().getName());
+							+ scheduledEpoch.getEpoch().getName());
 		}
 	}
 
@@ -1597,32 +1603,13 @@ public Date getInformedConsentSignedDate() {
 
 	}
 
-//	/**
-//	 * Gets the scheduled epoch by epoch name.
-//	 *
-//	 * @param epochName the epoch name
-//	 *
-//	 * @return the scheduled epoch by epoch name
-//	 */
-//	public ScheduledEpoch getScheduledEpochByEpochName(String epochName) {
-//		for (ScheduledEpoch scheduledEpoch : this.getScheduledEpochs()) {
-//			if (scheduledEpoch.getEpoch().getName().equalsIgnoreCase(epochName)) {
-//				return scheduledEpoch;
-//			}
-//		}
-//
-//		return null;
-//	}
-
 	/**
 	 * Do muti site transfer.
 	 *
 	 * @param coordinatingCenterReturnedScheduledEpoch the coordinating center returned scheduled epoch
 	 */
-	public void doMutiSiteTransfer(
-			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch) {
-		ScheduledEpoch scheduledEpoch = this.getStudySubjectStudyVersion()
-		.getScheduledEpoch(coordinatingCenterReturnedScheduledEpoch.getEpoch());
+	public void doMutiSiteTransfer( ScheduledEpoch coordinatingCenterReturnedScheduledEpoch) {
+		ScheduledEpoch scheduledEpoch = this.getStudySubjectStudyVersion().getScheduledEpoch(coordinatingCenterReturnedScheduledEpoch.getEpoch());
 		if (scheduledEpoch.getRequiresArm()) {
 			Arm arm = scheduledEpoch.getEpoch().getArmByName(
 					coordinatingCenterReturnedScheduledEpoch

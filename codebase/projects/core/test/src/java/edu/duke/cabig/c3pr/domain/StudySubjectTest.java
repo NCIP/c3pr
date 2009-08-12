@@ -59,6 +59,7 @@ public class StudySubjectTest extends AbstractTestCase {
 	StudySiteStudyVersion studySiteStudyVersion;
 
 	StudySubjectStudyVersion studySubjectStudyVersion;
+	StudyVersion studyVersion ;
 
 	/* (non-Javadoc)
 	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
@@ -71,12 +72,13 @@ public class StudySubjectTest extends AbstractTestCase {
 		studySite = registerMockFor(StudySite.class);
 		scheduledEpoch = registerMockFor(ScheduledEpoch.class);
 		studySubject = new StudySubject();
-		studySubject.addScheduledEpoch(scheduledEpoch);
+//		studySubject.addScheduledEpoch(scheduledEpoch);
 		participant = registerMockFor(Participant.class);
 		studySubject.setParticipant(participant);
 		c3prExceptionHelper = registerMockFor(C3PRExceptionHelper.class);
 		studySiteStudyVersion = registerMockFor(StudySiteStudyVersion.class);
 		studySubjectStudyVersion = registerMockFor(StudySubjectStudyVersion.class);
+		studyVersion = registerMockFor(StudyVersion.class);
 	}
 
     /** The study subject creator helper. */
@@ -120,7 +122,6 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusInComplete1() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
         ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
@@ -136,7 +137,6 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusInComplete2() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
         ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         (scheduledEpochFirst.getEpoch()).getArms().size();
@@ -154,7 +154,6 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusInComplete3() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
         ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(false));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
@@ -172,7 +171,6 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusComplete1() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
         ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
@@ -191,7 +189,6 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusComplete2() throws Exception {
     	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
         ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         ScheduledArm scheduledArm = new ScheduledArm();
         scheduledArm.setArm(new Arm());
@@ -211,8 +208,6 @@ public class StudySubjectTest extends AbstractTestCase {
      * @throws Exception the exception
      */
     public void testEvaluateEpochDataEntryStatusComplete3() throws Exception {
-    	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
         ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
         Epoch epoch = new Epoch();
         scheduledEpoch.setEpoch(epoch);
@@ -252,8 +247,6 @@ public class StudySubjectTest extends AbstractTestCase {
  * Test requires coordinating center approval true.
  */
 public void testRequiresCoordinatingCenterApprovalTrue(){
-    	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         ScheduledEpoch sc=new ScheduledEpoch();
         Epoch nt=new Epoch();
@@ -272,8 +265,6 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * Test requires coordinating center approval false0.
      */
     public void testRequiresCoordinatingCenterApprovalFalse0(){
-    	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         ScheduledEpoch sc=new ScheduledEpoch();
         Epoch nt=new Epoch();
@@ -292,8 +283,6 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * Test requires coordinating center approval false1.
      */
     public void testRequiresCoordinatingCenterApprovalFalse1(){
-    	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         ScheduledEpoch sc=new ScheduledEpoch();
         Epoch nt=new Epoch();
@@ -580,8 +569,17 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testEvaluateRegistrationDataEntryStatus() throws Exception{
+    	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+    	EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(false);
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+    	studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+
     	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
     	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
+
     	studySubject.setInformedConsentSignedDate(new Date());
     	studySubject.setInformedConsentVersion("1");
     	StudySubject childStudySubject = registerMockFor(StudySubject.class);
@@ -600,13 +598,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
     	replayMocks();
     	studySubject.setStudySite(studySite);
+    	studySubject.addScheduledEpoch(scheduledEpoch);
 
-    	assertEquals("Wrong registration status",RegistrationDataEntryStatus.INCOMPLETE,studySubject.evaluateRegistrationDataEntryStatus());
+    	assertEquals("wrong registration status",RegistrationDataEntryStatus.INCOMPLETE,studySubject.evaluateRegistrationDataEntryStatus());
 
     	verifyMocks();
 
     }
-
     /**
      * Test evaluate registration data entry status with errors.
      *
@@ -686,9 +684,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testReadyForRandomization() throws Exception{
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(1);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+
     	studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
     	EasyMock.expect(scheduledEpoch.getScEpochDataEntryStatus()).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
     	replayMocks();
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	assertTrue("Expected to be ready for randomization",studySubject.readyForRandomization());
 
     	verifyMocks();
@@ -810,8 +813,6 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testIfScheduledEpochCreatedForThisEpoch() throws Exception{
-    	// remove the mock scheduled epoch first so that we don't have to expect on equals of the mock epoch object
-    	studySubject.getScheduledEpochs().remove(0);
     	assertFalse("Unexpected scheduled epoch",studySubject.hasScheduledEpoch(new Epoch()));
     	Epoch epoch1 = studyCreationHelper.createEpoch("treatment epoch");
     	studySubject.addScheduledEpoch(studySubject.createScheduledEpoch(epoch1));
@@ -840,6 +841,9 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testCanReserve() throws Exception{
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
 
 	    List<Error> errors = new ArrayList<Error>();
 		EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
@@ -847,6 +851,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		EasyMock.expect(scheduledEpoch.evaluateScheduledEpochDataEntryStatus((List<Error>)EasyMock.anyObject())).andReturn(ScheduledEpochDataEntryStatus.INCOMPLETE);
 		scheduledEpoch.setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
 		replayMocks();
+		studySubject.addScheduledEpoch(scheduledEpoch);
 		errors = studySubject.canReserve();
 
 		assertEquals("Expected errors",2,errors.size());
@@ -859,10 +864,19 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testRegister1() throws Exception{
+        EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(1);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+
     	EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
-    	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
     	EasyMock.expect(epoch.getName()).andReturn("treatment");
+
     	replayMocks();
+
+    	studySubject.addScheduledEpoch(scheduledEpoch);
+
+
 
     	try{
     		studySubject.register();
@@ -880,6 +894,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testRegister2() throws Exception{
 
+     	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(4);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+
     	StudySubject parentStudySubject = registerMockFor(StudySubject.class);
     	studySubject.setParentStudySubject(parentStudySubject);
     	studySubject.setInformedConsentSignedDate(new Date());
@@ -893,14 +911,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
     	EasyMock.expect(epoch.getRandomizedIndicator()).andReturn(false);
 
-    	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
  		EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(false);
 
  		scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
  		scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 
     	replayMocks();
-
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	studySubject.register();
     	verifyMocks();
     }
@@ -912,15 +929,19 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testRegister3() throws Exception{
 
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(4);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+
+    	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(2);
     	EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
- 		EasyMock.expect(scheduledEpoch.evaluateScheduledEpochDataEntryStatus((List<Error>)EasyMock.anyObject())).andReturn(ScheduledEpochDataEntryStatus.INCOMPLETE);
+    	EasyMock.expect(scheduledEpoch.evaluateScheduledEpochDataEntryStatus((List<Error>)EasyMock.anyObject())).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
 
- 		scheduledEpoch.setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
-
-    	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
  		EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(false);
-
+ 		scheduledEpoch.setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
     	replayMocks();
+
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	try{
     		studySubject.register();
     		fail("Should have thrown an invalid data entry exception");
@@ -951,9 +972,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testReserve2() throws Exception{
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(1);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
     	EasyMock.expect(epoch.getReservationIndicator()).andReturn(false);
     	replayMocks();
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	try{
     		studySubject.reserve();
     		fail("Should have thrown an invalid data entry exception");
@@ -969,6 +995,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testReserve3() throws Exception{
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(4);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
     	EasyMock.expect(epoch.getReservationIndicator()).andReturn(true);
 
@@ -979,6 +1009,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		scheduledEpoch.setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
 
     	replayMocks();
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	try{
     		studySubject.reserve();
     		fail("Should have thrown an invalid data entry exception");
@@ -995,6 +1026,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testReserve4() throws Exception{
 
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(4);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+
     	studySubject.setInformedConsentSignedDate(new Date());
     	studySubject.setInformedConsentVersion("1");
 
@@ -1009,6 +1044,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 
     	replayMocks();
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	try{
     		studySubject.reserve();
     	}catch(C3PRBaseRuntimeException ex){
@@ -1023,8 +1059,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testIsRandomizedOnScheduledEpoch() throws Exception{
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(1);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+
     	EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(null);
     	replayMocks();
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	assertFalse("Wrong randomization status on scheduled epoch",studySubject.isRandomizedOnScheduledEpoch());
     	verifyMocks();
     }
@@ -1035,7 +1076,6 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testDoBookRandomizationNoArmAvailable() throws Exception{
-
     	StratumGroup stratumGroup = registerMockFor(StratumGroup.class);
     	Arm arm = registerMockFor(Arm.class);
     	EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED).times(2);
@@ -1048,8 +1088,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	EasyMock.expect(stratumGroup.getNextArm()).andThrow(new C3PRCodedRuntimeException(code, "next arm not available"));
     	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
     	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+    	studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(5);
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
     	replayMocks();
     	try {
+    		studySubject.addScheduledEpoch(scheduledEpoch);
     		studySubject.setStudySite(studySite);
     		studySubject.doLocalEnrollment();
     		fail("Should have thrown exception");
@@ -1075,8 +1121,19 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(null);
     	EasyMock.expect(study.getBlindedIndicator()).andReturn(false);
 
+    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(1);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+    	studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(2);
+
+
     	replayMocks();
     	try {
+    		studySubject.setStudySite(studySite);
+    		studySubject.addScheduledEpoch(scheduledEpoch);
     		studySubject.doLocalEnrollment();
     		fail("Should not have thrown exception");
     	}catch(C3PRBaseRuntimeException ex){
@@ -1458,9 +1515,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getType()).andReturn(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER);
 	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getValue()).andReturn("identifier value");
 	  scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  EasyMock.expect(studySubjectStudyVersion.getScheduledEpoch(epochInCoordCentReturnedScheduledEpoch)).andReturn(scheduledEpoch);
+	  studySubjectStudyVersion.setStudySubject(studySubject);
 
-	 replayMocks();
+	  replayMocks();
 
+	 studySubject.addStudySubjectStudyVersion(studySubjectStudyVersion);
 	 studySubject.doMutiSiteEnrollment(coordCentReturnedScheduledEpoch, coordinatingCenterAssignedIdentifier);
 	 assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());
 	 assertEquals("Wrong identifier value","identifier value",studySubject.getCoOrdinatingCenterIdentifier().getValue());
@@ -1475,30 +1535,31 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    * @throws Exception the exception
    */
   public void testDoMultiSiteTransfer() throws Exception{
-	  ScheduledEpoch coordCentReturnedScheduledEpoch = registerMockFor(ScheduledEpoch.class);
-	  Epoch epochInCoordCentReturnedScheduledEpoch = registerMockFor(Epoch.class);
-	  ScheduledArm scheduledArmInCoordCentReturnedScheduledEpoch = registerMockFor(ScheduledArm.class);
-	  Arm coorCenArm = registerMockFor(Arm.class);
+
 	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
 	  EasyMock.expect(epoch.getName()).andReturn("Treatment");
-
-	  EasyMock.expect(coordCentReturnedScheduledEpoch.getEpoch()).andReturn(epochInCoordCentReturnedScheduledEpoch);
-	  EasyMock.expect(epochInCoordCentReturnedScheduledEpoch.getName()).andReturn("Treatment");
-
 	  EasyMock.expect(scheduledEpoch.getRequiresArm()).andReturn(true);
 	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
 	  Arm arm = registerMockFor(Arm.class);
 	  ScheduledArm scheduledArm = registerMockFor(ScheduledArm.class);
 	  EasyMock.expect(epoch.getArmByName("armA")).andReturn(arm);
+	  EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(scheduledArm).times(2);
+	  scheduledArm.setArm(arm);
+	  scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+
+	  ScheduledEpoch coordCentReturnedScheduledEpoch = registerMockFor(ScheduledEpoch.class);
+	  Epoch epochInCoordCentReturnedScheduledEpoch = registerMockFor(Epoch.class);
+	  ScheduledArm scheduledArmInCoordCentReturnedScheduledEpoch = registerMockFor(ScheduledArm.class);
+	  Arm coorCenArm = registerMockFor(Arm.class);
+
+	  EasyMock.expect(coordCentReturnedScheduledEpoch.getEpoch()).andReturn(epochInCoordCentReturnedScheduledEpoch);
+	  EasyMock.expect(epochInCoordCentReturnedScheduledEpoch.getName()).andReturn("Treatment");
 
 	  EasyMock.expect(coordCentReturnedScheduledEpoch.getScheduledArm()).andReturn(scheduledArmInCoordCentReturnedScheduledEpoch);
 	  EasyMock.expect(scheduledArmInCoordCentReturnedScheduledEpoch.getArm()).andReturn(coorCenArm);
 	  EasyMock.expect(coorCenArm.getName()).andReturn("armA");
-
-	  EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(scheduledArm).times(2);
-	  scheduledArm.setArm(arm);
-
-	  scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 
 	  replayMocks();
 
@@ -1514,7 +1575,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    * @throws Exception the exception
    */
   public void testDoLocalTransfer() throws Exception{
-	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED).times(2);
+	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
+	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+	studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+
+
+	 EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED).times(2);
 	 scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 	 EasyMock.expect(studySite.getStudy()).andReturn(study);
 	 EasyMock.expect(study.getRandomizationType()).andReturn(RandomizationType.CALL_OUT);
@@ -1523,6 +1591,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
 	 replayMocks();
 	 studySubject.setStudySite(studySite);
+	 studySubject.addScheduledEpoch(scheduledEpoch);
 	 studySubject.doLocalTransfer();
 	 verifyMocks();
   }
@@ -1570,9 +1639,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  companionStudyAssociations.add(compStudyAssociation);
 
 	  EasyMock.expect(studySite.getStudy()).andReturn(study);
-	  StudyVersion studyVersion = registerMockFor(StudyVersion.class);
-	  EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
-	  EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
+	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
 	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
 	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
   	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
@@ -1593,15 +1660,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  studySubject.addChildStudySubject(childStudySubject);
 
 	  CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
+
 	  List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 	  companionStudyAssociations.add(compStudyAssociation);
 
 	  EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
 
-
-	  StudyVersion studyVersion = registerMockFor(StudyVersion.class);
-	  EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
-	  EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
 	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
   	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
