@@ -345,8 +345,9 @@ public class StudySubject extends
 	 */
 	@Transient
 	public StudySite getStudySite() {
-		if(getStudySubjectStudyVersion().getStudySiteStudyVersion()!= null){
-			return getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite();
+		StudySiteStudyVersion studySiteStudyVersion = getStudySubjectStudyVersion().getStudySiteStudyVersion();
+		if(studySiteStudyVersion!= null){
+			return studySiteStudyVersion.getStudySite();
 		}
 		return null;
 	}
