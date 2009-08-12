@@ -55,9 +55,9 @@ public class StudySubjectTest extends AbstractTestCase {
 
 	/** The c3pr exception helper. */
 	C3PRExceptionHelper c3prExceptionHelper;
-	
+
 	StudySiteStudyVersion studySiteStudyVersion;
-	
+
 	StudySubjectStudyVersion studySubjectStudyVersion;
 
 	/* (non-Javadoc)
@@ -418,7 +418,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	replayMocks();*/
     	int prime = 29;
     	StudySubject studySubject1 = new StudySubject();
-    	
+
     	assertEquals("Wrong hash code",prime*prime*prime + studySubject1.getStartDate().hashCode(), studySubject1.hashCode());
 
     	StudySite studySite1 = new StudySite();
@@ -624,12 +624,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
     	StudyVersion studyVersion = registerMockFor(StudyVersion.class);
 		EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
+		EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
 		EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(new ArrayList<CompanionStudyAssociation>());
     	EasyMock.expect(childStudySubject.getDataEntryStatus()).andReturn(false);
 
     	replayMocks();
-
+    	studySubject.setStudySite(studySite);
     	studySubject.evaluateRegistrationDataEntryStatus(errors);
     	assertEquals("Wrong number of errors",3,errors.size());
 
@@ -646,8 +648,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	HealthcareSite localHealthcareSite = registerMockFor(HealthcareSite.class);
     	EasyMock.expect(studySite.getHealthcareSite()).andReturn(localHealthcareSite);
     	EasyMock.expect(localHealthcareSite.getPrimaryIdentifier()).andReturn("NCI100");
+    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
     	replayMocks();
+    	studySubject.setStudySite(studySite);
     	assertTrue("Expected to be a study site",studySubject.isStudySite("NCI100"));
 
     	verifyMocks();
@@ -697,8 +702,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testIsCoordinatingCenter() throws Exception{
     	EasyMock.expect(studySite.getStudy()).andReturn(study);
     	EasyMock.expect(study.isCoOrdinatingCenter("nci_code")).andReturn(true);
+    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
     	replayMocks();
+    	studySubject.setStudySite(studySite);
     	assertTrue("Expected to be a coordinating center",studySubject.isCoOrdinatingCenter("nci_code"));
 
     	verifyMocks();
@@ -1038,8 +1046,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	EasyMock.expect(scheduledEpoch.getStratumGroup()).andReturn(stratumGroup);
     	int code =  studySubject.getCode("C3PR.EXCEPTION.REGISTRATION.NO.ARM.AVAILABLE.BOOK.EXHAUSTED.CODE");
     	EasyMock.expect(stratumGroup.getNextArm()).andThrow(new C3PRCodedRuntimeException(code, "next arm not available"));
+    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
     	replayMocks();
     	try {
+    		studySubject.setStudySite(studySite);
     		studySubject.doLocalEnrollment();
     		fail("Should have thrown exception");
     	}catch(C3PRBaseRuntimeException ex){
@@ -1063,7 +1074,6 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	EasyMock.expect(study.getRandomizationType()).andReturn(RandomizationType.PHONE_CALL);
     	EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(null);
     	EasyMock.expect(study.getBlindedIndicator()).andReturn(false);
-
 
     	replayMocks();
     	try {
@@ -1189,11 +1199,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
   public void testPrepareForEnrollment1() throws Exception{
 	  EasyMock.expect(studySite.getStudy()).andReturn(study);
 	  EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
+	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+  	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 	  StudySubject parentStudySubject = registerMockFor(StudySubject.class);
 	  studySubject.setParentStudySubject(parentStudySubject);
 
 	  replayMocks();
 	  try{
+		  studySubject.setStudySite(studySite);
 		  studySubject.prepareForEnrollment();
 		  fail("Should have thrown exception");
 	  } catch(Exception ex){
@@ -1362,12 +1375,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
 	  	EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
 	  	EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
+	    EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	  	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
 	  	EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
 	  	childStudySubject.evaluateRegistrationDataEntryStatus(errors);
 	  	EasyMock.expect(childStudySubject.evaluateScheduledEpochDataEntryStatus(errors)).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
 	  	replayMocks();
-
+	  	studySubject.setStudySite(studySite);
 		studySubject.canEnroll(errors);
 		verifyMocks();
 	}
@@ -1503,7 +1518,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	 scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 	 EasyMock.expect(studySite.getStudy()).andReturn(study);
 	 EasyMock.expect(study.getRandomizationType()).andReturn(RandomizationType.CALL_OUT);
+	 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+ 	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
+
 	 replayMocks();
+	 studySubject.setStudySite(studySite);
 	 studySubject.doLocalTransfer();
 	 verifyMocks();
   }
@@ -1555,8 +1574,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
 	  EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
 	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
+	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+  	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
 	  replayMocks();
+	  studySubject.setStudySite(studySite);
 	  assertTrue("Wrong result in evaluating if study subject has mandatory companins", studySubject.hasMandatoryCompanions());
 	  verifyMocks();
   }
@@ -1580,10 +1602,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  StudyVersion studyVersion = registerMockFor(StudyVersion.class);
 	  EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
 	  EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
+	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+  	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
 	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(false);
 
 	  replayMocks();
+	  studySubject.setStudySite(studySite);
 	  assertFalse("Wrong result in evaluating if study subject has mandatory companins", studySubject.hasMandatoryCompanions());
 	  verifyMocks();
   }
