@@ -138,7 +138,7 @@ public class StudySubject extends
 	private MessageSource c3prErrorMessages;
 
 	private List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
-	
+
 	private StudySubjectStudyVersion studySubjectStudyVersion;
 	/**
 	 * Instantiates a new study subject.
@@ -216,12 +216,12 @@ public class StudySubject extends
 	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
 		return studySubjectStudyVersions;
 	}
-	
+
 	public void addStudySubjectStudyVersion(StudySubjectStudyVersion studySubjectStudyVersion){
 		studySubjectStudyVersion.setStudySubject(this);
 		getStudySubjectStudyVersions().add(studySubjectStudyVersion);
 	}
-	
+
 	@Transient
 	public StudySubjectStudyVersion getLatestStudySubjectVersion(){
         if( getStudySubjectStudyVersions().size() == 0){
@@ -229,13 +229,13 @@ public class StudySubject extends
         	addStudySubjectStudyVersion(studySubjectStudyVersion);
 			return studySubjectStudyVersion;
         }else{
-        	List<StudySubjectStudyVersion> sortedSubejctStudyVersions = new ArrayList<StudySubjectStudyVersion>(); 
+        	List<StudySubjectStudyVersion> sortedSubejctStudyVersions = new ArrayList<StudySubjectStudyVersion>();
             sortedSubejctStudyVersions.addAll(this.getStudySubjectStudyVersions());
             Collections.sort(sortedSubejctStudyVersions);
 			return sortedSubejctStudyVersions.get(sortedSubejctStudyVersions.size() - 1 );
 		}
 	}
-	
+
 	@Transient
 	public StudySubjectStudyVersion getStudySubjectStudyVersion() {
 		if(studySubjectStudyVersion == null){
@@ -248,12 +248,12 @@ public class StudySubject extends
 			StudySubjectStudyVersion studySubjectStudyVersion) {
 		this.studySubjectStudyVersion = studySubjectStudyVersion;
 	}
-	
+
 	@Transient
 	public StudySiteStudyVersion getStudySiteVersion(){
 		return getStudySubjectStudyVersion().getStudySiteStudyVersion();
 	}
-	
+
 	/**
 	 * Adds the scheduled epoch.
 	 *
@@ -272,7 +272,7 @@ public class StudySubject extends
 	public ScheduledEpoch getScheduledEpoch() {
 		return getStudySubjectStudyVersion().getCurrentScheduledEpoch();
 	}
-	
+
 	/**
 	 * Gets the scheduled epoch.
 	 *
@@ -1079,51 +1079,19 @@ public Date getInformedConsentSignedDate() {
 	 * replacing the sub vars.
 	 */
 	public Map<Object, Object> buildMapForNotification() {
+		StudySite studySite = getStudySite();
+		Study study = studySite.getStudy();
 
 		Map<Object, Object> map = new HashMap<Object, Object>();
-		map.put(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN
-				.toString(),
-				getParticipant().getMRN().getValue() == null ? "MRN"
-						: getParticipant().getMRN().getValue());
-		map.put(NotificationEmailSubstitutionVariablesEnum.REGISTRATION_STATUS
-				.toString(),
-				getRegWorkflowStatus().getDisplayName() == null ? "site name"
-						: getRegWorkflowStatus().getDisplayName());
-		map
-				.put(
-						NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE
-								.toString(), getStudySite().getStudy()
-								.getShortTitleText() == null ? "Short Title"
-								: getStudySite().getStudy().getShortTitleText());
-		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(),
-				getStudySite().getStudy().getId() == null ? "Study Id"
-						: getStudySite().getStudy().getId().toString());
+		map.put(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN.toString(), getParticipant().getMRN().getValue() == null ? "MRN" : getParticipant().getMRN().getValue());
+		map.put(NotificationEmailSubstitutionVariablesEnum.REGISTRATION_STATUS.toString(), getRegWorkflowStatus().getDisplayName() == null ? "site name" : getRegWorkflowStatus().getDisplayName());
 
-		map
-				.put(
-						NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD
-								.toString(),
-						getStudySite().getStudy().getTargetAccrualNumber() == null ? "Study Target Accrual"
-								: getStudySite().getStudy()
-										.getTargetAccrualNumber());
-		map
-				.put(
-						NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_ACCRUAL_THRESHOLD
-								.toString(),
-						getStudySite().getTargetAccrualNumber() == null ? "Site Target Accrual"
-								: getStudySite().getTargetAccrualNumber());
-		map
-				.put(
-						NotificationEmailSubstitutionVariablesEnum.STUDY_CURRENT_ACCRUAL
-								.toString(),
-						getStudySite().getStudy().getCurrentAccrualCount() == null ? "Study Current Accrual"
-								: getStudySite().getStudy()
-										.getCurrentAccrualCount());
-		map
-				.put(
-						NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL
-								.toString(), getStudySite()
-								.getCurrentAccrualCount());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(), study.getShortTitleText() == null ? "Short Title" : study.getShortTitleText());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(), study.getId() == null ? "Study Id" : study.getId().toString());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD.toString(), study.getTargetAccrualNumber() == null ? "Study Target Accrual" : study.getTargetAccrualNumber());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_ACCRUAL_THRESHOLD.toString(), studySite.getTargetAccrualNumber() == null ? "Site Target Accrual": studySite.getTargetAccrualNumber());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_CURRENT_ACCRUAL.toString(), study.getCurrentAccrualCount() == null ? "Study Current Accrual" : study.getCurrentAccrualCount());
+		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL.toString(), studySite.getCurrentAccrualCount());
 		return map;
 	}
 
@@ -1454,7 +1422,7 @@ public Date getInformedConsentSignedDate() {
 	public CompanionStudyAssociation getMatchingCompanionStudyAssociation(
 			StudySubject childStudySubject) {
 		for (CompanionStudyAssociation companionStudyAssociation : this
-				.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()) {
+				.getStudySite().getStudy().getCompanionStudyAssociations()) {
 			if (companionStudyAssociation.getCompanionStudy().equals(
 					childStudySubject.getStudySite().getStudy())) {
 				return companionStudyAssociation;
@@ -1606,8 +1574,7 @@ public Date getInformedConsentSignedDate() {
 	public void doMutiSiteEnrollment(
 			ScheduledEpoch coordinatingCenterReturnedScheduledEpoch,
 			OrganizationAssignedIdentifier coordinatingCenterAssignedIdentifier) {
-		ScheduledEpoch scheduledEpoch = this.getStudySubjectStudyVersion()
-				.getScheduledEpoch(coordinatingCenterReturnedScheduledEpoch.getEpoch());
+		ScheduledEpoch scheduledEpoch = this.getStudySubjectStudyVersion().getScheduledEpoch(coordinatingCenterReturnedScheduledEpoch.getEpoch());
 		if (scheduledEpoch.getRequiresArm()) {
 			Arm arm = scheduledEpoch.getEpoch().getArmByName(
 					coordinatingCenterReturnedScheduledEpoch
@@ -1771,7 +1738,7 @@ public Date getInformedConsentSignedDate() {
 		if(!this.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
 			return false ;
 		}
-		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()){
+		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getCompanionStudyAssociations()){
 			if (companionStudyAssociation.getMandatoryIndicator()) {
 				boolean hasCorrespondingStudySubject = false;
 				for (StudySubject childStudySubject : this.getChildStudySubjects()) {
@@ -1814,7 +1781,7 @@ public Date getInformedConsentSignedDate() {
 	@Transient
 	public boolean hasMandatoryCompanions(){
 
-		for(CompanionStudyAssociation companionStudyAssociation:this.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()){
+		for(CompanionStudyAssociation companionStudyAssociation:this.getStudySite().getStudy().getCompanionStudyAssociations()){
 			if(companionStudyAssociation.getMandatoryIndicator()){
 				return true;
 			}
