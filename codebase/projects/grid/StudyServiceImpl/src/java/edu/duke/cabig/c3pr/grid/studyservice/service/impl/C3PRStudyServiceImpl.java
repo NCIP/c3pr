@@ -78,6 +78,7 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
             study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 //            study=studyRepository.createStudy(study);
 //            studyRepository.openStudy(study.getIdentifiers());
+            studyDao.save(study);
             studyRepository.createAndOpenStudy(study);
         }catch (C3PRCodedException e) {
             throw new RemoteException("error building the study", e);

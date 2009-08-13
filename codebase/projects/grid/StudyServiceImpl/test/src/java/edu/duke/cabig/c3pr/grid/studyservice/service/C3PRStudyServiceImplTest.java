@@ -396,7 +396,7 @@ public class C3PRStudyServiceImplTest extends StudyDaoTestCaseTemplate{
         		study.getStudySites().get(1).setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         	}
         }
-        study= studyDao.merge(study);
+        studyDao.save(study);
         interruptSession();
     }
     
