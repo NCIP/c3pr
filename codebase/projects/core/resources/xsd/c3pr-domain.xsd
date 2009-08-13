@@ -253,7 +253,7 @@
   <xs:complexType name="Registration">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="studyIdentifiers" type="IdentifiersType" />
-      <xs:element minOccurs="1" maxOccurs="1" name="studyVersion" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="studyVersion" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="subject" type="SubjectType" />
       <xs:element minOccurs="1" maxOccurs="1" name="site" type="HealthcareSiteType" />
       <xs:element minOccurs="1" maxOccurs="1" name="startDate" type="xs:date" />
