@@ -568,73 +568,66 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      *
      * @throws Exception the exception
      */
-    public void testEvaluateRegistrationDataEntryStatus() throws Exception{
-    	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
-    	EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(false);
-    	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
-    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
-    	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-    	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
-    	studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
-
-    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	public void testEvaluateRegistrationDataEntryStatus() throws Exception {
+		EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(1);
     	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
-    	studySubject.setInformedConsentSignedDate(new Date());
+
+		EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
+		EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true).times(1);
+		EasyMock.expect(studySite.getStudy()).andReturn(study).times(1);
+
+		CompanionStudyAssociation companionStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
+		ArrayList<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+		companionStudyAssociations.add(companionStudyAssociation);
+
+		EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations).times(1);
+		EasyMock.expect(companionStudyAssociation.getMandatoryIndicator()).andReturn(true).times(1);
+
+		replayMocks();
+
+		studySubject.setInformedConsentSignedDate(new Date());
     	studySubject.setInformedConsentVersion("1");
-    	StudySubject childStudySubject = registerMockFor(StudySubject.class);
-    	studySubject.addChildStudySubject(childStudySubject);
-    	EasyMock.expect(childStudySubject.evaluateRegistrationDataEntryStatus()).andReturn(RegistrationDataEntryStatus.COMPLETE);
 
-    	EasyMock.expect(studySite.getStudy()).andReturn(study);
-    	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
-    	EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
+		studySubject.setStudySite(studySite);
+		studySubject.addScheduledEpoch(scheduledEpoch);
 
-    	StudyVersion studyVersion = registerMockFor(StudyVersion.class);
-		EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
+		assertEquals("wrong registration status", RegistrationDataEntryStatus.INCOMPLETE, studySubject.evaluateRegistrationDataEntryStatus());
 
-		EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(new ArrayList<CompanionStudyAssociation>());
-    	EasyMock.expect(childStudySubject.getDataEntryStatus()).andReturn(false);
+		verifyMocks();
 
-    	replayMocks();
-    	studySubject.setStudySite(studySite);
-    	studySubject.addScheduledEpoch(scheduledEpoch);
+	}
 
-    	assertEquals("wrong registration status",RegistrationDataEntryStatus.INCOMPLETE,studySubject.evaluateRegistrationDataEntryStatus());
-
-    	verifyMocks();
-
-    }
     /**
      * Test evaluate registration data entry status with errors.
      *
      * @throws Exception the exception
      */
     public void testEvaluateRegistrationDataEntryStatusWithErrors() throws Exception{
-
     	List<Error> errors = new ArrayList<Error>();
-    	StudySubject childStudySubject = registerMockFor(StudySubject.class);
-    	studySubject.addChildStudySubject(childStudySubject);
-    	childStudySubject.evaluateRegistrationDataEntryStatus(errors);
-
-    	EasyMock.expect(studySite.getStudy()).andReturn(study);
-    	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
-    	EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
-    	StudyVersion studyVersion = registerMockFor(StudyVersion.class);
-		EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
-		EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(1);
     	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
-		EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(new ArrayList<CompanionStudyAssociation>());
-    	EasyMock.expect(childStudySubject.getDataEntryStatus()).andReturn(false);
+
+		EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
+		EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true).times(1);
+		EasyMock.expect(studySite.getStudy()).andReturn(study).times(1);
+
+		CompanionStudyAssociation companionStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
+		ArrayList<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+		companionStudyAssociations.add(companionStudyAssociation);
+
+		EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations).times(1);
+		EasyMock.expect(companionStudyAssociation.getMandatoryIndicator()).andReturn(true).times(1);
 
     	replayMocks();
+
     	studySubject.setStudySite(studySite);
+		studySubject.addScheduledEpoch(scheduledEpoch);
+
     	studySubject.evaluateRegistrationDataEntryStatus(errors);
     	assertEquals("Wrong number of errors",3,errors.size());
-
     	verifyMocks();
-
     }
 
     /**
@@ -1282,60 +1275,60 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    *
    * @throws Exception the exception
    */
-  public void testPrepareForEnrollment2() throws Exception{
-	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
-	  EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
+	public void testPrepareForEnrollment2() throws Exception {
+		  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+		  EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
 
-	  StudySubject childStudySubject = registerMockFor(StudySubject.class);
-	  studySubject.addChildStudySubject(childStudySubject);
+		  StudySubject childStudySubject = registerMockFor(StudySubject.class);
+		  studySubject.addChildStudySubject(childStudySubject);
 
-	  Study companionStudy = registerMockFor(Study.class);
-	  List<CompanionStudyAssociation> compStudyAssociations = new ArrayList<CompanionStudyAssociation>();
-	  CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
-	  compStudyAssociations.add(compStudyAssociation);
+		  Study companionStudy = registerMockFor(Study.class);
+		  List<CompanionStudyAssociation> compStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+		  CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
+		  compStudyAssociations.add(compStudyAssociation);
 
-	  StudyVersion studyVersion = registerMockFor(StudyVersion.class);
-	  EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
-	  EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(compStudyAssociations);	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
-	  EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
-	  EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
-	  EasyMock.expect(childStudySubject.getDataEntryStatus()).andReturn(true);
+		  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+		  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
+		  EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
+		  EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
+		  EasyMock.expect(childStudySubject.getDataEntryStatus()).andReturn(true);
 
-	  EasyMock.expect(studySite.getStudy()).andReturn(study);
-	  StudyVersion studyVersion1 = registerMockFor(StudyVersion.class);
-	  EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion1);
-	  EasyMock.expect(studyVersion1.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
-	  EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
-	  EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
-	  EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
+		  EasyMock.expect(studySite.getStudy()).andReturn(study);
+		  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+		  EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
+		  EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
+		  EasyMock.expect(studySite.getStudy()).andReturn(companionStudy);
 
-	  EasyMock.expect(childStudySubject.getRegWorkflowStatus()).andReturn(RegistrationWorkFlowStatus.PENDING);
+		  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(2);
+	  	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
-	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
-	  EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
+		  EasyMock.expect(childStudySubject.getRegWorkflowStatus()).andReturn(RegistrationWorkFlowStatus.PENDING);
 
-	  EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
-	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
+		  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
 
-
-	  Epoch companionStudyEpoch = registerMockFor(Epoch.class);
-	  ScheduledEpoch childScheduledEpoch = registerMockFor(ScheduledEpoch.class);
-	  EasyMock.expect(childScheduledEpoch.getEpoch()).andReturn(companionStudyEpoch).times(1);
+		  EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
+		  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
 
 
-	  EasyMock.expect(childStudySubject.getScheduledEpoch()).andReturn(childScheduledEpoch);
-	  EasyMock.expect(companionStudyEpoch.getEnrollmentIndicator()).andReturn(false);
+		  Epoch companionStudyEpoch = registerMockFor(Epoch.class);
+		  ScheduledEpoch childScheduledEpoch = registerMockFor(ScheduledEpoch.class);
+		  EasyMock.expect(childScheduledEpoch.getEpoch()).andReturn(companionStudyEpoch).times(1);
 
-	  replayMocks();
-	  try{
-		  studySubject.prepareForEnrollment();
-		  fail("Should have thrown exception");
-	  } catch(Exception ex){
 
-	  }
+		  EasyMock.expect(childStudySubject.getScheduledEpoch()).andReturn(childScheduledEpoch);
+		  EasyMock.expect(companionStudyEpoch.getEnrollmentIndicator()).andReturn(false);
 
-	  verifyMocks();
-  }
+		replayMocks();
+		try {
+			studySubject.setStudySite(studySite);
+			studySubject.prepareForEnrollment();
+			fail("Should have thrown exception");
+		} catch (Exception ex) {
+
+		}
+
+		verifyMocks();
+	}
 
   /**
    * Test prepare for enrollment2.
