@@ -124,7 +124,7 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
             };
             Mapping localMapping = new Mapping();
             localMapping.setEntityResolver(resolver);
-            log.debug("Loading common mappinf files.");
+            log.debug("Loading common mapping files.");
             for(String commonMappingFileName: commonMappingFiles){
             	InputSource commonMappingSource = new InputSource(Thread.currentThread()
                         .getContextClassLoader().getResourceAsStream(commonMappingFileName));
