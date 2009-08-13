@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.xml;
 
 import java.io.StringReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
