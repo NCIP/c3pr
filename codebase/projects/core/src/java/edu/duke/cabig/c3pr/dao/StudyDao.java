@@ -12,13 +12,11 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
-import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -28,10 +26,10 @@ import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
-import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
@@ -199,6 +197,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
             getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
             getHibernateTemplate().initialize(studyOrganization.getEndpoints());
             healthcareSiteDao.initialize(studyOrganization.getHealthcareSite());
+            if(studyOrganization instanceof StudySite){
+    			getHibernateTemplate().initialize(((StudySite)studyOrganization).getStudySiteStudyVersions());
+    		}
         }
 	}
     
@@ -237,7 +238,11 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
             getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
             getHibernateTemplate().initialize(studyOrganization.getEndpoints());
             healthcareSiteDao.initialize(studyOrganization.getHealthcareSite());
+            if(studyOrganization instanceof StudySite){
+    			getHibernateTemplate().initialize(((StudySite)studyOrganization).getStudySiteStudyVersions());
+    		}
         }
+		
 	}
     /**
      * Gets the study by subnames.
