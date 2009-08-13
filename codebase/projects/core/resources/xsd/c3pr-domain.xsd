@@ -7,12 +7,12 @@
   <xs:element name="registration" type="Registration" />
   <xs:element name="study" type="Study" />
   <xs:element name="studyAmendment" type="StudyAmendmentType" />
-  <xs:element name="participant" type="ParticipantType" />
+  <xs:element name="subject" type="SubjectType" />
   <!--for import-->
-  <xs:element name="participants">
+  <xs:element name="subjects">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="unbounded" name="participant" type="ParticipantType" />
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="subject" type="SubjectType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -199,7 +199,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="ParticipantType">
+  <xs:complexType name="SubjectType">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="firstName" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="lastName" type="xs:string" />
@@ -252,17 +252,16 @@
   </xs:simpleType>
   <xs:complexType name="Registration">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="1" name="studySite" type="StudySiteType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="studyRef" type="IdentifiersType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="participant" type="ParticipantType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="startDate" type="xs:date" />
-      <xs:element minOccurs="0" maxOccurs="1" name="informedConsentFormSignedDate" type="xs:date" />
-      <xs:element minOccurs="0" maxOccurs="1" name="informedConsentVersion" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="studyIdentifiers" type="IdentifiersType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="studyVersion" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="subject" type="SubjectType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="site" type="HealthcareSiteType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="startDate" type="xs:date" />
+      <xs:element minOccurs="1" maxOccurs="1" name="informedConsentFormSignsedDate" type="xs:date" />
+      <xs:element minOccurs="1" maxOccurs="1" name="informedConsentVersion" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
-      <xs:element minOccurs="0" maxOccurs="1" name="regDataEntryStatus" type="RegDataEntryStatusType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="regWorkflowStatus" type="RegWorkflowStatusType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="status" type="RegWorkflowStatusType" />
       <xs:element minOccurs="1" maxOccurs="1" name="scheduledEpoch" type="ScheduledEpochType"/>
-      <xs:element minOccurs="0" maxOccurs="1" name="stratumGroup" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="enrollingPhysician" type="StudyInvestigatorType" />
       <xs:element minOccurs="0" maxOccurs="1" name="otherEnrollingPhysician" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="offStudyReasonText" type="xs:string" />
@@ -299,6 +298,7 @@
       <xs:element minOccurs="1" maxOccurs="1" name="epoch" type="EpochType"/>
       <xs:element minOccurs="0" maxOccurs="1" name="scheduledArm" type="ScheduledArmType" />
       <xs:element minOccurs="0" maxOccurs="1" name="eligibilityIndicator" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" name="stratumGroup" type="StratumGroupType" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
@@ -332,7 +332,6 @@
       <xs:element minOccurs="1" maxOccurs="unbounded" name="consent" type="Consent"/>
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
-    <xs:attribute name="version" type="xs:integer" />
   </xs:complexType>
   <xs:complexType name="Consent">
     <xs:sequence>
