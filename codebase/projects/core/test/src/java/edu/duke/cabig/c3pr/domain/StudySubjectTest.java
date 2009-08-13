@@ -665,16 +665,25 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
     	EasyMock.expect(scheduledEpoch.getScEpochDataEntryStatus()).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
     	replayMocks();
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	assertTrue("Expected data entry to be complete",studySubject.isDataEntryComplete());
 
     	verifyMocks();
 
-    	resetMocks();
+    }
 
+
+    /**
+     * Test is data entry complete.
+     *
+     * @throws Exception the exception
+     */
+    public void testIsDataEntryComplete1() throws Exception{
+    	studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
     	EasyMock.expect(scheduledEpoch.getScEpochDataEntryStatus()).andReturn(ScheduledEpochDataEntryStatus.INCOMPLETE);
     	replayMocks();
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	assertFalse("Expected data entry to be incomplete",studySubject.isDataEntryComplete());
-
     	verifyMocks();
     }
 
@@ -764,33 +773,29 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	OrganizationAssignedIdentifier mrn = registerMockFor(OrganizationAssignedIdentifier.class);
     	EasyMock.expect(participant.getMRN()).andReturn(mrn).times(2);
     	EasyMock.expect(mrn.getValue()).andReturn("mrnValue").times(2);
-    	EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study).times(1);
     	EasyMock.expect(study.getShortTitleText()).andReturn("Short_title_text").times(2);
-    	EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
     	EasyMock.expect(study.getId()).andReturn(1).times(2);
-    	EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
     	EasyMock.expect(study.getTargetAccrualNumber()).andReturn(5).times(2);
     	EasyMock.expect(studySite.getTargetAccrualNumber()).andReturn(4).times(2);
-    	EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
     	EasyMock.expect(study.getCurrentAccrualCount()).andReturn(3).times(2);
     	EasyMock.expect(studySite.getCurrentAccrualCount()).andReturn(2);
 
+    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
+
     	replayMocks();
+    	studySubject.setStudySite(studySite);
+    	studySubject.addScheduledEpoch(scheduledEpoch);
     	Map<Object, Object> map = studySubject.buildMapForNotification();
     	assertEquals("Wrong number of entries in the notificaiton map",8,map.size());
 
-    	assertEquals("Wrong entry in map","mrnValue",map.get(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN
-				.toString()));
-    	assertEquals("Wrong entry in map","Short_title_text",map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE
-				.toString()));
-    	assertEquals("Wrong entry in map",5,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD
-				.toString()));
-    	assertEquals("Wrong entry in map",4,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_ACCRUAL_THRESHOLD
-				.toString()));
-    	assertEquals("Wrong entry in map",3,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_CURRENT_ACCRUAL
-				.toString()));
-    	assertEquals("Wrong entry in map",2,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL
-				.toString()));
+    	assertEquals("Wrong entry in map","mrnValue",map.get(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN.toString()));
+    	assertEquals("Wrong entry in map","Short_title_text",map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString()));
+    	assertEquals("Wrong entry in map",5,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD.toString()));
+    	assertEquals("Wrong entry in map",4,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_ACCRUAL_THRESHOLD.toString()));
+    	assertEquals("Wrong entry in map",3,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_CURRENT_ACCRUAL.toString()));
+    	assertEquals("Wrong entry in map",2,map.get(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL.toString()));
 
     	verifyMocks();
     }
@@ -1419,15 +1424,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	List<Error> errors = new ArrayList<Error>();
 	  	StudySubject childStudySubject = registerMockFor(StudySubject.class);
 	  	studySubject.addChildStudySubject(childStudySubject);
+
 	  	CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
 	  	Study companionStudy = registerMockFor(Study.class);
 	  	List<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 	  	companionStudyAssociations.add(compStudyAssociation);
 
 	  	EasyMock.expect(studySite.getStudy()).andReturn(study);
-	  	StudyVersion studyVersion = registerMockFor(StudyVersion.class);
-		  EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
-		  EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
+		EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations);
 	  	EasyMock.expect(compStudyAssociation.getCompanionStudy()).andReturn(companionStudy);
 
 	  	EasyMock.expect(childStudySubject.getStudySite()).andReturn(studySite);
@@ -1440,6 +1444,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	EasyMock.expect(childStudySubject.evaluateScheduledEpochDataEntryStatus(errors)).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
 	  	replayMocks();
 	  	studySubject.setStudySite(studySite);
+	  	studySubject.addScheduledEpoch(scheduledEpoch);
 		studySubject.canEnroll(errors);
 		verifyMocks();
 	}
@@ -1454,6 +1459,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(epoch.getName()).andReturn("Treatment").times(2);
 
 	  replayMocks();
+	  studySubject.addScheduledEpoch(scheduledEpoch);
 	  assertNull("Unexpected Scheduled Epoch",studySubject.getScheduledEpochByName("Arbitrary Epoch Name"));
 	  assertEquals("Wrong Scheduled Epoch",scheduledEpoch,studySubject.getScheduledEpochByName("Treatment"));
 
@@ -1587,7 +1593,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	 EasyMock.expect(studySite.getStudy()).andReturn(study);
 	 EasyMock.expect(study.getRandomizationType()).andReturn(RandomizationType.CALL_OUT);
 	 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
- 	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
+ 	 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(1);
 
 	 replayMocks();
 	 studySubject.setStudySite(studySite);
