@@ -52,13 +52,13 @@
             <bind-xml name="studyIdentifiers" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="studyVersion" type="string" handler="edu.duke.cabig.c3pr.xml.RegistrationStudyVersionFieldHandler">
-            <bind-xml name="studyAmendment" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="studyVersion" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="participant" type="edu.duke.cabig.c3pr.domain.Participant">
             <bind-xml name="subject" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="site" type="string" handler="edu.duke.cabig.c3pr.xml.RegistrationSiteFieldHandler">
+        <field name="site" type="edu.duke.cabig.c3pr.domain.HealthcareSite" handler="edu.duke.cabig.c3pr.xml.RegistrationSiteFieldHandler">
             <bind-xml name="site" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="startDate" type="string"

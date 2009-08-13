@@ -3,7 +3,10 @@ package edu.duke.cabig.c3pr.xml;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -36,7 +39,19 @@ public class IdentifiersHolderFieldHandler implements FieldHandler {
 			studyVersion.setStudy(study);
 		}else if (object instanceof StudySubject) {
 			StudySubject studySubject = (StudySubject) object;
-			studySubject.getStudySite().setStudy(study);
+			StudySite studySite = null;
+			if(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion()==null){
+				studySite = new StudySite();
+				StudySiteStudyVersion studySiteStudyVersion= new StudySiteStudyVersion();
+				studySiteStudyVersion.setStudySite(studySite);
+				studySubject.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySiteStudyVersion);			
+			}else if(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite()==null){
+				studySite = new StudySite();
+				studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().setStudySite(studySite);
+			}else{
+				studySite= studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite();
+			}
+			studySite.setStudy(study);
 		}else{
 			throw new C3PRBaseRuntimeException("Illegal object instance.");
 		}

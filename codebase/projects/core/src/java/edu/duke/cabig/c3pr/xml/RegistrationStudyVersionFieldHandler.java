@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 
@@ -20,7 +21,7 @@ public class RegistrationStudyVersionFieldHandler implements FieldHandler{
 	public Object getValue(Object object) throws IllegalStateException {
 		StudySubject studySubject =(StudySubject) object;
 		try{
-			return studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion();
+			return studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getName();
 		}catch (Exception ex){
 			log.warn("unable to get value of study version from registration");
 			log.warn(ex);
@@ -42,14 +43,15 @@ public class RegistrationStudyVersionFieldHandler implements FieldHandler{
 	public void setValue(Object object, Object value)
 			throws IllegalStateException, IllegalArgumentException {
 		StudySubject studySubject =(StudySubject) object;
-		try{
-			StudyVersion studyVersion = new StudyVersion();
+		StudyVersion studyVersion = new StudyVersion();
+		studyVersion.setName((String)value);
+		if(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion()==null){
+			StudySiteStudyVersion studySiteStudyVersion= new StudySiteStudyVersion();
+			studySiteStudyVersion.setStudyVersion(studyVersion);
+			studySubject.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySiteStudyVersion);			
+		}else{
 			studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().setStudyVersion(studyVersion);
-		} catch (Exception ex){
-			log.warn("Unable to set the value of study version in registration");
-			log.warn(ex);
 		}
-		
 	}
 
 }

@@ -8,7 +8,10 @@ import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 
 public class RegistrationSiteFieldHandler implements FieldHandler{
 	
@@ -23,7 +26,7 @@ public class RegistrationSiteFieldHandler implements FieldHandler{
 	public Object getValue(Object object) throws IllegalStateException {
 		StudySubject studySubejct = (StudySubject) object;
 		try{
-			return studySubejct.getStudySite().getHealthcareSite().getCtepCode();
+			return studySubejct.getStudySite().getHealthcareSite();
 		}catch (Exception ex){
 			log.warn("unable to get site code from registration");
 			log.warn(ex);
@@ -42,18 +45,19 @@ public class RegistrationSiteFieldHandler implements FieldHandler{
 
 	public void setValue(Object object, Object value)
 			throws IllegalStateException, IllegalArgumentException {
-		StudySubject studySubject = (StudySubject) object;
-		String ctepCode = (String) value;
-		try{
-			HealthcareSite healthcareSite = new LocalHealthcareSite();
-			OrganizationAssignedIdentifier ctepAssignedIdentifier = new OrganizationAssignedIdentifier();
-			ctepAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.CTEP);
-			ctepAssignedIdentifier.setValue(ctepCode);
-			studySubject.getStudySite().setHealthcareSite(healthcareSite);
-		}catch(Exception ex){
-			log.warn("unable to set site in registration");
-			log.warn(ex);
+		StudySubject studySubject =(StudySubject) object;
+		StudySite studySite = null;
+		if(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion()==null){
+			studySite = new StudySite();
+			StudySiteStudyVersion studySiteStudyVersion= new StudySiteStudyVersion();
+			studySiteStudyVersion.setStudySite(studySite);
+			studySubject.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySiteStudyVersion);			
+		}else if(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite()==null){
+			studySite = new StudySite();
+			studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().setStudySite(studySite);
+		}else{
+			studySite= studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite();
 		}
+		studySite.setHealthcareSite((HealthcareSite)value);
 	}
-
 }
