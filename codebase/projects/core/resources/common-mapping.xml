@@ -269,7 +269,7 @@
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.Participant" extends="edu.duke.cabig.c3pr.domain.Person">
-        <map-to xml="participant" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <map-to xml="subject" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="gridId" type="string">
             <bind-xml name="gridId" node="attribute"/>
         </field>
