@@ -9,8 +9,6 @@
 
 	<description>Mappings  for creating registration message</description>
 
-	<include href="common-mapping.xml"/>
-
     <class name="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
         <map-to xml="scheduledEpoch" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="gridId" type="string">
@@ -32,6 +30,9 @@
             <bind-xml name="eligibilityIndicator" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="stratumGroup" type="string" handler="edu.duke.cabig.c3pr.xml.StratumGroupFieldHandler">
+        	<bind-xml name="stratumGroup" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
+        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.ScheduledArm">
@@ -42,38 +43,23 @@
         </field>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.Study">
-        <map-to xml="study" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="gridId" type="string">
-            <bind-xml name="gridId" node="attribute"/>
-        </field>
-        <field name="shortTitleText" type="string">
-            <bind-xml name="shortTitleText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="longTitleText" type="string">
-            <bind-xml name="longTitleText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
-               collection="collection">
-            <bind-xml name="identifier" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-    </class>
-
     <class name="edu.duke.cabig.c3pr.domain.StudySubject">
         <map-to xml="registration" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="gridId" type="string">
             <bind-xml name="gridId" node="attribute"/>
         </field>
-        <field name="studySite" type="edu.duke.cabig.c3pr.domain.StudySite">
-            <bind-xml name="studySite" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+         <field name="study" type="edu.duke.cabig.c3pr.xml.IdentifiersHolder" handler="edu.duke.cabig.c3pr.xml.IdentifiersHolderFieldHandler">
+            <bind-xml name="studyIdentifiers" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="study" type="edu.duke.cabig.c3pr.domain.Study" handler="edu.duke.cabig.c3pr.xml.StudyFieldHandler">
-            <bind-xml name="studyRef" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="studyVersion" type="string" handler="edu.duke.cabig.c3pr.xml.RegistrationStudyVersionFieldHandler">
+            <bind-xml name="studyAmendment" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="participant" type="edu.duke.cabig.c3pr.domain.Participant">
-            <bind-xml name="participant" node="element"
+            <bind-xml name="subject" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="site" type="string" handler="edu.duke.cabig.c3pr.xml.RegistrationSiteFieldHandler">
+            <bind-xml name="site" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="startDate" type="string"
                handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
@@ -94,23 +80,14 @@
             <bind-xml name="identifier" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="regDataEntryStatus" type="string"
-               handler="edu.duke.cabig.c3pr.xml.RegistrationDataEntryStatusFieldHandler">
-            <bind-xml name="regDataEntryStatus" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
         <field name="regWorkflowStatus" type="string"
                handler="edu.duke.cabig.c3pr.xml.RegistrationWorkFlowStatusFieldHandler">
-            <bind-xml name="regWorkflowStatus" node="element"
+            <bind-xml name="status" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="currentScheduledEpoch" type="edu.duke.cabig.c3pr.domain.ScheduledEpoch"
                handler="edu.duke.cabig.c3pr.xml.ScheduledEpochFieldHandler">
             <bind-xml name="scheduledEpoch" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="stratumGroup" type="string" handler="edu.duke.cabig.c3pr.xml.StratumGroupFieldHandler">
-            <bind-xml name="stratumGroup" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="treatingPhysician" type="edu.duke.cabig.c3pr.domain.StudyInvestigator">
