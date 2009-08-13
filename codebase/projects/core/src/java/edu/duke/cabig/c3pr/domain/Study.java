@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1087,7 +1088,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         List<StudyVersion> studyVersions = this.getStudyVersions();
         int size = studyVersions.size();
         if( size == 0){
-			return  getStudyVersions().get(0);
+        	StudyVersion localStudyVersion= getStudyVersions().get(0);
+        	localStudyVersion.setVersionDate(new Date());
+        	localStudyVersion.setName("1.0");
+			return localStudyVersion;
         }else{
             Collections.sort(studyVersions);
 			return  studyVersions.get(size - 1 );

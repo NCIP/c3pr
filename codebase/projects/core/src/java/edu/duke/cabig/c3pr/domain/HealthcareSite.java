@@ -228,13 +228,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
      * @param nciInstituteCode the new nci institute code
      */
     public void setCtepCode(String ctepCode) {
-    	if(!StringUtils.isEmpty(ctepCode)){
-    		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
-    		identifier.setType(OrganizationIdentifierTypeEnum.CTEP);
-    		identifier.setValue(ctepCode);
-    		identifier.setPrimaryIndicator(false);
-    		getIdentifiersAssignedToOrganization().add(identifier);
-    	}
+    	setCtepCode(ctepCode, true);
     }
 
     public void setCtepCode(String ctepCode, Boolean primaryIndicator) {
