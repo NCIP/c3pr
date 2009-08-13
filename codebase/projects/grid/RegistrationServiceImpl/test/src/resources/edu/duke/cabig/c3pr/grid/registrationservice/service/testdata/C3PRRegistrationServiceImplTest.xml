@@ -1,117 +1,119 @@
 <dataset>
     <STUDIES id="1100" version="1" blinded_indicator="1" multi_institution_indicator="1"
-   	phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN" />
-    
+   	phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN" target_accrual_number="123" />
+
     <STUDIES id="2100" version="1" blinded_indicator="1" multi_institution_indicator="1"
-   	phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN" />
-   
-    
-     <STUDY_VERSIONS id="1100" study_id="1100" long_title_text="long_title_text" short_title_text="short_title_text" target_accrual_number="123"  description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
-    <STUDY_VERSIONS id="2100" study_id="2100" long_title_text="long_title_text" short_title_text="short_title_text" target_accrual_number="123"  description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
-   
-   
+   	phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN" target_accrual_number="123"  />
+
+
+     <STUDY_VERSIONS id="1100" study_id="1100" long_title_text="long_title_text" short_title_text="short_title_text"   description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS id="2100" study_id="2100" long_title_text="long_title_text" short_title_text="short_title_text"  description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+
+
 	<ADDRESSES id="1100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
-  
+
   	<ADDRESSES id="2100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
-  
+
     <ORGANIZATIONS id="2100" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="2100" />
-     <ORGANIZATIONS id="2101" version="1" name="wake" description_text="wake" dtype="Local" address_id="2100"  />    
+     <ORGANIZATIONS id="2101" version="1" name="wake" description_text="wake" dtype="Local" address_id="2100"  />
 
     <ORGANIZATIONS id="1100" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100" />
 
-    <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100"  />    
+    <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100"  />
 
-    <STUDY_ORGANIZATIONS id="1100" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1100"
-    hcs_id="1100" type="SST" hosted_mode="1"/>
+    <STUDY_ORGANIZATIONS id="1100" version="1" role_code="role"  hcs_id="1100" type="SST" hosted_mode="1" study_id="1100"/>
 
-	<STUDY_ORGANIZATIONS id="1101" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1100"
-    hcs_id="1100" type="SCC" hosted_mode="1"/>
-    
-    <STUDY_ORGANIZATIONS id="2100" version="1" irb_approval_date="01-01-2009" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="2100"
-    hcs_id="2100" type="SCC" hosted_mode="0"/>
-    
-    <STUDY_ORGANIZATIONS id="2101" version="1" irb_approval_date="01-01-2009" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="2100"
-    hcs_id="2100" type="SST" hosted_mode="0"/>
-    
-    <STUDY_ORGANIZATIONS id="2102" version="1" irb_approval_date="01-01-2009" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="2100"
-    hcs_id="2101" type="SST" hosted_mode="0"/>`
-    
-    <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
+	<STUDY_ORGANIZATIONS id="1101" version="1" role_code="role" hcs_id="1100" type="SCC" hosted_mode="1" study_id="1100"/>
+
+    <STUDY_ORGANIZATIONS id="2100" version="1"  role_code="role" hcs_id="2100" type="SCC" hosted_mode="0" study_id="2100"/>
+
+    <STUDY_ORGANIZATIONS id="2101" version="1" role_code="role"  hcs_id="2100" type="SST" hosted_mode="0" study_id="2100"/>
+
+    <STUDY_ORGANIZATIONS id="2102" version="1"  role_code="role" hcs_id="2101" type="SST" hosted_mode="0" study_id="2100"/>`
+
+    <STUDY_SITE_VERSIONS id="1100" version="1" irb_approval_date="01-01-2009" site_study_status="ACTIVE" start_date="01-01-2001"  stu_version_id="1100" sto_id="1100" retired_indicator="FALSE"/>
+    <STUDY_SITE_VERSIONS id="1101" version="1" irb_approval_date="01-01-2009" site_study_status="ACTIVE" start_date="01-01-2001"  stu_version_id="1100" sto_id="1101" retired_indicator="FALSE"/>
+    <STUDY_SITE_VERSIONS id="2100" version="1" irb_approval_date="01-01-2009" site_study_status="ACTIVE" start_date="01-01-2001"  stu_version_id="2100" sto_id="2100" retired_indicator="FALSE"/>
+    <STUDY_SITE_VERSIONS id="2101" version="1" irb_approval_date="01-01-2009" site_study_status="ACTIVE" start_date="01-01-2001"  stu_version_id="2100" sto_id="2101" retired_indicator="FALSE"/>
+    <STUDY_SITE_VERSIONS id="2102" version="1" irb_approval_date="01-01-2009" site_study_status="ACTIVE" start_date="01-01-2001"  stu_version_id="2100" sto_id="2102" retired_indicator="FALSE"/>
+
+    <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>
 
     <EPOCHS id="1100" version="1" name="Treatment1000" description_text="treatement desc" stu_version_id="1100" treatment_indicator="1" randomized_indicator="0" retired_indicator="false" enrollment_indicator="1" stratification_indicator="0"/>
-    
+
     <EPOCHS id="2100" version="1" name="Treatment1000" description_text="treatement desc" stu_version_id="2100" treatment_indicator="1" randomized_indicator="0" retired_indicator="false" enrollment_indicator="1" stratification_indicator="0"/>
-    
+
     <ARMS id="1100" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1100" retired_indicator="false"/>
-    
+
     <ARMS id="2100" version="1" name="Arm A" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="2100" retired_indicator="false"/>
-        
+
     <RESEARCH_STAFF id="1100" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1100" dtype="Local" />
-    
+
     <INVESTIGATORS id="1100" version="1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" />
-    
+
     <INVESTIGATORS id="2100" version="1" first_name="Adam" last_name="Staff1" dtype="Local" />
-    
+
     <HC_SITE_INVESTIGATORS id="1100" version="1" status_code="AC" status_date="01-01-2000" inv_id="1100" hcs_id="1100"/>
-    
+
     <HC_SITE_INVESTIGATORS id="2100" version="1" status_code="AC" status_date="01-01-2000" inv_id="2100" hcs_id="2100"/>
-    
+
     <STUDY_INVESTIGATORS id="1100" version="1" hsi_id="1100" sto_id="1100" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="AC"/>
-    
+
     <STUDY_INVESTIGATORS id="2100" version="1" hsi_id="2100" sto_id="2100" start_date="01-01-2000" end_date="01-01-2000" role_code="Principal Investigator" status_code="AC"/>
-    
+
     <DISEASE_CATEGORIES id="1100" version="1" name="AIDS-related Human Papillomavirus"/>
-    
+
     <DISEASE_TERMS id="1100" version="1" term="AIDS-related anal cancer" ctep_term="AIDS-related anal cancer" category_id="1" medra_code="10065860"/>
-   
+
     <STUDY_DISEASES id="1100" version="1" stu_version_id="1100" disease_term_id="1000" lead_disease="1"/>
-    
+
     <ELIGIBILITY_CRITERIA id="1100" version="1" question_number="1" eph_id="1100" question_text="inclusion question 1" dtype="I"/>
-    
+
     <STRAT_CRITERIA id="1100" version="1" question_text="question" eph_id="1100" question_number="1"/>
-    
-    <STRAT_CRI_PER_ANS id="1100" version="1" permissible_answer="answer" str_cri_id="1100"/>  
-     
+
+    <STRAT_CRI_PER_ANS id="1100" version="1" permissible_answer="answer" str_cri_id="1100"/>
+
     <STRATUM_GROUPS id="1100" version="1" current_position="1" stratum_group_number="8" epochs_id="1100" />
-    
-    <BOOK_RNDM_ENTRY id="1100" version="1" position="1" str_grp_id="1100" arms_id="1100" rndm_id="1100" />             
+
+    <BOOK_RNDM_ENTRY id="1100" version="1" position="1" str_grp_id="1100" arms_id="1100" rndm_id="1100" />
 
    	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="AAAAA11111GridID"/>
    	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID"/>
-   	
-   	<PARTICIPANTS id="2100" version="1" first_name="Robert" last_name="Murdoch" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="2100" grid_id="OTHERGRIDID"/>
-   	
-   	<CONTACT_MECHANISMS id="1100" version="1" prt_id="1000"/>	
 
-    <ANATOMIC_SITES id="1100" version="1" name="Skin" category="skin" />     
+   	<PARTICIPANTS id="2100" version="1" first_name="Robert" last_name="Murdoch" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="2100" grid_id="OTHERGRIDID"/>
+
+   	<CONTACT_MECHANISMS id="1100" version="1" prt_id="1000"/>
+
+    <ANATOMIC_SITES id="1100" version="1" name="Skin" category="skin" />
 
     <DISEASE_HISTORY id="1100" version="1"/>
 
-    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1100" sto_id="1100" sti_id="1100" grid_id="1100"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1100"  sti_id="1100" grid_id="1100"/>
+	<STUDY_SUBJECT_VERSIONS id="1100" version="1"  spa_id="1100" study_site_ver_id="1100" retired_indicator="false"/>
 
-    <SCHEDULED_EPOCHS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1100" eph_id="1100" sc_epoch_workflow_status="PENDING" sc_epoch_data_entry_status="INCOMPLETE"/>  
+
+    <SCHEDULED_EPOCHS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1100" eph_id="1100" sc_epoch_workflow_status="PENDING" sc_epoch_data_entry_status="INCOMPLETE"/>
 
 	<SUBJECT_STRAT_ANS id="1100" version="1" sceph_id="1100" str_cri_id="1100"/>
-	
+
 	<SUBJECT_ELIGIBILITY_ANS id="1100" version="1" sceph_id="1100" elgct_id="1100"/>
-	
-    <SCHEDULED_ARMS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="1" arm_id="1100" SCEPH_ID="1100" />  
+
+    <SCHEDULED_ARMS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="1" arm_id="1100" SCEPH_ID="1100" />
 
     <STRAT_CRI_ANS_CMB id="1000" version="1" />
-	
-	<STUDY_AMENDMENTS/>
+
 	<comp_stu_associations/>
 	<IDENTIFIERS id="1000" version="1" value="TEST" type="MRN" hcs_id="1000" dtype="OAI" prt_id="1000" stu_id="1100" system_name="nci" retired_indicator="false" primary_indicator="false"/>
     <IDENTIFIERS id="1100" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1100"/>
     <IDENTIFIERS id="1001" version="1" value="MRN-AAACCCBB" type="MRN" hcs_id="1000" dtype="OAI" prt_id="1000"/>
     <IDENTIFIERS id="2100" version="1" value="test-coord" type="Coordinating Center Identifier" hcs_id="2100" dtype="OAI" stu_id="2100" retired_indicator="false"/>
     <IDENTIFIERS id="2101" version="1" value="MRN-PRT" type="MRN" hcs_id="2101" dtype="OAI" prt_id="2100" retired_indicator="false"/>
-    
+
     <IDENTIFIERS id="11000" version="1" value="coord" type="CTEP" dtype="OAI" retired_indicator="false" org_id="2100" primary_indicator="true"/>
     <IDENTIFIERS id="11001" version="1" value="site" type="CTEP" dtype="OAI" retired_indicator="false" org_id="2101" primary_indicator="true"/>
     <IDENTIFIERS id="11002" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1100" primary_indicator="true"/>
     <IDENTIFIERS id="11004" version="1" value="duke nci code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="true"/>
 
-   
+
 </dataset>
 
