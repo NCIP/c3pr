@@ -17,6 +17,7 @@ import org.springframework.web.context.request.WebRequest;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
@@ -46,6 +47,8 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
     private StudyRepository studyRepository;
     
     private StudySiteDao studySiteDao;
+    
+    private StudyDao studyDao;
     
     private XMLUtils xmUtils;
     
@@ -282,7 +285,8 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
                 studyCoordinatingCenter.setHostedMode(false);
             }
             study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-            studyRepository.createStudy(study);
+            studyDao.save(study);
+            studyRepository.createStudy(study.getIdentifiers());
         }catch (C3PRCodedException e) {
             throw new RemoteException("error building the study", e);
         }finally{
@@ -412,6 +416,10 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
 
 	public void setStudySiteDao(StudySiteDao studySiteDao) {
 		this.studySiteDao = studySiteDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
 	}
 
 }
