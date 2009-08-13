@@ -22,6 +22,7 @@
 		<property name="studyRepository" ref="studyRepository"/>
 		<property name="studyFactory" ref="studyFactory"/>
 		<property name="studySiteDao" ref="studySiteDao"/>
+		<property name="studyDao" ref="studyDao"/>
 	</bean>
 	
 </beans>
