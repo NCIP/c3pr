@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
-import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 19, 2007 Time: 3:29:25 PM To change this template
@@ -15,19 +15,15 @@ public class StratumGroupFieldHandler implements FieldHandler {
     Logger log = Logger.getLogger(StratumGroupFieldHandler.class);
 
     public Object getValue(Object object) throws IllegalStateException {
-        StudySubject registration = (StudySubject) object;
-        if(registration.getScheduledEpoch()==null){
-        	log.warn("Cannot get stratum group number. No scheduled epoch found.");
-        	return null;
-        }
-        Integer stratumGroupNumber = registration.getScheduledEpoch().getStratumGroupNumber();
+        ScheduledEpoch scheduledEpoch = (ScheduledEpoch) object;
+        Integer stratumGroupNumber = scheduledEpoch.getStratumGroupNumber();
         if(stratumGroupNumber != null && !stratumGroupNumber.toString().equals("")){
-        	return registration.getScheduledEpoch().getStratumGroupNumber().toString();
+        	return stratumGroupNumber.toString();
         }
     	try {    
-    		return registration.getScheduledEpoch().getStratumGroup().toString();
+    		return scheduledEpoch.getStratumGroup().toString();
     	}catch (Exception e) {
-    		log.warn("Cannot get stratum group number. Exception thrown while computing startum group number.");
+    		log.warn("Cannot get stratum group number. Exception thrown while computing stratuum group number.");
     		log.warn(e);
             return null;
         }
@@ -39,14 +35,10 @@ public class StratumGroupFieldHandler implements FieldHandler {
     		log.warn("Cannot set stratum group number to null.");
     		return;
     	}
-        StudySubject registration = (StudySubject) object;
-        if(registration.getScheduledEpoch()==null){
-        	log.warn("Cannot set stratum group number. No scheduled epoch found.");
-        	return;
-        }
+    	ScheduledEpoch scheduledEpoch = (ScheduledEpoch) object;
         String s = (String) value;
         int i = Integer.parseInt(s.split(":")[0].trim());
-        registration.getScheduledEpoch().setStratumGroupNumber(i);
+        scheduledEpoch.setStratumGroupNumber(i);
 
     }
 

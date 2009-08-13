@@ -3,10 +3,6 @@ package edu.duke.cabig.c3pr.xml;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
-import edu.duke.cabig.c3pr.constants.RandomizationType;
-import edu.duke.cabig.c3pr.domain.BookRandomization;
-import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
@@ -26,7 +22,7 @@ public class IdentifiersHolderFieldHandler implements FieldHandler {
 			StudySubject studySubject = (StudySubject) object;
 			return new IdentifiersHolder(studySubject.getStudySite().getStudy().getIdentifiers());
 		}
-        throw new C3PRBaseRuntimeException("Illegal obect instance.");
+        throw new C3PRBaseRuntimeException("Illegal object instance.");
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException,
@@ -42,7 +38,7 @@ public class IdentifiersHolderFieldHandler implements FieldHandler {
 			StudySubject studySubject = (StudySubject) object;
 			studySubject.getStudySite().setStudy(study);
 		}else{
-			throw new C3PRBaseRuntimeException("Illegal obect instance.");
+			throw new C3PRBaseRuntimeException("Illegal object instance.");
 		}
     }
 
