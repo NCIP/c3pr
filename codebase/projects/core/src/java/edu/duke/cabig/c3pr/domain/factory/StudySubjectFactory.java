@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -39,8 +40,6 @@ public class StudySubjectFactory {
     private C3PRExceptionHelper exceptionHelper;
 
     private MessageSource c3prErrorMessages;
-
-    private final String identifierTypeValueStr = "Coordinating Center Identifier";
 
     private final String prtIdentifierTypeValueStr = "MRN";
 
@@ -181,7 +180,7 @@ public class StudySubjectFactory {
         OrganizationAssignedIdentifier identifier = null;
         for (OrganizationAssignedIdentifier organizationAssignedIdentifier : study
                         .getOrganizationAssignedIdentifiers()) {
-            if (organizationAssignedIdentifier.getType().equals(this.identifierTypeValueStr)) {
+            if (organizationAssignedIdentifier.getType().equals(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER)) {
                 identifier = organizationAssignedIdentifier;
                 studies = studyRepository
                                 .searchByCoOrdinatingCenterId(organizationAssignedIdentifier);
@@ -198,7 +197,7 @@ public class StudySubjectFactory {
                                             getCode("C3PR.EXCEPTION.REGISTRATION.NOTFOUND.STUDY_WITH_IDENTIFIER.CODE"),
                                             new String[] {
                                                     identifier.getValue(),
-                                                    this.identifierTypeValueStr });
+                                                    OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.getCode() });
         }
         if (studies.size() == 0) {
             throw exceptionHelper
@@ -206,7 +205,7 @@ public class StudySubjectFactory {
                                             getCode("C3PR.EXCEPTION.REGISTRATION.NOTFOUND.STUDY_WITH_IDENTIFIER.CODE"),
                                             new String[] {
                                                     identifier.getValue(),
-                                                    this.identifierTypeValueStr });
+                                                    OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.getCode() });
         }
         if (studies.size() > 1) {
             throw exceptionHelper
@@ -214,7 +213,7 @@ public class StudySubjectFactory {
                                             getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE.STUDY_SAME_CO_IDENTIFIER.CODE"),
                                             new String[] {
                                                     identifier.getValue(),
-                                                    this.identifierTypeValueStr });
+                                                    OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER.getCode() });
         }
         if (studies.get(0).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN) {
             throw exceptionHelper.getException(
