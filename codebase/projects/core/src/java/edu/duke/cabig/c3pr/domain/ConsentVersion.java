@@ -34,15 +34,7 @@ public class ConsentVersion extends AbstractMutableDeletableDomainObject impleme
 
 	private String name;
 	private Date effectiveDate;
-	private Consent consent;
 	private StudySubjectConsentVersion studySubjectConsentVersion;
-
-	@ManyToOne
-	@JoinColumn(name = "consent_id", nullable = false)
-	@Cascade( { CascadeType.LOCK})
-	public Consent getConsent() {
-		return consent;
-	}
 
 	@NotNull
 	public String getName() {
@@ -60,10 +52,6 @@ public class ConsentVersion extends AbstractMutableDeletableDomainObject impleme
 
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
-	}
-
-	public void setConsent(Consent consent) {
-		this.consent = consent;
 	}
 
 	public void setStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {

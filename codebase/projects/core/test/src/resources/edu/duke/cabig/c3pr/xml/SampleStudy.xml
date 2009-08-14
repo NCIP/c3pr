@@ -1,157 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<study xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain ../../../../../../../../resources/xsd/c3pr-domain.xsd"
-       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
-       version="1">
-    <blindedIndicator>1</blindedIndicator>
-    <multiInstitutionIndicator>1</multiInstitutionIndicator>
-    <randomizedIndicator>1</randomizedIndicator>
-    <shortTitleText>short_title_text</shortTitleText>
-    <longTitleText>long_title_text</longTitleText>
-    <descriptionText>description</descriptionText>
-    <precisText>precis_text</precisText>
-    <phaseCode>Phase 0 Trial</phaseCode>
-    <dataEntryStatus>COMPLETE</dataEntryStatus>
-    <coordinatingCenterStudyStatus>OPEN</coordinatingCenterStudyStatus>
-    <type>ty</type>
-    <targetAccrualNumber>123</targetAccrualNumber>
-    <systemAssignedIdentifier>
-        <type>local</type>
-        <value>nci</value>
-        <primaryIndicator>false</primaryIndicator>
-        <systemName>nci</systemName>
-    </systemAssignedIdentifier>
-    <epoch>
-        <name>NonTreatment1004</name>
-        <descriptionText>non treatement desc</descriptionText>
-        <accrualCeiling>0</accrualCeiling>
-    </epoch>
-    <epoch>
-        <name>NonTreatment1005</name>
-        <descriptionText>non treatment cancer desc</descriptionText>
-        <accrualCeiling>0</accrualCeiling>
-    </epoch>
-    <epoch>
-        <name>Treatment1000</name>
-        <descriptionText>treatement desc</descriptionText>
-        <arm>
-            <name>Arm 1000</name>
-            <descriptionText>Arm 1000 desc</descriptionText>
-            <targetAccrualNumber>1000</targetAccrualNumber>
-        </arm>
-        <arm>
-            <name>Arm 1001</name>
-            <descriptionText>Arm 1001 desc</descriptionText>
-            <targetAccrualNumber>1001</targetAccrualNumber>
-        </arm>
-        <inclusionCriteria>
-            <questionNumber>1</questionNumber>
-            <questionText>inclusion question 1</questionText>
-        </inclusionCriteria>
-        <inclusionCriteria>
-            <questionNumber>2</questionNumber>
-            <questionText>inclusion question 2</questionText>
-        </inclusionCriteria>
-        <exclusionCriteria>
-            <questionNumber>3</questionNumber>
-            <questionText>exclusion question 1</questionText>
-        </exclusionCriteria>
-    </epoch>
-    <epoch>
-        <name>Treatment1001</name>
-        <descriptionText>cancer desc</descriptionText>
-        <arm>
-            <name>Arm 1002</name>
-            <descriptionText>Arm 1002 desc</descriptionText>
-            <targetAccrualNumber>1002</targetAccrualNumber>
-        </arm>
-        <arm>
-            <name>Arm 1003</name>
-            <descriptionText>Arm 1003 desc</descriptionText>
-            <targetAccrualNumber>1003</targetAccrualNumber>
-        </arm>
-    </epoch>
-    <epoch>
-        <name>Treatment1002</name>
-        <descriptionText>treatement desc</descriptionText>
-        <arm>
-            <name>Arm 1004</name>
-            <descriptionText>Arm 1004 desc</descriptionText>
-            <targetAccrualNumber>1004</targetAccrualNumber>
-        </arm>
-        <arm>
-            <name>Arm 1005</name>
-            <descriptionText>Arm 1005 desc</descriptionText>
-            <targetAccrualNumber>1005</targetAccrualNumber>
-        </arm>
-    </epoch>
-    <epoch>
-        <name>Treatment1003</name>
-        <descriptionText>cancer desc</descriptionText>
-        <arm>
-            <name>Arm 1006</name>
-            <descriptionText>Arm 1006 desc</descriptionText>
-            <targetAccrualNumber>1006</targetAccrualNumber>
-        </arm>
-        <arm>
-            <name>Arm 1007</name>
-            <descriptionText>Arm 1007 desc</descriptionText>
-            <targetAccrualNumber>1007</targetAccrualNumber>
-        </arm>
-    </epoch>
-    <studySite>
-        <localHealthcareSite>
-            <name>duke healthcare</name>
-            <descriptionText>duke healthcare</descriptionText>
-            <address>
-                <streetAddress>12359 sunrise valley drive</streetAddress>
-                <city>Reston</city>
-                <stateCode>VA</stateCode>
-                <postalCode>20191</postalCode>
-                <countryCode>USA</countryCode>
-            </address>
-            <nciInstituteCode>Duke</nciInstituteCode>
-        </localHealthcareSite>
-        <irbApprovalDate>0006-06-23</irbApprovalDate>
-        <roleCode>role</roleCode>
-        <startDate>0006-06-24</startDate>
-        <endDate>0006-06-25</endDate>
-    </studySite>
-    <studyFundingSponsor>
-        <localHealthcareSite>
-            <name>National Cancer Institute</name>
-            <descriptionText>National Cancer Institute</descriptionText>
-            <address>
-                <streetAddress>Coppermine Dr</streetAddress>
-                <city>Herndon</city>
-                <stateCode>VA</stateCode>
-                <postalCode>20171</postalCode>
-                <countryCode>USA</countryCode>
-            </address>
-            <nciInstituteCode>NCI</nciInstituteCode>
-        </localHealthcareSite>
-    </studyFundingSponsor>
-    <studyCoordinatingCenter>
-        <localHealthcareSite>
-            <name>Duke</name>
-            <descriptionText>Duke</descriptionText>
-            <address>
-                <streetAddress>12359 sunrise valley drive</streetAddress>
-                <city>Reston</city>
-                <stateCode>VA</stateCode>
-                <postalCode>20191</postalCode>
-                <countryCode>USA</countryCode>
-            </address>
-            <nciInstituteCode>Duke</nciInstituteCode>
-        </localHealthcareSite>
-        <studyInvestigator>
-            <roleCode>Coordinating Site</roleCode>
-            <healthcareSiteInvestigator>
-                <investigator>
-                    <nciIdentifier>bill</nciIdentifier>
-                </investigator>
-            </healthcareSiteInvestigator>
-        </studyInvestigator>
-
-    </studyCoordinatingCenter>
+<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<blindedIndicator>false</blindedIndicator>
+	<multiInstitutionIndicator>true</multiInstitutionIndicator>
+	<randomizedIndicator>true</randomizedIndicator>
+	<randomizationType>BOOK</randomizationType>
+	<stratificationIndicator>true</stratificationIndicator>
+	<standaloneIndicator>true</standaloneIndicator>
+	<companionIndicator>false</companionIndicator>
+	<shortTitleText>ShortTitleText1</shortTitleText>
+	<longTitleText>LongTitleText1</longTitleText>
+	<descriptionText>Description Text</descriptionText>
+	<precisText>Study with randomization</precisText>
+	<phaseCode>Phase I Trial</phaseCode>
+	<coordinatingCenterStudyStatus>OPEN</coordinatingCenterStudyStatus>
+	<type>Diagnostic</type>
+	<targetAccrualNumber>150</targetAccrualNumber>
+	<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:type="OrganizationAssignedIdentifierType">
+		<value>cocenter id</value>
+		<primaryIndicator>false</primaryIndicator>
+		<healthcareSite xsi:type="LocalHealthcareSiteType">
+			<address/>
+			<identifier xsi:type="OrganizationAssignedIdentifierType">
+				<value>NCI</value>
+				<primaryIndicator>true</primaryIndicator>
+				<type>CTEP</type>
+			</identifier>
+		</healthcareSite>
+		<type>COORDINATING_CENTER_IDENTIFIER</type>
+	</identifier>
+	<epoch gridId="grid">
+		<name>epoch 1</name>
+		<epochOrder>1</epochOrder>
+		<descriptionText>DescriptionText</descriptionText>
+		<accrualCeiling>10</accrualCeiling>
+		<stratificationIndicator>true</stratificationIndicator>
+		<randomizedIndicator>true</randomizedIndicator>
+		<reservationIndicator>false</reservationIndicator>
+		<treatmentIndicator>true</treatmentIndicator>
+		<enrollmentIndicator>true</enrollmentIndicator>
+		<arm gridId="grid1">
+			<name>arm 1</name>
+			<descriptionText>DescriptionText1</descriptionText>
+			<targetAccrualNumber>20</targetAccrualNumber>
+		</arm>
+		<arm gridId="grid2">
+			<name>arm 2</name>
+			<descriptionText>DescriptionText2</descriptionText>
+			<targetAccrualNumber>30</targetAccrualNumber>
+		</arm>
+		<eligibilityCriteria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gridId="gridid"
+			xsi:type="InclusionEligibilityCriteriaType">
+			<notApplicableIndicator>true</notApplicableIndicator>
+			<questionNumber>1</questionNumber>
+			<questionText>inc1</questionText>
+		</eligibilityCriteria>
+		<eligibilityCriteria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gridId="gridid"
+			xsi:type="ExclusionEligibilityCriteriaType">
+			<questionNumber>1</questionNumber>
+			<questionText>exc1</questionText>
+		</eligibilityCriteria>
+		<stratificationCriteria>
+			<questionNumber>1</questionNumber>
+			<questionText>q1</questionText>
+			<permissibleAnswer>
+				<answerText>ans1</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans2</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans3</answerText>
+			</permissibleAnswer>
+		</stratificationCriteria>
+		<stratificationCriteria>
+			<questionNumber>0</questionNumber>
+			<questionText>q2</questionText>
+			<permissibleAnswer>
+				<answerText>ans1</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans2</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans3</answerText>
+			</permissibleAnswer>
+		</stratificationCriteria>
+		<randomization>
+			<type>BOOK</type>
+		</randomization>
+	</epoch>
+	<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gridId="co center"
+		xsi:type="StudyCoordinatingCenterType">
+		<healthcareSite xsi:type="LocalHealthcareSiteType">
+			<address/>
+			<identifier xsi:type="OrganizationAssignedIdentifierType">
+				<value>NCI</value>
+				<primaryIndicator>true</primaryIndicator>
+				<type>CTEP</type>
+			</identifier>
+		</healthcareSite>
+	</studyOrganization>
+	<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		gridId="funding sponsor" xsi:type="StudyFundingSponsorType">
+		<healthcareSite xsi:type="LocalHealthcareSiteType">
+			<address/>
+			<identifier xsi:type="OrganizationAssignedIdentifierType">
+				<value>NCI</value>
+				<primaryIndicator>true</primaryIndicator>
+				<type>CTEP</type>
+			</identifier>
+		</healthcareSite>
+	</studyOrganization>
+	<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:type="StudySiteType">
+		<healthcareSite xsi:type="LocalHealthcareSiteType">
+			<address/>
+			<identifier xsi:type="OrganizationAssignedIdentifierType">
+				<value>Duke</value>
+				<primaryIndicator>true</primaryIndicator>
+				<type>CTEP</type>
+			</identifier>
+		</healthcareSite>
+		<irbApprovalDate>2009-07-30</irbApprovalDate>
+		<siteStudyStatus>PENDING</siteStudyStatus>
+	</studyOrganization>
+	<consent>
+		<name>Male</name>
+		<consentVersion>
+			<name>consent name 1</name>
+			<effectiveDate>2009-07-30</effectiveDate>
+		</consentVersion>
+		<consentVersion>
+			<name>consent name 2</name>
+			<effectiveDate>2009-07-30</effectiveDate>
+		</consentVersion>
+	</consent>
+	<consent>
+		<name>Female</name>
+		<consentVersion>
+			<name>consent name 3</name>
+			<effectiveDate>2009-07-30</effectiveDate>
+		</consentVersion>
+	</consent>
 </study>

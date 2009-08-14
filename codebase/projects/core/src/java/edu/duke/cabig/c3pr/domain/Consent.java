@@ -38,18 +38,6 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 			return 1;
 	}
 
-	private StudyVersion studyVersion;
-
-	@ManyToOne
-    @JoinColumn(name = "stu_version_id", nullable = false)
-	public StudyVersion getStudyVersion() {
-		return studyVersion;
-	}
-
-	public void setStudyVersion(StudyVersion studyVersion) {
-		this.studyVersion = studyVersion;
-	}
-
 	private String name;
 
 	@NotNull
@@ -68,7 +56,8 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 		lazyListHelper.add(ConsentVersion.class,new ParameterizedBiDirectionalInstantiateFactory<ConsentVersion>(ConsentVersion.class, this));
 	}
 
-	@OneToMany(mappedBy = "consent", fetch = FetchType.LAZY)
+	@OneToMany
+	@JoinColumn(name = "consent_id", nullable = false)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@OrderBy(clause="effectiveDate")
 	public List<ConsentVersion> getConsentVersionsInternal() {
@@ -86,7 +75,6 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 
 	public void addConsentVersion(ConsentVersion consentVersion) {
 		this.getConsentVersions().add(consentVersion);
-		consentVersion.setConsent(this);
 	}
 
 	public void setConsentVersions(List<ConsentVersion> consentVersions) {
