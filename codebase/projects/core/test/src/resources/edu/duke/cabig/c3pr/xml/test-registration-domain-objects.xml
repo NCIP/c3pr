@@ -1,148 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <message xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
-    <registration>
-        <studySite gridId="e8e74068-5a1e-41be-b23f-c59820535e2d">
-            <localHealthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
-                <nciInstituteCode>NU healthcare</nciInstituteCode>
-            </localHealthcareSite>
-            <irbApprovalDate>2008-08-28</irbApprovalDate>
-            <startDate>2008-08-28</startDate>
-        </studySite>
-        <studyRef gridId="ae9c2d44-83aa-482a-9875-93e83893a625">
-            <shortTitleText>ShortTitleText1</shortTitleText>
-            <longTitleText>LongTitleText1</longTitleText>
-            <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="test id"
-                xsi:type="OrganizationAssignedIdentifierType">
-                <type>Coordinating Center Identifier</type>
-                <value>test id</value>
-                <primaryIndicator>true</primaryIndicator>
-                <localHealthcareSite gridId="4bc21edb-04de-4058-8f97-0d89f2164dfd">
-                    <nciInstituteCode>DUKE NCI</nciInstituteCode>
-                </localHealthcareSite>
-            </identifier>
-        </studyRef>
-        <participant>
-            <firstName>firstName</firstName>
-            <lastName>lastName</lastName>
-            <address/>
-            <administrativeGenderCode>M</administrativeGenderCode>
-            <birthDate>2008-08-28</birthDate>
-            <raceCode/>
-            <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                type="test id0.30306858374150003" xsi:type="OrganizationAssignedIdentifierType">
-                <type>MRN</type>
-                <value>test id0.30306858374150003</value>
-                <primaryIndicator>true</primaryIndicator>
-                <localHealthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
-                    <nciInstituteCode>NU healthcare</nciInstituteCode>
-                </localHealthcareSite>
-            </identifier>
-        </participant>
-        <startDate>2008-08-28</startDate>
-        <informedConsentFormSignedDate>2008-08-28</informedConsentFormSignedDate>
-        <informedConsentVersion>1.0</informedConsentVersion>
-        <regDataEntryStatus>INCOMPLETE</regDataEntryStatus>
-        <regWorkflowStatus>PENDING</regWorkflowStatus>
-        <scheduledEpoch>
-            <startDate>2008-08-28</startDate>
-            <epoch gridId="b4008e6a-d25c-44d0-8929-4cc83bafa602">
-                <name>epoch1</name>
-                <accrualIndicator>false</accrualIndicator>
-                <reservationIndicator>false</reservationIndicator>
-                <treatmentIndicator>true</treatmentIndicator>
-                <enrollmentIndicator>true</enrollmentIndicator>
-                <arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
-                    <name>A</name>
-                </arm>
-                <stratificationCriteria>
-                    <questionNumber>0</questionNumber>
-                    <questionText>will I work?</questionText>
-                    <permissibleAnswer hash-code="1939584213">
-                        <permissible-answer xmlns="">lets find out1</permissible-answer>
-                        <trimmed-permissible-answer xmlns="">lets find out1</trimmed-permissible-answer>
-                        <retired-indicator xmlns="">false</retired-indicator>
-                        <grid-id xmlns="">ba8dfbcf-cf4a-4bb4-95bd-351b2879a4fa</grid-id>
-                        <version xmlns="">0</version>
-                        <id xmlns="">33</id>
-                    </permissibleAnswer>
-                    <permissibleAnswer hash-code="1655139715">
-                        <permissible-answer xmlns="">lets find out2</permissible-answer>
-                        <trimmed-permissible-answer xmlns="">lets find out2</trimmed-permissible-answer>
-                        <retired-indicator xmlns="">false</retired-indicator>
-                        <grid-id xmlns="">cff3f27d-3717-4f73-baca-34174efc94fb</grid-id>
-                        <version xmlns="">0</version>
-                        <id xmlns="">34</id>
-                    </permissibleAnswer>
-                </stratificationCriteria>
-            </epoch>
-            <scheduledArm>
-                <arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
-                    <name>A</name>
-                </arm>
-            </scheduledArm>
-            <eligibilityIndicator>true</eligibilityIndicator>
-        </scheduledEpoch>
-        <stratumGroup>0:lets find out1</stratumGroup>
-    </registration>
-    <participant>
-        <firstName>firstName</firstName>
-        <lastName>lastName</lastName>
-        <address/>
-        <administrativeGenderCode>M</administrativeGenderCode>
-        <birthDate>2008-08-28</birthDate>
-        <raceCode/>
-        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            type="test id0.30306858374150003" xsi:type="OrganizationAssignedIdentifierType">
-            <type>MRN</type>
-            <value>test id0.30306858374150003</value>
-            <primaryIndicator>true</primaryIndicator>
-            <localHealthcareSite gridId="170f1755-90c6-48a4-9d6f-06fed2b949e6">
-                <nciInstituteCode>NU healthcare</nciInstituteCode>
-            </localHealthcareSite>
-        </identifier>
-    </participant>
-    <scheduledArm>
-        <arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
-            <name>A</name>
-        </arm>
-    </scheduledArm>
-    <scheduledEpoch>
-        <startDate>2008-08-28</startDate>
-        <epoch gridId="b4008e6a-d25c-44d0-8929-4cc83bafa602">
-            <name>epoch1</name>
-            <accrualIndicator>false</accrualIndicator>
-            <reservationIndicator>false</reservationIndicator>
-            <treatmentIndicator>true</treatmentIndicator>
-            <enrollmentIndicator>true</enrollmentIndicator>
-            <arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
-                <name>A</name>
-            </arm>
-            <stratificationCriteria>
-                <questionNumber>0</questionNumber>
-                <questionText>will I work?</questionText>
-                <permissibleAnswer hash-code="1939584213">
-                    <permissible-answer xmlns="">lets find out1</permissible-answer>
-                    <trimmed-permissible-answer xmlns="">lets find out1</trimmed-permissible-answer>
-                    <retired-indicator xmlns="">false</retired-indicator>
-                    <grid-id xmlns="">ba8dfbcf-cf4a-4bb4-95bd-351b2879a4fa</grid-id>
-                    <version xmlns="">0</version>
-                    <id xmlns="">33</id>
-                </permissibleAnswer>
-                <permissibleAnswer hash-code="1655139715">
-                    <permissible-answer xmlns="">lets find out2</permissible-answer>
-                    <trimmed-permissible-answer xmlns="">lets find out2</trimmed-permissible-answer>
-                    <retired-indicator xmlns="">false</retired-indicator>
-                    <grid-id xmlns="">cff3f27d-3717-4f73-baca-34174efc94fb</grid-id>
-                    <version xmlns="">0</version>
-                    <id xmlns="">34</id>
-                </permissibleAnswer>
-            </stratificationCriteria>
-        </epoch>
-        <scheduledArm>
-            <arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
-                <name>A</name>
-            </arm>
-        </scheduledArm>
-        <eligibilityIndicator>true</eligibilityIndicator>
-    </scheduledEpoch>®
+	<registration xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<studyIdentifiers>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="OrganizationAssignedIdentifierType">
+				<value>test id</value>
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite gridId="c143e551-e1d4-432f-97de-ab047ea2736a"
+					xsi:type="LocalHealthcareSiteType">
+					<name>Duke</name>
+					<descriptionText>DUKE healthcare</descriptionText>
+					<address>
+						<streetAddress>A imperial building</streetAddress>
+						<city>Charlotte</city>
+						<stateCode>NC</stateCode>
+						<postalCode>12123</postalCode>
+						<countryCode>USA</countryCode>
+					</address>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>DUKE NCI</value>
+						<primaryIndicator>true</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<type>COORDINATING_CENTER_IDENTIFIER</type>
+			</identifier>
+		</studyIdentifiers>
+		<studyVersion>1.0</studyVersion>
+		<subject>
+			<firstName>firstName</firstName>
+			<lastName>lastName</lastName>
+			<address />
+			<administrativeGenderCode>M</administrativeGenderCode>
+			<birthDate>2009-08-14</birthDate>
+			<raceCode></raceCode>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="OrganizationAssignedIdentifierType">
+				<value>test id0.19187658675850972</value>
+				<primaryIndicator>true</primaryIndicator>
+				<healthcareSite gridId="baabab39-dcee-410c-8130-77b357f01678"
+					xsi:type="LocalHealthcareSiteType">
+					<name>Northwestern Memorial Hospital</name>
+					<descriptionText>NU healthcare</descriptionText>
+					<address>
+						<streetAddress>123 Lake Shore Dr</streetAddress>
+						<city>Chicago</city>
+						<stateCode>IL</stateCode>
+						<postalCode>83929</postalCode>
+						<countryCode>USA</countryCode>
+					</address>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>NU healthcare</value>
+						<primaryIndicator>true</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<type>MRN</type>
+			</identifier>
+		</subject>
+		<site xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			gridId="baabab39-dcee-410c-8130-77b357f01678" xsi:type="LocalHealthcareSiteType">
+			<name>Northwestern Memorial Hospital</name>
+			<descriptionText>NU healthcare</descriptionText>
+			<address>
+				<streetAddress>123 Lake Shore Dr</streetAddress>
+				<city>Chicago</city>
+				<stateCode>IL</stateCode>
+				<postalCode>83929</postalCode>
+				<countryCode>USA</countryCode>
+			</address>
+			<identifier xsi:type="OrganizationAssignedIdentifierType">
+				<value>NU healthcare</value>
+				<primaryIndicator>true</primaryIndicator>
+				<type>CTEP</type>
+			</identifier>
+		</site>
+		<startDate>2009-08-14</startDate>
+		<informedConsentFormSignedDate>2009-08-14
+		</informedConsentFormSignedDate>
+		<informedConsentVersion>1.0</informedConsentVersion>
+		<status>PENDING</status>
+		<scheduledEpoch>
+			<startDate>2009-08-14</startDate>
+			<epoch gridId="69422c8c-375a-47ca-8ca1-150565a3e5c0">
+				<name>epoch1</name>
+				<stratificationIndicator>false</stratificationIndicator>
+				<randomizedIndicator>true</randomizedIndicator>
+				<reservationIndicator>false</reservationIndicator>
+				<treatmentIndicator>false</treatmentIndicator>
+				<enrollmentIndicator>true</enrollmentIndicator>
+				<arm gridId="84b8f18b-cdda-418f-8e95-cb1f990e17fd">
+					<name>A</name>
+				</arm>
+				<stratificationCriteria>
+					<questionNumber>0</questionNumber>
+					<questionText>will I work?</questionText>
+					<permissibleAnswer>
+						<answerText>lets find out1</answerText>
+					</permissibleAnswer>
+					<permissibleAnswer>
+						<answerText>lets find out2</answerText>
+					</permissibleAnswer>
+				</stratificationCriteria>
+				<randomization>
+					<type>BOOK</type>
+				</randomization>
+			</epoch>
+			<scheduledArm>
+				<arm gridId="84b8f18b-cdda-418f-8e95-cb1f990e17fd">
+					<name>A</name>
+				</arm>
+			</scheduledArm>
+			<eligibilityIndicator>true</eligibilityIndicator>
+			<stratumGroup>0:lets find out1</stratumGroup>
+		</scheduledEpoch>
+		<diseaseHistory />
+	</registration>
+	<subject>
+		<firstName>firstName</firstName>
+		<lastName>lastName</lastName>
+		<address />
+		<administrativeGenderCode>M</administrativeGenderCode>
+		<birthDate>2008-08-28</birthDate>
+		<raceCode />
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			type="test id0.30306858374150003" xsi:type="OrganizationAssignedIdentifierType">
+			<type>MRN</type>
+			<value>test id0.30306858374150003</value>
+			<primaryIndicator>true</primaryIndicator>
+			<healthcareSite gridId="c143e551-e1d4-432f-97de-ab047ea2736a"
+					xsi:type="LocalHealthcareSiteType">
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>NU healthcare</value>
+						<primaryIndicator>true</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+			</healthcareSite>
+		</identifier>
+	</subject>
+	<scheduledArm>
+		<arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
+			<name>A</name>
+		</arm>
+	</scheduledArm>
+	<scheduledEpoch>
+		<startDate>2008-08-28</startDate>
+		<epoch gridId="b4008e6a-d25c-44d0-8929-4cc83bafa602">
+			<name>epoch1</name>
+			<reservationIndicator>false</reservationIndicator>
+			<treatmentIndicator>true</treatmentIndicator>
+			<enrollmentIndicator>true</enrollmentIndicator>
+			<arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
+				<name>A</name>
+			</arm>
+			<stratificationCriteria>
+			<questionNumber>1</questionNumber>
+			<questionText>q1</questionText>
+			<permissibleAnswer>
+				<answerText>ans1</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans2</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans3</answerText>
+			</permissibleAnswer>
+		</stratificationCriteria>
+		</epoch>
+		<scheduledArm>
+			<arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
+				<name>A</name>
+			</arm>
+		</scheduledArm>
+		<eligibilityIndicator>true</eligibilityIndicator>
+	</scheduledEpoch>
+	®
 </message>
