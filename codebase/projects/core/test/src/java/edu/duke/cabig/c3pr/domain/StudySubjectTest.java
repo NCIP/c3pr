@@ -1394,17 +1394,25 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
   /**
    * Test do local enrollment when already registered on scheduled epoch.
    */
-  public void testDoLocalEnrollmentWhenAlreadyRegisteredOnScheduledEpoch(){
-	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
-	  assertEquals("Wrong initial registration status",RegistrationWorkFlowStatus.PENDING,studySubject.getRegWorkflowStatus());
-	  replayMocks();
+	public void testDoLocalEnrollmentWhenAlreadyRegisteredOnScheduledEpoch() {
+		EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(
+				ScheduledEpochWorkFlowStatus.REGISTERED);
+		EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(
+				studySiteStudyVersion);
+		assertEquals("Wrong initial registration status",
+				RegistrationWorkFlowStatus.PENDING, studySubject
+						.getRegWorkflowStatus());
 
-	  studySubject.doLocalEnrollment();
-	  assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());
+		replayMocks();
+		studySubject.addScheduledEpoch(scheduledEpoch);
+		studySubject.setStudySite(studySite);
+		studySubject.doLocalEnrollment();
+		assertEquals("Wrong registration status",
+				RegistrationWorkFlowStatus.ENROLLED, studySubject
+						.getRegWorkflowStatus());
 
-	  verifyMocks();
-  }
-
+		verifyMocks();
+	}
 
   /**
    * Test do multi site enrollment.
@@ -1412,21 +1420,20 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    * @throws Exception the exception
    */
   public void testDoMultiSiteEnrollment() throws Exception{
-	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
-	  EasyMock.expect(epoch.getName()).andReturn("Treatment");
-	  ScheduledEpoch coordCentReturnedScheduledEpoch = registerMockFor(ScheduledEpoch.class);
-	  Epoch epochInCoordCentReturnedScheduledEpoch = registerMockFor(Epoch.class);
-	  ScheduledArm scheduledArmInCoordCentReturnedScheduledEpoch = registerMockFor(ScheduledArm.class);
-	  Arm coorCenArm = registerMockFor(Arm.class);
 
-	  EasyMock.expect(coordCentReturnedScheduledEpoch.getEpoch()).andReturn(epochInCoordCentReturnedScheduledEpoch);
-	  EasyMock.expect(epochInCoordCentReturnedScheduledEpoch.getName()).andReturn("Treatment");
+	 EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	 EasyMock.expect(epoch.getName()).andReturn("Treatment");
 
 	  EasyMock.expect(scheduledEpoch.getRequiresArm()).andReturn(true);
 	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
 	  Arm arm = registerMockFor(Arm.class);
 	  ScheduledArm scheduledArm = registerMockFor(ScheduledArm.class);
 	  EasyMock.expect(epoch.getArmByName("armA")).andReturn(arm);
+
+	  ScheduledEpoch coordCentReturnedScheduledEpoch = registerMockFor(ScheduledEpoch.class);
+	  Epoch epochInCoordCentReturnedScheduledEpoch = registerMockFor(Epoch.class);
+	  ScheduledArm scheduledArmInCoordCentReturnedScheduledEpoch = registerMockFor(ScheduledArm.class);
+	  Arm coorCenArm = registerMockFor(Arm.class);
 
 	  EasyMock.expect(coordCentReturnedScheduledEpoch.getScheduledArm()).andReturn(scheduledArmInCoordCentReturnedScheduledEpoch);
 	  EasyMock.expect(scheduledArmInCoordCentReturnedScheduledEpoch.getArm()).andReturn(coorCenArm);
@@ -1435,23 +1442,23 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(scheduledArm).times(2);
 	  scheduledArm.setArm(arm);
 
-	  EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  EasyMock.expect(coordCentReturnedScheduledEpoch.getEpoch()).andReturn(epochInCoordCentReturnedScheduledEpoch);
+	  EasyMock.expect(epochInCoordCentReturnedScheduledEpoch.getName()).andReturn("Treatment");
+
 	  StudyCoordinatingCenter studyCoordCetner = registerMockFor(StudyCoordinatingCenter.class);
 	  EasyMock.expect(study.getStudyCoordinatingCenter()).andReturn(studyCoordCetner);
 	  HealthcareSite coordCenterOrganization = registerMockFor(HealthcareSite.class);
+
 	  OrganizationAssignedIdentifier coordinatingCenterAssignedIdentifier = registerMockFor(OrganizationAssignedIdentifier.class);
 	  EasyMock.expect(studyCoordCetner.getHealthcareSite()).andReturn(coordCenterOrganization);
 
 	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getGridId()).andReturn("grid Id");
 	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getType()).andReturn(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER);
 	  EasyMock.expect(coordinatingCenterAssignedIdentifier.getValue()).andReturn("identifier value");
-	  scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
-	  EasyMock.expect(studySubjectStudyVersion.getScheduledEpoch(epochInCoordCentReturnedScheduledEpoch)).andReturn(scheduledEpoch);
-	  studySubjectStudyVersion.setStudySubject(studySubject);
 
-	  replayMocks();
 
-	 studySubject.addStudySubjectStudyVersion(studySubjectStudyVersion);
+	 replayMocks();
+
 	 studySubject.doMutiSiteEnrollment(coordCentReturnedScheduledEpoch, coordinatingCenterAssignedIdentifier);
 	 assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());
 	 assertEquals("Wrong identifier value","identifier value",studySubject.getCoOrdinatingCenterIdentifier().getValue());
@@ -1466,27 +1473,25 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    * @throws Exception the exception
    */
   public void testDoMultiSiteTransfer() throws Exception{
-
-	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
-	  EasyMock.expect(epoch.getName()).andReturn("Treatment");
-	  EasyMock.expect(scheduledEpoch.getRequiresArm()).andReturn(true);
-	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(2);
 	  Arm arm = registerMockFor(Arm.class);
 	  ScheduledArm scheduledArm = registerMockFor(ScheduledArm.class);
-	  EasyMock.expect(epoch.getArmByName("armA")).andReturn(arm);
-	  EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(scheduledArm).times(2);
-	  scheduledArm.setArm(arm);
-	  scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
-
-	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
 
 	  ScheduledEpoch coordCentReturnedScheduledEpoch = registerMockFor(ScheduledEpoch.class);
 	  Epoch epochInCoordCentReturnedScheduledEpoch = registerMockFor(Epoch.class);
 	  ScheduledArm scheduledArmInCoordCentReturnedScheduledEpoch = registerMockFor(ScheduledArm.class);
 	  Arm coorCenArm = registerMockFor(Arm.class);
 
+	  EasyMock.expect(epoch.getName()).andReturn("Treatment");
+	  EasyMock.expect(epoch.getArmByName("armA")).andReturn(arm);
+	  EasyMock.expect(scheduledEpoch.getScheduledArm()).andReturn(scheduledArm).times(2);
+
+	  EasyMock.expect(scheduledEpoch.getRequiresArm()).andReturn(true);
 	  EasyMock.expect(coordCentReturnedScheduledEpoch.getEpoch()).andReturn(epochInCoordCentReturnedScheduledEpoch);
 	  EasyMock.expect(epochInCoordCentReturnedScheduledEpoch.getName()).andReturn("Treatment");
+
+	  scheduledArm.setArm(arm);
+	  scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 
 	  EasyMock.expect(coordCentReturnedScheduledEpoch.getScheduledArm()).andReturn(scheduledArmInCoordCentReturnedScheduledEpoch);
 	  EasyMock.expect(scheduledArmInCoordCentReturnedScheduledEpoch.getArm()).andReturn(coorCenArm);
@@ -1494,6 +1499,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
 	  replayMocks();
 
+	  studySubject.addScheduledEpoch(scheduledEpoch);
+	  studySubject.setStudySite(studySite);
 	  studySubject.doMutiSiteTransfer(coordCentReturnedScheduledEpoch);
 
 	  verifyMocks();
