@@ -1759,15 +1759,15 @@ public class StudyTestCase extends AbstractTestCase {
 	/**
 	 * test get current accrual count
 	 */
-	public void testGetCurrentAccrualCount1() {
-		StudySite studySite = new StudySite();
-		StudySubject studySubject = new StudySubject();
-		studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
-		studySite.getStudySubjects().add(studySubject);
-		basicStudy.addStudySite(studySite);
-		assertEquals("1 accrual count for basic study", new Integer(1),
-				basicStudy.getCurrentAccrualCount());
-	}
+//	public void testGetCurrentAccrualCount1() {
+//		StudySite studySite = new StudySite();
+//		StudySubject studySubject = new StudySubject();
+//		studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+//		studySite.getStudySubjects().add(studySubject);
+//		basicStudy.addStudySite(studySite);
+//		assertEquals("1 accrual count for basic study", new Integer(1),
+//				basicStudy.getCurrentAccrualCount());
+//	}
 
 	/**
 	 * test ready to open
@@ -1821,14 +1821,14 @@ public class StudyTestCase extends AbstractTestCase {
 	/**
 	 * test has registered participants
 	 */
-	public void testGetHasRegisteredParticipants2() {
-		basicStudy = studyCreationHelper
-				.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
-		basicStudy.getStudySites().get(0).getStudySubjects().add(
-				new StudySubject());
-		assertTrue("1 registered participant found", basicStudy
-				.getHasRegisteredParticipants());
-	}
+//	public void testGetHasRegisteredParticipants2() {
+//		basicStudy = studyCreationHelper
+//				.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+//		basicStudy.getStudySites().get(0).getStudySubjects().add(
+//				new StudySubject());
+//		assertTrue("1 registered participant found", basicStudy
+//				.getHasRegisteredParticipants());
+//	}
 
 	/**
 	 * test set coordinating center study status
