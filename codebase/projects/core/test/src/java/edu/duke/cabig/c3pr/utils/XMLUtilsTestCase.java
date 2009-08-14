@@ -51,7 +51,7 @@ public class XMLUtilsTestCase extends TestCase {
         List<Document> documents=xmUtils.getXMLElementsForDomainObjects(domainObjects);
         assertEquals("Wrong size of list", documents.size(),4);
         assertEquals("Wrong serialized domain object", "registration", documents.get(0).getDocumentElement().getNodeName());
-        assertEquals("Wrong serialized domain object", "participant", documents.get(1).getDocumentElement().getNodeName());
+        assertEquals("Wrong serialized domain object", "subject", documents.get(1).getDocumentElement().getNodeName());
         assertEquals("Wrong serialized domain object", "scheduledArm", documents.get(2).getDocumentElement().getNodeName());
         assertEquals("Wrong serialized domain object", "scheduledEpoch", documents.get(3).getDocumentElement().getNodeName());
     }
@@ -63,10 +63,10 @@ public class XMLUtilsTestCase extends TestCase {
         List<Document> documents=xmUtils.getXMLElementsForDomainObjects(domainObjects);
         assertEquals("Wrong size of list", documents.size(),5);
         assertEquals("Wrong serialized domain object", "study", documents.get(0).getDocumentElement().getNodeName());
-        assertEquals("Wrong serialized domain object", "organizationAssignedIdentifier", documents.get(1).getDocumentElement().getNodeName());
-        assertEquals("Wrong serialized domain object", "studySite", documents.get(2).getDocumentElement().getNodeName());
+        assertEquals("Wrong serialized domain object", "OrganizationAssignedIdentifierType", documents.get(1).getDocumentElement().getNodeName());
+        assertEquals("Wrong serialized domain object", "StudySiteType", documents.get(2).getDocumentElement().getNodeName());
         assertEquals("Wrong serialized domain object", "studyInvestigator", documents.get(3).getDocumentElement().getNodeName());
-        assertEquals("Wrong serialized domain object", "localHealthcareSite", documents.get(4).getDocumentElement().getNodeName());
+        assertEquals("Wrong serialized domain object", "LocalHealthcareSiteType", documents.get(4).getDocumentElement().getNodeName());
     }
     
     public void testGetMessageElementsForDomainObjects0() throws Exception{
@@ -76,7 +76,7 @@ public class XMLUtilsTestCase extends TestCase {
         List<MessageElement> messageElements=xmUtils.getMessageElementsForDomainObjects(domainObjects);
         assertEquals("Wrong size of list", messageElements.size(),4);
         assertEquals("Wrong serialized domain object", "registration", messageElements.get(0).getName());
-        assertEquals("Wrong serialized domain object", "participant", messageElements.get(1).getName());
+        assertEquals("Wrong serialized domain object", "subject", messageElements.get(1).getName());
         assertEquals("Wrong serialized domain object", "scheduledArm", messageElements.get(2).getName());
         assertEquals("Wrong serialized domain object", "scheduledEpoch", messageElements.get(3).getName());
     }
@@ -88,9 +88,9 @@ public class XMLUtilsTestCase extends TestCase {
         List<MessageElement> messageElements=xmUtils.getMessageElementsForDomainObjects(domainObjects);
         assertEquals("Wrong size of list", messageElements.size(),5);
         assertEquals("Wrong serialized domain object", "study", messageElements.get(0).getName());
-        assertEquals("Wrong serialized domain object", "organizationAssignedIdentifier", messageElements.get(1).getName());
-        assertEquals("Wrong serialized domain object", "studySite", messageElements.get(2).getName());
+        assertEquals("Wrong serialized domain object", "OrganizationAssignedIdentifierType", messageElements.get(1).getName());
+        assertEquals("Wrong serialized domain object", "StudySiteType", messageElements.get(2).getName());
         assertEquals("Wrong serialized domain object", "studyInvestigator", messageElements.get(3).getName());
-        assertEquals("Wrong serialized domain object", "localHealthcareSite", messageElements.get(4).getName());
+        assertEquals("Wrong serialized domain object", "LocalHealthcareSiteType", messageElements.get(4).getName());
     }
 }
