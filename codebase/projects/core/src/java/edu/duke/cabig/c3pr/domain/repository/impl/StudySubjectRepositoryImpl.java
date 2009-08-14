@@ -253,6 +253,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
 	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
+		studySubjectDao.initialize(studySubject);
 		this.continueEnrollment(studySubject);
 		this.saveStratumGroup(studySubject);
 		this.updateEpoch(studySubject);
@@ -295,6 +296,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public StudySubject enroll(StudySubject studySubject) {
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 		studySubjects=findRegistrations(studySubject);
+		studySubjectDao.initialize(studySubject);
 		if (studySubjects.size() > 1) {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
@@ -302,7 +304,9 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		
 		this.saveStratumGroup(studySubject);
 		this.updateEpoch(studySubject);
-		studySubject = studySubjectDao.merge(studySubject);
+		studySubjectDao.save(studySubject);
+		studySubject = studySubjectDao.getById(studySubject.getId());
+		studySubjectDao.initialize(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
 		broadcastMessage(studySubject);
