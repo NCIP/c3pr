@@ -1167,16 +1167,13 @@ public Date getInformedConsentSignedDate() {
 		ScheduledEpoch scheduledEpoch = getScheduledEpoch();
 		Epoch epoch = scheduledEpoch.getEpoch();
 		if (scheduledEpoch.getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
-			throw new C3PRBaseRuntimeException(
-					"StudySubject already registered on the epoch :"
-							+ epoch.getName());
+			throw new C3PRBaseRuntimeException("StudySubject already registered on the epoch :" + epoch.getName());
 		} else {
 			// This returns errors
 			List<Error> errors = new ArrayList<Error>();
 			errors = canRegister();
 
 			if (errors.size() == 0) {
-
 				// if the epoch requires randomization set it status to
 				// 'Registered But Not Randomized', else set it status to
 				// 'Registered'
@@ -1563,8 +1560,9 @@ public Date getInformedConsentSignedDate() {
 	 * Do local enrollment.
 	 */
 	public void doLocalEnrollment() {
-		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
-			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
+		ScheduledEpochWorkFlowStatus scEpochWorkflowStatus = getScheduledEpoch().getScEpochWorkflowStatus();
+		if (scEpochWorkflowStatus != ScheduledEpochWorkFlowStatus.REGISTERED) {
+			if (scEpochWorkflowStatus == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
 				doLocalRandomization();
 			}
 			this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
@@ -1730,8 +1728,7 @@ public Date getInformedConsentSignedDate() {
 			if (companionStudyAssociation.getMandatoryIndicator()) {
 				boolean hasCorrespondingStudySubject = false;
 				for (StudySubject childStudySubject : this.getChildStudySubjects()) {
-					if (childStudySubject.getStudySite().getStudy().equals(
-							companionStudyAssociation.getCompanionStudy())) {
+					if (childStudySubject.getStudySite().getStudy().equals(companionStudyAssociation.getCompanionStudy())) {
 						hasCorrespondingStudySubject = true;
 					}
 				}
