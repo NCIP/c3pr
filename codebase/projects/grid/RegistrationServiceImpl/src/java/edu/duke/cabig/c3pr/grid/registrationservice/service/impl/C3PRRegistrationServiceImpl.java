@@ -256,8 +256,8 @@ public class C3PRRegistrationServiceImpl implements RegistrationServiceI, Applic
 		result = new ArrayList<PlannedNotification>();
         try {
           //Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
-          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
-          Query query1 =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode="+"'"+nciInstituteCode+"'");
+          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.identifiersAssignedToOrganization.typeInternal='CTEP' and o.identifiersAssignedToOrganization.value in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
+          Query query1 =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.identifiersAssignedToOrganization.typeInternal='CTEP' and o.identifiersAssignedToOrganization.value="+"'"+nciInstituteCode+"'");
 //          Query query = session.createQuery("Select p from PlannedNotification as p, o from HealthcareSite as o where p.id = o.plannedNotificationsInternal.id and" +
 //          		"o.nci_institute_code in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
 //          query.setEntity(0, nciCodeList);
