@@ -59,15 +59,21 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 		execute("update epochs set stu_version_id=stu_id");
 		execute("update study_diseases set stu_version_id=study_id");
 
+		execute("alter table epochs drop constraint FK_EPH_STU");
+		execute("ALTER TABLE epochs drop CONSTRAINT UK_STU_EPH");
 		dropColumn('epochs', 'stu_id');
-    	dropColumn('study_diseases', 'study_id');
+		execute("ALTER TABLE epochs ADD CONSTRAINT UK_STU_VER_EPH UNIQUE(name,stu_version_id)");
+		execute("ALTER TABLE epochs ADD CONSTRAINT FK_EPH_STU_VER FOREIGN KEY (stu_version_id) REFERENCES study_versions (ID)");
+
+		execute("alter table study_diseases drop constraint UK_STU_DTM");
+		dropColumn('study_diseases', 'study_id');
+		execute("ALTER TABLE study_diseases ADD CONSTRAINT UK_STU_VER_DTM UNIQUE(stu_version_id,DISEASE_TERM_ID)");
 
 	    if (databaseMatches('oracle')) {
 		   	execute('rename SEQ_CONSENTS_ID to CONSENTS_ID_SEQ');
 		 	execute('rename SEQ_CONSENT_VERSIONS_ID to CONSENT_VERSIONS_ID_SEQ');
 		   	execute('rename SEQ_STUDY_VERSIONS_ID to STUDY_VERSIONS_ID_SEQ');
-		   	execute('rename SEQ_AMENDMENT_REASON_ID to AMENDMENT_REASON_ID_SEQ');
-		   	execute('rename SEQ_STUDY_SITE_VERSION_ID to STUDY_SITE_VERSION_ID_SEQ');
+		   	execute('rename SEQ_STUDY_SITE_VERSIONS_ID to STUDY_SITE_VERSIONS_ID_SEQ');
 	 	}
     }
 
@@ -75,7 +81,6 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 	    dropTable('consent_versions')
 	    dropTable('consents')
 	    dropTable('study_versions')
-	    dropTable('amendment_reasons')
 	    dropTable('study_site_versions')
 
 	    dropColumn('studies','consent_required');
