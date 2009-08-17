@@ -71,10 +71,10 @@
 	
 	<comp_stu_associations/>
 	
-    <IDENTIFIERS id="1100" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1100" retired_indicator="false" org_id="1000" primary_indicator="false"/>
+    <IDENTIFIERS id="1100" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1100" retired_indicator="false" org_id="1000" primary_indicator="0"/>
     <IDENTIFIERS id="1000" version="1" value="MRN-AAACCCBB" type="MRN" hcs_id="1000" dtype="OAI" prt_id="1000"/>
-	<IDENTIFIERS id="1007" version="1" value="duke nci code" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="true"/>
-	<IDENTIFIERS id="1008" version="1" value="code" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1100" primary_indicator="true"/>
+	<IDENTIFIERS id="1007" version="1" value="duke nci code" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="1"/>
+	<IDENTIFIERS id="1008" version="1" value="code" type="CTEP Identifier" dtype="OAI" retired_indicator="false" org_id="1100" primary_indicator="1"/>
 	
 </dataset>
 
