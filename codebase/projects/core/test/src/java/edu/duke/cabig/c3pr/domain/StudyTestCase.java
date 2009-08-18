@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
 /**
@@ -1879,6 +1880,125 @@ public class StudyTestCase extends AbstractTestCase {
 		assertEquals("Latest study version has to be inactive", StatusType.IN, basicStudy.getLatestStudyVersion().getVersionStatus());
 
 	}
+
+	public void testApplyAmendmentWithStudyVersion() throws Exception {
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(239),EasyMock.aryEq(new String[]
+        {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() }))).andReturn( new C3PRCodedRuntimeException(239, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE",null, null)).andReturn("239");
+
+		StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		replayMocks();
+		try {
+			basicStudy.applyAmendment(studyVersion);
+		} catch (Exception e) {
+			assertEquals("Exception is instance of C3PRCodedRuntimeException", true, e instanceof C3PRCodedRuntimeException);
+		}
+		verifyMocks();
+	}
+
+//	public void testApplyAmendmentWithStudyVersion1() throws Exception {
+//		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+//		StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+//		Error error = registerMockFor(Error.class);
+//
+//		List<Error> errors = new ArrayList<Error>();
+//		errors.add(error);
+//		studyVersion.evaluateDataEntryStatus(errors) ;
+//
+//		replayMocks();
+//		try {
+//			basicStudy.applyAmendment(studyVersion);
+//		} catch (C3PRInvalidDataEntryException e) {
+//			assertEquals("Exception message is correct", "Amendment cannot be applied because data entry is not complete", e.getMessage());
+//			assertEquals("Exception is instance of C3PRCodedRuntimeException", true, e instanceof C3PRInvalidDataEntryException);
+//		}
+//		verifyMocks();
+//	}
+//
+//	public void testApplyAmendmentWithStudyVersion2() throws Exception {
+//		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+//		basicStudy .getStudyVersion().setVersionStatus(StatusType.AC);
+//		basicStudy .getStudyVersion().setVersionDate(new Date());
+//		int size = basicStudy.getStudyVersions().size();
+//		try {
+//			basicStudy.createAmendment();
+//		} catch (Exception e) {
+//			assertEquals("Exception is instance of C3PRCodedRuntimeException", true, e instanceof C3PRCodedRuntimeException);
+//		}
+//		assertEquals("created one study version for amendment", size + 1, basicStudy.getStudyVersions().size());
+//		assertEquals("Latest study version has to be inactive", StatusType.IN, basicStudy.getLatestStudyVersion().getVersionStatus());
+//
+//	}
+//
+	public void testGetSortedStudyVersions() throws Exception {
+		StudyVersion studyVersion1 = new StudyVersion();
+		StudyVersion studyVersion2 = new StudyVersion();
+		StudyVersion studyVersion3 = new StudyVersion();
+
+		studyVersion1.setVersionDate(new Date(2000, 12, 12));
+		studyVersion2.setVersionDate(new Date(1990, 12, 1));
+
+		studyVersion3.setName("version 3");
+
+		simpleStudy.addStudyVersion(studyVersion1);
+		simpleStudy.addStudyVersion(studyVersion2);
+		simpleStudy.addStudyVersion(studyVersion3);
+
+		List<StudyVersion> sortedList = simpleStudy.getSortedStudyVersions();
+		assertEquals("latest version is version 3","version 3", sortedList.get(2).getName());
+	}
+
+	public void testGetStudyAmendments() throws Exception {
+		StudyVersion studyVersion1 = new StudyVersion();
+		StudyVersion studyVersion2 = new StudyVersion();
+		StudyVersion studyVersion3 = new StudyVersion();
+
+		studyVersion1.setVersionDate(new Date(2000, 12, 12));
+		studyVersion2.setVersionDate(new Date(1990, 12, 1));
+
+		studyVersion3.setName("version 3");
+
+		simpleStudy.addStudyVersion(studyVersion1);
+		simpleStudy.addStudyVersion(studyVersion2);
+		simpleStudy.addStudyVersion(studyVersion3);
+
+		List<StudyVersion> list = simpleStudy.getStudyAmendments();
+		assertEquals("2 amendments present",2, list.size());
+	}
+
+	public void testGetStudyAmendments1() throws Exception {
+		List<StudyVersion> list = simpleStudy.getStudyAmendments();
+		assertNull("no amendment present", list);
+	}
+
+	public void testGetCurrentStudyAmendment() throws Exception {
+		StudyVersion studyVersion1 = new StudyVersion();
+		StudyVersion studyVersion2 = new StudyVersion();
+		StudyVersion studyVersion3 = new StudyVersion();
+
+		studyVersion1.setVersionStatus(StatusType.AC);
+		studyVersion2.setVersionStatus(StatusType.AC);
+
+		studyVersion3.setName("version 3");
+
+		simpleStudy.addStudyVersion(studyVersion1);
+		simpleStudy.addStudyVersion(studyVersion2);
+		simpleStudy.addStudyVersion(studyVersion3);
+
+		StudyVersion amendment = simpleStudy.getCurrentStudyAmendment();
+
+		assertEquals("amendment found","version 3", amendment.getName());
+	}
+
+	public void testGetCurrentStudyAmendment1() throws Exception {
+		StudyVersion studyVersion = new StudyVersion();
+		studyVersion.setVersionStatus(StatusType.AC);
+		simpleStudy.addStudyVersion(studyVersion);
+		StudyVersion  amendment = simpleStudy.getCurrentStudyAmendment();
+		assertNull("no amendment present", amendment);
+	}
+
 
 
 
