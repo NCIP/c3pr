@@ -13,7 +13,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
@@ -1817,18 +1816,6 @@ public class StudyTestCase extends AbstractTestCase {
 		assertFalse("no registered participant found", basicStudy
 				.getHasRegisteredParticipants());
 	}
-
-	/**
-	 * test has registered participants
-	 */
-//	public void testGetHasRegisteredParticipants2() {
-//		basicStudy = studyCreationHelper
-//				.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
-//		basicStudy.getStudySites().get(0).getStudySubjects().add(
-//				new StudySubject());
-//		assertTrue("1 registered participant found", basicStudy
-//				.getHasRegisteredParticipants());
-//	}
 
 	/**
 	 * test set coordinating center study status

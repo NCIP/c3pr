@@ -573,7 +573,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void updateDataEntryStatus() {
 		List<Error> errors = new ArrayList<Error>();
-		getStudyVersion().setDataEntryStatus(evaluateDataEntryStatus(errors));
+		setDataEntryStatus(evaluateDataEntryStatus(errors));
 	}
 
 	public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus() throws C3PRCodedException {
