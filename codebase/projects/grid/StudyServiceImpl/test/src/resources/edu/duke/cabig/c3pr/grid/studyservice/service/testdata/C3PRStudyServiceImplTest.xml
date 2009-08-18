@@ -1,15 +1,15 @@
 <dataset>
-	
+
     <STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
     <STUDIES id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty"  status="OPEN" retired_indicator = "false" />
     <STUDIES id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" />
     <STUDIES id="1003" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="AMENDMENT_PENDING"  retired_indicator = "false" />
-    
+
     <STUDY_VERSIONS id="1000" study_id="1000" name="1.0" version_date="01-01-2001" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS id="1001" study_id="1001" name="1.0" version_date="01-01-2001" long_title_text="long_title_text2" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS id="1002" study_id="1002" name="1.0" version_date="01-01-2001" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS id="1003" study_id="1003" name="1.0" version_date="01-01-2001" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
-    
+
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA"
                postal_code="20191" country_code="USA" retired_indicator="false"/>
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171"
@@ -17,8 +17,8 @@
 
     <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000"
                   administrative_gender_code="M" race_code="White" add_id="1000" retired_indicator="false"/>
-	
-   	
+
+
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000"
                     retired_indicator="false"/>
     <ORGANIZATIONS id="1001" version="1" name="National Cancer Institute" description_text="National Cancer Institute" dtype="Local"
@@ -26,22 +26,22 @@
     <ORGANIZATIONS id="1002" version="1" name="CALGB" description_text="CALGB" dtype="Local" address_id="1000"
                  retired_indicator="false"/>
 	<ORGANIZATIONS id="1003" version="1" name="CTEP" description_text="CTEP" dtype="Local" address_id="1000"
-                 retired_indicator="false"/>                 
-	
-	
+                 retired_indicator="false"/>
+
+
     <STUDY_ORGANIZATIONS id="1000" version="1" role_code="role" start_date="01-01-2001" study_id="1000" hcs_id="1000" type="SST" retired_indicator="false"/>
     <STUDY_ORGANIZATIONS id="1001" version="1" role_code="role2" start_date="01-01-2001" study_id="1000" hcs_id="1001" type="SFS" retired_indicator="false"/>
     <STUDY_ORGANIZATIONS id="1004" version="1" role_code="role2" start_date="01-01-2001" study_id="1000" hcs_id="1002" type="SCC" retired_indicator="false"/>
     <STUDY_ORGANIZATIONS id="1002" version="1" role_code="role" start_date="01-01-2001" study_id="1001" hcs_id="1000" type="SST" retired_indicator="false"/>
     <STUDY_ORGANIZATIONS id="1003" version="1" role_code="role2" start_date="01-01-2001" study_id="1001" hcs_id="1001" type="SFS" retired_indicator="false"/>
     <STUDY_ORGANIZATIONS id="1005" version="1" role_code="role2" start_date="01-01-2001" study_id="1001" hcs_id="1002" type="SCC" retired_indicator="false"/>
-                         
+
     <study_site_versions id="1000" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
     stu_version_id="1000" sto_id="1000" retired_indicator="false"/>
     <study_site_versions id="1002" version="1" site_study_status="ACTIVE" start_date="01-01-2001" irb_approval_date="01-01-2000"
     stu_version_id="1001" sto_id="1002" retired_indicator="false"/>
-                  
-                         
+
+
     <IDENTIFIERS id="-1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" org_id="1003" stu_id="1003" hcs_id="1002" retired_indicator="false" primary_indicator="false"/>
 	 <IDENTIFIERS id="0909" version="1" value="nci1" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1000" retired_indicator="false"/>
      <IDENTIFIERS id="1002" version="1" value="nci2" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1001" retired_indicator="false"/>
@@ -49,13 +49,13 @@
      <IDENTIFIERS id="1003" version="1" value="nci4" type="Coordinating Center Identifier" hcs_id="1000" dtype="OAI" stu_id="1002" retired_indicator="false"/>
     <IDENTIFIERS id="1004" version="1" value="pai1" type="Protocol Authority Identifier" hcs_id="1000" dtype="OAI" stu_id="1003" retired_indicator="false"/>
     <IDENTIFIERS id="1005" version="1" value="pai2" type="Protocol Authority Identifier" hcs_id="1000" dtype="OAI" stu_id="1002" retired_indicator="false"/>
-    <IDENTIFIERS id="11000" version="1" value="Duke" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1000" primary_indicator="true"/>
-    <IDENTIFIERS id="11001" version="1" value="NCI" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1001" primary_indicator="true"/>
-    <IDENTIFIERS id="11002" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1002" primary_indicator="true"/>
-    
+    <IDENTIFIERS id="11000" version="1" value="Duke" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1000" primary_indicator="1"/>
+    <IDENTIFIERS id="11001" version="1" value="NCI" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1001" primary_indicator="1"/>
+    <IDENTIFIERS id="11002" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1002" primary_indicator="1"/>
+
 
     <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" informed_consent_signed_date="01-01-2000" prt_id="1000" sti_id="1000" retired_indicator="false"/>
-	
+
 	<study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
 
     <RANDOMIZATIONS id="1001" version="1" dtype="BR" retired_indicator="false"/>
@@ -109,9 +109,9 @@
     <RESEARCH_STAFF id="1003" version="1" dtype="Local" first_name="Research JFK" last_name="Staff4" hcs_id="1001"
                     retired_indicator="false"/>
 
-    <INVESTIGATORS id="1000" version="1" nci_identifier="bill" first_name="Investigator Bill" last_name="Staff1" 
+    <INVESTIGATORS id="1000" version="1" nci_identifier="bill" first_name="Investigator Bill" last_name="Staff1"
                    dtype="Local" retired_indicator="false"/>
-    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" nci_identifier="george" last_name="Staff2" 
+    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" nci_identifier="george" last_name="Staff2"
     				dtype="Local" retired_indicator="false"/>
     <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" nci_identifier="benjamin"
                    dtype="Local" retired_indicator="false"/>
