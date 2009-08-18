@@ -1208,10 +1208,12 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void applyAmendment() {
 		if(this.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
-			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"),
+					new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		if(this.getStudyVersion().getVersionStatus() == StatusType.AC){
-			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NO_EXISTING_AMENDMENT.CODE"));
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NO_EXISTING_AMENDMENT.CODE"),
+					new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		List<Error> errors = new ArrayList<Error>();
 		evaluateDataEntryStatus(errors) ;
@@ -1223,12 +1225,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void applyAmendment(StudyVersion studyVersion){
 		if(this.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
-			throw this.c3PRExceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"));
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"),
+					new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		List<Error> errors = new ArrayList<Error>();
 		studyVersion.evaluateDataEntryStatus(errors) ;
 		if (errors.size() > 0) {
-			throw new C3PRInvalidDataEntryException(" Amendment cannot be applied because data entry is not complete", errors);
+			throw new C3PRInvalidDataEntryException("Amendment cannot be applied because data entry is not complete", errors);
 		}
 		studyVersion.setVersionStatus(StatusType.AC);
 		this.addStudyVersion(studyVersion);
