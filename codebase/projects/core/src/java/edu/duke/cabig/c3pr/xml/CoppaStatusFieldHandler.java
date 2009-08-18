@@ -4,12 +4,7 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
 import edu.duke.cabig.c3pr.constants.CoppaStatusCodeEnum;
-import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
-import edu.duke.cabig.c3pr.constants.StudyPart;
-import edu.duke.cabig.c3pr.domain.AmendmentReason;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
