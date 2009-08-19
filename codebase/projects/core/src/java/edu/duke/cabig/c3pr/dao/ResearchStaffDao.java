@@ -34,10 +34,12 @@ import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
@@ -420,9 +422,17 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 						.getByPrimaryIdentifierFromLocal(retrievedRemoteResearchStaff
 								.getHealthcareSite().getPrimaryIdentifier());
 				if (matchingHealthcareSiteFromDb == null) {
-					log.error("No corresponding org exists for the nci Code:"
-							+ retrievedRemoteResearchStaff.getHealthcareSite()
-									.getPrimaryIdentifier());
+					log.error("No Organization exists for the CTEP Code:"
+							+ retrievedRemoteResearchStaff.getHealthcareSite().getPrimaryIdentifier());
+					
+					try {
+						healthcareSiteDao.createGroupForOrganization(retrievedRemoteResearchStaff.getHealthcareSite());
+						healthcareSiteDao.save(retrievedRemoteResearchStaff.getHealthcareSite());
+					} catch (C3PRBaseRuntimeException e) {
+						log.error(e.getMessage());
+					} catch (C3PRBaseException e) {
+						log.error(e.getMessage());
+					}
 				} else {
 					// we have the retrieved staff's Org in our db...link up
 					// with the same and persist
@@ -707,7 +717,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		// searchCriteria.setHealthcareSite(researchStaff.getHealthcareSite());
 		searchCriteria.setFirstName(researchStaff.getFirstName());
 		searchCriteria.setLastName(researchStaff.getLastName());
-		ContactMechanism emailContactMechanism = new ContactMechanism();
+		ContactMechanism emailContactMechanism = new LocalContactMechanism();
 		emailContactMechanism.setType(ContactMechanismType.EMAIL);
 		emailContactMechanism.setValue(researchStaff.getEmailAsString());
 		searchCriteria.addContactMechanism(emailContactMechanism);

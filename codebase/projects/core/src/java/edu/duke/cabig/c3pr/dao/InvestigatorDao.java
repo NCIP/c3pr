@@ -20,7 +20,11 @@ import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
+import edu.duke.cabig.c3pr.domain.RemoteContactMechanism;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 
 /**
@@ -129,7 +133,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	} else {
     		//First fetch the remote Inv's
         	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-        	ContactMechanism contactMechanism = new ContactMechanism();
+        	ContactMechanism contactMechanism = new RemoteContactMechanism();
     		contactMechanism.setType(ContactMechanismType.EMAIL);
     		contactMechanism.setValue(emailAddress);
     		remoteInvestigator.addContactMechanism(contactMechanism);
@@ -245,12 +249,20 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
                     healthcareSite = healthcareSiteDao.getByPrimaryIdentifierFromLocal(ctepCode);
                     //The org related to the remoteInv does not exist...load it from COPPA and save it; then link it to the remoteInv
                     if(healthcareSite == null){
-                        healthcareSiteDao.save(healthcareSiteInvestigator.getHealthcareSite());
+                    	try {
+							healthcareSiteDao.createGroupForOrganization(healthcareSiteInvestigator.getHealthcareSite());
+							healthcareSiteDao.save(healthcareSiteInvestigator.getHealthcareSite());
+						} catch (C3PRBaseRuntimeException e) {
+							log.error(e.getMessage());
+						} catch (C3PRBaseException e) {
+							log.error(e.getMessage());
+						}
                     } else {
-                        //update the hcs_inv with the org and save the investigator explicitly.
+                        //update the hcs_inv with the org 
                         healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
                     }
             }
+            //save the investigator explicitly.
             this.save(retrievedRemoteInvestigator);
     }
 	
@@ -321,7 +333,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	Investigator searchCriteria = new RemoteInvestigator();
     	searchCriteria.setFirstName(investigator.getFirstName());
     	searchCriteria.setLastName(investigator.getLastName());
-    	ContactMechanism emailContactMechanism = new ContactMechanism();
+    	ContactMechanism emailContactMechanism = new LocalContactMechanism();
     	emailContactMechanism.setType(ContactMechanismType.EMAIL);
     	emailContactMechanism.setValue(investigator.getEmailAsString());
     	searchCriteria.addContactMechanism(emailContactMechanism);
