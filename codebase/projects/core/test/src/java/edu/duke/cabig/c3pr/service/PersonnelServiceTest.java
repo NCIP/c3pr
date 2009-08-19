@@ -7,6 +7,7 @@ import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
@@ -31,7 +32,7 @@ public class PersonnelServiceTest extends DaoTestCase {
         inv.setFirstName("Dummy");
         inv.setLastName("User");
 
-        ContactMechanism cm = new ContactMechanism();
+        ContactMechanism cm = new LocalContactMechanism();
         cm.setType(ContactMechanismType.EMAIL);
         cm.setValue("dummy@dummy.org");
 

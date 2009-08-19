@@ -55,7 +55,7 @@ public class UserBasedRecipientTest extends AbstractTestCase{
 	 */
 	private UserBasedRecipient getUserBasedRecipientForStaff() {
 		ResearchStaff researchStaff = new LocalResearchStaff();
-		ContactMechanism contactMechanism = new ContactMechanism();
+		ContactMechanism contactMechanism = new LocalContactMechanism();
 		contactMechanism.setType(ContactMechanismType.EMAIL);
 		contactMechanism.setValue(STAFF);
 		researchStaff.getContactMechanisms().add(contactMechanism);
@@ -78,7 +78,7 @@ public class UserBasedRecipientTest extends AbstractTestCase{
 	private UserBasedRecipient getUserBasedRecipientForInv() {
 		
 		Investigator investigator = new LocalInvestigator();
-		ContactMechanism contactMechanismInv = new ContactMechanism();
+		ContactMechanism contactMechanismInv = new LocalContactMechanism();
 		contactMechanismInv.setType(ContactMechanismType.EMAIL);
 		contactMechanismInv.setValue(INV);
 		investigator.getContactMechanisms().add(contactMechanismInv);

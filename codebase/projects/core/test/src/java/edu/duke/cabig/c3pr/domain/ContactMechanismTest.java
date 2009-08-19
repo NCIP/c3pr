@@ -16,7 +16,7 @@ public class ContactMechanismTest extends AbstractTestCase{
 	 */
 	public void testGetValueString1() throws Exception{
 		
-		ContactMechanism phoneContact = new ContactMechanism();
+		ContactMechanism phoneContact = new LocalContactMechanism();
 		phoneContact.setType(ContactMechanismType.PHONE);
 		phoneContact.setValue("-1-23-456--78-9-");
 		
@@ -30,7 +30,7 @@ public class ContactMechanismTest extends AbstractTestCase{
 	 */
 	public void testGetValueString2() throws Exception{
 		
-		ContactMechanism emailContact = new ContactMechanism();
+		ContactMechanism emailContact = new LocalContactMechanism();
 		emailContact.setType(ContactMechanismType.EMAIL);
 		emailContact.setValue("  --alfred.1237(*&@yahOo.343.com&)");
 		

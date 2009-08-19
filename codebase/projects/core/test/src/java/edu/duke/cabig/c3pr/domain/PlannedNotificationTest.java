@@ -59,7 +59,7 @@ public class PlannedNotificationTest extends AbstractTestCase{
 		UserBasedRecipient userBasedRecipient = new UserBasedRecipient();
 		userBasedRecipient.setEmailAddress("unknown@example.com");
 
-		ContactMechanism nonUserContactMechanism = new ContactMechanism();
+		ContactMechanism nonUserContactMechanism = new LocalContactMechanism();
 		nonUserContactMechanism.setType(ContactMechanismType.EMAIL);
 		nonUserContactMechanism.setValue("contact@example.com");
 
