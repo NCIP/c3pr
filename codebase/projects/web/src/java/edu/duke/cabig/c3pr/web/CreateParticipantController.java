@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
@@ -118,9 +119,9 @@ public class CreateParticipantController<C extends Participant> extends
 
     private Participant createParticipantWithContacts(Participant participant) {
 
-        ContactMechanism contactMechanismEmail = new ContactMechanism();
-        ContactMechanism contactMechanismPhone = new ContactMechanism();
-        ContactMechanism contactMechanismFax = new ContactMechanism();
+        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
+        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+        ContactMechanism contactMechanismFax = new LocalContactMechanism();
         contactMechanismEmail.setType(ContactMechanismType.EMAIL);
         contactMechanismPhone.setType(ContactMechanismType.PHONE);
         contactMechanismFax.setType(ContactMechanismType.Fax);

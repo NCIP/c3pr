@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
@@ -70,8 +71,8 @@ public class CreateInvestigatorController<C extends Investigator> extends
                     addContacts(inv);
                 }
                 if (cmSize == 1) {
-                    ContactMechanism contactMechanismPhone = new ContactMechanism();
-                    ContactMechanism contactMechanismFax = new ContactMechanism();
+                    ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+                    ContactMechanism contactMechanismFax = new LocalContactMechanism();
                     contactMechanismPhone.setType(ContactMechanismType.PHONE);
                     contactMechanismFax.setType(ContactMechanismType.Fax);
                     inv.addContactMechanism(contactMechanismPhone);
@@ -79,7 +80,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
                 }
 
                 if (cmSize == 2) {
-                    ContactMechanism contactMechanismFax = new ContactMechanism();
+                    ContactMechanism contactMechanismFax = new LocalContactMechanism();
                     contactMechanismFax.setType(ContactMechanismType.Fax);
                     inv.addContactMechanism(contactMechanismFax);
                 }
@@ -212,9 +213,9 @@ public class CreateInvestigatorController<C extends Investigator> extends
 
     private void addContacts(Investigator inv) {
 
-        ContactMechanism contactMechanismEmail = new ContactMechanism();
-        ContactMechanism contactMechanismPhone = new ContactMechanism();
-        ContactMechanism contactMechanismFax = new ContactMechanism();
+        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
+        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+        ContactMechanism contactMechanismFax = new LocalContactMechanism();
         contactMechanismEmail.setType(ContactMechanismType.EMAIL);
         contactMechanismPhone.setType(ContactMechanismType.PHONE);
         contactMechanismFax.setType(ContactMechanismType.Fax);

@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.constants.EndPointType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
@@ -109,15 +110,15 @@ public class CreateOrganizationController extends SimpleFormController {
             addContactsToSite(hcs);
         }
         if (cmSize == 1) {
-            ContactMechanism contactMechanismPhone = new ContactMechanism();
-            ContactMechanism contactMechanismFax = new ContactMechanism();
+            ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+            ContactMechanism contactMechanismFax = new LocalContactMechanism();
             contactMechanismPhone.setType(ContactMechanismType.PHONE);
             contactMechanismFax.setType(ContactMechanismType.Fax);
             hcs.addContactMechanism(contactMechanismPhone);
             hcs.addContactMechanism(contactMechanismFax);
         }
         if (cmSize == 2) {
-            ContactMechanism contactMechanismFax = new ContactMechanism();
+            ContactMechanism contactMechanismFax = new LocalContactMechanism();
             contactMechanismFax.setType(ContactMechanismType.Fax);
             hcs.addContactMechanism(contactMechanismFax);
         }
@@ -127,9 +128,9 @@ public class CreateOrganizationController extends SimpleFormController {
 
 	
     private void addContactsToSite(Organization hcs) {
-        ContactMechanism contactMechanismEmail = new ContactMechanism();
-        ContactMechanism contactMechanismPhone = new ContactMechanism();
-        ContactMechanism contactMechanismFax = new ContactMechanism();
+        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
+        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+        ContactMechanism contactMechanismFax = new LocalContactMechanism();
         contactMechanismEmail.setType(ContactMechanismType.EMAIL);
         contactMechanismPhone.setType(ContactMechanismType.PHONE);
         contactMechanismFax.setType(ContactMechanismType.Fax);

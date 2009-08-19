@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -64,15 +65,15 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
                 addContactsToResearchStaff(researchStaff);
             }
             if (cmSize == 1) {
-                ContactMechanism contactMechanismPhone = new ContactMechanism();
-                ContactMechanism contactMechanismFax = new ContactMechanism();
+                ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+                ContactMechanism contactMechanismFax = new LocalContactMechanism();
                 contactMechanismPhone.setType(ContactMechanismType.PHONE);
                 contactMechanismFax.setType(ContactMechanismType.Fax);
                 researchStaff.addContactMechanism(contactMechanismPhone);
                 researchStaff.addContactMechanism(contactMechanismFax);
             }
             if (cmSize == 2) {
-                ContactMechanism contactMechanismFax = new ContactMechanism();
+                ContactMechanism contactMechanismFax = new LocalContactMechanism();
                 contactMechanismFax.setType(ContactMechanismType.Fax);
                 researchStaff.addContactMechanism(contactMechanismFax);
             }
@@ -93,9 +94,9 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     }
 
     public void addContactsToResearchStaff(ResearchStaff rs) {
-        ContactMechanism contactMechanismEmail = new ContactMechanism();
-        ContactMechanism contactMechanismPhone = new ContactMechanism();
-        ContactMechanism contactMechanismFax = new ContactMechanism();
+        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
+        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+        ContactMechanism contactMechanismFax = new LocalContactMechanism();
         contactMechanismEmail.setType(ContactMechanismType.EMAIL);
         contactMechanismPhone.setType(ContactMechanismType.PHONE);
         contactMechanismFax.setType(ContactMechanismType.Fax);
