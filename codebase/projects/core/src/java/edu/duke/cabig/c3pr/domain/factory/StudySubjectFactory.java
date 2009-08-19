@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -342,9 +343,9 @@ public class StudySubjectFactory {
     
     private Participant addContactsToParticipant(Participant participant) {
 
-        ContactMechanism contactMechanismEmail = new ContactMechanism();
-        ContactMechanism contactMechanismPhone = new ContactMechanism();
-        ContactMechanism contactMechanismFax = new ContactMechanism();
+        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
+        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+        ContactMechanism contactMechanismFax = new LocalContactMechanism();
         contactMechanismEmail.setType(ContactMechanismType.EMAIL);
         contactMechanismPhone.setType(ContactMechanismType.PHONE);
         contactMechanismFax.setType(ContactMechanismType.Fax);

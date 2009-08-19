@@ -14,6 +14,7 @@ import org.springframework.context.MessageSource;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -153,9 +154,9 @@ public class PersonOrganizationResolverUtils {
 		c3prUser.setFirstName(firstName);
 		c3prUser.setLastName(lastName);
 		c3prUser.setMiddleName(middleName);
-		c3prUser.setEmail(emailStr);
-		c3prUser.setPhone(phoneNumber);
-		c3prUser.setFax(faxNumber);
+		c3prUser.setRemoteEmail(emailStr);
+		c3prUser.setRemotePhone(phoneNumber);
+		c3prUser.setRemoteFax(faxNumber);
 		return c3prUser;
 	}
 	
@@ -300,6 +301,23 @@ public class PersonOrganizationResolverUtils {
 		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
 	}
 
+	/** Populate the Address object from the coppaOrganization which is passed into it.
+	 * 
+	 * @param coppaOrganization
+	 * @return Address
+	 */
+	public Address getAddressFromCoppaOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization) {
+		Address address  = new Address();
+		
+		address.setCity(CoppaObjectFactory.getCity(coppaOrganization.getPostalAddress()));
+		address.setCountryCode(CoppaObjectFactory.getCountry(coppaOrganization.getPostalAddress()));
+		address.setStateCode(CoppaObjectFactory.getState(coppaOrganization.getPostalAddress()));
+		address.setPostalCode(CoppaObjectFactory.getZip(coppaOrganization.getPostalAddress()));
+		address.setStreetAddress(CoppaObjectFactory.getStreet(coppaOrganization.getPostalAddress()));
+		
+		return address;
+	}
+	
 	/*public edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster getCoppaMessageBroadcaster() {
 		if(coppaMessageBroadcaster instanceof CaXchangeMessageBroadcasterImpl){
 			coppaMessageBroadcaster = (CaXchangeMessageBroadcasterImpl)coppaMessageBroadcaster;

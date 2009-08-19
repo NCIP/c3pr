@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -451,7 +452,7 @@ public class OrganizationDaoTest extends DaoTestCase {
         rbr.setRole("admin");
         plannedNotification.getRoleBasedRecipient().add(rbr);
 
-        ContactMechanism cm = new ContactMechanism();
+        ContactMechanism cm = new LocalContactMechanism();
         cm.setType(ContactMechanismType.EMAIL);
         cm.setValue("vinay.gangoli@semanticbits.com");
 

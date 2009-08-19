@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -12,7 +14,6 @@ import org.hibernate.annotations.Parameter;
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ContactMechanism.
  * 
@@ -20,8 +21,9 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
  */
 @Entity
 @Table(name = "contact_mechanisms")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "CONTACT_MECHANISMS_ID_SEQ") })
-public class ContactMechanism extends AbstractMutableDeletableDomainObject {
+public abstract class ContactMechanism extends AbstractMutableDeletableDomainObject {
 
     /** The type. */
     private ContactMechanismType type;

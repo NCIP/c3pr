@@ -10,6 +10,8 @@ import org.iso._21090.II;
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
+import edu.duke.cabig.c3pr.constants.CoppaStatusCodeEnum;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
@@ -306,14 +308,18 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		}
 		
 		//Build HealthcareSite 
-		HealthcareSite healthcareSite = null;
+		RemoteHealthcareSite healthcareSite = null;
 		if(coppaOrganizationList != null && coppaOrganizationList.size()>0){
 			for(gov.nih.nci.coppa.po.Organization coppaOrganization: coppaOrganizationList){
 				IdentifiedOrganization identifiedOrganization = personOrganizationResolverUtils.getIdentifiedOrganization(coppaOrganization);
 				
 				healthcareSite = new RemoteHealthcareSite();
 				personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
-				healthcareSite.setName(coppaOrganization.getName().toString());
+				healthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
+				
+				healthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
+				Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
+				healthcareSite.setAddress(address);
 				
 				remoteResearchStaff.setHealthcareSite(healthcareSite);
 			}

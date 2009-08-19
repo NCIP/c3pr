@@ -17,6 +17,8 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.semanticbits.coppa.domain.annotations.RemoteProperty;
+
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
@@ -197,6 +199,7 @@ public abstract class Investigator extends C3PRUser {
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "INV_ID")
     @OrderBy("id")
+    @RemoteProperty
     public List<ContactMechanism> getContactMechanisms() {
         return contactMechanisms;
     }

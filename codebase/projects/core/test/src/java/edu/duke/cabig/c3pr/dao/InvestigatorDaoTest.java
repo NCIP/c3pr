@@ -2,13 +2,16 @@ package edu.duke.cabig.c3pr.dao;
 
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
+import java.util.Iterator;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
@@ -30,14 +33,39 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     }
 
     /**
-     * Test for loading an Investigator by Id
+     * Test for loading an Investigator by Id.
+     * Also test out the collection handling by the interceptor/object populator
      * 
      * @throws Exception
      */
     public void testGetRemoteById() throws Exception {
-        Investigator inv = getDao().getById(1005);
-        assertEquals("Investigator Brady", inv.getFirstName());
+    	{
+	    	Investigator inv = getDao().getById(1005);
+	        assertEquals("9727401169", inv.getContactMechanisms().get(0).getValue());
+	        
+	        ContactMechanism contactMechanism = new LocalContactMechanism();
+			contactMechanism.setType(ContactMechanismType.Fax);
+			contactMechanism.setValue("7036239046");
+			inv.getContactMechanisms().add(contactMechanism);
+			
+	        getDao().save(inv);
+	    }
+    	interruptSession();
+    	{
+    		Investigator inv = getDao().getById(1005);
+    		Iterator iter = inv.getContactMechanisms().iterator();
+    		while(iter.hasNext()){
+    			ContactMechanism contactMechanism = (ContactMechanism)iter.next();
+    			if(contactMechanism.getType().equals(ContactMechanismType.Fax)){
+    				assertEquals("7036239046", contactMechanism.getValue());
+    			}
+    			if(contactMechanism.getType().equals(ContactMechanismType.PHONE)){
+    				assertEquals("9727401169", contactMechanism.getValue());
+    			}
+    		}
+    	}
     }
+
     
     /**
      * Test for loading all Investigators
@@ -83,7 +111,7 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     }
     
     public void testGetByEmail() throws Exception{
-    	ContactMechanism contactMechanism = new ContactMechanism();
+    	ContactMechanism contactMechanism = new LocalContactMechanism();
     	contactMechanism.setType(ContactMechanismType.EMAIL);
     	Investigator investigator = getDao().getByEmailAddress("test@mail.com");
     	assertNotNull("Wrong number of investigators", investigator);

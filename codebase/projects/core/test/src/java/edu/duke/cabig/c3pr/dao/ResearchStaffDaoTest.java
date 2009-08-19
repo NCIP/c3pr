@@ -51,6 +51,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         assertEquals("Research Bill", staff.getFirstName());
     }
     
+    
     /**
      * Test for loading an a Research Staff by Id
      * 

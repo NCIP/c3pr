@@ -101,21 +101,21 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
 	}
 	
 	public void setEmail(String email){
-		ContactMechanism emailContactMechanism = new ContactMechanism();
+		ContactMechanism emailContactMechanism = new LocalContactMechanism();
 		emailContactMechanism.setType(ContactMechanismType.EMAIL);
 		emailContactMechanism.setValue(email);
 		this.addContactMechanism(emailContactMechanism);
 	}
 	
 	public void setPhone(String phone){
-		ContactMechanism phoneContactMechanism = new ContactMechanism();
+		ContactMechanism phoneContactMechanism = new LocalContactMechanism();
 		phoneContactMechanism.setType(ContactMechanismType.PHONE);
 		phoneContactMechanism.setValue(phone);
 		this.addContactMechanism(phoneContactMechanism);
 	}
 	
 	public void setFax(String fax){
-		ContactMechanism faxContactMechanism = new ContactMechanism();
+		ContactMechanism faxContactMechanism = new LocalContactMechanism();
 		faxContactMechanism.setType(ContactMechanismType.Fax);
 		faxContactMechanism.setValue(fax);
 		this.addContactMechanism(faxContactMechanism);

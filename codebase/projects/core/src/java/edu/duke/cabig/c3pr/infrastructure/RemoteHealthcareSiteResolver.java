@@ -72,7 +72,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 			remoteHealthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
 			remoteHealthcareSite.setCoppaStatusCode(CoppaStatusCodeEnum.getByCode(coppaOrganization.getStatusCode().getCode()));
 			
-			Address address = getAddressFromCoppaOrganization(coppaOrganization);
+			Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
 			remoteHealthcareSite.setAddress(address);
 		}
 		
@@ -97,7 +97,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 			personOrganizationResolverUtils.setCtepCodeFromExtension(remoteHealthcareSite, identifiedOrganization.getAssignedId().getExtension());
 		} 	
 		
-		Address address = getAddressFromCoppaOrganization(coppaOrganization);
+		Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
 		remoteHealthcareSite.setAddress(address);
 		
 		remoteHealthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
@@ -105,25 +105,6 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		
 		return remoteHealthcareSite;
 	}
-
-
-	/** Populate the Address object from the coppaOrganization which is passed into it.
-	 * 
-	 * @param coppaOrganization
-	 * @return Address
-	 */
-	private Address getAddressFromCoppaOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization) {
-		Address address  = new Address();
-		
-		address.setCity(CoppaObjectFactory.getCity(coppaOrganization.getPostalAddress()));
-		address.setCountryCode(CoppaObjectFactory.getCountry(coppaOrganization.getPostalAddress()));
-		address.setStateCode(CoppaObjectFactory.getState(coppaOrganization.getPostalAddress()));
-		address.setPostalCode(CoppaObjectFactory.getZip(coppaOrganization.getPostalAddress()));
-		address.setStreetAddress(CoppaObjectFactory.getStreet(coppaOrganization.getPostalAddress()));
-		
-		return address;
-	}
-
 
 
 	/**This is called by the interceptor when the object is loaded. 
@@ -164,7 +145,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	 */
 	private List<Organization> getRemoteOrganizationsByNciIdentifier(String nciInstituteCode){
 		// get by nci-id
-		List <Organization> remoteOrganizationList = null;
+		List <Organization> remoteOrganizationList = new ArrayList<Organization>();
 		IdentifiedOrganization idOrg = CoppaObjectFactory.getCoppaIdentfiedOrganizationSearchCriteriaOnCTEPId(nciInstituteCode);
 		String idOrgPayLoad = CoppaObjectFactory.getCoppaIdentfiedOrganization(idOrg);
 		String idOrgResult = "";
