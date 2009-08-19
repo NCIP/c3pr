@@ -120,7 +120,8 @@
                 <value>edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer</value>
                 <value>edu.duke.cabig.c3pr.domain.AnatomicSite</value>
                 <value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>
-                <value>edu.duke.cabig.c3pr.domain.ContactMechanism</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalContactMechanism</value>
+				<value>edu.duke.cabig.c3pr.domain.RemoteContactMechanism</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledEpoch</value>
                 <value>edu.duke.cabig.c3pr.domain.StratumGroup</value>
                 <value>edu.duke.cabig.c3pr.domain.BookRandomizationEntry</value>

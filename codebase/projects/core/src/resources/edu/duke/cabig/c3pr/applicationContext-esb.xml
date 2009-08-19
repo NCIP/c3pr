@@ -57,7 +57,7 @@
      <bean id="coppaMessageBroadcaster"
           class="edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl" lazy-init="true">
         <property name="caXchangeURL" value="${esbUrl}"/>
-        <property name="delegatedCredentialProvider" ref="testDelegatedCredentialProvider"/>
+        <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider"/>
     </bean>
     
 	<!--<bean id="connectionFactory"
