@@ -1085,7 +1085,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	@Transient
 	public StudyVersion getLatestStudyVersion(){
-        List<StudyVersion> studyVersions = this.getStudyVersions();
+        List<StudyVersion> studyVersions = this.getSortedStudyVersions();
         int size = studyVersions.size();
         if( size == 0){
         	StudyVersion localStudyVersion= getStudyVersions().get(0);
@@ -1093,7 +1093,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         	localStudyVersion.setName("1.0");
 			return localStudyVersion;
         }else{
-            Collections.sort(studyVersions);
 			return  studyVersions.get(size - 1 );
 		}
 	}
