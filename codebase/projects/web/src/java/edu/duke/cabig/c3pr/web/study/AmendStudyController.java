@@ -19,10 +19,8 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
@@ -117,7 +115,6 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         if(!resumeAmendment){
         	studyRepository.createAmendment(study.getIdentifiers());
         }
-        request.setAttribute("resumeAmendment", resumeAmendment);
         return wrapper;
     }
 
@@ -133,8 +130,15 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
 
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("searchStudy"));
-        return modelAndView;
+//        ModelAndView modelAndView = new ModelAndView(new RedirectView("searchStudy"));
+//        return modelAndView;
+    	Study study = ((StudyWrapper) command).getStudy();
+        if(request.getParameter("_action").equals("amendment")){
+            study= studyRepository.applyAmendment(study.getIdentifiers());
+        }
+        ((StudyWrapper) command).setStudy(study);
+        response.sendRedirect("confirm?studyId=" + study.getId());
+        return null;
     }
 
     @Override

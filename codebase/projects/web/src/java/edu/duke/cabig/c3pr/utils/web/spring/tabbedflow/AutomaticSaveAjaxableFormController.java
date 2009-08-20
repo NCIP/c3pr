@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
@@ -17,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Kruttik
- * 
+ *
  */
 public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDomainObject, A extends MutableDomainObjectDao<D>>
                 extends AutomaticSaveFlowFormController<C, D, A> {
@@ -63,7 +61,7 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
         	request.setAttribute("OVERRIDDEN_SAVE_BEHAVIOR", "TRUE");
             super.postProcessPage(request, command, errors, page);
             if(errors.hasErrors()){
-        		request.removeAttribute("OVERRIDDEN_SAVE_BEHAVIOR");       	
+        		request.removeAttribute("OVERRIDDEN_SAVE_BEHAVIOR");
             }
         }
         if (!errors.hasErrors() && shouldPersist(request, (C) command, getTab((C) command, page))) {
@@ -74,11 +72,11 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
             }
         }
     }
-    
+
     protected boolean shouldPersist(HttpServletRequest request, C command, Tab<C> tab) {
     	return shouldSave(request, command, tab);
     }
-    
+
     @Override
     protected final boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
     	if(request.getAttribute("OVERRIDDEN_SAVE_BEHAVIOR")!=null){
@@ -91,5 +89,5 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
     protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
     	return super.shouldSave(request, command, tab);
     }
-    
+
 }

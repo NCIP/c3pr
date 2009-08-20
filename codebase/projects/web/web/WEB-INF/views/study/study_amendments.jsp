@@ -23,7 +23,7 @@
 			<div class="row">
 				<div class="label"><fmt:message key="study.versionNameNumber" /></div>
 				<div class="value"><form:input
-					path="study.currentStudyAmendment.name" size="25" /></div>
+					path="study.currentStudyAmendment.name" size="25" cssClass="validate-NOTEMPTY" /></div>
 			</div>
 			<div class="row">
 			<div class="label"><fmt:message key="study.requiredAmendment" /></div>
