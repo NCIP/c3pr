@@ -157,7 +157,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     		studyDao.save(wrapper.getStudy());
     		study = studyDao.getByIdentifiers(wrapper.getStudy().getIdentifiers()).get(0);
     	}else{
-    		study = studyDao.merge(study);
+    		study = studyDao.merge(wrapper.getStudy());
     	}
         studyDao.initialize(study);
         study.getParentStudyAssociations().size();
