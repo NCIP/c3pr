@@ -1088,9 +1088,10 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         List<StudyVersion> studyVersions = this.getSortedStudyVersions();
         int size = studyVersions.size();
         if( size == 0){
-        	StudyVersion localStudyVersion= getStudyVersions().get(0);
+        	StudyVersion localStudyVersion= new StudyVersion();
         	localStudyVersion.setVersionDate(new Date());
         	localStudyVersion.setName("1.0");
+        	this.addStudyVersion(localStudyVersion);
 			return localStudyVersion;
         }else{
 			return  studyVersions.get(size - 1 );
