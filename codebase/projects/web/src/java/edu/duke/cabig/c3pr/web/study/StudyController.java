@@ -65,11 +65,11 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     protected StudyValidator studyValidator;
 
     protected Boolean companionIndicator;
-    
+
     protected CompanionStudyAssociationDao companionStudyAssociationDao;
-    
+
     protected static List<HealthcareSite> healthcareSites;
-    
+
     public static final String FLOW_TYPE = "flowType";
     public static final String CREATE_STUDY = "CREATE_STUDY";
     public static final String EDIT_STUDY = "EDIT_STUDY";
@@ -77,13 +77,13 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     public static final String CREATE_COMPANION_STUDY = "CREATE_COMPANION_STUDY";
     public static final String EDIT_COMPANION_STUDY = "EDIT_COMPANION_STUDY";
     public static final String AMEND_COMPANION_STUDY = "AMEND_COMPANION_STUDY";
-    
+
     public StudyController(String title) { setCommandClass(StudyWrapper.class);
         Flow<C> flow = new Flow<C>(title);
         layoutTabs(flow);
         setFlow(flow);
     }
-    
+
     /**
      * Template method to let the subclass decide the order of tab
      */
@@ -103,12 +103,12 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     protected void onBind(HttpServletRequest request, Object command, BindException errors) throws Exception {
         super.onBind(request, command, errors);
     }
-    
+
     @Override
     protected Object currentFormObject(HttpServletRequest request, Object command) throws Exception {
     	return command;
     }
-    
+
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
@@ -117,7 +117,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(), new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
         binder.registerCustomEditor(researchStaffDao.domainClass(), new NullIdDaoBasedEditor( researchStaffDao));
         binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor( studyDao));
-        
+
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
         binder.registerCustomEditor(String.class, "file", new StringMultipartFileEditor());
         binder.registerCustomEditor(byte[].class, "study.criteriaFile", new ByteArrayMultipartFileEditor());
@@ -129,9 +129,9 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         binder.registerCustomEditor(CoordinatingCenterStudyStatus.class, new EnumByNameEditor( CoordinatingCenterStudyStatus.class));
         binder.registerCustomEditor(InvestigatorStatusCodeEnum.class, new EnumByNameEditor( InvestigatorStatusCodeEnum.class));
         binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor( SiteStudyStatus.class));
-     
+
     }
-  
+
     protected boolean isSummaryEnabled() {
         return false;
     }
@@ -152,13 +152,14 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     @Override
     protected C save(C command, Errors errors) {
     	StudyWrapper wrapper = (StudyWrapper) command ;
-        Study study = studyDao.merge(wrapper.getStudy());
+        studyDao.save(wrapper.getStudy());
+        Study study = studyDao.getByIdentifiers(wrapper.getStudy().getIdentifiers()).get(0);
         studyDao.initialize(study);
         study.getParentStudyAssociations().size();
         wrapper.setStudy(study);
         return (C) wrapper;
     }
-    
+
     @Override
     protected final boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
     	return true;
@@ -237,7 +238,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     public void setCompanionIndicator(Boolean companionIndicator) {
         this.companionIndicator = companionIndicator;
     }
-    
+
     @Override
     protected String getFormSessionAttributeName(HttpServletRequest request) {
     	return super.getFormSessionAttributeName(request);

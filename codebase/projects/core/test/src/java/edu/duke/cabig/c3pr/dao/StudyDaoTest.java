@@ -1594,7 +1594,7 @@ public class StudyDaoTest extends DaoTestCase {
     	List<StudySubject> list = dao.getStudySubjectsForStudy(studyId);
     	assertEquals("Wrong number of records",2,list.size());
     }
-    
+
     public void testSaveStudyWithStudyVersionAndStudySite() throws Exception {
     	Study study = new Study();
     	study.setPhaseCode("");
@@ -1613,6 +1613,80 @@ public class StudyDaoTest extends DaoTestCase {
     	assertNotNull("id is null",study.getId());
     	assertEquals("wrong number of study sites",1,study.getStudySites().size());
     	assertEquals("wrong role code","test role code",study.getStudySites().get(0).getRoleCode());
-    	
+
+    }
+
+    public void testDifferentCoordinatngCenterAndStudySite() throws Exception {
+
+        Integer savedId;
+        {
+            Study study = new Study();
+            study.setPrecisText("New study");
+            study.setShortTitleText("ShortTitleText");
+            study.setLongTitleText("LongTitleText");
+            study.setPhaseCode("PhaseCode");
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+            study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+            study.setTargetAccrualNumber(150);
+            study.setType("Type");
+            study.setMultiInstitutionIndicator(Boolean.TRUE);
+            SecurityContextTestUtils.switchToNobody();
+
+
+            HealthcareSite healthcaresite = new LocalHealthcareSite();
+            Address address = new Address();
+            address.setCity("Reston");
+            address.setCountryCode("USA");
+            address.setPostalCode("20191");
+            address.setStateCode("VA");
+            address.setStreetAddress("12359 Sunrise Valley Dr");
+            healthcaresite.setAddress(address);
+            healthcaresite.setName("duke healthcare");
+            healthcaresite.setDescriptionText("duke healthcare");
+            healthcaresite.setCtepCode("Nci duke");
+            healthcareSitedao.save(healthcaresite);
+
+            HealthcareSite healthcaresite1 = new LocalHealthcareSite();
+            Address address1 = new Address();
+            address1.setCity("Reston");
+            address1.setCountryCode("USA");
+            address1.setPostalCode("20192");
+            address1.setStateCode("VA");
+            address1.setStreetAddress("12359 Sunrise Valley Dr");
+            healthcaresite1.setAddress(address);
+            healthcaresite1.setName("duke healthcare");
+            healthcaresite1.setDescriptionText("duke healthcare1");
+            healthcaresite1.setCtepCode("Nci duke1");
+            healthcareSitedao.save(healthcaresite1);
+
+            StudyCoordinatingCenter coordinatingCenter = new StudyCoordinatingCenter();
+            coordinatingCenter.setHealthcareSite(healthcaresite);
+
+            StudySite studySite = new StudySite();
+            studySite.setHealthcareSite(healthcaresite1);
+
+
+            study.addStudyOrganization(studySite);
+            study.addStudyOrganization(coordinatingCenter);
+
+            try {
+                dao.save(study);
+            }
+            catch (Exception ex) {
+                // expected
+            }
+            SecurityContextTestUtils.switchToSuperuser();
+            dao.save(study);
+
+            savedId = study.getId();
+            assertNotNull("The saved study didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+            Study loaded = dao.getById(savedId);
+            assertNotNull("Could not reload study with id " + savedId, loaded);
+            assertEquals("Wrong name", "ShortTitleText", loaded.getShortTitleText());
+        }
     }
 }
