@@ -7,19 +7,20 @@
 </head>
 <body>
 <div id="main">
-<div id="controlPanel">
+		<div id="controlPanel" <c:if test="${studyflow=='true'}">style="display:none;"</c:if>>
 			<tags:controlPanel>
+			test = <c:if test="${empty studyflow || studyflow=='false'}">style="display:none;"</c:if>
 				<tags:oneControlPanelItem linkhref="javascript:document.location='editInvestigator?emailId=${command.contactMechanisms[0].value}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 				<tags:oneControlPanelItem linkhref="javascript:document.location='createInvestigator';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchInvestigatorController.png" linktext="Create investigator" />
 			</tags:controlPanel>
 		</div>
-		<div id="flash-message" class="info"><img src="<tags:imageUrl name='check.png'/>" alt="" style="vertical-align:top;" /> 
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name='check.png'/>" alt="" style="vertical-align:top;" />
 				<c:if test="${FLOW == 'EDIT_FLOW'}">
                 	 	Investigator successfully updated.
                 </c:if>
                 <c:if test="${FLOW == 'SAVE_FLOW'}">
                 	 	Investigator successfully created.
-                </c:if> 
+                </c:if>
 		</div>
 <chrome:box title="Confirmation" autopad="true">
                 <div class="content">
