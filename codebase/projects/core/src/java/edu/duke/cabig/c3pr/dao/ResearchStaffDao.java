@@ -51,7 +51,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 
 /**
  * Hibernate implementation of ResearchStaffDao.
- * 
+ *
  * @see edu.duke.cabig.c3pr.dao.ResearchStaffDao
  * @author Vinay Gangoli, Priyatam
  */
@@ -89,7 +89,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
 	 */
 	@Override
@@ -98,16 +98,18 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 
 	public void initialize(ResearchStaff researchStaff){
-        getHibernateTemplate().initialize(researchStaff.getHealthcareSite().getIdentifiersAssignedToOrganization());
+		if(researchStaff.getHealthcareSite() != null){
+			getHibernateTemplate().initialize(researchStaff.getHealthcareSite().getIdentifiersAssignedToOrganization());
+		}
 	}
 	/**
 	 * Gets the by subnames.
-	 * 
+	 *
 	 * @param subnames
 	 *            the subnames
 	 * @param healthcareSite
 	 *            the healthcare site
-	 * 
+	 *
 	 * @return the by subnames
 	 */
 	public List<ResearchStaff> getBySubnames(String[] subnames,
@@ -119,29 +121,29 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/**
 	 * Gets the by sub name and sub email.
-	 * 
+	 *
 	 * @param subnames
 	 *            the subnames
 	 * @param ctepCode
 	 *            the nci institute code
-	 * 
+	 *
 	 * @return the by sub name and sub email
 	 */
 	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames, String ctepCode) {
-		return findBySubname(subnames, 
-				"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ ctepCode + "'" + 
+		return findBySubname(subnames,
+				"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ ctepCode + "'" +
         		" and o.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'",
 				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
 	}
 
 	/**
 	 * Search by example.
-	 * 
+	 *
 	 * @param staff
 	 *            the staff
 	 * @param isWildCard
 	 *            the is wild card
-	 * 
+	 *
 	 * @return the list< research staff>
 	 */
 	public List<ResearchStaff> searchByExample(ResearchStaff staff,
@@ -185,10 +187,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/**
 	 * Search research staff.
-	 * 
+	 *
 	 * @param query
 	 *            the query
-	 * 
+	 *
 	 * @return the list< research staff>
 	 */
 	@SuppressWarnings( { "unchecked" })
@@ -217,10 +219,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/**
 	 * Gets the by nci identifier. Looks for local and remote
-	 * 
+	 *
 	 * @param nciIdentifier
 	 *            the nci identifier
-	 * 
+	 *
 	 * @return the by nci identifier
 	 */
 	public ResearchStaff getByNciIdentifierFromLocal(String nciIdentifier) {
@@ -240,15 +242,15 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * Gets the by nci identifier. If we find a match in local db dont go to COPPA.
 	 * Goto Copa if no match is found in local db.
 	 * We always defer to local db in cases of queries where only one result is expected.
-	 * 
+	 *
 	 * @param nciIdentifier - the nci identifier
 	 * @return the by nci identifier
 	 */
 	public ResearchStaff getByNciIdentifier(String nciIdentifier) {
-		
+
 		ResearchStaff researchStaff = getByNciIdentifierFromLocal(nciIdentifier);
 		if(researchStaff == null){
-			//get the remote staff and update the database 
+			//get the remote staff and update the database
 			RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
 			remoteResearchStaff.setNciIdentifier(nciIdentifier);
 
@@ -271,7 +273,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	/**
 	 * Gets the by email address from the database only. Created for the
 	 * notifications use case.
-	 * 
+	 *
 	 * @param emailAddress
 	 *            the email address
 	 * @return the ResearchStaff List
@@ -284,14 +286,14 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/**
 	 * Gets the by email address. Created for the notifications use case.
-	 * 
+	 *
 	 * @param emailAddress
 	 *            the email address
-	 * 
+	 *
 	 * @return the ResearchStaff List
 	 */
 	public ResearchStaff getByEmailAddress(String emailAddress) {
-		
+
 		ResearchStaff researchStaff = getByEmailAddressFromLocal(emailAddress);
 		if(researchStaff == null){
 //			 get the remote staff and update the database first
@@ -310,10 +312,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	/**
 	 * Gets the by external identifier. Created for the remote research staff
 	 * use case.
-	 * 
+	 *
 	 * @param emailAddress
 	 *            the email address
-	 * 
+	 *
 	 * @return the ResearchStaff List
 	 */
 	public List<ResearchStaff> getByExternalIdentifierFromLocal(
@@ -333,10 +335,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	/**
 	 * Convert to remote research staff. Only include the properties that COPPA
 	 * understands
-	 * 
+	 *
 	 * @param researchStaff
 	 *            the research staff
-	 * 
+	 *
 	 * @return the remote research staff
 	 */
 	private RemoteResearchStaff convertToRemoteResearchStaff(
@@ -361,7 +363,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * hcs is null..then gets all the new staff from COPPA and saves them to the
 	 * database Then gets btoh the local and remote research staff by
 	 * organization nci institute code from the database.
-	 * 
+	 *
 	 * @param nciInstituteCode
 	 *            the nci institute code
 	 * @return the research staff by organization nci institute code
@@ -377,7 +379,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param healthcareSite
 	 * @return
 	 */
@@ -390,12 +392,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					  "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
 					  new Object[]{healthcareSite.getCtepCode()});
 	}
-	
-	
+
+
 	/**
 	 * Gets the remote research staff by organization nci institute code from
 	 * the resolver and updates the db.
-	 * 
+	 *
 	 * @param nciInstituteCode
 	 *            the nci institute code
 	 * @return the research staff by organization nci institute code
@@ -424,7 +426,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				if (matchingHealthcareSiteFromDb == null) {
 					log.error("No Organization exists for the CTEP Code:"
 							+ retrievedRemoteResearchStaff.getHealthcareSite().getPrimaryIdentifier());
-					
+
 					try {
 						healthcareSiteDao.createGroupForOrganization(retrievedRemoteResearchStaff.getHealthcareSite());
 						healthcareSiteDao.save(retrievedRemoteResearchStaff.getHealthcareSite());
@@ -454,7 +456,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/**
 	 * Update database with remote content.
-	 * 
+	 *
 	 * @param remoteResearchStaffList
 	 *            the remote research staff list
 	 */
@@ -483,7 +485,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 							saveResearchStaff(remoteResearchStaff);
 						} else {
 							log.error("This remote research person : "	+ remoteResearchStaff.getFullName()
-										+ "'s email id : " + remoteResearchStaff.getEmailAsString()	
+										+ "'s email id : " + remoteResearchStaff.getEmailAsString()
 										+ "and/or NCI Identifier: "+ remoteResearchStaff.getNciIdentifier()
 										+ " is already in the database. Deferring to the local. :");
 						}
@@ -707,7 +709,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	/**
 	 * This method queries the external system to fetch all the matching
 	 * ResearchStaff
-	 * 
+	 *
 	 * @param researchStaff
 	 * @return
 	 */
