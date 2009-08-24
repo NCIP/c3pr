@@ -9,7 +9,6 @@
 <div id="main">
 		<div id="controlPanel" <c:if test="${studyflow=='true'}">style="display:none;"</c:if>>
 			<tags:controlPanel>
-			test = <c:if test="${empty studyflow || studyflow=='false'}">style="display:none;"</c:if>
 				<tags:oneControlPanelItem linkhref="javascript:document.location='editInvestigator?emailId=${command.contactMechanisms[0].value}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 				<tags:oneControlPanelItem linkhref="javascript:document.location='createInvestigator';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchInvestigatorController.png" linktext="Create investigator" />
 			</tags:controlPanel>
