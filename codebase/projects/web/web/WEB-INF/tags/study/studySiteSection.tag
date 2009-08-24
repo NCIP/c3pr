@@ -13,14 +13,14 @@
 <%@attribute name="action" type="edu.duke.cabig.c3pr.constants.APIName"%>
 <%@attribute name="errorMessage"%>
 <%@attribute name="isNewStudySite"%>
-<c:set var="keepOpen" value="${(!empty maximized && maximized) || fn:contains(openSections, site.healthcareSite.nciInstituteCode)}"/>
+<c:set var="keepOpen" value="${(!empty maximized && maximized) || fn:contains(openSections, site.healthcareSite.ctepCode)}"/>
 <c:set var="isActionSuccess" value="${empty errorMessage?true:false}" />
-<c:set var="isLocalSiteCoordinating" value="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.nciInstituteCode}"/>
-<c:set var="isSiteLocal" value="${localNCICode==site.healthcareSite.nciInstituteCode}"></c:set>
+<c:set var="isLocalSiteCoordinating" value="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode}"/>
+<c:set var="isSiteLocal" value="${localNCICode==site.healthcareSite.ctepCode}"></c:set>
 <c:set var="isSiteManageable" value="${site.hostedMode || isLocalSiteCoordinating || isSiteLocal}"/>
 <c:set var="showActionButtons" value="${empty isNewStudySite || !isNewStudySite}"/>
-<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.nciInstituteCode}" onclick="deleteStudySite('${site.healthcareSite.nciInstituteCode}');" title="(${site.healthcareSite.nciInstituteCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.nciInstituteCode}" id="divison-${site.healthcareSite.nciInstituteCode}" cssClass="divisonClass">
-<div id="site-${site.healthcareSite.nciInstituteCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
+<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.ctepCode}" onclick="deleteStudySite('${site.healthcareSite.ctepCode}');" title="(${site.healthcareSite.ctepCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.ctepCode}" id="divison-${site.healthcareSite.ctepCode}" cssClass="divisonClass">
+<div id="site-${site.healthcareSite.ctepCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
 		<div class="leftpanel">
 			<div class="row">
@@ -28,9 +28,9 @@
 				<div class="value">
 					<c:choose>
 						<c:when test="${isSiteManageable}">
-							<input type="text" name="study.studySites[${index}].irbApprovalDate" id="irbApprovalDate-${site.healthcareSite.nciInstituteCode}" 
+							<input type="text" name="study.studySites[${index}].irbApprovalDate" id="irbApprovalDate-${site.healthcareSite.ctepCode}"
 							class="date validate-DATE" value="${site.irbApprovalDateStr}"/>
-			            	<a href="#" id="irbApprovalDate-${site.healthcareSite.nciInstituteCode}-calbutton">
+			            	<a href="#" id="irbApprovalDate-${site.healthcareSite.ctepCode}-calbutton">
 			           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
 			           		</a>
 						</c:when>
@@ -45,7 +45,7 @@
 				<div class="value">
 					<c:choose>
 						<c:when test="${isSiteManageable}">
-							<input type="test" id="targetAccrual-${site.healthcareSite.nciInstituteCode}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
+							<input type="test" id="targetAccrual-${site.healthcareSite.ctepCode}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
 						</c:when>
 						<c:otherwise>
 							${empty site.targetAccrualNumber?'NA':site.targetAccrualNumber}
@@ -60,9 +60,9 @@
 				<div class="value">
 					<c:choose>
 						<c:when test="${isSiteManageable}">
-							<input type="text" name="study.studySites[${index}].startDate" id="startDate-${site.healthcareSite.nciInstituteCode}" 
+							<input type="text" name="study.studySites[${index}].startDate" id="startDate-${site.healthcareSite.ctepCode}"
 							class="date validate-DATE" value="${site.startDateStr}"/>
-			            	<a href="#" id="startDate-${site.healthcareSite.nciInstituteCode}-calbutton">
+			            	<a href="#" id="startDate-${site.healthcareSite.ctepCode}-calbutton">
 			           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
 			           		</a>
 						</c:when>
@@ -78,13 +78,13 @@
 					<div class="value">
 					<c:choose>
 						<c:when test="${isLocalSiteCoordinating}">
-							<input type="checkbox" id="hostedMode-${site.healthcareSite.nciInstituteCode}" name="study.studySites[${index}].hostedMode" ${site.hostedMode?'checked':'' } />
-	            			<input type="hidden" id="_hostedMode-${site.healthcareSite.nciInstituteCode}" value="1" name="_study.studySites[${index}].hostedMode"/>
-       						<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.nciInstituteCode}" name="${site.healthcareSite.nciInstituteCode}-wasHosted" value="${site.hostedMode}"/>
+							<input type="checkbox" id="hostedMode-${site.healthcareSite.ctepCode}" name="study.studySites[${index}].hostedMode" ${site.hostedMode?'checked':'' } />
+	            			<input type="hidden" id="_hostedMode-${site.healthcareSite.ctepCode}" value="1" name="_study.studySites[${index}].hostedMode"/>
+       						<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.ctepCode}" name="${site.healthcareSite.ctepCode}-wasHosted" value="${site.hostedMode}"/>
 						</c:when>
 						<c:otherwise>
 							${empty site.hostedMode?'No':(site.hostedMode?'Yes':'No') }
-							<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.nciInstituteCode}" name="${site.healthcareSite.nciInstituteCode}-wasHosted" value="${site.hostedMode}"/>
+							<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.ctepCode}" name="${site.healthcareSite.ctepCode}-wasHosted" value="${site.hostedMode}"/>
 						</c:otherwise>
 					</c:choose>
 					</div>
@@ -104,7 +104,7 @@
 		<c:choose>
 			<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
 				<c:if test="${site.hostedMode || isSiteLocal}">
-					<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}');" size="small"/>
+					<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.ctepCode}', '${possibleAction}');" size="small"/>
 				</c:if>
 			</c:when>
 			<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL' || possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
@@ -118,27 +118,27 @@
 				</c:if>
 			</c:when>
 			<c:otherwise>
-				<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', '${possibleAction}');" size="small"/>
+				<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="takeAction('${site.healthcareSite.ctepCode}', '${possibleAction}');" size="small"/>
 			</c:otherwise>
 		</c:choose>
 		</c:forEach>
 		<c:if test="${close}">
 			<tags:button type="button" color="blue" value="Close Study Site" id="closeStudy"
-			onclick="Effect.SlideDown('close-choices-${site.healthcareSite.nciInstituteCode }')" size="small"/>
-			<div id="close-choices-${site.healthcareSite.nciInstituteCode }" class="autocomplete" style="display: none">
+			onclick="Effect.SlideDown('close-choices-${site.healthcareSite.ctepCode }')" size="small"/>
+			<div id="close-choices-${site.healthcareSite.ctepCode }" class="autocomplete" style="display: none">
 				<ul>
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Closed To Accrual And Treatment</li>
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL');">Closed To Accrual</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.ctepCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Closed To Accrual And Treatment</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.ctepCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL');">Closed To Accrual</li>
 					<c:if test="${temporary}">
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Temporarily Closed To Accrual And Treatment</li>
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.nciInstituteCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.ctepCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Temporarily Closed To Accrual And Treatment</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="takeAction('${site.healthcareSite.ctepCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
 					</c:if>
 				</ul>
 				<div align="right"><tags:button type="button" color="red" value="Cancel" icon="x"
 					onclick="Effect.SlideUp('close-choices')" size="small"/></div>
 			</div>
 		</c:if>
-		<div id="sendingMessage-${site.healthcareSite.nciInstituteCode }" class="working" style="display: none">
+		<div id="sendingMessage-${site.healthcareSite.ctepCode }" class="working" style="display: none">
 			Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
 		</div>
 	</div>
@@ -151,7 +151,7 @@
 			</c:when>
 			<c:otherwise>
 			<div id="flash-message" class="error"><img src="<tags:imageUrl name='error-red.png'/>" style="vertical-align:bottom;">&nbsp;<fmt:message key="site.action.error.${action}" />&nbsp;${errorMessage}</div>
-				
+
 			</c:otherwise>
 		</c:choose>
 	</div>
