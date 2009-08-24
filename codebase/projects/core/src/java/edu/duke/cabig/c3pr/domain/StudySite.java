@@ -767,6 +767,32 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		return temp.get(temp.size()-1);
 	}
 
+	/**
+	 * Checks if study site can accrue a subject 
+	 * on a study version on a given date
+	 * 
+	 * @param studyVersion the study version
+	 * @param date the date
+	 * 
+	 * @return true, if is registerable
+	 */
+	public boolean isRegisterable(StudyVersion studyVersion, Date date){
+		return getStudyVersion(date) == null ? false : getStudyVersion(date).getName().equals(studyVersion.getName());
+	}
+	
+	/**
+	 * Gets the study version for a fiven date.
+	 * 
+	 * @param date the date
+	 * 
+	 * @return the study version, null if no study version was active
+	 */
+	public StudyVersion getStudyVersion(Date date){
+		//TODO. change the current implementation to return the study version that was active
+		//on the given date. 
+		return getLatestStudySiteStudyVersion().getStudyVersion(); 
+	}
+	
 	@OneToMany(mappedBy = "studySite")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudySiteStudyVersion> getStudySiteStudyVersions() {
