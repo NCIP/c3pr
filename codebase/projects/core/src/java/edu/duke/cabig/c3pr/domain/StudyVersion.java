@@ -59,7 +59,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private Date versionDate;
 	private String name;
     private String comments;
-    private List<StudyPart> amendmentReasons = new ArrayList<StudyPart>() ;
+    private List<StudyPart> amendmentReasons  ;
     private Boolean mandatoryIndicator ;
 	private Study study;
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();

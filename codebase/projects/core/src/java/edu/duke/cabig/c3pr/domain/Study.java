@@ -1167,7 +1167,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	@Transient
 	public List<StudyVersion> getStudyAmendments() {
 		int size = this.getStudyVersions().size();
-		if (size > 2) {
+		if (size > 1) {
 			return this.getStudyVersions().subList(1, size);
 		}
 		return null;

@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.ServiceName;
-import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -750,7 +749,7 @@ public class StudyRepositoryImpl implements StudyRepository {
     public Study createAmendment(List<Identifier> identifiers){
 		Study study = getUniqueStudy(identifiers);
 		study.createAmendment();
-		return this.merge(study);
+		return study;
     }
 
 	public Study applyAmendment(List<Identifier> identifiers) {

@@ -15,7 +15,6 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -286,11 +285,11 @@ public class StudyValidator implements Validator {
         }
 
     }
-    
+
     private int studyIdOfExistingRecord(OrganizationAssignedIdentifier organizationAssignedIdentifier){
     	List<Study> studies = studyDao.searchByOrgIdentifier(organizationAssignedIdentifier);
     	if(studies.size() == 1){
-    		return studies.get(0).getId() ;	
+    		return studies.get(0).getId() ;
     	}else{
     		return 0;
     	}
@@ -388,7 +387,7 @@ public class StudyValidator implements Validator {
         }
         return msg;
     }
-    
+
     public void validateConsentTab(Object target, Errors errors) {
 //        Study study = (Study) target;
 //        List<Consent> consents = study.getConsents();
@@ -396,7 +395,7 @@ public class StudyValidator implements Validator {
 //            Set<Consent> uniqueConsents = new HashSet<Consent>();
 //            uniqueConsents.addAll(consents);
 //            if (consents.size() > uniqueConsents.size()) {
-//                errors.rejectValue("study.consents", 
+//                errors.rejectValue("study.consents",
 //                			new Integer(getCode("C3PR.STUDY.DUPLICATE.CONSENT.ERROR")).toString(),
 //                                getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.CONSENT.ERROR"), null, null));
 //            }
@@ -406,7 +405,7 @@ public class StudyValidator implements Validator {
 //            log.debug(ex.getMessage());
 //        }
     }
-    
+
     public void validateConsents(Object target, Errors errors) {
 //        Study study = (Study) target;
 //        List<Consent> consents = study.getConsents();
@@ -421,7 +420,7 @@ public class StudyValidator implements Validator {
 //            log.debug(ex.getMessage());
 //        }
     }
-    
+
     private ConsentValidator consentValidator;
 
     public ConsentValidator getConsentValidator() {
@@ -432,5 +431,12 @@ public class StudyValidator implements Validator {
 		this.consentValidator = consentValidator;
 	}
 
+	public void validateAmendment(Study study, Errors errors) {
+		if(study.getCurrentStudyAmendment().getAmendmentReasons() == null){
+			errors.rejectValue("tempProp", "C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE",
+                            getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE"),null, null));
+		}
+
+	}
 
 }
