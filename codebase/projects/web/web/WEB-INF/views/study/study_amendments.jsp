@@ -37,7 +37,7 @@
 			<div class="row">
 			<div class="label"><fmt:message key="study.amendmentDate" /></div>
 			<div class="value"><tags:dateInput
-				path="study.currentStudyAmendment.versionDate" /></div>
+				path="study.currentStudyAmendment.versionDate" cssClass="validate-NOTEMPTY"/></div>
 			</div>
 			<div class="row">
 			<div class="label"><fmt:message key="c3pr.common.comments" /></div>

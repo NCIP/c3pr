@@ -9,14 +9,22 @@ import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.constants.StudyPart;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
-import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 public class StudyAmendmentTab extends StudyTab {
 
-    private StudyService studyService;
+    private StudyValidator studyValidator;
 
-    public StudyAmendmentTab() {
+    public StudyValidator getStudyValidator() {
+		return studyValidator;
+	}
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
+	}
+
+	public StudyAmendmentTab() {
         super("Amendment details", "Amendments", "study/study_amendments");
     }
 
@@ -71,6 +79,12 @@ public class StudyAmendmentTab extends StudyTab {
                 request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(true));
             }
         }
-
     }
+
+//    @Override
+//    public void validate(StudyWrapper wrapper, Errors errors) {
+//    	super.validate(wrapper, errors);
+//	    this.studyValidator.validateAmendment(wrapper.getStudy(), errors);
+//    }
+
 }

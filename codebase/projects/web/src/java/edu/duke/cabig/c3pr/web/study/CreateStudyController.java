@@ -18,7 +18,6 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.tabs.CompanionStudyTab;
-import edu.duke.cabig.c3pr.web.study.tabs.StudyConsentTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;

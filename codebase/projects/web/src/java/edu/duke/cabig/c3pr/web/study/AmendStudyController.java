@@ -21,6 +21,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
@@ -110,11 +111,21 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
-        wrapper.setStudy(study);
-        boolean resumeAmendment = wrapper.resumeAmendment();
-        if(!resumeAmendment){
-        	studyRepository.createAmendment(study.getIdentifiers());
+        String studyVersionId = request.getParameter("studyVersionId");
+        if(StringUtils.isNotBlank(studyVersionId)){
+        	// when user tries to view a particular amendment version
+        	StudyVersion studyVersion = studyVersionDao.getById(Integer.parseInt(studyVersionId));
+        	study.setStudyVersion(studyVersion);
+
+        }else{
+        	// when user tries to amend a study
+        	wrapper.setStudy(study);
+            boolean resumeAmendment = wrapper.resumeAmendment();
+            if(!resumeAmendment){
+            	study.createAmendment();
+            }
         }
+        wrapper.setStudy(study);
         return wrapper;
     }
 

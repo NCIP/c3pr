@@ -9,8 +9,19 @@
 }
 </style>
 <script>
-function viewStudy(){
-	alert("show study");
+function viewStudyAmendment(){
+	Dialog.confirm("Are you sure you want to see this amendment version of the study?",
+	        {width:300, height:85, okLabel: "Ok", ok:function(win) {
+
+			if(companionIndicator == 'true' ){
+				document.location='../study/amendCompanionStudy?studyId='+id
+			}else{
+				document.location='../study/amendStudy?studyId='+id
+			}
+
+				<tags:tabMethod method="viewAmendmentVersion" divElement="'dummyDiv'" formName="'tabMethodForm'"/>
+    		}
+	  });
 }
 
 function applyAmendment(index){
@@ -24,6 +35,7 @@ function applyAmendment(index){
 </script>
 </head>
 <body>
+<div id="dummyDiv"></div>
 <chrome:box title="Amendments">
 <c:choose>
 	<c:when test="${fn:length(command.study.studyAmendments) > 0}">
@@ -73,7 +85,7 @@ function applyAmendment(index){
 							</c:if>
 						</c:when>
 						<c:otherwise>
-							<tags:button color="blue" icon="search" onclick="viewStudy();" size="small" value="View"></tags:button>
+							<tags:button color="blue" icon="search" onclick="viewStudyAmendment();" size="small" value="View"></tags:button>
 						</c:otherwise>
 					</c:choose>
 				</td>

@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudyVersionDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
@@ -69,6 +70,17 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     protected CompanionStudyAssociationDao companionStudyAssociationDao;
 
     protected static List<HealthcareSite> healthcareSites;
+
+    protected StudyVersionDao studyVersionDao;
+
+    public StudyVersionDao getStudyVersionDao() {
+		return studyVersionDao;
+	}
+
+	public void setStudyVersionDao(StudyVersionDao studyVersionDao) {
+		this.studyVersionDao = studyVersionDao;
+	}
+
 
     public static final String FLOW_TYPE = "flowType";
     public static final String CREATE_STUDY = "CREATE_STUDY";

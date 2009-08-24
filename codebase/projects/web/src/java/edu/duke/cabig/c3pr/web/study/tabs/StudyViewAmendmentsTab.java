@@ -9,9 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
@@ -23,7 +21,7 @@ public class StudyViewAmendmentsTab extends StudyTab {
 
     private StudyDao studyDao;
 
-    public StudyViewAmendmentsTab() {
+	public StudyViewAmendmentsTab() {
         super("Manage Amendments", "Amendments", "study/study_view_amendments");
     }
 
@@ -52,4 +50,5 @@ public class StudyViewAmendmentsTab extends StudyTab {
 		wrapper.setStudy(study);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
+
 }
