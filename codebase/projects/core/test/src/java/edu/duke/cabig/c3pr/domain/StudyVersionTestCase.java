@@ -222,7 +222,8 @@ public class StudyVersionTestCase extends AbstractTestCase {
 	}
 
 	public void testGetMandatoryIndicator() throws Exception{
-		assertFalse("this version is not mandatory", basicStudyVersion.getMandatoryIndicator());
+		//assertFalse("this version is not mandatory", basicStudyVersion.getMandatoryIndicator());
+		fail();
 	}
 
 	public void testGetComments() throws Exception{

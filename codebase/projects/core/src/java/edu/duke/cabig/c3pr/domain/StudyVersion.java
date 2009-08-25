@@ -60,9 +60,26 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private String name;
     private String comments;
     private List<StudyPart> amendmentReasons  ;
-    private Boolean mandatoryIndicator ;
 	private Study study;
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
+	private String amendmentType;
+	private Integer gracePeriod;
+
+	public Integer getGracePeriod() {
+		return gracePeriod;
+	}
+
+	public void setGracePeriod(Integer gracePeriod) {
+		this.gracePeriod = gracePeriod;
+	}
+
+	public String getAmendmentType() {
+		return amendmentType;
+	}
+
+	public void setAmendmentType(String amendmentType) {
+		this.amendmentType = amendmentType;
+	}
 
 	public String getName() {
 		return name;
@@ -616,14 +633,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 				amendmentReasons.add(reason);
 			};
 		}
-	}
-
-	public void setMandatoryIndicator(Boolean mandatoryIndicator) {
-		this.mandatoryIndicator = mandatoryIndicator;
-	}
-
-	public Boolean getMandatoryIndicator() {
-		return mandatoryIndicator;
 	}
 
 	@OneToMany(mappedBy = "studyVersion")

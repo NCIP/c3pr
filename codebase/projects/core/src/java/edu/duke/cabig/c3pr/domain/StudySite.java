@@ -57,8 +57,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     /** The target accrual number. */
     private Integer targetAccrualNumber;
 
-    /** The start date. */
-    private Date startDate;
+    /** The status change dates. */
+    private String statusChangeDates;
 
     /** The irb approval date str. */
     private String irbApprovalDateStr;
@@ -78,6 +78,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private StudySiteStudyVersion studySiteStudyVersion;
 
     private List<StudySiteStudyVersion> studySiteStudyVersions;
+    
+    private SiteStudyStatus siteStudyStatus;
 
     /**
      * Instantiates a new study site.
@@ -149,8 +151,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      *
      * @return the start date
      */
+    @Transient
     public Date getStartDate() {
-        return startDate;
+        return getLatestStudySiteStudyVersion().getStartDate();
     }
 
     /**
@@ -159,7 +162,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      * @param startDate the new start date
      */
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    	getLatestStudySiteStudyVersion().setStartDate(startDate);
     }
 
     /**
@@ -211,7 +214,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     @Transient
     public String getStartDateStr() {
         try {
-            return DateUtil.formatDate(startDate, "MM/dd/yyyy");
+            return DateUtil.formatDate(getStartDate(), "MM/dd/yyyy");
         }
         catch (Exception e) {
         	return "";
@@ -223,9 +226,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      *
      * @return the site study status
      */
-    @Transient
+    @Enumerated(EnumType.STRING) 
     public SiteStudyStatus getSiteStudyStatus() {
-        return getStudySiteStudyVersion().getSiteStudyStatus();
+        return siteStudyStatus;
     }
 
     /**
@@ -577,7 +580,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      * @param siteStudyStatus the new site study status
      */
     public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus) {
-        getStudySiteStudyVersion().setSiteStudyStatus(siteStudyStatus);
+        this.siteStudyStatus = siteStudyStatus;
     }
 
     /**
@@ -820,6 +823,18 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public void setStudy(Study study) {
 		super.setStudy(study);
 		this.getStudySiteStudyVersion().setStudyVersion(study.getStudyVersion());
+	}
+
+	public String getStatusChangeDates() {
+		return statusChangeDates;
+	}
+
+	public void setStatusChangeDates(String statusChangeDates) {
+		this.statusChangeDates = statusChangeDates;
+	}
+	
+	public List<DateRange> getStatusChangeDateRange(){
+		return new ArrayList<DateRange>();
 	}
 
 }
