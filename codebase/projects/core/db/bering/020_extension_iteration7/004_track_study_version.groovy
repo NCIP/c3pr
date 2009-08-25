@@ -31,7 +31,8 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
             t.addColumn('version_status', 'string')
             t.addColumn('study_id', 'integer')
             t.addColumn('comments', 'string')
-            t.addColumn('mandatory_indicator', 'boolean')
+            t.addColumn('amendment_type', 'string')
+            t.addColumn('grace_period', 'integer')
             t.addColumn('amendment_reason', 'string')
             t.addColumn('name', 'string')
         }
@@ -42,8 +43,8 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
        		t.addVersionColumn()
             t.addColumn('start_date', 'date')
             t.addColumn('irb_approval_date', 'date')
+            t.addColumn('end_date', 'date')
             t.addColumn('target_accrual', 'integer')
-            t.addColumn('site_study_status', 'string')
             t.addColumn('stu_version_id', 'integer')
             t.addColumn('sto_id', 'integer')
         }
@@ -75,6 +76,8 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 		   	execute('rename SEQ_STUDY_VERSIONS_ID to STUDY_VERSIONS_ID_SEQ');
 		   	execute('rename SEQ_STUDY_SITE_VERSIONS_ID to STUDY_SITE_VERSIONS_ID_SEQ');
 	 	}
+	 	
+	 	addColumn('study_organizations','status_change_dates','string')
     }
 
 	void down() {
