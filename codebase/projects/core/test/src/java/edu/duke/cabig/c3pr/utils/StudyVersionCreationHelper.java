@@ -22,7 +22,8 @@ public class StudyVersionCreationHelper {
         studyVersion.setName("Default version");
         studyVersion.setStudy(study);
         studyVersion.setVersionStatus(StatusType.AC);
-        studyVersion.setMandatoryIndicator(false);
+        //TODO: FIXME
+        //studyVersion.setMandatoryIndicator(false);
         return studyVersion;
 	}
 
