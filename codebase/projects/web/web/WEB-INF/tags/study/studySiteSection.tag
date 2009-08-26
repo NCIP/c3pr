@@ -24,6 +24,12 @@
 	<div class="row">
 		<div class="leftpanel">
 			<div class="row">
+				<div class="label"><fmt:message key="site.studyVersion" /></div>
+				<div class="value">
+					${site.studySiteStudyVersion.studyVersion.name}
+				</div>
+			</div>
+			<div class="row">
 				<div class="label"><fmt:message key="site.IRBApprovalDate" /></div>
 				<div class="value">
 					<c:choose>
@@ -41,21 +47,6 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="label"><fmt:message key="c3pr.common.targetAccrual" /></div>
-				<div class="value">
-					<c:choose>
-						<c:when test="${isSiteManageable}">
-							<input type="test" id="targetAccrual-${site.healthcareSite.ctepCode}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
-						</c:when>
-						<c:otherwise>
-							${empty site.targetAccrualNumber?'NA':site.targetAccrualNumber}
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</div>
-		</div>
-		<div class="rightpanel">
-			<div class="row">
 				<div class="label"><fmt:message key="site.activationDate" /></div>
 				<div class="value">
 					<c:choose>
@@ -68,6 +59,21 @@
 						</c:when>
 						<c:otherwise>
 							${empty site.startDateStr?'NA':site.startDateStr }
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+		</div>
+		<div class="rightpanel">
+			<div class="row">
+				<div class="label"><fmt:message key="c3pr.common.targetAccrual" /></div>
+				<div class="value">
+					<c:choose>
+						<c:when test="${isSiteManageable}">
+							<input type="test" id="targetAccrual-${site.healthcareSite.ctepCode}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
+						</c:when>
+						<c:otherwise>
+							${empty site.targetAccrualNumber?'NA':site.targetAccrualNumber}
 						</c:otherwise>
 					</c:choose>
 				</div>

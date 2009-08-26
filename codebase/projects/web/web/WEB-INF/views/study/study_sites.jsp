@@ -10,12 +10,12 @@
 		$('openSections').value = getOpenSectionsStr();
 	    document.getElementById("studySitesForm").submit();
 	}
-	
+
 	function getOpenSectionsStr(){
 		var strHiddenDiv = '' ;
 		$$('.hiddenDiv').each(function(element){
 			if(element.style.display != 'none'){
-				strHiddenDiv = strHiddenDiv + '|' +element.id.substring(element.id.indexOf("-") + 1, element.id.length) ; 
+				strHiddenDiv = strHiddenDiv + '|' +element.id.substring(element.id.indexOf("-") + 1, element.id.length) ;
 			}
 		});
 		return strHiddenDiv;
@@ -34,16 +34,16 @@
 			}
 		});
 		if(alreadyExist){
-			Dialog.alert("Study site already exist", {className: "alphacube", width:240, okLabel: "Done" }); 
+			Dialog.alert("Study site already exist", {className: "alphacube", width:240, okLabel: "Done" });
 			return;
 		}
 		// check if this already exists
-		<tags:tabMethod method="addStudySite" divElement="'newStudySite'" formName="'tabMethodForm'"  viewName="/study/asynchronous/add_study_site_section" javaScriptParam="'nciCode='+nciCode" onComplete="refreshStudySiteSection" /> ;		
+		<tags:tabMethod method="addStudySite" divElement="'newStudySite'" formName="'tabMethodForm'"  viewName="/study/asynchronous/add_study_site_section" javaScriptParam="'nciCode='+nciCode" onComplete="refreshStudySiteSection" /> ;
 	}
 
 	function refreshStudySiteSection(){
 		if($('startDate-'+nciCode) != null){
-			Element.insert($('studySites'), { bottom: $('newStudySite').innerHTML }) 
+			Element.insert($('studySites'), { bottom: $('newStudySite').innerHTML })
 			$('studysite-hidden').value = '' ;
 			$('studysite-input').value = '' ;
 			$('addStudySite').disabled=true ;
@@ -67,7 +67,7 @@
 	       	);
 	       	$('siteIndicator').hide();
 	       	$('divison-'+nciCode).scrollIntoView();
-	       	
+
 		}
 	}
 
@@ -86,7 +86,7 @@
 	    	}
 	    	 return (obj.name+" ("+obj.ctepCode+")" + image)
 	    },
-	    afterUpdateElement: 
+	    afterUpdateElement:
 		    function(inputElement, selectedElement, selectedChoice) {
 	    			hiddenField=inputElement.id.split("-")[0]+"-hidden";
 		    		$(hiddenField).value=selectedChoice.ctepCode;
@@ -116,8 +116,8 @@
 	}
 
 	failedStatusChange= function (responseXML){
-										Dialog.alert(responseXML.responseText, 
-							             {width:600, height:600, okLabel: "Close", 
+										Dialog.alert(responseXML.responseText,
+							             {width:600, height:600, okLabel: "Close",
 							              ok:function(win) {$('reload').submit(); return true;}});
 									}
 
@@ -125,13 +125,13 @@
 
 	var win;
 	function selectStudySites(studyId, parentAssociationId, parentIndex){
-		win = new Window({title: "Select Study Sites", 
+		win = new Window({title: "Select Study Sites",
 				scrollbar: false, zIndex:100, width:900, height:325 ,
 				recenterAuto:true, className :"mac_os_x",
-				url: "<c:url value='/pages/study/selectStudySites?decorator=noheaderDecorator&parentAssociationId='/>" + parentAssociationId  +"&parentIndex=" + parentIndex  +"&studyId=" + studyId , 
+				url: "<c:url value='/pages/study/selectStudySites?decorator=noheaderDecorator&parentAssociationId='/>" + parentAssociationId  +"&parentIndex=" + parentIndex  +"&studyId=" + studyId ,
 				showEffectOptions: {duration:1.5}
 					}
-				) 
+				)
 		win.showCenter(true)
 	}
 
@@ -161,9 +161,8 @@
 	<div id="dummy-div" style="display: none;" ></div>
 	<tags:panelBox title="Sites">
 		<div class="row">
-			<div class="label"><fmt:message key="c3pr.common.selectAnOrganization" /></div>
-			<div class="value">
-				<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" size="60"></tags:autocompleter>
+			<div class="name">
+				<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" size="90"></tags:autocompleter>
 				<tags:button color="blue" value="Add study site" icon="add" type="button" size="small" id="addStudySite" onclick="$('siteIndicator').show();addStudySite();" disabled="true"></tags:button>
 				<img id="siteIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 			</div>
@@ -282,7 +281,7 @@
 										</div>
 									</div>
 								</chrome:division>
-								<div class="division"></div>	
+								<div class="division"></div>
 							</c:forEach>
 						</chrome:division>
 						<br>
@@ -298,9 +297,9 @@
 			</div>
 			</form:form>
 			<div id="newStudySite" style="display: none" ></div>
-		</tags:panelBox>	
+		</tags:panelBox>
 		<div class="flow-buttons">
-		    <span class="next">	
+		    <span class="next">
 				<tags:button color="green" value="Save" icon="save" id="save" type="button" onclick="updateStudy();"></tags:button>
 			</span>
 		</div>

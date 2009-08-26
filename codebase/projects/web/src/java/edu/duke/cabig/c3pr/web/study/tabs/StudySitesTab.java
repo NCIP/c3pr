@@ -23,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -297,6 +298,14 @@ public class StudySitesTab extends StudyTab {
 		studySite.setRoleCode("Affiliate Site");
 		study.addStudySite(studySite);
 		setCoordinatingCenterStudyStatus(request, study, studySite);
+
+
+		// adding latest active study version to the study site
+		StudyVersion studyVersion = study.getLatestActiveStudyVersion();
+
+
+
+
 		Map map = new HashMap();
 		map.put("site", studySite);
 		map.put("siteIndex", study.getStudySites().size() - 1);
