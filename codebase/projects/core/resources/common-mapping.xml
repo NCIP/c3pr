@@ -332,11 +332,9 @@
         <field name="irbApprovalDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="irbApprovalDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="roleCode" type="string">
-            <bind-xml name="roleCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="startDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
-            <bind-xml name="startDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="statusChangeDates" type="string"
+               handler="edu.duke.cabig.c3pr.xml.StudySiteStudyStatusHandler">
+            <bind-xml name="statusChangeDates" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="siteStudyStatus" type="string"
                handler="edu.duke.cabig.c3pr.xml.StudySiteStudyStatusHandler">

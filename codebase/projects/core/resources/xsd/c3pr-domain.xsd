@@ -350,6 +350,7 @@
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="studyIdentifiers" type="IdentifiersType"/>
       <xs:element minOccurs="1" maxOccurs="1" name="versionDate" type="xs:date" />
+      <xs:element minOccurs="1" maxOccurs="1" name="amendmentType" type="AmendmentType" />
       <xs:element minOccurs="1" maxOccurs="1" name="versionName" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="shortTitleText" type="xs:string" />
       <xs:element minOccurs="1" maxOccurs="1" name="longTitleText" type="xs:string" />
@@ -363,6 +364,13 @@
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
+  <xs:simpleType name="AmendmentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="IMMEDIATE" />
+      <xs:enumeration value="IMMEDIATE_AFTER_GRACE_PERIOD" />
+      <xs:enumeration value="OPTIONAL" />
+    </xs:restriction>
+  </xs:simpleType>
   <xs:simpleType name="AmendmentReasonType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="COMPANION" />
@@ -448,8 +456,7 @@
       <xs:extension base="StudyOrganizationType">
         <xs:sequence>
           <xs:element minOccurs="0" maxOccurs="1" name="irbApprovalDate" type="xs:date" />
-          <xs:element minOccurs="0" maxOccurs="1" name="roleCode" type="xs:string" />
-          <xs:element minOccurs="0" maxOccurs="1" name="startDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="statusChangeDates" type="xs:string" />
           <xs:element minOccurs="0" maxOccurs="1" name="siteStudyStatus" type="SiteStudyStatusType" />
         </xs:sequence>
       </xs:extension>

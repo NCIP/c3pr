@@ -509,7 +509,6 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         study.addStudySite(studySite);
 
         studySite.setIrbApprovalDate(new Date());
-        studySite.setRoleCode("role");
 
         StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
         .get(0);

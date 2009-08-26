@@ -373,7 +373,6 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         studySite.setHealthcareSite(healthcareSitedao.getById(hcsId)); //
         studySite.setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
-        studySite.setRoleCode("role");
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 

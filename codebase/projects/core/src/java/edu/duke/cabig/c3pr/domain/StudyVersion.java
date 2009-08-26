@@ -65,6 +65,36 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 	private AmendmentType amendmentType;
 	private Integer gracePeriod;
+	
+	public StudyVersion(){
+		lazyListHelper = new LazyListHelper();
+		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+		resourceBundleMessageSource.setBasename("error_messages_multisite");
+		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
+		resourceBundleMessageSource1.setBasename("error_messages_c3pr");
+		resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
+		this.c3prErrorMessages = resourceBundleMessageSource1;
+		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
+
+		lazyListHelper.add(Epoch.class,new InstantiateFactory<Epoch>(Epoch.class));
+		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
+		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
+		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
+
+		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
+        versionStatus = StatusType.IN ;
+        amendmentReasons = new ArrayList<StudyPart>();
+        amendmentType = AmendmentType.IMMEDIATE_AFTER_GRACE_PERIOD;
+	}
+
+	public StudyVersion(boolean forSearchByExample){
+		amendmentReasons = new ArrayList<StudyPart>();
+		lazyListHelper = new LazyListHelper();
+		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
+		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
+		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
+		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
+	}
 
 	public Integer getGracePeriod() {
 		return gracePeriod;
@@ -166,34 +196,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.randomizationType = randomizationType;
 	}
 
-	public StudyVersion(){
-		lazyListHelper = new LazyListHelper();
-		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
-		resourceBundleMessageSource.setBasename("error_messages_multisite");
-		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
-		resourceBundleMessageSource1.setBasename("error_messages_c3pr");
-		resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
-		this.c3prErrorMessages = resourceBundleMessageSource1;
-		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
-
-		lazyListHelper.add(Epoch.class,new InstantiateFactory<Epoch>(Epoch.class));
-		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
-		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
-		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
-
-		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
-        versionStatus = StatusType.IN ;
-        amendmentReasons = new ArrayList<StudyPart>();
-	}
-
-	public StudyVersion(boolean forSearchByExample){
-		amendmentReasons = new ArrayList<StudyPart>();
-		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(Epoch.class,new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class, this));
-		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
-		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
-		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
-	}
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="stu_version_id")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })

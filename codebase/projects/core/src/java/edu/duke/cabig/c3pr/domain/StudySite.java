@@ -45,9 +45,6 @@ import edu.duke.cabig.c3pr.utils.DateUtil;
 @DiscriminatorValue(value = "SST")
 public class StudySite extends StudyOrganization implements Comparable<StudySite> {
 
-    /** The role code. */
-    private String roleCode;
-
     /** The coordinating center study status. */
     private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
 
@@ -94,6 +91,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         this.c3prErrorMessages = resourceBundleMessageSource1;
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
         studySiteStudyVersions= new ArrayList<StudySiteStudyVersion>();
+        siteStudyStatus = SiteStudyStatus.PENDING;
     }
 
     /**
@@ -163,24 +161,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      */
     public void setStartDate(Date startDate) {
     	getLatestStudySiteStudyVersion().setStartDate(startDate);
-    }
-
-    /**
-     * Gets the role code.
-     *
-     * @return the role code
-     */
-    public String getRoleCode() {
-        return roleCode;
-    }
-
-    /**
-     * Sets the role code.
-     *
-     * @param roleCode the new role code
-     */
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
     }
 
     /* (non-Javadoc)

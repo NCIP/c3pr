@@ -31,7 +31,7 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
             t.addColumn('version_status', 'string')
             t.addColumn('study_id', 'integer')
             t.addColumn('comments', 'string')
-            t.addColumn('amendment_type', 'string', nullable:false)
+            t.addColumn('amendment_type', 'string',nullable:false)
             t.addColumn('grace_period', 'integer')
             t.addColumn('amendment_reason', 'string')
             t.addColumn('name', 'string')
@@ -63,6 +63,8 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 		execute("alter table epochs drop constraint FK_EPH_STU");
 		execute("ALTER TABLE epochs drop CONSTRAINT UK_STU_EPH");
 		dropColumn('epochs', 'stu_id');
+		dropColumn('study_organizations', 'end_date');
+		dropColumn('study_organizations', 'role_code');
 		execute("ALTER TABLE epochs ADD CONSTRAINT UK_STU_VER_EPH UNIQUE(name,stu_version_id)");
 		execute("ALTER TABLE epochs ADD CONSTRAINT FK_EPH_STU_VER FOREIGN KEY (stu_version_id) REFERENCES study_versions (ID)");
 

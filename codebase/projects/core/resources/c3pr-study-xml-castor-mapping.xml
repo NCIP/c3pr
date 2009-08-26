@@ -138,6 +138,11 @@
                handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="versionDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="amendmentType" type="string"
+               handler="edu.duke.cabig.c3pr.xml.AmendmentTypeStatusHandler">
+            <bind-xml name="amendmentType" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
         <field name="name" type="string">
             <bind-xml name="versionName" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>

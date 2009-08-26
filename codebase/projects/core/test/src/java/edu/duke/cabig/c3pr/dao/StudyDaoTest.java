@@ -674,7 +674,6 @@ public class StudyDaoTest extends DaoTestCase {
             // Study Site
             StudySite studySite = new StudySite();
             studySite.setHealthcareSite(hcsiteloaded);
-            studySite.setRoleCode("role");
             study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 
@@ -886,7 +885,6 @@ public class StudyDaoTest extends DaoTestCase {
         studySite.setHealthcareSite(healthcareSitedao.getById(hcsId)); //
         studySite.setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
-        studySite.setRoleCode("role");
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 
@@ -1139,7 +1137,6 @@ public class StudyDaoTest extends DaoTestCase {
             // Study Site
             StudySite studySite = new StudySite();
             studySite.setHealthcareSite(site);
-            studySite.setRoleCode("role");
             studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
 
             study.addStudySite(studySite);
@@ -1190,7 +1187,6 @@ public class StudyDaoTest extends DaoTestCase {
             // Study Site
             StudySite studySite = new StudySite();
             studySite.setHealthcareSite(site);
-            studySite.setRoleCode("role");
             studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
 
             study.addStudySite(studySite);
@@ -1362,7 +1358,6 @@ public class StudyDaoTest extends DaoTestCase {
         // Study Site
         StudySite studySite = new StudySite();
         studySite.setHealthcareSite(site);
-        studySite.setRoleCode("role");
         studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
 
         study.addStudySite(studySite);
@@ -1607,12 +1602,10 @@ public class StudyDaoTest extends DaoTestCase {
     	studySite.setHealthcareSite(healthcareSite);
     	studySite.setStudy(study);
     	study.addStudySite(studySite);
-    	studySite.setRoleCode("test role code");
     	dao.save(study);
     	interruptSession();
     	assertNotNull("id is null",study.getId());
     	assertEquals("wrong number of study sites",1,study.getStudySites().size());
-    	assertEquals("wrong role code","test role code",study.getStudySites().get(0).getRoleCode());
 
     }
 
