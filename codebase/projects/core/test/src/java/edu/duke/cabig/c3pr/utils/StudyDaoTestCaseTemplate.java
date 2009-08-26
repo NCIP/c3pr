@@ -159,7 +159,6 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         studySite.setHealthcareSite(healthcareSitedao.getById(hcsId)); //
         studySite.setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
-        studySite.setRoleCode("role");
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 
@@ -260,7 +259,6 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         studySite.setHealthcareSite(healthcaresite); //
         studySite.setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
-        studySite.setRoleCode("role");
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 	}

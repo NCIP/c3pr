@@ -11,19 +11,19 @@
     <STUDIES id="1100" version="1" blinded_indicator="1" multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN" />
     <STUDIES id="1200" version="1" blinded_indicator="1" multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN" />
 
-    <STUDY_VERSIONS id="1100" study_id="1100" long_title_text="long_title_text" name="1.0" version_date="01-01-2001" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
-    <STUDY_VERSIONS id="1201" study_id="1200" long_title_text="long_title_text2" name="1.0" version_date="01-01-2001" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS amendment_type="OPTIONAL" id="1100" study_id="1100" long_title_text="long_title_text" name="1.0" version_date="01-01-2001" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS amendment_type="OPTIONAL" id="1201" study_id="1200" long_title_text="long_title_text2" name="1.0" version_date="01-01-2001" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
 
 	<ADDRESSES id="1100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
 
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare 2" description_text="duke healthcare 2" dtype="Local" address_id="1100" />
 	<ORGANIZATIONS id="1100" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100" />
 
-    <STUDY_ORGANIZATIONS id="1100" version="1"  role_code="role" hcs_id="1100" type="SST" study_id="1100"/>
-    <STUDY_ORGANIZATIONS id="1200" version="1"  role_code="role"  hcs_id="1000" type="SST" study_id="1200"/>
+    <STUDY_ORGANIZATIONS id="1100" version="1"  hcs_id="1100" type="SST" site_study_status="ACTIVE"  study_id="1100"/>
+    <STUDY_ORGANIZATIONS id="1200" version="1"   hcs_id="1000" type="SST" site_study_status="ACTIVE"  study_id="1200"/>
 
-	<STUDY_SITE_VERSIONS id="1100" start_date="01-01-2000" stu_version_id="1100" site_study_status="ACTIVE" irb_approval_date="01-01-2000" sto_id="1100"/>
-	<STUDY_SITE_VERSIONS id="1200" start_date="01-01-2002" stu_version_id="1200" site_study_status="ACTIVE" irb_approval_date="01-01-2002" sto_id="1200"/>
+	<STUDY_SITE_VERSIONS id="1100" start_date="01-01-2000" stu_version_id="1100" irb_approval_date="01-01-2000" sto_id="1100"/>
+	<STUDY_SITE_VERSIONS id="1200" start_date="01-01-2002" stu_version_id="1200" irb_approval_date="01-01-2002" sto_id="1200"/>
 
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>
 

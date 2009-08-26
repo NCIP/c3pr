@@ -162,7 +162,6 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         StudySite studySiteObject = new StudySite();
         studySiteObject.setGridId(strValue);
         studySiteObject.setIrbApprovalDate(dateValue);
-        studySiteObject.setRoleCode(strValue);
 
         SystemAssignedIdentifier identifierObject = new SystemAssignedIdentifier();
         identifierObject.setSystemName(strValue);
@@ -188,7 +187,6 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         studySite.setHealthcareSite(healthcaresite); //
         studySite.setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
-        studySite.setRoleCode("role");
         studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
 
         StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
