@@ -37,6 +37,7 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
@@ -1095,6 +1096,19 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         }else{
 			return  studyVersions.get(size - 1 );
 		}
+	}
+
+	// this method is required for study site study version default association.
+	@Transient
+	public StudyVersion getLatestActiveStudyVersion(){
+       List<StudyVersion> reverseSorted = this.getSortedStudyVersions() ;
+	   Collections.reverse(reverseSorted);
+	   for(StudyVersion studyVersion : reverseSorted){
+		   if(studyVersion.getVersionStatus() == StatusType.AC){
+			   return studyVersion ;
+		   }
+	   }
+	   return null;
 	}
 
 	public void setShortTitleText(String shortTitleText){
