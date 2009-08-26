@@ -26,6 +26,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import edu.duke.cabig.c3pr.constants.AmendmentType;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
@@ -62,7 +63,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
     private List<StudyPart> amendmentReasons  ;
 	private Study study;
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
-	private String amendmentType;
+	private AmendmentType amendmentType;
 	private Integer gracePeriod;
 
 	public Integer getGracePeriod() {
@@ -73,11 +74,11 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.gracePeriod = gracePeriod;
 	}
 
-	public String getAmendmentType() {
+	public AmendmentType getAmendmentType() {
 		return amendmentType;
 	}
 
-	public void setAmendmentType(String amendmentType) {
+	public void setAmendmentType(AmendmentType amendmentType) {
 		this.amendmentType = amendmentType;
 	}
 
