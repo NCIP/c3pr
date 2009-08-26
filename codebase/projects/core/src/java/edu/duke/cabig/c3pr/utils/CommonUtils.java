@@ -1,12 +1,11 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.util.Date;
+
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
-
-import java.text.ParseException;
-import java.util.Date;
 
 public class CommonUtils {
 
@@ -31,5 +30,6 @@ public class CommonUtils {
 		}
 		return "";
     }
+
 
 }
