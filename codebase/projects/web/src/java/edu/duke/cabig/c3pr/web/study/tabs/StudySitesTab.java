@@ -295,7 +295,6 @@ public class StudySitesTab extends StudyTab {
 		}
 		StudySite studySite = new StudySite();
 		studySite.setHealthcareSite(healthcareSite);
-		studySite.setRoleCode("Affiliate Site");
 		study.addStudySite(studySite);
 		setCoordinatingCenterStudyStatus(request, study, studySite);
 

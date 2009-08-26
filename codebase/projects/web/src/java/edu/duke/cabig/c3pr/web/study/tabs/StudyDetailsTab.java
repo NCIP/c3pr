@@ -142,7 +142,6 @@ public class StudyDetailsTab extends StudyTab {
         		if(!siteExists){
         			StudySite studySite = new StudySite();
         			studySite.setHealthcareSite(healthcareSiteInvestigator.getHealthcareSite());
-        			studySite.setRoleCode("Affiliate Site");
         			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
 						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
 					}
