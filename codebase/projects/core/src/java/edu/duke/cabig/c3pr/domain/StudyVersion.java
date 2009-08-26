@@ -74,6 +74,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.gracePeriod = gracePeriod;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public AmendmentType getAmendmentType() {
 		return amendmentType;
 	}
