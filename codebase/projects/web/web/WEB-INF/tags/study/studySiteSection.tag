@@ -102,6 +102,7 @@
 			</div>
 		</div>
 	</div>
+	showActionButtons = ${showActionButtons } &&  fn:length(site.possibleTransitions) = ${fn:length(site.possibleTransitions) }
 	<c:if test="${showActionButtons && fn:length(site.possibleTransitions)>0 && isSiteManageable}">
 	<div class="row">
 		<c:set var="close" value="false"/>

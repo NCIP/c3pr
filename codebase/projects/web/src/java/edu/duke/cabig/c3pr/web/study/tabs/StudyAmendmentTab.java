@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
+import edu.duke.cabig.c3pr.constants.AmendmentType;
 import edu.duke.cabig.c3pr.constants.StudyPart;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 public class StudyAmendmentTab extends StudyTab {
@@ -33,7 +35,7 @@ public class StudyAmendmentTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(wrapper);
         refdata.put("disableForm", new Boolean(false));
         refdata.put("mandatory", "true");
-        addConfigMapToRefdata(refdata, "yesNo");
+        refdata.put("amendmentTypeOptions", WebUtils.collectOptions(AmendmentType.values(), "Please Select"));
         disableAll(request);
         return refdata;
     }

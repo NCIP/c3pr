@@ -9,7 +9,15 @@
 }
 </style>
 <script>
-
+function amendmentTypeChanged(){
+	$("gracePeriodInput").className="" ;
+	if($('study.currentStudyAmendment.amendmentType').value == 'IMMEDIATE_AFTER_GRACE_PERIOD'){
+		$('gracePeriodDiv').style.display = "";
+		 $("gracePeriodInput").className="validate-notEmpty&&NONZERO_NUMERIC";
+	} else {
+		$('gracePeriodDiv').style.display = "none";
+	}
+}
 </script>
 </head>
 <body>
@@ -26,14 +34,23 @@
 					path="study.currentStudyAmendment.name" size="25" cssClass="validate-NOTEMPTY" /></div>
 			</div>
 			<div class="row">
-			<div class="label"><fmt:message key="study.requiredAmendment" /></div>
+			<div class="label"><fmt:message key="study.amendmentType" /></div>
 			<div class="value">
-				<form:select path="study.currentStudyAmendment.mandatoryIndicator" cssClass="validate-notEmpty">
-                	<option value="">Please Select</option>
-                	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+				<form:select path="study.currentStudyAmendment.amendmentType" cssClass="validate-notEmpty" onchange="amendmentTypeChanged();">
+                	<form:options items="${amendmentTypeOptions}" itemLabel="desc" itemValue="code" />
             	</form:select>
 			</div>
 			</div>
+			<div class="row" style="<c:if test="${empty command.study.currentStudyAmendment.gracePeriod}">display:none</c:if>" id="gracePeriodDiv">
+				<div class="label"><fmt:message key="study.gracePeriod" /></div>
+				<div class="value">
+					<form:input id="gracePeriodInput" path="study.currentStudyAmendment.gracePeriod" size="6" /></div>
+			</div>
+			<script>
+				if($('gracePeriodDiv').style==""){
+					$("gracePeriodInput").className="validate-notEmpty&&NONZERO_NUMERIC";
+				}
+			</script>
 			<div class="row">
 			<div class="label"><fmt:message key="study.amendmentDate" /></div>
 			<div class="value"><tags:dateInput
