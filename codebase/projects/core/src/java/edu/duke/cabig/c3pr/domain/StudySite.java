@@ -78,7 +78,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private StudySiteStudyVersion studySiteStudyVersion;
 
     private List<StudySiteStudyVersion> studySiteStudyVersions;
-    
+
     private SiteStudyStatus siteStudyStatus;
 
     /**
@@ -226,7 +226,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      *
      * @return the site study status
      */
-    @Enumerated(EnumType.STRING) 
+    @Enumerated(EnumType.STRING)
     public SiteStudyStatus getSiteStudyStatus() {
         return siteStudyStatus;
     }
@@ -771,31 +771,31 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	}
 
 	/**
-	 * Checks if study site can accrue a subject 
+	 * Checks if study site can accrue a subject
 	 * on a study version on a given date
-	 * 
+	 *
 	 * @param studyVersion the study version
 	 * @param date the date
-	 * 
+	 *
 	 * @return true, if is registerable
 	 */
 	public boolean isRegisterable(StudyVersion studyVersion, Date date){
 		return getStudyVersion(date) == null ? false : getStudyVersion(date).getName().equals(studyVersion.getName());
 	}
-	
+
 	/**
 	 * Gets the study version for a fiven date.
-	 * 
+	 *
 	 * @param date the date
-	 * 
+	 *
 	 * @return the study version, null if no study version was active
 	 */
 	public StudyVersion getStudyVersion(Date date){
 		//TODO. change the current implementation to return the study version that was active
-		//on the given date. 
-		return getLatestStudySiteStudyVersion().getStudyVersion(); 
+		//on the given date.
+		return getLatestStudySiteStudyVersion().getStudyVersion();
 	}
-	
+
 	@OneToMany(mappedBy = "studySite")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudySiteStudyVersion> getStudySiteStudyVersions() {
@@ -822,7 +822,13 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	@Override
 	public void setStudy(Study study) {
 		super.setStudy(study);
-		this.getStudySiteStudyVersion().setStudyVersion(study.getStudyVersion());
+		StudyVersion studyVersion = study.getLatestActiveStudyVersion();
+		if(studyVersion != null){
+			this.getStudySiteStudyVersion().setStudyVersion(studyVersion);
+		}else{
+			this.getStudySiteStudyVersion().setStudyVersion(study.getStudyVersion());
+		}
+
 	}
 
 	public String getStatusChangeDates() {
@@ -832,7 +838,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public void setStatusChangeDates(String statusChangeDates) {
 		this.statusChangeDates = statusChangeDates;
 	}
-	
+
+	@Transient
 	public List<DateRange> getStatusChangeDateRange(){
 		return new ArrayList<DateRange>();
 	}
