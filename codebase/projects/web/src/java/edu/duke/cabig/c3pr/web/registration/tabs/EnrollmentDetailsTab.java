@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
+import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
+import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.Lov;
@@ -18,8 +21,14 @@ import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
  * use File | Settings | File Templates.
  */
 public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
+	
+	 private ICD9DiseaseSiteDao icd9DiseaseSiteDao;
 
-    public EnrollmentDetailsTab() {
+    public void setIcd9DiseaseSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
+		this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
+	}
+
+	public EnrollmentDetailsTab() {
         super("Enrollment Details", "Enrollment Details", "registration/reg_registration_details");
     }
     
@@ -29,7 +38,15 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     	Map refdata=super.referenceData(request, command);
     	Map<String, List<Lov>> configMap = configurationProperty.getMap();
     	refdata.put("paymentMethods", configMap.get("paymentMethods"));
+    	 refdata.put("diseaseSiteCategories", getDiseaseSiteCategories());
     	return refdata;
+    }
+    
+    public List<ICD9DiseaseSite> getDiseaseSiteCategories(){
+    	List<ICD9DiseaseSite> icd9DiseaseSites = new ArrayList<ICD9DiseaseSite>();
+    	icd9DiseaseSites.addAll(icd9DiseaseSiteDao.getAllOrderedByName());
+    	
+    	return icd9DiseaseSites;
     }
     
     @Override
