@@ -932,6 +932,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 				try {
 					DateRange dateRange = new DateRange(new SimpleDateFormat("MM/dd/yyyy").parse(pair[0]) , null);
 					statusChangeDateRange.add(dateRange);
+					return;
 				} catch (ParseException e) {
 					throw new RuntimeException("Invalid format '"+statusChangeDates+"'",e);
 				}
@@ -940,6 +941,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 				try {
 					DateRange dateRange = new DateRange(new SimpleDateFormat("MM/dd/yyyy").parse(pair[0]) , new SimpleDateFormat("MM/dd/yyyy").parse(pair[1]));
 					statusChangeDateRange.add(dateRange);
+					return;
 				} catch (ParseException e) {
 					throw new RuntimeException("Invalid format '"+statusChangeDates+"'",e);
 				}
