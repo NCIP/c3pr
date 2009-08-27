@@ -60,7 +60,7 @@
 
 	<CONTACT_MECHANISMS id="1000" version="1"/>
 
-    <ANATOMIC_SITES id="1100" version="1" name="Skin" category="skin" />
+ <!--   <ANATOMIC_SITES id="1100" version="1" name="Skin" category="skin" />
     <ANATOMIC_SITES id="1101" version="1" name="Blood" category="Blood" />
     <ANATOMIC_SITES id="1102" version="1" name="Abdomen" category="Abdomen" />
     <ANATOMIC_SITES id="1103" version="1" name="ab" category="skin" />
@@ -79,11 +79,35 @@
     <ANATOMIC_SITES id="1116" version="1" name="op" category="Blood" />
     <ANATOMIC_SITES id="1117" version="1" name="pq" category="Abdomen" />
     <ANATOMIC_SITES id="1118" version="1" name="qr" category="skin" />
-    <ANATOMIC_SITES id="1119" version="1" name="rs" category="Blood" />
+    <ANATOMIC_SITES id="1119" version="1" name="rs" category="Blood" />   --> 
+    
+    <icd9_disease_sites id="1100" version="0" name="Skin" code="200" description_text="Neoplasm2" level="LEVEL2" selectable="0"  />
+	<icd9_disease_sites id="1101" version="0" name="Blood" code="200.1" description_text="Neoplasm1" level="LEVEL1" selectable="0" />
+	<icd9_disease_sites id="1102" version="0" name="Abdomen" code="200.2" description_text="Neoplasm3" level="LEVEL3" selectable="0" />
+	<icd9_disease_sites id="1103" version="0" name="ab" code="200.32" description_text="Neoplasm4" level="LEVEL4" selectable="1" />
+	<icd9_disease_sites id="1104" version="0" name="bc" code="200.3" description_text="nose" level="LEVEL1" selectable="1" />
+	
+	<icd9_disease_sites id="1105" version="0" name="cd" code="200" description_text="Neoplasm2" level="LEVEL2" selectable="0"  />
+	<icd9_disease_sites id="1106" version="0" name="de" code="200.1" description_text="Neoplasm1" level="LEVEL1" selectable="0" />
+	<icd9_disease_sites id="1107" version="0" name="ef" code="200.2" description_text="Neoplasm3" level="LEVEL3" selectable="0" />
+	<icd9_disease_sites id="1108" version="0" name="gh" code="200.32" description_text="Neoplasm4" level="LEVEL4" selectable="1" />
+	<icd9_disease_sites id="1109" version="0" name="hi" code="200.3" description_text="nose" level="LEVEL1" selectable="1" />
+	
+	<icd9_disease_sites id="1110" version="0" name="ij" code="200" description_text="Neoplasm2" level="LEVEL2" selectable="0"  />
+	<icd9_disease_sites id="1111" version="0" name="jk" code="200.1" description_text="Neoplasm1" level="LEVEL1" selectable="0" />
+	<icd9_disease_sites id="1112" version="0" name="kl" code="200.2" description_text="Neoplasm3" level="LEVEL3" selectable="0" />
+	<icd9_disease_sites id="1113" version="0" name="lm" code="200.32" description_text="Neoplasm4" level="LEVEL4" selectable="1" />
+	<icd9_disease_sites id="1114" version="0" name="mn" code="200.3" description_text="nose" level="LEVEL1" selectable="1" />
+	
+	<icd9_disease_sites id="1115" version="0" name="no" code="200" description_text="Neoplasm2" level="LEVEL2" selectable="0"  />
+	<icd9_disease_sites id="1116" version="0" name="op" code="200.1" description_text="Neoplasm1" level="LEVEL1" selectable="0" />
+	<icd9_disease_sites id="1117" version="0" name="pq" code="200.2" description_text="Neoplasm3" level="LEVEL3" selectable="0" />
+	<icd9_disease_sites id="1118" version="0" name="qr" code="200.32" description_text="Neoplasm4" level="LEVEL4" selectable="1" />
+	<icd9_disease_sites id="1119" version="0" name="rs" code="200.3" description_text="nose" level="LEVEL1" selectable="1" />
 
-    <DISEASE_HISTORY id="1000" version="1" anatomic_site_id="1100"/>
-    <DISEASE_HISTORY id="1100" version="1" anatomic_site_id="1102"/>
-    <DISEASE_HISTORY id="1200" version="1" anatomic_site_id="1103"/>
+    <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1100"/>
+    <DISEASE_HISTORY id="1100" version="1" icd9_disease_site_id="1102"/>
+    <DISEASE_HISTORY id="1200" version="1" icd9_disease_site_id="1103"/>
 
 	<STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="2006-08-12" informed_consent_signed_date="2006-12-12" disease_history_id="1000" prt_id="1000" sti_id="1100" retired_indicator = "false" />
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="2007-08-08" informed_consent_signed_date="2006-09-09" disease_history_id="1100" prt_id="1100" sti_id="1100"/>
