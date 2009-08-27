@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.TreeSet;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -17,7 +16,6 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.validator.NotNull;
 
@@ -59,7 +57,7 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	@OneToMany
 	@JoinColumn(name = "consent_id", nullable = false)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@OrderBy(clause="effectiveDate")
+	@OrderBy("effectiveDate")
 	public List<ConsentVersion> getConsentVersionsInternal() {
 		return lazyListHelper.getInternalList(ConsentVersion.class);
 	}

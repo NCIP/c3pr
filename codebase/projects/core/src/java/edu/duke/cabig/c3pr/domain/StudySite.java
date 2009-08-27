@@ -342,16 +342,13 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      * Activate.
      */
     public void activate() {
-//        if (!(this.siteStudyStatus == SiteStudyStatus.AMENDMENT_PENDING
-//                        || this.siteStudyStatus == SiteStudyStatus.PENDING || this.siteStudyStatus == SiteStudyStatus.APPROVED_FOR_ACTIVTION))
-    	if (!(this.getSiteStudyStatus() == SiteStudyStatus.AMENDMENT_PENDING || this.getSiteStudyStatus() == SiteStudyStatus.PENDING
+    	if (!(this.getSiteStudyStatus() == SiteStudyStatus.PENDING
     			|| this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL || this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)){
             throw getC3PRExceptionHelper().getRuntimeException(
                             getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE"),
                             new String[] { this.getSiteStudyStatus().getDisplayName() });
         }
         if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
-
         	Date currentDate = new Date();
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(currentDate);
@@ -626,38 +623,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                             getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"),
                             new String[] { this.getHealthcareSite().getName(), this.coordinatingCenterStudyStatus.getDisplayName(), studyCoordinatingCenterStudyStatus.getDisplayName()});
                 }
-//            }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
-//                if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
-//                    possibleActions.add(APIName.CREATE_AND_OPEN_STUDY);
-//                    return possibleActions;
-//                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
-//                	possibleActions.add(APIName.OPEN_STUDY);
-//                    return possibleActions;
-//                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.OPEN){
-//                    possibleActions.add(APIName.AMEND_STUDY);
-//                    return possibleActions;
-//                }else{
-//                	throw getC3PRExceptionHelper().getRuntimeException(
-//                            getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"),
-//                            new String[] { this.getHealthcareSite().getName(), this.coordinatingCenterStudyStatus.getDisplayName(), studyCoordinatingCenterStudyStatus.getDisplayName()});
-//                } commented by himanshu
             }
-//            else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL){
-//                if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
-//                    possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
-//                    possibleActions.add(APIName.OPEN_STUDY);
-//                    return possibleActions;
-//                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
-//                    possibleActions.add(APIName.OPEN_STUDY);
-//                    return possibleActions;
-//                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
-//                    possibleActions.add(APIName.OPEN_STUDY);
-//                    return possibleActions;
-//                }else{
-//                    possibleActions.add(APIName.CLOSE_STUDY_TO_ACCRUAL);
-//                    return possibleActions;
-//                }
-//            }
         }
         if(this.getStudy().getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.OPEN)
             return possibleActions;
@@ -667,10 +633,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
             return possibleActions;
         }
-//        else if(this.siteStudyStatus== SiteStudyStatus.APPROVED_FOR_ACTIVTION){
-//            possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
-//            return possibleActions;
-//        }
         else if(this.getSiteStudyStatus()==SiteStudyStatus.ACTIVE){
             possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
             possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);

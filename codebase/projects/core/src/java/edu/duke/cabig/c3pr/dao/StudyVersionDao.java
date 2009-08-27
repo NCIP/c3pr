@@ -10,7 +10,7 @@ import edu.duke.cabig.c3pr.domain.StudyVersion;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 public class StudyVersionDao extends GridIdentifiableDao<StudyVersion> implements MutableDomainObjectDao<StudyVersion> {
-	
+
 	private EpochDao epochDao;
 
 	public void setEpochDao(EpochDao epochDao) {
@@ -28,21 +28,21 @@ public class StudyVersionDao extends GridIdentifiableDao<StudyVersion> implement
 	}
 
 	@Transactional(readOnly = false)
-	public void initialize(StudyVersion studyVersion){ 
+	public void initialize(StudyVersion studyVersion){
 		getHibernateTemplate().initialize(studyVersion.getEpochsInternal());
 		for (Epoch epoch : studyVersion.getEpochsInternal()) {
 			if (epoch != null) {
 				epochDao.initialize(epoch);
 			}
 		}
-		
+
 		getHibernateTemplate().initialize(studyVersion.getStudyDiseases());
 		for(StudyDisease studyDisease : studyVersion.getStudyDiseases()){
 			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory().getTerms());
 			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory());
 			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory().getChildCategories());
 		}
-		
+
 		getHibernateTemplate().initialize(studyVersion.getCompanionStudyAssociationsInternal());
 		for(CompanionStudyAssociation companionStudyAssociation : studyVersion.getCompanionStudyAssociations()){
 			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
@@ -50,12 +50,12 @@ public class StudyVersionDao extends GridIdentifiableDao<StudyVersion> implement
 		for(CompanionStudyAssociation companionStudyAssociation : studyVersion.getCompanionStudyAssociations()){
 			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy().getStudyOrganizations());
 		}
-		
+
 		getHibernateTemplate().initialize(studyVersion.getConsents());
 		for(Consent consent: studyVersion.getConsents()){
 			getHibernateTemplate().initialize(consent.getConsentVersions());
 		}
-		
+
 	}
 
 }
