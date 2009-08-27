@@ -9,7 +9,7 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.domain.AnatomicSite;
+import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -43,8 +43,8 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	 * 
 	 * @return the newly enrolled therapeutic study patients for given anatomic site
 	 */
-	public int getNewlyEnrolledTherapeuticStudyPatientsForGivenAnatomicSite(
-			AnatomicSite diseaseSite, HealthcareSite hcs, Date startDate,
+	public int getNewlyEnrolledTherapeuticStudySubjectCountForGivenICD9DiseaseSite(
+			ICD9DiseaseSite diseaseSite, HealthcareSite hcs, Date startDate,
 			Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and " +
@@ -66,12 +66,12 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	 * 
 	 * @return the newly registered patients for given anatomic site
 	 */
-	public int getNewlyRegisteredPatientsForGivenAnatomicSite(AnatomicSite diseaseSite,
+	public int getNewlyRegisteredSubjectCountForGivenICD9DiseaseSite(ICD9DiseaseSite diseaseSite,
 			HealthcareSite hcs, Date startDate, Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and" +
 		 		" ss.startDate >= ? and ss.startDate <= ? and " +
-		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
+		 		"ss.diseaseHistoryInternal.icd9DiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
 		 		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'))",
                 new Object[] {startDate, endDate, diseaseSite.getName(), hcs.getCtepCode()}).size();
@@ -86,7 +86,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	 * 
 	 * @return the newly enrolled therapeutic study patients
 	 */
-	public int getNewlyEnrolledTherapeuticStudyPatients(HealthcareSite hcs, Date startDate,
+	public int getNewlyEnrolledTherapeuticStudySubjectCount(HealthcareSite hcs, Date startDate,
 			Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss, StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions)and " +
@@ -106,7 +106,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	 * 
 	 * @return the newly registered patients
 	 */
-	public int getNewlyRegisteredPatients(HealthcareSite hcs, Date startDate, Date endDate) {
+	public int getNewlyRegisteredSubjectCount(HealthcareSite hcs, Date startDate, Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss, StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions)and" +
 		 		" ss.startDate >= ? and ss.startDate <= ? and " +
