@@ -35,13 +35,9 @@
 		new Effect.SlideDown(resultDiv);;
 	}
 	
-	function postProcessStudySelection(isActive, id, siteName, studyName, identifier){
-		if(!isActive){
-			alert("Study site is not active");
-			return;
-		}
-		document.getElementById("studySubject.studySite").value = id;
-		var url = "../registration/searchEpoch?studySiteId="+id;
+	function postProcessStudySelection(isActive, studySiteStudyVersionId,studySiteId, siteName, studyName, identifier){
+		document.getElementById("studySiteStudyVersionId").value = studySiteStudyVersionId;
+		var url = "../registration/searchEpoch?studySiteId="+studySiteId;
 		new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
 		var message = "Selected Study: " +studyName+ " (" +identifier+ ") "  + " at " +siteName;
 		minimizeStudyBox(message);
