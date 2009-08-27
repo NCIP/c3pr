@@ -52,7 +52,7 @@ public class StudyConsentTab extends StudyTab {
 //                refdata.put("disableForm", new Boolean(false));
 //            }
 //        }
-        refdata.put("consentRequired", WebUtils.collectOptions(ConsentRequired.values(), "PLease select"));
+        refdata.put("consentRequired", WebUtils.collectOptions(ConsentRequired.values(), "Please select"));
         refdata.put("openSections",request.getParameter("openSections"));
         return refdata;
     }
