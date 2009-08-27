@@ -115,7 +115,7 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 		Criteria diseaseHistoryCriteria = registrationCriteria
 				.createCriteria("diseaseHistoryInternal");
 		Criteria icdDiseaseSiteCriteria = diseaseHistoryCriteria
-				.createCriteria("icdDiseaseSite");
+				.createCriteria("icd9DiseaseSite");
 
 		// Study Criteria
 		
@@ -196,14 +196,14 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
     				"and sv=any elements" +
     				"(ssv.studySiteStudyVersion.studySite.studyInternal.studyVersionsInternal)and " +
     				"sv.shortTitleText = ? " +
-    				"and ss.diseaseHistoryInternal.icdDiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
+    				"and ss.diseaseHistoryInternal.icd9DiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
     				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
 					new Object[]{shortTitleText, diseaseSteName, nciInstituteCode}).size();
     	}else {
     		accrual = getHibernateTemplate().find(
     				"Select ss from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and " +
-    				"ss.diseaseHistoryInternal.icdDiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
+    				"ss.diseaseHistoryInternal.icd9DiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
     				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
     				new Object[]{diseaseSteName, nciInstituteCode}).size();
