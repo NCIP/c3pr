@@ -88,7 +88,6 @@
 			<div class="newlabel"><fmt:message key="study.consentRequired"/></div>
 			<div class="value">
 				  <form:select path="study.consentRequired" cssClass="validate-notEmpty" >
-				  	<form:option value="">Please Select...</form:option>
 				  	<form:options items="${consentRequired}" itemLabel="desc" itemValue="code" />
 				  </form:select>
 				  <tags:hoverHint keyProp="study.consentRequired" />
