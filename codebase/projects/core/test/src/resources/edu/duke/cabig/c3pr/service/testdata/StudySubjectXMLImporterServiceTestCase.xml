@@ -50,9 +50,9 @@
 
 	<CONTACT_MECHANISMS id="1000" version="1"/>
 
-    <ANATOMIC_SITES id="1100" version="1" name="Skin" category="skin" />     
+    <icd9_disease_sites id="1100" version="0" name="Skin" code="200" description_text="skin" level="LEVEL2" selectable="0"  />    
 
-    <DISEASE_HISTORY id="1100" version="1"/>
+    <DISEASE_HISTORY id="1100" version="1" icd9_disease_site_id="1100" retired_indicator = "false" />
 
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" disease_history_id="1100" prt_id="1100" sti_id="1100" retired_indicator = "false" />
 	
