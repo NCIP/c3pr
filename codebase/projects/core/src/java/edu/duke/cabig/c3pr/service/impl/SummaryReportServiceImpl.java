@@ -7,6 +7,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Summary3Report;
 import edu.duke.cabig.c3pr.domain.factory.Summary3ReportFactory;
 import edu.duke.cabig.c3pr.service.SummaryReportService;
+import edu.duke.cabig.c3pr.xml.Summary3ReportXmlMarshaller;
 import edu.duke.cabig.c3pr.xml.XMLParser;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.common.exception.XMLUtilityException;
@@ -27,11 +28,8 @@ public class SummaryReportServiceImpl implements SummaryReportService{
 
 	private XMLParser summaryReportXmlParser;
 	
-	XmlMarshaller marshaller;
+	private Summary3ReportXmlMarshaller marshaller;
 
-	public void setMarshaller(XmlMarshaller marshaller) {
-		this.marshaller = marshaller;
-	}
 
 	public void setSummaryReportXmlParser(XMLParser summaryReportXmlParser) {
 		this.summaryReportXmlParser = summaryReportXmlParser;
@@ -41,10 +39,6 @@ public class SummaryReportServiceImpl implements SummaryReportService{
 		this.summary3ReportDao = summary3ReportDao;
 	}
 
-	public XmlMarshaller getMarshaller() {
-		return marshaller;
-	}
-	
 	public void buildSummary3Report(Summary3Report summary3Report){
 		summary3ReportFactory.buildSummary3Report(summary3Report);
 	}
@@ -53,7 +47,7 @@ public class SummaryReportServiceImpl implements SummaryReportService{
 		
 		String reportXML = null;
 		
-		marshaller = new XmlMarshaller("summary-3-report-castor-mapping.xml");
+		marshaller = new Summary3ReportXmlMarshaller("summary-3-report-castor-mapping.xml");
 		try {
 			reportXML = marshaller.toXML(summary3Report);
 		} catch (XMLUtilityException e) {
@@ -61,6 +55,14 @@ public class SummaryReportServiceImpl implements SummaryReportService{
 		}
 		
 		return reportXML;
+	}
+
+	public Summary3ReportXmlMarshaller getMarshaller() {
+		return marshaller;
+	}
+
+	public void setMarshaller(Summary3ReportXmlMarshaller marshaller) {
+		this.marshaller = marshaller;
 	}
 
 	public void buildSummary3Report(HealthcareSite healthcareSite,
