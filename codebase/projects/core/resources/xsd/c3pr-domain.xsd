@@ -527,10 +527,10 @@
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
-  <xs:complexType name="AnatomicSiteType">
+  <xs:complexType name="ICD9DiseaseSiteType">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="category" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="code" type="xs:double" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
@@ -539,7 +539,7 @@
       <xs:element minOccurs="0" maxOccurs="1" name="otherPrimaryDiseaseCode" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="otherPrimaryDiseaseSiteCode" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="studyDisease" type="StudyDiseaseType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="anatomicSite" type="AnatomicSiteType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="icd9DiseaseSite" type="ICD9DiseaseSiteType" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
