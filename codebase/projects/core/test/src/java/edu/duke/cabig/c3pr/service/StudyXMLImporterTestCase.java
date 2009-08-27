@@ -53,7 +53,7 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 			Study study = getDao().getById(i);
 			getDao().initializeWithCompanion(study);
 			// have to set the coordinating center identifier to something
-			// differnt to prevent duplicate study exception.
+			// different to prevent duplicate study exception.
 			// The studies in daoTest.xml have already been inserted into
 			// database.
 			HealthcareSite healthcareSite = healthcareSitedao.getById(i);
