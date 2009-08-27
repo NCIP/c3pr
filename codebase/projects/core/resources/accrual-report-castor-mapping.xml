@@ -34,7 +34,7 @@
 		<field name="accrual" type="edu.duke.cabig.c3pr.domain.accrual.Accrual">
 			<bind-xml name="accrual" node="element"  xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
 		</field>
-		<field name="studyAccrualReports"
+		<field name="studyAccrualReports" type="edu.duke.cabig.c3pr.domain.accrual.StudyAccrualReport"
 			collection="collection" get-method="getStudyAccrualReports"
 			set-method="setStudyAccrualReports">
 			<bind-xml node="element" auto-naming="deriveByClass" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -42,13 +42,13 @@
 	</class>
 	<class name="edu.duke.cabig.c3pr.domain.accrual.StudyAccrualReport">
 		<map-to xml="studyAccrualReport"  ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-		<field name="shortTitle" type="string">
-			<bind-xml name="shortTitle" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
-		</field>
 		<field name="identifier" type="string">
 			<bind-xml name="identifier" node="element"  xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
 		</field>
-		<field name="diseaseSiteAccrualReports"
+		<field name="shortTitle" type="string">
+			<bind-xml name="shortTitle" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
+		</field>
+		<field name="diseaseSiteAccrualReports" type="edu.duke.cabig.c3pr.domain.accrual.DiseaseSiteAccrualReport"
 			collection="collection" get-method="getDiseaseSiteAccrualReports"
 			set-method="setDiseaseSiteAccrualReports">
 			<bind-xml node="element" auto-naming="deriveByClass" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
