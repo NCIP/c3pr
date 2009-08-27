@@ -31,7 +31,7 @@ public class AccrualDaoTest extends ContextDaoTestCase<AccrualDao> {
 	private AccrualDao accrualDao;
 
 	/** The anatomic site dao. */
-	private AnatomicSiteDao anatomicSiteDao;
+	private ICD9DiseaseSiteDao icd9DiseaseSiteDao;
 
 	/** The accrual service. */
 	private AccrualService accrualService;
@@ -52,8 +52,8 @@ public class AccrualDaoTest extends ContextDaoTestCase<AccrualDao> {
 		healthcareSiteDao = (HealthcareSiteDao) getApplicationContext()
 				.getBean("healthcareSiteDao");
 		accrualDao = (AccrualDao) getApplicationContext().getBean("accrualDao");
-		anatomicSiteDao = (AnatomicSiteDao) getApplicationContext().getBean(
-				"anatomicSiteDao");
+		icd9DiseaseSiteDao = (ICD9DiseaseSiteDao) getApplicationContext().getBean(
+				"icd9DiseaseSiteDao");
 		accrualService = (AccrualService) getApplicationContext().getBean(
 				"accrualService");
 		

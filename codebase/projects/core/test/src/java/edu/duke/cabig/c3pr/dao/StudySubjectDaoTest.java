@@ -70,7 +70,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     private StudyDao studyDao;
 
-    private AnatomicSiteDao anatomicSiteDao;
+    private ICD9DiseaseSiteDao icdDiseaseSiteDao;
 
     private StudySubjectDao studySubjectDao;
 
@@ -90,7 +90,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         dao = (ParticipantDao) getApplicationContext().getBean("participantDao");
         studySiteDao = (StudySiteDao) getApplicationContext().getBean("studySiteDao");
         epochDao = (EpochDao) getApplicationContext().getBean("epochDao");
-        anatomicSiteDao = (AnatomicSiteDao) getApplicationContext().getBean("anatomicSiteDao");
+        icdDiseaseSiteDao = (ICD9DiseaseSiteDao) getApplicationContext().getBean("icdDiseaseSiteDao");
         studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
         studySubjectDao.setStudySiteDao(studySiteDao);
         studySubjectDao.setParticipantDao(dao);
@@ -563,7 +563,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setInformedConsentVersion("1.0");
             studySubject.setTreatingPhysician(studySubject.getStudySite()
                             .getStudyInvestigatorsInternal().get(0));
-            studySubject.getDiseaseHistory().setAnatomicSite(anatomicSiteDao.getById(1000));
+            studySubject.getDiseaseHistory().setIcd9DiseaseSite(icdDiseaseSiteDao.getById(1000));
             studySubject.getDiseaseHistory().setOtherPrimaryDiseaseCode(
                             "Other Primary Disease Code");
             List<SubjectEligibilityAnswer> subList = (studySubject
@@ -703,7 +703,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     private Object bindDiseaseDetails(Object command) {
         StudySubject studySubject = (StudySubject) command;
-        studySubject.getDiseaseHistory().setAnatomicSite(anatomicSiteDao.getById(1000));
+        studySubject.getDiseaseHistory().setIcd9DiseaseSite(icdDiseaseSiteDao.getById(1000));
         studySubject.getDiseaseHistory().setOtherPrimaryDiseaseCode("Other Primary Disease Code");
         return studySubject;
     }
