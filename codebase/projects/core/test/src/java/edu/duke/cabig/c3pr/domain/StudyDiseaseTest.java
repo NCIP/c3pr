@@ -27,7 +27,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 
 		assertTrue("The two study diseases should have been equal",studyDisease1.equals(studyDisease1));
 		assertTrue("The two study diseases should have been equal",studyDisease1.equals(studyDisease2));
-		assertFalse("The two objects cannot be equal",studyDisease1.equals(new AnatomicSite()));
+		assertFalse("The two objects cannot be equal",studyDisease1.equals(new ICD9DiseaseSite()));
 
 		Study study = new Study();
 		study.addStudyDisease(studyDisease2);

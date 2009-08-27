@@ -58,9 +58,9 @@ public class DiseaseHistoryTestCase extends AbstractTestCase {
 	 */
 	public void testGetPrimaryDiseaseSiteStr(){
 		DiseaseHistory diseaseHistory= new DiseaseHistory();
-		AnatomicSite anatomicSite= registerMockFor(AnatomicSite.class);
-		diseaseHistory.setAnatomicSite(anatomicSite);
-		EasyMock.expect(anatomicSite.getName()).andReturn("TestSite");
+		ICD9DiseaseSite icd9DiseaseSite= registerMockFor(ICD9DiseaseSite.class);
+		diseaseHistory.setIcd9DiseaseSite(icd9DiseaseSite);
+		EasyMock.expect(icd9DiseaseSite.getName()).andReturn("TestSite");
 		replayMocks();
 		assertEquals("TestSite", diseaseHistory.getPrimaryDiseaseSiteStr());
 		verifyMocks();
