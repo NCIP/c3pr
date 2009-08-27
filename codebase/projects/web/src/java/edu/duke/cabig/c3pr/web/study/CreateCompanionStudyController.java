@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyConsentTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
@@ -33,6 +34,7 @@ public class CreateCompanionStudyController<C extends StudyWrapper> extends Crea
 
     protected void layoutTabs(Flow flow) {
         flow.addTab(new StudyDetailsTab());
+        flow.addTab(new StudyConsentTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());
@@ -40,7 +42,7 @@ public class CreateCompanionStudyController<C extends StudyWrapper> extends Crea
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new StudyOverviewTab("Overview", "Overview", "study/study_summary_create"));
     }
-    
+
     @Override
     protected Map referenceData(HttpServletRequest request, int arg1)
             throws Exception {

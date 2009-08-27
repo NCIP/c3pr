@@ -165,6 +165,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     protected C save(C command, Errors errors) {
     	StudyWrapper wrapper = (StudyWrapper) command ;
     	Study study = null ;
+    	studyDao.initialize(wrapper.getStudy());
     	if(wrapper.getStudy().getId() == null){
     		studyDao.save(wrapper.getStudy());
     		study = studyDao.getByIdentifiers(wrapper.getStudy().getIdentifiers()).get(0);

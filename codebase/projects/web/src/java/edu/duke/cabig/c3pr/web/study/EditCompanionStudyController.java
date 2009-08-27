@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import edu.duke.cabig.c3pr.web.study.tabs.StudyConsentTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab;
@@ -30,6 +31,7 @@ public class EditCompanionStudyController extends EditStudyController {
     protected void layoutTabs(Flow flow) {
         boolean editMode = true;
         flow.addTab(new StudyDetailsTab());
+        flow.addTab(new StudyConsentTab());
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());
@@ -38,7 +40,7 @@ public class EditCompanionStudyController extends EditStudyController {
         flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
     }
 
-    
+
     @Override
     protected Map referenceData(HttpServletRequest request, int arg1)
             throws Exception {
