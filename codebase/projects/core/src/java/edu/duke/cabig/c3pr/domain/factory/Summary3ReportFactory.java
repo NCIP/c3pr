@@ -30,14 +30,6 @@ public class Summary3ReportFactory {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
-	public ICD9DiseaseSiteDao getICD9DiseaseSiteDao() {
-		return icd9DiseaseSiteDao;
-	}
-
-	public void setICD9DiseaseSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
-		this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
-	}
-
 	private ICD9DiseaseSiteDao icd9DiseaseSiteDao;
 
 	public Summary3ReportDao getSummary3ReportDao() {
@@ -48,6 +40,10 @@ public class Summary3ReportFactory {
 		this.summary3ReportDao = summary3ReportDao;
 	}
 	
+	public void setIcd9DiseaseSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
+		this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
+	}
+
 	public void buildSummary3Report(Summary3Report summary3Report){
 		
 		if(summary3Report.getReportingSource()== null){
