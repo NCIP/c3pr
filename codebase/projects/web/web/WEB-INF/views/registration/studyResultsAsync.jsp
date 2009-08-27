@@ -46,7 +46,7 @@ function toggleImage(id){
 						    <c:set var="singleQuote" value="'" />
 						    <c:set var="singleQuoteAlias" value="\\&#39" />
 						    <c:set var="siteName" value="${fn:replace(study.studySites[0].healthcareSite.name, singleQuote, singleQuoteAlias)}" />
-							postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${study.studySites[0].id}', '${siteName}','${study.shortTitleText}','${study.identifiers[0].value}');
+							postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${study.studySites[0].studySiteStudyVersions[0].id}','${study.studySites[0].id}', '${siteName}','${study.shortTitleText}','${study.identifiers[0].value}');
 						</c:otherwise>
 					</c:choose>
 				">
@@ -81,9 +81,7 @@ function toggleImage(id){
 							<c:set var="singleQuote" value="'" />
                                 <c:set var="singleQuoteAlias" value="\\&#39" />
                                 <c:set var="siteName" value="${fn:replace(site.healthcareSite.name, singleQuote, singleQuoteAlias)}" />
-								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.id}','${siteName}','${study.shortTitleText}','${study.identifiers[0].value}')"/>
-								<c:choose>
-									<c:when test='${site.siteStudyStatus.code=="Active"}'>
+								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.studySiteStudyVersions[0].id}','${site.id}','${siteName}','${study.shortTitleText}','${study.identifiers[0].value}')"/>
 										<%
 											Calendar yearOld=Calendar.getInstance();
 											yearOld.add(Calendar.YEAR, -1);
@@ -93,11 +91,6 @@ function toggleImage(id){
 										<c:if test="${expiredIrb}">
 											<c:set var="javLink" value="alert('The IRB approval date for this site has expired. Its more than an year old');"/>
 										</c:if>
-									</c:when>
-									<c:otherwise>
-										<c:set var="javLink" value="alert('${site.healthcareSite.name} is not activated.');"/>
-									</c:otherwise>
-								</c:choose>
 								<%--<c:if test='${site.siteStudyStatus.code=="Active"}'>--%>
 								<csmauthz:accesscontrol domainObject="${site}"
 		                                                  hasPrivileges="ACCESS"  authorizationCheckName="studySiteAuthorizationCheck">
