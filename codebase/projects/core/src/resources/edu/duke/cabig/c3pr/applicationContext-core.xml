@@ -118,7 +118,8 @@
                 <value>edu.duke.cabig.c3pr.domain.StratificationCriterion</value>
                 <value>edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer</value>
                 <value>edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer</value>
-                <value>edu.duke.cabig.c3pr.domain.AnatomicSite</value>
+                <value>edu.duke.cabig.c3pr.domain.Summary3ReportDiseaseSite</value>
+                <value>edu.duke.cabig.c3pr.domain.ICD9DiseaseSite</value>
                 <value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>
                 <value>edu.duke.cabig.c3pr.domain.LocalContactMechanism</value>
 				<value>edu.duke.cabig.c3pr.domain.RemoteContactMechanism</value>
@@ -495,7 +496,7 @@
           autowire="byName"
             />
 
-    <bean id="anatomicSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.AnatomicSiteDao" autowire="byName"/>
+    <bean id="icd9DiseaseSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao" autowire="byName"/>
     <bean id="studyOrganizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyOrganizationDao" autowire="byName"/>
     <bean id="stratificationAnswerDao" parent="daoTemplate"
           class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byName"/>
@@ -506,6 +507,7 @@
 	<bean id="summary3ReportDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.Summary3ReportDao" autowire="byName"/>
 	<bean id="accrualDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.accrual.AccrualDao" autowire="byName"/>
 	<bean id="studyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyVersionDao" autowire="byName"/>
+	<bean id="studySiteStudyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao" autowire="byName"/>
 
 	<!-- Multisite Request Handlers -->
     <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
