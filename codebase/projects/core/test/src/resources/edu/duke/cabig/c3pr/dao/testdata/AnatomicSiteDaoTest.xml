@@ -1,6 +1,0 @@
-<dataset>
-	<ANATOMIC_SITES id="1000" version="1" name="Skin" category="skin"  retired_indicator = "false" />
-	<ANATOMIC_SITES id="1001" version="1" name="Foot" category="Foot"  retired_indicator = "false" />
-	<ANATOMIC_SITES id="1002" version="1" name="SkinAndMouth" category="FootAndMouth"  retired_indicator = "false" />
-	
-</dataset>
