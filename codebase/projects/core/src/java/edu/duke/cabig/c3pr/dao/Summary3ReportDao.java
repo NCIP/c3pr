@@ -34,7 +34,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	}
 
 	/**
-	 * Gets the newly enrolled therapeutic study patients for given anatomic site.
+	 * Gets the newly enrolled therapeutic study patients for given icd9 disease site.
 	 * 
 	 * @param diseaseSite the disease site
 	 * @param hcs the hcs
@@ -49,7 +49,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 		
 		 return  getHibernateTemplate().find("from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and " +
 		 		"ss.startDate >= ? and ss.startDate <= ? and " +
-		 		"ss.diseaseHistoryInternal.anatomicSite.name = ? and ssv.studySiteStudyVersion.studySite.studyInternal.type = ? " +
+		 		"ss.diseaseHistoryInternal.icd9DiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.studyInternal.type = ? " +
 		 		"and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
   			    "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
