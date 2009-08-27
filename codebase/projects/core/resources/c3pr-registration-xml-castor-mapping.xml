@@ -126,18 +126,18 @@
         <field name="studyDisease" type="edu.duke.cabig.c3pr.domain.StudyDisease">
             <bind-xml name="studyDisease" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="anatomicSite" type="edu.duke.cabig.c3pr.domain.AnatomicSite">
-            <bind-xml name="anatomicSite" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="icd9DiseaseSite" type="edu.duke.cabig.c3pr.domain.ICD9DiseaseSite">
+            <bind-xml name="icd9DiseaseSite" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 	
-	<class name="edu.duke.cabig.c3pr.domain.AnatomicSite">
-        <map-to xml="anatomicSite" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+	<class name="edu.duke.cabig.c3pr.domain.ICD9DiseaseSite">
+        <map-to xml="icd9DiseaseSite" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="name" type="string">
             <bind-xml name="name" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="category" type="string">
-            <bind-xml name="category" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="code" type="double">
+            <bind-xml name="code" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 	
